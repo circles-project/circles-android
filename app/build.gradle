@@ -29,10 +29,12 @@ android {
             dimension flavor_dimension_name
             applicationIdSuffix ".stage"
             resValue "string", "app_name", "Circles Stage"
+            buildConfigField("String", "MATRIX_HOME_SERVER_URL", "\"https://matrix.kombucha.social/\"")
         }
         prod {
             dimension flavor_dimension_name
             resValue "string", "app_name", "Circles"
+            buildConfigField("String", "MATRIX_HOME_SERVER_URL", "\"https://matrix.kombucha.social/\"")
         }
     }
 
