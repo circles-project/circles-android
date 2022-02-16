@@ -13,13 +13,24 @@
         <action
             android:id="@+id/action_logInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_logInFragment_to_bottomNavigationFragment"
+            app:destination="@id/bottomNavigationFragment"
+            app:popUpTo="@id/logInFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.futo.circles.ui.sign_up.SignUpFragment"
         android:label="Log In"
-        tools:layout="@layout/sign_up_fragment" />
+        tools:layout="@layout/sign_up_fragment">
+        <action
+            android:id="@+id/action_signUpFragment_to_bottomNavigationFragment"
+            app:destination="@id/bottomNavigationFragment"
+            app:popUpTo="@id/logInFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/bottomNavigationFragment"

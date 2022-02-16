@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
-import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.futo.circles.provider.MatrixSessionProvider
 import org.koin.android.ext.android.get
 
@@ -17,10 +17,11 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
     }
 
     private fun setInitialFragment() {
-        val navController: NavController = findNavController(this, R.id.nav_host_fragment)
+        val navController: NavController =
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
         val navGraph = navController.navInflater.inflate(R.navigation.nav_graph_start_host)
         setStartDestination(navGraph)
-        navController.setGraph(navGraph, null)
+        navController.setGraph(navGraph, intent.extras)
     }
 
     private fun setStartDestination(navGraph: NavGraph) {
