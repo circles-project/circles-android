@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "655978965803",
+    "project_id": "circles-stage",
+    "storage_bucket": "circles-stage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655978965803:android:a13587bd5f1f0be55e736e",
+        "android_client_info": {
+          "package_name": "com.futo.circles.stage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655978965803-egutai3fk9qls3jjsi04dkf1mt2dmbiq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY8nSfVCn_ZBHT6v8AIXWWB3EePVNdxFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655978965803-egutai3fk9qls3jjsi04dkf1mt2dmbiq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
