@@ -1,0 +1,11 @@
+<resources>
+    <string name="kombucha_social">Kombucha.social</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="advanced_options">Advanced Options</string>
+    <string name="hide_advanced_options">Hide Advanced Options</string>
+    <string name="log_in">Log In</string>
+    <string name="not_a_member">Not a member?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="encryption_password">Encryption password</string>
+</resources>
