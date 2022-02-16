@@ -16,13 +16,16 @@ class MatrixSessionProvider(private val context: Context) {
                 roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl()
             )
         )
+        val matrixInstance =
+            Matrix.getInstance(context).also { MatrixProvider.saveMatrixInstance(it) }
+
         val lastSession =
-            Matrix.getInstance(context).authenticationService().getLastAuthenticatedSession()
+            matrixInstance.authenticationService().getLastAuthenticatedSession()
 
         lastSession?.let { startSession(it) }
     }
 
-    private fun startSession(session: Session) {
+    fun startSession(session: Session) {
         currentSession = session.apply { open(); startSync(true) }
     }
 }
