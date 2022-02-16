@@ -1,4 +1,4 @@
-package com.futo.circles.ui.sign_in
+package com.futo.circles.ui.log_in
 
 import android.os.Bundle
 import android.view.View
@@ -11,16 +11,26 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LogInFragment : Fragment(R.layout.log_in_fragment) {
 
-    companion object {
-        fun newInstance() = LogInFragment()
-    }
-
     private val viewModel by viewModel<LogInViewModel>()
     private val binding: LogInFragmentBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnSignUp.setOnClickListener { navigateToSignUp() }
+        setOnClickActions()
+    }
+
+    private fun setOnClickActions() {
+        with(binding) {
+            btnSignUp.setOnClickListener { navigateToSignUp() }
+
+            btnLogin.setOnClickListener {
+                viewModel.logIn(
+                    name = tilUserName.editText?.text.toString().trim(),
+                    password = tilPassword.editText?.text.toString().trim(),
+                    secondPassword = tvAdvancedOptions.getText()?.trim()
+                )
+            }
+        }
     }
 
     private fun navigateToSignUp() {

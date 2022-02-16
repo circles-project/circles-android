@@ -2,15 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/logInFragment"
-    android:id="@+id/nav_graph_log_in">
-
+    android:id="@+id/nav_graph_start_host"
+    tools:ignore="InvalidNavigation">
 
     <fragment
         android:id="@+id/logInFragment"
-        android:name="com.futo.circles.ui.sign_in.LogInFragment"
+        android:name="com.futo.circles.ui.log_in.LogInFragment"
         android:label="Log In"
-        tools:layout="@layout/log_in_fragment" >
+        tools:layout="@layout/log_in_fragment">
         <action
             android:id="@+id/action_logInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
@@ -21,6 +20,12 @@
         android:name="com.futo.circles.ui.sign_up.SignUpFragment"
         android:label="Log In"
         tools:layout="@layout/sign_up_fragment" />
+
+    <fragment
+        android:id="@+id/bottomNavigationFragment"
+        android:name="com.futo.circles.ui.bottom_navigation.BottomNavigationFragment"
+        android:label="Bottom Navigation"
+        tools:layout="@layout/bottom_navigation_fragment" />
 
 
 </navigation>
