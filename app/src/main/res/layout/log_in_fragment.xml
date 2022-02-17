@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:animateLayoutChanges="true"
     android:layout_height="match_parent"
-    tools:context=".ui.sign_in.LogInFragment">
+    tools:context=".ui.log_in.LogInFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineStart"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="24dp" />
+        app:layout_constraintGuide_begin="16dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineBottom"
@@ -35,20 +35,27 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="24dp" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
     <com.futo.circles.ui.view.CirclesLogoView
         android:id="@+id/ivLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tvKombucha"
+        app:layout_constraintBottom_toTopOf="@id/guidelineLogo"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toTopOf="@id/guidelineTop" />
 
     <TextView
-        android:id="@+id/tvKombucha"
+        android:id="@+id/tvCompanyTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/kombucha_social"
+        android:text="@string/company_title"
         android:textAlignment="center"
         android:textAppearance="@style/headline"
         app:layout_constraintBottom_toTopOf="@id/tvCircles"
@@ -68,7 +75,7 @@
         app:layout_constraintBottom_toTopOf="@id/tilUserName"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tvKombucha" />
+        app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilUserName"
@@ -123,15 +130,12 @@
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
-    <com.google.android.material.button.MaterialButton
+    <com.futo.circles.ui.view.LoadingButton
         android:id="@+id/btnLogin"
-        style="@style/LoginButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/log_in"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tvAdvancedOptions" />
@@ -149,7 +153,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSignUp"
-        style="@style/LoginButtonStyle"
+        style="@style/AccentButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"

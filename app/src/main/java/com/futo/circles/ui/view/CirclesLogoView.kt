@@ -32,17 +32,17 @@ class CirclesLogoView(
         R.color.orange
     )
 
+    private val circlesList = mutableListOf<CircleViewData>()
+
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        val list = createCirclesList()
-
-        list.forEach { canvas?.drawCircle(it.x, it.y, it.radius, it.fillPaint) }
-        list.forEach{canvas?.drawCircle(it.x, it.y, it.radius, it.borderPaint)}
-
+        if(circlesList.isEmpty()) circlesList.addAll(createCirclesList())
+        circlesList.forEach { canvas?.drawCircle(it.x, it.y, it.radius, it.fillPaint) }
+        circlesList.forEach{canvas?.drawCircle(it.x, it.y, it.radius, it.borderPaint)}
     }
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="LoginButtonStyle" parent="@style/Widget.MaterialComponents.Button">
+    <style name="AccentButtonStyle" parent="@style/Widget.MaterialComponents.Button">
         <item name="textAllCaps">false</item>
         <item name="cornerRadius">8dp</item>
         <item name="android:padding">10dp</item>
