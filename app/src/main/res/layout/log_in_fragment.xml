@@ -130,9 +130,8 @@
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
-    <com.google.android.material.button.MaterialButton
+    <com.futo.circles.ui.view.LoadingButton
         android:id="@+id/btnLogin"
-        style="@style/LoginButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -154,7 +153,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSignUp"
-        style="@style/LoginButtonStyle"
+        style="@style/AccentButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
