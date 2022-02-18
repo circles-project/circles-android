@@ -13,14 +13,15 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAdvancedOptions" />
+        app:layout_constraintTop_toBottomOf="@id/tvAdvancedOptions"
+        tools:enabled="false" />
 
     <ProgressBar
         android:id="@+id/loader"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:elevation="8dp"
-        android:indeterminateTint="@color/white"
+        android:indeterminateTint="@color/blue"
         android:padding="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/button"
