@@ -13,7 +13,7 @@ import com.futo.circles.databinding.BottomNavigationFragmentBinding
 
 class BottomNavigationFragment : Fragment(R.layout.bottom_navigation_fragment) {
 
-    private val binding: BottomNavigationFragmentBinding by viewBinding()
+    private val binding by viewBinding(BottomNavigationFragmentBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -22,7 +22,7 @@ class BottomNavigationFragment : Fragment(R.layout.bottom_navigation_fragment) {
             binding.bottomNavigationView.setupWithNavController(controller)
             setupToolBar(controller)
         }
-        
+
     }
 
     private fun findChildNavController() =
