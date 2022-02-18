@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_bottom_menu"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.futo.circles.ui.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment" />
+    <fragment
+        android:id="@+id/circlesFragment"
+        android:name="com.futo.circles.ui.circles.CirclesFragment"
+        android:label="@string/circles"
+        tools:layout="@layout/circles_fragment" />
+    <fragment
+        android:id="@+id/groupsFragment"
+        android:name="com.futo.circles.ui.groups.GroupsFragment"
+        android:label="@string/groups"
+        tools:layout="@layout/groups_fragment" />
+    <fragment
+        android:id="@+id/peopleFragment"
+        android:name="com.futo.circles.ui.people.PeopleFragment"
+        android:label="@string/people"
+        tools:layout="@layout/people_fragment" />
+    <fragment
+        android:id="@+id/photosFragment"
+        android:name="com.futo.circles.ui.photos.PhotosFragment"
+        android:label="@string/photos"
+        tools:layout="@layout/photos_fragment" />
+
+</navigation>
