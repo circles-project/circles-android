@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,10 +13,10 @@ abstract class BaseRecyclerViewHolder<T, VB : ViewBinding> : RecyclerView.ViewHo
 
     protected val binding: VB
 
-    @Suppress("UNCHECKED_CAST")
-    constructor(parent: ViewGroup, @LayoutRes resId: Int) : this(
-        LayoutInflater.from(parent.context).inflate(resId, parent, false) as VB
-    )
+    protected constructor(
+        parent: ViewGroup,
+        inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB
+    ) : this(inflate.invoke(LayoutInflater.from(parent.context), parent, false))
 
     private constructor(viewBinding: VB) : super(viewBinding.root) {
         this.binding = viewBinding
