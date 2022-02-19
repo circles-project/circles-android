@@ -9,7 +9,7 @@ import com.futo.circles.databinding.GroupsFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.ui.groups.list.GroupsListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.matrix.android.sdk.api.session.group.model.GroupSummary
+import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 class GroupsFragment : Fragment(R.layout.groups_fragment) {
 
@@ -25,11 +25,11 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
         viewModel.groupsLiveData?.observeData(this, ::setGroupsList)
     }
 
-    private fun setGroupsList(list: List<GroupSummary>) {
+    private fun setGroupsList(list: List<RoomSummary>) {
         listAdapter.submitList(list)
     }
 
-    private fun onGroupListItemClicked(group: GroupSummary) {
+    private fun onGroupListItemClicked(group: RoomSummary) {
 
     }
 }
