@@ -3,6 +3,7 @@ package com.futo.circles.ui.groups
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
@@ -41,7 +42,11 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
         listAdapter.submitList(list)
     }
 
-    private fun onGroupListItemClicked(group: RoomSummary) {
-
+    private fun onGroupListItemClicked(room: RoomSummary) {
+        findNavController().navigate(
+            GroupsFragmentDirections.actionGroupsFragment2ToGroupTimelineFragment(
+                room.roomId
+            )
+        )
     }
 }

@@ -8,27 +8,25 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.futo.circles.ui.home.HomeFragment"
-        android:label="@string/home"
+        android:label="@string/welcome"
         tools:layout="@layout/home_fragment" />
     <fragment
         android:id="@+id/circlesFragment"
         android:name="com.futo.circles.ui.circles.CirclesFragment"
-        android:label="@string/circles"
+        android:label="@string/my_circles"
         tools:layout="@layout/circles_fragment" />
-    <fragment
-        android:id="@+id/groupsFragment"
-        android:name="com.futo.circles.ui.groups.GroupsFragment"
-        android:label="@string/groups"
-        tools:layout="@layout/groups_fragment" />
+
+    <include app:graph="@navigation/groups_nav_graph" />
+
     <fragment
         android:id="@+id/peopleFragment"
         android:name="com.futo.circles.ui.people.PeopleFragment"
-        android:label="@string/people"
+        android:label="@string/my_people"
         tools:layout="@layout/people_fragment" />
     <fragment
         android:id="@+id/photosFragment"
         android:name="com.futo.circles.ui.photos.PhotosFragment"
-        android:label="@string/photos"
+        android:label="@string/photo_galleries"
         tools:layout="@layout/photos_fragment" />
 
 </navigation>

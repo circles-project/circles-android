@@ -7,6 +7,7 @@ import com.futo.circles.base.BaseRecyclerViewHolder
 import com.futo.circles.base.context
 import com.futo.circles.databinding.GroupListItemBinding
 import com.futo.circles.extensions.loadMatrixThumbnail
+import com.futo.circles.extensions.nameOrId
 import com.futo.circles.extensions.onClick
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -30,7 +31,7 @@ class GroupViewHolder(
 
             ivLock.setImageResource(if (data.isEncrypted) R.drawable.ic_lock else R.drawable.ic_lock_open)
 
-            tvGroupTitle.text = data.displayName.takeIf { it.isNotEmpty() } ?: data.roomId
+            tvGroupTitle.text = data.nameOrId()
             
             val membersCount = data.joinedMembersCount ?: 0
             tvMembers.text = context.resources.getQuantityString(

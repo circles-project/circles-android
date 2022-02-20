@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.databinding.BottomNavigationFragmentBinding
+import com.futo.circles.extensions.setSupportActionBar
 
 class BottomNavigationFragment : Fragment(R.layout.bottom_navigation_fragment) {
 
@@ -22,13 +23,14 @@ class BottomNavigationFragment : Fragment(R.layout.bottom_navigation_fragment) {
             binding.bottomNavigationView.setupWithNavController(controller)
             setupToolBar(controller)
         }
-
     }
 
     private fun findChildNavController() =
         (childFragmentManager.findFragmentById(R.id.bottom_nav_host_fragment) as? NavHostFragment)?.navController
 
     private fun setupToolBar(navController: NavController) {
+        setSupportActionBar(binding.toolbar)
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,

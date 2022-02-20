@@ -16,6 +16,11 @@
     <string name="topic_formatter">Topic: %s</string>
     <string name="last_updated_formatter">Last updated %s</string>
     <string name="none">none</string>
+    <string name="my_groups">My Groups</string>
+    <string name="welcome">Welcome!</string>
+    <string name="my_people">My People</string>
+    <string name="my_circles">My Circles</string>
+    <string name="photo_galleries">Photo Galleries</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
