@@ -21,6 +21,7 @@
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
     <string name="photo_galleries">Photo Galleries</string>
+    <string name="initial_device_name">%s (Android)</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
