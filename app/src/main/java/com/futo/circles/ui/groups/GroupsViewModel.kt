@@ -9,10 +9,12 @@ import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
 
 class GroupsViewModel(
-    matrixSessionProvider: MatrixSessionProvider
+    private val matrixSessionProvider: MatrixSessionProvider
 ) : ViewModel() {
 
     val groupsLiveData =
         matrixSessionProvider.currentSession?.getRoomSummariesLive(roomSummaryQueryParams())
             ?.map { list -> list.containsTag(GROUP_TAG) }
+
+    fun getContentResolver() = matrixSessionProvider.currentSession?.contentUrlResolver()
 }
