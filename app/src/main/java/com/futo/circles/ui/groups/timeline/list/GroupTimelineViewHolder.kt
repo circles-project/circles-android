@@ -7,6 +7,7 @@ import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
+import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 
 class GroupTimelineViewHolder(
     parent: ViewGroup
@@ -15,11 +16,11 @@ class GroupTimelineViewHolder(
     GroupTimelineListItemBinding::inflate
 ) {
 
-    override fun bind(event: TimelineEvent) {
+    override fun bind(data: TimelineEvent) {
         with(binding) {
-            tvMessage.text = when (event.root.getClearType()) {
-                EventType.MESSAGE -> formatMessage(event)
-                else -> "Event of type ${event.root.getClearType()} not rendered yet"
+            tvMessage.text = when (data.root.getClearType()) {
+                EventType.MESSAGE -> formatMessage(data)
+                else -> "Event of type ${data.root.getClearType()} not rendered yet"
             }
         }
     }

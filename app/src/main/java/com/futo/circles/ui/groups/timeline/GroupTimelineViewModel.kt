@@ -18,7 +18,7 @@ class GroupTimelineViewModel(
     val titleLiveData = MutableLiveData(room?.roomSummary()?.nameOrId() ?: roomId)
     val timelineEventsLiveData = MutableLiveData<List<TimelineEvent>>()
 
-    private val timeline = room?.createTimeline(null, TimelineSettings(10))?.apply {
+    private val timeline = room?.createTimeline(null, TimelineSettings(MESSAGES_PER_PAGE))?.apply {
         addListener(this@GroupTimelineViewModel)
         start()
     }
@@ -31,12 +31,21 @@ class GroupTimelineViewModel(
         timeline?.restartWithEventId(null)
     }
 
+    fun loadMore() {
+        if (timeline?.hasMoreToLoad(Timeline.Direction.BACKWARDS) == true)
+            timeline.paginate(Timeline.Direction.BACKWARDS, MESSAGES_PER_PAGE)
+    }
+
     override fun onCleared() {
         timeline?.apply {
             removeAllListeners()
             dispose()
         }
         super.onCleared()
+    }
+
+    companion object {
+        private const val MESSAGES_PER_PAGE = 30
     }
 
 }

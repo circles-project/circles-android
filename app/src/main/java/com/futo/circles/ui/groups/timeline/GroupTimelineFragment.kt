@@ -9,7 +9,7 @@ import com.futo.circles.R
 import com.futo.circles.databinding.GroupTimelineFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.setToolbarTitle
-import com.futo.circles.ui.groups.list.GroupTimelineAdapter
+import com.futo.circles.ui.groups.timeline.list.GroupTimelineAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
@@ -21,7 +21,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment) {
     private val binding by viewBinding(GroupTimelineFragmentBinding::bind)
 
     private val listAdapter by lazy {
-        GroupTimelineAdapter()
+        GroupTimelineAdapter { viewModel.loadMore() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
