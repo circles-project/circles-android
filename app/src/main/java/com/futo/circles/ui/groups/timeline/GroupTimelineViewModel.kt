@@ -4,14 +4,39 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.futo.circles.extensions.nameOrId
 import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.room.timeline.Timeline
+import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
+import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 
 class GroupTimelineViewModel(
-    private val roomId: String,
-    private val matrixSessionProvider: MatrixSessionProvider
-) : ViewModel() {
+    roomId: String,
+    matrixSessionProvider: MatrixSessionProvider
+) : ViewModel(), Timeline.Listener {
 
-    val titleLiveData = MutableLiveData(getRoom()?.roomSummary()?.nameOrId() ?: roomId)
+    private val room = matrixSessionProvider.currentSession?.getRoom(roomId)
 
-    private fun getRoom() = matrixSessionProvider.currentSession?.getRoom(roomId)
+    val titleLiveData = MutableLiveData(room?.roomSummary()?.nameOrId() ?: roomId)
+    val timelineEventsLiveData = MutableLiveData<List<TimelineEvent>>()
+
+    private val timeline = room?.createTimeline(null, TimelineSettings(10))?.apply {
+        addListener(this@GroupTimelineViewModel)
+        start()
+    }
+
+    override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
+        timelineEventsLiveData.value = snapshot
+    }
+
+    override fun onTimelineFailure(throwable: Throwable) {
+        timeline?.restartWithEventId(null)
+    }
+
+    override fun onCleared() {
+        timeline?.apply {
+            removeAllListeners()
+            dispose()
+        }
+        super.onCleared()
+    }
 
 }
