@@ -17,5 +17,7 @@
     <color name="orange">#FF9500</color>
     <color name="red">#FF3B30</color>
     <color name="pink">#FF2D55</color>
+    <color name="divider_color">#ddd</color>
+    <color name="gray">#8E8E93</color>
 
 </resources>

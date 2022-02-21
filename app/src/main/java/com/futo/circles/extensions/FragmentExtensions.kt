@@ -6,6 +6,8 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.futo.circles.R
@@ -37,14 +39,22 @@ fun Fragment.showError(message: String) {
 
 fun Fragment.setEnabledViews(enabled: Boolean) {
     (view?.rootView as? ViewGroup)?.children?.forEach {
-        if(it.isClickable) it.isEnabled = enabled
+        if (it.isClickable) it.isEnabled = enabled
         (it as? ViewGroup)?.setEnabledChildren(enabled)
     }
 }
 
 fun ViewGroup.setEnabledChildren(enabled: Boolean) {
     children.forEach {
-        if(it.isClickable) it.isEnabled = enabled
+        if (it.isClickable) it.isEnabled = enabled
         (it as? ViewGroup)?.setEnabledChildren(enabled)
     }
+}
+
+fun Fragment.setSupportActionBar(toolbar: Toolbar) {
+    (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
+}
+
+fun Fragment.setToolbarTitle(title: String) {
+    (activity as? AppCompatActivity)?.supportActionBar?.title = title
 }

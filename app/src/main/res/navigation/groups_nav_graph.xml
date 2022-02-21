@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/groups_nav_graph"
+    app:startDestination="@id/groupsFragment">
+
+    <fragment
+        android:id="@+id/groupsFragment"
+        android:name="com.futo.circles.ui.groups.GroupsFragment"
+        android:label="@string/my_groups"
+        tools:layout="@layout/groups_fragment">
+        <action
+            android:id="@+id/action_groupsFragment2_to_groupTimelineFragment"
+            app:destination="@id/groupTimelineFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/groupTimelineFragment"
+        android:name="com.futo.circles.ui.groups.timeline.GroupTimelineFragment"
+        tools:layout="@layout/group_timeline_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </fragment>
+</navigation>
