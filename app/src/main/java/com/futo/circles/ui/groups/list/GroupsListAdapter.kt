@@ -16,11 +16,11 @@ class GroupsListAdapter(
     ): GroupViewHolder = GroupViewHolder(
         parent = parent,
         urlResolver = urlResolver,
-        onGroupClicked = { position -> getItem(position)?.let { onGroupClicked(it) } }
+        onGroupClicked = { position -> onGroupClicked(getItem(position)) }
     )
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        holder.bind(getItem(position))
     }
 
 }

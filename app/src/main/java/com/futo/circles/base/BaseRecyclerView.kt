@@ -3,26 +3,30 @@ package com.futo.circles.base
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseRecyclerViewHolder<T, VB : ViewBinding> : RecyclerView.ViewHolder {
 
-    protected val binding: VB
+@Suppress("UNCHECKED_CAST")
+interface ViewBindingHolder<VB : ViewBinding> {
 
-    protected constructor(
+    val binding: VB get() = viewBinding as VB
+
+    fun inflate(
         parent: ViewGroup,
         inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB
-    ) : this(inflate.invoke(LayoutInflater.from(parent.context), parent, false))
-
-    private constructor(viewBinding: VB) : super(viewBinding.root) {
-        this.binding = viewBinding
+    ): View {
+        viewBinding = inflate.invoke(LayoutInflater.from(parent.context), parent, false)
+        return viewBinding.root
     }
 
-    abstract fun bind(data: T)
+    private companion object {
+        private lateinit var viewBinding: ViewBinding
+    }
 }
 
 val RecyclerView.ViewHolder.context: Context get() = this.itemView.context

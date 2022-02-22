@@ -1,33 +1,40 @@
 package com.futo.circles.ui.groups.timeline.list
 
+import android.view.View
 import android.view.ViewGroup
-import com.futo.circles.base.BaseRecyclerViewHolder
-import com.futo.circles.databinding.GroupTimelineListItemBinding
-import org.matrix.android.sdk.api.session.events.model.EventType
-import org.matrix.android.sdk.api.session.events.model.toModel
-import org.matrix.android.sdk.api.session.room.model.message.MessageContent
-import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
-import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
+import androidx.recyclerview.widget.RecyclerView
+import com.futo.circles.base.ViewBindingHolder
+import com.futo.circles.databinding.GroupImageMessageListItemBinding
+import com.futo.circles.databinding.GroupTextMessageListItemBinding
+import com.futo.circles.extensions.loadMatrixThumbnail
+import com.futo.circles.ui.groups.timeline.model.GroupImageMessage
+import com.futo.circles.ui.groups.timeline.model.GroupTextMessage
+import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 
-class GroupTimelineViewHolder(
-    parent: ViewGroup
-) : BaseRecyclerViewHolder<TimelineEvent, GroupTimelineListItemBinding>(
-    parent,
-    GroupTimelineListItemBinding::inflate
-) {
+sealed class GroupTimelineViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    override fun bind(data: TimelineEvent) {
-        with(binding) {
-            tvMessage.text = when (data.root.getClearType()) {
-                EventType.MESSAGE -> formatMessage(data)
-                else -> "Event of type ${data.root.getClearType()} not rendered yet"
-            }
-        }
+class TextMessageViewHolder(parent: ViewGroup) :
+    GroupTimelineViewHolder(
+        inflate(parent, GroupTextMessageListItemBinding::inflate)
+    ) {
+
+    private companion object : ViewBindingHolder<GroupTextMessageListItemBinding>
+
+    fun bind(data: GroupTextMessage) {
+        binding.tvMessage.text = data.message
     }
 
-    private fun formatMessage(timelineEvent: TimelineEvent): String {
-        val messageContent =
-            timelineEvent.root.getClearContent().toModel<MessageContent>() ?: return ""
-        return messageContent.body
+}
+
+class ImageMessageViewHolder(parent: ViewGroup, private val urlResolver: ContentUrlResolver?) :
+    GroupTimelineViewHolder(
+        inflate(parent, GroupImageMessageListItemBinding::inflate)
+    ) {
+
+    private companion object : ViewBindingHolder<GroupImageMessageListItemBinding>
+
+    fun bind(data: GroupImageMessage) {
+        binding.tvImage.loadMatrixThumbnail(data.encryptedImageUrl, urlResolver)
     }
+
 }

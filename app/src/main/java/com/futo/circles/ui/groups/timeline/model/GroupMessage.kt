@@ -1,6 +1,5 @@
 package com.futo.circles.ui.groups.timeline.model
 
-import org.matrix.android.sdk.api.session.room.model.message.ThumbnailInfo
 import org.matrix.android.sdk.api.session.room.sender.SenderInfo
 
 sealed class GroupMessage(

@@ -11,7 +11,7 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 
 class GroupTimelineDatasource(
     private val roomId: String,
-    matrixSessionProvider: MatrixSessionProvider
+    private val matrixSessionProvider: MatrixSessionProvider
 ) : Timeline.Listener {
 
     private val room = matrixSessionProvider.currentSession?.getRoom(roomId)
@@ -48,6 +48,8 @@ class GroupTimelineDatasource(
     override fun onTimelineFailure(throwable: Throwable) {
         timeline?.restartWithEventId(null)
     }
+
+    fun getUrlResolver() = matrixSessionProvider.currentSession?.contentUrlResolver()
 
     companion object {
         private const val MESSAGES_PER_PAGE = 30
