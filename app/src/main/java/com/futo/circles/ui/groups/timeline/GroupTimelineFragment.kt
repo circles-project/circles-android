@@ -10,6 +10,7 @@ import com.futo.circles.databinding.GroupTimelineFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.setToolbarTitle
 import com.futo.circles.ui.groups.timeline.list.GroupTimelineAdapter
+import com.futo.circles.ui.groups.timeline.model.GroupMessage
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
@@ -38,7 +39,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment) {
         }
     }
 
-    private fun setTimelineList(list: List<TimelineEvent>) {
+    private fun setTimelineList(list: List<GroupMessage>) {
         listAdapter.submitList(list)
     }
 }

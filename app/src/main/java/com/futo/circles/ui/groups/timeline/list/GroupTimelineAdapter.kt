@@ -2,11 +2,12 @@ package com.futo.circles.ui.groups.timeline.list
 
 import android.view.ViewGroup
 import com.futo.circles.base.BaseRvAdapter
+import com.futo.circles.ui.groups.timeline.model.GroupMessage
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
 class GroupTimelineAdapter(
     private val onLoadMore: () -> Unit
-) : BaseRvAdapter<TimelineEvent, GroupTimelineViewHolder>(DefaultDiffUtilCallback()) {
+) : BaseRvAdapter<GroupMessage, GroupTimelineViewHolder>(DefaultDiffUtilCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
