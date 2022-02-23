@@ -7,12 +7,9 @@ import com.futo.circles.base.ViewBindingHolder
 import com.futo.circles.databinding.GroupImageMessageListItemBinding
 import com.futo.circles.databinding.GroupTextMessageListItemBinding
 import com.futo.circles.extensions.loadMatrixThumbnail
-import com.futo.circles.extensions.setIsEncryptedIcon
 import com.futo.circles.ui.groups.timeline.model.GroupImageMessage
 import com.futo.circles.ui.groups.timeline.model.GroupTextMessage
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
-import java.text.DateFormat
-import java.util.*
 
 sealed class GroupTimelineViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
@@ -26,8 +23,7 @@ class TextMessageViewHolder(parent: ViewGroup, private val urlResolver: ContentU
     fun bind(data: GroupTextMessage) {
         binding.postHeader.setData(data.sender, urlResolver)
         binding.tvMessage.text = data.message
-        binding.ivEncrypted.setIsEncryptedIcon(data.isEncrypted)
-        binding.tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date(data.timestamp))
+        binding.postFooter.setData(data.isEncrypted, data.timestamp)
     }
 
 }
