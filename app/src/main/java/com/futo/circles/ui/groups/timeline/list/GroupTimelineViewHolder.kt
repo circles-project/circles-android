@@ -24,13 +24,7 @@ class TextMessageViewHolder(parent: ViewGroup, private val urlResolver: ContentU
     private companion object : ViewBindingHolder<GroupTextMessageListItemBinding>
 
     fun bind(data: GroupTextMessage) {
-        binding.ivSenderImage.loadMatrixThumbnail(
-            data.sender.avatarUrl,
-            urlResolver,
-            binding.ivSenderImage.height
-        )
-        binding.tvUserName.text = data.sender.disambiguatedDisplayName
-        binding.tvUserId.text = data.sender.userId
+        binding.postHeader.setData(data.sender, urlResolver)
         binding.tvMessage.text = data.message
         binding.ivEncrypted.setIsEncryptedIcon(data.isEncrypted)
         binding.tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date(data.timestamp))
