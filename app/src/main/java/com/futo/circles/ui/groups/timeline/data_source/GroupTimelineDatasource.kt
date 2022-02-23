@@ -2,7 +2,6 @@ package com.futo.circles.ui.groups.timeline.data_source
 
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.extensions.nameOrId
-import com.futo.circles.extensions.toFilteredMessages
 import com.futo.circles.provider.MatrixSessionProvider
 import com.futo.circles.ui.groups.timeline.model.GroupMessage
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
@@ -11,7 +10,8 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 
 class GroupTimelineDatasource(
     private val roomId: String,
-    private val matrixSessionProvider: MatrixSessionProvider
+    private val matrixSessionProvider: MatrixSessionProvider,
+    private val timelineBuilder: GroupTimelineBuilder
 ) : Timeline.Listener {
 
     private val room = matrixSessionProvider.currentSession?.getRoom(roomId)
@@ -41,8 +41,12 @@ class GroupTimelineDatasource(
             timeline?.paginate(Timeline.Direction.BACKWARDS, MESSAGES_PER_PAGE)
     }
 
+    fun toggleRepliesVisibility(eventId: String) {
+        timelineEventsLiveData.value = timelineBuilder.toggleRepliesVisibilityFor(eventId)
+    }
+
     override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
-        timelineEventsLiveData.value = snapshot.toFilteredMessages()
+        timelineEventsLiveData.value = timelineBuilder.build(snapshot)
     }
 
     override fun onTimelineFailure(throwable: Throwable) {

@@ -35,7 +35,7 @@ class GroupPostView(
         data: GroupGeneralMessageInfo,
         urlResolver: ContentUrlResolver?
     ) {
-        binding.vReplyMargin.setVisibility(data.isReply)
+        binding.vReplyMargin.setVisibility(data.isReply())
         binding.postHeader.setData(data.sender, urlResolver)
         binding.postFooter.setData(data)
     }

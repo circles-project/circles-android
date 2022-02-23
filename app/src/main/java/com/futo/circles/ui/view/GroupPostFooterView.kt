@@ -22,7 +22,7 @@ class GroupPostFooterView(
 
     fun setData(data: GroupGeneralMessageInfo) {
         with(binding){
-            btnReply.setVisibility(!data.isReply)
+            btnReply.setVisibility(!data.isReply())
             ivEncrypted.setIsEncryptedIcon(data.isEncrypted)
             tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date(data.timestamp))
         }

@@ -12,8 +12,14 @@ data class GroupGeneralMessageInfo(
     val sender: SenderInfo,
     val isEncrypted: Boolean,
     val timestamp: Long,
-    val isReply: Boolean
-)
+    var isRepliesVisible: Boolean,
+    val relationId: String? = null,
+    val replies: MutableList<GroupMessage> = mutableListOf()
+) {
+    fun isReply(): Boolean = relationId != null
+    fun hasReplies(): Boolean = replies.isNotEmpty()
+    fun getRepliesCount(): Int = replies.size
+}
 
 data class GroupTextMessage(
     override val generalMessageInfo: GroupGeneralMessageInfo,
