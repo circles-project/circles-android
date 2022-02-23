@@ -8,38 +8,60 @@ import com.futo.circles.databinding.GroupImageMessageListItemBinding
 import com.futo.circles.databinding.GroupTextMessageListItemBinding
 import com.futo.circles.extensions.loadMatrixThumbnail
 import com.futo.circles.ui.groups.timeline.model.GroupImageMessage
+import com.futo.circles.ui.groups.timeline.model.GroupMessage
 import com.futo.circles.ui.groups.timeline.model.GroupTextMessage
+import com.futo.circles.ui.view.GroupPostFooterView
+import com.futo.circles.ui.view.GroupPostHeaderView
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 
-sealed class GroupTimelineViewHolder(view: View) : RecyclerView.ViewHolder(view)
+sealed class GroupTimelineViewHolder(view: View, private val urlResolver: ContentUrlResolver?) :
+    RecyclerView.ViewHolder(view) {
 
-class TextMessageViewHolder(parent: ViewGroup, private val urlResolver: ContentUrlResolver?) :
+    abstract val headerView: GroupPostHeaderView
+    abstract val footerView: GroupPostFooterView
+
+    protected fun baseBind(data: GroupMessage) {
+        headerView.setData(data.sender, urlResolver)
+        footerView.setData(data.isEncrypted, data.timestamp)
+    }
+}
+
+class TextMessageViewHolder(parent: ViewGroup, urlResolver: ContentUrlResolver?) :
     GroupTimelineViewHolder(
-        inflate(parent, GroupTextMessageListItemBinding::inflate)
+        inflate(parent, GroupTextMessageListItemBinding::inflate),
+        urlResolver
     ) {
 
     private companion object : ViewBindingHolder<GroupTextMessageListItemBinding>
 
+    override val headerView: GroupPostHeaderView
+        get() = binding.postHeader
+    override val footerView: GroupPostFooterView
+        get() = binding.postFooter
+
     fun bind(data: GroupTextMessage) {
-        binding.postHeader.setData(data.sender, urlResolver)
+        baseBind(data)
         binding.tvMessage.text = data.message
-        binding.postFooter.setData(data.isEncrypted, data.timestamp)
     }
 
 }
 
 class ImageMessageViewHolder(parent: ViewGroup, private val urlResolver: ContentUrlResolver?) :
     GroupTimelineViewHolder(
-        inflate(parent, GroupImageMessageListItemBinding::inflate)
+        inflate(parent, GroupImageMessageListItemBinding::inflate),
+        urlResolver
     ) {
 
     private companion object : ViewBindingHolder<GroupImageMessageListItemBinding>
 
-    fun bind(data: GroupImageMessage) {
-        binding.postHeader.setData(data.sender, urlResolver)
-        binding.ivImage.loadMatrixThumbnail(data.encryptedImageUrl, urlResolver)
-        binding.postFooter.setData(data.isEncrypted, data.timestamp)
+    override val headerView: GroupPostHeaderView
+        get() = binding.postHeader
+    override val footerView: GroupPostFooterView
+        get() = binding.postFooter
 
+    fun bind(data: GroupImageMessage) {
+        baseBind(data)
+        binding.ivImage.loadMatrixThumbnail(data.encryptedImageUrl, urlResolver)
     }
 
 }
