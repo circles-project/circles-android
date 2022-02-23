@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="divider_height">1dp</dimen>
+    <dimen name="group_post_item_offset">4dp</dimen>
 </resources>

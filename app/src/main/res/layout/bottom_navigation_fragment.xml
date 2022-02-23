@@ -48,6 +48,7 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:itemBackground="?selectableItemBackgroundBorderless"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

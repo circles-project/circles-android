@@ -1,11 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="4dp">
 
-    <TextView
-        android:id="@+id/tvMessage"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="8dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="8dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="8dp" />
+        
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivSenderImage"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="w,1:1"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@id/guidelineTop"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            tools:background="@color/blue" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            style="@style/body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:lines="1"
+            app:layout_constraintBottom_toTopOf="@id/tvUserId"
+            app:layout_constraintEnd_toStartOf="@id/btnMore"
+            app:layout_constraintStart_toEndOf="@id/ivSenderImage"
+            app:layout_constraintTop_toTopOf="@id/ivSenderImage"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Android01" />
+
+        <TextView
+            android:id="@+id/tvUserId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/ivSenderImage"
+            app:layout_constraintEnd_toEndOf="@id/tvUserName"
+            app:layout_constraintStart_toStartOf="@id/tvUserName"
+            app:layout_constraintTop_toBottomOf="@id/tvUserName"
+            tools:text="Android01@domain" />
+
+        <ImageButton
+            android:id="@+id/btnMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            android:src="@drawable/ic_more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/blue" />
+
+        <TextView
+            android:id="@+id/tvMessage"
+            style="@style/body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/ivSenderImage"
+            tools:text="messsage" />
+
+        <ImageView
+            android:id="@+id/ivEncrypted"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvMessageTime"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintStart_toStartOf="@id/ivSenderImage"
+            app:layout_constraintTop_toTopOf="@id/tvMessageTime"
+            tools:src="@drawable/ic_lock" />
+
+        <TextView
+            android:id="@+id/tvMessageTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toEndOf="@id/ivEncrypted"
+            app:layout_constraintTop_toBottomOf="@id/tvMessage"
+            tools:text="some date" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider_color"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/tvMessageTime" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLike"
+            style="@style/PostButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/like"
+            app:icon="@drawable/ic_unlike"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnReply"
+            app:layout_constraintStart_toStartOf="@id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnReply"
+            style="@style/PostButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reply"
+            app:icon="@drawable/ic_reply"
+            app:layout_constraintBottom_toBottomOf="@id/btnLike"
+            app:layout_constraintEnd_toStartOf="@id/btnShare"
+            app:layout_constraintStart_toEndOf="@id/btnLike"
+            app:layout_constraintTop_toTopOf="@id/btnLike" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShare"
+            style="@style/PostButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share"
+            app:icon="@drawable/ic_share"
+            app:layout_constraintBottom_toBottomOf="@id/btnLike"
+            app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+            app:layout_constraintStart_toEndOf="@id/btnReply"
+            app:layout_constraintTop_toTopOf="@id/btnLike" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

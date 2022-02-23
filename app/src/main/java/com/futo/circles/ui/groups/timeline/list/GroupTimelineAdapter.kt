@@ -22,7 +22,7 @@ class GroupTimelineAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupTimelineViewHolder {
         return when (GroupMessageType.values()[viewType]) {
-            GroupMessageType.TEXT_MESSAGE -> TextMessageViewHolder(parent)
+            GroupMessageType.TEXT_MESSAGE -> TextMessageViewHolder(parent,urlResolver)
             GroupMessageType.IMAGE_MESSAGE -> ImageMessageViewHolder(parent, urlResolver)
         }
     }
