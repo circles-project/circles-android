@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.databinding.GroupTimelineFragmentBinding
+import com.futo.circles.extensions.bindToFab
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.setToolbarTitle
 import com.futo.circles.ui.groups.timeline.list.GroupTimelineAdapter
@@ -27,7 +28,10 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvGroupTimeline.adapter = listAdapter
+        binding.tvGroupTimeline.apply {
+            adapter = listAdapter
+            bindToFab(binding.fbCreatePost)
+        }
         setupObservers()
     }
 
