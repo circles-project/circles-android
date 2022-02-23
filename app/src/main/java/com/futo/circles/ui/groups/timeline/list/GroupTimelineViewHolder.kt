@@ -36,7 +36,10 @@ class ImageMessageViewHolder(parent: ViewGroup, private val urlResolver: Content
     private companion object : ViewBindingHolder<GroupImageMessageListItemBinding>
 
     fun bind(data: GroupImageMessage) {
-        binding.tvImage.loadMatrixThumbnail(data.encryptedImageUrl, urlResolver)
+        binding.postHeader.setData(data.sender, urlResolver)
+        binding.ivImage.loadMatrixThumbnail(data.encryptedImageUrl, urlResolver)
+        binding.postFooter.setData(data.isEncrypted, data.timestamp)
+
     }
 
 }
