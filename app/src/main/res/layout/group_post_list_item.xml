@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.futo.circles.ui.view.GroupPostView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/postView"
+    android:layout_width="match_parent"
+    android:clipChildren="false"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false" />

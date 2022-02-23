@@ -2,4 +2,6 @@
 <resources>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="group_post_item_offset">4dp</dimen>
+    <dimen name="reply_post_item_margin">24dp</dimen>
+    <dimen name="post_text_side_margin">24dp</dimen>
 </resources>

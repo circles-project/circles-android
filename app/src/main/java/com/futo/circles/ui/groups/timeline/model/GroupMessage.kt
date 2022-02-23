@@ -2,25 +2,27 @@ package com.futo.circles.ui.groups.timeline.model
 
 import org.matrix.android.sdk.api.session.room.sender.SenderInfo
 
-sealed class GroupMessage(
-    open val id: String,
-    open val sender: SenderInfo,
-    open val isEncrypted: Boolean,
-    open val timestamp: Long
+interface GroupMessage {
+    val generalMessageInfo: GroupGeneralMessageInfo
+    val type: GroupMessageType
+}
+
+data class GroupGeneralMessageInfo(
+    val id: String,
+    val sender: SenderInfo,
+    val isEncrypted: Boolean,
+    val timestamp: Long,
+    val isReply: Boolean
 )
 
 data class GroupTextMessage(
-    override val id: String,
-    override val sender: SenderInfo,
-    override val isEncrypted: Boolean,
-    override val timestamp: Long,
-    val message: String
-) : GroupMessage(id, sender, isEncrypted, timestamp)
+    override val generalMessageInfo: GroupGeneralMessageInfo,
+    override val type: GroupMessageType = GroupMessageType.TEXT_MESSAGE,
+    val message: String,
+) : GroupMessage
 
 data class GroupImageMessage(
-    override val id: String,
-    override val sender: SenderInfo,
-    override val isEncrypted: Boolean,
-    override val timestamp: Long,
+    override val generalMessageInfo: GroupGeneralMessageInfo,
+    override val type: GroupMessageType = GroupMessageType.TEXT_MESSAGE,
     val encryptedImageUrl: String
-) : GroupMessage(id, sender, isEncrypted, timestamp)
+) : GroupMessage
