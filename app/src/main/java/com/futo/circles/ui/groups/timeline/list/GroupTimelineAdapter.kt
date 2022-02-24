@@ -1,10 +1,7 @@
 package com.futo.circles.ui.groups.timeline.list
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.futo.circles.base.BaseRvAdapter
-import com.futo.circles.databinding.ImagePostViewBinding
-import com.futo.circles.databinding.TextPostViewBinding
 import com.futo.circles.model.Post
 import com.futo.circles.model.PostContentType
 import com.futo.circles.ui.view.GroupPostListener
@@ -23,16 +20,8 @@ class GroupTimelineAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupPostViewHolder {
         return when (PostContentType.values()[viewType]) {
-            PostContentType.TEXT_CONTENT -> TextPostViewHolder(
-                TextPostViewBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
-                ), postListener, urlResolver
-            )
-            PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(
-                ImagePostViewBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
-                ), postListener, urlResolver
-            )
+            PostContentType.TEXT_CONTENT -> TextPostViewHolder(parent, postListener, urlResolver)
+            PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(parent, postListener, urlResolver)
         }
     }
 

@@ -19,7 +19,9 @@ class GroupViewHolder(
     onGroupClicked: (Int) -> Unit
 ) : RecyclerView.ViewHolder(inflate(parent, GroupListItemBinding::inflate)) {
 
-    private companion object : ViewBindingHolder<GroupListItemBinding>
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as GroupListItemBinding
 
     init {
         onClick(itemView) { position -> onGroupClicked(position) }

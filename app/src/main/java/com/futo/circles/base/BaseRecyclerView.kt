@@ -11,14 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
 
-@Suppress("UNCHECKED_CAST")
-interface ViewBindingHolder<VB : ViewBinding> {
+interface ViewBindingHolder{
 
-    val binding: VB get() = viewBinding as VB
+    val baseBinding: ViewBinding get() = viewBinding
 
     fun inflate(
         parent: ViewGroup,
-        inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB
+        inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
     ): View {
         viewBinding = inflate.invoke(LayoutInflater.from(parent.context), parent, false)
         return viewBinding.root

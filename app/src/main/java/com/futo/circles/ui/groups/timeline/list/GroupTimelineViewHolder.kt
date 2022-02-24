@@ -18,10 +18,14 @@ sealed class GroupPostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 }
 
 class TextPostViewHolder(
-    private val binding: TextPostViewBinding,
+    parent: ViewGroup,
     postListener: GroupPostListener,
     private val urlResolver: ContentUrlResolver?
-) : GroupPostViewHolder(binding.root) {
+) : GroupPostViewHolder(inflate(parent, TextPostViewBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as TextPostViewBinding
 
     init {
         binding.lTextPost.setListener(postListener)
@@ -37,12 +41,14 @@ class TextPostViewHolder(
 }
 
 class ImagePostViewHolder(
-    private val binding: ImagePostViewBinding,
+    parent: ViewGroup,
     postListener: GroupPostListener,
     private val urlResolver: ContentUrlResolver?
-) : GroupPostViewHolder(binding.root) {
+) : GroupPostViewHolder(inflate(parent, ImagePostViewBinding::inflate)) {
 
-    private companion object : ViewBindingHolder<ImagePostViewBinding>
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ImagePostViewBinding
 
     init {
         binding.lImagePost.setListener(postListener)
