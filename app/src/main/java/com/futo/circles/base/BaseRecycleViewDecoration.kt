@@ -63,6 +63,13 @@ abstract class BaseRvDecoration<in T : RecyclerView.ViewHolder> : RecyclerView.I
             rightOffset = horizontalOffset
         )
 
+        constructor(offset: Int) : this(
+            topOffset = offset,
+            bottomOffset = offset,
+            leftOffset = offset,
+            rightOffset = offset
+        )
+
         override fun offsetHolder(
             outRect: Rect,
             holder: T,

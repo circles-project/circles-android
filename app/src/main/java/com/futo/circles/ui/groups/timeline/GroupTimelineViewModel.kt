@@ -21,6 +21,10 @@ class GroupTimelineViewModel(
         dataSource.loadMore()
     }
 
+    fun toggleRepliesVisibilityFor(eventId: String) {
+        dataSource.toggleRepliesVisibility(eventId)
+    }
+
     override fun onCleared() {
         dataSource.clearTimeline()
         super.onCleared()

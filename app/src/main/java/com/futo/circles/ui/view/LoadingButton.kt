@@ -21,8 +21,9 @@ class LoadingButton(
 
     init {
         getAttributes(attrs, R.styleable.LoadingButton) {
-            getResourceId(R.styleable.LoadingButton_android_text, 0).takeIf { it != 0 }?.let {
-                buttonText = context.getString(it).also { binding.button.text = it }
+            getText(R.styleable.LoadingButton_android_text)?.let {
+                buttonText = it.toString()
+                binding.button.text = it
             }
         }
     }

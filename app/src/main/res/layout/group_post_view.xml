@@ -5,20 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:parentTag="android.widget.LinearLayout">
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <View
         android:id="@+id/vReplyMargin"
         android:layout_width="@dimen/reply_post_item_margin"
         android:layout_height="0dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:id="@+id/postCard"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="4dp"
-        app:cardElevation="8dp">
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vReplyMargin"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -77,5 +83,23 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <com.futo.circles.ui.view.ExpandContentButton
+        android:id="@+id/btnShowReplies"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:minHeight="0dp"
+        android:textAppearance="@style/footNote"
+        android:visibility="gone"
+        app:closed_icon="@drawable/ic_keyboard_arrow_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/postCard"
+        app:opened_icon="@drawable/ic_keyboard_arrow_down"
+        app:opened_text="@string/hide_advanced_options"
+        tools:ignore="RtlSymmetry"
+        tools:visibility="visible" />
 
 </merge>

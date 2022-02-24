@@ -15,10 +15,11 @@ import com.futo.circles.extensions.setToolbarTitle
 import com.futo.circles.ui.groups.timeline.list.GroupTimelineAdapter
 import com.futo.circles.ui.groups.timeline.list.GroupTimelineViewHolder
 import com.futo.circles.ui.groups.timeline.model.GroupMessage
+import com.futo.circles.ui.view.GroupPostListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment) {
+class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupPostListener {
 
     private val args: GroupTimelineFragmentArgs by navArgs()
     private val viewModel by viewModel<GroupTimelineViewModel> { parametersOf(args.roomId) }
@@ -35,8 +36,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment) {
             adapter = listAdapter
             addItemDecoration(
                 BaseRvDecoration.OffsetDecoration<GroupTimelineViewHolder>(
-                    verticalOffset = context.dimen(R.dimen.group_post_item_offset),
-                    horizontalOffset = context.dimen(R.dimen.group_post_item_offset)
+                    offset = context.dimen(R.dimen.group_post_item_offset)
                 )
             )
             bindToFab(binding.fbCreatePost)
@@ -53,5 +53,9 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment) {
 
     private fun setTimelineList(list: List<GroupMessage>) {
         listAdapter.submitList(list)
+    }
+
+    override fun onShowRepliesClicked(eventId: String) {
+        viewModel.toggleRepliesVisibilityFor(eventId)
     }
 }

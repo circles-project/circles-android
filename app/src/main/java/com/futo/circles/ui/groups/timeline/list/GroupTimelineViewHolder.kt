@@ -13,7 +13,7 @@ class GroupTimelineViewHolder(
 ) :
     RecyclerView.ViewHolder(inflate(parent, GroupPostListItemBinding::inflate)) {
 
-    protected companion object : ViewBindingHolder<GroupPostListItemBinding>
+    private companion object : ViewBindingHolder<GroupPostListItemBinding>
 
     fun bind(data: GroupMessage) {
         binding.postView.setData(data, urlResolver)
