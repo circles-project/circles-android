@@ -2,13 +2,14 @@ package com.futo.circles.ui.groups.list
 
 import android.view.ViewGroup
 import com.futo.circles.base.BaseRvAdapter
+import com.futo.circles.model.GroupListItem
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 class GroupsListAdapter(
     private val urlResolver: ContentUrlResolver?,
-    private val onGroupClicked: (RoomSummary) -> Unit
-) : BaseRvAdapter<RoomSummary, GroupViewHolder>(DefaultDiffUtilCallback()) {
+    private val onGroupClicked: (GroupListItem) -> Unit
+) : BaseRvAdapter<GroupListItem, GroupViewHolder>(DefaultIdEntityCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

@@ -12,9 +12,9 @@ import com.futo.circles.extensions.bindToFab
 import com.futo.circles.extensions.dimen
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.setToolbarTitle
+import com.futo.circles.model.Post
+import com.futo.circles.ui.groups.timeline.list.GroupPostViewHolder
 import com.futo.circles.ui.groups.timeline.list.GroupTimelineAdapter
-import com.futo.circles.ui.groups.timeline.list.GroupTimelineViewHolder
-import com.futo.circles.ui.groups.timeline.model.GroupMessage
 import com.futo.circles.ui.view.GroupPostListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -26,7 +26,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     private val binding by viewBinding(GroupTimelineFragmentBinding::bind)
 
     private val listAdapter by lazy {
-        GroupTimelineAdapter(viewModel.urlResolver) { viewModel.loadMore() }
+        GroupTimelineAdapter(this, viewModel.urlResolver) { viewModel.loadMore() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         binding.tvGroupTimeline.apply {
             adapter = listAdapter
             addItemDecoration(
-                BaseRvDecoration.OffsetDecoration<GroupTimelineViewHolder>(
+                BaseRvDecoration.OffsetDecoration<GroupPostViewHolder>(
                     offset = context.dimen(R.dimen.group_post_item_offset)
                 )
             )
@@ -51,7 +51,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         }
     }
 
-    private fun setTimelineList(list: List<GroupMessage>) {
+    private fun setTimelineList(list: List<Post>) {
         listAdapter.submitList(list)
     }
 
