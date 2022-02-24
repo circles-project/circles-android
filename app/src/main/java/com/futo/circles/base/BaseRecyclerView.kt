@@ -35,15 +35,23 @@ abstract class BaseRvAdapter<T, VH : RecyclerView.ViewHolder>(
     itemCallback: DiffUtil.ItemCallback<T>
 ) : ListAdapter<T, VH>(itemCallback) {
 
-    @Suppress("UNCHECKED_CAST")
-    protected fun <D : T> getItemAs(position: Int): D = getItem(position) as D
-
     companion object {
         @Suppress("FunctionName")
         @SuppressLint("DiffUtilEquals")
-        fun <T> DefaultDiffUtilCallback() = object : DiffUtil.ItemCallback<T>() {
-            override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = oldItem == newItem
+        fun <T : IdEntity<*>> DefaultIdEntityCallback() = object : DiffUtil.ItemCallback<T>() {
+            override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = oldItem.id == newItem.id
             override fun areContentsTheSame(oldItem: T, newItem: T): Boolean = oldItem == newItem
+        }
+
+        @Suppress("FunctionName")
+        @SuppressLint("DiffUtilEquals")
+        fun <T : IdEntity<*>, C> PayloadIdEntityCallback(
+            payload: (old: T, new: T) -> C?
+        ) = object : DiffUtil.ItemCallback<T>() {
+            override fun areItemsTheSame(oldItem: T, newItem: T): Boolean = oldItem.id == newItem.id
+            override fun areContentsTheSame(oldItem: T, newItem: T): Boolean = oldItem == newItem
+
+            override fun getChangePayload(oldItem: T, newItem: T) = payload(oldItem, newItem)
         }
     }
 
