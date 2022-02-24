@@ -16,11 +16,9 @@ class MatrixSessionProvider(private val context: Context) {
                 roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl()
             )
         )
-        val matrixInstance =
-            Matrix.getInstance(context).also { MatrixProvider.saveMatrixInstance(it) }
 
         val lastSession =
-            matrixInstance.authenticationService().getLastAuthenticatedSession()
+            Matrix.getInstance(context).authenticationService().getLastAuthenticatedSession()
 
         lastSession?.let { startSession(it) }
     }

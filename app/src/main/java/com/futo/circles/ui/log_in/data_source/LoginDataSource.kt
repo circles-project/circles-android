@@ -4,8 +4,8 @@ import android.content.Context
 import com.futo.circles.R
 import com.futo.circles.extensions.createResult
 import com.futo.circles.provider.MatrixHomeServerProvider
-import com.futo.circles.provider.MatrixProvider
 import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.Matrix
 
 class LoginDataSource(
     private val context: Context,
@@ -16,7 +16,7 @@ class LoginDataSource(
         createResult {
             val homeServerConnectionConfig = MatrixHomeServerProvider().createHomeServerConfig()
 
-            MatrixProvider.matrix.authenticationService().directAuthentication(
+            Matrix.getInstance(context).authenticationService().directAuthentication(
                 homeServerConnectionConfig = homeServerConnectionConfig,
                 matrixId = name,
                 password = password,
