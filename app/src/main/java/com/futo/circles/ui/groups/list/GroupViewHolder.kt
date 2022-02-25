@@ -11,6 +11,7 @@ import com.futo.circles.extensions.loadMatrixThumbnail
 import com.futo.circles.extensions.onClick
 import com.futo.circles.extensions.setIsEncryptedIcon
 import com.futo.circles.model.GroupListItem
+import com.futo.circles.model.GroupListItemPayload
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 
 class GroupViewHolder(
@@ -35,23 +36,34 @@ class GroupViewHolder(
 
             tvGroupTitle.text = data.title
 
-            val membersCount = data.membersCount
-            tvMembers.text = context.resources.getQuantityString(
-                R.plurals.member_plurals,
-                membersCount, membersCount
-            )
+            setMembersCount(data.membersCount)
 
             tvTopic.text = context.getString(
                 R.string.topic_formatter,
                 data.topic.takeIf { it.isNotEmpty() } ?: context.getString(R.string.none)
             )
 
-            tvUpdateTime.text = context.getString(
-                R.string.last_updated_formatter, DateUtils.getRelativeTimeSpanString(
-                    data.timestamp, System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS
-                )
-            )
-
+            setUpdateTime(data.timestamp)
         }
+    }
+
+    fun bindPayload(data: GroupListItemPayload) {
+        setMembersCount(data.membersCount)
+        setUpdateTime(data.timestamp)
+    }
+
+    private fun setMembersCount(membersCount: Int) {
+        binding.tvMembers.text = context.resources.getQuantityString(
+            R.plurals.member_plurals,
+            membersCount, membersCount
+        )
+    }
+
+    private fun setUpdateTime(timestamp: Long) {
+        binding.tvUpdateTime.text = context.getString(
+            R.string.last_updated_formatter, DateUtils.getRelativeTimeSpanString(
+                timestamp, System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS
+            )
+        )
     }
 }
