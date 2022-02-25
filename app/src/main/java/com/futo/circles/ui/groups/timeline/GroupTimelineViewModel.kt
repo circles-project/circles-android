@@ -10,7 +10,6 @@ class GroupTimelineViewModel(
 
     val titleLiveData = MutableLiveData(dataSource.getGroupTitle())
     val timelineEventsLiveData = dataSource.timelineEventsLiveData
-    val urlResolver get() = dataSource.getUrlResolver()
 
     init {
         dataSource.startTimeline()

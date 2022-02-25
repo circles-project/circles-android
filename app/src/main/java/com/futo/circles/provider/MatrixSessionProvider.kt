@@ -5,12 +5,12 @@ import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
 import org.matrix.android.sdk.api.session.Session
 
-class MatrixSessionProvider(private val context: Context) {
+object MatrixSessionProvider {
 
     var currentSession: Session? = null
         private set
 
-    fun initSession() {
+    fun initSession(context: Context) {
         Matrix.initialize(
             context = context, matrixConfiguration = MatrixConfiguration(
                 roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl()

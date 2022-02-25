@@ -18,12 +18,7 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
 
     private val viewModel by viewModel<GroupsViewModel>()
     private val binding by viewBinding(GroupsFragmentBinding::bind)
-    private val listAdapter by lazy {
-        GroupsListAdapter(
-            viewModel.getContentResolver(),
-            ::onGroupListItemClicked
-        )
-    }
+    private val listAdapter by lazy { GroupsListAdapter(::onGroupListItemClicked) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
