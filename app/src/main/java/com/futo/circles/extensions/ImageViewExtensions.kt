@@ -1,11 +1,11 @@
 package com.futo.circles.extensions
 
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.futo.circles.R
-import com.squareup.picasso.Picasso
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 
-private const val THUMBNAIL_SIZE = 250
+const val THUMBNAIL_SIZE = 250
 
 fun ImageView.loadMatrixThumbnail(
     avatarUrl: String?,
@@ -17,7 +17,7 @@ fun ImageView.loadMatrixThumbnail(
         size, size,
         ContentUrlResolver.ThumbnailMethod.SCALE
     )
-    Picasso.get().load(resolvedUrl).into(this)
+    Glide.with(this).load(resolvedUrl).into(this)
 }
 
 fun ImageView.setIsEncryptedIcon(isEncrypted: Boolean) {
