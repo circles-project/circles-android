@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import com.futo.circles.R
 import com.futo.circles.databinding.AdvancedOptionsViewBinding
 import com.futo.circles.extensions.gone
+import com.futo.circles.extensions.setVisibility
 import com.futo.circles.extensions.visible
 
 class AdvancedOptionsView(
@@ -28,19 +29,9 @@ class AdvancedOptionsView(
         binding.tilPassword.editText?.text.toString().takeIf { it.isNotEmpty() }
 
     private fun toggleEncryptionPasswordVisibility() {
-        if (binding.tilPassword.isVisible) {
-            binding.tilPassword.gone()
-            binding.btnAdvanced.apply {
-                text = context.getString(R.string.advanced_options)
-                setIconResource(R.drawable.ic_keyboard_arrow_right)
-            }
-        } else {
-            binding.tilPassword.visible()
-            binding.btnAdvanced.apply {
-                text = context.getString(R.string.hide_advanced_options)
-                setIconResource(R.drawable.ic_keyboard_arrow_down)
-            }
-        }
+        val isOpened = binding.btnAdvanced.isOpened()
+        binding.tilPassword.setVisibility(!isOpened)
+        binding.btnAdvanced.setIsOpened(!isOpened)
     }
 
 }

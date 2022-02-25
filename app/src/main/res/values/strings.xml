@@ -21,9 +21,19 @@
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
     <string name="photo_galleries">Photo Galleries</string>
+    <string name="initial_device_name">%s (Android)</string>
+    <string name="like">Like</string>
+    <string name="reply">Reply</string>
+    <string name="share">Share</string>
+    <string name="hide_replies">Hide replies</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
         <item quantity="other">%d members</item>
+    </plurals>
+
+    <plurals name="show__replies_plurals">
+        <item quantity="one">Show %d reply</item>
+        <item quantity="other">Show %d replies</item>
     </plurals>
 </resources>

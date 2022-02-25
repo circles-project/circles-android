@@ -5,4 +5,11 @@
         <attr name="android:text" />
     </declare-styleable>
 
+    <declare-styleable name="ExpandContentButton">
+        <attr name="closed_text" format="string" />
+        <attr name="opened_text" format="string" />
+        <attr name="closed_icon" format="reference" />
+        <attr name="opened_icon" format="reference" />
+    </declare-styleable>
+
 </resources>

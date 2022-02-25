@@ -1,6 +1,7 @@
 package com.futo.circles.extensions
 
 import android.widget.ImageView
+import com.futo.circles.R
 import com.squareup.picasso.Picasso
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 
@@ -17,4 +18,8 @@ fun ImageView.loadMatrixThumbnail(
         ContentUrlResolver.ThumbnailMethod.SCALE
     )
     Picasso.get().load(resolvedUrl).into(this)
+}
+
+fun ImageView.setIsEncryptedIcon(isEncrypted: Boolean) {
+    setImageResource(if (isEncrypted) R.drawable.ic_lock else R.drawable.ic_lock_open)
 }
