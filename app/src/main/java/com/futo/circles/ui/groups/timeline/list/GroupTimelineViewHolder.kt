@@ -6,22 +6,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.futo.circles.base.ViewBindingHolder
 import com.futo.circles.databinding.ImagePostViewBinding
 import com.futo.circles.databinding.TextPostViewBinding
-import com.futo.circles.extensions.loadMatrixThumbnail
+import com.futo.circles.extensions.loadEncryptedImage
 import com.futo.circles.model.ImageContent
 import com.futo.circles.model.Post
 import com.futo.circles.model.PostItemPayload
 import com.futo.circles.model.TextContent
 import com.futo.circles.ui.view.GroupPostListener
 import com.futo.circles.ui.view.PostLayout
-import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 
-sealed class GroupPostViewHolder(view: View, private val urlResolver: ContentUrlResolver?) :
+sealed class GroupPostViewHolder(view: View) :
     RecyclerView.ViewHolder(view) {
 
     abstract val postLayout: PostLayout
 
     open fun bind(post: Post) {
-        postLayout.setData(post, urlResolver)
+        postLayout.setData(post)
     }
 
     fun bindPayload(payload: PostItemPayload) {
@@ -31,9 +30,8 @@ sealed class GroupPostViewHolder(view: View, private val urlResolver: ContentUrl
 
 class TextPostViewHolder(
     parent: ViewGroup,
-    postListener: GroupPostListener,
-    private val urlResolver: ContentUrlResolver?
-) : GroupPostViewHolder(inflate(parent, TextPostViewBinding::inflate), urlResolver) {
+    postListener: GroupPostListener
+) : GroupPostViewHolder(inflate(parent, TextPostViewBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
@@ -55,9 +53,8 @@ class TextPostViewHolder(
 
 class ImagePostViewHolder(
     parent: ViewGroup,
-    postListener: GroupPostListener,
-    private val urlResolver: ContentUrlResolver?
-) : GroupPostViewHolder(inflate(parent, ImagePostViewBinding::inflate), urlResolver) {
+    postListener: GroupPostListener
+) : GroupPostViewHolder(inflate(parent, ImagePostViewBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
@@ -72,7 +69,7 @@ class ImagePostViewHolder(
         super.bind(post)
 
         (post.content as? ImageContent)?.let {
-            binding.ivContent.loadMatrixThumbnail(it.url, urlResolver)
+            binding.ivContent.loadEncryptedImage(it)
         }
     }
 }

@@ -6,9 +6,9 @@ import com.futo.circles.ui.log_in.data_source.LoginDataSource
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { LoginDataSource(get(), get()) }
+    factory { LoginDataSource(get()) }
 
-    factory { (roomId: String) -> GroupTimelineDatasource(roomId, get(), get()) }
+    factory { (roomId: String) -> GroupTimelineDatasource(roomId, get()) }
 
     factory { GroupTimelineBuilder() }
 }

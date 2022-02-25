@@ -9,6 +9,6 @@ import org.koin.dsl.module
 
 val uiModule = module {
     viewModel { LogInViewModel(get()) }
-    viewModel { GroupsViewModel(get()) }
+    viewModel { GroupsViewModel() }
     viewModel { (roomId: String) -> GroupTimelineViewModel(get { parametersOf(roomId) }) }
 }

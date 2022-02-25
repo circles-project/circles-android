@@ -8,13 +8,10 @@ import com.futo.circles.utils.GROUP_TAG
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
 
-class GroupsViewModel(
-    private val matrixSessionProvider: MatrixSessionProvider
-) : ViewModel() {
+class GroupsViewModel : ViewModel() {
 
     val groupsLiveData =
-        matrixSessionProvider.currentSession?.getRoomSummariesLive(roomSummaryQueryParams())
+        MatrixSessionProvider.currentSession?.getRoomSummariesLive(roomSummaryQueryParams())
             ?.map { list -> list.toGroupsList(GROUP_TAG) }
 
-    fun getContentResolver() = matrixSessionProvider.currentSession?.contentUrlResolver()
 }
