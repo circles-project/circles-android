@@ -37,9 +37,7 @@ class GroupsListAdapter(
             super.onBindViewHolder(holder, position, payloads)
         } else {
             payloads.forEach {
-                (it as? GroupListItemPayload)?.let { payload ->
-                    holder.bindPayload(payload)
-                }
+                (it as? GroupListItemPayload)?.let { payload -> holder.bindPayload(payload) }
             }
         }
     }

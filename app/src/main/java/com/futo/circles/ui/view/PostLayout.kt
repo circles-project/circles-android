@@ -12,6 +12,7 @@ import com.futo.circles.databinding.PostLayoutBinding
 import com.futo.circles.extensions.gone
 import com.futo.circles.extensions.setVisibility
 import com.futo.circles.model.Post
+import com.futo.circles.model.PostItemPayload
 import com.futo.circles.model.ReplyPost
 import com.futo.circles.model.RootPost
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
@@ -49,6 +50,10 @@ class PostLayout(
         bindRepliesButton(data)
     }
 
+    fun setPayload(payload: PostItemPayload) {
+        bindRepliesButton(payload.hasReplies, payload.repliesCount, payload.isRepliesVisible)
+    }
+
     private fun setGeneralMessageData(
         data: Post,
         urlResolver: ContentUrlResolver?
@@ -62,21 +67,30 @@ class PostLayout(
     private fun bindRepliesButton(post: Post) {
         val rootPost = (post as? RootPost) ?: kotlin.run { binding.btnShowReplies.gone(); return }
 
+        bindRepliesButton(
+            rootPost.hasReplies(), rootPost.getRepliesCount(), rootPost.isRepliesVisible
+        )
+    }
+
+    private fun bindRepliesButton(
+        hasReplies: Boolean,
+        repliesCount: Int,
+        isRepliesVisible: Boolean
+    ) {
         with(binding.btnShowReplies) {
-            setVisibility(rootPost.hasReplies())
-            val repliesCount = rootPost.getRepliesCount()
+            setVisibility(hasReplies)
             setClosedText(
                 context.resources.getQuantityString(
                     R.plurals.show__replies_plurals,
                     repliesCount, repliesCount
                 )
             )
-            setIsOpened(rootPost.isRepliesVisible)
+            setIsOpened(isRepliesVisible)
         }
     }
 
     override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
-        if (child.id == R.id.postCard || child.id == R.id.btnShowReplies||child.id == R.id.vReplyMargin) {
+        if (child.id == R.id.postCard || child.id == R.id.btnShowReplies || child.id == R.id.vReplyMargin) {
             super.addView(child, index, params)
         } else {
             findViewById<FrameLayout>(R.id.lvContent).addView(child, index, params)
