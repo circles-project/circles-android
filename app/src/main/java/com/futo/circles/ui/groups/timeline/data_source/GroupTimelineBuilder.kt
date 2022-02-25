@@ -38,18 +38,22 @@ class GroupTimelineBuilder {
                 list.add(post)
             }
         }
-        return list
+        return list.also { currentList = list }
     }
 
     private fun removeRepliesFromCurrentListFor(eventId: String): List<Post> {
         val list: MutableList<Post> = mutableListOf()
         repliesVisibleEvents.remove(eventId)
-        currentList.forEach { post ->
-            if (post.id == eventId && post is RootPost)
-                list.add(post.copy(isRepliesVisible = false))
-            else list.add(post)
+        val rootPostsList = getOnlyRootMessages(currentList)
+        rootPostsList.forEach { rootPost ->
+            if (rootPost.id == eventId) {
+                list.add(rootPost.copy(isRepliesVisible = false))
+            } else {
+                list.add(rootPost)
+                if (rootPost.isRepliesVisible) list.addAll(rootPost.replies)
+            }
         }
-        return list
+        return list.also { currentList = list }
     }
 
     private fun toFlatPostsList(messagesWithReplies: List<RootPost>): MutableList<Post> {
