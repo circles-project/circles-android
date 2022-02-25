@@ -1,6 +1,7 @@
 package com.futo.circles.ui.groups.list
 
 import android.text.format.DateUtils
+import android.util.Size
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.futo.circles.R
@@ -28,7 +29,7 @@ class GroupViewHolder(
 
     fun bind(data: GroupListItem) {
         with(binding) {
-            ivGroup.loadImage(data.avatarUrl, ivGroup.height)
+            ivGroup.loadImage(data.avatarUrl, Size(ivGroup.width, ivGroup.height))
 
             ivLock.setIsEncryptedIcon(data.isEncrypted)
 

@@ -21,4 +21,6 @@ data class ImageContent(
     val elementToDecrypt: ElementToDecrypt?,
     val width: Int,
     val height: Int
-) : PostContent(PostContentType.IMAGE_CONTENT)
+) : PostContent(PostContentType.IMAGE_CONTENT) {
+    val aspectRatio = width.toFloat() / height.toFloat()
+}

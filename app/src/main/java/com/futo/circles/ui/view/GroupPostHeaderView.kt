@@ -2,6 +2,7 @@ package com.futo.circles.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Size
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.futo.circles.databinding.GroupPostHeaderViewBinding
@@ -17,9 +18,14 @@ class GroupPostHeaderView(
         GroupPostHeaderViewBinding.inflate(LayoutInflater.from(context), this)
 
     fun setData(sender: SenderInfo) {
-        binding.ivSenderImage.loadImage(sender.avatarUrl, binding.ivSenderImage.height)
-        binding.tvUserName.text = sender.disambiguatedDisplayName
-        binding.tvUserId.text = sender.userId
+        with(binding) {
+            ivSenderImage.loadImage(
+                sender.avatarUrl,
+                Size(ivSenderImage.width, ivSenderImage.height)
+            )
+            tvUserName.text = sender.disambiguatedDisplayName
+            tvUserId.text = sender.userId
+        }
     }
 
 }

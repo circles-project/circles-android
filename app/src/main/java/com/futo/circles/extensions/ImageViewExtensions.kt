@@ -1,5 +1,6 @@
 package com.futo.circles.extensions
 
+import android.util.Size
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
@@ -11,31 +12,27 @@ import com.futo.circles.provider.MatrixSessionProvider
 
 fun ImageView.loadImage(
     url: String?,
-    size: Int = Target.SIZE_ORIGINAL
+    size: Size? = null
 ) {
     val resolvedUrl = MatrixSessionProvider.currentSession?.resolveUrl(url, size)
     Glide.with(this)
         .load(resolvedUrl)
-        .override(size, size)
         .fitCenter()
         .into(this)
 }
 
 
-fun ImageView.loadEncryptedImage(content: ImageContent, size: Int = Target.SIZE_ORIGINAL) {
-    val request = content.elementToDecrypt?.let {
+fun ImageView.loadEncryptedImage(
+    content: ImageContent, size: Size? = null
+) {
+    content.elementToDecrypt?.let {
         GlideApp
             .with(context)
             .load(content)
-    } ?: run {
-        val resolvedUrl = MatrixSessionProvider.currentSession?.resolveUrl(content.fileUrl, size)
-        GlideApp
-            .with(context)
-            .load(resolvedUrl)
-    }
-    request.override(size, size)
-        .fitCenter()
-        .into(this)
+            .override(size?.width ?: Target.SIZE_ORIGINAL, size?.height ?: Target.SIZE_ORIGINAL)
+            .fitCenter()
+            .into(this)
+    } ?: loadImage(content.fileUrl, size)
 }
 
 

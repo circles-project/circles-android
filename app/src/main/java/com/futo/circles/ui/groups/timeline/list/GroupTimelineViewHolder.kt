@@ -1,5 +1,6 @@
 package com.futo.circles.ui.groups.timeline.list
 
+import android.util.Size
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -69,7 +70,9 @@ class ImagePostViewHolder(
         super.bind(post)
 
         (post.content as? ImageContent)?.let {
-            binding.ivContent.loadEncryptedImage(it)
+            val imageWith = binding.ivContent.width
+            val size = Size(imageWith, (imageWith / it.aspectRatio).toInt())
+            binding.ivContent.loadEncryptedImage(it, size)
         }
     }
 }

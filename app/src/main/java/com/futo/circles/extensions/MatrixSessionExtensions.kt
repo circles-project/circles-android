@@ -1,6 +1,6 @@
 package com.futo.circles.extensions
 
-import com.bumptech.glide.request.target.Target
+import android.util.Size
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,16 +19,19 @@ val Session.coroutineScope: CoroutineScope
         }
     }
 
-fun Session.resolveUrl(url: String?, size: Int = Target.SIZE_ORIGINAL): String? {
+fun Session.resolveUrl(
+    url: String?,
+    size: Size? = null
+): String? {
     val resolver = MatrixSessionProvider.currentSession?.contentUrlResolver()
 
-    return if (size == Target.SIZE_ORIGINAL) {
-        resolver?.resolveFullSize(url)
-    } else {
+    return size?.let {
         resolver?.resolveThumbnail(
             url,
-            size, size,
+            size.width, size.height,
             ContentUrlResolver.ThumbnailMethod.SCALE
         )
+    } ?: run {
+        resolver?.resolveFullSize(url)
     }
 }
