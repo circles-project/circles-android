@@ -62,7 +62,7 @@ class GroupViewHolder(
     private fun setUpdateTime(timestamp: Long) {
         binding.tvUpdateTime.text = context.getString(
             R.string.last_updated_formatter, DateUtils.getRelativeTimeSpanString(
-                timestamp, System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS
+                timestamp, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS
             )
         )
     }
