@@ -23,7 +23,7 @@ class GroupTimelineDatasource(
     fun getGroupTitle() = room?.roomSummary()?.nameOrId() ?: roomId
 
     fun startTimeline() {
-        room?.createTimeline(null, TimelineSettings(MESSAGES_PER_PAGE))?.apply {
+        timeline = room?.createTimeline(null, TimelineSettings(MESSAGES_PER_PAGE))?.apply {
             addListener(this@GroupTimelineDatasource)
             start()
         }
