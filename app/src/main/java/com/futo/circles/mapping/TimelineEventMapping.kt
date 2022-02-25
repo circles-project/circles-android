@@ -1,12 +1,15 @@
 package com.futo.circles.mapping
 
+import com.bumptech.glide.request.target.Target
 import com.futo.circles.model.*
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent
 import org.matrix.android.sdk.api.session.room.model.message.MessageTextContent
+import org.matrix.android.sdk.api.session.room.model.message.getFileUrl
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getRelationContent
 import org.matrix.android.sdk.api.session.room.timeline.isReply
+import org.matrix.android.sdk.internal.crypto.attachments.toElementToDecrypt
 
 
 fun TimelineEvent.toPost(
@@ -45,7 +48,16 @@ private fun TimelineEvent.toTextContent(): TextContent = TextContent(
     message = root.getClearContent().toModel<MessageTextContent>()?.body ?: ""
 )
 
-private fun TimelineEvent.toImageContent(): ImageContent = ImageContent(
-    url = root.getClearContent()
-        .toModel<MessageImageContent>()?.info?.thumbnailFile?.url ?: ""
-)
+private fun TimelineEvent.toImageContent(): ImageContent {
+    val messageContent = root.getClearContent().toModel<MessageImageContent>()
+
+    return ImageContent(
+        fileName = messageContent?.body ?: "",
+        mimeType = messageContent?.mimeType ?: "",
+        fileUrl = messageContent?.getFileUrl() ?: "",
+        thumbnailUrl = messageContent?.info?.thumbnailFile?.url ?: "",
+        width = messageContent?.info?.width ?: Target.SIZE_ORIGINAL,
+        height = messageContent?.info?.height ?: Target.SIZE_ORIGINAL,
+        elementToDecrypt = messageContent?.encryptedFileInfo?.toElementToDecrypt(),
+    )
+}
