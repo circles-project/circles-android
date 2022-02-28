@@ -31,5 +31,31 @@
             app:argType="string"
             app:nullable="false" />
 
+        <action
+            android:id="@+id/action_groupTimelineFragment_to_inviteMembersDialogFragment"
+            app:destination="@id/inviteMembersDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
     </fragment>
+
+    <dialog
+        android:id="@+id/inviteMembersDialogFragment"
+        android:name="com.futo.circles.ui.groups.timeline.invite.InviteMembersDialogFragment"
+        tools:layout="@layout/invite_members_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_groupTimelineFragment_to_inviteMembersDialogFragment"
+            app:destination="@id/inviteMembersDialogFragment" />
+
+    </dialog>
 </navigation>
