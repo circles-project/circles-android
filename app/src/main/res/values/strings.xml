@@ -27,6 +27,9 @@
     <string name="share">Share</string>
     <string name="hide_replies">Hide replies</string>
 
+    <string name="invite_members">Invite members</string>
+    <string name="invite_members_to_format">Invite members to %s</string>
+
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
         <item quantity="other">%d members</item>

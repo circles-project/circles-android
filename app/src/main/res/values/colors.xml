@@ -18,5 +18,6 @@
     <color name="pink">#FF2D55</color>
     <color name="divider_color">#ddd</color>
     <color name="gray">#8E8E93</color>
+    <color name="inactive_menu_icon_color">#99000000</color>
 
 </resources>
