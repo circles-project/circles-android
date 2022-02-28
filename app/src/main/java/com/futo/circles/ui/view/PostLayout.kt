@@ -44,9 +44,9 @@ class PostLayout(
     }
 
 
-    fun setData(data: Post, urlResolver: ContentUrlResolver?) {
+    fun setData(data: Post) {
         post = data
-        setGeneralMessageData(data, urlResolver)
+        setGeneralMessageData(data)
         bindRepliesButton(data)
     }
 
@@ -54,13 +54,10 @@ class PostLayout(
         bindRepliesButton(payload.hasReplies, payload.repliesCount, payload.isRepliesVisible)
     }
 
-    private fun setGeneralMessageData(
-        data: Post,
-        urlResolver: ContentUrlResolver?
-    ) {
+    private fun setGeneralMessageData(data: Post) {
         val isReply = data is ReplyPost
         binding.vReplyMargin.setVisibility(isReply)
-        binding.postHeader.setData(data.postInfo.sender, urlResolver)
+        binding.postHeader.setData(data.postInfo.sender)
         binding.postFooter.setData(data.postInfo, isReply)
     }
 

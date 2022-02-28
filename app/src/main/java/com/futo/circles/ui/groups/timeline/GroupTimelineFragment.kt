@@ -26,7 +26,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     private val binding by viewBinding(GroupTimelineFragmentBinding::bind)
 
     private val listAdapter by lazy {
-        GroupTimelineAdapter(this, viewModel.urlResolver) { viewModel.loadMore() }
+        GroupTimelineAdapter(this) { viewModel.loadMore() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

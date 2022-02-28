@@ -6,7 +6,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.NavHostFragment
 import com.futo.circles.provider.MatrixSessionProvider
-import org.koin.android.ext.android.get
 
 
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
     }
 
     private fun setStartDestination(navGraph: NavGraph) {
-        val startDestinationId = get<MatrixSessionProvider>().currentSession?.let {
+        val startDestinationId = MatrixSessionProvider.currentSession?.let {
             R.id.bottomNavigationFragment
         } ?: R.id.logInFragment
 

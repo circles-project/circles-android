@@ -11,7 +11,6 @@ import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 
 class GroupTimelineAdapter(
     private val postListener: GroupPostListener,
-    private val urlResolver: ContentUrlResolver?,
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<Post, GroupPostViewHolder>(PayloadIdEntityCallback { _, new ->
     (new as? RootPost)?.let { rootPost ->
@@ -30,8 +29,8 @@ class GroupTimelineAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupPostViewHolder {
         return when (PostContentType.values()[viewType]) {
-            PostContentType.TEXT_CONTENT -> TextPostViewHolder(parent, postListener, urlResolver)
-            PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(parent, postListener, urlResolver)
+            PostContentType.TEXT_CONTENT -> TextPostViewHolder(parent, postListener)
+            PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(parent, postListener)
         }
     }
 
