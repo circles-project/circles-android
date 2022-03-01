@@ -6,6 +6,7 @@ import androidx.navigation.fragment.navArgs
 import com.futo.circles.R
 import com.futo.circles.base.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.InviteMembersDialogFragmentBinding
+import com.futo.circles.extensions.getQueryTextChangeStateFlow
 import com.futo.circles.extensions.observeData
 import com.futo.circles.feature.group_invite.list.InviteMembersListAdapter
 import com.futo.circles.model.RoomMemberListItem
@@ -35,12 +36,17 @@ class InviteMembersDialogFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         binding.rvUsers.adapter = listAdapter
+        viewModel.initSearchListener(binding.searchView.getQueryTextChangeStateFlow())
         setupObservers()
     }
 
     private fun setupObservers() {
         viewModel.titleLiveData.observeData(this) {
             binding.toolbar.title = it
+        }
+
+        viewModel.usersLiveData.observeData(this) { users ->
+            setUserList(users)
         }
     }
 
