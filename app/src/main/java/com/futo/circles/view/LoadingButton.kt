@@ -1,4 +1,4 @@
-package com.futo.circles.feature.view
+package com.futo.circles.view
 
 import android.content.Context
 import android.util.AttributeSet

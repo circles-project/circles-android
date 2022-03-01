@@ -21,7 +21,7 @@ import com.futo.circles.extensions.setToolbarTitle
 import com.futo.circles.model.Post
 import com.futo.circles.feature.groups.timeline.list.GroupPostViewHolder
 import com.futo.circles.feature.groups.timeline.list.GroupTimelineAdapter
-import com.futo.circles.feature.view.GroupPostListener
+import com.futo.circles.view.GroupPostListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

@@ -42,7 +42,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
 
-    <com.futo.circles.feature.view.CirclesLogoView
+    <com.futo.circles.view.CirclesLogoView
         android:id="@+id/ivLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -120,7 +120,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.futo.circles.feature.view.AdvancedOptionsView
+    <com.futo.circles.view.AdvancedOptionsView
         android:id="@+id/tvAdvancedOptions"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
-    <com.futo.circles.feature.view.LoadingButton
+    <com.futo.circles.view.LoadingButton
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

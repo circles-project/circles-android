@@ -12,8 +12,8 @@ import com.futo.circles.model.ImageContent
 import com.futo.circles.model.Post
 import com.futo.circles.model.PostItemPayload
 import com.futo.circles.model.TextContent
-import com.futo.circles.feature.view.GroupPostListener
-import com.futo.circles.feature.view.PostLayout
+import com.futo.circles.view.GroupPostListener
+import com.futo.circles.view.PostLayout
 
 sealed class GroupPostViewHolder(view: View) :
     RecyclerView.ViewHolder(view) {

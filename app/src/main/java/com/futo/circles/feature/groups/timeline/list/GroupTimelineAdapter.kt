@@ -6,7 +6,7 @@ import com.futo.circles.model.Post
 import com.futo.circles.model.PostContentType
 import com.futo.circles.model.PostItemPayload
 import com.futo.circles.model.RootPost
-import com.futo.circles.feature.view.GroupPostListener
+import com.futo.circles.view.GroupPostListener
 
 class GroupTimelineAdapter(
     private val postListener: GroupPostListener,
