@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <com.futo.circles.ui.view.ExpandContentButton
+    <com.futo.circles.feature.view.ExpandContentButton
         android:id="@+id/btnAdvanced"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
         android:layout_width="wrap_content"
