@@ -40,7 +40,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        binding.tvGroupTimeline.apply {
+        binding.rvGroupTimeline.apply {
             adapter = listAdapter
             addItemDecoration(
                 BaseRvDecoration.OffsetDecoration<GroupPostViewHolder>(

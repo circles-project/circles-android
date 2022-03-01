@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tvGroupTimeline"
+        android:id="@+id/rvGroupTimeline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -21,7 +21,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:fabSize="normal"
-        app:layout_anchor="@id/tvGroupTimeline"
+        app:layout_anchor="@id/rvGroupTimeline"
         app:srcCompat="@drawable/ic_create"
         app:tint="@color/white"
         tools:ignore="ContentDescription" />

@@ -1,11 +1,11 @@
 package com.futo.circles.feature.group_invite
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.futo.circles.extensions.launchUi
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
-import com.futo.circles.model.RoomMemberListItem
+import com.futo.circles.model.InviteMemberListItem
+import com.futo.circles.model.CirclesUser
 import kotlinx.coroutines.flow.*
 
 class InviteMembersViewModel(
@@ -14,7 +14,7 @@ class InviteMembersViewModel(
 
     val titleLiveData = MutableLiveData(dataSource.getInviteTitle())
 
-    val usersLiveData = MutableLiveData<List<RoomMemberListItem>>()
+    val usersLiveData = MutableLiveData<List<InviteMemberListItem>>()
 
     fun initSearchListener(queryFlow: StateFlow<String>) {
         launchUi {
@@ -22,12 +22,12 @@ class InviteMembersViewModel(
                 .debounce(500)
                 .distinctUntilChanged()
                 .flatMapLatest { query -> dataSource.search(query) }
-                .collectLatest { members ->
-                    usersLiveData.postValue(members)
-                    Log.d("MyLog", members.size.toString())
-                }
+                .collectLatest { items -> usersLiveData.postValue(items) }
         }
     }
 
+    fun onUserSelected(member: CirclesUser){
+
+    }
 
 }

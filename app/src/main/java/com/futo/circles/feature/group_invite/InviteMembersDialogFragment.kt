@@ -9,7 +9,6 @@ import com.futo.circles.databinding.InviteMembersDialogFragmentBinding
 import com.futo.circles.extensions.getQueryTextChangeStateFlow
 import com.futo.circles.extensions.observeData
 import com.futo.circles.feature.group_invite.list.InviteMembersListAdapter
-import com.futo.circles.model.RoomMemberListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -20,7 +19,7 @@ class InviteMembersDialogFragment :
     private val args: InviteMembersDialogFragmentArgs by navArgs()
     private val viewModel by viewModel<InviteMembersViewModel> { parametersOf(args.roomId) }
 
-    private val listAdapter by lazy { InviteMembersListAdapter() }
+    private val listAdapter by lazy { InviteMembersListAdapter(viewModel::onUserSelected) }
 
     private val binding by lazy {
         getBinding() as InviteMembersDialogFragmentBinding
@@ -45,13 +44,8 @@ class InviteMembersDialogFragment :
             binding.toolbar.title = it
         }
 
-        viewModel.usersLiveData.observeData(this) { users ->
-            setUserList(users)
+        viewModel.usersLiveData.observeData(this) { items ->
+            listAdapter.submitList(items)
         }
     }
-
-    private fun setUserList(users: List<RoomMemberListItem>) {
-        listAdapter.submitList(users)
-    }
-
 }
