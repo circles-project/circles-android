@@ -1,4 +1,4 @@
-package com.futo.circles.feature.groups.timeline.data_source
+package com.futo.circles.feature.group_timeline.data_source
 
 import com.futo.circles.mapping.toPost
 import com.futo.circles.model.Post

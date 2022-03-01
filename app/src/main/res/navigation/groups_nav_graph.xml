@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/groupTimelineFragment"
-        android:name="com.futo.circles.feature.groups.timeline.GroupTimelineFragment"
+        android:name="com.futo.circles.feature.group_timeline.GroupTimelineFragment"
         tools:layout="@layout/group_timeline_fragment">
 
         <argument
@@ -46,7 +46,7 @@
 
     <dialog
         android:id="@+id/inviteMembersDialogFragment"
-        android:name="com.futo.circles.feature.groups.timeline.invite.InviteMembersDialogFragment"
+        android:name="com.futo.circles.feature.group_invite.InviteMembersDialogFragment"
         tools:layout="@layout/invite_members_dialog_fragment">
 
         <argument

@@ -1,4 +1,4 @@
-package com.futo.circles.feature.groups.timeline.data_source
+package com.futo.circles.feature.group_timeline.data_source
 
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.extensions.nameOrId

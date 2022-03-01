@@ -1,8 +1,8 @@
-package com.futo.circles.feature.groups.timeline.invite
+package com.futo.circles.feature.group_invite
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.futo.circles.feature.groups.timeline.invite.data_source.InviteMembersDataSource
+import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 
 class InviteMembersViewModel(
     private val dataSource: InviteMembersDataSource

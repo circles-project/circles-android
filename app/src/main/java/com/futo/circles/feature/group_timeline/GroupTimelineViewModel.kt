@@ -1,8 +1,8 @@
-package com.futo.circles.feature.groups.timeline
+package com.futo.circles.feature.group_timeline
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.futo.circles.feature.groups.timeline.data_source.GroupTimelineDatasource
+import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasource
 
 class GroupTimelineViewModel(
     private val dataSource: GroupTimelineDatasource
