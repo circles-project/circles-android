@@ -10,7 +10,9 @@ import com.futo.circles.model.HeaderItem
 import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.NoResultsItem
 import com.futo.circles.provider.MatrixSessionProvider
+import com.futo.circles.utils.DEFAULT_USER_PREFIX
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -22,12 +24,17 @@ class InviteMembersDataSource(
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)
 
-    private val existingMembersIds = room?.roomSummary()?.otherMemberIds?.toSet().orEmpty()
+    private val existingMembersIds = room?.roomSummary()?.otherMemberIds?.toMutableList()?.apply {
+        session?.myUserId?.let {
+            add(it)
+            add(DEFAULT_USER_PREFIX + it.substringAfter(":"))
+        }
+    }?.toSet().orEmpty()
 
     val selectedUsersFlow = MutableStateFlow<List<CirclesUser>>(emptyList())
 
     fun getInviteTitle() = context.getString(
-        R.string.invite_members_to_format,
+        R.string.invite_to_format,
         room?.roomSummary()?.nameOrId() ?: roomId
     )
 
@@ -40,11 +47,12 @@ class InviteMembersDataSource(
 
     private fun searchKnownUsers(query: String) = session?.getUsersLive()?.asFlow()
         ?.map { list ->
-            list.filter { user ->
-                (user.displayName?.contains(query, true) ?: false
-                        || user.userId.contains(query, true))
-                        && existingMembersIds.contains(user.userId).not()
-            }
+            list.filterNot { user -> existingMembersIds.contains(user.userId) }
+                .filter { user ->
+                    (user.displayName?.contains(query, true) ?: false
+                            || user.userId.contains(query, true))
+                            && existingMembersIds.contains(user.userId).not()
+                }
         } ?: flowOf()
 
 
@@ -67,7 +75,9 @@ class InviteMembersDataSource(
         }
 
         val knowUsersIds = knowUsers.map { it.userId }
-        val filteredSuggestion = suggestions.filterNot { knowUsersIds.contains(it.userId) }
+        val filteredSuggestion = suggestions.filterNot {
+            knowUsersIds.contains(it.userId) || existingMembersIds.contains(it.userId)
+        }
         if (filteredSuggestion.isNotEmpty()) {
             list.add(HeaderItem.suggestionHeader)
             list.addAll(filteredSuggestion.map { suggestion ->
@@ -87,10 +97,25 @@ class InviteMembersDataSource(
         selectedUsersFlow.value = list
     }
 
+    suspend fun inviteUsers() {
+        selectedUsersFlow.value.asFlow().map {
+            inviteUser(it.id)
+        }.catch {
+            print(it.message)
+        }.collect {
+            print("collect")
+        }
+    }
+
+    private suspend fun inviteUser(userId: String) {
+        // room?.invite(userId, null)
+        delay(1000)
+    }
+
     private fun List<CirclesUser>.containsWithId(id: String) = firstOrNull { it.id == id } != null
 
 
     private companion object {
-        private const val MAX_SUGGESTION_COUNT = 25
+        private const val MAX_SUGGESTION_COUNT = 30
     }
 }
