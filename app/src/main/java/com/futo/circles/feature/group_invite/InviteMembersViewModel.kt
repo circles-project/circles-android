@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.futo.circles.extensions.launchUi
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
-import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.CirclesUser
+import com.futo.circles.model.InviteMemberListItem
 import kotlinx.coroutines.flow.*
 
 class InviteMembersViewModel(
@@ -26,8 +26,8 @@ class InviteMembersViewModel(
         }
     }
 
-    fun onUserSelected(member: CirclesUser){
-
+    fun onUserSelected(user: CirclesUser) {
+        dataSource.toggleUserSelect(user)
     }
 
 }

@@ -1,12 +1,12 @@
 package com.futo.circles.extensions
 
+import android.R
 import android.content.res.TypedArray
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
-import android.widget.TextView
 import androidx.annotation.StyleRes
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
+
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -34,4 +34,10 @@ inline fun View.getAttributes(
     } finally {
         array.recycle()
     }
+}
+
+fun View.setSelectableItemBackground(){
+    val outValue = TypedValue()
+    context.theme.resolveAttribute(R.attr.selectableItemBackground, outValue, true)
+    setBackgroundResource(outValue.resourceId)
 }

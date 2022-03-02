@@ -5,6 +5,7 @@ import androidx.lifecycle.asFlow
 import com.futo.circles.R
 import com.futo.circles.extensions.nameOrId
 import com.futo.circles.mapping.toCirclesUser
+import com.futo.circles.model.CirclesUser
 import com.futo.circles.model.HeaderItem
 import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.NoResultsItem
@@ -23,15 +24,18 @@ class InviteMembersDataSource(
 
     private val existingMembersIds = room?.roomSummary()?.otherMemberIds?.toSet().orEmpty()
 
+    private val selectedUsersFlow = MutableStateFlow<List<CirclesUser>>(emptyList())
+
     fun getInviteTitle() = context.getString(
         R.string.invite_members_to_format,
         room?.roomSummary()?.nameOrId() ?: roomId
     )
 
-    suspend fun search(query: String) = combine(searchKnownUsers(query), searchSuggestions(query))
-    { knowUsers, suggestions ->
-        buildList(knowUsers, suggestions)
-    }.flowOn(Dispatchers.IO).distinctUntilChanged()
+    suspend fun search(query: String) =
+        combine(searchKnownUsers(query), searchSuggestions(query), selectedUsersFlow)
+        { knowUsers, suggestions, selectedUsers ->
+            buildList(knowUsers, suggestions, selectedUsers)
+        }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
 
     private fun searchKnownUsers(query: String) = session?.getUsersLive()?.asFlow()
@@ -51,24 +55,40 @@ class InviteMembersDataSource(
 
     private fun buildList(
         knowUsers: List<User>,
-        suggestions: List<User>
+        suggestions: List<User>,
+        selectedUsers: List<CirclesUser>
     ): List<InviteMemberListItem> {
         val list = mutableListOf<InviteMemberListItem>()
         if (knowUsers.isNotEmpty()) {
             list.add(HeaderItem.knownUsersHeader)
-            list.addAll(knowUsers.map { it.toCirclesUser() })
+            list.addAll(knowUsers.map { knownUser ->
+                knownUser.toCirclesUser(selectedUsers.containsWithId(knownUser.userId))
+            })
         }
 
         val knowUsersIds = knowUsers.map { it.userId }
         val filteredSuggestion = suggestions.filterNot { knowUsersIds.contains(it.userId) }
         if (filteredSuggestion.isNotEmpty()) {
             list.add(HeaderItem.suggestionHeader)
-            list.addAll(filteredSuggestion.map { it.toCirclesUser() })
+            list.addAll(filteredSuggestion.map { suggestion ->
+                suggestion.toCirclesUser(selectedUsers.containsWithId(suggestion.userId))
+            })
         }
 
         if (list.isEmpty()) list.add(NoResultsItem())
         return list
     }
+
+    fun toggleUserSelect(user: CirclesUser) {
+        val list = selectedUsersFlow.value.toMutableList()
+
+        if (user.isSelected) list.removeIf { it.id == user.id }
+        else list.add(user)
+        selectedUsersFlow.value = list
+    }
+
+    private fun List<CirclesUser>.containsWithId(id: String) = firstOrNull { it.id == id } != null
+
 
     private companion object {
         private const val MAX_SUGGESTION_COUNT = 25

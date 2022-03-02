@@ -3,6 +3,7 @@ package com.futo.circles.feature.group_invite.list
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.futo.circles.R
 import com.futo.circles.base.ViewBindingHolder
 import com.futo.circles.base.context
 import com.futo.circles.databinding.InviteHeaderListItemBinding
@@ -10,6 +11,7 @@ import com.futo.circles.databinding.NoResultsListItemBinding
 import com.futo.circles.databinding.UserListItemBinding
 import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.extensions.onClick
+import com.futo.circles.extensions.setSelectableItemBackground
 import com.futo.circles.model.CirclesUser
 import com.futo.circles.model.HeaderItem
 import com.futo.circles.model.InviteMemberListItem
@@ -36,9 +38,19 @@ class UserViewHolder(
         if (data !is CirclesUser) return
 
         with(binding) {
-            ivUserImage.loadProfileIcon(data.avatarUrl, data.name)
+            setIcon(data)
             tvUserName.text = data.name
             tvUserId.text = data.id
+        }
+    }
+
+    private fun setIcon(data: CirclesUser) {
+        if (data.isSelected) {
+            binding.ivUserImage.setImageResource(R.drawable.ic_check_circle)
+            binding.lRoot.setBackgroundColor(context.getColor(R.color.highlight_color))
+        } else {
+            binding.ivUserImage.loadProfileIcon(data.avatarUrl, data.name)
+            binding.lRoot.setSelectableItemBackground()
         }
     }
 }
