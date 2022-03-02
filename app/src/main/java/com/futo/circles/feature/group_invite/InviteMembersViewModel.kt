@@ -2,6 +2,7 @@ package com.futo.circles.feature.group_invite
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.futo.circles.extensions.launchUi
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 import com.futo.circles.model.CirclesUser
@@ -14,7 +15,9 @@ class InviteMembersViewModel(
 
     val titleLiveData = MutableLiveData(dataSource.getInviteTitle())
 
-    val usersLiveData = MutableLiveData<List<InviteMemberListItem>>()
+    val searchUsersLiveData = MutableLiveData<List<InviteMemberListItem>>()
+
+    val selectedUsersLiveData = dataSource.selectedUsersFlow.asLiveData()
 
     fun initSearchListener(queryFlow: StateFlow<String>) {
         launchUi {
@@ -22,7 +25,7 @@ class InviteMembersViewModel(
                 .debounce(500)
                 .distinctUntilChanged()
                 .flatMapLatest { query -> dataSource.search(query) }
-                .collectLatest { items -> usersLiveData.postValue(items) }
+                .collectLatest { items -> searchUsersLiveData.postValue(items) }
         }
     }
 

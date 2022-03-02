@@ -1,4 +1,4 @@
-package com.futo.circles.feature.group_invite.list
+package com.futo.circles.feature.group_invite.list.search
 
 import android.view.ViewGroup
 import com.futo.circles.base.BaseRvAdapter
@@ -9,7 +9,7 @@ import com.futo.circles.model.CirclesUser
 
 private enum class InviteListViewType { Header, User, NoResults }
 
-class InviteMembersListAdapter(
+class InviteMembersSearchListAdapter(
     private val onUserSelected: (CirclesUser) -> Unit
 ) : BaseRvAdapter<InviteMemberListItem, InviteMemberViewHolder>(
     DefaultIdEntityCallback()
@@ -26,7 +26,7 @@ class InviteMembersListAdapter(
             InviteListViewType.Header -> HeaderViewHolder(parent)
             InviteListViewType.User -> UserViewHolder(
                 parent,
-                onMemberClicked = { position -> onUserSelected(getItem(position) as CirclesUser) })
+                onUserClicked = { position -> onUserSelected(getItem(position) as CirclesUser) })
             InviteListViewType.NoResults -> NoResultViewHolder(parent)
         }
     }

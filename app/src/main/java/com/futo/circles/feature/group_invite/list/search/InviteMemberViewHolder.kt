@@ -1,4 +1,4 @@
-package com.futo.circles.feature.group_invite.list
+package com.futo.circles.feature.group_invite.list.search
 
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +23,7 @@ abstract class InviteMemberViewHolder(view: View) : RecyclerView.ViewHolder(view
 
 class UserViewHolder(
     parent: ViewGroup,
-    private val onMemberClicked: (Int) -> Unit
+    private val onUserClicked: (Int) -> Unit
 ) : InviteMemberViewHolder(inflate(parent, UserListItemBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -31,7 +31,7 @@ class UserViewHolder(
     private val binding = baseBinding as UserListItemBinding
 
     init {
-        onClick(itemView) { position -> onMemberClicked(position) }
+        onClick(itemView) { position -> onUserClicked(position) }
     }
 
     override fun bind(data: InviteMemberListItem) {

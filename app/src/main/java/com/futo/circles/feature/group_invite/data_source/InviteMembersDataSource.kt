@@ -24,7 +24,7 @@ class InviteMembersDataSource(
 
     private val existingMembersIds = room?.roomSummary()?.otherMemberIds?.toSet().orEmpty()
 
-    private val selectedUsersFlow = MutableStateFlow<List<CirclesUser>>(emptyList())
+    val selectedUsersFlow = MutableStateFlow<List<CirclesUser>>(emptyList())
 
     fun getInviteTitle() = context.getString(
         R.string.invite_members_to_format,
@@ -83,7 +83,7 @@ class InviteMembersDataSource(
         val list = selectedUsersFlow.value.toMutableList()
 
         if (user.isSelected) list.removeIf { it.id == user.id }
-        else list.add(user)
+        else list.add(user.copy(isSelected = true))
         selectedUsersFlow.value = list
     }
 
