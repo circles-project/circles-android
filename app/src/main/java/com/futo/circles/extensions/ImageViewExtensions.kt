@@ -25,7 +25,6 @@ fun ImageView.loadImage(
     Glide.with(this)
         .load(resolvedUrl)
         .fitCenter()
-        .placeholder(placeholder)
         .error(placeholder)
         .into(this)
 }
