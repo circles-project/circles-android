@@ -2,11 +2,10 @@ package com.futo.circles.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Size
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.futo.circles.databinding.GroupPostHeaderViewBinding
-import com.futo.circles.extensions.loadImage
+import com.futo.circles.extensions.loadProfileIcon
 import org.matrix.android.sdk.api.session.room.sender.SenderInfo
 
 class GroupPostHeaderView(
@@ -19,10 +18,7 @@ class GroupPostHeaderView(
 
     fun setData(sender: SenderInfo) {
         with(binding) {
-            ivSenderImage.loadImage(
-                sender.avatarUrl,
-                Size(ivSenderImage.width, ivSenderImage.height)
-            )
+            ivSenderImage.loadProfileIcon(sender.avatarUrl, sender.displayName ?: "")
             tvUserName.text = sender.disambiguatedDisplayName
             tvUserId.text = sender.userId
         }

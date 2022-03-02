@@ -1,6 +1,5 @@
 package com.futo.circles.feature.group_invite.list
 
-import android.util.Size
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,12 +8,12 @@ import com.futo.circles.base.context
 import com.futo.circles.databinding.InviteHeaderListItemBinding
 import com.futo.circles.databinding.NoResultsListItemBinding
 import com.futo.circles.databinding.UserListItemBinding
-import com.futo.circles.extensions.loadImage
+import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.extensions.onClick
+import com.futo.circles.model.CirclesUser
 import com.futo.circles.model.HeaderItem
 import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.NoResultsItem
-import com.futo.circles.model.CirclesUser
 
 abstract class InviteMemberViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: InviteMemberListItem)
@@ -37,10 +36,7 @@ class UserViewHolder(
         if (data !is CirclesUser) return
 
         with(binding) {
-            ivUserImage.loadImage(
-                data.avatarUrl,
-                Size(ivUserImage.width, ivUserImage.height)
-            )
+            ivUserImage.loadProfileIcon(data.avatarUrl, data.name)
             tvUserName.text = data.name
             tvUserId.text = data.id
         }
