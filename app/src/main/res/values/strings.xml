@@ -27,11 +27,12 @@
     <string name="share">Share</string>
     <string name="hide_replies">Hide replies</string>
     <string name="invite_members">Invite members</string>
-    <string name="invite_members_to_format">Invite members to %s</string>
+    <string name="invite_to_format">Invite to %s</string>
     <string name="search_by_name_or_id">Search by name or id</string>
     <string name="known_users">Known users</string>
     <string name="suggestion">Suggestions</string>
     <string name="no_results">No results</string>
+    <string name="invite">Invite</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>

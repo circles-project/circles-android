@@ -3,6 +3,8 @@
 
     <declare-styleable name="LoadingButton">
         <attr name="android:text" />
+        <attr name="android:textSize" />
+        <attr name="textPadding" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="ExpandContentButton">

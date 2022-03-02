@@ -2,6 +2,7 @@ package com.futo.circles.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.futo.circles.R
@@ -25,6 +26,14 @@ class LoadingButton(
                 buttonText = it.toString()
                 binding.button.text = it
             }
+            getDimensionPixelSize(R.styleable.LoadingButton_android_textSize, 0).takeIf { it > 0 }
+                ?.let {
+                    binding.button.setTextSize(TypedValue.COMPLEX_UNIT_PX, it.toFloat())
+                }
+            getDimensionPixelSize(R.styleable.LoadingButton_textPadding, 0).takeIf { it > 0 }
+                ?.let {
+                    binding.button.setPadding(it, it, it, it)
+                }
         }
     }
 

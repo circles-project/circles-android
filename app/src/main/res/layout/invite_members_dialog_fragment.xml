@@ -14,7 +14,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:titleCentered="true" />
+        app:titleCentered="true"
+        app:titleMarginEnd="72dp">
+
+        <com.futo.circles.view.LoadingButton
+            android:id="@+id/btnInvite"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginVertical="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/invite"
+            android:textSize="13sp"
+            app:textPadding="1dp" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <View
         android:id="@+id/toolbarDivider"
