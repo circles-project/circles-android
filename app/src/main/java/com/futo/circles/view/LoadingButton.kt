@@ -50,4 +50,8 @@ class LoadingButton(
         binding.button.text = if (isLoading) "" else buttonText
     }
 
+    fun setButtonEnabled(isEnabled: Boolean) {
+        binding.button.isEnabled = isEnabled
+    }
+
 }
