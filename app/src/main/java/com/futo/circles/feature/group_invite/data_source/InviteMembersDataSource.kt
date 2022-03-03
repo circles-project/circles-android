@@ -3,6 +3,7 @@ package com.futo.circles.feature.group_invite.data_source
 import android.content.Context
 import androidx.lifecycle.asFlow
 import com.futo.circles.R
+import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.nameOrId
 import com.futo.circles.mapping.toCirclesUser
 import com.futo.circles.model.CirclesUser
@@ -11,8 +12,10 @@ import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.NoResultsItem
 import com.futo.circles.provider.MatrixSessionProvider
 import com.futo.circles.utils.DEFAULT_USER_PREFIX
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.*
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -97,19 +100,12 @@ class InviteMembersDataSource(
         selectedUsersFlow.value = list
     }
 
-    suspend fun inviteUsers() {
-        selectedUsersFlow.value.asFlow().map {
-            inviteUser(it.id)
-        }.catch {
-            print(it.message)
-        }.collect {
-            print("collect")
-        }
-    }
+    suspend fun inviteUsers(scope: CoroutineScope) = createResult {
+        selectedUsersFlow.value.map {
+            scope.async { room?.invite(it.id, null) }
+        }.awaitAll()
 
-    private suspend fun inviteUser(userId: String) {
-        // room?.invite(userId, null)
-        delay(1000)
+        return@createResult
     }
 
     private fun List<CirclesUser>.containsWithId(id: String) = firstOrNull { it.id == id } != null
