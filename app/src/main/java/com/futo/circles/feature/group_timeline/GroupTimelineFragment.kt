@@ -18,9 +18,9 @@ import com.futo.circles.extensions.bindToFab
 import com.futo.circles.extensions.dimen
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.setToolbarTitle
-import com.futo.circles.model.Post
 import com.futo.circles.feature.group_timeline.list.GroupPostViewHolder
 import com.futo.circles.feature.group_timeline.list.GroupTimelineAdapter
+import com.futo.circles.model.Post
 import com.futo.circles.view.GroupPostListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -62,20 +62,16 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.manageMembers -> {
+                navigateToManageMembers()
+                return true
+            }
             R.id.inviteMembers -> {
                 navigateToInviteMembers()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun navigateToInviteMembers() {
-        findNavController().navigate(
-            GroupTimelineFragmentDirections.actionGroupTimelineFragmentToInviteMembersDialogFragment(
-                args.roomId
-            )
-        )
     }
 
     private fun setupObservers() {
@@ -91,5 +87,21 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     override fun onShowRepliesClicked(eventId: String) {
         viewModel.toggleRepliesVisibilityFor(eventId)
+    }
+
+    private fun navigateToInviteMembers() {
+        findNavController().navigate(
+            GroupTimelineFragmentDirections.actionGroupTimelineFragmentToInviteMembersDialogFragment(
+                args.roomId
+            )
+        )
+    }
+
+    private fun navigateToManageMembers() {
+        findNavController().navigate(
+            GroupTimelineFragmentDirections.actionGroupTimelineFragmentToManageMembersDialogFragment(
+                args.roomId
+            )
+        )
     }
 }
