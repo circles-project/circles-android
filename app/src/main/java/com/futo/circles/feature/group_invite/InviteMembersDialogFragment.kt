@@ -6,9 +6,7 @@ import androidx.navigation.fragment.navArgs
 import com.futo.circles.R
 import com.futo.circles.base.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.InviteMembersDialogFragmentBinding
-import com.futo.circles.extensions.getQueryTextChangeStateFlow
-import com.futo.circles.extensions.observeData
-import com.futo.circles.extensions.setVisibility
+import com.futo.circles.extensions.*
 import com.futo.circles.feature.group_invite.list.search.InviteMembersSearchListAdapter
 import com.futo.circles.feature.group_invite.list.selected.SelectedUsersListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,6 +37,10 @@ class InviteMembersDialogFragment :
         binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         setupLists()
         setupObservers()
+        binding.btnInvite.setOnClickWithLoading {
+            viewModel.invite()
+            setLoadingState(true)
+        }
     }
 
     private fun setupLists() {
@@ -58,6 +60,20 @@ class InviteMembersDialogFragment :
         viewModel.selectedUsersLiveData.observeData(this) { items ->
             selectedUsersListAdapter.submitList(items)
             binding.selectedUserDivider.setVisibility(items.isNotEmpty())
+            binding.btnInvite.setButtonEnabled(items.isNotEmpty())
         }
+        viewModel.inviteResultLiveData.observeResponse(this,
+            success = {
+                showSuccess(getString(R.string.invitation_sent), true)
+                activity?.onBackPressed()
+            },
+            error = { message -> showError(message) },
+            onRequestInvoked = { setLoadingState(false) }
+        )
+    }
+
+    private fun setLoadingState(isLoading: Boolean) {
+        setEnabledViews(!isLoading)
+        binding.btnInvite.setIsLoading(isLoading)
     }
 }

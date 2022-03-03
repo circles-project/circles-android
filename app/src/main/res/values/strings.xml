@@ -33,6 +33,7 @@
     <string name="suggestion">Suggestions</string>
     <string name="no_results">No results</string>
     <string name="invite">Invite</string>
+    <string name="invitation_sent">Invitation sent</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>

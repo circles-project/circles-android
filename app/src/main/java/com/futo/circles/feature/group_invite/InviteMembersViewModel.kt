@@ -3,6 +3,8 @@ package com.futo.circles.feature.group_invite
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.futo.circles.extensions.Response
+import com.futo.circles.extensions.launchBg
 import com.futo.circles.extensions.launchUi
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 import com.futo.circles.model.CirclesUser
@@ -19,6 +21,8 @@ class InviteMembersViewModel(
 
     val selectedUsersLiveData = dataSource.selectedUsersFlow.asLiveData()
 
+    val inviteResultLiveData = MutableLiveData<Response<Unit>>()
+
     fun initSearchListener(queryFlow: StateFlow<String>) {
         launchUi {
             queryFlow
@@ -31,6 +35,10 @@ class InviteMembersViewModel(
 
     fun onUserSelected(user: CirclesUser) {
         dataSource.toggleUserSelect(user)
+    }
+
+    fun invite() {
+        launchBg { inviteResultLiveData.postValue(dataSource.inviteUsers(this)) }
     }
 
 }

@@ -15,26 +15,37 @@ import com.google.android.material.snackbar.Snackbar
 
 
 @SuppressLint("InflateParams")
-fun Fragment.showError(message: String) {
-    view?.let {
-        val snack: Snackbar = Snackbar.make(it, message, Snackbar.LENGTH_LONG)
-        val customSnackView = layoutInflater.inflate(R.layout.error_snack_bar_view, null)
-        snack.view.setBackgroundColor(Color.TRANSPARENT)
+private fun Fragment.showBar(message: String, isError: Boolean, showOnActivity: Boolean) {
+    val parentView = if (showOnActivity) activity?.findViewById(android.R.id.content) else view
+    parentView ?: return
 
-        val snackLayout = snack.view as Snackbar.SnackbarLayout
-        snackLayout.setPadding(0, 0, 0, 0)
+    val snack: Snackbar = Snackbar.make(parentView, message, Snackbar.LENGTH_LONG)
+    snack.view.setBackgroundColor(Color.TRANSPARENT)
 
-        customSnackView.findViewById<TextView>(R.id.tvErrorMessage).also { textView ->
-            textView.text = message
-        }
-        snackLayout.addView(customSnackView, 0)
+    val snackLayout = snack.view as Snackbar.SnackbarLayout
+    snackLayout.setPadding(0, 0, 0, 0)
 
-        val layoutParams = (snack.view.layoutParams as? FrameLayout.LayoutParams)?.also { params ->
-            params.gravity = Gravity.TOP
-        }
-        snack.view.layoutParams = layoutParams
-        snack.show()
+    val customSnackView = layoutInflater.inflate(
+        if (isError) R.layout.error_snack_bar_view else R.layout.success_snack_bar_view,
+        null
+    ).apply {
+        findViewById<TextView>(R.id.tvMessage)?.text = message
     }
+    snackLayout.addView(customSnackView, 0)
+
+    val layoutParams = (snack.view.layoutParams as? FrameLayout.LayoutParams)?.also { params ->
+        params.gravity = Gravity.TOP
+    }
+    snack.view.layoutParams = layoutParams
+    snack.show()
+}
+
+fun Fragment.showError(message: String, showOnActivity: Boolean = false) {
+    showBar(message, true, showOnActivity)
+}
+
+fun Fragment.showSuccess(message: String, showOnActivity: Boolean = false) {
+    showBar(message, false, showOnActivity)
 }
 
 fun Fragment.setEnabledViews(enabled: Boolean) {
