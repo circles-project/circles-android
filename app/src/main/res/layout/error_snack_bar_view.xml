@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tooltipCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
@@ -14,16 +15,16 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/ivError"
+            android:id="@+id/ivIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/stat_notify_error"
+            android:src="@drawable/ic_error"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvErrorMessage"
+            android:id="@+id/tvMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -32,10 +33,11 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivError"
+            app:layout_constraintStart_toEndOf="@id/ivIcon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="asdasdasdasdadsaasdsadasdasdasdasasdasdasdasdasasdsdasddasdasdasdasdadssdasdadsasdadasddas" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
+

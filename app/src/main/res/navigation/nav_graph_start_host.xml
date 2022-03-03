@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/logInFragment"
-        android:name="com.futo.circles.ui.log_in.LogInFragment"
+        android:name="com.futo.circles.feature.log_in.LogInFragment"
         android:label="Log In"
         tools:layout="@layout/log_in_fragment">
         <action
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.futo.circles.ui.sign_up.SignUpFragment"
+        android:name="com.futo.circles.feature.sign_up.SignUpFragment"
         android:label="Log In"
         tools:layout="@layout/sign_up_fragment">
         <action
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/bottomNavigationFragment"
-        android:name="com.futo.circles.ui.bottom_navigation.BottomNavigationFragment"
+        android:name="com.futo.circles.feature.bottom_navigation.BottomNavigationFragment"
         android:label="Bottom Navigation"
         tools:layout="@layout/bottom_navigation_fragment" />
 

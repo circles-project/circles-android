@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/groupsFragment"
-        android:name="com.futo.circles.ui.groups.GroupsFragment"
+        android:name="com.futo.circles.feature.groups.GroupsFragment"
         android:label="@string/my_groups"
         tools:layout="@layout/groups_fragment">
         <action
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/groupTimelineFragment"
-        android:name="com.futo.circles.ui.groups.timeline.GroupTimelineFragment"
+        android:name="com.futo.circles.feature.group_timeline.GroupTimelineFragment"
         tools:layout="@layout/group_timeline_fragment">
 
         <argument
@@ -31,5 +31,31 @@
             app:argType="string"
             app:nullable="false" />
 
+        <action
+            android:id="@+id/action_groupTimelineFragment_to_inviteMembersDialogFragment"
+            app:destination="@id/inviteMembersDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
     </fragment>
+
+    <dialog
+        android:id="@+id/inviteMembersDialogFragment"
+        android:name="com.futo.circles.feature.group_invite.InviteMembersDialogFragment"
+        tools:layout="@layout/invite_members_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_groupTimelineFragment_to_inviteMembersDialogFragment"
+            app:destination="@id/inviteMembersDialogFragment" />
+
+    </dialog>
 </navigation>

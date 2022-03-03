@@ -2,7 +2,6 @@ package com.futo.circles.extensions
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import org.matrix.android.sdk.api.failure.Failure
 
 fun <T> LiveData<Response<T>>.observeResponse(
@@ -24,9 +23,9 @@ fun <T> LiveData<Response<T>>.observeResponse(
 
 fun <T> LiveData<T>.observeData(fragment: Fragment, observer: (T) -> Unit) {
     val owner = fragment.viewLifecycleOwner
-    observe(owner, Observer {
+    observe(owner) {
         if (it != null) observer(it)
-    })
+    }
 }
 
 suspend fun <T> createResult(block: suspend () -> T): Response<T> {
