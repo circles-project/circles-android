@@ -11,14 +11,14 @@ object MatrixSessionProvider {
         private set
 
     fun initSession(context: Context) {
-        Matrix.initialize(
+        Matrix.createInstance(
             context = context, matrixConfiguration = MatrixConfiguration(
                 roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl()
             )
-        )
+        ).also { MatrixInstanceProvider.saveMatrixInstance(it) }
 
         val lastSession =
-            Matrix.getInstance(context).authenticationService().getLastAuthenticatedSession()
+            MatrixInstanceProvider.matrix.authenticationService().getLastAuthenticatedSession()
 
         lastSession?.let { startSession(it) }
     }

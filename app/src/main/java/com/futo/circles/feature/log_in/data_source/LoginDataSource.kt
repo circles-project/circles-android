@@ -5,15 +5,15 @@ import android.net.Uri
 import com.futo.circles.BuildConfig
 import com.futo.circles.R
 import com.futo.circles.extensions.createResult
+import com.futo.circles.provider.MatrixInstanceProvider
 import com.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 
 class LoginDataSource(private val context: Context) {
 
     suspend fun logIn(name: String, password: String, secondPassword: String?) =
         createResult {
-            Matrix.getInstance(context).authenticationService().directAuthentication(
+            MatrixInstanceProvider.matrix.authenticationService().directAuthentication(
                 homeServerConnectionConfig = createHomeServerConfig(),
                 matrixId = name,
                 password = password,
