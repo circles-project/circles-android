@@ -5,8 +5,8 @@ import androidx.lifecycle.asFlow
 import com.futo.circles.R
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.nameOrId
-import com.futo.circles.mapping.toCirclesUser
-import com.futo.circles.model.CirclesUser
+import com.futo.circles.mapping.toUserListItem
+import com.futo.circles.model.UserListItem
 import com.futo.circles.model.HeaderItem
 import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.NoResultsItem
@@ -34,7 +34,7 @@ class InviteMembersDataSource(
         }
     }?.toSet().orEmpty()
 
-    val selectedUsersFlow = MutableStateFlow<List<CirclesUser>>(emptyList())
+    val selectedUsersFlow = MutableStateFlow<List<UserListItem>>(emptyList())
 
     fun getInviteTitle() = context.getString(
         R.string.invite_to_format,
@@ -67,13 +67,13 @@ class InviteMembersDataSource(
     private fun buildList(
         knowUsers: List<User>,
         suggestions: List<User>,
-        selectedUsers: List<CirclesUser>
+        selectedUsers: List<UserListItem>
     ): List<InviteMemberListItem> {
         val list = mutableListOf<InviteMemberListItem>()
         if (knowUsers.isNotEmpty()) {
             list.add(HeaderItem.knownUsersHeader)
             list.addAll(knowUsers.map { knownUser ->
-                knownUser.toCirclesUser(selectedUsers.containsWithId(knownUser.userId))
+                knownUser.toUserListItem(selectedUsers.containsWithId(knownUser.userId))
             })
         }
 
@@ -84,7 +84,7 @@ class InviteMembersDataSource(
         if (filteredSuggestion.isNotEmpty()) {
             list.add(HeaderItem.suggestionHeader)
             list.addAll(filteredSuggestion.map { suggestion ->
-                suggestion.toCirclesUser(selectedUsers.containsWithId(suggestion.userId))
+                suggestion.toUserListItem(selectedUsers.containsWithId(suggestion.userId))
             })
         }
 
@@ -92,7 +92,7 @@ class InviteMembersDataSource(
         return list
     }
 
-    fun toggleUserSelect(user: CirclesUser) {
+    fun toggleUserSelect(user: UserListItem) {
         val list = selectedUsersFlow.value.toMutableList()
 
         if (user.isSelected) list.removeIf { it.id == user.id }
@@ -108,7 +108,7 @@ class InviteMembersDataSource(
         return@createResult
     }
 
-    private fun List<CirclesUser>.containsWithId(id: String) = firstOrNull { it.id == id } != null
+    private fun List<UserListItem>.containsWithId(id: String) = firstOrNull { it.id == id } != null
 
 
     private companion object {

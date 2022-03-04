@@ -12,7 +12,7 @@ import com.futo.circles.databinding.UserListItemBinding
 import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.extensions.onClick
 import com.futo.circles.extensions.setSelectableItemBackground
-import com.futo.circles.model.CirclesUser
+import com.futo.circles.model.UserListItem
 import com.futo.circles.model.HeaderItem
 import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.NoResultsItem
@@ -35,21 +35,21 @@ class UserViewHolder(
     }
 
     override fun bind(data: InviteMemberListItem) {
-        if (data !is CirclesUser) return
+        if (data !is UserListItem) return
 
         with(binding) {
             setIcon(data)
-            tvUserName.text = data.name
+            tvUserName.text = data.user.name
             tvUserId.text = data.id
         }
     }
 
-    private fun setIcon(data: CirclesUser) {
+    private fun setIcon(data: UserListItem) {
         if (data.isSelected) {
             binding.ivUserImage.setImageResource(R.drawable.ic_check_circle)
             binding.lRoot.setBackgroundColor(context.getColor(R.color.highlight_color))
         } else {
-            binding.ivUserImage.loadProfileIcon(data.avatarUrl, data.name)
+            binding.ivUserImage.loadProfileIcon(data.user.avatarUrl, data.user.name)
             binding.lRoot.setSelectableItemBackground()
         }
     }

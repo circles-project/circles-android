@@ -16,12 +16,12 @@ data class HeaderItem(
     }
 }
 
-data class CirclesUser(
-    override val id: String,
-    val name: String,
-    val avatarUrl: String,
+data class UserListItem(
+    val user: CirclesUserSummary,
     val isSelected: Boolean = false
-) : InviteMemberListItem()
+) : InviteMemberListItem() {
+    override val id: String = user.id
+}
 
 data class NoResultsItem(
     val titleRes: Int = R.string.no_results
