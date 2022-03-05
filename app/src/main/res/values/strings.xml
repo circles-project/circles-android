@@ -50,6 +50,7 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
+    <string name="unexpected_error">Something went wrong</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
