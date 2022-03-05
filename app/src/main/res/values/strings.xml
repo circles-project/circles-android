@@ -43,6 +43,9 @@
     <string name="user">User</string>
     <string name="pending_invitation">Pending invitation</string>
     <string name="create_new_group">Create new group</string>
+    <string name="create">Create</string>
+    <string name="group_name">Group name</string>
+    <string name="group_topic_optional">Group topic (optional)</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
