@@ -42,6 +42,7 @@
     <string name="moderator">Moderator</string>
     <string name="user">User</string>
     <string name="pending_invitation">Pending invitation</string>
+    <string name="create_new_group">Create new group</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>

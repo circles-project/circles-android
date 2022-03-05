@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.databinding.GroupsFragmentBinding
+import com.futo.circles.extensions.bindToFab
 import com.futo.circles.extensions.observeData
-import com.futo.circles.model.GroupListItem
 import com.futo.circles.feature.groups.list.GroupsListAdapter
+import com.futo.circles.model.GroupListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -23,12 +24,18 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupViews()
+        viewModel.groupsLiveData?.observeData(this, ::setGroupsList)
+    }
+
+    private fun setupViews() {
         binding.rvGroups.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = listAdapter
+            bindToFab(binding.fbAddGroup)
         }
 
-        viewModel.groupsLiveData?.observeData(this, ::setGroupsList)
+        binding.fbAddGroup.setOnClickListener { navigateToCreateGroup() }
     }
 
     private fun setGroupsList(list: List<GroupListItem>) {
@@ -37,7 +44,13 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
 
     private fun onGroupListItemClicked(room: GroupListItem) {
         findNavController().navigate(
-            GroupsFragmentDirections.actionGroupsFragment2ToGroupTimelineFragment(room.id)
+            GroupsFragmentDirections.actionGroupsFragmentToGroupTimeLineNavGraph(room.id)
+        )
+    }
+
+    private fun navigateToCreateGroup() {
+        findNavController().navigate(
+            GroupsFragmentDirections.actionGroupsFragmentToCreateGroupDialogFragment()
         )
     }
 }
