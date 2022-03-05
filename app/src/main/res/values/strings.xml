@@ -51,6 +51,7 @@
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
     <string name="unexpected_error">Something went wrong</string>
+    <string name="group_created">Group created</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>

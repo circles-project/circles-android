@@ -9,8 +9,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.futo.circles.R
 import com.futo.circles.base.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.CreateGroupDialogFragmentBinding
-import com.futo.circles.extensions.observeData
-import com.futo.circles.extensions.showError
+import com.futo.circles.extensions.*
 import com.futo.circles.pick_image.PickImageDialog
 import com.futo.circles.pick_image.PickImageDialogListener
 import com.futo.circles.pick_image.PickImageMethod
@@ -55,7 +54,14 @@ class CreateGroupDialogFragment :
             toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
             ivGroup.setOnClickListener { pickImageDialog.show() }
             tilGroupName.editText?.doAfterTextChanged {
-                it?.let { binding.btnCreate.setButtonEnabled(it.isNotEmpty()) }
+                it?.let { btnCreate.setButtonEnabled(it.isNotEmpty()) }
+            }
+            btnCreate.setOnClickWithLoading {
+                viewModel.createGroup(
+                    tilGroupName.editText?.text?.toString()?.trim() ?: "",
+                    tilGroupTopic.editText?.text?.toString()?.trim() ?: ""
+                )
+                setLoadingState(true)
             }
         }
     }
@@ -64,6 +70,14 @@ class CreateGroupDialogFragment :
         viewModel.selectedImageLiveData.observeData(this) {
             binding.ivGroup.setImageURI(it)
         }
+        viewModel.createGroupResponseLiveData.observeResponse(this,
+            success = {
+                showSuccess(getString(R.string.group_created), true)
+                activity?.onBackPressed()
+            },
+            error = { message -> showError(message) },
+            onRequestInvoked = { setLoadingState(false) }
+        )
     }
 
     override fun onPickMethodSelected(method: PickImageMethod) {
@@ -73,5 +87,10 @@ class CreateGroupDialogFragment :
             .createIntent {
                 startForGroupImageResult.launch(it)
             }
+    }
+
+    private fun setLoadingState(isLoading: Boolean) {
+        setEnabledViews(!isLoading)
+        binding.btnCreate.setIsLoading(isLoading)
     }
 }
