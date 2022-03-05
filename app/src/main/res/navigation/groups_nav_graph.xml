@@ -10,9 +10,10 @@
         android:name="com.futo.circles.feature.groups.GroupsFragment"
         android:label="@string/my_groups"
         tools:layout="@layout/groups_fragment">
+
         <action
-            android:id="@+id/action_groupsFragment2_to_groupTimelineFragment"
-            app:destination="@id/groupTimelineFragment">
+            android:id="@+id/action_groupsFragment_to_group_time_line_nav_graph"
+            app:destination="@id/group_time_line_nav_graph">
 
             <argument
                 android:name="roomId"
@@ -20,61 +21,18 @@
                 app:nullable="false" />
 
         </action>
-    </fragment>
-    <fragment
-        android:id="@+id/groupTimelineFragment"
-        android:name="com.futo.circles.feature.group_timeline.GroupTimelineFragment"
-        tools:layout="@layout/group_timeline_fragment">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
 
         <action
-            android:id="@+id/action_groupTimelineFragment_to_inviteMembersDialogFragment"
-            app:destination="@id/inviteMembersDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
-        <action
-            android:id="@+id/action_groupTimelineFragment_to_manageMembersDialogFragment"
-            app:destination="@id/manageMembersDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
+            android:id="@+id/action_groupsFragment_to_createGroupDialogFragment"
+            app:destination="@id/createGroupDialogFragment" />
 
     </fragment>
 
-    <dialog
-        android:id="@+id/inviteMembersDialogFragment"
-        android:name="com.futo.circles.feature.group_invite.InviteMembersDialogFragment"
-        tools:layout="@layout/invite_members_dialog_fragment">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
+    <include app:graph="@navigation/group_time_line_nav_graph" />
 
     <dialog
-        android:id="@+id/manageMembersDialogFragment"
-        android:name="com.futo.circles.feature.manage_group_members.ManageGroupMembersDialogFragment"
-        tools:layout="@layout/manage_group_members_dialog_fragment">
+        android:id="@+id/createGroupDialogFragment"
+        android:name="com.futo.circles.feature.create_group.CreateGroupDialogFragment"
+        tools:layout="@layout/create_group_dialog_fragment" />
 
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
 </navigation>
