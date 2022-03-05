@@ -52,16 +52,27 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
 
 
+    <TextView
+        android:id="@+id/tvNameHeader"
+        style="@style/headline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/group_name"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/ivGroup" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilGroupName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:hint="@string/group_name"
+        android:layout_marginTop="8dp"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/ivGroup">
+        app:layout_constraintTop_toBottomOf="@id/tvNameHeader">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -73,17 +84,27 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/tvTopicHeader"
+        style="@style/headline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/group_topic_optional"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tilGroupName" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilGroupTopic"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:hint="@string/group_topic_optional"
+        android:layout_marginTop="8dp"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tilGroupName">
+        app:layout_constraintTop_toBottomOf="@id/tvTopicHeader">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
