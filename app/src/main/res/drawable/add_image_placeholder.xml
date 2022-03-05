@@ -17,7 +17,7 @@
     </item>
     <item
         android:bottom="20dp"
-        android:drawable="@drawable/ic_photo"
+        android:drawable="@drawable/ic_add_photo"
         android:left="20dp"
         android:right="20dp"
         android:top="20dp" />

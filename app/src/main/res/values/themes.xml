@@ -12,7 +12,15 @@
 
         <item name="colorControlHighlight">@color/highlight_color</item>
         <item name="android:statusBarColor">@color/status_bar_color</item>
+
+        <item name="dialogTheme">@style/DialogTheme</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
 </resources>

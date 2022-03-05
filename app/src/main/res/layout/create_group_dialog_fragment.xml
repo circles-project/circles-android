@@ -45,6 +45,8 @@
         android:layout_width="@dimen/group_icon_size"
         android:layout_height="@dimen/group_icon_size"
         android:layout_marginTop="36dp"
+        android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/add_image_placeholder"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"

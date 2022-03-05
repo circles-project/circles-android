@@ -46,6 +46,10 @@
     <string name="create">Create</string>
     <string name="group_name">Group name</string>
     <string name="group_topic_optional">Group topic (optional)</string>
+    <string name="upload_image_from">Upload image from</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="cancel">Cancel</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
