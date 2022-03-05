@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.futo.circles.base.ViewBindingHolder
 import com.futo.circles.databinding.SelectedUserChipItemBinding
-import com.futo.circles.model.CirclesUser
+import com.futo.circles.model.UserListItem
 
 class SelectedUserViewHolder(
     parent: ViewGroup,
@@ -23,7 +23,7 @@ class SelectedUserViewHolder(
         }
     }
 
-    fun bind(data: CirclesUser) {
-        binding.userChip.text = data.name
+    fun bind(data: UserListItem) {
+        binding.userChip.text = data.user.name
     }
 }

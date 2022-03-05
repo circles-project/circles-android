@@ -2,11 +2,11 @@ package com.futo.circles.feature.group_invite.list.selected
 
 import android.view.ViewGroup
 import com.futo.circles.base.BaseRvAdapter
-import com.futo.circles.model.CirclesUser
+import com.futo.circles.model.UserListItem
 
 class SelectedUsersListAdapter(
-    private val onUserDeselected: (CirclesUser) -> Unit
-) : BaseRvAdapter<CirclesUser, SelectedUserViewHolder>(
+    private val onUserDeselected: (UserListItem) -> Unit
+) : BaseRvAdapter<UserListItem, SelectedUserViewHolder>(
     DefaultIdEntityCallback()
 ) {
 

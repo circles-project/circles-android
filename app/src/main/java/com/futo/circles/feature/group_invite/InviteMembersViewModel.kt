@@ -7,7 +7,7 @@ import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.extensions.launchUi
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
-import com.futo.circles.model.CirclesUser
+import com.futo.circles.model.UserListItem
 import com.futo.circles.model.InviteMemberListItem
 import kotlinx.coroutines.flow.*
 
@@ -33,7 +33,7 @@ class InviteMembersViewModel(
         }
     }
 
-    fun onUserSelected(user: CirclesUser) {
+    fun onUserSelected(user: UserListItem) {
         dataSource.toggleUserSelect(user)
     }
 

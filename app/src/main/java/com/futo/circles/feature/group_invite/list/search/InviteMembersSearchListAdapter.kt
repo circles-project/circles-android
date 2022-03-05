@@ -5,19 +5,19 @@ import com.futo.circles.base.BaseRvAdapter
 import com.futo.circles.model.HeaderItem
 import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.NoResultsItem
-import com.futo.circles.model.CirclesUser
+import com.futo.circles.model.UserListItem
 
 private enum class InviteListViewType { Header, User, NoResults }
 
 class InviteMembersSearchListAdapter(
-    private val onUserSelected: (CirclesUser) -> Unit
+    private val onUserSelected: (UserListItem) -> Unit
 ) : BaseRvAdapter<InviteMemberListItem, InviteMemberViewHolder>(
     DefaultIdEntityCallback()
 ) {
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is HeaderItem -> InviteListViewType.Header.ordinal
-        is CirclesUser -> InviteListViewType.User.ordinal
+        is UserListItem -> InviteListViewType.User.ordinal
         is NoResultsItem -> InviteListViewType.NoResults.ordinal
     }
 
@@ -26,7 +26,7 @@ class InviteMembersSearchListAdapter(
             InviteListViewType.Header -> HeaderViewHolder(parent)
             InviteListViewType.User -> UserViewHolder(
                 parent,
-                onUserClicked = { position -> onUserSelected(getItem(position) as CirclesUser) })
+                onUserClicked = { position -> onUserSelected(getItem(position) as UserListItem) })
             InviteListViewType.NoResults -> NoResultViewHolder(parent)
         }
     }

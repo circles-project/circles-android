@@ -26,11 +26,6 @@ class InviteMembersDialogFragment :
         getBinding() as InviteMembersDialogFragmentBinding
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_FRAME, R.style.Theme_Circles)
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
