@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.doAfterTextChanged
 import com.futo.circles.R
 import com.futo.circles.base.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.CreateGroupDialogFragmentBinding
@@ -45,10 +46,18 @@ class CreateGroupDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
-
-        binding.ivGroup.setOnClickListener { pickImageDialog.show() }
+        setupViews()
         setupObservers()
+    }
+
+    private fun setupViews() {
+        with(binding) {
+            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            ivGroup.setOnClickListener { pickImageDialog.show() }
+            tilGroupName.editText?.doAfterTextChanged {
+                it?.let { binding.btnCreate.setButtonEnabled(it.isNotEmpty()) }
+            }
+        }
     }
 
     private fun setupObservers() {
