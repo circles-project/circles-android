@@ -1,4 +1,4 @@
-package com.futo.circles.feature.group_invite.list.selected
+package com.futo.circles.feature.select_users.list.selected
 
 import android.view.ViewGroup
 import com.futo.circles.base.BaseRvAdapter

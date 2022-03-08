@@ -1,4 +1,4 @@
-package com.futo.circles.feature.group_invite.list.search
+package com.futo.circles.feature.select_users.list.search
 
 import android.view.ViewGroup
 import com.futo.circles.base.BaseRvAdapter
