@@ -17,12 +17,13 @@ class SelectUsersDataSource(roomId: String?) {
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId ?: "")
 
-    private val existingMembersIds = room?.roomSummary()?.otherMemberIds?.toMutableList()?.apply {
+    private val existingMembersIds = mutableListOf<String>().apply {
         session?.myUserId?.let {
             add(it)
             add(DEFAULT_USER_PREFIX + it.substringAfter(":"))
         }
-    }?.toSet().orEmpty()
+        room?.roomSummary()?.otherMemberIds?.let { addAll(it) }
+    }.toSet()
 
     val selectedUsersFlow = MutableStateFlow<List<UserListItem>>(emptyList())
 
