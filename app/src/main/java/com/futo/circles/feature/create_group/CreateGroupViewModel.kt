@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.create_group.data_source.CreateGroupDataSource
+import com.futo.circles.model.UserListItem
 
 class CreateGroupViewModel(
     private val dataSource: CreateGroupDataSource
@@ -18,10 +19,10 @@ class CreateGroupViewModel(
         selectedImageLiveData.value = uri
     }
 
-    fun createGroup(name: String, topic: String) {
+    fun createGroup(name: String, topic: String, users: List<UserListItem>) {
         launchBg {
             createGroupResponseLiveData.postValue(
-                dataSource.createGroup(selectedImageLiveData.value, name, topic)
+                dataSource.createGroup(selectedImageLiveData.value, name, topic, users)
             )
         }
     }

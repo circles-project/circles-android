@@ -10,6 +10,7 @@ import com.futo.circles.R
 import com.futo.circles.base.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.CreateGroupDialogFragmentBinding
 import com.futo.circles.extensions.*
+import com.futo.circles.feature.select_users.SelectUsersFragment
 import com.futo.circles.pick_image.PickImageDialog
 import com.futo.circles.pick_image.PickImageDialogListener
 import com.futo.circles.pick_image.PickImageMethod
@@ -30,6 +31,8 @@ class CreateGroupDialogFragment :
         getBinding() as CreateGroupDialogFragmentBinding
     }
 
+    private val selectedUsersFragment by lazy { SelectUsersFragment.create(null) }
+
     private val startForGroupImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             val data = result.data
@@ -45,8 +48,15 @@ class CreateGroupDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addSelectUsersFragment()
         setupViews()
         setupObservers()
+    }
+
+    private fun addSelectUsersFragment() {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.lContainer, selectedUsersFragment)
+            .commitAllowingStateLoss()
     }
 
     private fun setupViews() {
@@ -59,7 +69,8 @@ class CreateGroupDialogFragment :
             btnCreate.setOnClickWithLoading {
                 viewModel.createGroup(
                     tilGroupName.editText?.text?.toString()?.trim() ?: "",
-                    tilGroupTopic.editText?.text?.toString()?.trim() ?: ""
+                    tilGroupTopic.editText?.text?.toString()?.trim() ?: "",
+                    selectedUsersFragment.getSelectedUsers()
                 )
                 setLoadingState(true)
             }

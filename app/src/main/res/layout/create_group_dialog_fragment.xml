@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -14,7 +15,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="@string/create_new_group"
-        app:titleCentered="true" />
+        app:titleCentered="true"
+        app:titleMarginEnd="72dp">
+
+        <com.futo.circles.view.LoadingButton
+            android:id="@+id/btnCreate"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginVertical="8dp"
+            android:layout_marginEnd="8dp"
+            android:enabled="false"
+            android:text="@string/create"
+            android:textSize="13sp"
+            app:textPadding="1dp" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
 
     <View
         android:id="@+id/toolbarDivider"
@@ -31,20 +48,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="36dp" />
+        app:layout_constraintGuide_begin="8dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="36dp" />
+        app:layout_constraintGuide_end="8dp" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivGroup"
         android:layout_width="@dimen/group_icon_size"
         android:layout_height="@dimen/group_icon_size"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/add_image_placeholder"
@@ -59,7 +76,7 @@
         style="@style/headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:text="@string/group_name"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
@@ -91,7 +108,7 @@
         style="@style/headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:text="@string/group_topic_optional"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
@@ -118,15 +135,25 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.futo.circles.view.LoadingButton
-        android:id="@+id/btnCreate"
+    <TextView
+        android:id="@+id/tvInviteUsers"
+        style="@style/headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:enabled="false"
-        android:text="@string/create"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="@string/invite_members"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart" />
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tilGroupTopic" />
+
+
+    <FrameLayout
+        android:id="@+id/lContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvInviteUsers" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
