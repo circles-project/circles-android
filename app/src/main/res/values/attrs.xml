@@ -5,6 +5,7 @@
         <attr name="android:text" />
         <attr name="android:textSize" />
         <attr name="textPadding" format="dimension" />
+        <attr name="android:enabled" />
     </declare-styleable>
 
     <declare-styleable name="ExpandContentButton">

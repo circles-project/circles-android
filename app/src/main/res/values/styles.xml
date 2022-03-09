@@ -8,6 +8,14 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <style name="NegativeButtonStyle" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="strokeColor">@color/blue</item>
+    </style>
+
     <style name="PostButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="textAllCaps">false</item>
         <item name="cornerRadius">8dp</item>
@@ -51,5 +59,9 @@
 
     <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.GroupIconRadius" parent="">
+        <item name="cornerSize">10%</item>
     </style>
 </resources>

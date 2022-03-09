@@ -7,7 +7,7 @@ import com.futo.circles.R
 import com.futo.circles.base.ViewBindingHolder
 import com.futo.circles.base.context
 import com.futo.circles.databinding.GroupListItemBinding
-import com.futo.circles.extensions.loadImage
+import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.extensions.onClick
 import com.futo.circles.extensions.setIsEncryptedIcon
 import com.futo.circles.model.GroupListItem
@@ -28,7 +28,7 @@ class GroupViewHolder(
 
     fun bind(data: GroupListItem) {
         with(binding) {
-            ivGroup.loadImage(data.avatarUrl)
+            ivGroup.loadProfileIcon(data.avatarUrl, data.title)
 
             ivLock.setIsEncryptedIcon(data.isEncrypted)
 

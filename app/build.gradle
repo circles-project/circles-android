@@ -103,6 +103,9 @@ dependencies {
     //TextDrawable
     implementation 'com.alvinhkh:TextDrawable:c1c2b5b'
 
+    //Image picker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+
     //test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

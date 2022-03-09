@@ -34,6 +34,8 @@ class LoadingButton(
                 ?.let {
                     binding.button.setPadding(it, it, it, it)
                 }
+            binding.button.isEnabled =
+                getBoolean(R.styleable.LoadingButton_android_enabled, true)
         }
     }
 

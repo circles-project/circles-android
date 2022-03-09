@@ -42,6 +42,16 @@
     <string name="moderator">Moderator</string>
     <string name="user">User</string>
     <string name="pending_invitation">Pending invitation</string>
+    <string name="create_new_group">Create new group</string>
+    <string name="create">Create</string>
+    <string name="group_name">Group name</string>
+    <string name="group_topic_optional">Group topic (optional)</string>
+    <string name="upload_image_from">Upload image from</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="unexpected_error">Something went wrong</string>
+    <string name="group_created">Group created</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
