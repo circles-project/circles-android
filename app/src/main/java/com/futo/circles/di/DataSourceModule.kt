@@ -11,7 +11,7 @@ import com.futo.circles.feature.sign_up.data_source.SignUpDataSource
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { LoginDataSource(get()) }
+    factory { LoginDataSource(get(), get()) }
 
     factory { (roomId: String) -> GroupTimelineDatasource(roomId, get()) }
 
@@ -25,5 +25,5 @@ val dataSourceModule = module {
 
     factory { CreateGroupDataSource() }
 
-    factory { SignUpDataSource() }
+    single { SignUpDataSource() }
 }

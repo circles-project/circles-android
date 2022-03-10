@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
-import org.matrix.android.sdk.api.auth.data.LoginFlowResult
 import org.matrix.android.sdk.api.session.Session
 
 class LogInViewModel(
@@ -13,7 +12,7 @@ class LogInViewModel(
 ) : ViewModel() {
 
     var loginResultLiveData = MutableLiveData<Response<Session>>()
-    var signUpEventResultLiveData = MutableLiveData<Response<LoginFlowResult>>()
+    var signUpEventResultLiveData = MutableLiveData<Response<Unit?>>()
 
     fun logIn(name: String, password: String) {
         launchBg {
