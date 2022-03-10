@@ -52,30 +52,32 @@
         app:layout_constraintTop_toTopOf="@id/guidelineTop" />
 
     <TextView
-        android:id="@+id/tvCompanyTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/company_title"
-        android:textAlignment="center"
-        android:textAppearance="@style/headline"
-        app:layout_constraintBottom_toTopOf="@id/tvCircles"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/ivLogo"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <TextView
         android:id="@+id/tvCircles"
         style="@style/title0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/tvCompanyTitle"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/ivLogo"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+
+    <TextView
+        android:id="@+id/tvCompanyTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/company_title"
+        android:textAlignment="center"
+        android:textAppearance="@style/headline"
         app:layout_constraintBottom_toTopOf="@id/tilUserName"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvCircles" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilUserName"
@@ -87,7 +89,7 @@
         app:layout_constraintBottom_toTopOf="@id/tilPassword"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tvCircles">
+        app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -106,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:hint="@string/password"
-        app:layout_constraintBottom_toTopOf="@id/tvAdvancedOptions"
+        app:layout_constraintBottom_toTopOf="@id/btnLogin"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@id/tilUserName"
@@ -121,15 +123,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.futo.circles.view.AdvancedOptionsView
-        android:id="@+id/tvAdvancedOptions"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintBottom_toTopOf="@id/btnLogin"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
     <com.futo.circles.view.LoadingButton
         android:id="@+id/btnLogin"
@@ -139,7 +132,7 @@
         android:text="@string/log_in"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tvAdvancedOptions" />
+        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
     <TextView
         android:id="@+id/textView"

@@ -41,8 +41,7 @@ class LogInFragment : Fragment(R.layout.log_in_fragment) {
                 setLoadingState(true)
                 viewModel.logIn(
                     name = tilUserName.editText?.text.toString().trim(),
-                    password = tilPassword.editText?.text.toString().trim(),
-                    secondPassword = tvAdvancedOptions.getText()?.trim()
+                    password = tilPassword.editText?.text.toString().trim()
                 )
             }
         }

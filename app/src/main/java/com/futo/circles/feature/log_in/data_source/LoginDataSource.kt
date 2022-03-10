@@ -11,13 +11,12 @@ import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 
 class LoginDataSource(private val context: Context) {
 
-    suspend fun logIn(name: String, password: String, secondPassword: String?) =
+    suspend fun logIn(name: String, password: String) =
         createResult {
             MatrixInstanceProvider.matrix.authenticationService().directAuthentication(
                 homeServerConnectionConfig = createHomeServerConfig(),
                 matrixId = name,
                 password = password,
-                deviceId = secondPassword,
                 initialDeviceName = context.getString(
                     R.string.initial_device_name,
                     context.getString(R.string.app_name)
