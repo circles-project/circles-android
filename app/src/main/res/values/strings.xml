@@ -52,6 +52,12 @@
     <string name="cancel">Cancel</string>
     <string name="unexpected_error">Something went wrong</string>
     <string name="group_created">Group created</string>
+    <string name="already_have_a_circles_token">Already have a Circles token?</string>
+    <string name="sign_up_with_token">Sign up with token</string>
+    <string name="new_circles_subscription">New Circles subscription</string>
+    <string name="new_paid_circles_subscriptions_are_currently_unavailable">New paid Circles subscriptions are currently unavailable</string>
+    <string name="create_a_circles_subscription">Create a Circles subscription</string>
+    <string name="or">Or</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
