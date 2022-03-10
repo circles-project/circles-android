@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.futo.circles.feature.sign_up.SignUpFragment"
-        android:label="Log In"
+        android:label="Sign up"
         tools:layout="@layout/sign_up_fragment">
         <action
             android:id="@+id/action_signUpFragment_to_bottomNavigationFragment"

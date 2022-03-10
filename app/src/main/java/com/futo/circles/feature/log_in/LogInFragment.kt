@@ -31,11 +31,20 @@ class LogInFragment : Fragment(R.layout.log_in_fragment) {
             success = { navigateToBottomMenuFragment() },
             error = { showError(it) }
         )
+        viewModel.signUpEventResultLiveData.observeResponse(
+            this,
+            onRequestInvoked = { setLoadingState(false) },
+            success = { navigateToSignUp() },
+            error = { showError(it) }
+        )
     }
 
     private fun setOnClickActions() {
         with(binding) {
-            btnSignUp.setOnClickListener { navigateToSignUp() }
+            btnSignUp.setOnClickWithLoading {
+                setLoadingState(true)
+                viewModel.startSignUp()
+            }
 
             btnLogin.setOnClickWithLoading {
                 setLoadingState(true)
@@ -49,7 +58,10 @@ class LogInFragment : Fragment(R.layout.log_in_fragment) {
 
     private fun setLoadingState(isLoading: Boolean) {
         setEnabledViews(!isLoading)
-        binding.btnLogin.setIsLoading(isLoading)
+        if (!isLoading) {
+            binding.btnLogin.setIsLoading(false)
+            binding.btnSignUp.setIsLoading(false)
+        }
     }
 
     private fun navigateToSignUp() {

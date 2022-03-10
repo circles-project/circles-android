@@ -145,9 +145,8 @@
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart" />
 
-    <com.google.android.material.button.MaterialButton
+    <com.futo.circles.view.LoadingButton
         android:id="@+id/btnSignUp"
-        style="@style/AccentButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
