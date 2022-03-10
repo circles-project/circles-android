@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.databinding.SignUpFragmentBinding
-import com.futo.circles.feature.log_in.LogInViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpFragment : Fragment(R.layout.sign_up_fragment) {

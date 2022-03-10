@@ -65,11 +65,11 @@ class LogInFragment : Fragment(R.layout.log_in_fragment) {
     }
 
     private fun navigateToSignUp() {
-        findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToSignUpFragment())
+        findNavController().navigate(LogInFragmentDirections.toSignUpFragment())
     }
 
     private fun navigateToBottomMenuFragment() {
-        findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToBottomNavigationFragment())
+        findNavController().navigate(LogInFragmentDirections.toBottomNavigationFragment())
     }
 
 }

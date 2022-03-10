@@ -12,7 +12,7 @@
         tools:layout="@layout/groups_fragment">
 
         <action
-            android:id="@+id/action_groupsFragment_to_group_time_line_nav_graph"
+            android:id="@+id/to_group_time_line_nav_graph"
             app:destination="@id/group_time_line_nav_graph">
 
             <argument
@@ -23,7 +23,7 @@
         </action>
 
         <action
-            android:id="@+id/action_groupsFragment_to_createGroupDialogFragment"
+            android:id="@+id/to_createGroupDialogFragment"
             app:destination="@id/createGroupDialogFragment" />
 
     </fragment>

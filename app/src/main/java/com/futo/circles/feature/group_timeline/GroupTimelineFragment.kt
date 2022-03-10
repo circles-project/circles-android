@@ -91,17 +91,13 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     private fun navigateToInviteMembers() {
         findNavController().navigate(
-            GroupTimelineFragmentDirections.actionGroupTimelineFragmentToInviteMembersDialogFragment(
-                args.roomId
-            )
+            GroupTimelineFragmentDirections.toInviteMembersDialogFragment(args.roomId)
         )
     }
 
     private fun navigateToManageMembers() {
         findNavController().navigate(
-            GroupTimelineFragmentDirections.actionGroupTimelineFragmentToManageMembersDialogFragment(
-                args.roomId
-            )
+            GroupTimelineFragmentDirections.toManageMembersDialogFragment(args.roomId)
         )
     }
 }

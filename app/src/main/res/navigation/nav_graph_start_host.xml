@@ -11,10 +11,10 @@
         android:label="Log In"
         tools:layout="@layout/log_in_fragment">
         <action
-            android:id="@+id/action_logInFragment_to_signUpFragment"
+            android:id="@+id/to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
-            android:id="@+id/action_logInFragment_to_bottomNavigationFragment"
+            android:id="@+id/to_bottomNavigationFragment"
             app:destination="@id/bottomNavigationFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
@@ -26,7 +26,7 @@
         android:label="Sign up"
         tools:layout="@layout/sign_up_fragment">
         <action
-            android:id="@+id/action_signUpFragment_to_bottomNavigationFragment"
+            android:id="@+id/to_bottomNavigationFragment"
             app:destination="@id/bottomNavigationFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
