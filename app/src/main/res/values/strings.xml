@@ -58,6 +58,9 @@
     <string name="new_paid_circles_subscriptions_are_currently_unavailable">New paid Circles subscriptions are currently unavailable</string>
     <string name="create_a_circles_subscription">Create a Circles subscription</string>
     <string name="or">Or</string>
+    <string name="validate_your_token">Validate your token</string>
+    <string name="validate_token">Validate token</string>
+    <string name="sign_up_token_format">abcd-efgh-1234-5678</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
