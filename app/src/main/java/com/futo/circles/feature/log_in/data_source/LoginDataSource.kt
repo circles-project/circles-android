@@ -47,5 +47,4 @@ class LoginDataSource(
             signUpDataSource.startNewRegistration(it.flowResult.missingStages)
         }
     }
-
 }
