@@ -39,12 +39,11 @@ class LoadingButton(
         }
     }
 
-    fun setOnClickWithLoading(onClick: () -> Unit) {
-        binding.button.setOnClickListener {
-            setIsLoading(true)
-            onClick()
-        }
+    override fun setOnClickListener(l: OnClickListener?) {
+        super.setOnClickListener(l)
+        binding.button.setOnClickListener(l)
     }
+
 
     fun setIsLoading(isLoading: Boolean) {
         binding.loader.setVisibility(isLoading)
