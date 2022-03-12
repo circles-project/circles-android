@@ -8,7 +8,7 @@ import org.matrix.android.sdk.api.failure.Failure
 
 fun <T> SingleEventLiveData<Response<T>>.observeResponse(
     hasLoadingState: HasLoadingState,
-    success: (T) -> Unit,
+    success: (T) -> Unit = {},
     error: ((String) -> Unit)? = null,
     onRequestInvoked: (() -> Unit)? = null
 ) {

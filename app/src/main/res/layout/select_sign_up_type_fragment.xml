@@ -37,9 +37,8 @@
         app:layout_constraintVertical_bias="0.3"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.google.android.material.button.MaterialButton
+    <com.futo.circles.view.LoadingButton
         android:id="@+id/btnToken"
-        style="@style/AccentButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

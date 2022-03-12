@@ -5,15 +5,18 @@ import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.validate_token.data_source.ValidateTokenDataSource
+import okhttp3.ResponseBody
 
 class ValidateTokenViewModel(
     private val dataSource: ValidateTokenDataSource
 ) : ViewModel() {
 
-    val validateLiveData = SingleEventLiveData<Response<okhttp3.Response>>()
+    val validateLiveData = SingleEventLiveData<Response<ResponseBody>>()
 
     fun validateToken(token: String) {
-        launchBg { dataSource.validateToken(token) }
+        launchBg {
+            validateLiveData.postValue(dataSource.validateToken(token))
+        }
     }
 
 }

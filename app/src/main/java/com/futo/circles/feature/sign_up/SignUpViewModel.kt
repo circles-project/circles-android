@@ -7,5 +7,8 @@ class SignUpViewModel(
     datasource: SignUpDataSource
 ) : ViewModel() {
 
+    val subtitleLiveData = datasource.subtitleLiveData
+
+    val navigationLiveData = datasource.navigationLiveData
 
 }

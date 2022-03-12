@@ -5,16 +5,11 @@ import android.net.Uri
 import com.futo.circles.BuildConfig
 import com.futo.circles.R
 import com.futo.circles.extensions.createResult
-import com.futo.circles.feature.sign_up.data_source.SignUpDataSource
 import com.futo.circles.provider.MatrixInstanceProvider
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
-import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 
-class LoginDataSource(
-    private val context: Context,
-    private val signUpDataSource: SignUpDataSource
-) {
+class LoginDataSource(private val context: Context) {
 
     private val homeServerConnectionConfig by lazy {
         HomeServerConnectionConfig
@@ -42,9 +37,5 @@ class LoginDataSource(
 
     suspend fun startSignUp() = createResult {
         authService.getLoginFlow(homeServerConnectionConfig)
-        (authService.getRegistrationWizard()
-            .getRegistrationFlow() as? RegistrationResult.FlowResponse)?.let {
-            signUpDataSource.startNewRegistration(it.flowResult.missingStages)
-        }
     }
 }

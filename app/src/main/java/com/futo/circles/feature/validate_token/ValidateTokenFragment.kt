@@ -43,9 +43,6 @@ class ValidateTokenFragment : Fragment(R.layout.validate_token_fragment), HasLoa
     }
 
     private fun setupObservers() {
-        viewModel.validateLiveData.observeResponse(
-            this,
-            success = { }
-        )
+        viewModel.validateLiveData.observeResponse(this)
     }
 }
