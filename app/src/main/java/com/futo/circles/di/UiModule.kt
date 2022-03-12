@@ -8,6 +8,7 @@ import com.futo.circles.feature.log_in.LogInViewModel
 import com.futo.circles.feature.manage_group_members.ManageGroupMembersViewModel
 import com.futo.circles.feature.select_users.SelectUsersViewModel
 import com.futo.circles.feature.sign_up.SignUpViewModel
+import com.futo.circles.feature.sign_up_type.SelectSignUpTypeViewModel
 import com.futo.circles.feature.validate_token.ValidateTokenViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
@@ -23,4 +24,5 @@ val uiModule = module {
     viewModel { CreateGroupViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { ValidateTokenViewModel(get()) }
+    viewModel { SelectSignUpTypeViewModel(get()) }
 }
