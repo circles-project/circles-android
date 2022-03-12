@@ -1,4 +1,4 @@
-package com.futo.circles.base
+package com.futo.circles.core
 
 
 import android.os.Bundle

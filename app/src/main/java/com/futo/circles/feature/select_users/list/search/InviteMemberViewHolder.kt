@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.futo.circles.R
-import com.futo.circles.base.ViewBindingHolder
-import com.futo.circles.base.context
+import com.futo.circles.core.ViewBindingHolder
+import com.futo.circles.core.context
 import com.futo.circles.databinding.InviteHeaderListItemBinding
 import com.futo.circles.databinding.NoResultsListItemBinding
 import com.futo.circles.databinding.UserListItemBinding

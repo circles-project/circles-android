@@ -7,7 +7,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import com.futo.circles.R
-import com.futo.circles.base.BaseFullscreenDialogFragment
+import com.futo.circles.core.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.CreateGroupDialogFragmentBinding
 import com.futo.circles.extensions.*
 import com.futo.circles.feature.select_users.SelectUsersFragment

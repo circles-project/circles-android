@@ -1,7 +1,7 @@
 package com.futo.circles.feature.select_users.list.selected
 
 import android.view.ViewGroup
-import com.futo.circles.base.BaseRvAdapter
+import com.futo.circles.core.BaseRvAdapter
 import com.futo.circles.model.UserListItem
 
 class SelectedUsersListAdapter(

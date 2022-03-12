@@ -2,8 +2,8 @@ package com.futo.circles.feature.manage_group_members.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.futo.circles.base.ViewBindingHolder
-import com.futo.circles.base.context
+import com.futo.circles.core.ViewBindingHolder
+import com.futo.circles.core.context
 import com.futo.circles.databinding.GroupMemberListItemBinding
 import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.model.GroupMemberListItem

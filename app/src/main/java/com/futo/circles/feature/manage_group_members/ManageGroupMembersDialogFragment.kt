@@ -4,7 +4,7 @@ package com.futo.circles.feature.manage_group_members
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
-import com.futo.circles.base.BaseFullscreenDialogFragment
+import com.futo.circles.core.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.ManageGroupMembersDialogFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.feature.group_invite.InviteMembersDialogFragmentArgs
