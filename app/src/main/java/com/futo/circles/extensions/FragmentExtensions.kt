@@ -6,11 +6,13 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.futo.circles.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -68,4 +70,16 @@ fun Fragment.setSupportActionBar(toolbar: Toolbar) {
 
 fun Fragment.setToolbarTitle(title: String) {
     (activity as? AppCompatActivity)?.supportActionBar?.title = title
+}
+
+fun Fragment.showInfoDialog(@StringRes titleResIdRes: Int, @StringRes messageResId: Int) {
+    context?.let {
+        MaterialAlertDialogBuilder(it)
+            .setTitle(titleResIdRes)
+            .setMessage(messageResId)
+            .setPositiveButton(android.R.string.ok) { dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+            .show()
+    }
 }
