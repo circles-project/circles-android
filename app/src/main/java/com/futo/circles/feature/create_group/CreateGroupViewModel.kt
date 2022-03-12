@@ -3,6 +3,7 @@ package com.futo.circles.feature.create_group
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.create_group.data_source.CreateGroupDataSource
@@ -13,7 +14,7 @@ class CreateGroupViewModel(
 ) : ViewModel() {
 
     val selectedImageLiveData = MutableLiveData<Uri>()
-    val createGroupResponseLiveData = MutableLiveData<Response<Unit?>>()
+    val createGroupResponseLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun setImageUri(uri: Uri) {
         selectedImageLiveData.value = uri

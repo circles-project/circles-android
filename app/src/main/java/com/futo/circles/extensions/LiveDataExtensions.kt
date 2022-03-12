@@ -2,9 +2,10 @@ package com.futo.circles.extensions
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import com.futo.circles.core.SingleEventLiveData
 import org.matrix.android.sdk.api.failure.Failure
 
-fun <T> LiveData<Response<T>>.observeResponse(
+fun <T> SingleEventLiveData<Response<T>>.observeResponse(
     fragment: Fragment,
     success: (T) -> Unit,
     error: ((String) -> Unit)? = null,
