@@ -5,15 +5,23 @@
     android:id="@+id/sign_up_nav_graph"
     app:startDestination="@id/selectSignUpTypeFragment">
 
+    <action
+        android:id="@+id/to_validateToken"
+        app:destination="@id/validateTokenFragment" />
+
+    <action
+        android:id="@+id/to_createAccount"
+        app:destination="@id/createAccountFragment" />
+
+    <action
+        android:id="@+id/to_acceptTerms"
+        app:destination="@id/acceptTermsFragment" />
+
     <fragment
         android:id="@+id/selectSignUpTypeFragment"
         android:name="com.futo.circles.feature.sign_up_type.SelectSignUpTypeFragment"
         android:label="SelectSignUpTypeFragment"
-        tools:layout="@layout/select_sign_up_type_fragment">
-        <action
-            android:id="@+id/to_validateTokenFragment"
-            app:destination="@id/validateTokenFragment" />
-    </fragment>
+        tools:layout="@layout/select_sign_up_type_fragment" />
 
     <fragment
         android:id="@+id/validateTokenFragment"
