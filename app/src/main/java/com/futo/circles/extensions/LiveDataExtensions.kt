@@ -2,9 +2,9 @@ package com.futo.circles.extensions
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
+import com.futo.circles.core.ErrorParser
 import com.futo.circles.core.HasLoadingState
 import com.futo.circles.core.SingleEventLiveData
-import org.matrix.android.sdk.api.failure.Failure
 
 fun <T> SingleEventLiveData<Response<T>>.observeResponse(
     hasLoadingState: HasLoadingState,
@@ -35,8 +35,7 @@ suspend fun <T> createResult(block: suspend () -> T): Response<T> {
     return try {
         Response.Success(block())
     } catch (t: Throwable) {
-        val message = (t as? Failure.ServerError)?.error?.message ?: t.message
-        Response.Error(message ?: "Something went wrong")
+        Response.Error(ErrorParser.getErrorMessage(t))
     }
 }
 

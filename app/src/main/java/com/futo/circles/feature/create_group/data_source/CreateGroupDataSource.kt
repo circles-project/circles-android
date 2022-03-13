@@ -4,7 +4,7 @@ import android.net.Uri
 import com.futo.circles.extensions.createResult
 import com.futo.circles.model.UserListItem
 import com.futo.circles.provider.MatrixSessionProvider
-import com.futo.circles.utils.GROUP_TAG
+import com.futo.circles.core.GROUP_TAG
 import org.matrix.android.sdk.api.session.room.model.RoomDirectoryVisibility
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomPreset

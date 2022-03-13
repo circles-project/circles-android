@@ -1,4 +1,4 @@
-package com.futo.circles.utils
+package com.futo.circles.core
 
 fun <T : Any> T.getPrivateProperty(variableName: String): Any? {
     return javaClass.getDeclaredField(variableName).let { field ->
