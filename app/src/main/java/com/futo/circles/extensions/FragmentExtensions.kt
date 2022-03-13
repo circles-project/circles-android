@@ -1,7 +1,9 @@
 package com.futo.circles.extensions
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -82,4 +84,8 @@ fun Fragment.showInfoDialog(@StringRes titleResIdRes: Int, @StringRes messageRes
             }
             .show()
     }
+}
+
+fun Fragment.openUrl(url: String) {
+    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 }
