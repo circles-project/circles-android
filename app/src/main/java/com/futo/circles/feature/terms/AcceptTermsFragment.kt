@@ -3,6 +3,7 @@ package com.futo.circles.feature.terms
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.HasLoadingState
@@ -39,7 +40,10 @@ class AcceptTermsFragment : Fragment(R.layout.accept_terms_fragment), HasLoading
                 viewModel.acceptTerms()
             }
 
-            rvTerms.adapter = listAdapter
+            rvTerms.apply {
+                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+                adapter = listAdapter
+            }
         }
     }
 

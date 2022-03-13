@@ -33,15 +33,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineLogo" />
 
+    <View
+        android:id="@+id/topDivider"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginTop="8dp"
+        android:background="@color/divider_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAcceptTitle" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTerms"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/btnAccept"
+        app:layout_constraintBottom_toTopOf="@id/bottomDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAcceptTitle" />
+        app:layout_constraintTop_toBottomOf="@id/topDivider" />
+
+    <View
+        android:id="@+id/bottomDivider"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider_color"
+        app:layout_constraintBottom_toTopOf="@id/btnAccept"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.futo.circles.view.LoadingButton
         android:id="@+id/btnAccept"
