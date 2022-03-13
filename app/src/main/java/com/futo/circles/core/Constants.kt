@@ -11,3 +11,4 @@ const val PENDING_SESSION_PROPERTY_NAME = "pendingSessionData"
 const val CURRENT_SESSION_PROPERTY_NAME = "currentSession"
 
 const val DEFAULT_TERMS_NAME = "Terms and Conditions"
+const val TERMS_URL_EXTENSION = "_matrix/consent"
