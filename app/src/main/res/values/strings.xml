@@ -64,6 +64,8 @@
     <string name="sign_up_token">SignUp token</string>
     <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
     <string name="sign_up_stage_subtitle_format">Stage %d of %d</string>
+    <string name="accept">Accept</string>
+    <string name="accept_terms_to_continue">Accept terms to continue</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
