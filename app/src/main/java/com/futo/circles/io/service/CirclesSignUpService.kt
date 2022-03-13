@@ -8,7 +8,7 @@ import retrofit2.http.POST
 
 interface CirclesSignUpService {
 
-    @POST("/_matrix/client/r0/register")
+    @POST("_matrix/client/r0/register")
     suspend fun validateSignUpToken(
         @Body authParams: ValidateSignUpTokenRequestBody
     ): ResponseBody
