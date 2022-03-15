@@ -10,7 +10,7 @@ import com.futo.circles.core.HasLoadingState
 import com.futo.circles.databinding.AcceptTermsFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
-import com.futo.circles.extensions.openUrl
+import com.futo.circles.extensions.openCustomTabUrl
 import com.futo.circles.feature.terms.list.TermsListAdapter
 import com.futo.circles.model.TermsListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -57,6 +57,6 @@ class AcceptTermsFragment : Fragment(R.layout.accept_terms_fragment), HasLoading
     }
 
     private fun openTermsUrl(item: TermsListItem) {
-        openUrl(item.url)
+        openCustomTabUrl(item.url)
     }
 }

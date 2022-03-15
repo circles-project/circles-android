@@ -1,7 +1,6 @@
 package com.futo.circles.extensions
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.view.Gravity
@@ -11,6 +10,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.futo.circles.R
@@ -86,6 +86,9 @@ fun Fragment.showInfoDialog(@StringRes titleResIdRes: Int, @StringRes messageRes
     }
 }
 
-fun Fragment.openUrl(url: String) {
-    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+fun Fragment.openCustomTabUrl(url: String) {
+    context?.let {
+        CustomTabsIntent.Builder().build().launchUrl(it, Uri.parse(url))
+    }
+
 }
