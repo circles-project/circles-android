@@ -30,7 +30,7 @@ val dataSourceModule = module {
 
     single { SignUpDataSource(get()) }
 
-    factory { ValidateTokenDataSource(get(), get()) }
+    factory { ValidateTokenDataSource(get()) }
 
     factory { SelectSignUpTypeDataSource(get()) }
 

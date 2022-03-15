@@ -68,7 +68,7 @@ class SignUpDataSource(
         val event = when (stage) {
             is Stage.Email -> NavigationEvents.VerifyEmail
             is Stage.Terms -> NavigationEvents.AcceptTerm
-            is Stage.Other -> NavigationEvents.TokenValidation
+            is Stage.Token -> NavigationEvents.TokenValidation
             else -> throw IllegalArgumentException("Not supported stage $stage")
         }
 
