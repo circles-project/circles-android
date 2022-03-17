@@ -34,9 +34,6 @@ sealed class Stage(open val mandatory: Boolean) {
     // Undocumented yet: m.login.terms
     data class Terms(override val mandatory: Boolean, val policies: TermPolicies) : Stage(mandatory)
 
-    // m.login.registration_token
-    data class Token(override val mandatory: Boolean) : Stage(mandatory)
-
     // For unknown stages
     data class Other(override val mandatory: Boolean, val type: String, val params: Map<*, *>?) : Stage(mandatory)
 }

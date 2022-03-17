@@ -26,6 +26,6 @@ object LoginFlowTypes {
     const val RECAPTCHA = "m.login.recaptcha"
     const val DUMMY = "m.login.dummy"
     const val TERMS = "m.login.terms"
-    const val TOKEN = "m.login.registration_token"
+    const val TOKEN = "m.login.token"
     const val SSO = "m.login.sso"
 }

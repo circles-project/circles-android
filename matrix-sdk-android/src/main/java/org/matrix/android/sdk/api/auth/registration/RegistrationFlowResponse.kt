@@ -94,7 +94,6 @@ fun RegistrationFlowResponse.toFlowResult(): FlowResult {
             LoginFlowTypes.TERMS          -> Stage.Terms(isMandatory, params?.get(type) as? TermPolicies ?: emptyMap<String, String>())
             LoginFlowTypes.EMAIL_IDENTITY -> Stage.Email(isMandatory)
             LoginFlowTypes.MSISDN         -> Stage.Msisdn(isMandatory)
-            LoginFlowTypes.TOKEN          -> Stage.Token(isMandatory)
             else                          -> Stage.Other(isMandatory, type, (params?.get(type) as? Map<*, *>))
         }
 

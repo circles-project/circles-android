@@ -45,12 +45,7 @@ internal data class AuthParams(
      */
     @Json(name = "threepid_creds")
     val threePidCredentials: ThreePidCredentials? = null,
-
-    /**
-     * parameter for "m.login.registration_token" type
-     */
-    @Json(name = "token")
-    val token: String? = null
+    
 ) {
 
     companion object {
@@ -99,13 +94,6 @@ internal data class AuthParams(
             )
         }
 
-        fun createForRegistrationToken(session: String, token: String): AuthParams {
-            return AuthParams(
-                type = LoginFlowTypes.TOKEN,
-                session = session,
-                token = token
-            )
-        }
     }
 }
 

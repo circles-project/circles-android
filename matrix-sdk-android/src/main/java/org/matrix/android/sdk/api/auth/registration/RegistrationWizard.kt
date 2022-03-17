@@ -16,6 +16,9 @@
 
 package org.matrix.android.sdk.api.auth.registration
 
+import org.matrix.android.sdk.api.util.JsonDict
+import org.matrix.android.sdk.internal.auth.registration.AuthParams
+
 /**
  * Set of methods to be able to create an account on a homeserver.
  *
@@ -52,9 +55,11 @@ interface RegistrationWizard {
      * @param password the desired password
      * @param initialDeviceDisplayName the device display name
      */
-    suspend fun createAccount(userName: String?,
-                              password: String?,
-                              initialDeviceDisplayName: String?): RegistrationResult
+    suspend fun createAccount(
+        userName: String?,
+        password: String?,
+        initialDeviceDisplayName: String?
+    ): RegistrationResult
 
     /**
      * Perform the "m.login.recaptcha" stage.
@@ -74,9 +79,9 @@ interface RegistrationWizard {
     suspend fun dummy(): RegistrationResult
 
     /**
-     * Perform the "m.login.registration_token" stage.
+     * Perform the other stage.
      */
-    suspend fun registrationToken(token: String): RegistrationResult
+    suspend fun registrationOther(authParams: JsonDict): RegistrationResult
 
     /**
      * Perform the "m.login.email.identity" or "m.login.msisdn" stage.

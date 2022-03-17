@@ -17,14 +17,12 @@
 package org.matrix.android.sdk.internal.auth.registration
 
 import kotlinx.coroutines.delay
+import org.matrix.android.sdk.api.auth.data.Credentials
 import org.matrix.android.sdk.api.auth.data.LoginFlowTypes
-import org.matrix.android.sdk.api.auth.registration.RegisterThreePid
-import org.matrix.android.sdk.api.auth.registration.RegistrationAvailability
-import org.matrix.android.sdk.api.auth.registration.RegistrationResult
-import org.matrix.android.sdk.api.auth.registration.RegistrationWizard
-import org.matrix.android.sdk.api.auth.registration.toFlowResult
+import org.matrix.android.sdk.api.auth.registration.*
 import org.matrix.android.sdk.api.failure.Failure
 import org.matrix.android.sdk.api.failure.Failure.RegistrationFlowError
+import org.matrix.android.sdk.api.util.JsonDict
 import org.matrix.android.sdk.internal.auth.AuthAPI
 import org.matrix.android.sdk.internal.auth.PendingSessionStore
 import org.matrix.android.sdk.internal.auth.SessionCreator
@@ -39,22 +37,26 @@ internal class DefaultRegistrationWizard(
     private val pendingSessionStore: PendingSessionStore
 ) : RegistrationWizard {
 
-    private var pendingSessionData: PendingSessionData = pendingSessionStore.getPendingSessionData() ?: error("Pending session data should exist here")
+    private var pendingSessionData: PendingSessionData = pendingSessionStore.getPendingSessionData()
+        ?: error("Pending session data should exist here")
 
     private val registerTask: RegisterTask = DefaultRegisterTask(authAPI)
     private val registerAvailableTask: RegisterAvailableTask = DefaultRegisterAvailableTask(authAPI)
-    private val registerAddThreePidTask: RegisterAddThreePidTask = DefaultRegisterAddThreePidTask(authAPI)
+    private val registerAddThreePidTask: RegisterAddThreePidTask =
+        DefaultRegisterAddThreePidTask(authAPI)
+    private val registerOtherTask: RegisterOtherTask = DefaultRegisterOtherTask(authAPI)
     private val validateCodeTask: ValidateCodeTask = DefaultValidateCodeTask(authAPI)
 
     override val currentThreePid: String?
         get() {
             return when (val threePid = pendingSessionData.currentThreePidData?.threePid) {
-                is RegisterThreePid.Email  -> threePid.email
+                is RegisterThreePid.Email -> threePid.email
                 is RegisterThreePid.Msisdn -> {
                     // Take formatted msisdn if provided by the server
-                    pendingSessionData.currentThreePidData?.addThreePidRegistrationResponse?.formattedMsisdn?.takeIf { it.isNotBlank() } ?: threePid.msisdn
+                    pendingSessionData.currentThreePidData?.addThreePidRegistrationResponse?.formattedMsisdn?.takeIf { it.isNotBlank() }
+                        ?: threePid.msisdn
                 }
-                null                       -> null
+                null -> null
             }
         }
 
@@ -69,9 +71,11 @@ internal class DefaultRegistrationWizard(
         return performRegistrationRequest(params)
     }
 
-    override suspend fun createAccount(userName: String?,
-                                       password: String?,
-                                       initialDeviceDisplayName: String?): RegistrationResult {
+    override suspend fun createAccount(
+        userName: String?,
+        password: String?,
+        initialDeviceDisplayName: String?
+    ): RegistrationResult {
         val params = RegistrationParams(
             username = userName,
             password = password,
@@ -96,7 +100,12 @@ internal class DefaultRegistrationWizard(
         val safeSession = pendingSessionData.currentSession
             ?: throw IllegalStateException("developer error, call createAccount() method first")
 
-        val params = RegistrationParams(auth = AuthParams(type = LoginFlowTypes.TERMS, session = safeSession))
+        val params = RegistrationParams(
+            auth = AuthParams(
+                type = LoginFlowTypes.TERMS,
+                session = safeSession
+            )
+        )
         return performRegistrationRequest(params)
     }
 
@@ -115,26 +124,32 @@ internal class DefaultRegistrationWizard(
     }
 
     private suspend fun sendThreePid(threePid: RegisterThreePid): RegistrationResult {
-        val safeSession = pendingSessionData.currentSession ?: throw IllegalStateException("developer error, call createAccount() method first")
+        val safeSession = pendingSessionData.currentSession
+            ?: throw IllegalStateException("developer error, call createAccount() method first")
         val response = registerAddThreePidTask.execute(
             RegisterAddThreePidTask.Params(
                 threePid,
                 pendingSessionData.clientSecret,
-                pendingSessionData.sendAttempt))
+                pendingSessionData.sendAttempt
+            )
+        )
 
-        pendingSessionData = pendingSessionData.copy(sendAttempt = pendingSessionData.sendAttempt + 1)
-            .also { pendingSessionStore.savePendingSessionData(it) }
+        pendingSessionData =
+            pendingSessionData.copy(sendAttempt = pendingSessionData.sendAttempt + 1)
+                .also { pendingSessionStore.savePendingSessionData(it) }
 
         val params = RegistrationParams(
             auth = if (threePid is RegisterThreePid.Email) {
-                AuthParams.createForEmailIdentity(safeSession,
+                AuthParams.createForEmailIdentity(
+                    safeSession,
                     ThreePidCredentials(
                         clientSecret = pendingSessionData.clientSecret,
                         sid = response.sid
                     )
                 )
             } else {
-                AuthParams.createForMsisdnIdentity(safeSession,
+                AuthParams.createForMsisdnIdentity(
+                    safeSession,
                     ThreePidCredentials(
                         clientSecret = pendingSessionData.clientSecret,
                         sid = response.sid
@@ -143,7 +158,13 @@ internal class DefaultRegistrationWizard(
             }
         )
         // Store data
-        pendingSessionData = pendingSessionData.copy(currentThreePidData = ThreePidData.from(threePid, response, params))
+        pendingSessionData = pendingSessionData.copy(
+            currentThreePidData = ThreePidData.from(
+                threePid,
+                response,
+                params
+            )
+        )
             .also { pendingSessionStore.savePendingSessionData(it) }
 
         // and send the sid a first time
@@ -164,14 +185,18 @@ internal class DefaultRegistrationWizard(
     private suspend fun validateThreePid(code: String): RegistrationResult {
         val registrationParams = pendingSessionData.currentThreePidData?.registrationParams
             ?: throw IllegalStateException("developer error, no pending three pid")
-        val safeCurrentData = pendingSessionData.currentThreePidData ?: throw IllegalStateException("developer error, call createAccount() method first")
-        val url = safeCurrentData.addThreePidRegistrationResponse.submitUrl ?: throw IllegalStateException("Missing url to send the code")
+        val safeCurrentData = pendingSessionData.currentThreePidData ?: throw IllegalStateException(
+            "developer error, call createAccount() method first"
+        )
+        val url = safeCurrentData.addThreePidRegistrationResponse.submitUrl
+            ?: throw IllegalStateException("Missing url to send the code")
         val validationBody = ValidationCodeBody(
             clientSecret = pendingSessionData.clientSecret,
             sid = safeCurrentData.addThreePidRegistrationResponse.sid,
             code = code
         )
-        val validationResponse = validateCodeTask.execute(ValidateCodeTask.Params(url, validationBody))
+        val validationResponse =
+            validateCodeTask.execute(ValidateCodeTask.Params(url, validationBody))
         if (validationResponse.isSuccess()) {
             // The entered code is correct
             // Same than validate email
@@ -186,36 +211,66 @@ internal class DefaultRegistrationWizard(
         val safeSession = pendingSessionData.currentSession
             ?: throw IllegalStateException("developer error, call createAccount() method first")
 
-        val params = RegistrationParams(auth = AuthParams(type = LoginFlowTypes.DUMMY, session = safeSession))
+        val params = RegistrationParams(
+            auth = AuthParams(
+                type = LoginFlowTypes.DUMMY,
+                session = safeSession
+            )
+        )
         return performRegistrationRequest(params)
     }
 
-    override suspend fun registrationToken(token: String): RegistrationResult {
+    override suspend fun registrationOther(
+        authParams: JsonDict
+    ): RegistrationResult {
         val safeSession = pendingSessionData.currentSession
             ?: throw IllegalStateException("developer error, call createAccount() method first")
 
-        val params = RegistrationParams(auth = AuthParams.createForRegistrationToken(safeSession, token))
-        return performRegistrationRequest(params)
+        val mutableParams = authParams.toMutableMap()
+        mutableParams["session"] = safeSession
+
+        val params =
+            RegistrationOtherParams(
+                auth = mutableParams
+            )
+        return performRegistrationOtherRequest(params)
     }
 
-    private suspend fun performRegistrationRequest(registrationParams: RegistrationParams,
-                                                   delayMillis: Long = 0): RegistrationResult {
+    private suspend fun performRegistrationRequest(
+        registrationParams: RegistrationParams,
+        delayMillis: Long = 0
+    ): RegistrationResult {
         delay(delayMillis)
+        return register { registerTask.execute(RegisterTask.Params(registrationParams)) }
+    }
+
+    private suspend fun performRegistrationOtherRequest(
+        registrationOtherParams: RegistrationOtherParams
+    ): RegistrationResult {
+        return register { registerOtherTask.execute(RegisterOtherTask.Params(registrationOtherParams)) }
+    }
+
+    private suspend fun register(
+        execute: suspend () -> Credentials
+    ): RegistrationResult {
         val credentials = try {
-            registerTask.execute(RegisterTask.Params(registrationParams))
+            execute.invoke()
         } catch (exception: Throwable) {
             if (exception is RegistrationFlowError) {
-                pendingSessionData = pendingSessionData.copy(currentSession = exception.registrationFlowResponse.session)
-                    .also { pendingSessionStore.savePendingSessionData(it) }
+                pendingSessionData =
+                    pendingSessionData.copy(currentSession = exception.registrationFlowResponse.session)
+                        .also { pendingSessionStore.savePendingSessionData(it) }
                 return RegistrationResult.FlowResponse(exception.registrationFlowResponse.toFlowResult())
             } else {
                 throw exception
             }
         }
 
-        val session = sessionCreator.createSession(credentials, pendingSessionData.homeServerConnectionConfig)
+        val session =
+            sessionCreator.createSession(credentials, pendingSessionData.homeServerConnectionConfig)
         return RegistrationResult.Success(session)
     }
+
 
     override suspend fun registrationAvailable(userName: String): RegistrationAvailability {
         return registerAvailableTask.execute(RegisterAvailableTask.Params(userName))
