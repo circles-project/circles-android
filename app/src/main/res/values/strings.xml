@@ -66,6 +66,7 @@
     <string name="sign_up_stage_subtitle_format">Stage %d of %d</string>
     <string name="accept">Accept</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
+    <string name="discard_current_registration_progress">Discard current registration progress?</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>

@@ -9,7 +9,7 @@ import com.futo.circles.R
 import com.futo.circles.core.HasLoadingState
 import com.futo.circles.databinding.ValidateTokenFragmentBinding
 import com.futo.circles.extensions.observeResponse
-import com.futo.circles.extensions.showInfoDialog
+import com.futo.circles.extensions.showDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ValidateTokenFragment : Fragment(R.layout.validate_token_fragment), HasLoadingState {
@@ -30,7 +30,7 @@ class ValidateTokenFragment : Fragment(R.layout.validate_token_fragment), HasLoa
                 it?.let { btnValidate.setButtonEnabled(it.isNotEmpty()) }
             }
             tilToken.setEndIconOnClickListener {
-                showInfoDialog(
+                showDialog(
                     R.string.sign_up_token,
                     R.string.sign_up_token_explanation
                 )

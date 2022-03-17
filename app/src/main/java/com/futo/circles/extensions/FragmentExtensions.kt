@@ -74,13 +74,26 @@ fun Fragment.setToolbarTitle(title: String) {
     (activity as? AppCompatActivity)?.supportActionBar?.title = title
 }
 
-fun Fragment.showInfoDialog(@StringRes titleResIdRes: Int, @StringRes messageResId: Int) {
+fun Fragment.showDialog(
+    @StringRes titleResIdRes: Int,
+    @StringRes messageResId: Int? = null,
+    negativeButtonVisible: Boolean = false,
+    positiveAction: () -> Unit = {}
+) {
     context?.let {
         MaterialAlertDialogBuilder(it)
             .setTitle(titleResIdRes)
-            .setMessage(messageResId)
+            .apply { messageResId?.let { this.setMessage(it) } }
             .setPositiveButton(android.R.string.ok) { dialogInterface, _ ->
+                positiveAction()
                 dialogInterface.dismiss()
+            }
+            .apply {
+                if (negativeButtonVisible) {
+                    this.setNegativeButton(android.R.string.cancel) { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                    }
+                }
             }
             .show()
     }
@@ -90,5 +103,4 @@ fun Fragment.openCustomTabUrl(url: String) {
     context?.let {
         CustomTabsIntent.Builder().build().launchUrl(it, Uri.parse(url))
     }
-
 }
