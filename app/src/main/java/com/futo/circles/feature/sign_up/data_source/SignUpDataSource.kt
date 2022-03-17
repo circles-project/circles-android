@@ -3,6 +3,7 @@ package com.futo.circles.feature.sign_up.data_source
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
+import com.futo.circles.core.REGISTRATION_TOKEN_KEY
 import com.futo.circles.core.SingleEventLiveData
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
@@ -20,7 +21,6 @@ class SignUpDataSource(
     val navigationLiveData = SingleEventLiveData<NavigationEvents>()
 
     private val stagesToComplete = mutableListOf<Stage>()
-    private val completedStages = mutableListOf<Stage>()
 
     var currentStage: Stage? = null
         private set
@@ -28,7 +28,6 @@ class SignUpDataSource(
 
     fun startSignUpStages(stages: List<Stage>) {
         currentStage = null
-        completedStages.clear()
         stagesToComplete.clear()
 
         stagesToComplete.addAll(stages)
@@ -41,10 +40,7 @@ class SignUpDataSource(
     fun stageCompleted(result: RegistrationResult?) {
         (result as? RegistrationResult.Success)?.let {
             finishRegistration(it.session)
-        } ?: run {
-            currentStage?.let { completedStages.add(it) }
-            navigateToNextStage()
-        }
+        } ?: navigateToNextStage()
     }
 
     fun clearSubtitle() {
@@ -68,7 +64,7 @@ class SignUpDataSource(
         val event = when (stage) {
             is Stage.Email -> NavigationEvents.VerifyEmail
             is Stage.Terms -> NavigationEvents.AcceptTerm
-            is Stage.Token -> NavigationEvents.TokenValidation
+            is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException("Not supported stage $stage")
         }
 
@@ -76,6 +72,14 @@ class SignUpDataSource(
 
         updatePageSubtitle()
     }
+
+    private fun handleStageOther(type: String): NavigationEvents =
+        when (type) {
+            REGISTRATION_TOKEN_KEY -> NavigationEvents.TokenValidation
+            ExtraSignUpStages.Avatar.name -> NavigationEvents.SetupAvatar
+            ExtraSignUpStages.Circles.name -> NavigationEvents.SetupCircles
+            else -> throw IllegalArgumentException("Not supported stage $type")
+        }
 
     private fun updatePageSubtitle() {
         val size = stagesToComplete.size

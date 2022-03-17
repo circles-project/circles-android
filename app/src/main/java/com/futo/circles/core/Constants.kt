@@ -9,3 +9,5 @@ const val AUTH_EXCEPTION_REASON_KEY = "reason"
 
 const val DEFAULT_TERMS_NAME = "Terms and Conditions"
 const val TERMS_URL_EXTENSION = "_matrix/consent"
+
+const val REGISTRATION_TOKEN_KEY = "org.matrix.msc3231.login.registration_token"
