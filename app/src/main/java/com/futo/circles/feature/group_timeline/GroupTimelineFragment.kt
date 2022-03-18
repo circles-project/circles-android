@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
-import com.futo.circles.base.BaseRvDecoration
+import com.futo.circles.core.BaseRvDecoration
 import com.futo.circles.databinding.GroupTimelineFragmentBinding
 import com.futo.circles.extensions.bindToFab
 import com.futo.circles.extensions.dimen
@@ -91,17 +91,13 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     private fun navigateToInviteMembers() {
         findNavController().navigate(
-            GroupTimelineFragmentDirections.actionGroupTimelineFragmentToInviteMembersDialogFragment(
-                args.roomId
-            )
+            GroupTimelineFragmentDirections.toInviteMembersDialogFragment(args.roomId)
         )
     }
 
     private fun navigateToManageMembers() {
         findNavController().navigate(
-            GroupTimelineFragmentDirections.actionGroupTimelineFragmentToManageMembersDialogFragment(
-                args.roomId
-            )
+            GroupTimelineFragmentDirections.toManageMembersDialogFragment(args.roomId)
         )
     }
 }

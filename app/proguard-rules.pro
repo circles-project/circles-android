@@ -72,3 +72,6 @@
 native <methods>;
 }
 -keep class androidx.renderscript.** { *; }
+
+-keep class org.matrix.android.sdk.internal.auth.DefaultAuthenticationService
+-keep class org.matrix.android.sdk.internal.auth.db.PendingSessionData

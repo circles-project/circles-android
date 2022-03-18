@@ -17,7 +17,7 @@
             app:nullable="false" />
 
         <action
-            android:id="@+id/action_groupTimelineFragment_to_inviteMembersDialogFragment"
+            android:id="@+id/to_inviteMembersDialogFragment"
             app:destination="@id/inviteMembersDialogFragment">
 
             <argument
@@ -27,7 +27,7 @@
 
         </action>
         <action
-            android:id="@+id/action_groupTimelineFragment_to_manageMembersDialogFragment"
+            android:id="@+id/to_manageMembersDialogFragment"
             app:destination="@id/manageMembersDialogFragment">
 
             <argument

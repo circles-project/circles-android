@@ -1,5 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    apply from: 'dependencies.gradle'
+    apply from: 'dependencies_groups.gradle'
+
     ext {
         kotlin_version = '1.6.10'
         minSdkVersion = 24
@@ -9,7 +12,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.2'
@@ -26,6 +28,8 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+        //noinspection JcenterRepositoryObsolete
+        jcenter()
     }
 }
 

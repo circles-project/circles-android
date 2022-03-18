@@ -52,6 +52,21 @@
     <string name="cancel">Cancel</string>
     <string name="unexpected_error">Something went wrong</string>
     <string name="group_created">Group created</string>
+    <string name="already_have_a_circles_token">Already have a Circles token?</string>
+    <string name="sign_up_with_token">Sign up with token</string>
+    <string name="new_circles_subscription">New Circles subscription</string>
+    <string name="new_paid_circles_subscriptions_are_currently_unavailable">New paid Circles subscriptions are currently unavailable</string>
+    <string name="create_a_circles_subscription">Create a Circles subscription</string>
+    <string name="or">Or</string>
+    <string name="validate_your_token">Validate your token</string>
+    <string name="validate_token">Validate token</string>
+    <string name="sign_up_token_format">abcd–efgh–1234–5678</string>
+    <string name="sign_up_token">SignUp token</string>
+    <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
+    <string name="sign_up_stage_subtitle_format">Stage %d of %d</string>
+    <string name="accept">Accept</string>
+    <string name="accept_terms_to_continue">Accept terms to continue</string>
+    <string name="discard_current_registration_progress">Discard current registration progress?</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>

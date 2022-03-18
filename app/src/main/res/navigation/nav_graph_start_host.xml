@@ -3,7 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_start_host"
-    tools:ignore="InvalidNavigation">
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.futo.circles.feature.splash.SplashFragment"
+        android:label="Splash"
+        tools:layout="@layout/splash_fragment">
+
+        <action
+            android:id="@+id/to_logInFragment"
+            app:destination="@id/logInFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/to_bottomNavigationFragment"
+            app:destination="@id/bottomNavigationFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/logInFragment"
@@ -11,10 +29,10 @@
         android:label="Log In"
         tools:layout="@layout/log_in_fragment">
         <action
-            android:id="@+id/action_logInFragment_to_signUpFragment"
+            android:id="@+id/to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
-            android:id="@+id/action_logInFragment_to_bottomNavigationFragment"
+            android:id="@+id/to_bottomNavigationFragment"
             app:destination="@id/bottomNavigationFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
@@ -23,10 +41,10 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.futo.circles.feature.sign_up.SignUpFragment"
-        android:label="Log In"
+        android:label="Sign up"
         tools:layout="@layout/sign_up_fragment">
         <action
-            android:id="@+id/action_signUpFragment_to_bottomNavigationFragment"
+            android:id="@+id/to_bottomNavigationFragment"
             app:destination="@id/bottomNavigationFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />

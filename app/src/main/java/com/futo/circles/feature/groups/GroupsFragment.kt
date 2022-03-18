@@ -43,14 +43,10 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
     }
 
     private fun onGroupListItemClicked(room: GroupListItem) {
-        findNavController().navigate(
-            GroupsFragmentDirections.actionGroupsFragmentToGroupTimeLineNavGraph(room.id)
-        )
+        findNavController().navigate(GroupsFragmentDirections.toGroupTimeLineNavGraph(room.id))
     }
 
     private fun navigateToCreateGroup() {
-        findNavController().navigate(
-            GroupsFragmentDirections.actionGroupsFragmentToCreateGroupDialogFragment()
-        )
+        findNavController().navigate(GroupsFragmentDirections.toCreateGroupDialogFragment())
     }
 }

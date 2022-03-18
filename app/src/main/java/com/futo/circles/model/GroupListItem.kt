@@ -1,6 +1,6 @@
 package com.futo.circles.model
 
-import com.futo.circles.base.IdEntity
+import com.futo.circles.core.IdEntity
 
 data class GroupListItem(
     override val id: String,
