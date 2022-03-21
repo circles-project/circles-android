@@ -9,9 +9,7 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 
-enum class ExtraSignUpStages { Avatar, Circles }
-
-enum class NavigationEvents { TokenValidation, AcceptTerm, VerifyEmail, SetupAvatar, SetupCircles, FinishSignUp }
+enum class NavigationEvents { TokenValidation, AcceptTerm, ValidateEmail, SetupAvatar, SetupCircles, FinishSignUp }
 
 class SignUpDataSource(
     private val context: Context
@@ -31,9 +29,6 @@ class SignUpDataSource(
         stagesToComplete.clear()
 
         stagesToComplete.addAll(stages)
-        ExtraSignUpStages.values().forEach {
-            stagesToComplete.add(Stage.Other(false, it.name, null))
-        }
         navigateToNextStage()
     }
 
@@ -62,7 +57,7 @@ class SignUpDataSource(
         currentStage = stage
 
         val event = when (stage) {
-            is Stage.Email -> NavigationEvents.VerifyEmail
+            is Stage.Email -> NavigationEvents.ValidateEmail
             is Stage.Terms -> NavigationEvents.AcceptTerm
             is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException("Not supported stage $stage")
@@ -76,8 +71,6 @@ class SignUpDataSource(
     private fun handleStageOther(type: String): NavigationEvents =
         when (type) {
             REGISTRATION_TOKEN_KEY -> NavigationEvents.TokenValidation
-            ExtraSignUpStages.Avatar.name -> NavigationEvents.SetupAvatar
-            ExtraSignUpStages.Circles.name -> NavigationEvents.SetupCircles
             else -> throw IllegalArgumentException("Not supported stage $type")
         }
 
