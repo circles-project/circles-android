@@ -8,7 +8,10 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.HasLoadingState
 import com.futo.circles.databinding.ValidateEmailFragmentBinding
+import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
+import com.futo.circles.extensions.showSuccess
+import com.futo.circles.extensions.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ValidateEmailFragment : Fragment(R.layout.validate_email_fragment), HasLoadingState {
@@ -26,7 +29,10 @@ class ValidateEmailFragment : Fragment(R.layout.validate_email_fragment), HasLoa
     private fun setupViews() {
         with(binding) {
             tilEmail.editText?.doAfterTextChanged {
-                it?.let { btnSendCode.setButtonEnabled(it.isNotEmpty()) }
+                it?.let { btnSendCode.isEnabled = it.isNotEmpty() }
+            }
+            tilValidationCode.editText?.doAfterTextChanged {
+                it?.let { btnValidate.isEnabled = it.isNotEmpty() }
             }
             tilEmail.setEndIconOnClickListener {
                 showDialog(
@@ -42,7 +48,7 @@ class ValidateEmailFragment : Fragment(R.layout.validate_email_fragment), HasLoa
             }
             btnSendCode.setOnClickListener {
                 startLoading(btnSendCode)
-                viewModel.sendCode(tilEmail.editText?.text?.toString()?.trim() ?: "")
+                viewModel.sendCode(getEmailInput())
             }
             btnValidate.setOnClickListener {
                 startLoading(btnValidate)
@@ -52,6 +58,15 @@ class ValidateEmailFragment : Fragment(R.layout.validate_email_fragment), HasLoa
     }
 
     private fun setupObservers() {
+        viewModel.sendCodeLiveData.observeResponse(this,
+            success = {
+                showSuccess(getString(R.string.validation_code_sent_to_format, getEmailInput()))
+                binding.tilValidationCode.visible()
+            }
+        )
+        viewModel.validateEmailLiveData.observeResponse(this)
     }
+
+    private fun getEmailInput(): String = binding.tilEmail.editText?.text?.toString()?.trim() ?: ""
 
 }
