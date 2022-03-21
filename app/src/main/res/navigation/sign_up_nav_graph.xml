@@ -31,9 +31,9 @@
 
     <fragment
         android:id="@+id/createAccountFragment"
-        android:name="com.futo.circles.feature.create_account.CreateAccountFragment"
+        android:name="com.futo.circles.feature.validate_email.ValidateEmailFragment"
         android:label="CreateAccountFragment"
-        tools:layout="@layout/create_account_fragment" />
+        tools:layout="@layout/validate_email_fragment" />
 
     <fragment
         android:id="@+id/acceptTermsFragment"
