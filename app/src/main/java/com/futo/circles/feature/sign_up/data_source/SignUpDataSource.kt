@@ -28,7 +28,7 @@ class SignUpDataSource(
         currentStage = null
         stagesToComplete.clear()
 
-        stagesToComplete.addAll(stages)
+        stagesToComplete.addAll(stages.filter { it.mandatory })
         navigateToNextStage()
     }
 
