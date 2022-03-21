@@ -27,7 +27,7 @@ class ValidateTokenFragment : Fragment(R.layout.validate_token_fragment), HasLoa
     private fun setupViews() {
         with(binding) {
             tilToken.editText?.doAfterTextChanged {
-                it?.let { btnValidate.setButtonEnabled(it.isNotEmpty()) }
+                it?.let { btnValidate.isEnabled = it.isNotEmpty() }
             }
             tilToken.setEndIconOnClickListener {
                 showDialog(

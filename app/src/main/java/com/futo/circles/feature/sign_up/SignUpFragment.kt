@@ -47,7 +47,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
         when (event) {
             NavigationEvents.TokenValidation -> childNavigationController.navigate(R.id.to_validateToken)
             NavigationEvents.AcceptTerm -> childNavigationController.navigate(R.id.to_acceptTerms)
-            NavigationEvents.VerifyEmail -> childNavigationController.navigate(R.id.to_createAccount)
+            NavigationEvents.ValidateEmail -> childNavigationController.navigate(R.id.to_validateEmail)
             NavigationEvents.SetupAvatar -> TODO()
             NavigationEvents.SetupCircles -> TODO()
             NavigationEvents.FinishSignUp -> findNavController()
@@ -55,7 +55,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
         }
     }
 
-    private fun setupChildFragmentsBackPress(){
+    private fun setupChildFragmentsBackPress() {
         val includedFragmentsManager = childNavHostFragment.childFragmentManager
 
         includedFragmentsManager.addFragmentOnAttachListener { _, fragment ->

@@ -52,7 +52,7 @@ class AcceptTermsFragment : Fragment(R.layout.accept_terms_fragment), HasLoading
 
         viewModel.termsListLiveData.observeData(this) {
             listAdapter.submitList(it)
-            binding.btnAccept.setButtonEnabled(viewModel.isAllTermsAccepted(it))
+            binding.btnAccept.isEnabled = viewModel.isAllTermsAccepted(it)
         }
     }
 

@@ -11,7 +11,10 @@ import com.futo.circles.R
 import com.futo.circles.core.BaseFullscreenDialogFragment
 import com.futo.circles.core.HasLoadingState
 import com.futo.circles.databinding.CreateGroupDialogFragmentBinding
-import com.futo.circles.extensions.*
+import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
+import com.futo.circles.extensions.showError
+import com.futo.circles.extensions.showSuccess
 import com.futo.circles.feature.select_users.SelectUsersFragment
 import com.futo.circles.pick_image.PickImageDialog
 import com.futo.circles.pick_image.PickImageDialogListener
@@ -21,7 +24,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateGroupDialogFragment :
     BaseFullscreenDialogFragment(CreateGroupDialogFragmentBinding::inflate),
-    PickImageDialogListener, HasLoadingState{
+    PickImageDialogListener, HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModel<CreateGroupViewModel>()
@@ -67,7 +70,7 @@ class CreateGroupDialogFragment :
             toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
             ivGroup.setOnClickListener { pickImageDialog.show() }
             tilGroupName.editText?.doAfterTextChanged {
-                it?.let { btnCreate.setButtonEnabled(it.isNotEmpty()) }
+                it?.let { btnCreate.isEnabled = it.isNotEmpty() }
             }
             btnCreate.setOnClickListener {
                 viewModel.createGroup(
