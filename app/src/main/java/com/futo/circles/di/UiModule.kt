@@ -10,6 +10,7 @@ import com.futo.circles.feature.select_users.SelectUsersViewModel
 import com.futo.circles.feature.sign_up.SignUpViewModel
 import com.futo.circles.feature.sign_up_type.SelectSignUpTypeViewModel
 import com.futo.circles.feature.terms.AcceptTermsViewModel
+import com.futo.circles.feature.validate_email.ValidateEmailViewModel
 import com.futo.circles.feature.validate_token.ValidateTokenViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
@@ -27,4 +28,5 @@ val uiModule = module {
     viewModel { ValidateTokenViewModel(get()) }
     viewModel { SelectSignUpTypeViewModel(get()) }
     viewModel { AcceptTermsViewModel(get()) }
+    viewModel { ValidateEmailViewModel(get()) }
 }

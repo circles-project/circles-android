@@ -10,29 +10,21 @@ import com.futo.circles.feature.select_users.data_source.SelectUsersDataSource
 import com.futo.circles.feature.sign_up.data_source.SignUpDataSource
 import com.futo.circles.feature.sign_up_type.data_source.SelectSignUpTypeDataSource
 import com.futo.circles.feature.terms.data_source.AcceptTermsDataSource
+import com.futo.circles.feature.validate_email.data_source.ValidateEmailDataSource
 import com.futo.circles.feature.validate_token.data_source.ValidateTokenDataSource
 import org.koin.dsl.module
 
 val dataSourceModule = module {
     factory { LoginDataSource(get()) }
-
     factory { (roomId: String) -> GroupTimelineDatasource(roomId, get()) }
-
     factory { GroupTimelineBuilder() }
-
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
-
     factory { (roomId: String?) -> SelectUsersDataSource(roomId) }
-
     factory { (roomId: String) -> ManageGroupMembersDataSource(roomId, get()) }
-
     factory { CreateGroupDataSource() }
-
     single { SignUpDataSource(get()) }
-
     factory { ValidateTokenDataSource(get()) }
-
     factory { SelectSignUpTypeDataSource(get()) }
-
     factory { AcceptTermsDataSource(get()) }
+    factory { ValidateEmailDataSource(get()) }
 }
