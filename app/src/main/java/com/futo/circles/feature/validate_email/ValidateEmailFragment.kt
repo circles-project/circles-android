@@ -2,11 +2,13 @@ package com.futo.circles.feature.validate_email
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.HasLoadingState
 import com.futo.circles.databinding.ValidateEmailFragmentBinding
+import com.futo.circles.extensions.showDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ValidateEmailFragment : Fragment(R.layout.validate_email_fragment), HasLoadingState {
@@ -17,7 +19,39 @@ class ValidateEmailFragment : Fragment(R.layout.validate_email_fragment), HasLoa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViews()
+        setupObservers()
+    }
 
+    private fun setupViews() {
+        with(binding) {
+            tilEmail.editText?.doAfterTextChanged {
+                it?.let { btnSendCode.setButtonEnabled(it.isNotEmpty()) }
+            }
+            tilEmail.setEndIconOnClickListener {
+                showDialog(
+                    R.string.email,
+                    R.string.email_usage_explanation
+                )
+            }
+            tilValidationCode.setEndIconOnClickListener {
+                showDialog(
+                    R.string.validation_code,
+                    R.string.validation_code_explanation
+                )
+            }
+            btnSendCode.setOnClickListener {
+                startLoading(btnSendCode)
+                viewModel.sendCode(tilEmail.editText?.text?.toString()?.trim() ?: "")
+            }
+            btnValidate.setOnClickListener {
+                startLoading(btnValidate)
+                viewModel.validateEmail(tilValidationCode.editText?.text?.toString()?.trim() ?: "")
+            }
+        }
+    }
+
+    private fun setupObservers() {
     }
 
 }

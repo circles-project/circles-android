@@ -7,5 +7,13 @@ class ValidateEmailViewModel(
     private val dataSource: ValidateEmailDataSource
 ) : ViewModel() {
 
+    fun sendCode(email: String) {
+
+    }
+
+    fun validateEmail(code: String) {
+
+    }
+
 
 }
