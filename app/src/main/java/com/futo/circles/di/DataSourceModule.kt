@@ -25,6 +25,6 @@ val dataSourceModule = module {
     single { SignUpDataSource(get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get()) }
-    factory { AcceptTermsDataSource(get()) }
+    factory { AcceptTermsDataSource(get(), get()) }
     factory { ValidateEmailDataSource(get()) }
 }

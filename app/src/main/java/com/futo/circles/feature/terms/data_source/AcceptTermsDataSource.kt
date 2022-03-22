@@ -1,9 +1,10 @@
 package com.futo.circles.feature.terms.data_source
 
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.BuildConfig
-import com.futo.circles.core.DEFAULT_TERMS_NAME
+import com.futo.circles.R
 import com.futo.circles.core.TERMS_URL_EXTENSION
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
@@ -15,6 +16,7 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 
 class AcceptTermsDataSource(
+    private val context: Context,
     private val signUpDataSource: SignUpDataSource
 ) {
 
@@ -42,7 +44,7 @@ class AcceptTermsDataSource(
             ?.takeIf { it.isNotEmpty() }
             ?: listOf(
                 TermsListItem(
-                    1, DEFAULT_TERMS_NAME,
+                    1, context.getString(R.string.terms_and_conditions),
                     BuildConfig.MATRIX_HOME_SERVER_URL + TERMS_URL_EXTENSION
                 )
             )

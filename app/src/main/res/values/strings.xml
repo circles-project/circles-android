@@ -65,6 +65,7 @@
     <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
     <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
     <string name="accept">Accept</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="validate_your_email">Validate your email</string>
