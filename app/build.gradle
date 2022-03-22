@@ -69,12 +69,7 @@ dependencies {
     def koin_version = "3.1.5"
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
-
-    //Firebase
-    implementation platform('com.google.firebase:firebase-bom:29.1.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-
+    
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.nav_version"
