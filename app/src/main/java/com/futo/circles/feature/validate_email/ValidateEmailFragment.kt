@@ -55,7 +55,8 @@ class ValidateEmailFragment : Fragment(R.layout.validate_email_fragment), HasLoa
     }
 
     private fun setupObservers() {
-        viewModel.sendCodeLiveData.observeResponse(this) { validationCodeSentState() }
+        viewModel.sendCodeLiveData.observeResponse(this,
+            success = { validationCodeSentState() })
         viewModel.validateEmailLiveData.observeResponse(this)
     }
 
@@ -64,7 +65,7 @@ class ValidateEmailFragment : Fragment(R.layout.validate_email_fragment), HasLoa
     private fun validationCodeSentState() {
         showSuccess(getString(R.string.validation_code_sent_to_format, getEmailInput()))
         binding.tilValidationCode.visible()
-        binding.btnValidate.isEnabled = false
+        binding.btnValidate.isEnabled = binding.tilValidationCode.editText?.text.isNullOrEmpty().not()
     }
 
 }
