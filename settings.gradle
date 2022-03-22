@@ -1,3 +1,7 @@
 rootProject.name = "Circles"
 include ':app'
-include ':matrix-sdk-android'
+sourceControl {
+    gitRepository("https://gitlab.futo.org/circles/matrix-android-sdk.git") {
+        producesModule("org.matrix.android:matrix-sdk-android")
+    }
+}
