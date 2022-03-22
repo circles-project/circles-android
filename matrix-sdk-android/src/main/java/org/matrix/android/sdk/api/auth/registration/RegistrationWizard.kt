@@ -17,7 +17,7 @@
 package org.matrix.android.sdk.api.auth.registration
 
 import org.matrix.android.sdk.api.util.JsonDict
-import org.matrix.android.sdk.internal.auth.registration.AuthParams
+import org.matrix.android.sdk.internal.auth.registration.AddThreePidRegistrationResponse
 
 /**
  * Set of methods to be able to create an account on a homeserver.
@@ -89,18 +89,21 @@ interface RegistrationWizard {
      * @param threePid the threePid to add to the account. If this is an email, the homeserver will send an email
      * to validate it. For a msisdn a SMS will be sent.
      */
-    suspend fun addThreePid(threePid: RegisterThreePid): RegistrationResult
+    suspend fun addThreePid(threePid: RegisterThreePid): AddThreePidRegistrationResponse
 
     /**
      * Ask the homeserver to send again the current threePid (email or msisdn).
      */
-    suspend fun sendAgainThreePid(): RegistrationResult
+    suspend fun sendAgainThreePid(): AddThreePidRegistrationResponse
 
     /**
      * Send the code received by SMS to validate a msisdn.
      * If the code is correct, the registration request will be executed to validate the msisdn.
      */
-    suspend fun handleValidateThreePid(code: String): RegistrationResult
+    suspend fun handleValidateThreePid(
+        code: String,
+        submitFallbackUrl: String? = null
+    ): RegistrationResult
 
     /**
      * Useful to poll the homeserver when waiting for the email to be validated by the user.

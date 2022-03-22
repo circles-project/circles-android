@@ -103,6 +103,7 @@ internal interface AuthAPI {
     /**
      * Validate 3pid
      */
+    @Headers("Content-Type: application/json")
     @POST
     suspend fun validate3Pid(@Url url: String,
                              @Body params: ValidationCodeBody): SuccessResult

@@ -109,21 +109,21 @@ internal class DefaultRegistrationWizard(
         return performRegistrationRequest(params)
     }
 
-    override suspend fun addThreePid(threePid: RegisterThreePid): RegistrationResult {
+    override suspend fun addThreePid(threePid: RegisterThreePid): AddThreePidRegistrationResponse {
         pendingSessionData = pendingSessionData.copy(currentThreePidData = null)
             .also { pendingSessionStore.savePendingSessionData(it) }
 
         return sendThreePid(threePid)
     }
 
-    override suspend fun sendAgainThreePid(): RegistrationResult {
+    override suspend fun sendAgainThreePid(): AddThreePidRegistrationResponse {
         val safeCurrentThreePid = pendingSessionData.currentThreePidData?.threePid
             ?: throw IllegalStateException("developer error, call createAccount() method first")
 
         return sendThreePid(safeCurrentThreePid)
     }
 
-    private suspend fun sendThreePid(threePid: RegisterThreePid): RegistrationResult {
+    private suspend fun sendThreePid(threePid: RegisterThreePid): AddThreePidRegistrationResponse {
         val safeSession = pendingSessionData.currentSession
             ?: throw IllegalStateException("developer error, call createAccount() method first")
         val response = registerAddThreePidTask.execute(
@@ -168,7 +168,7 @@ internal class DefaultRegistrationWizard(
             .also { pendingSessionStore.savePendingSessionData(it) }
 
         // and send the sid a first time
-        return performRegistrationRequest(params)
+        return response
     }
 
     override suspend fun checkIfEmailHasBeenValidated(delayMillis: Long): RegistrationResult {
@@ -178,17 +178,24 @@ internal class DefaultRegistrationWizard(
         return performRegistrationRequest(safeParam, delayMillis)
     }
 
-    override suspend fun handleValidateThreePid(code: String): RegistrationResult {
-        return validateThreePid(code)
+    override suspend fun handleValidateThreePid(
+        code: String,
+        submitFallbackUrl: String?
+    ): RegistrationResult {
+        return validateThreePid(code, submitFallbackUrl)
     }
 
-    private suspend fun validateThreePid(code: String): RegistrationResult {
+    private suspend fun validateThreePid(
+        code: String,
+        submitFallbackUrl: String?
+    ): RegistrationResult {
         val registrationParams = pendingSessionData.currentThreePidData?.registrationParams
             ?: throw IllegalStateException("developer error, no pending three pid")
         val safeCurrentData = pendingSessionData.currentThreePidData ?: throw IllegalStateException(
             "developer error, call createAccount() method first"
         )
         val url = safeCurrentData.addThreePidRegistrationResponse.submitUrl
+            ?: submitFallbackUrl
             ?: throw IllegalStateException("Missing url to send the code")
         val validationBody = ValidationCodeBody(
             clientSecret = pendingSessionData.clientSecret,
