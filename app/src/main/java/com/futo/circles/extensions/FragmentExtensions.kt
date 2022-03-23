@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.net.Uri
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -52,17 +53,18 @@ fun Fragment.showSuccess(message: String, showOnActivity: Boolean = false) {
     showBar(message, false, showOnActivity)
 }
 
-fun Fragment.setEnabledViews(enabled: Boolean) {
-    (view?.rootView as? ViewGroup)?.children?.forEach {
-        if (it.isClickable) it.isEnabled = enabled
-        (it as? ViewGroup)?.setEnabledChildren(enabled)
-    }
+fun Fragment.setEnabledViews(enabled: Boolean, viewsToExclude: List<View> = emptyList()) {
+    (view?.rootView as? ViewGroup)?.setEnabledChildren(enabled, viewsToExclude)
 }
 
-fun ViewGroup.setEnabledChildren(enabled: Boolean) {
-    children.forEach {
-        if (it.isClickable) it.isEnabled = enabled
-        (it as? ViewGroup)?.setEnabledChildren(enabled)
+
+fun ViewGroup.setEnabledChildren(enabled: Boolean, viewsToExclude: List<View> = emptyList()) {
+    children.forEach { view ->
+        val isViewExcluded = viewsToExclude.firstOrNull { it.id == view.id } != null
+        if (!isViewExcluded) {
+            if (view.isClickable) view.isEnabled = enabled
+            (view as? ViewGroup)?.setEnabledChildren(enabled, viewsToExclude)
+        }
     }
 }
 

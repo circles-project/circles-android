@@ -23,9 +23,11 @@ class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment)
         viewModel.clearSubtitle()
         setupViews()
         setupObservers()
+
     }
 
     private fun setupViews() {
+        setAlwaysDisabledViews(listOf(binding.btnSubscription))
         with(binding) {
             tilUserName.editText?.doAfterTextChanged { setTokenButtonEnabled() }
             tilPassword.editText?.doAfterTextChanged { setTokenButtonEnabled() }
