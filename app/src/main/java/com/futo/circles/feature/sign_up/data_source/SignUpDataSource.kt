@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
 import com.futo.circles.core.REGISTRATION_TOKEN_KEY
 import com.futo.circles.core.SingleEventLiveData
+import com.futo.circles.provider.MatrixInstanceProvider
+import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
@@ -32,7 +34,7 @@ class SignUpDataSource(
         navigateToNextStage()
     }
 
-    fun stageCompleted(result: RegistrationResult?) {
+    suspend fun stageCompleted(result: RegistrationResult?) {
         (result as? RegistrationResult.Success)?.let {
             finishRegistration(it.session)
         } ?: navigateToNextStage()
@@ -42,7 +44,9 @@ class SignUpDataSource(
         subtitleLiveData.postValue("")
     }
 
-    private fun finishRegistration(session: Session) {
+    private suspend fun finishRegistration(session: Session) {
+        MatrixInstanceProvider.matrix.authenticationService().reset()
+        MatrixSessionProvider.startSession(session)
         navigationLiveData.postValue(NavigationEvents.FinishSignUp)
     }
 
