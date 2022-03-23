@@ -9,13 +9,14 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
+import com.futo.circles.core.BackPressOwner
 import com.futo.circles.databinding.SignUpFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.showDialog
 import com.futo.circles.feature.sign_up.data_source.NavigationEvents
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
+class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
 
     private val viewModel by viewModel<SignUpViewModel>()
     private val binding by viewBinding(SignUpFragmentBinding::bind)
@@ -28,7 +29,6 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         setupObservers()
-        setupChildFragmentsBackPress()
     }
 
     private fun setupObservers() {
@@ -55,24 +55,6 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
         }
     }
 
-    private fun setupChildFragmentsBackPress() {
-        val includedFragmentsManager = childNavHostFragment.childFragmentManager
-
-        includedFragmentsManager.addFragmentOnAttachListener { _, fragment ->
-            fragment.activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,
-                object : OnBackPressedCallback(true) {
-                    override fun handleOnBackPressed() {
-                        if (includedFragmentsManager.backStackEntryCount == 0) {
-                            remove()
-                            activity?.onBackPressed()
-                        } else {
-                            showDiscardDialog()
-                        }
-                    }
-                })
-        }
-    }
-
     private fun showDiscardDialog() {
         showDialog(
             titleResIdRes = R.string.discard_current_registration_progress,
@@ -82,6 +64,16 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment) {
                     R.id.selectSignUpTypeFragment, false
                 )
             })
+    }
+
+    override fun onChildBackPress(callback: OnBackPressedCallback) {
+        val includedFragmentsManager = childNavHostFragment.childFragmentManager
+        if (includedFragmentsManager.backStackEntryCount == 0) {
+            callback.remove()
+            activity?.onBackPressed()
+        } else {
+            showDiscardDialog()
+        }
     }
 
 }

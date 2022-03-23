@@ -7,11 +7,12 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.HasLoadingState
+import com.futo.circles.core.ParentBackPressOwnerFragment
 import com.futo.circles.databinding.ValidateEmailFragmentBinding
 import com.futo.circles.extensions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ValidateEmailFragment : Fragment(R.layout.validate_email_fragment), HasLoadingState {
+class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.validate_email_fragment), HasLoadingState {
 
     override val fragment: Fragment = this
     private val binding by viewBinding(ValidateEmailFragmentBinding::bind)
