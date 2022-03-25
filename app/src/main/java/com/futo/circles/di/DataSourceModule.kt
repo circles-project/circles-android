@@ -7,6 +7,7 @@ import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasour
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
 import com.futo.circles.feature.manage_group_members.data_source.ManageGroupMembersDataSource
 import com.futo.circles.feature.select_users.data_source.SelectUsersDataSource
+import com.futo.circles.feature.setup_profile.data_source.SetupProfileDataSource
 import com.futo.circles.feature.sign_up.data_source.SignUpDataSource
 import com.futo.circles.feature.sign_up_type.data_source.SelectSignUpTypeDataSource
 import com.futo.circles.feature.terms.data_source.AcceptTermsDataSource
@@ -27,4 +28,5 @@ val dataSourceModule = module {
     factory { SelectSignUpTypeDataSource(get(), get()) }
     factory { AcceptTermsDataSource(get(), get()) }
     factory { ValidateEmailDataSource(get()) }
+    factory { SetupProfileDataSource(get()) }
 }
