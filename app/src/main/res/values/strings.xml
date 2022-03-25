@@ -63,10 +63,18 @@
     <string name="sign_up_token_format">abcd–efgh–1234–5678</string>
     <string name="sign_up_token">SignUp token</string>
     <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
-    <string name="sign_up_stage_subtitle_format">Stage %d of %d</string>
+    <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
     <string name="accept">Accept</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
+    <string name="validate_your_email">Validate your email</string>
+    <string name="email">Email</string>
+    <string name="validation_code">Validation code</string>
+    <string name="send_validation_code">Send validation code</string>
+    <string name="email_usage_explanation">Must be a currently valid and active address.\n\nDon\'t worry - we will only use this address for security and other alerts about your account. We don\'t send spam, and we don\'t sell your address.</string>
+    <string name="validation_code_explanation">We sent a 6-digit code to your email address to validate your account.\n\nEnter the code here to verify that this address belongs to you.</string>
+    <string name="validation_code_sent_to_format">Validation code sent to %s</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>

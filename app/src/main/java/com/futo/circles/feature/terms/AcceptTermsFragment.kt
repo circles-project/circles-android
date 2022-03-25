@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.HasLoadingState
+import com.futo.circles.core.ParentBackPressOwnerFragment
 import com.futo.circles.databinding.AcceptTermsFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
@@ -15,7 +16,8 @@ import com.futo.circles.feature.terms.list.TermsListAdapter
 import com.futo.circles.model.TermsListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AcceptTermsFragment : Fragment(R.layout.accept_terms_fragment), HasLoadingState {
+class AcceptTermsFragment : ParentBackPressOwnerFragment(R.layout.accept_terms_fragment),
+    HasLoadingState {
 
     override val fragment: Fragment = this
     private val binding by viewBinding(AcceptTermsFragmentBinding::bind)
@@ -52,7 +54,7 @@ class AcceptTermsFragment : Fragment(R.layout.accept_terms_fragment), HasLoading
 
         viewModel.termsListLiveData.observeData(this) {
             listAdapter.submitList(it)
-            binding.btnAccept.setButtonEnabled(viewModel.isAllTermsAccepted(it))
+            binding.btnAccept.isEnabled = viewModel.isAllTermsAccepted(it)
         }
     }
 

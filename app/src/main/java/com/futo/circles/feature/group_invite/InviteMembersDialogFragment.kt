@@ -8,7 +8,9 @@ import com.futo.circles.R
 import com.futo.circles.core.BaseFullscreenDialogFragment
 import com.futo.circles.core.HasLoadingState
 import com.futo.circles.databinding.InviteMembersDialogFragmentBinding
-import com.futo.circles.extensions.*
+import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
+import com.futo.circles.extensions.showSuccess
 import com.futo.circles.feature.select_users.SelectUsersFragment
 import com.futo.circles.feature.select_users.SelectUsersListener
 import com.futo.circles.model.UserListItem
@@ -61,6 +63,6 @@ class InviteMembersDialogFragment :
 
 
     override fun onUserSelected(users: List<UserListItem>) {
-        binding.btnInvite.setButtonEnabled(users.isNotEmpty())
+        binding.btnInvite.isEnabled = users.isNotEmpty()
     }
 }

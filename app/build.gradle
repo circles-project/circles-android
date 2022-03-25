@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 
@@ -23,29 +21,18 @@ android {
         viewBinding true
     }
 
-    def flavor_dimension_name = "version"
-    flavorDimensions flavor_dimension_name
-    productFlavors {
-        dev {
-            dimension flavor_dimension_name
+    buildTypes {
+        debug {
+            minifyEnabled false
             applicationIdSuffix ".stage"
             resValue "string", "app_name", "Circles Stage"
             buildConfigField("String", "MATRIX_HOME_SERVER_URL", "\"https://matrix.eu.kombucha.social/\"")
         }
-        prod {
-            dimension flavor_dimension_name
-            resValue "string", "app_name", "Circles"
-            buildConfigField("String", "MATRIX_HOME_SERVER_URL", "\"https://matrix.kombucha.social/\"")
-        }
-    }
-
-    buildTypes {
-        debug {
-            minifyEnabled false
-        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "Circles"
+            buildConfigField("String", "MATRIX_HOME_SERVER_URL", "\"https://matrix.kombucha.social/\"")
         }
     }
     compileOptions {
@@ -62,9 +49,7 @@ android {
 }
 
 dependencies {
-    //Matrix
-    implementation project(path: ':matrix-sdk-android')
-
+    implementation project(':matrix-android-sdk:matrix-sdk-android')
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
@@ -81,20 +66,13 @@ dependencies {
     def koin_version = "3.1.5"
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
-
-    //Firebase
-    implementation platform('com.google.firebase:firebase-bom:29.1.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-
+    
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.nav_version"
 
     //ViewBinding
     implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6'
-
-    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 
     //Glide
     def glide_version = "4.13.1"

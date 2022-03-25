@@ -8,7 +8,7 @@ object ErrorParser {
 
 
     fun getErrorMessage(t: Throwable): String =
-        handleErrorBodyException(t) ?: handleServerException(t) ?: DEFAULT_ERROR_MESSAGE
+        handleErrorBodyException(t) ?: handleServerException(t) ?: "Unexpected error"
 
 
     private fun handleErrorBodyException(t: Throwable): String? =

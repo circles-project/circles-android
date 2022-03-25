@@ -10,8 +10,8 @@
         app:destination="@id/validateTokenFragment" />
 
     <action
-        android:id="@+id/to_createAccount"
-        app:destination="@id/createAccountFragment" />
+        android:id="@+id/to_validateEmail"
+        app:destination="@id/validateEmailFragment" />
 
     <action
         android:id="@+id/to_acceptTerms"
@@ -30,10 +30,10 @@
         tools:layout="@layout/validate_token_fragment" />
 
     <fragment
-        android:id="@+id/createAccountFragment"
-        android:name="com.futo.circles.feature.create_account.CreateAccountFragment"
+        android:id="@+id/validateEmailFragment"
+        android:name="com.futo.circles.feature.validate_email.ValidateEmailFragment"
         android:label="CreateAccountFragment"
-        tools:layout="@layout/create_account_fragment" />
+        tools:layout="@layout/validate_email_fragment" />
 
     <fragment
         android:id="@+id/acceptTermsFragment"

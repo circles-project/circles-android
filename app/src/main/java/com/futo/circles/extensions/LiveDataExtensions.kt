@@ -6,7 +6,7 @@ import com.futo.circles.core.ErrorParser
 import com.futo.circles.core.HasLoadingState
 import com.futo.circles.core.SingleEventLiveData
 
-fun <T> SingleEventLiveData<Response<T>>.observeResponse(
+fun <T> LiveData<Response<T>>.observeResponse(
     hasLoadingState: HasLoadingState,
     success: (T) -> Unit = {},
     error: ((String) -> Unit)? = null,

@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
 import com.futo.circles.core.REGISTRATION_TOKEN_KEY
 import com.futo.circles.core.SingleEventLiveData
+import com.futo.circles.provider.MatrixInstanceProvider
+import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 
-enum class ExtraSignUpStages { Avatar, Circles }
-
-enum class NavigationEvents { TokenValidation, AcceptTerm, VerifyEmail, SetupAvatar, SetupCircles, FinishSignUp }
+enum class NavigationEvents { TokenValidation, AcceptTerm, ValidateEmail, SetupAvatar, SetupCircles, FinishSignUp }
 
 class SignUpDataSource(
     private val context: Context
@@ -30,14 +30,11 @@ class SignUpDataSource(
         currentStage = null
         stagesToComplete.clear()
 
-        stagesToComplete.addAll(stages)
-        ExtraSignUpStages.values().forEach {
-            stagesToComplete.add(Stage.Other(false, it.name, null))
-        }
+        stagesToComplete.addAll(stages.filter { it.mandatory })
         navigateToNextStage()
     }
 
-    fun stageCompleted(result: RegistrationResult?) {
+    suspend fun stageCompleted(result: RegistrationResult?) {
         (result as? RegistrationResult.Success)?.let {
             finishRegistration(it.session)
         } ?: navigateToNextStage()
@@ -47,7 +44,9 @@ class SignUpDataSource(
         subtitleLiveData.postValue("")
     }
 
-    private fun finishRegistration(session: Session) {
+    private suspend fun finishRegistration(session: Session) {
+        MatrixInstanceProvider.matrix.authenticationService().reset()
+        MatrixSessionProvider.startSession(session)
         navigationLiveData.postValue(NavigationEvents.FinishSignUp)
     }
 
@@ -62,7 +61,7 @@ class SignUpDataSource(
         currentStage = stage
 
         val event = when (stage) {
-            is Stage.Email -> NavigationEvents.VerifyEmail
+            is Stage.Email -> NavigationEvents.ValidateEmail
             is Stage.Terms -> NavigationEvents.AcceptTerm
             is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException("Not supported stage $stage")
@@ -76,8 +75,6 @@ class SignUpDataSource(
     private fun handleStageOther(type: String): NavigationEvents =
         when (type) {
             REGISTRATION_TOKEN_KEY -> NavigationEvents.TokenValidation
-            ExtraSignUpStages.Avatar.name -> NavigationEvents.SetupAvatar
-            ExtraSignUpStages.Circles.name -> NavigationEvents.SetupCircles
             else -> throw IllegalArgumentException("Not supported stage $type")
         }
 

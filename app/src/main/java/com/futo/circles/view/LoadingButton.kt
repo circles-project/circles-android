@@ -51,7 +51,8 @@ class LoadingButton(
         binding.button.text = if (isLoading) "" else buttonText
     }
 
-    fun setButtonEnabled(isEnabled: Boolean) {
+    override fun setEnabled(isEnabled: Boolean) {
+        super.setEnabled(isEnabled)
         binding.button.isEnabled = isEnabled
     }
 
