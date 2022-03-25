@@ -75,6 +75,10 @@
     <string name="email_usage_explanation">Must be a currently valid and active address.\n\nDon\'t worry - we will only use this address for security and other alerts about your account. We don\'t send spam, and we don\'t sell your address.</string>
     <string name="validation_code_explanation">We sent a 6-digit code to your email address to validate your account.\n\nEnter the code here to verify that this address belongs to you.</string>
     <string name="validation_code_sent_to_format">Validation code sent to %s</string>
+    <string name="upload_a_profile_photo">Upload a profile photo</string>
+    <string name="display_name">Display name</string>
+    <string name="save">Save</string>
+    <string name="skip">Skip</string>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
