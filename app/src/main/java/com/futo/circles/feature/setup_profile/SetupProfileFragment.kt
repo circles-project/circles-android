@@ -14,6 +14,7 @@ import com.futo.circles.core.HasLoadingState
 import com.futo.circles.databinding.SetupProfileFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
+import com.futo.circles.extensions.showDialog
 import com.futo.circles.extensions.showError
 import com.futo.circles.pick_image.PickImageDialog
 import com.futo.circles.pick_image.PickImageDialogListener
@@ -60,6 +61,12 @@ class SetupProfileFragment : Fragment(R.layout.setup_profile_fragment), HasLoadi
             }
             ivProfile.setOnClickListener { pickImageDialog.show() }
             tilDisplayName.editText?.doAfterTextChanged { setSaveButtonEnabled() }
+            tilDisplayName.setEndIconOnClickListener {
+                showDialog(
+                    R.string.display_name,
+                    R.string.display_name_explanation
+                )
+            }
         }
     }
 
