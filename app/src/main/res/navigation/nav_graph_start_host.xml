@@ -63,7 +63,7 @@
         <action
             android:id="@+id/to_setupCirclesFragment"
             app:destination="@id/setupCirclesFragment"
-            app:popUpTo="@id/logInFragment"
+            app:popUpTo="@id/setupProfileFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -74,7 +74,7 @@
         <action
             android:id="@+id/to_bottomNavigationFragment"
             app:destination="@id/bottomNavigationFragment"
-            app:popUpTo="@id/logInFragment"
+            app:popUpTo="@id/setupCirclesFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
