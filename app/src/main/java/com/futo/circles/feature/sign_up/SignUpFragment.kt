@@ -51,7 +51,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
             NavigationEvents.SetupAvatar -> TODO()
             NavigationEvents.SetupCircles -> TODO()
             NavigationEvents.FinishSignUp -> findNavController()
-                .navigate(SignUpFragmentDirections.toBottomNavigationFragment())
+                .navigate(SignUpFragmentDirections.toSetupProfileFragment())
         }
     }
 
