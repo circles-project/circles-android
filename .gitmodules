@@ -1,4 +1,0 @@
-[submodule "matrix-android-sdk"]
-	path = matrix-android-sdk
-	url = https://gitlab.futo.org/circles/matrix-android-sdk.git
-	branch = main
