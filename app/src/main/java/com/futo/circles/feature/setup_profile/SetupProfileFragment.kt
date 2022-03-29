@@ -20,7 +20,7 @@ class SetupProfileFragment : Fragment(R.layout.setup_profile_fragment), HasLoadi
     override val fragment: Fragment = this
     private val binding by viewBinding(SetupProfileFragmentBinding::bind)
     private val viewModel by viewModel<SetupProfileViewModel>()
-    private val imagePickerHelper by lazy { ImagePickerHelper(this) }
+    private val imagePickerHelper = ImagePickerHelper(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

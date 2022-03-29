@@ -20,7 +20,7 @@ class CreateGroupDialogFragment :
 
     override val fragment: Fragment = this
     private val viewModel by viewModel<CreateGroupViewModel>()
-    private val imagePickerHelper by lazy { ImagePickerHelper(this) }
+    private val imagePickerHelper = ImagePickerHelper(this)
 
     private val binding by lazy {
         getBinding() as CreateGroupDialogFragmentBinding

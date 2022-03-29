@@ -23,7 +23,7 @@ class SetupCirclesFragment : Fragment(R.layout.setup_circles_fragment), HasLoadi
     private val viewModel by viewModel<SetupCirclesViewModel>()
     private val binding by viewBinding(SetupCirclesFragmentBinding::bind)
     private val listAdapter by lazy { SetupCirclesAdapter(::onCircleListItemClicked) }
-    private val imagePickerHelper by lazy { ImagePickerHelper(this) }
+    private val imagePickerHelper = ImagePickerHelper(this)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
