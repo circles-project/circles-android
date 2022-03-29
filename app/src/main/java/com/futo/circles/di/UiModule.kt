@@ -7,6 +7,7 @@ import com.futo.circles.feature.groups.GroupsViewModel
 import com.futo.circles.feature.log_in.LogInViewModel
 import com.futo.circles.feature.manage_group_members.ManageGroupMembersViewModel
 import com.futo.circles.feature.select_users.SelectUsersViewModel
+import com.futo.circles.feature.setup_circles.SetupCirclesViewModel
 import com.futo.circles.feature.setup_profile.SetupProfileViewModel
 import com.futo.circles.feature.sign_up.SignUpViewModel
 import com.futo.circles.feature.sign_up_type.SelectSignUpTypeViewModel
@@ -31,4 +32,5 @@ val uiModule = module {
     viewModel { AcceptTermsViewModel(get()) }
     viewModel { ValidateEmailViewModel(get()) }
     viewModel { SetupProfileViewModel(get()) }
+    viewModel { SetupCirclesViewModel(get(), get()) }
 }
