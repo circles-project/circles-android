@@ -32,6 +32,7 @@ class SetupProfileFragment : Fragment(R.layout.setup_profile_fragment), HasLoadi
         with(binding) {
             btnSkip.setOnClickListener { navigateToSetupCircles() }
             btnSave.setOnClickListener {
+                startLoading(btnSave)
                 viewModel.saveProfileInfo(
                     tilDisplayName.editText?.text?.trim()?.toString()
                 )

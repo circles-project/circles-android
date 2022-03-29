@@ -40,7 +40,10 @@ class SetupCirclesFragment : Fragment(R.layout.setup_circles_fragment), HasLoadi
                 adapter = listAdapter
             }
             btnSkip.setOnClickListener { navigateToBottomMenuScreen() }
-            btnSave.setOnClickListener { viewModel.createCircles() }
+            btnSave.setOnClickListener {
+                startLoading(btnSave)
+                viewModel.createCircles()
+            }
         }
     }
 
