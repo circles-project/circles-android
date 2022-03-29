@@ -1,6 +1,7 @@
 package com.futo.circles.feature.setup_circles.data_source
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
 import com.futo.circles.model.SetupCircleListItem
@@ -25,5 +26,13 @@ class SetupCirclesDataSource(
         val session = MatrixSessionProvider.currentSession
         val userId = session?.myUserId ?: return ""
         return session.getUser(userId)?.displayName ?: ""
+    }
+
+    fun addCirclesCoverImage(id: Int, uri: Uri) {
+        val list = circlesLiveData.value?.map {
+            if (it.id == id) it.copy(coverUri = uri) else it
+        } ?: emptyList()
+        
+        circlesLiveData.postValue(list)
     }
 }

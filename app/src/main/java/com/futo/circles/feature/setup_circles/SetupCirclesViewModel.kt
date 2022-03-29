@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.feature.setup_circles.data_source.SetupCirclesDataSource
 
 class SetupCirclesViewModel(
-    dataSource: SetupCirclesDataSource
+    private val dataSource: SetupCirclesDataSource
 ) : ViewModel() {
 
     val circlesLiveData = dataSource.circlesLiveData
@@ -15,6 +15,6 @@ class SetupCirclesViewModel(
     }
 
     fun addImageForCircle(id: Int?, uri: Uri) {
-
+        id?.let { dataSource.addCirclesCoverImage(it, uri) }
     }
 }
