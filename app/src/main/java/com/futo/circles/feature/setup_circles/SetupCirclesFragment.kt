@@ -11,6 +11,8 @@ import com.futo.circles.core.HasLoadingState
 import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.databinding.SetupCirclesFragmentBinding
 import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
+import com.futo.circles.extensions.showSuccess
 import com.futo.circles.feature.setup_circles.list.SetupCirclesAdapter
 import com.futo.circles.model.SetupCircleListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,6 +46,11 @@ class SetupCirclesFragment : Fragment(R.layout.setup_circles_fragment), HasLoadi
 
     private fun setupObservers() {
         viewModel.circlesLiveData.observeData(this, ::setCirclesList)
+        viewModel.createCirclesResponseLiveData.observeResponse(this,
+            success = {
+                showSuccess(getString(R.string.circles_created), true)
+                navigateToBottomMenuScreen()
+            })
     }
 
     private fun setCirclesList(list: List<SetupCircleListItem>) {
@@ -52,7 +59,7 @@ class SetupCirclesFragment : Fragment(R.layout.setup_circles_fragment), HasLoadi
 
     private fun onCircleListItemClicked(circle: SetupCircleListItem) {
         imagePickerHelper.showImagePickerDialog(
-            onImageSelected = { id, uri -> viewModel.addImageForCircle(id,uri)},
+            onImageSelected = { id, uri -> viewModel.addImageForCircle(id, uri) },
             id = circle.id
         )
     }
