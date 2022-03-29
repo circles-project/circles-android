@@ -1,6 +1,8 @@
 package com.futo.circles.core
 
-const val GROUP_TAG = "social.kombucha.group"
+const val GROUP_TYPE = "m.social.group"
+const val CIRCLE_TYPE = "m.social.timeline"
+
 const val DEFAULT_USER_PREFIX = "@notices:"
 
 const val AUTH_EXCEPTION_REASON_KEY = "reason"
