@@ -77,7 +77,7 @@ class PostLayout(
             setVisibility(hasReplies)
             setClosedText(
                 context.resources.getQuantityString(
-                    R.plurals.show__replies_plurals,
+                    R.plurals.show_replies_plurals,
                     repliesCount, repliesCount
                 )
             )

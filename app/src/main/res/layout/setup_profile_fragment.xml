@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Setup profile"
+        app:title="@string/setup_profile"
         app:titleCentered="true" />
 
     <View
