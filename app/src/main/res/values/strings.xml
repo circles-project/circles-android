@@ -80,13 +80,26 @@
     <string name="save">Save</string>
     <string name="skip">Skip</string>
     <string name="display_name_explanation">Your display name is how other users on the service will identify you.\n\nThe display name must consist of at least 8 characters, including at least two letters [a–z].\n\nIf you like, you can also use the numeric digits [0–9] and/or a few special characters like the dash, underscore, and period or \"dot\".</string>
+    <string name="setup_profile">Setup profile</string>
+    <string name="setup_circles">Setup Circles</string>
+    <string name="note_circle_name_and_cover_images_are_not_encrypted">NOTE: Circle name and cover images are not encrypted</string>
+    <string name="friends">Friends</string>
+    <string name="family">Family</string>
+    <string name="community">Community</string>
+    <string name="circles_created">Circles created</string>
+
+    <string-array name="setup_circles_list">
+        <item>@string/friends</item>
+        <item>@string/family</item>
+        <item>@string/community</item>
+    </string-array>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
         <item quantity="other">%d members</item>
     </plurals>
 
-    <plurals name="show__replies_plurals">
+    <plurals name="show_replies_plurals">
         <item quantity="one">Show %d reply</item>
         <item quantity="other">Show %d replies</item>
     </plurals>

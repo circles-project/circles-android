@@ -1,12 +1,13 @@
 package com.futo.circles.di
 
-import com.futo.circles.feature.create_group.data_source.CreateGroupDataSource
+import com.futo.circles.feature.create_group.data_source.CreateRoomDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineBuilder
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasource
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
 import com.futo.circles.feature.manage_group_members.data_source.ManageGroupMembersDataSource
 import com.futo.circles.feature.select_users.data_source.SelectUsersDataSource
+import com.futo.circles.feature.setup_circles.data_source.SetupCirclesDataSource
 import com.futo.circles.feature.setup_profile.data_source.SetupProfileDataSource
 import com.futo.circles.feature.sign_up.data_source.SignUpDataSource
 import com.futo.circles.feature.sign_up_type.data_source.SelectSignUpTypeDataSource
@@ -22,11 +23,12 @@ val dataSourceModule = module {
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
     factory { (roomId: String?) -> SelectUsersDataSource(roomId) }
     factory { (roomId: String) -> ManageGroupMembersDataSource(roomId, get()) }
-    factory { CreateGroupDataSource() }
+    factory { CreateRoomDataSource() }
     single { SignUpDataSource(get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
     factory { AcceptTermsDataSource(get(), get()) }
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
+    factory { SetupCirclesDataSource(get()) }
 }

@@ -1,3 +1,2 @@
 rootProject.name = "Circles"
 include ':app'
-include ':matrix-android-sdk:matrix-sdk-android'
