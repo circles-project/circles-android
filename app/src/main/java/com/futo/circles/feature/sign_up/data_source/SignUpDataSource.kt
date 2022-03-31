@@ -8,6 +8,7 @@ import com.futo.circles.core.REGISTRATION_TOKEN_KEY
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.provider.MatrixInstanceProvider
 import com.futo.circles.provider.MatrixSessionProvider
+import kotlinx.coroutines.suspendCancellableCoroutine
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
@@ -48,10 +49,20 @@ class SignUpDataSource(
 
     private suspend fun finishRegistration(session: Session) {
         MatrixInstanceProvider.matrix.authenticationService().reset()
-        MatrixSessionProvider.startSession(session)
+        awaitForSessionStart(session)
         coreSpacesTreeBuilder.createCoreSpacesTree()
         navigationLiveData.postValue(NavigationEvents.FinishSignUp)
     }
+
+    private suspend fun awaitForSessionStart(session: Session) =
+        suspendCancellableCoroutine<Session> {
+            MatrixSessionProvider.startSession(session, object : Session.Listener {
+                override fun onSessionStarted(session: Session) {
+                    super.onSessionStarted(session)
+                    it.resume(session) { session.removeListener(this) }
+                }
+            })
+        }
 
     private fun getCurrentStageIndex() =
         stagesToComplete.indexOf(currentStage).takeIf { it != -1 } ?: 0

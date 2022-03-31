@@ -12,7 +12,7 @@ import org.matrix.android.sdk.api.session.space.CreateSpaceParams
 
 class CreateRoomDataSource {
 
-    private val session = MatrixSessionProvider.currentSession
+    private val session by lazy { MatrixSessionProvider.currentSession }
 
     suspend fun createGroup(
         iconUri: Uri?,
