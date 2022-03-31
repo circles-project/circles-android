@@ -1,6 +1,7 @@
 package com.futo.circles.feature.create_group.data_source
 
 import android.net.Uri
+import com.futo.circles.BuildConfig
 import com.futo.circles.core.GROUP_TYPE
 import com.futo.circles.core.SPACE_TYPE
 import com.futo.circles.model.UserListItem
@@ -33,12 +34,29 @@ class CreateRoomDataSource {
         session?.createRoom(params)
     }
 
-    suspend fun createSpace(name: String, iconUri: Uri? = null) {
+    suspend fun createSpace(
+        name: String,
+        iconUri: Uri? = null,
+        parentSpaceId: String? = null
+    ): String {
+
         val params = CreateSpaceParams().apply {
             this.name = name
             avatarUri = iconUri
             roomType = SPACE_TYPE
         }
-        session?.spaceService()?.createSpace(params)
+        val spaceId = session?.spaceService()?.createSpace(params) ?: return ""
+        parentSpaceId?.let { setSpaceParent(spaceId, it) }
+
+        return spaceId
     }
+
+    private suspend fun setSpaceParent(spaceId: String, parentSpaceId: String) {
+        session?.spaceService()
+            ?.setSpaceParent(spaceId, parentSpaceId, true, listOf(getHomeServerDomain()))
+    }
+
+    private fun getHomeServerDomain() =
+        BuildConfig.MATRIX_HOME_SERVER_URL
+            .substringAfter("//").replace("/", "")
 }

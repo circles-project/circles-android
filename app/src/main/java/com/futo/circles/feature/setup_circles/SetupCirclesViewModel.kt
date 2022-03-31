@@ -17,7 +17,7 @@ class SetupCirclesViewModel(
 ) : ViewModel() {
 
     val circlesLiveData = setupCirclesDataSource.circlesLiveData
-    val createCirclesResponseLiveData = SingleEventLiveData<Response<List<Unit>?>>()
+    val createCirclesResponseLiveData = SingleEventLiveData<Response<List<String>?>>()
 
     fun createCircles() {
         launchBg {
