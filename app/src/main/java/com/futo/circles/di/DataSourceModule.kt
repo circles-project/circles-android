@@ -1,5 +1,6 @@
 package com.futo.circles.di
 
+import com.futo.circles.core.CoreSpacesTreeBuilder
 import com.futo.circles.feature.create_group.data_source.CreateRoomDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineBuilder
@@ -24,11 +25,12 @@ val dataSourceModule = module {
     factory { (roomId: String?) -> SelectUsersDataSource(roomId) }
     factory { (roomId: String) -> ManageGroupMembersDataSource(roomId, get()) }
     factory { CreateRoomDataSource() }
-    single { SignUpDataSource(get()) }
+    single { SignUpDataSource(get(), get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
     factory { AcceptTermsDataSource(get(), get()) }
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
+    factory { CoreSpacesTreeBuilder(get()) }
 }
