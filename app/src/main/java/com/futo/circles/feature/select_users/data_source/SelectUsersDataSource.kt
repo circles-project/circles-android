@@ -7,7 +7,6 @@ import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.NoResultsItem
 import com.futo.circles.model.UserListItem
 import com.futo.circles.provider.MatrixSessionProvider
-import com.futo.circles.core.DEFAULT_USER_PREFIX
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import org.matrix.android.sdk.api.session.user.model.User
@@ -92,5 +91,6 @@ class SelectUsersDataSource(roomId: String?) {
 
     private companion object {
         private const val MAX_SUGGESTION_COUNT = 30
+        private const val DEFAULT_USER_PREFIX = "@notices:"
     }
 }

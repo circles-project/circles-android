@@ -6,6 +6,7 @@ import retrofit2.HttpException
 
 object ErrorParser {
 
+    private const val AUTH_EXCEPTION_REASON_KEY = "reason"
 
     fun getErrorMessage(t: Throwable): String =
         handleErrorBodyException(t) ?: handleServerException(t) ?: "Unexpected error"
@@ -22,5 +23,4 @@ object ErrorParser {
 
     private fun handleServerException(t: Throwable): String? =
         (t as? Failure.ServerError)?.error?.message ?: t.message
-
 }
