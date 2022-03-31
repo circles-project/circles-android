@@ -1,7 +1,8 @@
 package com.futo.circles.core
 
+const val SPACE_TYPE = "m.space"
 const val GROUP_TYPE = "m.social.group"
-const val CIRCLE_TYPE = "m.social.timeline"
+const val TIMELINE_SPACE_TYPE = "m.social.timeline"
 
 const val REGISTRATION_TOKEN_KEY = "org.matrix.msc3231.login.registration_token"
 
