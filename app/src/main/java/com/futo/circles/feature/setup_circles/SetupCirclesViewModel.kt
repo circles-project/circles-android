@@ -6,14 +6,15 @@ import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.create_group.data_source.CreateRoomDataSource
+import com.futo.circles.core.matrix.CreateRoomDataSource
+import com.futo.circles.core.matrix.CreateSpaceDataSource
 import com.futo.circles.feature.setup_circles.data_source.SetupCirclesDataSource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 
 class SetupCirclesViewModel(
     private val setupCirclesDataSource: SetupCirclesDataSource,
-    private val createRoomDataSource: CreateRoomDataSource,
+    private val createSpaceDataSource: CreateSpaceDataSource
 ) : ViewModel() {
 
     val circlesLiveData = setupCirclesDataSource.circlesLiveData
@@ -23,7 +24,7 @@ class SetupCirclesViewModel(
         launchBg {
             val response = createResult {
                 circlesLiveData.value?.map {
-                    async { createRoomDataSource.createSpace(it.name, it.coverUri) }
+                    async { createSpaceDataSource.createCircle(it.name, it.coverUri) }
                 }?.awaitAll()
             }
             createCirclesResponseLiveData.postValue(response)
