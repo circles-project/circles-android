@@ -1,7 +1,7 @@
 package com.futo.circles.feature.select_users.list.search
 
 import android.view.ViewGroup
-import com.futo.circles.core.BaseRvAdapter
+import com.futo.circles.core.list.BaseRvAdapter
 import com.futo.circles.model.HeaderItem
 import com.futo.circles.model.InviteMemberListItem
 import com.futo.circles.model.NoResultsItem

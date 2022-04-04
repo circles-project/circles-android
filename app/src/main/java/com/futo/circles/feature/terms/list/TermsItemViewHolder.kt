@@ -2,7 +2,7 @@ package com.futo.circles.feature.terms.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.futo.circles.core.ViewBindingHolder
+import com.futo.circles.core.list.ViewBindingHolder
 import com.futo.circles.databinding.TermsListItemBinding
 import com.futo.circles.extensions.onClick
 import com.futo.circles.model.TermsListItem

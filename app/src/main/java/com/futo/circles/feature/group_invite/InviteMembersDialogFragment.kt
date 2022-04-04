@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.futo.circles.R
-import com.futo.circles.core.BaseFullscreenDialogFragment
-import com.futo.circles.core.HasLoadingState
+import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.databinding.InviteMembersDialogFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse

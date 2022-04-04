@@ -1,7 +1,7 @@
 package com.futo.circles.model
 
 import com.futo.circles.R
-import com.futo.circles.core.IdEntity
+import com.futo.circles.core.list.IdEntity
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 data class GroupMemberListItem(

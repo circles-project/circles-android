@@ -4,7 +4,7 @@ import android.util.Size
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.futo.circles.core.ViewBindingHolder
+import com.futo.circles.core.list.ViewBindingHolder
 import com.futo.circles.databinding.ImagePostViewBinding
 import com.futo.circles.databinding.TextPostViewBinding
 import com.futo.circles.extensions.loadEncryptedImage

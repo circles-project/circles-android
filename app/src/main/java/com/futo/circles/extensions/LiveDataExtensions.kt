@@ -3,8 +3,7 @@ package com.futo.circles.extensions
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import com.futo.circles.core.ErrorParser
-import com.futo.circles.core.HasLoadingState
-import com.futo.circles.core.SingleEventLiveData
+import com.futo.circles.core.fragment.HasLoadingState
 
 fun <T> LiveData<Response<T>>.observeResponse(
     hasLoadingState: HasLoadingState,

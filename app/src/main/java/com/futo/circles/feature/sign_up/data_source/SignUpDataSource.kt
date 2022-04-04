@@ -3,7 +3,7 @@ package com.futo.circles.feature.sign_up.data_source
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
-import com.futo.circles.core.CoreSpacesTreeBuilder
+import com.futo.circles.core.matrix.CoreSpacesTreeBuilder
 import com.futo.circles.core.REGISTRATION_TOKEN_KEY
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.provider.MatrixInstanceProvider

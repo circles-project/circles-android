@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
-import com.futo.circles.core.BaseRvDecoration
+import com.futo.circles.core.list.BaseRvDecoration
 import com.futo.circles.databinding.GroupTimelineFragmentBinding
 import com.futo.circles.extensions.bindToFab
 import com.futo.circles.extensions.dimen
