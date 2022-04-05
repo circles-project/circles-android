@@ -6,7 +6,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
-import com.futo.circles.core.HasLoadingState
+import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.databinding.SelectSignUpTypeFragmentBinding
 import com.futo.circles.extensions.observeResponse
 import org.koin.androidx.viewmodel.ext.android.viewModel

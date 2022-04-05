@@ -1,7 +1,7 @@
 package com.futo.circles.feature.groups.list
 
 import android.view.ViewGroup
-import com.futo.circles.core.BaseRvAdapter
+import com.futo.circles.core.list.BaseRvAdapter
 import com.futo.circles.model.GroupListItem
 import com.futo.circles.model.GroupListItemPayload
 

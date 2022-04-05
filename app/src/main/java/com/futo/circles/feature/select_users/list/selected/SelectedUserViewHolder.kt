@@ -2,7 +2,7 @@ package com.futo.circles.feature.select_users.list.selected
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.futo.circles.core.ViewBindingHolder
+import com.futo.circles.core.list.ViewBindingHolder
 import com.futo.circles.databinding.SelectedUserChipItemBinding
 import com.futo.circles.model.UserListItem
 

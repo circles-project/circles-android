@@ -1,4 +1,4 @@
-package com.futo.circles.core
+package com.futo.circles.core.list
 
 import android.annotation.SuppressLint
 import android.content.Context

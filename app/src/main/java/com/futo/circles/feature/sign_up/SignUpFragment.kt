@@ -9,7 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
-import com.futo.circles.core.BackPressOwner
+import com.futo.circles.core.fragment.BackPressOwner
 import com.futo.circles.databinding.SignUpFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.showDialog

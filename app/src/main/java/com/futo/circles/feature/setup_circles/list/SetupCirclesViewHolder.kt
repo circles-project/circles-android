@@ -3,7 +3,7 @@ package com.futo.circles.feature.setup_circles.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.futo.circles.R
-import com.futo.circles.core.ViewBindingHolder
+import com.futo.circles.core.list.ViewBindingHolder
 import com.futo.circles.databinding.SetupCircleListItemBinding
 import com.futo.circles.extensions.onClick
 import com.futo.circles.model.SetupCircleListItem

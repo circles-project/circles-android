@@ -1,7 +1,7 @@
 package com.futo.circles.feature.group_timeline.list
 
 import android.view.ViewGroup
-import com.futo.circles.core.BaseRvAdapter
+import com.futo.circles.core.list.BaseRvAdapter
 import com.futo.circles.model.Post
 import com.futo.circles.model.PostContentType
 import com.futo.circles.model.PostItemPayload

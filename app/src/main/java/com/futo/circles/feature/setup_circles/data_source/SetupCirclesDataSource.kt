@@ -11,9 +11,9 @@ class SetupCirclesDataSource(
     private val context: Context
 ) {
 
-    val circlesLiveData = MutableLiveData<List<SetupCircleListItem>>(getInitialCirclesList())
+    val circlesLiveData = MutableLiveData(getInitialCirclesList())
 
-    private fun getInitialCirclesList() =
+    private fun getInitialCirclesList(): List<SetupCircleListItem> =
         context.resources.getStringArray(R.array.setup_circles_list).mapIndexed { i, name ->
             SetupCircleListItem(
                 id = i,
@@ -32,7 +32,7 @@ class SetupCirclesDataSource(
         val list = circlesLiveData.value?.map {
             if (it.id == id) it.copy(coverUri = uri) else it
         } ?: emptyList()
-        
+
         circlesLiveData.postValue(list)
     }
 }

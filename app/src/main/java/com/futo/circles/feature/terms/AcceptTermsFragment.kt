@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
-import com.futo.circles.core.HasLoadingState
-import com.futo.circles.core.ParentBackPressOwnerFragment
+import com.futo.circles.core.fragment.HasLoadingState
+import com.futo.circles.core.fragment.ParentBackPressOwnerFragment
 import com.futo.circles.databinding.AcceptTermsFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse

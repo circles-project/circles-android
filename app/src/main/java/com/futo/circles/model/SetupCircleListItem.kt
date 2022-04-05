@@ -1,7 +1,7 @@
 package com.futo.circles.model
 
 import android.net.Uri
-import com.futo.circles.core.IdEntity
+import com.futo.circles.core.list.IdEntity
 
 data class SetupCircleListItem(
     override val id: Int,

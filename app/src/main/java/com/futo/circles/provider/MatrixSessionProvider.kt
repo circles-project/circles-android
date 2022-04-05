@@ -23,7 +23,8 @@ object MatrixSessionProvider {
         lastSession?.let { startSession(it) }
     }
 
-    fun startSession(session: Session) {
+    fun startSession(session: Session, listener: Session.Listener? = null) {
+        listener?.let { session.addListener(it) }
         currentSession = session.apply { open(); startSync(true) }
     }
 }

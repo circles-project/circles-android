@@ -1,4 +1,4 @@
-package com.futo.circles.core
+package com.futo.circles.core.fragment
 
 import android.view.View
 import androidx.fragment.app.Fragment

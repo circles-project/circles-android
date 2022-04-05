@@ -2,7 +2,7 @@ package com.futo.circles.feature.setup_circles.list
 
 
 import android.view.ViewGroup
-import com.futo.circles.core.BaseRvAdapter
+import com.futo.circles.core.list.BaseRvAdapter
 import com.futo.circles.model.SetupCircleListItem
 
 class SetupCirclesAdapter(
