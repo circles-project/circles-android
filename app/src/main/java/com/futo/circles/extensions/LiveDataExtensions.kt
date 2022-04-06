@@ -6,19 +6,18 @@ import com.futo.circles.core.ErrorParser
 import com.futo.circles.core.fragment.HasLoadingState
 
 fun <T> LiveData<Response<T>>.observeResponse(
-    hasLoadingState: HasLoadingState,
+    fragment: Fragment,
     success: (T) -> Unit = {},
     error: ((String) -> Unit)? = null,
     onRequestInvoked: (() -> Unit)? = null
 ) {
-    val owner = hasLoadingState.fragment.viewLifecycleOwner
-    observe(owner) {
+    observe(fragment.viewLifecycleOwner) {
         it ?: return@observe
-        onRequestInvoked?.invoke() ?: run { hasLoadingState.stopLoading() }
+        onRequestInvoked?.invoke() ?: run { (fragment as? HasLoadingState)?.stopLoading() }
         when (it) {
             is Response.Success -> success(it.data)
             is Response.Error -> error?.invoke(it.message)
-                ?: hasLoadingState.fragment.showError(it.message)
+                ?: fragment.showError(it.message)
         }
     }
 }
