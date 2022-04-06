@@ -91,6 +91,8 @@
     <string name="circles_space_name">My Circles</string>
     <string name="groups_space_name">My Groups</string>
     <string name="photos_space_name">My Photo Galleries</string>
+    <string name="log_out">Log out</string>
+    <string name="log_out_message">Are you sure you want to log out?</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>
