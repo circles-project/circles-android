@@ -49,8 +49,7 @@ class SignUpDataSource(
 
     private suspend fun finishRegistration(session: Session) {
         MatrixInstanceProvider.matrix.authenticationService().reset()
-            //awaitForSessionStart(session)
-        MatrixSessionProvider.startSession(session)
+        awaitForSessionStart(session)
         coreSpacesTreeBuilder.createCoreSpacesTree()
         navigationLiveData.postValue(NavigationEvents.FinishSignUp)
     }
