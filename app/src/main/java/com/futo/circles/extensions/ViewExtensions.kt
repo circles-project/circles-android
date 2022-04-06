@@ -5,7 +5,9 @@ import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.StyleRes
+import androidx.core.view.children
 
 
 fun View.visible() {
@@ -36,8 +38,18 @@ inline fun View.getAttributes(
     }
 }
 
-fun View.setSelectableItemBackground(){
+fun View.setSelectableItemBackground() {
     val outValue = TypedValue()
     context.theme.resolveAttribute(R.attr.selectableItemBackground, outValue, true)
     setBackgroundResource(outValue.resourceId)
+}
+
+fun ViewGroup.setEnabledChildren(enabled: Boolean, viewsToExclude: List<View> = emptyList()) {
+    children.forEach { view ->
+        val isViewExcluded = viewsToExclude.firstOrNull { it.id == view.id } != null
+        if (!isViewExcluded) {
+            if (view.isClickable) view.isEnabled = enabled
+            (view as? ViewGroup)?.setEnabledChildren(enabled, viewsToExclude)
+        }
+    }
 }
