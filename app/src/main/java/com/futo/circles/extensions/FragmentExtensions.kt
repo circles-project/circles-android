@@ -12,8 +12,8 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.futo.circles.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -57,17 +57,6 @@ fun Fragment.setEnabledViews(enabled: Boolean, viewsToExclude: List<View> = empt
     (view?.rootView as? ViewGroup)?.setEnabledChildren(enabled, viewsToExclude)
 }
 
-
-fun ViewGroup.setEnabledChildren(enabled: Boolean, viewsToExclude: List<View> = emptyList()) {
-    children.forEach { view ->
-        val isViewExcluded = viewsToExclude.firstOrNull { it.id == view.id } != null
-        if (!isViewExcluded) {
-            if (view.isClickable) view.isEnabled = enabled
-            (view as? ViewGroup)?.setEnabledChildren(enabled, viewsToExclude)
-        }
-    }
-}
-
 fun Fragment.setSupportActionBar(toolbar: Toolbar) {
     (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
 }
@@ -80,13 +69,14 @@ fun Fragment.showDialog(
     @StringRes titleResIdRes: Int,
     @StringRes messageResId: Int? = null,
     negativeButtonVisible: Boolean = false,
-    positiveAction: () -> Unit = {}
+    positiveAction: () -> Unit = {},
+    @StringRes positiveButtonRes: Int? = null,
 ) {
     context?.let {
         MaterialAlertDialogBuilder(it)
             .setTitle(titleResIdRes)
             .apply { messageResId?.let { this.setMessage(it) } }
-            .setPositiveButton(android.R.string.ok) { dialogInterface, _ ->
+            .setPositiveButton(positiveButtonRes ?: android.R.string.ok) { dialogInterface, _ ->
                 positiveAction()
                 dialogInterface.dismiss()
             }
@@ -106,3 +96,5 @@ fun Fragment.openCustomTabUrl(url: String) {
         CustomTabsIntent.Builder().build().launchUrl(it, Uri.parse(url))
     }
 }
+
+fun Fragment.findParentNavController() = parentFragment?.parentFragment?.findNavController()

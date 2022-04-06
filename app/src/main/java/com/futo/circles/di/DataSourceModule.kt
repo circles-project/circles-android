@@ -5,6 +5,7 @@ import com.futo.circles.core.matrix.CreateRoomDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineBuilder
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasource
+import com.futo.circles.feature.home.data_source.HomeDataSource
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
 import com.futo.circles.feature.manage_group_members.data_source.ManageGroupMembersDataSource
 import com.futo.circles.feature.select_users.data_source.SelectUsersDataSource
@@ -33,4 +34,5 @@ val dataSourceModule = module {
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
+    factory { HomeDataSource() }
 }

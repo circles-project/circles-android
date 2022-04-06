@@ -54,7 +54,15 @@
         android:id="@+id/bottomNavigationFragment"
         android:name="com.futo.circles.feature.bottom_navigation.BottomNavigationFragment"
         android:label="Bottom Navigation"
-        tools:layout="@layout/bottom_navigation_fragment" />
+        tools:layout="@layout/bottom_navigation_fragment">
+
+        <action
+            android:id="@+id/to_logInFragment"
+            app:destination="@id/logInFragment"
+            app:popUpTo="@id/bottomNavigationFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
     <fragment
         android:id="@+id/setupProfileFragment"
         android:name="com.futo.circles.feature.setup_profile.SetupProfileFragment"
