@@ -9,7 +9,10 @@ import com.futo.circles.provider.MatrixInstanceProvider
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 
-class LoginDataSource(private val context: Context) {
+class LoginDataSource(
+    private val context: Context,
+    private val phaseDataSource: LoginDataSource
+) {
 
     private val homeServerConnectionConfig by lazy {
         HomeServerConnectionConfig
