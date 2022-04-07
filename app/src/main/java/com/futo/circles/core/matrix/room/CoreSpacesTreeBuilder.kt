@@ -1,4 +1,4 @@
-package com.futo.circles.core.matrix
+package com.futo.circles.core.matrix.room
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

@@ -1,7 +1,7 @@
 package com.futo.circles.di
 
-import com.futo.circles.core.matrix.CoreSpacesTreeBuilder
-import com.futo.circles.core.matrix.CreateRoomDataSource
+import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
+import com.futo.circles.core.matrix.room.CreateRoomDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineBuilder
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasource
