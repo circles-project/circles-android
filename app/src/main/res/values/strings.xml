@@ -94,6 +94,14 @@
     <string name="log_out">Log out</string>
     <string name="log_out_message">Are you sure you want to log out?</string>
 
+    <string name="generating_passphrase">Generating secure key from passphrase</string>
+    <string name="defining_default_key">Defining SSSS default Key</string>
+    <string name="synchronizing_master_key">Synchronizing Master key</string>
+    <string name="synchronizing_user_key">Synchronizing User key</string>
+    <string name="synchronizing_self_key">Synchronizing Self Signing key</string>
+    <string name="setting_up_backup">Setting Up Key Backup</string>
+    <string name="missing_private_key">Missing private key</string>
+
     <string-array name="setup_circles_list">
         <item>@string/friends</item>
         <item>@string/family</item>
