@@ -1,6 +1,7 @@
 package com.futo.circles.provider
 
 import android.content.Context
+import kotlinx.coroutines.suspendCancellableCoroutine
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
 import org.matrix.android.sdk.api.session.Session
@@ -27,4 +28,14 @@ object MatrixSessionProvider {
         listener?.let { session.addListener(it) }
         currentSession = session.apply { open(); startSync(true) }
     }
+
+    suspend fun awaitForSessionStart(session: Session) =
+        suspendCancellableCoroutine<Session> {
+            startSession(session, object : Session.Listener {
+                override fun onSessionStarted(session: Session) {
+                    super.onSessionStarted(session)
+                    it.resume(session) { session.removeListener(this) }
+                }
+            })
+        }
 }
