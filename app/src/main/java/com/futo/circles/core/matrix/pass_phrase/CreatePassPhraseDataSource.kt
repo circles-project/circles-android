@@ -27,7 +27,9 @@ class CreatePassPhraseDataSource(private val context: Context) {
                 object : ProgressListener {
                     override fun onProgress(progress: Int, total: Int) {
                         loadingLiveData.postValue(passPhraseLoadingData.apply {
-                            setProgress(progress, total)
+                            this.isLoading = true
+                            this.progress = progress
+                            this.total = total
                         })
                     }
                 }, it
@@ -35,6 +37,7 @@ class CreatePassPhraseDataSource(private val context: Context) {
         }
 
         createKeyBackup(keyBackupService, backupCreationInfo)
+        loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
     private suspend fun createKeyBackup(
