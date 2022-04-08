@@ -93,11 +93,11 @@
     <string name="photos_space_name">My Photo Galleries</string>
     <string name="log_out">Log out</string>
     <string name="log_out_message">Are you sure you want to log out?</string>
-
     <string name="generating_recovery_key">Generating recovery key from passphrase.</string>
     <string name="creating_backup">Creating backup</string>
     <string name="session_is_not_created">Session is not created</string>
     <string name="backup_already_exist">Backup already exist</string>
+    <string name="not_supported_stage_format">Not supported stage %s</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

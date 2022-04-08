@@ -14,8 +14,8 @@ import org.matrix.android.sdk.internal.util.awaitCallback
 class CreatePassPhraseDataSource(private val context: Context) {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
-    private val loadingLiveData = MutableLiveData<CreatePassPhraseLoadingData>()
-    val passPhraseLoadingData = CreatePassPhraseLoadingData()
+    val loadingLiveData = MutableLiveData<CreatePassPhraseLoadingData>()
+    private val passPhraseLoadingData = CreatePassPhraseLoadingData()
 
     suspend fun createPassPhraseBackup(passphrase: String) {
         val keyBackupService = session?.cryptoService()?.keysBackupService()

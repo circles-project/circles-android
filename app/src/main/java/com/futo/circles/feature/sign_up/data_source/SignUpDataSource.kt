@@ -7,6 +7,8 @@ import com.futo.circles.core.REGISTRATION_TOKEN_KEY
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.core.matrix.pass_phrase.CreatePassPhraseDataSource
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
+import com.futo.circles.extensions.Response
+import com.futo.circles.extensions.createResult
 import com.futo.circles.provider.MatrixInstanceProvider
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.async
@@ -16,7 +18,7 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 
-enum class NavigationEvents { TokenValidation, AcceptTerm, ValidateEmail, SetupAvatar, SetupCircles, FinishSignUp }
+enum class NavigationEvents { TokenValidation, AcceptTerm, ValidateEmail }
 
 class SignUpDataSource(
     private val context: Context,
@@ -26,7 +28,8 @@ class SignUpDataSource(
 
     val subtitleLiveData = MutableLiveData<String>()
     val navigationLiveData = SingleEventLiveData<NavigationEvents>()
-    val passPhraseLoadingLiveData = createPassPhraseDataSource.passPhraseLoadingData
+    val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
+    val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
 
     private val stagesToComplete = mutableListOf<Stage>()
 
@@ -46,7 +49,7 @@ class SignUpDataSource(
 
     suspend fun stageCompleted(result: RegistrationResult?) {
         (result as? RegistrationResult.Success)?.let {
-            finishRegistration(it.session)
+            finishRegistrationLiveData.postValue(finishRegistration(it.session))
         } ?: navigateToNextStage()
     }
 
@@ -54,7 +57,7 @@ class SignUpDataSource(
         subtitleLiveData.postValue("")
     }
 
-    private suspend fun finishRegistration(session: Session) {
+    private suspend fun finishRegistration(session: Session) = createResult {
         MatrixInstanceProvider.matrix.authenticationService().reset()
         MatrixSessionProvider.awaitForSessionStart(session)
         coroutineScope {
@@ -63,7 +66,6 @@ class SignUpDataSource(
                 async { createPassPhraseDataSource.createPassPhraseBackup(passphrase) }
             ).awaitAll()
         }
-        navigationLiveData.postValue(NavigationEvents.FinishSignUp)
     }
 
     private fun getCurrentStageIndex() =
@@ -80,7 +82,9 @@ class SignUpDataSource(
             is Stage.Email -> NavigationEvents.ValidateEmail
             is Stage.Terms -> NavigationEvents.AcceptTerm
             is Stage.Other -> handleStageOther(stage.type)
-            else -> throw IllegalArgumentException("Not supported stage $stage")
+            else -> throw IllegalArgumentException(
+                context.getString(R.string.not_supported_stage_format, stage.toString())
+            )
         }
 
         navigationLiveData.postValue(event)
@@ -91,7 +95,9 @@ class SignUpDataSource(
     private fun handleStageOther(type: String): NavigationEvents =
         when (type) {
             REGISTRATION_TOKEN_KEY -> NavigationEvents.TokenValidation
-            else -> throw IllegalArgumentException("Not supported stage $type")
+            else -> throw IllegalArgumentException(
+                context.getString(R.string.not_supported_stage_format, type)
+            )
         }
 
     private fun updatePageSubtitle() {
