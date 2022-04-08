@@ -20,7 +20,7 @@ import com.futo.circles.feature.validate_token.data_source.ValidateTokenDataSour
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { LoginDataSource(get(), get()) }
+    factory { LoginDataSource(get()) }
     factory { (roomId: String) -> GroupTimelineDatasource(roomId, get()) }
     factory { GroupTimelineBuilder() }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
