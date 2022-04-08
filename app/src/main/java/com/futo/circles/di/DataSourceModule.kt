@@ -28,7 +28,7 @@ val dataSourceModule = module {
     factory { (roomId: String) -> ManageGroupMembersDataSource(roomId, get()) }
     factory { CreateRoomDataSource(get()) }
     factory { CoreSpacesTreeBuilder(get()) }
-    single { SignUpDataSource(get(), get()) }
+    single { SignUpDataSource(get(), get(), get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
     factory { AcceptTermsDataSource(get(), get()) }

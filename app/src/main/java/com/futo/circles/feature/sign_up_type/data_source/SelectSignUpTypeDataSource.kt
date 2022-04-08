@@ -28,7 +28,7 @@ class SelectSignUpTypeDataSource(
         )
                 as? RegistrationResult.FlowResponse)
             ?.let {
-                signUpDataSource.startSignUpStages(it.flowResult.missingStages)
+                signUpDataSource.startSignUpStages(it.flowResult.missingStages, password)
             }
     }
 

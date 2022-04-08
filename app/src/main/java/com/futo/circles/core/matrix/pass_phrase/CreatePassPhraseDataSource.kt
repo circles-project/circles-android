@@ -15,9 +15,9 @@ class CreatePassPhraseDataSource(private val context: Context) {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
     private val loadingLiveData = MutableLiveData<CreatePassPhraseLoadingData>()
-    private val passPhraseLoadingData = CreatePassPhraseLoadingData()
+    val passPhraseLoadingData = CreatePassPhraseLoadingData()
 
-    private suspend fun createPassPhraseBackup(passphrase: String) {
+    suspend fun createPassPhraseBackup(passphrase: String) {
         val keyBackupService = session?.cryptoService()?.keysBackupService()
             ?: throw Exception(context.getString(R.string.session_is_not_created))
 
