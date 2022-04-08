@@ -1,6 +1,6 @@
 package com.futo.circles.di
 
-import com.futo.circles.core.matrix.pass_phrase.PassPhraseDataSource
+import com.futo.circles.core.matrix.pass_phrase.CreatePassPhraseDataSource
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
@@ -36,5 +36,5 @@ val dataSourceModule = module {
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
     factory { HomeDataSource() }
-    factory { PassPhraseDataSource(get()) }
+    factory { CreatePassPhraseDataSource(get()) }
 }
