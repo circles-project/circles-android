@@ -3,7 +3,7 @@ package com.futo.circles.feature.group_invite.data_source
 import android.content.Context
 import com.futo.circles.R
 import com.futo.circles.extensions.createResult
-import com.futo.circles.extensions.nameOrId
+import com.futo.circles.mapping.nameOrId
 import com.futo.circles.model.UserListItem
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.CoroutineScope
