@@ -28,20 +28,22 @@ class LoginDataSource(
 
     val passPhraseLoadingLiveData = restorePassPhraseDataSource.loadingLiveData
 
-    suspend fun logIn(name: String, password: String) =
-        createResult {
-            val session = authService.directAuthentication(
-                homeServerConnectionConfig = homeServerConnectionConfig,
-                matrixId = name,
-                password = password,
-                initialDeviceName = context.getString(
-                    R.string.initial_device_name,
-                    context.getString(R.string.app_name)
-                )
+    suspend fun logIn(name: String, password: String) = createResult {
+        val session = authService.directAuthentication(
+            homeServerConnectionConfig = homeServerConnectionConfig,
+            matrixId = name,
+            password = password,
+            initialDeviceName = context.getString(
+                R.string.initial_device_name,
+                context.getString(R.string.app_name)
             )
-            MatrixSessionProvider.awaitForSessionStart(session)
-            restorePassPhraseDataSource.restoreKeysWithPassPhase(password)
-        }
+        )
+        MatrixSessionProvider.awaitForSessionStart(session)
+    }
+
+    suspend fun restoreKeys(password: String) = createResult {
+        restorePassPhraseDataSource.restoreKeysWithPassPhase(password)
+    }
 
     suspend fun startSignUp() = createResult {
         authService.getLoginFlow(homeServerConnectionConfig)

@@ -11,6 +11,7 @@ import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingDialog
 import com.futo.circles.databinding.LogInFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
+import com.futo.circles.extensions.showError
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -28,9 +29,14 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
     }
 
     private fun setupObservers() {
-        viewModel.loginResultLiveData.observeResponse(
+        viewModel.loginResultLiveData.observeResponse(this)
+        viewModel.restoreKeysLiveData.observeResponse(
             this,
-            success = { navigateToBottomMenuFragment() }
+            success = { navigateToBottomMenuFragment() },
+            error = {
+                showError(it, true)
+                navigateToBottomMenuFragment()
+            }
         )
         viewModel.signUpEventResultLiveData.observeResponse(
             this,

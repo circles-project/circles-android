@@ -6,19 +6,21 @@ import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
 import org.matrix.android.sdk.api.auth.data.LoginFlowResult
+import org.matrix.android.sdk.api.session.Session
 
 class LogInViewModel(
     private val loginDataSource: LoginDataSource
 ) : ViewModel() {
 
-    val loginResultLiveData = SingleEventLiveData<Response<Unit>>()
+    val loginResultLiveData = SingleEventLiveData<Response<Session>>()
+    val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
     val signUpEventResultLiveData = SingleEventLiveData<Response<LoginFlowResult>>()
     val passPhraseLoadingLiveData = loginDataSource.passPhraseLoadingLiveData
 
     fun logIn(name: String, password: String) {
         launchBg {
-            val response = loginDataSource.logIn(name, password)
-            loginResultLiveData.postValue(response)
+            loginResultLiveData.postValue(loginDataSource.logIn(name, password))
+            restoreKeysLiveData.postValue(loginDataSource.restoreKeys(password))
         }
     }
 
