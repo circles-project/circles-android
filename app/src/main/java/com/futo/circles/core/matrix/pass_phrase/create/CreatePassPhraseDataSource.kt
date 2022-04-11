@@ -1,4 +1,4 @@
-package com.futo.circles.core.matrix.pass_phrase
+package com.futo.circles.core.matrix.pass_phrase.create
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData

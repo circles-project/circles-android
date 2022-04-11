@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
 import com.futo.circles.core.REGISTRATION_TOKEN_KEY
 import com.futo.circles.core.SingleEventLiveData
-import com.futo.circles.core.matrix.pass_phrase.CreatePassPhraseDataSource
+import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult

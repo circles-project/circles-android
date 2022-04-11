@@ -98,6 +98,10 @@
     <string name="session_is_not_created">Session is not created</string>
     <string name="backup_already_exist">Backup already exist</string>
     <string name="not_supported_stage_format">Not supported stage %s</string>
+    <string name="can_not_find_default_key">Can not find default key</string>
+    <string name="computing_recovery_key">Computing recovery key…</string>
+    <string name="backup_could_not_be_decrypted_with_passphrase">Backup could not be decrypted with this passphrase.</string>
+    <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

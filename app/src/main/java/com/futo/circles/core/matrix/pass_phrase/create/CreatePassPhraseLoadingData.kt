@@ -1,4 +1,4 @@
-package com.futo.circles.core.matrix.pass_phrase
+package com.futo.circles.core.matrix.pass_phrase.create
 
 import androidx.annotation.StringRes
 import com.futo.circles.R

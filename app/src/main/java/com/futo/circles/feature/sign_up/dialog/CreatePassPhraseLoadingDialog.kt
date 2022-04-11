@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
-import com.futo.circles.core.matrix.pass_phrase.CreatePassPhraseLoadingData
+import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseLoadingData
 import com.futo.circles.databinding.CreatePassPhraseLoadingDialogBinding
 import com.futo.circles.extensions.setVisibility
 
