@@ -12,13 +12,15 @@ class LogInViewModel(
     private val loginDataSource: LoginDataSource
 ) : ViewModel() {
 
-    var loginResultLiveData = SingleEventLiveData<Response<Session>>()
-    var signUpEventResultLiveData = SingleEventLiveData<Response<LoginFlowResult>>()
+    val loginResultLiveData = SingleEventLiveData<Response<Session>>()
+    val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
+    val signUpEventResultLiveData = SingleEventLiveData<Response<LoginFlowResult>>()
+    val passPhraseLoadingLiveData = loginDataSource.passPhraseLoadingLiveData
 
     fun logIn(name: String, password: String) {
         launchBg {
-            val response = loginDataSource.logIn(name, password)
-            loginResultLiveData.postValue(response)
+            loginResultLiveData.postValue(loginDataSource.logIn(name, password))
+            restoreKeysLiveData.postValue(loginDataSource.restoreKeys(password))
         }
     }
 

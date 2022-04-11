@@ -1,7 +1,9 @@
 package com.futo.circles.di
 
-import com.futo.circles.core.matrix.CoreSpacesTreeBuilder
-import com.futo.circles.core.matrix.CreateRoomDataSource
+import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
+import com.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
+import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
+import com.futo.circles.core.matrix.room.CreateRoomDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineBuilder
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasource
@@ -19,7 +21,7 @@ import com.futo.circles.feature.validate_token.data_source.ValidateTokenDataSour
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { LoginDataSource(get()) }
+    factory { LoginDataSource(get(), get()) }
     factory { (roomId: String) -> GroupTimelineDatasource(roomId, get()) }
     factory { GroupTimelineBuilder() }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
@@ -27,7 +29,7 @@ val dataSourceModule = module {
     factory { (roomId: String) -> ManageGroupMembersDataSource(roomId, get()) }
     factory { CreateRoomDataSource(get()) }
     factory { CoreSpacesTreeBuilder(get()) }
-    single { SignUpDataSource(get(), get()) }
+    single { SignUpDataSource(get(), get(), get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
     factory { AcceptTermsDataSource(get(), get()) }
@@ -35,4 +37,6 @@ val dataSourceModule = module {
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
     factory { HomeDataSource() }
+    factory { CreatePassPhraseDataSource(get()) }
+    factory { RestorePassPhraseDataSource(get()) }
 }

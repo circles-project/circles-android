@@ -1,4 +1,4 @@
-package com.futo.circles.core.matrix
+package com.futo.circles.core.matrix.room
 
 import androidx.annotation.StringRes
 import com.futo.circles.R

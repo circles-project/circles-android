@@ -7,8 +7,11 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.fragment.HasLoadingState
+import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingDialog
 import com.futo.circles.databinding.LogInFragmentBinding
+import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
+import com.futo.circles.extensions.showError
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -17,6 +20,7 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
     override val fragment: Fragment = this
     private val viewModel by viewModel<LogInViewModel>()
     private val binding by viewBinding(LogInFragmentBinding::bind)
+    private val restorePassPhraseLoadingDialog by lazy { PassPhraseLoadingDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -25,14 +29,22 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
     }
 
     private fun setupObservers() {
-        viewModel.loginResultLiveData.observeResponse(
+        viewModel.loginResultLiveData.observeResponse(this)
+        viewModel.restoreKeysLiveData.observeResponse(
             this,
-            success = { navigateToBottomMenuFragment() }
+            success = { navigateToBottomMenuFragment() },
+            error = {
+                showError(it, true)
+                navigateToBottomMenuFragment()
+            }
         )
         viewModel.signUpEventResultLiveData.observeResponse(
             this,
             success = { navigateToSignUp() },
         )
+        viewModel.passPhraseLoadingLiveData.observeData(this) {
+            restorePassPhraseLoadingDialog.handleLoading(it)
+        }
     }
 
     private fun setOnClickActions() {

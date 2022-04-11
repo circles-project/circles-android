@@ -12,14 +12,17 @@ import com.futo.circles.R
 import com.futo.circles.core.fragment.BackPressOwner
 import com.futo.circles.databinding.SignUpFragmentBinding
 import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
 import com.futo.circles.feature.sign_up.data_source.NavigationEvents
+import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
 
     private val viewModel by viewModel<SignUpViewModel>()
     private val binding by viewBinding(SignUpFragmentBinding::bind)
+    private val createPassPhraseLoadingDialog by lazy { PassPhraseLoadingDialog(requireContext()) }
 
     private val childNavHostFragment by lazy {
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -38,21 +41,22 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
         viewModel.navigationLiveData.observeData(this) {
             handleNavigation(it)
         }
+        viewModel.finishRegistrationLiveData.observeResponse(this,
+            success = { navigateToSetupProfile() }
+        )
+        viewModel.passPhraseLoadingLiveData.observeData(this) {
+            createPassPhraseLoadingDialog.handleLoading(it)
+        }
     }
 
 
     private fun handleNavigation(event: NavigationEvents) {
-        val childNavigationController = binding.navHostFragment.findNavController()
-
-        when (event) {
-            NavigationEvents.TokenValidation -> childNavigationController.navigate(R.id.to_validateToken)
-            NavigationEvents.AcceptTerm -> childNavigationController.navigate(R.id.to_acceptTerms)
-            NavigationEvents.ValidateEmail -> childNavigationController.navigate(R.id.to_validateEmail)
-            NavigationEvents.SetupAvatar -> TODO()
-            NavigationEvents.SetupCircles -> TODO()
-            NavigationEvents.FinishSignUp -> findNavController()
-                .navigate(SignUpFragmentDirections.toSetupProfileFragment())
+        val directionId = when (event) {
+            NavigationEvents.TokenValidation -> R.id.to_validateToken
+            NavigationEvents.AcceptTerm -> R.id.to_acceptTerms
+            NavigationEvents.ValidateEmail -> R.id.to_validateEmail
         }
+        binding.navHostFragment.findNavController().navigate(directionId)
     }
 
     private fun showDiscardDialog() {
@@ -74,6 +78,10 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
         } else {
             showDiscardDialog()
         }
+    }
+
+    private fun navigateToSetupProfile() {
+        findNavController().navigate(SignUpFragmentDirections.toSetupProfileFragment())
     }
 
 }
