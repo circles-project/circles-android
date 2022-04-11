@@ -1,17 +1,17 @@
-package com.futo.circles.feature.sign_up.dialog
+package com.futo.circles.core.matrix.pass_phrase
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
-import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseLoadingData
-import com.futo.circles.databinding.CreatePassPhraseLoadingDialogBinding
+import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingData
+import com.futo.circles.databinding.PassPhraseLoadingDialogBinding
 import com.futo.circles.extensions.setVisibility
 
 
-class CreatePassPhraseLoadingDialog(context: Context) : AppCompatDialog(context) {
+class PassPhraseLoadingDialog(context: Context) : AppCompatDialog(context) {
 
-    private val binding = CreatePassPhraseLoadingDialogBinding.inflate(LayoutInflater.from(context))
+    private val binding = PassPhraseLoadingDialogBinding.inflate(LayoutInflater.from(context))
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -24,7 +24,7 @@ class CreatePassPhraseLoadingDialog(context: Context) : AppCompatDialog(context)
         setContentView(binding.root)
     }
 
-    fun handleLoading(data: CreatePassPhraseLoadingData) {
+    fun handleLoading(data: PassPhraseLoadingData) {
         if (data.isLoading) {
             binding.tvLoadingMessage.setText(data.messageId)
             setProgress(data)
@@ -34,7 +34,7 @@ class CreatePassPhraseLoadingDialog(context: Context) : AppCompatDialog(context)
         }
     }
 
-    private fun setProgress(data: CreatePassPhraseLoadingData) {
+    private fun setProgress(data: PassPhraseLoadingData) {
         with(binding) {
             horizontalProgress.max = data.total
             horizontalProgress.progress = data.progress

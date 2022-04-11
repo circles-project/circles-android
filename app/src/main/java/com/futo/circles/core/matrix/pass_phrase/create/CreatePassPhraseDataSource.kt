@@ -3,6 +3,7 @@ package com.futo.circles.core.matrix.pass_phrase.create
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
+import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingData
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.ProgressListener
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
@@ -14,8 +15,8 @@ import org.matrix.android.sdk.internal.util.awaitCallback
 class CreatePassPhraseDataSource(private val context: Context) {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
-    val loadingLiveData = MutableLiveData<CreatePassPhraseLoadingData>()
-    private val passPhraseLoadingData = CreatePassPhraseLoadingData()
+    val loadingLiveData = MutableLiveData<PassPhraseLoadingData>()
+    private val passPhraseLoadingData = PassPhraseLoadingData()
 
     suspend fun createPassPhraseBackup(passphrase: String) {
         val keyBackupService = session?.cryptoService()?.keysBackupService()
@@ -27,9 +28,9 @@ class CreatePassPhraseDataSource(private val context: Context) {
                 object : ProgressListener {
                     override fun onProgress(progress: Int, total: Int) {
                         loadingLiveData.postValue(passPhraseLoadingData.apply {
-                            this.isLoading = true
                             this.progress = progress
                             this.total = total
+                            messageId = R.string.generating_recovery_key
                         })
                     }
                 }, it

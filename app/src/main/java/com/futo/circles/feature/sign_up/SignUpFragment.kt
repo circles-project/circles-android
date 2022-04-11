@@ -15,14 +15,14 @@ import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
 import com.futo.circles.feature.sign_up.data_source.NavigationEvents
-import com.futo.circles.feature.sign_up.dialog.CreatePassPhraseLoadingDialog
+import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
 
     private val viewModel by viewModel<SignUpViewModel>()
     private val binding by viewBinding(SignUpFragmentBinding::bind)
-    private val createPassPhraseLoadingDialog by lazy { CreatePassPhraseLoadingDialog(requireContext()) }
+    private val createPassPhraseLoadingDialog by lazy { PassPhraseLoadingDialog(requireContext()) }
 
     private val childNavHostFragment by lazy {
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
