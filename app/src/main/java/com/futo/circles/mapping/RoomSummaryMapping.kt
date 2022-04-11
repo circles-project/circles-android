@@ -1,6 +1,6 @@
 package com.futo.circles.mapping
 
-import com.futo.circles.extensions.nameOrId
+import com.futo.circles.model.CircleListItem
 import com.futo.circles.model.GroupListItem
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
@@ -13,3 +13,19 @@ fun RoomSummary.toGroupListItem() = GroupListItem(
     isEncrypted = isEncrypted,
     avatarUrl = avatarUrl
 )
+
+fun RoomSummary.toCircleListItem() = CircleListItem(
+    id = roomId,
+    name = nameOrId(),
+    followingCount = spaceChildren?.size ?: 0,
+    followedByCount = getFollowersCount(),
+    avatarUrl = avatarUrl
+)
+
+fun RoomSummary.nameOrId() = displayName.takeIf { it.isNotEmpty() } ?: roomId
+
+fun RoomSummary.getFollowersCount(): Int {
+    var followersCount = 0
+    spaceChildren?.forEach { followersCount += (it.activeMemberCount ?: 0) }
+    return followersCount
+}
