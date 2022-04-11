@@ -14,11 +14,14 @@
         android:id="@+id/ivCircle"
         android:layout_width="@dimen/group_icon_size"
         android:layout_height="@dimen/group_icon_size"
+        android:padding="8dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
         tools:src="@color/blue" />
 
 
