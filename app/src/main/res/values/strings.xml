@@ -106,6 +106,8 @@
     <string name="loading">Loading</string>
     <string name="following_format">Following %d</string>
     <string name="followed_by_format">Followed by %d</string>
+    <string name="leave">Leave</string>
+    <string name="leave_group_message">Are you sure you want to leave this group?\n\nThis group is not public. You will not be able to rejoin without an invite.</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

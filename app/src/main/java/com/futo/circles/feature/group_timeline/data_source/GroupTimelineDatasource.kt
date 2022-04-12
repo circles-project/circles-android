@@ -1,6 +1,7 @@
 package com.futo.circles.feature.group_timeline.data_source
 
 import androidx.lifecycle.MutableLiveData
+import com.futo.circles.extensions.createResult
 import com.futo.circles.mapping.nameOrId
 import com.futo.circles.model.Post
 import com.futo.circles.provider.MatrixSessionProvider
@@ -51,6 +52,9 @@ class GroupTimelineDatasource(
     override fun onTimelineFailure(throwable: Throwable) {
         timeline?.restartWithEventId(null)
     }
+
+    suspend fun leaveGroup() =
+        createResult { MatrixSessionProvider.currentSession?.leaveRoom(roomId) }
 
     companion object {
         private const val MESSAGES_PER_PAGE = 30
