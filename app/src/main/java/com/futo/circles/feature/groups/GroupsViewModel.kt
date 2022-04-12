@@ -19,7 +19,8 @@ class GroupsViewModel : ViewModel() {
 
     private fun filterGroups(list: List<RoomSummary>): List<GroupListItem> {
         return list.mapNotNull { summary ->
-            if (summary.tags.find { it.name == GROUP_TAG } != null) summary.toGroupListItem() else null
+            if (summary.membership.isActive() && summary.tags.find { it.name == GROUP_TAG } != null)
+                summary.toGroupListItem() else null
         }
     }
 }
