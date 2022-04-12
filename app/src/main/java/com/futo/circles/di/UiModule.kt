@@ -1,5 +1,6 @@
 package com.futo.circles.di
 
+import com.futo.circles.feature.circles.CirclesViewModel
 import com.futo.circles.feature.create_group.CreateGroupViewModel
 import com.futo.circles.feature.group_invite.InviteMembersViewModel
 import com.futo.circles.feature.group_timeline.GroupTimelineViewModel
@@ -35,4 +36,5 @@ val uiModule = module {
     viewModel { SetupProfileViewModel(get()) }
     viewModel { SetupCirclesViewModel(get(), get()) }
     viewModel { HomeViewModel(get()) }
+    viewModel { CirclesViewModel() }
 }

@@ -1,7 +1,7 @@
 package com.futo.circles.feature.group_timeline.data_source
 
 import androidx.lifecycle.MutableLiveData
-import com.futo.circles.extensions.nameOrId
+import com.futo.circles.mapping.nameOrId
 import com.futo.circles.model.Post
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.timeline.Timeline

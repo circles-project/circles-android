@@ -4,7 +4,7 @@ package com.futo.circles.feature.manage_group_members.data_source
 import android.content.Context
 import androidx.lifecycle.asFlow
 import com.futo.circles.R
-import com.futo.circles.extensions.nameOrId
+import com.futo.circles.mapping.nameOrId
 import com.futo.circles.mapping.toGroupMemberListItem
 import com.futo.circles.model.GroupMemberListItem
 import com.futo.circles.provider.MatrixSessionProvider
