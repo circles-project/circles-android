@@ -14,10 +14,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.list.BaseRvDecoration
 import com.futo.circles.databinding.GroupTimelineFragmentBinding
-import com.futo.circles.extensions.bindToFab
-import com.futo.circles.extensions.dimen
-import com.futo.circles.extensions.observeData
-import com.futo.circles.extensions.setToolbarTitle
+import com.futo.circles.extensions.*
 import com.futo.circles.feature.group_timeline.list.GroupPostViewHolder
 import com.futo.circles.feature.group_timeline.list.GroupTimelineAdapter
 import com.futo.circles.model.Post
@@ -70,6 +67,10 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
                 navigateToInviteMembers()
                 return true
             }
+            R.id.leaveGroup -> {
+                showLeaveGroupDialog()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -78,6 +79,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         with(viewModel) {
             titleLiveData.observeData(this@GroupTimelineFragment) { title -> setToolbarTitle(title) }
             timelineEventsLiveData.observeData(this@GroupTimelineFragment, ::setTimelineList)
+            leaveGroupLiveData.observeResponse(this@GroupTimelineFragment,
+                success = { activity?.onBackPressed() })
         }
     }
 
@@ -87,6 +90,16 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     override fun onShowRepliesClicked(eventId: String) {
         viewModel.toggleRepliesVisibilityFor(eventId)
+    }
+
+    private fun showLeaveGroupDialog() {
+        showDialog(
+            titleResIdRes = R.string.leave_group,
+            messageResId = R.string.leave_group_message,
+            positiveButtonRes = R.string.leave,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.leaveGroup() }
+        )
     }
 
     private fun navigateToInviteMembers() {
