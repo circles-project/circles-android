@@ -13,6 +13,7 @@ fun RoomMemberSummary.toGroupMemberListItem(role: Role, hasInvitation: Boolean) 
             avatarUrl = avatarUrl ?: ""
         ),
         role = role,
-        hasPendingInvitation = hasInvitation
+        hasPendingInvitation = hasInvitation,
+        isOptionsOpened = false
     )
 
