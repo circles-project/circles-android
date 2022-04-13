@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeAccessLevel"
+        style="@style/PostButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/access_level"
+        app:icon="@drawable/ic_access_level"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnRemove"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRemove"
+        style="@style/PostButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remove"
+        app:icon="@drawable/ic_person_remove"
+        app:iconPadding="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnChangeAccessLevel"
+        app:layout_constraintEnd_toStartOf="@id/btnBan"
+        app:layout_constraintStart_toEndOf="@id/btnChangeAccessLevel"
+        app:layout_constraintTop_toTopOf="@id/btnChangeAccessLevel" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBan"
+        style="@style/PostButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ban"
+        app:iconPadding="0dp"
+        app:icon="@drawable/ic_ban"
+        app:layout_constraintBottom_toBottomOf="@id/btnChangeAccessLevel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnRemove"
+        app:layout_constraintTop_toTopOf="@id/btnChangeAccessLevel" />
+
+
+</merge>
