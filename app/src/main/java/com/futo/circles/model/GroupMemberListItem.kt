@@ -7,7 +7,8 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 data class GroupMemberListItem(
     val user: CirclesUserSummary,
     val role: Role,
-    val hasPendingInvitation: Boolean
+    val hasPendingInvitation: Boolean,
+    val isOptionsOpened: Boolean
 ) : IdEntity<String> {
     override val id: String = user.id
 
