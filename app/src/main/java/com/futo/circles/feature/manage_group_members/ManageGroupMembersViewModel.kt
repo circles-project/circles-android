@@ -12,4 +12,7 @@ class ManageGroupMembersViewModel(
     val titleLiveData = MutableLiveData(dataSource.getManageMembersTittle())
     val groupMembersLiveData = dataSource.getRoomMembersFlow().asLiveData()
 
+    fun toggleOptionsVisibility(userId: String) {
+
+    }
 }
