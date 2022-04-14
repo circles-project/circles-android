@@ -29,7 +29,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     private val args: GroupTimelineFragmentArgs by navArgs()
     private val viewModel by viewModel<GroupTimelineViewModel> { parametersOf(args.roomId) }
     private val binding by viewBinding(GroupTimelineFragmentBinding::bind)
-    private var timelineMenu: Menu? = null
+    private var isSettingAvailable = false
+    private var isInviteAvailable = false
 
     private val listAdapter by lazy {
         GroupTimelineAdapter(this) { viewModel.loadMore() }
@@ -53,10 +54,11 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     @SuppressLint("RestrictedApi")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        timelineMenu = menu
         menu.clear()
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
         inflater.inflate(R.menu.group_timeline_menu, menu)
+        menu.findItem(R.id.settings).isVisible = isSettingAvailable
+        menu.findItem(R.id.inviteMembers).isVisible = isInviteAvailable
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -110,10 +112,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     private fun handleAccessActionsVisibility(powerContent: PowerLevelsContent) {
         binding.fbCreatePost.setVisibility(viewModel.isUserAbleToPost(powerContent))
-        timelineMenu?.findItem(R.id.settings)?.isVisible =
-            viewModel.isUserAbleToChangeSettings(powerContent)
-        timelineMenu?.findItem(R.id.inviteMembers)?.isVisible =
-            viewModel.isUserAbleToInvite(powerContent)
+        isSettingAvailable = viewModel.isUserAbleToChangeSettings(powerContent)
+        isInviteAvailable = viewModel.isUserAbleToInvite(powerContent)
         activity?.invalidateOptionsMenu()
     }
 
