@@ -9,6 +9,7 @@ import com.futo.circles.core.list.context
 import com.futo.circles.databinding.GroupMemberListItemBinding
 import com.futo.circles.databinding.InviteHeaderListItemBinding
 import com.futo.circles.databinding.InvitedUserListItemBinding
+import com.futo.circles.extensions.getRoleNameResId
 import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.extensions.onClick
 import com.futo.circles.extensions.setVisibility
@@ -42,7 +43,7 @@ class GroupMemberViewHolder(
         if (data !is GroupMemberListItem) return
 
         with(binding) {
-            tvRole.text = context.getString(data.getRoleNameResId())
+            tvRole.text = context.getString(data.role.getRoleNameResId())
             with(lUser) {
                 ivUserImage.loadProfileIcon(data.user.avatarUrl, data.user.name)
                 tvUserName.text = data.user.name

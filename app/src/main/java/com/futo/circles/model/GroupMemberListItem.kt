@@ -1,5 +1,6 @@
 package com.futo.circles.model
 
+import androidx.annotation.StringRes
 import com.futo.circles.R
 import com.futo.circles.core.list.IdEntity
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
@@ -18,13 +19,6 @@ data class GroupMemberListItem(
     val isOptionsOpened: Boolean
 ) : ManageMembersListItem() {
     override val id: String = user.id
-
-    fun getRoleNameResId(): Int = when (role.value) {
-        10 -> R.string.can_post
-        50 -> R.string.moderator
-        100 -> R.string.owner
-        else -> R.string.can_view
-    }
 }
 
 data class InvitedUserListItem(
