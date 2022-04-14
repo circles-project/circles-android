@@ -65,6 +65,7 @@
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="validate_your_email">Validate your email</string>
+    <string name="validate_email">Validate email</string>
     <string name="email">Email</string>
     <string name="validation_code">Validation code</string>
     <string name="send_validation_code">Send validation code</string>
