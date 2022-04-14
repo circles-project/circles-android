@@ -13,6 +13,6 @@ class ManageGroupMembersViewModel(
     val groupMembersLiveData = dataSource.getRoomMembersFlow().asLiveData()
 
     fun toggleOptionsVisibility(userId: String) {
-
+        dataSource.toggleOptionsVisibilityFor(userId)
     }
 }

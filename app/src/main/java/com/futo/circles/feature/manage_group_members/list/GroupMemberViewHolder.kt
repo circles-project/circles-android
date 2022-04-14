@@ -8,6 +8,7 @@ import com.futo.circles.core.list.context
 import com.futo.circles.databinding.GroupMemberListItemBinding
 import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.extensions.onClick
+import com.futo.circles.extensions.setVisibility
 import com.futo.circles.model.GroupMemberListItem
 import com.futo.circles.view.ManageMembersOptionsListener
 
@@ -38,6 +39,7 @@ class GroupMemberViewHolder(
             if (data.isOptionsOpened) R.drawable.ic_keyboard_arrow_up
             else R.drawable.ic_keyboard_arrow_down
         )
+        binding.optionsView.setVisibility(data.isOptionsOpened)
         binding.optionsView.setData(data.id)
     }
 }

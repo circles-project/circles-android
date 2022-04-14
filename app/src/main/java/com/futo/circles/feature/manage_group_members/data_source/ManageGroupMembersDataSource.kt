@@ -27,17 +27,28 @@ class ManageGroupMembersDataSource(
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)
 
+    private val usersWithVisibleOptionsFlow = MutableStateFlow<MutableSet<String>>(mutableSetOf())
 
     fun getManageMembersTittle() = context.getString(
         R.string.group_members_format,
         room?.roomSummary()?.nameOrId() ?: roomId
     )
 
+    fun toggleOptionsVisibilityFor(userId: String) {
+        val isOptionsVisible = usersWithVisibleOptionsFlow.value.contains(userId)
+        usersWithVisibleOptionsFlow.update { value ->
+            val newSet = mutableSetOf<String>().apply { addAll(value) }
+            if (isOptionsVisible) newSet.remove(userId)
+            else newSet.add(userId)
+            newSet
+        }
+    }
+
     fun getRoomMembersFlow(): Flow<List<GroupMemberListItem>> {
         return combine(
-            getRoomMembersSummaryFlow(), getRoomMembersRoleFlow()
-        ) { members, powerLevel ->
-            buildList(members, powerLevel)
+            getRoomMembersSummaryFlow(), getRoomMembersRoleFlow(), usersWithVisibleOptionsFlow
+        ) { members, powerLevel, usersWithVisibleOptions ->
+            buildList(members, powerLevel, usersWithVisibleOptions)
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
     }
 
@@ -56,15 +67,17 @@ class ManageGroupMembersDataSource(
 
     private fun buildList(
         members: List<RoomMemberSummary>,
-        powerLevelsContent: PowerLevelsContent
+        powerLevelsContent: PowerLevelsContent,
+        usersWithVisibleOptions: Set<String>
     ): List<GroupMemberListItem> {
         val roleHelper = PowerLevelsHelper(powerLevelsContent)
 
         return members.map { member ->
             val role = roleHelper.getUserRole(member.userId)
             val hasInvite = member.membership == Membership.INVITE
+            val isOptionsVisible = usersWithVisibleOptions.contains(member.userId)
 
-            member.toGroupMemberListItem(role, hasInvite)
+            member.toGroupMemberListItem(role, hasInvite, isOptionsVisible)
 
         }.sortedByDescending { it.role.value }
     }

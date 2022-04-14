@@ -5,7 +5,11 @@ import com.futo.circles.model.GroupMemberListItem
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
-fun RoomMemberSummary.toGroupMemberListItem(role: Role, hasInvitation: Boolean) =
+fun RoomMemberSummary.toGroupMemberListItem(
+    role: Role,
+    hasInvitation: Boolean,
+    isOptionsVisible: Boolean
+) =
     GroupMemberListItem(
         user = CirclesUserSummary(
             id = userId,
@@ -14,6 +18,6 @@ fun RoomMemberSummary.toGroupMemberListItem(role: Role, hasInvitation: Boolean) 
         ),
         role = role,
         hasPendingInvitation = hasInvitation,
-        isOptionsOpened = false
+        isOptionsOpened = isOptionsVisible
     )
 
