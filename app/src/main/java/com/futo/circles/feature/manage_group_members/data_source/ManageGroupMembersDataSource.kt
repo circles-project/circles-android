@@ -6,7 +6,8 @@ import androidx.lifecycle.asFlow
 import com.futo.circles.R
 import com.futo.circles.mapping.nameOrId
 import com.futo.circles.mapping.toGroupMemberListItem
-import com.futo.circles.model.GroupMemberListItem
+import com.futo.circles.mapping.toInvitedUserListItem
+import com.futo.circles.model.*
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -44,7 +45,7 @@ class ManageGroupMembersDataSource(
         }
     }
 
-    fun getRoomMembersFlow(): Flow<List<GroupMemberListItem>> {
+    fun getRoomMembersFlow(): Flow<List<ManageMembersListItem>> {
         return combine(
             getRoomMembersSummaryFlow(), getRoomMembersRoleFlow(), usersWithVisibleOptionsFlow
         ) { members, powerLevel, usersWithVisibleOptions ->
@@ -69,16 +70,32 @@ class ManageGroupMembersDataSource(
         members: List<RoomMemberSummary>,
         powerLevelsContent: PowerLevelsContent,
         usersWithVisibleOptions: Set<String>
-    ): List<GroupMemberListItem> {
+    ): List<ManageMembersListItem> {
         val roleHelper = PowerLevelsHelper(powerLevelsContent)
+        val fullList = mutableListOf<ManageMembersListItem>()
+        val currentMembers = mutableListOf<GroupMemberListItem>()
+        val invitedUsers = mutableListOf<InvitedUserListItem>()
 
-        return members.map { member ->
-            val role = roleHelper.getUserRole(member.userId)
-            val hasInvite = member.membership == Membership.INVITE
-            val isOptionsVisible = usersWithVisibleOptions.contains(member.userId)
+        members.forEach { member ->
+            if (member.membership == Membership.INVITE) {
+                invitedUsers.add(member.toInvitedUserListItem())
+            } else {
+                val role = roleHelper.getUserRole(member.userId)
+                val isOptionsVisible = usersWithVisibleOptions.contains(member.userId)
+                currentMembers.add(member.toGroupMemberListItem(role, isOptionsVisible))
+            }
+        }
 
-            member.toGroupMemberListItem(role, hasInvite, isOptionsVisible)
+        if (currentMembers.isNotEmpty()) {
+            fullList.add(ManageMembersHeaderListItem(context.getString(R.string.current_members)))
+            fullList.addAll(currentMembers.sortedByDescending { it.role.value })
+        }
 
-        }.sortedByDescending { it.role.value }
+        if (invitedUsers.isNotEmpty()) {
+            fullList.add(ManageMembersHeaderListItem(context.getString(R.string.invited_users)))
+            fullList.addAll(invitedUsers)
+        }
+
+        return fullList
     }
 }

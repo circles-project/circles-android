@@ -38,10 +38,6 @@
     <string name="manage_members">Manage members</string>
     <string name="group_members_format">%s members</string>
     <string name="leave_group">Leave group</string>
-    <string name="admin">Admin</string>
-    <string name="moderator">Moderator</string>
-    <string name="user">User</string>
-    <string name="pending_invitation">Pending invitation</string>
     <string name="create_new_group">Create new group</string>
     <string name="create">Create</string>
     <string name="group_name">Group name</string>
@@ -111,6 +107,13 @@
     <string name="access_level">Access level</string>
     <string name="remove">Remove</string>
     <string name="ban">Ban</string>
+    <string name="current_members">Current members</string>
+    <string name="invited_users">Invited users</string>
+    <string name="invited">Invited</string>
+    <string name="can_view">Can view</string>
+    <string name="can_post">Can post</string>
+    <string name="moderator">Moderator</string>
+    <string name="owner">Owner</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

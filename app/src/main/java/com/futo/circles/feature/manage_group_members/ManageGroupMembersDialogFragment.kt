@@ -16,7 +16,8 @@ import org.koin.core.parameter.parametersOf
 
 
 class ManageGroupMembersDialogFragment :
-    BaseFullscreenDialogFragment(ManageGroupMembersDialogFragmentBinding::inflate) {
+    BaseFullscreenDialogFragment(ManageGroupMembersDialogFragmentBinding::inflate),
+    ManageMembersOptionsListener {
 
     private val args: InviteMembersDialogFragmentArgs by navArgs()
     private val viewModel by viewModel<ManageGroupMembersViewModel> { parametersOf(args.roomId) }
@@ -24,20 +25,9 @@ class ManageGroupMembersDialogFragment :
     private val membersListAdapter by lazy {
         GroupMembersListAdapter(
             onToggleOptions = { userId -> viewModel.toggleOptionsVisibility(userId) },
-            object : ManageMembersOptionsListener {
-                override fun onSetAccessLevel(userId: String) {
-
-                }
-
-                override fun onRemoveUser(userId: String) {
-
-                }
-
-                override fun onBanUser(userId: String) {
-
-                }
-
-            })
+            onCancelInvite = { userId -> showCancelInviteDialog(userId) },
+            this
+        )
     }
 
     private val binding by lazy {
@@ -66,6 +56,22 @@ class ManageGroupMembersDialogFragment :
         viewModel.groupMembersLiveData.observeData(this) {
             membersListAdapter.submitList(it)
         }
+    }
+
+    private fun showCancelInviteDialog(userId: String) {
+
+    }
+
+    override fun onSetAccessLevel(userId: String) {
+
+    }
+
+    override fun onRemoveUser(userId: String) {
+
+    }
+
+    override fun onBanUser(userId: String) {
+
     }
 
 }
