@@ -45,7 +45,6 @@ class CreateRoomDataSource(private val context: Context) {
             visibility = RoomDirectoryVisibility.PRIVATE
             preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
             powerLevelContentOverride = PowerLevelsContent(
-                eventsDefault = CircleUserAccessLevel.CanPost.powerLevel,
                 invite = CircleUserAccessLevel.Moderator.powerLevel
             )
         }
