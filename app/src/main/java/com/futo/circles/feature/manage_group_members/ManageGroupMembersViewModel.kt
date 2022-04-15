@@ -15,4 +15,16 @@ class ManageGroupMembersViewModel(
     fun toggleOptionsVisibility(userId: String) {
         dataSource.toggleOptionsVisibilityFor(userId)
     }
+
+    fun cancelInvite(userId: String) {
+
+    }
+
+    fun removeUser(userId: String) {
+
+    }
+
+    fun banUser(userId: String) {
+
+    }
 }

@@ -114,6 +114,12 @@
     <string name="admin">Admin</string>
     <string name="moderator">Moderator</string>
     <string name="user">User</string>
+    <string name="cancel_invite">Cancel invite</string>
+    <string name="cancel_invite_message">Are you sure you want to cancel the invite for this user?</string>
+    <string name="remove_user">Remove user</string>
+    <string name="remove_user_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
+    <string name="ban_user">Ban user</string>
+    <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>
