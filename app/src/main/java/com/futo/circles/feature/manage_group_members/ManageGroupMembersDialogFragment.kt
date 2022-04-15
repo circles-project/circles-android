@@ -9,6 +9,7 @@ import com.futo.circles.R
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.ManageGroupMembersDialogFragmentBinding
 import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
 import com.futo.circles.feature.group_invite.InviteMembersDialogFragmentArgs
 import com.futo.circles.feature.manage_group_members.list.GroupMembersListAdapter
@@ -58,6 +59,8 @@ class ManageGroupMembersDialogFragment :
         viewModel.groupMembersLiveData.observeData(this) {
             membersListAdapter.submitList(it)
         }
+        viewModel.removeUserResultLiveData.observeResponse(this)
+        viewModel.banUserResultLiveData.observeResponse(this)
     }
 
     private fun showCancelInviteDialog(userId: String) {
@@ -65,7 +68,7 @@ class ManageGroupMembersDialogFragment :
             titleResIdRes = R.string.cancel_invite,
             messageResId = R.string.cancel_invite_message,
             negativeButtonVisible = true,
-            positiveAction = { viewModel.cancelInvite(userId) }
+            positiveAction = { viewModel.removeUser(userId) }
         )
     }
 
