@@ -3,13 +3,13 @@ package com.futo.circles.core.matrix.room
 import android.content.Context
 import android.net.Uri
 import com.futo.circles.BuildConfig
-import com.futo.circles.model.CircleUserAccessLevel
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomDirectoryVisibility
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomPreset
+import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.space.CreateSpaceParams
 
@@ -45,7 +45,7 @@ class CreateRoomDataSource(private val context: Context) {
             visibility = RoomDirectoryVisibility.PRIVATE
             preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
             powerLevelContentOverride = PowerLevelsContent(
-                invite = CircleUserAccessLevel.Moderator.powerLevel
+                invite = Role.Moderator.value
             )
         }
 

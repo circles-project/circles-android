@@ -111,10 +111,9 @@
     <string name="current_members">Current members</string>
     <string name="invited_users">Invited users</string>
     <string name="invited">Invited</string>
-    <string name="can_view">Can view</string>
-    <string name="can_post">Can post</string>
+    <string name="admin">Admin</string>
     <string name="moderator">Moderator</string>
-    <string name="owner">Owner</string>
+    <string name="user">User</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>
