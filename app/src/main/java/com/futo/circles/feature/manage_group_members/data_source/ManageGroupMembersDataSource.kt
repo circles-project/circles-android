@@ -7,7 +7,10 @@ import com.futo.circles.R
 import com.futo.circles.mapping.nameOrId
 import com.futo.circles.mapping.toGroupMemberListItem
 import com.futo.circles.mapping.toInvitedUserListItem
-import com.futo.circles.model.*
+import com.futo.circles.model.GroupMemberListItem
+import com.futo.circles.model.InvitedUserListItem
+import com.futo.circles.model.ManageMembersHeaderListItem
+import com.futo.circles.model.ManageMembersListItem
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -78,11 +81,15 @@ class ManageGroupMembersDataSource(
 
         members.forEach { member ->
             if (member.membership == Membership.INVITE) {
-                invitedUsers.add(member.toInvitedUserListItem())
+                invitedUsers.add(member.toInvitedUserListItem(powerLevelsContent))
             } else {
                 val role = roleHelper.getUserRole(member.userId)
                 val isOptionsVisible = usersWithVisibleOptions.contains(member.userId)
-                currentMembers.add(member.toGroupMemberListItem(role, isOptionsVisible))
+                currentMembers.add(
+                    member.toGroupMemberListItem(
+                        role, isOptionsVisible, powerLevelsContent
+                    )
+                )
             }
         }
 

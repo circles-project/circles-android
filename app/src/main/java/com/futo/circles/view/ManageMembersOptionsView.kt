@@ -5,6 +5,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.futo.circles.databinding.ManageMembersOptionsViewBinding
+import com.futo.circles.extensions.isCurrentUserAbleToBan
+import com.futo.circles.extensions.isCurrentUserAbleToChangeSettings
+import com.futo.circles.extensions.isCurrentUserAbleToKick
+import com.futo.circles.extensions.setVisibility
+import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 interface ManageMembersOptionsListener {
 
@@ -47,8 +52,13 @@ class ManageMembersOptionsView(
         listener = callback
     }
 
-    fun setData(userId: String) {
+    fun setData(userId: String, powerLevelsContent: PowerLevelsContent) {
         this.userId = userId
+        with(binding) {
+            btnChangeAccessLevel.setVisibility(powerLevelsContent.isCurrentUserAbleToChangeSettings())
+            btnRemove.setVisibility(powerLevelsContent.isCurrentUserAbleToKick())
+            btnBan.setVisibility(powerLevelsContent.isCurrentUserAbleToBan())
+        }
     }
 
 }
