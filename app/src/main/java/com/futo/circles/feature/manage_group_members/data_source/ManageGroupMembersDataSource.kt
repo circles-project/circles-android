@@ -4,14 +4,20 @@ package com.futo.circles.feature.manage_group_members.data_source
 import android.content.Context
 import androidx.lifecycle.asFlow
 import com.futo.circles.R
+import com.futo.circles.extensions.createResult
 import com.futo.circles.mapping.nameOrId
 import com.futo.circles.mapping.toGroupMemberListItem
+import com.futo.circles.mapping.toInvitedUserListItem
 import com.futo.circles.model.GroupMemberListItem
+import com.futo.circles.model.InvitedUserListItem
+import com.futo.circles.model.ManageMembersHeaderListItem
+import com.futo.circles.model.ManageMembersListItem
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -26,18 +32,30 @@ class ManageGroupMembersDataSource(
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)
+    private var powerLevelsContent: PowerLevelsContent? = null
 
+    private val usersWithVisibleOptionsFlow = MutableStateFlow<MutableSet<String>>(mutableSetOf())
 
     fun getManageMembersTittle() = context.getString(
         R.string.group_members_format,
         room?.roomSummary()?.nameOrId() ?: roomId
     )
 
-    fun getRoomMembersFlow(): Flow<List<GroupMemberListItem>> {
+    fun toggleOptionsVisibilityFor(userId: String) {
+        val isOptionsVisible = usersWithVisibleOptionsFlow.value.contains(userId)
+        usersWithVisibleOptionsFlow.update { value ->
+            val newSet = mutableSetOf<String>().apply { addAll(value) }
+            if (isOptionsVisible) newSet.remove(userId)
+            else newSet.add(userId)
+            newSet
+        }
+    }
+
+    fun getRoomMembersFlow(): Flow<List<ManageMembersListItem>> {
         return combine(
-            getRoomMembersSummaryFlow(), getRoomMembersRoleFlow()
-        ) { members, powerLevel ->
-            buildList(members, powerLevel)
+            getRoomMembersSummaryFlow(), getRoomMembersRoleFlow(), usersWithVisibleOptionsFlow
+        ) { members, powerLevel, usersWithVisibleOptions ->
+            buildList(members, powerLevel, usersWithVisibleOptions)
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
     }
 
@@ -56,16 +74,48 @@ class ManageGroupMembersDataSource(
 
     private fun buildList(
         members: List<RoomMemberSummary>,
-        powerLevelsContent: PowerLevelsContent
-    ): List<GroupMemberListItem> {
+        powerLevelsContent: PowerLevelsContent,
+        usersWithVisibleOptions: Set<String>
+    ): List<ManageMembersListItem> {
+        this.powerLevelsContent = powerLevelsContent
         val roleHelper = PowerLevelsHelper(powerLevelsContent)
+        val fullList = mutableListOf<ManageMembersListItem>()
+        val currentMembers = mutableListOf<GroupMemberListItem>()
+        val invitedUsers = mutableListOf<InvitedUserListItem>()
 
-        return members.map { member ->
-            val role = roleHelper.getUserRole(member.userId)
-            val hasInvite = member.membership == Membership.INVITE
+        members.forEach { member ->
+            if (member.membership == Membership.INVITE) {
+                invitedUsers.add(member.toInvitedUserListItem(powerLevelsContent))
+            } else {
+                val role = roleHelper.getUserRole(member.userId)
+                val isOptionsVisible = usersWithVisibleOptions.contains(member.userId)
+                currentMembers.add(
+                    member.toGroupMemberListItem(
+                        role, isOptionsVisible, powerLevelsContent
+                    )
+                )
+            }
+        }
 
-            member.toGroupMemberListItem(role, hasInvite)
+        if (currentMembers.isNotEmpty()) {
+            fullList.add(ManageMembersHeaderListItem(context.getString(R.string.current_members)))
+            fullList.addAll(currentMembers.sortedByDescending { it.role.value })
+        }
 
-        }.sortedByDescending { it.role.value }
+        if (invitedUsers.isNotEmpty()) {
+            fullList.add(ManageMembersHeaderListItem(context.getString(R.string.invited_users)))
+            fullList.addAll(invitedUsers)
+        }
+
+        return fullList
+    }
+
+    suspend fun removeUser(userId: String) = createResult { room?.remove(userId) }
+
+    suspend fun banUser(userId: String) = createResult { room?.ban(userId) }
+
+    suspend fun changeAccessLevel(userId: String, levelValue: Int) = createResult {
+        val content = powerLevelsContent?.setUserPowerLevel(userId, levelValue).toContent()
+        room?.sendStateEvent(EventType.STATE_ROOM_POWER_LEVELS, stateKey = "", content)
     }
 }

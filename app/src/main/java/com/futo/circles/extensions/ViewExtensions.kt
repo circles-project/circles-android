@@ -18,7 +18,7 @@ fun View.gone() {
     visibility = View.GONE
 }
 
-fun View.setVisibility(isVisible: Boolean) {
+fun View.setIsVisible(isVisible: Boolean) {
     visibility = if (isVisible) View.VISIBLE else View.GONE
 }
 

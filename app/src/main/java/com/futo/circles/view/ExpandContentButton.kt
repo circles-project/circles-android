@@ -48,8 +48,6 @@ class ExpandContentButton(
         else close()
     }
 
-    fun isOpened() = isOpened
-
     private fun open() {
         isOpened = true
         text = openedText

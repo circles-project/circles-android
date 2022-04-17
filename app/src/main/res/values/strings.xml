@@ -38,10 +38,6 @@
     <string name="manage_members">Manage members</string>
     <string name="group_members_format">%s members</string>
     <string name="leave_group">Leave group</string>
-    <string name="admin">Admin</string>
-    <string name="moderator">Moderator</string>
-    <string name="user">User</string>
-    <string name="pending_invitation">Pending invitation</string>
     <string name="create_new_group">Create new group</string>
     <string name="create">Create</string>
     <string name="group_name">Group name</string>
@@ -69,6 +65,7 @@
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="validate_your_email">Validate your email</string>
+    <string name="validate_email">Validate email</string>
     <string name="email">Email</string>
     <string name="validation_code">Validation code</string>
     <string name="send_validation_code">Send validation code</string>
@@ -108,6 +105,22 @@
     <string name="followed_by_format">Followed by %d</string>
     <string name="leave">Leave</string>
     <string name="leave_group_message">Are you sure you want to leave this group?\n\nThis group is not public. You will not be able to rejoin without an invite.</string>
+    <string name="access_level">Access level</string>
+    <string name="remove">Remove</string>
+    <string name="ban">Ban</string>
+    <string name="current_members">Current members</string>
+    <string name="invited_users">Invited users</string>
+    <string name="invited">Invited</string>
+    <string name="admin">Admin</string>
+    <string name="moderator">Moderator</string>
+    <string name="user">User</string>
+    <string name="cancel_invite">Cancel invite</string>
+    <string name="cancel_invite_message">Are you sure you want to cancel the invite for this user?</string>
+    <string name="remove_user">Remove user</string>
+    <string name="remove_user_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
+    <string name="ban_user">Ban user</string>
+    <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
+    <string name="set_access_level">Set access level</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

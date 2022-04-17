@@ -1,20 +1,43 @@
 package com.futo.circles.model
 
-import com.futo.circles.R
 import com.futo.circles.core.list.IdEntity
+import com.futo.circles.extensions.getCurrentUserPowerLevel
+import com.futo.circles.extensions.isCurrentUserAbleToBan
+import com.futo.circles.extensions.isCurrentUserAbleToChangeSettings
+import com.futo.circles.extensions.isCurrentUserAbleToKick
+import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
+
+sealed class ManageMembersListItem : IdEntity<String>
+
+data class ManageMembersHeaderListItem(
+    val name: String
+) : ManageMembersListItem() {
+    override val id: String = name
+}
 
 data class GroupMemberListItem(
     val user: CirclesUserSummary,
     val role: Role,
-    val hasPendingInvitation: Boolean
-) : IdEntity<String> {
+    val powerLevelsContent: PowerLevelsContent,
+    val isOptionsOpened: Boolean
+) : ManageMembersListItem() {
     override val id: String = user.id
 
-    fun getRoleNameResId(): Int = if (hasPendingInvitation) R.string.pending_invitation else
-        when (role) {
-            Role.Admin -> R.string.admin
-            Role.Moderator -> R.string.moderator
-            else -> R.string.user
-        }
+    private val isMyUser = MatrixSessionProvider.currentSession?.myUserId == user.id
+
+    val isOptionsAvailable = (powerLevelsContent.isCurrentUserAbleToChangeSettings() ||
+            powerLevelsContent.isCurrentUserAbleToBan() ||
+            powerLevelsContent.isCurrentUserAbleToKick()) &&
+            !isMyUser &&
+            powerLevelsContent.getCurrentUserPowerLevel() > role.value
+
+}
+
+data class InvitedUserListItem(
+    val user: CirclesUserSummary,
+    val powerLevelsContent: PowerLevelsContent
+) : ManageMembersListItem() {
+    override val id: String = user.id
 }

@@ -21,6 +21,7 @@ import com.futo.circles.model.Post
 import com.futo.circles.view.GroupPostListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 
 class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupPostListener {
@@ -28,6 +29,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     private val args: GroupTimelineFragmentArgs by navArgs()
     private val viewModel by viewModel<GroupTimelineViewModel> { parametersOf(args.roomId) }
     private val binding by viewBinding(GroupTimelineFragmentBinding::bind)
+    private var isSettingAvailable = false
+    private var isInviteAvailable = false
 
     private val listAdapter by lazy {
         GroupTimelineAdapter(this) { viewModel.loadMore() }
@@ -54,6 +57,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         menu.clear()
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
         inflater.inflate(R.menu.group_timeline_menu, menu)
+        menu.findItem(R.id.settings).isVisible = isSettingAvailable
+        menu.findItem(R.id.inviteMembers).isVisible = isInviteAvailable
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -81,6 +86,9 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
             timelineEventsLiveData.observeData(this@GroupTimelineFragment, ::setTimelineList)
             leaveGroupLiveData.observeResponse(this@GroupTimelineFragment,
                 success = { activity?.onBackPressed() })
+            accessLevelLiveData.observeData(this@GroupTimelineFragment) { powerContent ->
+                handleAccessActionsVisibility(powerContent)
+            }
         }
     }
 
@@ -100,6 +108,13 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
             negativeButtonVisible = true,
             positiveAction = { viewModel.leaveGroup() }
         )
+    }
+
+    private fun handleAccessActionsVisibility(powerContent: PowerLevelsContent) {
+        binding.fbCreatePost.setIsVisible(powerContent.isCurrentUserAbleToPost())
+        isSettingAvailable = powerContent.isCurrentUserAbleToChangeSettings()
+        isInviteAvailable = powerContent.isCurrentUserAbleToInvite()
+        activity?.invalidateOptionsMenu()
     }
 
     private fun navigateToInviteMembers() {

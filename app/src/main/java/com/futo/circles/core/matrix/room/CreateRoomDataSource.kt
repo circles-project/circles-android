@@ -5,9 +5,11 @@ import android.net.Uri
 import com.futo.circles.BuildConfig
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.Room
+import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomDirectoryVisibility
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomPreset
+import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.space.CreateSpaceParams
 
@@ -42,6 +44,9 @@ class CreateRoomDataSource(private val context: Context) {
         val params = if (circlesRoom.isSpace()) CreateSpaceParams() else CreateRoomParams().apply {
             visibility = RoomDirectoryVisibility.PRIVATE
             preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
+            powerLevelContentOverride = PowerLevelsContent(
+                invite = Role.Moderator.value
+            )
         }
 
         return params.apply {
