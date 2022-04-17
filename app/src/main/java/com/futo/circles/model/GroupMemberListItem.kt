@@ -1,9 +1,10 @@
 package com.futo.circles.model
 
 import com.futo.circles.core.list.IdEntity
+import com.futo.circles.extensions.getCurrentUserPowerLevel
 import com.futo.circles.extensions.isCurrentUserAbleToBan
 import com.futo.circles.extensions.isCurrentUserAbleToChangeSettings
-import com.futo.circles.extensions.isCurrentUserAbleToInvite
+import com.futo.circles.extensions.isCurrentUserAbleToKick
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
@@ -28,7 +29,9 @@ data class GroupMemberListItem(
 
     val isOptionsAvailable = (powerLevelsContent.isCurrentUserAbleToChangeSettings() ||
             powerLevelsContent.isCurrentUserAbleToBan() ||
-            powerLevelsContent.isCurrentUserAbleToInvite()) && !isMyUser
+            powerLevelsContent.isCurrentUserAbleToKick()) &&
+            !isMyUser &&
+            powerLevelsContent.getCurrentUserPowerLevel() > role.value
 
 }
 

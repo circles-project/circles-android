@@ -88,7 +88,7 @@ class InvitedUserViewHolder(
         if (data !is InvitedUserListItem) return
 
         with(binding.ivCancelInvite) {
-            if (data.powerLevelsContent.isCurrentUserAbleToInvite()) {
+            if (data.powerLevelsContent.isCurrentUserAbleToKick()) {
                 onClick(this) { position -> onCancelInvitation(position) }
                 visible()
             } else {
