@@ -120,6 +120,7 @@
     <string name="remove_user_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
     <string name="ban_user">Ban user</string>
     <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
+    <string name="set_access_level">Set access level</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>
