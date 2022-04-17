@@ -48,6 +48,7 @@
     <string name="cancel">Cancel</string>
     <string name="unexpected_error">Something went wrong</string>
     <string name="group_created">Group created</string>
+    <string name="group_updated">Group updated</string>
     <string name="already_have_a_circles_token">Already have a Circles token?</string>
     <string name="sign_up_with_token">Sign up with token</string>
     <string name="new_circles_subscription">New Circles subscription</string>
