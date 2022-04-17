@@ -28,7 +28,8 @@ class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        changeAccessLevelListener = parentFragment as? ChangeAccessLevelListener
+        changeAccessLevelListener =
+            parentFragmentManager.fragments.firstOrNull { it is ChangeAccessLevelListener } as? ChangeAccessLevelListener
     }
 
     override fun onCreateView(

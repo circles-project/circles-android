@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -31,6 +32,7 @@ class ManageGroupMembersDataSource(
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)
+    private var powerLevelsContent: PowerLevelsContent? = null
 
     private val usersWithVisibleOptionsFlow = MutableStateFlow<MutableSet<String>>(mutableSetOf())
 
@@ -75,6 +77,7 @@ class ManageGroupMembersDataSource(
         powerLevelsContent: PowerLevelsContent,
         usersWithVisibleOptions: Set<String>
     ): List<ManageMembersListItem> {
+        this.powerLevelsContent = powerLevelsContent
         val roleHelper = PowerLevelsHelper(powerLevelsContent)
         val fullList = mutableListOf<ManageMembersListItem>()
         val currentMembers = mutableListOf<GroupMemberListItem>()
@@ -112,6 +115,7 @@ class ManageGroupMembersDataSource(
     suspend fun banUser(userId: String) = createResult { room?.ban(userId) }
 
     suspend fun changeAccessLevel(userId: String, levelValue: Int) = createResult {
-
+        val content = powerLevelsContent?.setUserPowerLevel(userId, levelValue).toContent()
+        room?.sendStateEvent(EventType.STATE_ROOM_POWER_LEVELS, stateKey = "", content)
     }
 }
