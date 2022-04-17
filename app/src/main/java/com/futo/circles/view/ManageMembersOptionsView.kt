@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.futo.circles.databinding.ManageMembersOptionsViewBinding
 import com.futo.circles.extensions.isCurrentUserAbleToBan
-import com.futo.circles.extensions.isCurrentUserAbleToChangeSettings
+import com.futo.circles.extensions.isCurrentUserAbleToChangeLevelFor
 import com.futo.circles.extensions.isCurrentUserAbleToKick
 import com.futo.circles.extensions.setIsVisible
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 interface ManageMembersOptionsListener {
 
-    fun onSetAccessLevel(userId: String, levelValue: Int)
+    fun onSetAccessLevel(userId: String, powerLevelsContent: PowerLevelsContent)
 
     fun onRemoveUser(userId: String)
 
@@ -32,13 +32,13 @@ class ManageMembersOptionsView(
 
     private var listener: ManageMembersOptionsListener? = null
     private var userId: String? = null
-    private var roleValue: Int? = null
+    private var powerLevelsContent: PowerLevelsContent? = null
 
     init {
         with(binding) {
             btnChangeAccessLevel.setOnClickListener {
                 userId?.let { id ->
-                    roleValue?.let { listener?.onSetAccessLevel(id, it) }
+                    powerLevelsContent?.let { listener?.onSetAccessLevel(id, it) }
                 }
             }
             btnRemove.setOnClickListener {
@@ -55,11 +55,13 @@ class ManageMembersOptionsView(
         listener = callback
     }
 
-    fun setData(userId: String, roleValue: Int, powerLevelsContent: PowerLevelsContent) {
+    fun setData(userId: String, powerLevelsContent: PowerLevelsContent) {
         this.userId = userId
-        this.roleValue = roleValue
+        this.powerLevelsContent = powerLevelsContent
         with(binding) {
-            btnChangeAccessLevel.setIsVisible(powerLevelsContent.isCurrentUserAbleToChangeSettings())
+            btnChangeAccessLevel.setIsVisible(
+                powerLevelsContent.isCurrentUserAbleToChangeLevelFor(userId)
+            )
             btnRemove.setIsVisible(powerLevelsContent.isCurrentUserAbleToKick())
             btnBan.setIsVisible(powerLevelsContent.isCurrentUserAbleToBan())
         }

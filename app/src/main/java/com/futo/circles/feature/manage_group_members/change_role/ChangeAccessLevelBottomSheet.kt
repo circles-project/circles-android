@@ -9,6 +9,7 @@ import android.view.WindowManager
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.futo.circles.databinding.ChangeAccessLevelBottomSheetBinding
+import com.futo.circles.extensions.observeData
 import com.futo.circles.feature.manage_group_members.change_role.list.ChangeAccessLevelAdapter
 import com.futo.circles.model.AccessLevelListItem
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -19,7 +20,9 @@ class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
 
     private var binding: ChangeAccessLevelBottomSheetBinding? = null
     private val args: ChangeAccessLevelBottomSheetArgs by navArgs()
-    private val viewModel by viewModel<ChangeAccessLevelViewModel> { parametersOf(args.levelValue) }
+    private val viewModel by viewModel<ChangeAccessLevelViewModel> {
+        parametersOf(args.levelValue, args.myUserLevelValue)
+    }
     private val listAdapter by lazy { ChangeAccessLevelAdapter(::onLevelListItemClicked) }
     private var changeAccessLevelListener: ChangeAccessLevelListener? = null
 
@@ -57,15 +60,18 @@ class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupObservers() {
-
+        viewModel.accessLevelsLiveData.observeData(this) { listAdapter.submitList(it) }
+        viewModel.isLevelChangedLiveData.observeData(this) { binding?.btnSetLevel?.isEnabled = it }
     }
 
     private fun onLevelListItemClicked(item: AccessLevelListItem) {
-        viewModel.toggleAccessLevel(item)
+        viewModel.toggleAccessLevel(item.role.value)
     }
 
     private fun setNewAccessLevel() {
-        changeAccessLevelListener?.onChangeAccessLevel(args.userId, args.levelValue)
+        viewModel.getCurrentSelectedValue()?.let { newLevelValue ->
+            changeAccessLevelListener?.onChangeAccessLevel(args.userId, newLevelValue)
+        }
     }
 
     override fun onDestroyView() {

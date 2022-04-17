@@ -28,6 +28,14 @@ fun PowerLevelsContent.isCurrentUserAbleToChangeSettings(): Boolean {
     return PowerLevelsHelper(this).isUserAbleToRedact(userId)
 }
 
+fun PowerLevelsContent.isCurrentUserAbleToChangeLevelFor(otherUserId: String): Boolean {
+    val userId = MatrixSessionProvider.currentSession?.myUserId ?: return false
+    val helper = PowerLevelsHelper(this)
+    val myAccessLevel = helper.getUserPowerLevelValue(userId)
+    val otherUserLevel = helper.getUserPowerLevelValue(otherUserId)
+    return myAccessLevel >= otherUserLevel && myAccessLevel != Role.Default.value
+}
+
 fun PowerLevelsContent.isCurrentUserAbleToBan(): Boolean {
     val userId = MatrixSessionProvider.currentSession?.myUserId ?: return false
     return PowerLevelsHelper(this).isUserAbleToBan(userId)
@@ -36,4 +44,13 @@ fun PowerLevelsContent.isCurrentUserAbleToBan(): Boolean {
 fun PowerLevelsContent.isCurrentUserAbleToKick(): Boolean {
     val userId = MatrixSessionProvider.currentSession?.myUserId ?: return false
     return PowerLevelsHelper(this).isUserAbleToKick(userId)
+}
+
+fun PowerLevelsContent.getUserPowerLevel(userId: String): Int {
+    return PowerLevelsHelper(this).getUserPowerLevelValue(userId)
+}
+
+fun PowerLevelsContent.getCurrentUserPowerLevel(): Int {
+    val userId = MatrixSessionProvider.currentSession?.myUserId ?: return Role.Default.value
+    return PowerLevelsHelper(this).getUserPowerLevelValue(userId)
 }

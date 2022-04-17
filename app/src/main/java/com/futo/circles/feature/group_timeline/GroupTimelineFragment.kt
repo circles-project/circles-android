@@ -111,9 +111,9 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     }
 
     private fun handleAccessActionsVisibility(powerContent: PowerLevelsContent) {
-        binding.fbCreatePost.setIsVisible(viewModel.isUserAbleToPost(powerContent))
-        isSettingAvailable = viewModel.isUserAbleToChangeSettings(powerContent)
-        isInviteAvailable = viewModel.isUserAbleToInvite(powerContent)
+        binding.fbCreatePost.setIsVisible(powerContent.isCurrentUserAbleToPost())
+        isSettingAvailable = powerContent.isCurrentUserAbleToChangeSettings()
+        isInviteAvailable = powerContent.isCurrentUserAbleToInvite()
         activity?.invalidateOptionsMenu()
     }
 

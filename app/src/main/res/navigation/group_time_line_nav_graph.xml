@@ -71,6 +71,11 @@
                 app:nullable="false" />
 
             <argument
+                android:name="myUserLevelValue"
+                app:argType="integer"
+                app:nullable="false" />
+
+            <argument
                 android:name="levelValue"
                 app:argType="integer"
                 app:nullable="false" />
@@ -87,6 +92,11 @@
         <argument
             android:name="userId"
             app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="myUserLevelValue"
+            app:argType="integer"
             app:nullable="false" />
 
         <argument

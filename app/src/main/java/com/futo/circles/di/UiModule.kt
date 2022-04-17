@@ -38,5 +38,7 @@ val uiModule = module {
     viewModel { SetupCirclesViewModel(get(), get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { CirclesViewModel() }
-    viewModel { (levelValue: Int) -> ChangeAccessLevelViewModel(get { parametersOf(levelValue) }) }
+    viewModel { (levelValue: Int, myUserLevelValue: Int) ->
+        ChangeAccessLevelViewModel(get { parametersOf(levelValue, myUserLevelValue) })
+    }
 }

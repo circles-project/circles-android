@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.futo.circles.core.list.ViewBindingHolder
 import com.futo.circles.databinding.AccessLevelListItemBinding
+import com.futo.circles.extensions.getRoleNameResId
 import com.futo.circles.extensions.onClick
 import com.futo.circles.model.AccessLevelListItem
-import com.futo.circles.model.GroupListItem
 
 class AccessLevelViewHolder(
     parent: ViewGroup,
@@ -22,6 +22,9 @@ class AccessLevelViewHolder(
     }
 
     fun bind(data: AccessLevelListItem) {
-
+        with(binding.rbAccessLevel) {
+            isChecked = data.isSelected
+            text = context.getString(data.role.getRoleNameResId())
+        }
     }
 }

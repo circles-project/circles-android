@@ -37,24 +37,6 @@ class GroupTimelineViewModel(
         launchBg { leaveGroupLiveData.postValue(dataSource.leaveGroup()) }
     }
 
-    fun isUserAbleToPost(powerContent: PowerLevelsContent): Boolean {
-        val userId = MatrixSessionProvider.currentSession?.myUserId ?: return false
-        val helper = PowerLevelsHelper(powerContent)
-        return helper.isUserAllowedToSend(userId, false, EventType.MESSAGE)
-    }
-
-    fun isUserAbleToInvite(powerContent: PowerLevelsContent): Boolean {
-        val userId = MatrixSessionProvider.currentSession?.myUserId ?: return false
-        val helper = PowerLevelsHelper(powerContent)
-        return helper.isUserAbleToInvite(userId)
-    }
-
-    fun isUserAbleToChangeSettings(powerContent: PowerLevelsContent): Boolean {
-        val userId = MatrixSessionProvider.currentSession?.myUserId ?: return false
-        val helper = PowerLevelsHelper(powerContent)
-        return helper.isUserAbleToRedact(userId)
-    }
-
     override fun onCleared() {
         dataSource.clearTimeline()
         super.onCleared()

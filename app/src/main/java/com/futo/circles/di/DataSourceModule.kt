@@ -40,5 +40,7 @@ val dataSourceModule = module {
     factory { HomeDataSource() }
     factory { CreatePassPhraseDataSource(get()) }
     factory { RestorePassPhraseDataSource(get()) }
-    factory { (levelValue: Int) -> ChangeAccessLevelDataSource(levelValue) }
+    factory { (levelValue: Int, myUserLevelValue: Int) ->
+        ChangeAccessLevelDataSource(levelValue, myUserLevelValue)
+    }
 }

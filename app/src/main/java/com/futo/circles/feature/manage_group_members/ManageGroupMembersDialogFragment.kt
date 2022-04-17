@@ -9,15 +9,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.futo.circles.R
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.ManageGroupMembersDialogFragmentBinding
-import com.futo.circles.extensions.observeData
-import com.futo.circles.extensions.observeResponse
-import com.futo.circles.extensions.showDialog
+import com.futo.circles.extensions.*
 import com.futo.circles.feature.group_invite.InviteMembersDialogFragmentArgs
 import com.futo.circles.feature.manage_group_members.change_role.ChangeAccessLevelListener
 import com.futo.circles.feature.manage_group_members.list.GroupMembersListAdapter
 import com.futo.circles.view.ManageMembersOptionsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 
 class ManageGroupMembersDialogFragment :
@@ -75,12 +74,13 @@ class ManageGroupMembersDialogFragment :
         )
     }
 
-    override fun onSetAccessLevel(userId: String, levelValue: Int) {
+    override fun onSetAccessLevel(userId: String, powerLevelsContent: PowerLevelsContent) {
         findNavController()
             .navigate(
                 ManageGroupMembersDialogFragmentDirections.toChangeAccessLevelBottomSheet(
-                    userId,
-                    levelValue
+                    userId = userId,
+                    levelValue = powerLevelsContent.getUserPowerLevel(userId),
+                    myUserLevelValue = powerLevelsContent.getCurrentUserPowerLevel()
                 )
             )
     }

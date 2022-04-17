@@ -51,7 +51,7 @@ class GroupMemberViewHolder(
                 with(optionsView) {
                     setListener(manageMembersListener)
                     setIsVisible(data.isOptionsOpened && data.isOptionsAvailable)
-                    setData(data.id, data.role.value, data.powerLevelsContent)
+                    setData(data.id, data.powerLevelsContent)
                 }
             } else {
                 ivOptionsArrow.gone()

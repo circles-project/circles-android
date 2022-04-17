@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.radiobutton.MaterialRadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rbAccessLevel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textAppearance="@style/body"
-    tools:text="@string/access_level" />
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <com.google.android.material.radiobutton.MaterialRadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rbAccessLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        android:padding="8dp"
+        android:textAppearance="@style/body"
+        tools:text="@string/access_level" />
+</FrameLayout>
+
 
