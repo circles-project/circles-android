@@ -8,6 +8,7 @@ import com.futo.circles.databinding.ManageMembersOptionsViewBinding
 import com.futo.circles.extensions.isCurrentUserAbleToBan
 import com.futo.circles.extensions.isCurrentUserAbleToChangeSettings
 import com.futo.circles.extensions.isCurrentUserAbleToKick
+import com.futo.circles.extensions.setIsVisible
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 interface ManageMembersOptionsListener {
@@ -36,11 +37,9 @@ class ManageMembersOptionsView(
     init {
         with(binding) {
             btnChangeAccessLevel.setOnClickListener {
-                userId?.let {
-                    roleValue?.let{
-                        listener?.onSetAccessLevel(it)
-                    }
-                    }
+                userId?.let { id ->
+                    roleValue?.let { listener?.onSetAccessLevel(id, it) }
+                }
             }
             btnRemove.setOnClickListener {
                 userId?.let { listener?.onRemoveUser(it) }
@@ -60,9 +59,9 @@ class ManageMembersOptionsView(
         this.userId = userId
         this.roleValue = roleValue
         with(binding) {
-            btnChangeAccessLevel.setVisibility(powerLevelsContent.isCurrentUserAbleToChangeSettings())
-            btnRemove.setVisibility(powerLevelsContent.isCurrentUserAbleToKick())
-            btnBan.setVisibility(powerLevelsContent.isCurrentUserAbleToBan())
+            btnChangeAccessLevel.setIsVisible(powerLevelsContent.isCurrentUserAbleToChangeSettings())
+            btnRemove.setIsVisible(powerLevelsContent.isCurrentUserAbleToKick())
+            btnBan.setIsVisible(powerLevelsContent.isCurrentUserAbleToBan())
         }
     }
 

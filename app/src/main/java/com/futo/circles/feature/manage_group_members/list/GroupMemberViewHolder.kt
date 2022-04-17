@@ -50,8 +50,8 @@ class GroupMemberViewHolder(
                 onClick(binding.contentLayout) { position -> onUserClicked(position) }
                 with(optionsView) {
                     setListener(manageMembersListener)
-                    setVisibility(data.isOptionsOpened && data.isOptionsAvailable)
-                    setData(data.id, data.powerLevelsContent)
+                    setIsVisible(data.isOptionsOpened && data.isOptionsAvailable)
+                    setData(data.id, data.role.value, data.powerLevelsContent)
                 }
             } else {
                 ivOptionsArrow.gone()

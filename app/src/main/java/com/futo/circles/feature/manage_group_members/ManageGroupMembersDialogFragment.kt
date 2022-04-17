@@ -77,7 +77,12 @@ class ManageGroupMembersDialogFragment :
 
     override fun onSetAccessLevel(userId: String, levelValue: Int) {
         findNavController()
-            .navigate(ManageGroupMembersDialogFragmentDirections.toChangeAccessLevelBottomSheet())
+            .navigate(
+                ManageGroupMembersDialogFragmentDirections.toChangeAccessLevelBottomSheet(
+                    userId,
+                    levelValue
+                )
+            )
     }
 
     override fun onRemoveUser(userId: String) {

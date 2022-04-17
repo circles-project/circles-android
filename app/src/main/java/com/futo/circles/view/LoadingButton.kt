@@ -8,7 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.futo.circles.R
 import com.futo.circles.databinding.LoadingButtonViewBinding
 import com.futo.circles.extensions.getAttributes
-import com.futo.circles.extensions.setVisibility
+import com.futo.circles.extensions.setIsVisible
 
 class LoadingButton(
     context: Context,
@@ -46,7 +46,7 @@ class LoadingButton(
 
 
     fun setIsLoading(isLoading: Boolean) {
-        binding.loader.setVisibility(isLoading)
+        binding.loader.setIsVisible(isLoading)
         binding.button.isEnabled = !isLoading
         binding.button.text = if (isLoading) "" else buttonText
     }

@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.futo.circles.R
 import com.futo.circles.databinding.PostLayoutBinding
 import com.futo.circles.extensions.gone
-import com.futo.circles.extensions.setVisibility
+import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.model.Post
 import com.futo.circles.model.PostItemPayload
 import com.futo.circles.model.ReplyPost
@@ -55,7 +55,7 @@ class PostLayout(
 
     private fun setGeneralMessageData(data: Post) {
         val isReply = data is ReplyPost
-        binding.vReplyMargin.setVisibility(isReply)
+        binding.vReplyMargin.setIsVisible(isReply)
         binding.postHeader.setData(data.postInfo.sender)
         binding.postFooter.setData(data.postInfo, isReply)
     }
@@ -74,7 +74,7 @@ class PostLayout(
         isRepliesVisible: Boolean
     ) {
         with(binding.btnShowReplies) {
-            setVisibility(hasReplies)
+            setIsVisible(hasReplies)
             setClosedText(
                 context.resources.getQuantityString(
                     R.plurals.show_replies_plurals,

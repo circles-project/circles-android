@@ -10,7 +10,7 @@ import com.futo.circles.R
 import com.futo.circles.databinding.SelectUsersFragmentBinding
 import com.futo.circles.extensions.getQueryTextChangeStateFlow
 import com.futo.circles.extensions.observeData
-import com.futo.circles.extensions.setVisibility
+import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.feature.select_users.list.search.InviteMembersSearchListAdapter
 import com.futo.circles.feature.select_users.list.selected.SelectedUsersListAdapter
 import com.futo.circles.model.UserListItem
@@ -62,7 +62,7 @@ class SelectUsersFragment : Fragment(R.layout.select_users_fragment) {
         }
         viewModel.selectedUsersLiveData.observeData(this) { items ->
             selectedUsersListAdapter.submitList(items)
-            binding.selectedUserDivider.setVisibility(items.isNotEmpty())
+            binding.selectedUserDivider.setIsVisible(items.isNotEmpty())
             selectUsersListener?.onUserSelected(items)
         }
     }

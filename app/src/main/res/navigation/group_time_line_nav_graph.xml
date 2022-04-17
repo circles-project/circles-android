@@ -66,6 +66,11 @@
             app:destination="@id/changeAccessLevelBottomSheet">
 
             <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
                 android:name="levelValue"
                 app:argType="integer"
                 app:nullable="false" />
@@ -78,6 +83,11 @@
         android:name="com.futo.circles.feature.manage_group_members.change_role.ChangeAccessLevelBottomSheet"
         android:label="ChangeAccessLevelBottomSheet"
         tools:layout="@layout/change_access_level_bottom_sheet">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
 
         <argument
             android:name="levelValue"

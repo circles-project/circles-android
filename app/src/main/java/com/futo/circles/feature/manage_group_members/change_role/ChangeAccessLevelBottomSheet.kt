@@ -1,5 +1,6 @@
 package com.futo.circles.feature.manage_group_members.change_role
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,12 @@ class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
     private val args: ChangeAccessLevelBottomSheetArgs by navArgs()
     private val viewModel by viewModel<ChangeAccessLevelViewModel> { parametersOf(args.levelValue) }
     private val listAdapter by lazy { ChangeAccessLevelAdapter(::onLevelListItemClicked) }
+    private var changeAccessLevelListener: ChangeAccessLevelListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        changeAccessLevelListener = parentFragment as? ChangeAccessLevelListener
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -58,7 +65,7 @@ class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setNewAccessLevel() {
-
+        changeAccessLevelListener?.onChangeAccessLevel(args.userId, args.levelValue)
     }
 
     override fun onDestroyView() {

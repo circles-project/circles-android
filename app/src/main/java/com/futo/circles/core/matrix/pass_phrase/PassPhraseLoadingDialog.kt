@@ -4,9 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
-import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingData
 import com.futo.circles.databinding.PassPhraseLoadingDialogBinding
-import com.futo.circles.extensions.setVisibility
+import com.futo.circles.extensions.setIsVisible
 
 
 class PassPhraseLoadingDialog(context: Context) : AppCompatDialog(context) {
@@ -38,7 +37,7 @@ class PassPhraseLoadingDialog(context: Context) : AppCompatDialog(context) {
         with(binding) {
             horizontalProgress.max = data.total
             horizontalProgress.progress = data.progress
-            horizontalProgress.setVisibility(data.total != data.progress)
+            horizontalProgress.setIsVisible(data.total != data.progress)
         }
 
     }
