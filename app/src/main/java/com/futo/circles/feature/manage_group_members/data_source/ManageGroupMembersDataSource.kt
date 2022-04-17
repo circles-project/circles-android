@@ -110,4 +110,8 @@ class ManageGroupMembersDataSource(
     suspend fun removeUser(userId: String) = createResult { room?.remove(userId) }
 
     suspend fun banUser(userId: String) = createResult { room?.ban(userId) }
+
+    suspend fun changeAccessLevel(userId: String, levelValue: Int) = createResult {
+
+    }
 }

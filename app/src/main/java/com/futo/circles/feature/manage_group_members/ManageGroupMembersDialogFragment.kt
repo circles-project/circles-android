@@ -3,6 +3,7 @@ package com.futo.circles.feature.manage_group_members
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.futo.circles.R
@@ -12,6 +13,7 @@ import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
 import com.futo.circles.feature.group_invite.InviteMembersDialogFragmentArgs
+import com.futo.circles.feature.manage_group_members.change_role.ChangeAccessLevelListener
 import com.futo.circles.feature.manage_group_members.list.GroupMembersListAdapter
 import com.futo.circles.view.ManageMembersOptionsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -20,7 +22,7 @@ import org.koin.core.parameter.parametersOf
 
 class ManageGroupMembersDialogFragment :
     BaseFullscreenDialogFragment(ManageGroupMembersDialogFragmentBinding::inflate),
-    ManageMembersOptionsListener {
+    ManageMembersOptionsListener, ChangeAccessLevelListener {
 
     private val args: InviteMembersDialogFragmentArgs by navArgs()
     private val viewModel by viewModel<ManageGroupMembersViewModel> { parametersOf(args.roomId) }
@@ -61,6 +63,7 @@ class ManageGroupMembersDialogFragment :
         }
         viewModel.removeUserResultLiveData.observeResponse(this)
         viewModel.banUserResultLiveData.observeResponse(this)
+        viewModel.changeAccessLevelLiveData.observeResponse(this)
     }
 
     private fun showCancelInviteDialog(userId: String) {
@@ -72,8 +75,9 @@ class ManageGroupMembersDialogFragment :
         )
     }
 
-    override fun onSetAccessLevel(userId: String) {
-
+    override fun onSetAccessLevel(userId: String, levelValue: Int) {
+        findNavController()
+            .navigate(ManageGroupMembersDialogFragmentDirections.toChangeAccessLevelBottomSheet())
     }
 
     override fun onRemoveUser(userId: String) {
@@ -94,6 +98,10 @@ class ManageGroupMembersDialogFragment :
             negativeButtonVisible = true,
             positiveAction = { viewModel.banUser(userId) }
         )
+    }
+
+    override fun onChangeAccessLevel(userId: String, levelValue: Int) {
+        viewModel.changeAccessLevel(userId, levelValue)
     }
 
 }

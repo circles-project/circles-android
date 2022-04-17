@@ -17,6 +17,7 @@ class ManageGroupMembersViewModel(
 
     val removeUserResultLiveData = SingleEventLiveData<Response<Unit?>>()
     val banUserResultLiveData = SingleEventLiveData<Response<Unit?>>()
+    val changeAccessLevelLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun toggleOptionsVisibility(userId: String) {
         dataSource.toggleOptionsVisibilityFor(userId)
@@ -29,5 +30,13 @@ class ManageGroupMembersViewModel(
 
     fun banUser(userId: String) {
         launchBg { banUserResultLiveData.postValue(dataSource.banUser(userId)) }
+    }
+
+    fun changeAccessLevel(userId: String, levelValue: Int) {
+        launchBg {
+            changeAccessLevelLiveData.postValue(
+                dataSource.changeAccessLevel(userId, levelValue)
+            )
+        }
     }
 }
