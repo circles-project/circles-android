@@ -57,13 +57,17 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         menu.clear()
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
         inflater.inflate(R.menu.group_timeline_menu, menu)
-        menu.findItem(R.id.settings).isVisible = isSettingAvailable
+        menu.findItem(R.id.configureGroup).isVisible = isSettingAvailable
         menu.findItem(R.id.inviteMembers).isVisible = isInviteAvailable
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.configureGroup ->{
+                navigateToConfigureGroup()
+                return true
+            }
             R.id.manageMembers -> {
                 navigateToManageMembers()
                 return true
@@ -126,6 +130,12 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     private fun navigateToManageMembers() {
         findNavController().navigate(
             GroupTimelineFragmentDirections.toManageMembersDialogFragment(args.roomId)
+        )
+    }
+
+    private fun navigateToConfigureGroup() {
+        findNavController().navigate(
+            GroupTimelineFragmentDirections.toConfigureGroupDialogFragment(args.roomId)
         )
     }
 }

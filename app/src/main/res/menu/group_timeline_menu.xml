@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/settings"
+        android:id="@+id/configureGroup"
         android:icon="@drawable/ic_settings"
-        android:title="@string/settings" />
+        android:title="@string/configure_group" />
 
     <item
         android:id="@+id/manageMembers"
