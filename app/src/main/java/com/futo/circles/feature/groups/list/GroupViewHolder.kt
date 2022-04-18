@@ -27,27 +27,38 @@ class GroupViewHolder(
     }
 
     fun bind(data: GroupListItem) {
-        with(binding) {
-            ivGroup.loadProfileIcon(data.avatarUrl, data.title)
-
-            ivLock.setIsEncryptedIcon(data.isEncrypted)
-
-            tvGroupTitle.text = data.title
-
-            setMembersCount(data.membersCount)
-
-            tvTopic.text = context.getString(
-                R.string.topic_formatter,
-                data.topic.takeIf { it.isNotEmpty() } ?: context.getString(R.string.none)
-            )
-
-            setUpdateTime(data.timestamp)
-        }
+        setIcon(data.avatarUrl, data.title)
+        setIsEncrypted(data.isEncrypted)
+        setTitle(data.title)
+        setMembersCount(data.membersCount)
+        setTopic(data.topic)
+        setUpdateTime(data.timestamp)
     }
 
     fun bindPayload(data: GroupListItemPayload) {
-        setMembersCount(data.membersCount)
-        setUpdateTime(data.timestamp)
+        data.isEncrypted?.let { setIsEncrypted(it) }
+        data.topic?.let { setTopic(it) }
+        data.membersCount?.let { setMembersCount(it) }
+        data.timestamp?.let { setUpdateTime(it) }
+    }
+
+    private fun setIcon(avatarUrl: String?, title: String) {
+        binding.ivGroup.loadProfileIcon(avatarUrl, title)
+    }
+
+    private fun setIsEncrypted(isEncrypted: Boolean) {
+        binding.ivLock.setIsEncryptedIcon(isEncrypted)
+    }
+
+    private fun setTitle(title: String) {
+        binding.tvGroupTitle.text = title
+    }
+
+    private fun setTopic(topic: String) {
+        binding.tvTopic.text = context.getString(
+            R.string.topic_formatter,
+            topic.takeIf { it.isNotEmpty() } ?: context.getString(R.string.none)
+        )
     }
 
     private fun setMembersCount(membersCount: Int) {
