@@ -16,7 +16,7 @@ class GroupTimelineViewModel(
     private val dataSource: GroupTimelineDatasource
 ) : ViewModel() {
 
-    val titleLiveData = MutableLiveData(dataSource.getGroupTitle())
+    val titleLiveData = dataSource.roomTitleLiveData
     val timelineEventsLiveData = dataSource.timelineEventsLiveData
     val leaveGroupLiveData = SingleEventLiveData<Response<Unit?>>()
     val accessLevelLiveData = dataSource.accessLevelFlow.asLiveData()

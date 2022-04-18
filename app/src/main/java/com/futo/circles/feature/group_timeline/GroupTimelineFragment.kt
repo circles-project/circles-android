@@ -64,7 +64,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.configureGroup ->{
+            R.id.configureGroup -> {
                 navigateToConfigureGroup()
                 return true
             }
@@ -86,7 +86,9 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     private fun setupObservers() {
         with(viewModel) {
-            titleLiveData.observeData(this@GroupTimelineFragment) { title -> setToolbarTitle(title) }
+            titleLiveData?.observeData(this@GroupTimelineFragment) { title ->
+                setToolbarTitle(title ?: "")
+            }
             timelineEventsLiveData.observeData(this@GroupTimelineFragment, ::setTimelineList)
             leaveGroupLiveData.observeResponse(this@GroupTimelineFragment,
                 success = { activity?.onBackPressed() })
