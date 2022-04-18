@@ -149,4 +149,20 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
+    <TextView
+        android:id="@+id/tvEncryptionWarning"
+        style="@style/footNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/note_group_name_and_cover_image_are_not_encrypted"
+        android:textColor="@color/yellow"
+        app:drawableStartCompat="@drawable/ic_info"
+        app:drawableTint="@color/yellow"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tilGroupTopic" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -124,6 +124,7 @@
     <string name="set_access_level">Set access level</string>
     <string name="configure_group">Configure group</string>
     <string name="change_icon">Change icon</string>
+    <string name="note_group_name_and_cover_image_are_not_encrypted">NOTE: Group name, topic and cover image are not encrypted</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>
