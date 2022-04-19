@@ -12,6 +12,9 @@ const val CIRCLE_TAG = "m.social.circle"
 const val GROUP_TAG = "m.social.group"
 const val TIMELINE_TAG = "m.social.timeline"
 
+const val GROUP_TYPE = GROUP_TAG
+const val TIMELINE_TYPE = TIMELINE_TAG
+
 
 sealed class CirclesRoom(
     @StringRes open val nameId: Int?,
@@ -61,12 +64,12 @@ data class Group(
     override val nameId: Int? = null,
     override val tag: String = GROUP_TAG,
     override val parentTag: String? = GROUPS_SPACE_TAG,
-    override val type: String? = null
+    override val type: String? = GROUP_TYPE
 ) : CirclesRoom(nameId, tag, parentTag, type)
 
 data class Timeline(
     override val nameId: Int? = null,
     override val tag: String = TIMELINE_TAG,
     override val parentTag: String? = null,
-    override val type: String? = null
+    override val type: String? = TIMELINE_TYPE
 ) : CirclesRoom(nameId, tag, parentTag, type)

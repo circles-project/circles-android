@@ -18,7 +18,7 @@ class CirclesViewModel : ViewModel() {
 
     private fun filterCircles(list: List<RoomSummary>): List<CircleListItem> {
         return list.mapNotNull { summary ->
-            if (summary.tags.find { it.name == CIRCLE_TAG } != null) summary.toCircleListItem() else null
+            if (summary.hasTag(CIRCLE_TAG)) summary.toCircleListItem() else null
         }
     }
 }
