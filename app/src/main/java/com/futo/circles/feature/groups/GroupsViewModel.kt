@@ -2,7 +2,7 @@ package com.futo.circles.feature.groups
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.futo.circles.core.matrix.room.GROUP_TAG
+import com.futo.circles.core.matrix.room.GROUP_TYPE
 import com.futo.circles.mapping.toGroupListItem
 import com.futo.circles.model.GroupListItem
 import com.futo.circles.provider.MatrixSessionProvider
@@ -19,8 +19,9 @@ class GroupsViewModel : ViewModel() {
 
     private fun filterGroups(list: List<RoomSummary>): List<GroupListItem> {
         return list.mapNotNull { summary ->
-            if (summary.membership.isActive() && summary.tags.find { it.name == GROUP_TAG } != null)
-                summary.toGroupListItem() else null
+            if (summary.roomType == GROUP_TYPE && summary.membership.isActive())
+                summary.toGroupListItem()
+            else null
         }
     }
 }

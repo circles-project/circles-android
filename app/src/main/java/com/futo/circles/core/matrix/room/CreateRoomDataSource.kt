@@ -41,12 +41,18 @@ class CreateRoomDataSource(private val context: Context) {
         iconUri: Uri? = null,
         inviteIds: List<String>? = null
     ): CreateRoomParams {
-        val params = if (circlesRoom.isSpace()) CreateSpaceParams() else CreateRoomParams().apply {
-            visibility = RoomDirectoryVisibility.PRIVATE
-            preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
-            powerLevelContentOverride = PowerLevelsContent(
-                invite = Role.Moderator.value
-            )
+        val params = if (circlesRoom.isSpace()) {
+            CreateSpaceParams()
+        } else {
+            CreateRoomParams().apply {
+                visibility = RoomDirectoryVisibility.PRIVATE
+                preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
+                powerLevelContentOverride = PowerLevelsContent(
+                    invite = Role.Moderator.value
+                )
+            }
+        }.apply {
+            circlesRoom.type?.let { this.roomType = it }
         }
 
         return params.apply {

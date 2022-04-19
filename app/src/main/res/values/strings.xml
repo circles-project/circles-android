@@ -34,7 +34,6 @@
     <string name="no_results">No results</string>
     <string name="invite">Invite</string>
     <string name="invitation_sent">Invitation sent</string>
-    <string name="settings">Settings</string>
     <string name="manage_members">Manage members</string>
     <string name="group_members_format">%s members</string>
     <string name="leave_group">Leave group</string>
@@ -42,12 +41,14 @@
     <string name="create">Create</string>
     <string name="group_name">Group name</string>
     <string name="group_topic_optional">Group topic (optional)</string>
+    <string name="group_topic">Group topic</string>
     <string name="upload_image_from">Upload image from</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
     <string name="unexpected_error">Something went wrong</string>
     <string name="group_created">Group created</string>
+    <string name="group_updated">Group updated</string>
     <string name="already_have_a_circles_token">Already have a Circles token?</string>
     <string name="sign_up_with_token">Sign up with token</string>
     <string name="new_circles_subscription">New Circles subscription</string>
@@ -121,6 +122,9 @@
     <string name="ban_user">Ban user</string>
     <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
     <string name="set_access_level">Set access level</string>
+    <string name="configure_group">Configure group</string>
+    <string name="change_icon">Change icon</string>
+    <string name="note_group_name_and_cover_image_are_not_encrypted">NOTE: Group name, topic and cover image are not encrypted</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

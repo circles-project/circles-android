@@ -7,10 +7,13 @@ import com.futo.circles.model.GroupListItemPayload
 
 class GroupsListAdapter(
     private val onGroupClicked: (GroupListItem) -> Unit
-) : BaseRvAdapter<GroupListItem, GroupViewHolder>(PayloadIdEntityCallback { _, new ->
+) : BaseRvAdapter<GroupListItem, GroupViewHolder>(PayloadIdEntityCallback { old, new ->
     GroupListItemPayload(
-        membersCount = new.membersCount,
-        timestamp = new.timestamp
+        topic = new.topic.takeIf { it != old.topic },
+        isEncrypted = new.isEncrypted.takeIf { it != old.isEncrypted },
+        membersCount = new.membersCount.takeIf { it != old.membersCount },
+        timestamp = new.timestamp.takeIf { it != old.timestamp },
+        needUpdateFullItem = new.title != old.title || new.avatarUrl != old.avatarUrl
     )
 }) {
     override fun onCreateViewHolder(
@@ -34,7 +37,12 @@ class GroupsListAdapter(
             super.onBindViewHolder(holder, position, payloads)
         } else {
             payloads.forEach {
-                (it as? GroupListItemPayload)?.let { payload -> holder.bindPayload(payload) }
+                (it as? GroupListItemPayload)?.let { payload ->
+                    if (payload.needUpdateFullItem)
+                        holder.bind(getItem(position))
+                    else
+                        holder.bindPayload(payload)
+                }
             }
         }
     }

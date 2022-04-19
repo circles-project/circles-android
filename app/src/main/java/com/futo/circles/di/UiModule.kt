@@ -1,6 +1,7 @@
 package com.futo.circles.di
 
 import com.futo.circles.feature.circles.CirclesViewModel
+import com.futo.circles.feature.configure_group.ConfigureGroupViewModel
 import com.futo.circles.feature.create_group.CreateGroupViewModel
 import com.futo.circles.feature.group_invite.InviteMembersViewModel
 import com.futo.circles.feature.group_timeline.GroupTimelineViewModel
@@ -41,4 +42,5 @@ val uiModule = module {
     viewModel { (levelValue: Int, myUserLevelValue: Int) ->
         ChangeAccessLevelViewModel(get { parametersOf(levelValue, myUserLevelValue) })
     }
+    viewModel { (roomId: String) -> ConfigureGroupViewModel(get { parametersOf(roomId) }) }
 }
