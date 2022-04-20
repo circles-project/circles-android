@@ -65,6 +65,8 @@ class GroupTimelineDatasource(
     suspend fun leaveGroup() =
         createResult { MatrixSessionProvider.currentSession?.leaveRoom(roomId) }
 
+    fun sendTextMessage(message: String) = room?.sendTextMessage(message)
+
     companion object {
         private const val MESSAGES_PER_PAGE = 30
     }

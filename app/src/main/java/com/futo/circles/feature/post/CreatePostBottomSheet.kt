@@ -1,5 +1,7 @@
 package com.futo.circles.feature.post
 
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +17,23 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+interface CreatePostListener {
+    fun onSendTextPost(message: String)
+    fun onSendImagePost(uri: Uri)
+}
+
 class CreatePostBottomSheet : BottomSheetDialogFragment() {
 
     private var binding: CreatePostBottomSheetBinding? = null
     private val viewModel by viewModel<CreatePostViewModel>()
     private val imagePickerHelper = ImagePickerHelper(this)
+    private var createPostListener: CreatePostListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        createPostListener =
+            parentFragmentManager.fragments.firstOrNull { it is CreatePostListener } as? CreatePostListener
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -43,6 +57,7 @@ class CreatePostBottomSheet : BottomSheetDialogFragment() {
         binding?.ivText?.setOnClickListener { viewModel.setIsImagePost(false) }
         binding?.ivImage?.setOnClickListener { viewModel.setIsImagePost(true) }
         binding?.btnPost?.setOnClickListener {
+            sendPost()
             dismiss()
         }
         binding?.vPostPreview?.setListener(object : PreviewPostListener {
@@ -68,6 +83,14 @@ class CreatePostBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
+    private fun sendPost() {
+        if (viewModel.isImagePostSelected()) {
+            viewModel.getImageUri()?.let { createPostListener?.onSendImagePost(it) }
+        } else {
+            binding?.vPostPreview?.getText()?.let { createPostListener?.onSendTextPost(it) }
+        }
+    }
+
     private fun handlePostType(isImagePost: Boolean) {
         binding?.vPostPreview?.setIsImagePost(isImagePost)
         val activeColor = context?.getColor(R.color.blue) ?: return
@@ -78,9 +101,9 @@ class CreatePostBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun handleSendButtonEnabled() {
-        val isImagePost = binding?.vPostPreview?.isImagePostSelected ?: false
-        binding?.btnPost?.isEnabled = if (isImagePost) viewModel.selectedImageLiveData.value != null
-        else binding?.vPostPreview?.getText()?.isNotBlank() == true
+        binding?.btnPost?.isEnabled =
+            if (viewModel.isImagePostSelected()) viewModel.getImageUri() != null
+            else binding?.vPostPreview?.getText()?.isNotBlank() == true
     }
 
     override fun onDestroyView() {

@@ -29,8 +29,6 @@ class PreviewPostView(
 
     private var listener: PreviewPostListener? = null
 
-    var isImagePostSelected = false
-
     init {
         getMyUser()?.let {
             binding.postHeader.setData(it.userId, it.displayName ?: "", it.avatarUrl)
@@ -48,7 +46,6 @@ class PreviewPostView(
     }
 
     fun setIsImagePost(isImagePost: Boolean) {
-        isImagePostSelected = isImagePost
         binding.tilTextPost.setIsVisible(!isImagePost)
         binding.ivImageContent.setIsVisible(isImagePost)
     }

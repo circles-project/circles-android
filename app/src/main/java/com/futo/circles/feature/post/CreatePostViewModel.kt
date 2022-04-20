@@ -13,7 +13,11 @@ class CreatePostViewModel : ViewModel() {
         isImagePostLiveData.postValue(isImagePost)
     }
 
+    fun isImagePostSelected() = isImagePostLiveData.value ?: false
+
     fun setImageUri(uri: Uri) {
         selectedImageLiveData.value = uri
     }
+
+    fun getImageUri() = selectedImageLiveData.value
 }

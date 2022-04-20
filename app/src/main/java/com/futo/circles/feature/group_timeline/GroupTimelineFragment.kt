@@ -1,6 +1,7 @@
 package com.futo.circles.feature.group_timeline
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,6 +18,7 @@ import com.futo.circles.databinding.GroupTimelineFragmentBinding
 import com.futo.circles.extensions.*
 import com.futo.circles.feature.group_timeline.list.GroupPostViewHolder
 import com.futo.circles.feature.group_timeline.list.GroupTimelineAdapter
+import com.futo.circles.feature.post.CreatePostListener
 import com.futo.circles.model.Post
 import com.futo.circles.view.GroupPostListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,7 +26,8 @@ import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 
-class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupPostListener {
+class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupPostListener,
+    CreatePostListener {
 
     private val args: GroupTimelineFragmentArgs by navArgs()
     private val viewModel by viewModel<GroupTimelineViewModel> { parametersOf(args.roomId) }
@@ -147,5 +150,13 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         findNavController().navigate(
             GroupTimelineFragmentDirections.toConfigureGroupDialogFragment(args.roomId)
         )
+    }
+
+    override fun onSendTextPost(message: String) {
+        viewModel.sendTextPost(message)
+    }
+
+    override fun onSendImagePost(uri: Uri) {
+
     }
 }
