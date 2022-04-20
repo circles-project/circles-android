@@ -16,10 +16,10 @@
     </declare-styleable>
 
     <declare-styleable name="GroupPostFooterView">
-        <attr name="android:enabled" />
+        <attr name="optionsVisible" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="GroupPostHeaderView">
-        <attr name="android:enabled" />
+        <attr name="optionsVisible" />
     </declare-styleable>
 </resources>

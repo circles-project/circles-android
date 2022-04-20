@@ -75,5 +75,10 @@
         app:layout_constraintStart_toEndOf="@id/btnReply"
         app:layout_constraintTop_toTopOf="@id/btnLike" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/optionsGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="btnLike,btnReply,btnShare" />
 
 </merge>

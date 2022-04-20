@@ -55,6 +55,6 @@
         android:src="@drawable/ic_more"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/button_tint_selector" />
+        app:tint="@color/blue" />
 
 </merge>

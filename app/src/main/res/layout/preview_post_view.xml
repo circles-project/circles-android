@@ -47,52 +47,66 @@
                 android:id="@+id/postHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                app:layout_constraintTop_toTopOf="@id/guidelineTop" />
+                app:layout_constraintTop_toTopOf="@id/guidelineTop"
+                app:optionsVisible="false" />
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilTextPost"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/postHeader"
-                android:layout_marginHorizontal="8dp"
-                android:hint="@string/enter_your_message_here">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:padding="12dp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <FrameLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/lvContent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-              />
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postHeader">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilTextPost"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:hint="@string/enter_your_message_here"
+                    android:paddingHorizontal="8dp"
+                    app:layout_constraintDimensionRatio="w,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:padding="12dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/ivImageContent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/create_post_image_placeholer"
+                    android:visibility="gone"
+                    app:layout_constraintDimensionRatio="w,1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <com.futo.circles.view.GroupPostFooterView
                 android:id="@+id/postFooter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:enabled="false"
+                android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                app:layout_constraintTop_toBottomOf="@id/lvContent" />
+                app:layout_constraintTop_toBottomOf="@id/lvContent"
+                app:optionsVisible="false" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
