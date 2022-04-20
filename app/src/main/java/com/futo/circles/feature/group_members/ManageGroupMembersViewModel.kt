@@ -7,7 +7,6 @@ import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.group_members.data_source.ManageGroupMembersDataSource
-import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 class ManageGroupMembersViewModel(
     private val dataSource: ManageGroupMembersDataSource

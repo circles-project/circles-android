@@ -15,4 +15,11 @@
         <attr name="opened_icon" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="GroupPostFooterView">
+        <attr name="android:enabled" />
+    </declare-styleable>
+
+    <declare-styleable name="GroupPostHeaderView">
+        <attr name="android:enabled" />
+    </declare-styleable>
 </resources>
