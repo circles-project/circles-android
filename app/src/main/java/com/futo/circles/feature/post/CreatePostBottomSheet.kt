@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.futo.circles.databinding.ChangeAccessLevelBottomSheetBinding
 import com.futo.circles.databinding.CreatePostBottomSheetBinding
-import com.futo.circles.feature.manage_group_members.change_role.list.ChangeAccessLevelAdapter
+import com.futo.circles.feature.group_members.change_role.list.ChangeAccessLevelAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

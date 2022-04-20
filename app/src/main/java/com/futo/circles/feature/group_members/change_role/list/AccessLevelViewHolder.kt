@@ -1,4 +1,4 @@
-package com.futo.circles.feature.manage_group_members.change_role.list
+package com.futo.circles.feature.group_members.change_role.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

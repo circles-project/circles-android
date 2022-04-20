@@ -1,4 +1,4 @@
-package com.futo.circles.feature.manage_group_members.change_role
+package com.futo.circles.feature.group_members.change_role
 
 import android.content.Context
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.futo.circles.databinding.ChangeAccessLevelBottomSheetBinding
 import com.futo.circles.extensions.observeData
-import com.futo.circles.feature.manage_group_members.change_role.list.ChangeAccessLevelAdapter
+import com.futo.circles.feature.group_members.change_role.list.ChangeAccessLevelAdapter
 import com.futo.circles.model.AccessLevelListItem
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel

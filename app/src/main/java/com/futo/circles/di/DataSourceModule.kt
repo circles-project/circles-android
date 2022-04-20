@@ -10,8 +10,8 @@ import com.futo.circles.feature.group_timeline.data_source.GroupTimelineBuilder
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasource
 import com.futo.circles.feature.home.data_source.HomeDataSource
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
-import com.futo.circles.feature.manage_group_members.change_role.data_source.ChangeAccessLevelDataSource
-import com.futo.circles.feature.manage_group_members.data_source.ManageGroupMembersDataSource
+import com.futo.circles.feature.group_members.change_role.data_source.ChangeAccessLevelDataSource
+import com.futo.circles.feature.group_members.data_source.ManageGroupMembersDataSource
 import com.futo.circles.feature.select_users.data_source.SelectUsersDataSource
 import com.futo.circles.feature.setup_circles.data_source.SetupCirclesDataSource
 import com.futo.circles.feature.setup_profile.data_source.SetupProfileDataSource

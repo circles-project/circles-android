@@ -8,8 +8,8 @@ import com.futo.circles.feature.group_timeline.GroupTimelineViewModel
 import com.futo.circles.feature.groups.GroupsViewModel
 import com.futo.circles.feature.home.HomeViewModel
 import com.futo.circles.feature.log_in.LogInViewModel
-import com.futo.circles.feature.manage_group_members.ManageGroupMembersViewModel
-import com.futo.circles.feature.manage_group_members.change_role.ChangeAccessLevelViewModel
+import com.futo.circles.feature.group_members.ManageGroupMembersViewModel
+import com.futo.circles.feature.group_members.change_role.ChangeAccessLevelViewModel
 import com.futo.circles.feature.select_users.SelectUsersViewModel
 import com.futo.circles.feature.setup_circles.SetupCirclesViewModel
 import com.futo.circles.feature.setup_profile.SetupProfileViewModel

@@ -1,4 +1,4 @@
-package com.futo.circles.feature.manage_group_members
+package com.futo.circles.feature.group_members
 
 
 import android.os.Bundle
@@ -11,8 +11,8 @@ import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.ManageGroupMembersDialogFragmentBinding
 import com.futo.circles.extensions.*
 import com.futo.circles.feature.group_invite.InviteMembersDialogFragmentArgs
-import com.futo.circles.feature.manage_group_members.change_role.ChangeAccessLevelListener
-import com.futo.circles.feature.manage_group_members.list.GroupMembersListAdapter
+import com.futo.circles.feature.group_members.change_role.ChangeAccessLevelListener
+import com.futo.circles.feature.group_members.list.GroupMembersListAdapter
 import com.futo.circles.view.ManageMembersOptionsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
