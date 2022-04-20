@@ -39,16 +39,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-
-        binding.rvGroupTimeline.apply {
-            adapter = listAdapter
-            addItemDecoration(
-                BaseRvDecoration.OffsetDecoration<GroupPostViewHolder>(
-                    offset = context.dimen(R.dimen.group_post_item_offset)
-                )
-            )
-            bindToFab(binding.fbCreatePost)
-        }
+        setupViews()
         setupObservers()
     }
 
@@ -82,6 +73,19 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupViews() {
+        binding.rvGroupTimeline.apply {
+            adapter = listAdapter
+            addItemDecoration(
+                BaseRvDecoration.OffsetDecoration<GroupPostViewHolder>(
+                    offset = context.dimen(R.dimen.group_post_item_offset)
+                )
+            )
+            bindToFab(binding.fbCreatePost)
+        }
+        binding.fbCreatePost.setOnClickListener { navigateToCreatePost() }
     }
 
     private fun setupObservers() {
@@ -121,6 +125,10 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         isSettingAvailable = powerContent.isCurrentUserAbleToChangeSettings()
         isInviteAvailable = powerContent.isCurrentUserAbleToInvite()
         activity?.invalidateOptionsMenu()
+    }
+
+    private fun navigateToCreatePost() {
+        findNavController().navigate(GroupTimelineFragmentDirections.toCreatePostBottomSheet())
     }
 
     private fun navigateToInviteMembers() {

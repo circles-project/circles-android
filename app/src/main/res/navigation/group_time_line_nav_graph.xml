@@ -46,6 +46,9 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_createPostBottomSheet"
+            app:destination="@id/createPostBottomSheet" />
 
     </fragment>
 
@@ -128,4 +131,9 @@
 
 
     </dialog>
+    <dialog
+        android:id="@+id/createPostBottomSheet"
+        android:name="com.futo.circles.feature.post.CreatePostBottomSheet"
+        android:label="CreatePostBottomSheet"
+        tools:layout="@layout/create_post_bottom_sheet" />
 </navigation>
