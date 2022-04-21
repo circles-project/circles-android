@@ -157,6 +157,6 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     }
 
     override fun onSendImagePost(uri: Uri) {
-
+        viewModel.sendImagePost(uri)
     }
 }

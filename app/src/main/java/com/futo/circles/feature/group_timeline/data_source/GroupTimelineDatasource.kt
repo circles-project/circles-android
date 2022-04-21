@@ -1,9 +1,12 @@
 package com.futo.circles.feature.group_timeline.data_source
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
 import com.futo.circles.extensions.createResult
+import com.futo.circles.extensions.toImageContentAttachmentData
 import com.futo.circles.mapping.nameOrId
 import com.futo.circles.model.Post
 import com.futo.circles.provider.MatrixSessionProvider
@@ -18,6 +21,7 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 
 class GroupTimelineDatasource(
     private val roomId: String,
+    private val context: Context,
     private val timelineBuilder: GroupTimelineBuilder
 ) : Timeline.Listener {
 
@@ -66,6 +70,12 @@ class GroupTimelineDatasource(
         createResult { MatrixSessionProvider.currentSession?.leaveRoom(roomId) }
 
     fun sendTextMessage(message: String) = room?.sendTextMessage(message)
+
+    fun sendImage(uri: Uri) {
+        uri.toImageContentAttachmentData(context)?.let {
+            room?.sendMedia(it, true, emptySet())
+        }
+    }
 
     companion object {
         private const val MESSAGES_PER_PAGE = 30

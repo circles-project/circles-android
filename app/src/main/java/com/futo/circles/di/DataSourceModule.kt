@@ -6,12 +6,12 @@ import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
 import com.futo.circles.feature.configure_group.data_source.ConfigureGroupDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
+import com.futo.circles.feature.group_members.change_role.data_source.ChangeAccessLevelDataSource
+import com.futo.circles.feature.group_members.data_source.ManageGroupMembersDataSource
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineBuilder
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasource
 import com.futo.circles.feature.home.data_source.HomeDataSource
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
-import com.futo.circles.feature.group_members.change_role.data_source.ChangeAccessLevelDataSource
-import com.futo.circles.feature.group_members.data_source.ManageGroupMembersDataSource
 import com.futo.circles.feature.select_users.data_source.SelectUsersDataSource
 import com.futo.circles.feature.setup_circles.data_source.SetupCirclesDataSource
 import com.futo.circles.feature.setup_profile.data_source.SetupProfileDataSource
@@ -24,7 +24,7 @@ import org.koin.dsl.module
 
 val dataSourceModule = module {
     factory { LoginDataSource(get(), get()) }
-    factory { (roomId: String) -> GroupTimelineDatasource(roomId, get()) }
+    factory { (roomId: String) -> GroupTimelineDatasource(roomId, get(), get()) }
     factory { GroupTimelineBuilder() }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
     factory { (roomId: String?) -> SelectUsersDataSource(roomId) }

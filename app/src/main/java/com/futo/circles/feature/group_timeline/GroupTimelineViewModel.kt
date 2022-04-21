@@ -1,5 +1,6 @@
 package com.futo.circles.feature.group_timeline
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.futo.circles.core.SingleEventLiveData
@@ -39,6 +40,10 @@ class GroupTimelineViewModel(
 
     fun sendTextPost(message: String) {
         dataSource.sendTextMessage(message)
+    }
+
+    fun sendImagePost(uri: Uri) {
+        dataSource.sendImage(uri)
     }
 
 }
