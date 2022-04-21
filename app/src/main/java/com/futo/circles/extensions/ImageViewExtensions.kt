@@ -34,7 +34,6 @@ fun ImageView.loadImage(
 fun ImageView.loadEncryptedImage(
     content: ImageContent, preferredSize: Size? = null, loadOriginalSize: Boolean = false
 ) {
-    if (content.fileUrl.startsWith(UriContentScheme)) return
     val loadWidth = if (loadOriginalSize) Target.SIZE_ORIGINAL else preferredSize?.width ?: width
     val loadHeight = if (loadOriginalSize) Target.SIZE_ORIGINAL else preferredSize?.height ?: height
 

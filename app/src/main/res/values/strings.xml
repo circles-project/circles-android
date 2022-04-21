@@ -128,6 +128,9 @@
     <string name="create_post">Create post</string>
     <string name="send">Send</string>
     <string name="enter_your_message_here">Enter your message here</string>
+    <string name="compressing_image">Compressing image</string>
+    <string name="encrypting">Encrypting</string>
+    <string name="uploading">Uploading</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

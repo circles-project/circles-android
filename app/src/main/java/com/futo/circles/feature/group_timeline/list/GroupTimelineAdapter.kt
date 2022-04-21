@@ -52,6 +52,11 @@ class GroupTimelineAdapter(
         }
     }
 
+    override fun onViewDetachedFromWindow(holder: GroupPostViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        (holder as? ImagePostViewHolder)?.unTrack()
+    }
+
     companion object {
         private const val LOAD_MORE_THRESHOLD = 10
     }

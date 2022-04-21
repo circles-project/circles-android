@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
 import com.futo.circles.databinding.PassPhraseLoadingDialogBinding
-import com.futo.circles.extensions.setIsVisible
+import com.futo.circles.model.LoadingData
 
 
 class PassPhraseLoadingDialog(context: Context) : AppCompatDialog(context) {
@@ -23,22 +23,13 @@ class PassPhraseLoadingDialog(context: Context) : AppCompatDialog(context) {
         setContentView(binding.root)
     }
 
-    fun handleLoading(data: PassPhraseLoadingData) {
+    fun handleLoading(data: LoadingData) {
         if (data.isLoading) {
-            binding.tvLoadingMessage.setText(data.messageId)
-            setProgress(data)
+            binding.vLoading.setMessage(data.messageId)
+            binding.vLoading.setProgress(data)
             if (isShowing.not()) show()
         } else {
             dismiss()
         }
-    }
-
-    private fun setProgress(data: PassPhraseLoadingData) {
-        with(binding) {
-            horizontalProgress.max = data.total
-            horizontalProgress.progress = data.progress
-            horizontalProgress.setIsVisible(data.total != data.progress)
-        }
-
     }
 }
