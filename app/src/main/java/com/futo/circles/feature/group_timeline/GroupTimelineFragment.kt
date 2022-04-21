@@ -103,7 +103,9 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
                 handleAccessActionsVisibility(powerContent)
             }
             scrollToTopLiveData.observeData(this@GroupTimelineFragment) {
-                binding.rvGroupTimeline.post { binding.rvGroupTimeline.scrollToPosition(0) }
+                binding.rvGroupTimeline.postDelayed(
+                    { binding.rvGroupTimeline.scrollToPosition(0) }, 500
+                )
             }
         }
     }
