@@ -102,6 +102,9 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
             accessLevelLiveData.observeData(this@GroupTimelineFragment) { powerContent ->
                 handleAccessActionsVisibility(powerContent)
             }
+            scrollToTopLiveData.observeData(this@GroupTimelineFragment) {
+                binding.rvGroupTimeline.post { binding.rvGroupTimeline.scrollToPosition(0) }
+            }
         }
     }
 

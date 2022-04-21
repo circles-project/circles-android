@@ -16,6 +16,7 @@ class GroupTimelineViewModel(
     val timelineEventsLiveData = dataSource.timelineEventsLiveData
     val leaveGroupLiveData = SingleEventLiveData<Response<Unit?>>()
     val accessLevelLiveData = dataSource.accessLevelFlow.asLiveData()
+    val scrollToTopLiveData = SingleEventLiveData<Unit>()
 
     init {
         dataSource.startTimeline()
@@ -40,10 +41,12 @@ class GroupTimelineViewModel(
 
     fun sendTextPost(message: String) {
         dataSource.sendTextMessage(message)
+        scrollToTopLiveData.postValue(Unit)
     }
 
     fun sendImagePost(uri: Uri) {
         dataSource.sendImage(uri)
+        scrollToTopLiveData.postValue(Unit)
     }
 
 }

@@ -13,7 +13,7 @@ import org.matrix.android.sdk.api.session.content.ContentAttachmentData
 import java.io.File
 
 private const val UriFileScheme = "file"
-private const val UriContentScheme = "content"
+const val UriContentScheme = "content"
 
 fun Uri.getContentUriForFileUri(
     context: Context

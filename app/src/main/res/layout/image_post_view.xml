@@ -7,6 +7,8 @@
     <ImageView
         android:id="@+id/ivContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/blurred_placeholder" />
 
 </com.futo.circles.view.PostLayout>
