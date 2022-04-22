@@ -7,6 +7,7 @@ import android.widget.ImageView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import com.futo.circles.R
 import com.futo.circles.glide.GlideApp
@@ -40,6 +41,8 @@ fun ImageView.loadEncryptedImage(
         GlideApp
             .with(context)
             .load(content)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .placeholder(R.drawable.blurred_placeholder)
             .override(loadWidth, loadHeight)
             .fitCenter()
             .into(this)

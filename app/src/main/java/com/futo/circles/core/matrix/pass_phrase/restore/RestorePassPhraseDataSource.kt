@@ -3,7 +3,7 @@ package com.futo.circles.core.matrix.pass_phrase.restore
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
-import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingData
+import com.futo.circles.model.LoadingData
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
@@ -14,8 +14,8 @@ import org.matrix.android.sdk.internal.util.awaitCallback
 class RestorePassPhraseDataSource(private val context: Context) {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
-    val loadingLiveData = MutableLiveData<PassPhraseLoadingData>()
-    private val passPhraseLoadingData = PassPhraseLoadingData()
+    val loadingLiveData = MutableLiveData<LoadingData>()
+    private val passPhraseLoadingData = LoadingData()
 
     private val progressObserver = object : StepProgressListener {
         override fun onStepProgress(step: StepProgressListener.Step) {

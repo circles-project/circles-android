@@ -24,7 +24,6 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            applicationIdSuffix ".stage"
             resValue "string", "app_name", "Circles Stage"
             buildConfigField("String", "MATRIX_HOME_SERVER_URL", "\"https://matrix.eu.kombucha.social/\"")
         }

@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.futo.circles.R
+import com.futo.circles.extensions.getContentUriForFileUri
 import com.futo.circles.extensions.showError
 import com.futo.circles.pick_image.PickImageDialog
 import com.futo.circles.pick_image.PickImageDialogListener
@@ -27,8 +28,14 @@ class ImagePickerHelper(private val fragment: Fragment) : PickImageDialogListene
             val data = result.data
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
-                    data?.data?.let { uri -> onSelected?.let { it(itemId, uri) } }
-                        ?: fragment.showError(fragment.getString(R.string.unexpected_error))
+                    data?.data?.let { uri ->
+                        val contentUri =
+                            uri.getContentUriForFileUri(fragment.requireContext()) ?: run {
+                                fragment.showError(fragment.getString(R.string.unexpected_error))
+                                return@let
+                            }
+                        onSelected?.let { it(itemId, contentUri) }
+                    } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
                 }
                 ImagePicker.RESULT_ERROR -> fragment.showError(ImagePicker.getError(data))
             }

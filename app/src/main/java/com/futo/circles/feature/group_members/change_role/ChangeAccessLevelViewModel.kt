@@ -1,8 +1,8 @@
-package com.futo.circles.feature.manage_group_members.change_role
+package com.futo.circles.feature.group_members.change_role
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.futo.circles.feature.manage_group_members.change_role.data_source.ChangeAccessLevelDataSource
+import com.futo.circles.feature.group_members.change_role.data_source.ChangeAccessLevelDataSource
 
 class ChangeAccessLevelViewModel(
     private val dataSource: ChangeAccessLevelDataSource

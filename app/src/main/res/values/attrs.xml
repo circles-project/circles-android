@@ -15,4 +15,11 @@
         <attr name="opened_icon" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="GroupPostFooterView">
+        <attr name="optionsVisible" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="GroupPostHeaderView">
+        <attr name="optionsVisible" />
+    </declare-styleable>
 </resources>

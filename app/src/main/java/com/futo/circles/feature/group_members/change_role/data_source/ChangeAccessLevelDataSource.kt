@@ -1,4 +1,4 @@
-package com.futo.circles.feature.manage_group_members.change_role.data_source
+package com.futo.circles.feature.group_members.change_role.data_source
 
 import com.futo.circles.model.AccessLevel
 import com.futo.circles.model.AccessLevelListItem

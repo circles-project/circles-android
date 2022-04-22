@@ -1,10 +1,7 @@
-package com.futo.circles.feature.manage_group_members.list
+package com.futo.circles.feature.group_members.list
 
 import android.view.ViewGroup
 import com.futo.circles.core.list.BaseRvAdapter
-import com.futo.circles.feature.select_users.list.search.HeaderViewHolder
-import com.futo.circles.feature.select_users.list.search.InviteMemberViewHolder
-import com.futo.circles.feature.select_users.list.search.NoResultViewHolder
 import com.futo.circles.model.GroupMemberListItem
 import com.futo.circles.model.InvitedUserListItem
 import com.futo.circles.model.ManageMembersHeaderListItem

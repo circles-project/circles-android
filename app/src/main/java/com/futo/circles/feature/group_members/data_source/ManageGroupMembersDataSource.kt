@@ -1,4 +1,4 @@
-package com.futo.circles.feature.manage_group_members.data_source
+package com.futo.circles.feature.group_members.data_source
 
 
 import android.content.Context

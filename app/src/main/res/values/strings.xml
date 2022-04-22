@@ -125,6 +125,12 @@
     <string name="configure_group">Configure group</string>
     <string name="change_icon">Change icon</string>
     <string name="note_group_name_and_cover_image_are_not_encrypted">NOTE: Group name, topic and cover image are not encrypted</string>
+    <string name="create_post">Create post</string>
+    <string name="send">Send</string>
+    <string name="enter_your_message_here">Enter your message here</string>
+    <string name="compressing_image">Compressing image</string>
+    <string name="encrypting">Encrypting</string>
+    <string name="uploading">Uploading</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

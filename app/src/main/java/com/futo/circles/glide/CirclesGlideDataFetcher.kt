@@ -11,7 +11,6 @@ import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.matrix.android.sdk.api.Matrix
 import java.io.IOException
 import java.io.InputStream
 
@@ -56,8 +55,8 @@ class CirclesGlideDataFetcher(context: Context, private val data: ImageContent) 
         }
 
         val fileService = matrixSession?.fileService() ?: return Unit.also {
-                callback.onLoadFailed(IllegalArgumentException("No File service"))
-            }
+            callback.onLoadFailed(IllegalArgumentException("No File service"))
+        }
 
         matrixSession.coroutineScope.launch {
             val result = runCatching {
