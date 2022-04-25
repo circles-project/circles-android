@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/save"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/save_image" />
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/delete" />
+
+    <item
+        android:id="@+id/ignore"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/ignore_sender" />
+
+    <item
+        android:id="@+id/report"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/report" />
+
+</menu>
