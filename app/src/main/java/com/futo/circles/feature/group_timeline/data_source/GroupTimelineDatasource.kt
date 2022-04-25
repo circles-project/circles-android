@@ -5,13 +5,21 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
+import com.bumptech.glide.Glide
 import com.futo.circles.extensions.createResult
+import com.futo.circles.extensions.getUri
 import com.futo.circles.extensions.toImageContentAttachmentData
+import com.futo.circles.feature.share.ImageShareable
+import com.futo.circles.feature.share.TextShareable
 import com.futo.circles.mapping.nameOrId
+import com.futo.circles.model.ImageContent
 import com.futo.circles.model.Post
+import com.futo.circles.model.PostContent
 import com.futo.circles.provider.MatrixSessionProvider
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.events.model.toModel
@@ -80,6 +88,16 @@ class GroupTimelineDatasource(
     fun sendImage(uri: Uri, threadEventId: String?) {
         uri.toImageContentAttachmentData(context)?.let {
             room?.sendMedia(it, true, emptySet(), threadEventId)
+        }
+    }
+
+    suspend fun getShareableContent(content: PostContent) = withContext(Dispatchers.IO) {
+        when (content) {
+            is ImageContent -> {
+                val uri = Glide.with(context).asFile().load(content).submit().get().getUri(context)
+                ImageShareable(uri)
+            }
+            is com.futo.circles.model.TextContent -> TextShareable(content.message)
         }
     }
 

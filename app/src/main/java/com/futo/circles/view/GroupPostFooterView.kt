@@ -1,15 +1,22 @@
 package com.futo.circles.view
 
 import android.content.Context
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.bumptech.glide.Glide
 import com.futo.circles.R
 import com.futo.circles.databinding.GroupPostFooterViewBinding
 import com.futo.circles.extensions.getAttributes
 import com.futo.circles.extensions.setIsEncryptedIcon
 import com.futo.circles.extensions.setIsVisible
-import com.futo.circles.model.PostInfo
+import com.futo.circles.feature.share.ImageShareable
+import com.futo.circles.feature.share.ShareableContent
+import com.futo.circles.feature.share.TextShareable
+import com.futo.circles.model.ImageContent
+import com.futo.circles.model.Post
+import com.futo.circles.model.TextContent
 import java.text.DateFormat
 import java.util.*
 
@@ -23,7 +30,7 @@ class GroupPostFooterView(
         GroupPostFooterViewBinding.inflate(LayoutInflater.from(context), this)
 
     private var listener: GroupPostListener? = null
-    private var postInfo: PostInfo? = null
+    private var post: Post? = null
 
     init {
         parseAttributes(attrs)
@@ -40,7 +47,10 @@ class GroupPostFooterView(
     private fun setupViews() {
         with(binding) {
             btnReply.setOnClickListener {
-                postInfo?.let { listener?.onReply(it.id, it.sender.disambiguatedDisplayName) }
+                post?.let { listener?.onReply(it.id, it.postInfo.sender.disambiguatedDisplayName) }
+            }
+            btnShare.setOnClickListener {
+                post?.let { listener?.onShare(it.content) }
             }
         }
     }
@@ -49,9 +59,9 @@ class GroupPostFooterView(
         listener = postListener
     }
 
-    fun setData(data: PostInfo, isReply: Boolean) {
-        postInfo = data
-        bindViewData(data.timestamp, data.isEncrypted, isReply)
+    fun setData(data: Post, isReply: Boolean) {
+        post = data
+        bindViewData(data.postInfo.timestamp, data.postInfo.isEncrypted, isReply)
     }
 
     fun bindViewData(timestamp: Long, isEncrypted: Boolean, isReply: Boolean) {

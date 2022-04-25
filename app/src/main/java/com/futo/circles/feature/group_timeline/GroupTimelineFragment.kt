@@ -19,7 +19,9 @@ import com.futo.circles.extensions.*
 import com.futo.circles.feature.group_timeline.list.GroupPostViewHolder
 import com.futo.circles.feature.group_timeline.list.GroupTimelineAdapter
 import com.futo.circles.feature.post.CreatePostListener
+import com.futo.circles.feature.share.ShareProvider
 import com.futo.circles.model.Post
+import com.futo.circles.model.PostContent
 import com.futo.circles.view.GroupPostListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -107,6 +109,9 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
                     { binding.rvGroupTimeline.scrollToPosition(0) }, 500
                 )
             }
+            shareLiveData.observeData(this@GroupTimelineFragment) {
+                ShareProvider.share(requireContext(), it)
+            }
         }
     }
 
@@ -169,5 +174,9 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     override fun onSendImagePost(uri: Uri, threadEventId: String?) {
         viewModel.sendImagePost(uri, threadEventId)
+    }
+
+    override fun onShare(content: PostContent) {
+        viewModel.sharePostContent(content)
     }
 }

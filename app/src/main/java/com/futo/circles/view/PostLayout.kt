@@ -11,15 +11,14 @@ import com.futo.circles.R
 import com.futo.circles.databinding.PostLayoutBinding
 import com.futo.circles.extensions.gone
 import com.futo.circles.extensions.setIsVisible
-import com.futo.circles.model.Post
-import com.futo.circles.model.PostItemPayload
-import com.futo.circles.model.ReplyPost
-import com.futo.circles.model.RootPost
+import com.futo.circles.feature.share.ShareableContent
+import com.futo.circles.model.*
 
 
 interface GroupPostListener {
     fun onShowRepliesClicked(eventId: String)
     fun onReply(eventId: String, userName: String)
+    fun onShare(content: PostContent)
 }
 
 class PostLayout(
@@ -62,7 +61,8 @@ class PostLayout(
         val isReply = data is ReplyPost
         binding.vReplyMargin.setIsVisible(isReply)
         binding.postHeader.setData(data.postInfo.sender)
-        binding.postFooter.setData(data.postInfo, isReply)
+        binding.postFooter.
+        setData(data, isReply)
     }
 
     private fun bindRepliesButton(post: Post) {
