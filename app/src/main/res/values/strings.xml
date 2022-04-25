@@ -132,6 +132,10 @@
     <string name="encrypting">Encrypting</string>
     <string name="uploading">Uploading</string>
     <string name="reply_to_format">Reply to %s</string>
+    <string name="save_image">Save image</string>
+    <string name="delete">Delete</string>
+    <string name="ignore_sender">Ignore sender</string>
+    <string name="report">Report</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

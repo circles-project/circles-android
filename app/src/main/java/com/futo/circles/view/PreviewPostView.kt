@@ -31,7 +31,7 @@ class PreviewPostView(
 
     init {
         getMyUser()?.let {
-            binding.postHeader.setData(it.userId, it.displayName ?: "", it.avatarUrl)
+            binding.postHeader.bindViewData(it.userId, it.displayName ?: "", it.avatarUrl)
         }
         binding.postFooter.bindViewData(System.currentTimeMillis(), isEncrypted = true, isReply = false)
 

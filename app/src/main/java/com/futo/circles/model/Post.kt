@@ -1,12 +1,15 @@
 package com.futo.circles.model
 
 import com.futo.circles.core.list.IdEntity
+import com.futo.circles.provider.MatrixSessionProvider
 
 sealed class Post(
     open val postInfo: PostInfo,
     open val content: PostContent
 ) : IdEntity<String> {
     override val id: String get() = postInfo.id
+    fun isMyPost(): Boolean =
+        postInfo.sender.userId == MatrixSessionProvider.currentSession?.myUserId
 }
 
 data class RootPost(
