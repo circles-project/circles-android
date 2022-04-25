@@ -4,10 +4,8 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import androidx.core.content.FileProvider
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
-import com.futo.circles.core.FILE_PROVIDER_AUTHORITY_PREFIX
 import com.futo.circles.core.ImageUtils
 import org.matrix.android.sdk.api.session.content.ContentAttachmentData
 import java.io.File
@@ -17,9 +15,7 @@ const val UriContentScheme = "content"
 
 fun Uri.getContentUriForFileUri(
     context: Context
-): Uri? = if (scheme == UriFileScheme) FileProvider.getUriForFile(
-    context, context.packageName + FILE_PROVIDER_AUTHORITY_PREFIX, File(path ?: "")
-) else null
+): Uri? = if (scheme == UriFileScheme) File(path ?: "").getUri(context) else null
 
 
 fun Uri.getFilename(context: Context): String? {
