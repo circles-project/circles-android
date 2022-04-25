@@ -71,9 +71,9 @@ class GroupTimelineDatasource(
 
     fun sendTextMessage(message: String) = room?.sendTextMessage(message)
 
-    fun sendImage(uri: Uri) {
+    fun sendImage(uri: Uri, threadEventId: String?) {
         uri.toImageContentAttachmentData(context)?.let {
-            room?.sendMedia(it, true, emptySet())
+            room?.sendMedia(it, true, emptySet(), threadEventId)
         }
     }
 
