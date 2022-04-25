@@ -33,7 +33,7 @@ class PreviewPostView(
         getMyUser()?.let {
             binding.postHeader.setData(it.userId, it.displayName ?: "", it.avatarUrl)
         }
-        binding.postFooter.setData(System.currentTimeMillis(), isEncrypted = true, isReply = false)
+        binding.postFooter.bindViewData(System.currentTimeMillis(), isEncrypted = true, isReply = false)
 
         binding.ivImageContent.setOnClickListener { listener?.onPickImageClicked() }
         binding.tilTextPost.editText?.doAfterTextChanged {
