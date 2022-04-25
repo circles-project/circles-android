@@ -131,6 +131,7 @@
     <string name="compressing_image">Compressing image</string>
     <string name="encrypting">Encrypting</string>
     <string name="uploading">Uploading</string>
+    <string name="reply_to_format">Reply to %s</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>
