@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.navigation.fragment.navArgs
 import com.futo.circles.R
 import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.databinding.CreatePostBottomSheetBinding
@@ -18,13 +19,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 interface CreatePostListener {
-    fun onSendTextPost(message: String)
-    fun onSendImagePost(uri: Uri)
+    fun onSendTextPost(message: String, threadEventId: String?)
+    fun onSendImagePost(uri: Uri, threadEventId: String?)
 }
 
 class CreatePostBottomSheet : BottomSheetDialogFragment() {
 
     private var binding: CreatePostBottomSheetBinding? = null
+    private val args: CreatePostBottomSheetArgs by navArgs()
     private val viewModel by viewModel<CreatePostViewModel>()
     private val imagePickerHelper = ImagePickerHelper(this)
     private var createPostListener: CreatePostListener? = null
@@ -53,25 +55,32 @@ class CreatePostBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupViews() {
-        binding?.ivClose?.setOnClickListener { dismiss() }
-        binding?.ivText?.setOnClickListener { viewModel.setIsImagePost(false) }
-        binding?.ivImage?.setOnClickListener { viewModel.setIsImagePost(true) }
-        binding?.btnPost?.setOnClickListener {
-            sendPost()
-            dismiss()
-        }
-        binding?.vPostPreview?.setListener(object : PreviewPostListener {
-            override fun onTextChanged(text: String) {
-                handleSendButtonEnabled()
-            }
+        binding?.let { binding ->
+            with(binding) {
+                args.userName?.let {
+                    tvTitle.text = context?.getString(R.string.reply_to_format, it)
+                }
+                ivClose.setOnClickListener { dismiss() }
+                ivText.setOnClickListener { viewModel.setIsImagePost(false) }
+                ivImage.setOnClickListener { viewModel.setIsImagePost(true) }
+                btnPost.setOnClickListener {
+                    sendPost()
+                    dismiss()
+                }
+                vPostPreview.setListener(object : PreviewPostListener {
+                    override fun onTextChanged(text: String) {
+                        handleSendButtonEnabled()
+                    }
 
-            override fun onPickImageClicked() {
-                imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
-                    viewModel.setImageUri(uri)
-                    handleSendButtonEnabled()
+                    override fun onPickImageClicked() {
+                        imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
+                            viewModel.setImageUri(uri)
+                            handleSendButtonEnabled()
+                        })
+                    }
                 })
             }
-        })
+        }
     }
 
     private fun setupObservers() {
@@ -85,9 +94,10 @@ class CreatePostBottomSheet : BottomSheetDialogFragment() {
 
     private fun sendPost() {
         if (viewModel.isImagePostSelected()) {
-            viewModel.getImageUri()?.let { createPostListener?.onSendImagePost(it) }
+            viewModel.getImageUri()?.let { createPostListener?.onSendImagePost(it, args.eventId) }
         } else {
-            binding?.vPostPreview?.getText()?.let { createPostListener?.onSendTextPost(it) }
+            binding?.vPostPreview?.getText()
+                ?.let { createPostListener?.onSendTextPost(it, args.eventId) }
         }
     }
 

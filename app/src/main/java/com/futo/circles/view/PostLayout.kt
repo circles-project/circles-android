@@ -19,6 +19,7 @@ import com.futo.circles.model.RootPost
 
 interface GroupPostListener {
     fun onShowRepliesClicked(eventId: String)
+    fun onReply(eventId: String, userName: String)
 }
 
 class PostLayout(
@@ -36,10 +37,14 @@ class PostLayout(
         binding.btnShowReplies.setOnClickListener {
             post?.let { listener?.onShowRepliesClicked(it.id) }
         }
+        binding.postFooter.setOnClickListener {
+            post?.let { listener?.onShowRepliesClicked(it.id) }
+        }
     }
 
     fun setListener(groupPostListener: GroupPostListener) {
         listener = groupPostListener
+        binding.postFooter.setListener(groupPostListener)
     }
 
 

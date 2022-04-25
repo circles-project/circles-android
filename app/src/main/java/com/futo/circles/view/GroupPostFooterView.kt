@@ -22,18 +22,39 @@ class GroupPostFooterView(
     private val binding =
         GroupPostFooterViewBinding.inflate(LayoutInflater.from(context), this)
 
+    private var listener: GroupPostListener? = null
+    private var postInfo: PostInfo? = null
+
     init {
+        parseAttributes(attrs)
+        setupViews()
+    }
+
+    private fun parseAttributes(attrs: AttributeSet?) {
         getAttributes(attrs, R.styleable.GroupPostFooterView) {
             val optionsVisible = getBoolean(R.styleable.GroupPostFooterView_optionsVisible, true)
-            binding.optionsGroup.setIsVisible(optionsVisible)
+            binding.lOptions.setIsVisible(optionsVisible)
         }
     }
 
-    fun setData(data: PostInfo, isReply: Boolean) {
-        setData(data.timestamp, data.isEncrypted, isReply)
+    private fun setupViews() {
+        with(binding) {
+            btnReply.setOnClickListener {
+                postInfo?.let { listener?.onReply(it.id, it.sender.disambiguatedDisplayName) }
+            }
+        }
     }
 
-    fun setData(timestamp: Long, isEncrypted: Boolean, isReply: Boolean) {
+    fun setListener(postListener: GroupPostListener) {
+        listener = postListener
+    }
+
+    fun setData(data: PostInfo, isReply: Boolean) {
+        postInfo = data
+        bindViewData(data.timestamp, data.isEncrypted, isReply)
+    }
+
+    fun bindViewData(timestamp: Long, isEncrypted: Boolean, isReply: Boolean) {
         with(binding) {
             btnReply.setIsVisible(!isReply)
             ivEncrypted.setIsEncryptedIcon(isEncrypted)

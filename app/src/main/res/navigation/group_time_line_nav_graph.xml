@@ -48,7 +48,19 @@
         </action>
         <action
             android:id="@+id/to_createPostBottomSheet"
-            app:destination="@id/createPostBottomSheet" />
+            app:destination="@id/createPostBottomSheet">
+
+            <argument
+                android:name="userName"
+                app:argType="string"
+                app:nullable="true" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
 
     </fragment>
 
@@ -135,5 +147,17 @@
         android:id="@+id/createPostBottomSheet"
         android:name="com.futo.circles.feature.post.CreatePostBottomSheet"
         android:label="CreatePostBottomSheet"
-        tools:layout="@layout/create_post_bottom_sheet" />
+        tools:layout="@layout/create_post_bottom_sheet">
+
+        <argument
+            android:name="userName"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="true" />
+
+    </dialog>
 </navigation>

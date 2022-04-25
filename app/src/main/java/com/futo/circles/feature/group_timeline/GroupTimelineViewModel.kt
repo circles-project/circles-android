@@ -39,14 +39,14 @@ class GroupTimelineViewModel(
         super.onCleared()
     }
 
-    fun sendTextPost(message: String) {
-        dataSource.sendTextMessage(message)
-        scrollToTopLiveData.postValue(Unit)
+    fun sendTextPost(message: String, threadEventId: String?) {
+        dataSource.sendTextMessage(message, threadEventId)
+        if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 
-    fun sendImagePost(uri: Uri) {
-        dataSource.sendImage(uri)
-        scrollToTopLiveData.postValue(Unit)
+    fun sendImagePost(uri: Uri, threadEventId: String?) {
+        dataSource.sendImage(uri, threadEventId)
+        if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 
 }

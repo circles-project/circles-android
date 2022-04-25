@@ -118,6 +118,10 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         viewModel.toggleRepliesVisibilityFor(eventId)
     }
 
+    override fun onReply(eventId: String, userName: String) {
+        navigateToCreatePost(userName, eventId)
+    }
+
     private fun showLeaveGroupDialog() {
         showDialog(
             titleResIdRes = R.string.leave_group,
@@ -135,8 +139,10 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         activity?.invalidateOptionsMenu()
     }
 
-    private fun navigateToCreatePost() {
-        findNavController().navigate(GroupTimelineFragmentDirections.toCreatePostBottomSheet())
+    private fun navigateToCreatePost(userName: String? = null, eventId: String? = null) {
+        findNavController().navigate(
+            GroupTimelineFragmentDirections.toCreatePostBottomSheet(userName, eventId)
+        )
     }
 
     private fun navigateToInviteMembers() {
@@ -157,11 +163,11 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         )
     }
 
-    override fun onSendTextPost(message: String) {
-        viewModel.sendTextPost(message)
+    override fun onSendTextPost(message: String, threadEventId: String?) {
+        viewModel.sendTextPost(message, threadEventId)
     }
 
-    override fun onSendImagePost(uri: Uri) {
-        viewModel.sendImagePost(uri)
+    override fun onSendImagePost(uri: Uri, threadEventId: String?) {
+        viewModel.sendImagePost(uri, threadEventId)
     }
 }
