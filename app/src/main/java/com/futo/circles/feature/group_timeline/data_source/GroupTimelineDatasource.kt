@@ -82,7 +82,7 @@ class GroupTimelineDatasource(
         createResult { MatrixSessionProvider.currentSession?.leaveRoom(roomId) }
 
     fun sendTextMessage(message: String, threadEventId: String?) {
-        threadEventId?.let { sendTextReply(message, it) } ?: room?.sendTextMessage(message)
+        threadEventId?.let { room?.replyInThread(it, message) } ?: room?.sendTextMessage(message)
     }
 
     fun sendImage(uri: Uri, threadEventId: String?) {
@@ -99,14 +99,6 @@ class GroupTimelineDatasource(
             }
             is com.futo.circles.model.TextContent -> TextShareable(content.message)
         }
-    }
-
-    private fun sendTextReply(message: String, threadEventId: String) {
-        room?.sendEvent(
-            EventType.MESSAGE, TextContent(message, null)
-                .toThreadTextContent(threadEventId, threadEventId, MessageType.MSGTYPE_TEXT)
-                .toContent()
-        )
     }
 
     companion object {
