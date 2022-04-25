@@ -38,7 +38,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     private var isInviteAvailable = false
 
     private val listAdapter by lazy {
-        GroupTimelineAdapter(this) { viewModel.loadMore() }
+        GroupTimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -178,5 +178,21 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     override fun onShare(content: PostContent) {
         viewModel.sharePostContent(content)
+    }
+
+    override fun onRemove(eventId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onIgnore(senderId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSaveImage(imageUrl: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReport(eventId: String) {
+        TODO("Not yet implemented")
     }
 }

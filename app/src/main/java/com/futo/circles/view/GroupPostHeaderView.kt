@@ -81,7 +81,7 @@ class GroupPostHeaderView(
             menu.findItem(R.id.report).isVisible = !unwrappedPost.isMyPost()
             menu.findItem(R.id.delete).isVisible =
                 unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value
-            
+
             show()
         }
     }
