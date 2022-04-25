@@ -11,7 +11,6 @@ import com.futo.circles.R
 import com.futo.circles.databinding.PostLayoutBinding
 import com.futo.circles.extensions.gone
 import com.futo.circles.extensions.setIsVisible
-import com.futo.circles.feature.share.ShareableContent
 import com.futo.circles.model.*
 
 
@@ -19,6 +18,10 @@ interface GroupPostListener {
     fun onShowRepliesClicked(eventId: String)
     fun onReply(eventId: String, userName: String)
     fun onShare(content: PostContent)
+    fun onRemove(eventId: String)
+    fun onIgnore(senderId: String)
+    fun onSaveImage(imageUrl: String)
+    fun onReport(eventId: String)
 }
 
 class PostLayout(
@@ -44,12 +47,13 @@ class PostLayout(
     fun setListener(groupPostListener: GroupPostListener) {
         listener = groupPostListener
         binding.postFooter.setListener(groupPostListener)
+        binding.postHeader.setListener(groupPostListener)
     }
 
 
-    fun setData(data: Post) {
+    fun setData(data: Post, userPowerLevel: Int) {
         post = data
-        setGeneralMessageData(data)
+        setGeneralMessageData(data, userPowerLevel)
         bindRepliesButton(data)
     }
 
@@ -57,12 +61,11 @@ class PostLayout(
         bindRepliesButton(payload.hasReplies, payload.repliesCount, payload.isRepliesVisible)
     }
 
-    private fun setGeneralMessageData(data: Post) {
+    private fun setGeneralMessageData(data: Post, userPowerLevel: Int) {
         val isReply = data is ReplyPost
         binding.vReplyMargin.setIsVisible(isReply)
-        binding.postHeader.setData(data.postInfo.sender)
-        binding.postFooter.
-        setData(data, isReply)
+        binding.postHeader.setData(data, userPowerLevel)
+        binding.postFooter.setData(data, isReply)
     }
 
     private fun bindRepliesButton(post: Post) {
