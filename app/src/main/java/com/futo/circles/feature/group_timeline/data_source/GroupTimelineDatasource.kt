@@ -13,11 +13,15 @@ import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapNotNull
 import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
+import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
+import org.matrix.android.sdk.internal.session.room.send.TextContent
+import org.matrix.android.sdk.internal.session.room.send.toThreadTextContent
 
 class GroupTimelineDatasource(
     private val roomId: String,
@@ -69,12 +73,22 @@ class GroupTimelineDatasource(
     suspend fun leaveGroup() =
         createResult { MatrixSessionProvider.currentSession?.leaveRoom(roomId) }
 
-    fun sendTextMessage(message: String) = room?.sendTextMessage(message)
+    fun sendTextMessage(message: String, threadEventId: String?) {
+        threadEventId?.let { sendTextReply(message, it) } ?: room?.sendTextMessage(message)
+    }
 
     fun sendImage(uri: Uri, threadEventId: String?) {
         uri.toImageContentAttachmentData(context)?.let {
             room?.sendMedia(it, true, emptySet(), threadEventId)
         }
+    }
+
+    private fun sendTextReply(message: String, threadEventId: String) {
+        room?.sendEvent(
+            EventType.MESSAGE, TextContent(message, null)
+                .toThreadTextContent(threadEventId, threadEventId, MessageType.MSGTYPE_TEXT)
+                .toContent()
+        )
     }
 
     companion object {

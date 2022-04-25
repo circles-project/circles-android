@@ -40,7 +40,7 @@ class GroupTimelineViewModel(
     }
 
     fun sendTextPost(message: String, threadEventId: String?) {
-        dataSource.sendTextMessage(message)
+        dataSource.sendTextMessage(message, threadEventId)
         if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 
