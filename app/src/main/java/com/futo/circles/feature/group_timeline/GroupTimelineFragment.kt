@@ -101,7 +101,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
             }
             timelineEventsLiveData.observeData(this@GroupTimelineFragment, ::setTimelineList)
             leaveGroupLiveData.observeResponse(this@GroupTimelineFragment,
-                success = { activity?.onBackPressed() })
+                success = { activity?.onBackPressed() }
+            )
             accessLevelLiveData.observeData(this@GroupTimelineFragment) { powerContent ->
                 handleAccessActionsVisibility(powerContent)
             }
@@ -116,6 +117,10 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
             downloadImageLiveData.observeData(this@GroupTimelineFragment) {
                 context?.let { showSuccess(it.getString(R.string.image_saved), true) }
             }
+            ignoreUserLiveData.observeResponse(this@GroupTimelineFragment,
+                success = {
+                    context?.let { showSuccess(it.getString(R.string.user_ignored), true) }
+                })
         }
     }
 
@@ -195,7 +200,13 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     }
 
     override fun onIgnore(senderId: String) {
-        TODO("Not yet implemented")
+        showDialog(
+            titleResIdRes = R.string.ignore_sender,
+            messageResId = R.string.ignore_user_message,
+            positiveButtonRes = R.string.ignore,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.ignoreSender(senderId) }
+        )
     }
 
     override fun onSaveImage(imageContent: ImageContent) {
