@@ -104,6 +104,10 @@ class GroupTimelineDatasource(
         b.saveImageToGallery(context)
     }
 
+    fun removeMessage(eventId: String){
+        room?.getTimelineEvent(eventId)?.let { room.redactEvent(it.root,null) }
+    }
+
     companion object {
         private const val MESSAGES_PER_PAGE = 30
     }

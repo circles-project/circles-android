@@ -66,4 +66,8 @@ class GroupTimelineViewModel(
             downloadImageLiveData.postValue(Unit)
         }
     }
+
+    fun removeMessage(eventId: String) {
+        dataSource.removeMessage(eventId)
+    }
 }
