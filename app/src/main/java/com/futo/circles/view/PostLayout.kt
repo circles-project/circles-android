@@ -20,7 +20,7 @@ interface GroupPostListener {
     fun onShare(content: PostContent)
     fun onRemove(eventId: String)
     fun onIgnore(senderId: String)
-    fun onSaveImage(imageUrl: String)
+    fun onSaveImage(imageContent: ImageContent)
     fun onReport(eventId: String)
 }
 

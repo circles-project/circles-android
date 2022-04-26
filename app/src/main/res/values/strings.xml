@@ -136,6 +136,7 @@
     <string name="delete">Delete</string>
     <string name="ignore_sender">Ignore sender</string>
     <string name="report">Report</string>
+    <string name="image_saved">Image saved</string>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

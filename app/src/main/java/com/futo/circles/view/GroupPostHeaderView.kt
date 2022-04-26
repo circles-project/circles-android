@@ -69,7 +69,7 @@ class GroupPostHeaderView(
                     R.id.delete -> listener?.onRemove(unwrappedPost.id)
                     R.id.ignore -> listener?.onIgnore(unwrappedPost.postInfo.sender.userId)
                     R.id.save -> (unwrappedPost.content as? ImageContent)?.let {
-                        listener?.onSaveImage(it.fileUrl)
+                        listener?.onSaveImage(it)
                     }
                     R.id.report -> listener?.onReport(unwrappedPost.id)
                 }

@@ -20,6 +20,7 @@ import com.futo.circles.feature.group_timeline.list.GroupPostViewHolder
 import com.futo.circles.feature.group_timeline.list.GroupTimelineAdapter
 import com.futo.circles.feature.post.CreatePostListener
 import com.futo.circles.feature.share.ShareProvider
+import com.futo.circles.model.ImageContent
 import com.futo.circles.model.Post
 import com.futo.circles.model.PostContent
 import com.futo.circles.view.GroupPostListener
@@ -109,8 +110,11 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
                     { binding.rvGroupTimeline.scrollToPosition(0) }, 500
                 )
             }
-            shareLiveData.observeData(this@GroupTimelineFragment) {
-                ShareProvider.share(requireContext(), it)
+            shareLiveData.observeData(this@GroupTimelineFragment) { content ->
+                context?.let { ShareProvider.share(it, content) }
+            }
+            downloadImageLiveData.observeData(this@GroupTimelineFragment) {
+                context?.let { showSuccess(it.getString(R.string.image_saved), true) }
             }
         }
     }
@@ -188,8 +192,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         TODO("Not yet implemented")
     }
 
-    override fun onSaveImage(imageUrl: String) {
-        TODO("Not yet implemented")
+    override fun onSaveImage(imageContent: ImageContent) {
+        viewModel.saveImage(imageContent)
     }
 
     override fun onReport(eventId: String) {
