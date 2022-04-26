@@ -12,6 +12,7 @@ import com.futo.circles.feature.group_timeline.data_source.GroupTimelineBuilder
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasource
 import com.futo.circles.feature.home.data_source.HomeDataSource
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
+import com.futo.circles.feature.report.data_source.ReportDataSource
 import com.futo.circles.feature.select_users.data_source.SelectUsersDataSource
 import com.futo.circles.feature.setup_circles.data_source.SetupCirclesDataSource
 import com.futo.circles.feature.setup_profile.data_source.SetupProfileDataSource
@@ -45,4 +46,5 @@ val dataSourceModule = module {
         ChangeAccessLevelDataSource(levelValue, myUserLevelValue)
     }
     factory { (roomId: String) -> ConfigureGroupDataSource(roomId, get()) }
+    factory { (roomId: String, eventId: String) -> ReportDataSource(roomId, eventId, get()) }
 }

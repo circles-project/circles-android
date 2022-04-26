@@ -4,13 +4,14 @@ import com.futo.circles.feature.circles.CirclesViewModel
 import com.futo.circles.feature.configure_group.ConfigureGroupViewModel
 import com.futo.circles.feature.create_group.CreateGroupViewModel
 import com.futo.circles.feature.group_invite.InviteMembersViewModel
+import com.futo.circles.feature.group_members.ManageGroupMembersViewModel
+import com.futo.circles.feature.group_members.change_role.ChangeAccessLevelViewModel
 import com.futo.circles.feature.group_timeline.GroupTimelineViewModel
 import com.futo.circles.feature.groups.GroupsViewModel
 import com.futo.circles.feature.home.HomeViewModel
 import com.futo.circles.feature.log_in.LogInViewModel
-import com.futo.circles.feature.group_members.ManageGroupMembersViewModel
-import com.futo.circles.feature.group_members.change_role.ChangeAccessLevelViewModel
 import com.futo.circles.feature.post.CreatePostViewModel
+import com.futo.circles.feature.report.ReportViewModel
 import com.futo.circles.feature.select_users.SelectUsersViewModel
 import com.futo.circles.feature.setup_circles.SetupCirclesViewModel
 import com.futo.circles.feature.setup_profile.SetupProfileViewModel
@@ -45,4 +46,7 @@ val uiModule = module {
     }
     viewModel { (roomId: String) -> ConfigureGroupViewModel(get { parametersOf(roomId) }) }
     viewModel { CreatePostViewModel() }
+    viewModel { (roomId: String, eventId: String) ->
+        ReportViewModel(get { parametersOf(roomId, eventId) })
+    }
 }
