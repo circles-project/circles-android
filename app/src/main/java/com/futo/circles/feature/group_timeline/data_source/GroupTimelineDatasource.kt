@@ -104,8 +104,12 @@ class GroupTimelineDatasource(
         b.saveImageToGallery(context)
     }
 
-    fun removeMessage(eventId: String){
-        room?.getTimelineEvent(eventId)?.let { room.redactEvent(it.root,null) }
+    fun removeMessage(eventId: String) {
+        room?.getTimelineEvent(eventId)?.let { room.redactEvent(it.root, null) }
+    }
+
+    suspend fun ignoreSender(userId: String) = createResult {
+        MatrixSessionProvider.currentSession?.ignoreUserIds(listOf(userId))
     }
 
     companion object {

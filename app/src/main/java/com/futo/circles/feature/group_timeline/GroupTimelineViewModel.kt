@@ -18,6 +18,7 @@ class GroupTimelineViewModel(
     val titleLiveData = dataSource.roomTitleLiveData
     val timelineEventsLiveData = dataSource.timelineEventsLiveData
     val leaveGroupLiveData = SingleEventLiveData<Response<Unit?>>()
+    val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val accessLevelLiveData = dataSource.accessLevelFlow.asLiveData()
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
@@ -69,5 +70,11 @@ class GroupTimelineViewModel(
 
     fun removeMessage(eventId: String) {
         dataSource.removeMessage(eventId)
+    }
+
+    fun ignoreSender(senderId: String) {
+        launchBg {
+            ignoreUserLiveData.postValue(dataSource.ignoreSender(senderId))
+        }
     }
 }
