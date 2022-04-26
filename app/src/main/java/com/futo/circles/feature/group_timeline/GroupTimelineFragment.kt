@@ -185,7 +185,13 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     }
 
     override fun onRemove(eventId: String) {
-        TODO("Not yet implemented")
+        showDialog(
+            titleResIdRes = R.string.remove_post,
+            messageResId = R.string.remove_post_message,
+            positiveButtonRes = R.string.remove,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.removeMessage(eventId) }
+        )
     }
 
     override fun onIgnore(senderId: String) {
