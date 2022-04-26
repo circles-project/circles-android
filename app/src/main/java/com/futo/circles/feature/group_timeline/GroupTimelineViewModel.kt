@@ -8,6 +8,7 @@ import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasource
 import com.futo.circles.feature.share.ShareableContent
+import com.futo.circles.model.ImageContent
 import com.futo.circles.model.PostContent
 
 class GroupTimelineViewModel(
@@ -17,9 +18,11 @@ class GroupTimelineViewModel(
     val titleLiveData = dataSource.roomTitleLiveData
     val timelineEventsLiveData = dataSource.timelineEventsLiveData
     val leaveGroupLiveData = SingleEventLiveData<Response<Unit?>>()
+    val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val accessLevelLiveData = dataSource.accessLevelFlow.asLiveData()
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
+    val downloadImageLiveData = SingleEventLiveData<Unit>()
 
     init {
         dataSource.startTimeline()
@@ -55,6 +58,23 @@ class GroupTimelineViewModel(
     fun sharePostContent(content: PostContent) {
         launchBg {
             shareLiveData.postValue(dataSource.getShareableContent(content))
+        }
+    }
+
+    fun saveImage(imageContent: ImageContent) {
+        launchBg {
+            dataSource.saveImage(imageContent)
+            downloadImageLiveData.postValue(Unit)
+        }
+    }
+
+    fun removeMessage(eventId: String) {
+        dataSource.removeMessage(eventId)
+    }
+
+    fun ignoreSender(senderId: String) {
+        launchBg {
+            ignoreUserLiveData.postValue(dataSource.ignoreSender(senderId))
         }
     }
 }

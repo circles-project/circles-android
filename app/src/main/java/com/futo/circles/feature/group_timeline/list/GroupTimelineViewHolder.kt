@@ -20,13 +20,13 @@ import com.futo.circles.view.GroupPostListener
 import com.futo.circles.view.PostLayout
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
-sealed class GroupPostViewHolder(view: View) :
+sealed class GroupPostViewHolder(view: View, private val userPowerLevel: Int) :
     RecyclerView.ViewHolder(view) {
 
     abstract val postLayout: PostLayout
 
     open fun bind(post: Post) {
-        postLayout.setData(post)
+        postLayout.setData(post, userPowerLevel)
     }
 
     fun bindPayload(payload: PostItemPayload) {
@@ -36,8 +36,9 @@ sealed class GroupPostViewHolder(view: View) :
 
 class TextPostViewHolder(
     parent: ViewGroup,
-    postListener: GroupPostListener
-) : GroupPostViewHolder(inflate(parent, TextPostViewBinding::inflate)) {
+    postListener: GroupPostListener,
+    userPowerLevel: Int
+) : GroupPostViewHolder(inflate(parent, TextPostViewBinding::inflate), userPowerLevel) {
 
     private companion object : ViewBindingHolder
 
@@ -59,8 +60,9 @@ class TextPostViewHolder(
 
 class ImagePostViewHolder(
     parent: ViewGroup,
-    postListener: GroupPostListener
-) : GroupPostViewHolder(inflate(parent, ImagePostViewBinding::inflate)) {
+    postListener: GroupPostListener,
+    userPowerLevel: Int
+) : GroupPostViewHolder(inflate(parent, ImagePostViewBinding::inflate), userPowerLevel) {
 
     private companion object : ViewBindingHolder
 

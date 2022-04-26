@@ -9,6 +9,7 @@ import com.futo.circles.model.RootPost
 import com.futo.circles.view.GroupPostListener
 
 class GroupTimelineAdapter(
+    private val userPowerLevel: Int,
     private val postListener: GroupPostListener,
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<Post, GroupPostViewHolder>(PayloadIdEntityCallback { _, new ->
@@ -28,8 +29,10 @@ class GroupTimelineAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupPostViewHolder {
         return when (PostContentType.values()[viewType]) {
-            PostContentType.TEXT_CONTENT -> TextPostViewHolder(parent, postListener)
-            PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(parent, postListener)
+            PostContentType.TEXT_CONTENT -> TextPostViewHolder(parent, postListener, userPowerLevel)
+            PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(
+                parent, postListener, userPowerLevel
+            )
         }
     }
 

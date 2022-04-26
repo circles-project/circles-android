@@ -20,6 +20,7 @@ import com.futo.circles.feature.group_timeline.list.GroupPostViewHolder
 import com.futo.circles.feature.group_timeline.list.GroupTimelineAdapter
 import com.futo.circles.feature.post.CreatePostListener
 import com.futo.circles.feature.share.ShareProvider
+import com.futo.circles.model.ImageContent
 import com.futo.circles.model.Post
 import com.futo.circles.model.PostContent
 import com.futo.circles.view.GroupPostListener
@@ -38,7 +39,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     private var isInviteAvailable = false
 
     private val listAdapter by lazy {
-        GroupTimelineAdapter(this) { viewModel.loadMore() }
+        GroupTimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,7 +101,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
             }
             timelineEventsLiveData.observeData(this@GroupTimelineFragment, ::setTimelineList)
             leaveGroupLiveData.observeResponse(this@GroupTimelineFragment,
-                success = { activity?.onBackPressed() })
+                success = { activity?.onBackPressed() }
+            )
             accessLevelLiveData.observeData(this@GroupTimelineFragment) { powerContent ->
                 handleAccessActionsVisibility(powerContent)
             }
@@ -109,9 +111,16 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
                     { binding.rvGroupTimeline.scrollToPosition(0) }, 500
                 )
             }
-            shareLiveData.observeData(this@GroupTimelineFragment) {
-                ShareProvider.share(requireContext(), it)
+            shareLiveData.observeData(this@GroupTimelineFragment) { content ->
+                context?.let { ShareProvider.share(it, content) }
             }
+            downloadImageLiveData.observeData(this@GroupTimelineFragment) {
+                context?.let { showSuccess(it.getString(R.string.image_saved), true) }
+            }
+            ignoreUserLiveData.observeResponse(this@GroupTimelineFragment,
+                success = {
+                    context?.let { showSuccess(it.getString(R.string.user_ignored), true) }
+                })
         }
     }
 
@@ -178,5 +187,33 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
 
     override fun onShare(content: PostContent) {
         viewModel.sharePostContent(content)
+    }
+
+    override fun onRemove(eventId: String) {
+        showDialog(
+            titleResIdRes = R.string.remove_post,
+            messageResId = R.string.remove_post_message,
+            positiveButtonRes = R.string.remove,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.removeMessage(eventId) }
+        )
+    }
+
+    override fun onIgnore(senderId: String) {
+        showDialog(
+            titleResIdRes = R.string.ignore_sender,
+            messageResId = R.string.ignore_user_message,
+            positiveButtonRes = R.string.ignore,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.ignoreSender(senderId) }
+        )
+    }
+
+    override fun onSaveImage(imageContent: ImageContent) {
+        viewModel.saveImage(imageContent)
+    }
+
+    override fun onReport(eventId: String) {
+        TODO("Not yet implemented")
     }
 }

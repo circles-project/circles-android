@@ -8,6 +8,7 @@ import androidx.lifecycle.map
 import com.bumptech.glide.Glide
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.getUri
+import com.futo.circles.extensions.saveImageToGallery
 import com.futo.circles.extensions.toImageContentAttachmentData
 import com.futo.circles.feature.share.ImageShareable
 import com.futo.circles.feature.share.TextShareable
@@ -15,21 +16,18 @@ import com.futo.circles.mapping.nameOrId
 import com.futo.circles.model.ImageContent
 import com.futo.circles.model.Post
 import com.futo.circles.model.PostContent
+import com.futo.circles.model.TextContent
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.events.model.EventType
-import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
-import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
-import org.matrix.android.sdk.internal.session.room.send.TextContent
-import org.matrix.android.sdk.internal.session.room.send.toThreadTextContent
 
 class GroupTimelineDatasource(
     private val roomId: String,
@@ -82,7 +80,7 @@ class GroupTimelineDatasource(
         createResult { MatrixSessionProvider.currentSession?.leaveRoom(roomId) }
 
     fun sendTextMessage(message: String, threadEventId: String?) {
-        threadEventId?.let { sendTextReply(message, it) } ?: room?.sendTextMessage(message)
+        threadEventId?.let { room?.replyInThread(it, message) } ?: room?.sendTextMessage(message)
     }
 
     fun sendImage(uri: Uri, threadEventId: String?) {
@@ -97,16 +95,21 @@ class GroupTimelineDatasource(
                 val uri = Glide.with(context).asFile().load(content).submit().get().getUri(context)
                 ImageShareable(uri)
             }
-            is com.futo.circles.model.TextContent -> TextShareable(content.message)
+            is TextContent -> TextShareable(content.message)
         }
     }
 
-    private fun sendTextReply(message: String, threadEventId: String) {
-        room?.sendEvent(
-            EventType.MESSAGE, TextContent(message, null)
-                .toThreadTextContent(threadEventId, threadEventId, MessageType.MSGTYPE_TEXT)
-                .toContent()
-        )
+    suspend fun saveImage(imageContent: ImageContent) = withContext(Dispatchers.IO) {
+        val b = Glide.with(context).asBitmap().load(imageContent).submit().get()
+        b.saveImageToGallery(context)
+    }
+
+    fun removeMessage(eventId: String) {
+        room?.getTimelineEvent(eventId)?.let { room.redactEvent(it.root, null) }
+    }
+
+    suspend fun ignoreSender(userId: String) = createResult {
+        MatrixSessionProvider.currentSession?.ignoreUserIds(listOf(userId))
     }
 
     companion object {
