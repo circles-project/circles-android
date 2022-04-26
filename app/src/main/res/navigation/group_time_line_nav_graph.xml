@@ -61,6 +61,21 @@
                 app:nullable="true" />
 
         </action>
+        <action
+            android:id="@+id/to_reportDialogFragment"
+            app:destination="@id/reportDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="true" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
 
     </fragment>
 
@@ -158,6 +173,23 @@
             android:name="eventId"
             app:argType="string"
             app:nullable="true" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/reportDialogFragment"
+        android:name="com.futo.circles.feature.report.ReportDialogFragment"
+        android:label="ReportDialogFragment"
+        tools:layout="@layout/report_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
 
     </dialog>
 </navigation>
