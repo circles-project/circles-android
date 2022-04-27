@@ -23,6 +23,7 @@ interface GroupPostListener {
     fun onIgnore(senderId: String)
     fun onSaveImage(imageContent: ImageContent)
     fun onReport(eventId: String)
+    fun onEmojiChipClicked(eventId: String, emoji: String, isUnSend: Boolean)
 }
 
 class PostLayout(

@@ -225,6 +225,11 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         )
     }
 
+    override fun onEmojiChipClicked(eventId: String, emoji: String, isUnSend: Boolean) {
+        if (isUnSend) viewModel.unSendReaction(eventId, emoji)
+        else viewModel.sendReaction(eventId, emoji)
+    }
+
     override fun onEmojiSelected(eventId: String, emoji: String) {
         viewModel.sendReaction(eventId, emoji)
     }

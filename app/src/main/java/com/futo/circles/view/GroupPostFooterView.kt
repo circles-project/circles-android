@@ -1,22 +1,19 @@
 package com.futo.circles.view
 
 import android.content.Context
-import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.bumptech.glide.Glide
+import androidx.core.content.ContextCompat
 import com.futo.circles.R
 import com.futo.circles.databinding.GroupPostFooterViewBinding
 import com.futo.circles.extensions.getAttributes
 import com.futo.circles.extensions.setIsEncryptedIcon
 import com.futo.circles.extensions.setIsVisible
-import com.futo.circles.feature.share.ImageShareable
-import com.futo.circles.feature.share.ShareableContent
-import com.futo.circles.feature.share.TextShareable
-import com.futo.circles.model.ImageContent
 import com.futo.circles.model.Post
-import com.futo.circles.model.TextContent
+import com.futo.circles.model.ReactionsData
+import com.google.android.material.chip.Chip
 import java.text.DateFormat
 import java.util.*
 
@@ -65,6 +62,7 @@ class GroupPostFooterView(
     fun setData(data: Post, isReply: Boolean) {
         post = data
         bindViewData(data.postInfo.timestamp, data.postInfo.isEncrypted, isReply)
+        bindReactionsList(data.postInfo.reactionsData)
     }
 
     fun bindViewData(timestamp: Long, isEncrypted: Boolean, isReply: Boolean) {
@@ -72,6 +70,36 @@ class GroupPostFooterView(
             btnReply.setIsVisible(!isReply)
             ivEncrypted.setIsEncryptedIcon(isEncrypted)
             tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date(timestamp))
+        }
+    }
+
+    private fun bindReactionsList(reactions: List<ReactionsData>) {
+        binding.chipsScrollView.setIsVisible(reactions.isNotEmpty())
+        with(binding.lReactions) {
+            removeAllViews()
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.setMargins(0, 0, 4, 0)
+
+            reactions.forEach { reaction ->
+                val title = "${reaction.key} ${reaction.count}"
+                addView(Chip(context).apply {
+                    text = title
+                    isChecked = reaction.addedByMe
+                    setOnClickListener {
+                        post?.let {
+                            listener?.onEmojiChipClicked(it.id, reaction.key, reaction.addedByMe)
+                        }
+                    }
+                    isCheckable = true
+                    isCheckedIconVisible = false
+                    chipBackgroundColor =
+                        ContextCompat.getColorStateList(context, R.color.chip_selected_color)
+                    setEnsureMinTouchTargetSize(false)
+                }, layoutParams)
+            }
+
         }
     }
 
