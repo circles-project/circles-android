@@ -86,7 +86,6 @@ class GroupPostFooterView(
                 val title = "${reaction.key} ${reaction.count}"
                 addView(Chip(context).apply {
                     text = title
-                    isChecked = reaction.addedByMe
                     setOnClickListener {
                         post?.let {
                             listener?.onEmojiChipClicked(it.id, reaction.key, reaction.addedByMe)
@@ -95,8 +94,9 @@ class GroupPostFooterView(
                     isCheckable = true
                     isCheckedIconVisible = false
                     chipBackgroundColor =
-                        ContextCompat.getColorStateList(context, R.color.chip_selected_color)
+                        ContextCompat.getColorStateList(context, R.color.emoji_chip_background)
                     setEnsureMinTouchTargetSize(false)
+                    isChecked = reaction.addedByMe
                 }, layoutParams)
             }
 
