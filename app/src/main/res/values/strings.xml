@@ -142,6 +142,40 @@
     <string name="remove_post_message">Are you sure you want to remove this post?</string>
     <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
     <string name="user_ignored">User ignored</string>
+    <string name="reporting_inappropriate_content">Reporting inappropriate content</string>
+    <string name="reporting_message">Thank you for helping to keep this community safe and pleasant for everyone.\nThe following brief questions will help us to respond most effectively to your report.</string>
+    <string name="how_inappropriate_is_the_reported_content">How inappropriate is the reported content?</string>
+    <string name="report_score_explanation">0: Very mild (fart jokes, toilet humor)\n100: Illegal content(child abuse; terrorism)</string>
+    <string name="which_of_the_following_categories_does_inappropriate_message_contain">Which of the following categories does inappropriate message contain?</string>
+    <string name="crude_language">Crude language</string>
+    <string name="copyright_violation">Copyright violation (\"privacy\")</string>
+    <string name="nudity">Nudity</string>
+    <string name="pornographic_or_sexual_material">Pornographic or sexual material</string>
+    <string name="gore">Gore</string>
+    <string name="self_harm">Self harm</string>
+    <string name="demeaning_people">Demeaning or disparaging groups of people</string>
+    <string name="insult_or_personal_attacks">Insults or personal attacks</string>
+    <string name="targeted_harassment">Targeted harassment or doxxing</string>
+    <string name="threatening_or_planning_violence">Threatening or planning violence</string>
+    <string name="other_prohibited_content">Other prohibited content</string>
+    <string name="report_sent">Report sent</string>
+    <string name="zero">0</string>
+    <string name="hundred">100</string>
+    <string name="severity_formatter">Severity: %d</string>
+
+    <string-array name="report_categories">
+        <item>@string/crude_language</item>
+        <item>@string/copyright_violation</item>
+        <item>@string/nudity</item>
+        <item>@string/pornographic_or_sexual_material</item>
+        <item>@string/gore</item>
+        <item>@string/self_harm</item>
+        <item>@string/demeaning_people</item>
+        <item>@string/insult_or_personal_attacks</item>
+        <item>@string/targeted_harassment</item>
+        <item>@string/threatening_or_planning_violence</item>
+        <item>@string/other_prohibited_content</item>
+    </string-array>
 
     <string-array name="setup_circles_list">
         <item>@string/friends</item>

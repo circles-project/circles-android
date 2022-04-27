@@ -214,6 +214,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     }
 
     override fun onReport(eventId: String) {
-        TODO("Not yet implemented")
+        findNavController().navigate(
+            GroupTimelineFragmentDirections.toReportDialogFragment(args.roomId, eventId)
+        )
     }
 }

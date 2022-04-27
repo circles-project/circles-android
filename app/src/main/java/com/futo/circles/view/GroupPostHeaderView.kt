@@ -1,8 +1,10 @@
 package com.futo.circles.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.futo.circles.R
@@ -61,9 +63,11 @@ class GroupPostHeaderView(
         binding.btnMore.setOnClickListener { showMenu() }
     }
 
+    @SuppressLint("RestrictedApi")
     private fun showMenu() {
         val unwrappedPost = post ?: return
         PopupMenu(context, binding.btnMore).apply {
+            (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.delete -> listener?.onRemove(unwrappedPost.id)
