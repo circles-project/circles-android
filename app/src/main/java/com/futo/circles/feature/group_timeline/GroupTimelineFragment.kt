@@ -16,6 +16,7 @@ import com.futo.circles.R
 import com.futo.circles.core.list.BaseRvDecoration
 import com.futo.circles.databinding.GroupTimelineFragmentBinding
 import com.futo.circles.extensions.*
+import com.futo.circles.feature.emoji.EmojiPickerListener
 import com.futo.circles.feature.group_timeline.list.GroupPostViewHolder
 import com.futo.circles.feature.group_timeline.list.GroupTimelineAdapter
 import com.futo.circles.feature.post.CreatePostListener
@@ -30,7 +31,7 @@ import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 
 class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupPostListener,
-    CreatePostListener {
+    CreatePostListener, EmojiPickerListener {
 
     private val args: GroupTimelineFragmentArgs by navArgs()
     private val viewModel by viewModel<GroupTimelineViewModel> { parametersOf(args.roomId) }
@@ -133,7 +134,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     }
 
     override fun onShowEmoji(eventId: String) {
-
+        findNavController().navigate(GroupTimelineFragmentDirections.toEmojiBottomSheet())
     }
 
     override fun onReply(eventId: String, userName: String) {
@@ -221,5 +222,9 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         findNavController().navigate(
             GroupTimelineFragmentDirections.toReportDialogFragment(args.roomId, eventId)
         )
+    }
+
+    override fun onEmojiSelected() {
+
     }
 }
