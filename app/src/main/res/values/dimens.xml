@@ -6,4 +6,5 @@
     <dimen name="post_text_side_margin">24dp</dimen>
     <dimen name="invite_list_side_margin">8dp</dimen>
     <dimen name="group_icon_size">120dp</dimen>
+    <dimen name="emoji_icon_size">50dp</dimen>
 </resources>
