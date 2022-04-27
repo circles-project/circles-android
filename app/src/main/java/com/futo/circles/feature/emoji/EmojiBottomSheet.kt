@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.navigation.fragment.navArgs
 import com.futo.circles.databinding.EmojiBottomSheetBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.feature.emoji.list.EmojiAdapter
@@ -18,13 +19,14 @@ import com.google.android.material.tabs.TabLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 interface EmojiPickerListener {
-    fun onEmojiSelected()
+    fun onEmojiSelected(eventId: String, emoji: String)
 }
 
 class EmojiBottomSheet : BottomSheetDialogFragment() {
 
     private var binding: EmojiBottomSheetBinding? = null
     private var emojiPickerListener: EmojiPickerListener? = null
+    private val args: EmojiBottomSheetArgs by navArgs()
     private val viewModel by viewModel<EmojiViewModel>()
     private val listAdapter by lazy { EmojiAdapter(::onEmojiSelected) }
 
@@ -66,7 +68,7 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun onEmojiSelected(emojiItem: EmojiItem) {
-        emojiPickerListener?.onEmojiSelected()
+        emojiPickerListener?.onEmojiSelected(args.eventId, emojiItem.emoji)
         dismiss()
     }
 

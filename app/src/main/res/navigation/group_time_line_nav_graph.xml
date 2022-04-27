@@ -78,7 +78,14 @@
         </action>
         <action
             android:id="@+id/to_emojiBottomSheet"
-            app:destination="@id/emojiBottomSheet" />
+            app:destination="@id/emojiBottomSheet">
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
     </fragment>
 
@@ -199,5 +206,12 @@
         android:id="@+id/emojiBottomSheet"
         android:name="com.futo.circles.feature.emoji.EmojiBottomSheet"
         android:label="EmojiBottomSheet"
-        tools:layout="@layout/emoji_bottom_sheet" />
+        tools:layout="@layout/emoji_bottom_sheet">
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
 </navigation>

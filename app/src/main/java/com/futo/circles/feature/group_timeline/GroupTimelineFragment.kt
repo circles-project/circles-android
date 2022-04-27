@@ -122,6 +122,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
                 success = {
                     context?.let { showSuccess(it.getString(R.string.user_ignored), true) }
                 })
+            unSendReactionLiveData.observeResponse(this@GroupTimelineFragment)
         }
     }
 
@@ -134,7 +135,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     }
 
     override fun onShowEmoji(eventId: String) {
-        findNavController().navigate(GroupTimelineFragmentDirections.toEmojiBottomSheet())
+        findNavController().navigate(GroupTimelineFragmentDirections.toEmojiBottomSheet(eventId))
     }
 
     override fun onReply(eventId: String, userName: String) {
@@ -224,7 +225,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         )
     }
 
-    override fun onEmojiSelected() {
-
+    override fun onEmojiSelected(eventId: String, emoji: String) {
+        viewModel.sendReaction(eventId, emoji)
     }
 }

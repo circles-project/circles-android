@@ -112,6 +112,14 @@ class GroupTimelineDatasource(
         MatrixSessionProvider.currentSession?.ignoreUserIds(listOf(userId))
     }
 
+    fun sendReaction(eventId: String, emoji: String) {
+        room?.sendReaction(eventId, emoji)
+    }
+
+    suspend fun unSendReaction(eventId: String, emoji: String) = createResult {
+        room?.undoReaction(eventId, emoji)
+    }
+
     companion object {
         private const val MESSAGES_PER_PAGE = 30
     }
