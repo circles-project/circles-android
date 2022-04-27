@@ -132,6 +132,10 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
         viewModel.toggleRepliesVisibilityFor(eventId)
     }
 
+    override fun onShowEmoji(eventId: String) {
+
+    }
+
     override fun onReply(eventId: String, userName: String) {
         navigateToCreatePost(userName, eventId)
     }

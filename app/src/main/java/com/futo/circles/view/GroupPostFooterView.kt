@@ -52,6 +52,9 @@ class GroupPostFooterView(
             btnShare.setOnClickListener {
                 post?.let { listener?.onShare(it.content) }
             }
+            btnLike.setOnClickListener {
+                post?.let { listener?.onShowEmoji(it.id) }
+            }
         }
     }
 
