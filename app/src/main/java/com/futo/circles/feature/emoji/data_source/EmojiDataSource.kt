@@ -11,16 +11,26 @@ import com.google.gson.Gson
 
 class EmojiDataSource(context: Context) {
 
+    fun getCategories() = emojiData.categories
+
+    fun getEmojiesForCategory(categoryId: String): List<EmojiItem> {
+        val categoryEmojiKeys =
+            emojiData.categories.firstOrNull { it.id == categoryId }?.emojis ?: emptyList()
+        return emojiData.emojis.filter { categoryEmojiKeys.contains(it.key) }.values.toList()
+    }
+
+
     private val paint = Paint()
 
-    val emojiData = context.resources.openRawResource(R.raw.emoji_picker_datasource)
+    private val emojiData = context.resources.openRawResource(R.raw.emoji_picker_datasource)
         .use { input ->
             Gson().fromJson(input.bufferedReader().use { it.readText() }, EmojiData::class.java)
         }
         ?.let { parsedRawData ->
-            parsedRawData.copy(
-                emojis = filterEmoji(parsedRawData),
-                categories = filterCategories(parsedRawData)
+            val withParsedEmojies = parsedRawData.copy(emojis = parseEmojies(parsedRawData))
+            withParsedEmojies.copy(
+                emojis = filterEmoji(withParsedEmojies),
+                categories = filterCategories(withParsedEmojies)
             )
         } ?: EmojiData(emptyList(), emptyMap(), emptyMap())
 
@@ -54,4 +64,29 @@ class EmojiDataSource(context: Context) {
             }))
         }
     }
+
+    private fun parseEmojies(parsedRawData: EmojiData) = mutableMapOf<String, EmojiItem>().apply {
+        parsedRawData.emojis.keys.forEach { key ->
+            val origin = parsedRawData.emojis[key] ?: return@forEach
+            put(
+                key, origin.copy(
+                    emoji = fromUnicode(origin.unicode.split("-").joinToString("") { "\\u$it" })
+                )
+            )
+        }
+    }
+
+    private fun fromUnicode(unicode: String): String {
+        val arr = unicode
+            .replace("\\", "")
+            .split("u".toRegex())
+            .dropLastWhile { it.isEmpty() }
+        return buildString {
+            for (i in 1 until arr.size) {
+                val hexVal = Integer.parseInt(arr[i], 16)
+                append(Character.toChars(hexVal))
+            }
+        }
+    }
+
 }
