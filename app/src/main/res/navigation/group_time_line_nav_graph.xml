@@ -76,6 +76,9 @@
                 app:nullable="true" />
 
         </action>
+        <action
+            android:id="@+id/to_emojiBottomSheet"
+            app:destination="@id/emojiBottomSheet" />
 
     </fragment>
 
@@ -192,4 +195,9 @@
             app:nullable="false" />
 
     </dialog>
+    <dialog
+        android:id="@+id/emojiBottomSheet"
+        android:name="com.futo.circles.feature.emoji.EmojiBottomSheet"
+        android:label="EmojiBottomSheet"
+        tools:layout="@layout/emoji_bottom_sheet" />
 </navigation>
