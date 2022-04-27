@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.futo.circles.databinding.EmojiBottomSheetBinding
+import com.futo.circles.extensions.observeData
+import com.futo.circles.model.EmojiCategory
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -45,11 +47,29 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
         setupObservers()
     }
 
-    private fun setupObservers() {
-
+    private fun setupViews() {
+        binding?.ivClose?.setOnClickListener { dismiss() }
     }
 
-    private fun setupViews() {
+    private fun setupObservers() {
+        viewModel.categoriesLiveData.observeData(this) { setupEmojiCategories(it) }
+    }
 
+    private fun setupEmojiCategories(categories: List<EmojiCategory>) {
+        binding?.let { binding ->
+            categories.forEach { category ->
+                binding.tabs.newTab().apply {
+                    text = category.emojiTitle
+                    contentDescription = category.name
+                }.also { tab ->
+                    binding.tabs.addTab(tab)
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

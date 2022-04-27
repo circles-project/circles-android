@@ -162,6 +162,7 @@
     <string name="zero">0</string>
     <string name="hundred">100</string>
     <string name="severity_formatter">Severity: %d</string>
+    <string name="add_reaction">Add reaction</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

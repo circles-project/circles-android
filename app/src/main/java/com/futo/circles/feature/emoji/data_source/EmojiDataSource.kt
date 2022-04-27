@@ -43,7 +43,9 @@ class EmojiDataSource(context: Context) {
 
     private fun filterCategories(parsedRawData: EmojiData) = mutableListOf<EmojiCategory>().apply {
         parsedRawData.categories.forEach { entry ->
-            add(EmojiCategory(entry.id, entry.name, mutableListOf<String>().apply {
+            val emojiTitle =
+                entry.emojis.getOrNull(0)?.let { parsedRawData.emojis[it]?.emoji } ?: entry.name
+            add(EmojiCategory(entry.id, entry.name, emojiTitle, mutableListOf<String>().apply {
                 entry.emojis.forEach { e ->
                     parsedRawData.emojis[e]?.let {
                         if (canRenderEmoji(it.emoji)) add(e)
