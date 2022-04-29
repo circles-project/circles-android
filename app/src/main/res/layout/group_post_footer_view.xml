@@ -29,6 +29,25 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="some date" />
 
+    <HorizontalScrollView
+        android:id="@+id/chipsScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvMessageTime"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/lReactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
+    </HorizontalScrollView>
+
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
@@ -37,7 +56,7 @@
         android:background="@color/divider_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvMessageTime" />
+        app:layout_constraintTop_toBottomOf="@id/chipsScrollView" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lOptions"
@@ -54,7 +73,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/like"
-            app:icon="@drawable/ic_unlike"
+            app:icon="@drawable/ic_emoji"
+            app:iconPadding="-12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnReply"
             app:layout_constraintStart_toStartOf="parent"

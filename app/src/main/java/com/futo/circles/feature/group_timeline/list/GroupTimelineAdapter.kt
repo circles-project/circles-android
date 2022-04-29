@@ -12,12 +12,13 @@ class GroupTimelineAdapter(
     private val userPowerLevel: Int,
     private val postListener: GroupPostListener,
     private val onLoadMore: () -> Unit
-) : BaseRvAdapter<Post, GroupPostViewHolder>(PayloadIdEntityCallback { _, new ->
+) : BaseRvAdapter<Post, GroupPostViewHolder>(PayloadIdEntityCallback { old, new ->
     (new as? RootPost)?.let { rootPost ->
         PostItemPayload(
             repliesCount = rootPost.getRepliesCount(),
             isRepliesVisible = rootPost.isRepliesVisible,
-            hasReplies = rootPost.hasReplies()
+            hasReplies = rootPost.hasReplies(),
+            needToUpdateFullItem = rootPost.content != old.content || rootPost.postInfo != old.postInfo
         )
     }
 }) {
@@ -50,7 +51,12 @@ class GroupTimelineAdapter(
             super.onBindViewHolder(holder, position, payloads)
         } else {
             payloads.forEach {
-                (it as? PostItemPayload)?.let { payload -> holder.bindPayload(payload) }
+                (it as? PostItemPayload)?.let { payload ->
+                    if (payload.needToUpdateFullItem)
+                        holder.bind(getItem(position))
+                    else
+                        holder.bindPayload(payload)
+                }
             }
         }
     }

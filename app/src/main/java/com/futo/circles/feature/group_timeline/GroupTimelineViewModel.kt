@@ -10,6 +10,7 @@ import com.futo.circles.feature.group_timeline.data_source.GroupTimelineDatasour
 import com.futo.circles.feature.share.ShareableContent
 import com.futo.circles.model.ImageContent
 import com.futo.circles.model.PostContent
+import org.matrix.android.sdk.api.util.Cancelable
 
 class GroupTimelineViewModel(
     private val dataSource: GroupTimelineDatasource
@@ -23,6 +24,7 @@ class GroupTimelineViewModel(
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val downloadImageLiveData = SingleEventLiveData<Unit>()
+    val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
 
     init {
         dataSource.startTimeline()
@@ -75,6 +77,16 @@ class GroupTimelineViewModel(
     fun ignoreSender(senderId: String) {
         launchBg {
             ignoreUserLiveData.postValue(dataSource.ignoreSender(senderId))
+        }
+    }
+
+    fun sendReaction(eventId: String, emoji: String) {
+        dataSource.sendReaction(eventId, emoji)
+    }
+
+    fun unSendReaction(eventId: String, emoji: String) {
+        launchBg {
+            unSendReactionLiveData.postValue(dataSource.unSendReaction(eventId, emoji))
         }
     }
 }

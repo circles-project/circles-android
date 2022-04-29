@@ -16,7 +16,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:lines="1"
-        android:text="@string/create_post"
+        android:text="@string/add_reaction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,57 +46,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-    <com.futo.circles.view.PreviewPostView
-        android:id="@+id/vPostPreview"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/emoji_icon_size"
+        app:tabTextAppearance="@style/body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider" />
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:tabPaddingEnd="0dp"
+        app:tabPaddingStart="0dp" />
 
-
-    <ImageView
-        android:id="@+id/ivText"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEmoji"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="10dp"
-        android:src="@drawable/ic_text"
-        app:layout_constraintBottom_toBottomOf="@id/btnPost"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnPost"
-        app:tint="@color/blue" />
-
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="10dp"
-        android:src="@drawable/ic_image"
-        app:layout_constraintBottom_toBottomOf="@id/btnPost"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toEndOf="@id/ivText"
-        app:layout_constraintTop_toTopOf="@id/btnPost"
-        app:tint="@color/gray" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnPost"
-        style="@style/AccentButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:enabled="false"
-        android:padding="4dp"
-        android:text="@string/send"
-        app:icon="@drawable/ic_send"
-        app:iconPadding="2dp"
+        android:layout_height="300dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vPostPreview" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabs"
+        app:spanCount="9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

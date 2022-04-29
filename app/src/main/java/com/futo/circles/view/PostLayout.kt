@@ -16,12 +16,14 @@ import com.futo.circles.model.*
 
 interface GroupPostListener {
     fun onShowRepliesClicked(eventId: String)
+    fun onShowEmoji(eventId: String)
     fun onReply(eventId: String, userName: String)
     fun onShare(content: PostContent)
     fun onRemove(eventId: String)
     fun onIgnore(senderId: String)
     fun onSaveImage(imageContent: ImageContent)
     fun onReport(eventId: String)
+    fun onEmojiChipClicked(eventId: String, emoji: String, isUnSend: Boolean)
 }
 
 class PostLayout(
@@ -37,9 +39,6 @@ class PostLayout(
 
     init {
         binding.btnShowReplies.setOnClickListener {
-            post?.let { listener?.onShowRepliesClicked(it.id) }
-        }
-        binding.postFooter.setOnClickListener {
             post?.let { listener?.onShowRepliesClicked(it.id) }
         }
     }

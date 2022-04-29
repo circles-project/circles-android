@@ -22,7 +22,10 @@ private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     id = eventId,
     isEncrypted = isEncrypted(),
     timestamp = root.originServerTs ?: System.currentTimeMillis(),
-    sender = senderInfo
+    sender = senderInfo,
+    reactionsData = annotations?.reactionsSummary?.map {
+        ReactionsData(it.key, it.count, it.addedByMe)
+    } ?: emptyList()
 )
 
 private fun TimelineEvent.toRootPost(postContentType: PostContentType, isRepliesVisible: Boolean) =

@@ -3,6 +3,7 @@ package com.futo.circles.di
 import com.futo.circles.feature.circles.CirclesViewModel
 import com.futo.circles.feature.configure_group.ConfigureGroupViewModel
 import com.futo.circles.feature.create_group.CreateGroupViewModel
+import com.futo.circles.feature.emoji.EmojiViewModel
 import com.futo.circles.feature.group_invite.InviteMembersViewModel
 import com.futo.circles.feature.group_members.ManageGroupMembersViewModel
 import com.futo.circles.feature.group_members.change_role.ChangeAccessLevelViewModel
@@ -49,4 +50,5 @@ val uiModule = module {
     viewModel { (roomId: String, eventId: String) ->
         ReportViewModel(get { parametersOf(roomId, eventId) })
     }
+    viewModel { EmojiViewModel(get()) }
 }
