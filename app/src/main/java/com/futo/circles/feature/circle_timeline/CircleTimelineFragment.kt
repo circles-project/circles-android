@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
@@ -49,7 +50,7 @@ class CircleTimelineFragment : Fragment(R.layout.timeline_fragment) {
                 return true
             }
             R.id.inviteFollowers -> {
-
+                navigateToInviteMembers()
                 return true
             }
             R.id.deleteCircle -> {
@@ -58,5 +59,11 @@ class CircleTimelineFragment : Fragment(R.layout.timeline_fragment) {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun navigateToInviteMembers() {
+        findNavController().navigate(
+            CircleTimelineFragmentDirections.toInviteMembersDialogFragment(args.roomId)
+        )
     }
 }

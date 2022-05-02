@@ -15,6 +15,21 @@
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
+        <action
+            android:id="@+id/to_inviteMembersDialogFragment"
+            app:destination="@id/inviteMembersDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
     </fragment>
+    <dialog
+        android:id="@+id/inviteMembersDialogFragment"
+        android:name="com.futo.circles.feature.group_invite.InviteMembersDialogFragment"
+        android:label="InviteMembersDialogFragment"
+        tools:layout="@layout/invite_members_dialog_fragment" />
 </navigation>
