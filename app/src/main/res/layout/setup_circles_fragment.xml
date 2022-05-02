@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:drawablePadding="8dp"
-        android:text="@string/note_circle_name_and_cover_images_are_not_encrypted"
+        android:text="@string/circle_encryption_warning"
         android:textColor="@color/yellow"
         app:drawableStartCompat="@drawable/ic_info"
         app:drawableTint="@color/yellow"

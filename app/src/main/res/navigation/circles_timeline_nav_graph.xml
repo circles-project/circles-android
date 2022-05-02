@@ -25,6 +25,22 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_updateRoomDialogFragment"
+            app:destination="@id/updateRoomDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="com.futo.circles.core.matrix.room.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
 
     </fragment>
     <dialog
@@ -32,4 +48,21 @@
         android:name="com.futo.circles.feature.group_invite.InviteMembersDialogFragment"
         android:label="InviteMembersDialogFragment"
         tools:layout="@layout/invite_members_dialog_fragment" />
+    <dialog
+        android:id="@+id/updateRoomDialogFragment"
+        android:name="com.futo.circles.feature.update_room.UpdateRoomDialogFragment"
+        android:label="UpdateRoomDialogFragment"
+        tools:layout="@layout/update_room_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="com.futo.circles.core.matrix.room.CircleRoomTypeArg"
+            app:nullable="false" />
+
+    </dialog>
 </navigation>

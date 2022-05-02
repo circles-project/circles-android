@@ -39,7 +39,7 @@ class CircleTimelineFragment : Fragment(R.layout.timeline_fragment) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.configureCircle -> {
-
+                navigateToUpdateCircle()
                 return true
             }
             R.id.myFollowers -> {
@@ -75,6 +75,12 @@ class CircleTimelineFragment : Fragment(R.layout.timeline_fragment) {
     private fun navigateToInviteMembers() {
         findNavController().navigate(
             CircleTimelineFragmentDirections.toInviteMembersDialogFragment(args.roomId)
+        )
+    }
+
+    private fun navigateToUpdateCircle() {
+        findNavController().navigate(
+            CircleTimelineFragmentDirections.toUpdateRoomDialogFragment(args.roomId)
         )
     }
 }

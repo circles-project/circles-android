@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -14,9 +15,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="@string/configure_group"
         app:titleCentered="true"
-        app:titleMarginEnd="72dp">
+        app:titleMarginEnd="72dp"
+        tools:title="@string/configure_group">
 
         <com.futo.circles.view.LoadingButton
             android:id="@+id/btnSave"
@@ -90,13 +91,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/group_name"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/btnChangeIcon" />
+        app:layout_constraintTop_toBottomOf="@id/btnChangeIcon"
+        tools:text="@string/group_name" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilGroupName"
+        android:id="@+id/tilName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -125,10 +126,10 @@
         android:text="@string/group_topic"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tilGroupName" />
+        app:layout_constraintTop_toBottomOf="@id/tilName" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilGroupTopic"
+        android:id="@+id/tilTopic"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -148,6 +149,13 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/topicViewGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tilTopic,tvTopicHeader"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/tvEncryptionWarning"
@@ -157,12 +165,12 @@
         android:layout_marginTop="16dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:text="@string/note_group_name_and_cover_image_are_not_encrypted"
         android:textColor="@color/yellow"
         app:drawableStartCompat="@drawable/ic_info"
         app:drawableTint="@color/yellow"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tilGroupTopic" />
+        app:layout_constraintTop_toBottomOf="@id/tilTopic"
+        tools:text="@string/group_encryption_warning" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

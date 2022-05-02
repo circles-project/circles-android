@@ -179,7 +179,7 @@ class GroupTimelineFragment : Fragment(R.layout.timeline_fragment), GroupPostLis
 
     private fun navigateToConfigureGroup() {
         findNavController().navigate(
-            GroupTimelineFragmentDirections.toConfigureGroupDialogFragment(args.roomId)
+            GroupTimelineFragmentDirections.toUpdateRoomDialogFragment(args.roomId)
         )
     }
 

@@ -4,7 +4,7 @@ import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import com.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
-import com.futo.circles.feature.configure_group.data_source.ConfigureGroupDataSource
+import com.futo.circles.feature.update_room.data_source.UpdateRoomDataSource
 import com.futo.circles.feature.emoji.data_source.EmojiDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 import com.futo.circles.feature.group_members.change_role.data_source.ChangeAccessLevelDataSource
@@ -46,7 +46,7 @@ val dataSourceModule = module {
     factory { (levelValue: Int, myUserLevelValue: Int) ->
         ChangeAccessLevelDataSource(levelValue, myUserLevelValue)
     }
-    factory { (roomId: String) -> ConfigureGroupDataSource(roomId, get()) }
+    factory { (roomId: String) -> UpdateRoomDataSource(roomId, get()) }
     factory { (roomId: String, eventId: String) -> ReportDataSource(roomId, eventId, get()) }
     single { EmojiDataSource(get()) }
 }

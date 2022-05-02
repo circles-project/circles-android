@@ -1,4 +1,4 @@
-package com.futo.circles.feature.configure_group
+package com.futo.circles.feature.update_room
 
 import android.os.Bundle
 import android.view.View
@@ -9,26 +9,24 @@ import com.futo.circles.R
 import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
-import com.futo.circles.databinding.ConfigureGroupDialogFragmentBinding
-import com.futo.circles.extensions.loadProfileIcon
-import com.futo.circles.extensions.observeData
-import com.futo.circles.extensions.observeResponse
-import com.futo.circles.extensions.showSuccess
-import com.futo.circles.feature.group_invite.InviteMembersDialogFragmentArgs
+import com.futo.circles.core.matrix.room.CircleRoomTypeArg
+import com.futo.circles.databinding.UpdateRoomDialogFragmentBinding
+import com.futo.circles.extensions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
-class ConfigureGroupDialogFragment :
-    BaseFullscreenDialogFragment(ConfigureGroupDialogFragmentBinding::inflate), HasLoadingState {
+class UpdateRoomDialogFragment :
+    BaseFullscreenDialogFragment(UpdateRoomDialogFragmentBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
-    private val args: InviteMembersDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<ConfigureGroupViewModel> { parametersOf(args.roomId) }
+    private val args: UpdateRoomDialogFragmentArgs by navArgs()
+    private val viewModel by viewModel<UpdateRoomViewModel> { parametersOf(args.roomId) }
     private val imagePickerHelper = ImagePickerHelper(this)
+    private val isGroupUpdate by lazy { args.type == CircleRoomTypeArg.Group }
 
     private val binding by lazy {
-        getBinding() as ConfigureGroupDialogFragmentBinding
+        getBinding() as UpdateRoomDialogFragmentBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,18 +39,25 @@ class ConfigureGroupDialogFragment :
     private fun setupViews() {
         with(binding) {
             toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.title =
+                context?.getString(if (isGroupUpdate) R.string.configure_group else R.string.configure_circle)
+            tvNameHeader.text =
+                context?.getString(if (isGroupUpdate) R.string.group_name else R.string.circle_name)
+            tvEncryptionWarning.text =
+                context?.getString(if (isGroupUpdate) R.string.group_encryption_warning else R.string.circle_encryption_warning)
+            topicViewGroup.setIsVisible(isGroupUpdate)
             ivGroup.setOnClickListener { showImagePicker() }
             btnChangeIcon.setOnClickListener { showImagePicker() }
-            tilGroupName.editText?.doAfterTextChanged {
-                it?.let { onGroupDataChanged() }
+            tilName.editText?.doAfterTextChanged {
+                it?.let { onRoomDataChanged() }
             }
-            tilGroupTopic.editText?.doAfterTextChanged {
-                it?.let { onGroupDataChanged() }
+            tilTopic.editText?.doAfterTextChanged {
+                it?.let { onRoomDataChanged() }
             }
             btnSave.setOnClickListener {
-                viewModel.updateGroup(
-                    tilGroupName.editText?.text?.toString()?.trim() ?: "",
-                    tilGroupTopic.editText?.text?.toString()?.trim() ?: ""
+                viewModel.update(
+                    tilName.editText?.text?.toString()?.trim() ?: "",
+                    tilTopic.editText?.text?.toString()?.trim() ?: ""
                 )
                 startLoading(btnSave)
             }
@@ -62,18 +67,21 @@ class ConfigureGroupDialogFragment :
     private fun setupObservers() {
         viewModel.selectedImageLiveData.observeData(this) {
             binding.ivGroup.setImageURI(it)
-            onGroupDataChanged()
+            onRoomDataChanged()
         }
         viewModel.updateGroupResponseLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.group_updated), true)
+                showSuccess(
+                    getString(if (isGroupUpdate) R.string.group_updated else R.string.circle_updated),
+                    true
+                )
                 activity?.onBackPressed()
             }
         )
         viewModel.groupSummaryLiveData.observeData(this) {
             it?.let { setInitialGroupData(it) }
         }
-        viewModel.isGroupDataChangedLiveData.observeData(this) {
+        viewModel.isRoomDataChangedLiveData.observeData(this) {
             binding.btnSave.isEnabled = it
         }
     }
@@ -86,14 +94,14 @@ class ConfigureGroupDialogFragment :
 
     private fun setInitialGroupData(room: RoomSummary) {
         binding.ivGroup.loadProfileIcon(room.avatarUrl, room.displayName)
-        binding.tilGroupName.editText?.setText(room.displayName)
-        binding.tilGroupTopic.editText?.setText(room.topic)
+        binding.tilName.editText?.setText(room.displayName)
+        binding.tilTopic.editText?.setText(room.topic)
     }
 
-    private fun onGroupDataChanged() {
-        viewModel.handleGroupDataUpdate(
-            binding.tilGroupName.editText?.text?.toString()?.trim() ?: "",
-            binding.tilGroupTopic.editText?.text?.toString()?.trim() ?: ""
+    private fun onRoomDataChanged() {
+        viewModel.handleRoomDataUpdate(
+            binding.tilName.editText?.text?.toString()?.trim() ?: "",
+            binding.tilTopic.editText?.text?.toString()?.trim() ?: ""
         )
     }
 }
