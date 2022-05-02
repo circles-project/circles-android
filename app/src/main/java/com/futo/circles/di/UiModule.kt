@@ -1,5 +1,6 @@
 package com.futo.circles.di
 
+import com.futo.circles.feature.circle_timeline.CircleTimelineViewModel
 import com.futo.circles.feature.circles.CirclesViewModel
 import com.futo.circles.feature.configure_group.ConfigureGroupViewModel
 import com.futo.circles.feature.create_circle.CreateCircleViewModel
@@ -53,4 +54,5 @@ val uiModule = module {
     }
     viewModel { EmojiViewModel(get()) }
     viewModel { CreateCircleViewModel(get()) }
+    viewModel { (_: String) -> CircleTimelineViewModel() }
 }
