@@ -14,7 +14,7 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.list.BaseRvDecoration
-import com.futo.circles.databinding.GroupTimelineFragmentBinding
+import com.futo.circles.databinding.TimelineFragmentBinding
 import com.futo.circles.extensions.*
 import com.futo.circles.feature.emoji.EmojiPickerListener
 import com.futo.circles.feature.group_timeline.list.GroupPostViewHolder
@@ -30,12 +30,12 @@ import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 
-class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupPostListener,
+class GroupTimelineFragment : Fragment(R.layout.timeline_fragment), GroupPostListener,
     CreatePostListener, EmojiPickerListener {
 
     private val args: GroupTimelineFragmentArgs by navArgs()
     private val viewModel by viewModel<GroupTimelineViewModel> { parametersOf(args.roomId) }
-    private val binding by viewBinding(GroupTimelineFragmentBinding::bind)
+    private val binding by viewBinding(TimelineFragmentBinding::bind)
     private var isSettingAvailable = false
     private var isInviteAvailable = false
 
@@ -83,7 +83,7 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
     }
 
     private fun setupViews() {
-        binding.rvGroupTimeline.apply {
+        binding.rvTimeline.apply {
             adapter = listAdapter
             addItemDecoration(
                 BaseRvDecoration.OffsetDecoration<GroupPostViewHolder>(
@@ -108,8 +108,8 @@ class GroupTimelineFragment : Fragment(R.layout.group_timeline_fragment), GroupP
                 handleAccessActionsVisibility(powerContent)
             }
             scrollToTopLiveData.observeData(this@GroupTimelineFragment) {
-                binding.rvGroupTimeline.postDelayed(
-                    { binding.rvGroupTimeline.scrollToPosition(0) }, 500
+                binding.rvTimeline.postDelayed(
+                    { binding.rvTimeline.scrollToPosition(0) }, 500
                 )
             }
             shareLiveData.observeData(this@GroupTimelineFragment) { content ->

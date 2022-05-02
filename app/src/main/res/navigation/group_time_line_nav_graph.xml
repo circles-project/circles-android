@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/groupTimelineFragment"
         android:name="com.futo.circles.feature.group_timeline.GroupTimelineFragment"
-        tools:layout="@layout/group_timeline_fragment">
+        tools:layout="@layout/timeline_fragment">
 
         <argument
             android:name="roomId"
