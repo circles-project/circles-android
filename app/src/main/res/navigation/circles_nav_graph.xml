@@ -10,10 +10,24 @@
         android:name="com.futo.circles.feature.circles.CirclesFragment"
         android:label="@string/my_circles"
         tools:layout="@layout/circles_fragment">
+
+        <action
+            android:id="@+id/to_circles_timeline_nav_graph"
+            app:destination="@id/circles_timeline_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
         <action
             android:id="@+id/to_createCircleDialogFragment"
             app:destination="@id/createCircleDialogFragment" />
     </fragment>
+
+    <include app:graph="@navigation/circles_timeline_nav_graph" />
 
     <dialog
         android:id="@+id/createCircleDialogFragment"

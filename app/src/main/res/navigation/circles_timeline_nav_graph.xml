@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/circles_timeline_nav_graph"
+    app:startDestination="@id/circleTimelineFragment">
+
+    <fragment
+        android:id="@+id/circleTimelineFragment"
+        android:name="com.futo.circles.feature.circle_timeline.CircleTimelineFragment"
+        android:label="CircleTimelineFragment"
+        tools:layout="@layout/timeline_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </fragment>
+</navigation>
