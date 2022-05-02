@@ -47,6 +47,6 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
     }
 
     private fun navigateToCreateGroup() {
-        findNavController().navigate(GroupsFragmentDirections.toCreateGroupDialogFragment())
+        findNavController().navigate(GroupsFragmentDirections.toCreateRoomDialogFragment())
     }
 }

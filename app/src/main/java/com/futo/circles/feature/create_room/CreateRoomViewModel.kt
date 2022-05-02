@@ -1,9 +1,10 @@
-package com.futo.circles.feature.create_group
+package com.futo.circles.feature.create_room
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
+import com.futo.circles.core.matrix.room.Circle
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
 import com.futo.circles.core.matrix.room.Group
 import com.futo.circles.extensions.Response
@@ -11,29 +12,29 @@ import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.model.UserListItem
 
-class CreateGroupViewModel(
+class CreateRoomViewModel(
     private val dataSource: CreateRoomDataSource
 ) : ViewModel() {
 
     val selectedImageLiveData = MutableLiveData<Uri>()
-    val createGroupResponseLiveData = SingleEventLiveData<Response<String>>()
+    val createRoomResponseLiveData = SingleEventLiveData<Response<String>>()
 
     fun setImageUri(uri: Uri) {
         selectedImageLiveData.value = uri
     }
 
-    fun createGroup(name: String, topic: String, users: List<UserListItem>) {
+    fun createRoom(name: String, topic: String, users: List<UserListItem>, isGroup: Boolean) {
         launchBg {
             val result = createResult {
                 dataSource.createCirclesRoom(
-                    circlesRoom = Group(),
+                    circlesRoom = if (isGroup) Group() else Circle(),
                     iconUri = selectedImageLiveData.value,
                     name = name,
-                    topic = topic,
+                    topic = if (isGroup) topic else null,
                     inviteIds = users.map { it.id }
                 )
             }
-            createGroupResponseLiveData.postValue(result)
+            createRoomResponseLiveData.postValue(result)
         }
     }
 

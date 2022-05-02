@@ -46,7 +46,7 @@ class UpdateRoomDialogFragment :
             tvEncryptionWarning.text =
                 context?.getString(if (isGroupUpdate) R.string.group_encryption_warning else R.string.circle_encryption_warning)
             topicViewGroup.setIsVisible(isGroupUpdate)
-            ivGroup.setOnClickListener { showImagePicker() }
+            ivCover.setOnClickListener { showImagePicker() }
             btnChangeIcon.setOnClickListener { showImagePicker() }
             tilName.editText?.doAfterTextChanged {
                 it?.let { onRoomDataChanged() }
@@ -66,7 +66,7 @@ class UpdateRoomDialogFragment :
 
     private fun setupObservers() {
         viewModel.selectedImageLiveData.observeData(this) {
-            binding.ivGroup.setImageURI(it)
+            binding.ivCover.setImageURI(it)
             onRoomDataChanged()
         }
         viewModel.updateGroupResponseLiveData.observeResponse(this,
@@ -93,7 +93,7 @@ class UpdateRoomDialogFragment :
     }
 
     private fun setInitialGroupData(room: RoomSummary) {
-        binding.ivGroup.loadProfileIcon(room.avatarUrl, room.displayName)
+        binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
         binding.tilName.editText?.setText(room.displayName)
         binding.tilTopic.editText?.setText(room.topic)
     }

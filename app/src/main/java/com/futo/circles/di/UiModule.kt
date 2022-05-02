@@ -3,8 +3,7 @@ package com.futo.circles.di
 import com.futo.circles.feature.circle_timeline.CircleTimelineViewModel
 import com.futo.circles.feature.circles.CirclesViewModel
 import com.futo.circles.feature.update_room.UpdateRoomViewModel
-import com.futo.circles.feature.create_circle.CreateCircleViewModel
-import com.futo.circles.feature.create_group.CreateGroupViewModel
+import com.futo.circles.feature.create_room.CreateRoomViewModel
 import com.futo.circles.feature.emoji.EmojiViewModel
 import com.futo.circles.feature.group_invite.InviteMembersViewModel
 import com.futo.circles.feature.group_members.ManageGroupMembersViewModel
@@ -34,7 +33,7 @@ val uiModule = module {
     viewModel { (roomId: String) -> InviteMembersViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> ManageGroupMembersViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String?) -> SelectUsersViewModel(get { parametersOf(roomId) }) }
-    viewModel { CreateGroupViewModel(get()) }
+    viewModel { CreateRoomViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { ValidateTokenViewModel(get()) }
     viewModel { SelectSignUpTypeViewModel(get()) }
@@ -53,6 +52,5 @@ val uiModule = module {
         ReportViewModel(get { parametersOf(roomId, eventId) })
     }
     viewModel { EmojiViewModel(get()) }
-    viewModel { CreateCircleViewModel(get()) }
     viewModel { (_: String) -> CircleTimelineViewModel() }
 }

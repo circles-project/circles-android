@@ -59,7 +59,7 @@
         app:layout_constraintGuide_end="8dp" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivGroup"
+        android:id="@+id/ivCover"
         android:layout_width="@dimen/group_icon_size"
         android:layout_height="@dimen/group_icon_size"
         android:layout_marginTop="16dp"
@@ -83,7 +83,7 @@
         app:icon="@drawable/ic_create"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/ivGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/ivCover" />
 
     <TextView
         android:id="@+id/tvNameHeader"
