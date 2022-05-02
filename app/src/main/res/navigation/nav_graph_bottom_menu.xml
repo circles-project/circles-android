@@ -10,13 +10,10 @@
         android:name="com.futo.circles.feature.home.HomeFragment"
         android:label="@string/welcome"
         tools:layout="@layout/home_fragment" />
-    <fragment
-        android:id="@+id/circlesFragment"
-        android:name="com.futo.circles.feature.circles.CirclesFragment"
-        android:label="@string/my_circles"
-        tools:layout="@layout/circles_fragment" />
 
     <include app:graph="@navigation/groups_nav_graph" />
+
+    <include app:graph="@navigation/circles_nav_graph" />
 
     <fragment
         android:id="@+id/peopleFragment"

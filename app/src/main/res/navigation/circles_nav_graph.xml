@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/circles_nav_graph"
+    app:startDestination="@id/circlesFragment">
+
+    <fragment
+        android:id="@+id/circlesFragment"
+        android:name="com.futo.circles.feature.circles.CirclesFragment"
+        android:label="@string/my_circles"
+        tools:layout="@layout/circles_fragment">
+        <action
+            android:id="@+id/to_createCircleDialogFragment"
+            app:destination="@id/createCircleDialogFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/createCircleDialogFragment"
+        android:name="com.futo.circles.feature.create_circle.CreateCircleDialogFragment"
+        android:label="CreateCircleDialogFragment"
+        tools:layout="@layout/create_circle_dialog_fragment" />
+
+</navigation>

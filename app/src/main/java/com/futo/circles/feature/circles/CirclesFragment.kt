@@ -3,6 +3,7 @@ package com.futo.circles.feature.circles
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
@@ -45,6 +46,6 @@ class CirclesFragment : Fragment(R.layout.circles_fragment) {
     }
 
     private fun navigateToCreateCircle() {
-
+        findNavController().navigate(CirclesFragmentDirections.toCreateCircleDialogFragment())
     }
 }
