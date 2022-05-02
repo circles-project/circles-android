@@ -13,6 +13,7 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.databinding.TimelineFragmentBinding
+import com.futo.circles.extensions.showDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -54,11 +55,21 @@ class CircleTimelineFragment : Fragment(R.layout.timeline_fragment) {
                 return true
             }
             R.id.deleteCircle -> {
-
+                showDeleteConfirmation()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showDeleteConfirmation() {
+        showDialog(
+            titleResIdRes = R.string.delete_circle,
+            messageResId = R.string.delete_circle_message,
+            positiveButtonRes = R.string.delete,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.deleteCircle() }
+        )
     }
 
     private fun navigateToInviteMembers() {

@@ -171,6 +171,7 @@
     <string name="delete_circle">Delete circle</string>
     <string name="my_followers">My followers</string>
     <string name="people_i_m_following">People I\'m following</string>
+    <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
