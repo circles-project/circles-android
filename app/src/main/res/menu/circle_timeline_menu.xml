@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/configureCircle"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/configure_circle" />
+
+    <item
+        android:id="@+id/myFollowers"
+        android:icon="@drawable/ic_outline_people"
+        android:title="@string/my_followers" />
+
+    <item
+        android:id="@+id/iFollowing"
+        android:icon="@drawable/ic_round_people"
+        android:title="@string/people_i_m_following" />
+
+    <item
+        android:id="@+id/inviteFollowers"
+        android:icon="@drawable/ic_invite"
+        android:title="@string/invite_followers" />
+
+    <item
+        android:id="@+id/deleteCircle"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/delete_circle" />
+
+</menu>
