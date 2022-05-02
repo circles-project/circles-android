@@ -7,7 +7,7 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/circlesFragment"
+        android:id="@+id/circles_nav_graph"
         android:icon="@drawable/ic_circles"
         android:title="@string/circles" />
 
