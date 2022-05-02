@@ -7,5 +7,5 @@ data class CircleListItem(
     val name: String,
     val followingCount: Int,
     val followedByCount: Int,
-    val avatarUrl: String,
+    val avatarUrl: String
 ) : IdEntity<String>
