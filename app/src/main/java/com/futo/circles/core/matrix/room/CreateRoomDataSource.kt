@@ -3,6 +3,7 @@ package com.futo.circles.core.matrix.room
 import android.content.Context
 import android.net.Uri
 import com.futo.circles.BuildConfig
+import com.futo.circles.model.CirclesRoom
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent

@@ -37,7 +37,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="Circle"
-                app:argType="com.futo.circles.core.matrix.room.CircleRoomTypeArg"
+                app:argType="com.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -61,7 +61,7 @@
 
         <argument
             android:name="type"
-            app:argType="com.futo.circles.core.matrix.room.CircleRoomTypeArg"
+            app:argType="com.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
     </dialog>

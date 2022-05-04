@@ -1,5 +1,9 @@
 package com.futo.circles.core.matrix.room
 
+import com.futo.circles.model.CirclesSpace
+import com.futo.circles.model.GroupsSpace
+import com.futo.circles.model.PhotosSpace
+import com.futo.circles.model.RootSpace
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope

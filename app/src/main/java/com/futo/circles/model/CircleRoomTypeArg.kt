@@ -1,3 +1,3 @@
-package com.futo.circles.core.matrix.room
+package com.futo.circles.model
 
 enum class CircleRoomTypeArg { Circle, Group }

@@ -9,7 +9,7 @@ import com.futo.circles.R
 import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
-import com.futo.circles.core.matrix.room.CircleRoomTypeArg
+import com.futo.circles.model.CircleRoomTypeArg
 import com.futo.circles.databinding.UpdateRoomDialogFragmentBinding
 import com.futo.circles.extensions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel

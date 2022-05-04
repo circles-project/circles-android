@@ -4,9 +4,9 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
-import com.futo.circles.core.matrix.room.Circle
+import com.futo.circles.model.Circle
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
-import com.futo.circles.core.matrix.room.Group
+import com.futo.circles.model.Group
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.launchBg
