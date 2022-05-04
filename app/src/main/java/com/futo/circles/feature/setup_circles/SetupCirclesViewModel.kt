@@ -3,7 +3,6 @@ package com.futo.circles.feature.setup_circles
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
-import com.futo.circles.model.Circle
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
@@ -25,8 +24,7 @@ class SetupCirclesViewModel(
             val response = createResult {
                 circlesLiveData.value?.map {
                     async {
-                        createRoomDataSource.createCirclesRoom(
-                            circlesRoom = Circle(),
+                        createRoomDataSource.createCircleWithTimeline(
                             name = it.name,
                             iconUri = it.coverUri
                         )
