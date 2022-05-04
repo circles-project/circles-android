@@ -30,6 +30,7 @@ val uiModule = module {
     viewModel { LogInViewModel(get()) }
     viewModel { GroupsViewModel() }
     viewModel { (roomId: String) -> GroupTimelineViewModel(get { parametersOf(roomId) }) }
+    viewModel { (roomId: String) -> CircleTimelineViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> InviteMembersViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> ManageGroupMembersViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String?) -> SelectUsersViewModel(get { parametersOf(roomId) }) }
@@ -52,5 +53,4 @@ val uiModule = module {
         ReportViewModel(get { parametersOf(roomId, eventId) })
     }
     viewModel { EmojiViewModel(get()) }
-    viewModel { (_: String) -> CircleTimelineViewModel() }
 }

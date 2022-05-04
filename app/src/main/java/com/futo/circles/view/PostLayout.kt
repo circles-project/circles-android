@@ -14,7 +14,7 @@ import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.model.*
 
 
-interface GroupPostListener {
+interface PostOptionsListener {
     fun onShowRepliesClicked(eventId: String)
     fun onShowEmoji(eventId: String)
     fun onReply(eventId: String, userName: String)
@@ -34,19 +34,19 @@ class PostLayout(
     private val binding =
         PostLayoutBinding.inflate(LayoutInflater.from(context), this)
 
-    private var listener: GroupPostListener? = null
+    private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
 
     init {
         binding.btnShowReplies.setOnClickListener {
-            post?.let { listener?.onShowRepliesClicked(it.id) }
+            post?.let { optionsListener?.onShowRepliesClicked(it.id) }
         }
     }
 
-    fun setListener(groupPostListener: GroupPostListener) {
-        listener = groupPostListener
-        binding.postFooter.setListener(groupPostListener)
-        binding.postHeader.setListener(groupPostListener)
+    fun setListener(postOptionsListener: PostOptionsListener) {
+        optionsListener = postOptionsListener
+        binding.postFooter.setListener(postOptionsListener)
+        binding.postHeader.setListener(postOptionsListener)
     }
 
 

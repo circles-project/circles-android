@@ -1,33 +1,25 @@
 package com.futo.circles.feature.circle_timeline
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
-import com.futo.circles.databinding.TimelineFragmentBinding
+import com.futo.circles.core.matrix.timeline.BaseTimelineFragment
 import com.futo.circles.extensions.getTimelineRoomFor
 import com.futo.circles.extensions.showDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
-class CircleTimelineFragment : Fragment(R.layout.timeline_fragment) {
+class CircleTimelineFragment : BaseTimelineFragment() {
 
     private val args: CircleTimelineFragmentArgs by navArgs()
-    private val viewModel by viewModel<CircleTimelineViewModel> { parametersOf(args.roomId) }
-    private val binding by viewBinding(TimelineFragmentBinding::bind)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
-    }
+    override val viewModel by viewModel<CircleTimelineViewModel> { parametersOf(args.roomId) }
+    override val roomId by lazy { args.roomId }
 
     @SuppressLint("RestrictedApi")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -61,6 +53,25 @@ class CircleTimelineFragment : Fragment(R.layout.timeline_fragment) {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
+    }
+
+    override fun navigateToCreatePost(userName: String?, eventId: String?) {
+        findNavController().navigate(
+            CircleTimelineFragmentDirections.toCreatePostBottomSheet(userName, eventId)
+        )
+    }
+
+    override fun navigateToEmojiPicker(eventId: String) {
+        findNavController().navigate(CircleTimelineFragmentDirections.toEmojiBottomSheet(eventId))
+    }
+
+    override fun navigateToReport(roomId: String, eventId: String) {
+        findNavController().navigate(
+            CircleTimelineFragmentDirections.toReportDialogFragment(args.roomId, eventId)
+        )
     }
 
     private fun showDeleteConfirmation() {

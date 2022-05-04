@@ -26,7 +26,7 @@ class GroupPostFooterView(
     private val binding =
         GroupPostFooterViewBinding.inflate(LayoutInflater.from(context), this)
 
-    private var listener: GroupPostListener? = null
+    private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
 
     init {
@@ -44,19 +44,19 @@ class GroupPostFooterView(
     private fun setupViews() {
         with(binding) {
             btnReply.setOnClickListener {
-                post?.let { listener?.onReply(it.id, it.postInfo.sender.disambiguatedDisplayName) }
+                post?.let { optionsListener?.onReply(it.id, it.postInfo.sender.disambiguatedDisplayName) }
             }
             btnShare.setOnClickListener {
-                post?.let { listener?.onShare(it.content) }
+                post?.let { optionsListener?.onShare(it.content) }
             }
             btnLike.setOnClickListener {
-                post?.let { listener?.onShowEmoji(it.id) }
+                post?.let { optionsListener?.onShowEmoji(it.id) }
             }
         }
     }
 
-    fun setListener(postListener: GroupPostListener) {
-        listener = postListener
+    fun setListener(postOptionsListener: PostOptionsListener) {
+        optionsListener = postOptionsListener
     }
 
     fun setData(data: Post, isReply: Boolean) {
@@ -88,7 +88,7 @@ class GroupPostFooterView(
                     text = title
                     setOnClickListener {
                         post?.let {
-                            listener?.onEmojiChipClicked(it.id, reaction.key, reaction.addedByMe)
+                            optionsListener?.onEmojiChipClicked(it.id, reaction.key, reaction.addedByMe)
                         }
                     }
                     isCheckable = true

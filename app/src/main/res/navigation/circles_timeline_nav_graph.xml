@@ -15,6 +15,7 @@
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
+
         <action
             android:id="@+id/to_inviteMembersDialogFragment"
             app:destination="@id/inviteMembersDialogFragment">
@@ -42,12 +43,64 @@
 
         </action>
 
+        <action
+            android:id="@+id/to_createPostBottomSheet"
+            app:destination="@id/createPostBottomSheet">
+
+            <argument
+                android:name="userName"
+                app:argType="string"
+                app:nullable="true" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_reportDialogFragment"
+            app:destination="@id/reportDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="true" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+        <action
+            android:id="@+id/to_emojiBottomSheet"
+            app:destination="@id/emojiBottomSheet">
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+
     </fragment>
+
     <dialog
         android:id="@+id/inviteMembersDialogFragment"
         android:name="com.futo.circles.feature.group_invite.InviteMembersDialogFragment"
         android:label="InviteMembersDialogFragment"
-        tools:layout="@layout/invite_members_dialog_fragment" />
+        tools:layout="@layout/invite_members_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
     <dialog
         android:id="@+id/updateRoomDialogFragment"
         android:name="com.futo.circles.feature.update_room.UpdateRoomDialogFragment"
@@ -65,4 +118,54 @@
             app:nullable="false" />
 
     </dialog>
+
+    <dialog
+        android:id="@+id/createPostBottomSheet"
+        android:name="com.futo.circles.feature.post.CreatePostBottomSheet"
+        android:label="CreatePostBottomSheet"
+        tools:layout="@layout/create_post_bottom_sheet">
+
+        <argument
+            android:name="userName"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="true" />
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/reportDialogFragment"
+        android:name="com.futo.circles.feature.report.ReportDialogFragment"
+        android:label="ReportDialogFragment"
+        tools:layout="@layout/report_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/emojiBottomSheet"
+        android:name="com.futo.circles.feature.emoji.EmojiBottomSheet"
+        android:label="EmojiBottomSheet"
+        tools:layout="@layout/emoji_bottom_sheet">
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
 </navigation>

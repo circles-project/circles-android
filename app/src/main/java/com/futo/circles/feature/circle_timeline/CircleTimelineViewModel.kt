@@ -1,8 +1,11 @@
 package com.futo.circles.feature.circle_timeline
 
-import androidx.lifecycle.ViewModel
+import com.futo.circles.core.matrix.timeline.BaseTimelineViewModel
+import com.futo.circles.feature.circle_timeline.data_source.CircleTimelineDataSource
 
-class CircleTimelineViewModel : ViewModel() {
+class CircleTimelineViewModel(
+    private val dataSource: CircleTimelineDataSource
+) : BaseTimelineViewModel(dataSource) {
 
     fun deleteCircle() {
 
