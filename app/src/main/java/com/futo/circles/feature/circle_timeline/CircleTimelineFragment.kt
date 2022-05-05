@@ -9,11 +9,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.futo.circles.R
 import com.futo.circles.core.matrix.timeline.BaseTimelineFragment
+import com.futo.circles.extensions.getCurrentUserPowerLevel
 import com.futo.circles.extensions.getTimelineRoomFor
+import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.extensions.showDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
+import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 class CircleTimelineFragment : BaseTimelineFragment() {
 
@@ -56,6 +59,8 @@ class CircleTimelineFragment : BaseTimelineFragment() {
     }
 
     override fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
+        val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
+        binding.fbCreatePost.setIsVisible(isUserAdmin)
     }
 
     override fun navigateToCreatePost(userName: String?, eventId: String?) {
