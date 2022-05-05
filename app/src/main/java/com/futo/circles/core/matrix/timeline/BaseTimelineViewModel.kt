@@ -48,8 +48,8 @@ abstract class BaseTimelineViewModel(
         }
     }
 
-    fun removeMessage(eventId: String) {
-        dataSource.removeMessage(eventId)
+    fun removeMessage(roomId: String, eventId: String) {
+        dataSource.removeMessage(roomId, eventId)
     }
 
     fun ignoreSender(senderId: String) {
@@ -65,23 +65,24 @@ abstract class BaseTimelineViewModel(
         }
     }
 
-    fun sendTextPost(message: String, threadEventId: String?) {
-        dataSource.sendTextMessage(message, threadEventId)
+    fun sendTextPost(roomId: String, message: String, threadEventId: String?) {
+        dataSource.sendTextMessage(roomId, message, threadEventId)
         if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 
-    fun sendImagePost(uri: Uri, threadEventId: String?) {
-        dataSource.sendImage(uri, threadEventId)
+    fun sendImagePost(roomId: String, uri: Uri, threadEventId: String?) {
+        dataSource.sendImage(roomId, uri, threadEventId)
         if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 
-    fun sendReaction(eventId: String, emoji: String) {
-        dataSource.sendReaction(eventId, emoji)
+    fun sendReaction(roomId: String, eventId: String, emoji: String) {
+        dataSource.sendReaction(roomId, eventId, emoji)
     }
 
-    fun unSendReaction(eventId: String, emoji: String) {
+    fun unSendReaction(roomId: String, eventId: String, emoji: String) {
         launchBg {
-            unSendReactionLiveData.postValue(dataSource.unSendReaction(eventId, emoji))
+            val result = dataSource.unSendReaction(roomId, eventId, emoji)
+            unSendReactionLiveData.postValue(result)
         }
     }
 }

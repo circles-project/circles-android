@@ -70,12 +70,17 @@ class GroupPostHeaderView(
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.delete -> optionsListener?.onRemove(unwrappedPost.id)
+                    R.id.delete -> optionsListener?.onRemove(
+                        unwrappedPost.postInfo.roomId, unwrappedPost.id
+                    )
                     R.id.ignore -> optionsListener?.onIgnore(unwrappedPost.postInfo.sender.userId)
                     R.id.save -> (unwrappedPost.content as? ImageContent)?.let {
                         optionsListener?.onSaveImage(it)
                     }
-                    R.id.report -> optionsListener?.onReport(unwrappedPost.id)
+                    R.id.report -> optionsListener?.onReport(
+                        unwrappedPost.postInfo.roomId,
+                        unwrappedPost.id
+                    )
                 }
                 true
             }

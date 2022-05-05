@@ -24,14 +24,18 @@ abstract class BaseTimelineFragment : Fragment(R.layout.timeline_fragment), Post
 
     abstract val viewModel: BaseTimelineViewModel
     abstract val roomId: String
+    abstract val timelineId: String
     protected val binding by viewBinding(TimelineFragmentBinding::bind)
     private val listAdapter by lazy {
         TimelineAdapter(getCurrentUserPowerLevel(roomId), this) { viewModel.loadMore() }
     }
 
     abstract fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent)
-    abstract fun navigateToCreatePost(userName: String? = null, eventId: String? = null)
-    abstract fun navigateToEmojiPicker(eventId: String)
+    abstract fun navigateToCreatePost(
+        roomId: String, userName: String? = null, eventId: String? = null
+    )
+
+    abstract fun navigateToEmojiPicker(roomId: String, eventId: String)
     abstract fun navigateToReport(roomId: String, eventId: String)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +53,7 @@ abstract class BaseTimelineFragment : Fragment(R.layout.timeline_fragment), Post
             )
             bindToFab(binding.fbCreatePost)
         }
-        binding.fbCreatePost.setOnClickListener { navigateToCreatePost() }
+        binding.fbCreatePost.setOnClickListener { navigateToCreatePost(timelineId) }
     }
 
     protected open fun setupObservers() {
@@ -84,25 +88,25 @@ abstract class BaseTimelineFragment : Fragment(R.layout.timeline_fragment), Post
         viewModel.toggleRepliesVisibilityFor(eventId)
     }
 
-    override fun onShowEmoji(eventId: String) {
-        navigateToEmojiPicker(eventId)
+    override fun onShowEmoji(roomId: String, eventId: String) {
+        navigateToEmojiPicker(roomId, eventId)
     }
 
-    override fun onReply(eventId: String, userName: String) {
-        navigateToCreatePost(userName, eventId)
+    override fun onReply(roomId: String, eventId: String, userName: String) {
+        navigateToCreatePost(roomId, userName, eventId)
     }
 
     override fun onShare(content: PostContent) {
         viewModel.sharePostContent(content)
     }
 
-    override fun onRemove(eventId: String) {
+    override fun onRemove(roomId: String, eventId: String) {
         showDialog(
             titleResIdRes = R.string.remove_post,
             messageResId = R.string.remove_post_message,
             positiveButtonRes = R.string.remove,
             negativeButtonVisible = true,
-            positiveAction = { viewModel.removeMessage(eventId) }
+            positiveAction = { viewModel.removeMessage(roomId, eventId) }
         )
     }
 
@@ -120,24 +124,26 @@ abstract class BaseTimelineFragment : Fragment(R.layout.timeline_fragment), Post
         viewModel.saveImage(imageContent)
     }
 
-    override fun onReport(eventId: String) {
+    override fun onReport(roomId: String, eventId: String) {
         navigateToReport(roomId, eventId)
     }
 
-    override fun onEmojiChipClicked(eventId: String, emoji: String, isUnSend: Boolean) {
-        if (isUnSend) viewModel.unSendReaction(eventId, emoji)
-        else viewModel.sendReaction(eventId, emoji)
+    override fun onEmojiChipClicked(
+        roomId: String, eventId: String, emoji: String, isUnSend: Boolean
+    ) {
+        if (isUnSend) viewModel.unSendReaction(roomId, eventId, emoji)
+        else viewModel.sendReaction(roomId, eventId, emoji)
     }
 
-    override fun onSendTextPost(message: String, threadEventId: String?) {
-        viewModel.sendTextPost(message, threadEventId)
+    override fun onSendTextPost(roomId: String, message: String, threadEventId: String?) {
+        viewModel.sendTextPost(roomId, message, threadEventId)
     }
 
-    override fun onSendImagePost(uri: Uri, threadEventId: String?) {
-        viewModel.sendImagePost(uri, threadEventId)
+    override fun onSendImagePost(roomId: String, uri: Uri, threadEventId: String?) {
+        viewModel.sendImagePost(roomId, uri, threadEventId)
     }
 
-    override fun onEmojiSelected(eventId: String, emoji: String) {
-        viewModel.sendReaction(eventId, emoji)
+    override fun onEmojiSelected(roomId: String, eventId: String, emoji: String) {
+        viewModel.sendReaction(roomId, eventId, emoji)
     }
 }

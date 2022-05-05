@@ -57,6 +57,11 @@
             app:destination="@id/createPostBottomSheet">
 
             <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
                 android:name="userName"
                 app:argType="string"
                 app:nullable="true" />
@@ -74,17 +79,22 @@
             <argument
                 android:name="roomId"
                 app:argType="string"
-                app:nullable="true" />
+                app:nullable="false" />
 
             <argument
                 android:name="eventId"
                 app:argType="string"
-                app:nullable="true" />
+                app:nullable="false" />
 
         </action>
         <action
             android:id="@+id/to_emojiBottomSheet"
             app:destination="@id/emojiBottomSheet">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
 
             <argument
                 android:name="eventId"
@@ -186,6 +196,11 @@
         tools:layout="@layout/create_post_bottom_sheet">
 
         <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
             android:name="userName"
             app:argType="string"
             app:nullable="true" />
@@ -205,7 +220,7 @@
         <argument
             android:name="roomId"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="false" />
 
         <argument
             android:name="eventId"
@@ -218,6 +233,11 @@
         android:name="com.futo.circles.feature.emoji.EmojiBottomSheet"
         android:label="EmojiBottomSheet"
         tools:layout="@layout/emoji_bottom_sheet">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
 
         <argument
             android:name="eventId"

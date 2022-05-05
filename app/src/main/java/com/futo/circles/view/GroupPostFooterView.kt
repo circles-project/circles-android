@@ -44,13 +44,19 @@ class GroupPostFooterView(
     private fun setupViews() {
         with(binding) {
             btnReply.setOnClickListener {
-                post?.let { optionsListener?.onReply(it.id, it.postInfo.sender.disambiguatedDisplayName) }
+                post?.let {
+                    optionsListener?.onReply(
+                        it.postInfo.roomId,
+                        it.id,
+                        it.postInfo.sender.disambiguatedDisplayName
+                    )
+                }
             }
             btnShare.setOnClickListener {
                 post?.let { optionsListener?.onShare(it.content) }
             }
             btnLike.setOnClickListener {
-                post?.let { optionsListener?.onShowEmoji(it.id) }
+                post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
             }
         }
     }
@@ -88,7 +94,12 @@ class GroupPostFooterView(
                     text = title
                     setOnClickListener {
                         post?.let {
-                            optionsListener?.onEmojiChipClicked(it.id, reaction.key, reaction.addedByMe)
+                            optionsListener?.onEmojiChipClicked(
+                                it.postInfo.roomId,
+                                it.id,
+                                reaction.key,
+                                reaction.addedByMe
+                            )
                         }
                     }
                     isCheckable = true

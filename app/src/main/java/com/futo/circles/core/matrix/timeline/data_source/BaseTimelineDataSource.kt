@@ -77,16 +77,6 @@ abstract class BaseTimelineDataSource(
         timeline?.restartWithEventId(null)
     }
 
-    fun sendTextMessage(message: String, threadEventId: String?) {
-        threadEventId?.let { room?.replyInThread(it, message) } ?: room?.sendTextMessage(message)
-    }
-
-    fun sendImage(uri: Uri, threadEventId: String?) {
-        uri.toImageContentAttachmentData(context)?.let {
-            room?.sendMedia(it, true, emptySet(), threadEventId)
-        }
-    }
-
     suspend fun getShareableContent(content: PostContent) = withContext(Dispatchers.IO) {
         when (content) {
             is ImageContent -> {
@@ -102,20 +92,36 @@ abstract class BaseTimelineDataSource(
         b.saveImageToGallery(context)
     }
 
-    fun removeMessage(eventId: String) {
-        room?.getTimelineEvent(eventId)?.let { room.redactEvent(it.root, null) }
-    }
-
     suspend fun ignoreSender(userId: String) = createResult {
         MatrixSessionProvider.currentSession?.ignoreUserIds(listOf(userId))
     }
 
-    fun sendReaction(eventId: String, emoji: String) {
-        room?.sendReaction(eventId, emoji)
+    fun sendTextMessage(roomId: String, message: String, threadEventId: String?) {
+        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        threadEventId?.let { roomForMessage?.replyInThread(it, message) }
+            ?: roomForMessage?.sendTextMessage(message)
     }
 
-    suspend fun unSendReaction(eventId: String, emoji: String) = createResult {
-        room?.undoReaction(eventId, emoji)
+    fun sendImage(roomId: String, uri: Uri, threadEventId: String?) {
+        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        uri.toImageContentAttachmentData(context)?.let {
+            roomForMessage?.sendMedia(it, true, emptySet(), threadEventId)
+        }
+    }
+
+    fun removeMessage(roomId: String, eventId: String) {
+        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        roomForMessage?.getTimelineEvent(eventId)?.let { roomForMessage.redactEvent(it.root, null) }
+    }
+
+    fun sendReaction(roomId: String, eventId: String, emoji: String) {
+        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        roomForMessage?.sendReaction(eventId, emoji)
+    }
+
+    suspend fun unSendReaction(roomId: String, eventId: String, emoji: String) = createResult {
+        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        roomForMessage?.undoReaction(eventId, emoji)
     }
 
     companion object {

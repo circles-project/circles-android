@@ -19,8 +19,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 interface CreatePostListener {
-    fun onSendTextPost(message: String, threadEventId: String?)
-    fun onSendImagePost(uri: Uri, threadEventId: String?)
+    fun onSendTextPost(roomId: String, message: String, threadEventId: String?)
+    fun onSendImagePost(roomId: String, uri: Uri, threadEventId: String?)
 }
 
 class CreatePostBottomSheet : BottomSheetDialogFragment() {
@@ -94,10 +94,11 @@ class CreatePostBottomSheet : BottomSheetDialogFragment() {
 
     private fun sendPost() {
         if (viewModel.isImagePostSelected()) {
-            viewModel.getImageUri()?.let { createPostListener?.onSendImagePost(it, args.eventId) }
+            viewModel.getImageUri()
+                ?.let { createPostListener?.onSendImagePost(args.roomId, it, args.eventId) }
         } else {
             binding?.vPostPreview?.getText()
-                ?.let { createPostListener?.onSendTextPost(it, args.eventId) }
+                ?.let { createPostListener?.onSendTextPost(args.roomId, it, args.eventId) }
         }
     }
 

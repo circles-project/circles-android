@@ -20,6 +20,7 @@ class GroupTimelineFragment : BaseTimelineFragment() {
     private val args: GroupTimelineFragmentArgs by navArgs()
     override val viewModel by viewModel<GroupTimelineViewModel> { parametersOf(args.roomId) }
     override val roomId by lazy { args.roomId }
+    override val timelineId by lazy { args.roomId }
     private var isSettingAvailable = false
     private var isInviteAvailable = false
 
@@ -69,19 +70,21 @@ class GroupTimelineFragment : BaseTimelineFragment() {
         activity?.invalidateOptionsMenu()
     }
 
-    override fun navigateToCreatePost(userName: String?, eventId: String?) {
+    override fun navigateToCreatePost(roomId: String, userName: String?, eventId: String?) {
         findNavController().navigate(
-            GroupTimelineFragmentDirections.toCreatePostBottomSheet(userName, eventId)
+            GroupTimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId)
         )
     }
 
-    override fun navigateToEmojiPicker(eventId: String) {
-        findNavController().navigate(GroupTimelineFragmentDirections.toEmojiBottomSheet(eventId))
+    override fun navigateToEmojiPicker(roomId: String, eventId: String) {
+        findNavController().navigate(
+            GroupTimelineFragmentDirections.toEmojiBottomSheet(roomId, eventId)
+        )
     }
 
     override fun navigateToReport(roomId: String, eventId: String) {
         findNavController().navigate(
-            GroupTimelineFragmentDirections.toReportDialogFragment(args.roomId, eventId)
+            GroupTimelineFragmentDirections.toReportDialogFragment(roomId, eventId)
         )
     }
 

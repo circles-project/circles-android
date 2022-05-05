@@ -23,6 +23,11 @@ class CircleTimelineFragment : BaseTimelineFragment() {
     private val args: CircleTimelineFragmentArgs by navArgs()
     override val viewModel by viewModel<CircleTimelineViewModel> { parametersOf(args.roomId) }
     override val roomId by lazy { args.roomId }
+    override val timelineId by lazy {
+        getTimelineRoomFor(args.roomId)?.roomId ?: throw IllegalArgumentException(
+            requireContext().getString(R.string.timeline_not_found)
+        )
+    }
 
     @SuppressLint("RestrictedApi")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -63,19 +68,21 @@ class CircleTimelineFragment : BaseTimelineFragment() {
         binding.fbCreatePost.setIsVisible(isUserAdmin)
     }
 
-    override fun navigateToCreatePost(userName: String?, eventId: String?) {
+    override fun navigateToCreatePost(roomId: String, userName: String?, eventId: String?) {
         findNavController().navigate(
-            CircleTimelineFragmentDirections.toCreatePostBottomSheet(userName, eventId)
+            CircleTimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId)
         )
     }
 
-    override fun navigateToEmojiPicker(eventId: String) {
-        findNavController().navigate(CircleTimelineFragmentDirections.toEmojiBottomSheet(eventId))
+    override fun navigateToEmojiPicker(roomId: String, eventId: String) {
+        findNavController().navigate(
+            CircleTimelineFragmentDirections.toEmojiBottomSheet(roomId, eventId)
+        )
     }
 
     override fun navigateToReport(roomId: String, eventId: String) {
         findNavController().navigate(
-            CircleTimelineFragmentDirections.toReportDialogFragment(args.roomId, eventId)
+            CircleTimelineFragmentDirections.toReportDialogFragment(roomId, eventId)
         )
     }
 
@@ -90,9 +97,8 @@ class CircleTimelineFragment : BaseTimelineFragment() {
     }
 
     private fun navigateToInviteMembers() {
-        val timelineRoomId = getTimelineRoomFor(args.roomId)?.roomId ?: return
         findNavController().navigate(
-            CircleTimelineFragmentDirections.toInviteMembersDialogFragment(timelineRoomId)
+            CircleTimelineFragmentDirections.toInviteMembersDialogFragment(timelineId)
         )
     }
 
