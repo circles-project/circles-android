@@ -1,4 +1,4 @@
-package com.futo.circles.feature.group_timeline.list
+package com.futo.circles.core.matrix.timeline.list
 
 import android.util.Size
 import android.view.View
@@ -16,11 +16,11 @@ import com.futo.circles.model.Post
 import com.futo.circles.model.PostItemPayload
 import com.futo.circles.model.TextContent
 import com.futo.circles.provider.MatrixSessionProvider
-import com.futo.circles.view.GroupPostListener
+import com.futo.circles.view.PostOptionsListener
 import com.futo.circles.view.PostLayout
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
-sealed class GroupPostViewHolder(view: View, private val userPowerLevel: Int) :
+sealed class PostViewHolder(view: View, private val userPowerLevel: Int) :
     RecyclerView.ViewHolder(view) {
 
     abstract val postLayout: PostLayout
@@ -36,9 +36,9 @@ sealed class GroupPostViewHolder(view: View, private val userPowerLevel: Int) :
 
 class TextPostViewHolder(
     parent: ViewGroup,
-    postListener: GroupPostListener,
+    postOptionsListener: PostOptionsListener,
     userPowerLevel: Int
-) : GroupPostViewHolder(inflate(parent, TextPostViewBinding::inflate), userPowerLevel) {
+) : PostViewHolder(inflate(parent, TextPostViewBinding::inflate), userPowerLevel) {
 
     private companion object : ViewBindingHolder
 
@@ -46,7 +46,7 @@ class TextPostViewHolder(
     override val postLayout: PostLayout = binding.lTextPost
 
     init {
-        binding.lTextPost.setListener(postListener)
+        binding.lTextPost.setListener(postOptionsListener)
     }
 
     override fun bind(post: Post) {
@@ -60,9 +60,9 @@ class TextPostViewHolder(
 
 class ImagePostViewHolder(
     parent: ViewGroup,
-    postListener: GroupPostListener,
+    postOptionsListener: PostOptionsListener,
     userPowerLevel: Int
-) : GroupPostViewHolder(inflate(parent, ImagePostViewBinding::inflate), userPowerLevel) {
+) : PostViewHolder(inflate(parent, ImagePostViewBinding::inflate), userPowerLevel) {
 
     private companion object : ViewBindingHolder
 
@@ -73,7 +73,7 @@ class ImagePostViewHolder(
     private var listener: ContentUploadStateTracker.UpdateListener? = null
 
     init {
-        binding.lImagePost.setListener(postListener)
+        binding.lImagePost.setListener(postOptionsListener)
     }
 
     override fun bind(post: Post) {

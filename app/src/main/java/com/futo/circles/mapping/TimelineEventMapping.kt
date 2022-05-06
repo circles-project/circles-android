@@ -20,6 +20,7 @@ fun TimelineEvent.toPost(
 
 private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     id = eventId,
+    roomId = roomId,
     isEncrypted = isEncrypted(),
     timestamp = root.originServerTs ?: System.currentTimeMillis(),
     sender = senderInfo,

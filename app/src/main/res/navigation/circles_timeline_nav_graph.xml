@@ -2,13 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/group_time_line_nav_graph"
-    app:startDestination="@id/groupTimelineFragment">
-
+    android:id="@+id/circles_timeline_nav_graph"
+    app:startDestination="@id/circleTimelineFragment">
 
     <fragment
-        android:id="@+id/groupTimelineFragment"
-        android:name="com.futo.circles.feature.group_timeline.GroupTimelineFragment"
+        android:id="@+id/circleTimelineFragment"
+        android:name="com.futo.circles.feature.circle_timeline.CircleTimelineFragment"
+        android:label="CircleTimelineFragment"
         tools:layout="@layout/timeline_fragment">
 
         <argument
@@ -27,16 +27,6 @@
 
         </action>
         <action
-            android:id="@+id/to_manageMembersDialogFragment"
-            app:destination="@id/manageMembersDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
-        <action
             android:id="@+id/to_updateRoomDialogFragment"
             app:destination="@id/updateRoomDialogFragment">
 
@@ -47,11 +37,12 @@
 
             <argument
                 android:name="type"
-                android:defaultValue="Group"
+                android:defaultValue="Circle"
                 app:argType="com.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
+
         <action
             android:id="@+id/to_createPostBottomSheet"
             app:destination="@id/createPostBottomSheet">
@@ -72,6 +63,7 @@
                 app:nullable="true" />
 
         </action>
+
         <action
             android:id="@+id/to_reportDialogFragment"
             app:destination="@id/reportDialogFragment">
@@ -103,11 +95,13 @@
 
         </action>
 
+
     </fragment>
 
     <dialog
         android:id="@+id/inviteMembersDialogFragment"
         android:name="com.futo.circles.feature.group_invite.InviteMembersDialogFragment"
+        android:label="InviteMembersDialogFragment"
         tools:layout="@layout/invite_members_dialog_fragment">
 
         <argument
@@ -117,60 +111,6 @@
 
     </dialog>
 
-    <dialog
-        android:id="@+id/manageMembersDialogFragment"
-        android:name="com.futo.circles.feature.group_members.ManageGroupMembersDialogFragment"
-        tools:layout="@layout/manage_group_members_dialog_fragment">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <action
-            android:id="@+id/to_changeAccessLevelBottomSheet"
-            app:destination="@id/changeAccessLevelBottomSheet">
-
-            <argument
-                android:name="userId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="myUserLevelValue"
-                app:argType="integer"
-                app:nullable="false" />
-
-            <argument
-                android:name="levelValue"
-                app:argType="integer"
-                app:nullable="false" />
-
-        </action>
-
-    </dialog>
-    <dialog
-        android:id="@+id/changeAccessLevelBottomSheet"
-        android:name="com.futo.circles.feature.group_members.change_role.ChangeAccessLevelBottomSheet"
-        android:label="ChangeAccessLevelBottomSheet"
-        tools:layout="@layout/change_access_level_bottom_sheet">
-
-        <argument
-            android:name="userId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="myUserLevelValue"
-            app:argType="integer"
-            app:nullable="false" />
-
-        <argument
-            android:name="levelValue"
-            app:argType="integer"
-            app:nullable="false" />
-
-    </dialog>
     <dialog
         android:id="@+id/updateRoomDialogFragment"
         android:name="com.futo.circles.feature.update_room.UpdateRoomDialogFragment"
@@ -187,8 +127,8 @@
             app:argType="com.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
-
     </dialog>
+
     <dialog
         android:id="@+id/createPostBottomSheet"
         android:name="com.futo.circles.feature.post.CreatePostBottomSheet"
@@ -211,6 +151,7 @@
             app:nullable="true" />
 
     </dialog>
+
     <dialog
         android:id="@+id/reportDialogFragment"
         android:name="com.futo.circles.feature.report.ReportDialogFragment"
@@ -228,6 +169,7 @@
             app:nullable="false" />
 
     </dialog>
+
     <dialog
         android:id="@+id/emojiBottomSheet"
         android:name="com.futo.circles.feature.emoji.EmojiBottomSheet"
@@ -245,4 +187,5 @@
             app:nullable="false" />
 
     </dialog>
+
 </navigation>

@@ -24,7 +24,7 @@ class GroupPostHeaderView(
     private val binding =
         GroupPostHeaderViewBinding.inflate(LayoutInflater.from(context), this)
 
-    private var listener: GroupPostListener? = null
+    private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
     private var userPowerLevel: Int = Role.Default.value
 
@@ -33,8 +33,8 @@ class GroupPostHeaderView(
         setupViews()
     }
 
-    fun setListener(postListener: GroupPostListener) {
-        listener = postListener
+    fun setListener(postOptionsListener: PostOptionsListener) {
+        optionsListener = postOptionsListener
     }
 
     fun setData(data: Post, powerLevel: Int) {
@@ -70,12 +70,17 @@ class GroupPostHeaderView(
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.delete -> listener?.onRemove(unwrappedPost.id)
-                    R.id.ignore -> listener?.onIgnore(unwrappedPost.postInfo.sender.userId)
+                    R.id.delete -> optionsListener?.onRemove(
+                        unwrappedPost.postInfo.roomId, unwrappedPost.id
+                    )
+                    R.id.ignore -> optionsListener?.onIgnore(unwrappedPost.postInfo.sender.userId)
                     R.id.save -> (unwrappedPost.content as? ImageContent)?.let {
-                        listener?.onSaveImage(it)
+                        optionsListener?.onSaveImage(it)
                     }
-                    R.id.report -> listener?.onReport(unwrappedPost.id)
+                    R.id.report -> optionsListener?.onReport(
+                        unwrappedPost.postInfo.roomId,
+                        unwrappedPost.id
+                    )
                 }
                 true
             }

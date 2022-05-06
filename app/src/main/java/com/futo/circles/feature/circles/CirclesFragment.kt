@@ -42,10 +42,10 @@ class CirclesFragment : Fragment(R.layout.circles_fragment) {
     }
 
     private fun onCircleListItemClicked(room: CircleListItem) {
-
+        findNavController().navigate(CirclesFragmentDirections.toCirclesTimelineNavGraph(room.id))
     }
 
     private fun navigateToCreateCircle() {
-        findNavController().navigate(CirclesFragmentDirections.toCreateCircleDialogFragment())
+        findNavController().navigate(CirclesFragmentDirections.toCreateRoomDialogFragment())
     }
 }

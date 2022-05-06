@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -14,19 +15,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="@string/create_new_circle"
         app:titleCentered="true"
-        app:titleMarginEnd="72dp">
+        app:titleMarginEnd="72dp"
+        tools:title="@string/configure_group">
 
         <com.futo.circles.view.LoadingButton
-            android:id="@+id/btnCreate"
+            android:id="@+id/btnSave"
             android:layout_width="56dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_marginVertical="8dp"
             android:layout_marginEnd="8dp"
             android:enabled="false"
-            android:text="@string/create"
+            android:text="@string/save"
             android:textSize="13sp"
             app:textPadding="1dp" />
 
@@ -58,7 +59,7 @@
         app:layout_constraintGuide_end="8dp" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivCircle"
+        android:id="@+id/ivCover"
         android:layout_width="@dimen/group_icon_size"
         android:layout_height="@dimen/group_icon_size"
         android:layout_marginTop="16dp"
@@ -70,6 +71,19 @@
         app:layout_constraintTop_toBottomOf="@id/toolbarDivider"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeIcon"
+        style="@style/NegativeButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxHeight="40dp"
+        android:text="@string/change_icon"
+        android:textSize="12sp"
+        app:icon="@drawable/ic_create"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@+id/ivCover" />
 
     <TextView
         android:id="@+id/tvNameHeader"
@@ -77,13 +91,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/circle_name"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/ivCircle" />
+        app:layout_constraintTop_toBottomOf="@id/btnChangeIcon"
+        tools:text="@string/group_name" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilCircleName"
+        android:id="@+id/tilName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -103,26 +117,60 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <TextView
-        android:id="@+id/tvInviteFollowers"
+        android:id="@+id/tvTopicHeader"
         style="@style/headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/invite_followers"
+        android:text="@string/group_topic"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tilCircleName" />
+        app:layout_constraintTop_toBottomOf="@id/tilName" />
 
-
-    <FrameLayout
-        android:id="@+id/lContainer"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilTopic"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvInviteFollowers" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tvTopicHeader">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="12dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/topicViewGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tilTopic,tvTopicHeader"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvEncryptionWarning"
+        style="@style/footNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/yellow"
+        app:drawableStartCompat="@drawable/ic_info"
+        app:drawableTint="@color/yellow"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/tilTopic"
+        tools:text="@string/group_encryption_warning" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

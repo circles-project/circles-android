@@ -7,10 +7,11 @@ import com.futo.circles.model.CircleListItemPayload
 
 class CirclesListAdapter(
     private val onCircleClicked: (CircleListItem) -> Unit
-) : BaseRvAdapter<CircleListItem, CircleViewHolder>(PayloadIdEntityCallback { _, new ->
+) : BaseRvAdapter<CircleListItem, CircleViewHolder>(PayloadIdEntityCallback { old, new ->
     CircleListItemPayload(
         followersCount = new.followingCount,
-        followedByCount = new.followedByCount
+        followedByCount = new.followedByCount,
+        needUpdateFullItem = new.name != old.name || new.avatarUrl != old.avatarUrl
     )
 }) {
     override fun onCreateViewHolder(
@@ -34,7 +35,12 @@ class CirclesListAdapter(
             super.onBindViewHolder(holder, position, payloads)
         } else {
             payloads.forEach {
-                (it as? CircleListItemPayload)?.let { payload -> holder.bindPayload(payload) }
+                (it as? CircleListItemPayload)?.let { payload ->
+                    if (payload.needUpdateFullItem)
+                        holder.bind(getItem(position))
+                    else
+                        holder.bindPayload(payload)
+                }
             }
         }
     }

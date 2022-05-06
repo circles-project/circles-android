@@ -2,7 +2,7 @@ package com.futo.circles.feature.groups
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.futo.circles.core.matrix.room.GROUP_TYPE
+import com.futo.circles.model.GROUP_TYPE
 import com.futo.circles.mapping.toGroupListItem
 import com.futo.circles.model.GroupListItem
 import com.futo.circles.provider.MatrixSessionProvider

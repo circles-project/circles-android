@@ -19,7 +19,7 @@ import com.google.android.material.tabs.TabLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 interface EmojiPickerListener {
-    fun onEmojiSelected(eventId: String, emoji: String)
+    fun onEmojiSelected(roomId: String, eventId: String, emoji: String)
 }
 
 class EmojiBottomSheet : BottomSheetDialogFragment() {
@@ -68,7 +68,7 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun onEmojiSelected(emojiItem: EmojiItem) {
-        emojiPickerListener?.onEmojiSelected(args.eventId, emojiItem.emoji)
+        emojiPickerListener?.onEmojiSelected(args.roomId, args.eventId, emojiItem.emoji)
         dismiss()
     }
 

@@ -3,6 +3,10 @@ package com.futo.circles.core.matrix.room
 import android.content.Context
 import android.net.Uri
 import com.futo.circles.BuildConfig
+import com.futo.circles.R
+import com.futo.circles.model.Circle
+import com.futo.circles.model.CirclesRoom
+import com.futo.circles.model.Timeline
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -17,20 +21,32 @@ class CreateRoomDataSource(private val context: Context) {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 
-    suspend fun createCirclesRoom(
+    suspend fun createCircleWithTimeline(
+        name: String? = null,
+        iconUri: Uri? = null,
+        inviteIds: List<String>? = null
+    ): String {
+        val circleId = createRoom(Circle(), name, null, iconUri, inviteIds)
+        val timelineName = context.getString(R.string.timeline_name_formatter, name)
+        val timelineId = createRoom(Timeline(), timelineName)
+        session?.getRoom(circleId)?.let { circle -> setRelations(timelineId, circle) }
+        return circleId
+    }
+
+    suspend fun createRoom(
         circlesRoom: CirclesRoom,
         name: String? = null,
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null
     ): String {
-
         val id = session?.createRoom(getParams(circlesRoom, name, topic, iconUri, inviteIds))
             ?: throw Exception("Can not create room")
 
         session?.getRoom(id)?.addTag(circlesRoom.tag, null)
-        circlesRoom.parentTag?.let { setRelations(id, it) }
-
+        circlesRoom.parentTag?.let { tag ->
+            findRoomByTag(tag)?.let { room -> setRelations(id, room) }
+        }
         return id
     }
 
@@ -63,8 +79,7 @@ class CreateRoomDataSource(private val context: Context) {
         }
     }
 
-    private suspend fun setRelations(childId: String, parentTag: String) {
-        val parentRoom = findRoomByTag(parentTag) ?: return
+    private suspend fun setRelations(childId: String, parentRoom: Room) {
         val via = listOf(getHomeServerDomain())
         session?.spaceService()?.setSpaceParent(childId, parentRoom.roomId, true, via)
         parentRoom.asSpace()?.addChildren(childId, via, null)

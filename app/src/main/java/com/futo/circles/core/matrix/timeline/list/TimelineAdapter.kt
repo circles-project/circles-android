@@ -1,4 +1,4 @@
-package com.futo.circles.feature.group_timeline.list
+package com.futo.circles.core.matrix.timeline.list
 
 import android.view.ViewGroup
 import com.futo.circles.core.list.BaseRvAdapter
@@ -6,13 +6,13 @@ import com.futo.circles.model.Post
 import com.futo.circles.model.PostContentType
 import com.futo.circles.model.PostItemPayload
 import com.futo.circles.model.RootPost
-import com.futo.circles.view.GroupPostListener
+import com.futo.circles.view.PostOptionsListener
 
-class GroupTimelineAdapter(
+class TimelineAdapter(
     private val userPowerLevel: Int,
-    private val postListener: GroupPostListener,
+    private val postOptionsListener: PostOptionsListener,
     private val onLoadMore: () -> Unit
-) : BaseRvAdapter<Post, GroupPostViewHolder>(PayloadIdEntityCallback { old, new ->
+) : BaseRvAdapter<Post, PostViewHolder>(PayloadIdEntityCallback { old, new ->
     (new as? RootPost)?.let { rootPost ->
         PostItemPayload(
             repliesCount = rootPost.getRepliesCount(),
@@ -28,22 +28,22 @@ class GroupTimelineAdapter(
         return getItem(position).content.type.ordinal
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupPostViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return when (PostContentType.values()[viewType]) {
-            PostContentType.TEXT_CONTENT -> TextPostViewHolder(parent, postListener, userPowerLevel)
+            PostContentType.TEXT_CONTENT -> TextPostViewHolder(parent, postOptionsListener, userPowerLevel)
             PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(
-                parent, postListener, userPowerLevel
+                parent, postOptionsListener, userPowerLevel
             )
         }
     }
 
-    override fun onBindViewHolder(holder: GroupPostViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         holder.bind(getItem(position))
         if (position >= itemCount - LOAD_MORE_THRESHOLD) onLoadMore()
     }
 
     override fun onBindViewHolder(
-        holder: GroupPostViewHolder,
+        holder: PostViewHolder,
         position: Int,
         payloads: MutableList<Any>
     ) {
@@ -61,7 +61,7 @@ class GroupTimelineAdapter(
         }
     }
 
-    override fun onViewDetachedFromWindow(holder: GroupPostViewHolder) {
+    override fun onViewDetachedFromWindow(holder: PostViewHolder) {
         super.onViewDetachedFromWindow(holder)
         (holder as? ImagePostViewHolder)?.unTrack()
     }

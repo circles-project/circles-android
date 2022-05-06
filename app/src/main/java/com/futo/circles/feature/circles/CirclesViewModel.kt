@@ -2,7 +2,7 @@ package com.futo.circles.feature.circles
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.futo.circles.core.matrix.room.CIRCLE_TAG
+import com.futo.circles.model.CIRCLE_TAG
 import com.futo.circles.mapping.toCircleListItem
 import com.futo.circles.model.CircleListItem
 import com.futo.circles.provider.MatrixSessionProvider

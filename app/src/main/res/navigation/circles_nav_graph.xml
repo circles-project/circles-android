@@ -10,15 +10,44 @@
         android:name="com.futo.circles.feature.circles.CirclesFragment"
         android:label="@string/my_circles"
         tools:layout="@layout/circles_fragment">
+
         <action
-            android:id="@+id/to_createCircleDialogFragment"
-            app:destination="@id/createCircleDialogFragment" />
+            android:id="@+id/to_circles_timeline_nav_graph"
+            app:destination="@id/circles_timeline_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_createRoomDialogFragment"
+            app:destination="@id/createRoomDialogFragment">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
+    <include app:graph="@navigation/circles_timeline_nav_graph" />
+
     <dialog
-        android:id="@+id/createCircleDialogFragment"
-        android:name="com.futo.circles.feature.create_circle.CreateCircleDialogFragment"
+        android:id="@+id/createRoomDialogFragment"
+        android:name="com.futo.circles.feature.create_room.CreateRoomDialogFragment"
         android:label="CreateCircleDialogFragment"
-        tools:layout="@layout/create_circle_dialog_fragment" />
+        tools:layout="@layout/create_room_dialog_fragment">
+
+        <argument
+            android:name="type"
+            app:argType="com.futo.circles.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+    </dialog>
 
 </navigation>
