@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
+import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
@@ -35,34 +36,39 @@ abstract class BaseTimelineDataSource(
     private val timelineBuilder: GroupTimelineBuilder
 ) : Timeline.Listener {
 
-    private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
+    protected val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
 
     val roomTitleLiveData = room?.getRoomSummaryLive()?.map { it.getOrNull()?.nameOrId() }
     val timelineEventsLiveData = MutableLiveData<List<Post>>()
     val accessLevelFlow = room?.getStateEventLive(EventType.STATE_ROOM_POWER_LEVELS)?.asFlow()
         ?.mapNotNull { it.getOrNull()?.content.toModel<PowerLevelsContent>() } ?: flowOf()
 
-    private var timeline: Timeline? = null
+    private var timelines: MutableList<Timeline> = mutableListOf()
+    abstract fun getTimelineRooms(): List<Room>
 
     fun startTimeline() {
-        timeline =
-            room?.createTimeline(null, TimelineSettings(MESSAGES_PER_PAGE))
-                ?.apply {
-                    addListener(this@BaseTimelineDataSource)
-                    start()
-                }
-    }
-
-    fun clearTimeline() {
-        timeline?.apply {
-            removeAllListeners()
-            dispose()
+        getTimelineRooms().forEach { room ->
+            val timeline = room.createTimeline(null, TimelineSettings(MESSAGES_PER_PAGE)).apply {
+                addListener(this@BaseTimelineDataSource)
+                start()
+            }
+            timelines.add(timeline)
         }
     }
 
+    fun clearTimeline() {
+        timelines.forEach { timeline ->
+            timeline.removeAllListeners()
+            timeline.dispose()
+        }
+        timelines.clear()
+    }
+
     fun loadMore() {
-        if (timeline?.hasMoreToLoad(Timeline.Direction.BACKWARDS) == true)
-            timeline?.paginate(Timeline.Direction.BACKWARDS, MESSAGES_PER_PAGE)
+        timelines.forEach {timeline->
+            if (timeline.hasMoreToLoad(Timeline.Direction.BACKWARDS))
+                timeline.paginate(Timeline.Direction.BACKWARDS, MESSAGES_PER_PAGE)
+        }
     }
 
     fun toggleRepliesVisibility(eventId: String) {
@@ -74,7 +80,7 @@ abstract class BaseTimelineDataSource(
     }
 
     override fun onTimelineFailure(throwable: Throwable) {
-        timeline?.restartWithEventId(null)
+        timelines.forEach { it.restartWithEventId(null) }
     }
 
     suspend fun getShareableContent(content: PostContent) = withContext(Dispatchers.IO) {
