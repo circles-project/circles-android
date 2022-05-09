@@ -1,4 +1,4 @@
-package com.futo.circles.core.matrix.timeline.data_source
+package com.futo.circles.feature.timeline.data_source
 
 import android.content.Context
 import android.net.Uri

@@ -1,10 +1,10 @@
-package com.futo.circles.core.matrix.timeline
+package com.futo.circles.feature.timeline
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.futo.circles.core.SingleEventLiveData
-import com.futo.circles.core.matrix.timeline.data_source.BaseTimelineDataSource
+import com.futo.circles.feature.timeline.data_source.BaseTimelineDataSource
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.share.ShareableContent

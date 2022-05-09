@@ -8,7 +8,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.futo.circles.R
-import com.futo.circles.core.matrix.timeline.BaseTimelineFragment
+import com.futo.circles.feature.timeline.BaseTimelineFragment
 import com.futo.circles.extensions.getCurrentUserPowerLevel
 import com.futo.circles.extensions.getTimelineRoomFor
 import com.futo.circles.extensions.setIsVisible

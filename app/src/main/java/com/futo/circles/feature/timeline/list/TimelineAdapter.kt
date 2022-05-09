@@ -1,4 +1,4 @@
-package com.futo.circles.core.matrix.timeline.list
+package com.futo.circles.feature.timeline.list
 
 import android.view.ViewGroup
 import com.futo.circles.core.list.BaseRvAdapter

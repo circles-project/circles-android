@@ -4,7 +4,7 @@ import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import com.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
-import com.futo.circles.core.matrix.timeline.data_source.TimelineBuilder
+import com.futo.circles.feature.timeline.data_source.TimelineBuilder
 import com.futo.circles.feature.circle_timeline.data_source.CircleTimelineDataSource
 import com.futo.circles.feature.emoji.data_source.EmojiDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
