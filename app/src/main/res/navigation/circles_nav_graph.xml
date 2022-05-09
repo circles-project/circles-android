@@ -12,12 +12,18 @@
         tools:layout="@layout/circles_fragment">
 
         <action
-            android:id="@+id/to_circles_timeline_nav_graph"
-            app:destination="@id/circles_timeline_nav_graph">
+            android:id="@+id/to_timeline"
+            app:destination="@id/timeline_nav_graph">
 
             <argument
                 android:name="roomId"
                 app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="com.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -35,7 +41,7 @@
         </action>
     </fragment>
 
-    <include app:graph="@navigation/circles_timeline_nav_graph" />
+    <include app:graph="@navigation/timeline_nav_graph" />
 
     <dialog
         android:id="@+id/createRoomDialogFragment"

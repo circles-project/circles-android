@@ -10,7 +10,6 @@ import com.futo.circles.R
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.ManageGroupMembersDialogFragmentBinding
 import com.futo.circles.extensions.*
-import com.futo.circles.feature.group_invite.InviteMembersDialogFragmentArgs
 import com.futo.circles.feature.group_members.change_role.ChangeAccessLevelListener
 import com.futo.circles.feature.group_members.list.GroupMembersListAdapter
 import com.futo.circles.view.ManageMembersOptionsListener
@@ -23,8 +22,10 @@ class ManageGroupMembersDialogFragment :
     BaseFullscreenDialogFragment(ManageGroupMembersDialogFragmentBinding::inflate),
     ManageMembersOptionsListener, ChangeAccessLevelListener {
 
-    private val args: InviteMembersDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<ManageGroupMembersViewModel> { parametersOf(args.roomId) }
+    private val args: ManageGroupMembersDialogFragmentArgs by navArgs()
+    private val viewModel by viewModel<ManageGroupMembersViewModel> {
+        parametersOf(args.roomId, args.type)
+    }
 
     private val membersListAdapter by lazy {
         GroupMembersListAdapter(

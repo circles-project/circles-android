@@ -2,18 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/group_time_line_nav_graph"
-    app:startDestination="@id/groupTimelineFragment">
+    android:id="@+id/timeline_nav_graph"
+    app:startDestination="@id/timelineFragment">
 
 
     <fragment
-        android:id="@+id/groupTimelineFragment"
-        android:name="com.futo.circles.feature.group_timeline.GroupTimelineFragment"
+        android:id="@+id/timelineFragment"
+        android:name="com.futo.circles.feature.timeline.TimelineFragment"
         tools:layout="@layout/timeline_fragment">
 
         <argument
             android:name="roomId"
             app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="com.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
         <action
@@ -35,6 +40,11 @@
                 app:argType="string"
                 app:nullable="false" />
 
+            <argument
+                android:name="type"
+                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
         </action>
         <action
             android:id="@+id/to_updateRoomDialogFragment"
@@ -47,7 +57,6 @@
 
             <argument
                 android:name="type"
-                android:defaultValue="Group"
                 app:argType="com.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
@@ -125,6 +134,11 @@
         <argument
             android:name="roomId"
             app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="com.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
         <action
