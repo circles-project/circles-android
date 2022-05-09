@@ -4,7 +4,7 @@ import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import com.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
-import com.futo.circles.core.matrix.timeline.data_source.GroupTimelineBuilder
+import com.futo.circles.core.matrix.timeline.data_source.TimelineBuilder
 import com.futo.circles.feature.circle_timeline.data_source.CircleTimelineDataSource
 import com.futo.circles.feature.emoji.data_source.EmojiDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
@@ -29,7 +29,7 @@ val dataSourceModule = module {
     factory { LoginDataSource(get(), get()) }
     factory { (roomId: String) -> GroupTimelineDatasource(roomId, get(), get()) }
     factory { (roomId: String) -> CircleTimelineDataSource(roomId, get(), get()) }
-    factory { GroupTimelineBuilder() }
+    factory { TimelineBuilder() }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
     factory { (roomId: String?) -> SelectUsersDataSource(roomId) }
     factory { (roomId: String) -> ManageGroupMembersDataSource(roomId, get()) }

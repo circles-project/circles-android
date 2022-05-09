@@ -33,7 +33,7 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 abstract class BaseTimelineDataSource(
     roomId: String,
     private val context: Context,
-    private val timelineBuilder: GroupTimelineBuilder
+    private val timelineBuilder: TimelineBuilder
 ) : Timeline.Listener {
 
     protected val room = MatrixSessionProvider.currentSession?.getRoom(roomId)

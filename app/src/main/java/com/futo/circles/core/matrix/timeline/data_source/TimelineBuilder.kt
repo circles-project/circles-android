@@ -10,7 +10,7 @@ import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
-class GroupTimelineBuilder {
+class TimelineBuilder {
 
     private val repliesVisibleEvents: MutableSet<String> = mutableSetOf()
 
