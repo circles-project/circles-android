@@ -12,12 +12,18 @@
         tools:layout="@layout/groups_fragment">
 
         <action
-            android:id="@+id/to_group_time_line_nav_graph"
-            app:destination="@id/group_time_line_nav_graph">
+            android:id="@+id/to_timeline"
+            app:destination="@id/timeline_nav_graph">
 
             <argument
                 android:name="roomId"
                 app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Group"
+                app:argType="com.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -36,7 +42,7 @@
 
     </fragment>
 
-    <include app:graph="@navigation/group_time_line_nav_graph" />
+    <include app:graph="@navigation/timeline_nav_graph" />
 
     <dialog
         android:id="@+id/createRoomDialogFragment"

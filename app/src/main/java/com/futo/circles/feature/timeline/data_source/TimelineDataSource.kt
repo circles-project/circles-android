@@ -1,4 +1,4 @@
-package com.futo.circles.core.matrix.timeline.data_source
+package com.futo.circles.feature.timeline.data_source
 
 import android.content.Context
 import android.net.Uri
@@ -13,10 +13,7 @@ import com.futo.circles.extensions.toImageContentAttachmentData
 import com.futo.circles.feature.share.ImageShareable
 import com.futo.circles.feature.share.TextShareable
 import com.futo.circles.mapping.nameOrId
-import com.futo.circles.model.ImageContent
-import com.futo.circles.model.Post
-import com.futo.circles.model.PostContent
-import com.futo.circles.model.TextContent
+import com.futo.circles.model.*
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
@@ -30,13 +27,14 @@ import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 
-abstract class BaseTimelineDataSource(
-    roomId: String,
+class TimelineDataSource(
+    private val roomId: String,
+    private val type: CircleRoomTypeArg,
     private val context: Context,
-    private val timelineBuilder: GroupTimelineBuilder
+    private val timelineBuilder: TimelineBuilder
 ) : Timeline.Listener {
 
-    protected val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
+    private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
 
     val roomTitleLiveData = room?.getRoomSummaryLive()?.map { it.getOrNull()?.nameOrId() }
     val timelineEventsLiveData = MutableLiveData<List<Post>>()
@@ -44,12 +42,11 @@ abstract class BaseTimelineDataSource(
         ?.mapNotNull { it.getOrNull()?.content.toModel<PowerLevelsContent>() } ?: flowOf()
 
     private var timelines: MutableList<Timeline> = mutableListOf()
-    abstract fun getTimelineRooms(): List<Room>
 
     fun startTimeline() {
         getTimelineRooms().forEach { room ->
             val timeline = room.createTimeline(null, TimelineSettings(MESSAGES_PER_PAGE)).apply {
-                addListener(this@BaseTimelineDataSource)
+                addListener(this@TimelineDataSource)
                 start()
             }
             timelines.add(timeline)
@@ -65,7 +62,7 @@ abstract class BaseTimelineDataSource(
     }
 
     fun loadMore() {
-        timelines.forEach {timeline->
+        timelines.forEach { timeline ->
             if (timeline.hasMoreToLoad(Timeline.Direction.BACKWARDS))
                 timeline.paginate(Timeline.Direction.BACKWARDS, MESSAGES_PER_PAGE)
         }
@@ -130,8 +127,17 @@ abstract class BaseTimelineDataSource(
         roomForMessage?.undoReaction(eventId, emoji)
     }
 
+    suspend fun leaveGroup() =
+        createResult { MatrixSessionProvider.currentSession?.leaveRoom(roomId) }
+
+    private fun getTimelineRooms(): List<Room> = when (type) {
+        CircleRoomTypeArg.Group -> listOfNotNull(room)
+        CircleRoomTypeArg.Circle -> room?.roomSummary()?.spaceChildren?.mapNotNull {
+            MatrixSessionProvider.currentSession?.getRoom(it.childRoomId)
+        } ?: emptyList()
+    }
+
     companion object {
         private const val MESSAGES_PER_PAGE = 30
     }
-
 }

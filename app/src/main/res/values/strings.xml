@@ -37,6 +37,7 @@
     <string name="invitation_sent">Invitation sent</string>
     <string name="manage_members">Manage members</string>
     <string name="group_members_format">%s members</string>
+    <string name="followers_for_format">Followers for %s</string>
     <string name="leave_group">Leave group</string>
     <string name="create_new_group">Create new group</string>
     <string name="create_new_circle">Create new circle</string>
@@ -173,7 +174,6 @@
     <string name="my_followers">My followers</string>
     <string name="people_i_m_following">People I\'m following</string>
     <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
-    <string name="timeline_name_formatter">%s timeline</string>
     <string name="timeline_not_found">Timeline not found</string>
 
     <string-array name="report_categories">

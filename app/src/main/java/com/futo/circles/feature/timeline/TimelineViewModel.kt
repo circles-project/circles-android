@@ -1,10 +1,10 @@
-package com.futo.circles.core.matrix.timeline
+package com.futo.circles.feature.timeline
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.futo.circles.core.SingleEventLiveData
-import com.futo.circles.core.matrix.timeline.data_source.BaseTimelineDataSource
+import com.futo.circles.feature.timeline.data_source.TimelineDataSource
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.share.ShareableContent
@@ -12,8 +12,8 @@ import com.futo.circles.model.ImageContent
 import com.futo.circles.model.PostContent
 import org.matrix.android.sdk.api.util.Cancelable
 
-abstract class BaseTimelineViewModel(
-    private val dataSource: BaseTimelineDataSource
+class TimelineViewModel(
+    private val dataSource: TimelineDataSource
 ) : ViewModel() {
 
     val titleLiveData = dataSource.roomTitleLiveData
@@ -24,6 +24,7 @@ abstract class BaseTimelineViewModel(
     val downloadImageLiveData = SingleEventLiveData<Unit>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
+    val leaveGroupLiveData = SingleEventLiveData<Response<Unit?>>()
 
     init {
         dataSource.startTimeline()
@@ -84,5 +85,13 @@ abstract class BaseTimelineViewModel(
             val result = dataSource.unSendReaction(roomId, eventId, emoji)
             unSendReactionLiveData.postValue(result)
         }
+    }
+
+    fun leaveGroup() {
+        launchBg { leaveGroupLiveData.postValue(dataSource.leaveGroup()) }
+    }
+
+    fun deleteCircle() {
+
     }
 }

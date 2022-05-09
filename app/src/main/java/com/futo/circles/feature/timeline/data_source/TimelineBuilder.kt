@@ -1,4 +1,4 @@
-package com.futo.circles.core.matrix.timeline.data_source
+package com.futo.circles.feature.timeline.data_source
 
 import com.futo.circles.mapping.toPost
 import com.futo.circles.model.Post
@@ -10,7 +10,7 @@ import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
-class GroupTimelineBuilder {
+class TimelineBuilder {
 
     private val repliesVisibleEvents: MutableSet<String> = mutableSetOf()
 

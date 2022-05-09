@@ -8,10 +8,7 @@ import com.futo.circles.extensions.createResult
 import com.futo.circles.mapping.nameOrId
 import com.futo.circles.mapping.toGroupMemberListItem
 import com.futo.circles.mapping.toInvitedUserListItem
-import com.futo.circles.model.GroupMemberListItem
-import com.futo.circles.model.InvitedUserListItem
-import com.futo.circles.model.ManageMembersHeaderListItem
-import com.futo.circles.model.ManageMembersListItem
+import com.futo.circles.model.*
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -27,6 +24,7 @@ import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
 
 class ManageGroupMembersDataSource(
     private val roomId: String,
+    private val type: CircleRoomTypeArg,
     private val context: Context
 ) {
 
@@ -37,7 +35,8 @@ class ManageGroupMembersDataSource(
     private val usersWithVisibleOptionsFlow = MutableStateFlow<MutableSet<String>>(mutableSetOf())
 
     fun getManageMembersTittle() = context.getString(
-        R.string.group_members_format,
+        if (type == CircleRoomTypeArg.Group) R.string.group_members_format
+        else R.string.followers_for_format,
         room?.roomSummary()?.nameOrId() ?: roomId
     )
 

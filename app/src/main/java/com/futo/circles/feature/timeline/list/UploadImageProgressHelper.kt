@@ -1,4 +1,4 @@
-package com.futo.circles.core.matrix.timeline.list
+package com.futo.circles.feature.timeline.list
 
 import com.futo.circles.R
 import com.futo.circles.extensions.gone
