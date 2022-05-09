@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/circleTimelineFragment"
         android:name="com.futo.circles.feature.circle_timeline.CircleTimelineFragment"
-        android:label="CircleTimelineFragment"
         tools:layout="@layout/timeline_fragment">
 
         <argument
@@ -90,6 +89,17 @@
 
             <argument
                 android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_manageMembersDialogFragment"
+            app:destination="@id/manageMembersDialogFragment">
+
+            <argument
+                android:name="roomId"
                 app:argType="string"
                 app:nullable="false" />
 
@@ -184,6 +194,61 @@
         <argument
             android:name="eventId"
             app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/manageMembersDialogFragment"
+        android:name="com.futo.circles.feature.group_members.ManageGroupMembersDialogFragment"
+        tools:layout="@layout/manage_group_members_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_changeAccessLevelBottomSheet"
+            app:destination="@id/changeAccessLevelBottomSheet">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="myUserLevelValue"
+                app:argType="integer"
+                app:nullable="false" />
+
+            <argument
+                android:name="levelValue"
+                app:argType="integer"
+                app:nullable="false" />
+
+        </action>
+
+    </dialog>
+    <dialog
+        android:id="@+id/changeAccessLevelBottomSheet"
+        android:name="com.futo.circles.feature.group_members.change_role.ChangeAccessLevelBottomSheet"
+        android:label="ChangeAccessLevelBottomSheet"
+        tools:layout="@layout/change_access_level_bottom_sheet">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="myUserLevelValue"
+            app:argType="integer"
+            app:nullable="false" />
+
+        <argument
+            android:name="levelValue"
+            app:argType="integer"
             app:nullable="false" />
 
     </dialog>

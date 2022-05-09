@@ -44,7 +44,7 @@ class CircleTimelineFragment : BaseTimelineFragment() {
                 return true
             }
             R.id.myFollowers -> {
-
+                navigateToManageMembers()
                 return true
             }
             R.id.iFollowing -> {
@@ -105,6 +105,12 @@ class CircleTimelineFragment : BaseTimelineFragment() {
     private fun navigateToUpdateCircle() {
         findNavController().navigate(
             CircleTimelineFragmentDirections.toUpdateRoomDialogFragment(args.roomId)
+        )
+    }
+
+    private fun navigateToManageMembers() {
+        findNavController().navigate(
+            CircleTimelineFragmentDirections.toManageMembersDialogFragment(timelineId)
         )
     }
 }

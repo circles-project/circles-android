@@ -27,8 +27,7 @@ class CreateRoomDataSource(private val context: Context) {
         inviteIds: List<String>? = null
     ): String {
         val circleId = createRoom(Circle(), name, null, iconUri, inviteIds)
-        val timelineName = context.getString(R.string.timeline_name_formatter, name)
-        val timelineId = createRoom(Timeline(), timelineName)
+        val timelineId = createRoom(Timeline(), name)
         session?.getRoom(circleId)?.let { circle -> setRelations(timelineId, circle) }
         return circleId
     }
