@@ -22,7 +22,7 @@ class FollowingDataSource(
     val roomsLiveData = room.getRoomSummaryLive().map {
         val children = it.getOrNull()?.spaceChildren ?: emptyList()
         children.mapNotNull {
-            session.getRoom(it.childRoomId)?.roomSummary()?.toFollowingListItem()
+            session.getRoom(it.childRoomId)?.roomSummary()?.toFollowingListItem(roomId)
         }
     }
 }

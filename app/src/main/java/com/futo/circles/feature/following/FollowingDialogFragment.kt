@@ -8,6 +8,7 @@ import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.FollowingDialogFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.feature.following.list.FollowingAdapter
+import com.futo.circles.model.FollowingListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -21,7 +22,9 @@ class FollowingDialogFragment :
     private val binding by lazy {
         getBinding() as FollowingDialogFragmentBinding
     }
-    private val listAdapter by lazy { FollowingAdapter() }
+    private val listAdapter by lazy {
+        FollowingAdapter(onRemoveClicked = { showRemoveOptionsDialog(it) })
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,5 +42,9 @@ class FollowingDialogFragment :
 
     private fun setupObservers() {
         viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
+    }
+
+    private fun showRemoveOptionsDialog(item: FollowingListItem) {
+
     }
 }
