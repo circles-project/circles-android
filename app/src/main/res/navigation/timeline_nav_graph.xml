@@ -111,6 +111,16 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_followingDialogFragment"
+            app:destination="@id/followingDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
     </fragment>
 
@@ -255,6 +265,18 @@
 
         <argument
             android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/followingDialogFragment"
+        android:name="com.futo.circles.feature.following.FollowingDialogFragment"
+        android:label="FollowingDialogFragment"
+        tools:layout="@layout/following_dialog_fragment">
+
+        <argument
+            android:name="roomId"
             app:argType="string"
             app:nullable="false" />
 

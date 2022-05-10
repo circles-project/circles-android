@@ -37,7 +37,6 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
     private val viewModel by viewModel<TimelineViewModel> { parametersOf(args.roomId, args.type) }
     private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
 
-    private val roomId by lazy { args.roomId }
     private val timelineId by lazy {
         if (isGroupMode) args.roomId
         else getTimelineRoomFor(args.roomId)?.roomId ?: throw IllegalArgumentException(
@@ -46,7 +45,7 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
     }
     protected val binding by viewBinding(TimelineFragmentBinding::bind)
     private val listAdapter by lazy {
-        TimelineAdapter(getCurrentUserPowerLevel(roomId), this) { viewModel.loadMore() }
+        TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
     }
     private var isGroupSettingAvailable = false
     private var isGroupInviteAvailable = false
@@ -95,7 +94,7 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
                 return true
             }
             R.id.iFollowing -> {
-
+                navigateToFollowing()
                 return true
             }
             R.id.deleteCircle -> {
@@ -265,6 +264,12 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
     private fun navigateToManageMembers() {
         findNavController().navigate(
             TimelineFragmentDirections.toManageMembersDialogFragment(timelineId, args.type)
+        )
+    }
+
+    private fun navigateToFollowing() {
+        findNavController().navigate(
+            TimelineFragmentDirections.toFollowingDialogFragment(args.roomId)
         )
     }
 

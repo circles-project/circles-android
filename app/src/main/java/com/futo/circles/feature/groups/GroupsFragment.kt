@@ -23,7 +23,6 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupViews()
         viewModel.groupsLiveData?.observeData(this, ::setGroupsList)
     }
