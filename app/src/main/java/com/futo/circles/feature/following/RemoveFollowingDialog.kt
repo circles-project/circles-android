@@ -26,7 +26,7 @@ class RemoveFollowingDialog(
         setContentView(binding.root)
 
         with(binding) {
-            val title = "${context.getString(R.string.remove)} $roomName}"
+            val title = "${context.getString(R.string.remove)} $roomName"
             tvTitle.text = title
             btnClose.setOnClickListener { dismiss() }
             btnCancel.setOnClickListener { dismiss() }
