@@ -15,13 +15,14 @@ class RoomRelationsBuilder {
     }
 
     suspend fun removeRelations(childId: String, parentId: String) {
+        session?.spaceService()?.removeSpaceParent(childId, parentId)
         session?.getRoom(parentId)?.asSpace()?.removeChildren(childId)
     }
 
     suspend fun removeAllRelations(childId: String) {
         session?.getRoom(childId)?.roomSummary()?.spaceParents?.forEach {
             val parentId = it.roomSummary?.roomId ?: ""
-            session?.getRoom(parentId)?.asSpace()?.removeChildren(childId)
+            removeRelations(childId, parentId)
         }
     }
 
