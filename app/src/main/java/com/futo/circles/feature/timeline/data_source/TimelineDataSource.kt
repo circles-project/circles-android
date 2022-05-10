@@ -6,10 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
 import com.bumptech.glide.Glide
-import com.futo.circles.extensions.createResult
-import com.futo.circles.extensions.getUri
-import com.futo.circles.extensions.saveImageToGallery
-import com.futo.circles.extensions.toImageContentAttachmentData
+import com.futo.circles.core.matrix.room.RoomRelationsBuilder
+import com.futo.circles.extensions.*
 import com.futo.circles.feature.share.ImageShareable
 import com.futo.circles.feature.share.TextShareable
 import com.futo.circles.mapping.nameOrId
@@ -31,10 +29,12 @@ class TimelineDataSource(
     private val roomId: String,
     private val type: CircleRoomTypeArg,
     private val context: Context,
-    private val timelineBuilder: TimelineBuilder
+    private val timelineBuilder: TimelineBuilder,
+    private val roomRelationsBuilder: RoomRelationsBuilder
 ) : Timeline.Listener {
 
-    private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
+    private val session = MatrixSessionProvider.currentSession
+    private val room = session?.getRoom(roomId)
 
     val roomTitleLiveData = room?.getRoomSummaryLive()?.map { it.getOrNull()?.nameOrId() }
     val timelineEventsLiveData = MutableLiveData<List<Post>>()
@@ -96,44 +96,57 @@ class TimelineDataSource(
     }
 
     suspend fun ignoreSender(userId: String) = createResult {
-        MatrixSessionProvider.currentSession?.ignoreUserIds(listOf(userId))
+        session?.ignoreUserIds(listOf(userId))
     }
 
     fun sendTextMessage(roomId: String, message: String, threadEventId: String?) {
-        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        val roomForMessage = session?.getRoom(roomId)
         threadEventId?.let { roomForMessage?.replyInThread(it, message) }
             ?: roomForMessage?.sendTextMessage(message)
     }
 
     fun sendImage(roomId: String, uri: Uri, threadEventId: String?) {
-        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        val roomForMessage = session?.getRoom(roomId)
         uri.toImageContentAttachmentData(context)?.let {
             roomForMessage?.sendMedia(it, true, emptySet(), threadEventId)
         }
     }
 
     fun removeMessage(roomId: String, eventId: String) {
-        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        val roomForMessage = session?.getRoom(roomId)
         roomForMessage?.getTimelineEvent(eventId)?.let { roomForMessage.redactEvent(it.root, null) }
     }
 
     fun sendReaction(roomId: String, eventId: String, emoji: String) {
-        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        val roomForMessage = session?.getRoom(roomId)
         roomForMessage?.sendReaction(eventId, emoji)
     }
 
     suspend fun unSendReaction(roomId: String, eventId: String, emoji: String) = createResult {
-        val roomForMessage = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        val roomForMessage = session?.getRoom(roomId)
         roomForMessage?.undoReaction(eventId, emoji)
     }
 
     suspend fun leaveGroup() =
-        createResult { MatrixSessionProvider.currentSession?.leaveRoom(roomId) }
+        createResult { session?.leaveRoom(roomId) }
+
+    suspend fun deleteCircle() = createResult {
+        room?.roomSummary()?.spaceChildren?.forEach {
+            roomRelationsBuilder.removeRelations(it.childRoomId, roomId)
+        }
+        getTimelineRoomFor(roomId)?.let { timelineRoom ->
+            timelineRoom.roomSummary()?.otherMemberIds?.forEach { memberId ->
+                timelineRoom.ban(memberId)
+            }
+            session?.leaveRoom(timelineRoom.roomId)
+        }
+        session?.leaveRoom(roomId)
+    }
 
     private fun getTimelineRooms(): List<Room> = when (type) {
         CircleRoomTypeArg.Group -> listOfNotNull(room)
         CircleRoomTypeArg.Circle -> room?.roomSummary()?.spaceChildren?.mapNotNull {
-            MatrixSessionProvider.currentSession?.getRoom(it.childRoomId)
+            session?.getRoom(it.childRoomId)
         } ?: emptyList()
     }
 

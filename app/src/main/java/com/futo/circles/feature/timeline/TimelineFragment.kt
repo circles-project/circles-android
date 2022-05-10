@@ -43,7 +43,7 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
             requireContext().getString(R.string.timeline_not_found)
         )
     }
-    protected val binding by viewBinding(TimelineFragmentBinding::bind)
+    private val binding by viewBinding(TimelineFragmentBinding::bind)
     private val listAdapter by lazy {
         TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
     }
@@ -143,6 +143,9 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
         viewModel.leaveGroupLiveData.observeResponse(this,
+            success = { activity?.onBackPressed() }
+        )
+        viewModel.deleteCircleLiveData.observeResponse(this,
             success = { activity?.onBackPressed() }
         )
     }

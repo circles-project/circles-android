@@ -23,7 +23,7 @@ class FollowingViewModel(
 
     fun unfollowRoom(roomId: String) {
         launchBg {
-            val response = dataSource.leaveRoom(roomId)
+            val response = dataSource.unfollowRoom(roomId)
             removeResponseLiveData.postValue(response)
         }
     }

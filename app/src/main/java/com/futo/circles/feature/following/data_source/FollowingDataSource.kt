@@ -34,8 +34,8 @@ class FollowingDataSource(
         roomRelationsBuilder.removeRelations(childRoomId, roomId)
     }
 
-    suspend fun leaveRoom(childRoomId: String) = createResult {
-        roomRelationsBuilder.removeAllRelations(childRoomId)
+    suspend fun unfollowRoom(childRoomId: String) = createResult {
+        roomRelationsBuilder.removeFromAllParents(childRoomId)
         session.leaveRoom(childRoomId)
     }
 }

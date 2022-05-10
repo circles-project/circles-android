@@ -30,7 +30,7 @@ import org.koin.dsl.module
 val dataSourceModule = module {
     factory { LoginDataSource(get(), get()) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
-        TimelineDataSource(roomId, type, get(), get())
+        TimelineDataSource(roomId, type, get(), get(), get())
     }
     factory { TimelineBuilder() }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
