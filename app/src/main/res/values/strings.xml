@@ -112,6 +112,7 @@
     <string name="followed_by_format">Followed by %d</string>
     <string name="leave">Leave</string>
     <string name="leave_group_message">Are you sure you want to leave this group?\n\nThis group is not public. You will not be able to rejoin without an invite.</string>
+    <string name="select_another_admin_message">You must select another member as an \"Admin\" to be able to leave this group.</string>
     <string name="access_level">Access level</string>
     <string name="remove">Remove</string>
     <string name="ban">Ban</string>

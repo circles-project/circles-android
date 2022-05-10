@@ -95,4 +95,7 @@ class TimelineViewModel(
     fun deleteCircle() {
         launchBg { deleteCircleLiveData.postValue(dataSource.deleteCircle()) }
     }
+
+    fun isSingleOwner(): Boolean = dataSource.isUserSingleRoomOwner()
+
 }

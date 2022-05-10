@@ -21,6 +21,7 @@ import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
+import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
@@ -148,6 +149,11 @@ class TimelineDataSource(
         CircleRoomTypeArg.Circle -> room?.roomSummary()?.spaceChildren?.mapNotNull {
             session?.getRoom(it.childRoomId)
         } ?: emptyList()
+    }
+
+    fun isUserSingleRoomOwner(): Boolean {
+        val isUserOwner = getCurrentUserPowerLevel(roomId) == Role.Admin.value
+        return isUserOwner && getRoomOwners(roomId).size == 1
     }
 
     companion object {
