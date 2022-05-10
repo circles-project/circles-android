@@ -175,6 +175,8 @@
     <string name="people_i_m_following">People I\'m following</string>
     <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
     <string name="timeline_not_found">Timeline not found</string>
+    <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
+    <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

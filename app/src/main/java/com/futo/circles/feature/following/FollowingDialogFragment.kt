@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.FollowingDialogFragmentBinding
 import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
 import com.futo.circles.feature.following.list.FollowingAdapter
 import com.futo.circles.model.FollowingListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,9 +43,19 @@ class FollowingDialogFragment :
 
     private fun setupObservers() {
         viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
+        viewModel.removeResponseLiveData.observeResponse(this)
     }
 
     private fun showRemoveOptionsDialog(item: FollowingListItem) {
+        RemoveFollowingDialog(requireContext(), item.id, item.name,
+            object : RemoveFollowingListener {
+                override fun onRemove(roomId: String) {
+                    viewModel.removeRoomFromCircle(roomId)
+                }
 
+                override fun onUnfollow(roomId: String) {
+                    viewModel.unfollowRoom(roomId)
+                }
+            }).show()
     }
 }

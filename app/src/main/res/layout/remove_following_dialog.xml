@@ -23,7 +23,6 @@
                 android:gravity="center"
                 android:lines="1"
                 android:paddingVertical="8dp"
-                android:text="@string/upload_image_from"
                 app:layout_constraintEnd_toStartOf="@id/btnClose"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,8 +50,8 @@
 
 
             <TextView
-                android:id="@+id/tvCamera"
-                style="@style/headline"
+                android:id="@+id/tvRemove"
+                style="@style/subheadline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -61,16 +60,17 @@
                 android:drawablePadding="16dp"
                 android:focusable="true"
                 android:padding="16dp"
-                android:text="@string/camera"
-                app:drawableLeftCompat="@drawable/ic_photo"
+                android:text="@string/remove_from_this_circle_but_do_not_unfollow"
+                android:textColor="@color/black"
+                app:drawableLeftCompat="@drawable/ic_delete"
                 app:drawableTint="@color/inactive_menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleDivider" />
 
             <TextView
-                android:id="@+id/tvGallery"
-                style="@style/headline"
+                android:id="@+id/tvUnfollow"
+                style="@style/subheadline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
@@ -78,12 +78,13 @@
                 android:drawablePadding="16dp"
                 android:focusable="true"
                 android:padding="16dp"
-                android:text="@string/gallery"
-                app:drawableLeftCompat="@drawable/ic_gallery"
+                android:text="@string/unfollow_completely_remove_from_all_circles"
+                android:textColor="@color/black"
+                app:drawableLeftCompat="@drawable/ic_logout"
                 app:drawableTint="@color/inactive_menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvCamera" />
+                app:layout_constraintTop_toBottomOf="@id/tvRemove" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancel"
@@ -98,7 +99,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvGallery" />
+                app:layout_constraintTop_toBottomOf="@id/tvUnfollow" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

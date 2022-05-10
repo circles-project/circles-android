@@ -3,12 +3,15 @@ package com.futo.circles.feature.following.data_source
 import android.content.Context
 import androidx.lifecycle.map
 import com.futo.circles.R
+import com.futo.circles.core.matrix.room.RoomRelationsBuilder
+import com.futo.circles.extensions.createResult
 import com.futo.circles.mapping.toFollowingListItem
 import com.futo.circles.provider.MatrixSessionProvider
 
 class FollowingDataSource(
-    roomId: String,
-    context: Context
+    private val roomId: String,
+    context: Context,
+    private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 
     private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
@@ -22,7 +25,17 @@ class FollowingDataSource(
     val roomsLiveData = room.getRoomSummaryLive().map {
         val children = it.getOrNull()?.spaceChildren ?: emptyList()
         children.mapNotNull {
-            session.getRoom(it.childRoomId)?.roomSummary()?.toFollowingListItem(roomId)
+            session.getRoom(it.childRoomId)?.roomSummary()?.takeIf { it.membership.isActive() }
+                ?.toFollowingListItem(roomId)
         }
+    }
+
+    suspend fun removeRoomRelations(childRoomId: String) = createResult {
+        roomRelationsBuilder.removeRelations(childRoomId, roomId)
+    }
+
+    suspend fun leaveRoom(childRoomId: String) = createResult {
+        roomRelationsBuilder.removeAllRelations(childRoomId)
+        session.leaveRoom(childRoomId)
     }
 }
