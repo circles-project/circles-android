@@ -6,13 +6,11 @@ import com.futo.circles.model.Circle
 import com.futo.circles.model.CirclesRoom
 import com.futo.circles.model.Timeline
 import com.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomDirectoryVisibility
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomPreset
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.space.CreateSpaceParams
 
 class CreateRoomDataSource(
@@ -46,7 +44,8 @@ class CreateRoomDataSource(
 
         session?.getRoom(id)?.addTag(circlesRoom.tag, null)
         circlesRoom.parentTag?.let { tag ->
-            findRoomByTag(tag)?.let { room -> roomRelationsBuilder.setRelations(id, room) }
+            roomRelationsBuilder.findRoomByTag(tag)
+                ?.let { room -> roomRelationsBuilder.setRelations(id, room) }
         }
         return id
     }
@@ -78,12 +77,5 @@ class CreateRoomDataSource(
             avatarUri = iconUri
             inviteIds?.let { invitedUserIds.addAll(it) }
         }
-    }
-
-    private fun findRoomByTag(tag: String): Room? {
-        val roomWithTagId = session?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
-            ?.firstOrNull { summary -> summary.tags.firstOrNull { it.name == tag } != null }
-            ?.roomId
-        return roomWithTagId?.let { session?.getRoom(it) }
     }
 }

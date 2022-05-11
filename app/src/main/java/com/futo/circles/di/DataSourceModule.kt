@@ -59,5 +59,5 @@ val dataSourceModule = module {
     factory { (roomId: String, eventId: String) -> ReportDataSource(roomId, eventId, get()) }
     single { EmojiDataSource(get()) }
     factory { (roomId: String) -> FollowingDataSource(roomId, get(), get()) }
-    factory { GroupsDataSource() }
+    factory { GroupsDataSource(get()) }
 }

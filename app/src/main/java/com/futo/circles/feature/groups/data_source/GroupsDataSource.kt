@@ -1,5 +1,6 @@
 package com.futo.circles.feature.groups.data_source
 
+import com.futo.circles.core.matrix.room.RoomRelationsBuilder
 import com.futo.circles.extensions.createResult
 import com.futo.circles.mapping.toInviteGroupListItem
 import com.futo.circles.mapping.toJoinedGroupListItem
@@ -9,7 +10,9 @@ import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
-class GroupsDataSource {
+class GroupsDataSource(
+    private val roomRelationsBuilder: RoomRelationsBuilder
+) {
 
     val session = MatrixSessionProvider.currentSession
 
@@ -27,6 +30,7 @@ class GroupsDataSource {
 
     suspend fun acceptInvite(roomId: String) = createResult {
         session?.joinRoom(roomId)
+        roomRelationsBuilder.setInvitedGroupRelations(roomId)
     }
 
     suspend fun rejectInvite(roomId: String) = createResult {
