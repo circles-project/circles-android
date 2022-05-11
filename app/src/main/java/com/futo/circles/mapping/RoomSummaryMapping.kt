@@ -4,18 +4,8 @@ import com.futo.circles.extensions.getRoomOwners
 import com.futo.circles.extensions.getTimelineRoomFor
 import com.futo.circles.model.CircleListItem
 import com.futo.circles.model.FollowingListItem
-import com.futo.circles.model.GroupListItem
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
-fun RoomSummary.toGroupListItem() = GroupListItem(
-    id = roomId,
-    title = nameOrId(),
-    topic = topic,
-    membersCount = joinedMembersCount ?: 0,
-    timestamp = latestPreviewableEvent?.root?.originServerTs ?: System.currentTimeMillis(),
-    isEncrypted = isEncrypted,
-    avatarUrl = avatarUrl
-)
 
 fun RoomSummary.toCircleListItem() = CircleListItem(
     id = roomId,
