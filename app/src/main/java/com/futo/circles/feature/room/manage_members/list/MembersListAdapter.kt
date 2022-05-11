@@ -27,7 +27,7 @@ class GroupMembersListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManageMembersViewHolder {
         return when (ManageGroupMembersViewTypes.values()[viewType]) {
             ManageGroupMembersViewTypes.Header -> ManageMembersHeaderViewHolder(parent)
-            ManageGroupMembersViewTypes.Member -> GroupMemberViewHolder(
+            ManageGroupMembersViewTypes.Member -> MemberViewHolder(
                 parent = parent,
                 onUserClicked = { position -> onToggleOptions(getItem(position).id) },
                 manageMembersListener = manageMembersListener
