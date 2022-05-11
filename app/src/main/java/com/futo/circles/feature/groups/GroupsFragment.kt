@@ -10,6 +10,7 @@ import com.futo.circles.R
 import com.futo.circles.databinding.GroupsFragmentBinding
 import com.futo.circles.extensions.bindToFab
 import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
 import com.futo.circles.feature.groups.list.GroupsListAdapter
 import com.futo.circles.model.GroupListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -19,12 +20,19 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
 
     private val viewModel by viewModel<GroupsViewModel>()
     private val binding by viewBinding(GroupsFragmentBinding::bind)
-    private val listAdapter by lazy { GroupsListAdapter(::onGroupListItemClicked) }
+    private val listAdapter by lazy {
+        GroupsListAdapter(
+            onGroupClicked = { groupListItem -> onGroupListItemClicked(groupListItem) },
+            onInviteClicked = { groupListItem, isAccepted ->
+                onInviteClicked(groupListItem, isAccepted)
+            }
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
-        viewModel.groupsLiveData?.observeData(this, ::setGroupsList)
+        setupObservers()
     }
 
     private fun setupViews() {
@@ -37,8 +45,14 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
         binding.fbAddGroup.setOnClickListener { navigateToCreateGroup() }
     }
 
-    private fun setGroupsList(list: List<GroupListItem>) {
-        listAdapter.submitList(list)
+    private fun setupObservers() {
+        viewModel.groupsLiveData?.observeData(this) { listAdapter.submitList(it) }
+        viewModel.inviteResultLiveData.observeResponse(this)
+    }
+
+    private fun onInviteClicked(room: GroupListItem, isAccepted: Boolean) {
+        if (isAccepted) viewModel.acceptInvite(room.id)
+        else viewModel.rejectInvite(room.id)
     }
 
     private fun onGroupListItemClicked(room: GroupListItem) {
