@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.futo.circles.R
 import com.futo.circles.core.list.ViewBindingHolder
 import com.futo.circles.core.list.context
-import com.futo.circles.databinding.GroupMemberListItemBinding
 import com.futo.circles.databinding.InviteHeaderListItemBinding
 import com.futo.circles.databinding.InvitedUserListItemBinding
+import com.futo.circles.databinding.MemberListItemBinding
 import com.futo.circles.extensions.*
 import com.futo.circles.model.GroupMemberListItem
 import com.futo.circles.model.InvitedUserListItem
@@ -21,15 +21,15 @@ abstract class ManageMembersViewHolder(view: View) : RecyclerView.ViewHolder(vie
 }
 
 
-class GroupMemberViewHolder(
+class MemberViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit,
     private val manageMembersListener: ManageMembersOptionsListener
-) : ManageMembersViewHolder(inflate(parent, GroupMemberListItemBinding::inflate)) {
+) : ManageMembersViewHolder(inflate(parent, MemberListItemBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as GroupMemberListItemBinding
+    private val binding = baseBinding as MemberListItemBinding
 
     override fun bind(data: ManageMembersListItem) {
         if (data !is GroupMemberListItem) return
