@@ -47,7 +47,7 @@ class TimelineAdapter(
         position: Int,
         payloads: MutableList<Any>
     ) {
-        if (payloads.isNullOrEmpty()) {
+        if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
             payloads.forEach {

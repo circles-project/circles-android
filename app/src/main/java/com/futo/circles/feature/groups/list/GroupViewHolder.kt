@@ -15,6 +15,7 @@ import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.extensions.onClick
 import com.futo.circles.extensions.setIsEncryptedIcon
 import com.futo.circles.model.GroupListItem
+import com.futo.circles.model.GroupListItemPayload
 import com.futo.circles.model.InvitedGroupListItem
 import com.futo.circles.model.JoinedGroupListItem
 
@@ -53,17 +54,36 @@ class JoinedGroupViewHolder(
         setIcon(binding.ivGroup, data.info.avatarUrl, data.info.title)
         setIsEncrypted(binding.ivLock, data.info.isEncrypted)
         setTitle(binding.tvGroupTitle, data.info.title)
+        setTopic(data.topic)
+        setMembersCount(data.membersCount)
+        setUpdateTime(data.timestamp)
+    }
+
+    fun bindPayload(data: GroupListItemPayload) {
+        data.isEncrypted?.let { setIsEncrypted(binding.ivLock, it) }
+        data.topic?.let { setTopic(it) }
+        data.membersCount?.let { setMembersCount(it) }
+        data.timestamp?.let { setUpdateTime(it) }
+    }
+
+    private fun setTopic(topic: String) {
         binding.tvTopic.text = context.getString(
             R.string.topic_formatter,
-            data.topic.takeIf { it.isNotEmpty() } ?: context.getString(R.string.none)
+            topic.takeIf { it.isNotEmpty() } ?: context.getString(R.string.none)
         )
+    }
+
+    private fun setMembersCount(membersCount: Int) {
         binding.tvMembers.text = context.resources.getQuantityString(
             R.plurals.member_plurals,
-            data.membersCount, data.membersCount
+            membersCount, membersCount
         )
+    }
+
+    private fun setUpdateTime(timestamp: Long) {
         binding.tvUpdateTime.text = context.getString(
             R.string.last_updated_formatter, DateUtils.getRelativeTimeSpanString(
-                data.timestamp, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS
+                timestamp, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS
             )
         )
     }
