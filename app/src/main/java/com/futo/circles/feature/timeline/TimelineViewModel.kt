@@ -6,7 +6,7 @@ import androidx.lifecycle.asLiveData
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.share.ShareableContent
+import com.futo.circles.feature.timeline.post.share.ShareableContent
 import com.futo.circles.feature.timeline.data_source.TimelineDataSource
 import com.futo.circles.model.ImageContent
 import com.futo.circles.model.PostContent

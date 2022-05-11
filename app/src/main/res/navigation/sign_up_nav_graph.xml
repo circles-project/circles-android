@@ -19,25 +19,25 @@
 
     <fragment
         android:id="@+id/selectSignUpTypeFragment"
-        android:name="com.futo.circles.feature.sign_up_type.SelectSignUpTypeFragment"
+        android:name="com.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeFragment"
         android:label="SelectSignUpTypeFragment"
         tools:layout="@layout/select_sign_up_type_fragment" />
 
     <fragment
         android:id="@+id/validateTokenFragment"
-        android:name="com.futo.circles.feature.validate_token.ValidateTokenFragment"
+        android:name="com.futo.circles.feature.sign_up.validate_token.ValidateTokenFragment"
         android:label="ValidateTokenFragment"
         tools:layout="@layout/validate_token_fragment" />
 
     <fragment
         android:id="@+id/validateEmailFragment"
-        android:name="com.futo.circles.feature.validate_email.ValidateEmailFragment"
+        android:name="com.futo.circles.feature.sign_up.validate_email.ValidateEmailFragment"
         android:label="CreateAccountFragment"
         tools:layout="@layout/validate_email_fragment" />
 
     <fragment
         android:id="@+id/acceptTermsFragment"
-        android:name="com.futo.circles.feature.terms.AcceptTermsFragment"
+        android:name="com.futo.circles.feature.sign_up.terms.AcceptTermsFragment"
         android:label="AcceptTermsFragment"
         tools:layout="@layout/accept_terms_fragment" />
 

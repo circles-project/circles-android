@@ -46,7 +46,7 @@
 
     <dialog
         android:id="@+id/createRoomDialogFragment"
-        android:name="com.futo.circles.feature.create_room.CreateRoomDialogFragment"
+        android:name="com.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
         tools:layout="@layout/create_room_dialog_fragment">
 
         <argument

@@ -65,7 +65,7 @@
     </fragment>
     <fragment
         android:id="@+id/setupProfileFragment"
-        android:name="com.futo.circles.feature.setup_profile.SetupProfileFragment"
+        android:name="com.futo.circles.feature.sign_up.setup_profile.SetupProfileFragment"
         android:label="SetupProfileFragment"
         tools:layout="@layout/setup_profile_fragment">
         <action
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/setupCirclesFragment"
-        android:name="com.futo.circles.feature.setup_circles.SetupCirclesFragment"
+        android:name="com.futo.circles.feature.sign_up.setup_circles.SetupCirclesFragment"
         android:label="SetupCirclesFragment"
         tools:layout="@layout/setup_circles_fragment">
         <action
