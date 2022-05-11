@@ -18,8 +18,11 @@ object MatrixSessionProvider {
             )
         ).also { MatrixInstanceProvider.saveMatrixInstance(it) }
 
-        val lastSession =
+        val lastSession = try {
             MatrixInstanceProvider.matrix.authenticationService().getLastAuthenticatedSession()
+        } catch (e: Exception) {
+            null
+        }
 
         lastSession?.let { startSession(it) }
     }

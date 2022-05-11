@@ -19,8 +19,11 @@ class LogInViewModel(
 
     fun logIn(name: String, password: String) {
         launchBg {
-            loginResultLiveData.postValue(loginDataSource.logIn(name, password))
-            restoreKeysLiveData.postValue(loginDataSource.restoreKeys(password))
+            val loginResult = loginDataSource.logIn(name, password)
+            loginResultLiveData.postValue(loginResult)
+            (loginResult as? Response.Success)?.let {
+                restoreKeysLiveData.postValue(loginDataSource.restoreKeys(password))
+            }
         }
     }
 

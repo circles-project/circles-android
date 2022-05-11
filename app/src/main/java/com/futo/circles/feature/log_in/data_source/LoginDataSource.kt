@@ -5,10 +5,12 @@ import android.net.Uri
 import com.futo.circles.BuildConfig
 import com.futo.circles.R
 import com.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
+import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
 import com.futo.circles.provider.MatrixInstanceProvider
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
+import org.matrix.android.sdk.api.session.Session
 
 class LoginDataSource(
     private val context: Context,
@@ -28,7 +30,7 @@ class LoginDataSource(
 
     val passPhraseLoadingLiveData = restorePassPhraseDataSource.loadingLiveData
 
-    suspend fun logIn(name: String, password: String) = createResult {
+    suspend fun logIn(name: String, password: String): Response<Session> = createResult {
         val session = authService.directAuthentication(
             homeServerConnectionConfig = homeServerConnectionConfig,
             matrixId = name,
