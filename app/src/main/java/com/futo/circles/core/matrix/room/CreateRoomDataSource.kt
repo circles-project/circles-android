@@ -2,8 +2,6 @@ package com.futo.circles.core.matrix.room
 
 import android.content.Context
 import android.net.Uri
-import com.futo.circles.BuildConfig
-import com.futo.circles.R
 import com.futo.circles.model.Circle
 import com.futo.circles.model.CirclesRoom
 import com.futo.circles.model.Timeline
@@ -17,7 +15,10 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.space.CreateSpaceParams
 
-class CreateRoomDataSource(private val context: Context) {
+class CreateRoomDataSource(
+    private val context: Context,
+    private val roomRelationsBuilder: RoomRelationsBuilder
+) {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 
@@ -28,7 +29,8 @@ class CreateRoomDataSource(private val context: Context) {
     ): String {
         val circleId = createRoom(Circle(), name, null, iconUri, inviteIds)
         val timelineId = createRoom(Timeline(), name)
-        session?.getRoom(circleId)?.let { circle -> setRelations(timelineId, circle) }
+        session?.getRoom(circleId)
+            ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
         return circleId
     }
 
@@ -44,7 +46,7 @@ class CreateRoomDataSource(private val context: Context) {
 
         session?.getRoom(id)?.addTag(circlesRoom.tag, null)
         circlesRoom.parentTag?.let { tag ->
-            findRoomByTag(tag)?.let { room -> setRelations(id, room) }
+            findRoomByTag(tag)?.let { room -> roomRelationsBuilder.setRelations(id, room) }
         }
         return id
     }
@@ -78,19 +80,10 @@ class CreateRoomDataSource(private val context: Context) {
         }
     }
 
-    private suspend fun setRelations(childId: String, parentRoom: Room) {
-        val via = listOf(getHomeServerDomain())
-        session?.spaceService()?.setSpaceParent(childId, parentRoom.roomId, true, via)
-        parentRoom.asSpace()?.addChildren(childId, via, null)
-    }
-
     private fun findRoomByTag(tag: String): Room? {
         val roomWithTagId = session?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
             ?.firstOrNull { summary -> summary.tags.firstOrNull { it.name == tag } != null }
             ?.roomId
         return roomWithTagId?.let { session?.getRoom(it) }
     }
-
-    private fun getHomeServerDomain() = BuildConfig.MATRIX_HOME_SERVER_URL
-        .substringAfter("//").replace("/", "")
 }

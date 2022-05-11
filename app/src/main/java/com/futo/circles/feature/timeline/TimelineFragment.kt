@@ -37,16 +37,15 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
     private val viewModel by viewModel<TimelineViewModel> { parametersOf(args.roomId, args.type) }
     private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
 
-    private val roomId by lazy { args.roomId }
     private val timelineId by lazy {
         if (isGroupMode) args.roomId
         else getTimelineRoomFor(args.roomId)?.roomId ?: throw IllegalArgumentException(
             requireContext().getString(R.string.timeline_not_found)
         )
     }
-    protected val binding by viewBinding(TimelineFragmentBinding::bind)
+    private val binding by viewBinding(TimelineFragmentBinding::bind)
     private val listAdapter by lazy {
-        TimelineAdapter(getCurrentUserPowerLevel(roomId), this) { viewModel.loadMore() }
+        TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
     }
     private var isGroupSettingAvailable = false
     private var isGroupInviteAvailable = false
@@ -95,7 +94,7 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
                 return true
             }
             R.id.iFollowing -> {
-
+                navigateToFollowing()
                 return true
             }
             R.id.deleteCircle -> {
@@ -144,6 +143,9 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
         viewModel.leaveGroupLiveData.observeResponse(this,
+            success = { activity?.onBackPressed() }
+        )
+        viewModel.deleteCircleLiveData.observeResponse(this,
             success = { activity?.onBackPressed() }
         )
     }
@@ -268,14 +270,27 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
         )
     }
 
-    private fun showLeaveGroupDialog() {
-        showDialog(
-            titleResIdRes = R.string.leave_group,
-            messageResId = R.string.leave_group_message,
-            positiveButtonRes = R.string.leave,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.leaveGroup() }
+    private fun navigateToFollowing() {
+        findNavController().navigate(
+            TimelineFragmentDirections.toFollowingDialogFragment(args.roomId)
         )
+    }
+
+    private fun showLeaveGroupDialog() {
+        if (viewModel.isSingleOwner()) {
+            showDialog(
+                titleResIdRes = R.string.leave_group,
+                messageResId = R.string.select_another_admin_message
+            )
+        } else {
+            showDialog(
+                titleResIdRes = R.string.leave_group,
+                messageResId = R.string.leave_group_message,
+                positiveButtonRes = R.string.leave,
+                negativeButtonVisible = true,
+                positiveAction = { viewModel.leaveGroup() }
+            )
+        }
     }
 
     private fun showDeleteConfirmation() {

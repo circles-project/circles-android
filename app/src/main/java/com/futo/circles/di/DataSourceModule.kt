@@ -4,7 +4,9 @@ import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import com.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
+import com.futo.circles.core.matrix.room.RoomRelationsBuilder
 import com.futo.circles.feature.emoji.data_source.EmojiDataSource
+import com.futo.circles.feature.following.data_source.FollowingDataSource
 import com.futo.circles.feature.group_invite.data_source.InviteMembersDataSource
 import com.futo.circles.feature.group_members.change_role.data_source.ChangeAccessLevelDataSource
 import com.futo.circles.feature.group_members.data_source.ManageGroupMembersDataSource
@@ -28,7 +30,7 @@ import org.koin.dsl.module
 val dataSourceModule = module {
     factory { LoginDataSource(get(), get()) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
-        TimelineDataSource(roomId, type, get(), get())
+        TimelineDataSource(roomId, type, get(), get(), get())
     }
     factory { TimelineBuilder() }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
@@ -36,7 +38,8 @@ val dataSourceModule = module {
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         ManageGroupMembersDataSource(roomId, type, get())
     }
-    factory { CreateRoomDataSource(get()) }
+    factory { CreateRoomDataSource(get(), get()) }
+    factory { RoomRelationsBuilder() }
     factory { CoreSpacesTreeBuilder(get()) }
     single { SignUpDataSource(get(), get(), get()) }
     factory { ValidateTokenDataSource(get()) }
@@ -54,4 +57,5 @@ val dataSourceModule = module {
     factory { (roomId: String) -> UpdateRoomDataSource(roomId, get()) }
     factory { (roomId: String, eventId: String) -> ReportDataSource(roomId, eventId, get()) }
     single { EmojiDataSource(get()) }
+    factory { (roomId: String) -> FollowingDataSource(roomId, get(), get()) }
 }

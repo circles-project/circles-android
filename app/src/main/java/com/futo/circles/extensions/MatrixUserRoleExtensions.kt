@@ -4,7 +4,9 @@ import com.futo.circles.R
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
+import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
+import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
@@ -56,11 +58,23 @@ fun PowerLevelsContent.getCurrentUserPowerLevel(): Int {
     return PowerLevelsHelper(this).getUserPowerLevelValue(userId)
 }
 
+fun getPowerLevelContent(roomId: String): PowerLevelsContent? {
+    val session = MatrixSessionProvider.currentSession ?: return null
+    val room = session.getRoom(roomId) ?: return null
+    return room.getStateEvent(EventType.STATE_ROOM_POWER_LEVELS)?.content.toModel<PowerLevelsContent>()
+}
+
 fun getCurrentUserPowerLevel(roomId: String): Int {
     val session = MatrixSessionProvider.currentSession ?: return Role.Default.value
-    val room = session.getRoom(roomId) ?: return Role.Default.value
-    val powerLevelsContent =
-        room.getStateEvent(EventType.STATE_ROOM_POWER_LEVELS)?.content.toModel<PowerLevelsContent>()
-            ?: return Role.Default.value
+    val powerLevelsContent = getPowerLevelContent(roomId) ?: return Role.Default.value
     return PowerLevelsHelper(powerLevelsContent).getUserPowerLevelValue(session.myUserId)
+}
+
+fun getRoomOwners(roomId: String): List<RoomMemberSummary> {
+    val room = MatrixSessionProvider.currentSession?.getRoom(roomId) ?: return emptyList()
+    val powerLevelsContent = getPowerLevelContent(roomId) ?: return emptyList()
+    return room.getRoomMembers(roomMemberQueryParams()).filter { roomMemberSummary ->
+        powerLevelsContent.getUserPowerLevel(roomMemberSummary.userId) == Role.Admin.value &&
+                roomMemberSummary.membership.isActive()
+    }
 }
