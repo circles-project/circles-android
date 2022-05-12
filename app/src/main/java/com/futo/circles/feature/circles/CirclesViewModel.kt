@@ -7,15 +7,16 @@ import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.circles.data_source.CirclesDataSource
 import com.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.room.spaceSummaryQueryParams
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
 class CirclesViewModel(
     private val dataSource: CirclesDataSource
 ) : ViewModel() {
 
     val circlesLiveData =
-        MatrixSessionProvider.currentSession?.getRoomSummariesLive(spaceSummaryQueryParams())
-            ?.map { list -> dataSource.filterCircles(list) }
+        MatrixSessionProvider.currentSession?.getRoomSummariesLive(roomSummaryQueryParams {
+            excludeType = null
+        })?.map { list -> dataSource.filterCircles(list) }
 
     val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
 
