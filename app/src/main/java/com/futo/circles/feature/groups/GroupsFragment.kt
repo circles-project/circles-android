@@ -41,7 +41,6 @@ class GroupsFragment : Fragment(R.layout.groups_fragment) {
             adapter = listAdapter
             bindToFab(binding.fbAddGroup)
         }
-
         binding.fbAddGroup.setOnClickListener { navigateToCreateGroup() }
     }
 

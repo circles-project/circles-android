@@ -10,6 +10,7 @@ import com.futo.circles.R
 import com.futo.circles.databinding.CirclesFragmentBinding
 import com.futo.circles.extensions.bindToFab
 import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
 import com.futo.circles.feature.circles.list.CirclesListAdapter
 import com.futo.circles.model.CircleListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,13 +19,19 @@ class CirclesFragment : Fragment(R.layout.circles_fragment) {
 
     private val viewModel by viewModel<CirclesViewModel>()
     private val binding by viewBinding(CirclesFragmentBinding::bind)
-    private val listAdapter by lazy { CirclesListAdapter(::onCircleListItemClicked) }
+    private val listAdapter by lazy {
+        CirclesListAdapter(
+            onCircleClicked = { circleListitem -> onCircleListItemClicked(circleListitem) },
+            onInviteClicked = { circleListitem, isAccepted ->
+                onInviteClicked(circleListitem, isAccepted)
+            }
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupViews()
-        viewModel.circlesLiveData?.observeData(this, ::setCirclesList)
+        setupObservers()
     }
 
     private fun setupViews() {
@@ -33,12 +40,21 @@ class CirclesFragment : Fragment(R.layout.circles_fragment) {
             adapter = listAdapter
             bindToFab(binding.fbAddCircle)
         }
-
         binding.fbAddCircle.setOnClickListener { navigateToCreateCircle() }
     }
 
-    private fun setCirclesList(list: List<CircleListItem>) {
-        listAdapter.submitList(list)
+    private fun setupObservers() {
+        viewModel.circlesLiveData?.observeData(this) { listAdapter.submitList(it) }
+        viewModel.inviteResultLiveData.observeResponse(this)
+    }
+
+    private fun onInviteClicked(room: CircleListItem, isAccepted: Boolean) {
+        if (isAccepted) navigateToCirclePicker()
+        else viewModel.rejectInvite(room.id)
+    }
+
+    private fun navigateToCirclePicker() {
+
     }
 
     private fun onCircleListItemClicked(room: CircleListItem) {
