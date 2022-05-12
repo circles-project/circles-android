@@ -6,6 +6,8 @@ import com.futo.circles.model.JoinedGroupListItem
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
+fun RoomSummary.nameOrId() = displayName.takeIf { it.isNotEmpty() } ?: roomId
+
 fun RoomSummary.toGroupInfo() = GroupInfo(
     title = nameOrId(),
     isEncrypted = isEncrypted,
