@@ -8,8 +8,8 @@ import androidx.lifecycle.map
 import com.bumptech.glide.Glide
 import com.futo.circles.core.matrix.room.RoomRelationsBuilder
 import com.futo.circles.extensions.*
-import com.futo.circles.feature.share.ImageShareable
-import com.futo.circles.feature.share.TextShareable
+import com.futo.circles.feature.timeline.post.share.ImageShareable
+import com.futo.circles.feature.timeline.post.share.TextShareable
 import com.futo.circles.mapping.nameOrId
 import com.futo.circles.model.*
 import com.futo.circles.provider.MatrixSessionProvider

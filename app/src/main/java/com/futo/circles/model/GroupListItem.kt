@@ -1,13 +1,30 @@
 package com.futo.circles.model
 
 import com.futo.circles.core.list.IdEntity
+import org.matrix.android.sdk.api.session.room.model.Membership
 
-data class GroupListItem(
+sealed class GroupListItem(
     override val id: String,
-    val title: String,
+    open val info: GroupInfo,
+    open val membership: Membership
+) : IdEntity<String>
+
+data class JoinedGroupListItem(
+    override val id: String,
+    override val info: GroupInfo,
     val topic: String,
-    val isEncrypted: Boolean,
-    val avatarUrl: String,
     val membersCount: Int,
     val timestamp: Long
-) : IdEntity<String>
+) : GroupListItem(id, info, Membership.JOIN)
+
+data class InvitedGroupListItem(
+    override val id: String,
+    override val info: GroupInfo,
+    val inviterName: String,
+) : GroupListItem(id, info, Membership.INVITE)
+
+data class GroupInfo(
+    val title: String,
+    val isEncrypted: Boolean,
+    val avatarUrl: String,
+)

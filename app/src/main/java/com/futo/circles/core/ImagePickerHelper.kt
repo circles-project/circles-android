@@ -8,9 +8,6 @@ import androidx.fragment.app.Fragment
 import com.futo.circles.R
 import com.futo.circles.extensions.getContentUriForFileUri
 import com.futo.circles.extensions.showError
-import com.futo.circles.pick_image.PickImageDialog
-import com.futo.circles.pick_image.PickImageDialogListener
-import com.futo.circles.pick_image.PickImageMethod
 import com.github.dhaval2404.imagepicker.ImagePicker
 
 class ImagePickerHelper(private val fragment: Fragment) : PickImageDialogListener {

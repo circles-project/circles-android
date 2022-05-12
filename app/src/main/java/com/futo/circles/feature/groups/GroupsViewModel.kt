@@ -2,26 +2,29 @@ package com.futo.circles.feature.groups
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.futo.circles.model.GROUP_TYPE
-import com.futo.circles.mapping.toGroupListItem
-import com.futo.circles.model.GroupListItem
+import com.futo.circles.core.SingleEventLiveData
+import com.futo.circles.extensions.Response
+import com.futo.circles.extensions.launchBg
+import com.futo.circles.feature.groups.data_source.GroupsDataSource
 import com.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
 
-class GroupsViewModel : ViewModel() {
+class GroupsViewModel(
+    private val dataSource: GroupsDataSource
+) : ViewModel() {
 
     val groupsLiveData =
         MatrixSessionProvider.currentSession?.getRoomSummariesLive(roomSummaryQueryParams())
-            ?.map { list -> filterGroups(list) }
+            ?.map { list -> dataSource.filterGroups(list) }
 
+    val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
 
-    private fun filterGroups(list: List<RoomSummary>): List<GroupListItem> {
-        return list.mapNotNull { summary ->
-            if (summary.roomType == GROUP_TYPE && summary.membership.isActive())
-                summary.toGroupListItem()
-            else null
-        }
+    fun acceptInvite(roomId: String) {
+        launchBg { inviteResultLiveData.postValue(dataSource.acceptInvite(roomId)) }
+    }
+
+    fun rejectInvite(roomId: String) {
+        launchBg { inviteResultLiveData.postValue(dataSource.rejectInvite(roomId)) }
     }
 }

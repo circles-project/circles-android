@@ -16,9 +16,9 @@ import com.futo.circles.R
 import com.futo.circles.core.list.BaseRvDecoration
 import com.futo.circles.databinding.TimelineFragmentBinding
 import com.futo.circles.extensions.*
-import com.futo.circles.feature.emoji.EmojiPickerListener
-import com.futo.circles.feature.post.CreatePostListener
-import com.futo.circles.feature.share.ShareProvider
+import com.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
+import com.futo.circles.feature.timeline.post.CreatePostListener
+import com.futo.circles.feature.timeline.post.share.ShareProvider
 import com.futo.circles.feature.timeline.list.PostViewHolder
 import com.futo.circles.feature.timeline.list.TimelineAdapter
 import com.futo.circles.model.CircleRoomTypeArg
