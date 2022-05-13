@@ -30,6 +30,7 @@ import org.koin.dsl.module
 val uiModule = module {
     viewModel { LogInViewModel(get()) }
     viewModel { GroupsViewModel(get()) }
+    viewModel { CirclesViewModel(get()) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineViewModel(get { parametersOf(roomId, type) })
     }
@@ -47,7 +48,6 @@ val uiModule = module {
     viewModel { SetupProfileViewModel(get()) }
     viewModel { SetupCirclesViewModel(get(), get()) }
     viewModel { HomeViewModel(get()) }
-    viewModel { CirclesViewModel(get()) }
     viewModel { (levelValue: Int, myUserLevelValue: Int) ->
         ChangeAccessLevelViewModel(get { parametersOf(levelValue, myUserLevelValue) })
     }
