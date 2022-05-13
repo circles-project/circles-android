@@ -9,7 +9,7 @@
         android:id="@+id/circlesFragment"
         android:name="com.futo.circles.feature.circles.CirclesFragment"
         android:label="@string/my_circles"
-        tools:layout="@layout/circles_fragment">
+        tools:layout="@layout/rooms_fragment">
 
         <action
             android:id="@+id/to_timeline"
