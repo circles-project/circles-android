@@ -7,4 +7,5 @@
     <dimen name="invite_list_side_margin">8dp</dimen>
     <dimen name="group_icon_size">120dp</dimen>
     <dimen name="emoji_icon_size">50dp</dimen>
+    <dimen name="circle_icon_size">100dp</dimen>
 </resources>

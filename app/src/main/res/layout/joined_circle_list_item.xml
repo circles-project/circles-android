@@ -12,8 +12,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivCircle"
-        android:layout_width="@dimen/group_icon_size"
-        android:layout_height="@dimen/group_icon_size"
+        android:layout_width="@dimen/circle_icon_size"
+        android:layout_height="@dimen/circle_icon_size"
         android:padding="8dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +31,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:lines="1"
         app:layout_constraintBottom_toTopOf="@id/tvFollowing"
