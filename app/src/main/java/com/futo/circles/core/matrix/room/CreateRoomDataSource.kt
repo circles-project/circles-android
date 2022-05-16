@@ -25,8 +25,8 @@ class CreateRoomDataSource(
         iconUri: Uri? = null,
         inviteIds: List<String>? = null
     ): String {
-        val circleId = createRoom(Circle(), name, null, iconUri, inviteIds)
-        val timelineId = createRoom(Timeline(), name)
+        val circleId = createRoom(Circle(), name, null, iconUri)
+        val timelineId = createRoom(Timeline(), name, null, iconUri, inviteIds)
         session?.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
         return circleId
