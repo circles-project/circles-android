@@ -35,7 +35,13 @@ class RoomRelationsBuilder {
         session?.getRoom(roomId)?.addTag(circlesRoom.tag, null)
         circlesRoom.parentTag?.let { tag ->
             findRoomByTag(tag)
-                ?.let { room -> setRelations(roomId, room,false) }
+                ?.let { room -> setRelations(roomId, room, false) }
+        }
+    }
+
+    suspend fun setInvitedCircleRelations(roomId: String, parentCircleId: String) {
+        session?.getRoom(parentCircleId)?.let { parentCircle ->
+            setRelations(roomId, parentCircle, false)
         }
     }
 
