@@ -1,6 +1,8 @@
 package com.futo.circles.feature.circles.accept_invite.data_source
 
 import androidx.lifecycle.MutableLiveData
+import com.futo.circles.core.matrix.room.RoomRelationsBuilder
+import com.futo.circles.extensions.createResult
 import com.futo.circles.mapping.toSelectableRoomListItem
 import com.futo.circles.model.CIRCLE_TAG
 import com.futo.circles.model.SelectableRoomListItem
@@ -8,12 +10,17 @@ import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
-class AcceptCircleInviteDataSource {
+class AcceptCircleInviteDataSource(
+    private val roomId: String,
+    private val roomRelationsBuilder: RoomRelationsBuilder
+) {
+
+    private val session by lazy { MatrixSessionProvider.currentSession }
 
     val circlesLiveData = MutableLiveData(getInitialCirclesList())
 
     private fun getInitialCirclesList(): List<SelectableRoomListItem> =
-        MatrixSessionProvider.currentSession?.getRoomSummaries(roomSummaryQueryParams {
+        session?.getRoomSummaries(roomSummaryQueryParams {
             excludeType = null
         })?.mapNotNull { summary ->
             if (summary.hasTag(CIRCLE_TAG) && summary.membership == Membership.JOIN)
@@ -30,8 +37,11 @@ class AcceptCircleInviteDataSource {
         circlesLiveData.postValue(newList)
     }
 
-    suspend fun acceptCircleInvite() {
-
+    suspend fun acceptCircleInvite() = createResult {
+        session?.joinRoom(roomId)
+        getSelectedCircles().forEach { circle ->
+            roomRelationsBuilder.setInvitedCircleRelations(roomId, circle.id)
+        }
     }
 
 }
