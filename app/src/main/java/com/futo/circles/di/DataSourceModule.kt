@@ -63,5 +63,5 @@ val dataSourceModule = module {
     factory { (roomId: String) -> FollowingDataSource(roomId, get(), get()) }
     factory { GroupsDataSource(get()) }
     factory { CirclesDataSource() }
-    factory { AcceptCircleInviteDataSource() }
+    factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
 }
