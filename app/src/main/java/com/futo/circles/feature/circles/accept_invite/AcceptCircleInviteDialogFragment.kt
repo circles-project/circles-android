@@ -9,6 +9,7 @@ import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.databinding.AcceptCircleInviteDialogFragmentBinding
 import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.feature.circles.accept_invite.list.CirclesInviteAdapter
 import com.futo.circles.feature.circles.accept_invite.list.selected.SelectedCirclesAdapter
@@ -59,5 +60,8 @@ class AcceptCircleInviteDialogFragment :
             binding.selectedUserDivider.setIsVisible(selectedCircles.isNotEmpty())
             binding.btnInvite.isEnabled = selectedCircles.isNotEmpty()
         }
+        viewModel.acceptResultLiveData.observeResponse(this,
+            success = { activity?.onBackPressed() }
+        )
     }
 }
