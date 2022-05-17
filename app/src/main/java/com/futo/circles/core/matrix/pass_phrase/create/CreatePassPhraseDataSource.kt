@@ -6,11 +6,8 @@ import com.futo.circles.R
 import com.futo.circles.model.LoadingData
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.ProgressListener
-import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
-import org.matrix.android.sdk.internal.crypto.keysbackup.model.MegolmBackupCreationInfo
-import org.matrix.android.sdk.internal.crypto.keysbackup.model.rest.KeysVersion
-import org.matrix.android.sdk.internal.crypto.keysbackup.model.rest.KeysVersionResult
-import org.matrix.android.sdk.internal.util.awaitCallback
+import org.matrix.android.sdk.api.session.crypto.keysbackup.*
+import org.matrix.android.sdk.api.util.awaitCallback
 
 class CreatePassPhraseDataSource(private val context: Context) {
 
@@ -49,7 +46,8 @@ class CreatePassPhraseDataSource(private val context: Context) {
             messageId = R.string.creating_backup
         })
         val versionData =
-            awaitCallback<KeysVersionResult?> { keysBackupService.getCurrentVersion(it) }
+            awaitCallback<KeysBackupLastVersionResult> { keysBackupService.getCurrentVersion(it) }
+                .toKeysVersionResult()
 
         if (versionData?.version.isNullOrBlank()) {
             awaitCallback<KeysVersion> {
