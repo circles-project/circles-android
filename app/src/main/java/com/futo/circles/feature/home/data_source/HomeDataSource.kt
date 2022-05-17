@@ -7,6 +7,6 @@ class HomeDataSource {
 
     private val session = MatrixSessionProvider.currentSession
 
-    suspend fun logOut() = createResult { session?.signOut(true) }
+    suspend fun logOut() = createResult { session?.signOutService()?.signOut(true) }
 
 }

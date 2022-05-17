@@ -27,7 +27,7 @@ class GroupsDataSource(
     }
 
     suspend fun acceptInvite(roomId: String) = createResult {
-        session?.joinRoom(roomId)
+        session?.roomService()?.joinRoom(roomId)
         roomRelationsBuilder.setInvitedGroupRelations(roomId)
     }
 }

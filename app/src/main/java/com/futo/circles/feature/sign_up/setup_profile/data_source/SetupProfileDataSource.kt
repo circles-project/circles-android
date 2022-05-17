@@ -15,11 +15,11 @@ class SetupProfileDataSource(
         val session = MatrixSessionProvider.currentSession
 
         profileImageUri?.let { uri ->
-            session?.updateAvatar(session.myUserId, uri, getFileName(uri))
+            session?.profileService()?.updateAvatar(session.myUserId, uri, getFileName(uri))
         }
 
         displayName?.let { name ->
-            session?.setDisplayName(session.myUserId, name)
+            session?.profileService()?.setDisplayName(session.myUserId, name)
         }
     }
 

@@ -12,7 +12,8 @@ class GroupsViewModel(
 ) : RoomsViewModel(dataSource) {
 
     override val roomsLiveData =
-        MatrixSessionProvider.currentSession?.getRoomSummariesLive(roomSummaryQueryParams())
+        MatrixSessionProvider.currentSession?.roomService()
+            ?.getRoomSummariesLive(roomSummaryQueryParams())
             ?.map { list -> dataSource.filterRooms(list) }
 
     fun acceptGroupInvite(roomId: String) {

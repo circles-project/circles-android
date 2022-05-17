@@ -3,6 +3,7 @@ package com.futo.circles.mapping
 import com.futo.circles.extensions.getTimelineRoomFor
 import com.futo.circles.model.*
 import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 fun RoomSummary.nameOrId() = displayName.takeIf { it.isNotEmpty() } ?: roomId

@@ -6,6 +6,7 @@ import com.futo.circles.model.Circle
 import com.futo.circles.model.CirclesRoom
 import com.futo.circles.model.Timeline
 import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomDirectoryVisibility
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
@@ -39,10 +40,11 @@ class CreateRoomDataSource(
         iconUri: Uri? = null,
         inviteIds: List<String>? = null
     ): String {
-        val id = session?.createRoom(getParams(circlesRoom, name, topic, iconUri, inviteIds))
+        val id = session?.roomService()
+            ?.createRoom(getParams(circlesRoom, name, topic, iconUri, inviteIds))
             ?: throw Exception("Can not create room")
 
-        session?.getRoom(id)?.addTag(circlesRoom.tag, null)
+        session?.getRoom(id)?.tagsService()?.addTag(circlesRoom.tag, null)
         circlesRoom.parentTag?.let { tag ->
             roomRelationsBuilder.findRoomByTag(tag)
                 ?.let { room -> roomRelationsBuilder.setRelations(id, room) }

@@ -5,6 +5,7 @@ import android.net.Uri
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.getFilename
 import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
 import java.util.*
 
 class UpdateRoomDataSource(
@@ -17,10 +18,11 @@ class UpdateRoomDataSource(
     fun getRoomSummary() = room?.roomSummary()
 
     suspend fun updateRoom(name: String, topic: String, uri: Uri?) = createResult {
-        if (isNameChanged(name)) room?.updateName(name)
-        if (isTopicChanged(topic)) room?.updateTopic(topic)
+        if (isNameChanged(name)) room?.stateService()?.updateName(name)
+        if (isTopicChanged(topic)) room?.stateService()?.updateTopic(topic)
         uri?.let {
-            room?.updateAvatar(it, it.getFilename(context) ?: UUID.randomUUID().toString())
+            room?.stateService()
+                ?.updateAvatar(it, it.getFilename(context) ?: UUID.randomUUID().toString())
         }
     }
 

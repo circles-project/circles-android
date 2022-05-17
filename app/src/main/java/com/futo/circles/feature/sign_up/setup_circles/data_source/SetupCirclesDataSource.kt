@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
 import com.futo.circles.model.SetupCircleListItem
 import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getUser
 
 class SetupCirclesDataSource(
     private val context: Context

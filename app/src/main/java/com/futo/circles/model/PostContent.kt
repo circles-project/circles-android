@@ -1,7 +1,7 @@
 package com.futo.circles.model
 
+import org.matrix.android.sdk.api.session.crypto.attachments.ElementToDecrypt
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
-import org.matrix.android.sdk.internal.crypto.attachments.ElementToDecrypt
 
 enum class PostContentType(val typeKey: String) {
     TEXT_CONTENT(MessageType.MSGTYPE_TEXT), IMAGE_CONTENT(MessageType.MSGTYPE_IMAGE)

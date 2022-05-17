@@ -6,10 +6,12 @@ import com.futo.circles.R
 import com.futo.circles.model.LoadingData
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.StepProgressListener
+import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupLastVersionResult
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
-import org.matrix.android.sdk.internal.crypto.keysbackup.model.rest.KeysVersionResult
-import org.matrix.android.sdk.internal.crypto.model.ImportRoomKeysResult
-import org.matrix.android.sdk.internal.util.awaitCallback
+import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersionResult
+import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
+import org.matrix.android.sdk.api.session.crypto.model.ImportRoomKeysResult
+import org.matrix.android.sdk.api.util.awaitCallback
 
 class RestorePassPhraseDataSource(private val context: Context) {
 
@@ -47,9 +49,10 @@ class RestorePassPhraseDataSource(private val context: Context) {
     suspend fun restoreKeysWithPassPhase(passphrase: String) {
         val keysBackupService = session?.cryptoService()?.keysBackupService()
             ?: throw Exception(context.getString(R.string.session_is_not_created))
-        val keyVersion = awaitCallback<KeysVersionResult?> {
+        val keyVersion = awaitCallback<KeysBackupLastVersionResult> {
             keysBackupService.getCurrentVersion(it)
-        } ?: throw Exception(context.getString(R.string.failed_to_get_restore_keys_version))
+        }.toKeysVersionResult()
+            ?: throw Exception(context.getString(R.string.failed_to_get_restore_keys_version))
 
         try {
             awaitCallback<ImportRoomKeysResult> {

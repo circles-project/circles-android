@@ -9,6 +9,7 @@ import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import org.matrix.android.sdk.api.session.getRoom
 
 class InviteMembersDataSource(
     private val roomId: String,
@@ -26,7 +27,7 @@ class InviteMembersDataSource(
 
     suspend fun inviteUsers(scope: CoroutineScope, users: List<UserListItem>) = createResult {
         users.map {
-            scope.async { room?.invite(it.id, null) }
+            scope.async { room?.membershipService()?.invite(it.id, null) }
         }.awaitAll()
 
         return@createResult

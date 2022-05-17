@@ -9,6 +9,7 @@ import com.futo.circles.model.UserListItem
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.user.model.User
 
 class SelectUsersDataSource(roomId: String?) {
@@ -34,7 +35,7 @@ class SelectUsersDataSource(roomId: String?) {
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
 
-    private fun searchKnownUsers(query: String) = session?.getUsersLive()?.asFlow()
+    private fun searchKnownUsers(query: String) = session?.userService()?.getUsersLive()?.asFlow()
         ?.map { list ->
             list.filterNot { user -> existingMembersIds.contains(user.userId) }
                 .filter { user ->
@@ -46,7 +47,8 @@ class SelectUsersDataSource(roomId: String?) {
 
 
     private suspend fun searchSuggestions(query: String): Flow<List<User>> = flow {
-        val users = session?.searchUsersDirectory(query, MAX_SUGGESTION_COUNT, existingMembersIds)
+        val users = session?.userService()
+            ?.searchUsersDirectory(query, MAX_SUGGESTION_COUNT, existingMembersIds)
         emit(users ?: emptyList())
     }
 

@@ -11,8 +11,8 @@ class CirclesViewModel(
 ) : RoomsViewModel(dataSource) {
 
     override val roomsLiveData =
-        MatrixSessionProvider.currentSession?.getRoomSummariesLive(roomSummaryQueryParams {
-            excludeType = null
-        })?.map { list -> dataSource.filterRooms(list) }
+        MatrixSessionProvider.currentSession?.roomService()
+            ?.getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
+            ?.map { list -> dataSource.filterRooms(list) }
 
 }
