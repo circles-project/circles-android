@@ -2,6 +2,7 @@ package com.futo.circles.mapping
 
 import com.bumptech.glide.request.target.Target
 import com.futo.circles.model.*
+import org.matrix.android.sdk.api.session.crypto.attachments.toElementToDecrypt
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent
 import org.matrix.android.sdk.api.session.room.model.message.MessageTextContent
@@ -9,7 +10,6 @@ import org.matrix.android.sdk.api.session.room.model.message.getFileUrl
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getRelationContent
 import org.matrix.android.sdk.api.session.room.timeline.isReply
-import org.matrix.android.sdk.internal.crypto.attachments.toElementToDecrypt
 
 
 fun TimelineEvent.toPost(

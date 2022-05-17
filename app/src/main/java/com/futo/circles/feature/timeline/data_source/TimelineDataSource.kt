@@ -19,7 +19,9 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
+import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
@@ -39,17 +41,20 @@ class TimelineDataSource(
 
     val roomTitleLiveData = room?.getRoomSummaryLive()?.map { it.getOrNull()?.nameOrId() }
     val timelineEventsLiveData = MutableLiveData<List<Post>>()
-    val accessLevelFlow = room?.getStateEventLive(EventType.STATE_ROOM_POWER_LEVELS)?.asFlow()
-        ?.mapNotNull { it.getOrNull()?.content.toModel<PowerLevelsContent>() } ?: flowOf()
+    val accessLevelFlow =
+        room?.stateService()?.getStateEventLive(EventType.STATE_ROOM_POWER_LEVELS)?.asFlow()
+            ?.mapNotNull { it.getOrNull()?.content.toModel<PowerLevelsContent>() } ?: flowOf()
 
     private var timelines: MutableList<Timeline> = mutableListOf()
 
     fun startTimeline() {
         getTimelineRooms().forEach { room ->
-            val timeline = room.createTimeline(null, TimelineSettings(MESSAGES_PER_PAGE)).apply {
-                addListener(this@TimelineDataSource)
-                start()
-            }
+            val timeline =
+                room.timelineService().createTimeline(null, TimelineSettings(MESSAGES_PER_PAGE))
+                    .apply {
+                        addListener(this@TimelineDataSource)
+                        start()
+                    }
             timelines.add(timeline)
         }
     }
@@ -97,39 +102,40 @@ class TimelineDataSource(
     }
 
     suspend fun ignoreSender(userId: String) = createResult {
-        session?.ignoreUserIds(listOf(userId))
+        session?.userService()?.ignoreUserIds(listOf(userId))
     }
 
     fun sendTextMessage(roomId: String, message: String, threadEventId: String?) {
         val roomForMessage = session?.getRoom(roomId)
-        threadEventId?.let { roomForMessage?.replyInThread(it, message) }
-            ?: roomForMessage?.sendTextMessage(message)
+        threadEventId?.let { roomForMessage?.relationService()?.replyInThread(it, message) }
+            ?: roomForMessage?.sendService()?.sendTextMessage(message)
     }
 
     fun sendImage(roomId: String, uri: Uri, threadEventId: String?) {
         val roomForMessage = session?.getRoom(roomId)
         uri.toImageContentAttachmentData(context)?.let {
-            roomForMessage?.sendMedia(it, true, emptySet(), threadEventId)
+            roomForMessage?.sendService()?.sendMedia(it, true, emptySet(), threadEventId)
         }
     }
 
     fun removeMessage(roomId: String, eventId: String) {
         val roomForMessage = session?.getRoom(roomId)
-        roomForMessage?.getTimelineEvent(eventId)?.let { roomForMessage.redactEvent(it.root, null) }
+        roomForMessage?.getTimelineEvent(eventId)
+            ?.let { roomForMessage.sendService().redactEvent(it.root, null) }
     }
 
     fun sendReaction(roomId: String, eventId: String, emoji: String) {
         val roomForMessage = session?.getRoom(roomId)
-        roomForMessage?.sendReaction(eventId, emoji)
+        roomForMessage?.relationService()?.sendReaction(eventId, emoji)
     }
 
     suspend fun unSendReaction(roomId: String, eventId: String, emoji: String) = createResult {
         val roomForMessage = session?.getRoom(roomId)
-        roomForMessage?.undoReaction(eventId, emoji)
+        roomForMessage?.relationService()?.undoReaction(eventId, emoji)
     }
 
     suspend fun leaveGroup() =
-        createResult { session?.leaveRoom(roomId) }
+        createResult { session?.roomService()?.leaveRoom(roomId) }
 
     suspend fun deleteCircle() = createResult {
         room?.roomSummary()?.spaceChildren?.forEach {
@@ -137,11 +143,11 @@ class TimelineDataSource(
         }
         getTimelineRoomFor(roomId)?.let { timelineRoom ->
             timelineRoom.roomSummary()?.otherMemberIds?.forEach { memberId ->
-                timelineRoom.ban(memberId)
+                timelineRoom.membershipService().ban(memberId)
             }
-            session?.leaveRoom(timelineRoom.roomId)
+            session?.roomService()?.leaveRoom(timelineRoom.roomId)
         }
-        session?.leaveRoom(roomId)
+        session?.roomService()?.leaveRoom(roomId)
     }
 
     private fun getTimelineRooms(): List<Room> = when (type) {

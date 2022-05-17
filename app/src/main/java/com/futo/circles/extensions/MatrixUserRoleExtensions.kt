@@ -4,6 +4,8 @@ import com.futo.circles.R
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
+import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.getStateEvent
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
@@ -73,8 +75,9 @@ fun getCurrentUserPowerLevel(roomId: String): Int {
 fun getRoomOwners(roomId: String): List<RoomMemberSummary> {
     val room = MatrixSessionProvider.currentSession?.getRoom(roomId) ?: return emptyList()
     val powerLevelsContent = getPowerLevelContent(roomId) ?: return emptyList()
-    return room.getRoomMembers(roomMemberQueryParams()).filter { roomMemberSummary ->
-        powerLevelsContent.getUserPowerLevel(roomMemberSummary.userId) == Role.Admin.value &&
-                roomMemberSummary.membership.isActive()
-    }
+    return room.membershipService().getRoomMembers(roomMemberQueryParams())
+        .filter { roomMemberSummary ->
+            powerLevelsContent.getUserPowerLevel(roomMemberSummary.userId) == Role.Admin.value &&
+                    roomMemberSummary.membership.isActive()
+        }
 }

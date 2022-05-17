@@ -17,7 +17,7 @@ class ManageMembersViewModel(
 
     val removeUserResultLiveData = SingleEventLiveData<Response<Unit?>>()
     val banUserResultLiveData = SingleEventLiveData<Response<Unit?>>()
-    val changeAccessLevelLiveData = SingleEventLiveData<Response<Unit?>>()
+    val changeAccessLevelLiveData = SingleEventLiveData<Response<String?>>()
 
     fun toggleOptionsVisibility(userId: String) {
         dataSource.toggleOptionsVisibilityFor(userId)

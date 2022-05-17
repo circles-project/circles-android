@@ -11,6 +11,7 @@ import com.futo.circles.R
 import com.futo.circles.databinding.PreviewPostViewBinding
 import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.user.model.User
 
 interface PreviewPostListener {

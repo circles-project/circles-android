@@ -20,7 +20,7 @@ class AcceptCircleInviteDataSource(
     val circlesLiveData = MutableLiveData(getInitialCirclesList())
 
     private fun getInitialCirclesList(): List<SelectableRoomListItem> =
-        session?.getRoomSummaries(roomSummaryQueryParams {
+        session?.roomService()?.getRoomSummaries(roomSummaryQueryParams {
             excludeType = null
         })?.mapNotNull { summary ->
             if (summary.hasTag(CIRCLE_TAG) && summary.membership == Membership.JOIN)
@@ -38,7 +38,7 @@ class AcceptCircleInviteDataSource(
     }
 
     suspend fun acceptCircleInvite() = createResult {
-        session?.joinRoom(roomId)
+        session?.roomService()?.joinRoom(roomId)
         getSelectedCircles().forEach { circle ->
             roomRelationsBuilder.setInvitedCircleRelations(roomId, circle.id)
         }

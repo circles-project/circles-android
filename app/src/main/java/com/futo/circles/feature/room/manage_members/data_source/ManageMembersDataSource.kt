@@ -16,6 +16,7 @@ import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.events.model.toModel
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -63,11 +64,12 @@ class ManageMembersDataSource(
             displayName = QueryStringValue.IsNotEmpty
             memberships = Membership.activeMemberships()
         }
-        return room?.getRoomMembersLive(roomMemberQueryParams)?.asFlow() ?: flowOf()
+        return room?.membershipService()?.getRoomMembersLive(roomMemberQueryParams)?.asFlow()
+            ?: flowOf()
     }
 
     private fun getRoomMembersRoleFlow(): Flow<PowerLevelsContent> {
-        return room?.getStateEventLive(EventType.STATE_ROOM_POWER_LEVELS)?.asFlow()
+        return room?.stateService()?.getStateEventLive(EventType.STATE_ROOM_POWER_LEVELS)?.asFlow()
             ?.mapNotNull { it.getOrNull()?.content.toModel<PowerLevelsContent>() } ?: flowOf()
     }
 
@@ -109,12 +111,14 @@ class ManageMembersDataSource(
         return fullList
     }
 
-    suspend fun removeUser(userId: String) = createResult { room?.remove(userId) }
+    suspend fun removeUser(userId: String) =
+        createResult { room?.membershipService()?.remove(userId) }
 
-    suspend fun banUser(userId: String) = createResult { room?.ban(userId) }
+    suspend fun banUser(userId: String) = createResult { room?.membershipService()?.ban(userId) }
 
     suspend fun changeAccessLevel(userId: String, levelValue: Int) = createResult {
         val content = powerLevelsContent?.setUserPowerLevel(userId, levelValue).toContent()
-        room?.sendStateEvent(EventType.STATE_ROOM_POWER_LEVELS, stateKey = "", content)
+        room?.stateService()
+            ?.sendStateEvent(EventType.STATE_ROOM_POWER_LEVELS, stateKey = "", content)
     }
 }

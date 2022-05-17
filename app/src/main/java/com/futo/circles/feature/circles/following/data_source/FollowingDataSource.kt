@@ -7,6 +7,7 @@ import com.futo.circles.core.matrix.room.RoomRelationsBuilder
 import com.futo.circles.extensions.createResult
 import com.futo.circles.mapping.toFollowingListItem
 import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
 
 class FollowingDataSource(
     private val roomId: String,
@@ -36,6 +37,6 @@ class FollowingDataSource(
 
     suspend fun unfollowRoom(childRoomId: String) = createResult {
         roomRelationsBuilder.removeFromAllParents(childRoomId)
-        session.leaveRoom(childRoomId)
+        session.roomService().leaveRoom(childRoomId)
     }
 }

@@ -19,7 +19,7 @@ class ValidateTokenDataSource(
         val type = (signUpDataSource.currentStage as? Stage.Other)?.type ?: ""
 
         val result = createResult {
-            wizard.registrationOther(
+            wizard.registrationCustom(
                 mapOf(
                     "type" to type,
                     "token" to token

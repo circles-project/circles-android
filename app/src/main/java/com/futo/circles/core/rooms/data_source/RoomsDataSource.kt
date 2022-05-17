@@ -12,6 +12,6 @@ abstract class RoomsDataSource {
     abstract fun filterRooms(list: List<RoomSummary>): List<RoomListItem>
 
     suspend fun rejectInvite(roomId: String) = createResult {
-        session?.leaveRoom(roomId)
+        session?.roomService()?.leaveRoom(roomId)
     }
 }

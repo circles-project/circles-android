@@ -3,6 +3,7 @@ package com.futo.circles.core.matrix.room
 import com.futo.circles.BuildConfig
 import com.futo.circles.model.Group
 import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
@@ -32,7 +33,7 @@ class RoomRelationsBuilder {
 
     suspend fun setInvitedGroupRelations(roomId: String) {
         val circlesRoom = Group()
-        session?.getRoom(roomId)?.addTag(circlesRoom.tag, null)
+        session?.getRoom(roomId)?.tagsService()?.addTag(circlesRoom.tag, null)
         circlesRoom.parentTag?.let { tag ->
             findRoomByTag(tag)
                 ?.let { room -> setRelations(roomId, room, false) }
@@ -46,9 +47,10 @@ class RoomRelationsBuilder {
     }
 
     fun findRoomByTag(tag: String): Room? {
-        val roomWithTagId = session?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
-            ?.firstOrNull { summary -> summary.tags.firstOrNull { it.name == tag } != null }
-            ?.roomId
+        val roomWithTagId =
+            session?.roomService()?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
+                ?.firstOrNull { summary -> summary.tags.firstOrNull { it.name == tag } != null }
+                ?.roomId
         return roomWithTagId?.let { session?.getRoom(it) }
     }
 
