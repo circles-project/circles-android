@@ -1,6 +1,7 @@
 package com.futo.circles.di
 
 import com.futo.circles.feature.circles.CirclesViewModel
+import com.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
 import com.futo.circles.feature.circles.following.FollowingViewModel
 import com.futo.circles.feature.groups.GroupsViewModel
 import com.futo.circles.feature.home.HomeViewModel
@@ -19,7 +20,6 @@ import com.futo.circles.feature.sign_up.terms.AcceptTermsViewModel
 import com.futo.circles.feature.sign_up.validate_email.ValidateEmailViewModel
 import com.futo.circles.feature.sign_up.validate_token.ValidateTokenViewModel
 import com.futo.circles.feature.timeline.TimelineViewModel
-import com.futo.circles.feature.timeline.post.CreatePostViewModel
 import com.futo.circles.feature.timeline.post.emoji.EmojiViewModel
 import com.futo.circles.feature.timeline.post.report.ReportViewModel
 import com.futo.circles.model.CircleRoomTypeArg
@@ -52,10 +52,10 @@ val uiModule = module {
         ChangeAccessLevelViewModel(get { parametersOf(levelValue, myUserLevelValue) })
     }
     viewModel { (roomId: String) -> UpdateRoomViewModel(get { parametersOf(roomId) }) }
-    viewModel { CreatePostViewModel() }
     viewModel { (roomId: String, eventId: String) ->
         ReportViewModel(get { parametersOf(roomId, eventId) })
     }
     viewModel { EmojiViewModel(get()) }
     viewModel { (roomId: String) -> FollowingViewModel(get { parametersOf(roomId) }) }
+    viewModel { (roomId: String) -> AcceptCircleInviteViewModel(get { parametersOf(roomId) }) }
 }

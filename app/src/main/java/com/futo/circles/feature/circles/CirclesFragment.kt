@@ -18,6 +18,8 @@ class CirclesFragment : RoomsFragment() {
     }
 
     override fun onAcceptInviteClicked(room: RoomListItem) {
-
+        findNavController().navigate(
+            CirclesFragmentDirections.toAcceptCircleInviteDialogFragment(room.id)
+        )
     }
 }

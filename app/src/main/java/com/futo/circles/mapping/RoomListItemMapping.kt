@@ -41,6 +41,12 @@ fun RoomSummary.toInviteCircleListItem() = InvitedCircleListItem(
     inviterName = getInviterName()
 )
 
+fun RoomSummary.toSelectableRoomListItem() = SelectableRoomListItem(
+    id = roomId,
+    info = toRoomInfo(),
+    isSelected = false
+)
+
 fun RoomSummary.getFollowersCount(): Int =
     getTimelineRoomFor(roomId)?.roomSummary()?.otherMemberIds?.size ?: 0
 

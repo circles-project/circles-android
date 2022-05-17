@@ -5,6 +5,7 @@ import com.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSou
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
 import com.futo.circles.core.matrix.room.RoomRelationsBuilder
+import com.futo.circles.feature.circles.accept_invite.data_source.AcceptCircleInviteDataSource
 import com.futo.circles.feature.circles.data_source.CirclesDataSource
 import com.futo.circles.feature.circles.following.data_source.FollowingDataSource
 import com.futo.circles.feature.groups.data_source.GroupsDataSource
@@ -62,4 +63,5 @@ val dataSourceModule = module {
     factory { (roomId: String) -> FollowingDataSource(roomId, get(), get()) }
     factory { GroupsDataSource(get()) }
     factory { CirclesDataSource() }
+    factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
 }
