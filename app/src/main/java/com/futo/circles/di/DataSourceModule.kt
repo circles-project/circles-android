@@ -51,7 +51,7 @@ val dataSourceModule = module {
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
-    factory { HomeDataSource() }
+    factory { HomeDataSource(get()) }
     factory { CreatePassPhraseDataSource(get()) }
     factory { RestorePassPhraseDataSource(get()) }
     factory { (levelValue: Int, myUserLevelValue: Int) ->
