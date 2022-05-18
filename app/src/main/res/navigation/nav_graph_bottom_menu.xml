@@ -3,13 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_bottom_menu"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/home_nav_graph">
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.futo.circles.feature.home.HomeFragment"
-        android:label="@string/welcome"
-        tools:layout="@layout/home_fragment" />
+    <include app:graph="@navigation/home_nav_graph" />
 
     <include app:graph="@navigation/groups_nav_graph" />
 
