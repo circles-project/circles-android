@@ -8,10 +8,12 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.databinding.HomeFragmentBinding
 import com.futo.circles.extensions.findParentNavController
+import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
 import com.futo.circles.feature.bottom_navigation.BottomNavigationFragmentDirections
@@ -25,13 +27,25 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        setupViews()
         setupObservers()
+    }
+
+    private fun setupViews() {
+        binding.vUser.setOnClickListener { navigateToProfile() }
     }
 
     private fun setupObservers() {
         viewModel.logOutLiveData.observeResponse(this,
             success = { navigateToLogin() }
         )
+        viewModel.profileLiveData.observeData(this) {
+            it.getOrNull()?.let { binding.vUser.setData(it) }
+        }
+    }
+
+    private fun navigateToProfile() {
+        findNavController().navigate(HomeFragmentDirections.toProfileDialogFragment())
     }
 
     private fun navigateToLogin() {

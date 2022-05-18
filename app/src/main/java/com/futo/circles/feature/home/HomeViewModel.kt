@@ -10,6 +10,7 @@ class HomeViewModel(
     private val dataSource: HomeDataSource
 ) : ViewModel() {
 
+    val profileLiveData = dataSource.profileLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun logOut() {
