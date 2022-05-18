@@ -182,6 +182,7 @@
     <string name="invited_by_format">Invited by %s</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
+    <string name="profile">Profile</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
