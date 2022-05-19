@@ -1,15 +1,16 @@
-package com.futo.circles.feature.home
+package com.futo.circles.feature.settings
 
 import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.home.data_source.HomeDataSource
+import com.futo.circles.feature.settings.data_source.SettingsDataSource
 
-class HomeViewModel(
-    private val dataSource: HomeDataSource
+class SettingsViewModel(
+    private val dataSource: SettingsDataSource
 ) : ViewModel() {
 
+    val profileLiveData = dataSource.profileLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun logOut() {

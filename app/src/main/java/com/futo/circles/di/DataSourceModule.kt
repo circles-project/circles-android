@@ -9,7 +9,7 @@ import com.futo.circles.feature.circles.accept_invite.data_source.AcceptCircleIn
 import com.futo.circles.feature.circles.data_source.CirclesDataSource
 import com.futo.circles.feature.circles.following.data_source.FollowingDataSource
 import com.futo.circles.feature.groups.data_source.GroupsDataSource
-import com.futo.circles.feature.home.data_source.HomeDataSource
+import com.futo.circles.feature.settings.data_source.SettingsDataSource
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
 import com.futo.circles.feature.room.invite.data_source.InviteMembersDataSource
 import com.futo.circles.feature.room.manage_members.change_role.data_source.ChangeAccessLevelDataSource
@@ -51,7 +51,7 @@ val dataSourceModule = module {
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
-    factory { HomeDataSource() }
+    factory { SettingsDataSource(get()) }
     factory { CreatePassPhraseDataSource(get()) }
     factory { RestorePassPhraseDataSource(get()) }
     factory { (levelValue: Int, myUserLevelValue: Int) ->

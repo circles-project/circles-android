@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.futo.circles.view.ProfileView
+        android:id="@+id/vUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider_color" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/profile" />
+
+
+            <TextView
+                android:id="@+id/tvEditProfile"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_profile"
+                app:drawableStartCompat="@drawable/ic_edit" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginHorizontal="8dp"
+                android:background="@color/divider_color" />
+
+            <TextView
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/change_password"
+                app:drawableStartCompat="@drawable/ic_lock" />
+
+            <TextView
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notifications" />
+
+            <TextView
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/system_notices"
+                app:drawableStartCompat="@drawable/ic_error" />
+
+
+            <TextView
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/session" />
+
+            <TextView
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login_sessions"
+                app:drawableStartCompat="@drawable/ic_phone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginHorizontal="8dp"
+                android:background="@color/divider_color" />
+
+            <TextView
+                android:id="@+id/tvLogout"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/log_out"
+                app:drawableStartCompat="@drawable/ic_logout" />
+
+            <TextView
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/account" />
+
+            <TextView
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/deactivate_my_account"
+                android:textColor="@color/red"
+                app:drawableStartCompat="@drawable/ic_deactivate_account"
+                app:drawableTint="@color/red" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

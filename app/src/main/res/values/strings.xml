@@ -12,12 +12,10 @@
     <string name="groups">Groups</string>
     <string name="people">People</string>
     <string name="photos">Photos</string>
-    <string name="home">Home</string>
     <string name="topic_formatter">Topic: %s</string>
     <string name="last_updated_formatter">Last updated %s</string>
     <string name="none">none</string>
     <string name="my_groups">My Groups</string>
-    <string name="welcome">Welcome!</string>
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
     <string name="photo_galleries">Photo Galleries</string>
@@ -182,6 +180,16 @@
     <string name="invited_by_format">Invited by %s</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
+    <string name="profile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="change_password">Change password</string>
+    <string name="notifications">Notifications</string>
+    <string name="system_notices">System notices</string>
+    <string name="session">Session</string>
+    <string name="login_sessions">Login sessions</string>
+    <string name="account">Account</string>
+    <string name="deactivate_my_account">Deactivate my account</string>
+    <string name="settings">Settings</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

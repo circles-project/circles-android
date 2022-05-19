@@ -4,7 +4,7 @@ import com.futo.circles.feature.circles.CirclesViewModel
 import com.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
 import com.futo.circles.feature.circles.following.FollowingViewModel
 import com.futo.circles.feature.groups.GroupsViewModel
-import com.futo.circles.feature.home.HomeViewModel
+import com.futo.circles.feature.settings.SettingsViewModel
 import com.futo.circles.feature.log_in.LogInViewModel
 import com.futo.circles.feature.room.create_room.CreateRoomViewModel
 import com.futo.circles.feature.room.invite.InviteMembersViewModel
@@ -47,7 +47,7 @@ val uiModule = module {
     viewModel { ValidateEmailViewModel(get()) }
     viewModel { SetupProfileViewModel(get()) }
     viewModel { SetupCirclesViewModel(get(), get()) }
-    viewModel { HomeViewModel(get()) }
+    viewModel { SettingsViewModel(get()) }
     viewModel { (levelValue: Int, myUserLevelValue: Int) ->
         ChangeAccessLevelViewModel(get { parametersOf(levelValue, myUserLevelValue) })
     }

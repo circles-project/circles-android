@@ -33,7 +33,7 @@ class BottomNavigationFragment : Fragment(R.layout.bottom_navigation_fragment) {
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.homeFragment,
+                R.id.settingsFragment,
                 R.id.circlesFragment,
                 R.id.peopleFragment,
                 R.id.groupsFragment,
