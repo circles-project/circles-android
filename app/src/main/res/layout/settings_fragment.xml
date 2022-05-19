@@ -23,8 +23,12 @@
 
 
     <TextView
+        android:id="@+id/tvEditProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:text="@string/edit_profile"
         app:drawableStartCompat="@drawable/ic_arrow_back" />
 
@@ -70,8 +74,12 @@
         android:background="@color/divider_color" />
 
     <TextView
+        android:id="@+id/tvLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:text="@string/log_out"
         app:drawableStartCompat="@drawable/ic_logout" />
 

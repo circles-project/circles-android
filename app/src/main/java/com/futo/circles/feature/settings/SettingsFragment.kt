@@ -1,12 +1,7 @@
 package com.futo.circles.feature.settings
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -26,13 +21,16 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
         setupViews()
         setupObservers()
     }
 
     private fun setupViews() {
-        binding.vUser.setOnClickListener { navigateToProfile() }
+        with(binding) {
+            tvLogout.setOnClickListener { showLogoutDialog() }
+            tvEditProfile.setOnClickListener { navigateToProfile() }
+        }
+
     }
 
     private fun setupObservers() {
@@ -50,24 +48,6 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
     private fun navigateToLogin() {
         findParentNavController()?.navigate(BottomNavigationFragmentDirections.toLogInFragment())
-    }
-
-    @SuppressLint("RestrictedApi")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-        inflater.inflate(R.menu.home_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.logOut -> {
-                showLogoutDialog()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun showLogoutDialog() {
