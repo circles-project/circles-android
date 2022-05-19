@@ -182,6 +182,14 @@
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
     <string name="profile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="change_password">Change password</string>
+    <string name="notifications">Notifications</string>
+    <string name="system_notices">System notices</string>
+    <string name="session">Session</string>
+    <string name="login_sessions">Login sessions</string>
+    <string name="account">Account</string>
+    <string name="deactivate_my_account">Deactivate my account</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
