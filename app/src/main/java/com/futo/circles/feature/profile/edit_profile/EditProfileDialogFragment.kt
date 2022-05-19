@@ -1,14 +1,15 @@
-package com.futo.circles.feature.home.profile
+package com.futo.circles.feature.profile.edit_profile
 
 import android.os.Bundle
 import android.view.View
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import com.futo.circles.databinding.ProfileDialogFragmentBinding
+import com.futo.circles.databinding.EditProfileDialogFragmentBinding
 
-class ProfileDialogFragment : BaseFullscreenDialogFragment(ProfileDialogFragmentBinding::inflate) {
+class EditProfileDialogFragment :
+    BaseFullscreenDialogFragment(EditProfileDialogFragmentBinding::inflate) {
 
     private val binding by lazy {
-        getBinding() as ProfileDialogFragmentBinding
+        getBinding() as EditProfileDialogFragmentBinding
     }
 
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_nav_graph"
+    app:startDestination="@id/profileFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.futo.circles.feature.profile.ProfileFragment"
+        android:label="@string/my_profile"
+        tools:layout="@layout/profile_fragment">
+        <action
+            android:id="@+id/to_editProfileDialogFragment"
+            app:destination="@id/editProfileDialogFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/editProfileDialogFragment"
+        android:name="com.futo.circles.feature.profile.edit_profile.EditProfileDialogFragment"
+        android:label="ProfileDialogFragment"
+        tools:layout="@layout/edit_profile_dialog_fragment" />
+
+</navigation>

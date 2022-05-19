@@ -1,4 +1,4 @@
-package com.futo.circles.feature.home
+package com.futo.circles.feature.profile
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
-import com.futo.circles.databinding.HomeFragmentBinding
+import com.futo.circles.databinding.ProfileFragmentBinding
 import com.futo.circles.extensions.findParentNavController
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
@@ -19,10 +19,10 @@ import com.futo.circles.extensions.showDialog
 import com.futo.circles.feature.bottom_navigation.BottomNavigationFragmentDirections
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment(R.layout.home_fragment) {
+class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
-    private val binding by viewBinding(HomeFragmentBinding::bind)
-    private val viewModel by viewModel<HomeViewModel>()
+    private val binding by viewBinding(ProfileFragmentBinding::bind)
+    private val viewModel by viewModel<ProfileViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +45,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     }
 
     private fun navigateToProfile() {
-        findNavController().navigate(HomeFragmentDirections.toProfileDialogFragment())
+        findNavController().navigate(ProfileFragmentDirections.toEditProfileDialogFragment())
     }
 
     private fun navigateToLogin() {

@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_bottom_menu"
-    app:startDestination="@id/home_nav_graph">
-
-    <include app:graph="@navigation/home_nav_graph" />
+    app:startDestination="@id/circles_nav_graph">
 
     <include app:graph="@navigation/groups_nav_graph" />
 
@@ -21,5 +19,7 @@
         android:name="com.futo.circles.feature.photos.PhotosFragment"
         android:label="@string/photo_galleries"
         tools:layout="@layout/photos_fragment" />
+
+    <include app:graph="@navigation/profile_nav_graph" />
 
 </navigation>

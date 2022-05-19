@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/home_nav_graph"
-        android:icon="@drawable/ic_round_home"
-        android:title="@string/home" />
-
-    <item
         android:id="@+id/circles_nav_graph"
         android:icon="@drawable/ic_circles"
         android:title="@string/circles" />
@@ -25,5 +20,10 @@
         android:id="@+id/photosFragment"
         android:icon="@drawable/ic_round_photo_library"
         android:title="@string/photos" />
+
+    <item
+        android:id="@+id/profile_nav_graph"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile" />
 
 </menu>
