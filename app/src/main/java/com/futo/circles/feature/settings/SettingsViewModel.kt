@@ -1,13 +1,13 @@
-package com.futo.circles.feature.profile
+package com.futo.circles.feature.settings
 
 import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.profile.data_source.ProfileDataSource
+import com.futo.circles.feature.settings.data_source.SettingsDataSource
 
-class ProfileViewModel(
-    private val dataSource: ProfileDataSource
+class SettingsViewModel(
+    private val dataSource: SettingsDataSource
 ) : ViewModel() {
 
     val profileLiveData = dataSource.profileLiveData

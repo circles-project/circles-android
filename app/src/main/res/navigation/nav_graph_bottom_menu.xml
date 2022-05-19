@@ -20,6 +20,6 @@
         android:label="@string/photo_galleries"
         tools:layout="@layout/photos_fragment" />
 
-    <include app:graph="@navigation/profile_nav_graph" />
+    <include app:graph="@navigation/settings_nav_graph" />
 
 </navigation>

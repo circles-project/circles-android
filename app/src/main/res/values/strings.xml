@@ -15,7 +15,6 @@
     <string name="topic_formatter">Topic: %s</string>
     <string name="last_updated_formatter">Last updated %s</string>
     <string name="none">none</string>
-    <string name="my_profile">My Profile</string>
     <string name="my_groups">My Groups</string>
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
@@ -190,6 +189,7 @@
     <string name="login_sessions">Login sessions</string>
     <string name="account">Account</string>
     <string name="deactivate_my_account">Deactivate my account</string>
+    <string name="settings">Settings</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
