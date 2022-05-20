@@ -191,6 +191,9 @@
     <string name="user_id">User ID</string>
     <string name="contact_information">Contact Information</string>
     <string name="profile_updated">Profile updated</string>
+    <string name="new_password">New password</string>
+    <string name="old_password">Old Password</string>
+    <string name="repeat_new_password">Repeat new password</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
