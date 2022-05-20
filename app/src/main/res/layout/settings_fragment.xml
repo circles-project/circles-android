@@ -53,20 +53,7 @@
                 android:text="@string/change_password"
                 app:drawableStartCompat="@drawable/ic_lock" />
 
-            <TextView
-                style="@style/settingMenuHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/notifications" />
-
-            <TextView
-                style="@style/settingMenuItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/system_notices"
-                app:drawableStartCompat="@drawable/ic_error" />
-
-
+            
             <TextView
                 style="@style/settingMenuHeader"
                 android:layout_width="match_parent"

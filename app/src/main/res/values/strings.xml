@@ -183,8 +183,6 @@
     <string name="profile">Profile</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="change_password">Change password</string>
-    <string name="notifications">Notifications</string>
-    <string name="system_notices">System notices</string>
     <string name="session">Session</string>
     <string name="login_sessions">Login sessions</string>
     <string name="account">Account</string>
