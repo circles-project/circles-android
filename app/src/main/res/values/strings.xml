@@ -188,6 +188,9 @@
     <string name="account">Account</string>
     <string name="deactivate_my_account">Deactivate my account</string>
     <string name="settings">Settings</string>
+    <string name="user_id">User ID</string>
+    <string name="contact_information">Contact Information</string>
+    <string name="profile_updated">Profile updated</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

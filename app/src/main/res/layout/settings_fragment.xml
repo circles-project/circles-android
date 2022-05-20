@@ -53,7 +53,7 @@
                 android:text="@string/change_password"
                 app:drawableStartCompat="@drawable/ic_lock" />
 
-            
+
             <TextView
                 style="@style/settingMenuHeader"
                 android:layout_width="match_parent"
