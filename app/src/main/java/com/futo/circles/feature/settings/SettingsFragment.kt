@@ -29,6 +29,7 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         with(binding) {
             tvLogout.setOnClickListener { showLogoutDialog() }
             tvEditProfile.setOnClickListener { navigateToProfile() }
+            tvChangePassword.setOnClickListener { navigateToChangePassword() }
         }
 
     }
@@ -40,6 +41,10 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         viewModel.profileLiveData.observeData(this) {
             it.getOrNull()?.let { binding.vUser.setData(it) }
         }
+    }
+
+    private fun navigateToChangePassword() {
+        findNavController().navigate(SettingsFragmentDirections.toChangePasswordDialogFragment())
     }
 
     private fun navigateToProfile() {
