@@ -12,6 +12,7 @@ import com.futo.circles.feature.room.manage_members.ManageMembersViewModel
 import com.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelViewModel
 import com.futo.circles.feature.room.select_users.SelectUsersViewModel
 import com.futo.circles.feature.room.update_room.UpdateRoomViewModel
+import com.futo.circles.feature.settings.edit_profile.EditProfileViewModel
 import com.futo.circles.feature.sign_up.SignUpViewModel
 import com.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
 import com.futo.circles.feature.sign_up.setup_profile.SetupProfileViewModel
@@ -58,4 +59,5 @@ val uiModule = module {
     viewModel { EmojiViewModel(get()) }
     viewModel { (roomId: String) -> FollowingViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> AcceptCircleInviteViewModel(get { parametersOf(roomId) }) }
+    viewModel { EditProfileViewModel(get()) }
 }
