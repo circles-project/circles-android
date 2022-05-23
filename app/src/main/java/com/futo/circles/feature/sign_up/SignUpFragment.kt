@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.fragment.BackPressOwner
-import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingDialog
+import com.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import com.futo.circles.databinding.SignUpFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
@@ -23,7 +23,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
 
     private val viewModel by viewModel<SignUpViewModel>()
     private val binding by viewBinding(SignUpFragmentBinding::bind)
-    private val createPassPhraseLoadingDialog by lazy { PassPhraseLoadingDialog(requireContext()) }
+    private val createPassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
 
     private val childNavHostFragment by lazy {
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.fragment.HasLoadingState
-import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingDialog
+import com.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import com.futo.circles.databinding.LogInFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
@@ -20,7 +20,7 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
     override val fragment: Fragment = this
     private val viewModel by viewModel<LogInViewModel>()
     private val binding by viewBinding(LogInFragmentBinding::bind)
-    private val restorePassPhraseLoadingDialog by lazy { PassPhraseLoadingDialog(requireContext()) }
+    private val restorePassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

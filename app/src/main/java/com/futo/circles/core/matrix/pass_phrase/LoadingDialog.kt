@@ -4,13 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
-import com.futo.circles.databinding.PassPhraseLoadingDialogBinding
+import com.futo.circles.databinding.LoadingDialogBinding
 import com.futo.circles.model.LoadingData
 
 
-class PassPhraseLoadingDialog(context: Context) : AppCompatDialog(context) {
+class LoadingDialog(context: Context) : AppCompatDialog(context) {
 
-    private val binding = PassPhraseLoadingDialogBinding.inflate(LayoutInflater.from(context))
+    private val binding = LoadingDialogBinding.inflate(LayoutInflater.from(context))
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
