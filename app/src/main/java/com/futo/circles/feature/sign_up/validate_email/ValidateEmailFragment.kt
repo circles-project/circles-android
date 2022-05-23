@@ -51,7 +51,7 @@ class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.validate_ema
             }
             btnValidate.setOnClickListener {
                 startLoading(btnValidate)
-                viewModel.validateEmail(tilValidationCode.editText?.text?.toString()?.trim() ?: "")
+                viewModel.validateEmail(tilValidationCode.getText())
             }
         }
     }
@@ -62,7 +62,7 @@ class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.validate_ema
         viewModel.validateEmailLiveData.observeResponse(this)
     }
 
-    private fun getEmailInput(): String = binding.tilEmail.editText?.text?.toString()?.trim() ?: ""
+    private fun getEmailInput(): String = binding.tilEmail.getText()
 
     private fun validationCodeSentState() {
         showSuccess(getString(R.string.validation_code_sent_to_format, getEmailInput()))

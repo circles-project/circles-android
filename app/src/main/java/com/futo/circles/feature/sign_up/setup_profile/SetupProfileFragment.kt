@@ -10,6 +10,7 @@ import com.futo.circles.R
 import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.databinding.SetupProfileFragmentBinding
+import com.futo.circles.extensions.getText
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
@@ -33,9 +34,7 @@ class SetupProfileFragment : Fragment(R.layout.setup_profile_fragment), HasLoadi
             btnSkip.setOnClickListener { navigateToSetupCircles() }
             btnSave.setOnClickListener {
                 startLoading(btnSave)
-                viewModel.saveProfileInfo(
-                    tilDisplayName.editText?.text?.trim()?.toString()
-                )
+                viewModel.saveProfileInfo(tilDisplayName.getText())
             }
             ivProfile.setOnClickListener {
                 imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->

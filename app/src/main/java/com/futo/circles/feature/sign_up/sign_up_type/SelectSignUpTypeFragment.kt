@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.databinding.SelectSignUpTypeFragmentBinding
+import com.futo.circles.extensions.getText
 import com.futo.circles.extensions.observeResponse
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,10 +34,7 @@ class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment)
             tilPassword.editText?.doAfterTextChanged { setTokenButtonEnabled() }
             btnToken.setOnClickListener {
                 startLoading(btnToken)
-                viewModel.startSignUp(
-                    tilUserName.editText?.text?.trim()?.toString() ?: "",
-                    tilPassword.editText?.text?.trim()?.toString() ?: ""
-                )
+                viewModel.startSignUp(tilUserName.getText(), tilPassword.getText())
             }
         }
     }

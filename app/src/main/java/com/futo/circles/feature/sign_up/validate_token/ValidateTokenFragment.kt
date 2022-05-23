@@ -9,6 +9,7 @@ import com.futo.circles.R
 import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.core.fragment.ParentBackPressOwnerFragment
 import com.futo.circles.databinding.ValidateTokenFragmentBinding
+import com.futo.circles.extensions.getText
 import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,7 +40,7 @@ class ValidateTokenFragment : ParentBackPressOwnerFragment(R.layout.validate_tok
             }
             btnValidate.setOnClickListener {
                 startLoading(btnValidate)
-                viewModel.validateToken(tilToken.editText?.text?.toString()?.trim() ?: "")
+                viewModel.validateToken(tilToken.getText())
             }
         }
     }
