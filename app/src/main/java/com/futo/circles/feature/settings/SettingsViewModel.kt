@@ -11,6 +11,7 @@ class SettingsViewModel(
 ) : ViewModel() {
 
     val profileLiveData = dataSource.profileLiveData
+    val loadingLiveData = dataSource.loadingLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun logOut() {
