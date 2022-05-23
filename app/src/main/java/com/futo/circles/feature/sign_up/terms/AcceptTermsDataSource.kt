@@ -1,4 +1,4 @@
-package com.futo.circles.feature.sign_up.terms.data_source
+package com.futo.circles.feature.sign_up.terms
 
 
 import android.content.Context
@@ -9,7 +9,7 @@ import com.futo.circles.core.TERMS_URL_EXTENSION
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.toTermsListItems
-import com.futo.circles.feature.sign_up.data_source.SignUpDataSource
+import com.futo.circles.feature.sign_up.SignUpDataSource
 import com.futo.circles.model.TermsListItem
 import com.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult

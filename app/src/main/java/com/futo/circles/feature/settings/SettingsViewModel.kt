@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.settings.data_source.SettingsDataSource
 
 class SettingsViewModel(
     private val dataSource: SettingsDataSource
@@ -16,5 +15,9 @@ class SettingsViewModel(
 
     fun logOut() {
         launchBg { logOutLiveData.postValue(dataSource.logOut()) }
+    }
+
+    fun deactivateAccount() {
+        launchBg { dataSource.deactivateAccount() }
     }
 }

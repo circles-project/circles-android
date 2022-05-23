@@ -1,4 +1,4 @@
-package com.futo.circles.feature.settings.change_password.data_source
+package com.futo.circles.feature.settings.change_password
 
 import com.futo.circles.extensions.createResult
 import com.futo.circles.provider.MatrixSessionProvider

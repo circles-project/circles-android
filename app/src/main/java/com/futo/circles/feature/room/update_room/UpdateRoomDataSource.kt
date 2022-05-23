@@ -1,4 +1,4 @@
-package com.futo.circles.feature.room.update_room.data_source
+package com.futo.circles.feature.room.update_room
 
 import android.content.Context
 import android.net.Uri

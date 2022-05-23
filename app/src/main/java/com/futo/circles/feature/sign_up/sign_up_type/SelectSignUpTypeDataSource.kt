@@ -1,9 +1,9 @@
-package com.futo.circles.feature.sign_up.sign_up_type.data_source
+package com.futo.circles.feature.sign_up.sign_up_type
 
 import android.content.Context
 import com.futo.circles.R
 import com.futo.circles.extensions.createResult
-import com.futo.circles.feature.sign_up.data_source.SignUpDataSource
+import com.futo.circles.feature.sign_up.SignUpDataSource
 import com.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 

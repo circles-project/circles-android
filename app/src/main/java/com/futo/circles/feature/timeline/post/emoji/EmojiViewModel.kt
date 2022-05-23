@@ -2,7 +2,6 @@ package com.futo.circles.feature.timeline.post.emoji
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.futo.circles.feature.timeline.post.emoji.data_source.EmojiDataSource
 import com.futo.circles.model.EmojiItem
 
 class EmojiViewModel(private val emojiDataSource: EmojiDataSource) : ViewModel() {

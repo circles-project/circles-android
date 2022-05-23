@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.circles.following.data_source.FollowingDataSource
 
 class FollowingViewModel(
     private val dataSource: FollowingDataSource

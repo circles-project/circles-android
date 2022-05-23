@@ -1,4 +1,4 @@
-package com.futo.circles.feature.sign_up.setup_profile.data_source
+package com.futo.circles.feature.sign_up.setup_profile
 
 import android.content.Context
 import android.net.Uri

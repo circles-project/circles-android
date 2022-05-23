@@ -1,4 +1,4 @@
-package com.futo.circles.feature.room.manage_members.data_source
+package com.futo.circles.feature.room.manage_members
 
 
 import android.content.Context

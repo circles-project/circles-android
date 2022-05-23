@@ -16,7 +16,6 @@ import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
 import com.futo.circles.extensions.showError
-import com.futo.circles.feature.sign_up.data_source.NavigationEvents
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {

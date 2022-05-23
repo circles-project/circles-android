@@ -1,4 +1,4 @@
-package com.futo.circles.feature.circles.data_source
+package com.futo.circles.feature.circles
 
 import com.futo.circles.core.rooms.data_source.RoomsDataSource
 import com.futo.circles.mapping.toInviteCircleListItem

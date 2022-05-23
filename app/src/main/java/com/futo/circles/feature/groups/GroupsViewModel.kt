@@ -3,7 +3,6 @@ package com.futo.circles.feature.groups
 import androidx.lifecycle.map
 import com.futo.circles.core.rooms.RoomsViewModel
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.groups.data_source.GroupsDataSource
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 

@@ -1,4 +1,4 @@
-package com.futo.circles.feature.circles.following.data_source
+package com.futo.circles.feature.circles.following
 
 import android.content.Context
 import androidx.lifecycle.map

@@ -32,6 +32,7 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
             tvLogout.setOnClickListener { showLogoutDialog() }
             tvEditProfile.setOnClickListener { navigateToProfile() }
             tvChangePassword.setOnClickListener { navigateToChangePassword() }
+            tvDeactivate.setOnClickListener { viewModel.deactivateAccount() }
         }
 
     }

@@ -1,4 +1,4 @@
-package com.futo.circles.feature.sign_up.data_source
+package com.futo.circles.feature.sign_up
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData

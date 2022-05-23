@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.sign_up.terms.data_source.AcceptTermsDataSource
 import com.futo.circles.model.TermsListItem
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 

@@ -1,8 +1,8 @@
-package com.futo.circles.feature.sign_up.validate_token.data_source
+package com.futo.circles.feature.sign_up.validate_token
 
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
-import com.futo.circles.feature.sign_up.data_source.SignUpDataSource
+import com.futo.circles.feature.sign_up.SignUpDataSource
 import com.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage

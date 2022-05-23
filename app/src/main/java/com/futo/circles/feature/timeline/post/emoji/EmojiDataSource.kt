@@ -1,4 +1,4 @@
-package com.futo.circles.feature.timeline.post.emoji.data_source
+package com.futo.circles.feature.timeline.post.emoji
 
 import android.content.Context
 import android.graphics.Paint

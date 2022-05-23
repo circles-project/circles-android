@@ -1,4 +1,4 @@
-package com.futo.circles.feature.room.invite.data_source
+package com.futo.circles.feature.room.invite
 
 import android.content.Context
 import com.futo.circles.R

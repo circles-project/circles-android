@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.timeline.post.report.data_source.ReportDataSource
 
 class ReportViewModel(
     private val reportDataSource: ReportDataSource

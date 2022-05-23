@@ -1,4 +1,4 @@
-package com.futo.circles.feature.room.select_users.data_source
+package com.futo.circles.feature.room.select_users
 
 import androidx.lifecycle.asFlow
 import com.futo.circles.mapping.toUserListItem

@@ -6,7 +6,6 @@ import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.settings.change_password.data_source.ChangePasswordDataSource
 
 class ChangePasswordViewModel(
     private val changePasswordDataSource: ChangePasswordDataSource,

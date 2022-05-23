@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.sign_up.setup_profile.data_source.SetupProfileDataSource
+import com.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource
 
 class EditProfileViewModel(
     private val dataSource: SetupProfileDataSource

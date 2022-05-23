@@ -1,4 +1,4 @@
-package com.futo.circles.feature.timeline.post.report.data_source
+package com.futo.circles.feature.timeline.post.report
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData

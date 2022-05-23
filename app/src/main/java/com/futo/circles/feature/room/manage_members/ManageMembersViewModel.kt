@@ -6,7 +6,6 @@ import androidx.lifecycle.asLiveData
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.room.manage_members.data_source.ManageMembersDataSource
 
 class ManageMembersViewModel(
     private val dataSource: ManageMembersDataSource

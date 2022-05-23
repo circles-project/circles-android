@@ -1,4 +1,4 @@
-package com.futo.circles.feature.log_in.data_source
+package com.futo.circles.feature.log_in
 
 import android.content.Context
 import android.net.Uri

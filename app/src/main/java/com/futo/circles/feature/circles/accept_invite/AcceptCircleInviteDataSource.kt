@@ -1,4 +1,4 @@
-package com.futo.circles.feature.circles.accept_invite.data_source
+package com.futo.circles.feature.circles.accept_invite
 
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.core.matrix.room.RoomRelationsBuilder

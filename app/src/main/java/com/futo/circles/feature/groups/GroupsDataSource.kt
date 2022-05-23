@@ -1,4 +1,4 @@
-package com.futo.circles.feature.groups.data_source
+package com.futo.circles.feature.groups
 
 import com.futo.circles.core.matrix.room.RoomRelationsBuilder
 import com.futo.circles.core.rooms.data_source.RoomsDataSource
