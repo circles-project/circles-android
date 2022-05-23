@@ -9,9 +9,9 @@ import com.futo.circles.R
 import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
-import com.futo.circles.model.CircleRoomTypeArg
 import com.futo.circles.databinding.UpdateRoomDialogFragmentBinding
 import com.futo.circles.extensions.*
+import com.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -55,10 +55,7 @@ class UpdateRoomDialogFragment :
                 it?.let { onRoomDataChanged() }
             }
             btnSave.setOnClickListener {
-                viewModel.update(
-                    tilName.editText?.text?.toString()?.trim() ?: "",
-                    tilTopic.editText?.text?.toString()?.trim() ?: ""
-                )
+                viewModel.update(tilName.getText(), tilTopic.getText())
                 startLoading(btnSave)
             }
         }
@@ -99,9 +96,6 @@ class UpdateRoomDialogFragment :
     }
 
     private fun onRoomDataChanged() {
-        viewModel.handleRoomDataUpdate(
-            binding.tilName.editText?.text?.toString()?.trim() ?: "",
-            binding.tilTopic.editText?.text?.toString()?.trim() ?: ""
-        )
+        viewModel.handleRoomDataUpdate(binding.tilName.getText(), binding.tilTopic.getText())
     }
 }

@@ -9,13 +9,14 @@ import com.futo.circles.feature.circles.accept_invite.data_source.AcceptCircleIn
 import com.futo.circles.feature.circles.data_source.CirclesDataSource
 import com.futo.circles.feature.circles.following.data_source.FollowingDataSource
 import com.futo.circles.feature.groups.data_source.GroupsDataSource
-import com.futo.circles.feature.settings.data_source.SettingsDataSource
 import com.futo.circles.feature.log_in.data_source.LoginDataSource
 import com.futo.circles.feature.room.invite.data_source.InviteMembersDataSource
 import com.futo.circles.feature.room.manage_members.change_role.data_source.ChangeAccessLevelDataSource
 import com.futo.circles.feature.room.manage_members.data_source.ManageMembersDataSource
 import com.futo.circles.feature.room.select_users.data_source.SelectUsersDataSource
 import com.futo.circles.feature.room.update_room.data_source.UpdateRoomDataSource
+import com.futo.circles.feature.settings.change_password.data_source.ChangePasswordDataSource
+import com.futo.circles.feature.settings.data_source.SettingsDataSource
 import com.futo.circles.feature.sign_up.data_source.SignUpDataSource
 import com.futo.circles.feature.sign_up.setup_circles.data_source.SetupCirclesDataSource
 import com.futo.circles.feature.sign_up.setup_profile.data_source.SetupProfileDataSource
@@ -64,4 +65,5 @@ val dataSourceModule = module {
     factory { GroupsDataSource(get()) }
     factory { CirclesDataSource() }
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
+    factory { ChangePasswordDataSource() }
 }

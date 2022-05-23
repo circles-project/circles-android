@@ -35,6 +35,7 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
             success = { navigateToBottomMenuFragment() },
             error = {
                 showError(it, true)
+                restorePassPhraseLoadingDialog.dismiss()
                 navigateToBottomMenuFragment()
             }
         )

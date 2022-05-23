@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
 import com.futo.circles.R
 import com.futo.circles.databinding.PreviewPostViewBinding
+import com.futo.circles.extensions.getText
 import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUser
@@ -82,6 +83,6 @@ class PreviewPostView(
 
     fun getImageUri(): Uri? = imageUri
 
-    fun getText() = binding.tilTextPost.editText?.text?.toString()?.trim() ?: ""
+    fun getText() = binding.tilTextPost.getText()
 
 }

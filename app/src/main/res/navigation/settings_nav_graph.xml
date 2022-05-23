@@ -13,6 +13,9 @@
         <action
             android:id="@+id/to_editProfileDialogFragment"
             app:destination="@id/editProfileDialogFragment" />
+        <action
+            android:id="@+id/to_changePasswordDialogFragment"
+            app:destination="@id/changePasswordDialogFragment" />
     </fragment>
 
     <dialog
@@ -20,5 +23,10 @@
         android:name="com.futo.circles.feature.settings.edit_profile.EditProfileDialogFragment"
         android:label="ProfileDialogFragment"
         tools:layout="@layout/edit_profile_dialog_fragment" />
+    <dialog
+        android:id="@+id/changePasswordDialogFragment"
+        android:name="com.futo.circles.feature.settings.change_password.ChangePasswordDialogFragment"
+        android:label="ChangePasswordDialogFragment"
+        tools:layout="@layout/change_password_dialog_fragment" />
 
 </navigation>

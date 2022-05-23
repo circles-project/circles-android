@@ -97,6 +97,7 @@
     <string name="log_out_message">Are you sure you want to log out?</string>
     <string name="generating_recovery_key">Generating recovery key from passphrase.</string>
     <string name="creating_backup">Creating backup</string>
+    <string name="removing_backup">Removing previous backup</string>
     <string name="session_is_not_created">Session is not created</string>
     <string name="backup_already_exist">Backup already exist</string>
     <string name="not_supported_stage_format">Not supported stage %s</string>
@@ -191,6 +192,10 @@
     <string name="user_id">User ID</string>
     <string name="contact_information">Contact Information</string>
     <string name="profile_updated">Profile updated</string>
+    <string name="new_password">New password</string>
+    <string name="old_password">Old Password</string>
+    <string name="repeat_new_password">Repeat new password</string>
+    <string name="password_changed">Password changed</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

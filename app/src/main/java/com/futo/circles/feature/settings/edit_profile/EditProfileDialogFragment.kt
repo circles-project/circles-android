@@ -9,10 +9,7 @@ import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.databinding.EditProfileDialogFragmentBinding
-import com.futo.circles.extensions.loadProfileIcon
-import com.futo.circles.extensions.observeData
-import com.futo.circles.extensions.observeResponse
-import com.futo.circles.extensions.showSuccess
+import com.futo.circles.extensions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -42,7 +39,7 @@ class EditProfileDialogFragment :
                 it?.let { onProfileDataChanged() }
             }
             btnSave.setOnClickListener {
-                viewModel.update(tilName.editText?.text?.toString()?.trim() ?: "")
+                viewModel.update(tilName.getText())
                 startLoading(btnSave)
             }
             setAlwaysDisabledViews(listOf(tilUserId, tilContactInfo))
@@ -86,8 +83,6 @@ class EditProfileDialogFragment :
     }
 
     private fun onProfileDataChanged() {
-        viewModel.handleProfileDataUpdate(
-            binding.tilName.editText?.text?.toString()?.trim() ?: ""
-        )
+        viewModel.handleProfileDataUpdate(binding.tilName.getText())
     }
 }

@@ -11,10 +11,7 @@ import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.model.CircleRoomTypeArg
 import com.futo.circles.databinding.CreateRoomDialogFragmentBinding
-import com.futo.circles.extensions.observeData
-import com.futo.circles.extensions.observeResponse
-import com.futo.circles.extensions.setIsVisible
-import com.futo.circles.extensions.showSuccess
+import com.futo.circles.extensions.*
 import com.futo.circles.feature.room.select_users.SelectUsersFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -64,8 +61,8 @@ class CreateRoomDialogFragment :
             }
             btnCreate.setOnClickListener {
                 viewModel.createRoom(
-                    tilName.editText?.text?.toString()?.trim() ?: "",
-                    tilTopic.editText?.text?.toString()?.trim() ?: "",
+                    tilName.getText(),
+                    tilTopic.getText(),
                     selectedUsersFragment.getSelectedUsers(),
                     isCreateGroup
                 )

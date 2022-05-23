@@ -4,7 +4,6 @@ import com.futo.circles.feature.circles.CirclesViewModel
 import com.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
 import com.futo.circles.feature.circles.following.FollowingViewModel
 import com.futo.circles.feature.groups.GroupsViewModel
-import com.futo.circles.feature.settings.SettingsViewModel
 import com.futo.circles.feature.log_in.LogInViewModel
 import com.futo.circles.feature.room.create_room.CreateRoomViewModel
 import com.futo.circles.feature.room.invite.InviteMembersViewModel
@@ -12,6 +11,8 @@ import com.futo.circles.feature.room.manage_members.ManageMembersViewModel
 import com.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelViewModel
 import com.futo.circles.feature.room.select_users.SelectUsersViewModel
 import com.futo.circles.feature.room.update_room.UpdateRoomViewModel
+import com.futo.circles.feature.settings.SettingsViewModel
+import com.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import com.futo.circles.feature.settings.edit_profile.EditProfileViewModel
 import com.futo.circles.feature.sign_up.SignUpViewModel
 import com.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
@@ -60,4 +61,5 @@ val uiModule = module {
     viewModel { (roomId: String) -> FollowingViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> AcceptCircleInviteViewModel(get { parametersOf(roomId) }) }
     viewModel { EditProfileViewModel(get()) }
+    viewModel { ChangePasswordViewModel(get(), get()) }
 }

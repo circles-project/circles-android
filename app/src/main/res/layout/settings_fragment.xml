@@ -47,6 +47,7 @@
                 android:background="@color/divider_color" />
 
             <TextView
+                android:id="@+id/tvChangePassword"
                 style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,6 +62,7 @@
                 android:text="@string/session" />
 
             <TextView
+                android:id="@+id/tvLoginSessions"
                 style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,6 +90,7 @@
                 android:text="@string/account" />
 
             <TextView
+                android:id="@+id/tvDeactivate"
                 style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
