@@ -28,7 +28,7 @@ class ChangePasswordViewModel(
 
     private suspend fun createNewBackup(newPassword: String) {
         val createBackupResult =
-            createResult { createPassPhraseDataSource.createPassPhraseBackup(newPassword) }
+            createResult { createPassPhraseDataSource.replacePassPhraseBackup(newPassword) }
         responseLiveData.postValue(createBackupResult)
     }
 }
