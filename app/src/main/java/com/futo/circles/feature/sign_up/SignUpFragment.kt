@@ -10,12 +10,13 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.fragment.BackPressOwner
+import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingDialog
 import com.futo.circles.databinding.SignUpFragmentBinding
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
+import com.futo.circles.extensions.showError
 import com.futo.circles.feature.sign_up.data_source.NavigationEvents
-import com.futo.circles.core.matrix.pass_phrase.PassPhraseLoadingDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
@@ -42,7 +43,11 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
             handleNavigation(it)
         }
         viewModel.finishRegistrationLiveData.observeResponse(this,
-            success = { navigateToSetupProfile() }
+            success = { navigateToSetupProfile() },
+            error = { message ->
+                showError(message)
+                createPassPhraseLoadingDialog.dismiss()
+            }
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             createPassPhraseLoadingDialog.handleLoading(it)
