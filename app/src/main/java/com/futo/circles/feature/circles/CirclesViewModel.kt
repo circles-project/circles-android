@@ -2,7 +2,6 @@ package com.futo.circles.feature.circles
 
 import androidx.lifecycle.map
 import com.futo.circles.core.rooms.RoomsViewModel
-import com.futo.circles.feature.circles.data_source.CirclesDataSource
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 

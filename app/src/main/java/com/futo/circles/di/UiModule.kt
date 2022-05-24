@@ -13,6 +13,7 @@ import com.futo.circles.feature.room.select_users.SelectUsersViewModel
 import com.futo.circles.feature.room.update_room.UpdateRoomViewModel
 import com.futo.circles.feature.settings.SettingsViewModel
 import com.futo.circles.feature.settings.change_password.ChangePasswordViewModel
+import com.futo.circles.feature.settings.deactivate.DeactivateAccountViewModel
 import com.futo.circles.feature.settings.edit_profile.EditProfileViewModel
 import com.futo.circles.feature.sign_up.SignUpViewModel
 import com.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
@@ -62,4 +63,5 @@ val uiModule = module {
     viewModel { (roomId: String) -> AcceptCircleInviteViewModel(get { parametersOf(roomId) }) }
     viewModel { EditProfileViewModel(get()) }
     viewModel { ChangePasswordViewModel(get(), get()) }
+    viewModel { DeactivateAccountViewModel(get()) }
 }

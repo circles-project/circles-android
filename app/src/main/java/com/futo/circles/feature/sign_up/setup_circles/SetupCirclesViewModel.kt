@@ -7,7 +7,6 @@ import com.futo.circles.core.matrix.room.CreateRoomDataSource
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.sign_up.setup_circles.data_source.SetupCirclesDataSource
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 

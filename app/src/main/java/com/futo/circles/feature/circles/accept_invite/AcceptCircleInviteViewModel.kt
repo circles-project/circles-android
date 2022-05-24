@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.circles.accept_invite.data_source.AcceptCircleInviteDataSource
 import com.futo.circles.model.SelectableRoomListItem
 
 class AcceptCircleInviteViewModel(

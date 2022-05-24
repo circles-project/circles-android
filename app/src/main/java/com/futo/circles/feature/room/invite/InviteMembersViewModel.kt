@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
-import com.futo.circles.feature.room.invite.data_source.InviteMembersDataSource
 import com.futo.circles.model.UserListItem
 
 class InviteMembersViewModel(
