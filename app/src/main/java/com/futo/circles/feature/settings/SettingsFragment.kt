@@ -32,7 +32,7 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
             tvLogout.setOnClickListener { showLogoutDialog() }
             tvEditProfile.setOnClickListener { navigateToProfile() }
             tvChangePassword.setOnClickListener { navigateToChangePassword() }
-            tvDeactivate.setOnClickListener { viewModel.deactivateAccount() }
+            tvDeactivate.setOnClickListener { navigateToDeactivateAccount() }
         }
 
     }
@@ -47,6 +47,10 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         viewModel.loadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
+    }
+
+    private fun navigateToDeactivateAccount() {
+        findNavController().navigate(SettingsFragmentDirections.toDeactivateAccountDialogFragment())
     }
 
     private fun navigateToChangePassword() {
