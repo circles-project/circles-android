@@ -5,18 +5,19 @@ import com.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSou
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import com.futo.circles.core.matrix.room.CreateRoomDataSource
 import com.futo.circles.core.matrix.room.RoomRelationsBuilder
-import com.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSource
 import com.futo.circles.feature.circles.CirclesDataSource
+import com.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSource
 import com.futo.circles.feature.circles.following.FollowingDataSource
 import com.futo.circles.feature.groups.GroupsDataSource
 import com.futo.circles.feature.log_in.LoginDataSource
 import com.futo.circles.feature.room.invite.InviteMembersDataSource
-import com.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelDataSource
 import com.futo.circles.feature.room.manage_members.ManageMembersDataSource
+import com.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelDataSource
 import com.futo.circles.feature.room.select_users.SelectUsersDataSource
 import com.futo.circles.feature.room.update_room.UpdateRoomDataSource
-import com.futo.circles.feature.settings.change_password.ChangePasswordDataSource
 import com.futo.circles.feature.settings.SettingsDataSource
+import com.futo.circles.feature.settings.change_password.ChangePasswordDataSource
+import com.futo.circles.feature.settings.deactivate.DeactivateAccountDataSource
 import com.futo.circles.feature.sign_up.SignUpDataSource
 import com.futo.circles.feature.sign_up.setup_circles.SetupCirclesDataSource
 import com.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource
@@ -66,4 +67,5 @@ val dataSourceModule = module {
     factory { CirclesDataSource() }
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
     factory { ChangePasswordDataSource() }
+    factory { DeactivateAccountDataSource(get()) }
 }
