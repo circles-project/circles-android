@@ -16,8 +16,4 @@ class SettingsViewModel(
     fun logOut() {
         launchBg { logOutLiveData.postValue(dataSource.logOut()) }
     }
-
-    fun deactivateAccount() {
-        launchBg { dataSource.deactivateAccount() }
-    }
 }
