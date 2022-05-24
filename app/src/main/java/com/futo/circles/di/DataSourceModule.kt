@@ -16,6 +16,7 @@ import com.futo.circles.feature.room.manage_members.change_role.ChangeAccessLeve
 import com.futo.circles.feature.room.select_users.SelectUsersDataSource
 import com.futo.circles.feature.room.update_room.UpdateRoomDataSource
 import com.futo.circles.feature.settings.SettingsDataSource
+import com.futo.circles.feature.settings.active_sessions.ActiveSessionsDataSource
 import com.futo.circles.feature.settings.change_password.ChangePasswordDataSource
 import com.futo.circles.feature.settings.deactivate.DeactivateAccountDataSource
 import com.futo.circles.feature.sign_up.SignUpDataSource
@@ -68,4 +69,5 @@ val dataSourceModule = module {
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
     factory { ChangePasswordDataSource() }
     factory { DeactivateAccountDataSource(get()) }
+    factory { ActiveSessionsDataSource() }
 }
