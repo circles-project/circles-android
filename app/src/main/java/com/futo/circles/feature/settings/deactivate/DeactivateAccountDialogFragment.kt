@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import com.futo.circles.R
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.databinding.DeactivateAccountDialogFragmentBinding
 import com.futo.circles.extensions.findParentNavController
 import com.futo.circles.extensions.getText
 import com.futo.circles.extensions.observeResponse
+import com.futo.circles.extensions.showError
 import com.futo.circles.feature.bottom_navigation.BottomNavigationFragmentDirections
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -43,7 +45,10 @@ class DeactivateAccountDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.deactivateLiveData.observeResponse(this) { navigateToLogin() }
+        viewModel.deactivateLiveData.observeResponse(this,
+            success = { navigateToLogin() },
+            error = { showError(getString(R.string.invalid_auth)) }
+        )
     }
 
     private fun navigateToLogin() {
