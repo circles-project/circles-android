@@ -198,6 +198,7 @@
     <string name="password_changed">Password changed</string>
     <string name="deactivate_message">This will make your account permanently unusable. You will not be able to log in, and no one will be able to re-register the same user lD. This will cause your account to leave all rooms it is participating in, and it will remove your account details from your identity server. This action is irreversible.</string>
     <string name="invalid_auth">Invalid auth</string>
+    <string name="active_login_sessions">Active login sessions</string>
 
 
     <string-array name="report_categories">

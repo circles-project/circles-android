@@ -19,6 +19,9 @@
         <action
             android:id="@+id/to_deactivateAccountDialogFragment"
             app:destination="@id/deactivateAccountDialogFragment" />
+        <action
+            android:id="@+id/to_activeSessionsDialogFragment"
+            app:destination="@id/activeSessionsDialogFragment" />
     </fragment>
 
     <dialog
@@ -36,5 +39,10 @@
         android:name="com.futo.circles.feature.settings.deactivate.DeactivateAccountDialogFragment"
         android:label="DeactivateAccountDialogFragment"
         tools:layout="@layout/deactivate_account_dialog_fragment" />
+    <dialog
+        android:id="@+id/activeSessionsDialogFragment"
+        android:name="com.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragment"
+        android:label="ActiveSessionsDialogFragment"
+        tools:layout="@layout/active_sessions_dialog_fragment" />
 
 </navigation>
