@@ -14,9 +14,7 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class DeactivateAccountDataSource(
-    private val context: Context
-) {
+class DeactivateAccountDataSource(context: Context) {
 
     private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
         context.getString(R.string.session_is_not_created)

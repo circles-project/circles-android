@@ -4,6 +4,7 @@ package com.futo.circles.feature.room.manage_members
 import android.content.Context
 import androidx.lifecycle.asFlow
 import com.futo.circles.R
+import com.futo.circles.core.ExpandableItemsDataSource
 import com.futo.circles.extensions.createResult
 import com.futo.circles.mapping.nameOrId
 import com.futo.circles.mapping.toGroupMemberListItem
@@ -27,13 +28,14 @@ class ManageMembersDataSource(
     private val roomId: String,
     private val type: CircleRoomTypeArg,
     private val context: Context
-) {
+):ExpandableItemsDataSource {
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)
     private var powerLevelsContent: PowerLevelsContent? = null
 
-    private val usersWithVisibleOptionsFlow = MutableStateFlow<MutableSet<String>>(mutableSetOf())
+    override val itemsWithVisibleOptionsFlow: MutableStateFlow<MutableSet<String>> =
+        MutableStateFlow(mutableSetOf())
 
     fun getManageMembersTittle() = context.getString(
         if (type == CircleRoomTypeArg.Group) R.string.group_members_format
@@ -41,19 +43,10 @@ class ManageMembersDataSource(
         room?.roomSummary()?.nameOrId() ?: roomId
     )
 
-    fun toggleOptionsVisibilityFor(userId: String) {
-        val isOptionsVisible = usersWithVisibleOptionsFlow.value.contains(userId)
-        usersWithVisibleOptionsFlow.update { value ->
-            val newSet = mutableSetOf<String>().apply { addAll(value) }
-            if (isOptionsVisible) newSet.remove(userId)
-            else newSet.add(userId)
-            newSet
-        }
-    }
 
     fun getRoomMembersFlow(): Flow<List<ManageMembersListItem>> {
         return combine(
-            getRoomMembersSummaryFlow(), getRoomMembersRoleFlow(), usersWithVisibleOptionsFlow
+            getRoomMembersSummaryFlow(), getRoomMembersRoleFlow(), itemsWithVisibleOptionsFlow
         ) { members, powerLevel, usersWithVisibleOptions ->
             buildList(members, powerLevel, usersWithVisibleOptions)
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
