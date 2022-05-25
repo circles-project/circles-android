@@ -1,6 +1,9 @@
 package com.futo.circles.model
 
 import com.futo.circles.core.list.IdEntity
+import com.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
+import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
 
 sealed class ActiveSessionListItem : IdEntity<String>
 
@@ -11,8 +14,12 @@ data class SessionHeader(
 }
 
 data class ActiveSession(
-    val name: String,
+    val deviceInfo: DeviceInfo,
+    val cryptoDeviceInfo: CryptoDeviceInfo,
+    val isOptionsVisible: Boolean
+) : ActiveSessionListItem() {
+    override val id: String = cryptoDeviceInfo.deviceId
 
-    ) : ActiveSessionListItem() {
-    override val id: String = name
+    fun isCurrentSession() =
+        MatrixSessionProvider.currentSession?.sessionParams?.deviceId == cryptoDeviceInfo.deviceId
 }
