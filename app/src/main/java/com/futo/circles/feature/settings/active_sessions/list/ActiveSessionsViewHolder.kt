@@ -3,6 +3,7 @@ package com.futo.circles.feature.settings.active_sessions.list
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.futo.circles.R
 import com.futo.circles.core.list.ViewBindingHolder
 import com.futo.circles.databinding.ActiveSessionListItemBinding
 import com.futo.circles.databinding.InviteHeaderListItemBinding
@@ -16,7 +17,7 @@ abstract class ActiveSessionsViewHolder(view: View) : RecyclerView.ViewHolder(vi
 
 class SessionItemViewHolder(
     parent: ViewGroup,
-    activeSessionClickListener: ActiveSessionClickListener
+    private val activeSessionClickListener: ActiveSessionClickListener
 ) : ActiveSessionsViewHolder(inflate(parent, ActiveSessionListItemBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -27,6 +28,20 @@ class SessionItemViewHolder(
         if (data !is ActiveSession) return
 
         with(binding) {
+            lRoot.setOnClickListener { activeSessionClickListener.onItemClicked(data.id) }
+
+            tvDeviceName.text = data.deviceInfo.displayName ?: data.id
+            tvDeviceId.text = data.cryptoDeviceInfo.deviceId
+
+            ivVerified.setImageResource(
+                if (data.cryptoDeviceInfo.isVerified) R.drawable.ic_verified
+                else R.drawable.ic_unverified
+            )
+
+            ivOptionsArrow.setImageResource(
+                if (data.isOptionsVisible) R.drawable.ic_keyboard_arrow_up
+                else R.drawable.ic_keyboard_arrow_down
+            )
         }
     }
 }
