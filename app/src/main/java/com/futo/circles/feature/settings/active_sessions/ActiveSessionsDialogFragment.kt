@@ -5,6 +5,8 @@ import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.ActiveSessionsDialogFragmentBinding
+import com.futo.circles.extensions.observeData
+import com.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
 import com.futo.circles.feature.settings.active_sessions.list.ActiveSessionsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -18,7 +20,19 @@ class ActiveSessionsDialogFragment :
     }
 
     private val sessionsListAdapter by lazy {
-        ActiveSessionsAdapter()
+        ActiveSessionsAdapter(object : ActiveSessionClickListener {
+            override fun onItemClicked(deviceId: String) {
+                viewModel.onSessionClicked(deviceId)
+            }
+
+            override fun onVerifySessionClicked(deviceId: String) {
+                viewModel.verifySession(deviceId)
+            }
+
+            override fun onRemoveSessionClicked(deviceId: String) {
+                viewModel.removeSession(deviceId)
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +52,8 @@ class ActiveSessionsDialogFragment :
     }
 
     private fun setupObservers() {
-
+        viewModel.activeSessionsLiveData.observeData(this) {
+            sessionsListAdapter.submitList(it)
+        }
     }
 }

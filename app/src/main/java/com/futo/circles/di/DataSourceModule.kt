@@ -69,5 +69,5 @@ val dataSourceModule = module {
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
     factory { ChangePasswordDataSource() }
     factory { DeactivateAccountDataSource(get()) }
-    factory { ActiveSessionsDataSource() }
+    factory { ActiveSessionsDataSource(get()) }
 }

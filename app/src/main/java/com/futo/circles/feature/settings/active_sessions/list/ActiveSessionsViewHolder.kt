@@ -15,7 +15,8 @@ abstract class ActiveSessionsViewHolder(view: View) : RecyclerView.ViewHolder(vi
 }
 
 class SessionItemViewHolder(
-    parent: ViewGroup
+    parent: ViewGroup,
+    activeSessionClickListener: ActiveSessionClickListener
 ) : ActiveSessionsViewHolder(inflate(parent, ActiveSessionListItemBinding::inflate)) {
 
     private companion object : ViewBindingHolder
