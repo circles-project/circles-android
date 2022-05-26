@@ -201,6 +201,9 @@
     <string name="active_login_sessions">Active login sessions</string>
     <string name="current_session">Current session</string>
     <string name="other_sessions">Other sessions</string>
+    <string name="cross_signing">Cross Signing</string>
+    <string name="local_verification">Local verification</string>
+    <string name="verify">Verify</string>
 
 
     <string-array name="report_categories">
