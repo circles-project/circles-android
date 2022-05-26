@@ -10,6 +10,7 @@ import com.futo.circles.model.SessionHeader
 import com.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import org.matrix.android.sdk.api.session.crypto.crosssigning.DeviceTrustLevel
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
 
@@ -57,5 +58,13 @@ class ActiveSessionsDataSource(private val context: Context) : ExpandableItemsDa
         sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
         sessionsList.addAll(devicesList.toMutableList().apply { removeAll(currentSession) })
         return sessionsList
+    }
+
+    fun verifyDevice(deviceId: String) {
+        session.cryptoService().setDeviceVerification(
+            DeviceTrustLevel(crossSigningVerified = false, locallyVerified = true),
+            session.myUserId,
+            deviceId
+        )
     }
 }

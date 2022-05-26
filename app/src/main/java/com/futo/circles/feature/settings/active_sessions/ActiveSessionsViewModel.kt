@@ -14,7 +14,7 @@ class ActiveSessionsViewModel(
     }
 
     fun verifySession(deviceId: String) {
-
+        dataSource.verifyDevice(deviceId)
     }
 
     fun removeSession(deviceId: String) {
