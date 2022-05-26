@@ -7,6 +7,7 @@ import com.futo.circles.R
 import com.futo.circles.core.list.ViewBindingHolder
 import com.futo.circles.databinding.ActiveSessionListItemBinding
 import com.futo.circles.databinding.InviteHeaderListItemBinding
+import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.model.ActiveSession
 import com.futo.circles.model.ActiveSessionListItem
 import com.futo.circles.model.SessionHeader
@@ -32,6 +33,8 @@ class SessionItemViewHolder(
 
             tvDeviceName.text = data.deviceInfo.displayName ?: data.id
             tvDeviceId.text = data.cryptoDeviceInfo.deviceId
+            vInfo.setData(data, activeSessionClickListener)
+            vInfo.setIsVisible(data.isOptionsVisible)
 
             ivVerified.setImageResource(
                 if (data.cryptoDeviceInfo.isVerified) R.drawable.ic_verified
