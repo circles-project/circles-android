@@ -2,6 +2,7 @@ package com.futo.circles.feature.settings.active_sessions
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.ActiveSessionsDialogFragmentBinding
@@ -30,7 +31,9 @@ class ActiveSessionsDialogFragment :
             }
 
             override fun onRemoveSessionClicked(deviceId: String) {
-                viewModel.removeSession(deviceId)
+                findNavController().navigate(
+                    ActiveSessionsDialogFragmentDirections.toRemoveSessionDialogFragment(deviceId)
+                )
             }
         })
     }
