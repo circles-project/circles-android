@@ -20,6 +20,7 @@ import com.futo.circles.feature.settings.SettingsDataSource
 import com.futo.circles.feature.settings.active_sessions.ActiveSessionsDataSource
 import com.futo.circles.feature.settings.change_password.ChangePasswordDataSource
 import com.futo.circles.feature.settings.deactivate.DeactivateAccountDataSource
+import com.futo.circles.feature.settings.active_sessions.remove_session.RemoveSessionDataSource
 import com.futo.circles.feature.sign_up.SignUpDataSource
 import com.futo.circles.feature.sign_up.setup_circles.SetupCirclesDataSource
 import com.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource
@@ -72,4 +73,5 @@ val dataSourceModule = module {
     factory { DeactivateAccountDataSource(get(), get()) }
     factory { ActiveSessionsDataSource(get()) }
     factory { AuthConfirmationProvider() }
+    factory { (deviceId: String) -> RemoveSessionDataSource(deviceId, get(), get()) }
 }
