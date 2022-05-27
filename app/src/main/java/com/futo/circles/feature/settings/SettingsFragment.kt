@@ -33,6 +33,7 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
             tvEditProfile.setOnClickListener { navigateToProfile() }
             tvChangePassword.setOnClickListener { navigateToChangePassword() }
             tvDeactivate.setOnClickListener { navigateToDeactivateAccount() }
+            tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
         }
 
     }
@@ -63,6 +64,10 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
     private fun navigateToLogin() {
         findParentNavController()?.navigate(BottomNavigationFragmentDirections.toLogInFragment())
+    }
+
+    private fun navigateToActiveSessions() {
+        findNavController().navigate(SettingsFragmentDirections.toActiveSessionsDialogFragment())
     }
 
     private fun showLogoutDialog() {
