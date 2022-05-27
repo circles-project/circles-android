@@ -1,5 +1,6 @@
 package com.futo.circles.di
 
+import com.futo.circles.core.matrix.auth.AuthConfirmationProvider
 import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
 import com.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
@@ -68,6 +69,7 @@ val dataSourceModule = module {
     factory { CirclesDataSource() }
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
     factory { ChangePasswordDataSource() }
-    factory { DeactivateAccountDataSource(get()) }
+    factory { DeactivateAccountDataSource(get(), get()) }
     factory { ActiveSessionsDataSource(get()) }
+    factory { AuthConfirmationProvider() }
 }
