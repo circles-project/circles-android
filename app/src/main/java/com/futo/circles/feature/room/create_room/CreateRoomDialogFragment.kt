@@ -9,10 +9,10 @@ import com.futo.circles.R
 import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
-import com.futo.circles.model.CircleRoomTypeArg
 import com.futo.circles.databinding.CreateRoomDialogFragmentBinding
 import com.futo.circles.extensions.*
 import com.futo.circles.feature.room.select_users.SelectUsersFragment
+import com.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateRoomDialogFragment :
@@ -22,7 +22,6 @@ class CreateRoomDialogFragment :
     private val viewModel by viewModel<CreateRoomViewModel>()
     private val imagePickerHelper = ImagePickerHelper(this)
     private val args: CreateRoomDialogFragmentArgs by navArgs()
-    private val isCreateGroup by lazy { args.type == CircleRoomTypeArg.Group }
 
     private val binding by lazy {
         getBinding() as CreateRoomDialogFragmentBinding
@@ -46,11 +45,9 @@ class CreateRoomDialogFragment :
     private fun setupViews() {
         with(binding) {
             toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
-            toolbar.title =
-                context?.getString(if (isCreateGroup) R.string.create_new_group else R.string.create_new_circle)
-            tvNameHeader.text =
-                context?.getString(if (isCreateGroup) R.string.group_name else R.string.circle_name)
-            topicViewGroup.setIsVisible(isCreateGroup)
+            toolbar.title = getTitle()
+            tvNameHeader.text = getCreateHeader()
+            topicViewGroup.setIsVisible(args.type == CircleRoomTypeArg.Group)
             ivCover.setOnClickListener {
                 imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
                     viewModel.setImageUri(uri)
@@ -64,7 +61,7 @@ class CreateRoomDialogFragment :
                     tilName.getText(),
                     tilTopic.getText(),
                     selectedUsersFragment.getSelectedUsers(),
-                    isCreateGroup
+                    args.type
                 )
                 startLoading(btnCreate)
             }
@@ -76,13 +73,23 @@ class CreateRoomDialogFragment :
             binding.ivCover.setImageURI(it)
         }
         viewModel.createRoomResponseLiveData.observeResponse(this,
-            success = {
-                showSuccess(
-                    getString(if (isCreateGroup) R.string.group_created else R.string.circle_created),
-                    true
-                )
-                activity?.onBackPressed()
-            }
+            success = { activity?.onBackPressed() }
         )
     }
+
+    private fun getTitle() = context?.getString(
+        when (args.type) {
+            CircleRoomTypeArg.Circle -> R.string.create_new_circle
+            CircleRoomTypeArg.Group -> R.string.create_new_group
+            CircleRoomTypeArg.Photo -> R.string.create_new_gallery
+        }
+    )
+
+    private fun getCreateHeader() = context?.getString(
+        when (args.type) {
+            CircleRoomTypeArg.Circle -> R.string.circle_name
+            CircleRoomTypeArg.Group -> R.string.group_name
+            CircleRoomTypeArg.Photo -> R.string.gallery_name
+        }
+    )
 }

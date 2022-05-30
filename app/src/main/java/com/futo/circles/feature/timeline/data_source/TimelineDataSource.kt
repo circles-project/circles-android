@@ -155,6 +155,7 @@ class TimelineDataSource(
         CircleRoomTypeArg.Circle -> room?.roomSummary()?.spaceChildren?.mapNotNull {
             session?.getRoom(it.childRoomId)
         } ?: emptyList()
+        CircleRoomTypeArg.Photo -> TODO()
     }
 
     fun isUserSingleRoomOwner(): Boolean {

@@ -39,9 +39,11 @@
     <string name="leave_group">Leave group</string>
     <string name="create_new_group">Create new group</string>
     <string name="create_new_circle">Create new circle</string>
+    <string name="create_new_gallery">Create new gallery</string>
     <string name="create">Create</string>
     <string name="group_name">Group name</string>
     <string name="circle_name">Circle name</string>
+    <string name="gallery_name">Gallery name</string>
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="group_topic">Group topic</string>
     <string name="upload_image_from">Upload image from</string>
@@ -49,8 +51,6 @@
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
     <string name="unexpected_error">Something went wrong</string>
-    <string name="group_created">Group created</string>
-    <string name="circle_created">Circle created</string>
     <string name="group_updated">Group updated</string>
     <string name="circle_updated">Circle updated</string>
     <string name="already_have_a_circles_token">Already have a Circles token?</string>

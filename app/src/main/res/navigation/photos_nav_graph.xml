@@ -17,7 +17,7 @@
 
             <argument
                 android:name="type"
-                android:defaultValue="Circle"
+                android:defaultValue="Photo"
                 app:argType="com.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
