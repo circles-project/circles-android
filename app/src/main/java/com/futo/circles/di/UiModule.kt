@@ -5,6 +5,7 @@ import com.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewMode
 import com.futo.circles.feature.circles.following.FollowingViewModel
 import com.futo.circles.feature.groups.GroupsViewModel
 import com.futo.circles.feature.log_in.LogInViewModel
+import com.futo.circles.feature.photos.PhotosViewModel
 import com.futo.circles.feature.room.create_room.CreateRoomViewModel
 import com.futo.circles.feature.room.invite.InviteMembersViewModel
 import com.futo.circles.feature.room.manage_members.ManageMembersViewModel
@@ -36,6 +37,7 @@ val uiModule = module {
     viewModel { LogInViewModel(get()) }
     viewModel { GroupsViewModel(get()) }
     viewModel { CirclesViewModel(get()) }
+    viewModel { PhotosViewModel(get()) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineViewModel(get { parametersOf(roomId, type) })
     }
