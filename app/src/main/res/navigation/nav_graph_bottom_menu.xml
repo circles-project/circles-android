@@ -9,16 +9,13 @@
 
     <include app:graph="@navigation/circles_nav_graph" />
 
+    <include app:graph="@navigation/photos_nav_graph" />
+
     <fragment
         android:id="@+id/peopleFragment"
         android:name="com.futo.circles.feature.people.PeopleFragment"
         android:label="@string/my_people"
         tools:layout="@layout/people_fragment" />
-    <fragment
-        android:id="@+id/photosFragment"
-        android:name="com.futo.circles.feature.photos.PhotosFragment"
-        android:label="@string/photo_galleries"
-        tools:layout="@layout/photos_fragment" />
 
     <include app:graph="@navigation/settings_nav_graph" />
 
