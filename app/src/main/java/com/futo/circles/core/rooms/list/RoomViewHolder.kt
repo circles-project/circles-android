@@ -9,10 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.futo.circles.R
 import com.futo.circles.core.list.ViewBindingHolder
 import com.futo.circles.core.list.context
-import com.futo.circles.databinding.InvitedCircleListItemBinding
-import com.futo.circles.databinding.InvitedGroupListItemBinding
-import com.futo.circles.databinding.JoinedCircleListItemBinding
-import com.futo.circles.databinding.JoinedGroupListItemBinding
+import com.futo.circles.databinding.*
 import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.extensions.onClick
 import com.futo.circles.extensions.setIsEncryptedIcon
@@ -173,6 +170,29 @@ class InvitedCircleViewHolder(
             setTitle(tvCircleTitle, data.info.title)
             binding.tvInvitedBy.text =
                 context.getString(R.string.invited_by_format, data.inviterName)
+        }
+    }
+}
+
+class GalleryViewHolder(
+    parent: ViewGroup,
+    onGalleryClicked: (Int) -> Unit
+) : RoomViewHolder(inflate(parent, GalleryListItemBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as GalleryListItemBinding
+
+    init {
+        onClick(itemView) { position -> onGalleryClicked(position) }
+    }
+
+    override fun bind(data: RoomListItem) {
+        if (data !is GalleryListItem) return
+
+        with(binding) {
+            setIcon(ivGalleryImage, data.info.avatarUrl, "")
+            setTitle(tvGalleryName, data.info.title)
         }
     }
 }

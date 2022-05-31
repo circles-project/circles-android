@@ -42,3 +42,8 @@ data class InvitedCircleListItem(
     override val info: RoomInfo,
     val inviterName: String,
 ) : RoomListItem(id, info, Membership.INVITE)
+
+data class GalleryListItem(
+    override val id: String,
+    override val info: RoomInfo
+) : RoomListItem(id, info, Membership.JOIN)
