@@ -9,6 +9,7 @@ import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.model.CircleRoomTypeArg
+import com.futo.circles.model.Gallery
 import com.futo.circles.model.Group
 import com.futo.circles.model.UserListItem
 
@@ -59,7 +60,7 @@ class CreateRoomViewModel(
         )
 
     private suspend fun createGallery(name: String) = dataSource.createRoom(
-        circlesRoom = Group(),
+        circlesRoom = Gallery(),
         name = name,
         iconUri = selectedImageLiveData.value
     )
