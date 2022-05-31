@@ -27,10 +27,10 @@ class CreateRoomViewModel(
     fun createRoom(
         name: String,
         topic: String,
-        users: List<UserListItem>,
+        users: List<UserListItem>?,
         roomType: CircleRoomTypeArg
     ) {
-        val inviteIds = users.map { it.id }
+        val inviteIds = users?.map { it.id }
         launchBg {
             val result = createResult {
                 when (roomType) {
@@ -43,7 +43,7 @@ class CreateRoomViewModel(
         }
     }
 
-    private suspend fun createGroup(name: String, topic: String, inviteIds: List<String>) =
+    private suspend fun createGroup(name: String, topic: String, inviteIds: List<String>?) =
         dataSource.createRoom(
             circlesRoom = Group(),
             iconUri = selectedImageLiveData.value,
@@ -52,7 +52,7 @@ class CreateRoomViewModel(
             inviteIds = inviteIds
         )
 
-    private suspend fun createCircle(name: String, inviteIds: List<String>) =
+    private suspend fun createCircle(name: String, inviteIds: List<String>?) =
         dataSource.createCircleWithTimeline(
             name = name,
             iconUri = selectedImageLiveData.value,

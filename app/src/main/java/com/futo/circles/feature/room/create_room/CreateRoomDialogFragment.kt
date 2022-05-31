@@ -30,7 +30,7 @@ class CreateRoomDialogFragment :
         getBinding() as CreateRoomDialogFragmentBinding
     }
 
-    private val selectedUsersFragment by lazy { SelectUsersFragment.create(null) }
+    private var selectedUsersFragment: SelectUsersFragment? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,7 +58,7 @@ class CreateRoomDialogFragment :
                 viewModel.createRoom(
                     tilName.getText(),
                     tilTopic.getText(),
-                    selectedUsersFragment.getSelectedUsers(),
+                    selectedUsersFragment?.getSelectedUsers(),
                     args.type
                 )
                 startLoading(btnCreate)
@@ -98,8 +98,10 @@ class CreateRoomDialogFragment :
     )
 
     private fun addSelectUsersFragment() {
-        childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, selectedUsersFragment)
-            .commitAllowingStateLoss()
+        selectedUsersFragment = SelectUsersFragment.create(null).also {
+            childFragmentManager.beginTransaction()
+                .replace(R.id.lContainer, it)
+                .commitAllowingStateLoss()
+        }
     }
 }
