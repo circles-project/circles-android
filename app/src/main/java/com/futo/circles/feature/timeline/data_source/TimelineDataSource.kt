@@ -151,10 +151,10 @@ class TimelineDataSource(
     }
 
     private fun getTimelineRooms(): List<Room> = when (type) {
-        CircleRoomTypeArg.Group -> listOfNotNull(room)
         CircleRoomTypeArg.Circle -> room?.roomSummary()?.spaceChildren?.mapNotNull {
             session?.getRoom(it.childRoomId)
         } ?: emptyList()
+        else -> listOfNotNull(room)
     }
 
     fun isUserSingleRoomOwner(): Boolean {

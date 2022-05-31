@@ -58,7 +58,7 @@ fun ImageView.loadProfileIcon(
 
     val backgroundColor = ColorGenerator.DEFAULT.getColor(userId)
 
-    val text = userId.firstOrNull()?.toString()?.uppercase() ?: "?"
+    val text = userId.firstOrNull()?.toString()?.uppercase() ?: ""
     val placeholder = TextDrawable.Builder()
         .setShape(TextDrawable.SHAPE_ROUND_RECT)
         .setColor(backgroundColor)

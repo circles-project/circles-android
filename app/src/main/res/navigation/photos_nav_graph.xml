@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/photos_nav_graph"
+    app:startDestination="@id/photosFragment">
+
+    <fragment
+        android:id="@+id/photosFragment"
+        android:name="com.futo.circles.feature.photos.PhotosFragment"
+        android:label="@string/photo_galleries"
+        tools:layout="@layout/rooms_fragment">
+
+        <action
+            android:id="@+id/to_createRoomDialogFragment"
+            app:destination="@id/createRoomDialogFragment">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Photo"
+                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
+
+    <dialog
+        android:id="@+id/createRoomDialogFragment"
+        android:name="com.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
+        tools:layout="@layout/create_room_dialog_fragment">
+
+        <argument
+            android:name="type"
+            app:argType="com.futo.circles.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+    </dialog>
+
+</navigation>

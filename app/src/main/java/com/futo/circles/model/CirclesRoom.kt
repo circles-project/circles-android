@@ -10,9 +10,11 @@ private const val GROUPS_SPACE_TAG = "m.space.groups"
 private const val PHOTOS_SPACE_TAG = "m.space.photos"
 const val CIRCLE_TAG = "m.social.circle"
 const val GROUP_TAG = "m.social.group"
+const val GALLERY_TAG = "m.social.gallery"
 const val TIMELINE_TAG = "m.social.timeline"
 
 const val GROUP_TYPE = GROUP_TAG
+const val GALLERY_TYPE = GALLERY_TAG
 const val TIMELINE_TYPE = TIMELINE_TAG
 
 
@@ -65,6 +67,13 @@ data class Group(
     override val tag: String = GROUP_TAG,
     override val parentTag: String? = GROUPS_SPACE_TAG,
     override val type: String? = GROUP_TYPE
+) : CirclesRoom(nameId, tag, parentTag, type)
+
+data class Gallery(
+    override val nameId: Int? = null,
+    override val tag: String = GALLERY_TAG,
+    override val parentTag: String? = PHOTOS_SPACE_TAG,
+    override val type: String? = GALLERY_TYPE
 ) : CirclesRoom(nameId, tag, parentTag, type)
 
 data class Timeline(

@@ -17,7 +17,7 @@
         android:title="@string/groups" />
 
     <item
-        android:id="@+id/photosFragment"
+        android:id="@+id/photos_nav_graph"
         android:icon="@drawable/ic_round_photo_library"
         android:title="@string/photos" />
 

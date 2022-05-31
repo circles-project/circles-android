@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import com.futo.circles.core.list.BaseRvAdapter
 import com.futo.circles.model.*
 
-private enum class RoomListItemViewType { JoinedGroup, JoinedCircle, InvitedGroup, InvitedCircle }
+enum class RoomListItemViewType { JoinedGroup, JoinedCircle, InvitedGroup, InvitedCircle, Gallery }
 
 class RoomsListAdapter(
     private val onRoomClicked: (RoomListItem) -> Unit,
@@ -32,6 +32,7 @@ class RoomsListAdapter(
         is InvitedGroupListItem -> RoomListItemViewType.InvitedGroup.ordinal
         is JoinedCircleListItem -> RoomListItemViewType.JoinedCircle.ordinal
         is InvitedCircleListItem -> RoomListItemViewType.InvitedCircle.ordinal
+        is GalleryListItem -> RoomListItemViewType.Gallery.ordinal
     }
 
     override fun onCreateViewHolder(
@@ -57,6 +58,10 @@ class RoomsListAdapter(
             onInviteClicked = { position, isAccepted ->
                 onInviteClicked(getItem(position), isAccepted)
             }
+        )
+        RoomListItemViewType.Gallery -> GalleryViewHolder(
+            parent = parent,
+            onGalleryClicked = { position -> onRoomClicked(getItem(position)) }
         )
     }
 

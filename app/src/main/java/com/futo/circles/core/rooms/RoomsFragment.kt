@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
+import com.futo.circles.core.list.RoomsDividerDecoration
+import com.futo.circles.core.rooms.list.RoomListItemViewType
 import com.futo.circles.core.rooms.list.RoomsListAdapter
 import com.futo.circles.databinding.RoomsFragmentBinding
 import com.futo.circles.extensions.bindToFab
@@ -13,6 +15,9 @@ import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
 import com.futo.circles.model.RoomListItem
 
+interface HasInvites {
+    fun onAcceptInviteClicked(room: RoomListItem)
+}
 
 abstract class RoomsFragment : Fragment(R.layout.rooms_fragment) {
 
@@ -29,7 +34,6 @@ abstract class RoomsFragment : Fragment(R.layout.rooms_fragment) {
 
     abstract fun onRoomListItemClicked(room: RoomListItem)
     abstract fun navigateToCreateRoom()
-    abstract fun onAcceptInviteClicked(room: RoomListItem)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,7 +43,7 @@ abstract class RoomsFragment : Fragment(R.layout.rooms_fragment) {
 
     private fun setupViews() {
         binding.rvRooms.apply {
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            addItemDecoration(RoomsDividerDecoration(context, RoomListItemViewType.Gallery.ordinal))
             adapter = listAdapter
             bindToFab(binding.fbAddRoom)
         }
@@ -52,6 +56,8 @@ abstract class RoomsFragment : Fragment(R.layout.rooms_fragment) {
     }
 
     private fun onInviteClicked(room: RoomListItem, isAccepted: Boolean) {
+        if (this !is HasInvites) return
+
         if (isAccepted) onAcceptInviteClicked(room)
         else viewModel.rejectInvite(room.id)
     }
