@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import com.futo.circles.core.list.BaseRvAdapter
 import com.futo.circles.model.*
 
-private enum class RoomListItemViewType { JoinedGroup, JoinedCircle, InvitedGroup, InvitedCircle, Gallery }
+enum class RoomListItemViewType { JoinedGroup, JoinedCircle, InvitedGroup, InvitedCircle, Gallery }
 
 class RoomsListAdapter(
     private val onRoomClicked: (RoomListItem) -> Unit,
