@@ -10,7 +10,10 @@ import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.databinding.CreateRoomDialogFragmentBinding
-import com.futo.circles.extensions.*
+import com.futo.circles.extensions.getText
+import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
+import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.feature.room.select_users.SelectUsersFragment
 import com.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,18 +34,13 @@ class CreateRoomDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addSelectUsersFragment()
         setupViews()
         setupObservers()
     }
 
-    private fun addSelectUsersFragment() {
-        childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, selectedUsersFragment)
-            .commitAllowingStateLoss()
-    }
 
     private fun setupViews() {
+        setupInviteMembers()
         with(binding) {
             toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
             toolbar.title = getTitle()
@@ -66,6 +64,12 @@ class CreateRoomDialogFragment :
                 startLoading(btnCreate)
             }
         }
+    }
+
+    private fun setupInviteMembers() {
+        val isInvitesAvailable = args.type != CircleRoomTypeArg.Photo
+        binding.tvInviteUsers.setIsVisible(isInvitesAvailable)
+        if (isInvitesAvailable) addSelectUsersFragment()
     }
 
     private fun setupObservers() {
@@ -92,4 +96,10 @@ class CreateRoomDialogFragment :
             CircleRoomTypeArg.Photo -> R.string.gallery_name
         }
     )
+
+    private fun addSelectUsersFragment() {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.lContainer, selectedUsersFragment)
+            .commitAllowingStateLoss()
+    }
 }
