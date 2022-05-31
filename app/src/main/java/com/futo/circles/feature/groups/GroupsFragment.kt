@@ -1,11 +1,12 @@
 package com.futo.circles.feature.groups
 
 import androidx.navigation.fragment.findNavController
+import com.futo.circles.core.rooms.HasInvites
 import com.futo.circles.core.rooms.RoomsFragment
 import com.futo.circles.model.RoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class GroupsFragment : RoomsFragment() {
+class GroupsFragment : RoomsFragment(), HasInvites {
 
     override val viewModel by viewModel<GroupsViewModel>()
 

@@ -13,6 +13,9 @@ import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.observeResponse
 import com.futo.circles.model.RoomListItem
 
+interface HasInvites {
+    fun onAcceptInviteClicked(room: RoomListItem)
+}
 
 abstract class RoomsFragment : Fragment(R.layout.rooms_fragment) {
 
@@ -29,7 +32,6 @@ abstract class RoomsFragment : Fragment(R.layout.rooms_fragment) {
 
     abstract fun onRoomListItemClicked(room: RoomListItem)
     abstract fun navigateToCreateRoom()
-    abstract fun onAcceptInviteClicked(room: RoomListItem)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,6 +54,8 @@ abstract class RoomsFragment : Fragment(R.layout.rooms_fragment) {
     }
 
     private fun onInviteClicked(room: RoomListItem, isAccepted: Boolean) {
+        if (this !is HasInvites) return
+
         if (isAccepted) onAcceptInviteClicked(room)
         else viewModel.rejectInvite(room.id)
     }

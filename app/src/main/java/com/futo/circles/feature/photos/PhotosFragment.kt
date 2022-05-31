@@ -16,7 +16,4 @@ class PhotosFragment : RoomsFragment() {
     override fun navigateToCreateRoom() {
         findNavController().navigate(PhotosFragmentDirections.toCreateRoomDialogFragment())
     }
-
-    override fun onAcceptInviteClicked(room: RoomListItem) {
-    }
 }
