@@ -3,18 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivGalleryImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="8dp"
-        android:alpha="0.9"
         android:adjustViewBounds="true"
+        android:alpha="0.9"
         android:scaleType="centerCrop"
-        android:clickable="true"
-        android:focusable="true"
         android:src="@drawable/ic_gallery"
         app:layout_constraintDimensionRatio="w,1:2"
         app:layout_constraintEnd_toEndOf="parent"
