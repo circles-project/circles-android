@@ -32,6 +32,7 @@ import com.futo.circles.feature.sign_up.validate_email.ValidateEmailDataSource
 import com.futo.circles.feature.sign_up.validate_token.ValidateTokenDataSource
 import com.futo.circles.feature.timeline.data_source.TimelineBuilder
 import com.futo.circles.feature.timeline.data_source.TimelineDataSource
+import com.futo.circles.feature.timeline.post.PostOptionsDataSource
 import com.futo.circles.feature.timeline.post.emoji.EmojiDataSource
 import com.futo.circles.feature.timeline.post.report.ReportDataSource
 import com.futo.circles.model.CircleRoomTypeArg
@@ -45,6 +46,7 @@ val dataSourceModule = module {
     factory { (roomId: String) ->
         LeaveRoomDataSource(roomId, get())
     }
+    factory { PostOptionsDataSource(get()) }
     factory { TimelineBuilder() }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
     factory { (roomId: String?) -> SelectUsersDataSource(roomId) }

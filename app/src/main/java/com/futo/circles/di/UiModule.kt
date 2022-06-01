@@ -39,7 +39,7 @@ val uiModule = module {
     viewModel { CirclesViewModel(get()) }
     viewModel { PhotosViewModel(get()) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
-        TimelineViewModel(get { parametersOf(roomId, type) }, get { parametersOf(roomId) })
+        TimelineViewModel(get { parametersOf(roomId, type) }, get { parametersOf(roomId) }, get())
     }
     viewModel { (roomId: String) -> InviteMembersViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->

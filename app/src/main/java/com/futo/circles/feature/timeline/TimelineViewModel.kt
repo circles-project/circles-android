@@ -9,13 +9,15 @@ import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.room.LeaveRoomDataSource
 import com.futo.circles.feature.timeline.post.share.ShareableContent
 import com.futo.circles.feature.timeline.data_source.TimelineDataSource
+import com.futo.circles.feature.timeline.post.PostOptionsDataSource
 import com.futo.circles.model.ImageContent
 import com.futo.circles.model.PostContent
 import org.matrix.android.sdk.api.util.Cancelable
 
 class TimelineViewModel(
     private val timelineDataSource: TimelineDataSource,
-    private val leaveRoomDataSource: LeaveRoomDataSource
+    private val leaveRoomDataSource: LeaveRoomDataSource,
+    private val postOptionsDataSource: PostOptionsDataSource
 ) : ViewModel() {
 
     val titleLiveData = timelineDataSource.roomTitleLiveData
@@ -48,23 +50,23 @@ class TimelineViewModel(
 
     fun sharePostContent(content: PostContent) {
         launchBg {
-            shareLiveData.postValue(timelineDataSource.getShareableContent(content))
+            shareLiveData.postValue(postOptionsDataSource.getShareableContent(content))
         }
     }
 
     fun removeMessage(roomId: String, eventId: String) {
-        timelineDataSource.removeMessage(roomId, eventId)
+        postOptionsDataSource.removeMessage(roomId, eventId)
     }
 
     fun ignoreSender(senderId: String) {
         launchBg {
-            ignoreUserLiveData.postValue(timelineDataSource.ignoreSender(senderId))
+            ignoreUserLiveData.postValue(postOptionsDataSource.ignoreSender(senderId))
         }
     }
 
     fun saveImage(imageContent: ImageContent) {
         launchBg {
-            timelineDataSource.saveImage(imageContent)
+            postOptionsDataSource.saveImage(imageContent)
             downloadImageLiveData.postValue(Unit)
         }
     }
@@ -80,12 +82,12 @@ class TimelineViewModel(
     }
 
     fun sendReaction(roomId: String, eventId: String, emoji: String) {
-        timelineDataSource.sendReaction(roomId, eventId, emoji)
+        postOptionsDataSource.sendReaction(roomId, eventId, emoji)
     }
 
     fun unSendReaction(roomId: String, eventId: String, emoji: String) {
         launchBg {
-            val result = timelineDataSource.unSendReaction(roomId, eventId, emoji)
+            val result = postOptionsDataSource.unSendReaction(roomId, eventId, emoji)
             unSendReactionLiveData.postValue(result)
         }
     }
