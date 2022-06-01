@@ -1,4 +1,6 @@
 package com.futo.circles.feature.photos.gallery
 
-class GalleryViewModel {
+import androidx.lifecycle.ViewModel
+
+class GalleryViewModel : ViewModel() {
 }

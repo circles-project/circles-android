@@ -10,7 +10,7 @@ class PhotosFragment : RoomsFragment() {
     override val viewModel by viewModel<PhotosViewModel>()
 
     override fun onRoomListItemClicked(room: RoomListItem) {
-
+        findNavController().navigate(PhotosFragmentDirections.toGalleryFragment(room.id))
     }
 
     override fun navigateToCreateRoom() {
