@@ -12,6 +12,7 @@ import com.futo.circles.feature.circles.following.FollowingDataSource
 import com.futo.circles.feature.groups.GroupsDataSource
 import com.futo.circles.feature.log_in.LoginDataSource
 import com.futo.circles.feature.photos.PhotosDataSource
+import com.futo.circles.feature.room.LeaveRoomDataSource
 import com.futo.circles.feature.room.invite.InviteMembersDataSource
 import com.futo.circles.feature.room.manage_members.ManageMembersDataSource
 import com.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelDataSource
@@ -39,7 +40,10 @@ import org.koin.dsl.module
 val dataSourceModule = module {
     factory { LoginDataSource(get(), get()) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
-        TimelineDataSource(roomId, type, get(), get(), get())
+        TimelineDataSource(roomId, type, get(), get())
+    }
+    factory { (roomId: String) ->
+        LeaveRoomDataSource(roomId, get())
     }
     factory { TimelineBuilder() }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }

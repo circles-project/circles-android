@@ -29,11 +29,10 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 
 class TimelineDataSource(
-    private val roomId: String,
+    roomId: String,
     private val type: CircleRoomTypeArg,
     private val context: Context,
-    private val timelineBuilder: TimelineBuilder,
-    private val roomRelationsBuilder: RoomRelationsBuilder
+    private val timelineBuilder: TimelineBuilder
 ) : Timeline.Listener {
 
     private val session = MatrixSessionProvider.currentSession
@@ -134,32 +133,11 @@ class TimelineDataSource(
         roomForMessage?.relationService()?.undoReaction(eventId, emoji)
     }
 
-    suspend fun leaveGroup() =
-        createResult { session?.roomService()?.leaveRoom(roomId) }
-
-    suspend fun deleteCircle() = createResult {
-        room?.roomSummary()?.spaceChildren?.forEach {
-            roomRelationsBuilder.removeRelations(it.childRoomId, roomId)
-        }
-        getTimelineRoomFor(roomId)?.let { timelineRoom ->
-            timelineRoom.roomSummary()?.otherMemberIds?.forEach { memberId ->
-                timelineRoom.membershipService().ban(memberId)
-            }
-            session?.roomService()?.leaveRoom(timelineRoom.roomId)
-        }
-        session?.roomService()?.leaveRoom(roomId)
-    }
-
     private fun getTimelineRooms(): List<Room> = when (type) {
         CircleRoomTypeArg.Circle -> room?.roomSummary()?.spaceChildren?.mapNotNull {
             session?.getRoom(it.childRoomId)
         } ?: emptyList()
         else -> listOfNotNull(room)
-    }
-
-    fun isUserSingleRoomOwner(): Boolean {
-        val isUserOwner = getCurrentUserPowerLevel(roomId) == Role.Admin.value
-        return isUserOwner && getRoomOwners(roomId).size == 1
     }
 
     companion object {
