@@ -53,6 +53,7 @@
     <string name="unexpected_error">Something went wrong</string>
     <string name="group_updated">Group updated</string>
     <string name="circle_updated">Circle updated</string>
+    <string name="gallery_updated">Gallery updated</string>
     <string name="already_have_a_circles_token">Already have a Circles token?</string>
     <string name="sign_up_with_token">Sign up with token</string>
     <string name="new_circles_subscription">New Circles subscription</string>
@@ -85,6 +86,7 @@
     <string name="setup_profile">Setup profile</string>
     <string name="setup_circles">Setup Circles</string>
     <string name="circle_encryption_warning">NOTE: Circle name and cover image are not encrypted</string>
+    <string name="gallery_encryption_warning">NOTE: Gallery name and cover image are not encrypted</string>
     <string name="friends">Friends</string>
     <string name="family">Family</string>
     <string name="community">Community</string>
@@ -170,10 +172,13 @@
     <string name="severity_formatter">Severity: %d</string>
     <string name="add_reaction">Add reaction</string>
     <string name="configure_circle">Configure circle</string>
+    <string name="configure_gallery">Configure gallery</string>
     <string name="delete_circle">Delete circle</string>
+    <string name="delete_gallery">Delete gallery</string>
     <string name="my_followers">My followers</string>
     <string name="people_i_m_following">People I\'m following</string>
     <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
+    <string name="delete_gallery_message">Are you sure you want to remove this gallery?</string>
     <string name="timeline_not_found">Timeline not found</string>
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
     <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
