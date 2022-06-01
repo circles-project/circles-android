@@ -23,7 +23,6 @@ class UpdateRoomDialogFragment :
     private val args: UpdateRoomDialogFragmentArgs by navArgs()
     private val viewModel by viewModel<UpdateRoomViewModel> { parametersOf(args.roomId) }
     private val imagePickerHelper = ImagePickerHelper(this)
-    private val isGroupUpdate by lazy { args.type == CircleRoomTypeArg.Group }
 
     private val binding by lazy {
         getBinding() as UpdateRoomDialogFragmentBinding
@@ -39,13 +38,10 @@ class UpdateRoomDialogFragment :
     private fun setupViews() {
         with(binding) {
             toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
-            toolbar.title =
-                context?.getString(if (isGroupUpdate) R.string.configure_group else R.string.configure_circle)
-            tvNameHeader.text =
-                context?.getString(if (isGroupUpdate) R.string.group_name else R.string.circle_name)
-            tvEncryptionWarning.text =
-                context?.getString(if (isGroupUpdate) R.string.group_encryption_warning else R.string.circle_encryption_warning)
-            topicViewGroup.setIsVisible(isGroupUpdate)
+            toolbar.title = getTitle()
+            tvNameHeader.text = getNameHeader()
+            tvEncryptionWarning.text = getEncryptionWarning()
+            topicViewGroup.setIsVisible(args.type == CircleRoomTypeArg.Group)
             ivCover.setOnClickListener { showImagePicker() }
             btnChangeIcon.setOnClickListener { showImagePicker() }
             tilName.editText?.doAfterTextChanged {
@@ -68,10 +64,7 @@ class UpdateRoomDialogFragment :
         }
         viewModel.updateGroupResponseLiveData.observeResponse(this,
             success = {
-                showSuccess(
-                    getString(if (isGroupUpdate) R.string.group_updated else R.string.circle_updated),
-                    true
-                )
+                showSuccess(getSuccessMessage(), true)
                 activity?.onBackPressed()
             }
         )
@@ -98,4 +91,36 @@ class UpdateRoomDialogFragment :
     private fun onRoomDataChanged() {
         viewModel.handleRoomDataUpdate(binding.tilName.getText(), binding.tilTopic.getText())
     }
+
+    private fun getTitle() = getString(
+        when (args.type) {
+            CircleRoomTypeArg.Circle -> R.string.configure_circle
+            CircleRoomTypeArg.Group -> R.string.configure_group
+            CircleRoomTypeArg.Photo -> R.string.configure_gallery
+        }
+    )
+
+    private fun getNameHeader() = getString(
+        when (args.type) {
+            CircleRoomTypeArg.Circle -> R.string.circle_name
+            CircleRoomTypeArg.Group -> R.string.group_name
+            CircleRoomTypeArg.Photo -> R.string.gallery_name
+        }
+    )
+
+    private fun getEncryptionWarning() = getString(
+        when (args.type) {
+            CircleRoomTypeArg.Circle -> R.string.circle_encryption_warning
+            CircleRoomTypeArg.Group -> R.string.group_encryption_warning
+            CircleRoomTypeArg.Photo -> R.string.gallery_encryption_warning
+        }
+    )
+
+    private fun getSuccessMessage() = getString(
+        when (args.type) {
+            CircleRoomTypeArg.Circle -> R.string.circle_updated
+            CircleRoomTypeArg.Group -> R.string.group_updated
+            CircleRoomTypeArg.Photo -> R.string.gallery_updated
+        }
+    )
 }
