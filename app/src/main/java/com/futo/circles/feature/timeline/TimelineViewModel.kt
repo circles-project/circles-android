@@ -18,10 +18,8 @@ class TimelineViewModel(
     private val timelineDataSource: TimelineDataSource,
     private val leaveRoomDataSource: LeaveRoomDataSource,
     private val postOptionsDataSource: PostOptionsDataSource
-) : ViewModel() {
+) : BaseTimelineViewModel(timelineDataSource) {
 
-    val titleLiveData = timelineDataSource.roomTitleLiveData
-    val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
     val accessLevelLiveData = timelineDataSource.accessLevelFlow.asLiveData()
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
@@ -31,18 +29,6 @@ class TimelineViewModel(
     val leaveGroupLiveData = SingleEventLiveData<Response<Unit?>>()
     val deleteCircleLiveData = SingleEventLiveData<Response<Unit?>>()
 
-    init {
-        timelineDataSource.startTimeline()
-    }
-
-    override fun onCleared() {
-        timelineDataSource.clearTimeline()
-        super.onCleared()
-    }
-
-    fun loadMore() {
-        timelineDataSource.loadMore()
-    }
 
     fun toggleRepliesVisibilityFor(eventId: String) {
         timelineDataSource.toggleRepliesVisibility(eventId)
