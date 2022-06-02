@@ -48,7 +48,8 @@ class RoomsDividerDecoration(context: Context, color: Int, heightDp: Float) :
         for (i in 0 until parent.childCount) {
             val view: View = parent.getChildAt(i)
             val position: Int = parent.getChildAdapterPosition(view)
-            val viewType = parent.adapter?.getItemViewType(position)
+            val viewType =
+                position.takeIf { it != -1 }?.let { parent.adapter?.getItemViewType(position) }
             if (viewType != escapeViewType) {
                 c.drawRect(
                     view.left.toFloat(),
