@@ -20,6 +20,7 @@ class TimelineViewModel(
     private val postOptionsDataSource: PostOptionsDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
+    val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
     val accessLevelLiveData = timelineDataSource.accessLevelFlow.asLiveData()
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()

@@ -8,7 +8,6 @@ abstract class BaseTimelineViewModel(
 ) : ViewModel() {
 
     val titleLiveData = timelineDataSource.roomTitleLiveData
-    val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
 
     init {
         timelineDataSource.startTimeline()
