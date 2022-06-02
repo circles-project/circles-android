@@ -15,6 +15,7 @@ import com.futo.circles.R
 import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.databinding.GalleryFragmentBinding
 import com.futo.circles.extensions.*
+import com.futo.circles.feature.photos.gallery.list.GalleryImagesAdapter
 import com.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -27,6 +28,11 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     }
     private val binding by viewBinding(GalleryFragmentBinding::bind)
     private val imagePickerHelper = ImagePickerHelper(this)
+    private val listAdapter by lazy {
+        GalleryImagesAdapter(
+            onGalleryImageClicked = { postId -> navigateToImagePreview(postId) },
+            onLoadMore = { viewModel.loadMore() })
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +43,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
 
     private fun setupViews() {
         binding.rvGallery.apply {
-            //adapter = listAdapter
+            adapter = listAdapter
             bindToFab(binding.fbUploadImage)
         }
         binding.fbUploadImage.setOnClickListener { showImagePicker() }
@@ -47,8 +53,8 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         viewModel.titleLiveData?.observeData(this) { title ->
             setToolbarTitle(title ?: "")
         }
-        viewModel.timelineEventsLiveData.observeData(this) {
-            //listAdapter.submitList(it)
+        viewModel.galleryImagesLiveData.observeData(this) {
+            listAdapter.submitList(it)
         }
         viewModel.scrollToTopLiveData.observeData(this) {
             binding.rvGallery.postDelayed(
@@ -93,6 +99,10 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         findNavController().navigate(
             GalleryFragmentDirections.toUpdateRoomDialogFragment(args.roomId)
         )
+    }
+
+    private fun navigateToImagePreview(postId: String) {
+
     }
 
     private fun showDeleteConfirmation() {
