@@ -22,6 +22,16 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_galleryFragment"
+            app:destination="@id/galleryFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
     <dialog
@@ -33,6 +43,54 @@
             android:name="type"
             app:argType="com.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
+
+    </dialog>
+
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.futo.circles.feature.photos.gallery.GalleryFragment"
+        tools:layout="@layout/gallery_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_updateRoomDialogFragment"
+            app:destination="@id/updateRoomDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Photo"
+                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+
+    </fragment>
+
+
+    <dialog
+        android:id="@+id/updateRoomDialogFragment"
+        android:name="com.futo.circles.feature.room.update_room.UpdateRoomDialogFragment"
+        tools:layout="@layout/update_room_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="com.futo.circles.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
 
     </dialog>
 

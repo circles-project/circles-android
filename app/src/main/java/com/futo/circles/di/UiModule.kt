@@ -6,6 +6,7 @@ import com.futo.circles.feature.circles.following.FollowingViewModel
 import com.futo.circles.feature.groups.GroupsViewModel
 import com.futo.circles.feature.log_in.LogInViewModel
 import com.futo.circles.feature.photos.PhotosViewModel
+import com.futo.circles.feature.photos.gallery.GalleryViewModel
 import com.futo.circles.feature.room.create_room.CreateRoomViewModel
 import com.futo.circles.feature.room.invite.InviteMembersViewModel
 import com.futo.circles.feature.room.manage_members.ManageMembersViewModel
@@ -14,10 +15,10 @@ import com.futo.circles.feature.room.select_users.SelectUsersViewModel
 import com.futo.circles.feature.room.update_room.UpdateRoomViewModel
 import com.futo.circles.feature.settings.SettingsViewModel
 import com.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
+import com.futo.circles.feature.settings.active_sessions.remove_session.RemoveSessionViewModel
 import com.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import com.futo.circles.feature.settings.deactivate.DeactivateAccountViewModel
 import com.futo.circles.feature.settings.edit_profile.EditProfileViewModel
-import com.futo.circles.feature.settings.active_sessions.remove_session.RemoveSessionViewModel
 import com.futo.circles.feature.sign_up.SignUpViewModel
 import com.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
 import com.futo.circles.feature.sign_up.setup_profile.SetupProfileViewModel
@@ -39,7 +40,7 @@ val uiModule = module {
     viewModel { CirclesViewModel(get()) }
     viewModel { PhotosViewModel(get()) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
-        TimelineViewModel(get { parametersOf(roomId, type) })
+        TimelineViewModel(get { parametersOf(roomId, type) }, get { parametersOf(roomId) }, get())
     }
     viewModel { (roomId: String) -> InviteMembersViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
@@ -70,4 +71,7 @@ val uiModule = module {
     viewModel { DeactivateAccountViewModel(get()) }
     viewModel { ActiveSessionsViewModel(get()) }
     viewModel { (deviceId: String) -> RemoveSessionViewModel(get { parametersOf(deviceId) }) }
+    viewModel { (roomId: String, type: CircleRoomTypeArg) ->
+        GalleryViewModel(roomId, get { parametersOf(roomId, type) }, get { parametersOf(roomId) })
+    }
 }

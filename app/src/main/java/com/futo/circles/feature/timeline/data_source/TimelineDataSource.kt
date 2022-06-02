@@ -29,11 +29,10 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 
 class TimelineDataSource(
-    private val roomId: String,
+    roomId: String,
     private val type: CircleRoomTypeArg,
     private val context: Context,
-    private val timelineBuilder: TimelineBuilder,
-    private val roomRelationsBuilder: RoomRelationsBuilder
+    private val timelineBuilder: TimelineBuilder
 ) : Timeline.Listener {
 
     private val session = MatrixSessionProvider.currentSession
@@ -74,10 +73,6 @@ class TimelineDataSource(
         }
     }
 
-    fun toggleRepliesVisibility(eventId: String) {
-        timelineEventsLiveData.value = timelineBuilder.toggleRepliesVisibilityFor(eventId)
-    }
-
     override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
         timelineEventsLiveData.value = timelineBuilder.build(snapshot)
     }
@@ -86,23 +81,8 @@ class TimelineDataSource(
         timelines.forEach { it.restartWithEventId(null) }
     }
 
-    suspend fun getShareableContent(content: PostContent) = withContext(Dispatchers.IO) {
-        when (content) {
-            is ImageContent -> {
-                val uri = Glide.with(context).asFile().load(content).submit().get().getUri(context)
-                ImageShareable(uri)
-            }
-            is TextContent -> TextShareable(content.message)
-        }
-    }
-
-    suspend fun saveImage(imageContent: ImageContent) = withContext(Dispatchers.IO) {
-        val b = Glide.with(context).asBitmap().load(imageContent).submit().get()
-        b.saveImageToGallery(context)
-    }
-
-    suspend fun ignoreSender(userId: String) = createResult {
-        session?.userService()?.ignoreUserIds(listOf(userId))
+    fun toggleRepliesVisibility(eventId: String) {
+        timelineEventsLiveData.value = timelineBuilder.toggleRepliesVisibilityFor(eventId)
     }
 
     fun sendTextMessage(roomId: String, message: String, threadEventId: String?) {
@@ -118,48 +98,11 @@ class TimelineDataSource(
         }
     }
 
-    fun removeMessage(roomId: String, eventId: String) {
-        val roomForMessage = session?.getRoom(roomId)
-        roomForMessage?.getTimelineEvent(eventId)
-            ?.let { roomForMessage.sendService().redactEvent(it.root, null) }
-    }
-
-    fun sendReaction(roomId: String, eventId: String, emoji: String) {
-        val roomForMessage = session?.getRoom(roomId)
-        roomForMessage?.relationService()?.sendReaction(eventId, emoji)
-    }
-
-    suspend fun unSendReaction(roomId: String, eventId: String, emoji: String) = createResult {
-        val roomForMessage = session?.getRoom(roomId)
-        roomForMessage?.relationService()?.undoReaction(eventId, emoji)
-    }
-
-    suspend fun leaveGroup() =
-        createResult { session?.roomService()?.leaveRoom(roomId) }
-
-    suspend fun deleteCircle() = createResult {
-        room?.roomSummary()?.spaceChildren?.forEach {
-            roomRelationsBuilder.removeRelations(it.childRoomId, roomId)
-        }
-        getTimelineRoomFor(roomId)?.let { timelineRoom ->
-            timelineRoom.roomSummary()?.otherMemberIds?.forEach { memberId ->
-                timelineRoom.membershipService().ban(memberId)
-            }
-            session?.roomService()?.leaveRoom(timelineRoom.roomId)
-        }
-        session?.roomService()?.leaveRoom(roomId)
-    }
-
     private fun getTimelineRooms(): List<Room> = when (type) {
         CircleRoomTypeArg.Circle -> room?.roomSummary()?.spaceChildren?.mapNotNull {
             session?.getRoom(it.childRoomId)
         } ?: emptyList()
         else -> listOfNotNull(room)
-    }
-
-    fun isUserSingleRoomOwner(): Boolean {
-        val isUserOwner = getCurrentUserPowerLevel(roomId) == Role.Admin.value
-        return isUserOwner && getRoomOwners(roomId).size == 1
     }
 
     companion object {
