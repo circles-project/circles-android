@@ -13,8 +13,10 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.core.ImagePickerHelper
+import com.futo.circles.core.list.BaseRvDecoration
 import com.futo.circles.databinding.GalleryFragmentBinding
 import com.futo.circles.extensions.*
+import com.futo.circles.feature.photos.gallery.list.GalleryImageViewHolder
 import com.futo.circles.feature.photos.gallery.list.GalleryImagesAdapter
 import com.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,6 +46,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     private fun setupViews() {
         binding.rvGallery.apply {
             adapter = listAdapter
+            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryImageViewHolder>(2))
             bindToFab(binding.fbUploadImage)
         }
         binding.fbUploadImage.setOnClickListener { showImagePicker() }
