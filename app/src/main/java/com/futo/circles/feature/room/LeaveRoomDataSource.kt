@@ -33,6 +33,11 @@ class LeaveRoomDataSource(
         session?.roomService()?.leaveRoom(roomId)
     }
 
+    suspend fun deleteGallery() = createResult {
+        roomRelationsBuilder.removeFromAllParents(roomId)
+        session?.roomService()?.leaveRoom(roomId)
+    }
+
     fun isUserSingleRoomOwner(): Boolean {
         val isUserOwner = getCurrentUserPowerLevel(roomId) == Role.Admin.value
         return isUserOwner && getRoomOwners(roomId).size == 1
