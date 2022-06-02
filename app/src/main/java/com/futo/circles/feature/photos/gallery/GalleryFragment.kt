@@ -12,18 +12,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
+import com.futo.circles.core.ImagePickerHelper
 import com.futo.circles.databinding.GalleryFragmentBinding
-import com.futo.circles.extensions.showDialog
+import com.futo.circles.extensions.*
+import com.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class GalleryFragment : Fragment(R.layout.gallery_fragment) {
 
     private val args: GalleryFragmentArgs by navArgs()
-    private val viewModel by viewModel<GalleryViewModel> { parametersOf(args.roomId) }
-
+    private val viewModel by viewModel<GalleryViewModel> {
+        parametersOf(args.roomId, CircleRoomTypeArg.Photo)
+    }
     private val binding by viewBinding(GalleryFragmentBinding::bind)
-
+    private val imagePickerHelper = ImagePickerHelper(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,12 +35,35 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         setupObservers()
     }
 
-    private fun setupObservers() {
-
+    private fun setupViews() {
+        binding.rvGallery.apply {
+            //adapter = listAdapter
+            bindToFab(binding.fbUploadImage)
+        }
+        binding.fbUploadImage.setOnClickListener { showImagePicker() }
     }
 
-    private fun setupViews() {
+    private fun setupObservers() {
+        viewModel.titleLiveData?.observeData(this) { title ->
+            setToolbarTitle(title ?: "")
+        }
+        viewModel.timelineEventsLiveData.observeData(this) {
+            //listAdapter.submitList(it)
+        }
+        viewModel.scrollToTopLiveData.observeData(this) {
+            binding.rvGallery.postDelayed(
+                { binding.rvGallery.scrollToPosition(0) }, 500
+            )
+        }
+        viewModel.deleteGalleryLiveData.observeResponse(this,
+            success = { activity?.onBackPressed() }
+        )
+    }
 
+    private fun showImagePicker() {
+        imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
+            viewModel.uploadImage(uri)
+        })
     }
 
     @SuppressLint("RestrictedApi")
@@ -75,7 +101,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
             messageResId = R.string.delete_gallery_message,
             positiveButtonRes = R.string.delete,
             negativeButtonVisible = true,
-            positiveAction = { }
+            positiveAction = { viewModel.deleteGallery() }
         )
     }
 }
