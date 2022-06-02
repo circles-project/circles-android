@@ -21,7 +21,7 @@ class GalleryImageViewHolder(
     private val binding = baseBinding as GalleryImageListItemBinding
 
     init {
-        onClick(itemView) { position -> onItemClicked(position) }
+        onClick(binding.ivGalleryImage) { position -> onItemClicked(position) }
     }
 
     fun bind(imagePost: GalleryImageListItem) {
