@@ -105,7 +105,9 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     }
 
     private fun navigateToImagePreview(postId: String) {
-
+        findNavController().navigate(
+            GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, postId)
+        )
     }
 
     private fun showDeleteConfirmation() {
