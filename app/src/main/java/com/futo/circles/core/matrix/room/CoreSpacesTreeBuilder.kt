@@ -1,14 +1,16 @@
 package com.futo.circles.core.matrix.room
 
-import com.futo.circles.model.CirclesSpace
-import com.futo.circles.model.GroupsSpace
-import com.futo.circles.model.PhotosSpace
-import com.futo.circles.model.RootSpace
+import android.content.Context
+import com.futo.circles.R
+import com.futo.circles.model.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 
-class CoreSpacesTreeBuilder(private val createRoomDataSource: CreateRoomDataSource) {
+class CoreSpacesTreeBuilder(
+    private val context: Context,
+    private val createRoomDataSource: CreateRoomDataSource
+) {
 
     suspend fun createCoreSpacesTree() {
         createRoomDataSource.createRoom(RootSpace())
@@ -19,5 +21,6 @@ class CoreSpacesTreeBuilder(private val createRoomDataSource: CreateRoomDataSour
                 async { createRoomDataSource.createRoom(PhotosSpace()) },
             ).awaitAll()
         }
+        createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
     }
 }

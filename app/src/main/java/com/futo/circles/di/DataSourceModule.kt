@@ -56,7 +56,7 @@ val dataSourceModule = module {
     }
     factory { CreateRoomDataSource(get(), get()) }
     factory { RoomRelationsBuilder() }
-    factory { CoreSpacesTreeBuilder(get()) }
+    factory { CoreSpacesTreeBuilder(get(), get()) }
     single { SignUpDataSource(get(), get(), get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
