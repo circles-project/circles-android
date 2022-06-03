@@ -147,7 +147,9 @@
     <string name="report">Report</string>
     <string name="image_saved">Image saved</string>
     <string name="remove_post">Remove post</string>
+    <string name="remove_image">Remove image</string>
     <string name="remove_post_message">Are you sure you want to remove this post?</string>
+    <string name="remove_image_message">Are you sure you want to remove this image?</string>
     <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
     <string name="user_ignored">User ignored</string>
     <string name="reporting_inappropriate_content">Reporting inappropriate content</string>
