@@ -1,5 +1,6 @@
 package com.futo.circles.feature.photos.preview
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.futo.circles.core.SingleEventLiveData

@@ -9,11 +9,12 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:theme="@style/WhiteMenuToolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="?attr/homeAsUpIndicator"
-        app:navigationIconTint="@color/white" />
+        app:menu="@menu/gallery_image_menu"
+        app:navigationIcon="?attr/homeAsUpIndicator" />
 
     <ImageView
         android:id="@+id/ivImage"

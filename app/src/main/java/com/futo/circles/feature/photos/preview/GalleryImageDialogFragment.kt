@@ -2,9 +2,6 @@ package com.futo.circles.feature.photos.preview
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.navigation.fragment.navArgs
@@ -33,13 +30,33 @@ class GalleryImageDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
-        setupViews()
+        setupToolbar()
         setupObservers()
     }
 
-    private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+    @SuppressLint("RestrictedApi")
+    private fun setupToolbar() {
+        with(binding.toolbar) {
+            setNavigationOnClickListener { activity?.onBackPressed() }
+            (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
+            setOnMenuItemClickListener { item ->
+                return@setOnMenuItemClickListener when (item.itemId) {
+                    R.id.save -> {
+                        viewModel.saveImage()
+                        true
+                    }
+                    R.id.share -> {
+                        viewModel.shareImage()
+                        true
+                    }
+                    R.id.delete -> {
+                        showRemoveConfirmation()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
     }
 
     private fun setupObservers() {
@@ -50,35 +67,8 @@ class GalleryImageDialogFragment :
             context?.let { ShareProvider.share(it, content) }
         }
         viewModel.downloadImageLiveData.observeData(this) {
-            context?.let { showSuccess(it.getString(R.string.image_saved), true) }
+            context?.let { showSuccess(it.getString(R.string.image_saved), false) }
         }
-    }
-
-    @SuppressLint("RestrictedApi")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-        inflater.inflate(R.menu.gallery_image_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.save -> {
-                viewModel.saveImage()
-                return true
-            }
-            R.id.share -> {
-                viewModel.shareImage()
-                return true
-            }
-            R.id.delete -> {
-                showRemoveConfirmation()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun showRemoveConfirmation() {
