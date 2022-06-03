@@ -12,6 +12,7 @@ import com.futo.circles.feature.circles.following.FollowingDataSource
 import com.futo.circles.feature.groups.GroupsDataSource
 import com.futo.circles.feature.log_in.LoginDataSource
 import com.futo.circles.feature.photos.PhotosDataSource
+import com.futo.circles.feature.photos.preview.GalleryImageDataSource
 import com.futo.circles.feature.room.LeaveRoomDataSource
 import com.futo.circles.feature.room.invite.InviteMembersDataSource
 import com.futo.circles.feature.room.manage_members.ManageMembersDataSource
@@ -82,4 +83,5 @@ val dataSourceModule = module {
     factory { ActiveSessionsDataSource(get()) }
     factory { AuthConfirmationProvider() }
     factory { (deviceId: String) -> RemoveSessionDataSource(deviceId, get(), get()) }
+    factory { (roomId: String, eventId: String) -> GalleryImageDataSource(roomId, eventId) }
 }

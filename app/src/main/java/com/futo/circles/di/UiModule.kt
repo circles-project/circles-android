@@ -7,6 +7,7 @@ import com.futo.circles.feature.groups.GroupsViewModel
 import com.futo.circles.feature.log_in.LogInViewModel
 import com.futo.circles.feature.photos.PhotosViewModel
 import com.futo.circles.feature.photos.gallery.GalleryViewModel
+import com.futo.circles.feature.photos.preview.GalleryImageViewModel
 import com.futo.circles.feature.room.create_room.CreateRoomViewModel
 import com.futo.circles.feature.room.invite.InviteMembersViewModel
 import com.futo.circles.feature.room.manage_members.ManageMembersViewModel
@@ -73,5 +74,8 @@ val uiModule = module {
     viewModel { (deviceId: String) -> RemoveSessionViewModel(get { parametersOf(deviceId) }) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         GalleryViewModel(roomId, get { parametersOf(roomId, type) }, get { parametersOf(roomId) })
+    }
+    viewModel { (roomId: String, eventId: String) ->
+        GalleryImageViewModel(roomId, eventId, get { parametersOf(roomId, eventId) }, get())
     }
 }
