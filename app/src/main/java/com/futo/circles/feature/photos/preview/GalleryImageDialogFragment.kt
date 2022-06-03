@@ -1,8 +1,10 @@
 package com.futo.circles.feature.photos.preview
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.navigation.fragment.navArgs
 import com.futo.circles.R
@@ -30,6 +32,10 @@ class GalleryImageDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.window?.let {
+            it.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            it.statusBarColor = Color.BLACK
+        }
         setupToolbar()
         setupObservers()
     }
