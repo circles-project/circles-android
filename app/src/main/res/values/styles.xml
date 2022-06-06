@@ -84,4 +84,8 @@
     <style name="ShapeAppearanceOverlay.App.GroupIconRadius" parent="">
         <item name="cornerSize">10%</item>
     </style>
+
+    <style name="WhiteMenuToolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
 </resources>
