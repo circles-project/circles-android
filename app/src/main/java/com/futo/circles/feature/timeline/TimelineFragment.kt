@@ -190,8 +190,10 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
         viewModel.saveToDevice(imageContent)
     }
 
-    override fun onSaveToGallery(imageContent: ImageContent) {
-        findNavController().navigate(TimelineFragmentDirections.toSaveToGalleyDialogFragment())
+    override fun onSaveToGallery(roomId: String, eventId: String) {
+        findNavController().navigate(
+            TimelineFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
+        )
     }
 
     override fun onReport(roomId: String, eventId: String) {
