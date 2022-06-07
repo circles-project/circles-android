@@ -13,6 +13,7 @@ import com.futo.circles.feature.groups.GroupsDataSource
 import com.futo.circles.feature.log_in.LoginDataSource
 import com.futo.circles.feature.photos.PhotosDataSource
 import com.futo.circles.feature.photos.preview.GalleryImageDataSource
+import com.futo.circles.feature.photos.save.SelectGalleryDataSource
 import com.futo.circles.feature.room.LeaveRoomDataSource
 import com.futo.circles.feature.room.invite.InviteMembersDataSource
 import com.futo.circles.feature.room.manage_members.ManageMembersDataSource
@@ -31,6 +32,7 @@ import com.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeDataSource
 import com.futo.circles.feature.sign_up.terms.AcceptTermsDataSource
 import com.futo.circles.feature.sign_up.validate_email.ValidateEmailDataSource
 import com.futo.circles.feature.sign_up.validate_token.ValidateTokenDataSource
+import com.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import com.futo.circles.feature.timeline.data_source.TimelineBuilder
 import com.futo.circles.feature.timeline.data_source.TimelineDataSource
 import com.futo.circles.feature.timeline.post.PostOptionsDataSource
@@ -42,8 +44,9 @@ import org.koin.dsl.module
 val dataSourceModule = module {
     factory { LoginDataSource(get(), get()) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
-        TimelineDataSource(roomId, type, get(), get())
+        TimelineDataSource(roomId, type, get())
     }
+    factory { SendMessageDataSource(get()) }
     factory { (roomId: String) ->
         LeaveRoomDataSource(roomId, get())
     }
@@ -84,4 +87,5 @@ val dataSourceModule = module {
     factory { AuthConfirmationProvider() }
     factory { (deviceId: String) -> RemoveSessionDataSource(deviceId, get(), get()) }
     factory { (roomId: String, eventId: String) -> GalleryImageDataSource(roomId, eventId) }
+    factory { SelectGalleryDataSource(get(), get()) }
 }
