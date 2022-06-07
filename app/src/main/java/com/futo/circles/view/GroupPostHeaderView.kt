@@ -77,9 +77,10 @@ class GroupPostHeaderView(
                     R.id.save_to_device -> (unwrappedPost.content as? ImageContent)?.let {
                         optionsListener?.onSaveToDevice(it)
                     }
-                    R.id.save_to_gallery -> (unwrappedPost.content as? ImageContent)?.let {
-                        optionsListener?.onSaveToGallery(it)
-                    }
+                    R.id.save_to_gallery -> optionsListener?.onSaveToGallery(
+                        unwrappedPost.postInfo.roomId, unwrappedPost.id
+                    )
+
                     R.id.report -> optionsListener?.onReport(
                         unwrappedPost.postInfo.roomId,
                         unwrappedPost.id
