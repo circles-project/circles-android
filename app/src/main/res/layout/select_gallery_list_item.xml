@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp">
+
+    <include
+        android:id="@+id/baseGalleryItem"
+        layout="@layout/gallery_list_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/ivSelect"
+        android:layout_width="36dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_unselected" />
+
+    <View
+        android:id="@+id/vSelectBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0.2"
+        android:background="@color/blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/baseGalleryItem"
+        app:layout_constraintEnd_toEndOf="@id/baseGalleryItem"
+        app:layout_constraintStart_toStartOf="@id/baseGalleryItem"
+        app:layout_constraintTop_toTopOf="@id/baseGalleryItem" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
