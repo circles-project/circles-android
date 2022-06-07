@@ -121,6 +121,9 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_saveToGalleyDialogFragment"
+            app:destination="@id/saveToGalleyDialogFragment" />
 
     </fragment>
 
@@ -281,4 +284,8 @@
             app:nullable="false" />
 
     </dialog>
+    <dialog
+        android:id="@+id/saveToGalleyDialogFragment"
+        android:name="com.futo.circles.feature.photos.save.SaveToGalleyDialogFragment"
+        tools:layout="@layout/save_to_gallery_dialog_fragment" />
 </navigation>
