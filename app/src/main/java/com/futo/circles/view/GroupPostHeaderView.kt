@@ -74,8 +74,11 @@ class GroupPostHeaderView(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
                     R.id.ignore -> optionsListener?.onIgnore(unwrappedPost.postInfo.sender.userId)
-                    R.id.save -> (unwrappedPost.content as? ImageContent)?.let {
-                        optionsListener?.onSaveImage(it)
+                    R.id.save_to_device -> (unwrappedPost.content as? ImageContent)?.let {
+                        optionsListener?.onSaveToDevice(it)
+                    }
+                    R.id.save_to_gallery -> (unwrappedPost.content as? ImageContent)?.let {
+                        optionsListener?.onSaveToGallery(it)
                     }
                     R.id.report -> optionsListener?.onReport(
                         unwrappedPost.postInfo.roomId,
@@ -85,7 +88,9 @@ class GroupPostHeaderView(
                 true
             }
             inflate(R.menu.timeline_item_menu)
-            menu.findItem(R.id.save).isVisible = unwrappedPost.content is ImageContent
+
+            menu.findItem(R.id.save_to_device).isVisible = unwrappedPost.content is ImageContent
+            menu.findItem(R.id.save_to_gallery).isVisible = unwrappedPost.content is ImageContent
             menu.findItem(R.id.ignore).isVisible = !unwrappedPost.isMyPost()
             menu.findItem(R.id.report).isVisible = !unwrappedPost.isMyPost()
             menu.findItem(R.id.delete).isVisible =
