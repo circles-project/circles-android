@@ -1,7 +1,6 @@
 package com.futo.circles.feature.timeline
 
 import android.net.Uri
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
@@ -51,9 +50,9 @@ class TimelineViewModel(
         }
     }
 
-    fun saveImage(imageContent: ImageContent) {
+    fun saveToDevice(imageContent: ImageContent) {
         launchBg {
-            postOptionsDataSource.saveImage(imageContent)
+            postOptionsDataSource.saveImageToDevice(imageContent)
             downloadImageLiveData.postValue(Unit)
         }
     }

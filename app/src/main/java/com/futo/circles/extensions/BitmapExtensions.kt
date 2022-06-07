@@ -8,7 +8,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
-fun Bitmap.saveImageToGallery(context: Context) {
+fun Bitmap.saveImageToDeviceGallery(context: Context) {
     val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
     val fileName = UUID.randomUUID().toString().replace("-", "")
     val imageFile = File(imagesDir, "$fileName.jpeg")

@@ -4,7 +4,7 @@ import android.content.Context
 import com.bumptech.glide.Glide
 import com.futo.circles.extensions.createResult
 import com.futo.circles.extensions.getUri
-import com.futo.circles.extensions.saveImageToGallery
+import com.futo.circles.extensions.saveImageToDeviceGallery
 import com.futo.circles.feature.timeline.post.share.ImageShareable
 import com.futo.circles.feature.timeline.post.share.TextShareable
 import com.futo.circles.model.ImageContent
@@ -49,9 +49,9 @@ class PostOptionsDataSource(
         }
     }
 
-    suspend fun saveImage(imageContent: ImageContent) = withContext(Dispatchers.IO) {
+    suspend fun saveImageToDevice(imageContent: ImageContent) = withContext(Dispatchers.IO) {
         val b = Glide.with(context).asBitmap().load(imageContent).submit().get()
-        b.saveImageToGallery(context)
+        b.saveImageToDeviceGallery(context)
     }
 
     suspend fun ignoreSender(userId: String) = createResult {
