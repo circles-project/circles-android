@@ -85,6 +85,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCamera" />
 
+            <TextView
+                android:id="@+id/tvDevice"
+                style="@style/headline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawablePadding="16dp"
+                android:focusable="true"
+                android:padding="16dp"
+                android:text="@string/device"
+                app:drawableLeftCompat="@drawable/ic_phone"
+                app:drawableTint="@color/inactive_menu_icon_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvGallery" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancel"
                 style="@style/NegativeButtonStyle"
@@ -98,7 +115,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvGallery" />
+                app:layout_constraintTop_toBottomOf="@id/tvDevice" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -215,6 +215,7 @@
     <string name="remove_session_message_format">In order to sign out from session on %s device you should confirm your auth.</string>
     <string name="save_to_device">Save to device</string>
     <string name="save_to_gallery">Save to gallery</string>
+    <string name="device">Device</string>
 
 
     <string-array name="report_categories">

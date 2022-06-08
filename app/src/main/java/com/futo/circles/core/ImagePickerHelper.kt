@@ -45,6 +45,13 @@ class ImagePickerHelper(private val fragment: Fragment) : PickImageDialogListene
     }
 
     override fun onPickMethodSelected(method: PickImageMethod) {
+        when (method) {
+            PickImageMethod.Camera, PickImageMethod.Device -> launchImagePickerIntent(method)
+            PickImageMethod.Gallery ->{}
+        }
+    }
+
+    private fun launchImagePickerIntent(method: PickImageMethod) {
         ImagePicker.with(fragment)
             .cropSquare()
             .apply { if (method == PickImageMethod.Camera) this.cameraOnly() else this.galleryOnly() }

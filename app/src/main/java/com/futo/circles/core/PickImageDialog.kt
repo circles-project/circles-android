@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDialog
 import com.futo.circles.databinding.PickImageDialogBinding
 
 
-enum class PickImageMethod { Camera, Gallery }
+enum class PickImageMethod { Camera, Gallery, Device }
 
 interface PickImageDialogListener {
     fun onPickMethodSelected(method: PickImageMethod)
@@ -27,16 +27,15 @@ class PickImageDialog(context: Context, private val listener: PickImageDialogLis
             btnClose.setOnClickListener { dismiss() }
             btnCancel.setOnClickListener { dismiss() }
 
-            tvCamera.setOnClickListener {
-                listener.onPickMethodSelected(PickImageMethod.Camera)
-                dismiss()
-            }
-            tvGallery.setOnClickListener {
-                listener.onPickMethodSelected(PickImageMethod.Gallery)
-                dismiss()
-            }
+            tvCamera.setOnClickListener { onMethodSelected(PickImageMethod.Camera) }
+            tvGallery.setOnClickListener { onMethodSelected(PickImageMethod.Gallery) }
+            tvDevice.setOnClickListener { onMethodSelected(PickImageMethod.Device) }
         }
+    }
 
+    private fun onMethodSelected(method: PickImageMethod) {
+        listener.onPickMethodSelected(method)
+        dismiss()
     }
 
 }
