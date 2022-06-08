@@ -7,14 +7,16 @@ import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.room.LeaveRoomDataSource
 import com.futo.circles.feature.timeline.BaseTimelineViewModel
+import com.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import com.futo.circles.feature.timeline.data_source.TimelineDataSource
 import com.futo.circles.model.GalleryImageListItem
 import com.futo.circles.model.ImageContent
 
 class GalleryViewModel(
     private val roomId: String,
-    private val timelineDataSource: TimelineDataSource,
-    private val leaveRoomDataSource: LeaveRoomDataSource
+    timelineDataSource: TimelineDataSource,
+    private val leaveRoomDataSource: LeaveRoomDataSource,
+    private val sendMessageDataSource: SendMessageDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
@@ -28,7 +30,7 @@ class GalleryViewModel(
     }
 
     fun uploadImage(uri: Uri) {
-        timelineDataSource.sendImage(roomId, uri, null)
+        sendMessageDataSource.sendImage(roomId, uri, null)
         scrollToTopLiveData.postValue(Unit)
     }
 

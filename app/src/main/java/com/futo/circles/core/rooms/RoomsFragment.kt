@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
+import com.futo.circles.core.list.BaseRvDecoration
 import com.futo.circles.core.list.RoomsDividerDecoration
+import com.futo.circles.core.rooms.list.GalleryViewHolder
 import com.futo.circles.core.rooms.list.RoomListItemViewType
 import com.futo.circles.core.rooms.list.RoomsListAdapter
 import com.futo.circles.databinding.RoomsFragmentBinding
@@ -22,7 +24,7 @@ interface HasInvites {
 abstract class RoomsFragment : Fragment(R.layout.rooms_fragment) {
 
     abstract val viewModel: RoomsViewModel
-    private val binding by viewBinding(RoomsFragmentBinding::bind)
+    protected val binding by viewBinding(RoomsFragmentBinding::bind)
     private val listAdapter by lazy {
         RoomsListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },

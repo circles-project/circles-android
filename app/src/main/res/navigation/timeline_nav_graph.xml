@@ -121,6 +121,21 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_saveToGalleyDialogFragment"
+            app:destination="@id/saveToGalleyDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
     </fragment>
 
@@ -277,6 +292,22 @@
 
         <argument
             android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/saveToGalleyDialogFragment"
+        android:name="com.futo.circles.feature.photos.save.SaveToGalleyDialogFragment"
+        tools:layout="@layout/save_to_gallery_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
             app:argType="string"
             app:nullable="false" />
 

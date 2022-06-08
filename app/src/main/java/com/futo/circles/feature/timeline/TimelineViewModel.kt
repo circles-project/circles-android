@@ -1,12 +1,12 @@
 package com.futo.circles.feature.timeline
 
 import android.net.Uri
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
 import com.futo.circles.feature.room.LeaveRoomDataSource
+import com.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import com.futo.circles.feature.timeline.post.share.ShareableContent
 import com.futo.circles.feature.timeline.data_source.TimelineDataSource
 import com.futo.circles.feature.timeline.post.PostOptionsDataSource
@@ -17,6 +17,7 @@ import org.matrix.android.sdk.api.util.Cancelable
 class TimelineViewModel(
     private val timelineDataSource: TimelineDataSource,
     private val leaveRoomDataSource: LeaveRoomDataSource,
+    private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
@@ -51,20 +52,20 @@ class TimelineViewModel(
         }
     }
 
-    fun saveImage(imageContent: ImageContent) {
+    fun saveToDevice(imageContent: ImageContent) {
         launchBg {
-            postOptionsDataSource.saveImage(imageContent)
+            postOptionsDataSource.saveImageToDevice(imageContent)
             downloadImageLiveData.postValue(Unit)
         }
     }
 
     fun sendTextPost(roomId: String, message: String, threadEventId: String?) {
-        timelineDataSource.sendTextMessage(roomId, message, threadEventId)
+        sendMessageDataSource.sendTextMessage(roomId, message, threadEventId)
         if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 
     fun sendImagePost(roomId: String, uri: Uri, threadEventId: String?) {
-        timelineDataSource.sendImage(roomId, uri, threadEventId)
+        sendMessageDataSource.sendImage(roomId, uri, threadEventId)
         if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 

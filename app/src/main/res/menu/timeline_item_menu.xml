@@ -2,9 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/save"
+        android:id="@+id/save_to_device"
         android:icon="@drawable/ic_download"
-        android:title="@string/save_image" />
+        android:title="@string/save_to_device" />
+
+    <item
+        android:id="@+id/save_to_gallery"
+        android:icon="@drawable/ic_cloud_download"
+        android:title="@string/save_to_gallery" />
 
     <item
         android:id="@+id/delete"

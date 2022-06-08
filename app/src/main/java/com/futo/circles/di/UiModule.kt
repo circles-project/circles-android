@@ -8,6 +8,7 @@ import com.futo.circles.feature.log_in.LogInViewModel
 import com.futo.circles.feature.photos.PhotosViewModel
 import com.futo.circles.feature.photos.gallery.GalleryViewModel
 import com.futo.circles.feature.photos.preview.GalleryImageViewModel
+import com.futo.circles.feature.photos.save.SaveToGalleryViewModel
 import com.futo.circles.feature.room.create_room.CreateRoomViewModel
 import com.futo.circles.feature.room.invite.InviteMembersViewModel
 import com.futo.circles.feature.room.manage_members.ManageMembersViewModel
@@ -41,7 +42,9 @@ val uiModule = module {
     viewModel { CirclesViewModel(get()) }
     viewModel { PhotosViewModel(get()) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
-        TimelineViewModel(get { parametersOf(roomId, type) }, get { parametersOf(roomId) }, get())
+        TimelineViewModel(
+            get { parametersOf(roomId, type) }, get { parametersOf(roomId) }, get(), get()
+        )
     }
     viewModel { (roomId: String) -> InviteMembersViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
@@ -73,9 +76,14 @@ val uiModule = module {
     viewModel { ActiveSessionsViewModel(get()) }
     viewModel { (deviceId: String) -> RemoveSessionViewModel(get { parametersOf(deviceId) }) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
-        GalleryViewModel(roomId, get { parametersOf(roomId, type) }, get { parametersOf(roomId) })
+        GalleryViewModel(
+            roomId, get { parametersOf(roomId, type) }, get { parametersOf(roomId) }, get()
+        )
     }
     viewModel { (roomId: String, eventId: String) ->
         GalleryImageViewModel(roomId, eventId, get { parametersOf(roomId, eventId) }, get())
+    }
+    viewModel { (roomId: String, eventId: String) ->
+        SaveToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())
     }
 }
