@@ -1,4 +1,4 @@
-package com.futo.circles.core
+package com.futo.circles.core.image_picker
 
 import android.app.Activity
 import android.net.Uri
@@ -47,7 +47,11 @@ class ImagePickerHelper(private val fragment: Fragment) : PickImageDialogListene
     override fun onPickMethodSelected(method: PickImageMethod) {
         when (method) {
             PickImageMethod.Camera, PickImageMethod.Device -> launchImagePickerIntent(method)
-            PickImageMethod.Gallery ->{}
+            PickImageMethod.Gallery -> {
+                PickGalleryImageDialogFragment().show(
+                    fragment.childFragmentManager, "PickGalleryImageDialogFragment"
+                )
+            }
         }
     }
 

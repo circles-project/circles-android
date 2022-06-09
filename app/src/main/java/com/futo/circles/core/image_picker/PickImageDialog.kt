@@ -1,4 +1,4 @@
-package com.futo.circles.core
+package com.futo.circles.core.image_picker
 
 import android.content.Context
 import android.os.Bundle
