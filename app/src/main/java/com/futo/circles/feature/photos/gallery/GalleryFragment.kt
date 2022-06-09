@@ -1,18 +1,21 @@
 package com.futo.circles.feature.photos.gallery
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
-import com.futo.circles.core.ImagePickerHelper
+import com.futo.circles.core.image_picker.ImagePickerHelper
+import com.futo.circles.core.image_picker.PickGalleryImageListener
 import com.futo.circles.core.list.BaseRvDecoration
 import com.futo.circles.databinding.GalleryFragmentBinding
 import com.futo.circles.extensions.*
@@ -36,6 +39,13 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
             onLoadMore = { viewModel.loadMore() })
     }
 
+    private var pickImageListener: PickGalleryImageListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        pickImageListener = parentFragment as? PickGalleryImageListener
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
@@ -50,6 +60,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
             bindToFab(binding.fbUploadImage)
         }
         binding.fbUploadImage.setOnClickListener { showImagePicker() }
+        binding.fbUploadImage.setIsVisible(pickImageListener == null)
     }
 
     private fun setupObservers() {
@@ -105,9 +116,11 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     }
 
     private fun navigateToImagePreview(postId: String) {
-        findNavController().navigate(
-            GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, postId)
-        )
+        pickImageListener?.onImageSelected(postId) ?: kotlin.run {
+            findNavController().navigate(
+                GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, postId)
+            )
+        }
     }
 
     private fun showDeleteConfirmation() {
@@ -118,5 +131,13 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
             negativeButtonVisible = true,
             positiveAction = { viewModel.deleteGallery() }
         )
+    }
+
+    companion object {
+        private const val ROOM_ID = "roomId"
+        private const val TYPE = "type"
+        fun create(roomId: String) = GalleryFragment().apply {
+            arguments = bundleOf(ROOM_ID to roomId, TYPE to CircleRoomTypeArg.Photo)
+        }
     }
 }
