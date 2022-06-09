@@ -47,11 +47,7 @@ class ImagePickerHelper(private val fragment: Fragment) : PickImageDialogListene
     override fun onPickMethodSelected(method: PickImageMethod) {
         when (method) {
             PickImageMethod.Camera, PickImageMethod.Device -> launchImagePickerIntent(method)
-            PickImageMethod.Gallery -> {
-                PickGalleryImageDialogFragment().show(
-                    fragment.childFragmentManager, "PickGalleryImageDialogFragment"
-                )
-            }
+            PickImageMethod.Gallery -> showGalleryPicker()
         }
     }
 
@@ -60,5 +56,25 @@ class ImagePickerHelper(private val fragment: Fragment) : PickImageDialogListene
             .cropSquare()
             .apply { if (method == PickImageMethod.Camera) this.cameraOnly() else this.galleryOnly() }
             .createIntent { intent.launch(it) }
+    }
+
+    private fun showGalleryPicker() {
+        fragment.childFragmentManager.setFragmentResultListener(
+            pickImageRequestKey,
+            fragment
+        ) { key, bundle ->
+            if (key == pickImageRequestKey) {
+                val uri = Uri.parse(bundle.getString(uriKey))
+                onSelected?.invoke(itemId, uri)
+            }
+        }
+
+        PickGalleryImageDialogFragment()
+            .show(fragment.childFragmentManager, "PickGalleryImageDialogFragment")
+    }
+
+    companion object {
+        const val pickImageRequestKey = "pickImageRequestKey"
+        const val uriKey = "uri"
     }
 }

@@ -1,8 +1,11 @@
 package com.futo.circles.core.image_picker
 
 import android.app.Dialog
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import com.futo.circles.R
 import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.databinding.PickGalleryImageDialogFragmentBinding
@@ -14,7 +17,7 @@ interface PickGalleryListener {
 }
 
 interface PickGalleryImageListener {
-    fun onImageSelected(id: String)
+    fun onImageSelected(uri: Uri)
 }
 
 class PickGalleryImageDialogFragment :
@@ -41,8 +44,8 @@ class PickGalleryImageDialogFragment :
         addGalleriesFragment()
     }
 
-    private fun handleBackPress(){
-        if (photosRoomsFragment.isAdded) activity?.onBackPressed()
+    private fun handleBackPress() {
+        if (photosRoomsFragment.isAdded) dismiss()
         else addGalleriesFragment()
     }
 
@@ -65,8 +68,11 @@ class PickGalleryImageDialogFragment :
         addPhotosFragment(id)
     }
 
-    override fun onImageSelected(id: String) {
-
+    override fun onImageSelected(uri: Uri) {
+        setFragmentResult(
+            ImagePickerHelper.pickImageRequestKey, bundleOf(ImagePickerHelper.uriKey to uri.toString())
+        )
+        dismiss()
     }
 
 }
