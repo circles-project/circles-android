@@ -1,4 +1,4 @@
-package com.futo.circles.core
+package com.futo.circles.core.image_picker
 
 import android.app.Activity
 import android.net.Uri
@@ -45,9 +45,36 @@ class ImagePickerHelper(private val fragment: Fragment) : PickImageDialogListene
     }
 
     override fun onPickMethodSelected(method: PickImageMethod) {
+        when (method) {
+            PickImageMethod.Camera, PickImageMethod.Device -> launchImagePickerIntent(method)
+            PickImageMethod.Gallery -> showGalleryPicker()
+        }
+    }
+
+    private fun launchImagePickerIntent(method: PickImageMethod) {
         ImagePicker.with(fragment)
             .cropSquare()
             .apply { if (method == PickImageMethod.Camera) this.cameraOnly() else this.galleryOnly() }
             .createIntent { intent.launch(it) }
+    }
+
+    private fun showGalleryPicker() {
+        fragment.childFragmentManager.setFragmentResultListener(
+            pickImageRequestKey,
+            fragment
+        ) { key, bundle ->
+            if (key == pickImageRequestKey) {
+                val uri = Uri.parse(bundle.getString(uriKey))
+                onSelected?.invoke(itemId, uri)
+            }
+        }
+
+        PickGalleryImageDialogFragment()
+            .show(fragment.childFragmentManager, "PickGalleryImageDialogFragment")
+    }
+
+    companion object {
+        const val pickImageRequestKey = "pickImageRequestKey"
+        const val uriKey = "uri"
     }
 }

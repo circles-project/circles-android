@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.navigation.fragment.navArgs
 import com.futo.circles.R
-import com.futo.circles.core.ImagePickerHelper
+import com.futo.circles.core.image_picker.ImagePickerHelper
 import com.futo.circles.databinding.CreatePostBottomSheetBinding
 import com.futo.circles.view.PreviewPostListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
