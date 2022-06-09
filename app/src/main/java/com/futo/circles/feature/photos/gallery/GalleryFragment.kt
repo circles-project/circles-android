@@ -78,6 +78,9 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         viewModel.deleteGalleryLiveData.observeResponse(this,
             success = { activity?.onBackPressed() }
         )
+        viewModel.selectedImageUri.observeResponse(this,
+            success = { pickImageListener?.onImageSelected(it) }
+        )
     }
 
     private fun showImagePicker() {
@@ -116,7 +119,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     }
 
     private fun navigateToImagePreview(postId: String) {
-        pickImageListener?.onImageSelected(postId) ?: kotlin.run {
+        pickImageListener?.let { viewModel.getImageUri(requireContext(), postId) } ?: kotlin.run {
             findNavController().navigate(
                 GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, postId)
             )
