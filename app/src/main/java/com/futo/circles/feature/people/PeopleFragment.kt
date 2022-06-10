@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
 import com.futo.circles.databinding.PeopleFragmentBinding
 import com.futo.circles.extensions.observeData
+import com.futo.circles.extensions.observeResponse
 import com.futo.circles.extensions.showDialog
 import com.futo.circles.feature.people.list.PeopleAdapter
 import com.futo.circles.model.PeopleUserListItem
@@ -42,6 +43,7 @@ class PeopleFragment : Fragment(R.layout.people_fragment) {
         viewModel.peopleLiveData.observeData(this) { items ->
             peopleAdapter.submitList(items)
         }
+        viewModel.ignoreUserLiveData.observeResponse(this)
     }
 
     private fun navigateToUserPage(user: PeopleUserListItem) {
