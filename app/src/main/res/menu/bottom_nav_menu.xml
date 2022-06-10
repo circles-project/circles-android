@@ -7,7 +7,7 @@
         android:title="@string/circles" />
 
     <item
-        android:id="@+id/peopleFragment"
+        android:id="@+id/people_nav_graph"
         android:icon="@drawable/ic_round_contacts"
         android:title="@string/people" />
 
