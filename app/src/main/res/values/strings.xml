@@ -29,6 +29,7 @@
     <string name="invite_to_format">Invite to %s</string>
     <string name="search_by_name_or_id">Search by name or id</string>
     <string name="known_users">Known users</string>
+    <string name="ignored_users">Ignored users</string>
     <string name="suggestion">Suggestions</string>
     <string name="no_results">No results</string>
     <string name="invite">Invite</string>
@@ -218,6 +219,7 @@
     <string name="device">Device</string>
     <string name="choose_gallery">Choose gallery</string>
     <string name="pick_image">Pick image</string>
+    <string name="unignore">Unignore</string>
 
 
     <string-array name="report_categories">

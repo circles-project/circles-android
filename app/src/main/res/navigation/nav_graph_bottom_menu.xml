@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_bottom_menu"
     app:startDestination="@id/circles_nav_graph">
 
@@ -11,11 +10,7 @@
 
     <include app:graph="@navigation/photos_nav_graph" />
 
-    <fragment
-        android:id="@+id/peopleFragment"
-        android:name="com.futo.circles.feature.people.PeopleFragment"
-        android:label="@string/my_people"
-        tools:layout="@layout/people_fragment" />
+    <include app:graph="@navigation/people_nav_graph" />
 
     <include app:graph="@navigation/settings_nav_graph" />
 

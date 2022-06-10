@@ -53,8 +53,4 @@ class PostOptionsDataSource(
         val b = Glide.with(context).asBitmap().load(imageContent).submit().get()
         b.saveImageToDeviceGallery(context)
     }
-
-    suspend fun ignoreSender(userId: String) = createResult {
-        session?.userService()?.ignoreUserIds(listOf(userId))
-    }
 }
