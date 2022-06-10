@@ -1,6 +1,7 @@
 package com.futo.circles.feature.room.select_users
 
 import androidx.lifecycle.asFlow
+import com.futo.circles.core.DEFAULT_USER_PREFIX
 import com.futo.circles.mapping.toUserListItem
 import com.futo.circles.model.HeaderItem
 import com.futo.circles.model.InviteMemberListItem
@@ -93,6 +94,5 @@ class SelectUsersDataSource(roomId: String?) {
 
     private companion object {
         private const val MAX_SUGGESTION_COUNT = 30
-        private const val DEFAULT_USER_PREFIX = "@notices:"
     }
 }
