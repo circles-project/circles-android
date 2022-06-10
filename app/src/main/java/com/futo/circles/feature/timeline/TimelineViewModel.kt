@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.extensions.Response
 import com.futo.circles.extensions.launchBg
+import com.futo.circles.feature.people.UserOptionsDataSource
 import com.futo.circles.feature.room.LeaveRoomDataSource
 import com.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import com.futo.circles.feature.timeline.post.share.ShareableContent
@@ -18,7 +19,8 @@ class TimelineViewModel(
     private val timelineDataSource: TimelineDataSource,
     private val leaveRoomDataSource: LeaveRoomDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
-    private val postOptionsDataSource: PostOptionsDataSource
+    private val postOptionsDataSource: PostOptionsDataSource,
+    private val userOptionsDataSource: UserOptionsDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
     val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
@@ -48,7 +50,7 @@ class TimelineViewModel(
 
     fun ignoreSender(senderId: String) {
         launchBg {
-            ignoreUserLiveData.postValue(postOptionsDataSource.ignoreSender(senderId))
+            ignoreUserLiveData.postValue(userOptionsDataSource.ignoreSender(senderId))
         }
     }
 
