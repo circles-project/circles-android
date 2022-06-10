@@ -11,6 +11,7 @@ import com.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSour
 import com.futo.circles.feature.circles.following.FollowingDataSource
 import com.futo.circles.feature.groups.GroupsDataSource
 import com.futo.circles.feature.log_in.LoginDataSource
+import com.futo.circles.feature.people.PeopleDataSource
 import com.futo.circles.feature.photos.PhotosDataSource
 import com.futo.circles.feature.photos.preview.GalleryImageDataSource
 import com.futo.circles.feature.photos.save.SelectGalleryDataSource
@@ -88,4 +89,5 @@ val dataSourceModule = module {
     factory { (deviceId: String) -> RemoveSessionDataSource(deviceId, get(), get()) }
     factory { (roomId: String, eventId: String) -> GalleryImageDataSource(roomId, eventId) }
     factory { SelectGalleryDataSource(get(), get()) }
+    factory { PeopleDataSource() }
 }
