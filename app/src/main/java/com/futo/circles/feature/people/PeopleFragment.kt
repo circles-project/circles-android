@@ -3,6 +3,7 @@ package com.futo.circles.feature.people
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.futo.circles.R
@@ -47,7 +48,7 @@ class PeopleFragment : Fragment(R.layout.people_fragment) {
     }
 
     private fun navigateToUserPage(user: PeopleUserListItem) {
-
+        findNavController().navigate(PeopleFragmentDirections.toUserFragment(user.id))
     }
 
     private fun handleIgnoreClicked(user: PeopleUserListItem, ignore: Boolean) {
