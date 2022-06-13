@@ -6,6 +6,7 @@ import com.futo.circles.feature.circles.following.FollowingViewModel
 import com.futo.circles.feature.groups.GroupsViewModel
 import com.futo.circles.feature.log_in.LogInViewModel
 import com.futo.circles.feature.people.PeopleViewModel
+import com.futo.circles.feature.people.user.UserViewModel
 import com.futo.circles.feature.photos.PhotosViewModel
 import com.futo.circles.feature.photos.gallery.GalleryViewModel
 import com.futo.circles.feature.photos.preview.GalleryImageViewModel
@@ -87,5 +88,8 @@ val uiModule = module {
     }
     viewModel { (roomId: String, eventId: String) ->
         SaveToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())
+    }
+    viewModel { (userId: String) ->
+        UserViewModel(get { parametersOf(userId) })
     }
 }

@@ -13,6 +13,7 @@ import com.futo.circles.feature.groups.GroupsDataSource
 import com.futo.circles.feature.log_in.LoginDataSource
 import com.futo.circles.feature.people.PeopleDataSource
 import com.futo.circles.feature.people.UserOptionsDataSource
+import com.futo.circles.feature.people.user.UserDataSource
 import com.futo.circles.feature.photos.PhotosDataSource
 import com.futo.circles.feature.photos.preview.GalleryImageDataSource
 import com.futo.circles.feature.photos.save.SelectGalleryDataSource
@@ -92,4 +93,5 @@ val dataSourceModule = module {
     factory { SelectGalleryDataSource(get(), get()) }
     factory { PeopleDataSource() }
     factory { UserOptionsDataSource() }
+    factory { (userId: String) -> UserDataSource(get(), userId) }
 }
