@@ -9,5 +9,29 @@
         android:id="@+id/peopleFragment"
         android:name="com.futo.circles.feature.people.PeopleFragment"
         android:label="@string/my_people"
-        tools:layout="@layout/people_fragment" />
+        tools:layout="@layout/people_fragment">
+        <action
+            android:id="@+id/to_userFragment"
+            app:destination="@id/userFragment">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.futo.circles.feature.people.user.UserFragment"
+        tools:layout="@layout/user_fragment">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </fragment>
+
 </navigation>
