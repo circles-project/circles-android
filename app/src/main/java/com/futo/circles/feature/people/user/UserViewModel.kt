@@ -7,4 +7,5 @@ class UserViewModel(
 ) : ViewModel() {
 
     val userLiveData = userDataSource.userLiveData
+    val usersCirclesLiveData = userDataSource.userCirclesLiveData
 }

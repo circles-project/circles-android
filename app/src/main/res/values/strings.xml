@@ -220,7 +220,8 @@
     <string name="choose_gallery">Choose gallery</string>
     <string name="pick_image">Pick image</string>
     <string name="unignore">Unignore</string>
-
+    <string name="not_following_any_circles_format">Not following any Circles for %s</string>
+    <string name="users_circles_format">%s\'s Circles</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
