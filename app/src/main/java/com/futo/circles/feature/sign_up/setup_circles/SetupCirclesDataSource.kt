@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
+import com.futo.circles.mapping.notEmptyDisplayName
 import com.futo.circles.model.SetupCircleListItem
 import com.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUser
@@ -26,7 +27,7 @@ class SetupCirclesDataSource(
     private fun getUserName(): String {
         val session = MatrixSessionProvider.currentSession
         val userId = session?.myUserId ?: return ""
-        return session.getUser(userId)?.displayName ?: ""
+        return session.getUser(userId)?.notEmptyDisplayName()?:""
     }
 
     fun addCirclesCoverImage(id: Int, uri: Uri) {

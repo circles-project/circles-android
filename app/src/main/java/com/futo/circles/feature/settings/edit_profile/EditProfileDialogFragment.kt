@@ -10,6 +10,7 @@ import com.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import com.futo.circles.core.fragment.HasLoadingState
 import com.futo.circles.databinding.EditProfileDialogFragmentBinding
 import com.futo.circles.extensions.*
+import com.futo.circles.mapping.notEmptyDisplayName
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -76,7 +77,7 @@ class EditProfileDialogFragment :
 
     private fun setInitialUserInfo(user: User) {
         with(binding) {
-            ivProfile.loadProfileIcon(user.avatarUrl, user.displayName ?: "")
+            ivProfile.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
             tilName.editText?.setText(user.displayName)
             tilUserId.editText?.setText(user.userId)
         }

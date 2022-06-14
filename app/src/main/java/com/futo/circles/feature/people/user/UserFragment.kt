@@ -13,6 +13,7 @@ import com.futo.circles.extensions.loadProfileIcon
 import com.futo.circles.extensions.observeData
 import com.futo.circles.extensions.setIsVisible
 import com.futo.circles.feature.people.user.list.UsersCirclesAdapter
+import com.futo.circles.mapping.notEmptyDisplayName
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.user.model.User
@@ -56,13 +57,13 @@ class UserFragment : Fragment(R.layout.user_fragment) {
 
     private fun setupUserInfo(user: User) {
         with(binding) {
-            (activity as? AppCompatActivity)?.supportActionBar?.title = user.displayName
+            (activity as? AppCompatActivity)?.supportActionBar?.title = user.notEmptyDisplayName()
             tvUserId.text = user.userId
-            tvUserName.text = user.displayName
-            ivUser.loadProfileIcon(user.avatarUrl, user.displayName ?: "")
-            tvCirclesListTitle.text = getString(R.string.users_circles_format, user.displayName)
+            tvUserName.text = user.notEmptyDisplayName()
+            ivUser.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
+            tvCirclesListTitle.text = getString(R.string.users_circles_format, user.notEmptyDisplayName())
             tvEmptyCirclesList.text =
-                getString(R.string.not_following_any_circles_format, user.displayName)
+                getString(R.string.not_following_any_circles_format, user.notEmptyDisplayName())
         }
     }
 

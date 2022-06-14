@@ -8,7 +8,7 @@ import org.matrix.android.sdk.api.session.user.model.User
 fun User.toUserListItem(isSelected: Boolean) = UserListItem(
     user = CirclesUserSummary(
         id = userId,
-        name = displayName ?: userId,
+        name = notEmptyDisplayName(),
         avatarUrl = avatarUrl ?: ""
     ),
     isSelected = isSelected
@@ -17,8 +17,12 @@ fun User.toUserListItem(isSelected: Boolean) = UserListItem(
 fun User.toPeopleUserListItem(isIgnored: Boolean) = PeopleUserListItem(
     user = CirclesUserSummary(
         id = userId,
-        name = displayName ?: userId,
+        name = notEmptyDisplayName(),
         avatarUrl = avatarUrl ?: ""
     ),
     isIgnored = isIgnored
 )
+
+fun User.notEmptyDisplayName() =
+    displayName?.takeIf { it.isNotEmpty() }
+        ?: userId.replace("@", "").substringBefore(":")

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.futo.circles.databinding.ProfileViewBinding
 import com.futo.circles.extensions.loadProfileIcon
+import com.futo.circles.mapping.notEmptyDisplayName
 import org.matrix.android.sdk.api.session.user.model.User
 
 class ProfileView(
@@ -19,7 +20,7 @@ class ProfileView(
 
     fun setData(user: User) {
         with(binding) {
-            ivProfile.loadProfileIcon(user.avatarUrl, user.displayName ?: "")
+            ivProfile.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
             tvUserName.text = user.displayName
             tvUserId.text = user.userId
         }
