@@ -15,12 +15,15 @@ class TimelineBuilder {
     private val repliesVisibleEvents: MutableSet<String> = mutableSetOf()
 
     private var currentList: MutableList<Post> = mutableListOf()
+    private var currentSnapshotMap: MutableMap<String, List<TimelineEvent>> = mutableMapOf()
 
-    fun build(list: List<TimelineEvent>): List<Post> {
+    fun build(snapshot: List<TimelineEvent>): List<Post> {
+        if (snapshot.isEmpty()) return currentList
+        val list = processSnapshot(snapshot)
         val messageTimelineEvents = getOnlyMessageTimelineEvents(list)
-        val groupMessages = transformToGroupPosts(messageTimelineEvents)
-        val messagesWithReplies = setupRootMessagesWithVisibleReplies(groupMessages)
-        return toFlatPostsList(messagesWithReplies).also { currentList = it }
+        val posts = transformToPosts(messageTimelineEvents)
+        val messagesWithReplies = setupRootMessagesWithReplies(posts)
+        return handleRepliesVisibilityForPost(messagesWithReplies).also { currentList = it }
     }
 
     fun toggleRepliesVisibilityFor(eventId: String): List<Post> =
@@ -56,7 +59,15 @@ class TimelineBuilder {
         return list.also { currentList = list }
     }
 
-    private fun toFlatPostsList(messagesWithReplies: List<RootPost>): MutableList<Post> {
+    private fun processSnapshot(list: List<TimelineEvent>): List<TimelineEvent> {
+        val roomId = list.firstOrNull()?.roomId ?: return emptyList()
+        currentSnapshotMap[roomId] = list
+        val fullTimelineEventList = mutableListOf<TimelineEvent>()
+        currentSnapshotMap.values.forEach { fullTimelineEventList.addAll(it) }
+        return fullTimelineEventList.sortedByDescending { it.root.originServerTs }
+    }
+
+    private fun handleRepliesVisibilityForPost(messagesWithReplies: List<RootPost>): MutableList<Post> {
         val list: MutableList<Post> = mutableListOf()
         messagesWithReplies.forEach { message ->
             list.add(message)
@@ -70,7 +81,7 @@ class TimelineBuilder {
 
     private fun isRepliesVisibleFor(id: String) = repliesVisibleEvents.contains(id)
 
-    private fun transformToGroupPosts(list: List<TimelineEvent>): List<Post> {
+    private fun transformToPosts(list: List<TimelineEvent>): List<Post> {
         return list.mapNotNull { timelineEvent ->
             getPostContentTypeFor(timelineEvent)?.let { contentType ->
                 timelineEvent.toPost(contentType, isRepliesVisibleFor(timelineEvent.eventId))
@@ -83,7 +94,7 @@ class TimelineBuilder {
         return PostContentType.values().firstOrNull { it.typeKey == messageType }
     }
 
-    private fun setupRootMessagesWithVisibleReplies(groupMessages: List<Post>): List<RootPost> {
+    private fun setupRootMessagesWithReplies(groupMessages: List<Post>): List<RootPost> {
         val rootMessages = getOnlyRootMessages(groupMessages)
         val replies = getOnlyRepliesMessages(groupMessages)
         val list = rootMessages.map { message ->

@@ -63,7 +63,8 @@ class TimelineDataSource(
     }
 
     override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
-        timelineEventsLiveData.value = timelineBuilder.build(snapshot)
+        if (snapshot.isNotEmpty())
+            timelineEventsLiveData.value = timelineBuilder.build(snapshot)
     }
 
     override fun onTimelineFailure(throwable: Throwable) {
