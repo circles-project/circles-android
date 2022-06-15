@@ -3,7 +3,7 @@ package com.futo.circles.feature.sign_up
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.futo.circles.R
-import com.futo.circles.core.REGISTRATION_TOKEN_KEY
+import com.futo.circles.core.REGISTRATION_TOKEN_KEY_PREFIX
 import com.futo.circles.core.SingleEventLiveData
 import com.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
 import com.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
@@ -93,12 +93,11 @@ class SignUpDataSource(
     }
 
     private fun handleStageOther(type: String): NavigationEvents =
-        when (type) {
-            REGISTRATION_TOKEN_KEY -> NavigationEvents.TokenValidation
-            else -> throw IllegalArgumentException(
-                context.getString(R.string.not_supported_stage_format, type)
-            )
-        }
+        if (type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)) NavigationEvents.TokenValidation
+        else throw IllegalArgumentException(
+            context.getString(R.string.not_supported_stage_format, type)
+        )
+
 
     private fun updatePageSubtitle() {
         val size = stagesToComplete.size
