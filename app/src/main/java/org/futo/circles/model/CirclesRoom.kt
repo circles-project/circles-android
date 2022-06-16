@@ -1,17 +1,19 @@
 package org.futo.circles.model
 
 import androidx.annotation.StringRes
+import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.matrix.android.sdk.api.session.room.model.RoomType
 
-private const val ROOT_SPACE_TAG = "m.space.root"
-private const val CIRCLES_SPACE_TAG = "m.space.circles"
-private const val GROUPS_SPACE_TAG = "m.space.groups"
-private const val PHOTOS_SPACE_TAG = "m.space.photos"
-const val CIRCLE_TAG = "m.social.circle"
-const val GROUP_TAG = "m.social.group"
-const val GALLERY_TAG = "m.social.gallery"
-const val TIMELINE_TAG = "m.social.timeline"
+private const val orgPrefix = "org.futo"
+private const val ROOT_SPACE_TAG = "$orgPrefix.space.root"
+private const val CIRCLES_SPACE_TAG = "$orgPrefix.space.circles"
+private const val GROUPS_SPACE_TAG = "$orgPrefix.space.groups"
+private const val PHOTOS_SPACE_TAG = "$orgPrefix.space.photos"
+const val CIRCLE_TAG = "$orgPrefix.social.circle"
+const val GROUP_TAG = "$orgPrefix.social.group"
+const val GALLERY_TAG = "$orgPrefix.social.gallery"
+const val TIMELINE_TAG = "$orgPrefix.social.timeline"
 
 const val GROUP_TYPE = GROUP_TAG
 const val GALLERY_TYPE = GALLERY_TAG
