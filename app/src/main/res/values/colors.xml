@@ -21,4 +21,5 @@
     <color name="inactive_menu_icon_color">#99000000</color>
     <color name="highlight_color">#330E7AFE</color>
     <color name="chip_selected_color">#800E7AFE</color>
+    <color name="launcher_background_color">#090087</color>
 </resources>
