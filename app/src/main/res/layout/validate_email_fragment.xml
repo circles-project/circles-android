@@ -21,7 +21,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <com.futo.circles.view.CirclesLogoView
+    <org.futo.circles.view.CirclesLogoView
         android:id="@+id/ivLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -96,7 +96,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.futo.circles.view.LoadingButton
+    <org.futo.circles.view.LoadingButton
         android:id="@+id/btnSendCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
         app:layout_constraintTop_toBottomOf="@id/tilEmail" />
 
 
-    <com.futo.circles.view.LoadingButton
+    <org.futo.circles.view.LoadingButton
         android:id="@+id/btnValidate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

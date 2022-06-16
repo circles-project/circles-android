@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/peopleFragment"
-        android:name="com.futo.circles.feature.people.PeopleFragment"
+        android:name="org.futo.circles.feature.people.PeopleFragment"
         android:label="@string/my_people"
         tools:layout="@layout/people_fragment">
         <action
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.futo.circles.feature.people.user.UserFragment"
+        android:name="org.futo.circles.feature.people.user.UserFragment"
         tools:layout="@layout/user_fragment">
 
         <argument

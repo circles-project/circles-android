@@ -17,7 +17,7 @@
         app:title="@string/deactivate_my_account"
         app:titleCentered="true">
 
-        <com.futo.circles.view.LoadingButton
+        <org.futo.circles.view.LoadingButton
             android:id="@+id/btnDelete"
             android:layout_width="56dp"
             android:layout_height="match_parent"

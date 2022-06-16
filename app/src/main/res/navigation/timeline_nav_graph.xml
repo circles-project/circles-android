@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/timelineFragment"
-        android:name="com.futo.circles.feature.timeline.TimelineFragment"
+        android:name="org.futo.circles.feature.timeline.TimelineFragment"
         tools:layout="@layout/timeline_fragment">
 
         <argument
@@ -18,7 +18,7 @@
 
         <argument
             android:name="type"
-            app:argType="com.futo.circles.model.CircleRoomTypeArg"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
         <action
@@ -42,7 +42,7 @@
 
             <argument
                 android:name="type"
-                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -57,7 +57,7 @@
 
             <argument
                 android:name="type"
-                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -141,7 +141,7 @@
 
     <dialog
         android:id="@+id/inviteMembersDialogFragment"
-        android:name="com.futo.circles.feature.room.invite.InviteMembersDialogFragment"
+        android:name="org.futo.circles.feature.room.invite.InviteMembersDialogFragment"
         tools:layout="@layout/invite_members_dialog_fragment">
 
         <argument
@@ -153,7 +153,7 @@
 
     <dialog
         android:id="@+id/manageMembersDialogFragment"
-        android:name="com.futo.circles.feature.room.manage_members.ManageMembersDialogFragment"
+        android:name="org.futo.circles.feature.room.manage_members.ManageMembersDialogFragment"
         tools:layout="@layout/manage_members_dialog_fragment">
 
         <argument
@@ -163,7 +163,7 @@
 
         <argument
             android:name="type"
-            app:argType="com.futo.circles.model.CircleRoomTypeArg"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
         <action
@@ -190,7 +190,7 @@
     </dialog>
     <dialog
         android:id="@+id/changeAccessLevelBottomSheet"
-        android:name="com.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelBottomSheet"
+        android:name="org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelBottomSheet"
         android:label="ChangeAccessLevelBottomSheet"
         tools:layout="@layout/change_access_level_bottom_sheet">
 
@@ -212,7 +212,7 @@
     </dialog>
     <dialog
         android:id="@+id/updateRoomDialogFragment"
-        android:name="com.futo.circles.feature.room.update_room.UpdateRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.update_room.UpdateRoomDialogFragment"
         android:label="UpdateRoomDialogFragment"
         tools:layout="@layout/update_room_dialog_fragment">
 
@@ -223,14 +223,14 @@
 
         <argument
             android:name="type"
-            app:argType="com.futo.circles.model.CircleRoomTypeArg"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
 
     </dialog>
     <dialog
         android:id="@+id/createPostBottomSheet"
-        android:name="com.futo.circles.feature.timeline.post.CreatePostBottomSheet"
+        android:name="org.futo.circles.feature.timeline.post.CreatePostBottomSheet"
         android:label="CreatePostBottomSheet"
         tools:layout="@layout/create_post_bottom_sheet">
 
@@ -252,7 +252,7 @@
     </dialog>
     <dialog
         android:id="@+id/reportDialogFragment"
-        android:name="com.futo.circles.feature.timeline.post.report.ReportDialogFragment"
+        android:name="org.futo.circles.feature.timeline.post.report.ReportDialogFragment"
         android:label="ReportDialogFragment"
         tools:layout="@layout/report_dialog_fragment">
 
@@ -269,7 +269,7 @@
     </dialog>
     <dialog
         android:id="@+id/emojiBottomSheet"
-        android:name="com.futo.circles.feature.timeline.post.emoji.EmojiBottomSheet"
+        android:name="org.futo.circles.feature.timeline.post.emoji.EmojiBottomSheet"
         android:label="EmojiBottomSheet"
         tools:layout="@layout/emoji_bottom_sheet">
 
@@ -286,7 +286,7 @@
     </dialog>
     <dialog
         android:id="@+id/followingDialogFragment"
-        android:name="com.futo.circles.feature.circles.following.FollowingDialogFragment"
+        android:name="org.futo.circles.feature.circles.following.FollowingDialogFragment"
         android:label="FollowingDialogFragment"
         tools:layout="@layout/following_dialog_fragment">
 
@@ -298,7 +298,7 @@
     </dialog>
     <dialog
         android:id="@+id/saveToGalleyDialogFragment"
-        android:name="com.futo.circles.feature.photos.save.SaveToGalleyDialogFragment"
+        android:name="org.futo.circles.feature.photos.save.SaveToGalleyDialogFragment"
         tools:layout="@layout/save_to_gallery_dialog_fragment">
 
         <argument

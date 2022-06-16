@@ -99,7 +99,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.futo.circles.view.LoadingButton
+    <org.futo.circles.view.LoadingButton
         android:id="@+id/btnSave"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -28,7 +28,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="8dp" />
 
-    <com.futo.circles.view.GroupPostHeaderView
+    <org.futo.circles.view.GroupPostHeaderView
         android:id="@+id/postHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <com.futo.circles.view.GroupPostFooterView
+    <org.futo.circles.view.GroupPostFooterView
         android:id="@+id/postFooter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
