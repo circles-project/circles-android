@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="12dp">
 
-        <com.futo.circles.view.LoadingView
+        <org.futo.circles.view.LoadingView
             android:id="@+id/vLoading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

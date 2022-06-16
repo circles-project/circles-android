@@ -57,7 +57,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnPost" />
 
-    <com.futo.circles.view.PreviewPostView
+    <org.futo.circles.view.PreviewPostView
         android:id="@+id/vPostPreview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

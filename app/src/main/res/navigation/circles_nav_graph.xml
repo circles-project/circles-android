@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/circlesFragment"
-        android:name="com.futo.circles.feature.circles.CirclesFragment"
+        android:name="org.futo.circles.feature.circles.CirclesFragment"
         android:label="@string/my_circles"
         tools:layout="@layout/rooms_fragment">
 
@@ -23,7 +23,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="Circle"
-                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -35,7 +35,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="Circle"
-                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -55,19 +55,19 @@
 
     <dialog
         android:id="@+id/createRoomDialogFragment"
-        android:name="com.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
         android:label="CreateCircleDialogFragment"
         tools:layout="@layout/create_room_dialog_fragment">
 
         <argument
             android:name="type"
-            app:argType="com.futo.circles.model.CircleRoomTypeArg"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
     </dialog>
     <dialog
         android:id="@+id/acceptCircleInviteDialogFragment"
-        android:name="com.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDialogFragment"
+        android:name="org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDialogFragment"
         android:label="AcceptCircleInviteDialogFragment"
         tools:layout="@layout/accept_circle_invite_dialog_fragment">
 

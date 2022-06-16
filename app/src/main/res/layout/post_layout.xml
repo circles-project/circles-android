@@ -51,7 +51,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="8dp" />
 
-            <com.futo.circles.view.GroupPostHeaderView
+            <org.futo.circles.view.GroupPostHeaderView
                 android:id="@+id/postHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 app:layout_constraintTop_toBottomOf="@id/postHeader" />
 
 
-            <com.futo.circles.view.GroupPostFooterView
+            <org.futo.circles.view.GroupPostFooterView
                 android:id="@+id/postFooter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <com.futo.circles.view.ExpandContentButton
+    <org.futo.circles.view.ExpandContentButton
         android:id="@+id/btnShowReplies"
         style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
         android:layout_width="wrap_content"

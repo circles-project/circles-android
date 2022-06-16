@@ -19,7 +19,7 @@
         app:titleMarginEnd="72dp"
         tools:title="@string/create_new_group">
 
-        <com.futo.circles.view.LoadingButton
+        <org.futo.circles.view.LoadingButton
             android:id="@+id/btnCreate"
             android:layout_width="56dp"
             android:layout_height="match_parent"

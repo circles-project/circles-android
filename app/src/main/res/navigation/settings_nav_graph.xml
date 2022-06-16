@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.futo.circles.feature.settings.SettingsFragment"
+        android:name="org.futo.circles.feature.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/settings_fragment">
         <action
@@ -26,22 +26,22 @@
 
     <dialog
         android:id="@+id/editProfileDialogFragment"
-        android:name="com.futo.circles.feature.settings.edit_profile.EditProfileDialogFragment"
+        android:name="org.futo.circles.feature.settings.edit_profile.EditProfileDialogFragment"
         android:label="ProfileDialogFragment"
         tools:layout="@layout/edit_profile_dialog_fragment" />
     <dialog
         android:id="@+id/changePasswordDialogFragment"
-        android:name="com.futo.circles.feature.settings.change_password.ChangePasswordDialogFragment"
+        android:name="org.futo.circles.feature.settings.change_password.ChangePasswordDialogFragment"
         android:label="ChangePasswordDialogFragment"
         tools:layout="@layout/change_password_dialog_fragment" />
     <dialog
         android:id="@+id/deactivateAccountDialogFragment"
-        android:name="com.futo.circles.feature.settings.deactivate.DeactivateAccountDialogFragment"
+        android:name="org.futo.circles.feature.settings.deactivate.DeactivateAccountDialogFragment"
         android:label="DeactivateAccountDialogFragment"
         tools:layout="@layout/deactivate_account_dialog_fragment" />
     <dialog
         android:id="@+id/activeSessionsDialogFragment"
-        android:name="com.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragment"
+        android:name="org.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragment"
         android:label="ActiveSessionsDialogFragment"
         tools:layout="@layout/active_sessions_dialog_fragment">
         <action
@@ -57,7 +57,7 @@
     </dialog>
     <dialog
         android:id="@+id/removeSessionDialogFragment"
-        android:name="com.futo.circles.feature.settings.active_sessions.remove_session.RemoveSessionDialogFragment"
+        android:name="org.futo.circles.feature.settings.active_sessions.remove_session.RemoveSessionDialogFragment"
         android:label="RemoveSessionDialogFragment"
         tools:layout="@layout/remove_session_dialog_fragment">
 

@@ -75,4 +75,4 @@ native <methods>;
 
 -keep class org.matrix.android.sdk.internal.auth.DefaultAuthenticationService
 -keep class org.matrix.android.sdk.internal.auth.db.PendingSessionData
--keep class com.futo.circles.model.CircleRoomTypeArg
+-keep class org.futo.circles.model.CircleRoomTypeArg

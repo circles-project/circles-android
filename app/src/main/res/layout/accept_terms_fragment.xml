@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
 
-    <com.futo.circles.view.CirclesLogoView
+    <org.futo.circles.view.CirclesLogoView
         android:id="@+id/ivLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.futo.circles.view.LoadingButton
+    <org.futo.circles.view.LoadingButton
         android:id="@+id/btnAccept"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

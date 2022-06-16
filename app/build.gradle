@@ -8,7 +8,7 @@ android {
     compileSdk rootProject.ext.sdkVersion
 
     defaultConfig {
-        applicationId "com.futo.circles"
+        applicationId "org.futo.circles"
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.sdkVersion
         versionCode 1

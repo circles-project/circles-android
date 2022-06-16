@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.futo.circles.view.ProfileView
+    <org.futo.circles.view.ProfileView
         android:id="@+id/vUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

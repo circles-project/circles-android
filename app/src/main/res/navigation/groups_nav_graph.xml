@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/groupsFragment"
-        android:name="com.futo.circles.feature.groups.GroupsFragment"
+        android:name="org.futo.circles.feature.groups.GroupsFragment"
         android:label="@string/my_groups"
         tools:layout="@layout/rooms_fragment">
 
@@ -23,7 +23,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="Group"
-                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -35,7 +35,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="Group"
-                app:argType="com.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -46,12 +46,12 @@
 
     <dialog
         android:id="@+id/createRoomDialogFragment"
-        android:name="com.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
         tools:layout="@layout/create_room_dialog_fragment">
 
         <argument
             android:name="type"
-            app:argType="com.futo.circles.model.CircleRoomTypeArg"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
     </dialog>
