@@ -8,5 +8,6 @@ data class FollowingListItem(
     val ownerName: String,
     val avatarUrl: String,
     val updatedTime: Long,
-    val isMyTimeline: Boolean
+    val isMyTimeline: Boolean,
+    val followInCirclesCount: Int
 ) : IdEntity<String>
