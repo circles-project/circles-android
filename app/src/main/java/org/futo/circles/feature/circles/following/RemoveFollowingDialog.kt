@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
 import org.futo.circles.R
 import org.futo.circles.databinding.RemoveFollowingDialogBinding
+import org.futo.circles.extensions.setIsVisible
 
 interface RemoveFollowingListener {
     fun onRemove(roomId: String)
@@ -16,6 +17,7 @@ class RemoveFollowingDialog(
     context: Context,
     private val roomId: String,
     private val roomName: String,
+    private val followInCirclesCount: Int,
     private val listener: RemoveFollowingListener
 ) : AppCompatDialog(context) {
 
@@ -31,6 +33,7 @@ class RemoveFollowingDialog(
             btnClose.setOnClickListener { dismiss() }
             btnCancel.setOnClickListener { dismiss() }
 
+            tvRemove.setIsVisible(followInCirclesCount > 1)
             tvRemove.setOnClickListener {
                 listener.onRemove(roomId)
                 dismiss()
