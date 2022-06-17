@@ -48,6 +48,7 @@ class FollowingDialogFragment :
 
     private fun showRemoveOptionsDialog(item: FollowingListItem) {
         RemoveFollowingDialog(requireContext(), item.id, item.name,
+            item.followInCirclesCount,
             object : RemoveFollowingListener {
                 override fun onRemove(roomId: String) {
                     viewModel.removeRoomFromCircle(roomId)
