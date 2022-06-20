@@ -9,6 +9,7 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.LogInFragmentBinding
+import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showError
@@ -29,14 +30,15 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
     }
 
     private fun setupObservers() {
-        viewModel.loginResultLiveData.observeResponse(this)
+        viewModel.loginResultLiveData.observeResponse(this,
+            success = { startLoading(binding.btnLogin) }
+        )
         viewModel.restoreKeysLiveData.observeResponse(
             this,
-            success = { navigateToBottomMenuFragment() },
+            success = { startLoading(binding.btnLogin) },
             error = {
                 showError(it, true)
                 restorePassPhraseLoadingDialog.dismiss()
-                navigateToBottomMenuFragment()
             }
         )
         viewModel.signUpEventResultLiveData.observeResponse(
@@ -45,6 +47,13 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             restorePassPhraseLoadingDialog.handleLoading(it)
+        }
+        viewModel.successLoginNavigationLiveData.observeData(this) { event ->
+            when (event) {
+                SuccessLoginNavigationEvent.Main -> navigateToBottomMenuFragment()
+                SuccessLoginNavigationEvent.SetupCircles -> navigateToSetupCircles()
+                else -> navigateToBottomMenuFragment()
+            }
         }
     }
 
@@ -57,14 +66,10 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
 
             btnLogin.setOnClickListener {
                 startLoading(btnLogin)
-                viewModel.logIn(
-                    name = tilUserName.editText?.text.toString().trim(),
-                    password = tilPassword.editText?.text.toString().trim()
-                )
+                viewModel.logIn(name = tilUserName.getText(), password = tilPassword.getText())
             }
         }
     }
-
 
     private fun navigateToSignUp() {
         findNavController().navigate(LogInFragmentDirections.toSignUpFragment())
@@ -72,5 +77,9 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
 
     private fun navigateToBottomMenuFragment() {
         findNavController().navigate(LogInFragmentDirections.toBottomNavigationFragment())
+    }
+
+    private fun navigateToSetupCircles() {
+        findNavController().navigate(LogInFragmentDirections.toSetupCirclesFragment())
     }
 }

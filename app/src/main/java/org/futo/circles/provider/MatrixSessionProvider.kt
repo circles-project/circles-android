@@ -5,6 +5,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.session.statistics.StatisticEvent
 
 object MatrixSessionProvider {
 
@@ -38,6 +39,17 @@ object MatrixSessionProvider {
                 override fun onSessionStarted(session: Session) {
                     super.onSessionStarted(session)
                     it.resume(session) { session.removeListener(this) }
+                }
+            })
+        }
+
+    suspend fun awaitForSessionSync(session: Session) =
+        suspendCancellableCoroutine<Session> {
+            startSession(session, object : Session.Listener {
+                override fun onStatisticsEvent(session: Session, statisticEvent: StatisticEvent) {
+                    super.onStatisticsEvent(session, statisticEvent)
+                    if (statisticEvent is StatisticEvent.InitialSyncRequest)
+                        it.resume(session) { session.removeListener(this) }
                 }
             })
         }

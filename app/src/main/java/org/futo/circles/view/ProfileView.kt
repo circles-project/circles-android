@@ -21,7 +21,7 @@ class ProfileView(
     fun setData(user: User) {
         with(binding) {
             ivProfile.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
-            tvUserName.text = user.displayName
+            tvUserName.text = user.notEmptyDisplayName()
             tvUserId.text = user.userId
         }
     }
