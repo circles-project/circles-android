@@ -36,6 +36,11 @@
             app:destination="@id/bottomNavigationFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/to_setupCirclesFragment"
+            app:destination="@id/setupCirclesFragment"
+            app:popUpTo="@id/logInFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
