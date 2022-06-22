@@ -3,7 +3,6 @@ package org.futo.circles.feature.sign_up.terms
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.futo.circles.core.TERMS_URL_EXTENSION
 import org.futo.circles.extensions.Response
@@ -45,7 +44,7 @@ class AcceptTermsDataSource(
             ?: listOf(
                 TermsListItem(
                     1, context.getString(R.string.terms_and_conditions),
-                    org.futo.circles.BuildConfig.MATRIX_HOME_SERVER_URL + TERMS_URL_EXTENSION
+                    signUpDataSource.currentHomeServerUrl + TERMS_URL_EXTENSION
                 )
             )
 
