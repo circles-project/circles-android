@@ -222,6 +222,10 @@
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="users_circles_format">%s\'s Circles</string>
+    <string name="server_location">Server Location:</string>
+    <string name="us">US</string>
+    <string name="eu">EU</string>
+    <string name="user_id_example">\@example:server.domain</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
