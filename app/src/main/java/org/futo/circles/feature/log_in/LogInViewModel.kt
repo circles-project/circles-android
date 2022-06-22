@@ -20,7 +20,6 @@ class LogInViewModel(
         SingleEventLiveData<SuccessLoginNavigationEvent>()
     val loginResultLiveData = SingleEventLiveData<Response<Session>>()
     val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
-    val signUpEventResultLiveData = SingleEventLiveData<Response<LoginFlowResult>>()
     val passPhraseLoadingLiveData = loginDataSource.passPhraseLoadingLiveData
 
     fun logIn(name: String, password: String) {
@@ -28,13 +27,6 @@ class LogInViewModel(
             val loginResult = loginDataSource.logIn(name, password)
             loginResultLiveData.postValue(loginResult)
             (loginResult as? Response.Success)?.let { handleSuccessLogin(this, password) }
-        }
-    }
-
-    fun startSignUp() {
-        launchBg {
-            val response = loginDataSource.startSignUp()
-            signUpEventResultLiveData.postValue(response)
         }
     }
 
