@@ -13,7 +13,7 @@ object MatrixSessionProvider {
         private set
 
     fun initSession(context: Context) {
-        Matrix.createInstance(
+        Matrix(
             context = context, matrixConfiguration = MatrixConfiguration(
                 roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl()
             )
@@ -34,7 +34,7 @@ object MatrixSessionProvider {
     }
 
     suspend fun awaitForSessionStart(session: Session) =
-        suspendCancellableCoroutine<Session> {
+        suspendCancellableCoroutine {
             startSession(session, object : Session.Listener {
                 override fun onSessionStarted(session: Session) {
                     super.onSessionStarted(session)
@@ -44,7 +44,7 @@ object MatrixSessionProvider {
         }
 
     suspend fun awaitForSessionSync(session: Session) =
-        suspendCancellableCoroutine<Session> {
+        suspendCancellableCoroutine {
             startSession(session, object : Session.Listener {
                 override fun onStatisticsEvent(session: Session, statisticEvent: StatisticEvent) {
                     super.onStatisticsEvent(session, statisticEvent)

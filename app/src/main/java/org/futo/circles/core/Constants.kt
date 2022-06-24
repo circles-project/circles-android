@@ -8,3 +8,6 @@ const val TERMS_URL_EXTENSION = "_matrix/consent"
 const val VALIDATION_TOKEN_SUBMIT_URL_PREFIX = "_matrix/identity/api/v1/validate/email/submitToken"
 
 const val DEFAULT_USER_PREFIX = "@notices:"
+
+const val US_SERVER_DOMAIN = "kombucha.social"
+const val EU_SERVER_DOMAIN = "eu.kombucha.social"

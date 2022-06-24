@@ -2,6 +2,9 @@ package org.futo.circles.feature.sign_up
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.futo.circles.R
 import org.futo.circles.core.REGISTRATION_TOKEN_KEY_PREFIX
 import org.futo.circles.core.SingleEventLiveData
@@ -11,9 +14,6 @@ import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
@@ -36,12 +36,21 @@ class SignUpDataSource(
     var currentStage: Stage? = null
         private set
 
+    var currentHomeServerUrl: String = ""
     private var passphrase: String = ""
+    private var userName: String = ""
 
-    fun startSignUpStages(stages: List<Stage>, password: String) {
+    fun startSignUpStages(
+        stages: List<Stage>,
+        name: String,
+        password: String,
+        homeServerUrl: String
+    ) {
         currentStage = null
         stagesToComplete.clear()
+        userName = name
         passphrase = password
+        currentHomeServerUrl = homeServerUrl
 
         stagesToComplete.addAll(stages.filter { it.mandatory })
         navigateToNextStage()
@@ -63,7 +72,7 @@ class SignUpDataSource(
         coroutineScope {
             listOf(
                 async { coreSpacesTreeBuilder.createCoreSpacesTree() },
-                async { createPassPhraseDataSource.createPassPhraseBackup(passphrase) }
+                async { createPassPhraseDataSource.createPassPhraseBackup(userName, passphrase) }
             ).awaitAll()
         }
     }

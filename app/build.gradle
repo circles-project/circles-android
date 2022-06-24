@@ -25,13 +25,11 @@ android {
         debug {
             minifyEnabled false
             resValue "string", "app_name", "Circles Stage"
-            buildConfigField("String", "MATRIX_HOME_SERVER_URL", "\"https://matrix.eu.kombucha.social/\"")
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "Circles"
-            buildConfigField("String", "MATRIX_HOME_SERVER_URL", "\"https://matrix.kombucha.social/\"")
         }
     }
     compileOptions {
@@ -53,7 +51,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     //Matrix
-    implementation 'org.matrix.android:matrix-sdk-android:1.4.14'
+    implementation 'org.matrix.android:matrix-sdk-android:1.4.16'
 
     //Kotlin
     implementation "androidx.core:core-ktx:1.8.0"
@@ -67,7 +65,7 @@ dependencies {
     def koin_version = "3.1.5"
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
-    
+
     //Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.nav_version"

@@ -41,10 +41,6 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
                 restorePassPhraseLoadingDialog.dismiss()
             }
         )
-        viewModel.signUpEventResultLiveData.observeResponse(
-            this,
-            success = { navigateToSignUp() },
-        )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             restorePassPhraseLoadingDialog.handleLoading(it)
         }
@@ -59,10 +55,7 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
 
     private fun setOnClickActions() {
         with(binding) {
-            btnSignUp.setOnClickListener {
-                startLoading(btnSignUp)
-                viewModel.startSignUp()
-            }
+            btnSignUp.setOnClickListener { navigateToSignUp() }
 
             btnLogin.setOnClickListener {
                 startLoading(btnLogin)

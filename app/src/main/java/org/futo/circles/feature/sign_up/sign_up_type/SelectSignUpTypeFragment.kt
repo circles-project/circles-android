@@ -6,6 +6,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.EU_SERVER_DOMAIN
+import org.futo.circles.core.US_SERVER_DOMAIN
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.SelectSignUpTypeFragmentBinding
 import org.futo.circles.extensions.getText
@@ -34,8 +36,20 @@ class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment)
             tilPassword.editText?.doAfterTextChanged { setTokenButtonEnabled() }
             btnToken.setOnClickListener {
                 startLoading(btnToken)
-                viewModel.startSignUp(tilUserName.getText(), tilPassword.getText())
+                viewModel.startSignUp(
+                    tilUserName.getText(),
+                    tilPassword.getText(),
+                    tvServerDomain.text.toString()
+                )
             }
+            serverLocationGroup.setOnCheckedChangeListener { _, checkedId ->
+                tvServerDomain.text = when (checkedId) {
+                    btnUS.id -> US_SERVER_DOMAIN
+                    btnEU.id -> EU_SERVER_DOMAIN
+                    else -> US_SERVER_DOMAIN
+                }
+            }
+            serverLocationGroup.check(btnUS.id)
         }
     }
 

@@ -1,6 +1,5 @@
 package org.futo.circles.core.matrix.room
 
-import org.futo.circles.BuildConfig
 import org.futo.circles.model.Group
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
@@ -54,7 +53,6 @@ class RoomRelationsBuilder {
         return roomWithTagId?.let { session?.getRoom(it) }
     }
 
-    private fun getHomeServerDomain() = org.futo.circles.BuildConfig.MATRIX_HOME_SERVER_URL
-        .substringAfter("//").replace("/", "")
+    private fun getHomeServerDomain() = session?.sessionParams?.homeServerHost ?: ""
 
 }

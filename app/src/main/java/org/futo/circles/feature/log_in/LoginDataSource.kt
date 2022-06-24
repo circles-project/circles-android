@@ -2,8 +2,8 @@ package org.futo.circles.feature.log_in
 
 import android.content.Context
 import android.net.Uri
-import org.futo.circles.BuildConfig
 import org.futo.circles.R
+import org.futo.circles.core.HomeServerUtils
 import org.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
@@ -19,22 +19,11 @@ class LoginDataSource(
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder
 ) {
 
-    private val homeServerConnectionConfig by lazy {
-        HomeServerConnectionConfig
-            .Builder()
-            .withHomeServerUri(Uri.parse(BuildConfig.MATRIX_HOME_SERVER_URL))
-            .build()
-    }
-
-    private val authService by lazy {
-        MatrixInstanceProvider.matrix.authenticationService()
-    }
-
     val passPhraseLoadingLiveData = restorePassPhraseDataSource.loadingLiveData
 
     suspend fun logIn(name: String, password: String): Response<Session> = createResult {
-        val session = authService.directAuthentication(
-            homeServerConnectionConfig = homeServerConnectionConfig,
+        val session = MatrixInstanceProvider.matrix.authenticationService().directAuthentication(
+            homeServerConnectionConfig = buildHomeServerConfig(name),
             matrixId = name,
             password = password,
             initialDeviceName = context.getString(
@@ -53,9 +42,13 @@ class LoginDataSource(
         coreSpacesTreeBuilder.createCoreSpacesTree()
     }
 
-    suspend fun startSignUp() = createResult {
-        authService.getLoginFlow(homeServerConnectionConfig)
-    }
-
     fun isCirclesTreeCreated() = coreSpacesTreeBuilder.isCirclesHierarchyCreated()
+
+    private fun buildHomeServerConfig(userName: String): HomeServerConnectionConfig {
+        val url = HomeServerUtils.getHomeServerUrlFromUserName(userName)
+        return HomeServerConnectionConfig
+            .Builder()
+            .withHomeServerUri(Uri.parse(url))
+            .build()
+    }
 }
