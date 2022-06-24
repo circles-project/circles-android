@@ -5,8 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
 import org.futo.circles.model.LoadingData
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.listeners.ProgressListener
-import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupLastVersionResult
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
 import org.matrix.android.sdk.api.session.crypto.keysbackup.MegolmBackupCreationInfo
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
@@ -21,28 +19,22 @@ class CreatePassPhraseDataSource(private val context: Context) {
     val loadingLiveData = MutableLiveData<LoadingData>()
     private val passPhraseLoadingData = LoadingData()
 
-    suspend fun createPassPhraseBackup(passphrase: String) {
-        val backupCreationInfo = awaitCallback<MegolmBackupCreationInfo> {
-            keysBackupService.prepareKeysBackupVersion(
-                passphrase,
-                object : ProgressListener {
-                    override fun onProgress(progress: Int, total: Int) {
-                        loadingLiveData.postValue(passPhraseLoadingData.apply {
-                            this.progress = progress
-                            this.total = total
-                            messageId = R.string.generating_recovery_key
-                        })
-                    }
-                }, it
-            )
+    suspend fun createPassPhraseBackup(userName: String, passphrase: String) {
+        loadingLiveData.postValue(passPhraseLoadingData.apply {
+            this.total = 0
+            messageId = R.string.generating_recovery_key
+        })
+        val backupCreationInfo = awaitCallback {
+            keysBackupService.prepareBcryptKeysBackupVersion(userName, passphrase, it)
         }
         createKeyBackup(backupCreationInfo)
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
-    suspend fun replacePassPhraseBackup(passphrase: String) {
+    suspend fun replacePassPhraseBackup(userId: String, passphrase: String) {
+        val userName = userId.replace("@", "").substringBefore(":")
         removeCurrentBackupIfExist()
-        createPassPhraseBackup(passphrase)
+        createPassPhraseBackup(userName, passphrase)
     }
 
     private suspend fun createKeyBackup(
@@ -65,12 +57,12 @@ class CreatePassPhraseDataSource(private val context: Context) {
             messageId = R.string.removing_backup
         })
         getCurrentBackupVersion()?.version?.let { version ->
-            awaitCallback<Unit> { keysBackupService.deleteBackup(version, it) }
+            awaitCallback { keysBackupService.deleteBackup(version, it) }
         }
     }
 
     private suspend fun getCurrentBackupVersion() =
-        awaitCallback<KeysBackupLastVersionResult> { keysBackupService.getCurrentVersion(it) }
+        awaitCallback { keysBackupService.getCurrentVersion(it) }
             .toKeysVersionResult()
 }
 

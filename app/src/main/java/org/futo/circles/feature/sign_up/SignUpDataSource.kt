@@ -38,10 +38,17 @@ class SignUpDataSource(
 
     var currentHomeServerUrl: String = ""
     private var passphrase: String = ""
+    private var userName: String = ""
 
-    fun startSignUpStages(stages: List<Stage>, password: String, homeServerUrl: String) {
+    fun startSignUpStages(
+        stages: List<Stage>,
+        name: String,
+        password: String,
+        homeServerUrl: String
+    ) {
         currentStage = null
         stagesToComplete.clear()
+        userName = name
         passphrase = password
         currentHomeServerUrl = homeServerUrl
 
@@ -65,7 +72,7 @@ class SignUpDataSource(
         coroutineScope {
             listOf(
                 async { coreSpacesTreeBuilder.createCoreSpacesTree() },
-                async { createPassPhraseDataSource.createPassPhraseBackup(passphrase) }
+                async { createPassPhraseDataSource.createPassPhraseBackup(userName, passphrase) }
             ).awaitAll()
         }
     }

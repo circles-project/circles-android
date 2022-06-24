@@ -6,6 +6,7 @@ import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.launchBg
+import org.futo.circles.provider.MatrixSessionProvider
 
 class ChangePasswordViewModel(
     private val changePasswordDataSource: ChangePasswordDataSource,
@@ -27,7 +28,11 @@ class ChangePasswordViewModel(
 
     private suspend fun createNewBackup(newPassword: String) {
         val createBackupResult =
-            createResult { createPassPhraseDataSource.replacePassPhraseBackup(newPassword) }
+            createResult {
+                createPassPhraseDataSource.replacePassPhraseBackup(
+                    MatrixSessionProvider.currentSession?.myUserId ?: "", newPassword
+                )
+            }
         responseLiveData.postValue(createBackupResult)
     }
 }

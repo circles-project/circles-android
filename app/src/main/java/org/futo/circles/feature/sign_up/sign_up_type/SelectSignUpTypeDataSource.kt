@@ -37,6 +37,7 @@ class SelectSignUpTypeDataSource(
                 ?.let {
                     signUpDataSource.startSignUpStages(
                         it.flowResult.missingStages,
+                        name,
                         password,
                         homeServerUrl
                     )
