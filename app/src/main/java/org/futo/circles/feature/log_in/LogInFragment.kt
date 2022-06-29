@@ -44,13 +44,29 @@ class LogInFragment : Fragment(R.layout.log_in_fragment), HasLoadingState {
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             restorePassPhraseLoadingDialog.handleLoading(it)
         }
-        viewModel.successLoginNavigationLiveData.observeData(this) { event ->
+        viewModel.loginNavigationLiveData.observeData(this) { event ->
             when (event) {
-                SuccessLoginNavigationEvent.Main -> navigateToBottomMenuFragment()
-                SuccessLoginNavigationEvent.SetupCircles -> navigateToSetupCircles()
+                LoginNavigationEvent.Main -> navigateToBottomMenuFragment()
+                LoginNavigationEvent.SetupCircles -> navigateToSetupCircles()
+                LoginNavigationEvent.PassPhrase -> showPassPhraseDialog()
                 else -> navigateToBottomMenuFragment()
             }
         }
+        viewModel.messageEventLiveData.observeData(this) { messageId ->
+            showError(requireContext().getString(messageId))
+        }
+    }
+
+    private fun showPassPhraseDialog() {
+        EnterPassPhraseDialog(requireContext(), object : EnterPassPhraseDialogListener {
+            override fun onRestoreBackup(passphrase: String) {
+                viewModel.restoreBackup(passphrase)
+            }
+
+            override fun onDoNotRestore() {
+                viewModel.handleCirclesTree()
+            }
+        }).show()
     }
 
     private fun setOnClickActions() {

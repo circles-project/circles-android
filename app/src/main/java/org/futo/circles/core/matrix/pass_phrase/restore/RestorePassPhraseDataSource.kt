@@ -10,7 +10,6 @@ import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupLastVersio
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersionResult
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
-import org.matrix.android.sdk.api.session.crypto.model.ImportRoomKeysResult
 import org.matrix.android.sdk.api.util.awaitCallback
 
 class RestorePassPhraseDataSource(private val context: Context) {
@@ -45,6 +44,13 @@ class RestorePassPhraseDataSource(private val context: Context) {
         }
     }
 
+    suspend fun getEncryptionAlgorithm(): String? {
+        val keyVersion = awaitCallback {
+            session?.cryptoService()?.keysBackupService()?.getCurrentVersion(it)
+        }.toKeysVersionResult()
+
+        return keyVersion?.algorithm
+    }
 
     suspend fun restoreKeysWithPassPhase(passphrase: String) {
         val keysBackupService = session?.cryptoService()?.keysBackupService()
@@ -55,7 +61,7 @@ class RestorePassPhraseDataSource(private val context: Context) {
             ?: throw Exception(context.getString(R.string.failed_to_get_restore_keys_version))
 
         try {
-            awaitCallback<ImportRoomKeysResult> {
+            awaitCallback {
                 keysBackupService.restoreKeyBackupWithPassword(
                     keyVersion,
                     passphrase,
@@ -76,7 +82,7 @@ class RestorePassPhraseDataSource(private val context: Context) {
         keysBackup: KeysBackupService,
         keysVersionResult: KeysVersionResult
     ) {
-        awaitCallback<Unit> {
+        awaitCallback {
             keysBackup.trustKeysBackupVersion(keysVersionResult, true, it)
         }
     }
