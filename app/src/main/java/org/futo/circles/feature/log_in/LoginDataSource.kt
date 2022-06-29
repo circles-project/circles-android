@@ -38,6 +38,15 @@ class LoginDataSource(
         restorePassPhraseDataSource.restoreKeysWithPassPhase(password)
     }
 
+    suspend fun getEncryptionAlgorithm(): String? {
+        val algorithmResult = createResult { restorePassPhraseDataSource.getEncryptionAlgorithm() }
+
+       return when(algorithmResult){
+            is Response.Error -> null
+            is Response.Success -> algorithmResult.data
+        }
+    }
+
     suspend fun createSpacesTree() = createResult {
         coreSpacesTreeBuilder.createCoreSpacesTree()
     }
