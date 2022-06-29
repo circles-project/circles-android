@@ -74,7 +74,7 @@ val uiModule = module {
     viewModel { (roomId: String) -> FollowingViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> AcceptCircleInviteViewModel(get { parametersOf(roomId) }) }
     viewModel { EditProfileViewModel(get()) }
-    viewModel { ChangePasswordViewModel(get(), get()) }
+    viewModel { ChangePasswordViewModel(get(), get(), get()) }
     viewModel { DeactivateAccountViewModel(get()) }
     viewModel { ActiveSessionsViewModel(get()) }
     viewModel { (deviceId: String) -> RemoveSessionViewModel(get { parametersOf(deviceId) }) }
