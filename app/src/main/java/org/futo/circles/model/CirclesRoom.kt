@@ -1,7 +1,6 @@
 package org.futo.circles.model
 
 import androidx.annotation.StringRes
-import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.matrix.android.sdk.api.session.room.model.RoomType
 

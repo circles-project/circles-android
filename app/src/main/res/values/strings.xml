@@ -226,6 +226,10 @@
     <string name="us">US</string>
     <string name="eu">EU</string>
     <string name="user_id_example">\@example:server.domain</string>
+    <string name="no_backup_message">Keys backup not found</string>
+    <string name="enter_passphrase">Enter Passphrase</string>
+    <string name="restore">Restore</string>
+    <string name="passphrase">Passphrase</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
