@@ -33,6 +33,8 @@ class SelectUsersFragment : Fragment(R.layout.select_users_fragment) {
     private val searchListAdapter by lazy { InviteMembersSearchListAdapter(viewModel::onUserSelected) }
     private val selectedUsersListAdapter by lazy { SelectedUsersListAdapter(viewModel::onUserSelected) }
 
+    private val userIdPattern by lazy { Regex("^@[a-zA-Z0-9_.]+:\\w+.\\w+.+\$") }
+
     private var selectUsersListener: SelectUsersListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,8 +53,15 @@ class SelectUsersFragment : Fragment(R.layout.select_users_fragment) {
 
     private fun setupLists() {
         binding.rvUsers.adapter = searchListAdapter
-        viewModel.initSearchListener(binding.searchView.getQueryTextChangeStateFlow())
+        val searchFlow = binding.searchView.getQueryTextChangeStateFlow(
+            onTextChanged = { query -> binding.btnAddUser.setIsVisible(userIdPattern.matches(query)) }
+        )
 
+        binding.btnAddUser.setOnClickListener {
+            viewModel.selectUserById(binding.searchView.query.toString())
+            binding.searchView.setQuery("",true)
+        }
+        viewModel.initSearchListener(searchFlow)
         binding.rvSelectedUsers.adapter = selectedUsersListAdapter
     }
 
