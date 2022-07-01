@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.databinding.SelectUsersFragmentBinding
-import org.futo.circles.extensions.getQueryTextChangeStateFlow
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.extensions.*
 import org.futo.circles.feature.room.select_users.list.search.InviteMembersSearchListAdapter
 import org.futo.circles.feature.room.select_users.list.selected.SelectedUsersListAdapter
 import org.futo.circles.model.UserListItem
@@ -59,7 +57,6 @@ class SelectUsersFragment : Fragment(R.layout.select_users_fragment) {
 
         binding.btnAddUser.setOnClickListener {
             viewModel.selectUserById(binding.searchView.query.toString())
-            binding.searchView.setQuery("",true)
         }
         viewModel.initSearchListener(searchFlow)
         binding.rvSelectedUsers.adapter = selectedUsersListAdapter
@@ -74,6 +71,10 @@ class SelectUsersFragment : Fragment(R.layout.select_users_fragment) {
             binding.selectedUserDivider.setIsVisible(items.isNotEmpty())
             selectUsersListener?.onUserSelected(items)
         }
+        viewModel.selectUserByIdLiveData.observeResponse(this,
+            success = { binding.searchView.setQuery("", true) },
+            error = { showError(getString(R.string.user_not_found)) }
+        )
     }
 
     companion object {
