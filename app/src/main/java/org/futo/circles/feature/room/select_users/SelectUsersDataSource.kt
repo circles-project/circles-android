@@ -1,15 +1,16 @@
 package org.futo.circles.feature.room.select_users
 
 import androidx.lifecycle.asFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import org.futo.circles.core.DEFAULT_USER_PREFIX
+import org.futo.circles.extensions.createResult
 import org.futo.circles.mapping.toUserListItem
 import org.futo.circles.model.HeaderItem
 import org.futo.circles.model.InviteMemberListItem
 import org.futo.circles.model.NoResultsItem
 import org.futo.circles.model.UserListItem
 import org.futo.circles.provider.MatrixSessionProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -90,6 +91,10 @@ class SelectUsersDataSource(roomId: String?) {
     }
 
     private fun List<UserListItem>.containsWithId(id: String) = firstOrNull { it.id == id } != null
+
+    suspend fun getUserById(userId: String) = createResult {
+        session?.userService()?.resolveUser(userId)
+    }
 
 
     private companion object {

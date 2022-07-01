@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.databinding.SelectUsersFragmentBinding
-import org.futo.circles.extensions.getQueryTextChangeStateFlow
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.extensions.*
 import org.futo.circles.feature.room.select_users.list.search.InviteMembersSearchListAdapter
 import org.futo.circles.feature.room.select_users.list.selected.SelectedUsersListAdapter
 import org.futo.circles.model.UserListItem
@@ -33,6 +31,8 @@ class SelectUsersFragment : Fragment(R.layout.select_users_fragment) {
     private val searchListAdapter by lazy { InviteMembersSearchListAdapter(viewModel::onUserSelected) }
     private val selectedUsersListAdapter by lazy { SelectedUsersListAdapter(viewModel::onUserSelected) }
 
+    private val userIdPattern by lazy { Regex("^@[a-zA-Z0-9_.]+:\\w+.\\w+.+\$") }
+
     private var selectUsersListener: SelectUsersListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,8 +51,14 @@ class SelectUsersFragment : Fragment(R.layout.select_users_fragment) {
 
     private fun setupLists() {
         binding.rvUsers.adapter = searchListAdapter
-        viewModel.initSearchListener(binding.searchView.getQueryTextChangeStateFlow())
+        val searchFlow = binding.searchView.getQueryTextChangeStateFlow(
+            onTextChanged = { query -> binding.btnAddUser.setIsVisible(userIdPattern.matches(query)) }
+        )
 
+        binding.btnAddUser.setOnClickListener {
+            viewModel.selectUserById(binding.searchView.query.toString())
+        }
+        viewModel.initSearchListener(searchFlow)
         binding.rvSelectedUsers.adapter = selectedUsersListAdapter
     }
 
@@ -65,6 +71,10 @@ class SelectUsersFragment : Fragment(R.layout.select_users_fragment) {
             binding.selectedUserDivider.setIsVisible(items.isNotEmpty())
             selectUsersListener?.onUserSelected(items)
         }
+        viewModel.selectUserByIdLiveData.observeResponse(this,
+            success = { binding.searchView.setQuery("", true) },
+            error = { showError(getString(R.string.user_not_found)) }
+        )
     }
 
     companion object {
