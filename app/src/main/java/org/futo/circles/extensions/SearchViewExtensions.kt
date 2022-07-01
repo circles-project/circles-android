@@ -4,7 +4,7 @@ import androidx.appcompat.widget.SearchView
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
+fun SearchView.getQueryTextChangeStateFlow(onTextChanged: ((String) -> Unit)? = null): StateFlow<String> {
 
     val query = MutableStateFlow("")
 
@@ -14,6 +14,7 @@ fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
         }
 
         override fun onQueryTextChange(newText: String): Boolean {
+            onTextChanged?.invoke(newText)
             query.value = newText
             return true
         }
