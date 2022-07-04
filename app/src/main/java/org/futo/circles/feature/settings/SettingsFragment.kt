@@ -17,12 +17,15 @@ import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.extensions.showDialog
 import org.futo.circles.feature.bottom_navigation.BottomNavigationFragmentDirections
+import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
     private val binding by viewBinding(SettingsFragmentBinding::bind)
     private val viewModel by viewModel<SettingsViewModel>()
+    private val systemNoticesCountViewModel by sharedViewModel<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,6 +55,10 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         viewModel.loadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
+        systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
+            val count = it ?: 0
+            handleSystemNoticesCount(count)
+        }
     }
 
     private fun navigateToDeactivateAccount() {
@@ -75,10 +82,10 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
     }
 
     private fun navigateToSystemNotices() {
-
+        findNavController().navigate(SettingsFragmentDirections.toSystemNoticesDialogFragment())
     }
 
-    private fun showSystemNoticesCount(count: Int) {
+    private fun handleSystemNoticesCount(count: Int) {
         binding.ivNoticesCount.setIsVisible(count > 0)
         if (count > 0) {
             binding.ivNoticesCount.setImageDrawable(
