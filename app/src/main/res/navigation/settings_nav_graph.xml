@@ -22,6 +22,9 @@
         <action
             android:id="@+id/to_activeSessionsDialogFragment"
             app:destination="@id/activeSessionsDialogFragment" />
+        <action
+            android:id="@+id/to_systemNoticesDialogFragment"
+            app:destination="@id/systemNoticesDialogFragment" />
     </fragment>
 
     <dialog
@@ -67,5 +70,9 @@
             app:nullable="false" />
 
     </dialog>
+    <dialog
+        android:id="@+id/systemNoticesDialogFragment"
+        android:name="org.futo.circles.feature.notices.SystemNoticesDialogFragment"
+        tools:layout="@layout/system_notices_dialog_fragment" />
 
 </navigation>
