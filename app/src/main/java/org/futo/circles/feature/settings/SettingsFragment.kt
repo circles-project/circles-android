@@ -11,11 +11,7 @@ import com.amulyakhare.textdrawable.TextDrawable
 import org.futo.circles.R
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.SettingsFragmentBinding
-import org.futo.circles.extensions.findParentNavController
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.extensions.showDialog
+import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.BottomNavigationFragmentDirections
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -82,7 +78,10 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
     }
 
     private fun navigateToSystemNotices() {
-        findNavController().navigate(SettingsFragmentDirections.toSystemNoticesDialogFragment())
+        val systemNoticesRoomId = getSystemNoticesRoomId() ?: return
+        findNavController().navigate(
+            SettingsFragmentDirections.toSystemNoticesDialogFragment(systemNoticesRoomId)
+        )
     }
 
     private fun handleSystemNoticesCount(count: Int) {
