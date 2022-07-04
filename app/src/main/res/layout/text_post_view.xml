@@ -9,6 +9,7 @@
         style="@style/body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/post_text_side_margin" />
+        android:layout_marginHorizontal="@dimen/post_text_side_margin"
+        android:autoLink="web" />
 
 </org.futo.circles.view.PostLayout>
