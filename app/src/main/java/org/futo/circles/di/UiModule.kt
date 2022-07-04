@@ -1,5 +1,6 @@
 package org.futo.circles.di
 
+import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.circles.CirclesViewModel
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
 import org.futo.circles.feature.circles.following.FollowingViewModel
@@ -92,4 +93,5 @@ val uiModule = module {
     viewModel { (userId: String) ->
         UserViewModel(get { parametersOf(userId) })
     }
+    viewModel { SystemNoticesCountSharedViewModel() }
 }
