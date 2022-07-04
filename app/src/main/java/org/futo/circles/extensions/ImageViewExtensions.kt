@@ -38,7 +38,7 @@ fun ImageView.loadEncryptedImage(
     val loadHeight = if (loadOriginalSize) Target.SIZE_ORIGINAL else preferredSize?.height ?: height
 
     content.elementToDecrypt?.let {
-        org.futo.circles.glide.GlideApp
+        GlideApp
             .with(context)
             .load(content)
             .transition(DrawableTransitionOptions.withCrossFade())
