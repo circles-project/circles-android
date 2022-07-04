@@ -231,6 +231,8 @@
     <string name="enter_passphrase">Enter Passphrase</string>
     <string name="restore">Restore</string>
     <string name="passphrase">Passphrase</string>
+    <string name="notifications">Notifications</string>
+    <string name="system_notices">System notices</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

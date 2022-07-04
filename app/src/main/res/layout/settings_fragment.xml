@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -23,6 +24,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:orientation="vertical">
 
             <TextView
@@ -54,6 +57,51 @@
                 android:text="@string/change_password"
                 app:drawableStartCompat="@drawable/ic_lock" />
 
+            <TextView
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notifications" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lSystemNotices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/tvSystemNotices"
+                    style="@style/settingMenuItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:paddingEnd="8dp"
+                    android:text="@string/system_notices"
+                    app:drawableStartCompat="@drawable/ic_error"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivNoticesCount"
+                    android:layout_width="18dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@android:color/holo_red_dark"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"
+                    app:layout_constraintDimensionRatio="w,1:1"
+                    app:layout_constraintStart_toEndOf="@id/tvSystemNotices"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+                    tools:visibility="visible" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 style="@style/settingMenuHeader"
