@@ -9,5 +9,7 @@ const val VALIDATION_TOKEN_SUBMIT_URL_PREFIX = "_matrix/identity/api/v1/validate
 
 const val DEFAULT_USER_PREFIX = "@notices:"
 
+const val SYSTEM_NOTICES_TAG = "m.server_notice"
+
 const val US_SERVER_DOMAIN = "kombucha.social"
 const val EU_SERVER_DOMAIN = "eu.kombucha.social"
