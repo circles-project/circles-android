@@ -1,24 +1,27 @@
 package org.futo.circles.feature.settings
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.amulyakhare.textdrawable.TextDrawable
 import org.futo.circles.R
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.SettingsFragmentBinding
-import org.futo.circles.extensions.findParentNavController
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showDialog
+import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.BottomNavigationFragmentDirections
+import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
     private val binding by viewBinding(SettingsFragmentBinding::bind)
     private val viewModel by viewModel<SettingsViewModel>()
+    private val systemNoticesCountViewModel by sharedViewModel<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,8 +37,8 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
             tvChangePassword.setOnClickListener { navigateToChangePassword() }
             tvDeactivate.setOnClickListener { navigateToDeactivateAccount() }
             tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
+            lSystemNotices.setOnClickListener { navigateToSystemNotices() }
         }
-
     }
 
     private fun setupObservers() {
@@ -47,6 +50,10 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         }
         viewModel.loadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
+        }
+        systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
+            val count = it ?: 0
+            handleSystemNoticesCount(count)
         }
     }
 
@@ -68,6 +75,30 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
 
     private fun navigateToActiveSessions() {
         findNavController().navigate(SettingsFragmentDirections.toActiveSessionsDialogFragment())
+    }
+
+    private fun navigateToSystemNotices() {
+        val systemNoticesRoomId = getSystemNoticesRoomId() ?: return
+        findNavController().navigate(
+            SettingsFragmentDirections.toSystemNoticesDialogFragment(systemNoticesRoomId)
+        )
+    }
+
+    private fun handleSystemNoticesCount(count: Int) {
+        binding.ivNoticesCount.setIsVisible(count > 0)
+        if (count > 0) {
+            binding.ivNoticesCount.setImageDrawable(
+                TextDrawable.Builder()
+                    .setShape(TextDrawable.SHAPE_ROUND_RECT)
+                    .setColor(
+                        ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
+                    )
+                    .setTextColor(Color.WHITE)
+                    .setBold()
+                    .setText(count.toString())
+                    .build()
+            )
+        }
     }
 
     private fun showLogoutDialog() {

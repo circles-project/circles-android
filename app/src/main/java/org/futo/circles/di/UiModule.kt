@@ -1,10 +1,12 @@
 package org.futo.circles.di
 
+import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.circles.CirclesViewModel
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
 import org.futo.circles.feature.circles.following.FollowingViewModel
 import org.futo.circles.feature.groups.GroupsViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
+import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
 import org.futo.circles.feature.people.PeopleViewModel
 import org.futo.circles.feature.people.user.UserViewModel
 import org.futo.circles.feature.photos.PhotosViewModel
@@ -91,5 +93,9 @@ val uiModule = module {
     }
     viewModel { (userId: String) ->
         UserViewModel(get { parametersOf(userId) })
+    }
+    viewModel { SystemNoticesCountSharedViewModel() }
+    viewModel { (roomId: String, type: CircleRoomTypeArg) ->
+        SystemNoticesTimelineViewModel(get { parametersOf(roomId, type) })
     }
 }

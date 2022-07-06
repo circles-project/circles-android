@@ -22,6 +22,22 @@
         <action
             android:id="@+id/to_activeSessionsDialogFragment"
             app:destination="@id/activeSessionsDialogFragment" />
+        <action
+            android:id="@+id/to_systemNoticesDialogFragment"
+            app:destination="@id/systemNoticesDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Group"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
     <dialog
@@ -64,6 +80,22 @@
         <argument
             android:name="deviceId"
             app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/systemNoticesDialogFragment"
+        android:name="org.futo.circles.feature.notices.SystemNoticesDialogFragment"
+        tools:layout="@layout/system_notices_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
 
     </dialog>
