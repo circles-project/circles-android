@@ -26,7 +26,6 @@ import org.futo.circles.feature.room.update_room.UpdateRoomDataSource
 import org.futo.circles.feature.settings.SettingsDataSource
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsDataSource
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
-import org.futo.circles.feature.settings.deactivate.DeactivateAccountDataSource
 import org.futo.circles.feature.sign_up.SignUpDataSource
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesDataSource
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource
@@ -69,7 +68,7 @@ val dataSourceModule = module {
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
-    factory { SettingsDataSource(get()) }
+    factory { SettingsDataSource(get(), get()) }
     factory { CreatePassPhraseDataSource(get()) }
     factory { RestorePassPhraseDataSource(get()) }
     factory { (levelValue: Int, myUserLevelValue: Int) ->
@@ -84,7 +83,6 @@ val dataSourceModule = module {
     factory { PhotosDataSource() }
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
     factory { ChangePasswordDataSource() }
-    factory { DeactivateAccountDataSource(get(), get()) }
     factory { ActiveSessionsDataSource(get(), get()) }
     factory { AuthConfirmationProvider() }
     factory { (roomId: String, eventId: String) -> GalleryImageDataSource(roomId, eventId) }
