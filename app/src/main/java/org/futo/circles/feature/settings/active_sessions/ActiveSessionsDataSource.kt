@@ -2,19 +2,26 @@ package org.futo.circles.feature.settings.active_sessions
 
 import android.content.Context
 import androidx.lifecycle.asFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import org.futo.circles.R
 import org.futo.circles.core.ExpandableItemsDataSource
+import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
+import org.futo.circles.extensions.Response
+import org.futo.circles.extensions.createResult
 import org.futo.circles.model.ActiveSession
 import org.futo.circles.model.ActiveSessionListItem
 import org.futo.circles.model.SessionHeader
 import org.futo.circles.provider.MatrixSessionProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import org.matrix.android.sdk.api.session.crypto.crosssigning.DeviceTrustLevel
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
+import org.matrix.android.sdk.api.util.awaitCallback
 
-class ActiveSessionsDataSource(private val context: Context) : ExpandableItemsDataSource {
+class ActiveSessionsDataSource(
+    private val context: Context,
+    private val authConfirmationProvider: AuthConfirmationProvider
+) : ExpandableItemsDataSource {
 
     private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
         context.getString(R.string.session_is_not_created)
@@ -66,5 +73,12 @@ class ActiveSessionsDataSource(private val context: Context) : ExpandableItemsDa
             session.myUserId,
             deviceId
         )
+    }
+
+    suspend fun removeSession(deviceId: String, password: String): Response<Unit> = createResult {
+        awaitCallback {
+            session.cryptoService()
+                .deleteDevice(deviceId, authConfirmationProvider.getAuthInterceptor(password), it)
+        }
     }
 }
