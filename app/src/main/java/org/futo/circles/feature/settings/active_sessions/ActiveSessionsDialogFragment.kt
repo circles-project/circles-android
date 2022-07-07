@@ -35,6 +35,10 @@ class ActiveSessionsDialogFragment :
                 viewModel.verifySession(deviceId)
             }
 
+            override fun onEnableCrossSigningClicked() {
+                showEnableCrossSigningDialog()
+            }
+
             override fun onRemoveSessionClicked(deviceId: String) {
                 showRemoveSessionDialog(deviceId)
             }
@@ -68,6 +72,13 @@ class ActiveSessionsDialogFragment :
                 showError(getString(R.string.invalid_auth))
             }
         )
+        viewModel.enableCrossSigningLiveData.observeResponse(this,
+            success = { confirmAuthDialog?.dismiss() },
+            error = {
+                confirmAuthDialog?.clearInput()
+                showError(getString(R.string.invalid_auth))
+            }
+        )
     }
 
     private fun showRemoveSessionDialog(deviceId: String) {
@@ -75,6 +86,17 @@ class ActiveSessionsDialogFragment :
             context = requireContext(),
             message = getString(R.string.remove_session_message_format, deviceId),
             onConfirmed = { password -> viewModel.removeSession(deviceId, password) }
+        ).apply {
+            show()
+            setOnDismissListener { confirmAuthDialog = null }
+        }
+    }
+
+    private fun showEnableCrossSigningDialog() {
+        confirmAuthDialog = ConfirmAuthDialog(
+            context = requireContext(),
+            message = getString(R.string.enable_cross_signing_message),
+            onConfirmed = { password -> viewModel.enableCrossSigning(password) }
         ).apply {
             show()
             setOnDismissListener { confirmAuthDialog = null }

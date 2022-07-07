@@ -29,6 +29,9 @@ class ActiveSessionInfoView(
         binding.btnVerify.setOnClickListener {
             deviceId?.let { activeSessionClickListener?.onVerifySessionClicked(it) }
         }
+        binding.btnEnableCrossSigning.setOnClickListener {
+            activeSessionClickListener?.onEnableCrossSigningClicked()
+        }
     }
 
     fun setData(
@@ -38,14 +41,15 @@ class ActiveSessionInfoView(
         deviceId = activeSession.id
         activeSessionClickListener = listener
         with(binding) {
+            val isCrossSigningVerified =
+                activeSession.cryptoDeviceInfo.trustLevel?.isCrossSigningVerified() == true
+
             tvFingerprint.text = activeSession.cryptoDeviceInfo.fingerprint() ?: ""
             tvPublicKey.text = activeSession.cryptoDeviceInfo.identityKey() ?: ""
             btnVerify.setIsVisible(!activeSession.cryptoDeviceInfo.isVerified && !activeSession.isCurrentSession())
             btnRemove.setIsVisible(!activeSession.isCurrentSession())
-            setIsCheckedView(
-                ivCrossSigning,
-                activeSession.cryptoDeviceInfo.trustLevel?.isCrossSigningVerified() == true
-            )
+            btnEnableCrossSigning.setIsVisible(activeSession.isCurrentSession() && !isCrossSigningVerified)
+            setIsCheckedView(ivCrossSigning, isCrossSigningVerified)
             setIsCheckedView(
                 ivLocalVerification,
                 activeSession.cryptoDeviceInfo.trustLevel?.isLocallyVerified() == true

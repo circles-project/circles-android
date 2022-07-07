@@ -81,4 +81,11 @@ class ActiveSessionsDataSource(
                 .deleteDevice(deviceId, authConfirmationProvider.getAuthInterceptor(password), it)
         }
     }
+
+    suspend fun enableCrossSigning(password: String): Response<Unit> = createResult {
+        awaitCallback {
+            session.cryptoService().crossSigningService()
+                .initializeCrossSigning(authConfirmationProvider.getAuthInterceptor(password), it)
+        }
+    }
 }
