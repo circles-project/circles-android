@@ -21,7 +21,6 @@ import org.futo.circles.feature.room.select_users.SelectUsersViewModel
 import org.futo.circles.feature.room.update_room.UpdateRoomViewModel
 import org.futo.circles.feature.settings.SettingsViewModel
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
-import org.futo.circles.feature.settings.active_sessions.remove_session.RemoveSessionViewModel
 import org.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import org.futo.circles.feature.settings.deactivate.DeactivateAccountViewModel
 import org.futo.circles.feature.settings.edit_profile.EditProfileViewModel
@@ -79,7 +78,6 @@ val uiModule = module {
     viewModel { ChangePasswordViewModel(get(), get(), get()) }
     viewModel { DeactivateAccountViewModel(get()) }
     viewModel { ActiveSessionsViewModel(get()) }
-    viewModel { (deviceId: String) -> RemoveSessionViewModel(get { parametersOf(deviceId) }) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         GalleryViewModel(
             roomId, get { parametersOf(roomId, type) }, get { parametersOf(roomId) }, get()
