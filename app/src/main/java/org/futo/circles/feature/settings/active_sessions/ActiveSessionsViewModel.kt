@@ -13,13 +13,17 @@ class ActiveSessionsViewModel(
     val activeSessionsLiveData = dataSource.getActiveSessionsFlow().asLiveData()
     val removeSessionLiveData = SingleEventLiveData<Response<Unit?>>()
     val enableCrossSigningLiveData = SingleEventLiveData<Response<Unit?>>()
+    val verifySessionLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun onSessionClicked(deviceId: String) {
         dataSource.toggleOptionsVisibilityFor(deviceId)
     }
 
     fun verifySession(deviceId: String) {
-        dataSource.verifyDevice(deviceId)
+        launchBg {
+            val verifyResult = dataSource.verifyDevice(deviceId)
+            verifySessionLiveData.postValue(verifyResult)
+        }
     }
 
     fun removeSession(deviceId: String, password: String) {

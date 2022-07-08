@@ -79,6 +79,7 @@ class ActiveSessionsDialogFragment :
                 showError(getString(R.string.invalid_auth))
             }
         )
+        viewModel.verifySessionLiveData.observeResponse(this)
     }
 
     private fun showRemoveSessionDialog(deviceId: String) {
