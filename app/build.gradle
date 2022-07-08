@@ -24,12 +24,12 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            resValue "string", "app_name", "Circu.li Stage"
+            resValue "string", "app_name", "Circuli Stage"
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            resValue "string", "app_name", "Circu.li"
+            resValue "string", "app_name", "Circuli"
         }
     }
     compileOptions {
