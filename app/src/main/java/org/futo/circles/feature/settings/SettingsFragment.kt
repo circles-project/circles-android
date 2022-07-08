@@ -14,6 +14,7 @@ import org.futo.circles.databinding.SettingsFragmentBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.BottomNavigationFragmentDirections
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
+import org.futo.circles.feature.settings.confirm_auth.ConfirmAuthDialog
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,6 +24,7 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
     private val viewModel by viewModel<SettingsViewModel>()
     private val systemNoticesCountViewModel by sharedViewModel<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
+    private var confirmAuthDialog: ConfirmAuthDialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +37,7 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
             tvLogout.setOnClickListener { showLogoutDialog() }
             tvEditProfile.setOnClickListener { navigateToProfile() }
             tvChangePassword.setOnClickListener { navigateToChangePassword() }
-            tvDeactivate.setOnClickListener { navigateToDeactivateAccount() }
+            tvDeactivate.setOnClickListener { showDeactivateAccountDialog() }
             tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigateToSystemNotices() }
         }
@@ -51,14 +53,20 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
         viewModel.loadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
+        viewModel.deactivateLiveData.observeResponse(this,
+            success = {
+                confirmAuthDialog?.dismiss()
+                navigateToLogin()
+            },
+            error = {
+                confirmAuthDialog?.clearInput()
+                showError(getString(R.string.invalid_auth))
+            }
+        )
         systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
             val count = it ?: 0
             handleSystemNoticesCount(count)
         }
-    }
-
-    private fun navigateToDeactivateAccount() {
-        findNavController().navigate(SettingsFragmentDirections.toDeactivateAccountDialogFragment())
     }
 
     private fun navigateToChangePassword() {
@@ -108,6 +116,17 @@ class SettingsFragment : Fragment(R.layout.settings_fragment) {
             positiveButtonRes = R.string.log_out,
             negativeButtonVisible = true,
             positiveAction = { viewModel.logOut() })
+    }
+
+    private fun showDeactivateAccountDialog() {
+        confirmAuthDialog = ConfirmAuthDialog(
+            context = requireContext(),
+            message = getString(R.string.deactivate_message),
+            onConfirmed = { password -> viewModel.deactivateAccount(password) }
+        ).apply {
+            show()
+            setOnDismissListener { confirmAuthDialog = null }
+        }
     }
 
 }

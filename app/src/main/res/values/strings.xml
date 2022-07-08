@@ -233,6 +233,10 @@
     <string name="passphrase">Passphrase</string>
     <string name="notifications">Notifications</string>
     <string name="system_notices">System notices</string>
+    <string name="confirm_auth">Confirm auth</string>
+    <string name="confirm">Confirm</string>
+    <string name="enable_cross_signing">Enable Cross Signing</string>
+    <string name="enable_cross_signing_message">Confirm auth to enable cross signing</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

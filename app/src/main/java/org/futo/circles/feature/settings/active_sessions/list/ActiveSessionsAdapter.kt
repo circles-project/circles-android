@@ -9,6 +9,7 @@ import org.futo.circles.model.SessionHeader
 interface ActiveSessionClickListener {
     fun onItemClicked(deviceId: String)
     fun onVerifySessionClicked(deviceId: String)
+    fun onEnableCrossSigningClicked()
     fun onRemoveSessionClicked(deviceId: String)
 }
 

@@ -12,8 +12,16 @@ class SettingsViewModel(
     val profileLiveData = dataSource.profileLiveData
     val loadingLiveData = dataSource.loadingLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
+    val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun logOut() {
         launchBg { logOutLiveData.postValue(dataSource.logOut()) }
+    }
+
+    fun deactivateAccount(password: String) {
+        launchBg {
+            val deactivateResult = dataSource.deactivateAccount(password)
+            deactivateLiveData.postValue(deactivateResult)
+        }
     }
 }

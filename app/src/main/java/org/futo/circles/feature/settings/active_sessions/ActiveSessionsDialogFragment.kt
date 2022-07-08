@@ -2,13 +2,16 @@ package org.futo.circles.feature.settings.active_sessions
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.ActiveSessionsDialogFragmentBinding
 import org.futo.circles.extensions.observeData
+import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.showError
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionsAdapter
+import org.futo.circles.feature.settings.confirm_auth.ConfirmAuthDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ActiveSessionsDialogFragment :
@@ -20,6 +23,8 @@ class ActiveSessionsDialogFragment :
         getBinding() as ActiveSessionsDialogFragmentBinding
     }
 
+    private var confirmAuthDialog: ConfirmAuthDialog? = null
+
     private val sessionsListAdapter by lazy {
         ActiveSessionsAdapter(object : ActiveSessionClickListener {
             override fun onItemClicked(deviceId: String) {
@@ -30,10 +35,12 @@ class ActiveSessionsDialogFragment :
                 viewModel.verifySession(deviceId)
             }
 
+            override fun onEnableCrossSigningClicked() {
+                showEnableCrossSigningDialog()
+            }
+
             override fun onRemoveSessionClicked(deviceId: String) {
-                findNavController().navigate(
-                    ActiveSessionsDialogFragmentDirections.toRemoveSessionDialogFragment(deviceId)
-                )
+                showRemoveSessionDialog(deviceId)
             }
         })
     }
@@ -57,6 +64,43 @@ class ActiveSessionsDialogFragment :
     private fun setupObservers() {
         viewModel.activeSessionsLiveData.observeData(this) {
             sessionsListAdapter.submitList(it)
+        }
+        viewModel.removeSessionLiveData.observeResponse(this,
+            success = { confirmAuthDialog?.dismiss() },
+            error = {
+                confirmAuthDialog?.clearInput()
+                showError(getString(R.string.invalid_auth))
+            }
+        )
+        viewModel.enableCrossSigningLiveData.observeResponse(this,
+            success = { confirmAuthDialog?.dismiss() },
+            error = {
+                confirmAuthDialog?.clearInput()
+                showError(getString(R.string.invalid_auth))
+            }
+        )
+        viewModel.verifySessionLiveData.observeResponse(this)
+    }
+
+    private fun showRemoveSessionDialog(deviceId: String) {
+        confirmAuthDialog = ConfirmAuthDialog(
+            context = requireContext(),
+            message = getString(R.string.remove_session_message_format, deviceId),
+            onConfirmed = { password -> viewModel.removeSession(deviceId, password) }
+        ).apply {
+            show()
+            setOnDismissListener { confirmAuthDialog = null }
+        }
+    }
+
+    private fun showEnableCrossSigningDialog() {
+        confirmAuthDialog = ConfirmAuthDialog(
+            context = requireContext(),
+            message = getString(R.string.enable_cross_signing_message),
+            onConfirmed = { password -> viewModel.enableCrossSigning(password) }
+        ).apply {
+            show()
+            setOnDismissListener { confirmAuthDialog = null }
         }
     }
 }

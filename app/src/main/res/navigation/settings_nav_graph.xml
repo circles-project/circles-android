@@ -17,9 +17,6 @@
             android:id="@+id/to_changePasswordDialogFragment"
             app:destination="@id/changePasswordDialogFragment" />
         <action
-            android:id="@+id/to_deactivateAccountDialogFragment"
-            app:destination="@id/deactivateAccountDialogFragment" />
-        <action
             android:id="@+id/to_activeSessionsDialogFragment"
             app:destination="@id/activeSessionsDialogFragment" />
         <action
@@ -51,38 +48,10 @@
         android:label="ChangePasswordDialogFragment"
         tools:layout="@layout/change_password_dialog_fragment" />
     <dialog
-        android:id="@+id/deactivateAccountDialogFragment"
-        android:name="org.futo.circles.feature.settings.deactivate.DeactivateAccountDialogFragment"
-        android:label="DeactivateAccountDialogFragment"
-        tools:layout="@layout/deactivate_account_dialog_fragment" />
-    <dialog
         android:id="@+id/activeSessionsDialogFragment"
         android:name="org.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragment"
         android:label="ActiveSessionsDialogFragment"
-        tools:layout="@layout/active_sessions_dialog_fragment">
-        <action
-            android:id="@+id/to_removeSessionDialogFragment"
-            app:destination="@id/removeSessionDialogFragment">
-
-            <argument
-                android:name="deviceId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
-    </dialog>
-    <dialog
-        android:id="@+id/removeSessionDialogFragment"
-        android:name="org.futo.circles.feature.settings.active_sessions.remove_session.RemoveSessionDialogFragment"
-        android:label="RemoveSessionDialogFragment"
-        tools:layout="@layout/remove_session_dialog_fragment">
-
-        <argument
-            android:name="deviceId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
+        tools:layout="@layout/active_sessions_dialog_fragment" />
     <dialog
         android:id="@+id/systemNoticesDialogFragment"
         android:name="org.futo.circles.feature.notices.SystemNoticesDialogFragment"
