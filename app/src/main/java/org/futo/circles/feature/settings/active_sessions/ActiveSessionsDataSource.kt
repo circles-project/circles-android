@@ -67,12 +67,13 @@ class ActiveSessionsDataSource(
         return sessionsList
     }
 
-    fun verifyDevice(deviceId: String) {
-        session.cryptoService().setDeviceVerification(
-            DeviceTrustLevel(crossSigningVerified = false, locallyVerified = true),
-            session.myUserId,
-            deviceId
-        )
+    suspend fun verifyDevice(deviceId: String): Response<Unit> {
+        var response: Response<Unit>? = null
+        if (session.cryptoService().getMyDevice().trustLevel?.isCrossSigningVerified() == true) {
+            response = verifyCrossSigning(deviceId)
+        }
+        verifyLocally(deviceId)
+        return response ?: Response.Success(Unit)
     }
 
     suspend fun removeSession(deviceId: String, password: String): Response<Unit> = createResult {
@@ -87,5 +88,19 @@ class ActiveSessionsDataSource(
             session.cryptoService().crossSigningService()
                 .initializeCrossSigning(authConfirmationProvider.getAuthInterceptor(password), it)
         }
+    }
+
+    private suspend fun verifyCrossSigning(deviceId: String): Response<Unit> = createResult {
+        awaitCallback {
+            session.cryptoService().crossSigningService().trustDevice(deviceId, it)
+        }
+    }
+
+    private fun verifyLocally(deviceId: String) {
+        session.cryptoService().setDeviceVerification(
+            DeviceTrustLevel(crossSigningVerified = false, locallyVerified = true),
+            session.myUserId,
+            deviceId
+        )
     }
 }
