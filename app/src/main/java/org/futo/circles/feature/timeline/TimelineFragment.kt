@@ -1,7 +1,6 @@
 package org.futo.circles.feature.timeline
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -22,6 +21,7 @@ import org.futo.circles.feature.timeline.post.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.share.ShareProvider
 import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.ImageContent
 import org.futo.circles.model.PostContent
 import org.futo.circles.view.PostOptionsListener
@@ -208,12 +208,12 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
         else viewModel.sendReaction(roomId, eventId, emoji)
     }
 
-    override fun onSendTextPost(roomId: String, message: String, threadEventId: String?) {
-        viewModel.sendTextPost(roomId, message, threadEventId)
-    }
-
-    override fun onSendImagePost(roomId: String, uri: Uri, threadEventId: String?) {
-        viewModel.sendImagePost(roomId, uri, threadEventId)
+    override fun onSendPost(
+        roomId: String,
+        postContent: CreatePostContent,
+        threadEventId: String?
+    ) {
+        viewModel.sendPost(roomId, postContent, threadEventId)
     }
 
     override fun onEmojiSelected(roomId: String, eventId: String, emoji: String) {

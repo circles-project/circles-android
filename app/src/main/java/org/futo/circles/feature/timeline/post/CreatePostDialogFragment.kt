@@ -1,7 +1,6 @@
 package org.futo.circles.feature.timeline.post
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -10,13 +9,13 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.image_picker.ImagePickerHelper
 import org.futo.circles.databinding.CreatePostDialogFragmentBinding
+import org.futo.circles.model.CreatePostContent
 import org.futo.circles.view.PreviewPostListener
 import java.text.DateFormat
 import java.util.*
 
 interface CreatePostListener {
-    fun onSendTextPost(roomId: String, message: String, threadEventId: String?)
-    fun onSendImagePost(roomId: String, uri: Uri, threadEventId: String?)
+    fun onSendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?)
 }
 
 class CreatePostDialogFragment :
@@ -53,41 +52,22 @@ class CreatePostDialogFragment :
                 activity?.onBackPressed()
             }
             tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date())
+            ivMedia.setOnClickListener {
+                imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
+                    vPostPreview.setImage(uri)
+                })
+            }
             vPostPreview.setListener(object : PreviewPostListener {
-                override fun onTextChanged(text: String) {
-                    handleSendButtonEnabled()
-                }
-
-                override fun onPickImageClicked() {
-                    imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
-                        vPostPreview.setImage(uri)
-                        handleSendButtonEnabled()
-                    })
-                }
-
-                override fun onPostTypeChanged(isImagePost: Boolean) {
-                    handleSendButtonEnabled()
+                override fun onPostContentAvailable(isAvailable: Boolean) {
+                    binding.btnPost.isEnabled = isAvailable
                 }
             })
         }
     }
 
     private fun sendPost() {
-        if (binding.vPostPreview.isImageContentSelected()) {
-            binding.vPostPreview.getImageUri()
-                ?.let { createPostListener?.onSendImagePost(args.roomId, it, args.eventId) }
-        } else {
-            createPostListener?.onSendTextPost(
-                args.roomId,
-                binding.vPostPreview.getText(),
-                args.eventId
-            )
-        }
-    }
-
-    private fun handleSendButtonEnabled() {
-        binding.btnPost.isEnabled =
-            if (binding.vPostPreview.isImageContentSelected()) binding.vPostPreview.getImageUri() != null
-            else binding.vPostPreview.getText().isNotBlank()
+        createPostListener?.onSendPost(
+            args.roomId, binding.vPostPreview.getPostContent(), args.eventId
+        )
     }
 }
