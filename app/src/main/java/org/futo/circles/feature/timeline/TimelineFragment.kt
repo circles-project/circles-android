@@ -108,6 +108,7 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
     private fun setupViews() {
         binding.rvTimeline.apply {
             adapter = listAdapter
+            itemAnimator = null
             addItemDecoration(
                 BaseRvDecoration.OffsetDecoration<PostViewHolder>(offset = context.dimen(R.dimen.group_post_item_offset))
             )
