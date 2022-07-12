@@ -4,12 +4,15 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.image_picker.ImagePickerHelper
 import org.futo.circles.databinding.CreatePostDialogFragmentBinding
 import org.futo.circles.view.PreviewPostListener
+import java.text.DateFormat
+import java.util.*
 
 interface CreatePostListener {
     fun onSendTextPost(roomId: String, message: String, threadEventId: String?)
@@ -35,6 +38,7 @@ class CreatePostDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         setupViews()
     }
 
@@ -48,6 +52,7 @@ class CreatePostDialogFragment :
                 sendPost()
                 activity?.onBackPressed()
             }
+            tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date())
             vPostPreview.setListener(object : PreviewPostListener {
                 override fun onTextChanged(text: String) {
                     handleSendButtonEnabled()

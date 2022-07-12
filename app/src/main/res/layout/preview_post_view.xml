@@ -32,7 +32,7 @@
         android:id="@+id/postHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/ivText"
+        app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toTopOf="@id/guidelineTop"
         app:optionsVisible="false" />
@@ -47,26 +47,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/postHeader">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilTextPost"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <EditText
+            android:id="@+id/etTextPost"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="top"
             android:hint="@string/enter_your_message_here"
-            android:paddingHorizontal="8dp"
-            app:layout_constraintDimensionRatio="w,1:1"
+            android:inputType="textMultiLine"
+            android:padding="12dp"
+            android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:padding="12dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/ivImageContent"
@@ -82,48 +75,5 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <org.futo.circles.view.GroupPostFooterView
-        android:id="@+id/postFooter"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/lvContent"
-        app:optionsVisible="false" />
-
-    <ImageView
-        android:id="@+id/ivText"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="4dp"
-        android:src="@drawable/ic_text"
-        app:layout_constraintBottom_toBottomOf="@id/postHeader"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/ivImage"
-        app:layout_constraintTop_toTopOf="@id/postHeader"
-        app:tint="@color/blue" />
-
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="4dp"
-        android:src="@drawable/ic_image"
-        app:layout_constraintBottom_toBottomOf="@id/ivText"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintTop_toTopOf="@id/ivText"
-        app:tint="@color/gray" />
 
 </merge>
