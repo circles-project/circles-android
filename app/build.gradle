@@ -81,9 +81,6 @@ dependencies {
     //TextDrawable
     implementation 'com.alvinhkh:TextDrawable:c1c2b5b'
 
-    //Image picker
-    implementation 'com.github.dhaval2404:imagepicker:2.1'
-
     //Retrofit
     def retrofit_version = '2.9.0'
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
