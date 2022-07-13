@@ -7,7 +7,7 @@ import android.view.WindowManager
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.image_picker.ImagePickerHelper
+import org.futo.circles.core.picker.ImagePickerHelper
 import org.futo.circles.databinding.CreatePostDialogFragmentBinding
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.view.PreviewPostListener

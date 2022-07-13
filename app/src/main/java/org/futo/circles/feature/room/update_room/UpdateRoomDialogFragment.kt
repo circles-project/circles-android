@@ -6,7 +6,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
-import org.futo.circles.core.image_picker.ImagePickerHelper
+import org.futo.circles.core.picker.ImagePickerHelper
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.UpdateRoomDialogFragmentBinding

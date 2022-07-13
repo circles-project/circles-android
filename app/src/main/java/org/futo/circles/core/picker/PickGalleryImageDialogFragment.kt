@@ -1,4 +1,4 @@
-package org.futo.circles.core.image_picker
+package org.futo.circles.core.picker
 
 import android.app.Dialog
 import android.net.Uri

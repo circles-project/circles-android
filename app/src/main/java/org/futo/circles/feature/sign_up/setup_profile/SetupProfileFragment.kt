@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.image_picker.ImagePickerHelper
+import org.futo.circles.core.picker.ImagePickerHelper
 import org.futo.circles.databinding.SetupProfileFragmentBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeData

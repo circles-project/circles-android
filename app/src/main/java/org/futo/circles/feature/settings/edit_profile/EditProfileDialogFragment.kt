@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import org.futo.circles.R
-import org.futo.circles.core.image_picker.ImagePickerHelper
+import org.futo.circles.core.picker.ImagePickerHelper
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.EditProfileDialogFragmentBinding

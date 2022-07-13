@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import org.futo.circles.core.image_picker.PickGalleryListener
+import org.futo.circles.core.picker.PickGalleryListener
 import org.futo.circles.core.rooms.RoomsFragment
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.RoomListItem

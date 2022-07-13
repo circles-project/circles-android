@@ -14,8 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.core.image_picker.ImagePickerHelper
-import org.futo.circles.core.image_picker.PickGalleryImageListener
+import org.futo.circles.core.picker.ImagePickerHelper
+import org.futo.circles.core.picker.PickGalleryImageListener
 import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.databinding.GalleryFragmentBinding
 import org.futo.circles.extensions.*
