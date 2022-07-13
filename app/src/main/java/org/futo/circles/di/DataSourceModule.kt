@@ -6,6 +6,7 @@ import org.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSou
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.core.matrix.room.RoomRelationsBuilder
+import org.futo.circles.core.picker.device.PickDeviceMediaDataSource
 import org.futo.circles.feature.circles.CirclesDataSource
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSource
 import org.futo.circles.feature.circles.following.FollowingDataSource
@@ -90,4 +91,5 @@ val dataSourceModule = module {
     factory { PeopleDataSource() }
     factory { UserOptionsDataSource() }
     factory { (userId: String) -> UserDataSource(get(), userId) }
+    factory { PickDeviceMediaDataSource(get()) }
 }
