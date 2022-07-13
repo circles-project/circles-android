@@ -48,8 +48,9 @@
     <string name="gallery_name">Gallery name</string>
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="group_topic">Group topic</string>
-    <string name="upload_image_from">Upload image from</string>
-    <string name="camera">Camera</string>
+    <string name="upload_media_from">Upload media from</string>
+    <string name="photo">Photo</string>
+    <string name="video">Video</string>
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
     <string name="unexpected_error">Something went wrong</string>

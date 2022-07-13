@@ -70,7 +70,7 @@ class PickGalleryImageDialogFragment :
 
     override fun onImageSelected(uri: Uri) {
         setFragmentResult(
-            ImagePickerHelper.pickImageRequestKey, bundleOf(ImagePickerHelper.uriKey to uri.toString())
+            MediaPickerHelper.pickImageRequestKey, bundleOf(MediaPickerHelper.uriKey to uri.toString())
         )
         dismiss()
     }

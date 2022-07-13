@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.core.picker.ImagePickerHelper
+import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.PickGalleryImageListener
 import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.databinding.GalleryFragmentBinding
@@ -32,7 +32,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         parametersOf(args.roomId, CircleRoomTypeArg.Photo)
     }
     private val binding by viewBinding(GalleryFragmentBinding::bind)
-    private val imagePickerHelper = ImagePickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this)
     private val listAdapter by lazy {
         GalleryImagesAdapter(
             onGalleryImageClicked = { postId -> navigateToImagePreview(postId) },
@@ -84,7 +84,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     }
 
     private fun showImagePicker() {
-        imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
+        mediaPickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
             viewModel.uploadImage(uri)
         })
     }

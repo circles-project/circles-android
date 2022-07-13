@@ -23,7 +23,7 @@
                 android:gravity="center"
                 android:lines="1"
                 android:paddingVertical="8dp"
-                android:text="@string/upload_image_from"
+                android:text="@string/upload_media_from"
                 app:layout_constraintEnd_toStartOf="@id/btnClose"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +51,7 @@
 
 
             <TextView
-                android:id="@+id/tvCamera"
+                android:id="@+id/tvPhoto"
                 style="@style/headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -61,12 +61,29 @@
                 android:drawablePadding="16dp"
                 android:focusable="true"
                 android:padding="16dp"
-                android:text="@string/camera"
+                android:text="@string/photo"
                 app:drawableLeftCompat="@drawable/ic_photo"
                 app:drawableTint="@color/inactive_menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleDivider" />
+
+            <TextView
+                android:id="@+id/tvVideo"
+                style="@style/headline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:drawablePadding="16dp"
+                android:focusable="true"
+                android:padding="16dp"
+                android:text="@string/video"
+                app:drawableLeftCompat="@drawable/ic_video"
+                app:drawableTint="@color/inactive_menu_icon_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPhoto" />
 
             <TextView
                 android:id="@+id/tvGallery"
@@ -83,7 +100,7 @@
                 app:drawableTint="@color/inactive_menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvCamera" />
+                app:layout_constraintTop_toBottomOf="@id/tvVideo" />
 
             <TextView
                 android:id="@+id/tvDevice"

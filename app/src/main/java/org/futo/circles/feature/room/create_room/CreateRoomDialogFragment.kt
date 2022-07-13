@@ -8,7 +8,7 @@ import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.picker.ImagePickerHelper
+import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.CreateRoomDialogFragmentBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeData
@@ -23,7 +23,7 @@ class CreateRoomDialogFragment :
 
     override val fragment: Fragment = this
     private val viewModel by viewModel<CreateRoomViewModel>()
-    private val imagePickerHelper = ImagePickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this)
     private val args: CreateRoomDialogFragmentArgs by navArgs()
 
     private val binding by lazy {
@@ -47,7 +47,7 @@ class CreateRoomDialogFragment :
             tvNameHeader.text = getCreateHeader()
             topicViewGroup.setIsVisible(args.type == CircleRoomTypeArg.Group)
             ivCover.setOnClickListener {
-                imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
+                mediaPickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
                     viewModel.setImageUri(uri)
                 })
             }

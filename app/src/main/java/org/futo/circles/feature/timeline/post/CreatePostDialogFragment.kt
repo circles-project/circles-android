@@ -7,7 +7,7 @@ import android.view.WindowManager
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.picker.ImagePickerHelper
+import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.CreatePostDialogFragmentBinding
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.view.PreviewPostListener
@@ -26,7 +26,7 @@ class CreatePostDialogFragment :
         getBinding() as CreatePostDialogFragmentBinding
     }
 
-    private val imagePickerHelper = ImagePickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this)
     private var createPostListener: CreatePostListener? = null
 
     override fun onAttach(context: Context) {
@@ -53,7 +53,7 @@ class CreatePostDialogFragment :
             }
             tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date())
             ivMedia.setOnClickListener {
-                imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
+                mediaPickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
                     vPostPreview.setImage(uri)
                 })
             }

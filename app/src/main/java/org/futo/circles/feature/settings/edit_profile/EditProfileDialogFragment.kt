@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import org.futo.circles.R
-import org.futo.circles.core.picker.ImagePickerHelper
+import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.EditProfileDialogFragmentBinding
@@ -19,7 +19,7 @@ class EditProfileDialogFragment :
 
     override val fragment: Fragment = this
     private val viewModel by viewModel<EditProfileViewModel>()
-    private val imagePickerHelper = ImagePickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this)
 
     private val binding by lazy {
         getBinding() as EditProfileDialogFragmentBinding
@@ -70,7 +70,7 @@ class EditProfileDialogFragment :
     }
 
     private fun showImagePicker() {
-        imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
+        mediaPickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
             viewModel.setImageUri(uri)
         })
     }
