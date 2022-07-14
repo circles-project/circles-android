@@ -79,8 +79,8 @@ class PickDeviceMediaDataSource(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             contentResolver.loadThumbnail(
                 getContentUriById(id), Size(
-                    250,
-                    250
+                    THUMBNAIL_SIZE,
+                    THUMBNAIL_SIZE
                 ), null
             )
         } else {
@@ -125,5 +125,9 @@ class PickDeviceMediaDataSource(
         )
     } catch (exception: Exception) {
         null
+    }
+
+    companion object{
+        private const val THUMBNAIL_SIZE = 500
     }
 }
