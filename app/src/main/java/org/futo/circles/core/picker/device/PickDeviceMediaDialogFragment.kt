@@ -31,6 +31,7 @@ class PickDeviceMediaDialogFragment :
     }
 
     private fun setupViews() {
+        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         binding.rvMedia.apply {
             adapter = listAdapter
             addItemDecoration(BaseRvDecoration.OffsetDecoration<DeviceMediaViewHolder>(2))
