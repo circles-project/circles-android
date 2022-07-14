@@ -14,9 +14,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.PickGalleryImageListener
-import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.databinding.GalleryFragmentBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.list.GalleryImageViewHolder
@@ -84,7 +84,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     }
 
     private fun showImagePicker() {
-        mediaPickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
+        mediaPickerHelper.showMediaPickerDialog(onMediaSelected = { _, uri, _ ->
             viewModel.uploadImage(uri)
         })
     }

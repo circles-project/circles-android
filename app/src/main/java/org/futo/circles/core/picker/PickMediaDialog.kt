@@ -17,7 +17,7 @@ interface PickMediaDialogListener {
 class PickMediaDialog(
     context: Context,
     private val listener: PickMediaDialogListener,
-    private val allMediaTypeAvailable: Boolean = false
+    private val allMediaTypeAvailable: Boolean
 ) :
     AppCompatDialog(context) {
 

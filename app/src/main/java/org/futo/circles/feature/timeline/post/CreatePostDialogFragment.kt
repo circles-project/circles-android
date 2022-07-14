@@ -26,7 +26,7 @@ class CreatePostDialogFragment :
         getBinding() as CreatePostDialogFragmentBinding
     }
 
-    private val mediaPickerHelper = MediaPickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this, true)
     private var createPostListener: CreatePostListener? = null
 
     override fun onAttach(context: Context) {
@@ -53,7 +53,7 @@ class CreatePostDialogFragment :
             }
             tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date())
             ivMedia.setOnClickListener {
-                mediaPickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
+                mediaPickerHelper.showMediaPickerDialog(onMediaSelected = { _, uri, _ ->
                     vPostPreview.setImage(uri)
                 })
             }
