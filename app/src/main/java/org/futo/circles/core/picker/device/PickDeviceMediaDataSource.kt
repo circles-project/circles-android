@@ -4,75 +4,107 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
+import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import android.util.Size
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.extensions.onBG
-import org.futo.circles.model.DeviceVideo
+import org.futo.circles.model.DeviceImageListItem
+import org.futo.circles.model.DeviceMediaListItem
 import org.futo.circles.model.DeviceVideoListItem
-import java.util.concurrent.TimeUnit
 
 class PickDeviceMediaDataSource(
     private val context: Context
 ) {
 
-    val mediaLiveData = MutableLiveData<List<DeviceVideoListItem>>()
+    val mediaLiveData = MutableLiveData<List<DeviceMediaListItem>>()
 
     suspend fun fetchMedia() {
-        val videos = loadDeviceVideos()
-        mediaLiveData.postValue(videos)
-        val videosWithDurations = fetchVideosDuration(videos)
-        mediaLiveData.postValue(videosWithDurations)
+        loadDeviceMedia()
+        addVideosDuration()
     }
 
-    private suspend fun loadDeviceVideos() = onBG {
-        val list = mutableListOf<DeviceVideoListItem>()
-        try {
-            val videoQueryUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-            val videoProjection = arrayOf(MediaStore.Video.Media._ID)
-            val videoSortOrder = "${MediaStore.Video.Media.DATE_TAKEN} DESC"
-
-            val cursor = context.contentResolver.query(
-                videoQueryUri,
-                videoProjection,
-                null,
-                null,
-                videoSortOrder
-            )
-
-            if (cursor != null && cursor.count > 0) {
-                if (cursor.moveToFirst()) {
-                    do {
-                        val id = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media._ID))
-                        val contentUri = getContentUriById(id)
-                        val video = DeviceVideo(id, contentUri, 0L)
-                        video.toDeviceVideoListItem()?.let { list.add(it) }
-                    } while (cursor.moveToNext())
-                }
-                cursor.close()
-            }
-        } catch (ignore: Exception) {
-        }
-        list
-    }
-
-    private suspend fun fetchVideosDuration(
-        videos: List<DeviceVideoListItem>
-    ) = onBG {
-        val list = mutableListOf<DeviceVideoListItem>()
-        videos.forEach {
-            val duration = getMediaDuration(it.contentUri)
-            list.add(
-                it.copy(
-                    duration = duration,
-                    durationString = getVideoDurationString(duration)
+    private suspend fun loadDeviceMedia() {
+        onBG {
+            val list = mutableListOf<DeviceMediaListItem>()
+            try {
+                val queryUri = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL)
+                val projection = arrayOf(
+                    MediaStore.Files.FileColumns._ID,
+                    MediaStore.Files.FileColumns.DATA,
+                    MediaStore.Files.FileColumns.MEDIA_TYPE
                 )
-            )
+                val selection = (MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+                        + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
+                        + " OR "
+                        + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+                        + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)
+                val sortOrder = "${MediaStore.Video.Media.DATE_TAKEN} DESC"
+
+                val cursor = context.contentResolver.query(
+                    queryUri,
+                    projection,
+                    selection,
+                    null,
+                    sortOrder
+                )
+
+                if (cursor != null && cursor.count > 0) {
+                    if (cursor.moveToFirst()) {
+                        do {
+                            val id =
+                                cursor.getLong(cursor.getColumnIndex(MediaStore.Files.FileColumns._ID))
+                            val mediaType =
+                                cursor.getInt(cursor.getColumnIndex(MediaStore.Files.FileColumns.MEDIA_TYPE))
+                            val contentUri = getContentUriById(id)
+
+                            val item =
+                                if (mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
+                                    DeviceVideoListItem(
+                                        id,
+                                        0L,
+                                        contentUri,
+                                        getVideoThumbnail(context.contentResolver, id)
+                                    )
+                                } else {
+                                    DeviceImageListItem(
+                                        id,
+                                        contentUri
+                                    )
+                                }
+                            list.add(item)
+                        } while (cursor.moveToNext())
+                    }
+                    cursor.close()
+                }
+            } catch (e: Exception) {
+                Log.d("MyLog",e.toString())
+            }
+            mediaLiveData.postValue(list)
         }
-        list
+    }
+
+    private suspend fun addVideosDuration() {
+        onBG {
+            val newList = mutableListOf<DeviceMediaListItem>()
+            val list = mediaLiveData.value?.toMutableList() ?: mutableListOf()
+            list.forEach {
+                val item = when (it) {
+                    is DeviceImageListItem -> it
+                    is DeviceVideoListItem -> {
+                        val duration = getMediaDuration(it.contentUri)
+                        it.copy(duration = duration)
+                    }
+                }
+                newList.add(item)
+            }
+            mediaLiveData.postValue(newList)
+        }
     }
 
     private fun getVideoThumbnail(contentResolver: ContentResolver, id: Long): Bitmap =
@@ -93,7 +125,7 @@ class PickDeviceMediaDataSource(
         }
 
     private fun getContentUriById(id: Long): Uri = ContentUris.withAppendedId(
-        MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+        MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL),
         id
     )
 
@@ -106,28 +138,7 @@ class PickDeviceMediaDataSource(
         return duration?.toLongOrNull() ?: 0
     }
 
-    private fun getVideoDurationString(duration: Long, includeHoursZeros: Boolean = false): String {
-        val hours: Long = TimeUnit.MILLISECONDS.toHours(duration)
-        val minutes: Long = TimeUnit.MILLISECONDS.toMinutes(duration) % 60
-        val seconds: Long = TimeUnit.MILLISECONDS.toSeconds(duration) % 60
-
-        return if (hours == 0L && !includeHoursZeros) String.format("%02d:%02d", minutes, seconds)
-        else String.format("%02d:%02d:%02d", hours, minutes, seconds)
-    }
-
-    private fun DeviceVideo.toDeviceVideoListItem(): DeviceVideoListItem? = try {
-        DeviceVideoListItem(
-            id,
-            duration,
-            if (duration == 0L) "" else getVideoDurationString(duration),
-            getVideoThumbnail(context.contentResolver, id),
-            contentUri
-        )
-    } catch (exception: Exception) {
-        null
-    }
-
-    companion object{
-        private const val THUMBNAIL_SIZE = 500
+    companion object {
+        const val THUMBNAIL_SIZE = 250
     }
 }
