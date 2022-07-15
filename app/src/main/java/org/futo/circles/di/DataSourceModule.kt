@@ -91,5 +91,5 @@ val dataSourceModule = module {
     factory { PeopleDataSource() }
     factory { UserOptionsDataSource() }
     factory { (userId: String) -> UserDataSource(get(), userId) }
-    factory { (isVideoAvailable: Boolean) -> PickDeviceMediaDataSource(isVideoAvailable, get()) }
+    single { PickDeviceMediaDataSource(get()) }
 }

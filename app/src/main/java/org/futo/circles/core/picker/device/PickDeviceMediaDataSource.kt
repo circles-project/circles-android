@@ -8,20 +8,22 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import android.util.Size
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import org.futo.circles.extensions.onBG
 import org.futo.circles.model.DeviceImageListItem
 import org.futo.circles.model.DeviceMediaListItem
 import org.futo.circles.model.DeviceVideoListItem
 
 class PickDeviceMediaDataSource(
-    private val isVideoAvailable: Boolean,
     private val context: Context
 ) {
 
-    val mediaLiveData = MutableLiveData<List<DeviceMediaListItem>>()
+    private val mediaLiveData = MutableLiveData<List<DeviceMediaListItem>>()
+
+    fun getMediaLiveData(isVideoAvailable: Boolean) =
+        mediaLiveData.map { if (isVideoAvailable) it else it.filterIsInstance<DeviceImageListItem>() }
 
     suspend fun fetchMedia() {
         loadDeviceMedia()
@@ -64,28 +66,26 @@ class PickDeviceMediaDataSource(
 
                             val item =
                                 if (mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
-                                    if (isVideoAvailable) {
-                                        DeviceVideoListItem(
-                                            id,
-                                            0L,
-                                            contentUri,
-                                            getVideoThumbnail(context.contentResolver, id)
-                                        )
-                                    } else null
+                                    DeviceVideoListItem(
+                                        id,
+                                        0L,
+                                        contentUri,
+                                        getVideoThumbnail(context.contentResolver, id)
+                                    )
                                 } else {
                                     DeviceImageListItem(
                                         id,
                                         contentUri
                                     )
                                 }
-                            item?.let { list.add(it) }
+                            list.add(item)
                         } while (cursor.moveToNext())
                     }
                     cursor.close()
                 }
-            } catch (e: Exception) {
-                Log.d("MyLog", e.toString())
+            } catch (ignore: Exception) {
             }
+
             mediaLiveData.postValue(list)
         }
     }
