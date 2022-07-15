@@ -28,7 +28,7 @@ class DeviceImageViewHolder(
     private val binding = baseBinding as GalleryImageListItemBinding
 
     init {
-        onClick(itemView) { position -> onMediaClicked(position) }
+        onClick(binding.ivGalleryImage) { position -> onMediaClicked(position) }
     }
 
     override fun bind(data: DeviceMediaListItem) {
