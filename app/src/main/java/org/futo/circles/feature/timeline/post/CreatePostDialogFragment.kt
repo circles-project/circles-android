@@ -53,9 +53,10 @@ class CreatePostDialogFragment :
             }
             tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date())
             ivMedia.setOnClickListener {
-                mediaPickerHelper.showMediaPickerDialog(onMediaSelected = { _, uri, _ ->
-                    vPostPreview.setImage(uri)
-                })
+                mediaPickerHelper.showMediaPickerDialog(
+                    onImageSelected = { _, uri -> vPostPreview.setImage(uri) },
+                    onVideoSelected = {}
+                )
             }
             vPostPreview.setListener(object : PreviewPostListener {
                 override fun onPostContentAvailable(isAvailable: Boolean) {

@@ -47,7 +47,7 @@ class CreateRoomDialogFragment :
             tvNameHeader.text = getCreateHeader()
             topicViewGroup.setIsVisible(args.type == CircleRoomTypeArg.Group)
             ivCover.setOnClickListener {
-                mediaPickerHelper.showMediaPickerDialog(onMediaSelected = { _, uri, _ ->
+                mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
                     viewModel.setImageUri(uri)
                 })
             }

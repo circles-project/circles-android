@@ -62,7 +62,7 @@ class SetupCirclesFragment : Fragment(R.layout.setup_circles_fragment), HasLoadi
 
     private fun onCircleListItemClicked(circle: SetupCircleListItem) {
         mediaPickerHelper.showMediaPickerDialog(
-            onMediaSelected = { id, uri, _ -> viewModel.addImageForCircle(id, uri) },
+            onImageSelected = { id, uri -> viewModel.addImageForCircle(id, uri) },
             id = circle.id
         )
     }

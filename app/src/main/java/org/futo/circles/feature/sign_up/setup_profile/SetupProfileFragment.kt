@@ -37,7 +37,7 @@ class SetupProfileFragment : Fragment(R.layout.setup_profile_fragment), HasLoadi
                 viewModel.saveProfileInfo(tilDisplayName.getText())
             }
             ivProfile.setOnClickListener {
-                mediaPickerHelper.showMediaPickerDialog(onMediaSelected = { _, uri, _ ->
+                mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
                     viewModel.setProfileImageUri(uri)
                 })
             }

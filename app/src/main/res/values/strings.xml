@@ -220,7 +220,7 @@
     <string name="save_to_gallery">Save to gallery</string>
     <string name="device">Device</string>
     <string name="choose_gallery">Choose gallery</string>
-    <string name="pick_image">Pick image</string>
+    <string name="pick_media">Pick media</string>
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="users_circles_format">%s\'s Circles</string>

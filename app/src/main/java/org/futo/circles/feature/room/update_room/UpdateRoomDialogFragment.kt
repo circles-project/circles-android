@@ -77,7 +77,7 @@ class UpdateRoomDialogFragment :
     }
 
     private fun showImagePicker() {
-        mediaPickerHelper.showMediaPickerDialog(onMediaSelected = { _, uri, _ ->
+        mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
             viewModel.setImageUri(uri)
         })
     }
