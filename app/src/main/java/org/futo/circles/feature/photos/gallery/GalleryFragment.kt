@@ -16,6 +16,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.picker.MediaPickerHelper
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.picker.PickGalleryImageListener
 import org.futo.circles.databinding.GalleryFragmentBinding
 import org.futo.circles.extensions.*
@@ -79,12 +80,13 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
             success = { activity?.onBackPressed() }
         )
         viewModel.selectedImageUri.observeResponse(this,
-            success = { pickImageListener?.onImageSelected(it) }
+            success = { pickImageListener?.onMediaSelected(it, MediaType.Image) }
         )
     }
 
     private fun showImagePicker() {
-        mediaPickerHelper.showMediaPickerDialog(onMediaSelected = { _, uri, _ ->
+        //ToDo Change to support video picker
+        mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
             viewModel.uploadImage(uri)
         })
     }

@@ -95,5 +95,7 @@ val uiModule = module {
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         SystemNoticesTimelineViewModel(get { parametersOf(roomId, type) })
     }
-    viewModel { PickDeviceMediaViewModel(get()) }
+    viewModel { (isVideoAvailable: Boolean) ->
+        PickDeviceMediaViewModel(get { parametersOf(isVideoAvailable) })
+    }
 }

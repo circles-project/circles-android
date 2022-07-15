@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.provider.MediaStore
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,7 +21,10 @@ import java.io.IOException
 
 enum class MediaType { Image, Video }
 
-class MediaPickerHelper(private val fragment: Fragment, allMediaTypeAvailable: Boolean = false) :
+class MediaPickerHelper(
+    private val fragment: Fragment,
+    private val allMediaTypeAvailable: Boolean = false
+) :
     PickMediaDialogListener {
 
     private val pickMediaDialog by lazy {
@@ -39,19 +43,27 @@ class MediaPickerHelper(private val fragment: Fragment, allMediaTypeAvailable: B
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
                     mediaData?.let {
-                        onSelected?.invoke(itemId, it.second, it.first)
+                        when (it.first) {
+                            MediaType.Image -> onImageSelected?.invoke(itemId, it.second)
+                            MediaType.Video -> onVideoSelected?.invoke(it.second)
+                        }
                     } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
                 }
             }
         }
 
-    private var onSelected: ((Int?, Uri, MediaType) -> Unit)? = null
+    private var onImageSelected: ((Int?, Uri) -> Unit)? = null
+    private var onVideoSelected: ((Uri) -> Unit)? = null
     private var itemId: Int? = null
 
-
-    fun showMediaPickerDialog(onMediaSelected: (Int?, Uri, MediaType) -> Unit, id: Int? = null) {
+    fun showMediaPickerDialog(
+        onImageSelected: (Int?, Uri) -> Unit,
+        onVideoSelected: (Uri) -> Unit = {},
+        id: Int? = null
+    ) {
         itemId = id
-        onSelected = onMediaSelected
+        this.onImageSelected = onImageSelected
+        this.onVideoSelected = onVideoSelected
         pickMediaDialog.show()
     }
 
@@ -66,31 +78,35 @@ class MediaPickerHelper(private val fragment: Fragment, allMediaTypeAvailable: B
 
     private fun showGalleryPicker() {
         fragment.childFragmentManager.setFragmentResultListener(
-            pickImageRequestKey,
+            pickMediaRequestKey,
             fragment
-        ) { key, bundle ->
-            if (key == pickImageRequestKey) {
-                val uri = Uri.parse(bundle.getString(uriKey))
-                onSelected?.invoke(itemId, uri, MediaType.Image)
-            }
-        }
-        PickGalleryImageDialogFragment()
+        ) { key, bundle -> handlePickerFragmentResult(key, bundle) }
+
+        PickGalleryImageDialogFragment
+            .create(allMediaTypeAvailable)
             .show(fragment.childFragmentManager, "PickGalleryImageDialogFragment")
     }
 
     private fun showDevicePicker() {
         fragment.childFragmentManager.setFragmentResultListener(
-            pickImageRequestKey,
+            pickMediaRequestKey,
             fragment
-        ) { key, bundle ->
-            if (key == pickImageRequestKey) {
-                val uri = Uri.parse(bundle.getString(uriKey))
-                onSelected?.invoke(itemId, uri, MediaType.Image)
+        ) { key, bundle -> handlePickerFragmentResult(key, bundle) }
+
+        PickDeviceMediaDialogFragment
+            .create(allMediaTypeAvailable)
+            .show(fragment.childFragmentManager, "PickDeviceMediaDialogFragment")
+    }
+
+    private fun handlePickerFragmentResult(key: String, bundle: Bundle) {
+        if (key == pickMediaRequestKey) {
+            val uri = Uri.parse(bundle.getString(uriKey))
+            val typeOrdinal = bundle.getInt(mediaTypeKey)
+            when (MediaType.values()[typeOrdinal]) {
+                MediaType.Image -> onImageSelected?.invoke(itemId, uri)
+                MediaType.Video -> onVideoSelected?.invoke(uri)
             }
         }
-
-        PickDeviceMediaDialogFragment()
-            .show(fragment.childFragmentManager, "PickDeviceMediaDialogFragment")
     }
 
     private fun dispatchMediaIntent(type: MediaType) {
@@ -117,7 +133,9 @@ class MediaPickerHelper(private val fragment: Fragment, allMediaTypeAvailable: B
     }
 
     companion object {
-        const val pickImageRequestKey = "pickImageRequestKey"
+        const val IS_VIDEO_AVAILABLE = "IsVideoAvailable"
+        const val pickMediaRequestKey = "pickMediaRequestKey"
         const val uriKey = "uri"
+        const val mediaTypeKey = "mediaType"
     }
 }

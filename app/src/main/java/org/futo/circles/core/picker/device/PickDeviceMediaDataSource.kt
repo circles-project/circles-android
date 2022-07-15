@@ -4,9 +4,7 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
-import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -19,6 +17,7 @@ import org.futo.circles.model.DeviceMediaListItem
 import org.futo.circles.model.DeviceVideoListItem
 
 class PickDeviceMediaDataSource(
+    private val isVideoAvailable: Boolean,
     private val context: Context
 ) {
 
@@ -65,25 +64,27 @@ class PickDeviceMediaDataSource(
 
                             val item =
                                 if (mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
-                                    DeviceVideoListItem(
-                                        id,
-                                        0L,
-                                        contentUri,
-                                        getVideoThumbnail(context.contentResolver, id)
-                                    )
+                                    if (isVideoAvailable) {
+                                        DeviceVideoListItem(
+                                            id,
+                                            0L,
+                                            contentUri,
+                                            getVideoThumbnail(context.contentResolver, id)
+                                        )
+                                    } else null
                                 } else {
                                     DeviceImageListItem(
                                         id,
                                         contentUri
                                     )
                                 }
-                            list.add(item)
+                            item?.let { list.add(it) }
                         } while (cursor.moveToNext())
                     }
                     cursor.close()
                 }
             } catch (e: Exception) {
-                Log.d("MyLog",e.toString())
+                Log.d("MyLog", e.toString())
             }
             mediaLiveData.postValue(list)
         }
