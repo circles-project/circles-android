@@ -1,16 +1,13 @@
 package org.futo.circles.core.picker.device
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
-import android.graphics.Bitmap
-import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
-import android.util.Size
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import org.futo.circles.core.VideoUtils.getVideoDuration
+import org.futo.circles.core.VideoUtils.getVideoThumbnail
 import org.futo.circles.extensions.onBG
 import org.futo.circles.model.DeviceImageListItem
 import org.futo.circles.model.DeviceMediaListItem
@@ -70,7 +67,7 @@ class PickDeviceMediaDataSource(
                                         id,
                                         0L,
                                         contentUri,
-                                        getVideoThumbnail(context.contentResolver, id)
+                                        getVideoThumbnail(context.contentResolver, contentUri)
                                     )
                                 } else {
                                     DeviceImageListItem(
@@ -98,7 +95,7 @@ class PickDeviceMediaDataSource(
                 val item = when (it) {
                     is DeviceImageListItem -> it
                     is DeviceVideoListItem -> {
-                        val duration = getMediaDuration(it.contentUri)
+                        val duration = getVideoDuration(context, it.contentUri)
                         it.copy(duration = duration)
                     }
                 }
@@ -108,36 +105,10 @@ class PickDeviceMediaDataSource(
         }
     }
 
-    private fun getVideoThumbnail(contentResolver: ContentResolver, id: Long): Bitmap =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            contentResolver.loadThumbnail(
-                getContentUriById(id), Size(
-                    THUMBNAIL_SIZE,
-                    THUMBNAIL_SIZE
-                ), null
-            )
-        } else {
-            MediaStore.Video.Thumbnails.getThumbnail(
-                contentResolver,
-                id,
-                MediaStore.Video.Thumbnails.MINI_KIND,
-                null
-            )
-        }
-
     private fun getContentUriById(id: Long): Uri = ContentUris.withAppendedId(
         MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL),
         id
     )
-
-    private fun getMediaDuration(uri: Uri): Long {
-        val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(context, uri)
-        val duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
-        retriever.release()
-
-        return duration?.toLongOrNull() ?: 0
-    }
 
     companion object {
         const val THUMBNAIL_SIZE = 250
