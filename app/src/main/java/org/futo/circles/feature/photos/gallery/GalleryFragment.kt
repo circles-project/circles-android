@@ -32,7 +32,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         parametersOf(args.roomId, CircleRoomTypeArg.Photo)
     }
     private val binding by viewBinding(GalleryFragmentBinding::bind)
-    private val mediaPickerHelper = MediaPickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this, true)
     private val listAdapter by lazy {
         GalleryImagesAdapter(
             onGalleryImageClicked = { postId -> navigateToImagePreview(postId) },
