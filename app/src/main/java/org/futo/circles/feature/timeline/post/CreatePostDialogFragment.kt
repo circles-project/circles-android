@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline.post
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -8,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.MediaPickerHelper
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.CreatePostDialogFragmentBinding
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.view.PreviewPostListener
@@ -54,8 +56,8 @@ class CreatePostDialogFragment :
             tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date())
             ivMedia.setOnClickListener {
                 mediaPickerHelper.showMediaPickerDialog(
-                    onImageSelected = { _, uri -> vPostPreview.setImage(uri) },
-                    onVideoSelected = {}
+                    onImageSelected = { _, uri -> onMediaSelected(uri, MediaType.Image) },
+                    onVideoSelected = { uri -> onMediaSelected(uri, MediaType.Video) }
                 )
             }
             vPostPreview.setListener(object : PreviewPostListener {
@@ -64,6 +66,10 @@ class CreatePostDialogFragment :
                 }
             })
         }
+    }
+
+    private fun onMediaSelected(uri: Uri, type: MediaType) {
+        binding.vPostPreview.setMedia(uri, type)
     }
 
     private fun sendPost() {

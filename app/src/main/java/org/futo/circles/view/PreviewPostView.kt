@@ -7,11 +7,15 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
+import org.futo.circles.core.VideoUtils.getVideoDuration
+import org.futo.circles.core.VideoUtils.getVideoDurationString
+import org.futo.circles.core.VideoUtils.getVideoThumbnail
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.PreviewPostViewBinding
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.CreatePostContent
-import org.futo.circles.model.ImagePostContent
+import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUser
@@ -43,6 +47,9 @@ class PreviewPostView(
         binding.lImageContent.ivRemoveImage.setOnClickListener {
             setTextContent()
         }
+        binding.lVideoContent.ivRemoveVideo.setOnClickListener {
+            setTextContent()
+        }
         updateContentView()
     }
 
@@ -50,9 +57,25 @@ class PreviewPostView(
         listener = previewPostListener
     }
 
-    fun setImage(uri: Uri) {
-        postContent = ImagePostContent(uri)
-        binding.lImageContent.ivImageContent.setImageURI(uri)
+    fun setMedia(contentUri: Uri, mediaType: MediaType) {
+        postContent = MediaPostContent(contentUri, mediaType)
+        when (mediaType) {
+            MediaType.Image -> {
+                binding.lImageContent.ivImageContent.setImageURI(contentUri)
+            }
+            MediaType.Video -> {
+                binding.lVideoContent.videoItem.apply {
+                    ivVideoCover.setImageBitmap(
+                        getVideoThumbnail(
+                            context.contentResolver,
+                            contentUri,
+                            500
+                        )
+                    )
+                    tvDuration.text = getVideoDurationString(getVideoDuration(context, contentUri))
+                }
+            }
+        }
         updateContentView()
         listener?.onPostContentAvailable(true)
     }
@@ -60,7 +83,8 @@ class PreviewPostView(
     fun getPostContent() = postContent ?: TextPostContent(binding.etTextPost.text.toString().trim())
 
     private fun updateContentView() {
-        binding.lImageContent.root.setIsVisible(postContent is ImagePostContent)
+        binding.lVideoContent.root.setIsVisible((postContent as? MediaPostContent)?.mediaType == MediaType.Video)
+        binding.lImageContent.root.setIsVisible((postContent as? MediaPostContent)?.mediaType == MediaType.Image)
         binding.etTextPost.setIsVisible(postContent is TextPostContent || postContent == null)
     }
 

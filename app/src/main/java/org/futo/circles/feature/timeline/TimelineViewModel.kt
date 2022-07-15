@@ -2,6 +2,7 @@ package org.futo.circles.feature.timeline
 
 import androidx.lifecycle.asLiveData
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.people.UserOptionsDataSource
@@ -61,9 +62,14 @@ class TimelineViewModel(
 
     fun sendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?) {
         when (postContent) {
-            is ImagePostContent -> sendMessageDataSource.sendImage(
-                roomId, postContent.uri, threadEventId
-            )
+            is MediaPostContent -> {
+                when (postContent.mediaType) {
+                    MediaType.Image -> sendMessageDataSource.sendImage(
+                        roomId, postContent.uri, threadEventId
+                    )
+                    MediaType.Video -> {}
+                }
+            }
             is TextPostContent -> sendMessageDataSource.sendTextMessage(
                 roomId, postContent.text, threadEventId
             )
