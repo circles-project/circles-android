@@ -1,6 +1,5 @@
 package org.futo.circles.feature.photos.gallery
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.Menu
@@ -9,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -49,9 +49,9 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
         setupViews()
         setupObservers()
+        setupMenu()
     }
 
     private fun setupViews() {
@@ -84,6 +84,24 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         )
     }
 
+    private fun setupMenu() {
+        activity?.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menu.clear()
+                (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
+                menuInflater.inflate(R.menu.gallery_timeline_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.configureGallery -> navigateToUpdateRoom()
+                    R.id.deleteGallery -> showDeleteConfirmation()
+                }
+                return true
+            }
+        }, viewLifecycleOwner)
+    }
+
     private fun showImagePicker() {
         mediaPickerHelper.showMediaPickerDialog(
             onImageSelected = { _, uri ->
@@ -93,29 +111,6 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
                 viewModel.uploadMedia(uri, MediaType.Video)
             }
         )
-    }
-
-    @SuppressLint("RestrictedApi")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-        inflater.inflate(R.menu.gallery_timeline_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.configureGallery -> {
-                navigateToUpdateRoom()
-                return true
-            }
-            R.id.deleteGallery -> {
-                showDeleteConfirmation()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun navigateToUpdateRoom() {
