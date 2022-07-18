@@ -1,12 +1,12 @@
 package org.futo.circles.feature.timeline
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -31,7 +31,7 @@ import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListener,
-    CreatePostListener, EmojiPickerListener {
+    CreatePostListener, EmojiPickerListener, MenuProvider {
 
     private val args: TimelineFragmentArgs by navArgs()
     private val viewModel by viewModel<TimelineViewModel> { parametersOf(args.roomId, args.type) }
@@ -52,17 +52,15 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
         setupViews()
         setupObservers()
+        activity?.addMenuProvider(this, viewLifecycleOwner)
     }
 
-    @SuppressLint("RestrictedApi")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
         if (isGroupMode) inflateGroupMenu(menu, inflater) else inflateCircleMenu(menu, inflater)
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun inflateGroupMenu(menu: Menu, inflater: MenuInflater) {
@@ -75,34 +73,16 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
         inflater.inflate(R.menu.circle_timeline_menu, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.configureGroup, R.id.configureCircle -> {
-                navigateToUpdateRoom()
-                return true
-            }
-            R.id.manageMembers, R.id.myFollowers -> {
-                navigateToManageMembers()
-                return true
-            }
-            R.id.inviteMembers, R.id.inviteFollowers -> {
-                navigateToInviteMembers()
-                return true
-            }
-            R.id.leaveGroup -> {
-                showLeaveGroupDialog()
-                return true
-            }
-            R.id.iFollowing -> {
-                navigateToFollowing()
-                return true
-            }
-            R.id.deleteCircle -> {
-                showDeleteConfirmation()
-                return true
-            }
+            R.id.configureGroup, R.id.configureCircle -> navigateToUpdateRoom()
+            R.id.manageMembers, R.id.myFollowers -> navigateToManageMembers()
+            R.id.inviteMembers, R.id.inviteFollowers -> navigateToInviteMembers()
+            R.id.leaveGroup -> showLeaveGroupDialog()
+            R.id.iFollowing -> navigateToFollowing()
+            R.id.deleteCircle -> showDeleteConfirmation()
         }
-        return super.onOptionsItemSelected(item)
+        return true
     }
 
     private fun setupViews() {
