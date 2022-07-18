@@ -1,27 +1,19 @@
 package org.futo.circles.core
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
+import android.util.Size
 import androidx.exifinterface.media.ExifInterface
+import java.io.File
 
 object ImageUtils {
 
-    fun getBitmap(context: Context, uri: Uri): Bitmap? {
-        return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
-            } else {
-                context.contentResolver.openInputStream(uri)?.use { inputStream ->
-                    BitmapFactory.decodeStream(inputStream)
-                }
-            }
-        } catch (e: Exception) {
-            null
-        }
+    fun getImageResolution(uri: Uri): Size {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(uri.path?.let { File(it).absolutePath }, options)
+        return Size(options.outWidth, options.outHeight)
     }
 
     fun getOrientation(context: Context, uri: Uri): Int {
