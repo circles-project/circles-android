@@ -3,6 +3,7 @@ package org.futo.circles.feature.photos.save
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.onBG
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
@@ -46,7 +47,7 @@ class SelectGalleryDataSource(
         onBG {
             val uri = Glide.with(context).asFile().load(imageContent).submit().get().getUri(context)
             getSelectedGalleries().forEach {
-                sendMessageDataSource.sendImage(it.id, uri, null)
+                sendMessageDataSource.sendMedia(it.id, uri, null, MediaType.Image)
             }
         }
     }

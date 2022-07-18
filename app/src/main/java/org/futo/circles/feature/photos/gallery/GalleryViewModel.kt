@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.map
 import com.bumptech.glide.Glide
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.launchBg
@@ -34,8 +35,8 @@ class GalleryViewModel(
         }
     }
 
-    fun uploadImage(uri: Uri) {
-        sendMessageDataSource.sendImage(roomId, uri, null)
+    fun uploadMedia(uri: Uri, mediaType: MediaType) {
+        sendMessageDataSource.sendMedia(roomId, uri, null, mediaType)
         scrollToTopLiveData.postValue(Unit)
     }
 

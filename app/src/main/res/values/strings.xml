@@ -48,8 +48,9 @@
     <string name="gallery_name">Gallery name</string>
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="group_topic">Group topic</string>
-    <string name="upload_image_from">Upload image from</string>
-    <string name="camera">Camera</string>
+    <string name="upload_media_from">Upload media from</string>
+    <string name="photo">Photo</string>
+    <string name="video">Video</string>
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
     <string name="unexpected_error">Something went wrong</string>
@@ -219,7 +220,7 @@
     <string name="save_to_gallery">Save to gallery</string>
     <string name="device">Device</string>
     <string name="choose_gallery">Choose gallery</string>
-    <string name="pick_image">Pick image</string>
+    <string name="pick_media">Pick media</string>
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="users_circles_format">%s\'s Circles</string>
@@ -237,6 +238,7 @@
     <string name="confirm">Confirm</string>
     <string name="enable_cross_signing">Enable Cross Signing</string>
     <string name="enable_cross_signing_message">Confirm auth to enable cross signing</string>
+    <string name="device_media">Device media</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

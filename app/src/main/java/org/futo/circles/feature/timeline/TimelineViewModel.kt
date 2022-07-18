@@ -1,6 +1,5 @@
 package org.futo.circles.feature.timeline
 
-import android.net.Uri
 import androidx.lifecycle.asLiveData
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
@@ -8,11 +7,10 @@ import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
-import org.futo.circles.feature.timeline.post.share.ShareableContent
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.model.ImageContent
-import org.futo.circles.model.PostContent
+import org.futo.circles.feature.timeline.post.share.ShareableContent
+import org.futo.circles.model.*
 import org.matrix.android.sdk.api.util.Cancelable
 
 class TimelineViewModel(
@@ -61,13 +59,15 @@ class TimelineViewModel(
         }
     }
 
-    fun sendTextPost(roomId: String, message: String, threadEventId: String?) {
-        sendMessageDataSource.sendTextMessage(roomId, message, threadEventId)
-        if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
-    }
-
-    fun sendImagePost(roomId: String, uri: Uri, threadEventId: String?) {
-        sendMessageDataSource.sendImage(roomId, uri, threadEventId)
+    fun sendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?) {
+        when (postContent) {
+            is MediaPostContent -> sendMessageDataSource.sendMedia(
+                roomId, postContent.uri, threadEventId, postContent.mediaType
+            )
+            is TextPostContent -> sendMessageDataSource.sendTextMessage(
+                roomId, postContent.text, threadEventId
+            )
+        }
         if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 

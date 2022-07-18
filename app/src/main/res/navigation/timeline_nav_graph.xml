@@ -230,9 +230,9 @@
     </dialog>
     <dialog
         android:id="@+id/createPostBottomSheet"
-        android:name="org.futo.circles.feature.timeline.post.CreatePostBottomSheet"
+        android:name="org.futo.circles.feature.timeline.post.CreatePostDialogFragment"
         android:label="CreatePostBottomSheet"
-        tools:layout="@layout/create_post_bottom_sheet">
+        tools:layout="@layout/create_post_dialog_fragment">
 
         <argument
             android:name="roomId"

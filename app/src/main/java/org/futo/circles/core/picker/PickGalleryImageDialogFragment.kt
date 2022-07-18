@@ -1,4 +1,4 @@
-package org.futo.circles.core.image_picker
+package org.futo.circles.core.picker
 
 import android.app.Dialog
 import android.net.Uri
@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.databinding.PickGalleryImageDialogFragmentBinding
 import org.futo.circles.feature.photos.PhotosFragment
 import org.futo.circles.feature.photos.gallery.GalleryFragment
@@ -17,7 +18,7 @@ interface PickGalleryListener {
 }
 
 interface PickGalleryImageListener {
-    fun onImageSelected(uri: Uri)
+    fun onMediaSelected(uri: Uri, mediaType: MediaType)
 }
 
 class PickGalleryImageDialogFragment :
@@ -57,7 +58,7 @@ class PickGalleryImageDialogFragment :
     }
 
     private fun addPhotosFragment(roomId: String) {
-        binding.toolbar.title = getString(R.string.pick_image)
+        binding.toolbar.title = getString(R.string.pick_media)
         val fragment = GalleryFragment.create(roomId)
         childFragmentManager.beginTransaction()
             .replace(R.id.lContainer, fragment)
@@ -68,11 +69,21 @@ class PickGalleryImageDialogFragment :
         addPhotosFragment(id)
     }
 
-    override fun onImageSelected(uri: Uri) {
+    override fun onMediaSelected(uri: Uri, mediaType: MediaType) {
         setFragmentResult(
-            ImagePickerHelper.pickImageRequestKey, bundleOf(ImagePickerHelper.uriKey to uri.toString())
+            MediaPickerHelper.pickMediaRequestKey,
+            bundleOf(
+                MediaPickerHelper.uriKey to uri.toString(),
+                MediaPickerHelper.mediaTypeKey to mediaType.ordinal
+            )
         )
         dismiss()
+    }
+
+    companion object {
+        fun create(isVideoAvailable: Boolean) = PickGalleryImageDialogFragment().apply {
+            arguments = bundleOf(IS_VIDEO_AVAILABLE to isVideoAvailable)
+        }
     }
 
 }

@@ -30,15 +30,7 @@ class GroupPostFooterView(
     private var post: Post? = null
 
     init {
-        parseAttributes(attrs)
         setupViews()
-    }
-
-    private fun parseAttributes(attrs: AttributeSet?) {
-        getAttributes(attrs, R.styleable.GroupPostFooterView) {
-            val optionsVisible = getBoolean(R.styleable.GroupPostFooterView_optionsVisible, true)
-            binding.lOptions.setIsVisible(optionsVisible)
-        }
     }
 
     private fun setupViews() {
@@ -71,7 +63,7 @@ class GroupPostFooterView(
         bindReactionsList(data.postInfo.reactionsData)
     }
 
-    fun bindViewData(timestamp: Long, isEncrypted: Boolean, isReply: Boolean) {
+    private fun bindViewData(timestamp: Long, isEncrypted: Boolean, isReply: Boolean) {
         with(binding) {
             btnReply.setIsVisible(!isReply)
             ivEncrypted.setIsEncryptedIcon(isEncrypted)

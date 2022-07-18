@@ -14,9 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.core.image_picker.ImagePickerHelper
-import org.futo.circles.core.image_picker.PickGalleryImageListener
 import org.futo.circles.core.list.BaseRvDecoration
+import org.futo.circles.core.picker.MediaPickerHelper
+import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.picker.PickGalleryImageListener
 import org.futo.circles.databinding.GalleryFragmentBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.list.GalleryImageViewHolder
@@ -32,7 +33,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         parametersOf(args.roomId, CircleRoomTypeArg.Photo)
     }
     private val binding by viewBinding(GalleryFragmentBinding::bind)
-    private val imagePickerHelper = ImagePickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this, true)
     private val listAdapter by lazy {
         GalleryImagesAdapter(
             onGalleryImageClicked = { postId -> navigateToImagePreview(postId) },
@@ -79,14 +80,19 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
             success = { activity?.onBackPressed() }
         )
         viewModel.selectedImageUri.observeResponse(this,
-            success = { pickImageListener?.onImageSelected(it) }
+            success = { pickImageListener?.onMediaSelected(it, MediaType.Image) }
         )
     }
 
     private fun showImagePicker() {
-        imagePickerHelper.showImagePickerDialog(onImageSelected = { _, uri ->
-            viewModel.uploadImage(uri)
-        })
+        mediaPickerHelper.showMediaPickerDialog(
+            onImageSelected = { _, uri ->
+                viewModel.uploadMedia(uri, MediaType.Image)
+            },
+            onVideoSelected = { uri ->
+                viewModel.uploadMedia(uri, MediaType.Video)
+            }
+        )
     }
 
     @SuppressLint("RestrictedApi")

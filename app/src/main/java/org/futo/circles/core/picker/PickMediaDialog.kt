@@ -1,19 +1,24 @@
-package org.futo.circles.core.image_picker
+package org.futo.circles.core.picker
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
 import org.futo.circles.databinding.PickImageDialogBinding
+import org.futo.circles.extensions.setIsVisible
 
 
-enum class PickImageMethod { Camera, Gallery, Device }
+enum class PickImageMethod { Photo, Video, Gallery, Device }
 
-interface PickImageDialogListener {
-    fun onPickMethodSelected(method: PickImageMethod)
+interface PickMediaDialogListener {
+    fun onPickMethodSelected(method: PickImageMethod, allMediaTypeAvailable: Boolean)
 }
 
-class PickImageDialog(context: Context, private val listener: PickImageDialogListener) :
+class PickMediaDialog(
+    context: Context,
+    private val listener: PickMediaDialogListener,
+    private val allMediaTypeAvailable: Boolean
+) :
     AppCompatDialog(context) {
 
     private val binding = PickImageDialogBinding.inflate(LayoutInflater.from(context))
@@ -27,14 +32,17 @@ class PickImageDialog(context: Context, private val listener: PickImageDialogLis
             btnClose.setOnClickListener { dismiss() }
             btnCancel.setOnClickListener { dismiss() }
 
-            tvCamera.setOnClickListener { onMethodSelected(PickImageMethod.Camera) }
+            tvVideo.setIsVisible(allMediaTypeAvailable)
+
+            tvPhoto.setOnClickListener { onMethodSelected(PickImageMethod.Photo) }
+            tvVideo.setOnClickListener { onMethodSelected(PickImageMethod.Video) }
             tvGallery.setOnClickListener { onMethodSelected(PickImageMethod.Gallery) }
             tvDevice.setOnClickListener { onMethodSelected(PickImageMethod.Device) }
         }
     }
 
     private fun onMethodSelected(method: PickImageMethod) {
-        listener.onPickMethodSelected(method)
+        listener.onPickMethodSelected(method, allMediaTypeAvailable)
         dismiss()
     }
 

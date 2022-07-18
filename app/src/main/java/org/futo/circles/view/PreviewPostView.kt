@@ -7,21 +7,22 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
-import org.futo.circles.R
+import org.futo.circles.core.VideoUtils.getVideoDuration
+import org.futo.circles.core.VideoUtils.getVideoDurationString
+import org.futo.circles.core.VideoUtils.getVideoThumbnail
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.PreviewPostViewBinding
-import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.mapping.notEmptyDisplayName
+import org.futo.circles.model.CreatePostContent
+import org.futo.circles.model.MediaPostContent
+import org.futo.circles.model.TextPostContent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.user.model.User
 
 interface PreviewPostListener {
-
-    fun onTextChanged(text: String)
-
-    fun onPickImageClicked()
-
-    fun onPostTypeChanged(isImagePost: Boolean)
+    fun onPostContentAvailable(isAvailable: Boolean)
 }
 
 class PreviewPostView(
@@ -33,56 +34,68 @@ class PreviewPostView(
         PreviewPostViewBinding.inflate(LayoutInflater.from(context), this)
 
     private var listener: PreviewPostListener? = null
-    private var imageUri: Uri? = null
-    private var isImageContentSelected = false
+
+    private var postContent: CreatePostContent? = null
 
     init {
         getMyUser()?.let {
-            binding.postHeader.bindViewData(it.userId, it.displayName ?: "", it.avatarUrl)
+            binding.postHeader.bindViewData(it.userId, it.notEmptyDisplayName(), it.avatarUrl)
         }
-        binding.postFooter.bindViewData(
-            System.currentTimeMillis(),
-            isEncrypted = true,
-            isReply = false
-        )
-
-        binding.ivImageContent.setOnClickListener { listener?.onPickImageClicked() }
-        binding.tilTextPost.editText?.doAfterTextChanged {
-            listener?.onTextChanged(it?.toString() ?: "")
+        binding.etTextPost.doAfterTextChanged {
+            listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)
         }
-        binding.ivText.setOnClickListener { setIsImagePost(false) }
-        binding.ivImage.setOnClickListener { setIsImagePost(true) }
+        binding.lImageContent.ivRemoveImage.setOnClickListener {
+            setTextContent()
+        }
+        binding.lVideoContent.ivRemoveVideo.setOnClickListener {
+            setTextContent()
+        }
+        updateContentView()
     }
 
     fun setListener(previewPostListener: PreviewPostListener) {
         listener = previewPostListener
     }
 
-    private fun setIsImagePost(isImagePost: Boolean) {
-        isImageContentSelected = isImagePost
-        listener?.onPostTypeChanged(false)
-        binding.tilTextPost.setIsVisible(!isImagePost)
-        binding.ivImageContent.setIsVisible(isImagePost)
-        val activeColor = context?.getColor(R.color.blue) ?: return
-        val inActiveColor = context?.getColor(R.color.gray) ?: return
-        binding.ivText.setColorFilter(if (isImagePost) inActiveColor else activeColor)
-        binding.ivImage.setColorFilter(if (isImagePost) activeColor else inActiveColor)
+    fun setMedia(contentUri: Uri, mediaType: MediaType) {
+        postContent = MediaPostContent(contentUri, mediaType)
+        when (mediaType) {
+            MediaType.Image -> {
+                binding.lImageContent.ivImageContent.setImageURI(contentUri)
+            }
+            MediaType.Video -> {
+                binding.lVideoContent.videoItem.apply {
+                    ivVideoCover.setImageBitmap(
+                        getVideoThumbnail(
+                            context.contentResolver,
+                            contentUri,
+                            500
+                        )
+                    )
+                    tvDuration.text = getVideoDurationString(getVideoDuration(context, contentUri))
+                }
+            }
+        }
+        updateContentView()
+        listener?.onPostContentAvailable(true)
+    }
+
+    fun getPostContent() = postContent ?: TextPostContent(binding.etTextPost.text.toString().trim())
+
+    private fun updateContentView() {
+        binding.lVideoContent.root.setIsVisible((postContent as? MediaPostContent)?.mediaType == MediaType.Video)
+        binding.lImageContent.root.setIsVisible((postContent as? MediaPostContent)?.mediaType == MediaType.Image)
+        binding.etTextPost.setIsVisible(postContent is TextPostContent || postContent == null)
+    }
+
+    private fun setTextContent() {
+        postContent = null
+        updateContentView()
+        listener?.onPostContentAvailable(binding.etTextPost.text?.toString()?.isNotBlank() == true)
     }
 
     private fun getMyUser(): User? {
         val session = MatrixSessionProvider.currentSession
         return session?.myUserId?.let { session.getUser(it) }
     }
-
-    fun setImage(uri: Uri) {
-        imageUri = uri
-        binding.ivImageContent.setImageURI(uri)
-    }
-
-    fun isImageContentSelected() = isImageContentSelected
-
-    fun getImageUri(): Uri? = imageUri
-
-    fun getText() = binding.tilTextPost.getText()
-
 }

@@ -7,16 +7,12 @@ import android.provider.OpenableColumns
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import org.futo.circles.core.ImageUtils
+import org.futo.circles.core.VideoUtils
+import org.futo.circles.model.MediaAttachmentInfo
 import org.matrix.android.sdk.api.session.content.ContentAttachmentData
 import java.io.File
 
-private const val UriFileScheme = "file"
 const val UriContentScheme = "content"
-
-fun Uri.getContentUriForFileUri(
-    context: Context
-): Uri? = if (scheme == UriFileScheme) File(path ?: "").getUri(context) else null
-
 
 fun Uri.getFilename(context: Context): String? {
     if (scheme == UriContentScheme) {
@@ -37,6 +33,38 @@ fun Uri.getFilename(context: Context): String? {
 }
 
 fun Uri.toImageContentAttachmentData(context: Context): ContentAttachmentData? {
+    val attachmentInfo = getMediaAttachmentInfo(context) ?: return null
+    val resolution = ImageUtils.getImageResolution(this)
+    val orientation = ImageUtils.getOrientation(context, this)
+    return ContentAttachmentData(
+        mimeType = attachmentInfo.mimeType,
+        type = ContentAttachmentData.Type.IMAGE,
+        name = attachmentInfo.name,
+        size = attachmentInfo.size,
+        height = resolution.height.toLong(),
+        width = resolution.width.toLong(),
+        exifOrientation = orientation,
+        queryUri = this
+    )
+}
+
+fun Uri.toVideoContentAttachmentData(context: Context): ContentAttachmentData? {
+    val attachmentInfo = getMediaAttachmentInfo(context) ?: return null
+    val duration = VideoUtils.getVideoDuration(context, this)
+    val resolution = ImageUtils.getImageResolution(this)
+    return ContentAttachmentData(
+        mimeType = attachmentInfo.mimeType,
+        type = ContentAttachmentData.Type.VIDEO,
+        size = attachmentInfo.size,
+        height = resolution.height.toLong(),
+        width = resolution.width.toLong(),
+        duration = duration,
+        name = attachmentInfo.name,
+        queryUri = this
+    )
+}
+
+private fun Uri.getMediaAttachmentInfo(context: Context): MediaAttachmentInfo? {
     val projection = arrayOf(
         MediaStore.Images.Media.DISPLAY_NAME,
         MediaStore.Images.Media.SIZE
@@ -54,23 +82,10 @@ fun Uri.toImageContentAttachmentData(context: Context): ContentAttachmentData? {
             return@use null
         }
         if (cursor.moveToNext()) {
-            val name = cursor.getStringOrNull(nameColumn)
+            val name = cursor.getStringOrNull(nameColumn) ?: ""
             val size = cursor.getLongOrNull(sizeColumn) ?: 0
-
-            val bitmap = ImageUtils.getBitmap(context, this)
-            val orientation = ImageUtils.getOrientation(context, this)
             val mimeType = context.contentResolver.getType(this)
-
-            ContentAttachmentData(
-                mimeType = mimeType,
-                type = ContentAttachmentData.Type.IMAGE,
-                name = name,
-                size = size,
-                height = bitmap?.height?.toLong() ?: 0,
-                width = bitmap?.width?.toLong() ?: 0,
-                exifOrientation = orientation,
-                queryUri = this
-            )
+            mimeType?.let { MediaAttachmentInfo(name, size, it) }
         } else {
             null
         }

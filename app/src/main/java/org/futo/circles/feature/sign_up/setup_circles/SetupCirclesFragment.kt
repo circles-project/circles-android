@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.image_picker.ImagePickerHelper
+import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.SetupCirclesFragmentBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
@@ -23,7 +23,7 @@ class SetupCirclesFragment : Fragment(R.layout.setup_circles_fragment), HasLoadi
     private val viewModel by viewModel<SetupCirclesViewModel>()
     private val binding by viewBinding(SetupCirclesFragmentBinding::bind)
     private val listAdapter by lazy { SetupCirclesAdapter(::onCircleListItemClicked) }
-    private val imagePickerHelper = ImagePickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,7 +61,7 @@ class SetupCirclesFragment : Fragment(R.layout.setup_circles_fragment), HasLoadi
     }
 
     private fun onCircleListItemClicked(circle: SetupCircleListItem) {
-        imagePickerHelper.showImagePickerDialog(
+        mediaPickerHelper.showMediaPickerDialog(
             onImageSelected = { id, uri -> viewModel.addImageForCircle(id, uri) },
             id = circle.id
         )
