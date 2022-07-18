@@ -2,7 +2,9 @@ package org.futo.circles.feature.timeline.data_source
 
 import android.content.Context
 import android.net.Uri
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.toImageContentAttachmentData
+import org.futo.circles.extensions.toVideoContentAttachmentData
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 
@@ -16,9 +18,13 @@ class SendMessageDataSource(private val context: Context) {
             ?: roomForMessage?.sendService()?.sendTextMessage(message)
     }
 
-    fun sendImage(roomId: String, uri: Uri, threadEventId: String?) {
+    fun sendMedia(roomId: String, uri: Uri, threadEventId: String?, type: MediaType) {
         val roomForMessage = session?.getRoom(roomId)
-        uri.toImageContentAttachmentData(context)?.let {
+        val content = when (type) {
+            MediaType.Image -> uri.toImageContentAttachmentData(context)
+            MediaType.Video -> uri.toVideoContentAttachmentData(context)
+        }
+        content?.let {
             roomForMessage?.sendService()?.sendMedia(it, true, emptySet(), threadEventId)
         }
     }

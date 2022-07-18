@@ -85,10 +85,14 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     }
 
     private fun showImagePicker() {
-        //ToDo Change to support video picker
-        mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
-            viewModel.uploadImage(uri)
-        })
+        mediaPickerHelper.showMediaPickerDialog(
+            onImageSelected = { _, uri ->
+                viewModel.uploadMedia(uri, MediaType.Image)
+            },
+            onVideoSelected = { uri ->
+                viewModel.uploadMedia(uri, MediaType.Video)
+            }
+        )
     }
 
     @SuppressLint("RestrictedApi")
