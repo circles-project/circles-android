@@ -13,6 +13,7 @@ import org.futo.circles.model.TextContent
 import org.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.futo.circles.model.VideoContent
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 
@@ -45,6 +46,7 @@ class PostOptionsDataSource(
                 val uri = Glide.with(context).asFile().load(content).submit().get().getUri(context)
                 ImageShareable(uri)
             }
+            is VideoContent -> TODO()
             is TextContent -> TextShareable(content.message)
         }
     }

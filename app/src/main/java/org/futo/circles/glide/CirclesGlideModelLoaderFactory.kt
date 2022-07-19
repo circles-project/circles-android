@@ -7,12 +7,13 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import com.bumptech.glide.signature.ObjectKey
 import org.futo.circles.model.ImageContent
+import org.futo.circles.model.MediaContentData
 import java.io.InputStream
 
 class CirclesGlideModelLoaderFactory(private val context: Context) :
-    ModelLoaderFactory<ImageContent, InputStream> {
+    ModelLoaderFactory<MediaContentData, InputStream> {
 
-    override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<ImageContent, InputStream> {
+    override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<MediaContentData, InputStream> {
         return CirclesGlideModelLoader(context)
     }
 
@@ -20,14 +21,14 @@ class CirclesGlideModelLoaderFactory(private val context: Context) :
 }
 
 class CirclesGlideModelLoader(private val context: Context) :
-    ModelLoader<ImageContent, InputStream> {
+    ModelLoader<MediaContentData, InputStream> {
 
-    override fun handles(model: ImageContent): Boolean {
+    override fun handles(model: MediaContentData): Boolean {
         return true
     }
 
     override fun buildLoadData(
-        model: ImageContent,
+        model: MediaContentData,
         width: Int,
         height: Int,
         options: Options

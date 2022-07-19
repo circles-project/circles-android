@@ -7,15 +7,25 @@ import org.futo.circles.model.LoadingData
 import org.futo.circles.view.LoadingView
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
-object UploadImageProgressHelper {
+object UploadMediaProgressHelper {
 
     fun getListener(loadingView: LoadingView): ContentUploadStateTracker.UpdateListener =
         object : ContentUploadStateTracker.UpdateListener {
             override fun onUpdate(state: ContentUploadStateTracker.State) {
                 when (state) {
-                    ContentUploadStateTracker.State.CompressingImage -> {
+                    ContentUploadStateTracker.State.CompressingImage-> {
                         loadingView.visible()
-                        loadingView.setMessage(R.string.compressing_image)
+                        loadingView.setMessage(R.string.compressing)
+                    }
+                    is ContentUploadStateTracker.State.CompressingVideo->{
+                        loadingView.visible()
+                        loadingView.setProgress(
+                            LoadingData(
+                                messageId = R.string.compressing,
+                                progress = state.percent.toInt(),
+                                total = 100
+                            )
+                        )
                     }
                     is ContentUploadStateTracker.State.Encrypting -> {
                         loadingView.visible()

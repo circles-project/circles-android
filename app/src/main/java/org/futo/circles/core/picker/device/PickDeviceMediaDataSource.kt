@@ -24,7 +24,6 @@ class PickDeviceMediaDataSource(
 
     suspend fun fetchMedia() {
         loadDeviceMedia()
-        addVideosDuration()
     }
 
     private suspend fun loadDeviceMedia() {
@@ -65,7 +64,7 @@ class PickDeviceMediaDataSource(
                                 if (mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
                                     DeviceVideoListItem(
                                         id,
-                                        0L,
+                                        getVideoDuration(context, contentUri),
                                         contentUri,
                                         getVideoThumbnail(context.contentResolver, contentUri)
                                     )
@@ -84,24 +83,6 @@ class PickDeviceMediaDataSource(
             }
 
             mediaLiveData.postValue(list)
-        }
-    }
-
-    private suspend fun addVideosDuration() {
-        onBG {
-            val newList = mutableListOf<DeviceMediaListItem>()
-            val list = mediaLiveData.value?.toMutableList() ?: mutableListOf()
-            list.forEach {
-                val item = when (it) {
-                    is DeviceImageListItem -> it
-                    is DeviceVideoListItem -> {
-                        val duration = getVideoDuration(context, it.contentUri)
-                        it.copy(duration = duration)
-                    }
-                }
-                newList.add(item)
-            }
-            mediaLiveData.postValue(newList)
         }
     }
 

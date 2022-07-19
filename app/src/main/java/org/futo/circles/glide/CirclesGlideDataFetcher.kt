@@ -11,10 +11,11 @@ import org.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.futo.circles.model.MediaContentData
 import java.io.IOException
 import java.io.InputStream
 
-class CirclesGlideDataFetcher(context: Context, private val data: ImageContent) :
+class CirclesGlideDataFetcher(context: Context, private val data: MediaContentData) :
     DataFetcher<InputStream> {
 
     private val localFilesHelper = LocalFileHelper(context)
