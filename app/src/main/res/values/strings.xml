@@ -139,7 +139,7 @@
     <string name="create_post">Create post</string>
     <string name="send">Send</string>
     <string name="enter_your_message_here">Enter your message here</string>
-    <string name="compressing_image">Compressing image</string>
+    <string name="compressing">Compressing</string>
     <string name="encrypting">Encrypting</string>
     <string name="uploading">Uploading</string>
     <string name="reply_to_format">Reply to %s</string>
