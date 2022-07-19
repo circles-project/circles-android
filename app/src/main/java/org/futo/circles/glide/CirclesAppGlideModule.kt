@@ -8,6 +8,7 @@ import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule
 import org.futo.circles.model.ImageContent
+import org.futo.circles.model.MediaContentData
 import java.io.InputStream
 
 @GlideModule
@@ -19,7 +20,7 @@ class CirclesAppGlideModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         registry.append(
-            ImageContent::class.java,
+            MediaContentData::class.java,
             InputStream::class.java,
             CirclesGlideModelLoaderFactory(context)
         )

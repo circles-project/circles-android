@@ -10,7 +10,6 @@ import org.futo.circles.core.ImageUtils
 import org.futo.circles.core.VideoUtils
 import org.futo.circles.model.MediaAttachmentInfo
 import org.matrix.android.sdk.api.session.content.ContentAttachmentData
-import java.io.File
 
 const val UriContentScheme = "content"
 
@@ -51,7 +50,7 @@ fun Uri.toImageContentAttachmentData(context: Context): ContentAttachmentData? {
 fun Uri.toVideoContentAttachmentData(context: Context): ContentAttachmentData? {
     val attachmentInfo = getMediaAttachmentInfo(context) ?: return null
     val duration = VideoUtils.getVideoDuration(context, this)
-    val resolution = ImageUtils.getImageResolution(this)
+    val resolution = VideoUtils.getVideoResolution(context, this)
     return ContentAttachmentData(
         mimeType = attachmentInfo.mimeType,
         type = ContentAttachmentData.Type.VIDEO,
