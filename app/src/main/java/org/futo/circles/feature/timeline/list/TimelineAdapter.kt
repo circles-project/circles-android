@@ -34,6 +34,9 @@ class TimelineAdapter(
             PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(
                 parent, postOptionsListener, userPowerLevel
             )
+            PostContentType.VIDEO_CONTENT -> VideoPostViewHolder(
+                parent, postOptionsListener, userPowerLevel
+            )
         }
     }
 
@@ -63,7 +66,7 @@ class TimelineAdapter(
 
     override fun onViewDetachedFromWindow(holder: PostViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        (holder as? ImagePostViewHolder)?.unTrack()
+        (holder as? UploadMediaViewHolder)?.unTrack()
     }
 
     companion object {
