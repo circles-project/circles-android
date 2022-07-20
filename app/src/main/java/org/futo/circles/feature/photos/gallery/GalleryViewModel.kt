@@ -15,7 +15,9 @@ import org.futo.circles.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.model.GalleryImageListItem
+import org.futo.circles.model.GalleryVideoListItem
 import org.futo.circles.model.ImageContent
+import org.futo.circles.model.VideoContent
 
 class GalleryViewModel(
     private val roomId: String,
@@ -27,10 +29,12 @@ class GalleryViewModel(
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val selectedImageUri = SingleEventLiveData<Response<Uri>>()
     val deleteGalleryLiveData = SingleEventLiveData<Response<Unit?>>()
-    val galleryImagesLiveData = timelineDataSource.timelineEventsLiveData.map { list ->
+    val galleryItemsLiveData = timelineDataSource.timelineEventsLiveData.map { list ->
         list.mapNotNull { post ->
-            (post.content as? ImageContent)?.let {
-                GalleryImageListItem(post.id, it, post.postInfo)
+            when (val content = post.content) {
+                is ImageContent -> GalleryImageListItem(post.id, content, post.postInfo)
+                is VideoContent -> GalleryVideoListItem(post.id, content, post.postInfo)
+                else -> null
             }
         }
     }
