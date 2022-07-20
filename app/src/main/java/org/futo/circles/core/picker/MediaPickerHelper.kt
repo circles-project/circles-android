@@ -82,7 +82,7 @@ class MediaPickerHelper(
             fragment
         ) { key, bundle -> handlePickerFragmentResult(key, bundle) }
 
-        PickGalleryImageDialogFragment
+        PickGalleryMediaDialogFragment
             .create(allMediaTypeAvailable)
             .show(fragment.childFragmentManager, "PickGalleryImageDialogFragment")
     }

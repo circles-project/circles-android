@@ -21,6 +21,7 @@ import org.futo.circles.model.VideoContent
 
 class GalleryViewModel(
     private val roomId: String,
+    private val isVideoAvailable: Boolean,
     timelineDataSource: TimelineDataSource,
     private val leaveRoomDataSource: LeaveRoomDataSource,
     private val sendMessageDataSource: SendMessageDataSource
@@ -33,7 +34,10 @@ class GalleryViewModel(
         list.mapNotNull { post ->
             when (val content = post.content) {
                 is ImageContent -> GalleryImageListItem(post.id, content, post.postInfo)
-                is VideoContent -> GalleryVideoListItem(post.id, content, post.postInfo)
+                is VideoContent ->
+                    if (isVideoAvailable)
+                        GalleryVideoListItem(post.id, content, post.postInfo)
+                    else null
                 else -> null
             }
         }

@@ -77,9 +77,13 @@ val uiModule = module {
     viewModel { EditProfileViewModel(get()) }
     viewModel { ChangePasswordViewModel(get(), get(), get()) }
     viewModel { ActiveSessionsViewModel(get()) }
-    viewModel { (roomId: String, type: CircleRoomTypeArg) ->
+    viewModel { (roomId: String, type: CircleRoomTypeArg, isVideoAvailable: Boolean) ->
         GalleryViewModel(
-            roomId, get { parametersOf(roomId, type) }, get { parametersOf(roomId) }, get()
+            roomId,
+            isVideoAvailable,
+            get { parametersOf(roomId, type) },
+            get { parametersOf(roomId) },
+            get()
         )
     }
     viewModel { (roomId: String, eventId: String) ->

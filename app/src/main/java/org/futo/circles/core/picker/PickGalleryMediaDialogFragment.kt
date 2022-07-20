@@ -17,18 +17,22 @@ interface PickGalleryListener {
     fun onGalleryChosen(id: String)
 }
 
-interface PickGalleryImageListener {
+interface PickGalleryMediaListener {
     fun onMediaSelected(uri: Uri, mediaType: MediaType)
 }
 
-class PickGalleryImageDialogFragment :
+class PickGalleryMediaDialogFragment :
     BaseFullscreenDialogFragment(PickGalleryImageDialogFragmentBinding::inflate),
-    PickGalleryListener, PickGalleryImageListener {
+    PickGalleryListener, PickGalleryMediaListener {
 
     private val photosRoomsFragment by lazy { PhotosFragment() }
 
     private val binding by lazy {
         getBinding() as PickGalleryImageDialogFragmentBinding
+    }
+
+    private val isVideoAvailable by lazy {
+        arguments?.getBoolean(IS_VIDEO_AVAILABLE) ?: false
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -59,7 +63,7 @@ class PickGalleryImageDialogFragment :
 
     private fun addPhotosFragment(roomId: String) {
         binding.toolbar.title = getString(R.string.pick_media)
-        val fragment = GalleryFragment.create(roomId)
+        val fragment = GalleryFragment.create(roomId, isVideoAvailable)
         childFragmentManager.beginTransaction()
             .replace(R.id.lContainer, fragment)
             .commitAllowingStateLoss()
@@ -81,7 +85,7 @@ class PickGalleryImageDialogFragment :
     }
 
     companion object {
-        fun create(isVideoAvailable: Boolean) = PickGalleryImageDialogFragment().apply {
+        fun create(isVideoAvailable: Boolean) = PickGalleryMediaDialogFragment().apply {
             arguments = bundleOf(IS_VIDEO_AVAILABLE to isVideoAvailable)
         }
     }
