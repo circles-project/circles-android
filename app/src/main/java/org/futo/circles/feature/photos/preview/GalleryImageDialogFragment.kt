@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.GalleryImageDialogFragmentBinding
-import org.futo.circles.extensions.loadInto
+import org.futo.circles.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.showDialog
 import org.futo.circles.extensions.showSuccess
@@ -66,8 +66,10 @@ class GalleryImageDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.galleryImageLiveData.observeData(this) {
-            it?.loadInto(binding.ivImage)
+        viewModel.galleryImageLiveData.observeData(this) { item ->
+            item?.imageContent?.let {
+                it.mediaContentData.loadEncryptedIntoWithAspect(binding.ivImage, it.aspectRatio)
+            }
         }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
