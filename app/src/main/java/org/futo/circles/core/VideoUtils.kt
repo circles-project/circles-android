@@ -1,13 +1,19 @@
 package org.futo.circles.core
 
+import android.app.DownloadManager
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Context.DOWNLOAD_SERVICE
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.Environment
 import android.util.Size
+import androidx.core.content.ContextCompat.getSystemService
+import io.realm.Realm.getApplicationContext
 import org.futo.circles.core.picker.device.PickDeviceMediaDataSource
 import java.util.concurrent.TimeUnit
+
 
 object VideoUtils {
 
@@ -45,5 +51,16 @@ object VideoUtils {
 
         return if (hours == 0L && !includeHoursZeros) String.format("%02d:%02d", minutes, seconds)
         else String.format("%02d:%02d:%02d", hours, minutes, seconds)
+    }
+
+    fun downloadFile(url: String, title: String, description: String) {
+        val request = DownloadManager.Request(Uri.parse(url))
+        request.setDescription(description)
+        request.setTitle(title)
+        request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_MOVIES,
+            "$title.mp4"
+        )
+        (getApplicationContext()?.getSystemService(DOWNLOAD_SERVICE) as DownloadManager?)?.
+        enqueue(request)
     }
 }
