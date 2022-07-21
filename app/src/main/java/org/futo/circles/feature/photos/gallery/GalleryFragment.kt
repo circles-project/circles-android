@@ -24,6 +24,7 @@ import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.list.GalleryContentViewHolder
 import org.futo.circles.feature.photos.gallery.list.GalleryItemsAdapter
 import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.model.GalleryContentListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -40,7 +41,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     private val mediaPickerHelper = MediaPickerHelper(this, true)
     private val listAdapter by lazy {
         GalleryItemsAdapter(
-            onGalleryItemClicked = { postId -> navigateToImagePreview(postId) },
+            onGalleryItemClicked = { item -> onMediaItemSelected(item) },
             onLoadMore = { viewModel.loadMore() })
     }
 
@@ -83,9 +84,6 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         viewModel.deleteGalleryLiveData.observeResponse(this,
             success = { activity?.onBackPressed() }
         )
-        viewModel.selectedImageUri.observeResponse(this,
-            success = { pickMediaListener?.onMediaSelected(it, MediaType.Image) }
-        )
     }
 
     private fun setupMenu() {
@@ -123,10 +121,12 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         )
     }
 
-    private fun navigateToImagePreview(postId: String) {
-        pickMediaListener?.let { viewModel.getImageUri(requireContext(), postId) } ?: kotlin.run {
+    private fun onMediaItemSelected(item: GalleryContentListItem) {
+        pickMediaListener?.let {
+            viewModel.selectMediaForPicker(requireContext(), item, it)
+        } ?: kotlin.run {
             findNavController().navigate(
-                GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, postId)
+                GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, item.id)
             )
         }
     }

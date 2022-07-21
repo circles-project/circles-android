@@ -84,7 +84,7 @@ class MediaPickerHelper(
 
         PickGalleryMediaDialogFragment
             .create(allMediaTypeAvailable)
-            .show(fragment.childFragmentManager, "PickGalleryImageDialogFragment")
+            .show(fragment.childFragmentManager, "PickGalleryMediaDialogFragment")
     }
 
     private fun showDevicePicker() {

@@ -6,7 +6,7 @@ import org.futo.circles.model.GalleryContentListItem
 import org.futo.circles.model.PostContentType
 
 class GalleryItemsAdapter(
-    private val onGalleryItemClicked: (postId: String) -> Unit,
+    private val onGalleryItemClicked: (item: GalleryContentListItem) -> Unit,
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<GalleryContentListItem, GalleryContentViewHolder>(DefaultIdEntityCallback()) {
 
@@ -16,11 +16,11 @@ class GalleryItemsAdapter(
         when (PostContentType.values()[viewType]) {
             PostContentType.IMAGE_CONTENT -> GalleryImageViewHolder(
                 parent,
-                onItemClicked = { position -> onGalleryItemClicked(getItem(position).id) }
+                onItemClicked = { position -> onGalleryItemClicked(getItem(position)) }
             )
             PostContentType.VIDEO_CONTENT -> GalleryVideoViewHolder(
                 parent,
-                onItemClicked = { position -> onGalleryItemClicked(getItem(position).id) }
+                onItemClicked = { position -> onGalleryItemClicked(getItem(position)) }
             )
             PostContentType.TEXT_CONTENT -> throw IllegalArgumentException("wrong view type")
         }
