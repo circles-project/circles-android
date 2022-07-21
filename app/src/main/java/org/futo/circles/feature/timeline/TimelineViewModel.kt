@@ -52,9 +52,9 @@ class TimelineViewModel(
         }
     }
 
-    fun saveToDevice(imageContent: ImageContent) {
+    fun saveToDevice(content: PostContent) {
         launchBg {
-            postOptionsDataSource.saveImageToDevice(imageContent)
+            postOptionsDataSource.saveMediaToDevice(content)
             downloadImageLiveData.postValue(Unit)
         }
     }

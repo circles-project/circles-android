@@ -32,7 +32,7 @@ class GalleryImageViewModel(
     fun saveImage() {
         val imageContent = galleryImageLiveData.value?.imageContent ?: return
         launchBg {
-            postOptionsDataSource.saveImageToDevice(imageContent)
+            postOptionsDataSource.saveMediaToDevice(imageContent)
             downloadImageLiveData.postValue(Unit)
         }
     }

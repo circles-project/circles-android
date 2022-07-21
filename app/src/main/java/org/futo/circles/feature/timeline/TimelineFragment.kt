@@ -167,8 +167,8 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
         )
     }
 
-    override fun onSaveToDevice(imageContent: ImageContent) {
-        viewModel.saveToDevice(imageContent)
+    override fun onSaveToDevice(content: PostContent) {
+        viewModel.saveToDevice(content)
     }
 
     override fun onSaveToGallery(roomId: String, eventId: String) {

@@ -2,6 +2,9 @@ package org.futo.circles.feature.timeline.post
 
 import android.content.Context
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.futo.circles.core.VideoUtils
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.saveImageToDeviceGallery
@@ -10,10 +13,8 @@ import org.futo.circles.feature.timeline.post.share.TextShareable
 import org.futo.circles.model.ImageContent
 import org.futo.circles.model.PostContent
 import org.futo.circles.model.TextContent
-import org.futo.circles.provider.MatrixSessionProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.futo.circles.model.VideoContent
+import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 
@@ -43,7 +44,8 @@ class PostOptionsDataSource(
     suspend fun getShareableContent(content: PostContent) = withContext(Dispatchers.IO) {
         when (content) {
             is ImageContent -> {
-                val uri = Glide.with(context).asFile().load(content).submit().get().getUri(context)
+                val uri = Glide.with(context).asFile().load(content.mediaContentData).submit().get()
+                    .getUri(context)
                 ImageShareable(uri)
             }
             is VideoContent -> TODO()
@@ -51,8 +53,14 @@ class PostOptionsDataSource(
         }
     }
 
-    suspend fun saveImageToDevice(imageContent: ImageContent) = withContext(Dispatchers.IO) {
-        val b = Glide.with(context).asBitmap().load(imageContent).submit().get()
-        b.saveImageToDeviceGallery(context)
+    suspend fun saveMediaToDevice(content: PostContent) = withContext(Dispatchers.IO) {
+        when (content) {
+            is ImageContent -> Glide.with(context).asBitmap().load(content.mediaContentData)
+                .submit().get()
+                .saveImageToDeviceGallery(context)
+            is VideoContent -> VideoUtils.downloadFile(content.mediaContentData.fileUrl, content.mediaContentData.fileName, "example")
+            else -> {}
+        }
+
     }
 }

@@ -8,9 +8,7 @@ import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.onBG
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.mapping.toSelectableRoomListItem
-import org.futo.circles.model.GALLERY_TYPE
-import org.futo.circles.model.ImageContent
-import org.futo.circles.model.SelectableRoomListItem
+import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
@@ -43,11 +41,18 @@ class SelectGalleryDataSource(
         galleriesLiveData.postValue(newList)
     }
 
-    suspend fun saveImageToGalleries(imageContent: ImageContent) {
+    suspend fun saveMediaToGalleries(content: PostContent) {
         onBG {
-            val uri = Glide.with(context).asFile().load(imageContent).submit().get().getUri(context)
-            getSelectedGalleries().forEach {
-                sendMessageDataSource.sendMedia(it.id, uri, null, MediaType.Image)
+            val uri = when (content) {
+                is ImageContent -> Glide.with(context).asFile().load(content.mediaContentData)
+                    .submit().get().getUri(context)
+                is VideoContent -> TODO()
+                else -> null
+            }
+            uri?.let {
+                getSelectedGalleries().forEach {
+                    sendMessageDataSource.sendMedia(it.id, uri, null, MediaType.Image)
+                }
             }
         }
     }

@@ -18,7 +18,7 @@ class SaveToGalleryViewModel(
     fun saveToGallery() {
         launchBg {
             galleryImageDataSource.getImageItem()?.imageContent?.let { content ->
-                selectGalleryDataSource.saveImageToGalleries(content)
+                selectGalleryDataSource.saveMediaToGalleries(content)
             }
             saveResultLiveData.postValue(Response.Success(Unit))
         }
