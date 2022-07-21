@@ -9,7 +9,10 @@ enum class PostContentType(val typeKey: String) {
     VIDEO_CONTENT(MessageType.MSGTYPE_VIDEO)
 }
 
-sealed class PostContent(val type: PostContentType)
+sealed class PostContent(val type: PostContentType) {
+    fun isMedia(): Boolean =
+        type == PostContentType.IMAGE_CONTENT || type == PostContentType.VIDEO_CONTENT
+}
 
 data class TextContent(
     val message: String

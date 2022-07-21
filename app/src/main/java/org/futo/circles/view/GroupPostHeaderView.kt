@@ -1,6 +1,5 @@
 package org.futo.circles.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -63,7 +62,6 @@ class GroupPostHeaderView(
         binding.btnMore.setOnClickListener { showMenu() }
     }
 
-    @SuppressLint("RestrictedApi")
     private fun showMenu() {
         val unwrappedPost = post ?: return
         PopupMenu(context, binding.btnMore).apply {
@@ -74,9 +72,7 @@ class GroupPostHeaderView(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
                     R.id.ignore -> optionsListener?.onIgnore(unwrappedPost.postInfo.sender.userId)
-                    R.id.save_to_device -> (unwrappedPost.content as? ImageContent)?.let {
-                        optionsListener?.onSaveToDevice(it)
-                    }
+                    R.id.save_to_device -> optionsListener?.onSaveToDevice(unwrappedPost.content)
                     R.id.save_to_gallery -> optionsListener?.onSaveToGallery(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
@@ -90,8 +86,8 @@ class GroupPostHeaderView(
             }
             inflate(R.menu.timeline_item_menu)
 
-            menu.findItem(R.id.save_to_device).isVisible = unwrappedPost.content is ImageContent
-            menu.findItem(R.id.save_to_gallery).isVisible = unwrappedPost.content is ImageContent
+            menu.findItem(R.id.save_to_device).isVisible = unwrappedPost.content.isMedia()
+            menu.findItem(R.id.save_to_gallery).isVisible = unwrappedPost.content.isMedia()
             menu.findItem(R.id.ignore).isVisible = !unwrappedPost.isMyPost()
             menu.findItem(R.id.report).isVisible = !unwrappedPost.isMyPost()
             menu.findItem(R.id.delete).isVisible =
