@@ -3,12 +3,11 @@ package org.futo.circles.feature.photos.gallery
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.map
-import com.bumptech.glide.Glide
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.picker.PickGalleryMediaListener
+import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.extensions.onUI
 import org.futo.circles.feature.room.LeaveRoomDataSource
@@ -56,12 +55,25 @@ class GalleryViewModel(
     ) = launchBg {
         when (item.type) {
             PostContentType.IMAGE_CONTENT -> {
-                val content = (item as? GalleryImageListItem)?.imageContent?.mediaContentData
-                val uri = Glide.with(context).asFile().load(content).submit().get().getUri(context)
-                onUI { listener.onMediaSelected(uri, MediaType.Image) }
+                val data = (item as? GalleryImageListItem)?.imageContent?.mediaContentData
+                onMediaSelected(context, data, listener, MediaType.Image)
             }
-            PostContentType.VIDEO_CONTENT -> TODO()
+            PostContentType.VIDEO_CONTENT -> {
+                val data = (item as? GalleryVideoListItem)?.videoContent?.mediaContentData
+                onMediaSelected(context, data, listener, MediaType.Video)
+            }
             else -> {}
         }
+    }
+
+    private suspend fun onMediaSelected(
+        context: Context,
+        mediaContentData: MediaContentData?,
+        listener: PickGalleryMediaListener,
+        mediaType: MediaType
+    ) {
+        val content = mediaContentData ?: return
+        val uri = downloadEncryptedFileToContentUri(context, content) ?: return
+        onUI { listener.onMediaSelected(uri, mediaType) }
     }
 }
