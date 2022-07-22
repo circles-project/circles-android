@@ -1,13 +1,11 @@
 package org.futo.circles.feature.timeline.post
 
 import android.content.Context
-import com.bumptech.glide.Glide
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
+import org.futo.circles.core.utils.FileUtils.saveMediaFileToDevice
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.onBG
-import org.futo.circles.extensions.saveImageToDeviceGallery
 import org.futo.circles.feature.timeline.post.share.MediaShareable
 import org.futo.circles.feature.timeline.post.share.ShareableContent
 import org.futo.circles.feature.timeline.post.share.TextShareable
@@ -47,13 +45,15 @@ class PostOptionsDataSource(
         }
     }
 
-    suspend fun saveMediaToDevice(content: PostContent) = withContext(Dispatchers.IO) {
+    suspend fun saveMediaToDevice(content: PostContent) = onBG {
         when (content) {
-            is ImageContent -> Glide.with(context).asBitmap().load(content.mediaContentData)
-                .submit().get()
-                .saveImageToDeviceGallery(context)
-            is VideoContent -> TODO()
-            else -> {}
+            is ImageContent -> saveMediaFileToDevice(
+                context, content.mediaContentData, MediaType.Image
+            )
+            is VideoContent -> saveMediaFileToDevice(
+                context, content.mediaContentData, MediaType.Video
+            )
+            else -> throw IllegalArgumentException("Unsupported file type")
         }
     }
 
