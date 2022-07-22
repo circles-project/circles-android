@@ -1,7 +1,7 @@
 package org.futo.circles.mapping
 
 import com.bumptech.glide.request.target.Target
-import org.futo.circles.core.VideoUtils
+import org.futo.circles.core.utils.VideoUtils
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.model.*
 import org.matrix.android.sdk.api.session.crypto.attachments.toElementToDecrypt

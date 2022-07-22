@@ -4,7 +4,7 @@ import android.content.Context
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.futo.circles.core.VideoUtils
+import org.futo.circles.core.utils.VideoUtils
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.saveImageToDeviceGallery

@@ -7,9 +7,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
-import org.futo.circles.core.VideoUtils.getVideoDuration
-import org.futo.circles.core.VideoUtils.getVideoDurationString
-import org.futo.circles.core.VideoUtils.getVideoThumbnail
+import org.futo.circles.core.utils.VideoUtils.getVideoDuration
+import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
+import org.futo.circles.core.utils.VideoUtils.getVideoThumbnail
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.PreviewPostViewBinding
 import org.futo.circles.extensions.setIsVisible

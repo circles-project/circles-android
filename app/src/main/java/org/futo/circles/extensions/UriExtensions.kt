@@ -6,8 +6,8 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
-import org.futo.circles.core.ImageUtils
-import org.futo.circles.core.VideoUtils
+import org.futo.circles.core.utils.ImageUtils
+import org.futo.circles.core.utils.VideoUtils
 import org.futo.circles.model.MediaAttachmentInfo
 import org.matrix.android.sdk.api.session.content.ContentAttachmentData
 

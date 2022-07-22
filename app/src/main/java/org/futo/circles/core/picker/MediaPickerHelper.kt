@@ -10,8 +10,8 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import org.futo.circles.R
-import org.futo.circles.core.FileUtils.createImageFile
-import org.futo.circles.core.FileUtils.createVideoFile
+import org.futo.circles.core.utils.FileUtils.createImageFile
+import org.futo.circles.core.utils.FileUtils.createVideoFile
 import org.futo.circles.core.PermissionHelper
 import org.futo.circles.core.picker.device.PickDeviceMediaDialogFragment
 import org.futo.circles.extensions.getUri

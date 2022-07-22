@@ -1,4 +1,4 @@
-package org.futo.circles.core
+package org.futo.circles.core.utils
 
 import android.app.DownloadManager
 import android.content.ContentResolver
@@ -9,7 +9,6 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Environment
 import android.util.Size
-import androidx.core.content.ContextCompat.getSystemService
 import io.realm.Realm.getApplicationContext
 import org.futo.circles.core.picker.device.PickDeviceMediaDataSource
 import java.util.concurrent.TimeUnit
