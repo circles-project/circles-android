@@ -1,17 +1,14 @@
 package org.futo.circles.feature.timeline.list
 
-import android.util.Size
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.futo.circles.R
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.databinding.ImagePostViewBinding
 import org.futo.circles.databinding.TextPostViewBinding
 import org.futo.circles.databinding.VideoPostViewBinding
-import org.futo.circles.extensions.UriContentScheme
 import org.futo.circles.extensions.gone
-import org.futo.circles.extensions.loadEncryptedImage
+import org.futo.circles.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.model.*
 import org.futo.circles.view.PostLayout
 import org.futo.circles.view.PostOptionsListener
@@ -75,13 +72,7 @@ class ImagePostViewHolder(
         binding.vLoadingImage.gone()
         track(post.id, binding.vLoadingImage)
         (post.content as? ImageContent)?.let {
-            if (it.mediaContentData.fileUrl.startsWith(UriContentScheme)) {
-                binding.ivContent.setImageResource(R.drawable.blurred_placeholder)
-            } else {
-                val imageWith = binding.ivContent.width
-                val size = Size(imageWith, (imageWith / it.aspectRatio).toInt())
-                binding.ivContent.loadEncryptedImage(it.mediaContentData, size)
-            }
+            it.mediaContentData.loadEncryptedIntoWithAspect(binding.ivContent, it.aspectRatio)
         }
     }
 }
@@ -107,13 +98,9 @@ class VideoPostViewHolder(
         binding.vLoadingView.gone()
         track(post.id, binding.vLoadingView)
         (post.content as? VideoContent)?.let {
-            if (it.mediaContentData.fileUrl.startsWith(UriContentScheme)) {
-                binding.videoItem.ivVideoCover.setImageResource(R.drawable.blurred_placeholder)
-            } else {
-                val imageWith = binding.lVideoPost.width
-                val size = Size(imageWith, (imageWith / it.aspectRatio).toInt())
-                binding.videoItem.ivVideoCover.loadEncryptedImage(it.mediaContentData, size)
-            }
+            it.mediaContentData.loadEncryptedIntoWithAspect(
+                binding.videoItem.ivVideoCover, it.aspectRatio
+            )
             binding.videoItem.tvDuration.text = it.duration
         }
     }

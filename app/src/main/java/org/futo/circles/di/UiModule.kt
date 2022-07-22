@@ -12,7 +12,7 @@ import org.futo.circles.feature.people.PeopleViewModel
 import org.futo.circles.feature.people.user.UserViewModel
 import org.futo.circles.feature.photos.PhotosViewModel
 import org.futo.circles.feature.photos.gallery.GalleryViewModel
-import org.futo.circles.feature.photos.preview.GalleryImageViewModel
+import org.futo.circles.feature.photos.preview.MediaPreviewViewModel
 import org.futo.circles.feature.photos.save.SaveToGalleryViewModel
 import org.futo.circles.feature.room.create_room.CreateRoomViewModel
 import org.futo.circles.feature.room.invite.InviteMembersViewModel
@@ -77,13 +77,17 @@ val uiModule = module {
     viewModel { EditProfileViewModel(get()) }
     viewModel { ChangePasswordViewModel(get(), get(), get()) }
     viewModel { ActiveSessionsViewModel(get()) }
-    viewModel { (roomId: String, type: CircleRoomTypeArg) ->
+    viewModel { (roomId: String, type: CircleRoomTypeArg, isVideoAvailable: Boolean) ->
         GalleryViewModel(
-            roomId, get { parametersOf(roomId, type) }, get { parametersOf(roomId) }, get()
+            roomId,
+            isVideoAvailable,
+            get { parametersOf(roomId, type) },
+            get { parametersOf(roomId) },
+            get()
         )
     }
     viewModel { (roomId: String, eventId: String) ->
-        GalleryImageViewModel(roomId, eventId, get { parametersOf(roomId, eventId) }, get())
+        MediaPreviewViewModel(roomId, eventId, get { parametersOf(roomId, eventId) }, get())
     }
     viewModel { (roomId: String, eventId: String) ->
         SaveToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())

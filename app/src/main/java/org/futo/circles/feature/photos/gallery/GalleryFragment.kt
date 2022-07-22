@@ -16,13 +16,15 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.picker.MediaPickerHelper
+import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.core.picker.PickGalleryImageListener
+import org.futo.circles.core.picker.PickGalleryMediaListener
 import org.futo.circles.databinding.GalleryFragmentBinding
 import org.futo.circles.extensions.*
-import org.futo.circles.feature.photos.gallery.list.GalleryImageViewHolder
-import org.futo.circles.feature.photos.gallery.list.GalleryImagesAdapter
+import org.futo.circles.feature.photos.gallery.list.GalleryContentViewHolder
+import org.futo.circles.feature.photos.gallery.list.GalleryItemsAdapter
 import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.model.GalleryContentListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -30,21 +32,24 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
 
     private val args: GalleryFragmentArgs by navArgs()
     private val viewModel by viewModel<GalleryViewModel> {
-        parametersOf(args.roomId, CircleRoomTypeArg.Photo)
+        parametersOf(
+            args.roomId, CircleRoomTypeArg.Photo,
+            arguments?.getBoolean(IS_VIDEO_AVAILABLE, true) ?: true
+        )
     }
     private val binding by viewBinding(GalleryFragmentBinding::bind)
     private val mediaPickerHelper = MediaPickerHelper(this, true)
     private val listAdapter by lazy {
-        GalleryImagesAdapter(
-            onGalleryImageClicked = { postId -> navigateToImagePreview(postId) },
+        GalleryItemsAdapter(
+            onGalleryItemClicked = { item -> onMediaItemSelected(item) },
             onLoadMore = { viewModel.loadMore() })
     }
 
-    private var pickImageListener: PickGalleryImageListener? = null
+    private var pickMediaListener: PickGalleryMediaListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        pickImageListener = parentFragment as? PickGalleryImageListener
+        pickMediaListener = parentFragment as? PickGalleryMediaListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,18 +62,18 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     private fun setupViews() {
         binding.rvGallery.apply {
             adapter = listAdapter
-            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryImageViewHolder>(2))
+            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryContentViewHolder>(2))
             bindToFab(binding.fbUploadImage)
         }
         binding.fbUploadImage.setOnClickListener { showImagePicker() }
-        binding.fbUploadImage.setIsVisible(pickImageListener == null)
+        binding.fbUploadImage.setIsVisible(pickMediaListener == null)
     }
 
     private fun setupObservers() {
         viewModel.titleLiveData?.observeData(this) { title ->
             setToolbarTitle(title ?: "")
         }
-        viewModel.galleryImagesLiveData.observeData(this) {
+        viewModel.galleryItemsLiveData.observeData(this) {
             listAdapter.submitList(it)
         }
         viewModel.scrollToTopLiveData.observeData(this) {
@@ -78,9 +83,6 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         }
         viewModel.deleteGalleryLiveData.observeResponse(this,
             success = { activity?.onBackPressed() }
-        )
-        viewModel.selectedImageUri.observeResponse(this,
-            success = { pickImageListener?.onMediaSelected(it, MediaType.Image) }
         )
     }
 
@@ -119,10 +121,12 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
         )
     }
 
-    private fun navigateToImagePreview(postId: String) {
-        pickImageListener?.let { viewModel.getImageUri(requireContext(), postId) } ?: kotlin.run {
+    private fun onMediaItemSelected(item: GalleryContentListItem) {
+        pickMediaListener?.let {
+            viewModel.selectMediaForPicker(requireContext(), item, it)
+        } ?: kotlin.run {
             findNavController().navigate(
-                GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, postId)
+                GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, item.id)
             )
         }
     }
@@ -140,8 +144,12 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
     companion object {
         private const val ROOM_ID = "roomId"
         private const val TYPE = "type"
-        fun create(roomId: String) = GalleryFragment().apply {
-            arguments = bundleOf(ROOM_ID to roomId, TYPE to CircleRoomTypeArg.Photo)
+        fun create(roomId: String, isVideoAvailable: Boolean) = GalleryFragment().apply {
+            arguments = bundleOf(
+                ROOM_ID to roomId,
+                TYPE to CircleRoomTypeArg.Photo,
+                IS_VIDEO_AVAILABLE to isVideoAvailable
+            )
         }
     }
 }

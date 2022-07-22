@@ -59,7 +59,7 @@ class SaveToGalleyDialogFragment :
         }
         viewModel.saveResultLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.image_saved), true)
+                showSuccess(getString(R.string.saved), true)
                 activity?.onBackPressed()
             }
         )

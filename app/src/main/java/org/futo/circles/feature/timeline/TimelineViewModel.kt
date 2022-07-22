@@ -10,7 +10,10 @@ import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.feature.timeline.post.share.ShareableContent
-import org.futo.circles.model.*
+import org.futo.circles.model.CreatePostContent
+import org.futo.circles.model.MediaPostContent
+import org.futo.circles.model.PostContent
+import org.futo.circles.model.TextPostContent
 import org.matrix.android.sdk.api.util.Cancelable
 
 class TimelineViewModel(
@@ -25,7 +28,7 @@ class TimelineViewModel(
     val accessLevelLiveData = timelineDataSource.accessLevelFlow.asLiveData()
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
-    val downloadImageLiveData = SingleEventLiveData<Unit>()
+    val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
     val leaveGroupLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -38,7 +41,7 @@ class TimelineViewModel(
 
     fun sharePostContent(content: PostContent) {
         launchBg {
-            shareLiveData.postValue(postOptionsDataSource.getShareableContent(content))
+            postOptionsDataSource.getShareableContent(content)?.let { shareLiveData.postValue(it) }
         }
     }
 
@@ -52,10 +55,10 @@ class TimelineViewModel(
         }
     }
 
-    fun saveToDevice(imageContent: ImageContent) {
+    fun saveToDevice(content: PostContent) {
         launchBg {
-            postOptionsDataSource.saveImageToDevice(imageContent)
-            downloadImageLiveData.postValue(Unit)
+            postOptionsDataSource.saveMediaToDevice(content)
+            saveToDeviceLiveData.postValue(Unit)
         }
     }
 

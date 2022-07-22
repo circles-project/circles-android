@@ -9,25 +9,27 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.GalleryImageDialogFragmentBinding
-import org.futo.circles.extensions.loadInto
+import org.futo.circles.databinding.MediaPreviewDialogFragmentBinding
+import org.futo.circles.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.showDialog
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.timeline.post.share.ShareProvider
+import org.futo.circles.model.ImageContent
+import org.futo.circles.model.VideoContent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class GalleryImageDialogFragment :
-    BaseFullscreenDialogFragment(GalleryImageDialogFragmentBinding::inflate) {
+class MediaPreviewDialogFragment :
+    BaseFullscreenDialogFragment(MediaPreviewDialogFragmentBinding::inflate) {
 
-    private val args: GalleryImageDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<GalleryImageViewModel> {
+    private val args: MediaPreviewDialogFragmentArgs by navArgs()
+    private val viewModel by viewModel<MediaPreviewViewModel> {
         parametersOf(args.roomId, args.eventId)
     }
 
     private val binding by lazy {
-        getBinding() as GalleryImageDialogFragmentBinding
+        getBinding() as MediaPreviewDialogFragmentBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,11 +50,11 @@ class GalleryImageDialogFragment :
             setOnMenuItemClickListener { item ->
                 return@setOnMenuItemClickListener when (item.itemId) {
                     R.id.save -> {
-                        viewModel.saveImage()
+                        viewModel.save()
                         true
                     }
                     R.id.share -> {
-                        viewModel.shareImage()
+                        viewModel.share()
                         true
                     }
                     R.id.delete -> {
@@ -66,14 +68,20 @@ class GalleryImageDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.galleryImageLiveData.observeData(this) {
-            it?.loadInto(binding.ivImage)
+        viewModel.mediaContentLiveData.observeData(this) { postContent ->
+            when (postContent) {
+                is ImageContent -> postContent.mediaContentData.loadEncryptedIntoWithAspect(
+                    binding.ivImage, postContent.aspectRatio
+                )
+                is VideoContent -> TODO()
+                else -> {}
+            }
         }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
         }
-        viewModel.downloadImageLiveData.observeData(this) {
-            context?.let { showSuccess(it.getString(R.string.image_saved), false) }
+        viewModel.downloadLiveData.observeData(this) {
+            context?.let { showSuccess(it.getString(R.string.saved), false) }
         }
     }
 

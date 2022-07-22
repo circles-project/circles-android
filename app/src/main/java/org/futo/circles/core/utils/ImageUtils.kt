@@ -1,4 +1,4 @@
-package org.futo.circles.core
+package org.futo.circles.core.utils
 
 import android.content.Context
 import android.graphics.BitmapFactory

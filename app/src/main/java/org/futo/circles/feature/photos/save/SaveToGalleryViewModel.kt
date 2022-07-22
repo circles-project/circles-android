@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
-import org.futo.circles.feature.photos.preview.GalleryImageDataSource
+import org.futo.circles.feature.photos.preview.MediaPreviewDataSource
 import org.futo.circles.model.SelectableRoomListItem
 
 class SaveToGalleryViewModel(
-    private val galleryImageDataSource: GalleryImageDataSource,
+    private val mediaPreviewDataSource: MediaPreviewDataSource,
     private val selectGalleryDataSource: SelectGalleryDataSource
 ) : ViewModel() {
 
@@ -17,8 +17,8 @@ class SaveToGalleryViewModel(
 
     fun saveToGallery() {
         launchBg {
-            galleryImageDataSource.getImageItem()?.imageContent?.let { content ->
-                selectGalleryDataSource.saveImageToGalleries(content)
+            mediaPreviewDataSource.getPostContent()?.let { content ->
+                selectGalleryDataSource.saveMediaToGalleries(content)
             }
             saveResultLiveData.postValue(Response.Success(Unit))
         }

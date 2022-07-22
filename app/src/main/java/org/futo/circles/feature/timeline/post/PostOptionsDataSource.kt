@@ -1,19 +1,16 @@
 package org.futo.circles.feature.timeline.post
 
 import android.content.Context
-import com.bumptech.glide.Glide
+import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
+import org.futo.circles.core.utils.FileUtils.saveMediaFileToDevice
 import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.getUri
-import org.futo.circles.extensions.saveImageToDeviceGallery
-import org.futo.circles.feature.timeline.post.share.ImageShareable
+import org.futo.circles.extensions.onBG
+import org.futo.circles.feature.timeline.post.share.MediaShareable
+import org.futo.circles.feature.timeline.post.share.ShareableContent
 import org.futo.circles.feature.timeline.post.share.TextShareable
-import org.futo.circles.model.ImageContent
-import org.futo.circles.model.PostContent
-import org.futo.circles.model.TextContent
+import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import org.futo.circles.model.VideoContent
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 
@@ -40,19 +37,28 @@ class PostOptionsDataSource(
     }
 
 
-    suspend fun getShareableContent(content: PostContent) = withContext(Dispatchers.IO) {
+    suspend fun getShareableContent(content: PostContent): ShareableContent? = onBG {
         when (content) {
-            is ImageContent -> {
-                val uri = Glide.with(context).asFile().load(content).submit().get().getUri(context)
-                ImageShareable(uri)
-            }
-            is VideoContent -> TODO()
+            is ImageContent -> getShareableMediaContent(content.mediaContentData)
+            is VideoContent -> getShareableMediaContent(content.mediaContentData)
             is TextContent -> TextShareable(content.message)
         }
     }
 
-    suspend fun saveImageToDevice(imageContent: ImageContent) = withContext(Dispatchers.IO) {
-        val b = Glide.with(context).asBitmap().load(imageContent).submit().get()
-        b.saveImageToDeviceGallery(context)
+    suspend fun saveMediaToDevice(content: PostContent) = onBG {
+        when (content) {
+            is ImageContent -> saveMediaFileToDevice(
+                context, content.mediaContentData, MediaType.Image
+            )
+            is VideoContent -> saveMediaFileToDevice(
+                context, content.mediaContentData, MediaType.Video
+            )
+            else -> throw IllegalArgumentException("Unsupported file type")
+        }
     }
+
+    private suspend fun getShareableMediaContent(mediaContentData: MediaContentData) =
+        downloadEncryptedFileToContentUri(context, mediaContentData)?.let {
+            MediaShareable(it, mediaContentData.mimeType)
+        }
 }

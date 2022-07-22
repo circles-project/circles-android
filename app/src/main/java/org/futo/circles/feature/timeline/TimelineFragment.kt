@@ -22,7 +22,6 @@ import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.share.ShareProvider
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.CreatePostContent
-import org.futo.circles.model.ImageContent
 import org.futo.circles.model.PostContent
 import org.futo.circles.view.PostOptionsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -115,8 +114,8 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
         }
-        viewModel.downloadImageLiveData.observeData(this) {
-            context?.let { showSuccess(it.getString(R.string.image_saved), true) }
+        viewModel.saveToDeviceLiveData.observeData(this) {
+            context?.let { showSuccess(it.getString(R.string.saved), true) }
         }
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {
@@ -167,8 +166,8 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
         )
     }
 
-    override fun onSaveToDevice(imageContent: ImageContent) {
-        viewModel.saveToDevice(imageContent)
+    override fun onSaveToDevice(content: PostContent) {
+        viewModel.saveToDevice(content)
     }
 
     override fun onSaveToGallery(roomId: String, eventId: String) {

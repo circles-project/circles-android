@@ -7,8 +7,8 @@ import com.bumptech.glide.Glide
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.core.picker.device.PickDeviceMediaDataSource
-import org.futo.circles.databinding.DeviceVideoListItemBinding
 import org.futo.circles.databinding.GalleryImageListItemBinding
+import org.futo.circles.databinding.GalleryVideoListItemBinding
 import org.futo.circles.extensions.onClick
 import org.futo.circles.model.DeviceImageListItem
 import org.futo.circles.model.DeviceMediaListItem
@@ -46,11 +46,11 @@ class DeviceImageViewHolder(
 class DeviceVideoViewHolder(
     parent: ViewGroup,
     onMediaClicked: (Int) -> Unit
-) : DeviceMediaViewHolder(inflate(parent, DeviceVideoListItemBinding::inflate)) {
+) : DeviceMediaViewHolder(inflate(parent, GalleryVideoListItemBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as DeviceVideoListItemBinding
+    private val binding = baseBinding as GalleryVideoListItemBinding
 
     init {
         onClick(itemView) { position -> onMediaClicked(position) }
@@ -62,6 +62,5 @@ class DeviceVideoViewHolder(
             ivVideoCover.setImageBitmap(data.thumbnail)
             tvDuration.text = data.durationString
         }
-
     }
 }

@@ -2,7 +2,7 @@ package org.futo.circles.model
 
 import android.graphics.Bitmap
 import android.net.Uri
-import org.futo.circles.core.VideoUtils.getVideoDurationString
+import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
 import org.futo.circles.core.list.IdEntity
 import org.futo.circles.core.picker.MediaType
 

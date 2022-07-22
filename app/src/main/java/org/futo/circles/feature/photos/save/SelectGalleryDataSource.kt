@@ -2,15 +2,12 @@ package org.futo.circles.feature.photos.save
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.Glide
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.extensions.getUri
+import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import org.futo.circles.extensions.onBG
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.mapping.toSelectableRoomListItem
-import org.futo.circles.model.GALLERY_TYPE
-import org.futo.circles.model.ImageContent
-import org.futo.circles.model.SelectableRoomListItem
+import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
@@ -43,11 +40,24 @@ class SelectGalleryDataSource(
         galleriesLiveData.postValue(newList)
     }
 
-    suspend fun saveImageToGalleries(imageContent: ImageContent) {
+    suspend fun saveMediaToGalleries(content: PostContent) {
+        var mediaType = MediaType.Image
         onBG {
-            val uri = Glide.with(context).asFile().load(imageContent).submit().get().getUri(context)
-            getSelectedGalleries().forEach {
-                sendMessageDataSource.sendMedia(it.id, uri, null, MediaType.Image)
+            val uri = when (content) {
+                is ImageContent -> {
+                    mediaType = MediaType.Image
+                    downloadEncryptedFileToContentUri(context, content.mediaContentData)
+                }
+                is VideoContent -> {
+                    mediaType = MediaType.Video
+                    downloadEncryptedFileToContentUri(context, content.mediaContentData)
+                }
+                else -> null
+            }
+            uri?.let {
+                getSelectedGalleries().forEach {
+                    sendMessageDataSource.sendMedia(it.id, uri, null, mediaType)
+                }
             }
         }
     }

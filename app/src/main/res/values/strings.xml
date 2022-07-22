@@ -143,12 +143,11 @@
     <string name="encrypting">Encrypting</string>
     <string name="uploading">Uploading</string>
     <string name="reply_to_format">Reply to %s</string>
-    <string name="save_image">Save image</string>
     <string name="delete">Delete</string>
     <string name="ignore_sender">Ignore sender</string>
     <string name="ignore">Ignore</string>
     <string name="report">Report</string>
-    <string name="image_saved">Image saved</string>
+    <string name="saved">Saved</string>
     <string name="remove_post">Remove post</string>
     <string name="remove_image">Remove image</string>
     <string name="remove_post_message">Are you sure you want to remove this post?</string>

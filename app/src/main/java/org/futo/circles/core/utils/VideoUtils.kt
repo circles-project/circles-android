@@ -1,13 +1,18 @@
-package org.futo.circles.core
+package org.futo.circles.core.utils
 
+import android.app.DownloadManager
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Context.DOWNLOAD_SERVICE
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.Environment
 import android.util.Size
+import io.realm.Realm.getApplicationContext
 import org.futo.circles.core.picker.device.PickDeviceMediaDataSource
 import java.util.concurrent.TimeUnit
+
 
 object VideoUtils {
 

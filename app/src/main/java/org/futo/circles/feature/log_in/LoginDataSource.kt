@@ -3,7 +3,7 @@ package org.futo.circles.feature.log_in
 import android.content.Context
 import android.net.Uri
 import org.futo.circles.R
-import org.futo.circles.core.HomeServerUtils
+import org.futo.circles.core.utils.HomeServerUtils
 import org.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response

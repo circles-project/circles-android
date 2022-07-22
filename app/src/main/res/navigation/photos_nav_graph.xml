@@ -110,8 +110,8 @@
     </dialog>
     <dialog
         android:id="@+id/galleryImageDialogFragment"
-        android:name="org.futo.circles.feature.photos.preview.GalleryImageDialogFragment"
-        tools:layout="@layout/gallery_image_dialog_fragment">
+        android:name="org.futo.circles.feature.photos.preview.MediaPreviewDialogFragment"
+        tools:layout="@layout/media_preview_dialog_fragment">
 
         <argument
             android:name="roomId"

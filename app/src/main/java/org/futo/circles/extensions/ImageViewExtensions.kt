@@ -11,7 +11,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.R
 import org.futo.circles.glide.GlideApp
-import org.futo.circles.model.ImageContent
 import org.futo.circles.model.MediaContentData
 import org.futo.circles.provider.MatrixSessionProvider
 

@@ -37,6 +37,7 @@ class CreatePostDialogFragment :
             parentFragmentManager.fragments.firstOrNull { it is CreatePostListener } as? CreatePostListener
     }
 
+    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)

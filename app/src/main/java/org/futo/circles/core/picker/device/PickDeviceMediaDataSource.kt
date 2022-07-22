@@ -6,8 +6,8 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import org.futo.circles.core.VideoUtils.getVideoDuration
-import org.futo.circles.core.VideoUtils.getVideoThumbnail
+import org.futo.circles.core.utils.VideoUtils.getVideoDuration
+import org.futo.circles.core.utils.VideoUtils.getVideoThumbnail
 import org.futo.circles.extensions.onBG
 import org.futo.circles.model.DeviceImageListItem
 import org.futo.circles.model.DeviceMediaListItem
