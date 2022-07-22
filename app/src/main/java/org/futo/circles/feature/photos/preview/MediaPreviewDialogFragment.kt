@@ -15,6 +15,8 @@ import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.showDialog
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.timeline.post.share.ShareProvider
+import org.futo.circles.model.ImageContent
+import org.futo.circles.model.VideoContent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -48,11 +50,11 @@ class MediaPreviewDialogFragment :
             setOnMenuItemClickListener { item ->
                 return@setOnMenuItemClickListener when (item.itemId) {
                     R.id.save -> {
-                        viewModel.saveImage()
+                        viewModel.save()
                         true
                     }
                     R.id.share -> {
-                        viewModel.shareImage()
+                        viewModel.share()
                         true
                     }
                     R.id.delete -> {
@@ -66,15 +68,19 @@ class MediaPreviewDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.galleryImageLiveData.observeData(this) { item ->
-            item?.imageContent?.let {
-                it.mediaContentData.loadEncryptedIntoWithAspect(binding.ivImage, it.aspectRatio)
+        viewModel.mediaContentLiveData.observeData(this) { postContent ->
+            when (postContent) {
+                is ImageContent -> postContent.mediaContentData.loadEncryptedIntoWithAspect(
+                    binding.ivImage, postContent.aspectRatio
+                )
+                is VideoContent -> TODO()
+                else -> {}
             }
         }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
         }
-        viewModel.downloadImageLiveData.observeData(this) {
+        viewModel.downloadLiveData.observeData(this) {
             context?.let { showSuccess(it.getString(R.string.saved), false) }
         }
     }

@@ -1,12 +1,13 @@
 package org.futo.circles.feature.photos.preview
 
 import org.futo.circles.mapping.toPost
-import org.futo.circles.model.GalleryImageListItem
-import org.futo.circles.model.ImageContent
-import org.futo.circles.model.PostContentType
+import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
+import org.matrix.android.sdk.api.session.room.model.message.MessageContent
+import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
 class MediaPreviewDataSource(
     private val roomId: String,
@@ -15,12 +16,17 @@ class MediaPreviewDataSource(
 
     private val session = MatrixSessionProvider.currentSession
 
-    fun getImageItem(): GalleryImageListItem? {
+    fun getPostContent(): PostContent? {
         val roomForMessage = session?.getRoom(roomId)
-        val post = roomForMessage?.getTimelineEvent(eventId)?.toPost(PostContentType.IMAGE_CONTENT)
-        return (post?.content as? ImageContent)?.let {
-            GalleryImageListItem(post.id, it, post.postInfo)
-        }
+        val timelineEvent = roomForMessage?.getTimelineEvent(eventId) ?: return null
+        val post = getPostContentTypeFor(timelineEvent)?.let { timelineEvent.toPost(it) }
+            ?: return null
+        return post.content
+    }
+
+    private fun getPostContentTypeFor(event: TimelineEvent): PostContentType? {
+        val messageType = event.root.getClearContent()?.toModel<MessageContent>()?.msgType
+        return PostContentType.values().firstOrNull { it.typeKey == messageType }
     }
 
 

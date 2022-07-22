@@ -14,12 +14,12 @@ class MediaPreviewViewModel(
     private val postOptionsDataSource: PostOptionsDataSource
 ) : ViewModel() {
 
-    val galleryImageLiveData = MutableLiveData(mediaPreviewDataSource.getImageItem())
+    val mediaContentLiveData = MutableLiveData(mediaPreviewDataSource.getPostContent())
     val shareLiveData = SingleEventLiveData<ShareableContent>()
-    val downloadImageLiveData = SingleEventLiveData<Unit>()
+    val downloadLiveData = SingleEventLiveData<Unit>()
 
-    fun shareImage() {
-        val content = galleryImageLiveData.value?.imageContent ?: return
+    fun share() {
+        val content = mediaContentLiveData.value ?: return
         launchBg {
             shareLiveData.postValue(postOptionsDataSource.getShareableContent(content))
         }
@@ -29,11 +29,11 @@ class MediaPreviewViewModel(
         postOptionsDataSource.removeMessage(roomId, eventId)
     }
 
-    fun saveImage() {
-        val imageContent = galleryImageLiveData.value?.imageContent ?: return
+    fun save() {
+        val content = mediaContentLiveData.value ?: return
         launchBg {
-            postOptionsDataSource.saveMediaToDevice(imageContent)
-            downloadImageLiveData.postValue(Unit)
+            postOptionsDataSource.saveMediaToDevice(content)
+            downloadLiveData.postValue(Unit)
         }
     }
 }
