@@ -1,15 +1,12 @@
 package org.futo.circles.mapping
 
 import com.bumptech.glide.request.target.Target
-import org.futo.circles.core.utils.VideoUtils
 import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.utils.VideoUtils
 import org.futo.circles.model.*
 import org.matrix.android.sdk.api.session.crypto.attachments.toElementToDecrypt
 import org.matrix.android.sdk.api.session.events.model.toModel
-import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent
-import org.matrix.android.sdk.api.session.room.model.message.MessageTextContent
-import org.matrix.android.sdk.api.session.room.model.message.MessageVideoContent
-import org.matrix.android.sdk.api.session.room.model.message.getFileUrl
+import org.matrix.android.sdk.api.session.room.model.message.*
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getRelationContent
 import org.matrix.android.sdk.api.session.room.timeline.isReply
@@ -89,7 +86,7 @@ private fun TimelineEvent.toMediaContentData(mediaType: MediaType): MediaContent
         }
     }
     return MediaContentData(
-        fileName = messageContent?.body ?: "",
+        fileName = messageContent?.getFileName() ?: "",
         mimeType = messageContent?.mimeType ?: "",
         fileUrl = messageContent?.getFileUrl() ?: "",
         elementToDecrypt = messageContent?.encryptedFileInfo?.toElementToDecrypt(),
