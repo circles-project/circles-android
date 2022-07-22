@@ -2,14 +2,13 @@ package org.futo.circles.feature.timeline.post.share
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import org.futo.circles.R
 
 object ShareProvider {
 
     fun share(context: Context, content: ShareableContent) {
         val intent = when (content) {
-            is ImageShareable -> getImageShareIntent(content.uriToFile)
+            is MediaShareable -> getMediaShareIntent(content)
             is TextShareable -> getTextShareIntent(content.text)
         }
         context.startActivity(
@@ -24,11 +23,11 @@ object ShareProvider {
         type = "text/plain"
     }
 
-    private fun getImageShareIntent(fileUri: Uri) = Intent().apply {
+    private fun getMediaShareIntent(mediaShareable: MediaShareable) = Intent().apply {
         action = Intent.ACTION_SEND
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        putExtra(Intent.EXTRA_STREAM, fileUri)
-        type = "image/*"
+        putExtra(Intent.EXTRA_STREAM, mediaShareable.uriToFile)
+        type = mediaShareable.mimeType
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
 

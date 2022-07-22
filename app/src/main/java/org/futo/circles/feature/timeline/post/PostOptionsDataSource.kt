@@ -4,16 +4,14 @@ import android.content.Context
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.futo.circles.core.utils.VideoUtils
+import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.getUri
+import org.futo.circles.extensions.onBG
 import org.futo.circles.extensions.saveImageToDeviceGallery
-import org.futo.circles.feature.timeline.post.share.ImageShareable
+import org.futo.circles.feature.timeline.post.share.MediaShareable
+import org.futo.circles.feature.timeline.post.share.ShareableContent
 import org.futo.circles.feature.timeline.post.share.TextShareable
-import org.futo.circles.model.ImageContent
-import org.futo.circles.model.PostContent
-import org.futo.circles.model.TextContent
-import org.futo.circles.model.VideoContent
+import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
@@ -41,14 +39,10 @@ class PostOptionsDataSource(
     }
 
 
-    suspend fun getShareableContent(content: PostContent) = withContext(Dispatchers.IO) {
+    suspend fun getShareableContent(content: PostContent): ShareableContent? = onBG {
         when (content) {
-            is ImageContent -> {
-                val uri = Glide.with(context).asFile().load(content.mediaContentData).submit().get()
-                    .getUri(context)
-                ImageShareable(uri)
-            }
-            is VideoContent -> TODO()
+            is ImageContent -> getShareableMediaContent(content.mediaContentData)
+            is VideoContent -> getShareableMediaContent(content.mediaContentData)
             is TextContent -> TextShareable(content.message)
         }
     }
@@ -58,9 +52,13 @@ class PostOptionsDataSource(
             is ImageContent -> Glide.with(context).asBitmap().load(content.mediaContentData)
                 .submit().get()
                 .saveImageToDeviceGallery(context)
-            is VideoContent -> VideoUtils.downloadFile(content.mediaContentData.fileUrl, content.mediaContentData.fileName, "example")
+            is VideoContent -> TODO()
             else -> {}
         }
-
     }
+
+    private suspend fun getShareableMediaContent(mediaContentData: MediaContentData) =
+        downloadEncryptedFileToContentUri(context, mediaContentData)?.let {
+            MediaShareable(it, mediaContentData.mimeType)
+        }
 }
