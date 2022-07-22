@@ -51,15 +51,4 @@ object VideoUtils {
         return if (hours == 0L && !includeHoursZeros) String.format("%02d:%02d", minutes, seconds)
         else String.format("%02d:%02d:%02d", hours, minutes, seconds)
     }
-
-    fun downloadFile(url: String, title: String, description: String) {
-        val request = DownloadManager.Request(Uri.parse(url))
-        request.setDescription(description)
-        request.setTitle(title)
-        request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_MOVIES,
-            "$title.mp4"
-        )
-        (getApplicationContext()?.getSystemService(DOWNLOAD_SERVICE) as DownloadManager?)?.
-        enqueue(request)
-    }
 }
