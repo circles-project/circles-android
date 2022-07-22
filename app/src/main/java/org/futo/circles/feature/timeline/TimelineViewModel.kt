@@ -28,7 +28,7 @@ class TimelineViewModel(
     val accessLevelLiveData = timelineDataSource.accessLevelFlow.asLiveData()
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
-    val downloadImageLiveData = SingleEventLiveData<Unit>()
+    val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
     val leaveGroupLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -58,7 +58,7 @@ class TimelineViewModel(
     fun saveToDevice(content: PostContent) {
         launchBg {
             postOptionsDataSource.saveMediaToDevice(content)
-            downloadImageLiveData.postValue(Unit)
+            saveToDeviceLiveData.postValue(Unit)
         }
     }
 

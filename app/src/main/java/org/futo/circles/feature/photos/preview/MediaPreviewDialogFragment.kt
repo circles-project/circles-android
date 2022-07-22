@@ -9,7 +9,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.GalleryImageDialogFragmentBinding
+import org.futo.circles.databinding.MediaPreviewDialogFragmentBinding
 import org.futo.circles.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.showDialog
@@ -18,16 +18,16 @@ import org.futo.circles.feature.timeline.post.share.ShareProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class GalleryImageDialogFragment :
-    BaseFullscreenDialogFragment(GalleryImageDialogFragmentBinding::inflate) {
+class MediaPreviewDialogFragment :
+    BaseFullscreenDialogFragment(MediaPreviewDialogFragmentBinding::inflate) {
 
-    private val args: GalleryImageDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<GalleryImageViewModel> {
+    private val args: MediaPreviewDialogFragmentArgs by navArgs()
+    private val viewModel by viewModel<MediaPreviewViewModel> {
         parametersOf(args.roomId, args.eventId)
     }
 
     private val binding by lazy {
-        getBinding() as GalleryImageDialogFragmentBinding
+        getBinding() as MediaPreviewDialogFragmentBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,7 +75,7 @@ class GalleryImageDialogFragment :
             context?.let { ShareProvider.share(it, content) }
         }
         viewModel.downloadImageLiveData.observeData(this) {
-            context?.let { showSuccess(it.getString(R.string.image_saved), false) }
+            context?.let { showSuccess(it.getString(R.string.saved), false) }
         }
     }
 

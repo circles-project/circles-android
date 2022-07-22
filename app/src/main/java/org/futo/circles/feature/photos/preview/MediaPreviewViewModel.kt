@@ -7,14 +7,14 @@ import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.feature.timeline.post.share.ShareableContent
 
-class GalleryImageViewModel(
+class MediaPreviewViewModel(
     private val roomId: String,
     private val eventId: String,
-    galleryImageDataSource: GalleryImageDataSource,
+    mediaPreviewDataSource: MediaPreviewDataSource,
     private val postOptionsDataSource: PostOptionsDataSource
 ) : ViewModel() {
 
-    val galleryImageLiveData = MutableLiveData(galleryImageDataSource.getImageItem())
+    val galleryImageLiveData = MutableLiveData(mediaPreviewDataSource.getImageItem())
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val downloadImageLiveData = SingleEventLiveData<Unit>()
 

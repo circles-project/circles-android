@@ -8,7 +8,7 @@ import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 
-class GalleryImageDataSource(
+class MediaPreviewDataSource(
     private val roomId: String,
     private val eventId: String
 ) {
