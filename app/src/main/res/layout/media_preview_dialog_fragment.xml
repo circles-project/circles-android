@@ -2,29 +2,42 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:id="@+id/lParent"
     android:layout_height="match_parent"
     android:background="@color/black">
+
 
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <FrameLayout
-        android:id="@+id/parent"
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        app:shutter_background_color="@color/transparent"
+        app:keep_content_on_player_reset="true"
+        app:resize_mode="fit"
+        android:soundEffectsEnabled="true"
+        app:surface_type="texture_view"
+        app:use_controller="true" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:background="@color/status_bar_color"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/WhiteMenuToolbar"
-            app:menu="@menu/gallery_image_menu"
-            app:navigationIcon="?attr/homeAsUpIndicator" />
-    </FrameLayout>
+    <ProgressBar
+        android:id="@+id/vLoading"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/status_bar_color"
+        android:theme="@style/WhiteMenuToolbar"
+        app:menu="@menu/gallery_image_menu"
+        app:navigationIcon="?attr/homeAsUpIndicator" />
 
 </FrameLayout>
