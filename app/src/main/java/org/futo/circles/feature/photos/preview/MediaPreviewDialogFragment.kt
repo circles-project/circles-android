@@ -7,15 +7,17 @@ import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.MediaPreviewDialogFragmentBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.timeline.post.share.ShareProvider
-import org.futo.circles.model.ImageContent
-import org.futo.circles.model.VideoContent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+
 
 class MediaPreviewDialogFragment :
     BaseFullscreenDialogFragment(MediaPreviewDialogFragmentBinding::inflate) {
@@ -27,21 +29,56 @@ class MediaPreviewDialogFragment :
 
     private val binding by lazy { getBinding() as MediaPreviewDialogFragmentBinding }
 
-    private val hideHandler = Handler(Looper.myLooper()!!)
-    private val showRunnable = Runnable { binding.toolbar.visible() }
+    private val hideHandler = Handler(Looper.getMainLooper())
     private val hideRunnable = Runnable { hide() }
+
+    private val videoPlayer by lazy {
+        ExoPlayer.Builder(requireContext()).build().apply {
+            repeatMode = Player.REPEAT_MODE_ONE
+            addListener(object : Player.Listener {
+                override fun onIsLoadingChanged(isLoading: Boolean) {
+                    super.onIsLoadingChanged(isLoading)
+                    binding.vLoading.setIsVisible(isLoading)
+                }
+            })
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loadData(requireContext())
         setupViews()
         setupToolbar()
         setupObservers()
     }
 
+    override fun onPause() {
+        super.onPause()
+        videoPlayer.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        videoPlayer.play()
+    }
+
+    override fun onDestroy() {
+        videoPlayer.stop()
+        videoPlayer.release()
+        super.onDestroy()
+    }
+
     private fun setupViews() {
-        binding.parent.systemUiVisibility =
-            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-        binding.parent.setOnClickListener { toggle() }
+        with(binding) {
+            lParent.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            lParent.setOnClickListener { toggle() }
+            ivImage.setOnClickListener { toggle() }
+            videoView.setOnClickListener { toggle() }
+            videoView.player = videoPlayer
+            videoView.controllerShowTimeoutMs = AUTO_HIDE_DELAY_MILLIS.toInt()
+        }
+
         delayedHide()
     }
 
@@ -70,14 +107,15 @@ class MediaPreviewDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.mediaContentLiveData.observeData(this) { postContent ->
-            when (postContent) {
-                is ImageContent -> postContent.mediaContentData.loadEncryptedIntoWithAspect(
-                    binding.ivImage, postContent.aspectRatio
-                )
-                is VideoContent -> TODO()
-                else -> {}
-            }
+        viewModel.imageLiveData.observeData(this) {
+            binding.videoView.gone()
+            it.mediaContentData.loadEncryptedIntoWithAspect(binding.ivImage, it.aspectRatio)
+        }
+        viewModel.videoLiveData.observeData(this) {
+            binding.ivImage.gone()
+            videoPlayer.setMediaItem(MediaItem.fromUri(it.second))
+            videoPlayer.prepare()
+            videoPlayer.play()
         }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
@@ -106,11 +144,11 @@ class MediaPreviewDialogFragment :
 
     private fun hide() {
         binding.toolbar.gone()
-        hideHandler.removeCallbacks(showRunnable)
     }
 
     private fun show() {
-        hideHandler.postDelayed(showRunnable, UI_ANIMATION_DELAY)
+        binding.toolbar.visible()
+        binding.videoView.showController()
         delayedHide()
     }
 
@@ -121,6 +159,5 @@ class MediaPreviewDialogFragment :
 
     companion object {
         private const val AUTO_HIDE_DELAY_MILLIS = 3000L
-        private const val UI_ANIMATION_DELAY = 300L
     }
 }
