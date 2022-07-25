@@ -23,4 +23,5 @@
     <color name="highlight_color">#330E7AFE</color>
     <color name="chip_selected_color">#800E7AFE</color>
     <color name="launcher_background_color">#00008b</color>
+    <color name="transparent">#00000000</color>
 </resources>
