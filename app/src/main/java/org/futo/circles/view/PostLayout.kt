@@ -21,6 +21,7 @@ interface PostOptionsListener {
     fun onSaveToDevice(content: PostContent)
     fun onSaveToGallery(roomId: String, eventId: String)
     fun onReply(roomId: String, eventId: String, userName: String)
+    fun onShowPreview(roomId: String, eventId: String)
     fun onShowEmoji(roomId: String, eventId: String)
     fun onReport(roomId: String, eventId: String)
     fun onRemove(roomId: String, eventId: String)
@@ -41,6 +42,11 @@ class PostLayout(
     init {
         binding.btnShowReplies.setOnClickListener {
             post?.let { optionsListener?.onShowRepliesClicked(it.id) }
+        }
+        binding.lvContent.setOnClickListener {
+            post?.let {
+                if (it.content.isMedia()) optionsListener?.onShowPreview(it.postInfo.roomId, it.id)
+            }
         }
     }
 

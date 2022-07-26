@@ -72,7 +72,9 @@ class ImagePostViewHolder(
         binding.vLoadingImage.gone()
         track(post.id, binding.vLoadingImage)
         (post.content as? ImageContent)?.let {
-            it.mediaContentData.loadEncryptedIntoWithAspect(binding.ivContent, it.aspectRatio)
+            it.mediaContentData.loadEncryptedIntoWithAspect(
+                binding.imageItem.ivGalleryImage, it.aspectRatio
+            )
         }
     }
 }
