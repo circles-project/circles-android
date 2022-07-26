@@ -134,8 +134,16 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
         viewModel.toggleRepliesVisibilityFor(eventId)
     }
 
+    override fun onShowPreview(roomId: String, eventId: String) {
+        findNavController().navigate(
+            TimelineFragmentDirections.toMediaPreviewDialogFragment(roomId, eventId)
+        )
+    }
+
     override fun onShowEmoji(roomId: String, eventId: String) {
-        navigateToEmojiPicker(roomId, eventId)
+        findNavController().navigate(
+            TimelineFragmentDirections.toEmojiBottomSheet(roomId, eventId)
+        )
     }
 
     override fun onReply(roomId: String, eventId: String, userName: String) {
@@ -177,7 +185,9 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
     }
 
     override fun onReport(roomId: String, eventId: String) {
-        navigateToReport(roomId, eventId)
+        findNavController().navigate(
+            TimelineFragmentDirections.toReportDialogFragment(roomId, eventId)
+        )
     }
 
     override fun onEmojiChipClicked(
@@ -223,18 +233,6 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
     ) {
         findNavController().navigate(
             TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId)
-        )
-    }
-
-    private fun navigateToEmojiPicker(roomId: String, eventId: String) {
-        findNavController().navigate(
-            TimelineFragmentDirections.toEmojiBottomSheet(roomId, eventId)
-        )
-    }
-
-    private fun navigateToReport(roomId: String, eventId: String) {
-        findNavController().navigate(
-            TimelineFragmentDirections.toReportDialogFragment(roomId, eventId)
         )
     }
 

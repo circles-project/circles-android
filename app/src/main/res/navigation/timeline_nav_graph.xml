@@ -136,6 +136,21 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_mediaPreviewDialogFragment"
+            app:destination="@id/mediaPreviewDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
     </fragment>
 
@@ -300,6 +315,22 @@
         android:id="@+id/saveToGalleyDialogFragment"
         android:name="org.futo.circles.feature.photos.save.SaveToGalleyDialogFragment"
         tools:layout="@layout/save_to_gallery_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/mediaPreviewDialogFragment"
+        android:name="org.futo.circles.feature.photos.preview.MediaPreviewDialogFragment"
+        tools:layout="@layout/media_preview_dialog_fragment">
 
         <argument
             android:name="roomId"

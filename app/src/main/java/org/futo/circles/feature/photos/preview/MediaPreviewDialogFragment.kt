@@ -1,9 +1,11 @@
 package org.futo.circles.feature.photos.preview
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
@@ -46,6 +48,10 @@ class MediaPreviewDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.window?.let {
+            it.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            it.statusBarColor = Color.BLACK
+        }
         viewModel.loadData(requireContext())
         setupViews()
         setupToolbar()
@@ -70,15 +76,12 @@ class MediaPreviewDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            lParent.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
             lParent.setOnClickListener { toggle() }
             ivImage.setOnClickListener { toggle() }
             videoView.setOnClickListener { toggle() }
             videoView.player = videoPlayer
             videoView.controllerShowTimeoutMs = AUTO_HIDE_DELAY_MILLIS.toInt()
         }
-
         delayedHide()
     }
 
