@@ -15,11 +15,7 @@
             android:id="@+id/videoItem"
             layout="@layout/gallery_video_list_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content" />
 
 
         <com.google.android.material.imageview.ShapeableImageView
