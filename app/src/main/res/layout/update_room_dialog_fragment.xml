@@ -65,6 +65,7 @@
         android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/add_image_placeholder"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"

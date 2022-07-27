@@ -15,7 +15,7 @@
         android:layout_width="@dimen/circle_icon_size"
         android:layout_height="@dimen/circle_icon_size"
         android:padding="8dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
