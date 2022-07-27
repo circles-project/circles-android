@@ -2,6 +2,7 @@ package org.futo.circles.feature.timeline.list
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.databinding.ImagePostViewBinding
@@ -62,6 +63,7 @@ class ImagePostViewHolder(
 
     private val binding = baseBinding as ImagePostViewBinding
     override val postLayout: PostLayout = binding.lImagePost
+    override val uploadMediaTracker = UploadMediaTracker()
 
     init {
         binding.lImagePost.setListener(postOptionsListener)
@@ -69,13 +71,18 @@ class ImagePostViewHolder(
 
     override fun bind(post: Post) {
         super.bind(post)
-        binding.vLoadingImage.gone()
-        track(post.id, binding.vLoadingImage)
-        (post.content as? ImageContent)?.let {
-            it.mediaContentData.loadEncryptedIntoWithAspect(
-                binding.imageItem.ivGalleryImage, it.aspectRatio
-            )
+        val content = post.content as? ImageContent ?: return
+        val image = binding.imageItem.ivGalleryImage
+        image.post {
+            val size = content.calculateSize(image.width)
+            image.updateLayoutParams {
+                width = size.width
+                height = size.height
+            }
         }
+        binding.vLoadingImage.gone()
+        uploadMediaTracker.track(post.id, binding.vLoadingImage)
+        content.mediaContentData.loadEncryptedIntoWithAspect(image, content.aspectRatio)
     }
 }
 
@@ -90,6 +97,7 @@ class VideoPostViewHolder(
 
     private val binding = baseBinding as VideoPostViewBinding
     override val postLayout: PostLayout = binding.lVideoPost
+    override val uploadMediaTracker = UploadMediaTracker()
 
     init {
         binding.lVideoPost.setListener(postOptionsListener)
@@ -97,13 +105,18 @@ class VideoPostViewHolder(
 
     override fun bind(post: Post) {
         super.bind(post)
-        binding.vLoadingView.gone()
-        track(post.id, binding.vLoadingView)
-        (post.content as? VideoContent)?.let {
-            it.mediaContentData.loadEncryptedIntoWithAspect(
-                binding.videoItem.ivVideoCover, it.aspectRatio
-            )
-            binding.videoItem.tvDuration.text = it.duration
+        val content = post.content as? VideoContent ?: return
+        val image = binding.videoItem.ivVideoCover
+        image.post {
+            val size = content.calculateSize(image.width)
+            image.updateLayoutParams {
+                width = size.width
+                height = size.height
+            }
         }
+        binding.vLoadingView.gone()
+        uploadMediaTracker.track(post.id, binding.vLoadingView)
+        content.mediaContentData.loadEncryptedIntoWithAspect(image, content.aspectRatio)
+        binding.videoItem.tvDuration.text = content.duration
     }
 }

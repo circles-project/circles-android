@@ -1,5 +1,6 @@
 package org.futo.circles.model
 
+import android.util.Size
 import org.matrix.android.sdk.api.session.crypto.attachments.ElementToDecrypt
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
@@ -25,6 +26,7 @@ data class ImageContent(
     val height: Int
 ) : PostContent(PostContentType.IMAGE_CONTENT) {
     val aspectRatio = width.toFloat() / height.toFloat()
+    fun calculateSize(width: Int) =  Size(width, (width / aspectRatio).toInt())
 }
 
 data class VideoContent(
@@ -35,6 +37,7 @@ data class VideoContent(
     val duration: String
 ) : PostContent(PostContentType.VIDEO_CONTENT) {
     val aspectRatio = width.toFloat() / height.toFloat()
+    fun calculateSize(width: Int) =  Size(width, (width / aspectRatio).toInt())
 }
 
 data class MediaContentData(

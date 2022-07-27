@@ -66,7 +66,7 @@ class TimelineAdapter(
 
     override fun onViewDetachedFromWindow(holder: PostViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        (holder as? UploadMediaViewHolder)?.unTrack()
+        (holder as? UploadMediaTracker)?.unTrack()
     }
 
     companion object {

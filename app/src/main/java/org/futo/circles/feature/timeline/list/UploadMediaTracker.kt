@@ -5,10 +5,16 @@ import org.futo.circles.view.LoadingView
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
 interface UploadMediaViewHolder {
+    val uploadMediaTracker: UploadMediaTracker
+}
 
-    private val tracker: ContentUploadStateTracker?
-        get() = MatrixSessionProvider.currentSession?.contentUploadProgressTracker()
+class UploadMediaTracker {
 
+    private val tracker: ContentUploadStateTracker? =
+        MatrixSessionProvider.currentSession?.contentUploadProgressTracker()
+
+    private var postId: String? = null
+    private var listener: ContentUploadStateTracker.UpdateListener? = null
 
     fun track(id: String, loadingView: LoadingView) {
         postId = id
@@ -21,10 +27,5 @@ interface UploadMediaViewHolder {
         val id = postId ?: return
         val callback = listener ?: return
         tracker?.untrack(id, callback)
-    }
-
-    private companion object {
-        private var postId: String? = null
-        private var listener: ContentUploadStateTracker.UpdateListener? = null
     }
 }
