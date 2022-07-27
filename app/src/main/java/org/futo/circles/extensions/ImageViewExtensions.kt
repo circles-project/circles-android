@@ -41,9 +41,8 @@ fun ImageView.loadEncryptedImage(
         GlideApp
             .with(context)
             .load(content)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .placeholder(R.drawable.blurred_placeholder)
-            .override(loadWidth, loadHeight)
+            .thumbnail(.05f)
+            .override(loadWidth,loadHeight)
             .fitCenter()
             .into(this)
     } ?: loadImage(content.fileUrl, loadOriginalSize, preferredSize = preferredSize)
