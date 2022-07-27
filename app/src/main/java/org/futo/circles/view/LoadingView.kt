@@ -24,6 +24,7 @@ class LoadingView(
 
     fun setProgress(data: LoadingData) {
         with(binding) {
+            setMessage(data.messageId)
             horizontalProgress.max = data.total
             horizontalProgress.progress = data.progress
             horizontalProgress.setIsVisible(data.total != data.progress)
