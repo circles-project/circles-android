@@ -7,11 +7,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.VideoUtils.getVideoDuration
 import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
-import org.futo.circles.core.utils.VideoUtils.getVideoThumbnail
-import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.PreviewPostViewBinding
+import org.futo.circles.extensions.loadImage
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.CreatePostContent
@@ -61,17 +61,11 @@ class PreviewPostView(
         postContent = MediaPostContent(contentUri, mediaType)
         when (mediaType) {
             MediaType.Image -> {
-                binding.lImageContent.ivImageContent.setImageURI(contentUri)
+                binding.lImageContent.ivImageContent.loadImage(contentUri.toString())
             }
             MediaType.Video -> {
-                binding.lVideoContent.videoItem.apply {
-                    ivVideoCover.setImageBitmap(
-                        getVideoThumbnail(
-                            context.contentResolver,
-                            contentUri,
-                            500
-                        )
-                    )
+                binding.lVideoContent.apply {
+                    ivVideoCover.loadImage(contentUri.toString())
                     tvDuration.text = getVideoDurationString(getVideoDuration(context, contentUri))
                 }
             }

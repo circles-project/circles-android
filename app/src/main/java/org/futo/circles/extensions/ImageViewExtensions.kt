@@ -7,15 +7,20 @@ import android.widget.ImageView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.R
 import org.futo.circles.glide.GlideApp
 import org.futo.circles.model.MediaContentData
 import org.futo.circles.provider.MatrixSessionProvider
 
+fun ImageView.loadImage(url: String?) {
+    Glide.with(this)
+        .load(url)
+        .fitCenter()
+        .into(this)
+}
 
-fun ImageView.loadImage(
+fun ImageView.loadMatrixImage(
     url: String?,
     loadOriginalSize: Boolean = false,
     placeholder: Drawable? = null,
@@ -42,10 +47,10 @@ fun ImageView.loadEncryptedImage(
             .with(context)
             .load(content)
             .thumbnail(.05f)
-            .override(loadWidth,loadHeight)
+            .override(loadWidth, loadHeight)
             .fitCenter()
             .into(this)
-    } ?: loadImage(content.fileUrl, loadOriginalSize, preferredSize = preferredSize)
+    } ?: loadMatrixImage(content.fileUrl, loadOriginalSize, preferredSize = preferredSize)
 }
 
 fun ImageView.loadProfileIcon(
@@ -65,7 +70,7 @@ fun ImageView.loadProfileIcon(
         .setText(text)
         .build()
 
-    loadImage(url, loadOriginalSize, placeholder, preferredSize)
+    loadMatrixImage(url, loadOriginalSize, placeholder, preferredSize)
 }
 
 

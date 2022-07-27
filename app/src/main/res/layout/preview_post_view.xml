@@ -63,22 +63,20 @@
 
         <include
             android:id="@+id/lImageContent"
-            layout="@layout/image_post_content_layout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            layout="@layout/preview_image_post_content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/lVideoContent"
-            layout="@layout/video_post_content_layout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            layout="@layout/preview_video_post_content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

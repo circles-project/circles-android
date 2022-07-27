@@ -8,7 +8,7 @@ import org.futo.circles.model.MediaContentData
 fun MediaContentData.loadEncryptedIntoWithAspect(imageView: ImageView, aspectRatio: Float) {
     imageView.post {
         if (fileUrl.startsWith(UriContentScheme)) {
-            Glide.with(imageView.context).load(fileUrl).fitCenter().into(imageView)
+            imageView.loadImage(fileUrl)
         } else {
             val imageWith = imageView.width
             val size = Size(imageWith, (imageWith / aspectRatio).toInt())
