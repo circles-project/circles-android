@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.BuildConfig
 import org.futo.circles.R
-import org.futo.circles.core.EU_SERVER_DOMAIN
-import org.futo.circles.core.US_SERVER_DOMAIN
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.SelectSignUpTypeFragmentBinding
 import org.futo.circles.extensions.getText
@@ -47,9 +45,9 @@ class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment)
             }
             serverLocationGroup.setOnCheckedChangeListener { _, checkedId ->
                 tvServerDomain.text = when (checkedId) {
-                    btnUS.id -> US_SERVER_DOMAIN
-                    btnEU.id -> EU_SERVER_DOMAIN
-                    else -> US_SERVER_DOMAIN
+                    btnUS.id -> BuildConfig.US_SERVER_DOMAIN
+                    btnEU.id -> BuildConfig.EU_SERVER_DOMAIN
+                    else -> BuildConfig.US_SERVER_DOMAIN
                 }
             }
             serverLocationGroup.check(btnUS.id)
