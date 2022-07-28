@@ -32,6 +32,20 @@ android {
             resValue "string", "app_name", "Circuli"
         }
     }
+
+    def flavor_dimension_name = "store"
+    flavorDimensions flavor_dimension_name
+    productFlavors {
+        gplay {
+            dimension flavor_dimension_name
+            buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "true")
+        }
+        fdroid {
+            dimension flavor_dimension_name
+            buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "false")
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
