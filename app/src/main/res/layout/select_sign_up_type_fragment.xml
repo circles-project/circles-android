@@ -204,4 +204,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnSubscription" />
 
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupSubscription"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="tvOr,tvSubscriptionTitle,btnSubscription,tvSubscriptionUnavailable" />
 </androidx.constraintlayout.widget.ConstraintLayout>
