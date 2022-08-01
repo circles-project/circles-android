@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "88789403358",
+    "project_id": "circuli",
+    "storage_bucket": "circuli.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88789403358:android:2dbe833e58afe69631244f",
+        "android_client_info": {
+          "package_name": "org.futo.circles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88789403358-q0g728vha7lb42mfv8ebi2j43t2lvrj8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYXaJA5uUCaZaRIQoNaC_ID-jd0Q5F4UE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88789403358-q0g728vha7lb42mfv8ebi2j43t2lvrj8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
