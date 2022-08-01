@@ -41,6 +41,8 @@ android {
     flavorDimensions flavor_dimension_name
     productFlavors {
         gplay {
+            apply plugin: 'com.google.gms.google-services'
+            apply plugin: 'com.google.firebase.crashlytics'
             dimension flavor_dimension_name
             buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "true")
         }
@@ -108,6 +110,10 @@ dependencies {
 
     //ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
+
+    //Firebase crash reports for gplay flavor
+    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.12'
+    gplayImplementation 'com.google.firebase:firebase-analytics-ktx:21.1.0'
 
     //test
     testImplementation 'junit:junit:4.13.2'
