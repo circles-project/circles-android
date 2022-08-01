@@ -43,6 +43,9 @@ android {
         gplay {
             apply plugin: 'com.google.gms.google-services'
             apply plugin: 'com.google.firebase.crashlytics'
+            afterEvaluate {
+                tasks.matching { it.name.contains("GoogleServices") && !it.name.contains("gplay") }*.enabled = false
+            }
             dimension flavor_dimension_name
             buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "true")
         }
