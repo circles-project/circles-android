@@ -82,19 +82,16 @@ dependencies {
     //Subscriptions
     implementation 'com.android.billingclient:billing-ktx:5.0.0'
 
-    //Lifecycle
-    def lifecycle_version = "2.5.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    //androidx
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.androidx_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.androidx_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.androidx_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.androidx_version"
 
     //Koin
     def koin_version = "3.2.0"
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
-
-    //Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.nav_version"
 
     //ViewBinding
     implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6'
