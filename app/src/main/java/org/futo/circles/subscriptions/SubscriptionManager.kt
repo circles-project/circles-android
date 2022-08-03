@@ -4,8 +4,6 @@ interface SubscriptionManager {
 
     suspend fun getDetails(): BillingResult<List<SubscriptionData>>
 
-    suspend fun getLastSubscriptionItem(): BillingResult<String>
-
-    suspend fun purchase(sku: String): BillingResult<String>
+    suspend fun purchaseProduct(sku: String): BillingResult<String>
 
 }
