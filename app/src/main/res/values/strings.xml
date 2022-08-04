@@ -57,11 +57,10 @@
     <string name="group_updated">Group updated</string>
     <string name="circle_updated">Circle updated</string>
     <string name="gallery_updated">Gallery updated</string>
-    <string name="already_have_a_circles_token">Already have a Circles token?</string>
+    <string name="already_have_a_token">Already have a token?</string>
     <string name="sign_up_with_token">Sign up with token</string>
-    <string name="new_circles_subscription">New Circles subscription</string>
-    <string name="new_paid_circles_subscriptions_are_currently_unavailable">New paid Circles subscriptions are currently unavailable</string>
-    <string name="create_a_circles_subscription">Create a Circles subscription</string>
+    <string name="choose_a_subscription">Choose a subscription</string>
+    <string name="create_a_subscription">Create a subscription</string>
     <string name="or">Or</string>
     <string name="validate_your_token">Validate your token</string>
     <string name="validate_token">Validate token</string>
