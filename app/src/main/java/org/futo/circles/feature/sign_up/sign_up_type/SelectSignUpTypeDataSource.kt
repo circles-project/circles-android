@@ -21,7 +21,12 @@ class SelectSignUpTypeDataSource(
         signUpDataSource.clearSubtitle()
     }
 
-    suspend fun startNewRegistration(name: String, password: String, domain: String) =
+    suspend fun startNewRegistration(
+        name: String,
+        password: String,
+        domain: String,
+        isSubscription: Boolean
+    ) =
         createResult {
             val homeServerUrl = HomeServerUtils.getHomeServerUrlFromDomain(domain)
             authService.cancelPendingLoginOrRegistration()

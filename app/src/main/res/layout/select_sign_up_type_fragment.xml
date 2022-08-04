@@ -129,7 +129,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/already_have_a_circles_token"
+        android:text="@string/already_have_a_token"
         app:layout_constraintBottom_toTopOf="@id/btnToken"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -170,44 +170,27 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/create_a_circles_subscription"
+        android:text="@string/create_a_subscription"
         app:layout_constraintBottom_toTopOf="@id/btnSubscription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvOr" />
 
-    <com.google.android.material.button.MaterialButton
+    <org.futo.circles.view.LoadingButton
         android:id="@+id/btnSubscription"
-        style="@style/AccentButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:enabled="false"
-        android:text="@string/new_circles_subscription"
-        app:layout_constraintBottom_toTopOf="@id/tvSubscriptionUnavailable"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSubscriptionTitle" />
-
-    <TextView
-        android:id="@+id/tvSubscriptionUnavailable"
-        style="@style/footNote"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="@string/new_paid_circles_subscriptions_are_currently_unavailable"
-        app:drawableStartCompat="@drawable/ic_error"
-        app:drawableTint="@color/inactive_menu_icon_color"
+        android:text="@string/choose_a_subscription"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnSubscription" />
-
+        app:layout_constraintTop_toBottomOf="@id/tvSubscriptionTitle" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/groupSubscription"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:constraint_referenced_ids="tvOr,tvSubscriptionTitle,btnSubscription,tvSubscriptionUnavailable" />
+        app:constraint_referenced_ids="tvOr,tvSubscriptionTitle,btnSubscription" />
 </androidx.constraintlayout.widget.ConstraintLayout>
