@@ -269,4 +269,30 @@
         <item quantity="one">Show %d reply</item>
         <item quantity="other">Show %d replies</item>
     </plurals>
+
+
+    <plurals name="days">
+        <item quantity="one">%1$d day</item>
+        <item quantity="many">%1$d days</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+
+    <plurals name="weeks">
+        <item quantity="one">%1$d week</item>
+        <item quantity="many">%1$d weeks</item>
+        <item quantity="other">%1$d weeks</item>
+    </plurals>
+
+    <plurals name="months">
+        <item quantity="one">%1$d month</item>
+        <item quantity="many">%1$d months</item>
+        <item quantity="other">%1$d months</item>
+    </plurals>
+
+    <plurals name="years">
+        <item quantity="one">%1$d year</item>
+        <item quantity="many">%1$d years</item>
+        <item quantity="other">%1$d years</item>
+    </plurals>
+
 </resources>
