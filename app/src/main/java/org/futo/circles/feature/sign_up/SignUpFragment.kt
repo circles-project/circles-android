@@ -57,6 +57,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
     private fun handleNavigation(event: NavigationEvents) {
         val directionId = when (event) {
             NavigationEvents.TokenValidation -> R.id.to_validateToken
+            NavigationEvents.Subscription -> R.id.to_subscriptions
             NavigationEvents.AcceptTerm -> R.id.to_acceptTerms
             NavigationEvents.ValidateEmail -> R.id.to_validateEmail
         }

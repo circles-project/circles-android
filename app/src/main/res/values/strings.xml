@@ -238,6 +238,7 @@
     <string name="enable_cross_signing_message">Confirm auth to enable cross signing</string>
     <string name="device_media">Device media</string>
     <string name="subscriptions">Subscriptions</string>
+    <string name="wrong_signup_config">Wrong signup config!</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
