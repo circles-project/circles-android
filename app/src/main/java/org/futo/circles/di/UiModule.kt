@@ -28,6 +28,7 @@ import org.futo.circles.feature.sign_up.SignUpViewModel
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileViewModel
 import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeViewModel
+import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageViewModel
 import org.futo.circles.feature.sign_up.terms.AcceptTermsViewModel
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailViewModel
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenViewModel
@@ -102,4 +103,5 @@ val uiModule = module {
     viewModel { (isVideoAvailable: Boolean) ->
         PickDeviceMediaViewModel(isVideoAvailable, get())
     }
+    viewModel { SubscriptionStageViewModel(get()) }
 }

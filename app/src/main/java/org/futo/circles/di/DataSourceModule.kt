@@ -31,6 +31,7 @@ import org.futo.circles.feature.sign_up.SignUpDataSource
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesDataSource
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource
 import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeDataSource
+import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageDataSource
 import org.futo.circles.feature.sign_up.terms.AcceptTermsDataSource
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailDataSource
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenDataSource
@@ -92,4 +93,5 @@ val dataSourceModule = module {
     factory { UserOptionsDataSource() }
     factory { (userId: String) -> UserDataSource(get(), userId) }
     single { PickDeviceMediaDataSource(get()) }
+    factory { SubscriptionStageDataSource(get()) }
 }
