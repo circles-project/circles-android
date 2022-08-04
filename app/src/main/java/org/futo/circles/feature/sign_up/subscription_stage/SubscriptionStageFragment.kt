@@ -6,6 +6,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.databinding.SubscriptionStageFragmentBinding
+import org.futo.circles.extensions.observeResponse
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SubscriptionStageFragment :
@@ -27,6 +28,6 @@ class SubscriptionStageFragment :
     }
 
     private fun setupObservers() {
-
+        viewModel.subscribeLiveData.observeResponse(this)
     }
 }
