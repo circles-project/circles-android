@@ -1,7 +1,7 @@
-package org.futo.circles.subscriptions.google
+package org.futo.circles.subscriptions
 
 
-interface GoogleItemPurchasedListener {
+interface ItemPurchasedListener {
 
     fun onItemPurchased(purchase: String)
 
