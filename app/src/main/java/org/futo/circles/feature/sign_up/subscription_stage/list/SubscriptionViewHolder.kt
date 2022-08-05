@@ -3,11 +3,9 @@ package org.futo.circles.feature.sign_up.subscription_stage.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.core.list.context
 import org.futo.circles.databinding.SubscriptionListItemBinding
 import org.futo.circles.extensions.onClick
-import org.futo.circles.subscriptions.SubscriptionData
-import org.futo.circles.subscriptions.formatIsoPeriod
+import org.futo.circles.model.SubscriptionListItem
 
 
 class SubscriptionViewHolder(
@@ -23,14 +21,12 @@ class SubscriptionViewHolder(
         onClick(itemView) { position -> onSubscriptionClicked(position) }
     }
 
-    fun bind(data: SubscriptionData) {
+    fun bind(data: SubscriptionListItem) {
         with(binding) {
-            tvName.text = data.details.name
-            tvDetails.text = data.details.description
-            val productOffer =
-                data.details.subscriptionOfferDetails?.last()?.pricingPhases?.pricingPhaseList?.last()
-            tvPrice.text = productOffer?.formattedPrice ?: ""
-            tvDuration.text = productOffer?.billingPeriod?.formatIsoPeriod(context) ?: ""
+            tvName.text = data.name
+            tvDetails.text = data.description
+            tvPrice.text = data.price
+            tvDuration.text = data.duration
         }
     }
 }
