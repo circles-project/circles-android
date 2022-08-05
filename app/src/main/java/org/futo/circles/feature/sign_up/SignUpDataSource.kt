@@ -129,4 +129,7 @@ class SignUpDataSource(
         subtitleLiveData.postValue(subtitle)
     }
 
+    companion object {
+        const val TYPE_PARAM_KEY = "type"
+    }
 }

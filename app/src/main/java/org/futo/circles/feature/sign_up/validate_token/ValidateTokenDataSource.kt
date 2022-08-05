@@ -3,6 +3,7 @@ package org.futo.circles.feature.sign_up.validate_token
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
+import org.futo.circles.feature.sign_up.SignUpDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
@@ -21,8 +22,8 @@ class ValidateTokenDataSource(
         val result = createResult {
             wizard.registrationCustom(
                 mapOf(
-                    "type" to type,
-                    "token" to token
+                    TYPE_PARAM_KEY to type,
+                    TOKEN_PARAM_KEY to token
                 )
             )
         }
@@ -30,5 +31,9 @@ class ValidateTokenDataSource(
         (result as? Response.Success)?.let { signUpDataSource.stageCompleted(result.data) }
 
         return result
+    }
+
+    companion object {
+        private const val TOKEN_PARAM_KEY = "token"
     }
 }
