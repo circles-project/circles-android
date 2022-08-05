@@ -239,6 +239,14 @@
     <string name="device_media">Device media</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
+    <string name="item_already_owned">Item already owned</string>
+    <string name="purchase_failed_format">Purchase failed with code %d</string>
+    <string name="feature_not_supported">Feature is not supported</string>
+    <string name="service_unavailable">Service unavailable</string>
+    <string name="item_unavailable">Item is unavailable</string>
+    <string name="user_canceled">User canceled</string>
+    <string name="item_not_owned">Item is not owned</string>
+    <string name="developer_error">Developer error</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

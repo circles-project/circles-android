@@ -1,30 +1,33 @@
 package org.futo.circles.subscriptions.google
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.*
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.futo.circles.R
+import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.onBG
-import org.futo.circles.subscriptions.BillingResult
-import org.futo.circles.subscriptions.SubscriptionData
+import org.futo.circles.model.SubscriptionListItem
+import org.futo.circles.subscriptions.ItemPurchasedListener
 import org.futo.circles.subscriptions.SubscriptionManager
 import kotlin.coroutines.resume
 
 class GoogleSubscriptionsManager(
-    private val activity: AppCompatActivity,
-    private val itemPurchasedListener: GoogleItemPurchasedListener
+    private val activity: Activity,
+    private val itemPurchasedListener: ItemPurchasedListener
 ) : SubscriptionManager {
 
-    private val subscriptionsList =
-        arrayListOf("subscriptions_names_here!")
 
     private val purchasesUpdatedListener =
         PurchasesUpdatedListener { billingResult, purchases ->
             purchases?.let {
                 if (billingResult.responseCode == OK)
-                    itemPurchasedListener.onItemPurchased(purchases)
+                    itemPurchasedListener.onItemPurchased(
+                        purchases.lastOrNull()?.originalJson ?: ""
+                    )
                 else itemPurchasedListener.onPurchaseFailed(billingResult.responseCode)
             }
         }
@@ -36,7 +39,7 @@ class GoogleSubscriptionsManager(
 
 
     init {
-        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+        (activity as? AppCompatActivity)?.lifecycle?.addObserver(object : DefaultLifecycleObserver {
             override fun onDestroy(owner: LifecycleOwner) {
                 client.endConnection()
                 super.onDestroy(owner)
@@ -44,70 +47,65 @@ class GoogleSubscriptionsManager(
         })
     }
 
-    override suspend fun getDetails() = when (val code =
-        client.isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS).responseCode) {
-
-        OK -> queryDetails()
-        FEATURE_NOT_SUPPORTED -> BillingResult.FeatureNotSupported
-        SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> onBG {
-            tryConnectAndDo { queryDetails() }
+    override suspend fun getDetails(productIds: List<String>): Response<List<SubscriptionListItem>> =
+        when (val code =
+            client.isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS).responseCode) {
+            OK -> queryDetails(productIds).toSubscriptionListItemsResponse(activity.applicationContext)
+            SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> onBG {
+                tryConnectAndDo { queryDetails(productIds).toSubscriptionListItemsResponse(activity.applicationContext) }
+            }
+            else -> getErrorResponseForCode(code)
         }
-        DEVELOPER_ERROR -> BillingResult.Failure(DEVELOPER_ERROR)
-        else -> BillingResult.Failure(code = code)
-    }
 
 
-    override suspend fun purchaseProduct(productDetails: ProductDetails): BillingResult<String> =
-        when (val code = client
+    override suspend fun purchaseProduct(productId: String): Response<Unit> {
+        val detailsResponse = queryDetails(listOf(productId))
+        val productDetails =
+            (detailsResponse as? Response.Success)?.data?.firstOrNull { it.productId == productId }
+                ?: return getErrorResponseForCode(ERROR)
+
+        return when (val code = client
             .isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS).responseCode) {
             OK -> purchase(productDetails)
-            FEATURE_NOT_SUPPORTED -> BillingResult.FeatureNotSupported
             SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> onBG {
                 tryConnectAndDo { purchase(productDetails) }
             }
-            ITEM_ALREADY_OWNED -> BillingResult.Success("Already purchased")
-            ITEM_UNAVAILABLE, USER_CANCELED, ITEM_NOT_OWNED -> BillingResult.Failure(
-                ITEM_UNAVAILABLE
-            )
-            DEVELOPER_ERROR -> BillingResult.Failure(DEVELOPER_ERROR)
-            ERROR -> BillingResult.Failure(ERROR)
-            else -> BillingResult.Failure(code = code)
+            ITEM_ALREADY_OWNED -> Response.Success(Unit)
+            else -> getErrorResponseForCode(code)
         }
+    }
 
-
-    private suspend inline fun <T> tryConnectAndDo(action: () -> BillingResult<T>): BillingResult<T> =
+    private suspend inline fun <T> tryConnectAndDo(action: () -> Response<T>): Response<T> =
         when (val connectResult = client.tryConnect()) {
-            is BillingResult.Success -> if (connectResult.data) action() else BillingResult.NotConnected
-            is BillingResult.Failure -> connectResult
-            is BillingResult.FeatureNotSupported -> connectResult
-            is BillingResult.NotConnected -> connectResult
+            is Response.Success -> if (connectResult.data) action()
+            else getErrorResponseForCode(SERVICE_DISCONNECTED)
+            is Response.Error -> connectResult
         }
 
 
-    private suspend fun BillingClient.tryConnect(): BillingResult<Boolean> =
+    private suspend fun BillingClient.tryConnect(): Response<Boolean> =
         suspendCancellableCoroutine { continuation ->
             startConnection(object : BillingClientStateListener {
                 override fun onBillingSetupFinished(billingResult: com.android.billingclient.api.BillingResult) {
                     if (continuation.isCancelled || continuation.isCompleted) return
                     continuation.resume(
                         when (billingResult.responseCode) {
-                            OK -> BillingResult.Success(true)
-                            SERVICE_DISCONNECTED -> BillingResult.NotConnected
-                            else -> BillingResult.Failure(billingResult.responseCode)
+                            OK -> Response.Success(true)
+                            else -> getErrorResponseForCode(billingResult.responseCode)
                         }
                     )
                 }
 
                 override fun onBillingServiceDisconnected() {
                     if (continuation.isCancelled || continuation.isCompleted) return
-                    continuation.resume(BillingResult.NotConnected)
+                    continuation.resume(getErrorResponseForCode(SERVICE_DISCONNECTED))
                 }
             })
         }
 
-    private suspend fun queryDetails(): BillingResult<List<SubscriptionData>> {
+    private suspend fun queryDetails(productIds: List<String>): Response<List<ProductDetails>> {
         val params = QueryProductDetailsParams.newBuilder()
-            .setProductList(subscriptionsList.map {
+            .setProductList(productIds.map {
                 QueryProductDetailsParams.Product.newBuilder()
                     .setProductId(it)
                     .setProductType(BillingClient.ProductType.SUBS)
@@ -117,17 +115,16 @@ class GoogleSubscriptionsManager(
         val productDetailsResult = onBG { client.queryProductDetails(params.build()) }
 
         return if (productDetailsResult.billingResult.responseCode == OK) {
-            productDetailsResult.productDetailsList?.filter { subscriptionsList.contains(it.productId) }
-                ?.map { SubscriptionData(it) }
+            productDetailsResult.productDetailsList?.filter { productIds.contains(it.productId) }
                 ?.takeIf { it.isNotEmpty() }
-                ?.let { BillingResult.Success(data = it) }
-                ?: BillingResult.Failure(code = ERROR)
+                ?.let { Response.Success(data = it) }
+                ?: getErrorResponseForCode(code = ERROR)
         } else {
-            BillingResult.Failure(code = productDetailsResult.billingResult.responseCode)
+            getErrorResponseForCode(productDetailsResult.billingResult.responseCode)
         }
     }
 
-    private fun purchase(productDetails: ProductDetails): BillingResult<String> {
+    private fun purchase(productDetails: ProductDetails): Response<Unit> {
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
                 .setProductDetails(productDetails)
@@ -140,8 +137,18 @@ class GoogleSubscriptionsManager(
 
         return when (val code =
             client.launchBillingFlow(activity, billingFlowParams).responseCode) {
-            OK -> BillingResult.Success("Started")
-            else -> BillingResult.Failure(code = code)
+            OK -> Response.Success(Unit)
+            else -> getErrorResponseForCode(code)
         }
+    }
+
+    private fun getErrorResponseForCode(code: Int) = when (code) {
+        FEATURE_NOT_SUPPORTED -> Response.Error(activity.getString(R.string.feature_not_supported))
+        SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> Response.Error(activity.getString(R.string.service_unavailable))
+        ITEM_UNAVAILABLE -> Response.Error(activity.getString(R.string.item_unavailable))
+        USER_CANCELED -> Response.Error(activity.getString(R.string.user_canceled))
+        ITEM_NOT_OWNED -> Response.Error(activity.getString(R.string.item_not_owned))
+        DEVELOPER_ERROR -> Response.Error(activity.getString(R.string.developer_error))
+        else -> Response.Error(activity.getString(R.string.purchase_failed_format, code))
     }
 }
