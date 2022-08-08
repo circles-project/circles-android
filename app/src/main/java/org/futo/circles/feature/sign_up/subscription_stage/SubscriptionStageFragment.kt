@@ -10,7 +10,7 @@ import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showError
 import org.futo.circles.feature.sign_up.subscription_stage.list.SubscriptionsAdapter
 import org.futo.circles.subscriptions.ItemPurchasedListener
-import org.futo.circles.subscriptions.google.GoogleSubscriptionsManager
+import org.futo.circles.subscriptions.SubscriptionManagerProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SubscriptionStageFragment :
@@ -20,7 +20,7 @@ class SubscriptionStageFragment :
     private val viewModel by viewModel<SubscriptionStageViewModel>()
 
     private val subscriptionManager by lazy {
-        GoogleSubscriptionsManager(
+        SubscriptionManagerProvider.getManager(
             requireActivity(), object : ItemPurchasedListener {
                 override fun onItemPurchased(purchase: String) {
                     viewModel.validateSubscriptionReceipt(purchase)
@@ -29,7 +29,6 @@ class SubscriptionStageFragment :
                 override fun onPurchaseFailed(errorCode: Int) {
                     showError(getString(R.string.purchase_failed_format, errorCode))
                 }
-
             }
         )
     }
