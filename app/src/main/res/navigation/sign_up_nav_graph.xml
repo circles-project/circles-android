@@ -17,29 +17,34 @@
         android:id="@+id/to_acceptTerms"
         app:destination="@id/acceptTermsFragment" />
 
+    <action
+        android:id="@+id/to_subscriptions"
+        app:destination="@id/subscriptionStageFragment" />
+
     <fragment
         android:id="@+id/selectSignUpTypeFragment"
         android:name="org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeFragment"
-        android:label="SelectSignUpTypeFragment"
         tools:layout="@layout/select_sign_up_type_fragment" />
 
     <fragment
         android:id="@+id/validateTokenFragment"
         android:name="org.futo.circles.feature.sign_up.validate_token.ValidateTokenFragment"
-        android:label="ValidateTokenFragment"
         tools:layout="@layout/validate_token_fragment" />
 
     <fragment
         android:id="@+id/validateEmailFragment"
         android:name="org.futo.circles.feature.sign_up.validate_email.ValidateEmailFragment"
-        android:label="CreateAccountFragment"
         tools:layout="@layout/validate_email_fragment" />
 
     <fragment
         android:id="@+id/acceptTermsFragment"
         android:name="org.futo.circles.feature.sign_up.terms.AcceptTermsFragment"
-        android:label="AcceptTermsFragment"
         tools:layout="@layout/accept_terms_fragment" />
+
+    <fragment
+        android:id="@+id/subscriptionStageFragment"
+        android:name="org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageFragment"
+        tools:layout="@layout/subscription_stage_fragment" />
 
 
 </navigation>

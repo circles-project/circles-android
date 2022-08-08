@@ -6,6 +6,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.futo.circles.R
+import org.futo.circles.core.REGISTRATION_SUBSCRIPTION_KEY_PREFIX
 import org.futo.circles.core.REGISTRATION_TOKEN_KEY_PREFIX
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
@@ -18,7 +19,7 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 
-enum class NavigationEvents { TokenValidation, AcceptTerm, ValidateEmail }
+enum class NavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail }
 
 class SignUpDataSource(
     private val context: Context,
@@ -37,6 +38,8 @@ class SignUpDataSource(
         private set
 
     var currentHomeServerUrl: String = ""
+        private set
+
     private var passphrase: String = ""
     private var userName: String = ""
 
@@ -44,7 +47,8 @@ class SignUpDataSource(
         stages: List<Stage>,
         name: String,
         password: String,
-        homeServerUrl: String
+        homeServerUrl: String,
+        isSubscription: Boolean
     ) {
         currentStage = null
         stagesToComplete.clear()
@@ -52,7 +56,7 @@ class SignUpDataSource(
         passphrase = password
         currentHomeServerUrl = homeServerUrl
 
-        stagesToComplete.addAll(stages.filter { it.mandatory })
+        setupStages(stages, isSubscription)
         navigateToNextStage()
     }
 
@@ -64,6 +68,16 @@ class SignUpDataSource(
 
     fun clearSubtitle() {
         subtitleLiveData.postValue("")
+    }
+
+    private fun setupStages(stages: List<Stage>, isSubscription: Boolean) {
+        val otherStages = stages.filterIsInstance<Stage.Other>()
+        val firstStage = otherStages.firstOrNull {
+            if (isSubscription) it.type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_PREFIX)
+            else it.type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)
+        } ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
+        stagesToComplete.add(firstStage)
+        stagesToComplete.addAll(stages.filter { it.mandatory })
     }
 
     private suspend fun finishRegistration(session: Session) = createResult {
@@ -103,10 +117,10 @@ class SignUpDataSource(
 
     private fun handleStageOther(type: String): NavigationEvents =
         if (type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)) NavigationEvents.TokenValidation
+        else if (type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_PREFIX)) NavigationEvents.Subscription
         else throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
         )
-
 
     private fun updatePageSubtitle() {
         val size = stagesToComplete.size
@@ -115,5 +129,7 @@ class SignUpDataSource(
         subtitleLiveData.postValue(subtitle)
     }
 
-
+    companion object {
+        const val TYPE_PARAM_KEY = "type"
+    }
 }

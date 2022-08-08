@@ -11,10 +11,15 @@ class SelectSignUpTypeViewModel(
 
     val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
 
-    fun startSignUp(name: String, password: String, serverDomain: String) {
+    fun startSignUp(
+        name: String,
+        password: String,
+        serverDomain: String,
+        isSubscription: Boolean = false
+    ) {
         launchBg {
             startSignUpEventLiveData.postValue(
-                dataSource.startNewRegistration(name, password, serverDomain)
+                dataSource.startNewRegistration(name, password, serverDomain, isSubscription)
             )
         }
     }

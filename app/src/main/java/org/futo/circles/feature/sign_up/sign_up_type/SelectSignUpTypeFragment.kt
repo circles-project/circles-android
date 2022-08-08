@@ -26,21 +26,28 @@ class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment)
         viewModel.clearSubtitle()
         setupViews()
         setupObservers()
-
     }
 
     private fun setupViews() {
-        setAlwaysDisabledViews(listOf(binding.btnSubscription))
         with(binding) {
             groupSubscription.setIsVisible(BuildConfig.IS_SUBSCRIPTIONS_ENABLED)
-            tilUserName.editText?.doAfterTextChanged { setTokenButtonEnabled() }
-            tilPassword.editText?.doAfterTextChanged { setTokenButtonEnabled() }
+            tilUserName.editText?.doAfterTextChanged { setSignupButtonsEnabled() }
+            tilPassword.editText?.doAfterTextChanged { setSignupButtonsEnabled() }
             btnToken.setOnClickListener {
                 startLoading(btnToken)
                 viewModel.startSignUp(
                     tilUserName.getText(),
                     tilPassword.getText(),
                     tvServerDomain.text.toString()
+                )
+            }
+            btnSubscription.setOnClickListener {
+                startLoading(btnSubscription)
+                viewModel.startSignUp(
+                    tilUserName.getText(),
+                    tilPassword.getText(),
+                    tvServerDomain.text.toString(),
+                    true
                 )
             }
             serverLocationGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -58,8 +65,10 @@ class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment)
         viewModel.startSignUpEventLiveData.observeResponse(this)
     }
 
-    private fun setTokenButtonEnabled() {
-        binding.btnToken.isEnabled = binding.tilUserName.editText?.text?.isNotEmpty() == true &&
+    private fun setSignupButtonsEnabled() {
+        val isEnabled = binding.tilUserName.editText?.text?.isNotEmpty() == true &&
                 binding.tilPassword.editText?.text?.isNotEmpty() == true
+        binding.btnToken.isEnabled = isEnabled
+        binding.btnSubscription.isEnabled = isEnabled
     }
 }
