@@ -2,7 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
-
+apply plugin: 'com.google.gms.google-services'
+android.applicationVariants.all { variant ->
+    if (!variant.name.contains('gplay')) {
+        project.tasks.matching { it.name.contains("GoogleServices") }*.enabled = false
+    }
+}
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdk rootProject.ext.sdkVersion
@@ -41,11 +47,6 @@ android {
     flavorDimensions flavor_dimension_name
     productFlavors {
         gplay {
-            apply plugin: 'com.google.gms.google-services'
-            apply plugin: 'com.google.firebase.crashlytics'
-            afterEvaluate {
-                tasks.matching { it.name.contains("GoogleServices") && !it.name.contains("gplay") }*.enabled = false
-            }
             dimension flavor_dimension_name
             buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "true")
         }
