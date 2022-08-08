@@ -76,3 +76,6 @@ native <methods>;
 -keep class org.matrix.android.sdk.internal.auth.DefaultAuthenticationService
 -keep class org.matrix.android.sdk.internal.auth.db.PendingSessionData
 -keep class org.futo.circles.model.CircleRoomTypeArg
+
+-keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
+-keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.
