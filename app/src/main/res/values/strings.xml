@@ -247,6 +247,7 @@
     <string name="user_canceled">User canceled</string>
     <string name="item_not_owned">Item is not owned</string>
     <string name="developer_error">Developer error</string>
+    <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
