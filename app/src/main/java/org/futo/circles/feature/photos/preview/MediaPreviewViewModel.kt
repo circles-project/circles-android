@@ -26,7 +26,8 @@ class MediaPreviewViewModel(
 
 
     fun loadData(context: Context) {
-        when (val content = mediaPreviewDataSource.getPostContent()) {
+        val content = mediaPreviewDataSource.getPostContent() ?: return
+        when (content) {
             is ImageContent -> imageLiveData.postValue(content)
             is VideoContent -> launchBg {
                 val uri =
