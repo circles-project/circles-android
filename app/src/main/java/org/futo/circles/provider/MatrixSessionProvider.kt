@@ -30,7 +30,7 @@ object MatrixSessionProvider {
 
     private fun startSession(session: Session, listener: Session.Listener? = null) {
         listener?.let { session.addListener(it) }
-        currentSession = session.apply { open(); startSync(true) }
+        currentSession = session.apply { open(); syncService().startSync(true) }
     }
 
     suspend fun awaitForSessionStart(session: Session) =

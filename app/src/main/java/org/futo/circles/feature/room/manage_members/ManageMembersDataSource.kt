@@ -3,6 +3,8 @@ package org.futo.circles.feature.room.manage_members
 
 import android.content.Context
 import androidx.lifecycle.asFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import org.futo.circles.R
 import org.futo.circles.core.ExpandableItemsDataSource
 import org.futo.circles.extensions.createResult
@@ -11,8 +13,6 @@ import org.futo.circles.mapping.toGroupMemberListItem
 import org.futo.circles.mapping.toInvitedUserListItem
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toContent
@@ -28,7 +28,7 @@ class ManageMembersDataSource(
     private val roomId: String,
     private val type: CircleRoomTypeArg,
     private val context: Context
-):ExpandableItemsDataSource {
+) : ExpandableItemsDataSource {
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)
@@ -62,7 +62,9 @@ class ManageMembersDataSource(
     }
 
     private fun getRoomMembersRoleFlow(): Flow<PowerLevelsContent> {
-        return room?.stateService()?.getStateEventLive(EventType.STATE_ROOM_POWER_LEVELS)?.asFlow()
+        return room?.stateService()
+            ?.getStateEventLive(EventType.STATE_ROOM_POWER_LEVELS, QueryStringValue.IsEmpty)
+            ?.asFlow()
             ?.mapNotNull { it.getOrNull()?.content.toModel<PowerLevelsContent>() } ?: flowOf()
     }
 

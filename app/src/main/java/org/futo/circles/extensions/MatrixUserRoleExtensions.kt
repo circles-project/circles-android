@@ -2,6 +2,7 @@ package org.futo.circles.extensions
 
 import org.futo.circles.R
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
@@ -63,7 +64,7 @@ fun PowerLevelsContent.getCurrentUserPowerLevel(): Int {
 fun getPowerLevelContent(roomId: String): PowerLevelsContent? {
     val session = MatrixSessionProvider.currentSession ?: return null
     val room = session.getRoom(roomId) ?: return null
-    return room.getStateEvent(EventType.STATE_ROOM_POWER_LEVELS)?.content.toModel<PowerLevelsContent>()
+    return room.getStateEvent(EventType.STATE_ROOM_POWER_LEVELS, QueryStringValue.IsEmpty)?.content.toModel<PowerLevelsContent>()
 }
 
 fun getCurrentUserPowerLevel(roomId: String): Int {
