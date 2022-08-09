@@ -2,12 +2,9 @@
     <string name="company_title">by FUTO Labs</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="advanced_options">Advanced Options</string>
-    <string name="hide_advanced_options">Hide Advanced Options</string>
     <string name="log_in">Log In</string>
     <string name="not_a_member">Not a member?</string>
     <string name="sign_up">Sign Up</string>
-    <string name="encryption_password">Encryption password</string>
     <string name="circles">Circles</string>
     <string name="groups">Groups</string>
     <string name="people">People</string>
@@ -212,7 +209,6 @@
     <string name="cross_signing">Cross Signing</string>
     <string name="local_verification">Local verification</string>
     <string name="verify">Verify</string>
-    <string name="remove_session">Remove session</string>
     <string name="remove_session_message_format">In order to sign out from session on %s device you should confirm your auth.</string>
     <string name="save_to_device">Save to device</string>
     <string name="save_to_gallery">Save to gallery</string>
@@ -239,7 +235,6 @@
     <string name="device_media">Device media</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
-    <string name="item_already_owned">Item already owned</string>
     <string name="purchase_failed_format">Purchase failed with code %d</string>
     <string name="feature_not_supported">Feature is not supported</string>
     <string name="service_unavailable">Service unavailable</string>
