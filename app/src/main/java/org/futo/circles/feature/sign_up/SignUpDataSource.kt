@@ -77,7 +77,7 @@ class SignUpDataSource(
             else it.type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)
         } ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
         stagesToComplete.add(firstStage)
-        stagesToComplete.addAll(stages.filter { it.mandatory })
+        stagesToComplete.addAll(stages.filter { it.mandatory && (it as? Stage.Other)?.type != firstStage.type })
     }
 
     private suspend fun finishRegistration(session: Session) = createResult {
