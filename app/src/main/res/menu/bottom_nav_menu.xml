@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/circles_nav_graph"
+        android:icon="@drawable/ic_circles"
+        android:title="@string/circles" />
+
+    <item
+        android:id="@+id/people_nav_graph"
+        android:icon="@drawable/ic_round_contacts"
+        android:title="@string/people" />
+
+    <item
+        android:id="@+id/groups_nav_graph"
+        android:icon="@drawable/ic_round_people"
+        android:title="@string/groups" />
+
+    <item
+        android:id="@+id/photos_nav_graph"
+        android:icon="@drawable/ic_round_photo_library"
+        android:title="@string/photos" />
+
+    <item
+        android:id="@+id/settings_nav_graph"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
+
+</menu>

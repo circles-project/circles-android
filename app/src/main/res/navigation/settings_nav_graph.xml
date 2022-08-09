@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_nav_graph"
+    app:startDestination="@id/settingsFragment">
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="org.futo.circles.feature.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/settings_fragment">
+        <action
+            android:id="@+id/to_editProfileDialogFragment"
+            app:destination="@id/editProfileDialogFragment" />
+        <action
+            android:id="@+id/to_changePasswordDialogFragment"
+            app:destination="@id/changePasswordDialogFragment" />
+        <action
+            android:id="@+id/to_activeSessionsDialogFragment"
+            app:destination="@id/activeSessionsDialogFragment" />
+        <action
+            android:id="@+id/to_systemNoticesDialogFragment"
+            app:destination="@id/systemNoticesDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Group"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
+
+    <dialog
+        android:id="@+id/editProfileDialogFragment"
+        android:name="org.futo.circles.feature.settings.edit_profile.EditProfileDialogFragment"
+        android:label="ProfileDialogFragment"
+        tools:layout="@layout/edit_profile_dialog_fragment" />
+    <dialog
+        android:id="@+id/changePasswordDialogFragment"
+        android:name="org.futo.circles.feature.settings.change_password.ChangePasswordDialogFragment"
+        android:label="ChangePasswordDialogFragment"
+        tools:layout="@layout/change_password_dialog_fragment" />
+    <dialog
+        android:id="@+id/activeSessionsDialogFragment"
+        android:name="org.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragment"
+        android:label="ActiveSessionsDialogFragment"
+        tools:layout="@layout/active_sessions_dialog_fragment" />
+    <dialog
+        android:id="@+id/systemNoticesDialogFragment"
+        android:name="org.futo.circles.feature.notices.SystemNoticesDialogFragment"
+        tools:layout="@layout/system_notices_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+    </dialog>
+
+</navigation>

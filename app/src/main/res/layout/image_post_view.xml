@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.futo.circles.view.PostLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lImagePost"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/imageItem"
+            layout="@layout/gallery_image_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <org.futo.circles.view.LoadingView
+            android:id="@+id/vLoadingImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="16dp"
+            android:background="@color/white"
+            android:padding="16dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+
+</org.futo.circles.view.PostLayout>

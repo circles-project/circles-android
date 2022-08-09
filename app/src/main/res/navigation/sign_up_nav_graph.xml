@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sign_up_nav_graph"
+    app:startDestination="@id/selectSignUpTypeFragment">
+
+    <action
+        android:id="@+id/to_validateToken"
+        app:destination="@id/validateTokenFragment" />
+
+    <action
+        android:id="@+id/to_validateEmail"
+        app:destination="@id/validateEmailFragment" />
+
+    <action
+        android:id="@+id/to_acceptTerms"
+        app:destination="@id/acceptTermsFragment" />
+
+    <action
+        android:id="@+id/to_subscriptions"
+        app:destination="@id/subscriptionStageFragment" />
+
+    <fragment
+        android:id="@+id/selectSignUpTypeFragment"
+        android:name="org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeFragment"
+        tools:layout="@layout/select_sign_up_type_fragment" />
+
+    <fragment
+        android:id="@+id/validateTokenFragment"
+        android:name="org.futo.circles.feature.sign_up.validate_token.ValidateTokenFragment"
+        tools:layout="@layout/validate_token_fragment" />
+
+    <fragment
+        android:id="@+id/validateEmailFragment"
+        android:name="org.futo.circles.feature.sign_up.validate_email.ValidateEmailFragment"
+        tools:layout="@layout/validate_email_fragment" />
+
+    <fragment
+        android:id="@+id/acceptTermsFragment"
+        android:name="org.futo.circles.feature.sign_up.terms.AcceptTermsFragment"
+        tools:layout="@layout/accept_terms_fragment" />
+
+    <fragment
+        android:id="@+id/subscriptionStageFragment"
+        android:name="org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageFragment"
+        tools:layout="@layout/subscription_stage_fragment" />
+
+
+</navigation>

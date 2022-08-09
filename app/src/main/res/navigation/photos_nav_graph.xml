@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/photos_nav_graph"
+    app:startDestination="@id/photosFragment">
+
+    <fragment
+        android:id="@+id/photosFragment"
+        android:name="org.futo.circles.feature.photos.PhotosFragment"
+        android:label="@string/photo_galleries"
+        tools:layout="@layout/rooms_fragment">
+
+        <action
+            android:id="@+id/to_createRoomDialogFragment"
+            app:destination="@id/createRoomDialogFragment">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Photo"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_galleryFragment"
+            app:destination="@id/galleryFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
+
+    <dialog
+        android:id="@+id/createRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
+        tools:layout="@layout/create_room_dialog_fragment">
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+    </dialog>
+
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="org.futo.circles.feature.photos.gallery.GalleryFragment"
+        tools:layout="@layout/gallery_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_updateRoomDialogFragment"
+            app:destination="@id/updateRoomDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Photo"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_galleryImageDialogFragment"
+            app:destination="@id/galleryImageDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+    </fragment>
+
+
+    <dialog
+        android:id="@+id/updateRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.update_room.UpdateRoomDialogFragment"
+        tools:layout="@layout/update_room_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+
+    </dialog>
+    <dialog
+        android:id="@+id/galleryImageDialogFragment"
+        android:name="org.futo.circles.feature.photos.preview.MediaPreviewDialogFragment"
+        tools:layout="@layout/media_preview_dialog_fragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
+</navigation>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/configureGroup"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/configure_group" />
+
+    <item
+        android:id="@+id/manageMembers"
+        android:icon="@drawable/ic_round_people"
+        android:title="@string/manage_members" />
+
+    <item
+        android:id="@+id/inviteMembers"
+        android:icon="@drawable/ic_invite"
+        android:title="@string/invite_members" />
+
+    <item
+        android:id="@+id/leaveGroup"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/leave_group" />
+
+</menu>

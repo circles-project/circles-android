@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/groups_nav_graph"
+    app:startDestination="@id/groupsFragment">
+
+    <fragment
+        android:id="@+id/groupsFragment"
+        android:name="org.futo.circles.feature.groups.GroupsFragment"
+        android:label="@string/my_groups"
+        tools:layout="@layout/rooms_fragment">
+
+        <action
+            android:id="@+id/to_timeline"
+            app:destination="@id/timeline_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Group"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_createRoomDialogFragment"
+            app:destination="@id/createRoomDialogFragment">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Group"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+
+    </fragment>
+
+    <include app:graph="@navigation/timeline_nav_graph" />
+
+    <dialog
+        android:id="@+id/createRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
+        tools:layout="@layout/create_room_dialog_fragment">
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+    </dialog>
+
+</navigation>

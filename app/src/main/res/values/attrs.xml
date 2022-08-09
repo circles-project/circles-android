@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="LoadingButton">
+        <attr name="android:text" />
+        <attr name="android:textSize" />
+        <attr name="textPadding" format="dimension" />
+        <attr name="android:enabled" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpandContentButton">
+        <attr name="closed_text" format="string" />
+        <attr name="opened_text" format="string" />
+        <attr name="closed_icon" format="reference" />
+        <attr name="opened_icon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="GroupPostHeaderView">
+        <attr name="optionsVisible" format="boolean" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_bottom_menu"
+    app:startDestination="@id/circles_nav_graph">
+
+    <include app:graph="@navigation/groups_nav_graph" />
+
+    <include app:graph="@navigation/circles_nav_graph" />
+
+    <include app:graph="@navigation/photos_nav_graph" />
+
+    <include app:graph="@navigation/people_nav_graph" />
+
+    <include app:graph="@navigation/settings_nav_graph" />
+
+</navigation>
