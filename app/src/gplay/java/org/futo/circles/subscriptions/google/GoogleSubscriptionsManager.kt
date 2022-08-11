@@ -1,7 +1,6 @@
 package org.futo.circles.subscriptions.google
 
-import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
@@ -16,7 +15,7 @@ import org.futo.circles.subscriptions.SubscriptionManager
 import kotlin.coroutines.resume
 
 class GoogleSubscriptionsManager(
-    private val activity: Activity,
+    private val fragment: Fragment,
     private val itemPurchasedListener: ItemPurchasedListener
 ) : SubscriptionManager {
 
@@ -32,14 +31,14 @@ class GoogleSubscriptionsManager(
             }
         }
 
-    private val client = BillingClient.newBuilder(activity)
+    private val client = BillingClient.newBuilder(fragment.requireContext())
         .setListener(purchasesUpdatedListener)
         .enablePendingPurchases()
         .build()
 
 
     init {
-        (activity as? AppCompatActivity)?.lifecycle?.addObserver(object : DefaultLifecycleObserver {
+        fragment.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onDestroy(owner: LifecycleOwner) {
                 client.endConnection()
                 super.onDestroy(owner)
@@ -60,9 +59,9 @@ class GoogleSubscriptionsManager(
     override suspend fun getDetails(productIds: List<String>): Response<List<SubscriptionListItem>> =
         when (val code =
             client.isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS).responseCode) {
-            OK -> queryDetails(productIds).toSubscriptionListItemsResponse(activity.applicationContext)
+            OK -> queryDetails(productIds).toSubscriptionListItemsResponse(fragment.requireContext())
             SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> onBG {
-                tryConnectAndDo { queryDetails(productIds).toSubscriptionListItemsResponse(activity.applicationContext) }
+                tryConnectAndDo { queryDetails(productIds).toSubscriptionListItemsResponse(fragment.requireContext()) }
             }
             else -> getErrorResponseForCode(code)
         }
@@ -161,23 +160,21 @@ class GoogleSubscriptionsManager(
             .build()
 
         return when (val code =
-            client.launchBillingFlow(activity, billingFlowParams).responseCode) {
+            client.launchBillingFlow(fragment.requireActivity(), billingFlowParams).responseCode) {
             OK -> Response.Success(Unit)
             else -> getErrorResponseForCode(code)
         }
     }
 
     private fun getErrorResponseForCode(code: Int) = when (code) {
-        FEATURE_NOT_SUPPORTED -> Response.Error(activity.getString(R.string.feature_not_supported))
+        FEATURE_NOT_SUPPORTED -> Response.Error(fragment.getString(R.string.feature_not_supported))
         SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> Response.Error(
-            activity.getString(
-                R.string.service_unavailable
-            )
+            fragment.getString(R.string.service_unavailable)
         )
-        ITEM_UNAVAILABLE -> Response.Error(activity.getString(R.string.item_unavailable))
-        USER_CANCELED -> Response.Error(activity.getString(R.string.user_canceled))
-        ITEM_NOT_OWNED -> Response.Error(activity.getString(R.string.item_not_owned))
-        DEVELOPER_ERROR -> Response.Error(activity.getString(R.string.developer_error))
-        else -> Response.Error(activity.getString(R.string.purchase_failed_format, code))
+        ITEM_UNAVAILABLE -> Response.Error(fragment.getString(R.string.item_unavailable))
+        USER_CANCELED -> Response.Error(fragment.getString(R.string.user_canceled))
+        ITEM_NOT_OWNED -> Response.Error(fragment.getString(R.string.item_not_owned))
+        DEVELOPER_ERROR -> Response.Error(fragment.getString(R.string.developer_error))
+        else -> Response.Error(fragment.getString(R.string.purchase_failed_format, code))
     }
 }

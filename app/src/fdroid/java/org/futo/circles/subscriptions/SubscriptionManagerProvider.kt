@@ -1,13 +1,13 @@
 package org.futo.circles.subscriptions
 
-import android.app.Activity
+import androidx.fragment.app.Fragment
 import org.futo.circles.R
 
 object SubscriptionManagerProvider : SubscriptionProvider {
 
     override fun getManager(
-        activity: Activity,
+        fragment: Fragment,
         itemPurchaseListener: ItemPurchasedListener
     ): SubscriptionManager =
-        throw IllegalStateException(activity.getString(R.string.flavour_does_not_support_subscriptions))
+        throw IllegalStateException(fragment.getString(R.string.flavour_does_not_support_subscriptions))
 }

@@ -1,12 +1,12 @@
 package org.futo.circles.subscriptions
 
-import android.app.Activity
+import androidx.fragment.app.Fragment
 import org.futo.circles.subscriptions.google.GoogleSubscriptionsManager
 
 object SubscriptionManagerProvider : SubscriptionProvider {
 
     override fun getManager(
-        activity: Activity,
+        fragment: Fragment,
         itemPurchaseListener: ItemPurchasedListener
-    ): SubscriptionManager = GoogleSubscriptionsManager(activity, itemPurchaseListener)
+    ): SubscriptionManager = GoogleSubscriptionsManager(fragment, itemPurchaseListener)
 }
