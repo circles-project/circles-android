@@ -5,6 +5,8 @@ import org.futo.circles.model.SubscriptionListItem
 
 interface SubscriptionManager {
 
+    suspend fun getActiveSubscriptionReceipt(): Response<String>
+
     suspend fun getDetails(productIds: List<String>): Response<List<SubscriptionListItem>>
 
     suspend fun purchaseProduct(productId: String): Response<Unit>
