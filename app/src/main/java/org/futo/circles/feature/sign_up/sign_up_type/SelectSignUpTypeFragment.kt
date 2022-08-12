@@ -10,8 +10,10 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.SelectSignUpTypeFragmentBinding
 import org.futo.circles.extensions.getText
+import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.subscriptions.SubscriptionManagerProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment), HasLoadingState {
@@ -20,6 +22,16 @@ class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment)
 
     private val binding by viewBinding(SelectSignUpTypeFragmentBinding::bind)
     private val viewModel by viewModel<SelectSignUpTypeViewModel>()
+
+    private val subscriptionManager by lazy {
+        SubscriptionManagerProvider.getManager(this, null)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (BuildConfig.IS_SUBSCRIPTIONS_ENABLED)
+            viewModel.getLastActiveSubscriptionReceipt(subscriptionManager)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,6 +75,16 @@ class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment)
 
     private fun setupObservers() {
         viewModel.startSignUpEventLiveData.observeResponse(this)
+        viewModel.isSubscribedLiveData.observeData(this) { isSubscribed ->
+            binding.tvSubscriptionTitle.text =
+                getString(
+                    if (isSubscribed) R.string.sign_up_using_active_subscription
+                    else R.string.create_a_subscription
+                )
+            binding.btnSubscription.setText(
+                getString(if (isSubscribed) R.string.sign_up else R.string.choose_a_subscription)
+            )
+        }
     }
 
     private fun setSignupButtonsEnabled() {

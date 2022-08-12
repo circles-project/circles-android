@@ -21,7 +21,7 @@ class SubscriptionStageFragment :
 
     private val subscriptionManager by lazy {
         SubscriptionManagerProvider.getManager(
-            requireActivity(), object : ItemPurchasedListener {
+            this, object : ItemPurchasedListener {
                 override fun onItemPurchased(purchase: String) {
                     viewModel.validateSubscriptionReceipt(purchase)
                 }

@@ -25,7 +25,8 @@ class SelectSignUpTypeDataSource(
         name: String,
         password: String,
         domain: String,
-        isSubscription: Boolean
+        isSubscription: Boolean,
+        subscriptionReceipt: String?
     ) =
         createResult {
             val homeServerUrl = HomeServerUtils.getHomeServerUrlFromDomain(domain)
@@ -45,7 +46,8 @@ class SelectSignUpTypeDataSource(
                         name,
                         password,
                         homeServerUrl,
-                        isSubscription
+                        isSubscription,
+                        subscriptionReceipt
                     )
                 }
         }

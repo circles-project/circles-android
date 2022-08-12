@@ -1,12 +1,12 @@
 package org.futo.circles.subscriptions
 
-import android.app.Activity
+import androidx.fragment.app.Fragment
 
 interface SubscriptionProvider {
 
     fun getManager(
-        activity: Activity,
-        itemPurchaseListener: ItemPurchasedListener
+        fragment: Fragment,
+        itemPurchaseListener: ItemPurchasedListener?
     ): SubscriptionManager
 
 }

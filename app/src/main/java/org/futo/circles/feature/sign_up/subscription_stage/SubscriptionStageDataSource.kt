@@ -37,7 +37,6 @@ class SubscriptionStageDataSource(
         ?.map { it.toString() }
         ?: emptyList()
 
-
     companion object {
         private const val PRODUCT_PARAM_KEY = "product"
         private const val PRODUCT_IDS_KEY = "productIds"

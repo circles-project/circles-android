@@ -44,6 +44,9 @@ class LoadingButton(
         binding.button.setOnClickListener(l)
     }
 
+    fun setText(text: String) {
+        binding.button.text = text
+    }
 
     fun setIsLoading(isLoading: Boolean) {
         binding.loader.setIsVisible(isLoading)

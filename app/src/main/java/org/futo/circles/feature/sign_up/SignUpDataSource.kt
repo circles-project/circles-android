@@ -13,6 +13,7 @@ import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
@@ -43,12 +44,13 @@ class SignUpDataSource(
     private var passphrase: String = ""
     private var userName: String = ""
 
-    fun startSignUpStages(
+    suspend fun startSignUpStages(
         stages: List<Stage>,
         name: String,
         password: String,
         homeServerUrl: String,
-        isSubscription: Boolean
+        isSubscription: Boolean,
+        subscriptionReceipt: String?
     ) {
         currentStage = null
         stagesToComplete.clear()
@@ -57,7 +59,14 @@ class SignUpDataSource(
         currentHomeServerUrl = homeServerUrl
 
         setupStages(stages, isSubscription)
-        navigateToNextStage()
+
+        if (isSubscription && subscriptionReceipt != null) {
+            val response = SubscriptionStageDataSource(this)
+                .validateSubscriptionReceipt(subscriptionReceipt)
+            if (response is Response.Error) navigateToNextStage()
+        } else {
+            navigateToNextStage()
+        }
     }
 
     suspend fun stageCompleted(result: RegistrationResult?) {
