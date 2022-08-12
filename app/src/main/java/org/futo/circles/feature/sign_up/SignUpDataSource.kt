@@ -48,7 +48,8 @@ class SignUpDataSource(
         name: String,
         password: String,
         homeServerUrl: String,
-        isSubscription: Boolean
+        isSubscription: Boolean,
+        subscriptionReceipt: String?
     ) {
         currentStage = null
         stagesToComplete.clear()
