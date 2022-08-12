@@ -16,7 +16,7 @@ import kotlin.coroutines.resume
 
 class GoogleSubscriptionsManager(
     private val fragment: Fragment,
-    private val itemPurchasedListener: ItemPurchasedListener
+    private val itemPurchasedListener: ItemPurchasedListener?
 ) : SubscriptionManager {
 
 
@@ -24,10 +24,10 @@ class GoogleSubscriptionsManager(
         PurchasesUpdatedListener { billingResult, purchases ->
             purchases?.let {
                 if (billingResult.responseCode == OK)
-                    itemPurchasedListener.onItemPurchased(
+                    itemPurchasedListener?.onItemPurchased(
                         purchases.lastOrNull()?.originalJson ?: ""
                     )
-                else itemPurchasedListener.onPurchaseFailed(billingResult.responseCode)
+                else itemPurchasedListener?.onPurchaseFailed(billingResult.responseCode)
             }
         }
 

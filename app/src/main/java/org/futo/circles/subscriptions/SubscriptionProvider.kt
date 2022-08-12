@@ -6,7 +6,7 @@ interface SubscriptionProvider {
 
     fun getManager(
         fragment: Fragment,
-        itemPurchaseListener: ItemPurchasedListener
+        itemPurchaseListener: ItemPurchasedListener?
     ): SubscriptionManager
 
 }

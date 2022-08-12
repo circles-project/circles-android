@@ -7,7 +7,7 @@ object SubscriptionManagerProvider : SubscriptionProvider {
 
     override fun getManager(
         fragment: Fragment,
-        itemPurchaseListener: ItemPurchasedListener
+        itemPurchaseListener: ItemPurchasedListener?
     ): SubscriptionManager =
         throw IllegalStateException(fragment.getString(R.string.flavour_does_not_support_subscriptions))
 }

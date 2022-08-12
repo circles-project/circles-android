@@ -7,6 +7,6 @@ object SubscriptionManagerProvider : SubscriptionProvider {
 
     override fun getManager(
         fragment: Fragment,
-        itemPurchaseListener: ItemPurchasedListener
+        itemPurchaseListener: ItemPurchasedListener?
     ): SubscriptionManager = GoogleSubscriptionsManager(fragment, itemPurchaseListener)
 }
