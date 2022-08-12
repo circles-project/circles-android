@@ -3,7 +3,7 @@ buildscript {
     ext {
         kotlin_version = '1.7.10'
         minSdkVersion = 24
-        sdkVersion = 32
+        sdkVersion = 33
         androidx_version = "2.5.1"
     }
     repositories {
