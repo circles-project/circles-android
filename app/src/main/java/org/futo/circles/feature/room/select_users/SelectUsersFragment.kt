@@ -7,7 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.databinding.SelectUsersFragmentBinding
+import org.futo.circles.databinding.FragmentSelectUsersBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.room.select_users.list.search.InviteMembersSearchListAdapter
 import org.futo.circles.feature.room.select_users.list.selected.SelectedUsersListAdapter
@@ -19,14 +19,14 @@ interface SelectUsersListener {
     fun onUserSelected(users: List<UserListItem>)
 }
 
-class SelectUsersFragment : Fragment(R.layout.select_users_fragment) {
+class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
 
     private val roomId: String? by lazy {
         arguments?.getString(ROOM_ID)
     }
 
     private val viewModel by viewModel<SelectUsersViewModel> { parametersOf(roomId) }
-    private val binding by viewBinding(SelectUsersFragmentBinding::bind)
+    private val binding by viewBinding(FragmentSelectUsersBinding::bind)
 
     private val searchListAdapter by lazy { InviteMembersSearchListAdapter(viewModel::onUserSelected) }
     private val selectedUsersListAdapter by lazy { SelectedUsersListAdapter(viewModel::onUserSelected) }

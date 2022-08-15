@@ -14,7 +14,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.MediaPreviewDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentMediaPreviewBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.share.ShareProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,14 +22,14 @@ import org.koin.core.parameter.parametersOf
 
 
 class MediaPreviewDialogFragment :
-    BaseFullscreenDialogFragment(MediaPreviewDialogFragmentBinding::inflate) {
+    BaseFullscreenDialogFragment(DialogFragmentMediaPreviewBinding::inflate) {
 
     private val args: MediaPreviewDialogFragmentArgs by navArgs()
     private val viewModel by viewModel<MediaPreviewViewModel> {
         parametersOf(args.roomId, args.eventId)
     }
 
-    private val binding by lazy { getBinding() as MediaPreviewDialogFragmentBinding }
+    private val binding by lazy { getBinding() as DialogFragmentMediaPreviewBinding }
 
     private val hideHandler = Handler(Looper.getMainLooper())
     private val hideRunnable = Runnable { hide() }

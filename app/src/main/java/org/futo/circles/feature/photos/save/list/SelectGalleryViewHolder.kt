@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.databinding.SelectGalleryListItemBinding
+import org.futo.circles.databinding.ListItemSelectGalleryBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setIsVisible
@@ -13,11 +13,11 @@ import org.futo.circles.model.SelectableRoomListItem
 class SelectGalleryViewHolder(
     parent: ViewGroup,
     onGalleryClicked: (Int) -> Unit
-) : RecyclerView.ViewHolder(inflate(parent, SelectGalleryListItemBinding::inflate)) {
+) : RecyclerView.ViewHolder(inflate(parent, ListItemSelectGalleryBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as SelectGalleryListItemBinding
+    private val binding = baseBinding as ListItemSelectGalleryBinding
 
     init {
         onClick(binding.baseGalleryItem.root) { position -> onGalleryClicked(position) }

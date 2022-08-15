@@ -5,7 +5,7 @@ import android.view.View
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.FollowingDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentFollowingBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.feature.circles.following.list.FollowingAdapter
@@ -14,14 +14,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class FollowingDialogFragment :
-    BaseFullscreenDialogFragment(FollowingDialogFragmentBinding::inflate) {
+    BaseFullscreenDialogFragment(DialogFragmentFollowingBinding::inflate) {
 
     private val args: FollowingDialogFragmentArgs by navArgs()
     private val viewModel by viewModel<FollowingViewModel> {
         parametersOf(args.roomId)
     }
     private val binding by lazy {
-        getBinding() as FollowingDialogFragmentBinding
+        getBinding() as DialogFragmentFollowingBinding
     }
     private val listAdapter by lazy {
         FollowingAdapter(onRemoveClicked = { showRemoveOptionsDialog(it) })

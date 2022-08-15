@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.databinding.GalleryImageListItemBinding
-import org.futo.circles.databinding.GalleryVideoListItemBinding
+import org.futo.circles.databinding.ListItemGalleryImageBinding
+import org.futo.circles.databinding.ListItemGalleryVideoBinding
 import org.futo.circles.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.extensions.onClick
 import org.futo.circles.model.GalleryContentListItem
@@ -19,11 +19,11 @@ abstract class GalleryContentViewHolder(view: View) : RecyclerView.ViewHolder(vi
 class GalleryImageViewHolder(
     parent: ViewGroup,
     onItemClicked: (Int) -> Unit
-) : GalleryContentViewHolder((inflate(parent, GalleryImageListItemBinding::inflate))) {
+) : GalleryContentViewHolder((inflate(parent, ListItemGalleryImageBinding::inflate))) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as GalleryImageListItemBinding
+    private val binding = baseBinding as ListItemGalleryImageBinding
 
     init {
         onClick(binding.ivGalleryImage) { position -> onItemClicked(position) }
@@ -41,11 +41,11 @@ class GalleryImageViewHolder(
 class GalleryVideoViewHolder(
     parent: ViewGroup,
     onItemClicked: (Int) -> Unit
-) : GalleryContentViewHolder((inflate(parent, GalleryVideoListItemBinding::inflate))) {
+) : GalleryContentViewHolder((inflate(parent, ListItemGalleryVideoBinding::inflate))) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as GalleryVideoListItemBinding
+    private val binding = baseBinding as ListItemGalleryVideoBinding
 
     init {
         onClick(itemView) { position -> onItemClicked(position) }

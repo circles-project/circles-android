@@ -63,7 +63,7 @@
 
         <include
             android:id="@+id/lImageContent"
-            layout="@layout/preview_image_post_content_layout"
+            layout="@layout/layout_preview_image_post_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -73,7 +73,7 @@
 
         <include
             android:id="@+id/lVideoContent"
-            layout="@layout/preview_video_post_content_layout"
+            layout="@layout/layout_preview_video_post_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"

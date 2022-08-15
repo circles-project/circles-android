@@ -10,17 +10,17 @@ import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.device.list.DeviceMediaViewHolder
 import org.futo.circles.core.picker.device.list.DeviceMedialListAdapter
-import org.futo.circles.databinding.PickDeviceMediaDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentPickDeviceMediaBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.model.DeviceMediaListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class PickDeviceMediaDialogFragment :
-    BaseFullscreenDialogFragment(PickDeviceMediaDialogFragmentBinding::inflate) {
+    BaseFullscreenDialogFragment(DialogFragmentPickDeviceMediaBinding::inflate) {
 
     private val binding by lazy {
-        getBinding() as PickDeviceMediaDialogFragmentBinding
+        getBinding() as DialogFragmentPickDeviceMediaBinding
     }
 
     private val viewModel by viewModel<PickDeviceMediaViewModel> {

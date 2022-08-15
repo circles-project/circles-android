@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import org.futo.circles.databinding.ManageMembersOptionsViewBinding
+import org.futo.circles.databinding.ViewManageMembersOptionsBinding
 import org.futo.circles.extensions.isCurrentUserAbleToBan
 import org.futo.circles.extensions.isCurrentUserAbleToChangeLevelFor
 import org.futo.circles.extensions.isCurrentUserAbleToKick
@@ -28,7 +28,7 @@ class ManageMembersOptionsView(
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        ManageMembersOptionsViewBinding.inflate(LayoutInflater.from(context), this)
+        ViewManageMembersOptionsBinding.inflate(LayoutInflater.from(context), this)
 
     private var listener: ManageMembersOptionsListener? = null
     private var userId: String? = null

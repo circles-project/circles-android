@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
 import androidx.core.widget.doAfterTextChanged
-import org.futo.circles.databinding.ConfirmAuthDialogBinding
+import org.futo.circles.databinding.DialogConfirmAuthBinding
 import org.futo.circles.extensions.getText
 
 class ConfirmAuthDialog(
@@ -16,7 +16,7 @@ class ConfirmAuthDialog(
 ) :
     AppCompatDialog(context) {
 
-    private val binding = ConfirmAuthDialogBinding.inflate(LayoutInflater.from(context))
+    private val binding = DialogConfirmAuthBinding.inflate(LayoutInflater.from(context))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

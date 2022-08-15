@@ -7,7 +7,7 @@ import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.SaveToGalleryDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentSaveToGalleryBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showSuccess
@@ -17,7 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class SaveToGalleyDialogFragment :
-    BaseFullscreenDialogFragment(SaveToGalleryDialogFragmentBinding::inflate),
+    BaseFullscreenDialogFragment(DialogFragmentSaveToGalleryBinding::inflate),
     HasLoadingState {
 
     override val fragment: Fragment = this
@@ -26,7 +26,7 @@ class SaveToGalleyDialogFragment :
         parametersOf(args.roomId, args.eventId)
     }
     private val binding by lazy {
-        getBinding() as SaveToGalleryDialogFragmentBinding
+        getBinding() as DialogFragmentSaveToGalleryBinding
     }
 
     private val listAdapter by lazy {

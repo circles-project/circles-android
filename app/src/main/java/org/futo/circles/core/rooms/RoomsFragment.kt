@@ -3,15 +3,12 @@ package org.futo.circles.core.rooms
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.list.RoomsDividerDecoration
-import org.futo.circles.core.rooms.list.GalleryViewHolder
 import org.futo.circles.core.rooms.list.RoomListItemViewType
 import org.futo.circles.core.rooms.list.RoomsListAdapter
-import org.futo.circles.databinding.RoomsFragmentBinding
+import org.futo.circles.databinding.FragmentRoomsBinding
 import org.futo.circles.extensions.bindToFab
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
@@ -21,10 +18,10 @@ interface HasInvites {
     fun onAcceptInviteClicked(room: RoomListItem)
 }
 
-abstract class RoomsFragment : Fragment(R.layout.rooms_fragment) {
+abstract class RoomsFragment : Fragment(R.layout.fragment_rooms) {
 
     abstract val viewModel: RoomsViewModel
-    protected val binding by viewBinding(RoomsFragmentBinding::bind)
+    protected val binding by viewBinding(FragmentRoomsBinding::bind)
     private val listAdapter by lazy {
         RoomsListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },

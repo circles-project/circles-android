@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.InviteHeaderListItemBinding
-import org.futo.circles.databinding.PeopleListItemBinding
+import org.futo.circles.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.databinding.ListItemPeopleBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setIsVisible
@@ -22,11 +22,11 @@ class PeopleUserViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit,
     private val onIgnore: (Int, Boolean) -> Unit
-) : PeopleViewHolder(inflate(parent, PeopleListItemBinding::inflate)) {
+) : PeopleViewHolder(inflate(parent, ListItemPeopleBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as PeopleListItemBinding
+    private val binding = baseBinding as ListItemPeopleBinding
 
     init {
         onClick(itemView) { position -> onUserClicked(position) }
@@ -49,11 +49,11 @@ class PeopleUserViewHolder(
 
 class PeopleHeaderViewHolder(
     parent: ViewGroup,
-) : PeopleViewHolder(inflate(parent, InviteHeaderListItemBinding::inflate)) {
+) : PeopleViewHolder(inflate(parent, ListItemInviteHeaderBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as InviteHeaderListItemBinding
+    private val binding = baseBinding as ListItemInviteHeaderBinding
 
     override fun bind(data: PeopleListItem) {
         if (data !is PeopleHeaderItem) return

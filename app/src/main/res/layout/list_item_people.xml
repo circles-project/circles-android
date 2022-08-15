@@ -11,7 +11,7 @@
 
     <include
         android:id="@+id/userItem"
-        layout="@layout/user_list_item"
+        layout="@layout/list_item_user"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="100dp"

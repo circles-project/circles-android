@@ -7,7 +7,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.AcceptCircleInviteDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.setIsVisible
@@ -17,7 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class AcceptCircleInviteDialogFragment :
-    BaseFullscreenDialogFragment(AcceptCircleInviteDialogFragmentBinding::inflate),
+    BaseFullscreenDialogFragment(DialogFragmentAcceptCircleInviteBinding::inflate),
     HasLoadingState {
 
     override val fragment: Fragment = this
@@ -26,7 +26,7 @@ class AcceptCircleInviteDialogFragment :
         parametersOf(args.roomId)
     }
     private val binding by lazy {
-        getBinding() as AcceptCircleInviteDialogFragmentBinding
+        getBinding() as DialogFragmentAcceptCircleInviteBinding
     }
     private val circlesInviteAdapter by lazy { CirclesInviteAdapter(viewModel::onCircleSelected) }
     private val selectedCircleAdapter by lazy { SelectedCirclesAdapter(viewModel::onCircleSelected) }

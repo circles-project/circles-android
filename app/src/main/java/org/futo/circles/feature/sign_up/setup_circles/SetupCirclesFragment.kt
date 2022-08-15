@@ -9,7 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.picker.MediaPickerHelper
-import org.futo.circles.databinding.SetupCirclesFragmentBinding
+import org.futo.circles.databinding.FragmentSetupCirclesBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showSuccess
@@ -17,11 +17,11 @@ import org.futo.circles.feature.sign_up.setup_circles.list.SetupCirclesAdapter
 import org.futo.circles.model.SetupCircleListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SetupCirclesFragment : Fragment(R.layout.setup_circles_fragment), HasLoadingState {
+class SetupCirclesFragment : Fragment(R.layout.fragment_setup_circles), HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModel<SetupCirclesViewModel>()
-    private val binding by viewBinding(SetupCirclesFragmentBinding::bind)
+    private val binding by viewBinding(FragmentSetupCirclesBinding::bind)
     private val listAdapter by lazy { SetupCirclesAdapter(::onCircleListItemClicked) }
     private val mediaPickerHelper = MediaPickerHelper(this)
 

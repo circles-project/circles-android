@@ -11,17 +11,17 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
-import org.futo.circles.databinding.SignUpFragmentBinding
+import org.futo.circles.databinding.FragmentSignUpBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showDialog
 import org.futo.circles.extensions.showError
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
+class SignUpFragment : Fragment(R.layout.fragment_sign_up), BackPressOwner {
 
     private val viewModel by viewModel<SignUpViewModel>()
-    private val binding by viewBinding(SignUpFragmentBinding::bind)
+    private val binding by viewBinding(FragmentSignUpBinding::bind)
     private val createPassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
 
     private val childNavHostFragment by lazy {

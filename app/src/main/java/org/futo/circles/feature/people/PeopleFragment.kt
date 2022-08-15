@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.databinding.PeopleFragmentBinding
+import org.futo.circles.databinding.FragmentPeopleBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showDialog
@@ -15,10 +15,10 @@ import org.futo.circles.feature.people.list.PeopleAdapter
 import org.futo.circles.model.PeopleUserListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PeopleFragment : Fragment(R.layout.people_fragment) {
+class PeopleFragment : Fragment(R.layout.fragment_people) {
 
     private val viewModel by viewModel<PeopleViewModel>()
-    private val binding by viewBinding(PeopleFragmentBinding::bind)
+    private val binding by viewBinding(FragmentPeopleBinding::bind)
 
     private val peopleAdapter by lazy {
         PeopleAdapter(

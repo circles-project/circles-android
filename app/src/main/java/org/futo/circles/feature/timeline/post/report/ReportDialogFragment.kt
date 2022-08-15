@@ -7,7 +7,7 @@ import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.ReportDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentReportBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showSuccess
@@ -16,7 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class ReportDialogFragment :
-    BaseFullscreenDialogFragment(ReportDialogFragmentBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment(DialogFragmentReportBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
     private val args: ReportDialogFragmentArgs by navArgs()
@@ -24,7 +24,7 @@ class ReportDialogFragment :
     private val listAdapter by lazy { ReportCategoryAdapter(::onReportCategorySelected) }
 
     private val binding by lazy {
-        getBinding() as ReportDialogFragmentBinding
+        getBinding() as DialogFragmentReportBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

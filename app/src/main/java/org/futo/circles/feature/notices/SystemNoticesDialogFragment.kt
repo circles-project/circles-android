@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.SystemNoticesDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentSystemNoticesBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.feature.notices.list.SystemNoticesTimelineAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class SystemNoticesDialogFragment :
-    BaseFullscreenDialogFragment(SystemNoticesDialogFragmentBinding::inflate) {
+    BaseFullscreenDialogFragment(DialogFragmentSystemNoticesBinding::inflate) {
 
     private val args: SystemNoticesDialogFragmentArgs by navArgs()
     private val viewModel by viewModel<SystemNoticesTimelineViewModel> {
@@ -19,7 +19,7 @@ class SystemNoticesDialogFragment :
     }
 
     private val binding by lazy {
-        getBinding() as SystemNoticesDialogFragmentBinding
+        getBinding() as DialogFragmentSystemNoticesBinding
     }
 
     private val listAdapter by lazy {

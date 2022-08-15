@@ -34,11 +34,11 @@ abstract class RoomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 class JoinedGroupViewHolder(
     parent: ViewGroup,
     onGroupClicked: (Int) -> Unit
-) : RoomViewHolder(inflate(parent, JoinedGroupListItemBinding::inflate)) {
+) : RoomViewHolder(inflate(parent, ListItemJoinedGroupBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as JoinedGroupListItemBinding
+    private val binding = baseBinding as ListItemJoinedGroupBinding
 
     init {
         onClick(itemView) { position -> onGroupClicked(position) }
@@ -88,11 +88,11 @@ class JoinedGroupViewHolder(
 class InvitedGroupViewHolder(
     parent: ViewGroup,
     onInviteClicked: (Int, Boolean) -> Unit
-) : RoomViewHolder(inflate(parent, InvitedGroupListItemBinding::inflate)) {
+) : RoomViewHolder(inflate(parent, ListItemInvitedGroupBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as InvitedGroupListItemBinding
+    private val binding = baseBinding as ListItemInvitedGroupBinding
 
     init {
         onClick(binding.btnAccept) { position -> onInviteClicked(position, true) }
@@ -113,11 +113,11 @@ class InvitedGroupViewHolder(
 class JoinedCircleViewHolder(
     parent: ViewGroup,
     onCircleClicked: (Int) -> Unit
-) : RoomViewHolder(inflate(parent, JoinedCircleListItemBinding::inflate)) {
+) : RoomViewHolder(inflate(parent, ListItemJoinedCircleBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as JoinedCircleListItemBinding
+    private val binding = baseBinding as ListItemJoinedCircleBinding
 
     init {
         onClick(itemView) { position -> onCircleClicked(position) }
@@ -151,11 +151,11 @@ class JoinedCircleViewHolder(
 class InvitedCircleViewHolder(
     parent: ViewGroup,
     onInviteClicked: (Int, Boolean) -> Unit
-) : RoomViewHolder(inflate(parent, InvitedCircleListItemBinding::inflate)) {
+) : RoomViewHolder(inflate(parent, ListItemInvitedCircleBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as InvitedCircleListItemBinding
+    private val binding = baseBinding as ListItemInvitedCircleBinding
 
     init {
         onClick(binding.btnAccept) { position -> onInviteClicked(position, true) }
@@ -177,11 +177,11 @@ class InvitedCircleViewHolder(
 class GalleryViewHolder(
     parent: ViewGroup,
     onGalleryClicked: (Int) -> Unit
-) : RoomViewHolder(inflate(parent, GalleryListItemBinding::inflate)) {
+) : RoomViewHolder(inflate(parent, ListItemGalleryBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as GalleryListItemBinding
+    private val binding = baseBinding as ListItemGalleryBinding
 
     init {
         onClick(itemView) { position -> onGalleryClicked(position) }

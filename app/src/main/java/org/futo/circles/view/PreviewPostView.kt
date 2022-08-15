@@ -10,7 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.VideoUtils.getVideoDuration
 import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
-import org.futo.circles.databinding.PreviewPostViewBinding
+import org.futo.circles.databinding.ViewPreviewPostBinding
 import org.futo.circles.extensions.loadImage
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.mapping.notEmptyDisplayName
@@ -31,7 +31,7 @@ class PreviewPostView(
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        PreviewPostViewBinding.inflate(LayoutInflater.from(context), this)
+        ViewPreviewPostBinding.inflate(LayoutInflater.from(context), this)
 
     private var listener: PreviewPostListener? = null
 

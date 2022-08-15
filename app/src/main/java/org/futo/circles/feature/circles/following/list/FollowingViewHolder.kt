@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.FollowingListItemBinding
+import org.futo.circles.databinding.ListItemFollowingBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setIsVisible
@@ -15,11 +15,11 @@ import org.futo.circles.model.FollowingListItem
 class FollowingViewHolder(
     parent: ViewGroup,
     onRemoveClicked: (Int) -> Unit
-) : RecyclerView.ViewHolder(inflate(parent, FollowingListItemBinding::inflate)) {
+) : RecyclerView.ViewHolder(inflate(parent, ListItemFollowingBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as FollowingListItemBinding
+    private val binding = baseBinding as ListItemFollowingBinding
 
     init {
         onClick(binding.ivRemove) { position -> onRemoveClicked(position) }

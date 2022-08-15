@@ -10,7 +10,7 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.databinding.CreatePostDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentCreatePostBinding
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.view.PreviewPostListener
 import java.text.DateFormat
@@ -21,11 +21,11 @@ interface CreatePostListener {
 }
 
 class CreatePostDialogFragment :
-    BaseFullscreenDialogFragment(CreatePostDialogFragmentBinding::inflate) {
+    BaseFullscreenDialogFragment(DialogFragmentCreatePostBinding::inflate) {
 
     private val args: CreatePostDialogFragmentArgs by navArgs()
     private val binding by lazy {
-        getBinding() as CreatePostDialogFragmentBinding
+        getBinding() as DialogFragmentCreatePostBinding
     }
 
     private val mediaPickerHelper = MediaPickerHelper(this, true)

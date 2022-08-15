@@ -2,16 +2,16 @@ package org.futo.circles.core.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.futo.circles.databinding.ChipListItemBinding
+import org.futo.circles.databinding.ListItemChipBinding
 
 class ChipItemViewHolder(
     parent: ViewGroup,
     private val onItemDeselected: (Int) -> Unit
-) : RecyclerView.ViewHolder(inflate(parent, ChipListItemBinding::inflate)) {
+) : RecyclerView.ViewHolder(inflate(parent, ListItemChipBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ChipListItemBinding
+    private val binding = baseBinding as ListItemChipBinding
 
     init {
         binding.chipView.setOnCloseIconClickListener {

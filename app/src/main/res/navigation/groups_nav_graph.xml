@@ -9,7 +9,7 @@
         android:id="@+id/groupsFragment"
         android:name="org.futo.circles.feature.groups.GroupsFragment"
         android:label="@string/my_groups"
-        tools:layout="@layout/rooms_fragment">
+        tools:layout="@layout/fragment_rooms">
 
         <action
             android:id="@+id/to_timeline"
@@ -47,7 +47,7 @@
     <dialog
         android:id="@+id/createRoomDialogFragment"
         android:name="org.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
-        tools:layout="@layout/create_room_dialog_fragment">
+        tools:layout="@layout/dialog_fragment_create_room">
 
         <argument
             android:name="type"

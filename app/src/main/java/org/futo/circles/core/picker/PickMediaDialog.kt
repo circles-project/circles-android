@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
-import org.futo.circles.databinding.PickImageDialogBinding
+import org.futo.circles.databinding.DialogPickImageBinding
 import org.futo.circles.extensions.setIsVisible
 
 
@@ -21,7 +21,7 @@ class PickMediaDialog(
 ) :
     AppCompatDialog(context) {
 
-    private val binding = PickImageDialogBinding.inflate(LayoutInflater.from(context))
+    private val binding = DialogPickImageBinding.inflate(LayoutInflater.from(context))
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

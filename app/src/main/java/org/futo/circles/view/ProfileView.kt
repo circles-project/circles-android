@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import org.futo.circles.databinding.ProfileViewBinding
+import org.futo.circles.databinding.ViewProfileBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.matrix.android.sdk.api.session.user.model.User
@@ -15,7 +15,7 @@ class ProfileView(
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        ProfileViewBinding.inflate(LayoutInflater.from(context), this)
+        ViewProfileBinding.inflate(LayoutInflater.from(context), this)
 
 
     fun setData(user: User) {

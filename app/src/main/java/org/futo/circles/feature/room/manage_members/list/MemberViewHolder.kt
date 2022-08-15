@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.InviteHeaderListItemBinding
-import org.futo.circles.databinding.InvitedUserListItemBinding
-import org.futo.circles.databinding.MemberListItemBinding
+import org.futo.circles.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.databinding.ListItemInvitedUserBinding
+import org.futo.circles.databinding.ListItemMemberBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.model.GroupMemberListItem
 import org.futo.circles.model.InvitedUserListItem
@@ -25,11 +25,11 @@ class MemberViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit,
     private val manageMembersListener: ManageMembersOptionsListener
-) : ManageMembersViewHolder(inflate(parent, MemberListItemBinding::inflate)) {
+) : ManageMembersViewHolder(inflate(parent, ListItemMemberBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as MemberListItemBinding
+    private val binding = baseBinding as ListItemMemberBinding
 
     override fun bind(data: ManageMembersListItem) {
         if (data !is GroupMemberListItem) return
@@ -63,11 +63,11 @@ class MemberViewHolder(
 
 class ManageMembersHeaderViewHolder(
     parent: ViewGroup,
-) : ManageMembersViewHolder(inflate(parent, InviteHeaderListItemBinding::inflate)) {
+) : ManageMembersViewHolder(inflate(parent, ListItemInviteHeaderBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as InviteHeaderListItemBinding
+    private val binding = baseBinding as ListItemInviteHeaderBinding
 
     override fun bind(data: ManageMembersListItem) {
         if (data !is ManageMembersHeaderListItem) return
@@ -78,11 +78,11 @@ class ManageMembersHeaderViewHolder(
 class InvitedUserViewHolder(
     parent: ViewGroup,
     private val onCancelInvitation: (Int) -> Unit,
-) : ManageMembersViewHolder(inflate(parent, InvitedUserListItemBinding::inflate)) {
+) : ManageMembersViewHolder(inflate(parent, ListItemInvitedUserBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as InvitedUserListItemBinding
+    private val binding = baseBinding as ListItemInvitedUserBinding
 
     override fun bind(data: ManageMembersListItem) {
         if (data !is InvitedUserListItem) return
