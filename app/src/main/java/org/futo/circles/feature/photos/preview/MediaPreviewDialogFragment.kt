@@ -16,7 +16,7 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.MediaPreviewDialogFragmentBinding
 import org.futo.circles.extensions.*
-import org.futo.circles.feature.timeline.post.share.ShareProvider
+import org.futo.circles.feature.share.ShareProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

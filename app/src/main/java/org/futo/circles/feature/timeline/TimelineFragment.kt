@@ -19,7 +19,7 @@ import org.futo.circles.feature.timeline.list.PostViewHolder
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.post.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
-import org.futo.circles.feature.timeline.post.share.ShareProvider
+import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.PostContent

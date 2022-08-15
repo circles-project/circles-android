@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.post.share
+package org.futo.circles.feature.share
 
 import android.content.Context
 import android.content.Intent

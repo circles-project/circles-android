@@ -9,7 +9,7 @@ import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.feature.timeline.post.share.ShareableContent
+import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.PostContent
