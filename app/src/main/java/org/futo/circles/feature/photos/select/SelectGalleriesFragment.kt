@@ -32,6 +32,8 @@ class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         selectGalleriesListener = (parentFragment as? SelectGalleriesListener)
+        if (selectGalleriesListener == null)
+            selectGalleriesListener = activity as? SelectGalleriesListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
