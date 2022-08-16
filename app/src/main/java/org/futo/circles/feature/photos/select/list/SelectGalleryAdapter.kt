@@ -1,4 +1,4 @@
-package org.futo.circles.feature.photos.save.list
+package org.futo.circles.feature.photos.select.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter

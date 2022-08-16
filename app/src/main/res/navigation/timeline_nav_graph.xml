@@ -313,8 +313,8 @@
     </dialog>
     <dialog
         android:id="@+id/saveToGalleyDialogFragment"
-        android:name="org.futo.circles.feature.photos.save.SaveToGalleyDialogFragment"
-        tools:layout="@layout/dialog_fragment_save_to_gallery">
+        android:name="org.futo.circles.feature.photos.save.SavePostToGalleyDialogFragment"
+        tools:layout="@layout/dialog_fragment_save_post_to_gallery">
 
         <argument
             android:name="roomId"
