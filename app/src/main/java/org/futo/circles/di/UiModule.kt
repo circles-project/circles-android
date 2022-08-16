@@ -13,7 +13,8 @@ import org.futo.circles.feature.people.user.UserViewModel
 import org.futo.circles.feature.photos.PhotosViewModel
 import org.futo.circles.feature.photos.gallery.GalleryViewModel
 import org.futo.circles.feature.photos.preview.MediaPreviewViewModel
-import org.futo.circles.feature.photos.save.SaveToGalleryViewModel
+import org.futo.circles.feature.photos.save.SavePostToGalleryViewModel
+import org.futo.circles.feature.photos.select.SelectGalleriesViewModel
 import org.futo.circles.feature.room.create_room.CreateRoomViewModel
 import org.futo.circles.feature.room.invite.InviteMembersViewModel
 import org.futo.circles.feature.room.manage_members.ManageMembersViewModel
@@ -91,8 +92,9 @@ val uiModule = module {
         MediaPreviewViewModel(roomId, eventId, get { parametersOf(roomId, eventId) }, get())
     }
     viewModel { (roomId: String, eventId: String) ->
-        SaveToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())
+        SavePostToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())
     }
+    viewModel { SelectGalleriesViewModel(get()) }
     viewModel { (userId: String) ->
         UserViewModel(get { parametersOf(userId) })
     }

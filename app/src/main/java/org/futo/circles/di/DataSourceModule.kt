@@ -17,7 +17,8 @@ import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.people.user.UserDataSource
 import org.futo.circles.feature.photos.PhotosDataSource
 import org.futo.circles.feature.photos.preview.MediaPreviewDataSource
-import org.futo.circles.feature.photos.save.SelectGalleryDataSource
+import org.futo.circles.feature.photos.save.SavePostToGalleryDataSource
+import org.futo.circles.feature.photos.select.SelectGalleriesDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.invite.InviteMembersDataSource
 import org.futo.circles.feature.room.manage_members.ManageMembersDataSource
@@ -88,7 +89,8 @@ val dataSourceModule = module {
     factory { ActiveSessionsDataSource(get(), get()) }
     factory { AuthConfirmationProvider() }
     factory { (roomId: String, eventId: String) -> MediaPreviewDataSource(roomId, eventId) }
-    factory { SelectGalleryDataSource(get(), get()) }
+    factory { SelectGalleriesDataSource() }
+    factory { SavePostToGalleryDataSource(get(), get()) }
     factory { PeopleDataSource() }
     factory { UserOptionsDataSource() }
     factory { (userId: String) -> UserDataSource(get(), userId) }
