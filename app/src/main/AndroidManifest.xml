@@ -42,7 +42,7 @@
 
         </activity>
         <activity
-            android:name=".feature.share.ShareWithCircleActivity"
+            android:name=".feature.share.circle.ShareWithCircleActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -59,7 +59,7 @@
 
         </activity>
         <activity
-            android:name=".feature.share.ShareWithGroupActivity"
+            android:name=".feature.share.group.ShareWithGroupActivity"
             android:exported="true">
             <intent-filter android:label="@string/share_with_group">
                 <action android:name="android.intent.action.SEND" />

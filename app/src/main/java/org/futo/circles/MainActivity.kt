@@ -1,14 +1,6 @@
 package org.futo.circles
 
-import android.content.Context
-import android.content.ContextWrapper
-import androidx.appcompat.app.AppCompatActivity
-import org.futo.circles.extensions.disableScreenScale
+import org.futo.circles.core.BaseActivity
 
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
-
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(ContextWrapper(newBase.disableScreenScale()))
-    }
-}
+class MainActivity : BaseActivity(R.layout.activity_main)

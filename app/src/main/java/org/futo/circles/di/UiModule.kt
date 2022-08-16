@@ -25,7 +25,7 @@ import org.futo.circles.feature.settings.SettingsViewModel
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
 import org.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import org.futo.circles.feature.settings.edit_profile.EditProfileViewModel
-import org.futo.circles.feature.share.gallery.UploadToGalleryViewModel
+import org.futo.circles.feature.share.BaseShareViewModel
 import org.futo.circles.feature.sign_up.SignUpViewModel
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileViewModel
@@ -107,5 +107,5 @@ val uiModule = module {
         PickDeviceMediaViewModel(isVideoAvailable, get())
     }
     viewModel { SubscriptionStageViewModel(get()) }
-    viewModel { UploadToGalleryViewModel(get()) }
+    viewModel { BaseShareViewModel(get()) }
 }
