@@ -5,6 +5,7 @@ import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewMo
 import org.futo.circles.feature.circles.CirclesViewModel
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
 import org.futo.circles.feature.circles.following.FollowingViewModel
+import org.futo.circles.feature.circles.select.SelectCirclesViewModel
 import org.futo.circles.feature.groups.GroupsViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
@@ -108,4 +109,5 @@ val uiModule = module {
     }
     viewModel { SubscriptionStageViewModel(get()) }
     viewModel { BaseShareViewModel(get()) }
+    viewModel { SelectCirclesViewModel(get()) }
 }
