@@ -48,7 +48,7 @@ class SavePostToGalleyDialogFragment :
         with(binding) {
             toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
             btnSave.setOnClickListener {
-                viewModel.saveToGallery(selectedGalleriesFragment.getSelectedGalleries())
+                viewModel.saveToGallery(selectedGalleriesFragment.getSelectedRooms())
                 startLoading(btnSave)
             }
         }

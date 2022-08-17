@@ -13,10 +13,11 @@ import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.circles.select.list.SelectCirclesAdapter
 import org.futo.circles.feature.circles.select.list.SelectedChipsCirclesAdapter
+import org.futo.circles.feature.photos.select.SelectRoomsFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class SelectCirclesFragment : Fragment(R.layout.fragment_select_circles) {
+class SelectCirclesFragment : Fragment(R.layout.fragment_select_circles), SelectRoomsFragment {
 
     private val viewModel by viewModel<SelectCirclesViewModel>()
     private val binding by viewBinding(FragmentSelectCirclesBinding::bind)
@@ -24,7 +25,7 @@ class SelectCirclesFragment : Fragment(R.layout.fragment_select_circles) {
     private val selectCirclesAdapter by lazy { SelectCirclesAdapter(viewModel::onCircleSelected) }
     private val selectedCircleAdapter by lazy { SelectedChipsCirclesAdapter(viewModel::onCircleSelected) }
 
-    private var selectRoomsListener: SelectRoomsListener? = null
+    override var selectRoomsListener: SelectRoomsListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,7 +40,7 @@ class SelectCirclesFragment : Fragment(R.layout.fragment_select_circles) {
         setupObservers()
     }
 
-    fun getSelectedCircles() = viewModel.getSelectedCircles()
+    override fun getSelectedRooms() = viewModel.getSelectedCircles()
 
     private fun setupViews() {
         with(binding) {

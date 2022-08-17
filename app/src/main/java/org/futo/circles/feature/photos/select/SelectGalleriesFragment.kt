@@ -13,7 +13,12 @@ import org.futo.circles.feature.photos.select.list.SelectGalleryAdapter
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries) {
+interface SelectRoomsFragment {
+    var selectRoomsListener: SelectRoomsListener?
+    fun getSelectedRooms(): List<SelectableRoomListItem>
+}
+
+class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries), SelectRoomsFragment {
 
     private val viewModel by viewModel<SelectGalleriesViewModel>()
     private val binding by viewBinding(FragmentSelectGalleriesBinding::bind)
@@ -24,7 +29,7 @@ class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries) {
         )
     }
 
-    private var selectRoomsListener: SelectRoomsListener? = null
+    override var selectRoomsListener: SelectRoomsListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,7 +44,7 @@ class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries) {
         setupObservers()
     }
 
-    fun getSelectedGalleries(): List<SelectableRoomListItem> =
+    override fun getSelectedRooms(): List<SelectableRoomListItem> =
         viewModel.galleriesLiveData.value?.filter { it.isSelected } ?: emptyList()
 
     private fun setupViews() {
