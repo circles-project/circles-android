@@ -12,6 +12,7 @@ import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.feature.room.select.SelectRoomsFragment
+import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -29,7 +30,7 @@ class AcceptCircleInviteDialogFragment :
         getBinding() as DialogFragmentAcceptCircleInviteBinding
     }
 
-    private val selectRoomsFragment by lazy { SelectRoomsFragment() }
+    private val selectRoomsFragment by lazy { SelectRoomsFragment.create(CircleRoomTypeArg.Circle) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
