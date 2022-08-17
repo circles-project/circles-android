@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.core.BaseActivity
 import org.futo.circles.core.SelectRoomsListener
@@ -12,6 +13,7 @@ import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.ActivityBaseShareBinding
 import org.futo.circles.feature.photos.select.RoomsPicker
 import org.futo.circles.model.SelectableRoomListItem
+import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), SelectRoomsListener {
@@ -28,10 +30,15 @@ abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), S
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addSelectRoomsFragment()
-        handleIntent()
-        setupViews()
-        setupObservers()
+        MatrixSessionProvider.currentSession?.let {
+            addSelectRoomsFragment()
+            handleIntent()
+            setupViews()
+            setupObservers()
+        } ?: run {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {
