@@ -245,8 +245,8 @@
     <string name="developer_error">Developer error</string>
     <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
     <string name="upload_to_gallery">Upload to gallery</string>
-    <string name="share_with_group">Share with a circle</string>
-    <string name="share_with_circle">Share with a group</string>
+    <string name="share_with_group">Share with a group</string>
+    <string name="share_with_circle">Share with a circle</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
