@@ -10,10 +10,7 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.DialogFragmentCreateRoomBinding
-import org.futo.circles.extensions.getText
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.extensions.*
 import org.futo.circles.feature.room.select_users.SelectUsersFragment
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,7 +39,7 @@ class CreateRoomDialogFragment :
     private fun setupViews() {
         setupInviteMembers()
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             toolbar.title = getTitle()
             tvNameHeader.text = getCreateHeader()
             topicViewGroup.setIsVisible(args.type == CircleRoomTypeArg.Group)
@@ -77,7 +74,7 @@ class CreateRoomDialogFragment :
             binding.ivCover.setImageURI(it)
         }
         viewModel.createRoomResponseLiveData.observeResponse(this,
-            success = { activity?.onBackPressed() }
+            success = { onBackPressed() }
         )
     }
 

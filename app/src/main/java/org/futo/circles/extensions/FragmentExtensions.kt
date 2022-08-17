@@ -98,3 +98,5 @@ fun Fragment.openCustomTabUrl(url: String) {
 }
 
 fun Fragment.findParentNavController() = parentFragment?.parentFragment?.findNavController()
+
+fun Fragment.onBackPressed() = activity?.onBackPressedDispatcher?.onBackPressed()

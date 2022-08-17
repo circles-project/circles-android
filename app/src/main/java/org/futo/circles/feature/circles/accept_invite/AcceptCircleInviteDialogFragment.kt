@@ -10,6 +10,7 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
 import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.feature.circles.select.SelectCirclesFragment
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,7 +46,7 @@ class AcceptCircleInviteDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             btnInvite.setOnClickListener {
                 viewModel.acceptInvite(selectCirclesFragment.getSelectedRooms())
                 startLoading(btnInvite)
@@ -55,7 +56,7 @@ class AcceptCircleInviteDialogFragment :
 
     private fun setupObservers() {
         viewModel.acceptResultLiveData.observeResponse(this,
-            success = { activity?.onBackPressed() }
+            success = { onBackPressed() }
         )
     }
 

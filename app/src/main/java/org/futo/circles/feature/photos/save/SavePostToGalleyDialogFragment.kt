@@ -10,6 +10,7 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentSavePostToGalleryBinding
 import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.photos.select.SelectGalleriesFragment
 import org.futo.circles.model.SelectableRoomListItem
@@ -46,7 +47,7 @@ class SavePostToGalleyDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             btnSave.setOnClickListener {
                 viewModel.saveToGallery(selectedGalleriesFragment.getSelectedRooms())
                 startLoading(btnSave)
@@ -58,7 +59,7 @@ class SavePostToGalleyDialogFragment :
         viewModel.saveResultLiveData.observeResponse(this,
             success = {
                 showSuccess(getString(R.string.saved), true)
-                activity?.onBackPressed()
+                onBackPressed()
             }
         )
     }

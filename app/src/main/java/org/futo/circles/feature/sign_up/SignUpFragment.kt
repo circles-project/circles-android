@@ -12,10 +12,7 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSignUpBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showDialog
-import org.futo.circles.extensions.showError
+import org.futo.circles.extensions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignUpFragment : Fragment(R.layout.fragment_sign_up), BackPressOwner {
@@ -30,7 +27,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), BackPressOwner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         setupObservers()
     }
 
@@ -79,7 +76,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), BackPressOwner {
         val includedFragmentsManager = childNavHostFragment.childFragmentManager
         if (includedFragmentsManager.backStackEntryCount == 0) {
             callback.remove()
-            activity?.onBackPressed()
+            onBackPressed()
         } else {
             showDiscardDialog()
         }

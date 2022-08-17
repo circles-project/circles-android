@@ -11,6 +11,7 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
+import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.view.PreviewPostListener
 import java.text.DateFormat
@@ -46,13 +47,13 @@ class CreatePostDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             args.userName?.let {
                 toolbar.title = context?.getString(R.string.reply_to_format, it)
             }
             btnPost.setOnClickListener {
                 sendPost()
-                activity?.onBackPressed()
+                onBackPressed()
             }
             tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date())
             ivMedia.setOnClickListener {

@@ -37,7 +37,7 @@ class UpdateRoomDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             toolbar.title = getTitle()
             tvNameHeader.text = getNameHeader()
             tvEncryptionWarning.text = getEncryptionWarning()
@@ -65,7 +65,7 @@ class UpdateRoomDialogFragment :
         viewModel.updateGroupResponseLiveData.observeResponse(this,
             success = {
                 showSuccess(getSuccessMessage(), true)
-                activity?.onBackPressed()
+                onBackPressed()
             }
         )
         viewModel.groupSummaryLiveData.observeData(this) {

@@ -33,7 +33,7 @@ class EditProfileDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             ivProfile.setOnClickListener { showImagePicker() }
             btnChangeIcon.setOnClickListener { showImagePicker() }
             tilName.editText?.doAfterTextChanged {
@@ -55,7 +55,7 @@ class EditProfileDialogFragment :
         viewModel.editProfileResponseLiveData.observeResponse(this,
             success = {
                 showSuccess(getString(R.string.profile_updated), true)
-                activity?.onBackPressed()
+                onBackPressed()
             }
         )
         viewModel.profileLiveData.observeData(this) {

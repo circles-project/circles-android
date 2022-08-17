@@ -47,7 +47,7 @@ class ManageMembersDialogFragment :
     }
 
     private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.rvMembers.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = membersListAdapter

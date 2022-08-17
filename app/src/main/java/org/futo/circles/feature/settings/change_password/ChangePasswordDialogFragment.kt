@@ -31,7 +31,7 @@ class ChangePasswordDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             tilOldsPassword.editText?.doAfterTextChanged {
                 it?.let { onPasswordsDataChanged() }
             }
@@ -52,7 +52,7 @@ class ChangePasswordDialogFragment :
         viewModel.responseLiveData.observeResponse(this,
             success = {
                 showSuccess(getString(R.string.password_changed), true)
-                activity?.onBackPressed()
+                onBackPressed()
             },
             error = { message ->
                 showError(message)

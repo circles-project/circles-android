@@ -10,6 +10,7 @@ import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentInviteMembersBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.room.select_users.SelectUsersFragment
 import org.futo.circles.feature.room.select_users.SelectUsersListener
@@ -34,7 +35,7 @@ class InviteMembersDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         addSelectUsersFragment()
         setupObservers()
         binding.btnInvite.setOnClickListener {
@@ -56,7 +57,7 @@ class InviteMembersDialogFragment :
         viewModel.inviteResultLiveData.observeResponse(this,
             success = {
                 showSuccess(getString(R.string.invitation_sent), true)
-                activity?.onBackPressed()
+                onBackPressed()
             }
         )
     }

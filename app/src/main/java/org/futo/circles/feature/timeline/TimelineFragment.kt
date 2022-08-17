@@ -125,10 +125,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
         viewModel.leaveGroupLiveData.observeResponse(this,
-            success = { activity?.onBackPressed() }
+            success = { onBackPressed() }
         )
         viewModel.deleteCircleLiveData.observeResponse(this,
-            success = { activity?.onBackPressed() }
+            success = { onBackPressed() }
         )
     }
 

@@ -12,6 +12,7 @@ import org.futo.circles.core.picker.device.list.DeviceMediaViewHolder
 import org.futo.circles.core.picker.device.list.DeviceMedialListAdapter
 import org.futo.circles.databinding.DialogFragmentPickDeviceMediaBinding
 import org.futo.circles.extensions.observeData
+import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.model.DeviceMediaListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -38,7 +39,7 @@ class PickDeviceMediaDialogFragment :
     }
 
     private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.rvMedia.apply {
             adapter = listAdapter
             addItemDecoration(BaseRvDecoration.OffsetDecoration<DeviceMediaViewHolder>(2))

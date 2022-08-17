@@ -8,6 +8,7 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentActiveSessionsBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showError
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionsAdapter
@@ -53,7 +54,7 @@ class ActiveSessionsDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             rvSessions.apply {
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
                 adapter = sessionsListAdapter

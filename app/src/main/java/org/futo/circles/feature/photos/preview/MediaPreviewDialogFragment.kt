@@ -87,7 +87,7 @@ class MediaPreviewDialogFragment :
 
     private fun setupToolbar() {
         with(binding.toolbar) {
-            setNavigationOnClickListener { activity?.onBackPressed() }
+            setNavigationOnClickListener { onBackPressed() }
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
             setOnMenuItemClickListener { item ->
                 return@setOnMenuItemClickListener when (item.itemId) {
@@ -136,7 +136,7 @@ class MediaPreviewDialogFragment :
             negativeButtonVisible = true,
             positiveAction = {
                 viewModel.removeImage()
-                activity?.onBackPressed()
+                onBackPressed()
             }
         )
     }

@@ -82,7 +82,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             )
         }
         viewModel.deleteGalleryLiveData.observeResponse(this,
-            success = { activity?.onBackPressed() }
+            success = { onBackPressed() }
         )
     }
 
