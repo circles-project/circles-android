@@ -24,6 +24,7 @@ abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), S
     private var mediaType: MediaType = MediaType.Image
 
     abstract val titleResId: Int
+    abstract fun getShareRoomsIds(): List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +49,7 @@ abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), S
         binding.toolbar.title = getString(titleResId)
         binding.btnSave.setOnClickListener {
             uriToShare?.let {
-                viewModel.uploadToRooms(
-                    it,
-                    selectRoomsFragment.getSelectedRooms().map { it.id },
-                    mediaType
-                )
+                viewModel.uploadToRooms(it, getShareRoomsIds(), mediaType)
             }
         }
     }
