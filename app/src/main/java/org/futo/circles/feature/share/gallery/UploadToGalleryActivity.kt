@@ -11,4 +11,7 @@ class UploadToGalleryActivity : BaseShareActivity() {
     override val titleResId: Int = R.string.upload_to_gallery
     override val selectRoomsFragment: SelectRoomsFragment = SelectGalleriesFragment()
 
+    override fun getShareRoomsIds(): List<String> =
+        selectRoomsFragment.getSelectedRooms().map { it.id }
+
 }
