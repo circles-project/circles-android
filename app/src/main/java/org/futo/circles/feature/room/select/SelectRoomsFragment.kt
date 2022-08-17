@@ -1,4 +1,4 @@
-package org.futo.circles.feature.circles.select
+package org.futo.circles.feature.room.select
 
 import android.content.Context
 import android.os.Bundle
@@ -8,22 +8,23 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.SelectRoomsListener
-import org.futo.circles.databinding.FragmentSelectCirclesBinding
+import org.futo.circles.databinding.FragmentSelectRoomsBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.feature.circles.select.list.SelectCirclesAdapter
-import org.futo.circles.feature.circles.select.list.SelectedChipsCirclesAdapter
+import org.futo.circles.feature.room.select.list.SelectRoomsAdapter
+import org.futo.circles.feature.room.select.list.SelectedChipsRoomsAdapter
 import org.futo.circles.feature.photos.select.SelectRoomsFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class SelectCirclesFragment : Fragment(R.layout.fragment_select_circles), SelectRoomsFragment {
+class SelectRoomsFragment : Fragment(R.layout.fragment_select_rooms),
+    SelectRoomsFragment {
 
-    private val viewModel by viewModel<SelectCirclesViewModel>()
-    private val binding by viewBinding(FragmentSelectCirclesBinding::bind)
+    private val viewModel by viewModel<SelectRoomsViewModel>()
+    private val binding by viewBinding(FragmentSelectRoomsBinding::bind)
 
-    private val selectCirclesAdapter by lazy { SelectCirclesAdapter(viewModel::onCircleSelected) }
-    private val selectedCircleAdapter by lazy { SelectedChipsCirclesAdapter(viewModel::onCircleSelected) }
+    private val selectRoomsAdapter by lazy { SelectRoomsAdapter(viewModel::onRoomSelected) }
+    private val selectedCircleAdapter by lazy { SelectedChipsRoomsAdapter(viewModel::onRoomSelected) }
 
     override var selectRoomsListener: SelectRoomsListener? = null
 
@@ -40,22 +41,22 @@ class SelectCirclesFragment : Fragment(R.layout.fragment_select_circles), Select
         setupObservers()
     }
 
-    override fun getSelectedRooms() = viewModel.getSelectedCircles()
+    override fun getSelectedRooms() = viewModel.getSelectedRooms()
 
     private fun setupViews() {
         with(binding) {
             rvCircles.apply {
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                adapter = selectCirclesAdapter
+                adapter = selectRoomsAdapter
             }
             rvSelectedCircles.adapter = selectedCircleAdapter
         }
     }
 
     private fun setupObservers() {
-        viewModel.circlesLiveData.observeData(this) { items ->
-            selectCirclesAdapter.submitList(items)
-            val selectedCircles = viewModel.getSelectedCircles()
+        viewModel.roomsLiveData.observeData(this) { items ->
+            selectRoomsAdapter.submitList(items)
+            val selectedCircles = viewModel.getSelectedRooms()
             selectedCircleAdapter.submitList(selectedCircles)
             binding.selectedCircleDivider.setIsVisible(selectedCircles.isNotEmpty())
             selectRoomsListener?.onRoomsSelected(selectedCircles)

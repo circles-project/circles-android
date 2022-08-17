@@ -10,7 +10,7 @@ import org.futo.circles.core.picker.device.PickDeviceMediaDataSource
 import org.futo.circles.feature.circles.CirclesDataSource
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSource
 import org.futo.circles.feature.circles.following.FollowingDataSource
-import org.futo.circles.feature.circles.select.SelectCirclesDataSource
+import org.futo.circles.feature.room.select.SelectRoomsDataSource
 import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.log_in.LoginDataSource
 import org.futo.circles.feature.people.PeopleDataSource
@@ -97,5 +97,5 @@ val dataSourceModule = module {
     factory { (userId: String) -> UserDataSource(get(), userId) }
     single { PickDeviceMediaDataSource(get()) }
     factory { SubscriptionStageDataSource(get()) }
-    factory { SelectCirclesDataSource() }
+    factory { SelectRoomsDataSource() }
 }

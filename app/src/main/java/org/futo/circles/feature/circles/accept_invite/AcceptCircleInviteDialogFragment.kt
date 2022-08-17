@@ -11,7 +11,7 @@ import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.feature.circles.select.SelectCirclesFragment
+import org.futo.circles.feature.room.select.SelectRoomsFragment
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -29,7 +29,7 @@ class AcceptCircleInviteDialogFragment :
         getBinding() as DialogFragmentAcceptCircleInviteBinding
     }
 
-    private val selectCirclesFragment by lazy { SelectCirclesFragment() }
+    private val selectRoomsFragment by lazy { SelectRoomsFragment() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,7 +40,7 @@ class AcceptCircleInviteDialogFragment :
 
     private fun addSelectCirclesFragment() {
         childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, selectCirclesFragment)
+            .replace(R.id.lContainer, selectRoomsFragment)
             .commitAllowingStateLoss()
     }
 
@@ -48,7 +48,7 @@ class AcceptCircleInviteDialogFragment :
         with(binding) {
             toolbar.setNavigationOnClickListener { onBackPressed() }
             btnInvite.setOnClickListener {
-                viewModel.acceptInvite(selectCirclesFragment.getSelectedRooms())
+                viewModel.acceptInvite(selectRoomsFragment.getSelectedRooms())
                 startLoading(btnInvite)
             }
         }

@@ -1,4 +1,4 @@
-package org.futo.circles.feature.circles.select
+package org.futo.circles.feature.room.select
 
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.mapping.toSelectableRoomListItem
@@ -8,13 +8,13 @@ import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
-class SelectCirclesDataSource {
+class SelectRoomsDataSource {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 
-    val circlesLiveData = MutableLiveData(getInitialCirclesList())
+    val roomsLiveData = MutableLiveData(getInitialRoomsList())
 
-    private fun getInitialCirclesList(): List<SelectableRoomListItem> =
+    private fun getInitialRoomsList(): List<SelectableRoomListItem> =
         session?.roomService()?.getRoomSummaries(roomSummaryQueryParams {
             excludeType = null
         })?.mapNotNull { summary ->
@@ -23,12 +23,12 @@ class SelectCirclesDataSource {
             else null
         } ?: emptyList()
 
-    fun getSelectedCircles() = circlesLiveData.value?.filter { it.isSelected } ?: emptyList()
+    fun getSelectedRooms() = roomsLiveData.value?.filter { it.isSelected } ?: emptyList()
 
-    fun toggleCircleSelect(circle: SelectableRoomListItem) {
-        val newList = circlesLiveData.value?.toMutableList()?.map {
+    fun toggleRoomSelect(circle: SelectableRoomListItem) {
+        val newList = roomsLiveData.value?.toMutableList()?.map {
             if (it.id == circle.id) it.copy(isSelected = !it.isSelected) else it
         }
-        circlesLiveData.postValue(newList)
+        roomsLiveData.postValue(newList)
     }
 }
