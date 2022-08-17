@@ -1,23 +1,22 @@
-package org.futo.circles.feature.circles.accept_invite.list
+package org.futo.circles.feature.circles.select.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.model.RoomListItem
 import org.futo.circles.model.SelectableRoomListItem
 
-class CirclesInviteAdapter(
+class SelectCirclesAdapter(
     private val onCircleSelected: (SelectableRoomListItem) -> Unit
-) : BaseRvAdapter<SelectableRoomListItem, CirclesInviteViewHolder>(DefaultIdEntityCallback()) {
+) : BaseRvAdapter<SelectableRoomListItem, SelectCirclesViewHolder>(DefaultIdEntityCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CirclesInviteViewHolder = CirclesInviteViewHolder(
+    ): SelectCirclesViewHolder = SelectCirclesViewHolder(
         parent,
         onCircleClicked = { position -> onCircleSelected(getItem(position)) })
 
 
-    override fun onBindViewHolder(holder: CirclesInviteViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SelectCirclesViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

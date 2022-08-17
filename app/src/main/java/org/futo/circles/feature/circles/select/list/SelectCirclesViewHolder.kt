@@ -1,24 +1,24 @@
-package org.futo.circles.feature.circles.accept_invite.list
+package org.futo.circles.feature.circles.select.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.ListItemAcceptCircleInviteBinding
+import org.futo.circles.databinding.ListItemSelectCircleBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setSelectableItemBackground
 import org.futo.circles.model.SelectableRoomListItem
 
-class CirclesInviteViewHolder(
+class SelectCirclesViewHolder(
     parent: ViewGroup,
     private val onCircleClicked: (Int) -> Unit
-) : RecyclerView.ViewHolder(inflate(parent, ListItemAcceptCircleInviteBinding::inflate)) {
+) : RecyclerView.ViewHolder(inflate(parent, ListItemSelectCircleBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemAcceptCircleInviteBinding
+    private val binding = baseBinding as ListItemSelectCircleBinding
 
     init {
         onClick(itemView) { position -> onCircleClicked(position) }
