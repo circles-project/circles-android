@@ -10,7 +10,7 @@ import org.futo.circles.core.BaseActivity
 import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.ActivityBaseShareBinding
-import org.futo.circles.feature.photos.select.SelectRoomsFragment
+import org.futo.circles.feature.photos.select.RoomsPicker
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -18,7 +18,7 @@ abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), S
 
     private val viewModel by viewModel<BaseShareViewModel>()
     protected val binding by viewBinding(ActivityBaseShareBinding::bind, R.id.mainContainer)
-    abstract val selectRoomsFragment: SelectRoomsFragment
+    abstract val roomsPicker: RoomsPicker
 
     private var uriToShare: Uri? = null
     private var mediaType: MediaType = MediaType.Image
@@ -39,7 +39,7 @@ abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), S
     }
 
     private fun addSelectRoomsFragment() {
-        val fragment = (selectRoomsFragment as? Fragment) ?: return
+        val fragment = (roomsPicker as? Fragment) ?: return
         supportFragmentManager.beginTransaction()
             .replace(R.id.lContainer, fragment)
             .commitAllowingStateLoss()

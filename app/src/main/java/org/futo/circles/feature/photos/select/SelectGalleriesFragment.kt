@@ -13,12 +13,12 @@ import org.futo.circles.feature.photos.select.list.SelectGalleryAdapter
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-interface SelectRoomsFragment {
+interface RoomsPicker {
     var selectRoomsListener: SelectRoomsListener?
     fun getSelectedRooms(): List<SelectableRoomListItem>
 }
 
-class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries), SelectRoomsFragment {
+class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries), RoomsPicker {
 
     private val viewModel by viewModel<SelectGalleriesViewModel>()
     private val binding by viewBinding(FragmentSelectGalleriesBinding::bind)
