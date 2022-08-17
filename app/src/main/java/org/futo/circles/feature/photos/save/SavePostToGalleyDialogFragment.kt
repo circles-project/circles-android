@@ -5,20 +5,20 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
+import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentSavePostToGalleryBinding
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.photos.select.SelectGalleriesFragment
-import org.futo.circles.feature.photos.select.SelectGalleriesListener
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class SavePostToGalleyDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentSavePostToGalleryBinding::inflate),
-    HasLoadingState, SelectGalleriesListener {
+    HasLoadingState, SelectRoomsListener {
 
     override val fragment: Fragment = this
     private val args: SavePostToGalleyDialogFragmentArgs by navArgs()
@@ -63,7 +63,7 @@ class SavePostToGalleyDialogFragment :
         )
     }
 
-    override fun onGallerySelected(galleries: List<SelectableRoomListItem>) {
-        binding.btnSave.isEnabled = galleries.isNotEmpty()
+    override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {
+        binding.btnSave.isEnabled = rooms.isNotEmpty()
     }
 }

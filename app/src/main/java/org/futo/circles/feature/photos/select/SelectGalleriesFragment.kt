@@ -6,15 +6,12 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.databinding.FragmentSelectGalleriesBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.feature.photos.select.list.SelectGalleryAdapter
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-interface SelectGalleriesListener {
-    fun onGallerySelected(galleries: List<SelectableRoomListItem>)
-}
 
 class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries) {
 
@@ -27,13 +24,13 @@ class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries) {
         )
     }
 
-    private var selectGalleriesListener: SelectGalleriesListener? = null
+    private var selectRoomsListener: SelectRoomsListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        selectGalleriesListener = (parentFragment as? SelectGalleriesListener)
-        if (selectGalleriesListener == null)
-            selectGalleriesListener = activity as? SelectGalleriesListener
+        selectRoomsListener = (parentFragment as? SelectRoomsListener)
+        if (selectRoomsListener == null)
+            selectRoomsListener = activity as? SelectRoomsListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +49,7 @@ class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries) {
     private fun setupObservers() {
         viewModel.galleriesLiveData.observeData(this) {
             listAdapter.submitList(it)
-            selectGalleriesListener?.onGallerySelected(it.filter { it.isSelected })
+            selectRoomsListener?.onRoomsSelected(it.filter { it.isSelected })
         }
     }
 

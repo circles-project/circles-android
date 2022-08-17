@@ -28,7 +28,7 @@ abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share) {
         setupViews()
         setupObservers()
     }
-    
+
     private fun setupViews() {
         binding.toolbar.title = getString(titleResId)
         binding.btnSave.setOnClickListener {
