@@ -10,7 +10,6 @@ import org.futo.circles.core.picker.device.PickDeviceMediaDataSource
 import org.futo.circles.feature.circles.CirclesDataSource
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSource
 import org.futo.circles.feature.circles.following.FollowingDataSource
-import org.futo.circles.feature.room.select.SelectRoomsDataSource
 import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.log_in.LoginDataSource
 import org.futo.circles.feature.people.PeopleDataSource
@@ -24,6 +23,7 @@ import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.invite.InviteMembersDataSource
 import org.futo.circles.feature.room.manage_members.ManageMembersDataSource
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelDataSource
+import org.futo.circles.feature.room.select.SelectRoomsDataSource
 import org.futo.circles.feature.room.select_users.SelectUsersDataSource
 import org.futo.circles.feature.room.update_room.UpdateRoomDataSource
 import org.futo.circles.feature.settings.SettingsDataSource
@@ -97,5 +97,5 @@ val dataSourceModule = module {
     factory { (userId: String) -> UserDataSource(get(), userId) }
     single { PickDeviceMediaDataSource(get()) }
     factory { SubscriptionStageDataSource(get()) }
-    factory { SelectRoomsDataSource() }
+    factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
 }

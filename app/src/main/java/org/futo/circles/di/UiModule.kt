@@ -5,7 +5,6 @@ import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewMo
 import org.futo.circles.feature.circles.CirclesViewModel
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
 import org.futo.circles.feature.circles.following.FollowingViewModel
-import org.futo.circles.feature.room.select.SelectRoomsViewModel
 import org.futo.circles.feature.groups.GroupsViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
@@ -20,6 +19,7 @@ import org.futo.circles.feature.room.create_room.CreateRoomViewModel
 import org.futo.circles.feature.room.invite.InviteMembersViewModel
 import org.futo.circles.feature.room.manage_members.ManageMembersViewModel
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelViewModel
+import org.futo.circles.feature.room.select.SelectRoomsViewModel
 import org.futo.circles.feature.room.select_users.SelectUsersViewModel
 import org.futo.circles.feature.room.update_room.UpdateRoomViewModel
 import org.futo.circles.feature.settings.SettingsViewModel
@@ -109,5 +109,5 @@ val uiModule = module {
     }
     viewModel { SubscriptionStageViewModel(get()) }
     viewModel { BaseShareViewModel(get()) }
-    viewModel { SelectRoomsViewModel(get()) }
+    viewModel { (type: CircleRoomTypeArg) -> SelectRoomsViewModel(get { parametersOf(type) }) }
 }
