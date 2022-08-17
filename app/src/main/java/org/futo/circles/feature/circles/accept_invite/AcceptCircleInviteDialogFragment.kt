@@ -4,21 +4,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DividerItemDecoration
+import org.futo.circles.R
+import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
-import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.feature.circles.accept_invite.list.CirclesInviteAdapter
-import org.futo.circles.feature.circles.accept_invite.list.selected.SelectedCirclesAdapter
+import org.futo.circles.feature.circles.select.SelectCirclesFragment
+import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class AcceptCircleInviteDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentAcceptCircleInviteBinding::inflate),
-    HasLoadingState {
+    HasLoadingState, SelectRoomsListener {
 
     override val fragment: Fragment = this
     private val args: AcceptCircleInviteDialogFragmentArgs by navArgs()
@@ -28,40 +27,39 @@ class AcceptCircleInviteDialogFragment :
     private val binding by lazy {
         getBinding() as DialogFragmentAcceptCircleInviteBinding
     }
-    private val circlesInviteAdapter by lazy { CirclesInviteAdapter(viewModel::onCircleSelected) }
-    private val selectedCircleAdapter by lazy { SelectedCirclesAdapter(viewModel::onCircleSelected) }
+
+    private val selectCirclesFragment by lazy { SelectCirclesFragment() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addSelectCirclesFragment()
         setupViews()
         setupObservers()
+    }
+
+    private fun addSelectCirclesFragment() {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.lContainer, selectCirclesFragment)
+            .commitAllowingStateLoss()
     }
 
     private fun setupViews() {
         with(binding) {
             toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
-            rvCircles.apply {
-                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                adapter = circlesInviteAdapter
-            }
-            rvSelectedCircles.adapter = selectedCircleAdapter
             btnInvite.setOnClickListener {
-                viewModel.acceptInvite()
+                viewModel.acceptInvite(selectCirclesFragment.getSelectedCircles())
                 startLoading(btnInvite)
             }
         }
     }
 
     private fun setupObservers() {
-        viewModel.circlesLiveData.observeData(this) { items ->
-            circlesInviteAdapter.submitList(items)
-            val selectedCircles = viewModel.getSelectedCircles()
-            selectedCircleAdapter.submitList(selectedCircles)
-            binding.selectedUserDivider.setIsVisible(selectedCircles.isNotEmpty())
-            binding.btnInvite.isEnabled = selectedCircles.isNotEmpty()
-        }
         viewModel.acceptResultLiveData.observeResponse(this,
             success = { activity?.onBackPressed() }
         )
+    }
+
+    override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {
+        binding.btnInvite.isEnabled = rooms.isNotEmpty()
     }
 }
