@@ -19,7 +19,7 @@ import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.picker.PickGalleryMediaListener
-import org.futo.circles.databinding.GalleryFragmentBinding
+import org.futo.circles.databinding.FragmentGalleryBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.list.GalleryContentViewHolder
 import org.futo.circles.feature.photos.gallery.list.GalleryItemsAdapter
@@ -28,7 +28,7 @@ import org.futo.circles.model.GalleryContentListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class GalleryFragment : Fragment(R.layout.gallery_fragment) {
+class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private val args: GalleryFragmentArgs by navArgs()
     private val viewModel by viewModel<GalleryViewModel> {
@@ -37,7 +37,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
             arguments?.getBoolean(IS_VIDEO_AVAILABLE, true) ?: true
         )
     }
-    private val binding by viewBinding(GalleryFragmentBinding::bind)
+    private val binding by viewBinding(FragmentGalleryBinding::bind)
     private val mediaPickerHelper = MediaPickerHelper(this, true)
     private val listAdapter by lazy {
         GalleryItemsAdapter(
@@ -82,7 +82,7 @@ class GalleryFragment : Fragment(R.layout.gallery_fragment) {
             )
         }
         viewModel.deleteGalleryLiveData.observeResponse(this,
-            success = { activity?.onBackPressed() }
+            success = { onBackPressed() }
         )
     }
 

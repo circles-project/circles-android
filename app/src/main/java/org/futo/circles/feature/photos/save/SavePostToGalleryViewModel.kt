@@ -7,25 +7,21 @@ import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.photos.preview.MediaPreviewDataSource
 import org.futo.circles.model.SelectableRoomListItem
 
-class SaveToGalleryViewModel(
+class SavePostToGalleryViewModel(
     private val mediaPreviewDataSource: MediaPreviewDataSource,
-    private val selectGalleryDataSource: SelectGalleryDataSource
+    private val savePostToGalleryDataSource: SavePostToGalleryDataSource
 ) : ViewModel() {
 
-    val galleriesLiveData = selectGalleryDataSource.galleriesLiveData
+
     val saveResultLiveData = SingleEventLiveData<Response<Unit>>()
 
-    fun saveToGallery() {
+    fun saveToGallery(selectedGalleries: List<SelectableRoomListItem>) {
         launchBg {
             mediaPreviewDataSource.getPostContent()?.let { content ->
-                selectGalleryDataSource.saveMediaToGalleries(content)
+                savePostToGalleryDataSource.saveMediaToGalleries(content, selectedGalleries)
             }
             saveResultLiveData.postValue(Response.Success(Unit))
         }
-    }
-
-    fun toggleGallerySelect(selectableRoomListItem: SelectableRoomListItem) {
-        selectGalleryDataSource.toggleGallerySelect(selectableRoomListItem)
     }
 
 }

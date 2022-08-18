@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
 import androidx.core.widget.doAfterTextChanged
-import org.futo.circles.databinding.EnterPassphraseDialogBinding
+import org.futo.circles.databinding.DialogEnterPassphraseBinding
 import org.futo.circles.extensions.getText
 
 interface EnterPassPhraseDialogListener {
@@ -16,7 +16,7 @@ interface EnterPassPhraseDialogListener {
 class EnterPassPhraseDialog(context: Context, private val listener: EnterPassPhraseDialogListener) :
     AppCompatDialog(context) {
 
-    private val binding = EnterPassphraseDialogBinding.inflate(LayoutInflater.from(context))
+    private val binding = DialogEnterPassphraseBinding.inflate(LayoutInflater.from(context))
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

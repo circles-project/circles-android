@@ -8,7 +8,7 @@ import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.feature.timeline.post.share.ShareableContent
+import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.model.ImageContent
 import org.futo.circles.model.VideoContent
 

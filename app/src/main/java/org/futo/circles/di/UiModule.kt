@@ -13,17 +13,20 @@ import org.futo.circles.feature.people.user.UserViewModel
 import org.futo.circles.feature.photos.PhotosViewModel
 import org.futo.circles.feature.photos.gallery.GalleryViewModel
 import org.futo.circles.feature.photos.preview.MediaPreviewViewModel
-import org.futo.circles.feature.photos.save.SaveToGalleryViewModel
+import org.futo.circles.feature.photos.save.SavePostToGalleryViewModel
+import org.futo.circles.feature.photos.select.SelectGalleriesViewModel
 import org.futo.circles.feature.room.create_room.CreateRoomViewModel
 import org.futo.circles.feature.room.invite.InviteMembersViewModel
 import org.futo.circles.feature.room.manage_members.ManageMembersViewModel
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelViewModel
+import org.futo.circles.feature.room.select.SelectRoomsViewModel
 import org.futo.circles.feature.room.select_users.SelectUsersViewModel
 import org.futo.circles.feature.room.update_room.UpdateRoomViewModel
 import org.futo.circles.feature.settings.SettingsViewModel
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
 import org.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import org.futo.circles.feature.settings.edit_profile.EditProfileViewModel
+import org.futo.circles.feature.share.BaseShareViewModel
 import org.futo.circles.feature.sign_up.SignUpViewModel
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileViewModel
@@ -91,8 +94,9 @@ val uiModule = module {
         MediaPreviewViewModel(roomId, eventId, get { parametersOf(roomId, eventId) }, get())
     }
     viewModel { (roomId: String, eventId: String) ->
-        SaveToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())
+        SavePostToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())
     }
+    viewModel { SelectGalleriesViewModel(get()) }
     viewModel { (userId: String) ->
         UserViewModel(get { parametersOf(userId) })
     }
@@ -104,4 +108,6 @@ val uiModule = module {
         PickDeviceMediaViewModel(isVideoAvailable, get())
     }
     viewModel { SubscriptionStageViewModel(get()) }
+    viewModel { BaseShareViewModel(get()) }
+    viewModel { (type: CircleRoomTypeArg) -> SelectRoomsViewModel(get { parametersOf(type) }) }
 }

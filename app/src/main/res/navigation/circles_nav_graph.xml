@@ -9,7 +9,7 @@
         android:id="@+id/circlesFragment"
         android:name="org.futo.circles.feature.circles.CirclesFragment"
         android:label="@string/my_circles"
-        tools:layout="@layout/rooms_fragment">
+        tools:layout="@layout/fragment_rooms">
 
         <action
             android:id="@+id/to_timeline"
@@ -57,7 +57,7 @@
         android:id="@+id/createRoomDialogFragment"
         android:name="org.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
         android:label="CreateCircleDialogFragment"
-        tools:layout="@layout/create_room_dialog_fragment">
+        tools:layout="@layout/dialog_fragment_create_room">
 
         <argument
             android:name="type"
@@ -69,7 +69,7 @@
         android:id="@+id/acceptCircleInviteDialogFragment"
         android:name="org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDialogFragment"
         android:label="AcceptCircleInviteDialogFragment"
-        tools:layout="@layout/accept_circle_invite_dialog_fragment">
+        tools:layout="@layout/dialog_fragment_accept_circle_invite">
 
         <argument
             android:name="roomId"

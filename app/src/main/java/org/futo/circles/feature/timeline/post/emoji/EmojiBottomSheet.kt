@@ -7,15 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.navigation.fragment.navArgs
-import org.futo.circles.databinding.EmojiBottomSheetBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.feature.timeline.post.emoji.list.EmojiAdapter
-import org.futo.circles.model.EmojiCategory
-import org.futo.circles.model.EmojiItem
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayout
+import org.futo.circles.databinding.BottomSheetEmojiBinding
+import org.futo.circles.extensions.observeData
+import org.futo.circles.feature.timeline.post.emoji.list.EmojiAdapter
+import org.futo.circles.model.EmojiCategory
+import org.futo.circles.model.EmojiItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 interface EmojiPickerListener {
@@ -24,7 +24,7 @@ interface EmojiPickerListener {
 
 class EmojiBottomSheet : BottomSheetDialogFragment() {
 
-    private var binding: EmojiBottomSheetBinding? = null
+    private var binding: BottomSheetEmojiBinding? = null
     private var emojiPickerListener: EmojiPickerListener? = null
     private val args: EmojiBottomSheetArgs by navArgs()
     private val viewModel by viewModel<EmojiViewModel>()
@@ -39,7 +39,7 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding = EmojiBottomSheetBinding.inflate(inflater, container, false)
+        binding = BottomSheetEmojiBinding.inflate(inflater, container, false)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         return binding?.root
     }

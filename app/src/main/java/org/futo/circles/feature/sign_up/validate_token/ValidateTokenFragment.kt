@@ -8,17 +8,17 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
-import org.futo.circles.databinding.ValidateTokenFragmentBinding
+import org.futo.circles.databinding.FragmentValidateTokenBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ValidateTokenFragment : ParentBackPressOwnerFragment(R.layout.validate_token_fragment),
+class ValidateTokenFragment : ParentBackPressOwnerFragment(R.layout.fragment_validate_token),
     HasLoadingState {
 
     override val fragment: Fragment = this
-    private val binding by viewBinding(ValidateTokenFragmentBinding::bind)
+    private val binding by viewBinding(FragmentValidateTokenBinding::bind)
     private val viewModel by viewModel<ValidateTokenViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

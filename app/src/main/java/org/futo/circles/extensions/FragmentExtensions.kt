@@ -31,7 +31,7 @@ private fun Fragment.showBar(message: String, isError: Boolean, showOnActivity: 
     snackLayout.setPadding(0, 0, 0, 0)
 
     val customSnackView = layoutInflater.inflate(
-        if (isError) R.layout.error_snack_bar_view else R.layout.success_snack_bar_view,
+        if (isError) R.layout.view_error_snack_bar else R.layout.view_success_snack_bar,
         null
     ).apply {
         findViewById<TextView>(R.id.tvMessage)?.text = message
@@ -98,3 +98,5 @@ fun Fragment.openCustomTabUrl(url: String) {
 }
 
 fun Fragment.findParentNavController() = parentFragment?.parentFragment?.findNavController()
+
+fun Fragment.onBackPressed() = activity?.onBackPressedDispatcher?.onBackPressed()

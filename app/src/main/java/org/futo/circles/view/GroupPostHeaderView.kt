@@ -1,5 +1,6 @@
 package org.futo.circles.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -7,11 +8,10 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
-import org.futo.circles.databinding.GroupPostHeaderViewBinding
+import org.futo.circles.databinding.ViewGroupPostHeaderBinding
 import org.futo.circles.extensions.getAttributes
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.model.ImageContent
 import org.futo.circles.model.Post
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
@@ -21,7 +21,7 @@ class GroupPostHeaderView(
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        GroupPostHeaderViewBinding.inflate(LayoutInflater.from(context), this)
+        ViewGroupPostHeaderBinding.inflate(LayoutInflater.from(context), this)
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
@@ -62,6 +62,7 @@ class GroupPostHeaderView(
         binding.btnMore.setOnClickListener { showMenu() }
     }
 
+    @SuppressLint("RestrictedApi")
     private fun showMenu() {
         val unwrappedPost = post ?: return
         PopupMenu(context, binding.btnMore).apply {

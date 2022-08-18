@@ -1,4 +1,4 @@
-package org.futo.circles.feature.circles.accept_invite.list.selected
+package org.futo.circles.feature.room.select.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
@@ -6,7 +6,7 @@ import org.futo.circles.core.list.ChipItemViewHolder
 import org.futo.circles.model.RoomListItem
 import org.futo.circles.model.SelectableRoomListItem
 
-class SelectedCirclesAdapter(
+class SelectedChipsRoomsAdapter(
     private val onCircleDeselected: (SelectableRoomListItem) -> Unit
 ) : BaseRvAdapter<SelectableRoomListItem, ChipItemViewHolder>(
     DefaultIdEntityCallback()

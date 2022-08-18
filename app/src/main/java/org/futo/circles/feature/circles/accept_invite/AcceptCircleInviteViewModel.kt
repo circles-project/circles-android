@@ -7,19 +7,16 @@ import org.futo.circles.extensions.launchBg
 import org.futo.circles.model.SelectableRoomListItem
 
 class AcceptCircleInviteViewModel(
-    private val dataSource: AcceptCircleInviteDataSource
+    private val acceptInviteDataSource: AcceptCircleInviteDataSource
 ) : ViewModel() {
 
-    val circlesLiveData = dataSource.circlesLiveData
     val acceptResultLiveData = SingleEventLiveData<Response<Unit>>()
 
-    fun getSelectedCircles() = dataSource.getSelectedCircles()
-
-    fun acceptInvite() {
-        launchBg { acceptResultLiveData.postValue(dataSource.acceptCircleInvite()) }
-    }
-
-    fun onCircleSelected(item: SelectableRoomListItem) {
-        dataSource.toggleCircleSelect(item)
+    fun acceptInvite(selectedCircles: List<SelectableRoomListItem>) {
+        launchBg {
+            acceptResultLiveData.postValue(
+                acceptInviteDataSource.acceptCircleInvite(selectedCircles)
+            )
+        }
     }
 }

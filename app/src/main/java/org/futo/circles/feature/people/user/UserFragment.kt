@@ -8,7 +8,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.databinding.UserFragmentBinding
+import org.futo.circles.databinding.FragmentUserBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setIsVisible
@@ -19,14 +19,14 @@ import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.user.model.User
 
 
-class UserFragment : Fragment(R.layout.user_fragment) {
+class UserFragment : Fragment(R.layout.fragment_user) {
 
     private val args: UserFragmentArgs by navArgs()
 
     private val viewModel by viewModel<UserViewModel> {
         parametersOf(args.userId)
     }
-    private val binding by viewBinding(UserFragmentBinding::bind)
+    private val binding by viewBinding(FragmentUserBinding::bind)
 
     private val usersCirclesAdapter by lazy { UsersCirclesAdapter() }
 
@@ -61,7 +61,8 @@ class UserFragment : Fragment(R.layout.user_fragment) {
             tvUserId.text = user.userId
             tvUserName.text = user.notEmptyDisplayName()
             ivUser.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
-            tvCirclesListTitle.text = getString(R.string.users_circles_format, user.notEmptyDisplayName())
+            tvCirclesListTitle.text =
+                getString(R.string.users_circles_format, user.notEmptyDisplayName())
             tvEmptyCirclesList.text =
                 getString(R.string.not_following_any_circles_format, user.notEmptyDisplayName())
         }

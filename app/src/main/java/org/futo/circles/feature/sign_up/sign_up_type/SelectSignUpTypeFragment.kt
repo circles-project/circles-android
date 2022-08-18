@@ -8,7 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.SelectSignUpTypeFragmentBinding
+import org.futo.circles.databinding.FragmentSelectSignUpTypeBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
@@ -16,11 +16,11 @@ import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.subscriptions.SubscriptionManagerProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SelectSignUpTypeFragment : Fragment(R.layout.select_sign_up_type_fragment), HasLoadingState {
+class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type), HasLoadingState {
 
     override val fragment: Fragment = this
 
-    private val binding by viewBinding(SelectSignUpTypeFragmentBinding::bind)
+    private val binding by viewBinding(FragmentSelectSignUpTypeBinding::bind)
     private val viewModel by viewModel<SelectSignUpTypeViewModel>()
 
     private val subscriptionManager by lazy {

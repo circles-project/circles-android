@@ -4,13 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
-import org.futo.circles.databinding.LoadingDialogBinding
+import org.futo.circles.databinding.DialogLoadingBinding
 import org.futo.circles.model.LoadingData
 
 
 class LoadingDialog(context: Context) : AppCompatDialog(context) {
 
-    private val binding = LoadingDialogBinding.inflate(LayoutInflater.from(context))
+    private val binding = DialogLoadingBinding.inflate(LayoutInflater.from(context))
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

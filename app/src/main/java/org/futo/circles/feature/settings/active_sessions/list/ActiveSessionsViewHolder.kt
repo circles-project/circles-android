@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.databinding.ActiveSessionListItemBinding
-import org.futo.circles.databinding.InviteHeaderListItemBinding
+import org.futo.circles.databinding.ListItemActiveSessionBinding
+import org.futo.circles.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.ActiveSession
 import org.futo.circles.model.ActiveSessionListItem
@@ -19,11 +19,11 @@ abstract class ActiveSessionsViewHolder(view: View) : RecyclerView.ViewHolder(vi
 class SessionItemViewHolder(
     parent: ViewGroup,
     private val activeSessionClickListener: ActiveSessionClickListener
-) : ActiveSessionsViewHolder(inflate(parent, ActiveSessionListItemBinding::inflate)) {
+) : ActiveSessionsViewHolder(inflate(parent, ListItemActiveSessionBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ActiveSessionListItemBinding
+    private val binding = baseBinding as ListItemActiveSessionBinding
 
     override fun bind(data: ActiveSessionListItem) {
         if (data !is ActiveSession) return
@@ -51,11 +51,11 @@ class SessionItemViewHolder(
 
 class SessionHeaderViewHolder(
     parent: ViewGroup,
-) : ActiveSessionsViewHolder(inflate(parent, InviteHeaderListItemBinding::inflate)) {
+) : ActiveSessionsViewHolder(inflate(parent, ListItemInviteHeaderBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as InviteHeaderListItemBinding
+    private val binding = baseBinding as ListItemInviteHeaderBinding
 
     override fun bind(data: ActiveSessionListItem) {
         if (data !is SessionHeader) return

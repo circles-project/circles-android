@@ -8,7 +8,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.ManageMembersDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentManageMembersBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelListener
 import org.futo.circles.feature.room.manage_members.list.GroupMembersListAdapter
@@ -19,7 +19,7 @@ import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 
 class ManageMembersDialogFragment :
-    BaseFullscreenDialogFragment(ManageMembersDialogFragmentBinding::inflate),
+    BaseFullscreenDialogFragment(DialogFragmentManageMembersBinding::inflate),
     ManageMembersOptionsListener, ChangeAccessLevelListener {
 
     private val args: ManageMembersDialogFragmentArgs by navArgs()
@@ -36,7 +36,7 @@ class ManageMembersDialogFragment :
     }
 
     private val binding by lazy {
-        getBinding() as ManageMembersDialogFragmentBinding
+        getBinding() as DialogFragmentManageMembersBinding
     }
 
 
@@ -47,7 +47,7 @@ class ManageMembersDialogFragment :
     }
 
     private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.rvMembers.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = membersListAdapter

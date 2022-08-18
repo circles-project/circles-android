@@ -5,67 +5,66 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
+import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.SaveToGalleryDialogFragmentBinding
-import org.futo.circles.extensions.observeData
+import org.futo.circles.databinding.DialogFragmentSavePostToGalleryBinding
 import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showSuccess
-import org.futo.circles.feature.photos.save.list.SelectGalleryAdapter
+import org.futo.circles.feature.photos.select.SelectGalleriesFragment
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class SaveToGalleyDialogFragment :
-    BaseFullscreenDialogFragment(SaveToGalleryDialogFragmentBinding::inflate),
-    HasLoadingState {
+class SavePostToGalleyDialogFragment :
+    BaseFullscreenDialogFragment(DialogFragmentSavePostToGalleryBinding::inflate),
+    HasLoadingState, SelectRoomsListener {
 
     override val fragment: Fragment = this
-    private val args: SaveToGalleyDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<SaveToGalleryViewModel> {
+    private val args: SavePostToGalleyDialogFragmentArgs by navArgs()
+    private val viewModel by viewModel<SavePostToGalleryViewModel> {
         parametersOf(args.roomId, args.eventId)
     }
     private val binding by lazy {
-        getBinding() as SaveToGalleryDialogFragmentBinding
+        getBinding() as DialogFragmentSavePostToGalleryBinding
     }
 
-    private val listAdapter by lazy {
-        SelectGalleryAdapter(
-            onGalleryClicked = { galleryListItem -> onGallerySelected(galleryListItem) },
-        )
-    }
+    private val selectedGalleriesFragment by lazy { SelectGalleriesFragment() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addSelectGalleriesFragment()
         setupViews()
         setupObservers()
     }
 
+    private fun addSelectGalleriesFragment() {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.lContainer, selectedGalleriesFragment)
+            .commitAllowingStateLoss()
+    }
+
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             btnSave.setOnClickListener {
-                viewModel.saveToGallery()
+                viewModel.saveToGallery(selectedGalleriesFragment.getSelectedRooms())
                 startLoading(btnSave)
             }
-            binding.rvGalleries.adapter = listAdapter
         }
     }
 
     private fun setupObservers() {
-        viewModel.galleriesLiveData.observeData(this) {
-            listAdapter.submitList(it)
-            binding.btnSave.isEnabled = it.firstOrNull { it.isSelected } != null
-        }
         viewModel.saveResultLiveData.observeResponse(this,
             success = {
                 showSuccess(getString(R.string.saved), true)
-                activity?.onBackPressed()
+                onBackPressed()
             }
         )
     }
 
-    private fun onGallerySelected(gallery: SelectableRoomListItem) {
-        viewModel.toggleGallerySelect(gallery)
+    override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {
+        binding.btnSave.isEnabled = rooms.isNotEmpty()
     }
 }

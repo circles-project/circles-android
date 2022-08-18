@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import org.futo.circles.R
 import org.futo.circles.provider.MatrixSessionProvider
 
-class SplashFragment : Fragment(R.layout.splash_fragment) {
+class SplashFragment : Fragment(R.layout.fragment_splash) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

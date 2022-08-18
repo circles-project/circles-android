@@ -7,8 +7,8 @@ import com.bumptech.glide.Glide
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.core.picker.device.PickDeviceMediaDataSource
-import org.futo.circles.databinding.GalleryImageListItemBinding
-import org.futo.circles.databinding.GalleryVideoListItemBinding
+import org.futo.circles.databinding.ListItemGalleryImageBinding
+import org.futo.circles.databinding.ListItemGalleryVideoBinding
 import org.futo.circles.extensions.onClick
 import org.futo.circles.model.DeviceImageListItem
 import org.futo.circles.model.DeviceMediaListItem
@@ -21,11 +21,11 @@ abstract class DeviceMediaViewHolder(view: View) : RecyclerView.ViewHolder(view)
 class DeviceImageViewHolder(
     parent: ViewGroup,
     onMediaClicked: (Int) -> Unit
-) : DeviceMediaViewHolder(inflate(parent, GalleryImageListItemBinding::inflate)) {
+) : DeviceMediaViewHolder(inflate(parent, ListItemGalleryImageBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as GalleryImageListItemBinding
+    private val binding = baseBinding as ListItemGalleryImageBinding
 
     init {
         onClick(binding.ivGalleryImage) { position -> onMediaClicked(position) }
@@ -46,11 +46,11 @@ class DeviceImageViewHolder(
 class DeviceVideoViewHolder(
     parent: ViewGroup,
     onMediaClicked: (Int) -> Unit
-) : DeviceMediaViewHolder(inflate(parent, GalleryVideoListItemBinding::inflate)) {
+) : DeviceMediaViewHolder(inflate(parent, ListItemGalleryVideoBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as GalleryVideoListItemBinding
+    private val binding = baseBinding as ListItemGalleryVideoBinding
 
     init {
         onClick(itemView) { position -> onMediaClicked(position) }

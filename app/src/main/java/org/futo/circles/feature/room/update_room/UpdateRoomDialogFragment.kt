@@ -6,10 +6,10 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
-import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.UpdateRoomDialogFragmentBinding
+import org.futo.circles.core.picker.MediaPickerHelper
+import org.futo.circles.databinding.DialogFragmentUpdateRoomBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,7 +17,7 @@ import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 class UpdateRoomDialogFragment :
-    BaseFullscreenDialogFragment(UpdateRoomDialogFragmentBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment(DialogFragmentUpdateRoomBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
     private val args: UpdateRoomDialogFragmentArgs by navArgs()
@@ -25,7 +25,7 @@ class UpdateRoomDialogFragment :
     private val mediaPickerHelper = MediaPickerHelper(this)
 
     private val binding by lazy {
-        getBinding() as UpdateRoomDialogFragmentBinding
+        getBinding() as DialogFragmentUpdateRoomBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,7 +37,7 @@ class UpdateRoomDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             toolbar.title = getTitle()
             tvNameHeader.text = getNameHeader()
             tvEncryptionWarning.text = getEncryptionWarning()
@@ -65,7 +65,7 @@ class UpdateRoomDialogFragment :
         viewModel.updateGroupResponseLiveData.observeResponse(this,
             success = {
                 showSuccess(getSuccessMessage(), true)
-                activity?.onBackPressed()
+                onBackPressed()
             }
         )
         viewModel.groupSummaryLiveData.observeData(this) {

@@ -7,9 +7,10 @@ import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.InviteMembersDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentInviteMembersBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.room.select_users.SelectUsersFragment
 import org.futo.circles.feature.room.select_users.SelectUsersListener
@@ -19,7 +20,7 @@ import org.koin.core.parameter.parametersOf
 
 
 class InviteMembersDialogFragment :
-    BaseFullscreenDialogFragment(InviteMembersDialogFragmentBinding::inflate), SelectUsersListener,
+    BaseFullscreenDialogFragment(DialogFragmentInviteMembersBinding::inflate), SelectUsersListener,
     HasLoadingState {
 
     override val fragment: Fragment = this
@@ -27,14 +28,14 @@ class InviteMembersDialogFragment :
     private val viewModel by viewModel<InviteMembersViewModel> { parametersOf(args.roomId) }
 
     private val binding by lazy {
-        getBinding() as InviteMembersDialogFragmentBinding
+        getBinding() as DialogFragmentInviteMembersBinding
     }
 
     private val selectedUsersFragment by lazy { SelectUsersFragment.create(args.roomId) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         addSelectUsersFragment()
         setupObservers()
         binding.btnInvite.setOnClickListener {
@@ -56,7 +57,7 @@ class InviteMembersDialogFragment :
         viewModel.inviteResultLiveData.observeResponse(this,
             success = {
                 showSuccess(getString(R.string.invitation_sent), true)
-                activity?.onBackPressed()
+                onBackPressed()
             }
         )
     }

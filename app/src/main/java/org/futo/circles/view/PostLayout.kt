@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
-import org.futo.circles.databinding.PostLayoutBinding
+import org.futo.circles.databinding.LayoutPostBinding
 import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.*
@@ -34,7 +34,7 @@ class PostLayout(
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        PostLayoutBinding.inflate(LayoutInflater.from(context), this)
+        LayoutPostBinding.inflate(LayoutInflater.from(context), this)
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
