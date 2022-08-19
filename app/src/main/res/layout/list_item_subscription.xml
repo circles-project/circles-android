@@ -10,30 +10,30 @@
     android:padding="4dp">
 
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <org.futo.circles.view.CirclesLogoView
         android:id="@+id/ivIcon"
         android:layout_width="@dimen/group_icon_size"
-        android:layout_height="@dimen/group_icon_size"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="W,1:1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
         android:id="@+id/tvName"
-        style="@style/title2"
+        style="@style/body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:ellipsize="end"
-        android:lines="1"
+        android:lines="2"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tvPrice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivIcon"
         app:layout_constraintTop_toTopOf="@id/ivIcon"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="texsdt" />
 
 
@@ -56,7 +56,6 @@
         style="@style/subheadline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:lines="1"
         app:layout_constraintBottom_toTopOf="@id/tvDetails"
@@ -70,7 +69,6 @@
         style="@style/subheadline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:lines="1"
         app:layout_constraintBottom_toBottomOf="@id/ivIcon"
