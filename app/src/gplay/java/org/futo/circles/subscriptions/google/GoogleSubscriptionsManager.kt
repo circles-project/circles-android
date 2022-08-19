@@ -149,9 +149,13 @@ class GoogleSubscriptionsManager(
     }
 
     private fun purchase(productDetails: ProductDetails): Response<Unit> {
+        val offerToken = productDetails.subscriptionOfferDetails?.lastOrNull()?.offerToken
+            ?: return getErrorResponseForCode(ERROR)
+
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
                 .setProductDetails(productDetails)
+                .setOfferToken(offerToken)
                 .build()
         )
 
