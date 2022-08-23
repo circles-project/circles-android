@@ -71,17 +71,16 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
 
     private fun setOnClickActions() {
         with(binding) {
-            btnSignUp.setOnClickListener { navigateToSignUp() }
+            btnSignUp.setOnClickListener {
+                findNavController().navigate(LogInFragmentDirections.toSignUpFragment())
+            }
 
             btnLogin.setOnClickListener {
                 startLoading(btnLogin)
-                viewModel.logIn(name = tilUserName.getText(), password = tilPassword.getText())
+                findNavController().navigate(LogInFragmentDirections.toLoginStagesFragment())
+                //viewModel.logIn(name = tilUserName.getText(), password = tilPassword.getText())
             }
         }
-    }
-
-    private fun navigateToSignUp() {
-        findNavController().navigate(LogInFragmentDirections.toSignUpFragment())
     }
 
     private fun navigateToBottomMenuFragment() {
