@@ -247,6 +247,7 @@
     <string name="upload_to_gallery">Upload to gallery</string>
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
+    <string name="enter_your_password">Enter your password</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
