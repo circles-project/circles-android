@@ -47,7 +47,7 @@ import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { LoginDataSource(get(), get(), get()) }
+    factory { LoginDataSource(get()) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineDataSource(roomId, type, get())
     }
