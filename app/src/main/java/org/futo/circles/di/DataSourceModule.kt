@@ -12,6 +12,7 @@ import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSour
 import org.futo.circles.feature.circles.following.FollowingDataSource
 import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.log_in.LoginDataSource
+import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.people.PeopleDataSource
 import org.futo.circles.feature.people.UserOptionsDataSource
@@ -67,6 +68,7 @@ val dataSourceModule = module {
     factory { RoomRelationsBuilder() }
     factory { CoreSpacesTreeBuilder(get(), get()) }
     single { SignUpDataSource(get(), get(), get()) }
+    single { LoginStagesDataSource(get(), get(), get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
     factory { AcceptTermsDataSource(get(), get()) }

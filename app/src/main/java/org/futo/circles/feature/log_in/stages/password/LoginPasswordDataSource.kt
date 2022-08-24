@@ -26,7 +26,10 @@ class LoginPasswordDataSource(
             )
         }
         (result as? Response.Success)?.let {
-            loginStagesDataSource.stageCompleted(RegistrationResult.Success(it.data))
+            loginStagesDataSource.stageCompleted(
+                RegistrationResult.Success(it.data),
+                password
+            )
         }
         return result
     }

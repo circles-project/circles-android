@@ -51,12 +51,12 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), BackPressOwner {
     }
 
 
-    private fun handleNavigation(event: NavigationEvents) {
+    private fun handleNavigation(event: SignUpNavigationEvents) {
         val directionId = when (event) {
-            NavigationEvents.TokenValidation -> R.id.to_validateToken
-            NavigationEvents.Subscription -> R.id.to_subscriptions
-            NavigationEvents.AcceptTerm -> R.id.to_acceptTerms
-            NavigationEvents.ValidateEmail -> R.id.to_validateEmail
+            SignUpNavigationEvents.TokenValidation -> R.id.to_validateToken
+            SignUpNavigationEvents.Subscription -> R.id.to_subscriptions
+            SignUpNavigationEvents.AcceptTerm -> R.id.to_acceptTerms
+            SignUpNavigationEvents.ValidateEmail -> R.id.to_validateEmail
         }
         binding.navHostFragment.findNavController().navigate(directionId)
     }
