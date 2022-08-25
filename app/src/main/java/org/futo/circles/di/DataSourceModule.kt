@@ -14,6 +14,7 @@ import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.log_in.LoginDataSource
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
+import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.people.PeopleDataSource
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.people.user.UserDataSource
@@ -36,7 +37,7 @@ import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesDataSource
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource
 import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeDataSource
 import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageDataSource
-import org.futo.circles.feature.sign_up.terms.AcceptTermsDataSource
+import org.futo.circles.feature.sign_up.terms.SignupAcceptTermsDataSource
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailDataSource
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
@@ -71,7 +72,8 @@ val dataSourceModule = module {
     single { LoginStagesDataSource(get(), get(), get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
-    factory { AcceptTermsDataSource(get(), get()) }
+    factory { SignupAcceptTermsDataSource(get(), get()) }
+    factory { LoginAcceptTermsDataSource(get(), get()) }
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }

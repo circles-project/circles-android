@@ -28,6 +28,8 @@ class LoginStagesDataSource(
 
     var userName: String = ""
         private set
+    var currentHomeServerUrl: String = ""
+        private set
 
     private val stagesToComplete = mutableListOf<String>()
     var currentStage: String? = null
@@ -36,8 +38,9 @@ class LoginStagesDataSource(
     private var userPassword: String = ""
         private set
 
-    fun startLoginStages(supportedLoginTypes: List<String>, userName: String) {
+    fun startLoginStages(supportedLoginTypes: List<String>, userName: String, homeServerUrl:String) {
         this.userName = userName
+        currentHomeServerUrl = homeServerUrl
         userPassword = ""
         currentStage = null
         stagesToComplete.clear()
