@@ -15,6 +15,7 @@ import org.futo.circles.extensions.showError
 import org.futo.circles.feature.log_in.EnterPassPhraseDialog
 import org.futo.circles.feature.log_in.EnterPassPhraseDialogListener
 import org.futo.circles.feature.log_in.stages.password.LogInPasswordFragment
+import org.futo.circles.feature.sign_up.terms.AcceptTermsFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
@@ -23,6 +24,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
     private val binding by viewBinding(FragmentLoginStagesBinding::bind)
     private val restorePassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
     private val passwordStageFragment by lazy { LogInPasswordFragment() }
+    private val termsStageFragment by lazy { AcceptTermsFragment.create(true) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +49,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
                 LoginNavigationEvent.SetupCircles -> navigateToSetupCircles()
                 LoginNavigationEvent.PassPhrase -> showPassPhraseDialog()
                 LoginNavigationEvent.Password -> addStageFragmentFragment(passwordStageFragment)
-                LoginNavigationEvent.Terms -> TODO()
+                LoginNavigationEvent.Terms -> addStageFragmentFragment(termsStageFragment)
                 else -> navigateToBottomMenuFragment()
             }
         }
