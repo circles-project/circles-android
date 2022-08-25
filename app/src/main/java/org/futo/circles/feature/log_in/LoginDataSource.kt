@@ -18,6 +18,8 @@ class LoginDataSource(
         val homeServerUrl = HomeServerUtils.getHomeServerUrlFromUserName(userName)
         authService.cancelPendingLoginOrRegistration()
         val loginFlow = authService.getLoginFlow(buildHomeServerConfig(homeServerUrl))
-        loginStagesDataSource.startLoginStages(loginFlow.supportedLoginTypes, userName)
+        loginStagesDataSource.startLoginStages(
+            loginFlow.supportedLoginTypes, userName, homeServerUrl
+        )
     }
 }

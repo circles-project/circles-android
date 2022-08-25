@@ -9,6 +9,7 @@ import org.futo.circles.feature.groups.GroupsViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
 import org.futo.circles.feature.log_in.stages.LoginStagesViewModel
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordViewModel
+import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
 import org.futo.circles.feature.people.PeopleViewModel
 import org.futo.circles.feature.people.user.UserViewModel
@@ -35,6 +36,7 @@ import org.futo.circles.feature.sign_up.setup_profile.SetupProfileViewModel
 import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeViewModel
 import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageViewModel
 import org.futo.circles.feature.sign_up.terms.AcceptTermsViewModel
+import org.futo.circles.feature.sign_up.terms.SignupAcceptTermsDataSource
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailViewModel
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
@@ -65,7 +67,12 @@ val uiModule = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { ValidateTokenViewModel(get()) }
     viewModel { SelectSignUpTypeViewModel(get()) }
-    viewModel { AcceptTermsViewModel(get()) }
+    viewModel { (isLoginMode: Boolean) ->
+        AcceptTermsViewModel(
+            if (isLoginMode) get<LoginAcceptTermsDataSource>()
+            else get<SignupAcceptTermsDataSource>()
+        )
+    }
     viewModel { ValidateEmailViewModel(get()) }
     viewModel { SetupProfileViewModel(get()) }
     viewModel { SetupCirclesViewModel(get(), get()) }
