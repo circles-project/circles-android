@@ -12,6 +12,8 @@ import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSour
 import org.futo.circles.feature.circles.following.FollowingDataSource
 import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.log_in.LoginDataSource
+import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
+import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.people.PeopleDataSource
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.people.user.UserDataSource
@@ -47,7 +49,7 @@ import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { LoginDataSource(get(), get(), get()) }
+    factory { LoginDataSource(get()) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineDataSource(roomId, type, get())
     }
@@ -66,6 +68,7 @@ val dataSourceModule = module {
     factory { RoomRelationsBuilder() }
     factory { CoreSpacesTreeBuilder(get(), get()) }
     single { SignUpDataSource(get(), get(), get()) }
+    single { LoginStagesDataSource(get(), get(), get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
     factory { AcceptTermsDataSource(get(), get()) }
@@ -98,4 +101,5 @@ val dataSourceModule = module {
     single { PickDeviceMediaDataSource(get()) }
     factory { SubscriptionStageDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
+    factory { LoginPasswordDataSource(get(), get()) }
 }

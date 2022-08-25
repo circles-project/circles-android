@@ -7,6 +7,8 @@ import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewMode
 import org.futo.circles.feature.circles.following.FollowingViewModel
 import org.futo.circles.feature.groups.GroupsViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
+import org.futo.circles.feature.log_in.stages.LoginStagesViewModel
+import org.futo.circles.feature.log_in.stages.password.LoginPasswordViewModel
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
 import org.futo.circles.feature.people.PeopleViewModel
 import org.futo.circles.feature.people.user.UserViewModel
@@ -110,4 +112,6 @@ val uiModule = module {
     viewModel { SubscriptionStageViewModel(get()) }
     viewModel { BaseShareViewModel(get()) }
     viewModel { (type: CircleRoomTypeArg) -> SelectRoomsViewModel(get { parametersOf(type) }) }
+    viewModel { LoginPasswordViewModel(get()) }
+    viewModel { LoginStagesViewModel(get()) }
 }

@@ -32,15 +32,8 @@
             android:id="@+id/to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
-            android:id="@+id/to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
-            app:popUpTo="@id/logInFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/to_setupCirclesFragment"
-            app:destination="@id/setupCirclesFragment"
-            app:popUpTo="@id/logInFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/to_loginStagesFragment"
+            app:destination="@id/loginStagesFragment" />
     </fragment>
 
     <fragment
@@ -90,6 +83,21 @@
             app:popUpTo="@id/setupCirclesFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/loginStagesFragment"
+        android:name="org.futo.circles.feature.log_in.stages.LogInStagesFragment"
+        tools:layout="@layout/fragment_login_stages">
 
+        <action
+            android:id="@+id/to_bottomNavigationFragment"
+            app:destination="@id/bottomNavigationFragment"
+            app:popUpTo="@id/logInFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/to_setupCirclesFragment"
+            app:destination="@id/setupCirclesFragment"
+            app:popUpTo="@id/logInFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

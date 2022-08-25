@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import org.futo.circles.R
 import org.futo.circles.core.utils.HomeServerUtils
+import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfig
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
@@ -51,12 +52,5 @@ class SelectSignUpTypeDataSource(
                     )
                 }
         }
-
-    private fun buildHomeServerConfig(url: String): HomeServerConnectionConfig {
-        return HomeServerConnectionConfig
-            .Builder()
-            .withHomeServerUri(Uri.parse(url))
-            .build()
-    }
 
 }

@@ -20,7 +20,7 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 
-enum class NavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail }
+enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail }
 
 class SignUpDataSource(
     private val context: Context,
@@ -29,7 +29,7 @@ class SignUpDataSource(
 ) {
 
     val subtitleLiveData = MutableLiveData<String>()
-    val navigationLiveData = SingleEventLiveData<NavigationEvents>()
+    val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
     val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
 
@@ -111,8 +111,8 @@ class SignUpDataSource(
         currentStage = stage
 
         val event = when (stage) {
-            is Stage.Email -> NavigationEvents.ValidateEmail
-            is Stage.Terms -> NavigationEvents.AcceptTerm
+            is Stage.Email -> SignUpNavigationEvents.ValidateEmail
+            is Stage.Terms -> SignUpNavigationEvents.AcceptTerm
             is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException(
                 context.getString(R.string.not_supported_stage_format, stage.toString())
@@ -124,9 +124,9 @@ class SignUpDataSource(
         updatePageSubtitle()
     }
 
-    private fun handleStageOther(type: String): NavigationEvents =
-        if (type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)) NavigationEvents.TokenValidation
-        else if (type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_PREFIX)) NavigationEvents.Subscription
+    private fun handleStageOther(type: String): SignUpNavigationEvents =
+        if (type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)) SignUpNavigationEvents.TokenValidation
+        else if (type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_PREFIX)) SignUpNavigationEvents.Subscription
         else throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
         )
