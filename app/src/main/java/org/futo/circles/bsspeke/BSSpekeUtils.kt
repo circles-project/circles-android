@@ -48,7 +48,10 @@ object BSSpekeUtils {
         serverContext: Long
     )
 
-    external fun clientGenerateVerifier(clientVerifierByteArray:ByteArray, clientContext: Long)
-    external fun serverGenerateVerifier(serverVerifierByteArray:ByteArray, serverContext: Long)
+    external fun clientGenerateVerifier(clientVerifierByteArray: ByteArray, clientContext: Long)
+    external fun serverGenerateVerifier(serverVerifierByteArray: ByteArray, serverContext: Long)
+
+    external fun clientVerifyServer(clientVerifierByteArray: ByteArray, clientContext: Long): Int
+    external fun serverVerifyClient(serverVerifierByteArray: ByteArray, serverContext: Long): Int
 
 }

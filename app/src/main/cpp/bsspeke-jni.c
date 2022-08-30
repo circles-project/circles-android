@@ -13,6 +13,8 @@
 #include <jni.h>
 #include <jni.h>
 #include <jni.h>
+#include <jni.h>
+#include <jni.h>
 
 
 JNIEXPORT jlong
@@ -229,4 +231,29 @@ jlong server_context
 jbyte* server_verifier = (*env)->GetByteArrayElements(env, server_verifier_byte_array, NULL);
 bsspeke_server_generate_verifier((uint8_t *)server_verifier,(bsspeke_server_ctx*) server_context);
 (*env)->ReleaseByteArrayElements(env, server_verifier_byte_array, server_verifier, 0);
+}
+
+JNIEXPORT jint
+
+JNICALL
+Java_org_futo_circles_bsspeke_BSSpekeUtils_clientVerifyServer(JNIEnv *env, jobject thiz,
+                                                              jbyteArray client_verifier_byte_array,
+                                                              jlong client_context) {
+
+    jbyte* client_verifier = (*env)->GetByteArrayElements(env, client_verifier_byte_array, NULL);
+    int rs = bsspeke_client_verify_server((uint8_t *)client_verifier,(bsspeke_client_ctx*) client_context);
+    (*env)->ReleaseByteArrayElements(env, client_verifier_byte_array, client_verifier, 0);
+    return rs;
+}
+
+JNIEXPORT jint
+
+JNICALL
+Java_org_futo_circles_bsspeke_BSSpekeUtils_serverVerifyClient(JNIEnv *env, jobject thiz,
+                                                              jbyteArray server_verifier_byte_array,
+                                                              jlong server_context) {
+    jbyte* server_verifier = (*env)->GetByteArrayElements(env, server_verifier_byte_array, NULL);
+    int rs = bsspeke_server_verify_client((uint8_t *)server_verifier,(bsspeke_server_ctx*) server_context);
+    (*env)->ReleaseByteArrayElements(env, server_verifier_byte_array, server_verifier, 0);
+    return rs;
 }
