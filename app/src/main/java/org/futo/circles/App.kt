@@ -10,7 +10,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        System.loadLibrary("bsspeke")
         startKoin {
             androidContext(this@App)
             modules(applicationModules)
