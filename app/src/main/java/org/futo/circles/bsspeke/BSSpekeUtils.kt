@@ -54,4 +54,5 @@ object BSSpekeUtils {
     external fun clientVerifyServer(clientVerifierByteArray: ByteArray, clientContext: Long): Int
     external fun serverVerifyClient(serverVerifierByteArray: ByteArray, serverContext: Long): Int
 
+    external fun clientGetA(AbyteArray: ByteArray, clientContext: Long)
 }
