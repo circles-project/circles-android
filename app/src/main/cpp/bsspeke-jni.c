@@ -5,6 +5,7 @@
 
 #include "bsspeke.h"
 #include <jni.h>
+#include <jni.h>
 
 
 JNIEXPORT jlong
@@ -99,8 +100,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_serverBlindSalt(JNIEnv
 jobject thiz, jbyteArray
 blind_byte_array,
 jbyteArray blind_salt_byte_array, jbyteArray
-salt_byte_array,
-jlong client_context
+salt_byte_array
 ) {
 
 jbyte* blind = (*env)->GetByteArrayElements(env, blind_byte_array, NULL);
@@ -113,4 +113,20 @@ bsspeke_server_blind_salt((uint8_t *)blind_salt,(uint8_t *)blind,(uint8_t *)salt
 (*env)->ReleaseByteArrayElements(env, blind_byte_array, blind, 0);
 (*env)->ReleaseByteArrayElements(env, blind_salt_byte_array, blind_salt, 0);
 (*env)->ReleaseByteArrayElements(env, salt_byte_array, salt, 0);
+}
+
+JNIEXPORT void JNICALL
+Java_org_futo_circles_bsspeke_BSSpekeUtils_generateB(JNIEnv
+* env,
+jobject thiz, jbyteArray
+p_byte_array,
+jlong server_context
+) {
+
+jbyte* p = (*env)->GetByteArrayElements(env, p_byte_array, NULL);
+
+bsspeke_server_generate_B((uint8_t *)p,(bsspeke_server_ctx*) server_context);
+
+(*env)->ReleaseByteArrayElements(env, p_byte_array, p, 0);
+
 }

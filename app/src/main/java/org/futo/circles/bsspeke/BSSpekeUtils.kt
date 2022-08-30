@@ -25,4 +25,6 @@ object BSSpekeUtils {
         saltByteArray: ByteArray
     )
 
+    external fun generateB(PbyteArray: ByteArray, serverContext: Long)
+
 }
