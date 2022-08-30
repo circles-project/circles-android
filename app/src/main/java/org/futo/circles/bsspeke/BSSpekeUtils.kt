@@ -9,7 +9,20 @@ object BSSpekeUtils {
     external fun getServerContext(): Long
     external fun getClientContext(): Long
 
-    external fun initClient(clientContext: Long, client_id: String, server_id: String, password: String)
-    external fun initServer(clientContext: Long, client_id: String, server_id: String)
+    external fun initClient(
+        clientContext: Long,
+        client_id_str: String,
+        server_id_str: String,
+        password_str: String
+    )
+
+    external fun initServer(serverContext: Long, client_id_str: String, server_id_str: String)
+
+    external fun clientBlindSalt(blindByteArray: ByteArray, clientContext: Long)
+    external fun serverBlindSalt(
+        blindByteArray: ByteArray,
+        blindSaltByteArray: ByteArray,
+        saltByteArray: ByteArray
+    )
 
 }
