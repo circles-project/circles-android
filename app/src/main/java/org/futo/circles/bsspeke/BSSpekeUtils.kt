@@ -16,14 +16,14 @@ object BSSpekeUtils {
         password_str: String
     ): Int
 
-    external fun initServer(serverContext: Long, client_id_str: String, server_id_str: String)
+    external fun initServer(serverContext: Long, client_id_str: String, server_id_str: String): Int
 
     external fun clientBlindSalt(blindByteArray: ByteArray, clientContext: Long)
     external fun serverBlindSalt(
         blindByteArray: ByteArray,
         blindSaltByteArray: ByteArray,
         saltByteArray: ByteArray
-    ): Int
+    )
 
     external fun generateB(PbyteArray: ByteArray, serverContext: Long)
 
