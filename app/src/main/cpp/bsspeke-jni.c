@@ -11,6 +11,8 @@
 #include <jni.h>
 #include <jni.h>
 #include <jni.h>
+#include <jni.h>
+#include <jni.h>
 
 
 JNIEXPORT jlong
@@ -203,4 +205,28 @@ bsspeke_server_derive_shared_key((uint8_t *)a,(uint8_t *)v,(bsspeke_server_ctx*)
 
 (*env)->ReleaseByteArrayElements(env, a_byte_array, a, 0);
 (*env)->ReleaseByteArrayElements(env, v_byte_array, v, 0);
+}
+
+JNIEXPORT void JNICALL
+Java_org_futo_circles_bsspeke_BSSpekeUtils_clientGenerateVerifier(JNIEnv
+* env,
+jobject thiz, jbyteArray
+client_verifier_byte_array,
+jlong client_context
+) {
+jbyte* client_verifier = (*env)->GetByteArrayElements(env, client_verifier_byte_array, NULL);
+bsspeke_client_generate_verifier((uint8_t *)client_verifier,(bsspeke_client_ctx*) client_context);
+(*env)->ReleaseByteArrayElements(env, client_verifier_byte_array, client_verifier, 0);
+}
+
+JNIEXPORT void JNICALL
+Java_org_futo_circles_bsspeke_BSSpekeUtils_serverGenerateVerifier(JNIEnv
+* env,
+jobject thiz, jbyteArray
+server_verifier_byte_array,
+jlong server_context
+) {
+jbyte* server_verifier = (*env)->GetByteArrayElements(env, server_verifier_byte_array, NULL);
+bsspeke_server_generate_verifier((uint8_t *)server_verifier,(bsspeke_server_ctx*) server_context);
+(*env)->ReleaseByteArrayElements(env, server_verifier_byte_array, server_verifier, 0);
 }

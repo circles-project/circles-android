@@ -47,4 +47,8 @@ object BSSpekeUtils {
         VbyteArray: ByteArray,
         serverContext: Long
     )
+
+    external fun clientGenerateVerifier(clientVerifierByteArray:ByteArray, clientContext: Long)
+    external fun serverGenerateVerifier(serverVerifierByteArray:ByteArray, serverContext: Long)
+
 }
