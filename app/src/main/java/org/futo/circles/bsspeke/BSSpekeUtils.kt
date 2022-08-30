@@ -34,4 +34,10 @@ object BSSpekeUtils {
         phfIterations: Int,
         clientContext: Long
     ): Int
+
+    external fun generateA(
+        blindSaltByteArray: ByteArray, phfBlocks: Int,
+        phfIterations: Int,
+        clientContext: Long
+    ): Int
 }

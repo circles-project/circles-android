@@ -7,6 +7,7 @@
 #include <jni.h>
 #include <jni.h>
 #include <jni.h>
+#include <jni.h>
 
 
 JNIEXPORT jlong
@@ -145,10 +146,27 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_generatePandV(JNIEnv *env, jobject th
     jbyte* v = (*env)->GetByteArrayElements(env, v_byte_array, NULL);
     jbyte* blind_salt = (*env)->GetByteArrayElements(env, blind_salt_byte_array, NULL);
 
-    int rc = bsspeke_client_generate_P_and_V((uint8_t *)p,(uint8_t *)v,(uint8_t *)blind_salt,(uint32_t)phf_blocks,(uint32_t)phf_blocks,(bsspeke_client_ctx*) client_context);
+    int rc = bsspeke_client_generate_P_and_V((uint8_t *)p,(uint8_t *)v,(uint8_t *)blind_salt,(uint32_t)phf_blocks,(uint32_t)phf_iterations,(bsspeke_client_ctx*) client_context);
 
     (*env)->ReleaseByteArrayElements(env, p_byte_array, p, 0);
     (*env)->ReleaseByteArrayElements(env, v_byte_array, v, 0);
+    (*env)->ReleaseByteArrayElements(env, blind_salt_byte_array, blind_salt, 0);
+
+    return rc;
+}
+
+JNIEXPORT jint
+
+JNICALL
+Java_org_futo_circles_bsspeke_BSSpekeUtils_generateA(JNIEnv *env, jobject thiz,
+                                                     jbyteArray blind_salt_byte_array,
+                                                     jint phf_blocks, jint phf_iterations,
+                                                     jlong client_context) {
+
+    jbyte* blind_salt = (*env)->GetByteArrayElements(env, blind_salt_byte_array, NULL);
+
+    int rc = bsspeke_client_generate_A((uint8_t *)blind_salt,(uint32_t)phf_blocks,(uint32_t)phf_blocks,(bsspeke_client_ctx*) client_context);
+
     (*env)->ReleaseByteArrayElements(env, blind_salt_byte_array, blind_salt, 0);
 
     return rc;
