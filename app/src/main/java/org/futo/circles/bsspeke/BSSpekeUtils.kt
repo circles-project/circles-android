@@ -40,4 +40,11 @@ object BSSpekeUtils {
         phfIterations: Int,
         clientContext: Long
     ): Int
+
+    external fun clientDeriveSharedKey(BbyteArray: ByteArray, clientContext: Long)
+    external fun serverDeriveSharedKey(
+        AbyteArray: ByteArray,
+        VbyteArray: ByteArray,
+        serverContext: Long
+    )
 }

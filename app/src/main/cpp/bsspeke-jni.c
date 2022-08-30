@@ -8,6 +8,9 @@
 #include <jni.h>
 #include <jni.h>
 #include <jni.h>
+#include <jni.h>
+#include <jni.h>
+#include <jni.h>
 
 
 JNIEXPORT jlong
@@ -170,4 +173,34 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_generateA(JNIEnv *env, jobject thiz,
     (*env)->ReleaseByteArrayElements(env, blind_salt_byte_array, blind_salt, 0);
 
     return rc;
+}
+
+JNIEXPORT void JNICALL
+Java_org_futo_circles_bsspeke_BSSpekeUtils_clientDeriveSharedKey(JNIEnv
+* env,
+jobject thiz, jbyteArray
+b_byte_array,
+jlong client_context
+) {
+jbyte* b = (*env)->GetByteArrayElements(env, b_byte_array, NULL);
+
+bsspeke_client_derive_shared_key((uint8_t *)b,(bsspeke_client_ctx*) client_context);
+
+(*env)->ReleaseByteArrayElements(env, b_byte_array, b, 0);
+}
+
+JNIEXPORT void JNICALL
+Java_org_futo_circles_bsspeke_BSSpekeUtils_serverDeriveSharedKey(JNIEnv
+* env,
+jobject thiz, jbyteArray
+a_byte_array,
+jbyteArray v_byte_array, jlong
+server_context) {
+jbyte* a = (*env)->GetByteArrayElements(env, a_byte_array, NULL);
+jbyte* v = (*env)->GetByteArrayElements(env, v_byte_array, NULL);
+
+bsspeke_server_derive_shared_key((uint8_t *)a,(uint8_t *)v,(bsspeke_server_ctx*) server_context);
+
+(*env)->ReleaseByteArrayElements(env, a_byte_array, a, 0);
+(*env)->ReleaseByteArrayElements(env, v_byte_array, v, 0);
 }
