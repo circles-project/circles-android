@@ -9,7 +9,8 @@ class BSSpekeServerSession(
     private val serverContext: Long = BSSpekeUtils.getServerContext()
 
     init {
-        BSSpekeUtils.initServer(serverContext, clientId, serverId)
+        val rc = BSSpekeUtils.initServer(serverContext, clientId, serverId)
+        if (rc != 0) throw BSSpekeError("Failed to initialize server (rc = $rc)")
     }
 
     fun blindSalt(blind: ByteArray): ByteArray {
