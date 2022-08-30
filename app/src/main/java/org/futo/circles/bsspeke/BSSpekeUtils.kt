@@ -27,4 +27,11 @@ object BSSpekeUtils {
 
     external fun generateB(PbyteArray: ByteArray, serverContext: Long)
 
+    external fun generatePandV(
+        PbyteArray: ByteArray, VbyteArray: ByteArray,
+        blindSaltByteArray: ByteArray,
+        phfBlocks: Int,
+        phfIterations: Int,
+        clientContext: Long
+    ): Int
 }
