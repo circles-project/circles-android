@@ -14,7 +14,7 @@ object BSSpekeUtils {
         client_id_str: String,
         server_id_str: String,
         password_str: String
-    )
+    ): Int
 
     external fun initServer(serverContext: Long, client_id_str: String, server_id_str: String)
 
@@ -23,7 +23,7 @@ object BSSpekeUtils {
         blindByteArray: ByteArray,
         blindSaltByteArray: ByteArray,
         saltByteArray: ByteArray
-    )
+    ): Int
 
     external fun generateB(PbyteArray: ByteArray, serverContext: Long)
 

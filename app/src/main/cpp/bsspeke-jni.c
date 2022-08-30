@@ -4,22 +4,9 @@
 #include <jni.h>
 
 #include "bsspeke.h"
-#include <jni.h>
-#include <jni.h>
-#include <jni.h>
-#include <jni.h>
-#include <jni.h>
-#include <jni.h>
-#include <jni.h>
-#include <jni.h>
-#include <jni.h>
-#include <jni.h>
-#include <jni.h>
 
 
-JNIEXPORT jlong
-
-JNICALL
+JNIEXPORT jlong JNICALL
 Java_org_futo_circles_bsspeke_BSSpekeUtils_getClientContext(JNIEnv *env, jobject thiz) {
     bsspeke_client_ctx *ctx;
     ctx = malloc(sizeof(*ctx));
@@ -37,7 +24,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_getServerContext(JNIEnv *env, jobject
     ctx;
 }
 
-JNIEXPORT void JNICALL
+JNIEXPORT jint JNICALL
 Java_org_futo_circles_bsspeke_BSSpekeUtils_initClient(JNIEnv
 * env,
 jobject thiz, jlong
@@ -56,17 +43,18 @@ size_t server_id_len = (size_t)(*env)->GetStringUTFLength(env, server_id_str);
 const char *password = (*env)->GetStringUTFChars(env, password_str, NULL);
 size_t password_len = (size_t)(*env)->GetStringUTFLength(env, password_str);
 
-bsspeke_client_init((bsspeke_client_ctx*) client_context,
+int rc = bsspeke_client_init((bsspeke_client_ctx*) client_context,
 client_id,client_id_len,server_id,server_id_len,password,password_len
 );
 
 (*env)->ReleaseStringUTFChars(env, client_id_str, client_id);
 (*env)->ReleaseStringUTFChars(env, server_id_str, server_id);
 (*env)->ReleaseStringUTFChars(env, password_str, password);
+    return rc;
 }
 
 
-JNIEXPORT void JNICALL
+JNIEXPORT jint JNICALL
 Java_org_futo_circles_bsspeke_BSSpekeUtils_initServer(JNIEnv
 * env,
 jobject thiz, jlong
@@ -80,13 +68,13 @@ size_t client_id_len = (size_t)(*env)->GetStringUTFLength(env, client_id_str);
 const char *server_id = (*env)->GetStringUTFChars(env, server_id_str, NULL);
 size_t server_id_len = (size_t)(*env)->GetStringUTFLength(env, server_id_str);
 
-bsspeke_server_init((bsspeke_server_ctx
-*) server_context,
+int rc = bsspeke_server_init((bsspeke_server_ctx*) server_context,
 client_id,client_id_len,server_id,server_id_len
 );
 
 (*env)->ReleaseStringUTFChars(env, client_id_str, client_id);
 (*env)->ReleaseStringUTFChars(env, server_id_str, server_id);
+    return rc;
 }
 
 JNIEXPORT void JNICALL
