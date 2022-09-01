@@ -28,19 +28,18 @@ class LoginStagesDataSource(
 
     var userName: String = ""
         private set
-    var currentHomeServerUrl: String = ""
-        private set
 
     private val stagesToComplete = mutableListOf<String>()
     var currentStage: String? = null
         private set
 
     private var userPassword: String = ""
-        private set
 
-    fun startLoginStages(supportedLoginTypes: List<String>, userName: String, homeServerUrl:String) {
+    fun startLoginStages(
+        supportedLoginTypes: List<String>,
+        userName: String
+    ) {
         this.userName = userName
-        currentHomeServerUrl = homeServerUrl
         userPassword = ""
         currentStage = null
         stagesToComplete.clear()
@@ -64,9 +63,11 @@ class LoginStagesDataSource(
         stagesToComplete.indexOf(currentStage).takeIf { it != -1 } ?: 0
 
     private fun navigateToNextStage() {
-        val stage = currentStage?.let {
-            stagesToComplete.getOrNull(getCurrentStageIndex() + 1)
-        } ?: stagesToComplete.firstOrNull()
+        //TODO("Change for real stages implementation")
+//        val stage = currentStage?.let {
+//            stagesToComplete.getOrNull(getCurrentStageIndex() + 1)
+//        } ?: stagesToComplete.firstOrNull()
+        val stage = stagesToComplete.firstOrNull { it.endsWith("password") }
 
         currentStage = stage
 
@@ -86,7 +87,8 @@ class LoginStagesDataSource(
     private fun updatePageSubtitle() {
         //TODO("Change for real stages size")
         val size = 1
-        val number = getCurrentStageIndex() + 1
+        //val number = getCurrentStageIndex() + 1
+        val number = 1
         val subtitle = context.getString(R.string.sign_up_stage_subtitle_format, number, size)
         subtitleLiveData.postValue(subtitle)
     }
