@@ -4,9 +4,7 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 android.applicationVariants.all { variant ->
-    if (!variant.name.contains('gplay')) {
-        project.tasks.matching { it.name.contains("GoogleServices") }*.enabled = false
-    }
+    project.tasks.matching { it.name.contains("GoogleServices") }*.enabled = variant.name.contains('gplay')
 }
 apply plugin: 'com.google.firebase.crashlytics'
 
