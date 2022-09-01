@@ -84,7 +84,8 @@ class LoginStagesDataSource(
     }
 
     private fun updatePageSubtitle() {
-        val size = stagesToComplete.size
+        //TODO("Change for real stages size")
+        val size = 1
         val number = getCurrentStageIndex() + 1
         val subtitle = context.getString(R.string.sign_up_stage_subtitle_format, number, size)
         subtitleLiveData.postValue(subtitle)
