@@ -38,9 +38,6 @@ class SignUpDataSource(
     var currentStage: Stage? = null
         private set
 
-    var currentHomeServerUrl: String = ""
-        private set
-
     private var passphrase: String = ""
     private var userName: String = ""
 
@@ -48,7 +45,6 @@ class SignUpDataSource(
         stages: List<Stage>,
         name: String,
         password: String,
-        homeServerUrl: String,
         isSubscription: Boolean,
         subscriptionReceipt: String?
     ) {
@@ -56,7 +52,6 @@ class SignUpDataSource(
         stagesToComplete.clear()
         userName = name
         passphrase = password
-        currentHomeServerUrl = homeServerUrl
 
         setupStages(stages, isSubscription)
 

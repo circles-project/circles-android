@@ -1,6 +1,5 @@
 package org.futo.circles.feature.sign_up.validate_email
 
-import org.futo.circles.core.VALIDATION_TOKEN_SUBMIT_URL_PREFIX
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
@@ -23,10 +22,7 @@ class ValidateEmailDataSource(
 
     suspend fun validateEmail(code: String): Response<RegistrationResult> {
         val result = createResult {
-            wizard.handleValidateThreePid(
-                code,
-                signUpDataSource.currentHomeServerUrl + VALIDATION_TOKEN_SUBMIT_URL_PREFIX
-            )
+            wizard.handleValidateThreePid(code)
         }
         (result as? Response.Success)?.let { signUpDataSource.stageCompleted(result.data) }
 

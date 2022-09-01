@@ -46,7 +46,6 @@ class SelectSignUpTypeDataSource(
                         it.flowResult.missingStages,
                         name,
                         password,
-                        homeServerUrl,
                         isSubscription,
                         subscriptionReceipt
                     )
