@@ -5,7 +5,7 @@ import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 
 object HomeServerUtils {
 
-    private const val MATRIX_URL_PREFIX = "https://matrix."
+    private const val MATRIX_DOMAIN_PREFIX = "matrix."
 
     fun getHomeServerUrlFromUserName(username: String): String {
         val domain = username.substringAfter(":")
@@ -13,7 +13,10 @@ object HomeServerUtils {
     }
 
     fun getHomeServerUrlFromDomain(domain: String): String {
-        return "$MATRIX_URL_PREFIX$domain/"
+        var formattedDomain = domain
+        if (!domain.startsWith(MATRIX_DOMAIN_PREFIX)) formattedDomain =
+            MATRIX_DOMAIN_PREFIX + domain
+        return "https://$formattedDomain/"
     }
 
     fun buildHomeServerConfig(url: String): HomeServerConnectionConfig {
