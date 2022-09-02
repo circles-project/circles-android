@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.amulyakhare.textdrawable.TextDrawable
+import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
-import org.futo.circles.feature.bottom_navigation.BottomNavigationFragmentDirections
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.settings.confirm_auth.ConfirmAuthDialog
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -78,7 +78,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun navigateToLogin() {
-        findParentNavController()?.navigate(BottomNavigationFragmentDirections.toLogInFragment())
+        (activity as? MainActivity)?.restartForLogout()
     }
 
     private fun navigateToActiveSessions() {
