@@ -8,6 +8,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
+import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.databinding.ViewGroupPostHeaderBinding
 import org.futo.circles.extensions.getAttributes
 import org.futo.circles.extensions.loadProfileIcon
@@ -26,6 +27,7 @@ class GroupPostHeaderView(
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
     private var userPowerLevel: Int = Role.Default.value
+
 
     init {
         parseAttributes(attrs)
@@ -46,8 +48,8 @@ class GroupPostHeaderView(
     fun bindViewData(userId: String, displayName: String, avatarUrl: String?) {
         with(binding) {
             ivSenderImage.loadProfileIcon(avatarUrl, displayName)
-            tvUserName.text = displayName
-            tvUserId.text = userId
+            tvUserName.text = UserUtils.removeDomainSuffix(displayName)
+            tvUserId.text = UserUtils.removeDomainSuffix(userId)
         }
     }
 
