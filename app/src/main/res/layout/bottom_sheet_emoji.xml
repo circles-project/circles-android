@@ -46,26 +46,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
+    <com.vanniktech.emoji.EmojiView
+        android:id="@+id/emojiView"
         android:layout_width="0dp"
-        android:layout_height="@dimen/emoji_icon_size"
-        app:tabTextAppearance="@style/body"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider"
-        app:tabPaddingEnd="0dp"
-        app:tabPaddingStart="0dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvEmoji"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:layout_height="350dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabs"
-        app:spanCount="9" />
+        app:layout_constraintTop_toBottomOf="@id/divider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

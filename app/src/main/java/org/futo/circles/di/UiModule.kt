@@ -40,7 +40,6 @@ import org.futo.circles.feature.sign_up.terms.SignupAcceptTermsDataSource
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailViewModel
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
-import org.futo.circles.feature.timeline.post.emoji.EmojiViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -84,7 +83,6 @@ val uiModule = module {
     viewModel { (roomId: String, eventId: String) ->
         ReportViewModel(get { parametersOf(roomId, eventId) })
     }
-    viewModel { EmojiViewModel(get()) }
     viewModel { (roomId: String) -> FollowingViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> AcceptCircleInviteViewModel(get { parametersOf(roomId) }) }
     viewModel { EditProfileViewModel(get()) }

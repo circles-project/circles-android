@@ -116,10 +116,6 @@ dependencies {
     //TextDrawable
     implementation 'com.alvinhkh:TextDrawable:c1c2b5b'
 
-    //Retrofit
-    def retrofit_version = '2.9.0'
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
     //ChromeTabs
     implementation "androidx.browser:browser:1.4.0"
 
@@ -132,6 +128,9 @@ dependencies {
 
     //Subscriptions
     gplayImplementation 'com.android.billingclient:billing-ktx:5.0.0'
+
+    //Emoji
+    implementation "com.vanniktech:emoji-google:0.15.0"
 
     //test
     testImplementation 'junit:junit:4.13.2'

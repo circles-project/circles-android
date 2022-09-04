@@ -44,7 +44,6 @@ import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineBuilder
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.feature.timeline.post.emoji.EmojiDataSource
 import org.futo.circles.feature.timeline.post.report.ReportDataSource
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
@@ -85,7 +84,6 @@ val dataSourceModule = module {
     }
     factory { (roomId: String) -> UpdateRoomDataSource(roomId, get()) }
     factory { (roomId: String, eventId: String) -> ReportDataSource(roomId, eventId, get()) }
-    single { EmojiDataSource(get()) }
     factory { (roomId: String) -> FollowingDataSource(roomId, get(), get()) }
     factory { GroupsDataSource(get()) }
     factory { CirclesDataSource() }

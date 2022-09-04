@@ -1,22 +1,23 @@
 package org.futo.circles.feature.timeline.post.emoji
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.tabs.TabLayout
+import com.vanniktech.emoji.EmojiTheming
+import com.vanniktech.emoji.recent.NoRecentEmoji
+import com.vanniktech.emoji.search.NoSearchEmoji
+import com.vanniktech.emoji.variant.NoVariantEmoji
+import org.futo.circles.R
 import org.futo.circles.databinding.BottomSheetEmojiBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.feature.timeline.post.emoji.list.EmojiAdapter
-import org.futo.circles.model.EmojiCategory
-import org.futo.circles.model.EmojiItem
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 interface EmojiPickerListener {
     fun onEmojiSelected(roomId: String, eventId: String, emoji: String)
@@ -27,8 +28,6 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
     private var binding: BottomSheetEmojiBinding? = null
     private var emojiPickerListener: EmojiPickerListener? = null
     private val args: EmojiBottomSheetArgs by navArgs()
-    private val viewModel by viewModel<EmojiViewModel>()
-    private val listAdapter by lazy { EmojiAdapter(::onEmojiSelected) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,49 +49,37 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
             it.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         setupViews()
-        setupObservers()
     }
 
     private fun setupViews() {
         binding?.apply {
             ivClose.setOnClickListener { dismiss() }
-            rvEmoji.adapter = listAdapter
-        }
-    }
-
-    private fun setupObservers() {
-        viewModel.categoriesLiveData.observeData(this) { setupEmojiCategories(it) }
-        viewModel.emojiesForCategoryLiveData.observeData(this) {
-            listAdapter.submitList(it)
-        }
-    }
-
-    private fun onEmojiSelected(emojiItem: EmojiItem) {
-        emojiPickerListener?.onEmojiSelected(args.roomId, args.eventId, emojiItem.emoji)
-        dismiss()
-    }
-
-    private fun setupEmojiCategories(categories: List<EmojiCategory>) {
-        binding?.let { binding ->
-            categories.forEach { category ->
-                binding.tabs.newTab().apply {
-                    tag = category.id
-                    text = category.emojiTitle
-                    contentDescription = category.name
-                }.also { tab ->
-                    binding.tabs.addTab(tab)
-                }
+            emojiView.apply {
+                setUp(
+                    requireView(),
+                    { emoji ->
+                        emojiView
+                        onEmojiSelected(emoji.unicode)
+                    }, null, null,
+                    EmojiTheming(
+                        backgroundColor = Color.WHITE,
+                        secondaryColor = Color.RED,
+                        dividerColor = ContextCompat.getColor(
+                            requireContext(),
+                            R.color.divider_color
+                        ),
+                        textColor = Color.BLACK
+                    ),
+                    NoRecentEmoji, NoSearchEmoji, NoVariantEmoji
+                )
+                tearDown()
             }
-            binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab) {
-                    viewModel.onEmojiTabSelected(tab.tag.toString())
-                }
-
-                override fun onTabUnselected(tab: TabLayout.Tab) {}
-                override fun onTabReselected(tab: TabLayout.Tab) {}
-            })
-            viewModel.onEmojiTabSelected(binding.tabs.getTabAt(0)?.tag.toString())
         }
+    }
+
+    private fun onEmojiSelected(unicode: String) {
+        emojiPickerListener?.onEmojiSelected(args.roomId, args.eventId, unicode)
+        dismiss()
     }
 
     override fun onDestroyView() {
