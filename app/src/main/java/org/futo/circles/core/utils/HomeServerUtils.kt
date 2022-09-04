@@ -24,7 +24,7 @@ object HomeServerUtils {
         var formattedDomain = domain
         if (!domain.startsWith(MATRIX_DOMAIN_PREFIX)) formattedDomain =
             MATRIX_DOMAIN_PREFIX + domain
-        return "https://$formattedDomain/"
+        return "https://$formattedDomain"
     }
 
     private fun buildHomeServerConfig(url: String): HomeServerConnectionConfig {
