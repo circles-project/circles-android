@@ -11,7 +11,7 @@ import org.futo.circles.extensions.setIsVisible
 enum class PickImageMethod { Photo, Video, Gallery, Device }
 
 interface PickMediaDialogListener {
-    fun onPickMethodSelected(method: PickImageMethod, allMediaTypeAvailable: Boolean)
+    fun onPickMethodSelected(method: PickImageMethod)
 }
 
 class PickMediaDialog(
@@ -42,7 +42,7 @@ class PickMediaDialog(
     }
 
     private fun onMethodSelected(method: PickImageMethod) {
-        listener.onPickMethodSelected(method, allMediaTypeAvailable)
+        listener.onPickMethodSelected(method)
         dismiss()
     }
 

@@ -1,6 +1,5 @@
 package org.futo.circles.di
 
-import org.futo.circles.core.picker.device.PickDeviceMediaViewModel
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.circles.CirclesViewModel
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
@@ -110,9 +109,6 @@ val uiModule = module {
     viewModel { SystemNoticesCountSharedViewModel() }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         SystemNoticesTimelineViewModel(get { parametersOf(roomId, type) })
-    }
-    viewModel { (isVideoAvailable: Boolean) ->
-        PickDeviceMediaViewModel(isVideoAvailable, get())
     }
     viewModel { SubscriptionStageViewModel(get()) }
     viewModel { BaseShareViewModel(get()) }
