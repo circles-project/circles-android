@@ -50,13 +50,16 @@
         <EditText
             android:id="@+id/etTextPost"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="54dp"
             android:background="@null"
             android:gravity="top"
             android:hint="@string/enter_your_message_here"
             android:inputType="textMultiLine"
-            android:padding="12dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
