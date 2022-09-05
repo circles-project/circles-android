@@ -1,5 +1,6 @@
 package org.futo.circles.feature.photos.preview
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -85,6 +86,7 @@ class MediaPreviewDialogFragment :
         delayedHide()
     }
 
+    @SuppressLint("RestrictedApi")
     private fun setupToolbar() {
         with(binding.toolbar) {
             setNavigationOnClickListener { onBackPressed() }
