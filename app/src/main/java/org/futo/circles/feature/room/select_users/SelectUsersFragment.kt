@@ -16,7 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 interface SelectUsersListener {
-    fun onUserSelected(users: List<UserListItem>)
+    fun onUserSelected(usersIds: List<String>)
 }
 
 class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
@@ -46,7 +46,7 @@ class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
         selectUsersListener = (parentFragment as? SelectUsersListener)
     }
 
-    fun getSelectedUsers(): List<UserListItem> =
+    fun getSelectedUsersIds(): List<String> =
         viewModel.selectedUsersLiveData.value ?: emptyList()
 
     private fun setupLists() {
@@ -54,9 +54,9 @@ class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
         val searchFlow = binding.searchView.getQueryTextChangeStateFlow(
             onTextChanged = { query -> binding.btnAddUser.setIsVisible(userIdPattern.matches(query)) }
         )
-
         binding.btnAddUser.setOnClickListener {
-            viewModel.selectUserById(binding.searchView.query.toString())
+            viewModel.onUserSelected(binding.searchView.query.toString())
+            binding.searchView.setQuery("", true)
         }
         viewModel.initSearchListener(searchFlow)
         binding.rvSelectedUsers.adapter = selectedUsersListAdapter
@@ -71,10 +71,6 @@ class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
             binding.selectedUserDivider.setIsVisible(items.isNotEmpty())
             selectUsersListener?.onUserSelected(items)
         }
-        viewModel.selectUserByIdLiveData.observeResponse(this,
-            success = { binding.searchView.setQuery("", true) },
-            error = { showError(getString(R.string.user_not_found)) }
-        )
     }
 
     companion object {

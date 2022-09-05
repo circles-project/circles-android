@@ -18,8 +18,7 @@ class SelectUsersViewModel(
 ) : ViewModel() {
 
     val searchUsersLiveData = MutableLiveData<List<InviteMemberListItem>>()
-    val selectedUsersLiveData = dataSource.selectedUsersFlow.asLiveData()
-    val selectUserByIdLiveData = SingleEventLiveData<Response<User?>>()
+    val selectedUsersLiveData = dataSource.selectedUsersIdsFlow.asLiveData()
 
     fun initSearchListener(queryFlow: StateFlow<String>) {
         launchUi {
@@ -31,16 +30,8 @@ class SelectUsersViewModel(
         }
     }
 
-    fun onUserSelected(user: UserListItem) {
-        dataSource.toggleUserSelect(user)
-    }
-
-    fun selectUserById(userId: String) = launchBg {
-        val userResponse = dataSource.getUserById(userId)
-        selectUserByIdLiveData.postValue(userResponse)
-        (userResponse as? Response.Success)?.data?.let {
-            onUserSelected(it.toUserListItem(false))
-        }
+    fun onUserSelected(userId: String) {
+        dataSource.toggleUserSelect(userId)
     }
 
 }

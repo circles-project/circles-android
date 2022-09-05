@@ -27,11 +27,10 @@ class SelectUsersDataSource(roomId: String?) {
         room?.roomSummary()?.otherMemberIds?.let { addAll(it) }
     }.toSet()
 
-    val selectedUsersFlow = MutableStateFlow<List<UserListItem>>(emptyList())
-
+    val selectedUsersIdsFlow = MutableStateFlow<List<String>>(emptyList())
 
     suspend fun search(query: String) =
-        combine(searchKnownUsers(query), searchSuggestions(query), selectedUsersFlow)
+        combine(searchKnownUsers(query), searchSuggestions(query), selectedUsersIdsFlow)
         { knowUsers, suggestions, selectedUsers ->
             buildList(knowUsers, suggestions, selectedUsers)
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
@@ -57,13 +56,13 @@ class SelectUsersDataSource(roomId: String?) {
     private fun buildList(
         knowUsers: List<User>,
         suggestions: List<User>,
-        selectedUsers: List<UserListItem>
+        selectedUsersIds: List<String>
     ): List<InviteMemberListItem> {
         val list = mutableListOf<InviteMemberListItem>()
         if (knowUsers.isNotEmpty()) {
             list.add(HeaderItem.knownUsersHeader)
             list.addAll(knowUsers.map { knownUser ->
-                knownUser.toUserListItem(selectedUsers.containsWithId(knownUser.userId))
+                knownUser.toUserListItem(selectedUsersIds.contains(knownUser.userId))
             })
         }
 
@@ -74,7 +73,7 @@ class SelectUsersDataSource(roomId: String?) {
         if (filteredSuggestion.isNotEmpty()) {
             list.add(HeaderItem.suggestionHeader)
             list.addAll(filteredSuggestion.map { suggestion ->
-                suggestion.toUserListItem(selectedUsers.containsWithId(suggestion.userId))
+                suggestion.toUserListItem(selectedUsersIds.contains(suggestion.userId))
             })
         }
 
@@ -82,20 +81,12 @@ class SelectUsersDataSource(roomId: String?) {
         return list
     }
 
-    fun toggleUserSelect(user: UserListItem) {
-        val list = selectedUsersFlow.value.toMutableList()
-
-        if (user.isSelected) list.removeIf { it.id == user.id }
-        else list.add(user.copy(isSelected = true))
-        selectedUsersFlow.value = list
+    fun toggleUserSelect(userId: String) {
+        val list = selectedUsersIdsFlow.value.toMutableList()
+        if (list.contains(userId)) list.remove(userId)
+        else list.add(userId)
+        selectedUsersIdsFlow.value = list
     }
-
-    private fun List<UserListItem>.containsWithId(id: String) = firstOrNull { it.id == id } != null
-
-    suspend fun getUserById(userId: String) = createResult {
-        session?.userService()?.resolveUser(userId)
-    }
-
 
     private companion object {
         private const val MAX_SUGGESTION_COUNT = 30

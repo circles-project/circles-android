@@ -25,9 +25,9 @@ class InviteMembersDataSource(
         room?.roomSummary()?.nameOrId() ?: roomId
     )
 
-    suspend fun inviteUsers(scope: CoroutineScope, users: List<UserListItem>) = createResult {
-        users.map {
-            scope.async { room?.membershipService()?.invite(it.id, null) }
+    suspend fun inviteUsers(scope: CoroutineScope, usersIds: List<String>) = createResult {
+        usersIds.map {
+            scope.async { room?.membershipService()?.invite(it, null) }
         }.awaitAll()
 
         return@createResult
