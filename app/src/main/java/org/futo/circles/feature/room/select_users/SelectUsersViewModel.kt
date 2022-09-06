@@ -4,21 +4,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.*
-import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.extensions.launchUi
-import org.futo.circles.mapping.toUserListItem
 import org.futo.circles.model.InviteMemberListItem
 import org.futo.circles.model.UserListItem
-import org.matrix.android.sdk.api.session.user.model.User
 
 class SelectUsersViewModel(
     private val dataSource: SelectUsersDataSource
 ) : ViewModel() {
 
     val searchUsersLiveData = MutableLiveData<List<InviteMemberListItem>>()
-    val selectedUsersLiveData = dataSource.selectedUsersIdsFlow.asLiveData()
+    val selectedUsersLiveData = dataSource.selectedUsersFlow.asLiveData()
 
     fun initSearchListener(queryFlow: StateFlow<String>) {
         launchUi {
@@ -30,8 +26,8 @@ class SelectUsersViewModel(
         }
     }
 
-    fun onUserSelected(userId: String) {
-        dataSource.toggleUserSelect(userId)
+    fun onUserSelected(user: UserListItem) {
+        launchBg { dataSource.toggleUserSelect(user) }
     }
 
 }

@@ -16,9 +16,7 @@ class InviteMembersDataSource(
     private val context: Context
 ) {
 
-    private val session = MatrixSessionProvider.currentSession
-    private val room = session?.getRoom(roomId)
-
+    private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
 
     fun getInviteTitle() = context.getString(
         R.string.invite_to_format,
@@ -29,7 +27,5 @@ class InviteMembersDataSource(
         usersIds.map {
             scope.async { room?.membershipService()?.invite(it, null) }
         }.awaitAll()
-
-        return@createResult
     }
 }

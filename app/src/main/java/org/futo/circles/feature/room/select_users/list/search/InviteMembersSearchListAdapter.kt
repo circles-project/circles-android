@@ -10,7 +10,7 @@ import org.futo.circles.model.UserListItem
 private enum class InviteListViewType { Header, User, NoResults }
 
 class InviteMembersSearchListAdapter(
-    private val onUserSelected: (String) -> Unit
+    private val onUserSelected: (UserListItem) -> Unit
 ) : BaseRvAdapter<InviteMemberListItem, InviteMemberViewHolder>(
     DefaultIdEntityCallback()
 ) {
@@ -26,7 +26,7 @@ class InviteMembersSearchListAdapter(
             InviteListViewType.Header -> HeaderViewHolder(parent)
             InviteListViewType.User -> UserViewHolder(
                 parent,
-                onUserClicked = { position -> onUserSelected(getItem(position).id) })
+                onUserClicked = { position -> onUserSelected(getItem(position) as UserListItem) })
             InviteListViewType.NoResults -> NoResultViewHolder(parent)
         }
     }
