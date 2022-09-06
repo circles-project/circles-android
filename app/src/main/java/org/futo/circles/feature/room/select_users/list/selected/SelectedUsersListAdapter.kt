@@ -11,7 +11,10 @@ class SelectedUsersListAdapter(
     DefaultIdEntityCallback()
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChipItemViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ChipItemViewHolder {
         return ChipItemViewHolder(
             parent,
             onItemDeselected = { position -> onUserDeselected(getItem(position)) }

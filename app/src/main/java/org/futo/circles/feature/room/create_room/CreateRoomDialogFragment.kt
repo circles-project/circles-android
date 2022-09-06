@@ -55,7 +55,7 @@ class CreateRoomDialogFragment :
                 viewModel.createRoom(
                     tilName.getText(),
                     tilTopic.getText(),
-                    selectedUsersFragment?.getSelectedUsers(),
+                    selectedUsersFragment?.getSelectedUsersIds(),
                     args.type
                 )
                 startLoading(btnCreate)

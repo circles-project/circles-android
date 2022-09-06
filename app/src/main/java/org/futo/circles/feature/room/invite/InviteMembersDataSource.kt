@@ -16,20 +16,16 @@ class InviteMembersDataSource(
     private val context: Context
 ) {
 
-    private val session = MatrixSessionProvider.currentSession
-    private val room = session?.getRoom(roomId)
-
+    private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
 
     fun getInviteTitle() = context.getString(
         R.string.invite_to_format,
         room?.roomSummary()?.nameOrId() ?: roomId
     )
 
-    suspend fun inviteUsers(scope: CoroutineScope, users: List<UserListItem>) = createResult {
-        users.map {
-            scope.async { room?.membershipService()?.invite(it.id, null) }
+    suspend fun inviteUsers(scope: CoroutineScope, usersIds: List<String>) = createResult {
+        usersIds.map {
+            scope.async { room?.membershipService()?.invite(it, null) }
         }.awaitAll()
-
-        return@createResult
     }
 }

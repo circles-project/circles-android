@@ -3,8 +3,6 @@ apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 
-def playServiceEnabled
-
 android {
     compileSdk rootProject.ext.sdkVersion
 
@@ -49,12 +47,10 @@ android {
         gplay {
             dimension flavor_dimension_name
             buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "true")
-            playServiceEnabled = true
         }
         fdroid {
             dimension flavor_dimension_name
             buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "false")
-            playServiceEnabled = false
         }
     }
 
@@ -132,7 +128,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
 
-if (playServiceEnabled) {
+if (getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("gplay")){
     apply plugin: 'com.google.gms.google-services'
     apply plugin: 'com.google.firebase.crashlytics'
 }

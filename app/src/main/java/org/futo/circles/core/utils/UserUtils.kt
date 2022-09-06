@@ -5,11 +5,13 @@ import org.futo.circles.provider.MatrixSessionProvider
 object UserUtils {
 
     fun removeDomainSuffix(userId: String): String {
-        var shortUserId = userId
         val serverDomain = MatrixSessionProvider.currentSession?.sessionParams?.homeServerHost ?: ""
-        shortUserId = userId.removeSuffix(":$serverDomain")
-        val shortDomain = serverDomain.substringAfter("matrix.")
-        shortUserId = userId.removeSuffix(":$shortDomain")
+        val shortUserId: String = if (userId.endsWith(":$serverDomain"))
+            userId.removeSuffix(":$serverDomain")
+        else {
+            val shortDomain = serverDomain.substringAfter("matrix.")
+            userId.removeSuffix(":$shortDomain")
+        }
         return shortUserId
     }
 }

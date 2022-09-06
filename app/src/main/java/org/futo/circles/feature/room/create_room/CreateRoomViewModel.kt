@@ -27,10 +27,9 @@ class CreateRoomViewModel(
     fun createRoom(
         name: String,
         topic: String,
-        users: List<UserListItem>?,
+        inviteIds: List<String>?,
         roomType: CircleRoomTypeArg
     ) {
-        val inviteIds = users?.map { it.id }
         launchBg {
             val result = createResult {
                 when (roomType) {

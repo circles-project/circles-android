@@ -8,15 +8,16 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.databinding.FragmentSelectUsersBinding
-import org.futo.circles.extensions.*
+import org.futo.circles.extensions.getQueryTextChangeStateFlow
+import org.futo.circles.extensions.observeData
+import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.room.select_users.list.search.InviteMembersSearchListAdapter
 import org.futo.circles.feature.room.select_users.list.selected.SelectedUsersListAdapter
-import org.futo.circles.model.UserListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 interface SelectUsersListener {
-    fun onUserSelected(users: List<UserListItem>)
+    fun onUserSelected(usersIds: List<String>)
 }
 
 class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
@@ -31,8 +32,6 @@ class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
     private val searchListAdapter by lazy { InviteMembersSearchListAdapter(viewModel::onUserSelected) }
     private val selectedUsersListAdapter by lazy { SelectedUsersListAdapter(viewModel::onUserSelected) }
 
-    private val userIdPattern by lazy { Regex("^@[a-zA-Z0-9_.]+:\\w+.\\w+.+\$") }
-
     private var selectUsersListener: SelectUsersListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,19 +45,12 @@ class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
         selectUsersListener = (parentFragment as? SelectUsersListener)
     }
 
-    fun getSelectedUsers(): List<UserListItem> =
-        viewModel.selectedUsersLiveData.value ?: emptyList()
+    fun getSelectedUsersIds(): List<String> =
+        viewModel.selectedUsersLiveData.value?.map { it.id } ?: emptyList()
 
     private fun setupLists() {
         binding.rvUsers.adapter = searchListAdapter
-        val searchFlow = binding.searchView.getQueryTextChangeStateFlow(
-            onTextChanged = { query -> binding.btnAddUser.setIsVisible(userIdPattern.matches(query)) }
-        )
-
-        binding.btnAddUser.setOnClickListener {
-            viewModel.selectUserById(binding.searchView.query.toString())
-        }
-        viewModel.initSearchListener(searchFlow)
+        viewModel.initSearchListener(binding.searchView.getQueryTextChangeStateFlow())
         binding.rvSelectedUsers.adapter = selectedUsersListAdapter
     }
 
@@ -69,12 +61,8 @@ class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
         viewModel.selectedUsersLiveData.observeData(this) { items ->
             selectedUsersListAdapter.submitList(items)
             binding.selectedUserDivider.setIsVisible(items.isNotEmpty())
-            selectUsersListener?.onUserSelected(items)
+            selectUsersListener?.onUserSelected(items.map { it.id })
         }
-        viewModel.selectUserByIdLiveData.observeResponse(this,
-            success = { binding.searchView.setQuery("", true) },
-            error = { showError(getString(R.string.user_not_found)) }
-        )
     }
 
     companion object {

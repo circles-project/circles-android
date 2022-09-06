@@ -39,7 +39,7 @@ class InviteMembersDialogFragment :
         addSelectUsersFragment()
         setupObservers()
         binding.btnInvite.setOnClickListener {
-            viewModel.invite(selectedUsersFragment.getSelectedUsers())
+            viewModel.invite(selectedUsersFragment.getSelectedUsersIds())
             startLoading(binding.btnInvite)
         }
     }
@@ -63,7 +63,7 @@ class InviteMembersDialogFragment :
     }
 
 
-    override fun onUserSelected(users: List<UserListItem>) {
-        binding.btnInvite.isEnabled = users.isNotEmpty()
+    override fun onUserSelected(usersIds: List<String>) {
+        binding.btnInvite.isEnabled = usersIds.isNotEmpty()
     }
 }
