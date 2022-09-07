@@ -1,5 +1,6 @@
 package org.futo.circles.feature.photos.gallery
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.Menu
@@ -88,6 +89,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private fun setupMenu() {
         activity?.addMenuProvider(object : MenuProvider {
+            @SuppressLint("RestrictedApi")
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menu.clear()
                 (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
