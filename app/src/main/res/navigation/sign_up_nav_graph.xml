@@ -24,27 +24,35 @@
     <fragment
         android:id="@+id/selectSignUpTypeFragment"
         android:name="org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeFragment"
-        tools:layout="@layout/select_sign_up_type_fragment" />
+        tools:layout="@layout/fragment_select_sign_up_type" />
 
     <fragment
         android:id="@+id/validateTokenFragment"
         android:name="org.futo.circles.feature.sign_up.validate_token.ValidateTokenFragment"
-        tools:layout="@layout/validate_token_fragment" />
+        tools:layout="@layout/fragment_validate_token" />
 
     <fragment
         android:id="@+id/validateEmailFragment"
         android:name="org.futo.circles.feature.sign_up.validate_email.ValidateEmailFragment"
-        tools:layout="@layout/validate_email_fragment" />
+        tools:layout="@layout/fragment_validate_email" />
 
     <fragment
         android:id="@+id/acceptTermsFragment"
         android:name="org.futo.circles.feature.sign_up.terms.AcceptTermsFragment"
-        tools:layout="@layout/accept_terms_fragment" />
+        tools:layout="@layout/fragment_accept_terms">
+
+        <argument
+            android:name="is_login_mode"
+            android:defaultValue="false"
+            app:argType="boolean"
+            app:nullable="false" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/subscriptionStageFragment"
         android:name="org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageFragment"
-        tools:layout="@layout/subscription_stage_fragment" />
+        tools:layout="@layout/fragment_subscription_stage" />
 
 
 </navigation>

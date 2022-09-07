@@ -4,14 +4,14 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
-import org.futo.circles.databinding.PickImageDialogBinding
+import org.futo.circles.databinding.DialogPickImageBinding
 import org.futo.circles.extensions.setIsVisible
 
 
 enum class PickImageMethod { Photo, Video, Gallery, Device }
 
 interface PickMediaDialogListener {
-    fun onPickMethodSelected(method: PickImageMethod, allMediaTypeAvailable: Boolean)
+    fun onPickMethodSelected(method: PickImageMethod)
 }
 
 class PickMediaDialog(
@@ -21,7 +21,7 @@ class PickMediaDialog(
 ) :
     AppCompatDialog(context) {
 
-    private val binding = PickImageDialogBinding.inflate(LayoutInflater.from(context))
+    private val binding = DialogPickImageBinding.inflate(LayoutInflater.from(context))
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class PickMediaDialog(
     }
 
     private fun onMethodSelected(method: PickImageMethod) {
-        listener.onPickMethodSelected(method, allMediaTypeAvailable)
+        listener.onPickMethodSelected(method)
         dismiss()
     }
 

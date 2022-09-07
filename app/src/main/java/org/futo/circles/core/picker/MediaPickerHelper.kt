@@ -1,7 +1,7 @@
 package org.futo.circles.core.picker
 
-import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,12 +12,20 @@ import androidx.fragment.app.Fragment
 import org.futo.circles.R
 import org.futo.circles.core.utils.FileUtils.createImageFile
 import org.futo.circles.core.utils.FileUtils.createVideoFile
-import org.futo.circles.core.PermissionHelper
-import org.futo.circles.core.picker.device.PickDeviceMediaDialogFragment
 import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.showError
+import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage
 import java.io.File
 import java.io.IOException
+
+class GetContentWithMultiFilter : ActivityResultContracts.GetContent() {
+    override fun createIntent(context: Context, input: String): Intent {
+        val inputArray = input.split(";").toTypedArray()
+        val myIntent = super.createIntent(context, "*/*")
+        myIntent.putExtra(Intent.EXTRA_MIME_TYPES, inputArray)
+        return myIntent
+    }
+}
 
 enum class MediaType { Image, Video }
 
@@ -31,26 +39,30 @@ class MediaPickerHelper(
         PickMediaDialog(fragment.requireContext(), this, allMediaTypeAvailable)
     }
 
-    private val permissionHelper = PermissionHelper(
-        fragment,
-        onGranted = { showDevicePicker() }
-    )
     private var mediaData: Pair<MediaType, Uri>? = null
 
-    private val launcher =
+    private val cameraIntentLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
         { result: ActivityResult ->
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-                    mediaData?.let {
-                        when (it.first) {
-                            MediaType.Image -> onImageSelected?.invoke(itemId, it.second)
-                            MediaType.Video -> onVideoSelected?.invoke(it.second)
-                        }
-                    } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
-                }
+            if (result.resultCode == Activity.RESULT_OK) {
+                mediaData?.let {
+                    when (it.first) {
+                        MediaType.Image -> onImageSelected?.invoke(itemId, it.second)
+                        MediaType.Video -> onVideoSelected?.invoke(it.second)
+                    }
+                } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
             }
         }
+
+    private val deviceIntentLauncher = fragment.registerForActivityResult(
+        GetContentWithMultiFilter()
+    ) { uri ->
+        uri ?: return@registerForActivityResult
+
+        val mimeType = fragment.context?.contentResolver?.getType(uri)
+        if (mimeType.isMimeTypeImage()) onImageSelected?.invoke(itemId, uri)
+        else onVideoSelected?.invoke(uri)
+    }
 
     private var onImageSelected: ((Int?, Uri) -> Unit)? = null
     private var onVideoSelected: ((Uri) -> Unit)? = null
@@ -67,11 +79,11 @@ class MediaPickerHelper(
         pickMediaDialog.show()
     }
 
-    override fun onPickMethodSelected(method: PickImageMethod, allMediaTypeAvailable: Boolean) {
+    override fun onPickMethodSelected(method: PickImageMethod) {
         when (method) {
-            PickImageMethod.Photo -> dispatchMediaIntent(MediaType.Image)
-            PickImageMethod.Video -> dispatchMediaIntent(MediaType.Video)
-            PickImageMethod.Device -> permissionHelper.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            PickImageMethod.Photo -> dispatchCameraIntent(MediaType.Image)
+            PickImageMethod.Video -> dispatchCameraIntent(MediaType.Video)
+            PickImageMethod.Device -> dispatchDevicePickerIntent()
             PickImageMethod.Gallery -> showGalleryPicker()
         }
     }
@@ -87,15 +99,10 @@ class MediaPickerHelper(
             .show(fragment.childFragmentManager, "PickGalleryMediaDialogFragment")
     }
 
-    private fun showDevicePicker() {
-        fragment.childFragmentManager.setFragmentResultListener(
-            pickMediaRequestKey,
-            fragment
-        ) { key, bundle -> handlePickerFragmentResult(key, bundle) }
-
-        PickDeviceMediaDialogFragment
-            .create(allMediaTypeAvailable)
-            .show(fragment.childFragmentManager, "PickDeviceMediaDialogFragment")
+    private fun dispatchDevicePickerIntent() {
+        val mimeTypes = mutableListOf("image/*")
+        if (allMediaTypeAvailable) mimeTypes.add("video/*")
+        deviceIntentLauncher.launch(mimeTypes.joinToString(";"))
     }
 
     private fun handlePickerFragmentResult(key: String, bundle: Bundle) {
@@ -109,7 +116,7 @@ class MediaPickerHelper(
         }
     }
 
-    private fun dispatchMediaIntent(type: MediaType) {
+    private fun dispatchCameraIntent(type: MediaType) {
         val context = fragment.context ?: return
         val intentAction = when (type) {
             MediaType.Image -> MediaStore.ACTION_IMAGE_CAPTURE
@@ -126,8 +133,11 @@ class MediaPickerHelper(
             }
             file?.let {
                 val uri: Uri = file.getUri(context).also { mediaData = type to it }
-                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
-                launcher.launch(captureIntent)
+                captureIntent.apply {
+                    putExtra(MediaStore.EXTRA_OUTPUT, uri)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                cameraIntentLauncher.launch(captureIntent)
             }
         }
     }

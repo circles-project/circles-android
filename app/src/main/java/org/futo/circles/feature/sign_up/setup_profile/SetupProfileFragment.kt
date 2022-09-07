@@ -9,17 +9,17 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.picker.MediaPickerHelper
-import org.futo.circles.databinding.SetupProfileFragmentBinding
+import org.futo.circles.databinding.FragmentSetupProfileBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SetupProfileFragment : Fragment(R.layout.setup_profile_fragment), HasLoadingState {
+class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadingState {
 
     override val fragment: Fragment = this
-    private val binding by viewBinding(SetupProfileFragmentBinding::bind)
+    private val binding by viewBinding(FragmentSetupProfileBinding::bind)
     private val viewModel by viewModel<SetupProfileViewModel>()
     private val mediaPickerHelper = MediaPickerHelper(this)
 

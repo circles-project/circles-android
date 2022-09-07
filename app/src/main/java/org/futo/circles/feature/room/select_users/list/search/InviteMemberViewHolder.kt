@@ -6,16 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.InviteHeaderListItemBinding
-import org.futo.circles.databinding.NoResultsListItemBinding
-import org.futo.circles.databinding.UserListItemBinding
+import org.futo.circles.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.databinding.ListItemNoResultsBinding
+import org.futo.circles.databinding.ListItemUserBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setSelectableItemBackground
-import org.futo.circles.model.UserListItem
 import org.futo.circles.model.HeaderItem
 import org.futo.circles.model.InviteMemberListItem
 import org.futo.circles.model.NoResultsItem
+import org.futo.circles.model.UserListItem
 
 abstract class InviteMemberViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: InviteMemberListItem)
@@ -24,11 +24,11 @@ abstract class InviteMemberViewHolder(view: View) : RecyclerView.ViewHolder(view
 class UserViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit
-) : InviteMemberViewHolder(inflate(parent, UserListItemBinding::inflate)) {
+) : InviteMemberViewHolder(inflate(parent, ListItemUserBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as UserListItemBinding
+    private val binding = baseBinding as ListItemUserBinding
 
     init {
         onClick(itemView) { position -> onUserClicked(position) }
@@ -57,11 +57,11 @@ class UserViewHolder(
 
 class HeaderViewHolder(
     parent: ViewGroup,
-) : InviteMemberViewHolder(inflate(parent, InviteHeaderListItemBinding::inflate)) {
+) : InviteMemberViewHolder(inflate(parent, ListItemInviteHeaderBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as InviteHeaderListItemBinding
+    private val binding = baseBinding as ListItemInviteHeaderBinding
 
     override fun bind(data: InviteMemberListItem) {
         if (data !is HeaderItem) return
@@ -72,11 +72,11 @@ class HeaderViewHolder(
 
 class NoResultViewHolder(
     parent: ViewGroup,
-) : InviteMemberViewHolder(inflate(parent, NoResultsListItemBinding::inflate)) {
+) : InviteMemberViewHolder(inflate(parent, ListItemNoResultsBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as NoResultsListItemBinding
+    private val binding = baseBinding as ListItemNoResultsBinding
 
     override fun bind(data: InviteMemberListItem) {
         if (data !is NoResultsItem) return

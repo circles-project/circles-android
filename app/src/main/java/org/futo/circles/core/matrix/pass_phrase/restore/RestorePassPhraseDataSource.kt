@@ -14,7 +14,6 @@ import org.matrix.android.sdk.api.util.awaitCallback
 
 class RestorePassPhraseDataSource(private val context: Context) {
 
-    private val session by lazy { MatrixSessionProvider.currentSession }
     val loadingLiveData = MutableLiveData<LoadingData>()
     private val passPhraseLoadingData = LoadingData()
 
@@ -46,15 +45,17 @@ class RestorePassPhraseDataSource(private val context: Context) {
 
     suspend fun getEncryptionAlgorithm(): String? {
         val keyVersion = awaitCallback {
-            session?.cryptoService()?.keysBackupService()?.getCurrentVersion(it)
+            MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
+                ?.getCurrentVersion(it)
         }.toKeysVersionResult()
 
         return keyVersion?.algorithm
     }
 
     suspend fun restoreKeysWithPassPhase(passphrase: String) {
-        val keysBackupService = session?.cryptoService()?.keysBackupService()
-            ?: throw Exception(context.getString(R.string.session_is_not_created))
+        val keysBackupService =
+            MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
+                ?: throw Exception(context.getString(R.string.session_is_not_created))
         val keyVersion = awaitCallback<KeysBackupLastVersionResult> {
             keysBackupService.getCurrentVersion(it)
         }.toKeysVersionResult()
@@ -66,7 +67,7 @@ class RestorePassPhraseDataSource(private val context: Context) {
                     keyVersion,
                     passphrase,
                     null,
-                    session?.myUserId,
+                    MatrixSessionProvider.currentSession?.myUserId,
                     progressObserver,
                     it
                 )

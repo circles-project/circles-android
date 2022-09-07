@@ -1,5 +1,6 @@
 package org.futo.circles.feature.timeline
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,13 +14,13 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.list.BaseRvDecoration
-import org.futo.circles.databinding.TimelineFragmentBinding
+import org.futo.circles.databinding.FragmentTimelineBinding
 import org.futo.circles.extensions.*
+import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.feature.timeline.list.PostViewHolder
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.post.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
-import org.futo.circles.feature.timeline.post.share.ShareProvider
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.PostContent
@@ -29,7 +30,7 @@ import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
-class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListener,
+class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListener,
     CreatePostListener, EmojiPickerListener, MenuProvider {
 
     private val args: TimelineFragmentArgs by navArgs()
@@ -42,7 +43,7 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
             requireContext().getString(R.string.timeline_not_found)
         )
     }
-    private val binding by viewBinding(TimelineFragmentBinding::bind)
+    private val binding by viewBinding(FragmentTimelineBinding::bind)
     private val listAdapter by lazy {
         TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
     }
@@ -56,6 +57,7 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
         activity?.addMenuProvider(this, viewLifecycleOwner)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
@@ -123,10 +125,10 @@ class TimelineFragment : Fragment(R.layout.timeline_fragment), PostOptionsListen
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
         viewModel.leaveGroupLiveData.observeResponse(this,
-            success = { activity?.onBackPressed() }
+            success = { onBackPressed() }
         )
         viewModel.deleteCircleLiveData.observeResponse(this,
-            success = { activity?.onBackPressed() }
+            success = { onBackPressed() }
         )
     }
 

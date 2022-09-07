@@ -7,16 +7,17 @@ import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.ReportDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentReportBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.timeline.post.report.list.ReportCategoryAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class ReportDialogFragment :
-    BaseFullscreenDialogFragment(ReportDialogFragmentBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment(DialogFragmentReportBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
     private val args: ReportDialogFragmentArgs by navArgs()
@@ -24,7 +25,7 @@ class ReportDialogFragment :
     private val listAdapter by lazy { ReportCategoryAdapter(::onReportCategorySelected) }
 
     private val binding by lazy {
-        getBinding() as ReportDialogFragmentBinding
+        getBinding() as DialogFragmentReportBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +35,7 @@ class ReportDialogFragment :
     }
 
     private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.rvCategories.adapter = listAdapter
         binding.btnReport.setOnClickListener {
             viewModel.report(binding.scoreSlider.value.toInt())
@@ -49,7 +50,7 @@ class ReportDialogFragment :
     private fun setupObservers() {
         viewModel.reportLiveData.observeResponse(this) {
             showSuccess(getString(R.string.report_sent), true)
-            activity?.onBackPressed()
+            onBackPressed()
         }
         viewModel.reportCategoriesLiveData.observeData(this) {
             listAdapter.submitList(it)

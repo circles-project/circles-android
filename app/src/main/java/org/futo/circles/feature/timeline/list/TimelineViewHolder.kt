@@ -6,8 +6,8 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.databinding.ImagePostViewBinding
-import org.futo.circles.databinding.TextPostViewBinding
-import org.futo.circles.databinding.VideoPostViewBinding
+import org.futo.circles.databinding.ViewTextPostBinding
+import org.futo.circles.databinding.ViewVideoPostBinding
 import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.model.*
@@ -32,11 +32,11 @@ class TextPostViewHolder(
     parent: ViewGroup,
     postOptionsListener: PostOptionsListener,
     userPowerLevel: Int
-) : PostViewHolder(inflate(parent, TextPostViewBinding::inflate), userPowerLevel) {
+) : PostViewHolder(inflate(parent, ViewTextPostBinding::inflate), userPowerLevel) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as TextPostViewBinding
+    private val binding = baseBinding as ViewTextPostBinding
     override val postLayout: PostLayout = binding.lTextPost
 
     init {
@@ -90,12 +90,12 @@ class VideoPostViewHolder(
     parent: ViewGroup,
     postOptionsListener: PostOptionsListener,
     userPowerLevel: Int
-) : PostViewHolder(inflate(parent, VideoPostViewBinding::inflate), userPowerLevel),
+) : PostViewHolder(inflate(parent, ViewVideoPostBinding::inflate), userPowerLevel),
     UploadMediaViewHolder {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as VideoPostViewBinding
+    private val binding = baseBinding as ViewVideoPostBinding
     override val postLayout: PostLayout = binding.lVideoPost
     override val uploadMediaTracker = UploadMediaTracker()
 

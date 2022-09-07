@@ -6,7 +6,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
-import org.futo.circles.databinding.LoadingButtonViewBinding
+import org.futo.circles.databinding.ViewLoadingButtonBinding
 import org.futo.circles.extensions.getAttributes
 import org.futo.circles.extensions.setIsVisible
 
@@ -16,7 +16,7 @@ class LoadingButton(
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        LoadingButtonViewBinding.inflate(LayoutInflater.from(context), this)
+        ViewLoadingButtonBinding.inflate(LayoutInflater.from(context), this)
 
     private var buttonText: String = ""
 
@@ -44,6 +44,9 @@ class LoadingButton(
         binding.button.setOnClickListener(l)
     }
 
+    fun setText(text: String) {
+        binding.button.text = text
+    }
 
     fun setIsLoading(isLoading: Boolean) {
         binding.loader.setIsVisible(isLoading)

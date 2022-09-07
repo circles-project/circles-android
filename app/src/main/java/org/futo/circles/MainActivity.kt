@@ -1,14 +1,17 @@
 package org.futo.circles
 
-import android.content.Context
-import android.content.ContextWrapper
-import androidx.appcompat.app.AppCompatActivity
-import org.futo.circles.extensions.disableScreenScale
+import android.content.Intent
+import org.futo.circles.core.BaseActivity
+import org.futo.circles.provider.MatrixSessionProvider
 
 
-class MainActivity : AppCompatActivity(R.layout.main_activity) {
+class MainActivity : BaseActivity(R.layout.activity_main) {
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(ContextWrapper(newBase.disableScreenScale()))
+    // Special action to clear cache and/or clear credentials (Element workaround to clear database)
+    fun restartForLogout() {
+        MatrixSessionProvider.clearSession()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        this.startActivity(intent)
     }
 }

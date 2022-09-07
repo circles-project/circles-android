@@ -36,6 +36,7 @@ fun ImageView.loadMatrixImage(
 }
 
 
+@Suppress("DEPRECATION")
 fun ImageView.loadEncryptedImage(
     content: MediaContentData, preferredSize: Size? = null, loadOriginalSize: Boolean = false
 ) {

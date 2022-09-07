@@ -13,7 +13,6 @@ class CoreSpacesTreeBuilder(
     private val context: Context,
     private val createRoomDataSource: CreateRoomDataSource
 ) {
-    private val session by lazy { MatrixSessionProvider.currentSession }
 
     suspend fun createCoreSpacesTree() {
         createRoomDataSource.createRoom(RootSpace())
@@ -27,7 +26,7 @@ class CoreSpacesTreeBuilder(
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
     }
 
-    fun isCirclesHierarchyCreated(): Boolean = session?.roomService()
+    fun isCirclesHierarchyCreated(): Boolean = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
         ?.firstOrNull { summary -> summary.hasTag(ROOT_SPACE_TAG) } != null
 

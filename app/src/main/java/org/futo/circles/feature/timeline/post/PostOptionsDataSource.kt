@@ -6,9 +6,9 @@ import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import org.futo.circles.core.utils.FileUtils.saveMediaFileToDevice
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.onBG
-import org.futo.circles.feature.timeline.post.share.MediaShareable
-import org.futo.circles.feature.timeline.post.share.ShareableContent
-import org.futo.circles.feature.timeline.post.share.TextShareable
+import org.futo.circles.feature.share.MediaShareable
+import org.futo.circles.feature.share.ShareableContent
+import org.futo.circles.feature.share.TextShareable
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom

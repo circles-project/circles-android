@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.google.android.material.chip.Chip
 import org.futo.circles.R
-import org.futo.circles.databinding.GroupPostFooterViewBinding
-import org.futo.circles.extensions.getAttributes
+import org.futo.circles.databinding.ViewGroupPostFooterBinding
 import org.futo.circles.extensions.setIsEncryptedIcon
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.Post
 import org.futo.circles.model.ReactionsData
-import com.google.android.material.chip.Chip
 import java.text.DateFormat
 import java.util.*
 
@@ -24,7 +23,7 @@ class GroupPostFooterView(
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        GroupPostFooterViewBinding.inflate(LayoutInflater.from(context), this)
+        ViewGroupPostFooterBinding.inflate(LayoutInflater.from(context), this)
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null

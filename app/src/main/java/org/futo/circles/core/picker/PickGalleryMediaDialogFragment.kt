@@ -9,7 +9,7 @@ import androidx.fragment.app.setFragmentResult
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
-import org.futo.circles.databinding.PickGalleryImageDialogFragmentBinding
+import org.futo.circles.databinding.DialogFragmentPickGalleryImageBinding
 import org.futo.circles.feature.photos.PhotosFragment
 import org.futo.circles.feature.photos.gallery.GalleryFragment
 
@@ -22,13 +22,13 @@ interface PickGalleryMediaListener {
 }
 
 class PickGalleryMediaDialogFragment :
-    BaseFullscreenDialogFragment(PickGalleryImageDialogFragmentBinding::inflate),
+    BaseFullscreenDialogFragment(DialogFragmentPickGalleryImageBinding::inflate),
     PickGalleryListener, PickGalleryMediaListener {
 
     private val photosRoomsFragment by lazy { PhotosFragment() }
 
     private val binding by lazy {
-        getBinding() as PickGalleryImageDialogFragmentBinding
+        getBinding() as DialogFragmentPickGalleryImageBinding
     }
 
     private val isVideoAvailable by lazy {
@@ -37,6 +37,7 @@ class PickGalleryMediaDialogFragment :
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return object : Dialog(requireActivity(), theme) {
+            @Deprecated("Deprecated in Java")
             override fun onBackPressed() {
                 handleBackPress()
             }

@@ -8,15 +8,15 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
-import org.futo.circles.databinding.ValidateEmailFragmentBinding
+import org.futo.circles.databinding.FragmentValidateEmailBinding
 import org.futo.circles.extensions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.validate_email_fragment),
+class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_validate_email),
     HasLoadingState {
 
     override val fragment: Fragment = this
-    private val binding by viewBinding(ValidateEmailFragmentBinding::bind)
+    private val binding by viewBinding(FragmentValidateEmailBinding::bind)
     private val viewModel by viewModel<ValidateEmailViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +67,8 @@ class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.validate_ema
     private fun validationCodeSentState() {
         showSuccess(getString(R.string.validation_code_sent_to_format, getEmailInput()))
         binding.tilValidationCode.visible()
-        binding.btnValidate.isEnabled = binding.tilValidationCode.editText?.text.isNullOrEmpty().not()
+        binding.btnValidate.isEnabled =
+            binding.tilValidationCode.editText?.text.isNullOrEmpty().not()
     }
 
 }

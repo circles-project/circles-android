@@ -1,39 +1,44 @@
 package org.futo.circles.di
 
-import org.futo.circles.core.picker.device.PickDeviceMediaViewModel
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.circles.CirclesViewModel
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
 import org.futo.circles.feature.circles.following.FollowingViewModel
 import org.futo.circles.feature.groups.GroupsViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
+import org.futo.circles.feature.log_in.stages.LoginStagesViewModel
+import org.futo.circles.feature.log_in.stages.password.LoginPasswordViewModel
+import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
 import org.futo.circles.feature.people.PeopleViewModel
 import org.futo.circles.feature.people.user.UserViewModel
 import org.futo.circles.feature.photos.PhotosViewModel
 import org.futo.circles.feature.photos.gallery.GalleryViewModel
 import org.futo.circles.feature.photos.preview.MediaPreviewViewModel
-import org.futo.circles.feature.photos.save.SaveToGalleryViewModel
+import org.futo.circles.feature.photos.save.SavePostToGalleryViewModel
+import org.futo.circles.feature.photos.select.SelectGalleriesViewModel
 import org.futo.circles.feature.room.create_room.CreateRoomViewModel
 import org.futo.circles.feature.room.invite.InviteMembersViewModel
 import org.futo.circles.feature.room.manage_members.ManageMembersViewModel
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelViewModel
+import org.futo.circles.feature.room.select.SelectRoomsViewModel
 import org.futo.circles.feature.room.select_users.SelectUsersViewModel
 import org.futo.circles.feature.room.update_room.UpdateRoomViewModel
 import org.futo.circles.feature.settings.SettingsViewModel
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
 import org.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import org.futo.circles.feature.settings.edit_profile.EditProfileViewModel
+import org.futo.circles.feature.share.BaseShareViewModel
 import org.futo.circles.feature.sign_up.SignUpViewModel
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileViewModel
 import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeViewModel
 import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageViewModel
 import org.futo.circles.feature.sign_up.terms.AcceptTermsViewModel
+import org.futo.circles.feature.sign_up.terms.SignupAcceptTermsDataSource
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailViewModel
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
-import org.futo.circles.feature.timeline.post.emoji.EmojiViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -60,7 +65,12 @@ val uiModule = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { ValidateTokenViewModel(get()) }
     viewModel { SelectSignUpTypeViewModel(get()) }
-    viewModel { AcceptTermsViewModel(get()) }
+    viewModel { (isLoginMode: Boolean) ->
+        AcceptTermsViewModel(
+            if (isLoginMode) get<LoginAcceptTermsDataSource>()
+            else get<SignupAcceptTermsDataSource>()
+        )
+    }
     viewModel { ValidateEmailViewModel(get()) }
     viewModel { SetupProfileViewModel(get()) }
     viewModel { SetupCirclesViewModel(get(), get()) }
@@ -72,7 +82,6 @@ val uiModule = module {
     viewModel { (roomId: String, eventId: String) ->
         ReportViewModel(get { parametersOf(roomId, eventId) })
     }
-    viewModel { EmojiViewModel(get()) }
     viewModel { (roomId: String) -> FollowingViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> AcceptCircleInviteViewModel(get { parametersOf(roomId) }) }
     viewModel { EditProfileViewModel(get()) }
@@ -91,8 +100,9 @@ val uiModule = module {
         MediaPreviewViewModel(roomId, eventId, get { parametersOf(roomId, eventId) }, get())
     }
     viewModel { (roomId: String, eventId: String) ->
-        SaveToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())
+        SavePostToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())
     }
+    viewModel { SelectGalleriesViewModel(get()) }
     viewModel { (userId: String) ->
         UserViewModel(get { parametersOf(userId) })
     }
@@ -100,8 +110,9 @@ val uiModule = module {
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         SystemNoticesTimelineViewModel(get { parametersOf(roomId, type) })
     }
-    viewModel { (isVideoAvailable: Boolean) ->
-        PickDeviceMediaViewModel(isVideoAvailable, get())
-    }
     viewModel { SubscriptionStageViewModel(get()) }
+    viewModel { BaseShareViewModel(get()) }
+    viewModel { (type: CircleRoomTypeArg) -> SelectRoomsViewModel(get { parametersOf(type) }) }
+    viewModel { LoginPasswordViewModel(get()) }
+    viewModel { LoginStagesViewModel(get()) }
 }

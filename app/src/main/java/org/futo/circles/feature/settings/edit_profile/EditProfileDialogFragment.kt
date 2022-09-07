@@ -5,24 +5,24 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import org.futo.circles.R
-import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.EditProfileDialogFragmentBinding
+import org.futo.circles.core.picker.MediaPickerHelper
+import org.futo.circles.databinding.DialogFragmentEditProfileBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.matrix.android.sdk.api.session.user.model.User
 
 class EditProfileDialogFragment :
-    BaseFullscreenDialogFragment(EditProfileDialogFragmentBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment(DialogFragmentEditProfileBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModel<EditProfileViewModel>()
     private val mediaPickerHelper = MediaPickerHelper(this)
 
     private val binding by lazy {
-        getBinding() as EditProfileDialogFragmentBinding
+        getBinding() as DialogFragmentEditProfileBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class EditProfileDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             ivProfile.setOnClickListener { showImagePicker() }
             btnChangeIcon.setOnClickListener { showImagePicker() }
             tilName.editText?.doAfterTextChanged {
@@ -55,7 +55,7 @@ class EditProfileDialogFragment :
         viewModel.editProfileResponseLiveData.observeResponse(this,
             success = {
                 showSuccess(getString(R.string.profile_updated), true)
-                activity?.onBackPressed()
+                onBackPressed()
             }
         )
         viewModel.profileLiveData.observeData(this) {

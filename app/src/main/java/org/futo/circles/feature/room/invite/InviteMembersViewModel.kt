@@ -13,10 +13,10 @@ class InviteMembersViewModel(
 
     val titleLiveData = MutableLiveData(dataSource.getInviteTitle())
 
-    val inviteResultLiveData = SingleEventLiveData<Response<Unit>>()
+    val inviteResultLiveData = SingleEventLiveData<Response<List<Unit?>>>()
 
-    fun invite(users: List<UserListItem>) {
-        launchBg { inviteResultLiveData.postValue(dataSource.inviteUsers(this, users)) }
+    fun invite(usersIds: List<String>) {
+        launchBg { inviteResultLiveData.postValue(dataSource.inviteUsers(this, usersIds)) }
     }
 
 }

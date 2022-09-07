@@ -18,20 +18,21 @@ import org.futo.circles.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 
+private const val SNACK_BAR_DURATION = 3500
 
 @SuppressLint("InflateParams")
 private fun Fragment.showBar(message: String, isError: Boolean, showOnActivity: Boolean) {
     val parentView = if (showOnActivity) activity?.findViewById(android.R.id.content) else view
     parentView ?: return
 
-    val snack: Snackbar = Snackbar.make(parentView, message, Snackbar.LENGTH_LONG)
+    val snack: Snackbar = Snackbar.make(parentView, message, SNACK_BAR_DURATION)
     snack.view.setBackgroundColor(Color.TRANSPARENT)
 
     val snackLayout = snack.view as Snackbar.SnackbarLayout
     snackLayout.setPadding(0, 0, 0, 0)
 
     val customSnackView = layoutInflater.inflate(
-        if (isError) R.layout.error_snack_bar_view else R.layout.success_snack_bar_view,
+        if (isError) R.layout.view_error_snack_bar else R.layout.view_success_snack_bar,
         null
     ).apply {
         findViewById<TextView>(R.id.tvMessage)?.text = message
@@ -97,4 +98,4 @@ fun Fragment.openCustomTabUrl(url: String) {
     }
 }
 
-fun Fragment.findParentNavController() = parentFragment?.parentFragment?.findNavController()
+fun Fragment.onBackPressed() = activity?.onBackPressedDispatcher?.onBackPressed()

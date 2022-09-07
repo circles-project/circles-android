@@ -13,13 +13,14 @@ import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 
-enum class NavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail }
+enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail }
 
 class SignUpDataSource(
     private val context: Context,
@@ -28,7 +29,7 @@ class SignUpDataSource(
 ) {
 
     val subtitleLiveData = MutableLiveData<String>()
-    val navigationLiveData = SingleEventLiveData<NavigationEvents>()
+    val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
     val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
 
@@ -43,12 +44,13 @@ class SignUpDataSource(
     private var passphrase: String = ""
     private var userName: String = ""
 
-    fun startSignUpStages(
+    suspend fun startSignUpStages(
         stages: List<Stage>,
         name: String,
         password: String,
         homeServerUrl: String,
-        isSubscription: Boolean
+        isSubscription: Boolean,
+        subscriptionReceipt: String?
     ) {
         currentStage = null
         stagesToComplete.clear()
@@ -57,7 +59,14 @@ class SignUpDataSource(
         currentHomeServerUrl = homeServerUrl
 
         setupStages(stages, isSubscription)
-        navigateToNextStage()
+
+        if (isSubscription && subscriptionReceipt != null) {
+            val response = SubscriptionStageDataSource(this)
+                .validateSubscriptionReceipt(subscriptionReceipt)
+            if (response is Response.Error) navigateToNextStage()
+        } else {
+            navigateToNextStage()
+        }
     }
 
     suspend fun stageCompleted(result: RegistrationResult?) {
@@ -102,8 +111,8 @@ class SignUpDataSource(
         currentStage = stage
 
         val event = when (stage) {
-            is Stage.Email -> NavigationEvents.ValidateEmail
-            is Stage.Terms -> NavigationEvents.AcceptTerm
+            is Stage.Email -> SignUpNavigationEvents.ValidateEmail
+            is Stage.Terms -> SignUpNavigationEvents.AcceptTerm
             is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException(
                 context.getString(R.string.not_supported_stage_format, stage.toString())
@@ -115,9 +124,9 @@ class SignUpDataSource(
         updatePageSubtitle()
     }
 
-    private fun handleStageOther(type: String): NavigationEvents =
-        if (type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)) NavigationEvents.TokenValidation
-        else if (type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_PREFIX)) NavigationEvents.Subscription
+    private fun handleStageOther(type: String): SignUpNavigationEvents =
+        if (type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)) SignUpNavigationEvents.TokenValidation
+        else if (type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_PREFIX)) SignUpNavigationEvents.Subscription
         else throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
         )

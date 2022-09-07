@@ -1,7 +1,6 @@
 package org.futo.circles.subscriptions.google
 
-import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
@@ -16,8 +15,8 @@ import org.futo.circles.subscriptions.SubscriptionManager
 import kotlin.coroutines.resume
 
 class GoogleSubscriptionsManager(
-    private val activity: Activity,
-    private val itemPurchasedListener: ItemPurchasedListener
+    private val fragment: Fragment,
+    private val itemPurchasedListener: ItemPurchasedListener?
 ) : SubscriptionManager {
 
 
@@ -25,21 +24,21 @@ class GoogleSubscriptionsManager(
         PurchasesUpdatedListener { billingResult, purchases ->
             purchases?.let {
                 if (billingResult.responseCode == OK)
-                    itemPurchasedListener.onItemPurchased(
+                    itemPurchasedListener?.onItemPurchased(
                         purchases.lastOrNull()?.originalJson ?: ""
                     )
-                else itemPurchasedListener.onPurchaseFailed(billingResult.responseCode)
+                else itemPurchasedListener?.onPurchaseFailed(billingResult.responseCode)
             }
         }
 
-    private val client = BillingClient.newBuilder(activity)
+    private val client = BillingClient.newBuilder(fragment.requireContext())
         .setListener(purchasesUpdatedListener)
         .enablePendingPurchases()
         .build()
 
 
     init {
-        (activity as? AppCompatActivity)?.lifecycle?.addObserver(object : DefaultLifecycleObserver {
+        fragment.lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onDestroy(owner: LifecycleOwner) {
                 client.endConnection()
                 super.onDestroy(owner)
@@ -47,16 +46,25 @@ class GoogleSubscriptionsManager(
         })
     }
 
-    override suspend fun getDetails(productIds: List<String>): Response<List<SubscriptionListItem>> =
+    override suspend fun getActiveSubscriptionReceipt(): Response<String> =
         when (val code =
             client.isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS).responseCode) {
-            OK -> queryDetails(productIds).toSubscriptionListItemsResponse(activity.applicationContext)
+            OK -> getLastActiveSubscriptionReceipt()
             SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> onBG {
-                tryConnectAndDo { queryDetails(productIds).toSubscriptionListItemsResponse(activity.applicationContext) }
+                tryConnectAndDo { getLastActiveSubscriptionReceipt() }
             }
             else -> getErrorResponseForCode(code)
         }
 
+    override suspend fun getDetails(productIds: List<String>): Response<List<SubscriptionListItem>> =
+        when (val code =
+            client.isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS).responseCode) {
+            OK -> queryDetails(productIds).toSubscriptionListItemsResponse(fragment.requireContext())
+            SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> onBG {
+                tryConnectAndDo { queryDetails(productIds).toSubscriptionListItemsResponse(fragment.requireContext()) }
+            }
+            else -> getErrorResponseForCode(code)
+        }
 
     override suspend fun purchaseProduct(productId: String): Response<Unit> {
         val detailsResponse = queryDetails(listOf(productId))
@@ -86,7 +94,7 @@ class GoogleSubscriptionsManager(
     private suspend fun BillingClient.tryConnect(): Response<Boolean> =
         suspendCancellableCoroutine { continuation ->
             startConnection(object : BillingClientStateListener {
-                override fun onBillingSetupFinished(billingResult: com.android.billingclient.api.BillingResult) {
+                override fun onBillingSetupFinished(billingResult: BillingResult) {
                     if (continuation.isCancelled || continuation.isCompleted) return
                     continuation.resume(
                         when (billingResult.responseCode) {
@@ -102,6 +110,22 @@ class GoogleSubscriptionsManager(
                 }
             })
         }
+
+    private suspend fun getLastActiveSubscriptionReceipt(): Response<String> {
+        val params = QueryPurchasesParams.newBuilder()
+            .setProductType(BillingClient.ProductType.SUBS)
+            .build()
+
+        val purchaseResult = onBG { client.queryPurchasesAsync(params) }
+
+        return if (purchaseResult.billingResult.responseCode == OK) {
+            purchaseResult.purchasesList.lastOrNull()?.originalJson
+                ?.let { Response.Success(data = it) }
+                ?: getErrorResponseForCode(code = ERROR)
+        } else {
+            getErrorResponseForCode(purchaseResult.billingResult.responseCode)
+        }
+    }
 
     private suspend fun queryDetails(productIds: List<String>): Response<List<ProductDetails>> {
         val params = QueryProductDetailsParams.newBuilder()
@@ -125,9 +149,13 @@ class GoogleSubscriptionsManager(
     }
 
     private fun purchase(productDetails: ProductDetails): Response<Unit> {
+        val offerToken = productDetails.subscriptionOfferDetails?.lastOrNull()?.offerToken
+            ?: return getErrorResponseForCode(ERROR)
+
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
                 .setProductDetails(productDetails)
+                .setOfferToken(offerToken)
                 .build()
         )
 
@@ -136,19 +164,21 @@ class GoogleSubscriptionsManager(
             .build()
 
         return when (val code =
-            client.launchBillingFlow(activity, billingFlowParams).responseCode) {
+            client.launchBillingFlow(fragment.requireActivity(), billingFlowParams).responseCode) {
             OK -> Response.Success(Unit)
             else -> getErrorResponseForCode(code)
         }
     }
 
     private fun getErrorResponseForCode(code: Int) = when (code) {
-        FEATURE_NOT_SUPPORTED -> Response.Error(activity.getString(R.string.feature_not_supported))
-        SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> Response.Error(activity.getString(R.string.service_unavailable))
-        ITEM_UNAVAILABLE -> Response.Error(activity.getString(R.string.item_unavailable))
-        USER_CANCELED -> Response.Error(activity.getString(R.string.user_canceled))
-        ITEM_NOT_OWNED -> Response.Error(activity.getString(R.string.item_not_owned))
-        DEVELOPER_ERROR -> Response.Error(activity.getString(R.string.developer_error))
-        else -> Response.Error(activity.getString(R.string.purchase_failed_format, code))
+        FEATURE_NOT_SUPPORTED -> Response.Error(fragment.getString(R.string.feature_not_supported))
+        SERVICE_DISCONNECTED, SERVICE_UNAVAILABLE, BILLING_UNAVAILABLE -> Response.Error(
+            fragment.getString(R.string.service_unavailable)
+        )
+        ITEM_UNAVAILABLE -> Response.Error(fragment.getString(R.string.item_unavailable))
+        USER_CANCELED -> Response.Error(fragment.getString(R.string.user_canceled))
+        ITEM_NOT_OWNED -> Response.Error(fragment.getString(R.string.item_not_owned))
+        DEVELOPER_ERROR -> Response.Error(fragment.getString(R.string.developer_error))
+        else -> Response.Error(fragment.getString(R.string.purchase_failed_format, code))
     }
 }

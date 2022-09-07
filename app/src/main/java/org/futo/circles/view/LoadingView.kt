@@ -5,9 +5,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import org.futo.circles.model.LoadingData
-import org.futo.circles.databinding.LoadingViewBinding
+import org.futo.circles.databinding.ViewLoadingBinding
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.model.LoadingData
 
 class LoadingView(
     context: Context,
@@ -15,7 +15,7 @@ class LoadingView(
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        LoadingViewBinding.inflate(LayoutInflater.from(context), this)
+        ViewLoadingBinding.inflate(LayoutInflater.from(context), this)
 
 
     fun setMessage(@StringRes messageId: Int) {

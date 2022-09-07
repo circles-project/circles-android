@@ -1,13 +1,11 @@
 package org.futo.circles.feature.sign_up.sign_up_type
 
 import android.content.Context
-import android.net.Uri
 import org.futo.circles.R
-import org.futo.circles.core.utils.HomeServerUtils
+import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
-import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 
 class SelectSignUpTypeDataSource(
@@ -25,12 +23,12 @@ class SelectSignUpTypeDataSource(
         name: String,
         password: String,
         domain: String,
-        isSubscription: Boolean
+        isSubscription: Boolean,
+        subscriptionReceipt: String?
     ) =
         createResult {
-            val homeServerUrl = HomeServerUtils.getHomeServerUrlFromDomain(domain)
             authService.cancelPendingLoginOrRegistration()
-            authService.getLoginFlow(buildHomeServerConfig(homeServerUrl))
+            val loginFlow = authService.getLoginFlow(buildHomeServerConfigFromDomain(domain))
             (authService.getRegistrationWizard().createAccount(
                 name, password,
                 context.getString(
@@ -44,17 +42,11 @@ class SelectSignUpTypeDataSource(
                         it.flowResult.missingStages,
                         name,
                         password,
-                        homeServerUrl,
-                        isSubscription
+                        loginFlow.homeServerUrl,
+                        isSubscription,
+                        subscriptionReceipt
                     )
                 }
         }
-
-    private fun buildHomeServerConfig(url: String): HomeServerConnectionConfig {
-        return HomeServerConnectionConfig
-            .Builder()
-            .withHomeServerUri(Uri.parse(url))
-            .build()
-    }
 
 }

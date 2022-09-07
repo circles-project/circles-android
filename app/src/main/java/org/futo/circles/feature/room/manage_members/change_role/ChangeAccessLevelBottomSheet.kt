@@ -8,17 +8,17 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
-import org.futo.circles.databinding.ChangeAccessLevelBottomSheetBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.futo.circles.databinding.BottomSheetChangeAccessLevelBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.feature.room.manage_members.change_role.list.ChangeAccessLevelAdapter
 import org.futo.circles.model.AccessLevelListItem
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
 
-    private var binding: ChangeAccessLevelBottomSheetBinding? = null
+    private var binding: BottomSheetChangeAccessLevelBinding? = null
     private val args: ChangeAccessLevelBottomSheetArgs by navArgs()
     private val viewModel by viewModel<ChangeAccessLevelViewModel> {
         parametersOf(args.levelValue, args.myUserLevelValue)
@@ -35,7 +35,7 @@ class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding = ChangeAccessLevelBottomSheetBinding.inflate(inflater, container, false)
+        binding = BottomSheetChangeAccessLevelBinding.inflate(inflater, container, false)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         return binding?.root
     }

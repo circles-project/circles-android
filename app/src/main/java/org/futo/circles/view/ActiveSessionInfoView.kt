@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import org.futo.circles.R
-import org.futo.circles.databinding.ActiveSessionInfoViewBinding
+import org.futo.circles.databinding.ViewActiveSessionInfoBinding
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.model.ActiveSession
@@ -17,7 +17,7 @@ class ActiveSessionInfoView(
     attrs: AttributeSet? = null,
 ) : ConstraintLayout(context, attrs) {
 
-    private val binding = ActiveSessionInfoViewBinding.inflate(LayoutInflater.from(context), this)
+    private val binding = ViewActiveSessionInfoBinding.inflate(LayoutInflater.from(context), this)
 
     private var activeSessionClickListener: ActiveSessionClickListener? = null
     private var deviceId: String? = null

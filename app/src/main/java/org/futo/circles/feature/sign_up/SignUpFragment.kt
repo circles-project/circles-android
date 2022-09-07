@@ -11,17 +11,14 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
-import org.futo.circles.databinding.SignUpFragmentBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showDialog
-import org.futo.circles.extensions.showError
+import org.futo.circles.databinding.FragmentSignUpBinding
+import org.futo.circles.extensions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
+class SignUpFragment : Fragment(R.layout.fragment_sign_up), BackPressOwner {
 
     private val viewModel by viewModel<SignUpViewModel>()
-    private val binding by viewBinding(SignUpFragmentBinding::bind)
+    private val binding by viewBinding(FragmentSignUpBinding::bind)
     private val createPassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
 
     private val childNavHostFragment by lazy {
@@ -30,7 +27,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         setupObservers()
     }
 
@@ -54,12 +51,12 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
     }
 
 
-    private fun handleNavigation(event: NavigationEvents) {
+    private fun handleNavigation(event: SignUpNavigationEvents) {
         val directionId = when (event) {
-            NavigationEvents.TokenValidation -> R.id.to_validateToken
-            NavigationEvents.Subscription -> R.id.to_subscriptions
-            NavigationEvents.AcceptTerm -> R.id.to_acceptTerms
-            NavigationEvents.ValidateEmail -> R.id.to_validateEmail
+            SignUpNavigationEvents.TokenValidation -> R.id.to_validateToken
+            SignUpNavigationEvents.Subscription -> R.id.to_subscriptions
+            SignUpNavigationEvents.AcceptTerm -> R.id.to_acceptTerms
+            SignUpNavigationEvents.ValidateEmail -> R.id.to_validateEmail
         }
         binding.navHostFragment.findNavController().navigate(directionId)
     }
@@ -79,7 +76,7 @@ class SignUpFragment : Fragment(R.layout.sign_up_fragment), BackPressOwner {
         val includedFragmentsManager = childNavHostFragment.childFragmentManager
         if (includedFragmentsManager.backStackEntryCount == 0) {
             callback.remove()
-            activity?.onBackPressed()
+            onBackPressed()
         } else {
             showDiscardDialog()
         }

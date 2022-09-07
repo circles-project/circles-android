@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
 import org.futo.circles.R
-import org.futo.circles.databinding.RemoveFollowingDialogBinding
+import org.futo.circles.databinding.DialogRemoveFollowingBinding
 import org.futo.circles.extensions.setIsVisible
 
 interface RemoveFollowingListener {
@@ -21,7 +21,7 @@ class RemoveFollowingDialog(
     private val listener: RemoveFollowingListener
 ) : AppCompatDialog(context) {
 
-    private val binding = RemoveFollowingDialogBinding.inflate(LayoutInflater.from(context))
+    private val binding = DialogRemoveFollowingBinding.inflate(LayoutInflater.from(context))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
