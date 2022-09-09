@@ -134,6 +134,7 @@
     <string name="change_icon">Change icon</string>
     <string name="group_encryption_warning">NOTE: Group name, topic and cover image are not encrypted</string>
     <string name="create_post">Create post</string>
+    <string name="create_poll">Create poll</string>
     <string name="send">Send</string>
     <string name="enter_your_message_here">Enter your message here</string>
     <string name="compressing">Compressing</string>

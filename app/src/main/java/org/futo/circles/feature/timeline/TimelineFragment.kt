@@ -24,6 +24,7 @@ import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.PostContent
+import org.futo.circles.view.CreatePostMenuListener
 import org.futo.circles.view.PostOptionsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -93,9 +94,18 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             addItemDecoration(
                 BaseRvDecoration.OffsetDecoration<PostViewHolder>(offset = context.dimen(R.dimen.group_post_item_offset))
             )
-            bindToFab(binding.fbCreatePost)
         }
-        binding.fbCreatePost.setOnClickListener { navigateToCreatePost(timelineId) }
+        binding.fabMenu.apply {
+            bindToRecyclerView(binding.rvTimeline)
+            setListener(object : CreatePostMenuListener {
+                override fun onCreatePoll() {
+
+                }
+                override fun onCreatePost() {
+                    navigateToCreatePost(timelineId)
+                }
+            })
+        }
     }
 
     private fun setupObservers() {
@@ -217,7 +227,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
-        binding.fbCreatePost.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
+        binding.fabMenu.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
         isGroupSettingAvailable = powerLevelsContent.isCurrentUserAbleToChangeSettings()
         isGroupInviteAvailable = powerLevelsContent.isCurrentUserAbleToInvite()
         activity?.invalidateOptionsMenu()
@@ -225,7 +235,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
         val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
-        binding.fbCreatePost.setIsVisible(isUserAdmin)
+        binding.fabMenu.setIsVisible(isUserAdmin)
     }
 
     private fun navigateToCreatePost(
