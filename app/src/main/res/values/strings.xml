@@ -249,6 +249,14 @@
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
     <string name="enter_your_password">Enter your password</string>
+    <string name="poll_type">Poll type</string>
+    <string name="open_poll">Open poll</string>
+    <string name="open_poll_hint">Voter see results as soon as they have voted</string>
+    <string name="closed_poll">Closed poll</string>
+    <string name="closed_poll_hint">Result are only revealed when you end the poll</string>
+    <string name="poll_question">Poll question</string>
+    <string name="poll_options">Poll options</string>
+
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
