@@ -19,9 +19,11 @@ import org.futo.circles.extensions.*
 import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.feature.timeline.list.PostViewHolder
 import org.futo.circles.feature.timeline.list.TimelineAdapter
+import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.model.CreatePollContent
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.PostContent
 import org.futo.circles.view.CreatePostMenuListener
@@ -32,7 +34,7 @@ import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListener,
-    CreatePostListener, EmojiPickerListener, MenuProvider {
+    CreatePostListener, CreatePollListener, EmojiPickerListener, MenuProvider {
 
     private val args: TimelineFragmentArgs by navArgs()
     private val viewModel by viewModel<TimelineViewModel> { parametersOf(args.roomId, args.type) }
@@ -99,8 +101,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             bindToRecyclerView(binding.rvTimeline)
             setListener(object : CreatePostMenuListener {
                 override fun onCreatePoll() {
-
+                    findNavController().navigate(
+                        TimelineFragmentDirections.toCreatePoll(timelineId)
+                    )
                 }
+
                 override fun onCreatePost() {
                     navigateToCreatePost(timelineId)
                 }
@@ -215,6 +220,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         threadEventId: String?
     ) {
         viewModel.sendPost(roomId, postContent, threadEventId)
+    }
+
+    override fun onCreatePoll(roomId: String, pollContent: CreatePollContent) {
+        viewModel.createPoll(roomId, pollContent)
     }
 
     override fun onEmojiSelected(roomId: String, eventId: String, emoji: String) {
