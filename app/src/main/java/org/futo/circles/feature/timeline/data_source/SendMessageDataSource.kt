@@ -5,6 +5,7 @@ import android.net.Uri
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.toImageContentAttachmentData
 import org.futo.circles.extensions.toVideoContentAttachmentData
+import org.futo.circles.model.CreatePollContent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 
@@ -27,6 +28,13 @@ class SendMessageDataSource(private val context: Context) {
         content?.let {
             roomForMessage?.sendService()?.sendMedia(it, true, emptySet(), threadEventId)
         }
+    }
+
+    fun createPoll(roomId: String, pollContent: CreatePollContent) {
+        val roomForMessage = session?.getRoom(roomId)
+        roomForMessage?.sendService()
+            ?.sendPoll(pollContent.pollType, pollContent.question, pollContent.options)
+
     }
 
 }
