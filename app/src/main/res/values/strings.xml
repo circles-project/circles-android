@@ -256,7 +256,8 @@
     <string name="closed_poll_hint">Result are only revealed when you end the poll</string>
     <string name="poll_question">Poll question</string>
     <string name="poll_options">Poll options</string>
-
+    <string name="option_format">Option %d</string>
+    <string name="add_option">Add option</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
