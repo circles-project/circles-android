@@ -40,6 +40,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -89,9 +90,10 @@
                 app:layout_constraintTop_toBottomOf="@id/tvTypeHeader">
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/btnUS"
+                    android:id="@+id/btnOpenPoll"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="36dp"
+                    android:checked="true"
                     android:text="@string/open_poll"
                     android:textAppearance="@style/body" />
 
@@ -103,9 +105,9 @@
                     android:text="@string/open_poll_hint" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/btnEU"
+                    android:id="@+id/btnClosedPoll"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="36dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/closed_poll"
                     android:textAppearance="@style/body" />
@@ -161,6 +163,31 @@
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@id/tilQuestion" />
+
+            <org.futo.circles.view.PollOptionsLayout
+                android:id="@+id/lvPostOptions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/tvOptionsHeader" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddOption"
+                style="@style/NegativeButtonStyle"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="0dp"
+                android:text="@string/add_option"
+                android:textSize="12sp"
+                app:icon="@drawable/ic_add"
+                app:iconGravity="textStart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@+id/lvPostOptions"
+                app:layout_constraintVertical_bias="0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

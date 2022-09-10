@@ -3,11 +3,14 @@ package org.futo.circles.feature.timeline.poll
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentCreatePollBinding
+import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.model.CreatePollContent
+import org.matrix.android.sdk.api.session.room.model.message.PollType
 
 interface CreatePollListener {
     fun onCreatePoll(roomId: String, pollContent: CreatePollContent)
@@ -42,11 +45,29 @@ class CreatePollDialogFragment :
                 createPoll()
                 onBackPressed()
             }
+            lvPostOptions.setOnChangeListener { handleCreateButtonAvailable() }
+            tilQuestion.editText?.doAfterTextChanged { handleCreateButtonAvailable() }
+            btnAddOption.setOnClickListener {
+                lvPostOptions.addOption()
+                lvPostOptions.post { scrollView.fullScroll(View.FOCUS_DOWN) }
+            }
         }
     }
 
-    private fun createPoll() {
+    private fun handleCreateButtonAvailable() {
+        binding.btnCreate.isEnabled =
+            binding.lvPostOptions.isValidInput() && binding.tilQuestion.getText().isNotEmpty()
+    }
 
+    private fun createPoll() {
+        createPollListener?.onCreatePoll(
+            args.roomId,
+            CreatePollContent(
+                if (binding.btnOpenPoll.isChecked) PollType.DISCLOSED else PollType.UNDISCLOSED,
+                binding.tilQuestion.getText(),
+                binding.lvPostOptions.getOptionsList()
+            )
+        )
     }
 
 }
