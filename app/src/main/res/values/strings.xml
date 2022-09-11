@@ -134,6 +134,7 @@
     <string name="change_icon">Change icon</string>
     <string name="group_encryption_warning">NOTE: Group name, topic and cover image are not encrypted</string>
     <string name="create_post">Create post</string>
+    <string name="create_poll">Create poll</string>
     <string name="send">Send</string>
     <string name="enter_your_message_here">Enter your message here</string>
     <string name="compressing">Compressing</string>
@@ -248,6 +249,15 @@
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
     <string name="enter_your_password">Enter your password</string>
+    <string name="poll_type">Poll type</string>
+    <string name="open_poll">Open poll</string>
+    <string name="open_poll_hint">Voter see results as soon as they have voted</string>
+    <string name="closed_poll">Closed poll</string>
+    <string name="closed_poll_hint">Result are only revealed when you end the poll</string>
+    <string name="poll_question">Poll question</string>
+    <string name="poll_options">Poll options</string>
+    <string name="option_format">Option %d</string>
+    <string name="add_option">Add option</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

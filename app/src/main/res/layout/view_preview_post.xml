@@ -55,7 +55,7 @@
             android:background="@null"
             android:gravity="top"
             android:hint="@string/enter_your_message_here"
-            android:inputType="textMultiLine"
+            android:inputType="textCapSentences|textMultiLine"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:scrollbars="vertical"

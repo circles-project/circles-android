@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vanniktech.emoji.EmojiTheming
 import com.vanniktech.emoji.recent.NoRecentEmoji
-import com.vanniktech.emoji.search.NoSearchEmoji
+import com.vanniktech.emoji.search.SearchEmojiManager
 import com.vanniktech.emoji.variant.NoVariantEmoji
 import org.futo.circles.R
 import org.futo.circles.databinding.BottomSheetEmojiBinding
@@ -68,9 +68,10 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
                             requireContext(),
                             R.color.divider_color
                         ),
-                        textColor = Color.BLACK
+                        textColor = Color.BLACK,
+                        textSecondaryColor = Color.BLACK
                     ),
-                    NoRecentEmoji, NoSearchEmoji, NoVariantEmoji
+                    NoRecentEmoji, SearchEmojiManager(), NoVariantEmoji
                 )
                 tearDown()
             }

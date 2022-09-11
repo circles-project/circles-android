@@ -82,6 +82,16 @@
 
         </action>
         <action
+            android:id="@+id/to_createPoll"
+            app:destination="@id/createPollDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+        <action
             android:id="@+id/to_reportDialogFragment"
             app:destination="@id/reportDialogFragment">
 
@@ -339,6 +349,17 @@
 
         <argument
             android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/createPollDialogFragment"
+        android:name="org.futo.circles.feature.timeline.poll.CreatePollDialogFragment"
+        tools:layout="@layout/dialog_fragment_create_poll">
+
+        <argument
+            android:name="roomId"
             app:argType="string"
             app:nullable="false" />
 
