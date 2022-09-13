@@ -17,10 +17,14 @@ class TimelineBuilder {
     private var currentList: MutableList<Post> = mutableListOf()
     private var currentSnapshotMap: MutableMap<String, List<TimelineEvent>> = mutableMapOf()
 
+    private val supportedTimelineEvens: List<String> = mutableListOf(EventType.MESSAGE).apply {
+        addAll(EventType.POLL_START)
+    }
+
     fun build(snapshot: List<TimelineEvent>): List<Post> {
         if (snapshot.isEmpty()) return currentList
         val list = processSnapshot(snapshot)
-        val messageTimelineEvents = getOnlyMessageTimelineEvents(list)
+        val messageTimelineEvents = getOnlySupportedTimelineEvents(list)
         val posts = transformToPosts(messageTimelineEvents)
         val messagesWithReplies = setupRootMessagesWithReplies(posts)
         return handleRepliesVisibilityForPost(messagesWithReplies).also { currentList = it }
@@ -76,8 +80,8 @@ class TimelineBuilder {
         return list
     }
 
-    private fun getOnlyMessageTimelineEvents(list: List<TimelineEvent>): List<TimelineEvent> =
-        list.filter { it.root.getClearType() == EventType.MESSAGE }
+    private fun getOnlySupportedTimelineEvents(list: List<TimelineEvent>): List<TimelineEvent> =
+        list.filter { it.root.getClearType() in supportedTimelineEvens }
 
     private fun isRepliesVisibleFor(id: String) = repliesVisibleEvents.contains(id)
 
