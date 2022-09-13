@@ -7,7 +7,8 @@ import org.matrix.android.sdk.api.session.room.model.message.MessageType
 enum class PostContentType(val typeKey: String) {
     TEXT_CONTENT(MessageType.MSGTYPE_TEXT),
     IMAGE_CONTENT(MessageType.MSGTYPE_IMAGE),
-    VIDEO_CONTENT(MessageType.MSGTYPE_VIDEO)
+    VIDEO_CONTENT(MessageType.MSGTYPE_VIDEO),
+    POLL_CONTENT(MessageType.MSGTYPE_POLL_START)
 }
 
 sealed class PostContent(val type: PostContentType) {
@@ -26,7 +27,7 @@ data class ImageContent(
     val height: Int
 ) : PostContent(PostContentType.IMAGE_CONTENT) {
     val aspectRatio = width.toFloat() / height.toFloat()
-    fun calculateSize(width: Int) =  Size(width, (width / aspectRatio).toInt())
+    fun calculateSize(width: Int) = Size(width, (width / aspectRatio).toInt())
 }
 
 data class VideoContent(
@@ -37,7 +38,7 @@ data class VideoContent(
     val duration: String
 ) : PostContent(PostContentType.VIDEO_CONTENT) {
     val aspectRatio = width.toFloat() / height.toFloat()
-    fun calculateSize(width: Int) =  Size(width, (width / aspectRatio).toInt())
+    fun calculateSize(width: Int) = Size(width, (width / aspectRatio).toInt())
 }
 
 data class MediaContentData(
@@ -45,4 +46,24 @@ data class MediaContentData(
     val mimeType: String,
     val fileUrl: String,
     val elementToDecrypt: ElementToDecrypt?
+)
+
+data class PollContent(
+    val question: String,
+    val state: PollState,
+    val totalVotes: Int,
+    val options: List<PollOption>
+) : PostContent(PostContentType.POLL_CONTENT) {
+    fun canVote() = state != PollState.Sending && state != PollState.Ended
+}
+
+enum class PollState { Sending, Ready, Voted, Undisclosed, Ended }
+
+data class PollOption(
+    val optionId: String,
+    val optionAnswer: String,
+    val voteCount: Int,
+    val votePercentage: Double,
+    val isMyVote: Boolean,
+    val isWinner: Boolean
 )
