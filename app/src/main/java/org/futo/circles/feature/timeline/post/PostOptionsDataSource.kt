@@ -42,6 +42,7 @@ class PostOptionsDataSource(
             is ImageContent -> getShareableMediaContent(content.mediaContentData)
             is VideoContent -> getShareableMediaContent(content.mediaContentData)
             is TextContent -> TextShareable(content.message)
+            else -> throw IllegalArgumentException("Not shareable post content")
         }
     }
 
