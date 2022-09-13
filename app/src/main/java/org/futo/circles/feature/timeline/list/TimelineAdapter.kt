@@ -37,6 +37,7 @@ class TimelineAdapter(
             PostContentType.VIDEO_CONTENT -> VideoPostViewHolder(
                 parent, postOptionsListener, userPowerLevel
             )
+            PostContentType.POLL_CONTENT -> TODO()
         }
     }
 
