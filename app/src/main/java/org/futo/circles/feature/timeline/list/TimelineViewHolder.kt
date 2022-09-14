@@ -6,6 +6,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.databinding.ImagePostViewBinding
+import org.futo.circles.databinding.ViewPollPostBinding
 import org.futo.circles.databinding.ViewTextPostBinding
 import org.futo.circles.databinding.ViewVideoPostBinding
 import org.futo.circles.extensions.gone
@@ -118,5 +119,28 @@ class VideoPostViewHolder(
         uploadMediaTracker.track(post.id, binding.vLoadingView)
         content.mediaContentData.loadEncryptedIntoWithAspect(image, content.aspectRatio)
         binding.videoItem.tvDuration.text = content.duration
+    }
+}
+
+class PollPostViewHolder(
+    parent: ViewGroup,
+    postOptionsListener: PostOptionsListener,
+    userPowerLevel: Int
+) : PostViewHolder(inflate(parent, ViewPollPostBinding::inflate), userPowerLevel) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ViewPollPostBinding
+    override val postLayout: PostLayout = binding.lPollPost
+
+    init {
+        binding.lPollPost.setListener(postOptionsListener)
+    }
+
+    override fun bind(post: Post) {
+        super.bind(post)
+        (post.content as? PollContent)?.let {
+            binding.pollContentView.setup(it)
+        }
     }
 }

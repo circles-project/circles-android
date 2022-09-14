@@ -30,14 +30,18 @@ class TimelineAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return when (PostContentType.values()[viewType]) {
-            PostContentType.TEXT_CONTENT -> TextPostViewHolder(parent, postOptionsListener, userPowerLevel)
+            PostContentType.TEXT_CONTENT -> TextPostViewHolder(
+                parent, postOptionsListener, userPowerLevel
+            )
             PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(
                 parent, postOptionsListener, userPowerLevel
             )
             PostContentType.VIDEO_CONTENT -> VideoPostViewHolder(
                 parent, postOptionsListener, userPowerLevel
             )
-            PostContentType.POLL_CONTENT -> TODO()
+            PostContentType.POLL_CONTENT -> PollPostViewHolder(
+                parent, postOptionsListener, userPowerLevel
+            )
         }
     }
 
