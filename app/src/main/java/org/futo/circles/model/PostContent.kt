@@ -63,7 +63,7 @@ data class PollOption(
     val optionId: String,
     val optionAnswer: String,
     val voteCount: Int,
-    val votePercentage: Double,
+    val votePercentage: Int,
     val isMyVote: Boolean,
     val isWinner: Boolean
 )
