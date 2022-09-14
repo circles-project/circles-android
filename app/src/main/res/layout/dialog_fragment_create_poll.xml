@@ -164,7 +164,7 @@
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@id/tilQuestion" />
 
-            <org.futo.circles.view.PollOptionsLayout
+            <org.futo.circles.view.CreatePollOptionsLayout
                 android:id="@+id/lvPostOptions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
