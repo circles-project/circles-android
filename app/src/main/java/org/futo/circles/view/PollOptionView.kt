@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.R
 import org.futo.circles.databinding.ViewPollOptionBinding
-import org.futo.circles.extensions.getText
+import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.model.PollOption
 
 class PollOptionView(
     context: Context,
@@ -17,18 +17,21 @@ class PollOptionView(
     private val binding =
         ViewPollOptionBinding.inflate(LayoutInflater.from(context), this)
 
-    fun setup(position: Int, onRemove: (PollOptionView) -> Unit, textChanged: (String) -> Unit) {
-        setHint(position)
-        binding.ivRemove.setOnClickListener { onRemove.invoke(this) }
-        binding.tilOption.editText?.doAfterTextChanged {
-            textChanged(binding.tilOption.getText())
+    fun setup(option: PollOption) {
+        with(binding) {
+            tvOptionQuestion.text = option.optionAnswer
+            ivWinner.setIsVisible(option.isWinner)
+            tvVotesCount.text = context.resources.getQuantityString(
+                R.plurals.votes, option.voteCount, option.voteCount
+            )
+            horizontalProgress.progress = option.votePercentage
+            if(option.isMyVote){
+
+            }else{
+
+            }
         }
-    }
 
-    fun setHint(position: Int) {
-        binding.tilOption.hint = context.getString(R.string.option_format, position)
     }
-
-    fun getText() = binding.tilOption.getText()
 
 }
