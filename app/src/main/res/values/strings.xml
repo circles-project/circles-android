@@ -314,4 +314,10 @@
         <item quantity="other">%1$d years</item>
     </plurals>
 
+    <plurals name="votes">
+        <item quantity="one">%1$d vote</item>
+        <item quantity="many">%1$d votes</item>
+        <item quantity="other">%1$d votes</item>
+    </plurals>
+
 </resources>
