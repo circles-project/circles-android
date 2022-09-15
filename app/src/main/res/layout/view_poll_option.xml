@@ -23,7 +23,8 @@
 
     <TextView
         android:id="@+id/tvOptionQuestion"
-        style="@style/body"
+        android:textColor="@color/black"
+        android:textSize="17sp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="4dp"

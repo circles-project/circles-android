@@ -8,11 +8,12 @@
 
     <TextView
         android:id="@+id/tvPollQuestions"
-        style="@style/body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="17sp"
         tools:text="Question" />
 
     <LinearLayout
@@ -25,6 +26,7 @@
         android:id="@+id/tvPollStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:lines="1"
         tools:text="Some Message" />
