@@ -259,6 +259,7 @@
     <string name="option_format">Option %d</string>
     <string name="add_option">Add option</string>
     <string name="poll_no_votes_cast">No votes cast</string>
+    <string name="poll_closed_not_voted">Result will be visible when the poll is ended</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
