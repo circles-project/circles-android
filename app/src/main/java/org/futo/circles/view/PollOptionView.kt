@@ -25,7 +25,7 @@ class PollOptionView(
             tvVotesCount.text = context.resources.getQuantityString(
                 R.plurals.votes, option.voteCount, option.voteCount
             )
-            horizontalProgress.progress = option.votePercentage
+            horizontalProgress.progress = option.voteProgress
         }
         setOptionBackground(pollState, option.isWinner, option.isMyVote)
         setCheckIcon(pollState, option.isMyVote)

@@ -10,7 +10,6 @@ import org.matrix.android.sdk.api.session.room.model.message.PollAnswer
 import org.matrix.android.sdk.api.session.room.model.message.PollType
 import org.matrix.android.sdk.api.session.room.send.SendState
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
-import kotlin.math.roundToInt
 
 fun TimelineEvent.toPollContent(): PollContent {
     val pollContent = root.getClearContent().toModel<MessagePollContent>()
@@ -76,7 +75,7 @@ private fun List<PollAnswer>.toPollOptions(pollResponseData: PollResponseData?):
             optionId = it.id ?: "",
             optionAnswer = it.getBestAnswer() ?: "",
             voteCount = voteCount,
-            votePercentage = vote?.percentage?.roundToInt() ?: 0,
+            voteProgress = ((vote?.percentage ?: 0.0) * 100).toInt(),
             isMyVote = pollResponseData?.myVote == it.id,
             isWinner = winnerVoteCount != 0 && voteCount == winnerVoteCount
         )
