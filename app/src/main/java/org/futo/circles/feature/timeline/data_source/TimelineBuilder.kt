@@ -5,10 +5,13 @@ import org.futo.circles.model.Post
 import org.futo.circles.model.PostContentType
 import org.futo.circles.model.ReplyPost
 import org.futo.circles.model.RootPost
+import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
+import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 
 class TimelineBuilder {
 
@@ -94,7 +97,7 @@ class TimelineBuilder {
     }
 
     private fun getPostContentTypeFor(event: TimelineEvent): PostContentType? {
-        val messageType = event.root.getClearContent()?.toModel<MessageContent>()?.msgType
+        val messageType = event.getLastMessageContent()?.msgType
         return PostContentType.values().firstOrNull { it.typeKey == messageType }
     }
 
