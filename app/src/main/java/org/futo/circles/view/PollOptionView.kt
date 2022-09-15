@@ -22,13 +22,19 @@ class PollOptionView(
         with(binding) {
             tvOptionQuestion.text = option.optionAnswer
             ivWinner.setIsVisible(option.isWinner)
-            tvVotesCount.text = context.resources.getQuantityString(
-                R.plurals.votes, option.voteCount, option.voteCount
-            )
-            horizontalProgress.progress = option.voteProgress
         }
+        setVotesProgress(pollState, option.voteCount, option.voteProgress)
         setOptionBackground(pollState, option.isWinner, option.isMyVote)
         setCheckIcon(pollState, option.isMyVote)
+    }
+
+    private fun setVotesProgress(pollState: PollState, voteCount: Int, voteProgress: Int) {
+        val isVisible = pollState == PollState.Voted || pollState == PollState.Ended
+        binding.tvVotesCount.setIsVisible(isVisible)
+        binding.tvVotesCount.text = context.resources.getQuantityString(
+            R.plurals.votes, voteCount, voteCount
+        )
+        binding.horizontalProgress.progress = if (isVisible) voteProgress else 0
     }
 
     private fun setCheckIcon(pollState: PollState, isMyVote: Boolean) {
