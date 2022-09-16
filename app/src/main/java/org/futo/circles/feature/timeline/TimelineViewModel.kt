@@ -73,6 +73,7 @@ class TimelineViewModel(
 
     fun createPoll(roomId: String, pollContent: CreatePollContent) {
         sendMessageDataSource.createPoll(roomId, pollContent)
+        scrollToTopLiveData.postValue(Unit)
     }
 
     fun sendReaction(roomId: String, eventId: String, emoji: String) {
