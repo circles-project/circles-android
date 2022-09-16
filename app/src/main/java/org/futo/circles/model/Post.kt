@@ -10,6 +10,8 @@ sealed class Post(
     override val id: String get() = postInfo.id
     fun isMyPost(): Boolean =
         postInfo.sender.userId == MatrixSessionProvider.currentSession?.myUserId
+
+    fun canShare(): Boolean = content.type != PostContentType.POLL_CONTENT
 }
 
 data class RootPost(

@@ -42,6 +42,7 @@ class PostOptionsDataSource(
             is ImageContent -> getShareableMediaContent(content.mediaContentData)
             is VideoContent -> getShareableMediaContent(content.mediaContentData)
             is TextContent -> TextShareable(content.message)
+            else -> throw IllegalArgumentException("Not shareable post content")
         }
     }
 
@@ -61,4 +62,14 @@ class PostOptionsDataSource(
         downloadEncryptedFileToContentUri(context, mediaContentData)?.let {
             MediaShareable(it, mediaContentData.mimeType)
         }
+
+    fun pollVote(roomId: String, eventId: String, pollOptionId: String) {
+        val roomForMessage = session?.getRoom(roomId)
+        roomForMessage?.sendService()?.voteToPoll(eventId, pollOptionId)
+    }
+
+    fun endPoll(roomId: String, eventId: String) {
+        val roomForMessage = session?.getRoom(roomId)
+        roomForMessage?.sendService()?.endPoll(eventId)
+    }
 }

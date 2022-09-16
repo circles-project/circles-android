@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.core.view.children
 
-class PollOptionsLayout(
+class CreatePollOptionsLayout(
     context: Context,
     attrs: AttributeSet? = null,
 ) : LinearLayout(context, attrs) {
@@ -23,13 +23,13 @@ class PollOptionsLayout(
     }
 
     fun getOptionsList() = children.mapNotNull { child ->
-        (child as? PollOptionView)?.getText()?.takeIf { it.isNotEmpty() }
+        (child as? CreatePollOptionView)?.getText()?.takeIf { it.isNotEmpty() }
     }.toList()
 
     fun addOption() {
-        val option = PollOptionView(context).apply {
+        val option = CreatePollOptionView(context).apply {
             setup(
-                this@PollOptionsLayout.childCount + 1,
+                this@CreatePollOptionsLayout.childCount + 1,
                 ::onRemoveOption
             ) { onChangeListener?.invoke() }
         }
@@ -38,10 +38,10 @@ class PollOptionsLayout(
         addView(option, layoutParams)
     }
 
-    private fun onRemoveOption(view: PollOptionView) {
+    private fun onRemoveOption(view: CreatePollOptionView) {
         removeView(view)
         children.forEachIndexed { i, child ->
-            (child as? PollOptionView)?.setHint(i + 1)
+            (child as? CreatePollOptionView)?.setHint(i + 1)
         }
         onChangeListener?.invoke()
     }

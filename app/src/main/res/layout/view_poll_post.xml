@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.futo.circles.view.PostLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lPollPost"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <org.futo.circles.view.PollContentView
+        android:id="@+id/pollContentView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp" />
+
+</org.futo.circles.view.PostLayout>

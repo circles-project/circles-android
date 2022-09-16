@@ -58,12 +58,18 @@ class GroupPostFooterView(
 
     fun setData(data: Post, isReply: Boolean) {
         post = data
-        bindViewData(data.postInfo.timestamp, data.postInfo.isEncrypted, isReply)
+        bindViewData(data.postInfo.timestamp, data.postInfo.isEncrypted, isReply, data.canShare())
         bindReactionsList(data.postInfo.reactionsData)
     }
 
-    private fun bindViewData(timestamp: Long, isEncrypted: Boolean, isReply: Boolean) {
+    private fun bindViewData(
+        timestamp: Long,
+        isEncrypted: Boolean,
+        isReply: Boolean,
+        canShare: Boolean
+    ) {
         with(binding) {
+            btnShare.setIsVisible(canShare)
             btnReply.setIsVisible(!isReply)
             ivEncrypted.setIsEncryptedIcon(isEncrypted)
             tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date(timestamp))

@@ -214,6 +214,20 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         else viewModel.sendReaction(roomId, eventId, emoji)
     }
 
+    override fun onPollOptionSelected(roomId: String, eventId: String, optionId: String) {
+        viewModel.pollVote(roomId, eventId, optionId)
+    }
+
+    override fun endPoll(roomId: String, eventId: String) {
+        showDialog(
+            titleResIdRes = R.string.end_poll,
+            messageResId = R.string.end_poll_message,
+            positiveButtonRes = R.string.end_poll,
+            negativeButtonVisible = true,
+            positiveAction = {  viewModel.endPoll(roomId, eventId) }
+        )
+    }
+
     override fun onSendPost(
         roomId: String,
         postContent: CreatePostContent,
