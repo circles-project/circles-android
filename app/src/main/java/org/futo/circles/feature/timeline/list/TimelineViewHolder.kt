@@ -124,7 +124,7 @@ class VideoPostViewHolder(
 
 class PollPostViewHolder(
     parent: ViewGroup,
-    postOptionsListener: PostOptionsListener,
+    private val postOptionsListener: PostOptionsListener,
     userPowerLevel: Int
 ) : PostViewHolder(inflate(parent, ViewPollPostBinding::inflate), userPowerLevel) {
 
@@ -140,7 +140,9 @@ class PollPostViewHolder(
     override fun bind(post: Post) {
         super.bind(post)
         (post.content as? PollContent)?.let {
-            binding.pollContentView.setup(it)
+            binding.pollContentView.setup(it) { optionId ->
+                postOptionsListener.onPollOptionSelected(post.postInfo.roomId, post.id, optionId)
+            }
         }
     }
 }

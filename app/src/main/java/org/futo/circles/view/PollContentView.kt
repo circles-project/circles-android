@@ -22,7 +22,7 @@ class PollContentView(
         ViewPollContentBinding.inflate(LayoutInflater.from(context), this)
 
 
-    fun setup(poll: PollContent) {
+    fun setup(poll: PollContent, onOptionSelected: (String) -> Unit) {
         with(binding) {
             tvPollQuestions.text = poll.question
             lvOptionsContainer.removeAllViews()
@@ -31,7 +31,7 @@ class PollContentView(
                     LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
                 layoutParams.setMargins(0, 16, 0, 0)
                 lvOptionsContainer.addView(
-                    PollOptionView(context).apply { setup(it, poll.state) },
+                    PollOptionView(context).apply { setup(it, poll.state, onOptionSelected) },
                     layoutParams
                 )
             }

@@ -9,6 +9,7 @@ import org.futo.circles.databinding.ViewPollOptionBinding
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.PollOption
 import org.futo.circles.model.PollState
+import org.futo.circles.model.canVote
 
 class PollOptionView(
     context: Context,
@@ -18,7 +19,7 @@ class PollOptionView(
     private val binding =
         ViewPollOptionBinding.inflate(LayoutInflater.from(context), this)
 
-    fun setup(option: PollOption, pollState: PollState) {
+    fun setup(option: PollOption, pollState: PollState, onOptionClicked: (id: String) -> Unit) {
         with(binding) {
             tvOptionQuestion.text = option.optionAnswer
             ivWinner.setIsVisible(option.isWinner)
@@ -26,6 +27,8 @@ class PollOptionView(
         setVotesProgress(pollState, option.voteCount, option.voteProgress)
         setOptionBackground(pollState, option.isWinner, option.isMyVote)
         setCheckIcon(pollState, option.isMyVote)
+        binding.lvRoot.isEnabled = pollState.canVote()
+        binding.lvRoot.setOnClickListener { onOptionClicked(option.optionId) }
     }
 
     private fun setVotesProgress(pollState: PollState, voteCount: Int, voteProgress: Int) {
@@ -45,7 +48,7 @@ class PollOptionView(
     }
 
     private fun setOptionBackground(pollState: PollState, isWinner: Boolean, isMyVote: Boolean) {
-        binding.root.setBackgroundResource(
+        binding.lvRoot.setBackgroundResource(
             if (pollState == PollState.Ended) {
                 if (isWinner) R.drawable.bg_border_selected else R.drawable.bg_border
             } else {
