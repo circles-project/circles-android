@@ -96,4 +96,12 @@ class TimelineViewModel(
 
     fun isSingleOwner(): Boolean = leaveRoomDataSource.isUserSingleRoomOwner()
 
+    fun pollVote(roomId: String, eventId: String, optionId: String) {
+        postOptionsDataSource.pollVote(roomId, eventId, optionId)
+    }
+
+    fun endPoll(roomId: String, eventId: String) {
+        postOptionsDataSource.endPoll(roomId, eventId)
+    }
+
 }

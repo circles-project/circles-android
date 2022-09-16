@@ -62,4 +62,14 @@ class PostOptionsDataSource(
         downloadEncryptedFileToContentUri(context, mediaContentData)?.let {
             MediaShareable(it, mediaContentData.mimeType)
         }
+
+    fun pollVote(roomId: String, eventId: String, pollOptionId: String) {
+        val roomForMessage = session?.getRoom(roomId)
+        roomForMessage?.sendService()?.voteToPoll(eventId, pollOptionId)
+    }
+
+    fun endPoll(roomId: String, eventId: String) {
+        val roomForMessage = session?.getRoom(roomId)
+        roomForMessage?.sendService()?.endPoll(eventId)
+    }
 }
