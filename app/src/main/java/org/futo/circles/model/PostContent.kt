@@ -54,10 +54,11 @@ data class PollContent(
     val question: String,
     val state: PollState,
     val totalVotes: Int,
-    val options: List<PollOption>
+    val options: List<PollOption>,
+    val isClosedType: Boolean
 ) : PostContent(PostContentType.POLL_CONTENT)
 
-enum class PollState { Sending, Ready, Voted, Undisclosed, Ended }
+enum class PollState { Sending, Ready, Voted, Ended }
 
 fun PollState.canVote() =
     this != PollState.Sending && this != PollState.Ended && this != PollState.Voted

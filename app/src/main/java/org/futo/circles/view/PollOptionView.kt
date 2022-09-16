@@ -19,20 +19,30 @@ class PollOptionView(
     private val binding =
         ViewPollOptionBinding.inflate(LayoutInflater.from(context), this)
 
-    fun setup(option: PollOption, pollState: PollState, onOptionClicked: (id: String) -> Unit) {
+    fun setup(
+        option: PollOption,
+        isClosedType: Boolean,
+        pollState: PollState,
+        onOptionClicked: (id: String) -> Unit
+    ) {
         with(binding) {
             tvOptionQuestion.text = option.optionAnswer
             ivWinner.setIsVisible(option.isWinner)
         }
-        setVotesProgress(pollState, option.voteCount, option.voteProgress)
+        setVotesProgress(isClosedType, pollState, option.voteCount, option.voteProgress)
         setOptionBackground(pollState, option.isWinner, option.isMyVote)
         setCheckIcon(pollState, option.isMyVote)
         binding.lvRoot.isEnabled = pollState.canVote()
         binding.lvRoot.setOnClickListener { onOptionClicked(option.optionId) }
     }
 
-    private fun setVotesProgress(pollState: PollState, voteCount: Int, voteProgress: Int) {
-        val isVisible = pollState == PollState.Voted || pollState == PollState.Ended
+    private fun setVotesProgress(
+        isClosedType: Boolean,
+        pollState: PollState,
+        voteCount: Int,
+        voteProgress: Int
+    ) {
+        val isVisible = !isClosedType || pollState == PollState.Ended
         binding.tvVotesCount.setIsVisible(isVisible)
         binding.tvVotesCount.text = context.resources.getQuantityString(
             R.plurals.votes, voteCount, voteCount

@@ -31,22 +31,26 @@ class PollContentView(
                     LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
                 layoutParams.setMargins(0, 16, 0, 0)
                 lvOptionsContainer.addView(
-                    PollOptionView(context).apply { setup(it, poll.state, onOptionSelected) },
+                    PollOptionView(context).apply {
+                        setup(it, poll.isClosedType, poll.state, onOptionSelected)
+                    },
                     layoutParams
                 )
             }
-            tvPollStatus.text = createPollStatusMessage(poll.state, poll.totalVotes)
+            tvPollStatus.text =
+                createPollStatusMessage(poll.isClosedType, poll.state, poll.totalVotes)
         }
     }
 
     private fun createPollStatusMessage(
+        isClosedType: Boolean,
         pollState: PollState,
         votes: Int
     ): String = when {
         pollState == PollState.Ended -> context.resources.getQuantityString(
             R.plurals.poll_total_vote_count_after_ended, votes, votes
         )
-        pollState == PollState.Undisclosed -> context.getString(R.string.poll_closed_not_voted)
+        isClosedType -> context.getString(R.string.poll_closed_not_voted)
         pollState == PollState.Voted -> context.resources.getQuantityString(
             R.plurals.poll_total_vote_count_before_ended_and_voted, votes, votes
         )

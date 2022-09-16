@@ -29,15 +29,17 @@ fun TimelineEvent.toPollContent(): PollContent {
         )
     }
 
+    val pollState = getPollState(
+        this.root.sendState,
+        pollResponseData
+    )
     return PollContent(
         question = pollCreationInfo?.question?.getBestQuestion().orEmpty(),
-        state = getPollState(
-            pollCreationInfo?.kind,
-            this.root.sendState,
-            pollResponseData
-        ),
+        state = pollState,
         totalVotes = pollResponseData?.totalVotes ?: 0,
-        options = pollCreationInfo?.answers?.toPollOptions(pollResponseData) ?: emptyList()
+        options = pollCreationInfo?.answers?.toPollOptions(pollResponseData, pollState)
+            ?: emptyList(),
+        isClosedType = pollCreationInfo?.kind == PollType.UNDISCLOSED
     )
 }
 
@@ -55,18 +57,19 @@ private data class PollVoteSummaryData(
 )
 
 private fun getPollState(
-    type: PollType?,
     sendState: SendState,
     pollResponseData: PollResponseData?
 ) = when {
     !sendState.isSent() -> PollState.Sending
     pollResponseData?.isClosed.orFalse() -> PollState.Ended
-    type == PollType.UNDISCLOSED -> PollState.Undisclosed
     pollResponseData?.myVote?.isNotEmpty().orFalse() -> PollState.Voted
     else -> PollState.Ready
 }
 
-private fun List<PollAnswer>.toPollOptions(pollResponseData: PollResponseData?): List<PollOption> =
+private fun List<PollAnswer>.toPollOptions(
+    pollResponseData: PollResponseData?,
+    pollState: PollState
+): List<PollOption> =
     map {
         val vote = pollResponseData?.votes?.get(it.id)
         val voteCount = vote?.total ?: 0
@@ -77,6 +80,6 @@ private fun List<PollAnswer>.toPollOptions(pollResponseData: PollResponseData?):
             voteCount = voteCount,
             voteProgress = ((vote?.percentage ?: 0.0) * 100).toInt(),
             isMyVote = pollResponseData?.myVote == it.id,
-            isWinner = winnerVoteCount != 0 && voteCount == winnerVoteCount
+            isWinner = winnerVoteCount != 0 && voteCount == winnerVoteCount && pollState == PollState.Ended
         )
     }
