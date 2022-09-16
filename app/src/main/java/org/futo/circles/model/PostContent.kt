@@ -14,6 +14,8 @@ enum class PostContentType(val typeKey: String) {
 sealed class PostContent(val type: PostContentType) {
     fun isMedia(): Boolean =
         type == PostContentType.IMAGE_CONTENT || type == PostContentType.VIDEO_CONTENT
+
+    fun isPoll(): Boolean = type == PostContentType.POLL_CONTENT
 }
 
 data class TextContent(
@@ -53,11 +55,12 @@ data class PollContent(
     val state: PollState,
     val totalVotes: Int,
     val options: List<PollOption>
-) : PostContent(PostContentType.POLL_CONTENT) {
-    fun canVote() = state != PollState.Sending && state != PollState.Ended
-}
+) : PostContent(PostContentType.POLL_CONTENT)
 
 enum class PollState { Sending, Ready, Voted, Undisclosed, Ended }
+
+fun PollState.canVote() =
+    this != PollState.Sending && this != PollState.Ended && this != PollState.Voted
 
 data class PollOption(
     val optionId: String,
