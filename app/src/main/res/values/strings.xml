@@ -260,6 +260,8 @@
     <string name="add_option">Add option</string>
     <string name="poll_no_votes_cast">No votes cast</string>
     <string name="poll_closed_not_voted">Result will be visible when the poll is ended</string>
+    <string name="end_poll">End poll</string>
+    <string name="end_poll_message">This will stop people from being able to vote and will display the final results of teh poll.</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
