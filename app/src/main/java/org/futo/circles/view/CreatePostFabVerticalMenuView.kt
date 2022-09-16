@@ -60,8 +60,14 @@ class CreatePostFabVerticalMenuView(
     init {
         createMainFabAnimation()
         binding.fbMain.setOnClickListener { toggle() }
-        binding.fbCreatePost.setOnClickListener { listener?.onCreatePost() }
-        binding.fbCreatePoll.setOnClickListener { listener?.onCreatePoll() }
+        binding.fbCreatePost.setOnClickListener {
+            listener?.onCreatePost()
+            forceClose()
+        }
+        binding.fbCreatePoll.setOnClickListener {
+            listener?.onCreatePoll()
+            forceClose()
+        }
     }
 
     fun setListener(callback: CreatePostMenuListener) {
@@ -75,7 +81,6 @@ class CreatePostFabVerticalMenuView(
                 if (dy > 0 && binding.fbMain.isVisible) {
                     forceClose()
                     binding.fbMain.hide()
-                    binding.fbMain.rotation = 0f
                 } else if (dy < 0 && binding.fbMain.visibility != View.VISIBLE) {
                     binding.fbMain.show()
                 }
@@ -139,6 +144,7 @@ class CreatePostFabVerticalMenuView(
 
     private fun forceClose() {
         if (!isMenuOpened) return
+        binding.fbMain.rotation = 0f
         menuItems.forEach { pair ->
             pair.first.visibility = View.INVISIBLE
             pair.second.visibility = View.INVISIBLE
