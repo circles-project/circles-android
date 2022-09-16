@@ -46,14 +46,14 @@ fun TimelineEvent.toPollContent(): PollContent {
 private data class PollResponseData(
     val myVote: String?,
     val votes: Map<String, PollVoteSummaryData>?,
-    val totalVotes: Int = 0,
-    val winnerVoteCount: Int = 0,
-    val isClosed: Boolean = false
+    val totalVotes: Int,
+    val winnerVoteCount: Int,
+    val isClosed: Boolean
 )
 
 private data class PollVoteSummaryData(
-    val total: Int = 0,
-    val percentage: Double = 0.0
+    val total: Int,
+    val percentage: Double
 )
 
 private fun getPollState(
