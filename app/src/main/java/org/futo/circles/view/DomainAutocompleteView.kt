@@ -12,7 +12,7 @@ class DomainAutocompleteView(
 ) : AppCompatAutoCompleteTextView(context, attrs) {
 
     init {
-        setOnTouchListener { v, _ ->
+        setOnTouchListener { _, _ ->
             postDelayed( { if (hasFocus()) showDropDown() },100)
             return@setOnTouchListener false
         }
