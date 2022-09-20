@@ -2,6 +2,7 @@ package org.futo.circles.feature.log_in.stages
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -25,6 +26,14 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
     private val restorePassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
     private val passwordStageFragment by lazy { LogInPasswordFragment() }
     private val termsStageFragment by lazy { AcceptTermsFragment.create(true) }
+    private var enterPassPhraseDialog: EnterPassPhraseDialog? = null
+
+    private val deviceIntentLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri ?: return@registerForActivityResult
+        enterPassPhraseDialog?.selectFile(uri)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,15 +71,23 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
     }
 
     private fun showPassPhraseDialog() {
-        EnterPassPhraseDialog(requireContext(), object : EnterPassPhraseDialogListener {
-            override fun onRestoreBackup(passphrase: String) {
-                viewModel.restoreBackup(passphrase)
-            }
+        enterPassPhraseDialog =
+            EnterPassPhraseDialog(requireContext(), object : EnterPassPhraseDialogListener {
+                override fun onRestoreBackup(passphrase: String) {
+                    viewModel.restoreBackup(passphrase)
+                }
 
-            override fun onDoNotRestore() {
-                viewModel.onDoNotRestoreBackup()
+                override fun onDoNotRestore() {
+                    viewModel.onDoNotRestoreBackup()
+                }
+
+                override fun onSelectFileClicked() {
+                    deviceIntentLauncher.launch(recoveryKeyMimeType)
+                }
+            }).apply {
+                setOnDismissListener { enterPassPhraseDialog = null }
+                show()
             }
-        }).show()
     }
 
     private fun addStageFragmentFragment(fragment: Fragment) {
@@ -85,5 +102,9 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
 
     private fun navigateToSetupCircles() {
         findNavController().navigate(LogInStagesFragmentDirections.toSetupCirclesFragment())
+    }
+
+    companion object {
+        private const val recoveryKeyMimeType = "text/plain"
     }
 }
