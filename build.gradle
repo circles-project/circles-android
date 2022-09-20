@@ -4,7 +4,7 @@ buildscript {
         kotlin_version = '1.7.10'
         minSdkVersion = 24
         sdkVersion = 33
-        androidx_version = "2.5.1"
+        androidx_version = "2.5.2"
     }
     repositories {
         google()
@@ -14,8 +14,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$androidx_version"
-        classpath 'com.google.gms:google-services:4.3.13'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.1'
+        classpath 'com.google.gms:google-services:4.3.14'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.2'
     }
 }
 
