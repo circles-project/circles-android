@@ -1,5 +1,6 @@
 package org.futo.circles.feature.log_in.stages
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
@@ -19,6 +20,12 @@ class LoginStagesViewModel(
     fun restoreBackup(passphrase: String) {
         launchBg {
             restoreKeysLiveData.postValue(loginStagesDataSource.restoreBackup(passphrase))
+        }
+    }
+
+    fun restoreBackup(uri: Uri) {
+        launchBg {
+            restoreKeysLiveData.postValue(loginStagesDataSource.restoreBackup(uri))
         }
     }
 

@@ -1,6 +1,7 @@
 package org.futo.circles.feature.log_in.stages
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
 import org.futo.circles.core.SingleEventLiveData
@@ -40,7 +41,7 @@ class LoginStagesDataSource(
     fun startLoginStages(
         supportedLoginTypes: List<String>,
         userName: String,
-        homeServerUrl:String
+        homeServerUrl: String
     ) {
         this.userName = userName
         currentHomeServerUrl = homeServerUrl
@@ -122,6 +123,17 @@ class LoginStagesDataSource(
         val restoreResult = createResult {
             restorePassPhraseDataSource.restoreKeysWithPassPhase(password)
         }
+        return handleRestoreResult(restoreResult)
+    }
+
+    suspend fun restoreBackup(uri: Uri): Response<Unit> {
+        val restoreResult = createResult {
+            restorePassPhraseDataSource.restoreKeysWithRecoveryKey(uri)
+        }
+        return handleRestoreResult(restoreResult)
+    }
+
+    private suspend fun handleRestoreResult(restoreResult: Response<Unit>): Response<Unit> {
         when (restoreResult) {
             is Response.Error -> loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
             is Response.Success -> createSpacesTreeIfNotExist()

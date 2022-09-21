@@ -14,6 +14,7 @@ import org.futo.circles.extensions.visible
 
 interface EnterPassPhraseDialogListener {
     fun onRestoreBackup(passphrase: String)
+    fun onRestoreBackup(uri: Uri)
     fun onDoNotRestore()
     fun onSelectFileClicked()
 }
@@ -37,7 +38,9 @@ class EnterPassPhraseDialog(context: Context, private val listener: EnterPassPhr
                 dismiss()
             }
             btnRestore.setOnClickListener {
-                listener.onRestoreBackup(tilPassphrase.getText())
+                selectedFileUri?.let {
+                    listener.onRestoreBackup(it)
+                } ?: listener.onRestoreBackup(tilPassphrase.getText())
                 dismiss()
             }
             tilPassphrase.editText?.doAfterTextChanged { handleRestoreButtonEnabled() }

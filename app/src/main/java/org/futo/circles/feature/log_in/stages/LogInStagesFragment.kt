@@ -1,5 +1,6 @@
 package org.futo.circles.feature.log_in.stages
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -75,6 +76,10 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
             EnterPassPhraseDialog(requireContext(), object : EnterPassPhraseDialogListener {
                 override fun onRestoreBackup(passphrase: String) {
                     viewModel.restoreBackup(passphrase)
+                }
+
+                override fun onRestoreBackup(uri: Uri) {
+                    viewModel.restoreBackup(uri)
                 }
 
                 override fun onDoNotRestore() {

@@ -104,6 +104,7 @@
     <string name="backup_already_exist">Backup already exist</string>
     <string name="not_supported_stage_format">Not supported stage %s</string>
     <string name="backup_could_not_be_decrypted_with_passphrase">Backup could not be decrypted with this passphrase.</string>
+    <string name="backup_could_not_be_decrypted_with_key">Backup could not be decrypted with this recovery key.</string>
     <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
     <string name="computing_recovery_key">Computing recovery key.</string>
     <string name="downloading_keys">Downloading keys.</string>
