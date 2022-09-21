@@ -1,6 +1,7 @@
 package org.futo.circles.core.matrix.pass_phrase.restore
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
 import org.futo.circles.model.LoadingData
@@ -53,14 +54,8 @@ class RestorePassPhraseDataSource(private val context: Context) {
     }
 
     suspend fun restoreKeysWithPassPhase(passphrase: String) {
-        val keysBackupService =
-            MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
-                ?: throw Exception(context.getString(R.string.session_is_not_created))
-        val keyVersion = awaitCallback<KeysBackupLastVersionResult> {
-            keysBackupService.getCurrentVersion(it)
-        }.toKeysVersionResult()
-            ?: throw Exception(context.getString(R.string.failed_to_get_restore_keys_version))
-
+        val keysBackupService = getKeysBackupService()
+        val keyVersion = getKeysVersion(keysBackupService)
         try {
             awaitCallback {
                 keysBackupService.restoreKeyBackupWithPassword(
@@ -79,6 +74,38 @@ class RestorePassPhraseDataSource(private val context: Context) {
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
+    suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
+        val keysBackupService = getKeysBackupService()
+        val keyVersion = getKeysVersion(keysBackupService)
+        val recoveryKey = readRecoveryKeyFile(uri)
+        try {
+            awaitCallback {
+                keysBackupService.restoreKeysWithRecoveryKey(
+                    keyVersion,
+                    recoveryKey,
+                    null,
+                    MatrixSessionProvider.currentSession?.myUserId,
+                    progressObserver,
+                    it
+                )
+            }
+            trustOnDecrypt(keysBackupService, keyVersion)
+        } catch (e: Exception) {
+            throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_key))
+        }
+        loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
+    }
+
+    private fun readRecoveryKeyFile(uri: Uri): String {
+        val recoveryKey = context.contentResolver
+            .openInputStream(uri)
+            ?.bufferedReader()
+            ?.use { it.readText() }
+
+        return recoveryKey?.takeIf { it.isNotEmpty() }
+            ?: throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_key))
+    }
+
     private suspend fun trustOnDecrypt(
         keysBackup: KeysBackupService,
         keysVersionResult: KeysVersionResult
@@ -87,4 +114,14 @@ class RestorePassPhraseDataSource(private val context: Context) {
             keysBackup.trustKeysBackupVersion(keysVersionResult, true, it)
         }
     }
+
+    private fun getKeysBackupService() =
+        MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
+            ?: throw Exception(context.getString(R.string.session_is_not_created))
+
+    private suspend fun getKeysVersion(keysBackupService: KeysBackupService) =
+        awaitCallback<KeysBackupLastVersionResult> {
+            keysBackupService.getCurrentVersion(it)
+        }.toKeysVersionResult()
+            ?: throw Exception(context.getString(R.string.failed_to_get_restore_keys_version))
 }
