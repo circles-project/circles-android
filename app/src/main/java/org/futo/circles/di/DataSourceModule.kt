@@ -2,7 +2,8 @@ package org.futo.circles.di
 
 import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
 import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
-import org.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
+import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
+import org.futo.circles.core.matrix.pass_phrase.restore.SSSSRestoreDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.core.matrix.room.RoomRelationsBuilder
@@ -77,7 +78,8 @@ val dataSourceModule = module {
     factory { SetupCirclesDataSource(get()) }
     factory { SettingsDataSource(get(), get()) }
     factory { CreatePassPhraseDataSource(get()) }
-    factory { RestorePassPhraseDataSource(get()) }
+    factory { RestoreBackupDataSource(get(), get()) }
+    factory { SSSSRestoreDataSource() }
     factory { (levelValue: Int, myUserLevelValue: Int) ->
         ChangeAccessLevelDataSource(levelValue, myUserLevelValue)
     }

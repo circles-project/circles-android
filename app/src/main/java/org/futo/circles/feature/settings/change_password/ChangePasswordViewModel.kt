@@ -3,7 +3,7 @@ package org.futo.circles.feature.settings.change_password
 import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
-import org.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
+import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.launchBg
@@ -13,7 +13,7 @@ import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
 class ChangePasswordViewModel(
     private val changePasswordDataSource: ChangePasswordDataSource,
     private val createPassPhraseDataSource: CreatePassPhraseDataSource,
-    private val restorePassPhraseDataSource: RestorePassPhraseDataSource
+    private val restoreBackupDataSource: RestoreBackupDataSource
 ) : ViewModel() {
 
     val responseLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -30,7 +30,7 @@ class ChangePasswordViewModel(
     }
 
     private suspend fun createNewBackupInNeeded(newPassword: String) {
-        val algorithm = restorePassPhraseDataSource.getEncryptionAlgorithm()
+        val algorithm = restoreBackupDataSource.getEncryptionAlgorithm()
         val createBackupResult = if (algorithm == BCRYPT_ALGORITHM_BACKUP) {
             createResult {
                 createPassPhraseDataSource.replacePassPhraseBackup(

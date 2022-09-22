@@ -104,6 +104,7 @@
     <string name="backup_already_exist">Backup already exist</string>
     <string name="not_supported_stage_format">Not supported stage %s</string>
     <string name="backup_could_not_be_decrypted_with_passphrase">Backup could not be decrypted with this passphrase.</string>
+    <string name="backup_could_not_be_decrypted_with_key">Backup could not be decrypted with this recovery key.</string>
     <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
     <string name="computing_recovery_key">Computing recovery key.</string>
     <string name="downloading_keys">Downloading keys.</string>
@@ -265,6 +266,10 @@
     <string name="end_poll">End poll</string>
     <string name="end_poll_message">This will stop people from being able to vote and will display the final results of the poll.</string>
     <string name="username_can_not_be_empty">Username can not be empty.</string>
+    <string name="use_your_recovery_message">Use your Recovery Passphrase or Recovery Key to continue.</string>
+    <string name="upload_recovery_key">Upload Recovery Key</string>
+    <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
+    <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
