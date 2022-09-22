@@ -13,7 +13,10 @@ import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersionResult
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
 import org.matrix.android.sdk.api.util.awaitCallback
 
-class RestorePassPhraseDataSource(private val context: Context) {
+class RestoreBackupDataSource(
+    private val context: Context,
+    private val ssssRestoreDataSource: SSSSRestoreDataSource
+) {
 
     val loadingLiveData = MutableLiveData<LoadingData>()
     private val passPhraseLoadingData = LoadingData()
@@ -56,28 +59,35 @@ class RestorePassPhraseDataSource(private val context: Context) {
     suspend fun restoreKeysWithPassPhase(passphrase: String) {
         val keysBackupService = getKeysBackupService()
         val keyVersion = getKeysVersion(keysBackupService)
-        try {
-            awaitCallback {
-                keysBackupService.restoreKeyBackupWithPassword(
-                    keyVersion,
-                    passphrase,
-                    null,
-                    MatrixSessionProvider.currentSession?.myUserId,
-                    progressObserver,
-                    it
-                )
+        if (ssssRestoreDataSource.isBackupKeyInQuadS()) {
+            val recoveryKey = ssssRestoreDataSource.getRecoveryKeyFromPassphrase(
+                context, passphrase, progressObserver
+            )
+            restoreKeysWithRecoveryKey(recoveryKey)
+        } else {
+            try {
+                awaitCallback {
+                    keysBackupService.restoreKeyBackupWithPassword(
+                        keyVersion,
+                        passphrase,
+                        null,
+                        MatrixSessionProvider.currentSession?.myUserId,
+                        progressObserver,
+                        it
+                    )
+                }
+                trustOnDecrypt(keysBackupService, keyVersion)
+            } catch (e: Exception) {
+                throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_passphrase))
             }
-            trustOnDecrypt(keysBackupService, keyVersion)
-        } catch (e: Exception) {
-            throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_passphrase))
         }
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
-    suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
+
+    private suspend fun restoreKeysWithRecoveryKey(recoveryKey: String) {
         val keysBackupService = getKeysBackupService()
         val keyVersion = getKeysVersion(keysBackupService)
-        val recoveryKey = readRecoveryKeyFile(uri)
         try {
             awaitCallback {
                 keysBackupService.restoreKeysWithRecoveryKey(
@@ -94,6 +104,11 @@ class RestorePassPhraseDataSource(private val context: Context) {
             throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_key))
         }
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
+    }
+
+    suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
+        val recoveryKey = readRecoveryKeyFile(uri)
+        restoreKeysWithRecoveryKey(recoveryKey)
     }
 
     private fun readRecoveryKeyFile(uri: Uri): String {
