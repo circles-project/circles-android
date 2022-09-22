@@ -29,11 +29,13 @@ class RestoreBackupDataSource(
                         this.progress = step.progress
                         this.total = step.total
                         messageId = R.string.computing_recovery_key
+                        isLoading = true
                     })
                 }
                 is StepProgressListener.Step.DownloadingKey -> {
                     loadingLiveData.postValue(passPhraseLoadingData.apply {
                         messageId = R.string.downloading_keys
+                        isLoading = true
                     })
                 }
                 is StepProgressListener.Step.ImportingKey -> {
@@ -41,6 +43,7 @@ class RestoreBackupDataSource(
                         this.progress = step.progress
                         this.total = step.total
                         messageId = R.string.importing_keys
+                        isLoading = true
                     })
                 }
             }
@@ -107,7 +110,12 @@ class RestoreBackupDataSource(
     }
 
     suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
-        val recoveryKey = readRecoveryKeyFile(uri)
+        val key = readRecoveryKeyFile(uri)
+        val recoveryKey = if (ssssRestoreDataSource.isBackupKeyInQuadS())
+            ssssRestoreDataSource.getRecoveryKeyFromFileKey(
+                context, key, progressObserver
+            )
+        else key
         restoreKeysWithRecoveryKey(recoveryKey)
     }
 
