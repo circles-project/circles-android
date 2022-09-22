@@ -268,6 +268,8 @@
     <string name="username_can_not_be_empty">Username can not be empty.</string>
     <string name="use_your_recovery_message">Use your Recovery Passphrase or Recovery Key to continue.</string>
     <string name="upload_recovery_key">Upload Recovery Key</string>
+    <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
+    <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
