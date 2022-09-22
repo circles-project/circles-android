@@ -35,11 +35,7 @@ class SSSSRestoreDataSource {
         val session = MatrixSessionProvider.currentSession
             ?: throw Exception(context.getString(R.string.session_is_not_created))
 
-        val keyInfoResult = session.sharedSecretStorageService().getDefaultKey()
-        if (!keyInfoResult.isSuccess())
-            throw Exception(context.getString(R.string.failed_to_access_secure_storage))
-
-        val keyInfo = (keyInfoResult as KeyInfoResult.Success).keyInfo
+        val keyInfo = getKeyInfo(session, context)
 
         progressObserver.onStepProgress(
             StepProgressListener.Step.ComputingKey(0, 0)
@@ -62,6 +58,37 @@ class SSSSRestoreDataSource {
 
         return computeRecoveryKey(secret.fromBase64())
     }
+
+    suspend fun getRecoveryKeyFromFileKey(
+        context: Context,
+        recoveryKey: String,
+        progressObserver: StepProgressListener
+    ): String {
+        val session = MatrixSessionProvider.currentSession
+            ?: throw Exception(context.getString(R.string.session_is_not_created))
+
+        val keyInfo = getKeyInfo(session, context)
+
+        progressObserver.onStepProgress(
+            StepProgressListener.Step.ComputingKey(0, 0)
+        )
+        val keySpec = RawBytesKeySpec.fromRecoveryKey(recoveryKey)
+            ?: throw Exception(context.getString(R.string.invalid_recovery_key))
+
+        val secret = getSecret(session, keyInfo, keySpec)
+            ?: throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_key))
+
+        return computeRecoveryKey(secret.fromBase64())
+    }
+
+    private fun getKeyInfo(session: Session, context: Context): KeyInfo {
+        val keyInfoResult = session.sharedSecretStorageService().getDefaultKey()
+        if (!keyInfoResult.isSuccess())
+            throw Exception(context.getString(R.string.failed_to_access_secure_storage))
+
+        return (keyInfoResult as KeyInfoResult.Success).keyInfo
+    }
+
 
     private suspend fun getSecret(
         session: Session,
