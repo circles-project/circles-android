@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.FrameLayout">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvRoot"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="8dp"
+        tools:background="@drawable/bg_border">
+
+        <ImageView
+            android:id="@+id/ivCheck"
+            android:layout_width="18dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvOptionQuestion"
+            tools:src="@drawable/ic_check_circle" />
+
+        <TextView
+            android:id="@+id/tvOptionQuestion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toStartOf="@id/ivWinner"
+            app:layout_constraintStart_toEndOf="@id/ivCheck"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Some Question" />
+
+        <ImageView
+            android:id="@+id/ivWinner"
+            android:layout_width="18dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_winner"
+            android:visibility="gone"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvOptionQuestion"
+            app:tint="@color/blue"
+            tools:visibility="visible" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/horizontalProgress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@id/tvVotesCount"
+            app:layout_constraintStart_toStartOf="@id/ivCheck"
+            app:layout_constraintTop_toBottomOf="@id/tvOptionQuestion"
+            app:trackCornerRadius="6dp" />
+
+        <TextView
+            android:id="@+id/tvVotesCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOptionQuestion"
+            tools:text="Some votes"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

@@ -6,14 +6,11 @@ import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
+import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.feature.share.ShareableContent
-import org.futo.circles.model.CreatePostContent
-import org.futo.circles.model.MediaPostContent
-import org.futo.circles.model.PostContent
-import org.futo.circles.model.TextPostContent
+import org.futo.circles.model.*
 import org.matrix.android.sdk.api.util.Cancelable
 
 class TimelineViewModel(
@@ -74,6 +71,11 @@ class TimelineViewModel(
         if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 
+    fun createPoll(roomId: String, pollContent: CreatePollContent) {
+        sendMessageDataSource.createPoll(roomId, pollContent)
+        scrollToTopLiveData.postValue(Unit)
+    }
+
     fun sendReaction(roomId: String, eventId: String, emoji: String) {
         postOptionsDataSource.sendReaction(roomId, eventId, emoji)
     }
@@ -94,5 +96,13 @@ class TimelineViewModel(
     }
 
     fun isSingleOwner(): Boolean = leaveRoomDataSource.isUserSingleRoomOwner()
+
+    fun pollVote(roomId: String, eventId: String, optionId: String) {
+        postOptionsDataSource.pollVote(roomId, eventId, optionId)
+    }
+
+    fun endPoll(roomId: String, eventId: String) {
+        postOptionsDataSource.endPoll(roomId, eventId)
+    }
 
 }

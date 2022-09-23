@@ -1,10 +1,11 @@
 package org.futo.circles.feature.log_in.stages
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.core.matrix.pass_phrase.restore.RestorePassPhraseDataSource
+import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
@@ -17,12 +18,12 @@ enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase, Password, Term
 
 class LoginStagesDataSource(
     private val context: Context,
-    private val restorePassPhraseDataSource: RestorePassPhraseDataSource,
+    private val restoreBackupDataSource: RestoreBackupDataSource,
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder
 ) {
 
     val subtitleLiveData = MutableLiveData<String>()
-    val passPhraseLoadingLiveData = restorePassPhraseDataSource.loadingLiveData
+    val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
     val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
     val messageEventLiveData = SingleEventLiveData<Int>()
 
@@ -40,7 +41,7 @@ class LoginStagesDataSource(
     fun startLoginStages(
         supportedLoginTypes: List<String>,
         userName: String,
-        homeServerUrl:String
+        homeServerUrl: String
     ) {
         this.userName = userName
         currentHomeServerUrl = homeServerUrl
@@ -98,7 +99,7 @@ class LoginStagesDataSource(
     }
 
     private suspend fun handleKeysBackup() {
-        when (restorePassPhraseDataSource.getEncryptionAlgorithm()) {
+        when (restoreBackupDataSource.getEncryptionAlgorithm()) {
             MXCRYPTO_ALGORITHM_MEGOLM_BACKUP ->
                 loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
             null -> {
@@ -120,8 +121,19 @@ class LoginStagesDataSource(
 
     suspend fun restoreBackup(password: String): Response<Unit> {
         val restoreResult = createResult {
-            restorePassPhraseDataSource.restoreKeysWithPassPhase(password)
+            restoreBackupDataSource.restoreKeysWithPassPhase(password)
         }
+        return handleRestoreResult(restoreResult)
+    }
+
+    suspend fun restoreBackup(uri: Uri): Response<Unit> {
+        val restoreResult = createResult {
+            restoreBackupDataSource.restoreKeysWithRecoveryKey(uri)
+        }
+        return handleRestoreResult(restoreResult)
+    }
+
+    private suspend fun handleRestoreResult(restoreResult: Response<Unit>): Response<Unit> {
         when (restoreResult) {
             is Response.Error -> loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
             is Response.Success -> createSpacesTreeIfNotExist()

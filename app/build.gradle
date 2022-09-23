@@ -10,8 +10,8 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.sdkVersion
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
@@ -74,21 +74,24 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     //Matrix
-    implementation 'org.matrix.android:matrix-sdk-android:1.4.34'
+    implementation 'org.matrix.android:matrix-sdk-android:1.4.36'
 
     //Kotlin
-    implementation "androidx.core:core-ktx:1.8.0"
+    implementation "androidx.core:core-ktx:1.9.0"
 
-    //androidx
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.ext.androidx_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.ext.androidx_version"
-    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.androidx_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.androidx_version"
+    //androidx lifecycle
+    def lifecycle_version = "2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    //androidx navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.androidx_nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.androidx_nav_version"
 
     //Koin
     def koin_version = "3.2.0"

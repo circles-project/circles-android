@@ -13,6 +13,8 @@ import org.futo.circles.databinding.ViewGroupPostHeaderBinding
 import org.futo.circles.extensions.getAttributes
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.model.PollContent
+import org.futo.circles.model.PollState
 import org.futo.circles.model.Post
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
@@ -84,6 +86,9 @@ class GroupPostHeaderView(
                         unwrappedPost.postInfo.roomId,
                         unwrappedPost.id
                     )
+                    R.id.end_poll -> optionsListener?.endPoll(
+                        unwrappedPost.postInfo.roomId, unwrappedPost.id
+                    )
                 }
                 true
             }
@@ -95,6 +100,11 @@ class GroupPostHeaderView(
             menu.findItem(R.id.report).isVisible = !unwrappedPost.isMyPost()
             menu.findItem(R.id.delete).isVisible =
                 unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value
+
+            val pollState = (unwrappedPost.content as? PollContent)?.state
+            menu.findItem(R.id.end_poll).isVisible =
+                unwrappedPost.content.isPoll() && pollState != PollState.Ended &&
+                        (unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value)
 
             show()
         }

@@ -33,7 +33,7 @@ class ActiveSessionsDataSource(
 
     fun getActiveSessionsFlow(): Flow<List<ActiveSessionListItem>> {
         return combine(
-            session.cryptoService().getLiveMyDevicesInfo().asFlow(),
+            session.cryptoService().getMyDevicesInfoLive().asFlow(),
             session.cryptoService().getLiveCryptoDeviceInfo(session.myUserId).asFlow(),
             itemsWithVisibleOptionsFlow
         ) { infoList, cryptoList, devicesWithVisibleOptions ->

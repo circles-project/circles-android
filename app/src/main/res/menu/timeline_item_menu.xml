@@ -12,6 +12,11 @@
         android:title="@string/save_to_gallery" />
 
     <item
+        android:id="@+id/end_poll"
+        android:icon="@drawable/ic_check"
+        android:title="@string/end_poll" />
+
+    <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete"
         android:title="@string/delete" />

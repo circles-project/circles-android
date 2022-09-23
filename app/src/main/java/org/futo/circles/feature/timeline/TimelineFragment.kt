@@ -19,11 +19,14 @@ import org.futo.circles.extensions.*
 import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.feature.timeline.list.PostViewHolder
 import org.futo.circles.feature.timeline.list.TimelineAdapter
+import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.model.CreatePollContent
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.PostContent
+import org.futo.circles.view.CreatePostMenuListener
 import org.futo.circles.view.PostOptionsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -31,7 +34,7 @@ import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListener,
-    CreatePostListener, EmojiPickerListener, MenuProvider {
+    CreatePostListener, CreatePollListener, EmojiPickerListener, MenuProvider {
 
     private val args: TimelineFragmentArgs by navArgs()
     private val viewModel by viewModel<TimelineViewModel> { parametersOf(args.roomId, args.type) }
@@ -93,9 +96,21 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             addItemDecoration(
                 BaseRvDecoration.OffsetDecoration<PostViewHolder>(offset = context.dimen(R.dimen.group_post_item_offset))
             )
-            bindToFab(binding.fbCreatePost)
         }
-        binding.fbCreatePost.setOnClickListener { navigateToCreatePost(timelineId) }
+        binding.fabMenu.apply {
+            bindToRecyclerView(binding.rvTimeline)
+            setListener(object : CreatePostMenuListener {
+                override fun onCreatePoll() {
+                    findNavController().navigate(
+                        TimelineFragmentDirections.toCreatePoll(timelineId)
+                    )
+                }
+
+                override fun onCreatePost() {
+                    navigateToCreatePost(timelineId)
+                }
+            })
+        }
     }
 
     private fun setupObservers() {
@@ -199,12 +214,30 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         else viewModel.sendReaction(roomId, eventId, emoji)
     }
 
+    override fun onPollOptionSelected(roomId: String, eventId: String, optionId: String) {
+        viewModel.pollVote(roomId, eventId, optionId)
+    }
+
+    override fun endPoll(roomId: String, eventId: String) {
+        showDialog(
+            titleResIdRes = R.string.end_poll,
+            messageResId = R.string.end_poll_message,
+            positiveButtonRes = R.string.end_poll,
+            negativeButtonVisible = true,
+            positiveAction = {  viewModel.endPoll(roomId, eventId) }
+        )
+    }
+
     override fun onSendPost(
         roomId: String,
         postContent: CreatePostContent,
         threadEventId: String?
     ) {
         viewModel.sendPost(roomId, postContent, threadEventId)
+    }
+
+    override fun onCreatePoll(roomId: String, pollContent: CreatePollContent) {
+        viewModel.createPoll(roomId, pollContent)
     }
 
     override fun onEmojiSelected(roomId: String, eventId: String, emoji: String) {
@@ -217,7 +250,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
-        binding.fbCreatePost.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
+        binding.fabMenu.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
         isGroupSettingAvailable = powerLevelsContent.isCurrentUserAbleToChangeSettings()
         isGroupInviteAvailable = powerLevelsContent.isCurrentUserAbleToInvite()
         activity?.invalidateOptionsMenu()
@@ -225,7 +258,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
         val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
-        binding.fbCreatePost.setIsVisible(isUserAdmin)
+        binding.fabMenu.setIsVisible(isUserAdmin)
     }
 
     private fun navigateToCreatePost(

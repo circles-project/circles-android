@@ -5,10 +5,13 @@ import org.futo.circles.model.Post
 import org.futo.circles.model.PostContentType
 import org.futo.circles.model.ReplyPost
 import org.futo.circles.model.RootPost
+import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
+import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 
 class TimelineBuilder {
 
@@ -17,10 +20,14 @@ class TimelineBuilder {
     private var currentList: MutableList<Post> = mutableListOf()
     private var currentSnapshotMap: MutableMap<String, List<TimelineEvent>> = mutableMapOf()
 
+    private val supportedTimelineEvens: List<String> = mutableListOf(EventType.MESSAGE).apply {
+        addAll(EventType.POLL_START)
+    }
+
     fun build(snapshot: List<TimelineEvent>): List<Post> {
         if (snapshot.isEmpty()) return currentList
         val list = processSnapshot(snapshot)
-        val messageTimelineEvents = getOnlyMessageTimelineEvents(list)
+        val messageTimelineEvents = getOnlySupportedTimelineEvents(list)
         val posts = transformToPosts(messageTimelineEvents)
         val messagesWithReplies = setupRootMessagesWithReplies(posts)
         return handleRepliesVisibilityForPost(messagesWithReplies).also { currentList = it }
@@ -76,8 +83,8 @@ class TimelineBuilder {
         return list
     }
 
-    private fun getOnlyMessageTimelineEvents(list: List<TimelineEvent>): List<TimelineEvent> =
-        list.filter { it.root.getClearType() == EventType.MESSAGE }
+    private fun getOnlySupportedTimelineEvents(list: List<TimelineEvent>): List<TimelineEvent> =
+        list.filter { it.root.getClearType() in supportedTimelineEvens }
 
     private fun isRepliesVisibleFor(id: String) = repliesVisibleEvents.contains(id)
 
@@ -90,7 +97,7 @@ class TimelineBuilder {
     }
 
     private fun getPostContentTypeFor(event: TimelineEvent): PostContentType? {
-        val messageType = event.root.getClearContent()?.toModel<MessageContent>()?.msgType
+        val messageType = event.getLastMessageContent()?.msgType
         return PostContentType.values().firstOrNull { it.typeKey == messageType }
     }
 

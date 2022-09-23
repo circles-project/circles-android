@@ -104,6 +104,7 @@
     <string name="backup_already_exist">Backup already exist</string>
     <string name="not_supported_stage_format">Not supported stage %s</string>
     <string name="backup_could_not_be_decrypted_with_passphrase">Backup could not be decrypted with this passphrase.</string>
+    <string name="backup_could_not_be_decrypted_with_key">Backup could not be decrypted with this recovery key.</string>
     <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
     <string name="computing_recovery_key">Computing recovery key.</string>
     <string name="downloading_keys">Downloading keys.</string>
@@ -134,6 +135,7 @@
     <string name="change_icon">Change icon</string>
     <string name="group_encryption_warning">NOTE: Group name, topic and cover image are not encrypted</string>
     <string name="create_post">Create post</string>
+    <string name="create_poll">Create poll</string>
     <string name="send">Send</string>
     <string name="enter_your_message_here">Enter your message here</string>
     <string name="compressing">Compressing</string>
@@ -222,7 +224,9 @@
     <string name="server_location">Server Location:</string>
     <string name="us">US</string>
     <string name="eu">EU</string>
-    <string name="user_id_example">\@example:server.domain</string>
+    <string name="user_id_start_symbol">\@</string>
+    <string name="user_id_separator">:</string>
+    <string name="domain">Domain</string>
     <string name="no_backup_message">Keys backup not found</string>
     <string name="enter_passphrase">Enter Passphrase</string>
     <string name="restore">Restore</string>
@@ -248,6 +252,24 @@
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
     <string name="enter_your_password">Enter your password</string>
+    <string name="poll_type">Poll type</string>
+    <string name="open_poll">Open poll</string>
+    <string name="open_poll_hint">Voter see results as soon as they have voted</string>
+    <string name="closed_poll">Closed poll</string>
+    <string name="closed_poll_hint">Result are only revealed when you end the poll</string>
+    <string name="poll_question">Poll question</string>
+    <string name="poll_options">Poll options</string>
+    <string name="option_format">Option %d</string>
+    <string name="add_option">Add option</string>
+    <string name="poll_no_votes_cast">No votes cast</string>
+    <string name="poll_closed_not_voted">Result will be visible when the poll is ended</string>
+    <string name="end_poll">End poll</string>
+    <string name="end_poll_message">This will stop people from being able to vote and will display the final results of the poll.</string>
+    <string name="username_can_not_be_empty">Username can not be empty.</string>
+    <string name="use_your_recovery_message">Use your Recovery Passphrase or Recovery Key to continue.</string>
+    <string name="upload_recovery_key">Upload Recovery Key</string>
+    <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
+    <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
@@ -302,6 +324,30 @@
         <item quantity="one">%1$d year</item>
         <item quantity="many">%1$d years</item>
         <item quantity="other">%1$d years</item>
+    </plurals>
+
+    <plurals name="votes">
+        <item quantity="one">%1$d vote</item>
+        <item quantity="many">%1$d votes</item>
+        <item quantity="other">%1$d votes</item>
+    </plurals>
+
+    <plurals name="poll_total_vote_count_after_ended">
+        <item quantity="one">Final result based on %1$d vote</item>
+        <item quantity="many">Final result based on %1$d votes</item>
+        <item quantity="other">Final result based on %1$d votes</item>
+    </plurals>
+
+    <plurals name="poll_total_vote_count_before_ended_and_not_voted">
+        <item quantity="one">%1$d vote cast. Vote to the see the results</item>
+        <item quantity="many">%1$d votes cast. Vote to the see the results</item>
+        <item quantity="other">%1$d votes cast. Vote to the see the results</item>
+    </plurals>
+
+    <plurals name="poll_total_vote_count_before_ended_and_voted">
+        <item quantity="one">Based on %1$d vote</item>
+        <item quantity="many">Based on %1$d votes</item>
+        <item quantity="other">Based on %1$d votes</item>
     </plurals>
 
 </resources>

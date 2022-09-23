@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -37,6 +38,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
+            <TextView
+                android:id="@+id/tvSubtitle"
+                style="@style/body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/use_your_recovery_message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleDivider" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPassphrase"
@@ -47,10 +60,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/passphrase"
-                app:layout_constraintBottom_toTopOf="@id/btnCancel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/titleDivider"
+                app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -61,6 +73,61 @@
                     android:padding="8dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvOr"
+                style="@style/body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/or"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tilPassphrase" />
+
+            <TextView
+                android:id="@+id/tvFileName"
+                style="@style/body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:lines="1"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toStartOf="@id/ivRemoveFile"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOr"
+                tools:text="File name.txt" />
+
+            <ImageView
+                android:id="@+id/ivRemoveFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toBottomOf="@id/tvFileName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvFileName"
+                app:layout_constraintTop_toTopOf="@id/tvFileName"
+                app:tint="@color/blue" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUploadFile"
+                style="@style/PostButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/upload_recovery_key"
+                app:icon="@drawable/ic_file"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvFileName" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRestore"
@@ -93,7 +160,20 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btnRestore"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilPassphrase" />
+                app:layout_constraintTop_toBottomOf="@id/btnUploadFile" />
+
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/passPhraseGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tvOr,tvSubtitle,tilPassphrase" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/fileNameGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tvFileName,ivRemoveFile" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

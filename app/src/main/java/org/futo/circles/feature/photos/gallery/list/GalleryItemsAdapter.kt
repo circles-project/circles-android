@@ -22,7 +22,7 @@ class GalleryItemsAdapter(
                 parent,
                 onItemClicked = { position -> onGalleryItemClicked(getItem(position)) }
             )
-            PostContentType.TEXT_CONTENT -> throw IllegalArgumentException("wrong view type")
+            else -> throw IllegalArgumentException("Wrong view type")
         }
 
 
