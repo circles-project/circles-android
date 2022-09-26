@@ -24,27 +24,26 @@ class SelectSignUpTypeDataSource(
         domain: String,
         isSubscription: Boolean,
         subscriptionReceipt: String?
-    ) =
-        createResult {
-            authService.cancelPendingLoginOrRegistration()
-            val loginFlow = authService.getLoginFlow(buildHomeServerConfigFromDomain(domain))
-            (authService.getRegistrationWizard().createAccount(
-                name, null,
-                context.getString(
-                    R.string.initial_device_name,
-                    context.getString(R.string.app_name)
-                )
+    ) = createResult {
+        authService.cancelPendingLoginOrRegistration()
+        val homeServerUrl = authService.initiateAuth(buildHomeServerConfigFromDomain(domain))
+        (authService.getRegistrationWizard().createAccount(
+            name, null,
+            context.getString(
+                R.string.initial_device_name,
+                context.getString(R.string.app_name)
             )
-                    as? RegistrationResult.FlowResponse)
-                ?.let {
-                    signUpDataSource.startSignUpStages(
-                        it.flowResult.missingStages,
-                        name,
-                        loginFlow.homeServerUrl,
-                        isSubscription,
-                        subscriptionReceipt
-                    )
-                }
-        }
+        )
+                as? RegistrationResult.FlowResponse)
+            ?.let {
+                signUpDataSource.startSignUpStages(
+                    it.flowResult.missingStages,
+                    name,
+                    homeServerUrl,
+                    isSubscription,
+                    subscriptionReceipt
+                )
+            }
+    }
 
 }
