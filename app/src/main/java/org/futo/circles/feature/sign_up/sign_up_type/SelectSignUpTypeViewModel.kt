@@ -17,7 +17,6 @@ class SelectSignUpTypeViewModel(
 
     fun startSignUp(
         name: String,
-        password: String,
         serverDomain: String,
         isSubscription: Boolean = false
     ) {
@@ -25,7 +24,6 @@ class SelectSignUpTypeViewModel(
             startSignUpEventLiveData.postValue(
                 dataSource.startNewRegistration(
                     name,
-                    password,
                     serverDomain,
                     isSubscription,
                     subscriptionReceipt

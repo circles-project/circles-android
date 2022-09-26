@@ -21,7 +21,6 @@ class SelectSignUpTypeDataSource(
 
     suspend fun startNewRegistration(
         name: String,
-        password: String,
         domain: String,
         isSubscription: Boolean,
         subscriptionReceipt: String?
@@ -30,7 +29,7 @@ class SelectSignUpTypeDataSource(
             authService.cancelPendingLoginOrRegistration()
             val loginFlow = authService.getLoginFlow(buildHomeServerConfigFromDomain(domain))
             (authService.getRegistrationWizard().createAccount(
-                name, password,
+                name, null,
                 context.getString(
                     R.string.initial_device_name,
                     context.getString(R.string.app_name)
@@ -41,7 +40,6 @@ class SelectSignUpTypeDataSource(
                     signUpDataSource.startSignUpStages(
                         it.flowResult.missingStages,
                         name,
-                        password,
                         loginFlow.homeServerUrl,
                         isSubscription,
                         subscriptionReceipt

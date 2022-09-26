@@ -101,27 +101,6 @@
         app:layout_constraintTop_toTopOf="@id/tilUserName"
         tools:text="eu.kombucha.social" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:hint="@string/password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilUserName"
-        app:passwordToggleEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:padding="8dp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
 
     <TextView
         android:id="@+id/tvTokenTitle"
@@ -133,7 +112,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnToken"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilPassword"
+        app:layout_constraintTop_toBottomOf="@id/tilUserName"
         app:layout_constraintVertical_bias="0.2"
         app:layout_constraintVertical_chainStyle="packed" />
 

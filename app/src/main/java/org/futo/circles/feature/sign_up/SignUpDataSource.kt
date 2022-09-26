@@ -41,13 +41,13 @@ class SignUpDataSource(
     var currentHomeServerUrl: String = ""
         private set
 
+    //TODO set password after password stage
     private var passphrase: String = ""
     private var userName: String = ""
 
     suspend fun startSignUpStages(
         stages: List<Stage>,
         name: String,
-        password: String,
         homeServerUrl: String,
         isSubscription: Boolean,
         subscriptionReceipt: String?
@@ -55,7 +55,6 @@ class SignUpDataSource(
         currentStage = null
         stagesToComplete.clear()
         userName = name
-        passphrase = password
         currentHomeServerUrl = homeServerUrl
 
         setupStages(stages, isSubscription)

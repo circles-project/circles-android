@@ -44,12 +44,10 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
         with(binding) {
             groupSubscription.setIsVisible(BuildConfig.IS_SUBSCRIPTIONS_ENABLED)
             tilUserName.editText?.doAfterTextChanged { setSignupButtonsEnabled() }
-            tilPassword.editText?.doAfterTextChanged { setSignupButtonsEnabled() }
             btnToken.setOnClickListener {
                 startLoading(btnToken)
                 viewModel.startSignUp(
                     tilUserName.getText(),
-                    tilPassword.getText(),
                     tvServerDomain.text.toString()
                 )
             }
@@ -57,7 +55,6 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
                 startLoading(btnSubscription)
                 viewModel.startSignUp(
                     tilUserName.getText(),
-                    tilPassword.getText(),
                     tvServerDomain.text.toString(),
                     true
                 )
@@ -88,8 +85,7 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
     }
 
     private fun setSignupButtonsEnabled() {
-        val isEnabled = binding.tilUserName.editText?.text?.isNotEmpty() == true &&
-                binding.tilPassword.editText?.text?.isNotEmpty() == true
+        val isEnabled = binding.tilUserName.getText().isNotEmpty()
         binding.btnToken.isEnabled = isEnabled
         binding.btnSubscription.isEnabled = isEnabled
     }
