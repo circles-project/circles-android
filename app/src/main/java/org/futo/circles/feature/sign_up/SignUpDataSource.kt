@@ -6,8 +6,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.futo.circles.R
-import org.futo.circles.core.REGISTRATION_SUBSCRIPTION_KEY_PREFIX
-import org.futo.circles.core.REGISTRATION_TOKEN_KEY_PREFIX
+import org.futo.circles.core.REGISTRATION_EMAIL_STAGE_KEY_PREFIX
+import org.futo.circles.core.REGISTRATION_SUBSCRIPTION_KEY_EXTENSION
+import org.futo.circles.core.REGISTRATION_TOKEN_KEY_EXTENSION
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
@@ -81,8 +82,8 @@ class SignUpDataSource(
     private fun setupStages(stages: List<Stage>, isSubscription: Boolean) {
         val otherStages = stages.filterIsInstance<Stage.Other>()
         val firstStage = otherStages.firstOrNull {
-            if (isSubscription) it.type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_PREFIX)
-            else it.type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)
+            if (isSubscription) it.type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_EXTENSION)
+            else it.type.endsWith(REGISTRATION_TOKEN_KEY_EXTENSION)
         } ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
         stagesToComplete.add(firstStage)
         stagesToComplete.addAll(stages.filter { it.mandatory && (it as? Stage.Other)?.type != firstStage.type })
@@ -110,7 +111,6 @@ class SignUpDataSource(
         currentStage = stage
 
         val event = when (stage) {
-            is Stage.Email -> SignUpNavigationEvents.ValidateEmail
             is Stage.Terms -> SignUpNavigationEvents.AcceptTerm
             is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException(
@@ -123,12 +123,14 @@ class SignUpDataSource(
         updatePageSubtitle()
     }
 
-    private fun handleStageOther(type: String): SignUpNavigationEvents =
-        if (type.endsWith(REGISTRATION_TOKEN_KEY_PREFIX)) SignUpNavigationEvents.TokenValidation
-        else if (type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_PREFIX)) SignUpNavigationEvents.Subscription
-        else throw IllegalArgumentException(
+    private fun handleStageOther(type: String): SignUpNavigationEvents = when {
+        type.endsWith(REGISTRATION_TOKEN_KEY_EXTENSION) -> SignUpNavigationEvents.TokenValidation
+        type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_EXTENSION) -> SignUpNavigationEvents.Subscription
+        type.startsWith(REGISTRATION_EMAIL_STAGE_KEY_PREFIX) -> SignUpNavigationEvents.ValidateEmail
+        else -> throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
         )
+    }
 
     private fun updatePageSubtitle() {
         val size = stagesToComplete.size
