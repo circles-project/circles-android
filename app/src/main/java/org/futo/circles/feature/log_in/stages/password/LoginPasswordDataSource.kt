@@ -14,6 +14,8 @@ class LoginPasswordDataSource(
     private val loginStagesDataSource: LoginStagesDataSource
 ) : PasswordDataSource {
 
+    override fun getMinimumPasswordLength(): Int = 1
+
     override suspend fun processPasswordStage(password: String): Response<Unit> {
         val result = createResult {
             MatrixInstanceProvider.matrix.authenticationService().getLoginWizard().login(

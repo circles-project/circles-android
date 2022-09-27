@@ -6,6 +6,7 @@ import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
+import org.matrix.android.sdk.api.auth.registration.Stage
 
 class SignupPasswordDataSource(
     private val signUpDataSource: SignUpDataSource
@@ -14,6 +15,12 @@ class SignupPasswordDataSource(
     private val wizard by lazy {
         MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
     }
+
+    override fun getMinimumPasswordLength(): Int =
+        ((signUpDataSource.currentStage as? Stage.Other)?.params?.getOrDefault(
+            MINIMUM_LENGTH_KEY, 1.0
+        ) as? Double)?.toInt() ?: 1
+
 
     override suspend fun processPasswordStage(password: String): Response<Unit> =
         when (val result = createResult {
@@ -34,5 +41,6 @@ class SignupPasswordDataSource(
 
     companion object {
         private const val PASSWORD_PARAM_KEY = "new_password"
+        private const val MINIMUM_LENGTH_KEY = "minimum_length"
     }
 }

@@ -12,7 +12,9 @@ import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.databinding.FragmentPasswordBinding
 import org.futo.circles.extensions.getText
+import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.setIsVisible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -39,13 +41,19 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
                 viewModel.loginWithPassword(tilPassword.getText())
             }
             tilPassword.editText?.doAfterTextChanged {
-                btnLogin.isEnabled = tilPassword.getText().isNotEmpty()
+                btnLogin.isEnabled =
+                    tilPassword.getText().length >= (viewModel.minimumPasswordLengthLiveData.value
+                        ?: 1)
             }
         }
     }
 
     private fun setupObservers() {
         viewModel.passwordResponseLiveData.observeResponse(this)
+        viewModel.minimumPasswordLengthLiveData.observeData(this) {
+            binding.tvMinimumLength.text = getString(R.string.minimum_length_format, it)
+            binding.tvMinimumLength.setIsVisible(it > 1)
+        }
     }
 
     companion object {
