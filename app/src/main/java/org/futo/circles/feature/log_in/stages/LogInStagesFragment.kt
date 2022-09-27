@@ -16,7 +16,7 @@ import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showError
 import org.futo.circles.feature.log_in.EnterPassPhraseDialog
 import org.futo.circles.feature.log_in.EnterPassPhraseDialogListener
-import org.futo.circles.feature.log_in.stages.password.LogInPasswordFragment
+import org.futo.circles.feature.sign_up.password.PasswordFragment
 import org.futo.circles.feature.sign_up.terms.AcceptTermsFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,7 +25,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
     private val viewModel by viewModel<LoginStagesViewModel>()
     private val binding by viewBinding(FragmentLoginStagesBinding::bind)
     private val restorePassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
-    private val passwordStageFragment by lazy { LogInPasswordFragment() }
+    private val passwordStageFragment by lazy { PasswordFragment.create(true) }
     private val termsStageFragment by lazy { AcceptTermsFragment.create(true) }
     private var enterPassPhraseDialog: EnterPassPhraseDialog? = null
 

@@ -270,6 +270,7 @@
     <string name="upload_recovery_key">Upload Recovery Key</string>
     <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
     <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
+    <string name="set_password">Set password</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
