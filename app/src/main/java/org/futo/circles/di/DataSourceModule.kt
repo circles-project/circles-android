@@ -33,6 +33,7 @@ import org.futo.circles.feature.settings.SettingsDataSource
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsDataSource
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
 import org.futo.circles.feature.sign_up.SignUpDataSource
+import org.futo.circles.feature.sign_up.password.SignupPasswordDataSource
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesDataSource
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource
 import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeDataSource
@@ -102,4 +103,5 @@ val dataSourceModule = module {
     factory { SubscriptionStageDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
     factory { LoginPasswordDataSource(get(), get()) }
+    factory { SignupPasswordDataSource(get()) }
 }
