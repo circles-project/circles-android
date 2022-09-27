@@ -21,6 +21,10 @@
         android:id="@+id/to_subscriptions"
         app:destination="@id/subscriptionStageFragment" />
 
+    <action
+        android:id="@+id/to_password"
+        app:destination="@id/passwordFragment" />
+
     <fragment
         android:id="@+id/selectSignUpTypeFragment"
         android:name="org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeFragment"
@@ -53,6 +57,18 @@
         android:id="@+id/subscriptionStageFragment"
         android:name="org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageFragment"
         tools:layout="@layout/fragment_subscription_stage" />
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="org.futo.circles.feature.sign_up.password.PasswordFragment"
+        tools:layout="@layout/fragment_password">
+
+        <argument
+            android:name="is_login_mode"
+            android:defaultValue="false"
+            app:argType="boolean"
+            app:nullable="false" />
+
+    </fragment>
 
 
 </navigation>

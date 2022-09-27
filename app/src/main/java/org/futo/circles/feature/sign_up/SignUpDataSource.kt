@@ -6,10 +6,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import org.futo.circles.R
-import org.futo.circles.core.REGISTRATION_EMAIL_STAGE_KEY_PREFIX
-import org.futo.circles.core.REGISTRATION_SUBSCRIPTION_KEY_EXTENSION
-import org.futo.circles.core.REGISTRATION_TOKEN_KEY_EXTENSION
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.*
 import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
@@ -21,7 +18,7 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 
-enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail }
+enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password }
 
 class SignUpDataSource(
     private val context: Context,
@@ -42,7 +39,6 @@ class SignUpDataSource(
     var currentHomeServerUrl: String = ""
         private set
 
-    //TODO set password after password stage
     private var passphrase: String = ""
     private var userName: String = ""
 
@@ -55,6 +51,7 @@ class SignUpDataSource(
     ) {
         currentStage = null
         stagesToComplete.clear()
+        passphrase = ""
         userName = name
         currentHomeServerUrl = homeServerUrl
 
@@ -77,6 +74,10 @@ class SignUpDataSource(
 
     fun clearSubtitle() {
         subtitleLiveData.postValue("")
+    }
+
+    fun setPassword(password: String) {
+        passphrase = password
     }
 
     private fun setupStages(stages: List<Stage>, isSubscription: Boolean) {
@@ -127,6 +128,7 @@ class SignUpDataSource(
         type.endsWith(REGISTRATION_TOKEN_KEY_EXTENSION) -> SignUpNavigationEvents.TokenValidation
         type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_EXTENSION) -> SignUpNavigationEvents.Subscription
         type.startsWith(REGISTRATION_EMAIL_STAGE_KEY_PREFIX) -> SignUpNavigationEvents.ValidateEmail
+        type.startsWith(REGISTRATION_PASSWORD_TYPE) -> SignUpNavigationEvents.Password
         else -> throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
         )
