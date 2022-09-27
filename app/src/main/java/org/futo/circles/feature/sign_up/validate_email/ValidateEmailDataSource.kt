@@ -2,7 +2,6 @@ package org.futo.circles.feature.sign_up.validate_email
 
 import org.futo.circles.core.REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE
 import org.futo.circles.core.REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
-import org.futo.circles.core.VALIDATION_TOKEN_SUBMIT_URL_EXTENSION
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
