@@ -1,22 +1,29 @@
-package org.futo.circles.feature.log_in.stages.password
+package org.futo.circles.feature.sign_up.password
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.FragmentLoginPasswordBinding
+import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
+import org.futo.circles.databinding.FragmentPasswordBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeResponse
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
-class LogInPasswordFragment : Fragment(R.layout.fragment_login_password), HasLoadingState {
+class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password), HasLoadingState {
 
+    private val args: PasswordFragmentArgs by navArgs()
+    private val viewModel by viewModel<PasswordViewModel> {
+        parametersOf(args.isLoginMode)
+    }
     override val fragment: Fragment = this
-    private val viewModel by viewModel<LoginPasswordViewModel>()
-    private val binding by viewBinding(FragmentLoginPasswordBinding::bind)
+    private val binding by viewBinding(FragmentPasswordBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,6 +33,7 @@ class LogInPasswordFragment : Fragment(R.layout.fragment_login_password), HasLoa
 
     private fun setupViews() {
         with(binding) {
+            btnLogin.setText(getString(if (args.isLoginMode) R.string.log_in else R.string.set_password))
             btnLogin.setOnClickListener {
                 startLoading(btnLogin)
                 viewModel.loginWithPassword(tilPassword.getText())
@@ -37,6 +45,13 @@ class LogInPasswordFragment : Fragment(R.layout.fragment_login_password), HasLoa
     }
 
     private fun setupObservers() {
-        viewModel.loginResponseLiveData.observeResponse(this)
+        viewModel.passwordResponseLiveData.observeResponse(this)
+    }
+
+    companion object {
+        private const val IS_LOGIN_MODE = "is_login_mode"
+        fun create(isLoginMode: Boolean) = PasswordFragment().apply {
+            arguments = bundleOf(IS_LOGIN_MODE to isLoginMode)
+        }
     }
 }
