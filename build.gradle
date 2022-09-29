@@ -1,7 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        kotlin_version = ''
         minSdkVersion = 24
         sdkVersion = 33
         androidx_nav_version = "2.5.2"
