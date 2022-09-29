@@ -2,19 +2,21 @@ package org.futo.circles.feature.log_in.stages.password
 
 import android.content.Context
 import org.futo.circles.R
+import org.futo.circles.core.auth.PasswordDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
-import org.matrix.android.sdk.api.session.Session
 
 class LoginPasswordDataSource(
     private val context: Context,
     private val loginStagesDataSource: LoginStagesDataSource
-) {
+) : PasswordDataSource {
 
-    suspend fun logIn(password: String): Response<Session> {
+    override fun getMinimumPasswordLength(): Int = 1
+
+    override suspend fun processPasswordStage(password: String): Response<Unit> {
         val result = createResult {
             MatrixInstanceProvider.matrix.authenticationService().getLoginWizard().login(
                 login = loginStagesDataSource.userName,
@@ -25,12 +27,14 @@ class LoginPasswordDataSource(
                 )
             )
         }
-        (result as? Response.Success)?.let {
-            loginStagesDataSource.stageCompleted(
-                RegistrationResult.Success(it.data),
-                password
-            )
+        return when (result) {
+            is Response.Success -> {
+                loginStagesDataSource.stageCompleted(
+                    RegistrationResult.Success(result.data), password
+                )
+                Response.Success(Unit)
+            }
+            is Response.Error -> result
         }
-        return result
     }
 }

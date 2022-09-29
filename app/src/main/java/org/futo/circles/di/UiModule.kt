@@ -7,7 +7,7 @@ import org.futo.circles.feature.circles.following.FollowingViewModel
 import org.futo.circles.feature.groups.GroupsViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
 import org.futo.circles.feature.log_in.stages.LoginStagesViewModel
-import org.futo.circles.feature.log_in.stages.password.LoginPasswordViewModel
+import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
 import org.futo.circles.feature.people.PeopleViewModel
@@ -30,6 +30,8 @@ import org.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import org.futo.circles.feature.settings.edit_profile.EditProfileViewModel
 import org.futo.circles.feature.share.BaseShareViewModel
 import org.futo.circles.feature.sign_up.SignUpViewModel
+import org.futo.circles.feature.sign_up.password.PasswordViewModel
+import org.futo.circles.feature.sign_up.password.SignupPasswordDataSource
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileViewModel
 import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeViewModel
@@ -113,6 +115,11 @@ val uiModule = module {
     viewModel { SubscriptionStageViewModel(get()) }
     viewModel { BaseShareViewModel(get()) }
     viewModel { (type: CircleRoomTypeArg) -> SelectRoomsViewModel(get { parametersOf(type) }) }
-    viewModel { LoginPasswordViewModel(get()) }
+    viewModel { (isLoginMode: Boolean) ->
+        PasswordViewModel(
+            if (isLoginMode) get<LoginPasswordDataSource>()
+            else get<SignupPasswordDataSource>()
+        )
+    }
     viewModel { LoginStagesViewModel(get()) }
 }
