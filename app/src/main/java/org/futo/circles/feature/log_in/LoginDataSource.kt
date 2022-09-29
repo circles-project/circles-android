@@ -18,8 +18,7 @@ class LoginDataSource(
         val loginFlow = authService.getLoginFlow(buildHomeServerConfigFromUserId(userName))
         loginStagesDataSource.startLoginStages(
             loginFlow.supportedLoginTypes,
-            userName,
-            loginFlow.homeServerUrl
+            userName
         )
     }
 }
