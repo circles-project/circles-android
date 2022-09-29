@@ -1,7 +1,6 @@
 package org.futo.circles.feature.sign_up.sign_up_type
 
 import android.content.Context
-import org.futo.circles.R
 import org.futo.circles.core.REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE
 import org.futo.circles.core.REGISTRATION_EMAIL_STAGE_KEY_PREFIX
 import org.futo.circles.core.REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
@@ -9,6 +8,7 @@ import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDoma
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
+import org.matrix.android.sdk.api.auth.registration.RegistrationAvailability
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 
@@ -31,7 +31,9 @@ class SelectSignUpTypeDataSource(
     ) = createResult {
         authService.cancelPendingLoginOrRegistration()
         authService.initiateAuth(buildHomeServerConfigFromDomain(domain))
-        (authService.getRegistrationWizard().getRegistrationFlow() as? RegistrationResult.FlowResponse)
+        validateUserName(name)
+        (authService.getRegistrationWizard()
+            .getRegistrationFlow() as? RegistrationResult.FlowResponse)
             ?.let {
                 signUpDataSource.startSignUpStages(
                     prepareStagesList(it.flowResult.missingStages),
@@ -40,6 +42,13 @@ class SelectSignUpTypeDataSource(
                     subscriptionReceipt
                 )
             }
+    }
+
+    private suspend fun validateUserName(name: String) {
+        (authService.getRegistrationWizard()
+            .registrationAvailable(name) as? RegistrationAvailability.NotAvailable)?.let {
+            throw IllegalArgumentException(it.failure.error.message)
+        }
     }
 
     private fun prepareStagesList(stages: List<Stage>): List<Stage> {
