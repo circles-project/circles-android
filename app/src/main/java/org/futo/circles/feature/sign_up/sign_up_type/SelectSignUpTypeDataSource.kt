@@ -36,9 +36,8 @@ class SelectSignUpTypeDataSource(
             .getRegistrationFlow() as? RegistrationResult.FlowResponse)
             ?.let {
                 signUpDataSource.startSignUpStages(
-                    prepareStagesList(it.flowResult.missingStages),
+                    prepareStagesList(isSubscription, it.flowResult.missingStages),
                     name,
-                    isSubscription,
                     subscriptionReceipt
                 )
             }
@@ -51,7 +50,7 @@ class SelectSignUpTypeDataSource(
         }
     }
 
-    private fun prepareStagesList(stages: List<Stage>): List<Stage> {
+    private fun prepareStagesList(isSubscription: Boolean, stages: List<Stage>): List<Stage> {
         val requestTokenStage =
             stages.firstOrNull { (it as? Stage.Other)?.type == REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE }
         val submitTokenStage =

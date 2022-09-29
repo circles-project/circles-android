@@ -42,21 +42,30 @@ class SignUpDataSource(
     suspend fun startSignUpStages(
         stages: List<Stage>,
         name: String,
-        isSubscription: Boolean,
         subscriptionReceipt: String?
     ) {
         currentStage = null
         stagesToComplete.clear()
         passphrase = ""
         userName = name
+        stagesToComplete.addAll(stages)
+        subscriptionReceipt?.let { skipSubscriptionStageIfValid(it) } ?: navigateToNextStage()
+    }
 
-        setupStages(stages, isSubscription)
+    private suspend fun skipSubscriptionStageIfValid(subscriptionReceipt: String) {
+        setNextStage()
+        (currentStage as? Stage.Other)?.takeIf {
+            it.type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_EXTENSION)
+        } ?: run {
+            currentStage = null
+            navigateToNextStage()
+            return
+        }
+        val response = SubscriptionStageDataSource(this)
+            .validateSubscriptionReceipt(subscriptionReceipt)
 
-        if (isSubscription && subscriptionReceipt != null) {
-            val response = SubscriptionStageDataSource(this)
-                .validateSubscriptionReceipt(subscriptionReceipt)
-            if (response is Response.Error) navigateToNextStage()
-        } else {
+        if (response is Response.Error) {
+            currentStage = null
             navigateToNextStage()
         }
     }
@@ -75,16 +84,6 @@ class SignUpDataSource(
         passphrase = password
     }
 
-    private fun setupStages(stages: List<Stage>, isSubscription: Boolean) {
-        val otherStages = stages.filterIsInstance<Stage.Other>()
-        val firstStage = otherStages.firstOrNull {
-            if (isSubscription) it.type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_EXTENSION)
-            else it.type.endsWith(REGISTRATION_TOKEN_KEY_EXTENSION)
-        } ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
-        stagesToComplete.add(firstStage)
-        stagesToComplete.addAll(stages.filter { it.mandatory && (it as? Stage.Other)?.type != firstStage.type })
-    }
-
     private suspend fun finishRegistration(session: Session) = createResult {
         MatrixInstanceProvider.matrix.authenticationService().reset()
         MatrixSessionProvider.awaitForSessionStart(session)
@@ -99,23 +98,22 @@ class SignUpDataSource(
     private fun getCurrentStageIndex() =
         stagesToComplete.indexOf(currentStage).takeIf { it != -1 } ?: 0
 
-    private fun navigateToNextStage() {
-        val stage = currentStage?.let {
+    private fun setNextStage() {
+        currentStage = currentStage?.let {
             stagesToComplete.getOrNull(getCurrentStageIndex() + 1)
         } ?: stagesToComplete.firstOrNull()
+    }
 
-        currentStage = stage
-
-        val event = when (stage) {
+    private fun navigateToNextStage() {
+        setNextStage()
+        val event = when (val stage = currentStage) {
             is Stage.Terms -> SignUpNavigationEvents.AcceptTerm
             is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException(
                 context.getString(R.string.not_supported_stage_format, stage.toString())
             )
         }
-
         navigationLiveData.postValue(event)
-
         updatePageSubtitle()
     }
 
