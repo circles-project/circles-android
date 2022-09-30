@@ -17,6 +17,7 @@ import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.util.JsonDict
 
 enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password }
 
@@ -30,6 +31,13 @@ class SignUpDataSource(
     val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
     val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
+
+    private val initialDeviceName by lazy {
+        context.getString(
+            R.string.initial_device_name,
+            context.getString(R.string.app_name)
+        )
+    }
 
     private val stagesToComplete = mutableListOf<Stage>()
 
@@ -55,7 +63,7 @@ class SignUpDataSource(
     private suspend fun skipSubscriptionStageIfValid(subscriptionReceipt: String) {
         setNextStage()
         (currentStage as? Stage.Other)?.takeIf {
-            it.type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_EXTENSION)
+            it.type == REGISTRATION_SUBSCRIPTION_TYPE
         } ?: run {
             currentStage = null
             navigateToNextStage()
@@ -70,7 +78,22 @@ class SignUpDataSource(
         }
     }
 
-    suspend fun stageCompleted(result: RegistrationResult?) {
+    suspend fun performRegistrationStage(
+        authParams: JsonDict,
+        password: String? = null
+    ): Response<RegistrationResult> {
+        val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
+        val result =
+            createResult { wizard.registrationSwiclops(authParams, userName, initialDeviceName) }
+
+        (result as? Response.Success)?.let {
+            password?.let { passphrase = it }
+            stageCompleted(result.data)
+        }
+        return result
+    }
+
+    private suspend fun stageCompleted(result: RegistrationResult?) {
         (result as? RegistrationResult.Success)?.let {
             finishRegistrationLiveData.postValue(finishRegistration(it.session))
         } ?: navigateToNextStage()
@@ -78,10 +101,6 @@ class SignUpDataSource(
 
     fun clearSubtitle() {
         subtitleLiveData.postValue("")
-    }
-
-    fun setPassword(password: String) {
-        passphrase = password
     }
 
     private suspend fun finishRegistration(session: Session) = createResult {
@@ -113,15 +132,16 @@ class SignUpDataSource(
                 context.getString(R.string.not_supported_stage_format, stage.toString())
             )
         }
-        navigationLiveData.postValue(event)
+        event?.let { navigationLiveData.postValue(it) }
         updatePageSubtitle()
     }
 
-    private fun handleStageOther(type: String): SignUpNavigationEvents = when {
-        type.endsWith(REGISTRATION_TOKEN_KEY_EXTENSION) -> SignUpNavigationEvents.TokenValidation
-        type.endsWith(REGISTRATION_SUBSCRIPTION_KEY_EXTENSION) -> SignUpNavigationEvents.Subscription
-        type.startsWith(REGISTRATION_EMAIL_STAGE_KEY_PREFIX) -> SignUpNavigationEvents.ValidateEmail
-        type.startsWith(REGISTRATION_PASSWORD_TYPE) -> SignUpNavigationEvents.Password
+    private fun handleStageOther(type: String): SignUpNavigationEvents? = when (type) {
+        REGISTRATION_TOKEN_TYPE -> SignUpNavigationEvents.TokenValidation
+        REGISTRATION_SUBSCRIPTION_TYPE -> SignUpNavigationEvents.Subscription
+        REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE -> SignUpNavigationEvents.ValidateEmail
+        REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE -> null
+        REGISTRATION_PASSWORD_TYPE -> SignUpNavigationEvents.Password
         else -> throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
         )
