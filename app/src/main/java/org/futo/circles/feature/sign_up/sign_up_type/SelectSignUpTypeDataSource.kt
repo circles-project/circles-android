@@ -1,14 +1,13 @@
 package org.futo.circles.feature.sign_up.sign_up_type
 
 import android.content.Context
-import org.futo.circles.core.REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE
-import org.futo.circles.core.REGISTRATION_EMAIL_STAGE_KEY_PREFIX
-import org.futo.circles.core.REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
+import kotlinx.coroutines.delay
+import org.futo.circles.R
+import org.futo.circles.core.*
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
-import org.matrix.android.sdk.api.auth.registration.RegistrationAvailability
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 
@@ -31,26 +30,33 @@ class SelectSignUpTypeDataSource(
     ) = createResult {
         authService.cancelPendingLoginOrRegistration()
         authService.initiateAuth(buildHomeServerConfigFromDomain(domain))
-        validateUserName(name)
-        (authService.getRegistrationWizard()
-            .getRegistrationFlow() as? RegistrationResult.FlowResponse)
-            ?.let {
-                signUpDataSource.startSignUpStages(
-                    prepareStagesList(isSubscription, it.flowResult.missingStages),
-                    name,
-                    subscriptionReceipt
-                )
+        val flows = authService.getRegistrationWizard().getAllRegistrationFlows()
+        signUpDataSource.startSignUpStages(
+            prepareStagesList(isSubscription, flows),
+            name,
+            subscriptionReceipt
+        )
+    }
+    
+    private fun prepareStagesList(isSubscription: Boolean, flows: List<List<Stage>>): List<Stage> {
+        val flow = if (isSubscription) {
+            flows.firstOrNull {
+                (it.firstOrNull() as? Stage.Other)?.type?.endsWith(
+                    REGISTRATION_SUBSCRIPTION_KEY_EXTENSION
+                ) == true
             }
+        } else {
+            flows.firstOrNull {
+                (it.firstOrNull() as? Stage.Other)?.type?.endsWith(
+                    REGISTRATION_TOKEN_KEY_EXTENSION
+                ) == true
+            }
+        } ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
+
+        return mapEmailStages(flow)
     }
 
-    private suspend fun validateUserName(name: String) {
-        (authService.getRegistrationWizard()
-            .registrationAvailable(name) as? RegistrationAvailability.NotAvailable)?.let {
-            throw IllegalArgumentException(it.failure.error.message)
-        }
-    }
-
-    private fun prepareStagesList(isSubscription: Boolean, stages: List<Stage>): List<Stage> {
+    private fun mapEmailStages(stages: List<Stage>): List<Stage> {
         val requestTokenStage =
             stages.firstOrNull { (it as? Stage.Other)?.type == REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE }
         val submitTokenStage =
