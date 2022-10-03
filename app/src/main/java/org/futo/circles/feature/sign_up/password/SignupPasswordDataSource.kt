@@ -1,6 +1,7 @@
 package org.futo.circles.feature.sign_up.password
 
 import org.futo.circles.core.REGISTRATION_PASSWORD_TYPE
+import org.futo.circles.core.TYPE_PARAM_KEY
 import org.futo.circles.core.auth.PasswordDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.feature.sign_up.SignUpDataSource
@@ -19,7 +20,7 @@ class SignupPasswordDataSource(
     override suspend fun processPasswordStage(password: String): Response<Unit> =
         when (val result = signUpDataSource.performRegistrationStage(
             mapOf(
-                SignUpDataSource.TYPE_PARAM_KEY to REGISTRATION_PASSWORD_TYPE,
+                TYPE_PARAM_KEY to REGISTRATION_PASSWORD_TYPE,
                 PASSWORD_PARAM_KEY to password
             ), password
         )) {

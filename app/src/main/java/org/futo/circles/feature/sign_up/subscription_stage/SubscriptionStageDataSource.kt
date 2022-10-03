@@ -1,9 +1,9 @@
 package org.futo.circles.feature.sign_up.subscription_stage
 
 import org.futo.circles.core.REGISTRATION_SUBSCRIPTION_TYPE
+import org.futo.circles.core.TYPE_PARAM_KEY
 import org.futo.circles.extensions.Response
 import org.futo.circles.feature.sign_up.SignUpDataSource
-import org.futo.circles.feature.sign_up.SignUpDataSource.Companion.TYPE_PARAM_KEY
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 

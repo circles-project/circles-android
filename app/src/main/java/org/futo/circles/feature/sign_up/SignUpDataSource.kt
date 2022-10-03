@@ -153,8 +153,4 @@ class SignUpDataSource(
         val subtitle = context.getString(R.string.sign_up_stage_subtitle_format, number, size)
         subtitleLiveData.postValue(subtitle)
     }
-
-    companion object {
-        const val TYPE_PARAM_KEY = "type"
-    }
 }
