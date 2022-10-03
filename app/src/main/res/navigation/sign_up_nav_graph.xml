@@ -63,9 +63,9 @@
         tools:layout="@layout/fragment_password">
 
         <argument
-            android:name="is_login_mode"
-            android:defaultValue="false"
-            app:argType="boolean"
+            android:name="mode"
+            android:defaultValue="SignupStage"
+            app:argType="org.futo.circles.model.PasswordModeArg"
             app:nullable="false" />
 
     </fragment>
