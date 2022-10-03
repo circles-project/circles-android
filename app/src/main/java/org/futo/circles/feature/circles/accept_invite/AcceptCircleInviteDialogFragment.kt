@@ -3,6 +3,7 @@ package org.futo.circles.feature.circles.accept_invite
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.SelectRoomsListener
@@ -51,6 +52,10 @@ class AcceptCircleInviteDialogFragment :
             btnInvite.setOnClickListener {
                 viewModel.acceptInvite(selectRoomsFragment.getSelectedRooms())
                 startLoading(btnInvite)
+            }
+            fbAddRoom.setOnClickListener {
+                findNavController()
+                    .navigate(AcceptCircleInviteDialogFragmentDirections.toCreateRoomDialogFragment())
             }
         }
     }
