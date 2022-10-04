@@ -271,6 +271,7 @@
     <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
     <string name="set_password">Set password</string>
     <string name="minimum_length_format">Minimum length %d</string>
+    <string name="unsupported_login_method">Unsupported login method</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

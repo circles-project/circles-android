@@ -1,6 +1,7 @@
 package org.futo.circles.feature.sign_up.terms
 
 
+import org.futo.circles.core.TYPE_PARAM_KEY
 import org.futo.circles.core.auth.BaseAcceptTermsDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.toTermsListItems
@@ -14,7 +15,7 @@ class SignupAcceptTermsDataSource(
 
     override suspend fun acceptTerms(): Response<Unit> =
         when (val result = signUpDataSource.performRegistrationStage(
-            mapOf(SignUpDataSource.TYPE_PARAM_KEY to LoginFlowTypes.TERMS)
+            mapOf(TYPE_PARAM_KEY to LoginFlowTypes.TERMS)
         )) {
             is Response.Success -> Response.Success(Unit)
             is Response.Error -> result

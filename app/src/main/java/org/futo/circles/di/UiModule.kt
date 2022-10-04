@@ -7,6 +7,7 @@ import org.futo.circles.feature.circles.following.FollowingViewModel
 import org.futo.circles.feature.groups.GroupsViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
 import org.futo.circles.feature.log_in.stages.LoginStagesViewModel
+import org.futo.circles.feature.log_in.stages.password.DirectLoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
@@ -43,6 +44,7 @@ import org.futo.circles.feature.sign_up.validate_token.ValidateTokenViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
 import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.model.PasswordModeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -115,10 +117,13 @@ val uiModule = module {
     viewModel { SubscriptionStageViewModel(get()) }
     viewModel { BaseShareViewModel(get()) }
     viewModel { (type: CircleRoomTypeArg) -> SelectRoomsViewModel(get { parametersOf(type) }) }
-    viewModel { (isLoginMode: Boolean) ->
+    viewModel { (passwordMode: PasswordModeArg) ->
         PasswordViewModel(
-            if (isLoginMode) get<LoginPasswordDataSource>()
-            else get<SignupPasswordDataSource>()
+            when(passwordMode){
+                PasswordModeArg.LoginStage -> get<LoginPasswordDataSource>()
+                PasswordModeArg.LoginDirect -> get<DirectLoginPasswordDataSource>()
+                PasswordModeArg.SignupStage -> get<SignupPasswordDataSource>()
+            }
         )
     }
     viewModel { LoginStagesViewModel(get()) }

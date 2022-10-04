@@ -15,6 +15,7 @@ import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.model.PasswordModeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -22,7 +23,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
 
     private val args: PasswordFragmentArgs by navArgs()
     private val viewModel by viewModel<PasswordViewModel> {
-        parametersOf(args.isLoginMode)
+        parametersOf(args.mode)
     }
     override val fragment: Fragment = this
     private val binding by viewBinding(FragmentPasswordBinding::bind)
@@ -35,7 +36,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
 
     private fun setupViews() {
         with(binding) {
-            btnLogin.setText(getString(if (args.isLoginMode) R.string.log_in else R.string.set_password))
+            btnLogin.setText(getString(if (args.mode == PasswordModeArg.SignupStage) R.string.set_password else R.string.log_in))
             btnLogin.setOnClickListener {
                 startLoading(btnLogin)
                 viewModel.loginWithPassword(tilPassword.getText())
@@ -57,9 +58,9 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
     }
 
     companion object {
-        private const val IS_LOGIN_MODE = "is_login_mode"
-        fun create(isLoginMode: Boolean) = PasswordFragment().apply {
-            arguments = bundleOf(IS_LOGIN_MODE to isLoginMode)
+        private const val MODE = "mode"
+        fun create(mode: PasswordModeArg) = PasswordFragment().apply {
+            arguments = bundleOf(MODE to mode)
         }
     }
 }

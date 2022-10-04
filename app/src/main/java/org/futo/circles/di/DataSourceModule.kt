@@ -13,6 +13,7 @@ import org.futo.circles.feature.circles.following.FollowingDataSource
 import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.log_in.LoginDataSource
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
+import org.futo.circles.feature.log_in.stages.password.DirectLoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.people.PeopleDataSource
@@ -50,7 +51,7 @@ import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { LoginDataSource(get()) }
+    factory { LoginDataSource(get(), get()) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineDataSource(roomId, type, get())
     }
@@ -102,6 +103,7 @@ val dataSourceModule = module {
     factory { (userId: String) -> UserDataSource(get(), userId) }
     factory { SubscriptionStageDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
-    factory { LoginPasswordDataSource(get(), get()) }
+    factory { DirectLoginPasswordDataSource(get(), get()) }
+    factory { LoginPasswordDataSource(get()) }
     factory { SignupPasswordDataSource(get()) }
 }

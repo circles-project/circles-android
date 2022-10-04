@@ -25,7 +25,7 @@
 extern "C" {
 #endif
 
-#include "../../../../../../Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/lib64/clang/9.0.9/include/stdint.h"
+#include "stdint.h"
 
 #define BSSPEKE_VERIFY_CLIENT_MODIFIER "client"
 #define BSSPEKE_VERIFY_CLIENT_MODIFIER_LEN 6
