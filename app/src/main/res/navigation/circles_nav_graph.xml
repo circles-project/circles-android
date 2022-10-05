@@ -76,6 +76,18 @@
             app:argType="string"
             app:nullable="false" />
 
+        <action
+            android:id="@+id/to_createRoomDialogFragment"
+            app:destination="@id/createRoomDialogFragment">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+
     </dialog>
 
 </navigation>
