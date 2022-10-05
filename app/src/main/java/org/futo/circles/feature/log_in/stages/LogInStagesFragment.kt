@@ -16,8 +16,9 @@ import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showError
 import org.futo.circles.feature.log_in.EnterPassPhraseDialog
 import org.futo.circles.feature.log_in.EnterPassPhraseDialogListener
-import org.futo.circles.feature.log_in.stages.password.LogInPasswordFragment
+import org.futo.circles.feature.sign_up.password.PasswordFragment
 import org.futo.circles.feature.sign_up.terms.AcceptTermsFragment
+import org.futo.circles.model.PasswordModeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
@@ -25,7 +26,8 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
     private val viewModel by viewModel<LoginStagesViewModel>()
     private val binding by viewBinding(FragmentLoginStagesBinding::bind)
     private val restorePassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
-    private val passwordStageFragment by lazy { LogInPasswordFragment() }
+    private val passwordStageFragment by lazy { PasswordFragment.create(PasswordModeArg.LoginStage) }
+    private val passwordDirectFragment by lazy { PasswordFragment.create(PasswordModeArg.LoginDirect) }
     private val termsStageFragment by lazy { AcceptTermsFragment.create(true) }
     private var enterPassPhraseDialog: EnterPassPhraseDialog? = null
 
@@ -58,8 +60,9 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
                 LoginNavigationEvent.Main -> navigateToBottomMenuFragment()
                 LoginNavigationEvent.SetupCircles -> navigateToSetupCircles()
                 LoginNavigationEvent.PassPhrase -> showPassPhraseDialog()
-                LoginNavigationEvent.Password -> addStageFragmentFragment(passwordStageFragment)
-                LoginNavigationEvent.Terms -> addStageFragmentFragment(termsStageFragment)
+                LoginNavigationEvent.DirectPassword-> addStageFragment(passwordDirectFragment)
+                LoginNavigationEvent.Password -> addStageFragment(passwordStageFragment)
+                LoginNavigationEvent.Terms -> addStageFragment(termsStageFragment)
                 else -> navigateToBottomMenuFragment()
             }
         }
@@ -95,7 +98,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
             }
     }
 
-    private fun addStageFragmentFragment(fragment: Fragment) {
+    private fun addStageFragment(fragment: Fragment) {
         childFragmentManager.beginTransaction()
             .replace(R.id.lContainer, fragment)
             .commitAllowingStateLoss()

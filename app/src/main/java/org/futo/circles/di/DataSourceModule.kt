@@ -13,6 +13,7 @@ import org.futo.circles.feature.circles.following.FollowingDataSource
 import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.log_in.LoginDataSource
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
+import org.futo.circles.feature.log_in.stages.password.DirectLoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.people.PeopleDataSource
@@ -33,6 +34,7 @@ import org.futo.circles.feature.settings.SettingsDataSource
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsDataSource
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
 import org.futo.circles.feature.sign_up.SignUpDataSource
+import org.futo.circles.feature.sign_up.password.SignupPasswordDataSource
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesDataSource
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource
 import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeDataSource
@@ -49,7 +51,7 @@ import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { LoginDataSource(get()) }
+    factory { LoginDataSource(get(), get()) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineDataSource(roomId, type, get())
     }
@@ -71,8 +73,8 @@ val dataSourceModule = module {
     single { LoginStagesDataSource(get(), get(), get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
-    factory { SignupAcceptTermsDataSource(get(), get()) }
-    factory { LoginAcceptTermsDataSource(get(), get()) }
+    factory { SignupAcceptTermsDataSource(get()) }
+    factory { LoginAcceptTermsDataSource(get()) }
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
@@ -101,5 +103,7 @@ val dataSourceModule = module {
     factory { (userId: String) -> UserDataSource(get(), userId) }
     factory { SubscriptionStageDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
-    factory { LoginPasswordDataSource(get(), get()) }
+    factory { DirectLoginPasswordDataSource(get(), get()) }
+    factory { LoginPasswordDataSource(get()) }
+    factory { SignupPasswordDataSource(get()) }
 }

@@ -6,13 +6,12 @@ import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
-import org.matrix.android.sdk.internal.auth.registration.AddThreePidRegistrationResponse
 
 class ValidateEmailViewModel(
     private val dataSource: ValidateEmailDataSource
 ) : ViewModel() {
 
-    val sendCodeLiveData = MutableLiveData<Response<AddThreePidRegistrationResponse>>()
+    val sendCodeLiveData = MutableLiveData<Response<RegistrationResult>>()
     val validateEmailLiveData = SingleEventLiveData<Response<RegistrationResult>>()
 
 

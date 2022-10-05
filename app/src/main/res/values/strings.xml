@@ -67,7 +67,6 @@
     <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
     <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
     <string name="accept">Accept</string>
-    <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="validate_your_email">Validate your email</string>
@@ -270,6 +269,9 @@
     <string name="upload_recovery_key">Upload Recovery Key</string>
     <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
     <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
+    <string name="set_password">Set password</string>
+    <string name="minimum_length_format">Minimum length %d</string>
+    <string name="unsupported_login_method">Unsupported login method</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

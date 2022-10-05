@@ -1,14 +1,20 @@
 package org.futo.circles.core
 
-const val FILE_PROVIDER_AUTHORITY_PREFIX = ".provider"
+const val FILE_PROVIDER_AUTHORITY_EXTENSION = ".provider"
 
-const val REGISTRATION_TOKEN_KEY_PREFIX = "registration_token"
-const val REGISTRATION_SUBSCRIPTION_KEY_PREFIX = "subscription.google"
+const val REGISTRATION_TOKEN_TYPE = "m.login.registration_token"
+const val REGISTRATION_SUBSCRIPTION_TYPE = "subscription.google"
+const val REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE = "m.enroll.email.request_token"
+const val REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE = "m.enroll.email.submit_token"
+const val REGISTRATION_PASSWORD_TYPE = "m.enroll.password"
+const val LOGIN_PASSWORD_TYPE = "m.login.password"
+const val DIRECT_LOGIN_PASSWORD_TYPE = "m.login.password.direct"
 
-const val TERMS_URL_EXTENSION = "/_matrix/consent"
-const val VALIDATION_TOKEN_SUBMIT_URL_PREFIX = "/_matrix/identity/api/v1/validate/email/submitToken"
+const val LOGIN_PASSWORD_USER_ID_TYPE = "m.id.user"
 
 const val DEFAULT_USER_PREFIX = "@notices:"
 
 const val SYSTEM_NOTICES_TAG = "m.server_notice"
+
+const val TYPE_PARAM_KEY = "type"
 
