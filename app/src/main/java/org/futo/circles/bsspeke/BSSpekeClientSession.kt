@@ -49,9 +49,9 @@ class BSSpekeClientSession(
         return a
     }
 
-    fun deriveSharedKey(serverPubKey: ByteArray) {
-        assert(serverPubKey.size == 32)
-        BSSpekeUtils.clientDeriveSharedKey(serverPubKey, clientContext)
+    fun deriveSharedKey(B: ByteArray) {
+        assert(B.size == 32)
+        BSSpekeUtils.clientDeriveSharedKey(B, clientContext)
     }
 
     fun generateVerifier(): ByteArray {
@@ -64,5 +64,12 @@ class BSSpekeClientSession(
         assert(verifier.size == 32)
         val rc = BSSpekeUtils.clientVerifyServer(verifier, clientContext)
         return rc == 0
+    }
+
+    fun generateHashKey(message: String): ByteArray {
+        val k = ByteArray(32) { 0 }
+        val messageByteArray = message.toByteArray()
+        BSSpekeUtils.generateHashedKey(k, messageByteArray, clientContext)
+        return k
     }
 }
