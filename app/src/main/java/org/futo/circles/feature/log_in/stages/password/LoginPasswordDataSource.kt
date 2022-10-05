@@ -24,13 +24,13 @@ class LoginPasswordDataSource(
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getLoginWizard()
         val result = createResult {
             wizard.loginStageCustom(
-                mapOf(
+                authParams = mapOf(
                     TYPE_PARAM_KEY to LOGIN_PASSWORD_TYPE,
-                    PASSWORD_PARAM_KEY to password,
-                    IDENTIFIER_PARAM_KEY to mapOf(
-                        USER_PARAM_KEY to loginStagesDataSource.userName,
-                        TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
-                    )
+                    PASSWORD_PARAM_KEY to password
+                ),
+                identifierParams = mapOf(
+                    USER_PARAM_KEY to loginStagesDataSource.userName,
+                    TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
                 )
             )
         }
@@ -47,7 +47,6 @@ class LoginPasswordDataSource(
     companion object {
         private const val PASSWORD_PARAM_KEY = "password"
         private const val MINIMUM_LENGTH_KEY = "minimum_length"
-        private const val IDENTIFIER_PARAM_KEY = "identifier"
         private const val USER_PARAM_KEY = "user"
     }
 }
