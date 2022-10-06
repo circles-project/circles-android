@@ -107,5 +107,5 @@ val dataSourceModule = module {
     factory { DirectLoginPasswordDataSource(get(), get()) }
     factory { LoginPasswordDataSource(get()) }
     factory { SignupPasswordDataSource(get()) }
-    factory { SignupBsSpekeDataSource(get()) }
+    factory { SignupBsSpekeDataSource(get(), get()) }
 }
