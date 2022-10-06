@@ -22,7 +22,7 @@ class BSSpekeClient(
         return Base64.encodeToString(blind, Base64.NO_WRAP)
     }
 
-    fun generatePandV(
+    fun generateBase64PandV(
         blindSalt: ByteArray,
         phfBlocks: Int,
         phfIterations: Int
@@ -35,7 +35,7 @@ class BSSpekeClient(
 
         if (rc != 0) throw BSSpekeError("Failed to generate permanent public key")
 
-        return String(p) to String(v)
+        return Base64.encodeToString(p, Base64.NO_WRAP) to Base64.encodeToString(v, Base64.NO_WRAP)
     }
 
     fun generateA(
