@@ -33,6 +33,7 @@ class SelectSignUpTypeDataSource(
         signUpDataSource.startSignUpStages(
             prepareStagesList(isSubscription, flows),
             name,
+            domain,
             subscriptionReceipt
         )
     }

@@ -32,6 +32,7 @@ import org.futo.circles.feature.settings.edit_profile.EditProfileViewModel
 import org.futo.circles.feature.share.BaseShareViewModel
 import org.futo.circles.feature.sign_up.SignUpViewModel
 import org.futo.circles.feature.sign_up.password.PasswordViewModel
+import org.futo.circles.feature.sign_up.password.SignupBsSpekeDataSource
 import org.futo.circles.feature.sign_up.password.SignupPasswordDataSource
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileViewModel
@@ -119,10 +120,11 @@ val uiModule = module {
     viewModel { (type: CircleRoomTypeArg) -> SelectRoomsViewModel(get { parametersOf(type) }) }
     viewModel { (passwordMode: PasswordModeArg) ->
         PasswordViewModel(
-            when(passwordMode){
+            when (passwordMode) {
                 PasswordModeArg.LoginStage -> get<LoginPasswordDataSource>()
                 PasswordModeArg.LoginDirect -> get<DirectLoginPasswordDataSource>()
-                PasswordModeArg.SignupStage -> get<SignupPasswordDataSource>()
+                PasswordModeArg.SignupPasswordStage -> get<SignupPasswordDataSource>()
+                PasswordModeArg.SignupBsSpekeStage -> get<SignupBsSpekeDataSource>()
             }
         )
     }

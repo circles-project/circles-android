@@ -1,6 +1,9 @@
 package org.futo.circles.bsspeke
 
-class BSSpekeClientSession(
+import android.util.Base64
+
+
+class BSSpekeClient(
     clientId: String,
     serverId: String,
     password: String
@@ -13,17 +16,17 @@ class BSSpekeClientSession(
         if (rc != 0) throw BSSpekeError("Failed to initialize client (rc = $rc)")
     }
 
-    fun generateBlind(): ByteArray {
+    fun generateBase64Blind(): String {
         val blind = ByteArray(32) { 0 }
         BSSpekeUtils.clientBlindSalt(blind, clientContext)
-        return blind
+        return Base64.encodeToString(blind, Base64.NO_WRAP)
     }
 
-    fun generatePandV(
+    fun generateBase64PandV(
         blindSalt: ByteArray,
         phfBlocks: Int,
         phfIterations: Int
-    ): Pair<ByteArray, ByteArray> {
+    ): Pair<String, String> {
         val p = ByteArray(32) { 0 }
         val v = ByteArray(32) { 0 }
         assert(blindSalt.size == 32)
@@ -32,7 +35,7 @@ class BSSpekeClientSession(
 
         if (rc != 0) throw BSSpekeError("Failed to generate permanent public key")
 
-        return p to v
+        return Base64.encodeToString(p, Base64.NO_WRAP) to Base64.encodeToString(v, Base64.NO_WRAP)
     }
 
     fun generateA(

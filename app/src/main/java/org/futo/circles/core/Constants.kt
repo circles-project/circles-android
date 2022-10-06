@@ -7,6 +7,8 @@ const val REGISTRATION_SUBSCRIPTION_TYPE = "subscription.google"
 const val REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE = "m.enroll.email.request_token"
 const val REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE = "m.enroll.email.submit_token"
 const val REGISTRATION_PASSWORD_TYPE = "m.enroll.password"
+const val REGISTRATION_BSSPEKE_OPRF_TYPE = "m.enroll.bsspeke-ecc.oprf"
+const val REGISTRATION_BSSPEKE_SAVE_TYPE = "m.enroll.bsspeke-ecc.save"
 const val LOGIN_PASSWORD_TYPE = "m.login.password"
 const val DIRECT_LOGIN_PASSWORD_TYPE = "m.login.password.direct"
 
