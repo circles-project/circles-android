@@ -1,5 +1,8 @@
 package org.futo.circles.feature.sign_up.password
 
+import android.content.Context
+import android.util.Base64
+import org.futo.circles.R
 import org.futo.circles.bsspeke.BSSpekeClient
 import org.futo.circles.core.REGISTRATION_BSSPEKE_OPRF_TYPE
 import org.futo.circles.core.REGISTRATION_BSSPEKE_SAVE_TYPE
@@ -11,8 +14,15 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 
 class SignupBsSpekeDataSource(
+    private val context: Context,
     private val signUpDataSource: SignUpDataSource
 ) : PasswordDataSource {
+
+    private val phfParams = mapOf(
+        "name" to "argon2i",
+        PHF_ITERATIONS_PARAM_KEY to 3,
+        PHF_BLOCKS_PARAM_KEY to 100_000
+    )
 
     override fun getMinimumPasswordLength(): Int = 1
 
@@ -24,7 +34,8 @@ class SignupBsSpekeDataSource(
         )
         return when (val oprfResult = performOprfStage(bsSpekeClient)) {
             is Response.Success -> {
-                when (val saveResult = performSaveStage(bsSpekeClient, password)) {
+                when (val saveResult =
+                    performSaveStage(bsSpekeClient, getBlindSalt(oprfResult.data), password)) {
                     is Response.Error -> saveResult
                     is Response.Success -> Response.Success(Unit)
                 }
@@ -45,20 +56,20 @@ class SignupBsSpekeDataSource(
 
     private suspend fun performSaveStage(
         bsSpekeClient: BSSpekeClient,
+        blindSalt: ByteArray,
         password: String
     ): Response<RegistrationResult> {
-        val phf = getPpf()
-        val PandV = bsSpekeClient.generatePandV(
-            getBlindSalt().toByteArray(),
-            (phf.getOrDefault(PHF_ITERATIONS_PARAM_KEY, 0) as? Int) ?: 0,
-            (phf.getOrDefault(PHF_BLOCKS_PARAM_KEY, 0) as? Int) ?: 0
+        val PandV = bsSpekeClient.generateBase64PandV(
+            blindSalt,
+            (phfParams.getOrDefault(PHF_BLOCKS_PARAM_KEY, 0) as? Int) ?: 0,
+            (phfParams.getOrDefault(PHF_ITERATIONS_PARAM_KEY, 0) as? Int) ?: 0
         )
         return signUpDataSource.performRegistrationStage(
             mapOf(
                 TYPE_PARAM_KEY to REGISTRATION_BSSPEKE_SAVE_TYPE,
                 P_PARAM_KEY to PandV.first,
                 V_PARAM_KEY to PandV.second,
-                PHF_PARAM_KEY to phf
+                PHF_PARAM_KEY to phfParams
             ), password
         )
     }
@@ -68,16 +79,16 @@ class SignupBsSpekeDataSource(
             CURVE_PARAM_KEY, ""
         ))?.toString() ?: ""
 
-    private fun getPpf(): Map<String, String> =
-        ((signUpDataSource.currentStage as? Stage.Other)?.params?.getOrDefault(
-            PHF_PARAM_KEY, emptyMap<String, String>()
-        ) as? Map<*, *>)?.map { it.key.toString() to it.value.toString() }?.toMap()
-            ?: emptyMap()
+    private fun getBlindSalt(oprfResult: RegistrationResult): ByteArray {
+        val saveStage =
+            ((oprfResult as? RegistrationResult.FlowResponse)?.flowResult?.missingStages?.firstOrNull {
+                (it as? Stage.Other)?.type == REGISTRATION_BSSPEKE_SAVE_TYPE
+            } as? Stage.Other)
+                ?: throw IllegalArgumentException(context.getString(R.string.blind_salt_is_missing))
 
-    private fun getBlindSalt(): String =
-        ((signUpDataSource.currentStage as? Stage.Other)?.params?.getOrDefault(
-            BLIND_SALT_PARAM_KEY, ""
-        ))?.toString() ?: ""
+        val blindSaltString = saveStage.params?.getOrDefault(BLIND_SALT_PARAM_KEY, "")?.toString()
+        return Base64.decode(blindSaltString, Base64.NO_WRAP)
+    }
 
     companion object {
         private const val CURVE_PARAM_KEY = "curve"
