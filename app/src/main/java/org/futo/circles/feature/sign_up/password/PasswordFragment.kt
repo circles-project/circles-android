@@ -36,7 +36,15 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
 
     private fun setupViews() {
         with(binding) {
-            btnLogin.setText(getString(if (args.mode == PasswordModeArg.SignupStage) R.string.set_password else R.string.log_in))
+            btnLogin.setText(
+                getString(
+                    when (args.mode) {
+                        PasswordModeArg.SignupPasswordStage,
+                        PasswordModeArg.SignupBsSpekeStage -> R.string.set_password
+                        else -> R.string.log_in
+                    }
+                )
+            )
             btnLogin.setOnClickListener {
                 startLoading(btnLogin)
                 viewModel.loginWithPassword(tilPassword.getText())
