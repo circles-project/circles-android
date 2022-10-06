@@ -19,7 +19,7 @@ import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 
-enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password }
+enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password, BSspeke }
 
 class SignUpDataSource(
     private val context: Context,
@@ -44,18 +44,24 @@ class SignUpDataSource(
     var currentStage: Stage? = null
         private set
 
+    var userName: String = ""
+        private set
+    var domain: String = ""
+        private set
+
     private var passphrase: String = ""
-    private var userName: String = ""
 
     suspend fun startSignUpStages(
         stages: List<Stage>,
         name: String,
+        serverDomain: String,
         subscriptionReceipt: String?
     ) {
         currentStage = null
         stagesToComplete.clear()
         passphrase = ""
         userName = name
+        domain = serverDomain
         stagesToComplete.addAll(stages)
         subscriptionReceipt?.let { skipSubscriptionStageIfValid(it) } ?: navigateToNextStage()
     }
@@ -142,6 +148,8 @@ class SignUpDataSource(
         REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE -> SignUpNavigationEvents.ValidateEmail
         REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE -> null
         REGISTRATION_PASSWORD_TYPE -> SignUpNavigationEvents.Password
+        REGISTRATION_BSSPEKE_OPRF_TYPE -> SignUpNavigationEvents.BSspeke
+        REGISTRATION_BSSPEKE_SAVE_TYPE -> null
         else -> throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
         )

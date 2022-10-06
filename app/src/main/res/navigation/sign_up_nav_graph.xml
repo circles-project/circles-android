@@ -23,7 +23,27 @@
 
     <action
         android:id="@+id/to_password"
-        app:destination="@id/passwordFragment" />
+        app:destination="@id/passwordFragment">
+
+        <argument
+            android:name="mode"
+            android:defaultValue="SignupPasswordStage"
+            app:argType="org.futo.circles.model.PasswordModeArg"
+            app:nullable="false" />
+
+    </action>
+
+    <action
+        android:id="@+id/to_bsspeke"
+        app:destination="@id/passwordFragment">
+
+        <argument
+            android:name="mode"
+            android:defaultValue="SignupBsSpekeStage"
+            app:argType="org.futo.circles.model.PasswordModeArg"
+            app:nullable="false" />
+
+    </action>
 
     <fragment
         android:id="@+id/selectSignUpTypeFragment"
@@ -64,7 +84,6 @@
 
         <argument
             android:name="mode"
-            android:defaultValue="SignupStage"
             app:argType="org.futo.circles.model.PasswordModeArg"
             app:nullable="false" />
 

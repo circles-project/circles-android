@@ -58,6 +58,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), BackPressOwner {
             SignUpNavigationEvents.AcceptTerm -> R.id.to_acceptTerms
             SignUpNavigationEvents.ValidateEmail -> R.id.to_validateEmail
             SignUpNavigationEvents.Password -> R.id.to_password
+            SignUpNavigationEvents.BSspeke -> R.id.to_bsspeke
         }
         binding.navHostFragment.findNavController().navigate(directionId)
     }
