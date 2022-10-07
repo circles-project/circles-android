@@ -70,7 +70,7 @@ class SignupBsSpekeDataSource(
                 P_PARAM_KEY to PandV.first,
                 V_PARAM_KEY to PandV.second,
                 PHF_PARAM_KEY to phfParams
-            ), password
+            ), password = password
         )
     }
 

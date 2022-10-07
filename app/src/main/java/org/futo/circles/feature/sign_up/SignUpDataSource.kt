@@ -19,7 +19,7 @@ import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 
-enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password, BSspeke }
+enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password, BSspeke, Username }
 
 class SignUpDataSource(
     private val context: Context,
@@ -31,13 +31,6 @@ class SignUpDataSource(
     val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
     val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
-
-    private val initialDeviceName by lazy {
-        context.getString(
-            R.string.initial_device_name,
-            context.getString(R.string.app_name)
-        )
-    }
 
     private val stagesToComplete = mutableListOf<Stage>()
 
@@ -53,14 +46,12 @@ class SignUpDataSource(
 
     suspend fun startSignUpStages(
         stages: List<Stage>,
-        name: String,
         serverDomain: String,
         subscriptionReceipt: String?
     ) {
         currentStage = null
         stagesToComplete.clear()
         passphrase = ""
-        userName = name
         domain = serverDomain
         stagesToComplete.addAll(stages)
         subscriptionReceipt?.let { skipSubscriptionStageIfValid(it) } ?: navigateToNextStage()
@@ -86,13 +77,14 @@ class SignUpDataSource(
 
     suspend fun performRegistrationStage(
         authParams: JsonDict,
+        name: String? = null,
         password: String? = null
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
-        val result =
-            createResult { wizard.registrationSwiclops(authParams, userName, initialDeviceName) }
+        val result = createResult { wizard.registrationCustom(authParams) }
 
         (result as? Response.Success)?.let {
+            name?.let { userName = it }
             password?.let { passphrase = it }
             stageCompleted(result.data)
         }
@@ -147,6 +139,7 @@ class SignUpDataSource(
         REGISTRATION_SUBSCRIPTION_TYPE -> SignUpNavigationEvents.Subscription
         REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE -> SignUpNavigationEvents.ValidateEmail
         REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE -> null
+        REGISTRATION_USERNAME_TYPE -> SignUpNavigationEvents.Username
         REGISTRATION_PASSWORD_TYPE -> SignUpNavigationEvents.Password
         REGISTRATION_BSSPEKE_OPRF_TYPE -> SignUpNavigationEvents.BSspeke
         REGISTRATION_BSSPEKE_SAVE_TYPE -> null

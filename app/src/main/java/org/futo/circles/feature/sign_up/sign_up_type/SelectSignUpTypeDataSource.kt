@@ -22,7 +22,6 @@ class SelectSignUpTypeDataSource(
     }
 
     suspend fun startNewRegistration(
-        name: String,
         domain: String,
         isSubscription: Boolean,
         subscriptionReceipt: String?
@@ -32,7 +31,6 @@ class SelectSignUpTypeDataSource(
         val flows = authService.getRegistrationWizard().getAllRegistrationFlows()
         signUpDataSource.startSignUpStages(
             prepareStagesList(isSubscription, flows),
-            name,
             domain,
             subscriptionReceipt
         )
