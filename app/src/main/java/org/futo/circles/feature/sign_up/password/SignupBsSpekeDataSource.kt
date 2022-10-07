@@ -18,12 +18,6 @@ class SignupBsSpekeDataSource(
     private val signUpDataSource: SignUpDataSource
 ) : PasswordDataSource {
 
-    private val phfParams = mapOf(
-        "name" to "argon2i",
-        PHF_ITERATIONS_PARAM_KEY to 3,
-        PHF_BLOCKS_PARAM_KEY to 100_000
-    )
-
     override fun getMinimumPasswordLength(): Int = 1
 
     override suspend fun processPasswordStage(password: String): Response<Unit> {
@@ -32,10 +26,30 @@ class SignupBsSpekeDataSource(
             signUpDataSource.domain,
             password
         )
+        val phfParams = getPhf()
+        val blocks = (phfParams.getOrDefault(PHF_BLOCKS_PARAM_KEY, 0) as? Double)
+            ?.toInt()
+            ?.takeIf { it >= MIN_PHF_BLOCKS }
+            ?: return Response.Error(
+                context.getString(R.string.phf_blocks_error_format, MIN_PHF_BLOCKS)
+            )
+        val iterations = (phfParams.getOrDefault(PHF_ITERATIONS_PARAM_KEY, 0) as? Double)
+            ?.toInt()
+            ?.takeIf { it >= MIN_PHF_ITERATIONS }
+            ?: return Response.Error(
+                context.getString(R.string.phf_iterations_error_format, MIN_PHF_ITERATIONS)
+            )
         return when (val oprfResult = performOprfStage(bsSpekeClient)) {
             is Response.Success -> {
                 when (val saveResult =
-                    performSaveStage(bsSpekeClient, getBlindSalt(oprfResult.data), password)) {
+                    performSaveStage(
+                        bsSpekeClient,
+                        getBlindSalt(oprfResult.data),
+                        password,
+                        phfParams,
+                        blocks,
+                        iterations
+                    )) {
                     is Response.Error -> saveResult
                     is Response.Success -> Response.Success(Unit)
                 }
@@ -57,13 +71,12 @@ class SignupBsSpekeDataSource(
     private suspend fun performSaveStage(
         bsSpekeClient: BSSpekeClient,
         blindSalt: ByteArray,
-        password: String
+        password: String,
+        phfParams: Map<String, Any?>,
+        blocks: Int,
+        iterations: Int
     ): Response<RegistrationResult> {
-        val PandV = bsSpekeClient.generateBase64PandV(
-            blindSalt,
-            (phfParams.getOrDefault(PHF_BLOCKS_PARAM_KEY, 0) as? Int) ?: 0,
-            (phfParams.getOrDefault(PHF_ITERATIONS_PARAM_KEY, 0) as? Int) ?: 0
-        )
+        val PandV = bsSpekeClient.generateBase64PandV(blindSalt, blocks, iterations)
         return signUpDataSource.performRegistrationStage(
             mapOf(
                 TYPE_PARAM_KEY to REGISTRATION_BSSPEKE_SAVE_TYPE,
@@ -78,6 +91,12 @@ class SignupBsSpekeDataSource(
         ((signUpDataSource.currentStage as? Stage.Other)?.params?.getOrDefault(
             CURVE_PARAM_KEY, ""
         ))?.toString() ?: ""
+
+    private fun getPhf(): Map<String, Any?> =
+        ((signUpDataSource.currentStage as? Stage.Other)?.params?.getOrDefault(
+            PHF_PARAM_KEY, emptyMap<String, Any>()
+        ) as? Map<*, *>)?.map { it.key.toString() to it.value }?.toMap()
+            ?: emptyMap()
 
     private fun getBlindSalt(oprfResult: RegistrationResult): ByteArray {
         val saveStage =
@@ -99,5 +118,7 @@ class SignupBsSpekeDataSource(
         private const val PHF_PARAM_KEY = "phf_params"
         private const val PHF_ITERATIONS_PARAM_KEY = "iterations"
         private const val PHF_BLOCKS_PARAM_KEY = "blocks"
+        private const val MIN_PHF_ITERATIONS = 3
+        private const val MIN_PHF_BLOCKS = 100_000
     }
 }

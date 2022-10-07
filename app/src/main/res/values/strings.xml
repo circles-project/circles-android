@@ -276,6 +276,8 @@
     <string name="unsupported_login_method">Unsupported login method</string>
     <string name="blind_salt_is_missing">Blind salt is missing</string>
     <string name="at_symbol">\@</string>
+    <string name="phf_blocks_error_format">Phf blocks must be bigger than %d</string>
+    <string name="phf_iterations_error_format">Phf iterations must be bigger than %d</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
