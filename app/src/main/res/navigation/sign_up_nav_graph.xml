@@ -22,6 +22,10 @@
         app:destination="@id/subscriptionStageFragment" />
 
     <action
+        android:id="@+id/to_username"
+        app:destination="@id/usernameFragment" />
+
+    <action
         android:id="@+id/to_password"
         app:destination="@id/passwordFragment">
 
@@ -88,6 +92,11 @@
             app:nullable="false" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/usernameFragment"
+        android:name="org.futo.circles.feature.sign_up.username.UsernameFragment"
+        tools:layout="@layout/fragment_username" />
 
 
 </navigation>

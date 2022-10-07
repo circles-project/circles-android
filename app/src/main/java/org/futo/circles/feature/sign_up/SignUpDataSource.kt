@@ -19,7 +19,7 @@ import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 
-enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password, BSspeke }
+enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password, BSspeke, Username }
 
 class SignUpDataSource(
     private val context: Context,
@@ -145,6 +145,7 @@ class SignUpDataSource(
         REGISTRATION_SUBSCRIPTION_TYPE -> SignUpNavigationEvents.Subscription
         REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE -> SignUpNavigationEvents.ValidateEmail
         REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE -> null
+        REGISTRATION_USERNAME_TYPE -> SignUpNavigationEvents.Username
         REGISTRATION_PASSWORD_TYPE -> SignUpNavigationEvents.Password
         REGISTRATION_BSSPEKE_OPRF_TYPE -> SignUpNavigationEvents.BSspeke
         REGISTRATION_BSSPEKE_SAVE_TYPE -> null
