@@ -1,6 +1,7 @@
 package org.futo.circles.feature.sign_up.sign_up_type
 
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -8,7 +9,6 @@ import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.FragmentSelectSignUpTypeBinding
-import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.setIsVisible
@@ -42,8 +42,15 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
     private fun setupViews() {
         with(binding) {
             groupSubscription.setIsVisible(BuildConfig.IS_SUBSCRIPTIONS_ENABLED)
-            btnEU.text = getString(R.string.eu_server_format, BuildConfig.EU_SERVER_DOMAIN)
-            btnUS.text = getString(R.string.us_server_format, BuildConfig.EU_SERVER_DOMAIN)
+            btnEU.text = Html.fromHtml(
+                getString(R.string.eu_server_format, BuildConfig.EU_SERVER_DOMAIN),
+                Html.FROM_HTML_MODE_COMPACT
+            )
+            btnUS.text =
+                Html.fromHtml(
+                    getString(R.string.us_server_format, BuildConfig.US_SERVER_DOMAIN),
+                    Html.FROM_HTML_MODE_COMPACT
+                )
             btnToken.setOnClickListener {
                 startLoading(btnToken)
                 viewModel.startSignUp(getDomain())

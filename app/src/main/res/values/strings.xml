@@ -222,8 +222,8 @@
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="users_circles_format">%s\'s Circles</string>
     <string name="server_location">Server Location</string>
-    <string name="us_server_format">US - (%s)</string>
-    <string name="eu_server_format">EU - (%s)</string>
+    <string name="us_server_format"><![CDATA[<b>US</b> - (%s)]]></string>
+    <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>
     <string name="user_id_start_symbol">\@</string>
     <string name="user_id_separator">:</string>
     <string name="domain">Domain</string>
