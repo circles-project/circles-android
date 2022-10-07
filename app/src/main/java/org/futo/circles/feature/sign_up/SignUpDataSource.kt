@@ -32,13 +32,6 @@ class SignUpDataSource(
     val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
 
-    private val initialDeviceName by lazy {
-        context.getString(
-            R.string.initial_device_name,
-            context.getString(R.string.app_name)
-        )
-    }
-
     private val stagesToComplete = mutableListOf<Stage>()
 
     var currentStage: Stage? = null
@@ -84,13 +77,14 @@ class SignUpDataSource(
 
     suspend fun performRegistrationStage(
         authParams: JsonDict,
+        name: String? = null,
         password: String? = null
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
-        val result =
-            createResult { wizard.registrationSwiclops(authParams, userName, initialDeviceName) }
+        val result = createResult { wizard.registrationCustom(authParams) }
 
         (result as? Response.Success)?.let {
+            name?.let { userName = it }
             password?.let { passphrase = it }
             stageCompleted(result.data)
         }

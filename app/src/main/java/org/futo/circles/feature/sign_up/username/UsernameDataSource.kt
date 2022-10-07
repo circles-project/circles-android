@@ -18,7 +18,7 @@ class UsernameDataSource(
             mapOf(
                 TYPE_PARAM_KEY to REGISTRATION_USERNAME_TYPE,
                 USERNAME_PARAM_KEY to username
-            )
+            ), name = username
         )
 
     companion object {
