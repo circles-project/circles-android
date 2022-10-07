@@ -3,6 +3,7 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
+    <string name="set_username">Set username</string>
     <string name="not_a_member">Not a member?</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_using_active_subscription">Sign Up using your active subscription</string>
@@ -220,9 +221,9 @@
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="users_circles_format">%s\'s Circles</string>
-    <string name="server_location">Server Location:</string>
-    <string name="us">US</string>
-    <string name="eu">EU</string>
+    <string name="server_location">Server Location</string>
+    <string name="us_server_format">US - (%s)</string>
+    <string name="eu_server_format">EU - (%s)</string>
     <string name="user_id_start_symbol">\@</string>
     <string name="user_id_separator">:</string>
     <string name="domain">Domain</string>
@@ -251,6 +252,7 @@
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
     <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_username">Enter your username</string>
     <string name="poll_type">Poll type</string>
     <string name="open_poll">Open poll</string>
     <string name="open_poll_hint">Voter see results as soon as they have voted</string>
