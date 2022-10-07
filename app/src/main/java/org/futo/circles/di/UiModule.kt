@@ -40,6 +40,7 @@ import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeViewModel
 import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageViewModel
 import org.futo.circles.feature.sign_up.terms.AcceptTermsViewModel
 import org.futo.circles.feature.sign_up.terms.SignupAcceptTermsDataSource
+import org.futo.circles.feature.sign_up.username.UsernameViewModel
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailViewModel
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
@@ -129,4 +130,5 @@ val uiModule = module {
         )
     }
     viewModel { LoginStagesViewModel(get()) }
+    viewModel { UsernameViewModel(get()) }
 }
