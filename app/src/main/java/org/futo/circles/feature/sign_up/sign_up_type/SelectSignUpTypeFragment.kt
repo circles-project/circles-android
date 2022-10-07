@@ -2,7 +2,6 @@ package org.futo.circles.feature.sign_up.sign_up_type
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.BuildConfig
@@ -43,30 +42,16 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
     private fun setupViews() {
         with(binding) {
             groupSubscription.setIsVisible(BuildConfig.IS_SUBSCRIPTIONS_ENABLED)
-            tilUserName.editText?.doAfterTextChanged { setSignupButtonsEnabled() }
+            btnEU.text = getString(R.string.eu_server_format, BuildConfig.EU_SERVER_DOMAIN)
+            btnUS.text = getString(R.string.us_server_format, BuildConfig.EU_SERVER_DOMAIN)
             btnToken.setOnClickListener {
                 startLoading(btnToken)
-                viewModel.startSignUp(
-                    tilUserName.getText(),
-                    tvServerDomain.text.toString()
-                )
+                viewModel.startSignUp(getDomain())
             }
             btnSubscription.setOnClickListener {
                 startLoading(btnSubscription)
-                viewModel.startSignUp(
-                    tilUserName.getText(),
-                    tvServerDomain.text.toString(),
-                    true
-                )
+                viewModel.startSignUp(getDomain(), true)
             }
-            serverLocationGroup.setOnCheckedChangeListener { _, checkedId ->
-                tvServerDomain.text = when (checkedId) {
-                    btnUS.id -> BuildConfig.US_SERVER_DOMAIN
-                    btnEU.id -> BuildConfig.EU_SERVER_DOMAIN
-                    else -> BuildConfig.US_SERVER_DOMAIN
-                }
-            }
-            serverLocationGroup.check(btnUS.id)
         }
     }
 
@@ -84,9 +69,9 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
         }
     }
 
-    private fun setSignupButtonsEnabled() {
-        val isEnabled = binding.tilUserName.getText().isNotEmpty()
-        binding.btnToken.isEnabled = isEnabled
-        binding.btnSubscription.isEnabled = isEnabled
+    private fun getDomain() = when (binding.serverLocationGroup.checkedRadioButtonId) {
+        binding.btnUS.id -> BuildConfig.US_SERVER_DOMAIN
+        binding.btnEU.id -> BuildConfig.EU_SERVER_DOMAIN
+        else -> BuildConfig.US_SERVER_DOMAIN
     }
 }
