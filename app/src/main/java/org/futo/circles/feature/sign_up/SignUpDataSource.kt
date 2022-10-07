@@ -53,14 +53,12 @@ class SignUpDataSource(
 
     suspend fun startSignUpStages(
         stages: List<Stage>,
-        name: String,
         serverDomain: String,
         subscriptionReceipt: String?
     ) {
         currentStage = null
         stagesToComplete.clear()
         passphrase = ""
-        userName = name
         domain = serverDomain
         stagesToComplete.addAll(stages)
         subscriptionReceipt?.let { skipSubscriptionStageIfValid(it) } ?: navigateToNextStage()

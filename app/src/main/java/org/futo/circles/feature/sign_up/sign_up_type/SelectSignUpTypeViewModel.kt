@@ -16,14 +16,12 @@ class SelectSignUpTypeViewModel(
     var subscriptionReceipt: String? = null
 
     fun startSignUp(
-        name: String,
         serverDomain: String,
         isSubscription: Boolean = false
     ) {
         launchBg {
             startSignUpEventLiveData.postValue(
                 dataSource.startNewRegistration(
-                    name,
                     serverDomain,
                     isSubscription,
                     subscriptionReceipt
