@@ -275,6 +275,7 @@
     <string name="minimum_length_format">Minimum length %d</string>
     <string name="unsupported_login_method">Unsupported login method</string>
     <string name="blind_salt_is_missing">Blind salt is missing</string>
+    <string name="at_symbol">\@</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

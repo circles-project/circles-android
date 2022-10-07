@@ -46,17 +46,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
+            <TextView
+                android:id="@+id/tvAt"
+                style="@style/footNote"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/at_symbol"
+                app:layout_constraintBottom_toBottomOf="@id/tilUserName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tilUserName" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilUserName"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="4dp"
                 android:hint="@string/username"
-                app:layout_constraintEnd_toStartOf="@id/tvServerDomain"
-                app:layout_constraintHorizontal_weight="0.55"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvDomainSeparator"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toEndOf="@id/tvAt"
                 app:layout_constraintTop_toBottomOf="@id/tvPasswordTitle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -70,6 +80,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/tvDomainSeparator"
+                style="@style/footNote"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/user_id_separator"
+                app:layout_constraintBottom_toBottomOf="@id/tilUserName"
+                app:layout_constraintEnd_toStartOf="@id/tvServerDomain"
+                app:layout_constraintStart_toEndOf="@id/tilUserName"
+                app:layout_constraintTop_toTopOf="@id/tilUserName" />
+
+            <TextView
                 android:id="@+id/tvServerDomain"
                 style="@style/footNote"
                 android:layout_width="0dp"
@@ -78,8 +100,8 @@
                 android:lines="1"
                 app:layout_constraintBottom_toBottomOf="@id/tilUserName"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="0.45"
-                app:layout_constraintStart_toEndOf="@id/tilUserName"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toEndOf="@id/tvDomainSeparator"
                 app:layout_constraintTop_toTopOf="@id/tilUserName"
                 tools:text="eu.kombucha.social" />
 

@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="@"
+        android:text="@string/at_symbol"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@id/tilUserName"
         app:layout_constraintStart_toStartOf="parent"
