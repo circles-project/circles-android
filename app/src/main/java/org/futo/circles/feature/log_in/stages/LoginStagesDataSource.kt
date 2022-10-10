@@ -9,14 +9,15 @@ import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
-import org.futo.circles.feature.sign_up.SignUpNavigationEvents
+import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.util.JsonDict
 
-enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase, Password, Terms, DirectPassword }
+enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase, Password, Terms, DirectPassword, BSspeke }
 
 class LoginStagesDataSource(
     private val context: Context,
@@ -31,6 +32,8 @@ class LoginStagesDataSource(
 
     var userName: String = ""
         private set
+    var domain: String = ""
+        private set
 
     private val stagesToComplete = mutableListOf<Stage>()
     var currentStage: Stage? = null
@@ -40,9 +43,11 @@ class LoginStagesDataSource(
 
     fun startLoginStages(
         loginStages: List<Stage>,
-        userName: String
+        name: String,
+        serverDomain: String
     ) {
-        this.userName = userName
+        userName = name
+        domain = serverDomain
         userPassword = ""
         currentStage = null
         stagesToComplete.clear()
@@ -52,6 +57,23 @@ class LoginStagesDataSource(
 
     fun setPassword(password: String) {
         userPassword = password
+    }
+
+    suspend fun performLoginStage(
+        authParams: JsonDict,
+        password: String? = null
+    ): Response<RegistrationResult> {
+        val wizard = MatrixInstanceProvider.matrix.authenticationService().getLoginWizard()
+        val identifierParams = mapOf(
+            USER_PARAM_KEY to userName,
+            TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
+        )
+        val result = createResult { wizard.loginStageCustom(authParams, identifierParams) }
+        (result as? Response.Success)?.let {
+            password?.let { userPassword = it }
+            stageCompleted(result.data)
+        }
+        return result
     }
 
     suspend fun stageCompleted(result: RegistrationResult) {
@@ -83,13 +105,15 @@ class LoginStagesDataSource(
                 context.getString(R.string.not_supported_stage_format, stage.toString())
             )
         }
-        loginNavigationLiveData.postValue(event)
+        event?.let { loginNavigationLiveData.postValue(it) }
         updatePageSubtitle()
     }
 
-    private fun handleStageOther(type: String): LoginNavigationEvent = when (type) {
+    private fun handleStageOther(type: String): LoginNavigationEvent? = when (type) {
         LOGIN_PASSWORD_TYPE -> LoginNavigationEvent.Password
         DIRECT_LOGIN_PASSWORD_TYPE -> LoginNavigationEvent.DirectPassword
+        LOGIN_BSSPEKE_OPRF_TYPE -> LoginNavigationEvent.BSspeke
+        LOGIN_BSSPEKE_VERIFY_TYPE -> null
         else -> throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
         )
@@ -143,5 +167,9 @@ class LoginStagesDataSource(
             is Response.Success -> createSpacesTreeIfNotExist()
         }
         return restoreResult
+    }
+
+    companion object {
+        private const val USER_PARAM_KEY = "user"
     }
 }
