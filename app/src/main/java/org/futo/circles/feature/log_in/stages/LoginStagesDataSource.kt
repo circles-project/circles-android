@@ -65,7 +65,7 @@ class LoginStagesDataSource(
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getLoginWizard()
         val identifierParams = mapOf(
-            USER_PARAM_KEY to userName,
+            USER_PARAM_KEY to "@$userName:$domain",
             TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
         )
         val result = createResult { wizard.loginStageCustom(authParams, identifierParams) }
