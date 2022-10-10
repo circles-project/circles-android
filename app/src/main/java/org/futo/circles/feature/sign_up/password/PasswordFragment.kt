@@ -64,11 +64,4 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
             binding.tvMinimumLength.setIsVisible(it > 1)
         }
     }
-
-    companion object {
-        private const val MODE = "mode"
-        fun create(mode: PasswordModeArg) = PasswordFragment().apply {
-            arguments = bundleOf(MODE to mode)
-        }
-    }
 }
