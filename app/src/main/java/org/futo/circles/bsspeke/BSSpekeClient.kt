@@ -38,18 +38,18 @@ class BSSpekeClient(
         return Base64.encodeToString(p, Base64.NO_WRAP) to Base64.encodeToString(v, Base64.NO_WRAP)
     }
 
-    fun generateA(
+    fun generateABase64(
         blindSalt: ByteArray,
         phfBlocks: Int,
         phfIterations: Int
-    ): ByteArray {
+    ): String {
         assert(blindSalt.size == 32)
         val rc = BSSpekeUtils.generateA(blindSalt, phfBlocks, phfIterations, clientContext)
         if (rc != 0) throw BSSpekeError("Failed to generate client ephemeral pubkey A")
 
         val a = ByteArray(32) { 0 }
         BSSpekeUtils.clientGetA(a, clientContext)
-        return a
+        return Base64.encodeToString(a, Base64.NO_WRAP)
     }
 
     fun deriveSharedKey(B: ByteArray) {
@@ -57,10 +57,10 @@ class BSSpekeClient(
         BSSpekeUtils.clientDeriveSharedKey(B, clientContext)
     }
 
-    fun generateVerifier(): ByteArray {
+    fun generateVerifierBase64(): String {
         val verifier = ByteArray(32) { 0 }
         BSSpekeUtils.clientGenerateVerifier(verifier, clientContext)
-        return verifier
+        return Base64.encodeToString(verifier, Base64.NO_WRAP)
     }
 
     fun verifyServer(verifier: ByteArray): Boolean {
