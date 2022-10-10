@@ -8,6 +8,7 @@ import org.futo.circles.feature.groups.GroupsViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
 import org.futo.circles.feature.log_in.stages.LoginStagesViewModel
 import org.futo.circles.feature.log_in.stages.password.DirectLoginPasswordDataSource
+import org.futo.circles.feature.log_in.stages.password.LoginBsSpekeDataSource
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
@@ -122,8 +123,9 @@ val uiModule = module {
     viewModel { (passwordMode: PasswordModeArg) ->
         PasswordViewModel(
             when (passwordMode) {
-                PasswordModeArg.LoginStage -> get<LoginPasswordDataSource>()
+                PasswordModeArg.LoginPasswordStage -> get<LoginPasswordDataSource>()
                 PasswordModeArg.LoginDirect -> get<DirectLoginPasswordDataSource>()
+                PasswordModeArg.LoginBsSpekeStage -> get<LoginBsSpekeDataSource>()
                 PasswordModeArg.SignupPasswordStage -> get<SignupPasswordDataSource>()
                 PasswordModeArg.SignupBsSpekeStage -> get<SignupBsSpekeDataSource>()
             }
