@@ -1,6 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/log_in_nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/log_in_nav_graph"
+    app:startDestination="@id/emptyFragment">
 
+    <action
+        android:id="@+id/to_acceptTerms"
+        app:destination="@id/acceptTermsFragmentLogin">
+
+        <argument
+            android:name="is_login_mode"
+            android:defaultValue="true"
+            app:argType="boolean"
+            app:nullable="false" />
+
+    </action>
+
+    <action
+        android:id="@+id/to_direct_login"
+        app:destination="@id/passwordFragmentLogin">
+
+        <argument
+            android:name="mode"
+            android:defaultValue="LoginDirect"
+            app:argType="org.futo.circles.model.PasswordModeArg"
+            app:nullable="false" />
+
+    </action>
+
+    <action
+        android:id="@+id/to_password"
+        app:destination="@id/passwordFragmentLogin">
+
+        <argument
+            android:name="mode"
+            android:defaultValue="LoginPasswordStage"
+            app:argType="org.futo.circles.model.PasswordModeArg"
+            app:nullable="false" />
+
+    </action>
+
+    <action
+        android:id="@+id/to_bsspeke"
+        app:destination="@id/passwordFragmentLogin">
+
+        <argument
+            android:name="mode"
+            android:defaultValue="LoginBsSpekeStage"
+            app:argType="org.futo.circles.model.PasswordModeArg"
+            app:nullable="false" />
+
+    </action>
+
+    <fragment
+        android:id="@+id/acceptTermsFragmentLogin"
+        android:name="org.futo.circles.feature.sign_up.terms.AcceptTermsFragment"
+        tools:layout="@layout/fragment_password" />
+    <fragment
+        android:id="@+id/passwordFragmentLogin"
+        android:name="org.futo.circles.feature.sign_up.password.PasswordFragment"
+        tools:layout="@layout/fragment_accept_terms" />
+    <fragment
+        android:id="@+id/emptyFragment"
+        android:name="org.futo.circles.feature.log_in.EmptyFragment"
+        tools:layout="@layout/fragment_empty" />
 </navigation>
