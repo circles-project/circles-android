@@ -65,21 +65,17 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 findNavController().navigate(LogInFragmentDirections.toSignUpFragment())
             }
             btnLogin.setOnClickListener {
-                val userId = buildUserIdFromInputs() ?: return@setOnClickListener
+                val userName = binding.tilUserName.getText()
+                if (userName.isEmpty()) {
+                    showError(getString(R.string.username_can_not_be_empty))
+                    return@setOnClickListener
+                }
                 startLoading(btnLogin)
-                viewModel.startLogInFlow(userId)
+                viewModel.startLogInFlow(userName, getDomain())
             }
         }
     }
 
-    private fun buildUserIdFromInputs(): String? {
-        val userName = binding.tilUserName.getText()
-        if (userName.isEmpty()) {
-            showError(getString(R.string.username_can_not_be_empty))
-            return null
-        }
-        val domain = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
-            ?: BuildConfig.US_SERVER_DOMAIN
-        return "@$userName:$domain"
-    }
+    private fun getDomain() = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
+        ?: BuildConfig.US_SERVER_DOMAIN
 }

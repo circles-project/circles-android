@@ -72,11 +72,4 @@ class AcceptTermsFragment : ParentBackPressOwnerFragment(R.layout.fragment_accep
     private fun openTermsUrl(item: TermsListItem) {
         openCustomTabUrl(item.url)
     }
-
-    companion object {
-        private const val IS_LOGIN_MODE = "is_login_mode"
-        fun create(isLoginMode: Boolean) = AcceptTermsFragment().apply {
-            arguments = bundleOf(IS_LOGIN_MODE to isLoginMode)
-        }
-    }
 }

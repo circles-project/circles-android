@@ -3,33 +3,32 @@ package org.futo.circles.feature.log_in.stages
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentLoginStagesBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.extensions.showError
+import org.futo.circles.extensions.*
 import org.futo.circles.feature.log_in.EnterPassPhraseDialog
 import org.futo.circles.feature.log_in.EnterPassPhraseDialogListener
-import org.futo.circles.feature.sign_up.password.PasswordFragment
-import org.futo.circles.feature.sign_up.terms.AcceptTermsFragment
-import org.futo.circles.model.PasswordModeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
+class LogInStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressOwner {
 
     private val viewModel by viewModel<LoginStagesViewModel>()
     private val binding by viewBinding(FragmentLoginStagesBinding::bind)
     private val restorePassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
-    private val passwordStageFragment by lazy { PasswordFragment.create(PasswordModeArg.LoginStage) }
-    private val passwordDirectFragment by lazy { PasswordFragment.create(PasswordModeArg.LoginDirect) }
-    private val termsStageFragment by lazy { AcceptTermsFragment.create(true) }
     private var enterPassPhraseDialog: EnterPassPhraseDialog? = null
+
+    private val childNavHostFragment by lazy {
+        childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    }
 
     private val deviceIntentLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -60,9 +59,14 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
                 LoginNavigationEvent.Main -> navigateToBottomMenuFragment()
                 LoginNavigationEvent.SetupCircles -> navigateToSetupCircles()
                 LoginNavigationEvent.PassPhrase -> showPassPhraseDialog()
-                LoginNavigationEvent.DirectPassword-> addStageFragment(passwordDirectFragment)
-                LoginNavigationEvent.Password -> addStageFragment(passwordStageFragment)
-                LoginNavigationEvent.Terms -> addStageFragment(termsStageFragment)
+                LoginNavigationEvent.DirectPassword -> binding.navHostFragment.findNavController()
+                    .navigate(R.id.to_direct_login)
+                LoginNavigationEvent.Password -> binding.navHostFragment.findNavController()
+                    .navigate(R.id.to_password)
+                LoginNavigationEvent.Terms -> binding.navHostFragment.findNavController()
+                    .navigate(R.id.to_acceptTerms)
+                LoginNavigationEvent.BSspeke -> binding.navHostFragment.findNavController()
+                    .navigate(R.id.to_bsspeke)
                 else -> navigateToBottomMenuFragment()
             }
         }
@@ -98,10 +102,21 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages) {
             }
     }
 
-    private fun addStageFragment(fragment: Fragment) {
-        childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, fragment)
-            .commitAllowingStateLoss()
+    private fun showDiscardDialog() {
+        showDialog(
+            titleResIdRes = R.string.discard_current_login_progress,
+            negativeButtonVisible = true,
+            positiveAction = { findNavController().popBackStack() })
+    }
+
+    override fun onChildBackPress(callback: OnBackPressedCallback) {
+        val includedFragmentsManager = childNavHostFragment.childFragmentManager
+        if (includedFragmentsManager.backStackEntryCount == 0) {
+            callback.remove()
+            onBackPressed()
+        } else {
+            showDiscardDialog()
+        }
     }
 
     private fun navigateToBottomMenuFragment() {

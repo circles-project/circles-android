@@ -14,6 +14,7 @@ import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.log_in.LoginDataSource
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.feature.log_in.stages.password.DirectLoginPasswordDataSource
+import org.futo.circles.feature.log_in.stages.password.LoginBsSpekeDataSource
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.people.PeopleDataSource
@@ -109,5 +110,6 @@ val dataSourceModule = module {
     factory { LoginPasswordDataSource(get()) }
     factory { SignupPasswordDataSource(get()) }
     factory { SignupBsSpekeDataSource(get(), get()) }
+    factory { LoginBsSpekeDataSource(get(), get()) }
     factory { UsernameDataSource(get()) }
 }

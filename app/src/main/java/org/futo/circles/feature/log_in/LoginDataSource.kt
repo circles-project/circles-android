@@ -4,13 +4,12 @@ import android.content.Context
 import org.futo.circles.R
 import org.futo.circles.core.DIRECT_LOGIN_PASSWORD_TYPE
 import org.futo.circles.core.LOGIN_PASSWORD_TYPE
-import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromUserId
+import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 import org.matrix.android.sdk.api.auth.registration.Stage
-import org.matrix.android.sdk.api.session.profile.ProfileService
 
 class LoginDataSource(
     private val context: Context,
@@ -20,13 +19,14 @@ class LoginDataSource(
     private val authService by lazy { MatrixInstanceProvider.matrix.authenticationService() }
 
     suspend fun startLogin(
-        userName: String
+        userName: String,
+        domain: String
     ) = createResult {
         authService.cancelPendingLoginOrRegistration()
-        val homeServerConfig = buildHomeServerConfigFromUserId(userName)
+        val homeServerConfig = buildHomeServerConfigFromDomain(domain)
         authService.initiateAuth(homeServerConfig)
         val stages = prepareLoginStages(homeServerConfig)
-        loginStagesDataSource.startLoginStages(stages, userName)
+        loginStagesDataSource.startLoginStages(stages, userName, domain)
     }
 
     private suspend fun prepareLoginStages(homeServerConfig: HomeServerConnectionConfig): List<Stage> {

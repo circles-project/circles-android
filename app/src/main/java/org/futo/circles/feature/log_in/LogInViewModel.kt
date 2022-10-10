@@ -11,9 +11,9 @@ class LogInViewModel(
 
     val loginResultLiveData = SingleEventLiveData<Response<Unit>>()
 
-    fun startLogInFlow(userName: String) {
+    fun startLogInFlow(userName: String, domain: String) {
         launchBg {
-            val loginResult = loginDataSource.startLogin(userName)
+            val loginResult = loginDataSource.startLogin(userName, domain)
             loginResultLiveData.postValue(loginResult)
         }
     }

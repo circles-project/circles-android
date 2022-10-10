@@ -70,6 +70,7 @@
     <string name="accept">Accept</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
+    <string name="discard_current_login_progress">Discard current login progress?</string>
     <string name="validate_your_email">Validate your email</string>
     <string name="validate_email">Validate email</string>
     <string name="email">Email</string>
@@ -275,6 +276,7 @@
     <string name="minimum_length_format">Minimum length %d</string>
     <string name="unsupported_login_method">Unsupported login method</string>
     <string name="blind_salt_is_missing">Blind salt is missing</string>
+    <string name="b_param_is_missing">B param is missing</string>
     <string name="at_symbol">\@</string>
     <string name="phf_blocks_error_format">Phf blocks must be bigger than %d</string>
     <string name="phf_iterations_error_format">Phf iterations must be bigger than %d</string>

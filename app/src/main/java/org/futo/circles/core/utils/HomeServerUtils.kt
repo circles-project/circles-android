@@ -11,15 +11,6 @@ object HomeServerUtils {
         getHomeServerUrlFromDomain(domain)
     )
 
-    fun buildHomeServerConfigFromUserId(userId: String) = buildHomeServerConfig(
-        getHomeServerUrlFromUserName(userId)
-    )
-
-    private fun getHomeServerUrlFromUserName(username: String): String {
-        val domain = username.substringAfter(":")
-        return getHomeServerUrlFromDomain(domain)
-    }
-
     private fun getHomeServerUrlFromDomain(domain: String): String {
         var formattedDomain = domain
         if (!domain.startsWith(MATRIX_DOMAIN_PREFIX)) formattedDomain =

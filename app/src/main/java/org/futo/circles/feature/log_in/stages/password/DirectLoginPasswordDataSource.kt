@@ -19,7 +19,7 @@ class DirectLoginPasswordDataSource(
     override suspend fun processPasswordStage(password: String): Response<Unit> {
         val result = createResult {
             MatrixInstanceProvider.matrix.authenticationService().getLoginWizard().login(
-                login = loginStagesDataSource.userName,
+                login = "@${loginStagesDataSource.userName}:${loginStagesDataSource.domain}",
                 password = password,
                 initialDeviceName = context.getString(
                     R.string.initial_device_name,

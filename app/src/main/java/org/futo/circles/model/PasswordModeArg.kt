@@ -1,3 +1,3 @@
 package org.futo.circles.model
 
-enum class PasswordModeArg { LoginStage, LoginDirect, SignupPasswordStage, SignupBsSpekeStage }
+enum class PasswordModeArg { LoginPasswordStage, LoginDirect, LoginBsSpekeStage, SignupPasswordStage, SignupBsSpekeStage }
