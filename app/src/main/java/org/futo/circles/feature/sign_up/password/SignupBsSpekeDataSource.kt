@@ -69,7 +69,7 @@ class SignupBsSpekeDataSource(
     ): Response<Unit> {
         val PandV: Pair<String, String>
         try {
-            val blindSalt = getBlindSalt(context, oprfResult, LOGIN_BSSPEKE_VERIFY_TYPE)
+            val blindSalt = getBlindSalt(context, oprfResult, REGISTRATION_BSSPEKE_SAVE_TYPE)
             PandV = bsSpekeClient.generateBase64PandV(blindSalt, blocks, iterations)
         } catch (e: Exception) {
             return Response.Error(e.message ?: "")
