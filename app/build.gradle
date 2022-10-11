@@ -29,7 +29,7 @@ android {
         debug {
             minifyEnabled false
             resValue "string", "app_name", "Circuli Stage"
-            buildConfigField "String", "US_SERVER_DOMAIN", "\"matrix.nl.circles-dev.net\""
+            buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
             buildConfigField "String", "EU_SERVER_DOMAIN", "\"eu.kombucha.social\""
         }
         release {
