@@ -86,7 +86,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun navigateToSystemNotices() {
-        val systemNoticesRoomId = getSystemNoticesRoomId() ?: return
+        val systemNoticesRoomId = getSystemNoticesRoomId() ?: run {
+            showError(getString(R.string.system_notices_room_not_found))
+            return
+        }
         findNavController().navigate(
             SettingsFragmentDirections.toSystemNoticesDialogFragment(systemNoticesRoomId)
         )
