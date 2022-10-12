@@ -170,6 +170,6 @@ class LoginStagesDataSource(
     }
 
     companion object {
-        private const val USER_PARAM_KEY = "user"
+        const val USER_PARAM_KEY = "user"
     }
 }
