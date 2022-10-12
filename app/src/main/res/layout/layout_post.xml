@@ -20,6 +20,7 @@
         android:id="@+id/postCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/post_card_background_color"
         app:cardCornerRadius="4dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"

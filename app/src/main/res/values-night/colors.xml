@@ -3,4 +3,5 @@
     <color name="divider_color">#333333</color>
     <color name="menu_icon_color">#ABABAB</color>
     <color name="list_item_icon_color">@color/menu_icon_color</color>
+    <color name="post_card_background_color">#2D2D2D</color>
 </resources>

@@ -24,4 +24,5 @@
     <color name="chip_selected_color">#800E7AFE</color>
     <color name="launcher_background_color">#00008b</color>
     <color name="transparent">#00000000</color>
+    <color name="post_card_background_color">@color/white</color>
 </resources>
