@@ -6,11 +6,10 @@
 
     <TextView
         android:id="@+id/tvContent"
+        style="@style/postMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/post_text_side_margin"
-        android:autoLink="web"
-        android:textColor="@color/black"
-        android:textSize="17sp" />
+        android:autoLink="web" />
 
 </org.futo.circles.view.PostLayout>
