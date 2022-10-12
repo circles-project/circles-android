@@ -38,7 +38,7 @@
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvTitle"
-                app:tint="@color/inactive_menu_icon_color" />
+                app:tint="@color/menu_icon_color" />
 
             <View
                 android:id="@+id/titleDivider"
@@ -63,7 +63,7 @@
                 android:padding="16dp"
                 android:text="@string/photo"
                 app:drawableLeftCompat="@drawable/ic_photo"
-                app:drawableTint="@color/inactive_menu_icon_color"
+                app:drawableTint="@color/menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleDivider" />
@@ -80,7 +80,7 @@
                 android:padding="16dp"
                 android:text="@string/video"
                 app:drawableLeftCompat="@drawable/ic_video"
-                app:drawableTint="@color/inactive_menu_icon_color"
+                app:drawableTint="@color/menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvPhoto" />
@@ -97,7 +97,7 @@
                 android:padding="16dp"
                 android:text="@string/gallery"
                 app:drawableLeftCompat="@drawable/ic_gallery"
-                app:drawableTint="@color/inactive_menu_icon_color"
+                app:drawableTint="@color/menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvVideo" />
@@ -114,7 +114,7 @@
                 android:padding="16dp"
                 android:text="@string/device"
                 app:drawableLeftCompat="@drawable/ic_phone"
-                app:drawableTint="@color/inactive_menu_icon_color"
+                app:drawableTint="@color/menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvGallery" />
