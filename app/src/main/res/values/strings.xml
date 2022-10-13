@@ -277,6 +277,7 @@
     <string name="phf_iterations_error_format">Phf iterations must be bigger than %d</string>
     <string name="system_notices_room_not_found">System notices room not found.</string>
     <string name="upload_media">Upload media</string>
+    <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
