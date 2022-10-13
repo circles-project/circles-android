@@ -39,7 +39,13 @@ class PreviewPostView(
 
     init {
         getMyUser()?.let {
-            binding.postHeader.bindViewData(it.userId, it.notEmptyDisplayName(), it.avatarUrl)
+            binding.postHeader.bindViewData(
+                it.userId,
+                it.notEmptyDisplayName(),
+                it.avatarUrl,
+                System.currentTimeMillis(),
+                true
+            )
         }
         binding.etTextPost.doAfterTextChanged {
             listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)

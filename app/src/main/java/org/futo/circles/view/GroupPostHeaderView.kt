@@ -2,6 +2,7 @@ package org.futo.circles.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.appcompat.view.menu.MenuBuilder
@@ -12,11 +13,14 @@ import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.databinding.ViewGroupPostHeaderBinding
 import org.futo.circles.extensions.getAttributes
 import org.futo.circles.extensions.loadProfileIcon
+import org.futo.circles.extensions.setIsEncryptedIcon
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.PollContent
 import org.futo.circles.model.PollState
 import org.futo.circles.model.Post
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
+import java.lang.String.format
+import java.util.*
 
 class GroupPostHeaderView(
     context: Context,
@@ -44,14 +48,28 @@ class GroupPostHeaderView(
         userPowerLevel = powerLevel
         post = data
         val sender = data.postInfo.sender
-        bindViewData(sender.userId, sender.disambiguatedDisplayName, sender.avatarUrl)
+        bindViewData(
+            sender.userId,
+            sender.disambiguatedDisplayName,
+            sender.avatarUrl,
+            data.postInfo.timestamp,
+            data.postInfo.isEncrypted
+        )
     }
 
-    fun bindViewData(userId: String, displayName: String, avatarUrl: String?) {
+    fun bindViewData(
+        userId: String,
+        displayName: String,
+        avatarUrl: String?,
+        timestamp: Long,
+        isEncrypted: Boolean
+    ) {
         with(binding) {
             ivSenderImage.loadProfileIcon(avatarUrl, displayName)
             tvUserName.text = UserUtils.removeDomainSuffix(displayName)
             tvUserId.text = UserUtils.removeDomainSuffix(userId)
+            ivEncrypted.setIsEncryptedIcon(isEncrypted)
+            tvMessageTime.text = DateFormat.format("MMM dd, h:mm a",Date(timestamp))
         }
     }
 

@@ -55,8 +55,7 @@ class CreatePostDialogFragment :
                 sendPost()
                 onBackPressed()
             }
-            tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date())
-            ivMedia.setOnClickListener {
+            btnUploadMedia.setOnClickListener {
                 mediaPickerHelper.showMediaPickerDialog(
                     onImageSelected = { _, uri -> onMediaSelected(uri, MediaType.Image) },
                     onVideoSelected = { uri -> onMediaSelected(uri, MediaType.Video) }

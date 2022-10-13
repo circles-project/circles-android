@@ -19,15 +19,11 @@
     <string name="my_circles">My Circles</string>
     <string name="photo_galleries">Photo Galleries</string>
     <string name="initial_device_name">%s (Android)</string>
-    <string name="like">Like</string>
-    <string name="reply">Reply</string>
     <string name="share">Share</string>
-    <string name="hide_replies">Hide replies</string>
     <string name="invite_members">Invite members</string>
     <string name="invite_followers">Invite followers</string>
     <string name="invite_to_format">Invite to %s</string>
     <string name="enter_name_or_id">Enter name or userId</string>
-    <string name="user_not_found">User not found</string>
     <string name="known_users">Known users</string>
     <string name="ignored_users">Ignored users</string>
     <string name="suggestion">Suggestions</string>
@@ -225,7 +221,6 @@
     <string name="server_location">Server Location</string>
     <string name="us_server_format"><![CDATA[<b>US</b> - (%s)]]></string>
     <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>
-    <string name="user_id_start_symbol">\@</string>
     <string name="user_id_separator">:</string>
     <string name="domain">Domain</string>
     <string name="no_backup_message">Keys backup not found</string>
@@ -238,7 +233,7 @@
     <string name="confirm">Confirm</string>
     <string name="enable_cross_signing">Enable Cross Signing</string>
     <string name="enable_cross_signing_message">Confirm auth to enable cross signing</string>
-    <string name="device_media">Device media</string>
+
     <string name="subscriptions">Subscriptions</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
     <string name="purchase_failed_format">Purchase failed with code %d</string>
@@ -248,7 +243,7 @@
     <string name="user_canceled">User canceled</string>
     <string name="item_not_owned">Item is not owned</string>
     <string name="developer_error">Developer error</string>
-    <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
+
     <string name="upload_to_gallery">Upload to gallery</string>
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
@@ -281,6 +276,7 @@
     <string name="phf_blocks_error_format">Phf blocks must be bigger than %d</string>
     <string name="phf_iterations_error_format">Phf iterations must be bigger than %d</string>
     <string name="system_notices_room_not_found">System notices room not found.</string>
+    <string name="upload_media">Upload media</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
@@ -307,11 +303,10 @@
         <item quantity="other">%d members</item>
     </plurals>
 
-    <plurals name="show_replies_plurals">
-        <item quantity="one">Show %d reply</item>
-        <item quantity="other">Show %d replies</item>
+    <plurals name="replies_plurals">
+        <item quantity="one">%d reply</item>
+        <item quantity="other">%d replies</item>
     </plurals>
-
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>
