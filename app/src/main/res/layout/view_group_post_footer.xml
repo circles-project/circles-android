@@ -6,102 +6,95 @@
     android:layout_height="wrap_content"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <ImageView
-        android:id="@+id/ivEncrypted"
+    <View
+        android:id="@+id/divider"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/tvMessageTime"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvMessageTime"
-        tools:src="@drawable/ic_lock" />
-
-    <TextView
-        android:id="@+id/tvMessageTime"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ellipsize="end"
-        android:lines="1"
-        android:textSize="12sp"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider_color"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivEncrypted"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="some date" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <HorizontalScrollView
         android:id="@+id/chipsScrollView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/btnLike"
+        app:layout_constraintEnd_toStartOf="@id/btnLike"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvMessageTime"
+        app:layout_constraintTop_toTopOf="@id/btnLike"
         tools:visibility="visible">
 
         <LinearLayout
             android:id="@+id/lReactions"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingVertical="2dp" />
 
     </HorizontalScrollView>
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:layout_marginTop="8dp"
-        android:background="@color/divider_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chipsScrollView" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lOptions"
-        android:layout_width="0dp"
+    <ImageButton
+        android:id="@+id/btnLike"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_emoji"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnReply"
+        app:layout_constraintStart_toEndOf="@id/chipsScrollView"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:tint="@color/blue" />
+
+    <ImageButton
+        android:id="@+id/btnReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_reply"
+        app:layout_constraintBottom_toBottomOf="@id/btnLike"
+        app:layout_constraintEnd_toStartOf="@id/btnShare"
+        app:layout_constraintStart_toEndOf="@id/btnLike"
+        app:layout_constraintTop_toTopOf="@id/btnLike"
+        app:tint="@color/blue" />
+
+    <ImageButton
+        android:id="@+id/btnShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_share"
+        app:layout_constraintBottom_toBottomOf="@id/btnLike"
+        app:layout_constraintEnd_toStartOf="@id/btnShowReplies"
+        app:layout_constraintStart_toEndOf="@id/btnReply"
+        app:layout_constraintTop_toTopOf="@id/btnLike"
+        app:tint="@color/blue" />
+
+    <org.futo.circles.view.ExpandContentButton
+        android:id="@+id/btnShowReplies"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="0dp"
+        android:padding="4dp"
+        android:textAppearance="@style/footNote"
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:closed_icon="@drawable/ic_keyboard_arrow_right"
+        app:iconPadding="-8dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnLike"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider">
+        app:layout_constraintStart_toEndOf="@id/btnShare"
+        app:layout_constraintTop_toTopOf="@id/btnLike"
+        app:opened_icon="@drawable/ic_keyboard_arrow_down"
+        tools:ignore="RtlSymmetry"
+        tools:text="asdas"
+        tools:visibility="visible" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLike"
-            style="@style/PostButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/like"
-            app:icon="@drawable/ic_emoji"
-            app:iconPadding="-12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnReply"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnReply"
-            style="@style/PostButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/reply"
-            app:icon="@drawable/ic_reply"
-            app:layout_constraintBottom_toBottomOf="@id/btnLike"
-            app:layout_constraintEnd_toStartOf="@id/btnShare"
-            app:layout_constraintStart_toEndOf="@id/btnLike"
-            app:layout_constraintTop_toTopOf="@id/btnLike" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnShare"
-            style="@style/PostButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/share"
-            app:icon="@drawable/ic_share"
-            app:layout_constraintBottom_toBottomOf="@id/btnLike"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnReply"
-            app:layout_constraintTop_toTopOf="@id/btnLike" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>

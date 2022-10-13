@@ -9,12 +9,11 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import org.futo.circles.R
 import org.futo.circles.databinding.ViewGroupPostFooterBinding
-import org.futo.circles.extensions.setIsEncryptedIcon
+import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.Post
 import org.futo.circles.model.ReactionsData
-import java.text.DateFormat
-import java.util.*
+import org.futo.circles.model.RootPost
 
 
 class GroupPostFooterView(
@@ -49,6 +48,9 @@ class GroupPostFooterView(
             btnLike.setOnClickListener {
                 post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
             }
+            binding.btnShowReplies.setOnClickListener {
+                post?.let { optionsListener?.onShowRepliesClicked(it.id) }
+            }
         }
     }
 
@@ -58,21 +60,41 @@ class GroupPostFooterView(
 
     fun setData(data: Post, isReply: Boolean) {
         post = data
-        bindViewData(data.postInfo.timestamp, data.postInfo.isEncrypted, isReply, data.canShare())
+        bindViewData(isReply, data.canShare())
+        bindRepliesButton(data)
         bindReactionsList(data.postInfo.reactionsData)
     }
 
     private fun bindViewData(
-        timestamp: Long,
-        isEncrypted: Boolean,
         isReply: Boolean,
         canShare: Boolean
     ) {
         with(binding) {
             btnShare.setIsVisible(canShare)
             btnReply.setIsVisible(!isReply)
-            ivEncrypted.setIsEncryptedIcon(isEncrypted)
-            tvMessageTime.text = DateFormat.getDateTimeInstance().format(Date(timestamp))
+        }
+    }
+
+    private fun bindRepliesButton(post: Post) {
+        val rootPost = (post as? RootPost) ?: kotlin.run { binding.btnShowReplies.gone(); return }
+
+        bindRepliesButton(
+            rootPost.hasReplies(), rootPost.getRepliesCount(), rootPost.isRepliesVisible
+        )
+    }
+
+    fun bindRepliesButton(
+        hasReplies: Boolean,
+        repliesCount: Int,
+        isRepliesVisible: Boolean
+    ) {
+        with(binding.btnShowReplies) {
+            setIsVisible(hasReplies)
+            text = context.resources.getQuantityString(
+                R.plurals.replies_plurals,
+                repliesCount, repliesCount
+            )
+            setIsOpened(isRepliesVisible)
         }
     }
 
