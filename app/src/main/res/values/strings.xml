@@ -281,6 +281,7 @@
     <string name="phf_blocks_error_format">Phf blocks must be bigger than %d</string>
     <string name="phf_iterations_error_format">Phf iterations must be bigger than %d</string>
     <string name="system_notices_room_not_found">System notices room not found.</string>
+    <string name="upload_media">Upload media</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
@@ -307,9 +308,9 @@
         <item quantity="other">%d members</item>
     </plurals>
 
-    <plurals name="show_replies_plurals">
-        <item quantity="one">Show %d reply</item>
-        <item quantity="other">Show %d replies</item>
+    <plurals name="replies_plurals">
+        <item quantity="one">%d reply</item>
+        <item quantity="other">%d replies</item>
     </plurals>
 
 
