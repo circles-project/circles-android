@@ -37,7 +37,7 @@ class SessionItemViewHolder(
             vInfo.setIsVisible(data.isOptionsVisible)
 
             ivVerified.setImageResource(
-                if (data.cryptoDeviceInfo.isVerified) R.drawable.ic_verified
+                if (data.cryptoDeviceInfo.trustLevel?.isCrossSigningVerified() == true) R.drawable.ic_verified
                 else R.drawable.ic_unverified
             )
 
