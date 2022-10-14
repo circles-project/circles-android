@@ -3,10 +3,7 @@ package org.futo.circles.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import org.futo.circles.R
 import org.futo.circles.databinding.ViewActiveSessionInfoBinding
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
@@ -49,22 +46,6 @@ class ActiveSessionInfoView(
             btnVerify.setIsVisible(!activeSession.cryptoDeviceInfo.isVerified && !activeSession.isCurrentSession())
             btnRemove.setIsVisible(!activeSession.isCurrentSession())
             btnEnableCrossSigning.setIsVisible(activeSession.isCurrentSession() && !isCrossSigningVerified)
-            setIsCheckedView(ivCrossSigning, isCrossSigningVerified)
-            setIsCheckedView(
-                ivLocalVerification,
-                activeSession.cryptoDeviceInfo.trustLevel?.isLocallyVerified() == true
-            )
         }
     }
-
-    private fun setIsCheckedView(imageView: ImageView, isChecked: Boolean) {
-        imageView.setImageResource(if (isChecked) R.drawable.ic_check else R.drawable.ic_close)
-        imageView.setColorFilter(
-            ContextCompat.getColor(
-                context,
-                if (isChecked) R.color.green else R.color.red
-            )
-        )
-    }
-
 }

@@ -47,50 +47,6 @@
         tools:text="Public key:" />
 
 
-    <ImageView
-        android:id="@+id/ivCrossSigning"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/ic_check"
-        app:layout_constraintBottom_toBottomOf="@id/tvCrossSigning"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvCrossSigning" />
-
-    <TextView
-        android:id="@+id/tvCrossSigning"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:gravity="center_vertical"
-        android:paddingVertical="2dp"
-        android:text="@string/cross_signing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivCrossSigning"
-        app:layout_constraintTop_toBottomOf="@id/tvPublicKey" />
-
-    <ImageView
-        android:id="@+id/ivLocalVerification"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/ic_check"
-        app:layout_constraintBottom_toBottomOf="@id/tvLocalVerification"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvLocalVerification" />
-
-    <TextView
-        android:id="@+id/tvLocalVerification"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:gravity="center_vertical"
-        android:paddingVertical="2dp"
-        android:text="@string/local_verification"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivLocalVerification"
-        app:layout_constraintTop_toBottomOf="@id/tvCrossSigning" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVerify"
         style="@style/AccentButtonStyle"
@@ -105,7 +61,7 @@
         app:iconGravity="textStart"
         app:layout_constraintEnd_toStartOf="@id/btnRemove"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLocalVerification" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPublicKey" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRemove"
@@ -120,7 +76,7 @@
         app:iconGravity="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnVerify"
-        app:layout_constraintTop_toBottomOf="@+id/tvLocalVerification" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPublicKey" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEnableCrossSigning"
