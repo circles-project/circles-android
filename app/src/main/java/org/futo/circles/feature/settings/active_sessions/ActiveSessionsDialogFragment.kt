@@ -32,7 +32,7 @@ class ActiveSessionsDialogFragment :
             }
 
             override fun onEnableCrossSigningClicked() {
-                showEnableCrossSigningDialog()
+                viewModel.enableCrossSigning()
             }
 
             override fun onRemoveSessionClicked(deviceId: String) {

@@ -37,7 +37,7 @@ class ActiveSessionsViewModel(
     fun enableCrossSigning() {
         launchBg {
             val crossSigningResult = dataSource.enableCrossSigning()
-            removeSessionLiveData.postValue(crossSigningResult)
+            enableCrossSigningLiveData.postValue(crossSigningResult)
         }
     }
 }
