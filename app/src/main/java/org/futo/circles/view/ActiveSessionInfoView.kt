@@ -38,14 +38,11 @@ class ActiveSessionInfoView(
         deviceId = activeSession.id
         activeSessionClickListener = listener
         with(binding) {
-            val isCrossSigningVerified =
-                activeSession.cryptoDeviceInfo.trustLevel?.isCrossSigningVerified() == true
-
             tvFingerprint.text = activeSession.cryptoDeviceInfo.fingerprint() ?: ""
             tvPublicKey.text = activeSession.cryptoDeviceInfo.identityKey() ?: ""
-            btnVerify.setIsVisible(!activeSession.cryptoDeviceInfo.isVerified && !activeSession.isCurrentSession())
+            btnVerify.setIsVisible(activeSession.canVerify)
             btnRemove.setIsVisible(!activeSession.isCurrentSession())
-            btnEnableCrossSigning.setIsVisible(activeSession.isCurrentSession() && !isCrossSigningVerified)
+            btnEnableCrossSigning.setIsVisible(activeSession.canEnableCrossSigning)
         }
     }
 }

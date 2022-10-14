@@ -52,21 +52,42 @@ class ActiveSessionsDataSource(
     ): List<ActiveSessionListItem> {
         val devicesList = infoList.mapNotNull { deviceInfo ->
             val cryptoDeviceInfo = cryptoList.firstOrNull { it.deviceId == deviceInfo.deviceId }
-            cryptoDeviceInfo?.let {
-                ActiveSession(
-                    deviceInfo,
-                    cryptoDeviceInfo,
-                    sessionsWithVisibleOptions.contains(cryptoDeviceInfo.deviceId)
-                )
-            }
-        }.sortedByDescending { it.deviceInfo.lastSeenTs }
+            cryptoDeviceInfo?.let { deviceInfo to it }
+        }.sortedByDescending { it.first.lastSeenTs }
+
+        val currentSession =
+            devicesList.firstOrNull { it.second.deviceId == MatrixSessionProvider.currentSession?.sessionParams?.deviceId }
+                ?: return emptyList()
+        val otherSessions = devicesList.toMutableList().apply { remove(currentSession) }
+        val isCurrentSessionVerified =
+            currentSession.second.trustLevel?.isCrossSigningVerified() == true
+        val isOtherSessionVerified =
+            otherSessions.firstOrNull { it.second.trustLevel?.isCrossSigningVerified() == true } != null
 
         val sessionsList =
             mutableListOf<ActiveSessionListItem>(SessionHeader(context.getString(R.string.current_session)))
-        val currentSession = devicesList.filter { it.isCurrentSession() }
-        sessionsList.addAll(currentSession)
-        sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
-        sessionsList.addAll(devicesList.toMutableList().apply { removeAll(currentSession) })
+        sessionsList.add(
+            ActiveSession(
+                deviceInfo = currentSession.first,
+                cryptoDeviceInfo = currentSession.second,
+                canVerify = !isCurrentSessionVerified && isOtherSessionVerified,
+                canEnableCrossSigning = !isCurrentSessionVerified && !isOtherSessionVerified,
+                isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.second.deviceId)
+            )
+        )
+        if (otherSessions.isNotEmpty()) {
+            sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
+            sessionsList.addAll(otherSessions.map {
+                ActiveSession(
+                    deviceInfo = currentSession.first,
+                    cryptoDeviceInfo = currentSession.second,
+                    canVerify = isCurrentSessionVerified && it.second.trustLevel?.isCrossSigningVerified() != true,
+                    canEnableCrossSigning = false,
+                    isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.second.deviceId)
+                )
+            }
+            )
+        }
         return sessionsList
     }
 
