@@ -78,6 +78,10 @@
             app:nullable="false" />
 
     </dialog>
+    <dialog
+        android:id="@+id/verifySessionDialogFragment"
+        android:name="org.futo.circles.feature.settings.active_sessions.verify.VerifySessionDialogFragment"
+        tools:layout="@layout/dialog_fragment_verify_session">
 
     <dialog
         android:id="@+id/reAuthStagesDialogFragment"

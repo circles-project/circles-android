@@ -279,6 +279,7 @@
     <string name="not_supported_navigation_event">Not supported navigation event</string>
     <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
     <string name="you_are_signed_out">You’re signed out</string>
+    <string name="verify_session">Verify session</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
