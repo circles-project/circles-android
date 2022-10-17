@@ -14,9 +14,9 @@ import org.futo.circles.model.ActiveSession
 import org.futo.circles.model.ActiveSessionListItem
 import org.futo.circles.model.SessionHeader
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.crypto.crosssigning.DeviceTrustLevel
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
+import org.matrix.android.sdk.api.session.crypto.verification.VerificationMethod
 import org.matrix.android.sdk.api.util.awaitCallback
 
 class ActiveSessionsDataSource(
@@ -79,11 +79,11 @@ class ActiveSessionsDataSource(
             sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
             sessionsList.addAll(otherSessions.map {
                 ActiveSession(
-                    deviceInfo = currentSession.first,
-                    cryptoDeviceInfo = currentSession.second,
+                    deviceInfo = it.first,
+                    cryptoDeviceInfo = it.second,
                     canVerify = isCurrentSessionVerified && it.second.trustLevel?.isCrossSigningVerified() != true,
                     canEnableCrossSigning = false,
-                    isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.second.deviceId)
+                    isOptionsVisible = sessionsWithVisibleOptions.contains(it.second.deviceId)
                 )
             }
             )
@@ -112,17 +112,4 @@ class ActiveSessionsDataSource(
         }
     }
 
-    private suspend fun verifyCrossSigning(deviceId: String): Response<Unit> = createResult {
-        awaitCallback {
-            session.cryptoService().crossSigningService().trustDevice(deviceId, it)
-        }
-    }
-
-    private fun verifyLocally(deviceId: String) {
-        session.cryptoService().setDeviceVerification(
-            DeviceTrustLevel(crossSigningVerified = false, locallyVerified = true),
-            session.myUserId,
-            deviceId
-        )
-    }
 }
