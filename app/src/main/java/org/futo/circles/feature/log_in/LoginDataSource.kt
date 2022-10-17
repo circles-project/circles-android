@@ -41,7 +41,11 @@ class LoginDataSource(
             USER_PARAM_KEY to "@$userName:$domain",
             TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
         )
-        val flows = authService.getLoginWizard().getAllLoginFlows(identifierParams)
+        val initialDisplayName = context.getString(
+            R.string.initial_device_name,
+            context.getString(R.string.app_name)
+        )
+        val flows = authService.getLoginWizard().getAllLoginFlows(identifierParams, initialDisplayName)
         val stages = if (flows.isEmpty()) {
             val supportedLoginMethods =
                 authService.getLoginFlow(homeServerConfig).supportedLoginTypes
