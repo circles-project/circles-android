@@ -81,7 +81,12 @@ class SignUpDataSource(
         password: String? = null
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
-        val result = createResult { wizard.registrationCustom(authParams) }
+        val initialDisplayName = context.getString(
+            R.string.initial_device_name,
+            context.getString(R.string.app_name)
+        )
+
+        val result = createResult { wizard.registrationCustom(authParams, initialDisplayName) }
 
         (result as? Response.Success)?.let {
             name?.let { userName = it }

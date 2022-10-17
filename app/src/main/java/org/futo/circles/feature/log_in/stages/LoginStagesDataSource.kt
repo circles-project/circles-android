@@ -68,7 +68,17 @@ class LoginStagesDataSource(
             USER_PARAM_KEY to "@$userName:$domain",
             TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
         )
-        val result = createResult { wizard.loginStageCustom(authParams, identifierParams) }
+        val initialDisplayName = context.getString(
+            R.string.initial_device_name,
+            context.getString(R.string.app_name)
+        )
+        val result = createResult {
+            wizard.loginStageCustom(
+                authParams,
+                identifierParams,
+                initialDisplayName
+            )
+        }
         (result as? Response.Success)?.let {
             password?.let { userPassword = it }
             stageCompleted(result.data)
