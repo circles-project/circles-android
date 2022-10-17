@@ -28,7 +28,11 @@ class ActiveSessionsDialogFragment :
             }
 
             override fun onVerifySessionClicked(deviceId: String) {
-                viewModel.verifySession(deviceId)
+                findNavController().navigate(
+                    ActiveSessionsDialogFragmentDirections.toVerifySessionDialogFragment(
+                        deviceId
+                    )
+                )
             }
 
             override fun onEnableCrossSigningClicked() {
