@@ -99,7 +99,7 @@ val dataSourceModule = module {
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
     factory { ChangePasswordDataSource() }
     factory { ActiveSessionsDataSource(get(), get()) }
-    factory { AuthConfirmationProvider() }
+    factory { AuthConfirmationProvider(get()) }
     factory { (roomId: String, eventId: String) -> MediaPreviewDataSource(roomId, eventId) }
     factory { SelectGalleriesDataSource() }
     factory { SavePostToGalleryDataSource(get(), get()) }

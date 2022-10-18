@@ -1,37 +1,37 @@
 package org.futo.circles.core.matrix.auth
 
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.feature.reauth.ReAuthStagesDataSource
 import org.matrix.android.sdk.api.auth.UIABaseAuth
 import org.matrix.android.sdk.api.auth.UserInteractiveAuthInterceptor
-import org.matrix.android.sdk.api.auth.UserPasswordAuth
-import org.matrix.android.sdk.api.auth.data.LoginFlowTypes
 import org.matrix.android.sdk.api.auth.registration.RegistrationFlowResponse
+import org.matrix.android.sdk.internal.auth.toFlowsWithStages
 import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class AuthConfirmationProvider {
+class AuthConfirmationProvider(
+    private val reAuthStagesDataSource: ReAuthStagesDataSource
+) : UserInteractiveAuthInterceptor {
 
-    fun getAuthInterceptor(password: String) = object : UserInteractiveAuthInterceptor {
-        override fun performStage(
-            flowResponse: RegistrationFlowResponse,
-            errCode: String?,
-            promise: Continuation<UIABaseAuth>
-        ) {
-            errCode?.let { promise.resumeWithException(IllegalArgumentException()) }
+    override fun performStage(
+        flowResponse: RegistrationFlowResponse,
+        errCode: String?,
+        promise: Continuation<UIABaseAuth>
+    ) {
+        errCode?.let {
+            promise.resumeWithException(IllegalArgumentException(it))
+            return
+        }
 
-            val stages = flowResponse.flows?.firstOrNull()?.stages?.takeIf { it.size == 1 }
-
-            if (stages?.firstOrNull() != LoginFlowTypes.PASSWORD)
+        if (flowResponse.completedStages.isNullOrEmpty()) {
+            val stages = flowResponse.toFlowsWithStages().firstOrNull() ?: emptyList()
+            val session = flowResponse.session
+            if (session == null) {
                 promise.resumeWithException(IllegalArgumentException())
-
-            promise.resume(
-                UserPasswordAuth(
-                    session = flowResponse.session,
-                    password = password,
-                    user = MatrixSessionProvider.currentSession?.myUserId
-                )
-            )
+                return
+            }
+            reAuthStagesDataSource.startReAuthStages(session, stages, promise)
+        } else {
+            reAuthStagesDataSource.handleNextStage()
         }
     }
 }
