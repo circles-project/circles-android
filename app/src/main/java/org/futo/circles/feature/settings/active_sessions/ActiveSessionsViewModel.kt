@@ -26,16 +26,16 @@ class ActiveSessionsViewModel(
         }
     }
 
-    fun removeSession(deviceId: String, password: String) {
+    fun removeSession(deviceId: String) {
         launchBg {
-            val deactivateResult = dataSource.removeSession(deviceId, password)
+            val deactivateResult = dataSource.removeSession(deviceId)
             removeSessionLiveData.postValue(deactivateResult)
         }
     }
 
-    fun enableCrossSigning(password: String) {
+    fun enableCrossSigning() {
         launchBg {
-            val crossSigningResult = dataSource.enableCrossSigning(password)
+            val crossSigningResult = dataSource.enableCrossSigning()
             removeSessionLiveData.postValue(crossSigningResult)
         }
     }

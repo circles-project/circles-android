@@ -76,17 +76,15 @@ class ActiveSessionsDataSource(
         return response ?: Response.Success(Unit)
     }
 
-    suspend fun removeSession(deviceId: String, password: String): Response<Unit> = createResult {
+    suspend fun removeSession(deviceId: String): Response<Unit> = createResult {
         awaitCallback {
-            session.cryptoService()
-                .deleteDevice(deviceId, authConfirmationProvider.getAuthInterceptor(password), it)
+            session.cryptoService().deleteDevice(deviceId, authConfirmationProvider, it)
         }
     }
 
-    suspend fun enableCrossSigning(password: String): Response<Unit> = createResult {
+    suspend fun enableCrossSigning(): Response<Unit> = createResult {
         awaitCallback {
-            session.cryptoService().crossSigningService()
-                .initializeCrossSigning(authConfirmationProvider.getAuthInterceptor(password), it)
+            session.cryptoService().crossSigningService().initializeCrossSigning(authConfirmationProvider, it)
         }
     }
 

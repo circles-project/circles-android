@@ -30,8 +30,7 @@ class SettingsDataSource(
         loadingLiveData.postValue(loadingData.apply { isLoading = false })
     }
 
-    suspend fun deactivateAccount(password: String): Response<Unit> = createResult {
-        session.accountService()
-            .deactivateAccount(false, authConfirmationProvider.getAuthInterceptor(password))
+    suspend fun deactivateAccount(): Response<Unit> = createResult {
+        session.accountService().deactivateAccount(false, authConfirmationProvider)
     }
 }
