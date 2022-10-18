@@ -5,23 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
 import org.futo.circles.core.*
 import org.futo.circles.extensions.Response
-import org.matrix.android.sdk.api.auth.UIABaseAuth
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
-import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
-import kotlin.coroutines.Continuation
 
-enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase, Password, Terms, DirectPassword, BSspeke }
+enum class LoginStageNavigationEvent { Password, Terms, DirectPassword, BSspeke }
 
 abstract class BaseLoginStagesDataSource(
     private val context: Context
 ) {
 
     val subtitleLiveData = MutableLiveData<String>()
-    val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
+    val loginStageNavigationLiveData = SingleEventLiveData<LoginStageNavigationEvent>()
 
-    private val stagesToComplete = mutableListOf<Stage>()
+    protected val stagesToComplete = mutableListOf<Stage>()
     var currentStage: Stage? = null
         private set
 
@@ -34,11 +31,10 @@ abstract class BaseLoginStagesDataSource(
         context.getString(R.string.initial_device_name, context.getString(R.string.app_name))
     }
 
-    open fun startLoginStages(
+    fun startLoginStages(
         loginStages: List<Stage>,
         name: String,
-        serverDomain: String,
-        promise: Continuation<UIABaseAuth>? = null
+        serverDomain: String
     ) {
         userName = name
         domain = serverDomain
@@ -58,14 +54,6 @@ abstract class BaseLoginStagesDataSource(
         password: String? = null
     ): Response<RegistrationResult>
 
-    suspend fun stageCompleted(result: RegistrationResult, password: String?) {
-        (result as? RegistrationResult.Success)?.let {
-            finishLogin(it.session, password)
-        } ?: navigateToNextStage()
-    }
-
-    abstract suspend fun finishLogin(session: Session, password: String?)
-
     private fun getCurrentStageIndex() =
         stagesToComplete.indexOf(currentStage).takeIf { it != -1 } ?: 0
 
@@ -75,23 +63,23 @@ abstract class BaseLoginStagesDataSource(
         } ?: stagesToComplete.firstOrNull()
     }
 
-    private fun navigateToNextStage() {
+    protected fun navigateToNextStage() {
         setNextStage()
         val event = when (val stage = currentStage) {
-            is Stage.Terms -> LoginNavigationEvent.Terms
+            is Stage.Terms -> LoginStageNavigationEvent.Terms
             is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException(
                 context.getString(R.string.not_supported_stage_format, stage.toString())
             )
         }
-        event?.let { loginNavigationLiveData.postValue(it) }
+        event?.let { loginStageNavigationLiveData.postValue(it) }
         updatePageSubtitle()
     }
 
-    private fun handleStageOther(type: String): LoginNavigationEvent? = when (type) {
-        LOGIN_PASSWORD_TYPE -> LoginNavigationEvent.Password
-        DIRECT_LOGIN_PASSWORD_TYPE -> LoginNavigationEvent.DirectPassword
-        LOGIN_BSSPEKE_OPRF_TYPE -> LoginNavigationEvent.BSspeke
+    private fun handleStageOther(type: String): LoginStageNavigationEvent? = when (type) {
+        LOGIN_PASSWORD_TYPE -> LoginStageNavigationEvent.Password
+        DIRECT_LOGIN_PASSWORD_TYPE -> LoginStageNavigationEvent.DirectPassword
+        LOGIN_BSSPEKE_OPRF_TYPE -> LoginStageNavigationEvent.BSspeke
         LOGIN_BSSPEKE_VERIFY_TYPE -> null
         else -> throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
