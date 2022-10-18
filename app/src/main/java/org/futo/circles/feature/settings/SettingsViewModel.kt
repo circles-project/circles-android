@@ -18,9 +18,9 @@ class SettingsViewModel(
         launchBg { logOutLiveData.postValue(dataSource.logOut()) }
     }
 
-    fun deactivateAccount(password: String) {
+    fun deactivateAccount() {
         launchBg {
-            val deactivateResult = dataSource.deactivateAccount(password)
+            val deactivateResult = dataSource.deactivateAccount()
             deactivateLiveData.postValue(deactivateResult)
         }
     }

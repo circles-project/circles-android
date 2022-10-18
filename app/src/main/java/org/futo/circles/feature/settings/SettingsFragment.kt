@@ -14,7 +14,6 @@ import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
-import org.futo.circles.feature.settings.confirm_auth.ConfirmAuthDialog
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -24,7 +23,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val viewModel by viewModel<SettingsViewModel>()
     private val systemNoticesCountViewModel by sharedViewModel<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
-    private var confirmAuthDialog: ConfirmAuthDialog? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,14 +52,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             loadingDialog.handleLoading(it)
         }
         viewModel.deactivateLiveData.observeResponse(this,
-            success = {
-                confirmAuthDialog?.dismiss()
-                navigateToLogin()
-            },
-            error = {
-                confirmAuthDialog?.clearInput()
-                showError(getString(R.string.invalid_auth))
-            }
+            success = { navigateToLogin() },
+            error = { showError(getString(R.string.invalid_auth)) }
         )
         systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
             val count = it ?: 0
@@ -122,14 +114,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun showDeactivateAccountDialog() {
-        confirmAuthDialog = ConfirmAuthDialog(
-            context = requireContext(),
-            message = getString(R.string.deactivate_message),
-            onConfirmed = { password -> viewModel.deactivateAccount(password) }
-        ).apply {
-            show()
-            setOnDismissListener { confirmAuthDialog = null }
-        }
+        showDialog(
+            titleResIdRes = R.string.deactivate_my_account,
+            messageResId = R.string.deactivate_message,
+            positiveButtonRes = R.string.deactivate,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.deactivateAccount() })
     }
 
 }
