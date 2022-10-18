@@ -6,10 +6,10 @@ import org.futo.circles.core.DIRECT_LOGIN_PASSWORD_TYPE
 import org.futo.circles.core.LOGIN_PASSWORD_TYPE
 import org.futo.circles.core.LOGIN_PASSWORD_USER_ID_TYPE
 import org.futo.circles.core.TYPE_PARAM_KEY
+import org.futo.circles.core.auth.BaseLoginStagesDataSource.Companion.USER_PARAM_KEY
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
-import org.futo.circles.feature.log_in.stages.LoginStagesDataSource.Companion.USER_PARAM_KEY
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 import org.matrix.android.sdk.api.auth.registration.Stage

@@ -12,7 +12,6 @@ import kotlin.coroutines.resumeWithException
 
 class AuthConfirmationProvider {
 
-
     fun getAuthInterceptor(password: String) = object : UserInteractiveAuthInterceptor {
         override fun performStage(
             flowResponse: RegistrationFlowResponse,
