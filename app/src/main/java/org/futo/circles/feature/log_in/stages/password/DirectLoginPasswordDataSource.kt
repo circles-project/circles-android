@@ -2,16 +2,16 @@ package org.futo.circles.feature.log_in.stages.password
 
 import android.content.Context
 import org.futo.circles.R
+import org.futo.circles.core.auth.BaseLoginStagesDataSource
 import org.futo.circles.core.auth.PasswordDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
-import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 
 class DirectLoginPasswordDataSource(
     private val context: Context,
-    private val loginStagesDataSource: LoginStagesDataSource
+    private val loginStagesDataSource: BaseLoginStagesDataSource
 ) : PasswordDataSource {
 
     override fun getMinimumPasswordLength(): Int = 1
