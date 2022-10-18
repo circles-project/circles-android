@@ -39,8 +39,6 @@ class LoginStagesDataSource(
     var currentStage: Stage? = null
         private set
 
-    private var userPassword: String = ""
-
     fun startLoginStages(
         loginStages: List<Stage>,
         name: String,
@@ -48,17 +46,12 @@ class LoginStagesDataSource(
     ) {
         userName = name
         domain = serverDomain
-        userPassword = ""
         currentStage = null
         stagesToComplete.clear()
         stagesToComplete.addAll(loginStages)
         navigateToNextStage()
     }
-
-    fun setPassword(password: String) {
-        userPassword = password
-    }
-
+    
     suspend fun performLoginStage(
         authParams: JsonDict,
         password: String? = null
@@ -80,21 +73,20 @@ class LoginStagesDataSource(
             )
         }
         (result as? Response.Success)?.let {
-            password?.let { userPassword = it }
-            stageCompleted(result.data)
+            stageCompleted(result.data, password)
         }
         return result
     }
 
-    suspend fun stageCompleted(result: RegistrationResult) {
+    suspend fun stageCompleted(result: RegistrationResult, password: String?) {
         (result as? RegistrationResult.Success)?.let {
-            finishLogin(it.session)
+            finishLogin(it.session, password)
         } ?: navigateToNextStage()
     }
 
-    private suspend fun finishLogin(session: Session) {
+    private suspend fun finishLogin(session: Session, password: String?) {
         MatrixSessionProvider.awaitForSessionSync(session)
-        handleKeysBackup()
+        handleKeysBackup(password)
     }
 
     private fun getCurrentStageIndex() =
@@ -136,7 +128,11 @@ class LoginStagesDataSource(
         subtitleLiveData.postValue(subtitle)
     }
 
-    private suspend fun handleKeysBackup() {
+    private suspend fun handleKeysBackup(password: String?) {
+        password ?: kotlin.run {
+            messageEventLiveData.postValue(R.string.password_not_set)
+            return
+        }
         when (restoreBackupDataSource.getEncryptionAlgorithm()) {
             MXCRYPTO_ALGORITHM_MEGOLM_BACKUP ->
                 loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
@@ -144,7 +140,7 @@ class LoginStagesDataSource(
                 messageEventLiveData.postValue(R.string.no_backup_message)
                 createSpacesTreeIfNotExist()
             }
-            else -> restoreBackup(userPassword)
+            else -> restoreBackup(password)
         }
     }
 

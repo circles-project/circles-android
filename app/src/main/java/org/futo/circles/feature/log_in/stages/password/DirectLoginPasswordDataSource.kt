@@ -29,8 +29,9 @@ class DirectLoginPasswordDataSource(
         }
         return when (result) {
             is Response.Success -> {
-                loginStagesDataSource.setPassword(password)
-                loginStagesDataSource.stageCompleted(RegistrationResult.Success(result.data))
+                loginStagesDataSource.stageCompleted(
+                    RegistrationResult.Success(result.data), password
+                )
                 Response.Success(Unit)
             }
             is Response.Error -> result
