@@ -35,6 +35,12 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/action_settingsFragment_to_activeSessionsDialogFragment"
+            app:destination="@id/activeSessionsDialogFragment" />
+        <action
+            android:id="@+id/to_reAuthStagesFragment"
+            app:destination="@id/reAuthStagesFragment" />
     </fragment>
 
     <dialog
@@ -51,7 +57,11 @@
         android:id="@+id/activeSessionsDialogFragment"
         android:name="org.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragment"
         android:label="ActiveSessionsDialogFragment"
-        tools:layout="@layout/dialog_fragment_active_sessions" />
+        tools:layout="@layout/dialog_fragment_active_sessions">
+        <action
+            android:id="@+id/to_reAuthStagesFragment"
+            app:destination="@id/reAuthStagesFragment" />
+    </dialog>
     <dialog
         android:id="@+id/systemNoticesDialogFragment"
         android:name="org.futo.circles.feature.notices.SystemNoticesDialogFragment"
@@ -68,5 +78,10 @@
             app:nullable="false" />
 
     </dialog>
+
+    <fragment
+        android:id="@+id/reAuthStagesFragment"
+        android:name="org.futo.circles.feature.reauth.ReAuthStagesFragment"
+        tools:layout="@layout/fragment_login_stages"/>
 
 </navigation>
