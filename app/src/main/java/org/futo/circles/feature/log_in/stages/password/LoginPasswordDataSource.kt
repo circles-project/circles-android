@@ -31,7 +31,7 @@ class LoginPasswordDataSource(
     }
 
     companion object {
-        private const val PASSWORD_PARAM_KEY = "password"
+        const val PASSWORD_PARAM_KEY = "password"
         private const val MINIMUM_LENGTH_KEY = "minimum_length"
     }
 }
