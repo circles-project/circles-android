@@ -5,7 +5,6 @@ import android.net.Uri
 import org.futo.circles.R
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.auth.BaseLoginStagesDataSource
-import org.futo.circles.core.auth.LoginNavigationEvent
 import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
@@ -17,6 +16,7 @@ import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 
+enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase }
 
 class LoginStagesDataSource(
     context: Context,
@@ -24,6 +24,7 @@ class LoginStagesDataSource(
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder
 ) : BaseLoginStagesDataSource(context) {
 
+    val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
     val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
     val messageEventLiveData = SingleEventLiveData<Int>()
 
@@ -45,7 +46,13 @@ class LoginStagesDataSource(
         return result
     }
 
-    override suspend fun finishLogin(session: Session, password: String?) {
+    suspend fun stageCompleted(result: RegistrationResult, password: String?) {
+        (result as? RegistrationResult.Success)?.let {
+            finishLogin(it.session, password)
+        } ?: navigateToNextStage()
+    }
+
+    private suspend fun finishLogin(session: Session, password: String?) {
         MatrixSessionProvider.awaitForSessionSync(session)
         handleKeysBackup(password)
     }
