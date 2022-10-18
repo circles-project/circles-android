@@ -3,16 +3,16 @@ package org.futo.circles.feature.log_in.stages
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.auth.BaseLoginStagesViewModel
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 
 
 class LoginStagesViewModel(
     private val loginStagesDataSource: LoginStagesDataSource
-) : ViewModel() {
+) : BaseLoginStagesViewModel(loginStagesDataSource) {
 
     val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
-    val subtitleLiveData = loginStagesDataSource.subtitleLiveData
     val loginNavigationLiveData = loginStagesDataSource.loginNavigationLiveData
     val passPhraseLoadingLiveData = loginStagesDataSource.passPhraseLoadingLiveData
     val messageEventLiveData = loginStagesDataSource.messageEventLiveData
