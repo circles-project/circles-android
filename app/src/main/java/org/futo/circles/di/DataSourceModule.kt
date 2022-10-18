@@ -24,6 +24,7 @@ import org.futo.circles.feature.photos.PhotosDataSource
 import org.futo.circles.feature.photos.preview.MediaPreviewDataSource
 import org.futo.circles.feature.photos.save.SavePostToGalleryDataSource
 import org.futo.circles.feature.photos.select.SelectGalleriesDataSource
+import org.futo.circles.feature.reauth.ReAuthStagesDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.invite.InviteMembersDataSource
 import org.futo.circles.feature.room.manage_members.ManageMembersDataSource
@@ -74,6 +75,7 @@ val dataSourceModule = module {
     factory { CoreSpacesTreeBuilder(get(), get()) }
     single { SignUpDataSource(get(), get(), get()) }
     single { LoginStagesDataSource(get(), get(), get()) }
+    single { ReAuthStagesDataSource(get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
     factory { SignupAcceptTermsDataSource(get()) }
