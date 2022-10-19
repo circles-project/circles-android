@@ -45,10 +45,14 @@ class LoginDataSource(
             R.string.initial_device_name,
             context.getString(R.string.app_name)
         )
-        val flows = authService.getLoginWizard().getAllLoginFlows(identifierParams, initialDisplayName)
+        val flows =
+            authService.getLoginWizard().getAllLoginFlows(identifierParams, initialDisplayName)
         val stages = if (flows.isEmpty()) {
-            val supportedLoginMethods =
+            val supportedLoginMethods = try {
                 authService.getLoginFlow(homeServerConfig).supportedLoginTypes
+            } catch (e: Throwable) {
+                throw IllegalArgumentException(context.getString(R.string.not_found_login_flow_for_user))
+            }
             if (supportedLoginMethods.contains(LOGIN_PASSWORD_TYPE))
                 listOf(Stage.Other(true, DIRECT_LOGIN_PASSWORD_TYPE, null))
             else

@@ -280,6 +280,7 @@
     <string name="upload_media">Upload media</string>
     <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
+    <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
