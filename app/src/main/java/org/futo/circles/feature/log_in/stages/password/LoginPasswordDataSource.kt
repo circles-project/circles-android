@@ -21,8 +21,7 @@ class LoginPasswordDataSource(
         val result = loginStagesDataSource.performLoginStage(
             mapOf(
                 TYPE_PARAM_KEY to LOGIN_PASSWORD_TYPE,
-                PASSWORD_PARAM_KEY to password,
-                BaseLoginStagesDataSource.USER_PARAM_KEY to "@${loginStagesDataSource.userName}:${loginStagesDataSource.domain}"
+                PASSWORD_PARAM_KEY to password
             ), password
         )
         return when (result) {
