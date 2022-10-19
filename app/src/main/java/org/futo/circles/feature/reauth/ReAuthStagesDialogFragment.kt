@@ -1,5 +1,6 @@
 package org.futo.circles.feature.reauth
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -30,6 +31,19 @@ class ReAuthStagesDialogFragment :
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return object : Dialog(requireActivity(), theme) {
+            @Deprecated(
+                "Deprecated in Java",
+                ReplaceWith("activity?.onBackPressedDispatcher?.onBackPressed()")
+            )
+            override fun onBackPressed() {
+                activity?.onBackPressedDispatcher?.onBackPressed()
+            }
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
@@ -52,7 +66,7 @@ class ReAuthStagesDialogFragment :
             binding.toolbar.subtitle = it
         }
         viewModel.finishReAuthEventLiveData.observeData(this) {
-            onBackPressed()
+            dismiss()
         }
     }
 
