@@ -70,9 +70,9 @@
         tools:layout="@layout/fragment_accept_terms">
 
         <argument
-            android:name="is_login_mode"
-            android:defaultValue="false"
-            app:argType="boolean"
+            android:name="mode"
+            android:defaultValue="Signup"
+            app:argType="org.futo.circles.model.TermsModeArg"
             app:nullable="false" />
 
     </fragment>
