@@ -1,26 +1,30 @@
-package org.futo.circles.core.auth
+package org.futo.circles.feature.reauth
 
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.auth.LoginStageNavigationEvent
 import org.futo.circles.core.fragment.BackPressOwner
+import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.FragmentLoginStagesBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showDialog
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-abstract class BaseLoginStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressOwner {
 
-    abstract val viewModel: BaseLoginStagesViewModel
-    abstract val isReAuth: Boolean
-    abstract val titleResId: Int
-    protected val binding by viewBinding(FragmentLoginStagesBinding::bind)
+class ReAuthStagesDialogFragment :
+    BaseFullscreenDialogFragment(FragmentLoginStagesBinding::inflate), BackPressOwner {
+
+    private val viewModel by viewModel<ReAuthStageViewModel>()
+
+    private val binding by lazy {
+        getBinding() as FragmentLoginStagesBinding
+    }
 
     private val childNavHostFragment by lazy {
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -29,23 +33,26 @@ abstract class BaseLoginStagesFragment : Fragment(R.layout.fragment_login_stages
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
-        binding.toolbar.title = getString(titleResId)
+        binding.toolbar.title = getString(R.string.confirm_auth)
         setupObservers()
     }
 
-    open fun setupObservers() {
+    private fun setupObservers() {
         viewModel.loginStageNavigationLiveData.observeData(this) { event ->
             val id = when (event) {
                 LoginStageNavigationEvent.DirectPassword -> R.id.to_direct_login
-                LoginStageNavigationEvent.Password -> if (isReAuth) R.id.to_reAuthPassword else R.id.to_password
-                LoginStageNavigationEvent.Terms -> if (isReAuth) R.id.to_ReAuthAcceptTerms else R.id.to_acceptTerms
-                LoginStageNavigationEvent.BSspeke -> if (isReAuth) R.id.to_reAuthBsSpeke else R.id.to_bsspeke
+                LoginStageNavigationEvent.Password -> R.id.to_reAuthPassword
+                LoginStageNavigationEvent.Terms -> R.id.to_ReAuthAcceptTerms
+                LoginStageNavigationEvent.BSspeke -> R.id.to_reAuthBsSpeke
                 else -> throw IllegalArgumentException(getString(R.string.not_supported_navigation_event))
             }
             binding.navHostFragment.findNavController().navigate(id)
         }
         viewModel.subtitleLiveData.observeData(this) {
             binding.toolbar.subtitle = it
+        }
+        viewModel.finishReAuthEventLiveData.observeData(this) {
+            onBackPressed()
         }
     }
 
@@ -65,4 +72,5 @@ abstract class BaseLoginStagesFragment : Fragment(R.layout.fragment_login_stages
             showDiscardDialog()
         }
     }
+
 }
