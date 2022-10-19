@@ -9,8 +9,6 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.util.JsonDict
 
-enum class LoginStageNavigationEvent { Password, Terms, DirectPassword, BSspeke }
-
 abstract class BaseLoginStagesDataSource(
     private val context: Context
 ) {
