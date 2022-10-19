@@ -1,7 +1,9 @@
 package org.futo.circles.feature.reauth
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.findNavController
@@ -30,22 +32,15 @@ class ReAuthStagesDialogFragment :
     private val childNavHostFragment by lazy {
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
     }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return object : Dialog(requireActivity(), theme) {
-            @Deprecated(
-                "Deprecated in Java",
-                ReplaceWith("activity?.onBackPressedDispatcher?.onBackPressed()")
-            )
-            override fun onBackPressed() {
-                activity?.onBackPressedDispatcher?.onBackPressed()
-            }
-        }
-    }
-
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                activity?.onBackPressedDispatcher?.onBackPressed()
+            }
+            true
+        }
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.toolbar.title = getString(R.string.confirm_auth)
         setupObservers()
