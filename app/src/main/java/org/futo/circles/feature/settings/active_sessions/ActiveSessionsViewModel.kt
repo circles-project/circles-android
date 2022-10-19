@@ -14,6 +14,7 @@ class ActiveSessionsViewModel(
     val removeSessionLiveData = SingleEventLiveData<Response<Unit?>>()
     val enableCrossSigningLiveData = SingleEventLiveData<Response<Unit?>>()
     val verifySessionLiveData = SingleEventLiveData<Response<Unit?>>()
+    val startReAuthEventLiveData = dataSource.startReAuthEventLiveData
 
     fun onSessionClicked(deviceId: String) {
         dataSource.toggleOptionsVisibilityFor(deviceId)

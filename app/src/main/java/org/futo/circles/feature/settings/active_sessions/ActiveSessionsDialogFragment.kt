@@ -2,6 +2,7 @@ package org.futo.circles.feature.settings.active_sessions
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
@@ -67,12 +68,15 @@ class ActiveSessionsDialogFragment :
             error = { showError(getString(R.string.invalid_auth)) }
         )
         viewModel.verifySessionLiveData.observeResponse(this)
+        viewModel.startReAuthEventLiveData.observeData(this) {
+            findNavController().navigate(ActiveSessionsDialogFragmentDirections.toReAuthStagesFragment())
+        }
     }
 
     private fun showRemoveSessionDialog(deviceId: String) {
         showDialog(
             titleResIdRes = R.string.remove_session,
-            messageResId = R.string.remove_session_message_format,
+            messageResId = R.string.remove_session_message,
             positiveButtonRes = R.string.remove,
             negativeButtonVisible = true,
             positiveAction = { viewModel.removeSession(deviceId) }

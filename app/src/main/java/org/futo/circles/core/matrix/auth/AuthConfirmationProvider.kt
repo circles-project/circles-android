@@ -1,5 +1,6 @@
 package org.futo.circles.core.matrix.auth
 
+import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.feature.reauth.ReAuthStagesDataSource
 import org.matrix.android.sdk.api.auth.UIABaseAuth
 import org.matrix.android.sdk.api.auth.UserInteractiveAuthInterceptor
@@ -11,6 +12,8 @@ import kotlin.coroutines.resumeWithException
 class AuthConfirmationProvider(
     private val reAuthStagesDataSource: ReAuthStagesDataSource
 ) : UserInteractiveAuthInterceptor {
+
+    val startReAuthEventLiveData = SingleEventLiveData<Unit>()
 
     override fun performStage(
         flowResponse: RegistrationFlowResponse,
@@ -29,6 +32,7 @@ class AuthConfirmationProvider(
                 promise.resumeWithException(IllegalArgumentException())
                 return
             }
+            startReAuthEventLiveData.postValue(Unit)
             reAuthStagesDataSource.startReAuthStages(session, stages, promise)
         } else {
             reAuthStagesDataSource.handleNextStage()
