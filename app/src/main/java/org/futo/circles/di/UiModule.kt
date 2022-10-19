@@ -19,6 +19,7 @@ import org.futo.circles.feature.photos.gallery.GalleryViewModel
 import org.futo.circles.feature.photos.preview.MediaPreviewViewModel
 import org.futo.circles.feature.photos.save.SavePostToGalleryViewModel
 import org.futo.circles.feature.photos.select.SelectGalleriesViewModel
+import org.futo.circles.feature.reauth.ReAuthStageViewModel
 import org.futo.circles.feature.room.create_room.CreateRoomViewModel
 import org.futo.circles.feature.room.invite.InviteMembersViewModel
 import org.futo.circles.feature.room.manage_members.ManageMembersViewModel
@@ -142,5 +143,6 @@ val uiModule = module {
         )
     }
     viewModel { LoginStagesViewModel(get()) }
+    viewModel { ReAuthStageViewModel(get()) }
     viewModel { UsernameViewModel(get()) }
 }
