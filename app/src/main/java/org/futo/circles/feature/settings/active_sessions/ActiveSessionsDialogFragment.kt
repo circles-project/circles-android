@@ -69,7 +69,7 @@ class ActiveSessionsDialogFragment :
         )
         viewModel.verifySessionLiveData.observeResponse(this)
         viewModel.startReAuthEventLiveData.observeData(this) {
-            findNavController().navigate(ActiveSessionsDialogFragmentDirections.toReAuthStagesFragment())
+            findNavController().navigate(ActiveSessionsDialogFragmentDirections.toReAuthStagesDialogFragment())
         }
     }
 
