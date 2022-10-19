@@ -48,6 +48,7 @@ import org.futo.circles.feature.timeline.TimelineViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.PasswordModeArg
+import org.futo.circles.model.TermsModeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -72,10 +73,13 @@ val uiModule = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { ValidateTokenViewModel(get()) }
     viewModel { SelectSignUpTypeViewModel(get()) }
-    viewModel { (isLoginMode: Boolean) ->
+    viewModel { (mode: TermsModeArg) ->
         AcceptTermsViewModel(
-            if (isLoginMode) get<LoginAcceptTermsDataSource>()
-            else get<SignupAcceptTermsDataSource>()
+            when (mode) {
+                TermsModeArg.Login -> get<LoginAcceptTermsDataSource> { parametersOf(false) }
+                TermsModeArg.Signup -> get<SignupAcceptTermsDataSource>()
+                TermsModeArg.ReAuth -> get<LoginAcceptTermsDataSource> { parametersOf(true) }
+            }
         )
     }
     viewModel { ValidateEmailViewModel(get()) }
@@ -123,9 +127,15 @@ val uiModule = module {
     viewModel { (passwordMode: PasswordModeArg) ->
         PasswordViewModel(
             when (passwordMode) {
-                PasswordModeArg.LoginPasswordStage -> get<LoginPasswordDataSource>()
+                PasswordModeArg.LoginPasswordStage -> get<LoginPasswordDataSource> {
+                    parametersOf(false)
+                }
+                PasswordModeArg.ReAuthPassword -> get<LoginPasswordDataSource> { parametersOf(true) }
+                PasswordModeArg.LoginBsSpekeStage -> get<LoginBsSpekeDataSource> {
+                    parametersOf(false)
+                }
+                PasswordModeArg.ReAuthBsSpeke -> get<LoginBsSpekeDataSource> { parametersOf(true) }
                 PasswordModeArg.LoginDirect -> get<DirectLoginPasswordDataSource>()
-                PasswordModeArg.LoginBsSpekeStage -> get<LoginBsSpekeDataSource>()
                 PasswordModeArg.SignupPasswordStage -> get<SignupPasswordDataSource>()
                 PasswordModeArg.SignupBsSpekeStage -> get<SignupBsSpekeDataSource>()
             }

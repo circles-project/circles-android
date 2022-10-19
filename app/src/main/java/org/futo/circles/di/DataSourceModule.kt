@@ -79,7 +79,10 @@ val dataSourceModule = module {
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
     factory { SignupAcceptTermsDataSource(get()) }
-    factory { LoginAcceptTermsDataSource(get()) }
+    factory { (isReAuth: Boolean) ->
+        if (isReAuth) LoginAcceptTermsDataSource(get<ReAuthStagesDataSource>())
+        else LoginAcceptTermsDataSource(get<LoginStagesDataSource>())
+    }
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
@@ -109,9 +112,15 @@ val dataSourceModule = module {
     factory { SubscriptionStageDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
     factory { DirectLoginPasswordDataSource(get(), get()) }
-    factory { LoginPasswordDataSource(get()) }
+    factory { (isReAuth: Boolean) ->
+        if (isReAuth) LoginPasswordDataSource(get<ReAuthStagesDataSource>())
+        else LoginPasswordDataSource(get<LoginStagesDataSource>())
+    }
     factory { SignupPasswordDataSource(get()) }
     factory { SignupBsSpekeDataSource(get(), get()) }
-    factory { LoginBsSpekeDataSource(get(), get()) }
+    factory { (isReAuth: Boolean) ->
+        if (isReAuth) LoginBsSpekeDataSource(get(), get<ReAuthStagesDataSource>())
+        else LoginBsSpekeDataSource(get(), get<LoginStagesDataSource>())
+    }
     factory { UsernameDataSource(get()) }
 }
