@@ -17,7 +17,7 @@ class LogInStagesFragment : BaseLoginStagesFragment() {
 
     override val viewModel by viewModel<LoginStagesViewModel>()
     override val isReAuth: Boolean = false
-    override val title: String = getString(R.string.log_in)
+    override val titleResId = R.string.log_in
 
     private val restorePassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
     private var enterPassPhraseDialog: EnterPassPhraseDialog? = null

@@ -9,7 +9,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ReAuthStagesFragment : BaseLoginStagesFragment() {
     override val viewModel by viewModel<ReAuthStageViewModel>()
     override val isReAuth: Boolean = true
-    override val title: String = getString(R.string.confirm_auth)
+    override val titleResId = R.string.confirm_auth
 
     override fun setupObservers() {
         super.setupObservers()
