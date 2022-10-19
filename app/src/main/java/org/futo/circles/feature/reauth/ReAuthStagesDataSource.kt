@@ -1,6 +1,7 @@
 package org.futo.circles.feature.reauth
 
 import android.content.Context
+import org.futo.circles.R
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.auth.BaseLoginStagesDataSource
 import org.futo.circles.extensions.Response
@@ -25,6 +26,11 @@ class ReAuthStagesDataSource(
     private var sessionId: String = ""
     private var stageResultContinuation: Continuation<Response<RegistrationResult>>? =
         null
+    private val session by lazy {
+        MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
+            context.getString(R.string.session_is_not_created)
+        )
+    }
 
     fun startReAuthStages(
         session: String,
@@ -44,13 +50,12 @@ class ReAuthStagesDataSource(
         authParams: JsonDict,
         password: String?
     ): Response<RegistrationResult> {
-        val result = suspendCoroutine {
-            authPromise?.resume(CustomUIAuth(sessionId, authParams))
-            stageResultContinuation = it
-        }
-        (result as? Response.Success)?.let {
-            stageCompleted(it.data)
-        }
+        authPromise?.resume(CustomUIAuth(sessionId, authParams))
+
+        val result = if (isLastStage()) Response.Success(RegistrationResult.Success(session))
+        else awaitForStageResult()
+
+        (result as? Response.Success)?.let { stageCompleted(it.data) }
         return result
     }
 
@@ -71,4 +76,8 @@ class ReAuthStagesDataSource(
             finishReAuthEventLiveData.postValue(Unit)
         } ?: navigateToNextStage()
     }
+
+    private suspend fun awaitForStageResult() = suspendCoroutine { stageResultContinuation = it }
+
+    private fun isLastStage() = stagesToComplete.last() == currentStage
 }
