@@ -17,6 +17,7 @@ class SettingsDataSource(
     private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
         context.getString(R.string.session_is_not_created)
     )
+    val startReAuthEventLiveData = authConfirmationProvider.startReAuthEventLiveData
     val profileLiveData = session.userService().getUserLive(session.myUserId)
 
     val loadingLiveData = MutableLiveData<LoadingData>()

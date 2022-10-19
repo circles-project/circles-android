@@ -14,6 +14,7 @@ import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
+import org.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragmentDirections
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -58,6 +59,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
             val count = it ?: 0
             handleSystemNoticesCount(count)
+        }
+        viewModel.startReAuthEventLiveData.observeData(this) {
+            findNavController().navigate(SettingsFragmentDirections.toReAuthStagesDialogFragment())
         }
     }
 

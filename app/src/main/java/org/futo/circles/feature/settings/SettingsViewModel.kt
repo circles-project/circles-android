@@ -13,6 +13,7 @@ class SettingsViewModel(
     val loadingLiveData = dataSource.loadingLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
+    val startReAuthEventLiveData = dataSource.startReAuthEventLiveData
 
     fun logOut() {
         launchBg { logOutLiveData.postValue(dataSource.logOut()) }
