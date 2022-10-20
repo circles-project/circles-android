@@ -86,7 +86,7 @@ val dataSourceModule = module {
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
-    factory { SettingsDataSource(get(), get()) }
+    factory { SettingsDataSource(get(), get(), get()) }
     factory { CreatePassPhraseDataSource(get()) }
     factory { RestoreBackupDataSource(get(), get()) }
     factory { SSSSRestoreDataSource() }
@@ -100,7 +100,7 @@ val dataSourceModule = module {
     factory { CirclesDataSource() }
     factory { PhotosDataSource() }
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
-    factory { ChangePasswordDataSource() }
+    factory { ChangePasswordDataSource(get(), get()) }
     factory { ActiveSessionsDataSource(get(), get()) }
     factory { AuthConfirmationProvider(get()) }
     factory { (roomId: String, eventId: String) -> MediaPreviewDataSource(roomId, eventId) }

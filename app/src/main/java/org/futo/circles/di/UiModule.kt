@@ -97,7 +97,7 @@ val uiModule = module {
     viewModel { (roomId: String) -> FollowingViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> AcceptCircleInviteViewModel(get { parametersOf(roomId) }) }
     viewModel { EditProfileViewModel(get()) }
-    viewModel { ChangePasswordViewModel(get(), get(), get()) }
+    viewModel { ChangePasswordViewModel(get()) }
     viewModel { ActiveSessionsViewModel(get()) }
     viewModel { (roomId: String, type: CircleRoomTypeArg, isVideoAvailable: Boolean) ->
         GalleryViewModel(
