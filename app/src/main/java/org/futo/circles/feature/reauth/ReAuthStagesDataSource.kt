@@ -55,7 +55,10 @@ class ReAuthStagesDataSource(
         val result = if (isLastStage()) Response.Success(RegistrationResult.Success(session))
         else awaitForStageResult()
 
-        (result as? Response.Success)?.let { stageCompleted(it.data) }
+        (result as? Response.Success)?.let {
+            password?.let { userPassword = it }
+            stageCompleted(it.data)
+        }
         return result
     }
 
@@ -80,4 +83,6 @@ class ReAuthStagesDataSource(
     private suspend fun awaitForStageResult() = suspendCoroutine { stageResultContinuation = it }
 
     private fun isLastStage() = stagesToComplete.last() == currentStage
+
+    fun getPasswordFormLastAuth() = userPassword
 }

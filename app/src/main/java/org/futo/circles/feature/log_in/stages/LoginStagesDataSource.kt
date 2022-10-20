@@ -41,27 +41,24 @@ class LoginStagesDataSource(
             )
         }
         (result as? Response.Success)?.let {
-            stageCompleted(result.data, password)
+            password?.let { userPassword = it }
+            stageCompleted(result.data)
         }
         return result
     }
 
-    suspend fun stageCompleted(result: RegistrationResult, password: String?) {
+    suspend fun stageCompleted(result: RegistrationResult) {
         (result as? RegistrationResult.Success)?.let {
-            finishLogin(it.session, password)
+            finishLogin(it.session)
         } ?: navigateToNextStage()
     }
 
-    private suspend fun finishLogin(session: Session, password: String?) {
+    private suspend fun finishLogin(session: Session) {
         MatrixSessionProvider.awaitForSessionSync(session)
-        handleKeysBackup(password)
+        handleKeysBackup(userPassword)
     }
 
-    private suspend fun handleKeysBackup(password: String?) {
-        password ?: kotlin.run {
-            messageEventLiveData.postValue(R.string.password_not_set)
-            return
-        }
+    private suspend fun handleKeysBackup(password: String) {
         when (restoreBackupDataSource.getEncryptionAlgorithm()) {
             MXCRYPTO_ALGORITHM_MEGOLM_BACKUP ->
                 loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)

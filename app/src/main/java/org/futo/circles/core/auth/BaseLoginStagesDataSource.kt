@@ -25,6 +25,8 @@ abstract class BaseLoginStagesDataSource(
     var domain: String = ""
         private set
 
+    protected var userPassword: String = ""
+
     protected val initialDisplayName by lazy {
         context.getString(R.string.initial_device_name, context.getString(R.string.app_name))
     }
@@ -36,6 +38,7 @@ abstract class BaseLoginStagesDataSource(
     ) {
         userName = name
         domain = serverDomain
+        userPassword = ""
         currentStage = null
         stagesToComplete.clear()
         stagesToComplete.addAll(loginStages)
