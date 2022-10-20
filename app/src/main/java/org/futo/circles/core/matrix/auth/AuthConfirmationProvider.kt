@@ -14,6 +14,8 @@ class AuthConfirmationProvider(
 
     val startReAuthEventLiveData = SingleEventLiveData<Unit>()
 
+    fun getNewChangedPassword() = reAuthStagesDataSource.getPasswordFormLastAuth()
+
     override fun performStage(
         flowResponse: RegistrationFlowResponse,
         errCode: String?,
