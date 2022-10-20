@@ -14,7 +14,6 @@ import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
-import org.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragmentDirections
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,7 +34,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         with(binding) {
             tvLogout.setOnClickListener { showLogoutDialog() }
             tvEditProfile.setOnClickListener { navigateToProfile() }
-            tvChangePassword.setOnClickListener { navigateToChangePassword() }
+            tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
             tvDeactivate.setOnClickListener { showDeactivateAccountDialog() }
             tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigateToSystemNotices() }
@@ -63,9 +62,22 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         viewModel.startReAuthEventLiveData.observeData(this) {
             findNavController().navigate(SettingsFragmentDirections.toReAuthStagesDialogFragment())
         }
+        viewModel.navigateToMatrixChangePasswordEvent.observeData(this) {
+            navigateToMatrixChangePassword()
+        }
+        viewModel.changePasswordResponseLiveData.observeResponse(this,
+            success = { showSuccess(getString(R.string.password_changed)) },
+            error = { message ->
+                showError(message)
+                loadingDialog.dismiss()
+            }
+        )
+        viewModel.passPhraseLoadingLiveData.observeData(this) {
+            loadingDialog.handleLoading(it)
+        }
     }
 
-    private fun navigateToChangePassword() {
+    private fun navigateToMatrixChangePassword() {
         findNavController().navigate(SettingsFragmentDirections.toChangePasswordDialogFragment())
     }
 
