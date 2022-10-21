@@ -52,7 +52,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressO
                 LoginStageNavigationEvent.DirectPassword -> R.id.to_direct_login
                 LoginStageNavigationEvent.Password -> R.id.to_password
                 LoginStageNavigationEvent.Terms -> R.id.to_acceptTerms
-                LoginStageNavigationEvent.BSspeke -> R.id.to_bsspeke
+                LoginStageNavigationEvent.BSspekeLogin -> R.id.to_bsspeke
                 else -> throw IllegalArgumentException(getString(R.string.not_supported_navigation_event))
             }
             binding.navHostFragment.findNavController().navigate(id)

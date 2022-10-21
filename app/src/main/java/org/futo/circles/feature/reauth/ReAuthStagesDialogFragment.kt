@@ -1,7 +1,5 @@
 package org.futo.circles.feature.reauth
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -32,7 +30,7 @@ class ReAuthStagesDialogFragment :
     private val childNavHostFragment by lazy {
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.setOnKeyListener { _, keyCode, event ->
@@ -52,7 +50,8 @@ class ReAuthStagesDialogFragment :
                 LoginStageNavigationEvent.DirectPassword -> R.id.to_direct_login
                 LoginStageNavigationEvent.Password -> R.id.to_reAuthPassword
                 LoginStageNavigationEvent.Terms -> R.id.to_ReAuthAcceptTerms
-                LoginStageNavigationEvent.BSspeke -> R.id.to_reAuthBsSpeke
+                LoginStageNavigationEvent.BSspekeLogin -> R.id.to_reAuthBsSpekeLogin
+                LoginStageNavigationEvent.BSspekeSignup -> R.id.to_reAuthBsSpekeSignup
                 else -> throw IllegalArgumentException(getString(R.string.not_supported_navigation_event))
             }
             binding.navHostFragment.findNavController().navigate(id)

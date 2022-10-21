@@ -78,12 +78,24 @@
     </action>
 
     <action
-        android:id="@+id/to_reAuthBsSpeke"
+        android:id="@+id/to_reAuthBsSpekeLogin"
         app:destination="@id/passwordFragmentLogin">
 
         <argument
             android:name="mode"
-            android:defaultValue="ReAuthBsSpeke"
+            android:defaultValue="ReAuthBsSpekeLogin"
+            app:argType="org.futo.circles.model.PasswordModeArg"
+            app:nullable="false" />
+
+    </action>
+
+    <action
+        android:id="@+id/to_reAuthBsSpekeSignup"
+        app:destination="@id/passwordFragmentLogin">
+
+        <argument
+            android:name="mode"
+            android:defaultValue="ReAuthBsSpekeSignup"
             app:argType="org.futo.circles.model.PasswordModeArg"
             app:nullable="false" />
 

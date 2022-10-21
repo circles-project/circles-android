@@ -80,8 +80,10 @@ abstract class BaseLoginStagesDataSource(
     private fun handleStageOther(type: String): LoginStageNavigationEvent? = when (type) {
         LOGIN_PASSWORD_TYPE -> LoginStageNavigationEvent.Password
         DIRECT_LOGIN_PASSWORD_TYPE -> LoginStageNavigationEvent.DirectPassword
-        LOGIN_BSSPEKE_OPRF_TYPE -> LoginStageNavigationEvent.BSspeke
+        LOGIN_BSSPEKE_OPRF_TYPE -> LoginStageNavigationEvent.BSspekeLogin
         LOGIN_BSSPEKE_VERIFY_TYPE -> null
+        REGISTRATION_BSSPEKE_OPRF_TYPE -> LoginStageNavigationEvent.BSspekeSignup
+        REGISTRATION_BSSPEKE_SAVE_TYPE -> null
         else -> throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
         )
