@@ -32,7 +32,7 @@ class SignUpDataSource(
     val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
 
-    private val stagesToComplete = mutableListOf<Stage>()
+    val stagesToComplete = mutableListOf<Stage>()
 
     var currentStage: Stage? = null
         private set
@@ -97,6 +97,7 @@ class SignUpDataSource(
     }
 
     private suspend fun stageCompleted(result: RegistrationResult?) {
+        if (isStageRetry(result)) return
         (result as? RegistrationResult.Success)?.let {
             finishRegistrationLiveData.postValue(finishRegistration(it.session))
         } ?: navigateToNextStage()
@@ -104,6 +105,12 @@ class SignUpDataSource(
 
     fun clearSubtitle() {
         subtitleLiveData.postValue("")
+    }
+
+    private fun isStageRetry(result: RegistrationResult?): Boolean {
+        val nextStageType =
+            ((result as? RegistrationResult.FlowResponse)?.flowResult?.missingStages?.lastOrNull() as? Stage.Other)?.type
+        return nextStageType == (currentStage as? Stage.Other)?.type && nextStageType != null
     }
 
     private suspend fun finishRegistration(session: Session) = createResult {

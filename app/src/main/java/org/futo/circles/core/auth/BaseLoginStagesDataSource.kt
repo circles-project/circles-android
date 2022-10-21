@@ -16,7 +16,7 @@ abstract class BaseLoginStagesDataSource(
     val subtitleLiveData = MutableLiveData<String>()
     val loginStageNavigationLiveData = SingleEventLiveData<LoginStageNavigationEvent>()
 
-    protected val stagesToComplete = mutableListOf<Stage>()
+    val stagesToComplete = mutableListOf<Stage>()
     var currentStage: Stage? = null
         private set
 
@@ -62,6 +62,12 @@ abstract class BaseLoginStagesDataSource(
         currentStage = currentStage?.let {
             stagesToComplete.getOrNull(getCurrentStageIndex() + 1)
         } ?: stagesToComplete.firstOrNull()
+    }
+
+    protected fun isStageRetry(result: RegistrationResult?): Boolean {
+        val nextStageType =
+            ((result as? RegistrationResult.FlowResponse)?.flowResult?.missingStages?.lastOrNull() as? Stage.Other)?.type
+        return nextStageType == (currentStage as? Stage.Other)?.type && nextStageType != null
     }
 
     protected fun navigateToNextStage() {

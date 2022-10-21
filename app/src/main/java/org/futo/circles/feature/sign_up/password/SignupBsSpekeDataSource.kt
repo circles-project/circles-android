@@ -16,7 +16,7 @@ class SignupBsSpekeDataSource(
     override val userName: String get() = signUpDataSource.userName
     override val domain: String get() = signUpDataSource.domain
     override val isLoginMode: Boolean get() = false
-    override fun getCurrentStage(): Stage? = signUpDataSource.currentStage
+    override fun getStages(): List<Stage> = signUpDataSource.stagesToComplete
 
     override suspend fun performAuthStage(
         authParams: JsonDict,
