@@ -32,7 +32,7 @@ class SignUpDataSource(
     val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
 
-    private val stagesToComplete = mutableListOf<Stage>()
+    val stagesToComplete = mutableListOf<Stage>()
 
     var currentStage: Stage? = null
         private set

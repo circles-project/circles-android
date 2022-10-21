@@ -16,7 +16,7 @@ abstract class BaseLoginStagesDataSource(
     val subtitleLiveData = MutableLiveData<String>()
     val loginStageNavigationLiveData = SingleEventLiveData<LoginStageNavigationEvent>()
 
-    protected val stagesToComplete = mutableListOf<Stage>()
+    val stagesToComplete = mutableListOf<Stage>()
     var currentStage: Stage? = null
         private set
 

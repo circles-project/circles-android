@@ -17,7 +17,7 @@ class LoginBsSpekeDataSource(
     override val userName: String get() = loginStagesDataSource.userName
     override val domain: String get() = loginStagesDataSource.domain
     override val isLoginMode: Boolean get() = !isChangePasswordEnroll
-    override fun getCurrentStage(): Stage? = loginStagesDataSource.currentStage
+    override fun getStages(): List<Stage> = loginStagesDataSource.stagesToComplete
 
     override suspend fun performAuthStage(
         authParams: JsonDict,

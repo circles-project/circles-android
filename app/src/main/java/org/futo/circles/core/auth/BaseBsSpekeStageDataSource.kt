@@ -17,7 +17,7 @@ abstract class BaseBsSpekeStageDataSource(private val context: Context) : Passwo
     protected abstract val userName: String
     protected abstract val domain: String
     protected abstract val isLoginMode: Boolean
-    protected abstract fun getCurrentStage(): Stage?
+    protected abstract fun getStages(): List<Stage>
     protected abstract suspend fun performAuthStage(
         authParams: JsonDict,
         password: String? = null
@@ -26,23 +26,9 @@ abstract class BaseBsSpekeStageDataSource(private val context: Context) : Passwo
 
     override suspend fun processPasswordStage(password: String): Response<Unit> {
         val bsSpekeClient = BSSpekeClient("@$userName:$domain", domain, password)
-        val phfParams = getPhf(getCurrentStage())
-        val blocks: Int
-        val iterations: Int
-        try {
-            blocks = getBlocks(context, phfParams)
-            iterations = getIterations(context, phfParams)
-        } catch (e: Exception) {
-            return Response.Error(e.message ?: "")
-        }
         return when (val oprfResult = performOprfStage(bsSpekeClient)) {
             is Response.Success -> processOprfSuccessResponse(
-                oprfResult.data,
-                bsSpekeClient,
-                password,
-                blocks,
-                iterations,
-                phfParams
+                oprfResult.data, bsSpekeClient, password,
             )
             is Response.Error -> oprfResult
         }
@@ -56,7 +42,7 @@ abstract class BaseBsSpekeStageDataSource(private val context: Context) : Passwo
     ): Response<RegistrationResult> = performAuthStage(
         mapOf(
             TYPE_PARAM_KEY to getOprfTypeKey(),
-            CURVE_PARAM_KEY to getCurve(getCurrentStage()),
+            CURVE_PARAM_KEY to getCurve(),
             BLIND_PARAM_KEY to bsSpekeClient.generateBase64Blind()
         )
     )
@@ -64,30 +50,28 @@ abstract class BaseBsSpekeStageDataSource(private val context: Context) : Passwo
     private suspend fun processOprfSuccessResponse(
         oprfResult: RegistrationResult,
         bsSpekeClient: BSSpekeClient,
-        password: String,
-        blocks: Int,
-        iterations: Int,
-        phfParams: Map<String, Any?>
-    ): Response<Unit> =
-        when (val result =
+        password: String
+    ): Response<Unit> {
+        val phfParams = getPhf()
+        val blocks: Int
+        val iterations: Int
+        try {
+            blocks = getBlocks(context, phfParams)
+            iterations = getIterations(context, phfParams)
+        } catch (e: Exception) {
+            return Response.Error(e.message ?: "")
+        }
+        return when (val result =
             if (isLoginMode) performVerifyStage(
-                oprfResult,
-                bsSpekeClient,
-                password,
-                blocks,
-                iterations
+                oprfResult, bsSpekeClient, password, blocks, iterations
             )
             else performSaveStage(
-                oprfResult,
-                bsSpekeClient,
-                password,
-                blocks,
-                iterations,
-                phfParams
+                oprfResult, bsSpekeClient, password, blocks, iterations, phfParams
             )) {
             is Response.Error -> result
             is Response.Success -> Response.Success(Unit)
         }
+    }
 
     private suspend fun performSaveStage(
         oprfResult: RegistrationResult,
@@ -141,13 +125,13 @@ abstract class BaseBsSpekeStageDataSource(private val context: Context) : Passwo
         )
     }
 
-    private fun getCurve(oprfStage: Stage?): String =
-        ((oprfStage as? Stage.Other)?.params?.getOrDefault(
+    private fun getCurve(): String =
+        ((getOprfStage() as? Stage.Other)?.params?.getOrDefault(
             CURVE_PARAM_KEY, ""
         ))?.toString() ?: ""
 
-    private fun getPhf(oprfStage: Stage?): Map<String, Any?> =
-        ((oprfStage as? Stage.Other)?.params?.getOrDefault(
+    private fun getPhf(): Map<String, Any?> =
+        ((getOprfStage() as? Stage.Other)?.params?.getOrDefault(
             PHF_PARAM_KEY, emptyMap<String, Any>()
         ) as? Map<*, *>)?.map { it.key.toString() to it.value }?.toMap()
             ?: emptyMap()
@@ -193,6 +177,9 @@ abstract class BaseBsSpekeStageDataSource(private val context: Context) : Passwo
         val blindSaltString = verifyStage.params?.getOrDefault(B_PARAM_KEY, "")?.toString()
         return Base64.decode(blindSaltString, Base64.NO_WRAP)
     }
+
+    private fun getOprfStage():Stage? =
+        getStages().firstOrNull { (it as? Stage.Other)?.type == getOprfTypeKey() }
 
     companion object {
         const val CURVE_PARAM_KEY = "curve"
