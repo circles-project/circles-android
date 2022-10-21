@@ -2,7 +2,6 @@ package org.futo.circles.feature.log_in.stages.password
 
 import android.content.Context
 import org.futo.circles.R
-import org.futo.circles.core.auth.BaseLoginStagesDataSource
 import org.futo.circles.core.auth.PasswordDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
