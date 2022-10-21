@@ -45,6 +45,7 @@ class LoginStagesDataSource(
     }
 
     suspend fun stageCompleted(result: RegistrationResult, password: String?) {
+        if (isStageRetry(result)) return
         password?.let { userPassword = it }
         (result as? RegistrationResult.Success)?.let {
             finishLogin(it.session)

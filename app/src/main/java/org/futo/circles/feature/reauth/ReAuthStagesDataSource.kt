@@ -72,6 +72,7 @@ class ReAuthStagesDataSource(
     }
 
     private fun stageCompleted(result: RegistrationResult, password: String?) {
+        if (isStageRetry(result)) return
         password?.let { userPassword = it }
         (result as? RegistrationResult.Success)?.let {
             finishReAuthEventLiveData.postValue(Unit)

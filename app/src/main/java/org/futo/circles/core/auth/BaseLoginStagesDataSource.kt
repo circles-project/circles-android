@@ -64,6 +64,12 @@ abstract class BaseLoginStagesDataSource(
         } ?: stagesToComplete.firstOrNull()
     }
 
+    protected fun isStageRetry(result: RegistrationResult?): Boolean {
+        val nextStageType =
+            ((result as? RegistrationResult.FlowResponse)?.flowResult?.missingStages?.lastOrNull() as? Stage.Other)?.type
+        return nextStageType == (currentStage as? Stage.Other)?.type && nextStageType != null
+    }
+
     protected fun navigateToNextStage() {
         setNextStage()
         val event = when (val stage = currentStage) {
