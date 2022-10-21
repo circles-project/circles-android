@@ -71,7 +71,6 @@ class ActiveSessionsDialogFragment :
         viewModel.enableCrossSigningLiveData.observeResponse(this,
             error = { showError(getString(R.string.invalid_auth)) }
         )
-        viewModel.verifySessionLiveData.observeResponse(this)
         viewModel.startReAuthEventLiveData.observeData(this) {
             findNavController().navigate(ActiveSessionsDialogFragmentDirections.toReAuthStagesDialogFragment())
         }

@@ -91,15 +91,6 @@ class ActiveSessionsDataSource(
         return sessionsList
     }
 
-    suspend fun verifyDevice(deviceId: String): Response<Unit> {
-        var response: Response<Unit>? = null
-        if (session.cryptoService().getMyDevice().trustLevel?.isCrossSigningVerified() == true) {
-            response = verifyCrossSigning(deviceId)
-        }
-        verifyLocally(deviceId)
-        return response ?: Response.Success(Unit)
-    }
-
     suspend fun removeSession(deviceId: String): Response<Unit> = createResult {
         awaitCallback {
             session.cryptoService().deleteDevice(deviceId, authConfirmationProvider, it)
