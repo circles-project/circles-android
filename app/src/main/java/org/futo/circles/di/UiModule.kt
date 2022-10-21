@@ -133,9 +133,14 @@ val uiModule = module {
                 }
                 PasswordModeArg.ReAuthPassword -> get<LoginPasswordDataSource> { parametersOf(true) }
                 PasswordModeArg.LoginBsSpekeStage -> get<LoginBsSpekeDataSource> {
-                    parametersOf(false)
+                    parametersOf(false, false)
                 }
-                PasswordModeArg.ReAuthBsSpeke -> get<LoginBsSpekeDataSource> { parametersOf(true) }
+                PasswordModeArg.ReAuthBsSpekeLogin -> get<LoginBsSpekeDataSource> {
+                    parametersOf(true, false)
+                }
+                PasswordModeArg.ReAuthBsSpekeSignup -> get<LoginBsSpekeDataSource> {
+                    parametersOf(true, true)
+                }
                 PasswordModeArg.LoginDirect -> get<DirectLoginPasswordDataSource>()
                 PasswordModeArg.SignupPasswordStage -> get<SignupPasswordDataSource>()
                 PasswordModeArg.SignupBsSpekeStage -> get<SignupBsSpekeDataSource>()

@@ -118,9 +118,11 @@ val dataSourceModule = module {
     }
     factory { SignupPasswordDataSource(get()) }
     factory { SignupBsSpekeDataSource(get(), get()) }
-    factory { (isReAuth: Boolean) ->
-        if (isReAuth) LoginBsSpekeDataSource(get(), get<ReAuthStagesDataSource>())
-        else LoginBsSpekeDataSource(get(), get<LoginStagesDataSource>())
+    factory { (isReAuth: Boolean, isChangePasswordEnroll: Boolean) ->
+        if (isReAuth) LoginBsSpekeDataSource(
+            get(), isChangePasswordEnroll, get<ReAuthStagesDataSource>()
+        )
+        else LoginBsSpekeDataSource(get(), false, get<LoginStagesDataSource>())
     }
     factory { UsernameDataSource(get()) }
 }
