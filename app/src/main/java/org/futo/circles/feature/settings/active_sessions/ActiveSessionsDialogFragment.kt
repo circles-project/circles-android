@@ -2,17 +2,14 @@ package org.futo.circles.feature.settings.active_sessions
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentActiveSessionsBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.extensions.showError
+import org.futo.circles.extensions.*
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionsAdapter
-import org.futo.circles.feature.settings.confirm_auth.ConfirmAuthDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ActiveSessionsDialogFragment :
@@ -23,8 +20,6 @@ class ActiveSessionsDialogFragment :
     private val binding by lazy {
         getBinding() as DialogFragmentActiveSessionsBinding
     }
-
-    private var confirmAuthDialog: ConfirmAuthDialog? = null
 
     private val sessionsListAdapter by lazy {
         ActiveSessionsAdapter(object : ActiveSessionClickListener {
@@ -67,41 +62,34 @@ class ActiveSessionsDialogFragment :
             sessionsListAdapter.submitList(it)
         }
         viewModel.removeSessionLiveData.observeResponse(this,
-            success = { confirmAuthDialog?.dismiss() },
-            error = {
-                confirmAuthDialog?.clearInput()
-                showError(getString(R.string.invalid_auth))
-            }
+            error = { showError(getString(R.string.invalid_auth)) }
         )
         viewModel.enableCrossSigningLiveData.observeResponse(this,
-            success = { confirmAuthDialog?.dismiss() },
-            error = {
-                confirmAuthDialog?.clearInput()
-                showError(getString(R.string.invalid_auth))
-            }
+            error = { showError(getString(R.string.invalid_auth)) }
         )
         viewModel.verifySessionLiveData.observeResponse(this)
+        viewModel.startReAuthEventLiveData.observeData(this) {
+            findNavController().navigate(ActiveSessionsDialogFragmentDirections.toReAuthStagesDialogFragment())
+        }
     }
 
     private fun showRemoveSessionDialog(deviceId: String) {
-        confirmAuthDialog = ConfirmAuthDialog(
-            context = requireContext(),
-            message = getString(R.string.remove_session_message_format, deviceId),
-            onConfirmed = { password -> viewModel.removeSession(deviceId, password) }
-        ).apply {
-            show()
-            setOnDismissListener { confirmAuthDialog = null }
-        }
+        showDialog(
+            titleResIdRes = R.string.remove_session,
+            messageResId = R.string.remove_session_message,
+            positiveButtonRes = R.string.remove,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.removeSession(deviceId) }
+        )
     }
 
     private fun showEnableCrossSigningDialog() {
-        confirmAuthDialog = ConfirmAuthDialog(
-            context = requireContext(),
-            message = getString(R.string.enable_cross_signing_message),
-            onConfirmed = { password -> viewModel.enableCrossSigning(password) }
-        ).apply {
-            show()
-            setOnDismissListener { confirmAuthDialog = null }
-        }
+        showDialog(
+            titleResIdRes = R.string.enable_cross_signing,
+            messageResId = R.string.enable_cross_signing_message,
+            positiveButtonRes = R.string.confirm,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.enableCrossSigning() }
+        )
     }
 }

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.auth.LoginStageNavigationEvent
 import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentLoginStagesBinding
@@ -23,12 +24,9 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressO
 
     private val viewModel by viewModel<LoginStagesViewModel>()
     private val binding by viewBinding(FragmentLoginStagesBinding::bind)
+
     private val restorePassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
     private var enterPassPhraseDialog: EnterPassPhraseDialog? = null
-
-    private val childNavHostFragment by lazy {
-        childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-    }
 
     private val deviceIntentLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -37,13 +35,31 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressO
         enterPassPhraseDialog?.selectFile(uri)
     }
 
+    private val childNavHostFragment by lazy {
+        childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.toolbar.title = getString(R.string.log_in)
         setupObservers()
     }
 
     private fun setupObservers() {
+        viewModel.loginStageNavigationLiveData.observeData(this) { event ->
+            val id = when (event) {
+                LoginStageNavigationEvent.DirectPassword -> R.id.to_direct_login
+                LoginStageNavigationEvent.Password -> R.id.to_password
+                LoginStageNavigationEvent.Terms -> R.id.to_acceptTerms
+                LoginStageNavigationEvent.BSspekeLogin -> R.id.to_bsspeke
+                else -> throw IllegalArgumentException(getString(R.string.not_supported_navigation_event))
+            }
+            binding.navHostFragment.findNavController().navigate(id)
+        }
+        viewModel.subtitleLiveData.observeData(this) {
+            binding.toolbar.subtitle = it
+        }
         viewModel.restoreKeysLiveData.observeResponse(
             this,
             error = {
@@ -59,22 +75,11 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressO
                 LoginNavigationEvent.Main -> navigateToBottomMenuFragment()
                 LoginNavigationEvent.SetupCircles -> navigateToSetupCircles()
                 LoginNavigationEvent.PassPhrase -> showPassPhraseDialog()
-                LoginNavigationEvent.DirectPassword -> binding.navHostFragment.findNavController()
-                    .navigate(R.id.to_direct_login)
-                LoginNavigationEvent.Password -> binding.navHostFragment.findNavController()
-                    .navigate(R.id.to_password)
-                LoginNavigationEvent.Terms -> binding.navHostFragment.findNavController()
-                    .navigate(R.id.to_acceptTerms)
-                LoginNavigationEvent.BSspeke -> binding.navHostFragment.findNavController()
-                    .navigate(R.id.to_bsspeke)
                 else -> navigateToBottomMenuFragment()
             }
         }
         viewModel.messageEventLiveData.observeData(this) { messageId ->
             showError(requireContext().getString(messageId))
-        }
-        viewModel.subtitleLiveData.observeData(this) {
-            binding.toolbar.subtitle = it
         }
     }
 
@@ -102,6 +107,14 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressO
             }
     }
 
+    private fun navigateToBottomMenuFragment() {
+        findNavController().navigate(LogInStagesFragmentDirections.toBottomNavigationFragment())
+    }
+
+    private fun navigateToSetupCircles() {
+        findNavController().navigate(LogInStagesFragmentDirections.toSetupCirclesFragment())
+    }
+
     private fun showDiscardDialog() {
         showDialog(
             titleResIdRes = R.string.discard_current_login_progress,
@@ -117,14 +130,6 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressO
         } else {
             showDiscardDialog()
         }
-    }
-
-    private fun navigateToBottomMenuFragment() {
-        findNavController().navigate(LogInStagesFragmentDirections.toBottomNavigationFragment())
-    }
-
-    private fun navigateToSetupCircles() {
-        findNavController().navigate(LogInStagesFragmentDirections.toSetupCirclesFragment())
     }
 
     companion object {

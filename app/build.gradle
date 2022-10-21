@@ -75,11 +75,11 @@ android {
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     //Matrix
-    implementation 'org.matrix.android:matrix-sdk-android:1.5.2.2'
+    implementation 'org.matrix.android:matrix-sdk-android:1.5.2.4'
 
     //Kotlin
     implementation "androidx.core:core-ktx:1.9.0"
@@ -116,8 +116,8 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
 
     //Firebase crash reports
-    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.13'
-    gplayImplementation 'com.google.firebase:firebase-analytics-ktx:21.1.1'
+    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.0'
+    gplayImplementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
 
     //Subscriptions
     gplayImplementation 'com.android.billingclient:billing-ktx:5.0.0'

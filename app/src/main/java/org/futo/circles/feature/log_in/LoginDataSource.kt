@@ -6,10 +6,10 @@ import org.futo.circles.core.DIRECT_LOGIN_PASSWORD_TYPE
 import org.futo.circles.core.LOGIN_PASSWORD_TYPE
 import org.futo.circles.core.LOGIN_PASSWORD_USER_ID_TYPE
 import org.futo.circles.core.TYPE_PARAM_KEY
+import org.futo.circles.core.auth.BaseLoginStagesDataSource.Companion.USER_PARAM_KEY
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
-import org.futo.circles.feature.log_in.stages.LoginStagesDataSource.Companion.USER_PARAM_KEY
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 import org.matrix.android.sdk.api.auth.registration.Stage
@@ -45,10 +45,14 @@ class LoginDataSource(
             R.string.initial_device_name,
             context.getString(R.string.app_name)
         )
-        val flows = authService.getLoginWizard().getAllLoginFlows(identifierParams, initialDisplayName)
+        val flows =
+            authService.getLoginWizard().getAllLoginFlows(identifierParams, initialDisplayName)
         val stages = if (flows.isEmpty()) {
-            val supportedLoginMethods =
+            val supportedLoginMethods = try {
                 authService.getLoginFlow(homeServerConfig).supportedLoginTypes
+            } catch (e: Throwable) {
+                throw IllegalArgumentException(context.getString(R.string.not_found_login_flow_for_user))
+            }
             if (supportedLoginMethods.contains(LOGIN_PASSWORD_TYPE))
                 listOf(Stage.Other(true, DIRECT_LOGIN_PASSWORD_TYPE, null))
             else

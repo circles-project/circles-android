@@ -2,13 +2,13 @@ package org.futo.circles.feature.log_in.stages.password
 
 import org.futo.circles.core.LOGIN_PASSWORD_TYPE
 import org.futo.circles.core.TYPE_PARAM_KEY
+import org.futo.circles.core.auth.BaseLoginStagesDataSource
 import org.futo.circles.core.auth.PasswordDataSource
 import org.futo.circles.extensions.Response
-import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.matrix.android.sdk.api.auth.registration.Stage
 
 class LoginPasswordDataSource(
-    private val loginStagesDataSource: LoginStagesDataSource
+    private val loginStagesDataSource: BaseLoginStagesDataSource
 ) : PasswordDataSource {
 
     override fun getMinimumPasswordLength(): Int =
@@ -31,7 +31,7 @@ class LoginPasswordDataSource(
     }
 
     companion object {
-        private const val PASSWORD_PARAM_KEY = "password"
+        const val PASSWORD_PARAM_KEY = "password"
         private const val MINIMUM_LENGTH_KEY = "minimum_length"
     }
 }

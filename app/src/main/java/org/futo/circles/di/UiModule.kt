@@ -19,6 +19,7 @@ import org.futo.circles.feature.photos.gallery.GalleryViewModel
 import org.futo.circles.feature.photos.preview.MediaPreviewViewModel
 import org.futo.circles.feature.photos.save.SavePostToGalleryViewModel
 import org.futo.circles.feature.photos.select.SelectGalleriesViewModel
+import org.futo.circles.feature.reauth.ReAuthStageViewModel
 import org.futo.circles.feature.room.create_room.CreateRoomViewModel
 import org.futo.circles.feature.room.invite.InviteMembersViewModel
 import org.futo.circles.feature.room.manage_members.ManageMembersViewModel
@@ -48,6 +49,7 @@ import org.futo.circles.feature.timeline.TimelineViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.PasswordModeArg
+import org.futo.circles.model.TermsModeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -72,10 +74,13 @@ val uiModule = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { ValidateTokenViewModel(get()) }
     viewModel { SelectSignUpTypeViewModel(get()) }
-    viewModel { (isLoginMode: Boolean) ->
+    viewModel { (mode: TermsModeArg) ->
         AcceptTermsViewModel(
-            if (isLoginMode) get<LoginAcceptTermsDataSource>()
-            else get<SignupAcceptTermsDataSource>()
+            when (mode) {
+                TermsModeArg.Login -> get<LoginAcceptTermsDataSource> { parametersOf(false) }
+                TermsModeArg.Signup -> get<SignupAcceptTermsDataSource>()
+                TermsModeArg.ReAuth -> get<LoginAcceptTermsDataSource> { parametersOf(true) }
+            }
         )
     }
     viewModel { ValidateEmailViewModel(get()) }
@@ -92,7 +97,7 @@ val uiModule = module {
     viewModel { (roomId: String) -> FollowingViewModel(get { parametersOf(roomId) }) }
     viewModel { (roomId: String) -> AcceptCircleInviteViewModel(get { parametersOf(roomId) }) }
     viewModel { EditProfileViewModel(get()) }
-    viewModel { ChangePasswordViewModel(get(), get(), get()) }
+    viewModel { ChangePasswordViewModel(get()) }
     viewModel { ActiveSessionsViewModel(get()) }
     viewModel { (roomId: String, type: CircleRoomTypeArg, isVideoAvailable: Boolean) ->
         GalleryViewModel(
@@ -123,14 +128,26 @@ val uiModule = module {
     viewModel { (passwordMode: PasswordModeArg) ->
         PasswordViewModel(
             when (passwordMode) {
-                PasswordModeArg.LoginPasswordStage -> get<LoginPasswordDataSource>()
+                PasswordModeArg.LoginPasswordStage -> get<LoginPasswordDataSource> {
+                    parametersOf(false)
+                }
+                PasswordModeArg.ReAuthPassword -> get<LoginPasswordDataSource> { parametersOf(true) }
+                PasswordModeArg.LoginBsSpekeStage -> get<LoginBsSpekeDataSource> {
+                    parametersOf(false, false)
+                }
+                PasswordModeArg.ReAuthBsSpekeLogin -> get<LoginBsSpekeDataSource> {
+                    parametersOf(true, false)
+                }
+                PasswordModeArg.ReAuthBsSpekeSignup -> get<LoginBsSpekeDataSource> {
+                    parametersOf(true, true)
+                }
                 PasswordModeArg.LoginDirect -> get<DirectLoginPasswordDataSource>()
-                PasswordModeArg.LoginBsSpekeStage -> get<LoginBsSpekeDataSource>()
                 PasswordModeArg.SignupPasswordStage -> get<SignupPasswordDataSource>()
                 PasswordModeArg.SignupBsSpekeStage -> get<SignupBsSpekeDataSource>()
             }
         )
     }
     viewModel { LoginStagesViewModel(get()) }
+    viewModel { ReAuthStageViewModel(get()) }
     viewModel { UsernameViewModel(get()) }
 }

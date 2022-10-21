@@ -2,14 +2,14 @@ package org.futo.circles.feature.log_in.stages.terms
 
 import org.futo.circles.core.TYPE_PARAM_KEY
 import org.futo.circles.core.auth.BaseAcceptTermsDataSource
+import org.futo.circles.core.auth.BaseLoginStagesDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.toTermsListItems
-import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.matrix.android.sdk.api.auth.data.LoginFlowTypes
 import org.matrix.android.sdk.api.auth.registration.Stage
 
 class LoginAcceptTermsDataSource(
-    private val loginStagesDataSource: LoginStagesDataSource
+    private val loginStagesDataSource: BaseLoginStagesDataSource
 ) : BaseAcceptTermsDataSource() {
 
     override suspend fun acceptTerms(): Response<Unit> {

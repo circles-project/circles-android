@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import org.futo.circles.R
 import org.futo.circles.core.ExpandableItemsDataSource
+import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
@@ -26,6 +27,8 @@ class ActiveSessionsDataSource(
     private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
         context.getString(R.string.session_is_not_created)
     )
+
+    val startReAuthEventLiveData = authConfirmationProvider.startReAuthEventLiveData
 
     override val itemsWithVisibleOptionsFlow: MutableStateFlow<MutableSet<String>> =
         MutableStateFlow(mutableSetOf())
@@ -76,17 +79,15 @@ class ActiveSessionsDataSource(
         return response ?: Response.Success(Unit)
     }
 
-    suspend fun removeSession(deviceId: String, password: String): Response<Unit> = createResult {
+    suspend fun removeSession(deviceId: String): Response<Unit> = createResult {
         awaitCallback {
-            session.cryptoService()
-                .deleteDevice(deviceId, authConfirmationProvider.getAuthInterceptor(password), it)
+            session.cryptoService().deleteDevice(deviceId, authConfirmationProvider, it)
         }
     }
 
-    suspend fun enableCrossSigning(password: String): Response<Unit> = createResult {
+    suspend fun enableCrossSigning(): Response<Unit> = createResult {
         awaitCallback {
-            session.cryptoService().crossSigningService()
-                .initializeCrossSigning(authConfirmationProvider.getAuthInterceptor(password), it)
+            session.cryptoService().crossSigningService().initializeCrossSigning(authConfirmationProvider, it)
         }
     }
 

@@ -202,6 +202,7 @@
     <string name="repeat_new_password">Repeat new password</string>
     <string name="password_changed">Password changed</string>
     <string name="deactivate_message">This will make your account permanently unusable. You will not be able to log in, and no one will be able to re-register the same user lD. This will cause your account to leave all rooms it is participating in, and it will remove your account details from your identity server. This action is irreversible.</string>
+    <string name="deactivate">Deactivate</string>
     <string name="invalid_auth">Invalid auth</string>
     <string name="active_login_sessions">Active login sessions</string>
     <string name="current_session">Current session</string>
@@ -209,7 +210,8 @@
     <string name="cross_signing">Cross Signing</string>
     <string name="local_verification">Local verification</string>
     <string name="verify">Verify</string>
-    <string name="remove_session_message_format">In order to sign out from session on %s device you should confirm your auth.</string>
+    <string name="remove_session">Remove session</string>
+    <string name="remove_session_message">In order to sign out from this session you should confirm your auth.</string>
     <string name="save_to_device">Save to device</string>
     <string name="save_to_gallery">Save to gallery</string>
     <string name="device">Device</string>
@@ -233,7 +235,7 @@
     <string name="confirm">Confirm</string>
     <string name="enable_cross_signing">Enable Cross Signing</string>
     <string name="enable_cross_signing_message">Confirm auth to enable cross signing</string>
-
+    <string name="password_not_set">Password is not set</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
     <string name="purchase_failed_format">Purchase failed with code %d</string>
@@ -243,7 +245,6 @@
     <string name="user_canceled">User canceled</string>
     <string name="item_not_owned">Item is not owned</string>
     <string name="developer_error">Developer error</string>
-
     <string name="upload_to_gallery">Upload to gallery</string>
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
@@ -278,6 +279,9 @@
     <string name="system_notices_room_not_found">System notices room not found.</string>
     <string name="upload_media">Upload media</string>
     <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
+    <string name="not_supported_navigation_event">Not supported navigation event</string>
+    <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
+    <string name="you_are_signed_out">You’re signed out</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

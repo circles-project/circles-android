@@ -2,7 +2,6 @@ package org.futo.circles.feature.sign_up.password
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -39,6 +38,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
             btnLogin.setText(
                 getString(
                     when (args.mode) {
+                        PasswordModeArg.ReAuthBsSpekeSignup,
                         PasswordModeArg.SignupPasswordStage,
                         PasswordModeArg.SignupBsSpekeStage -> R.string.set_password
                         else -> R.string.log_in
