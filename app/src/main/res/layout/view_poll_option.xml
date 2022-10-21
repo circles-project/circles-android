@@ -5,9 +5,9 @@
     tools:parentTag="android.widget.FrameLayout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lvRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lvRoot"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
@@ -26,13 +26,12 @@
 
         <TextView
             android:id="@+id/tvOptionQuestion"
+            style="@style/postMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="4dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@color/black"
-            android:textSize="17sp"
             app:layout_constraintEnd_toStartOf="@id/ivWinner"
             app:layout_constraintStart_toEndOf="@id/ivCheck"
             app:layout_constraintTop_toTopOf="parent"

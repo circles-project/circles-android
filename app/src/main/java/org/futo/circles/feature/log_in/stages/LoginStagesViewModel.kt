@@ -11,8 +11,9 @@ class LoginStagesViewModel(
     private val loginStagesDataSource: LoginStagesDataSource
 ) : ViewModel() {
 
-    val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
     val subtitleLiveData = loginStagesDataSource.subtitleLiveData
+    val loginStageNavigationLiveData = loginStagesDataSource.loginStageNavigationLiveData
+    val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
     val loginNavigationLiveData = loginStagesDataSource.loginNavigationLiveData
     val passPhraseLoadingLiveData = loginStagesDataSource.passPhraseLoadingLiveData
     val messageEventLiveData = loginStagesDataSource.messageEventLiveData

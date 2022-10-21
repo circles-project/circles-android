@@ -1,36 +1,37 @@
 package org.futo.circles.feature.log_in.stages.password
 
-import android.content.Context
-import org.futo.circles.R
+import org.futo.circles.core.LOGIN_PASSWORD_TYPE
+import org.futo.circles.core.TYPE_PARAM_KEY
+import org.futo.circles.core.auth.BaseLoginStagesDataSource
+import org.futo.circles.core.auth.PasswordDataSource
 import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
-import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
-import org.futo.circles.provider.MatrixInstanceProvider
-import org.matrix.android.sdk.api.auth.registration.RegistrationResult
-import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.auth.registration.Stage
 
 class LoginPasswordDataSource(
-    private val context: Context,
-    private val loginStagesDataSource: LoginStagesDataSource
-) {
+    private val loginStagesDataSource: BaseLoginStagesDataSource
+) : PasswordDataSource {
 
-    suspend fun logIn(password: String): Response<Session> {
-        val result = createResult {
-            MatrixInstanceProvider.matrix.authenticationService().getLoginWizard().login(
-                login = loginStagesDataSource.userName,
-                password = password,
-                initialDeviceName = context.getString(
-                    R.string.initial_device_name,
-                    context.getString(R.string.app_name)
-                )
-            )
+    override fun getMinimumPasswordLength(): Int =
+        ((loginStagesDataSource.currentStage as? Stage.Other)?.params?.getOrDefault(
+            MINIMUM_LENGTH_KEY, 1.0
+        ) as? Double)?.toInt() ?: 1
+
+
+    override suspend fun processPasswordStage(password: String): Response<Unit> {
+        val result = loginStagesDataSource.performLoginStage(
+            mapOf(
+                TYPE_PARAM_KEY to LOGIN_PASSWORD_TYPE,
+                PASSWORD_PARAM_KEY to password
+            ), password
+        )
+        return when (result) {
+            is Response.Success -> Response.Success(Unit)
+            is Response.Error -> result
         }
-        (result as? Response.Success)?.let {
-            loginStagesDataSource.stageCompleted(
-                RegistrationResult.Success(it.data),
-                password
-            )
-        }
-        return result
+    }
+
+    companion object {
+        const val PASSWORD_PARAM_KEY = "password"
+        private const val MINIMUM_LENGTH_KEY = "minimum_length"
     }
 }

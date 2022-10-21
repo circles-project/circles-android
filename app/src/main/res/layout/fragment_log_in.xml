@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="@"
+        android:text="@string/at_symbol"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@id/tilUserName"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +108,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDomainSeparator"
         app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle">

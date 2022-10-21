@@ -1,6 +1,9 @@
 package org.futo.circles.feature.room.select
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import org.futo.circles.mapping.toSelectableRoomListItem
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
@@ -14,29 +17,36 @@ class SelectRoomsDataSource(
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 
-    val roomsLiveData = MutableLiveData(getInitialRoomsList())
+    private val selectedRoomsFlow = MutableStateFlow<List<SelectableRoomListItem>>(emptyList())
+    val roomsFlow = getMergedRoomsListFlow()
 
-    private fun getInitialRoomsList(): List<SelectableRoomListItem> = when (roomType) {
-        CircleRoomTypeArg.Circle -> getRooms { it.hasTag(CIRCLE_TAG) && it.membership == Membership.JOIN }
-        CircleRoomTypeArg.Group -> getRooms { (it.roomType == GROUP_TYPE && it.membership == Membership.JOIN) }
-        CircleRoomTypeArg.Photo -> getRooms { (it.roomType == GALLERY_TYPE && it.membership == Membership.JOIN) }
+    private fun getMergedRoomsListFlow() =
+        combine(getRoomsFlowWithType(), selectedRoomsFlow) { rooms, selectedRooms ->
+            rooms.map { room -> room.toSelectableRoomListItem(selectedRooms.containsWithId(room.roomId)) }
+        }.flowOn(Dispatchers.IO).distinctUntilChanged()
+
+    private fun getRoomsFlowWithType(): Flow<List<RoomSummary>> = when (roomType) {
+        CircleRoomTypeArg.Circle -> getFilteredRoomsFlow { it.hasTag(CIRCLE_TAG) && it.membership == Membership.JOIN }
+        CircleRoomTypeArg.Group -> getFilteredRoomsFlow { (it.roomType == GROUP_TYPE && it.membership == Membership.JOIN) }
+        CircleRoomTypeArg.Photo -> getFilteredRoomsFlow { (it.roomType == GALLERY_TYPE && it.membership == Membership.JOIN) }
     }
 
-    fun getSelectedRooms() = roomsLiveData.value?.filter { it.isSelected } ?: emptyList()
+    fun getSelectedRooms() = selectedRoomsFlow.value.filter { it.isSelected }
 
     fun toggleRoomSelect(circle: SelectableRoomListItem) {
-        val newList = roomsLiveData.value?.toMutableList()?.map {
-            if (it.id == circle.id) it.copy(isSelected = !it.isSelected) else it
-        }
-        roomsLiveData.postValue(newList)
+        val list = selectedRoomsFlow.value.toMutableList()
+        if (circle.isSelected) list.removeIf { it.id == circle.id }
+        else list.add(circle.copy(isSelected = true))
+        selectedRoomsFlow.value = list
     }
 
-    private fun getRooms(filter: (summary: RoomSummary) -> Boolean) =
-        session?.roomService()?.getRoomSummaries(roomSummaryQueryParams {
+    private fun getFilteredRoomsFlow(filter: (summary: RoomSummary) -> Boolean) =
+        session?.roomService()?.getRoomSummariesLive(roomSummaryQueryParams {
             excludeType = null
-        })?.mapNotNull { summary ->
-            if (filter(summary)) summary.toSelectableRoomListItem()
-            else null
-        } ?: emptyList()
+        })?.map { summaries ->
+            summaries.mapNotNull { summary -> if (filter(summary)) summary else null }
+        }?.asFlow() ?: emptyFlow()
 
+    private fun List<SelectableRoomListItem>.containsWithId(id: String) =
+        firstOrNull { it.id == id } != null
 }

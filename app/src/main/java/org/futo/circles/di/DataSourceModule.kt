@@ -13,6 +13,8 @@ import org.futo.circles.feature.circles.following.FollowingDataSource
 import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.log_in.LoginDataSource
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
+import org.futo.circles.feature.log_in.stages.password.DirectLoginPasswordDataSource
+import org.futo.circles.feature.log_in.stages.password.LoginBsSpekeDataSource
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.people.PeopleDataSource
@@ -22,6 +24,7 @@ import org.futo.circles.feature.photos.PhotosDataSource
 import org.futo.circles.feature.photos.preview.MediaPreviewDataSource
 import org.futo.circles.feature.photos.save.SavePostToGalleryDataSource
 import org.futo.circles.feature.photos.select.SelectGalleriesDataSource
+import org.futo.circles.feature.reauth.ReAuthStagesDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.invite.InviteMembersDataSource
 import org.futo.circles.feature.room.manage_members.ManageMembersDataSource
@@ -33,11 +36,14 @@ import org.futo.circles.feature.settings.SettingsDataSource
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsDataSource
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
 import org.futo.circles.feature.sign_up.SignUpDataSource
+import org.futo.circles.feature.sign_up.password.SignupBsSpekeDataSource
+import org.futo.circles.feature.sign_up.password.SignupPasswordDataSource
 import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesDataSource
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource
 import org.futo.circles.feature.sign_up.sign_up_type.SelectSignUpTypeDataSource
 import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageDataSource
 import org.futo.circles.feature.sign_up.terms.SignupAcceptTermsDataSource
+import org.futo.circles.feature.sign_up.username.UsernameDataSource
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailDataSource
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
@@ -49,7 +55,7 @@ import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    factory { LoginDataSource(get()) }
+    factory { LoginDataSource(get(), get()) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineDataSource(roomId, type, get())
     }
@@ -69,14 +75,18 @@ val dataSourceModule = module {
     factory { CoreSpacesTreeBuilder(get(), get()) }
     single { SignUpDataSource(get(), get(), get()) }
     single { LoginStagesDataSource(get(), get(), get()) }
+    single { ReAuthStagesDataSource(get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
-    factory { SignupAcceptTermsDataSource(get(), get()) }
-    factory { LoginAcceptTermsDataSource(get(), get()) }
+    factory { SignupAcceptTermsDataSource(get()) }
+    factory { (isReAuth: Boolean) ->
+        if (isReAuth) LoginAcceptTermsDataSource(get<ReAuthStagesDataSource>())
+        else LoginAcceptTermsDataSource(get<LoginStagesDataSource>())
+    }
     factory { ValidateEmailDataSource(get()) }
     factory { SetupProfileDataSource(get()) }
     factory { SetupCirclesDataSource(get()) }
-    factory { SettingsDataSource(get(), get()) }
+    factory { SettingsDataSource(get(), get(), get()) }
     factory { CreatePassPhraseDataSource(get()) }
     factory { RestoreBackupDataSource(get(), get()) }
     factory { SSSSRestoreDataSource() }
@@ -90,9 +100,9 @@ val dataSourceModule = module {
     factory { CirclesDataSource() }
     factory { PhotosDataSource() }
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
-    factory { ChangePasswordDataSource() }
+    factory { ChangePasswordDataSource(get(), get()) }
     factory { ActiveSessionsDataSource(get(), get()) }
-    factory { AuthConfirmationProvider() }
+    factory { AuthConfirmationProvider(get()) }
     factory { (roomId: String, eventId: String) -> MediaPreviewDataSource(roomId, eventId) }
     factory { SelectGalleriesDataSource() }
     factory { SavePostToGalleryDataSource(get(), get()) }
@@ -101,5 +111,18 @@ val dataSourceModule = module {
     factory { (userId: String) -> UserDataSource(get(), userId) }
     factory { SubscriptionStageDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
-    factory { LoginPasswordDataSource(get(), get()) }
+    factory { DirectLoginPasswordDataSource(get(), get()) }
+    factory { (isReAuth: Boolean) ->
+        if (isReAuth) LoginPasswordDataSource(get<ReAuthStagesDataSource>())
+        else LoginPasswordDataSource(get<LoginStagesDataSource>())
+    }
+    factory { SignupPasswordDataSource(get()) }
+    factory { SignupBsSpekeDataSource(get(), get()) }
+    factory { (isReAuth: Boolean, isChangePasswordEnroll: Boolean) ->
+        if (isReAuth) LoginBsSpekeDataSource(
+            get(), isChangePasswordEnroll, get<ReAuthStagesDataSource>()
+        )
+        else LoginBsSpekeDataSource(get(), false, get<LoginStagesDataSource>())
+    }
+    factory { UsernameDataSource(get()) }
 }

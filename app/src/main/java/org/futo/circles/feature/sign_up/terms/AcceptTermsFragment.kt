@@ -24,7 +24,7 @@ class AcceptTermsFragment : ParentBackPressOwnerFragment(R.layout.fragment_accep
 
     private val args: AcceptTermsFragmentArgs by navArgs()
     private val viewModel by viewModel<AcceptTermsViewModel> {
-        parametersOf(args.isLoginMode)
+        parametersOf(args.mode)
     }
     override val fragment: Fragment = this
     private val binding by viewBinding(FragmentAcceptTermsBinding::bind)
@@ -71,12 +71,5 @@ class AcceptTermsFragment : ParentBackPressOwnerFragment(R.layout.fragment_accep
 
     private fun openTermsUrl(item: TermsListItem) {
         openCustomTabUrl(item.url)
-    }
-
-    companion object {
-        private const val IS_LOGIN_MODE = "is_login_mode"
-        fun create(isLoginMode: Boolean) = AcceptTermsFragment().apply {
-            arguments = bundleOf(IS_LOGIN_MODE to isLoginMode)
-        }
     }
 }

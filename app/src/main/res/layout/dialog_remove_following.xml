@@ -37,7 +37,7 @@
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvTitle"
-                app:tint="@color/inactive_menu_icon_color" />
+                app:tint="@color/menu_icon_color" />
 
             <View
                 android:id="@+id/titleDivider"
@@ -63,7 +63,7 @@
                 android:text="@string/remove_from_this_circle_but_do_not_unfollow"
                 android:textColor="@color/black"
                 app:drawableLeftCompat="@drawable/ic_delete"
-                app:drawableTint="@color/inactive_menu_icon_color"
+                app:drawableTint="@color/menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleDivider" />
@@ -81,7 +81,7 @@
                 android:text="@string/unfollow_completely_remove_from_all_circles"
                 android:textColor="@color/black"
                 app:drawableLeftCompat="@drawable/ic_logout"
-                app:drawableTint="@color/inactive_menu_icon_color"
+                app:drawableTint="@color/menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvRemove" />

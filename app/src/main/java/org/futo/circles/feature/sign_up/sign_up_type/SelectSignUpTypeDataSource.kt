@@ -2,11 +2,13 @@ package org.futo.circles.feature.sign_up.sign_up_type
 
 import android.content.Context
 import org.futo.circles.R
+import org.futo.circles.core.REGISTRATION_SUBSCRIPTION_TYPE
+import org.futo.circles.core.REGISTRATION_TOKEN_TYPE
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
-import org.matrix.android.sdk.api.auth.registration.RegistrationResult
+import org.matrix.android.sdk.api.auth.registration.Stage
 
 class SelectSignUpTypeDataSource(
     private val context: Context,
@@ -20,33 +22,28 @@ class SelectSignUpTypeDataSource(
     }
 
     suspend fun startNewRegistration(
-        name: String,
-        password: String,
         domain: String,
         isSubscription: Boolean,
         subscriptionReceipt: String?
-    ) =
-        createResult {
-            authService.cancelPendingLoginOrRegistration()
-            val loginFlow = authService.getLoginFlow(buildHomeServerConfigFromDomain(domain))
-            (authService.getRegistrationWizard().createAccount(
-                name, password,
-                context.getString(
-                    R.string.initial_device_name,
-                    context.getString(R.string.app_name)
-                )
-            )
-                    as? RegistrationResult.FlowResponse)
-                ?.let {
-                    signUpDataSource.startSignUpStages(
-                        it.flowResult.missingStages,
-                        name,
-                        password,
-                        loginFlow.homeServerUrl,
-                        isSubscription,
-                        subscriptionReceipt
-                    )
-                }
-        }
+    ) = createResult {
+        authService.cancelPendingLoginOrRegistration()
+        authService.initiateAuth(buildHomeServerConfigFromDomain(domain))
+        val flows = authService.getRegistrationWizard().getAllRegistrationFlows()
+        signUpDataSource.startSignUpStages(
+            prepareStagesList(isSubscription, flows),
+            domain,
+            subscriptionReceipt
+        )
+    }
 
+    private fun prepareStagesList(isSubscription: Boolean, flows: List<List<Stage>>): List<Stage> =
+        if (isSubscription) {
+            flows.firstOrNull {
+                (it.firstOrNull() as? Stage.Other)?.type == REGISTRATION_SUBSCRIPTION_TYPE
+            }
+        } else {
+            flows.firstOrNull {
+                (it.firstOrNull() as? Stage.Other)?.type == REGISTRATION_TOKEN_TYPE
+            }
+        } ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
 }

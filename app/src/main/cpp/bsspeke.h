@@ -21,11 +21,13 @@
 #ifndef BSSPEKE_H
 #define BSSPEKE_H
 
+#include <stddef.h>
+#include <sys/types.h>
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "../../../../../../Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/lib64/clang/9.0.9/include/stdint.h"
 
 #define BSSPEKE_VERIFY_CLIENT_MODIFIER "client"
 #define BSSPEKE_VERIFY_CLIENT_MODIFIER_LEN 6
@@ -37,44 +39,48 @@ extern "C" {
 #define BSSPEKE_ARGON2_MIN_PHF_ITERATIONS 3
 
 typedef struct {
-    // Login credentials
-    uint8_t client_id[256];
+
+    uint8_t client_id[256];  // Client's identifier (eg Matrix user_id)
     size_t client_id_len;
-    uint8_t password[256];
+
+    uint8_t password[256];   // User's password
     size_t password_len;
-    // Server identifier
-    uint8_t server_id[256];
+
+    uint8_t K_password[32];  // Password-derived secret key
+
+    uint8_t server_id[256];  // Server's identifier (eg domain name)
     size_t server_id_len;
-    // Random number to blind the password in the OPRF
-    uint8_t r[32];
-    // Server's ephemeral public key
-    uint8_t B[32];
-    // Ephemeral keys
-    uint8_t a[32];
-    uint8_t A[32];
-    // Long term keys
-    uint8_t v[32];
+
+    uint8_t r[32];           // Random number to blind the password in the OPRF
+
+    uint8_t B[32];           // Server's ephemeral public key
+
+    uint8_t a[32];           // Ephemeral private key
+    uint8_t A[32];           // Ephemeral public key
+
+    uint8_t v[32];           // Long term keys
     uint8_t p[32];
-    // Session key
-    uint8_t K_c[32];
+
+    uint8_t K_c[32];         // Session key
+
 } bsspeke_client_ctx;
 
+
 typedef struct {
-    uint8_t server_id[256];    // Server's identifier (eg domain name)
+
+    uint8_t server_id[256];  // Server's identifier (eg domain name)
     size_t server_id_len;
 
-    uint8_t client_id[256];    // Client's identifier (eg Matrix user_id)
+    uint8_t client_id[256];  // Client's identifier (eg Matrix user_id)
     size_t client_id_len;
 
-    //uint8_t P[32];         // Base point for the user
-    //uint8_t V[32];         // User's long-term public key
-
-    uint8_t b[32];         // Ephemeral private key
-    uint8_t B[32];         // Ephemeral public key
+    uint8_t b[32];           // Ephemeral private key
+    uint8_t B[32];           // Ephemeral public key
     
-    uint8_t A[32];         // Client's ephemeral public key
+    uint8_t A[32];           // Client's ephemeral public key
 
-    uint8_t K_s[32];       // Session key
+    uint8_t K_s[32];         // Session key
+
 } bsspeke_server_ctx;
 
 
@@ -103,6 +109,15 @@ void
 bsspeke_server_generate_B(const uint8_t P[32],
                           bsspeke_server_ctx *server);
 
+void
+bsspeke_server_get_B(uint8_t B[32],
+                     bsspeke_server_ctx *server);
+
+void
+bsspeke_client_generate_hashed_key(uint8_t k[32],
+                                   const uint8_t *msg, size_t msg_len,
+                                   bsspeke_client_ctx *client);
+
 int
 bsspeke_client_generate_P_and_V(uint8_t P[32], uint8_t V[32],
                                 const uint8_t blind_salt[32],
@@ -113,6 +128,10 @@ int
 bsspeke_client_generate_A(const uint8_t blind_salt[32],
                           uint32_t phf_blocks, uint32_t phf_iterations,
                           bsspeke_client_ctx *client);
+
+void
+bsspeke_client_get_A(uint8_t A[32],
+                     bsspeke_client_ctx *client);
 
 void
 bsspeke_client_derive_shared_key(const uint8_t B[32],
@@ -129,7 +148,7 @@ bsspeke_server_derive_shared_key(const uint8_t A[32],
                                  bsspeke_server_ctx *server);
 
 int
-bsspeke_server_verify_client(uint8_t client_verifier[32],
+bsspeke_server_verify_client(const uint8_t client_verifier[32],
                              bsspeke_server_ctx *server);
 
 void

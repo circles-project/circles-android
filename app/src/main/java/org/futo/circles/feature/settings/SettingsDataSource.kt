@@ -6,17 +6,21 @@ import org.futo.circles.R
 import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
 import org.futo.circles.model.LoadingData
 import org.futo.circles.provider.MatrixSessionProvider
 
 class SettingsDataSource(
     context: Context,
+    private val changePasswordDataSource: ChangePasswordDataSource,
     private val authConfirmationProvider: AuthConfirmationProvider
 ) {
 
     private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
         context.getString(R.string.session_is_not_created)
     )
+    val passPhraseLoadingLiveData = changePasswordDataSource.passPhraseLoadingLiveData
+    val startReAuthEventLiveData = authConfirmationProvider.startReAuthEventLiveData
     val profileLiveData = session.userService().getUserLive(session.myUserId)
 
     val loadingLiveData = MutableLiveData<LoadingData>()
@@ -30,8 +34,13 @@ class SettingsDataSource(
         loadingLiveData.postValue(loadingData.apply { isLoading = false })
     }
 
-    suspend fun deactivateAccount(password: String): Response<Unit> = createResult {
-        session.accountService()
-            .deactivateAccount(false, authConfirmationProvider.getAuthInterceptor(password))
+    suspend fun deactivateAccount(): Response<Unit> = createResult {
+        session.accountService().deactivateAccount(false, authConfirmationProvider)
     }
+
+    suspend fun changePasswordUIA() =
+        changePasswordDataSource.changePasswordUIA(authConfirmationProvider)
+
+    suspend fun createNewBackupIfNeeded() =
+        changePasswordDataSource.createNewBackupInNeeded(authConfirmationProvider.getNewChangedPassword())
 }

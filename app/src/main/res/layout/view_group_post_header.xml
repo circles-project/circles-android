@@ -19,18 +19,47 @@
     <TextView
         android:id="@+id/tvUserName"
         style="@style/body"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:lines="1"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@id/tvUserId"
-        app:layout_constraintEnd_toStartOf="@id/btnMore"
+        app:layout_constraintEnd_toStartOf="@id/ivEncrypted"
         app:layout_constraintStart_toEndOf="@id/ivSenderImage"
         app:layout_constraintTop_toTopOf="@id/ivSenderImage"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Android01" />
+        tools:text="Android01 ddddddsdsdsdsdsdssd" />
+
+    <ImageView
+        android:id="@+id/ivEncrypted"
+        android:layout_width="16dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/tvMessageTime"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintStart_toEndOf="@id/tvUserName"
+        app:layout_constraintTop_toTopOf="@id/tvMessageTime"
+        tools:src="@drawable/ic_lock" />
+
+    <TextView
+        android:id="@+id/tvMessageTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textSize="12sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/tvUserName"
+        app:layout_constraintEnd_toStartOf="@id/btnMore"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/ivEncrypted"
+        app:layout_constraintTop_toTopOf="@id/tvUserName"
+        tools:text="some date" />
 
     <TextView
         android:id="@+id/tvUserId"
@@ -40,10 +69,10 @@
         android:lines="1"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/ivSenderImage"
-        app:layout_constraintEnd_toEndOf="@id/tvUserName"
+        app:layout_constraintEnd_toStartOf="@id/btnMore"
         app:layout_constraintStart_toStartOf="@id/tvUserName"
         app:layout_constraintTop_toBottomOf="@id/tvUserName"
-        tools:text="Android01@domain" />
+        tools:text="Android01@domainsadasdasd" />
 
     <ImageButton
         android:id="@+id/btnMore"

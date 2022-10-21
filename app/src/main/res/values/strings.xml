@@ -3,6 +3,7 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
+    <string name="set_username">Set username</string>
     <string name="not_a_member">Not a member?</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_using_active_subscription">Sign Up using your active subscription</string>
@@ -18,15 +19,11 @@
     <string name="my_circles">My Circles</string>
     <string name="photo_galleries">Photo Galleries</string>
     <string name="initial_device_name">%s (Android)</string>
-    <string name="like">Like</string>
-    <string name="reply">Reply</string>
     <string name="share">Share</string>
-    <string name="hide_replies">Hide replies</string>
     <string name="invite_members">Invite members</string>
     <string name="invite_followers">Invite followers</string>
     <string name="invite_to_format">Invite to %s</string>
     <string name="enter_name_or_id">Enter name or userId</string>
-    <string name="user_not_found">User not found</string>
     <string name="known_users">Known users</string>
     <string name="ignored_users">Ignored users</string>
     <string name="suggestion">Suggestions</string>
@@ -67,9 +64,9 @@
     <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
     <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
     <string name="accept">Accept</string>
-    <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
+    <string name="discard_current_login_progress">Discard current login progress?</string>
     <string name="validate_your_email">Validate your email</string>
     <string name="validate_email">Validate email</string>
     <string name="email">Email</string>
@@ -205,6 +202,7 @@
     <string name="repeat_new_password">Repeat new password</string>
     <string name="password_changed">Password changed</string>
     <string name="deactivate_message">This will make your account permanently unusable. You will not be able to log in, and no one will be able to re-register the same user lD. This will cause your account to leave all rooms it is participating in, and it will remove your account details from your identity server. This action is irreversible.</string>
+    <string name="deactivate">Deactivate</string>
     <string name="invalid_auth">Invalid auth</string>
     <string name="active_login_sessions">Active login sessions</string>
     <string name="current_session">Current session</string>
@@ -212,7 +210,8 @@
     <string name="cross_signing">Cross Signing</string>
     <string name="local_verification">Local verification</string>
     <string name="verify">Verify</string>
-    <string name="remove_session_message_format">In order to sign out from session on %s device you should confirm your auth.</string>
+    <string name="remove_session">Remove session</string>
+    <string name="remove_session_message">In order to sign out from this session you should confirm your auth.</string>
     <string name="save_to_device">Save to device</string>
     <string name="save_to_gallery">Save to gallery</string>
     <string name="device">Device</string>
@@ -221,10 +220,9 @@
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="users_circles_format">%s\'s Circles</string>
-    <string name="server_location">Server Location:</string>
-    <string name="us">US</string>
-    <string name="eu">EU</string>
-    <string name="user_id_start_symbol">\@</string>
+    <string name="server_location">Server Location</string>
+    <string name="us_server_format"><![CDATA[<b>US</b> - (%s)]]></string>
+    <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>
     <string name="user_id_separator">:</string>
     <string name="domain">Domain</string>
     <string name="no_backup_message">Keys backup not found</string>
@@ -237,7 +235,7 @@
     <string name="confirm">Confirm</string>
     <string name="enable_cross_signing">Enable Cross Signing</string>
     <string name="enable_cross_signing_message">Confirm auth to enable cross signing</string>
-    <string name="device_media">Device media</string>
+    <string name="password_not_set">Password is not set</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
     <string name="purchase_failed_format">Purchase failed with code %d</string>
@@ -247,11 +245,11 @@
     <string name="user_canceled">User canceled</string>
     <string name="item_not_owned">Item is not owned</string>
     <string name="developer_error">Developer error</string>
-    <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
     <string name="upload_to_gallery">Upload to gallery</string>
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
     <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_username">Enter your username</string>
     <string name="poll_type">Poll type</string>
     <string name="open_poll">Open poll</string>
     <string name="open_poll_hint">Voter see results as soon as they have voted</string>
@@ -270,6 +268,20 @@
     <string name="upload_recovery_key">Upload Recovery Key</string>
     <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
     <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
+    <string name="set_password">Set password</string>
+    <string name="minimum_length_format">Minimum length %d</string>
+    <string name="unsupported_login_method">Unsupported login method</string>
+    <string name="blind_salt_is_missing">Blind salt is missing</string>
+    <string name="b_param_is_missing">B param is missing</string>
+    <string name="at_symbol">\@</string>
+    <string name="phf_blocks_error_format">Phf blocks must be bigger than %d</string>
+    <string name="phf_iterations_error_format">Phf iterations must be bigger than %d</string>
+    <string name="system_notices_room_not_found">System notices room not found.</string>
+    <string name="upload_media">Upload media</string>
+    <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
+    <string name="not_supported_navigation_event">Not supported navigation event</string>
+    <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
+    <string name="you_are_signed_out">You’re signed out</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
@@ -296,11 +308,10 @@
         <item quantity="other">%d members</item>
     </plurals>
 
-    <plurals name="show_replies_plurals">
-        <item quantity="one">Show %d reply</item>
-        <item quantity="other">Show %d replies</item>
+    <plurals name="replies_plurals">
+        <item quantity="one">%d reply</item>
+        <item quantity="other">%d replies</item>
     </plurals>
-
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

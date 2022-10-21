@@ -47,10 +47,10 @@ fun RoomSummary.toGalleryListItem() = GalleryListItem(
     info = toRoomInfo()
 )
 
-fun RoomSummary.toSelectableRoomListItem() = SelectableRoomListItem(
+fun RoomSummary.toSelectableRoomListItem(selected: Boolean = false) = SelectableRoomListItem(
     id = roomId,
     info = toRoomInfo(),
-    isSelected = false
+    isSelected = selected
 )
 
 fun RoomSummary.getFollowersCount(): Int =

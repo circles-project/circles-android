@@ -46,6 +46,7 @@ class LoadingButton(
 
     fun setText(text: String) {
         binding.button.text = text
+        buttonText = text
     }
 
     fun setIsLoading(isLoading: Boolean) {

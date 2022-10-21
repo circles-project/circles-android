@@ -29,122 +29,59 @@
         style="@style/headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/server_location"
-        app:layout_constraintBottom_toBottomOf="@id/serverLocationGroup"
-        app:layout_constraintEnd_toStartOf="@+id/serverLocationGroup"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/serverLocationGroup" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineLogo" />
 
     <RadioGroup
         android:id="@+id/serverLocationGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvServerLocationTitle"
-        app:layout_constraintTop_toBottomOf="@id/guidelineLogo">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvServerLocationTitle">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/btnUS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:paddingHorizontal="8dp"
-            android:text="@string/us"
-            android:textAppearance="@style/headline" />
+            android:textSize="17sp"
+            tools:text="US some.server.domain" />
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/btnEU"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="8dp"
-            android:text="@string/eu"
-            android:textAppearance="@style/headline" />
+            android:textSize="17sp"
+            tools:text="EU - (some.server.domain)" />
 
     </RadioGroup>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUserName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:hint="@string/username"
-        app:layout_constraintBottom_toTopOf="@id/tilPassword"
-        app:layout_constraintEnd_toStartOf="@id/tvServerDomain"
-        app:layout_constraintHorizontal_weight="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serverLocationGroup">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="12dp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/tvServerDomain"
-        style="@style/footNote"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        app:layout_constraintBottom_toBottomOf="@id/tilUserName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.4"
-        app:layout_constraintStart_toEndOf="@id/tilUserName"
-        app:layout_constraintTop_toTopOf="@id/tilUserName"
-        tools:text="eu.kombucha.social" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:hint="@string/password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilUserName"
-        app:passwordToggleEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:padding="8dp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
 
     <TextView
         android:id="@+id/tvTokenTitle"
         style="@style/headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         android:text="@string/already_have_a_token"
         app:layout_constraintBottom_toTopOf="@id/btnToken"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilPassword"
-        app:layout_constraintVertical_bias="0.2"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/serverLocationGroup" />
 
     <org.futo.circles.view.LoadingButton
         android:id="@+id/btnToken"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:enabled="false"
         android:text="@string/sign_up_with_token"
-        app:layout_constraintBottom_toTopOf="@id/tvOr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTokenTitle" />
@@ -155,20 +92,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="@string/or"
-        app:layout_constraintBottom_toTopOf="@id/tvSubscriptionTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnToken" />
-
 
     <TextView
         android:id="@+id/tvSubscriptionTitle"
         style="@style/headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="@string/create_a_subscription"
         app:layout_constraintBottom_toTopOf="@id/btnSubscription"
@@ -181,9 +116,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:enabled="false"
         android:text="@string/choose_a_subscription"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvSubscriptionTitle" />

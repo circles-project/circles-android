@@ -224,7 +224,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             messageResId = R.string.end_poll_message,
             positiveButtonRes = R.string.end_poll,
             negativeButtonVisible = true,
-            positiveAction = {  viewModel.endPoll(roomId, eventId) }
+            positiveAction = { viewModel.endPoll(roomId, eventId) }
         )
     }
 

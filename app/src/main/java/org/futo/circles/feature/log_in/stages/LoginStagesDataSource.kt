@@ -2,57 +2,50 @@ package org.futo.circles.feature.log_in.stages
 
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.auth.BaseLoginStagesDataSource
 import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.util.JsonDict
 
-enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase, Password, Terms }
+enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase }
 
 class LoginStagesDataSource(
-    private val context: Context,
+    context: Context,
     private val restoreBackupDataSource: RestoreBackupDataSource,
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder
-) {
+) : BaseLoginStagesDataSource(context) {
 
-    val subtitleLiveData = MutableLiveData<String>()
-    val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
     val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
+    val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
     val messageEventLiveData = SingleEventLiveData<Int>()
 
-    var userName: String = ""
-        private set
-    var currentHomeServerUrl: String = ""
-        private set
-
-    private val stagesToComplete = mutableListOf<String>()
-    var currentStage: String? = null
-        private set
-
-    private var userPassword: String = ""
-
-    fun startLoginStages(
-        supportedLoginTypes: List<String>,
-        userName: String,
-        homeServerUrl: String
-    ) {
-        this.userName = userName
-        currentHomeServerUrl = homeServerUrl
-        userPassword = ""
-        currentStage = null
-        stagesToComplete.clear()
-        stagesToComplete.addAll(supportedLoginTypes)
-        navigateToNextStage()
+    override suspend fun performLoginStage(
+        authParams: JsonDict,
+        password: String?
+    ): Response<RegistrationResult> {
+        val wizard = MatrixInstanceProvider.matrix.authenticationService().getLoginWizard()
+        val result = createResult {
+            wizard.loginStageCustom(
+                authParams,
+                getIdentifier(),
+                initialDisplayName
+            )
+        }
+        (result as? Response.Success)?.let { stageCompleted(result.data, password) }
+        return result
     }
 
-    suspend fun stageCompleted(result: RegistrationResult?, password: String? = null) {
+    suspend fun stageCompleted(result: RegistrationResult, password: String?) {
+        if (isStageRetry(result)) return
         password?.let { userPassword = it }
         (result as? RegistrationResult.Success)?.let {
             finishLogin(it.session)
@@ -61,44 +54,10 @@ class LoginStagesDataSource(
 
     private suspend fun finishLogin(session: Session) {
         MatrixSessionProvider.awaitForSessionSync(session)
-        handleKeysBackup()
+        handleKeysBackup(userPassword)
     }
 
-    private fun getCurrentStageIndex() =
-        stagesToComplete.indexOf(currentStage).takeIf { it != -1 } ?: 0
-
-    private fun navigateToNextStage() {
-        //TODO("Change for real stages implementation")
-//        val stage = currentStage?.let {
-//            stagesToComplete.getOrNull(getCurrentStageIndex() + 1)
-//        } ?: stagesToComplete.firstOrNull()
-        val stage = stagesToComplete.firstOrNull { it.endsWith("password") }
-
-        currentStage = stage
-
-        val event = if (stage?.endsWith("password") == true) {
-            LoginNavigationEvent.Password
-        } else if (stage?.endsWith("terms") == true) {
-            LoginNavigationEvent.Terms
-        } else {
-            throw IllegalArgumentException(
-                context.getString(R.string.not_supported_stage_format, stage.toString())
-            )
-        }
-        loginNavigationLiveData.postValue(event)
-        updatePageSubtitle()
-    }
-
-    private fun updatePageSubtitle() {
-        //TODO("Change for real stages size")
-        val size = 1
-        //val number = getCurrentStageIndex() + 1
-        val number = 1
-        val subtitle = context.getString(R.string.sign_up_stage_subtitle_format, number, size)
-        subtitleLiveData.postValue(subtitle)
-    }
-
-    private suspend fun handleKeysBackup() {
+    private suspend fun handleKeysBackup(password: String) {
         when (restoreBackupDataSource.getEncryptionAlgorithm()) {
             MXCRYPTO_ALGORITHM_MEGOLM_BACKUP ->
                 loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
@@ -106,7 +65,7 @@ class LoginStagesDataSource(
                 messageEventLiveData.postValue(R.string.no_backup_message)
                 createSpacesTreeIfNotExist()
             }
-            else -> restoreBackup(userPassword)
+            else -> restoreBackup(password)
         }
     }
 
