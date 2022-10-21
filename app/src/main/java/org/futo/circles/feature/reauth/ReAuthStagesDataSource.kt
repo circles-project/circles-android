@@ -55,10 +55,7 @@ class ReAuthStagesDataSource(
         val result = if (isLastStage()) Response.Success(RegistrationResult.Success(session))
         else awaitForStageResult()
 
-        (result as? Response.Success)?.let {
-            password?.let { userPassword = it }
-            stageCompleted(it.data)
-        }
+        (result as? Response.Success)?.let { stageCompleted(it.data, password) }
         return result
     }
 
@@ -74,7 +71,8 @@ class ReAuthStagesDataSource(
         stageResultContinuation?.resume(result)
     }
 
-    private fun stageCompleted(result: RegistrationResult) {
+    private fun stageCompleted(result: RegistrationResult, password: String?) {
+        password?.let { userPassword = it }
         (result as? RegistrationResult.Success)?.let {
             finishReAuthEventLiveData.postValue(Unit)
         } ?: navigateToNextStage()

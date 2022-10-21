@@ -40,14 +40,12 @@ class LoginStagesDataSource(
                 initialDisplayName
             )
         }
-        (result as? Response.Success)?.let {
-            password?.let { userPassword = it }
-            stageCompleted(result.data)
-        }
+        (result as? Response.Success)?.let { stageCompleted(result.data, password) }
         return result
     }
 
-    suspend fun stageCompleted(result: RegistrationResult) {
+    suspend fun stageCompleted(result: RegistrationResult, password: String?) {
+        password?.let { userPassword = it }
         (result as? RegistrationResult.Success)?.let {
             finishLogin(it.session)
         } ?: navigateToNextStage()
