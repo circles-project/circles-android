@@ -52,8 +52,7 @@
     <string name="group_updated">Group updated</string>
     <string name="circle_updated">Circle updated</string>
     <string name="gallery_updated">Gallery updated</string>
-    <string name="already_have_a_token">Already have a token?</string>
-    <string name="sign_up_with_token">Sign up with token</string>
+    <string name="sign_up_for_free_account">Sign up for a free account</string>
     <string name="choose_a_subscription">Choose a subscription</string>
     <string name="create_a_subscription">Create a subscription</string>
     <string name="or">Or</string>

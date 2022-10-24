@@ -63,28 +63,16 @@
 
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/tvTokenTitle"
-        style="@style/headline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="@string/already_have_a_token"
-        app:layout_constraintBottom_toTopOf="@id/btnToken"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serverLocationGroup" />
 
     <org.futo.circles.view.LoadingButton
         android:id="@+id/btnToken"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/sign_up_with_token"
+        android:layout_marginTop="24dp"
+        android:text="@string/sign_up_for_free_account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTokenTitle" />
+        app:layout_constraintTop_toBottomOf="@id/serverLocationGroup" />
 
     <TextView
         android:id="@+id/tvOr"
