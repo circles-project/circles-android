@@ -16,10 +16,6 @@ class QrCodeImageView @JvmOverloads constructor(
 
     private var data: String? = null
 
-    init {
-        setBackgroundColor(Color.WHITE)
-    }
-
     fun setData(data: String) {
         this.data = data
 
