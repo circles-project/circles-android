@@ -1,12 +1,11 @@
 package org.futo.circles.feature.settings.active_sessions.verify
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.futo.circles.R
-import org.futo.circles.model.QrLoading
-import org.futo.circles.model.QrReady
-import org.futo.circles.model.QrState
+import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.verification.*
 
@@ -43,6 +42,15 @@ class VerifySessionViewModel(
     }
 
     override fun verificationRequestUpdated(pr: PendingVerificationRequest) {
+        pr.cancelConclusion?.let {
+            qrStateLiveData.postValue(QrCanceled(it.humanReadable))
+            return
+        }
+        if(pr.isSuccessful){
+            qrStateLiveData.postValue(QrSuccess)
+            return
+        }
+
         if (pr.isIncoming && !pr.isReady) {
             session.cryptoService().verificationService()
                 .readyPendingVerification(
@@ -60,7 +68,7 @@ class VerifySessionViewModel(
 
     override fun transactionUpdated(tx: VerificationTransaction) {
         qrTransaction = tx as? QrCodeVerificationTransaction
-        qrTransaction?.qrCodeText?.let { qrStateLiveData.postValue(QrReady(deviceId, it)) }
+        qrTransaction?.qrCodeText?.let { qrStateLiveData.postValue(QrReady(it)) }
     }
 
     private fun requestVerification() {

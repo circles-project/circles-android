@@ -283,7 +283,6 @@
     <string name="waiting_for_verification_format">Waiting for %s to start verification</string>
     <string name="cross_signed">cross signed</string>
     <string name="session_verified">Session verified</string>
-    <string name="verification_canceled_by_another_device">Verification canceled by another device</string>
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
 

@@ -70,7 +70,7 @@ class VerifySessionDialogFragment :
         viewModel.qrStateLiveData.observeData(this) { qrState ->
             when (qrState) {
                 is QrCanceled -> {
-                    showError(getString(R.string.verification_canceled_by_another_device), true)
+                    showError(qrState.reason, true)
                     onBackPressed()
                 }
                 is QrLoading -> handelQrLoading(qrState.deviceId, qrState.isCurrentSessionVerified)
