@@ -1,25 +1,18 @@
 package org.futo.circles.model
 
-sealed class QrState(
-    open val deviceId: String
-)
+sealed class QrState
 
 data class QrLoading(
-    override val deviceId: String,
+    val deviceId: String,
     val isCurrentSessionVerified: Boolean
-) : QrState(deviceId)
+) : QrState()
 
 data class QrReady(
-    override val deviceId: String,
     val qrText: String
-) : QrState(deviceId)
+) : QrState()
 
-data class QrSuccess(
-    override val deviceId: String,
-    val qrText: String
-) : QrState(deviceId)
+object QrSuccess : QrState()
 
 data class QrCanceled(
-    override val deviceId: String,
-    val qrText: String
-) : QrState(deviceId)
+    val reason: String
+) : QrState()
