@@ -1,15 +1,21 @@
 package org.futo.circles.feature.settings.active_sessions.verify
 
+import android.Manifest
+import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.navArgs
+import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.DialogFragmentActiveSessionsBinding
 import org.futo.circles.databinding.DialogFragmentVerifySessionBinding
-import org.futo.circles.feature.notices.SystemNoticesDialogFragmentArgs
-import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
-import org.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
+import org.futo.circles.extensions.*
+import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
+import org.futo.circles.model.QrCanceled
+import org.futo.circles.model.QrLoading
+import org.futo.circles.model.QrReady
+import org.futo.circles.model.QrSuccess
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -26,9 +32,74 @@ class VerifySessionDialogFragment :
         getBinding() as DialogFragmentVerifySessionBinding
     }
 
+    private val scanActivityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == Activity.RESULT_OK) {
+                val scannedQrCode = QrScannerActivity.getResultText(activityResult.data)
+                viewModel.onQrScanned(scannedQrCode)
+            }
+        }
+
+    private val requestCameraPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) {
+                QrScannerActivity.startForResult(requireActivity(), scanActivityResultLauncher)
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.CAMERA),
+                    1
+                )
+            }
+        }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("MyLog", "fragment")
-        viewModel.requestVerification()
+        setupViews()
+        setupObServers()
+    }
+
+    private fun setupViews() {
+        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.btnVerify.setOnClickListener {
+            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
+
+    private fun setupObServers() {
+        viewModel.qrStateLiveData.observeData(this) { qrState ->
+            when (qrState) {
+                is QrCanceled -> {
+                    showError(getString(R.string.verification_canceled_by_another_device), true)
+                    onBackPressed()
+                }
+                is QrLoading -> handelQrLoading(qrState.deviceId, qrState.isCurrentSessionVerified)
+                is QrReady -> handelQrReady(qrState.qrText)
+                is QrSuccess -> {
+                    showSuccess(getString(R.string.session_verified), true)
+                    onBackPressed()
+                }
+            }
+        }
+    }
+
+    private fun handelQrReady(qrText: String) {
+        with(binding) {
+            vLoading.gone()
+            btnVerify.isEnabled = true
+            ivQr.visible()
+            ivQr.setData(qrText)
+            tvMessage.text = getString(R.string.scan_with_one_of_devices_message)
+        }
+    }
+
+    private fun handelQrLoading(deviceId: String, isSessionVerified: Boolean) {
+        with(binding) {
+            vLoading.visible()
+            ivQr.visibility = View.INVISIBLE
+            btnVerify.isEnabled = false
+            val sessionName = if (isSessionVerified) deviceId else getString(R.string.cross_signed)
+            tvMessage.text = getString(R.string.waiting_for_verification_format, sessionName)
+        }
     }
 }
