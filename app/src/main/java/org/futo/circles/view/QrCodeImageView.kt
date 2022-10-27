@@ -6,9 +6,11 @@ import android.graphics.Color
 import android.util.AttributeSet
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
+import org.futo.circles.R
 
 class QrCodeImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -31,7 +33,10 @@ class QrCodeImageView @JvmOverloads constructor(
         data
             ?.takeIf { height > 0 }
             ?.let {
-                val bitmap = it.toBitMatrix(height).toBitmap()
+                val bitmap = it.toBitMatrix(height).toBitmap(
+                    ContextCompat.getColor(context, R.color.qr_background),
+                    ContextCompat.getColor(context, R.color.qr_color),
+                )
                 post { setImageBitmap(bitmap) }
             }
     }
