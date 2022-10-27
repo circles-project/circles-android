@@ -11,6 +11,7 @@ import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.extensions.initialDisplayName
 import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
@@ -81,12 +82,7 @@ class SignUpDataSource(
         password: String? = null
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
-        val initialDisplayName = context.getString(
-            R.string.initial_device_name,
-            context.getString(R.string.app_name)
-        )
-
-        val result = createResult { wizard.registrationCustom(authParams, initialDisplayName) }
+        val result = createResult { wizard.registrationCustom(authParams, context.initialDisplayName()) }
 
         (result as? Response.Success)?.let {
             name?.let { userName = it }

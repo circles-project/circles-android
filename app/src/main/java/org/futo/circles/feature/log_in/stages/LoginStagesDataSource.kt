@@ -9,6 +9,7 @@ import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.extensions.initialDisplayName
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
@@ -19,7 +20,7 @@ import org.matrix.android.sdk.api.util.JsonDict
 enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase }
 
 class LoginStagesDataSource(
-    context: Context,
+    private val context: Context,
     private val restoreBackupDataSource: RestoreBackupDataSource,
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder
 ) : BaseLoginStagesDataSource(context) {
@@ -37,7 +38,7 @@ class LoginStagesDataSource(
             wizard.loginStageCustom(
                 authParams,
                 getIdentifier(),
-                initialDisplayName
+                context.initialDisplayName()
             )
         }
         (result as? Response.Success)?.let { stageCompleted(result.data, password) }

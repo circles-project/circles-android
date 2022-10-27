@@ -5,6 +5,7 @@ import org.futo.circles.R
 import org.futo.circles.core.auth.PasswordDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.extensions.initialDisplayName
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
@@ -21,10 +22,7 @@ class DirectLoginPasswordDataSource(
             MatrixInstanceProvider.matrix.authenticationService().getLoginWizard().login(
                 login = "@${loginStagesDataSource.userName}:${loginStagesDataSource.domain}",
                 password = password,
-                initialDeviceName = context.getString(
-                    R.string.initial_device_name,
-                    context.getString(R.string.app_name)
-                )
+                initialDeviceName = context.initialDisplayName()
             )
         }
         return when (result) {
