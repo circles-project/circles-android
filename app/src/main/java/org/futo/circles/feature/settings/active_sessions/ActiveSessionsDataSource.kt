@@ -14,9 +14,9 @@ import org.futo.circles.model.ActiveSession
 import org.futo.circles.model.ActiveSessionListItem
 import org.futo.circles.model.SessionHeader
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.crypto.crosssigning.DeviceTrustLevel
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
+import org.matrix.android.sdk.api.session.crypto.verification.VerificationMethod
 import org.matrix.android.sdk.api.util.awaitCallback
 
 class ActiveSessionsDataSource(
@@ -52,31 +52,41 @@ class ActiveSessionsDataSource(
     ): List<ActiveSessionListItem> {
         val devicesList = infoList.mapNotNull { deviceInfo ->
             val cryptoDeviceInfo = cryptoList.firstOrNull { it.deviceId == deviceInfo.deviceId }
-            cryptoDeviceInfo?.let {
-                ActiveSession(
-                    deviceInfo,
-                    cryptoDeviceInfo,
-                    sessionsWithVisibleOptions.contains(cryptoDeviceInfo.deviceId)
-                )
-            }
-        }.sortedByDescending { it.deviceInfo.lastSeenTs }
+            cryptoDeviceInfo?.let { deviceInfo to it }
+        }.sortedByDescending { it.first.lastSeenTs }
+
+        val currentSession =
+            devicesList.firstOrNull { it.second.deviceId == MatrixSessionProvider.currentSession?.sessionParams?.deviceId }
+                ?: return emptyList()
+        val otherSessions = devicesList.toMutableList().apply { remove(currentSession) }
+        val isCurrentSessionVerified =
+            currentSession.second.trustLevel?.isCrossSigningVerified() == true
 
         val sessionsList =
             mutableListOf<ActiveSessionListItem>(SessionHeader(context.getString(R.string.current_session)))
-        val currentSession = devicesList.filter { it.isCurrentSession() }
-        sessionsList.addAll(currentSession)
-        sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
-        sessionsList.addAll(devicesList.toMutableList().apply { removeAll(currentSession) })
-        return sessionsList
-    }
-
-    suspend fun verifyDevice(deviceId: String): Response<Unit> {
-        var response: Response<Unit>? = null
-        if (session.cryptoService().getMyDevice().trustLevel?.isCrossSigningVerified() == true) {
-            response = verifyCrossSigning(deviceId)
+        sessionsList.add(
+            ActiveSession(
+                deviceInfo = currentSession.first,
+                cryptoDeviceInfo = currentSession.second,
+                canVerify = !isCurrentSessionVerified && otherSessions.isNotEmpty(),
+                canEnableCrossSigning = !isCurrentSessionVerified,
+                isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.second.deviceId)
+            )
+        )
+        if (otherSessions.isNotEmpty()) {
+            sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
+            sessionsList.addAll(otherSessions.map {
+                ActiveSession(
+                    deviceInfo = it.first,
+                    cryptoDeviceInfo = it.second,
+                    canVerify = isCurrentSessionVerified && it.second.trustLevel?.isCrossSigningVerified() != true,
+                    canEnableCrossSigning = false,
+                    isOptionsVisible = sessionsWithVisibleOptions.contains(it.second.deviceId)
+                )
+            }
+            )
         }
-        verifyLocally(deviceId)
-        return response ?: Response.Success(Unit)
+        return sessionsList
     }
 
     suspend fun removeSession(deviceId: String): Response<Unit> = createResult {
@@ -91,17 +101,4 @@ class ActiveSessionsDataSource(
         }
     }
 
-    private suspend fun verifyCrossSigning(deviceId: String): Response<Unit> = createResult {
-        awaitCallback {
-            session.cryptoService().crossSigningService().trustDevice(deviceId, it)
-        }
-    }
-
-    private fun verifyLocally(deviceId: String) {
-        session.cryptoService().setDeviceVerification(
-            DeviceTrustLevel(crossSigningVerified = false, locallyVerified = true),
-            session.myUserId,
-            deviceId
-        )
-    }
 }

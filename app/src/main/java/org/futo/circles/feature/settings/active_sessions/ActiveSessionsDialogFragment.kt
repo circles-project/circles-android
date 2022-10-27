@@ -28,7 +28,11 @@ class ActiveSessionsDialogFragment :
             }
 
             override fun onVerifySessionClicked(deviceId: String) {
-                viewModel.verifySession(deviceId)
+                findNavController().navigate(
+                    ActiveSessionsDialogFragmentDirections.toVerifySessionDialogFragment(
+                        deviceId
+                    )
+                )
             }
 
             override fun onEnableCrossSigningClicked() {
@@ -67,7 +71,6 @@ class ActiveSessionsDialogFragment :
         viewModel.enableCrossSigningLiveData.observeResponse(this,
             error = { showError(getString(R.string.invalid_auth)) }
         )
-        viewModel.verifySessionLiveData.observeResponse(this)
         viewModel.startReAuthEventLiveData.observeData(this) {
             findNavController().navigate(ActiveSessionsDialogFragmentDirections.toReAuthStagesDialogFragment())
         }

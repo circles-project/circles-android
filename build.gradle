@@ -3,7 +3,7 @@ buildscript {
     ext {
         minSdkVersion = 24
         sdkVersion = 33
-        androidx_nav_version = "2.5.2"
+        androidx_nav_version = "2.5.3"
     }
     repositories {
         google()

@@ -116,7 +116,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
 
     //Firebase crash reports
-    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.0'
+    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.1'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
 
     //Subscriptions
@@ -127,6 +127,10 @@ dependencies {
 
     //Retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    //QR
+    implementation 'com.google.zxing:core:3.3.3'
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
     //test
     testImplementation 'junit:junit:4.13.2'

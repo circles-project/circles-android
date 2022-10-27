@@ -29,6 +29,7 @@ import org.futo.circles.feature.room.select_users.SelectUsersViewModel
 import org.futo.circles.feature.room.update_room.UpdateRoomViewModel
 import org.futo.circles.feature.settings.SettingsViewModel
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
+import org.futo.circles.feature.settings.active_sessions.verify.VerifySessionViewModel
 import org.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import org.futo.circles.feature.settings.edit_profile.EditProfileViewModel
 import org.futo.circles.feature.share.BaseShareViewModel
@@ -150,4 +151,5 @@ val uiModule = module {
     viewModel { LoginStagesViewModel(get()) }
     viewModel { ReAuthStageViewModel(get()) }
     viewModel { UsernameViewModel(get()) }
+    viewModel { (deviceId: String) -> VerifySessionViewModel(deviceId, get()) }
 }
