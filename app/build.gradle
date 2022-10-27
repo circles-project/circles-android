@@ -28,14 +28,12 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            resValue "string", "app_name", "Circuli Stage"
             buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
             buildConfigField "String", "EU_SERVER_DOMAIN", "\"nl.circles-dev.net\""
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            resValue "string", "app_name", "Circuli"
             buildConfigField "String", "US_SERVER_DOMAIN", "\"circu.li\""
             buildConfigField "String", "EU_SERVER_DOMAIN", "\"eu.circu.li\""
         }

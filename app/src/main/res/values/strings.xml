@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">Circles</string>
+    <string name="full_app_name">FUTO Circles</string>
     <string name="company_title">by FUTO Labs</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
