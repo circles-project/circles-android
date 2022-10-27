@@ -61,8 +61,6 @@ class ActiveSessionsDataSource(
         val otherSessions = devicesList.toMutableList().apply { remove(currentSession) }
         val isCurrentSessionVerified =
             currentSession.second.trustLevel?.isCrossSigningVerified() == true
-        val isOtherSessionVerified =
-            otherSessions.firstOrNull { it.second.trustLevel?.isCrossSigningVerified() == true } != null
 
         val sessionsList =
             mutableListOf<ActiveSessionListItem>(SessionHeader(context.getString(R.string.current_session)))
@@ -70,8 +68,8 @@ class ActiveSessionsDataSource(
             ActiveSession(
                 deviceInfo = currentSession.first,
                 cryptoDeviceInfo = currentSession.second,
-                canVerify = !isCurrentSessionVerified && isOtherSessionVerified,
-                canEnableCrossSigning = !isCurrentSessionVerified && !isOtherSessionVerified,
+                canVerify = !isCurrentSessionVerified && otherSessions.isNotEmpty(),
+                canEnableCrossSigning = !isCurrentSessionVerified,
                 isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.second.deviceId)
             )
         )
