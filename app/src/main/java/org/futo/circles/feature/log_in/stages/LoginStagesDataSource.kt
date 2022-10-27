@@ -9,7 +9,6 @@ import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.initialDisplayName
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
@@ -38,7 +37,7 @@ class LoginStagesDataSource(
             wizard.loginStageCustom(
                 authParams,
                 getIdentifier(),
-                context.initialDisplayName()
+                context.getString(R.string.initial_device_name)
             )
         }
         (result as? Response.Success)?.let { stageCompleted(result.data, password) }

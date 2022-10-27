@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Circles</string>
-    <string name="full_app_name">FUTO Circles</string>
-    <string name="company_title">by FUTO Labs</string>
+    <string name="futo">FUTO</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
@@ -20,7 +19,7 @@
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
     <string name="photo_galleries">Photo Galleries</string>
-    <string name="initial_device_name">%s (Android)</string>
+    <string name="initial_device_name">FUTO Circles (Android)</string>
     <string name="share">Share</string>
     <string name="invite_members">Invite members</string>
     <string name="invite_followers">Invite followers</string>

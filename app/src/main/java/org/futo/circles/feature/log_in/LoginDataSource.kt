@@ -9,7 +9,6 @@ import org.futo.circles.core.TYPE_PARAM_KEY
 import org.futo.circles.core.auth.BaseLoginStagesDataSource.Companion.USER_PARAM_KEY
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.initialDisplayName
 import org.futo.circles.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
@@ -43,7 +42,7 @@ class LoginDataSource(
             TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
         )
         val flows =
-            authService.getLoginWizard().getAllLoginFlows(identifierParams, context.initialDisplayName())
+            authService.getLoginWizard().getAllLoginFlows(identifierParams, context.getString(R.string.initial_device_name))
         val stages = if (flows.isEmpty()) {
             val supportedLoginMethods = try {
                 authService.getLoginFlow(homeServerConfig).supportedLoginTypes

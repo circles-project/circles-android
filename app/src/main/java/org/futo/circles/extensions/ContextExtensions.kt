@@ -13,6 +13,3 @@ fun Context.disableScreenScale(): Context {
     }
     return createConfigurationContext(overrideConfiguration)
 }
-
-fun Context.initialDisplayName() =
-    getString(R.string.initial_device_name, getString(R.string.full_app_name))
