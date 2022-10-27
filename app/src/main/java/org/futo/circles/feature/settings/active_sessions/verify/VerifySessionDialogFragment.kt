@@ -70,14 +70,14 @@ class VerifySessionDialogFragment :
         viewModel.qrStateLiveData.observeData(this) { qrState ->
             when (qrState) {
                 is QrCanceled -> {
-                    showError(qrState.reason, true)
-                    onBackPressed()
+                    showError(qrState.reason)
+                    view?.postDelayed({ onBackPressed() }, CLOSE_DELAY)
                 }
                 is QrLoading -> handelQrLoading(qrState.deviceId, qrState.isCurrentSessionVerified)
                 is QrReady -> handelQrReady(qrState.qrText)
                 is QrSuccess -> {
-                    showSuccess(getString(R.string.session_verified), true)
-                    onBackPressed()
+                    showSuccess(getString(R.string.session_verified))
+                    view?.postDelayed({ onBackPressed() }, CLOSE_DELAY)
                 }
             }
         }
@@ -101,5 +101,9 @@ class VerifySessionDialogFragment :
             val sessionName = if (isSessionVerified) deviceId else getString(R.string.cross_signed)
             tvMessage.text = getString(R.string.waiting_for_verification_format, sessionName)
         }
+    }
+
+    companion object{
+        private const val CLOSE_DELAY = 1500L
     }
 }
