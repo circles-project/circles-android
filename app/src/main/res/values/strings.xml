@@ -1,5 +1,6 @@
 <resources>
-    <string name="company_title">by FUTO Labs</string>
+    <string name="app_name">Circles</string>
+    <string name="futo">FUTO</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
@@ -18,7 +19,7 @@
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
     <string name="photo_galleries">Photo Galleries</string>
-    <string name="initial_device_name">%s (Android)</string>
+    <string name="initial_device_name">FUTO Circles (Android)</string>
     <string name="share">Share</string>
     <string name="invite_members">Invite members</string>
     <string name="invite_followers">Invite followers</string>
@@ -52,8 +53,7 @@
     <string name="group_updated">Group updated</string>
     <string name="circle_updated">Circle updated</string>
     <string name="gallery_updated">Gallery updated</string>
-    <string name="already_have_a_token">Already have a token?</string>
-    <string name="sign_up_with_token">Sign up with token</string>
+    <string name="sign_up_for_free_account">Sign up for a free account</string>
     <string name="choose_a_subscription">Choose a subscription</string>
     <string name="create_a_subscription">Create a subscription</string>
     <string name="or">Or</string>
@@ -207,8 +207,6 @@
     <string name="active_login_sessions">Active login sessions</string>
     <string name="current_session">Current session</string>
     <string name="other_sessions">Other sessions</string>
-    <string name="cross_signing">Cross Signing</string>
-    <string name="local_verification">Local verification</string>
     <string name="verify">Verify</string>
     <string name="remove_session">Remove session</string>
     <string name="remove_session_message">In order to sign out from this session you should confirm your auth.</string>
@@ -235,7 +233,6 @@
     <string name="confirm">Confirm</string>
     <string name="enable_cross_signing">Enable Cross Signing</string>
     <string name="enable_cross_signing_message">Confirm auth to enable cross signing</string>
-    <string name="password_not_set">Password is not set</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
     <string name="purchase_failed_format">Purchase failed with code %d</string>
@@ -282,6 +279,14 @@
     <string name="not_supported_navigation_event">Not supported navigation event</string>
     <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
     <string name="you_are_signed_out">You’re signed out</string>
+    <string name="verify_session">Verify session</string>
+    <string name="scan_qr_code">Scan QR code</string>
+    <string name="waiting_for_verification_format">Waiting for %s to start verification</string>
+    <string name="cross_signed">cross signed</string>
+    <string name="session_verified">Session verified</string>
+    <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
+    <string name="failed_to_read_qr_code">Failed to read QR code</string>
+    <string name="configuring_workspace">Configuring workspace</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

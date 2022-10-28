@@ -25,7 +25,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressO
     private val viewModel by viewModel<LoginStagesViewModel>()
     private val binding by viewBinding(FragmentLoginStagesBinding::bind)
 
-    private val restorePassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
+    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private var enterPassPhraseDialog: EnterPassPhraseDialog? = null
 
     private val deviceIntentLauncher = registerForActivityResult(
@@ -64,11 +64,14 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages), BackPressO
             this,
             error = {
                 showError(it, true)
-                restorePassPhraseLoadingDialog.dismiss()
+                loadingDialog.dismiss()
             }
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
-            restorePassPhraseLoadingDialog.handleLoading(it)
+            loadingDialog.handleLoading(it)
+        }
+        viewModel.spacesTreeLoadingLiveData.observeData(this) {
+            loadingDialog.handleLoading(it)
         }
         viewModel.loginNavigationLiveData.observeData(this) { event ->
             when (event) {

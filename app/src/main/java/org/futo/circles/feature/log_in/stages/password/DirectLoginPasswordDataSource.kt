@@ -21,10 +21,7 @@ class DirectLoginPasswordDataSource(
             MatrixInstanceProvider.matrix.authenticationService().getLoginWizard().login(
                 login = "@${loginStagesDataSource.userName}:${loginStagesDataSource.domain}",
                 password = password,
-                initialDeviceName = context.getString(
-                    R.string.initial_device_name,
-                    context.getString(R.string.app_name)
-                )
+                initialDeviceName = context.getString(R.string.initial_device_name)
             )
         }
         return when (result) {

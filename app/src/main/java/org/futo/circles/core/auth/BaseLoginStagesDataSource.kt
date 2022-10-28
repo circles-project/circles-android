@@ -27,10 +27,6 @@ abstract class BaseLoginStagesDataSource(
 
     protected var userPassword: String = ""
 
-    protected val initialDisplayName by lazy {
-        context.getString(R.string.initial_device_name, context.getString(R.string.app_name))
-    }
-
     fun startLoginStages(
         loginStages: List<Stage>,
         name: String,

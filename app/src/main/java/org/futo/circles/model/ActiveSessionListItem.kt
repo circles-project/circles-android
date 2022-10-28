@@ -16,10 +16,14 @@ data class SessionHeader(
 data class ActiveSession(
     val deviceInfo: DeviceInfo,
     val cryptoDeviceInfo: CryptoDeviceInfo,
+    val canVerify: Boolean,
+    val canEnableCrossSigning: Boolean,
     val isOptionsVisible: Boolean
 ) : ActiveSessionListItem() {
     override val id: String = cryptoDeviceInfo.deviceId
 
     fun isCurrentSession() =
         MatrixSessionProvider.currentSession?.sessionParams?.deviceId == cryptoDeviceInfo.deviceId
+
+    fun isCrossSigningVerified() = cryptoDeviceInfo.trustLevel?.isCrossSigningVerified() == true
 }

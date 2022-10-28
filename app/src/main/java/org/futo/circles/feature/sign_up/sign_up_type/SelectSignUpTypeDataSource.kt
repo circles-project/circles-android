@@ -3,7 +3,6 @@ package org.futo.circles.feature.sign_up.sign_up_type
 import android.content.Context
 import org.futo.circles.R
 import org.futo.circles.core.REGISTRATION_SUBSCRIPTION_TYPE
-import org.futo.circles.core.REGISTRATION_TOKEN_TYPE
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
@@ -43,7 +42,7 @@ class SelectSignUpTypeDataSource(
             }
         } else {
             flows.firstOrNull {
-                (it.firstOrNull() as? Stage.Other)?.type == REGISTRATION_TOKEN_TYPE
+                it.firstOrNull { (it as? Stage.Other)?.type == REGISTRATION_SUBSCRIPTION_TYPE } == null
             }
         } ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
 }

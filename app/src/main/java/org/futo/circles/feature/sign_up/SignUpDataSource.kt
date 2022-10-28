@@ -2,9 +2,6 @@ package org.futo.circles.feature.sign_up
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import org.futo.circles.R
 import org.futo.circles.core.*
 import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
@@ -29,8 +26,9 @@ class SignUpDataSource(
 
     val subtitleLiveData = MutableLiveData<String>()
     val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
-    val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
+    val finishRegistrationLiveData = SingleEventLiveData<Response<Unit>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
+    val spaceTreeLoadingLiveData = coreSpacesTreeBuilder.loadingLiveData
 
     val stagesToComplete = mutableListOf<Stage>()
 
@@ -81,12 +79,9 @@ class SignUpDataSource(
         password: String? = null
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
-        val initialDisplayName = context.getString(
-            R.string.initial_device_name,
-            context.getString(R.string.app_name)
-        )
-
-        val result = createResult { wizard.registrationCustom(authParams, initialDisplayName) }
+        val result = createResult {
+            wizard.registrationCustom(authParams, context.getString(R.string.initial_device_name))
+        }
 
         (result as? Response.Success)?.let {
             name?.let { userName = it }
@@ -116,12 +111,8 @@ class SignUpDataSource(
     private suspend fun finishRegistration(session: Session) = createResult {
         MatrixInstanceProvider.matrix.authenticationService().reset()
         MatrixSessionProvider.awaitForSessionStart(session)
-        coroutineScope {
-            listOf(
-                async { coreSpacesTreeBuilder.createCoreSpacesTree() },
-                async { createPassPhraseDataSource.createPassPhraseBackup(userName, passphrase) }
-            ).awaitAll()
-        }
+        createPassPhraseDataSource.createPassPhraseBackup(userName, passphrase)
+        coreSpacesTreeBuilder.createCoreSpacesTree()
     }
 
     private fun getCurrentStageIndex() =

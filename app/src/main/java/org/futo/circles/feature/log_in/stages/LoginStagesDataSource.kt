@@ -19,13 +19,14 @@ import org.matrix.android.sdk.api.util.JsonDict
 enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase }
 
 class LoginStagesDataSource(
-    context: Context,
+    private val context: Context,
     private val restoreBackupDataSource: RestoreBackupDataSource,
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder
 ) : BaseLoginStagesDataSource(context) {
 
     val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
     val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
+    val spacesTreeLoadingLiveData = coreSpacesTreeBuilder.loadingLiveData
     val messageEventLiveData = SingleEventLiveData<Int>()
 
     override suspend fun performLoginStage(
@@ -37,7 +38,7 @@ class LoginStagesDataSource(
             wizard.loginStageCustom(
                 authParams,
                 getIdentifier(),
-                initialDisplayName
+                context.getString(R.string.initial_device_name)
             )
         }
         (result as? Response.Success)?.let { stageCompleted(result.data, password) }

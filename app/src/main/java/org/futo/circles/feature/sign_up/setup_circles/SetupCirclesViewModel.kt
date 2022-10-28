@@ -2,13 +2,13 @@ package org.futo.circles.feature.sign_up.setup_circles
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.delay
+import org.futo.circles.core.CREATE_ROOM_DELAY
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.launchBg
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 
 class SetupCirclesViewModel(
     private val setupCirclesDataSource: SetupCirclesDataSource,
@@ -16,19 +16,20 @@ class SetupCirclesViewModel(
 ) : ViewModel() {
 
     val circlesLiveData = setupCirclesDataSource.circlesLiveData
-    val createCirclesResponseLiveData = SingleEventLiveData<Response<List<String>?>>()
+    val createCirclesResponseLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun createCircles() {
+        val circlesList = circlesLiveData.value ?: return
+        val lastItemIndex = circlesList.size - 1
         launchBg {
             val response = createResult {
-                circlesLiveData.value?.map {
-                    async {
-                        createRoomDataSource.createCircleWithTimeline(
-                            name = it.name,
-                            iconUri = it.coverUri
-                        )
-                    }
-                }?.awaitAll()
+                circlesList.forEachIndexed { i, item ->
+                    createRoomDataSource.createCircleWithTimeline(
+                        name = item.name,
+                        iconUri = item.coverUri
+                    )
+                    if (i != lastItemIndex) delay(CREATE_ROOM_DELAY)
+                }
             }
             createCirclesResponseLiveData.postValue(response)
         }

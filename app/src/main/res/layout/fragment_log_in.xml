@@ -26,13 +26,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvCircles"
-        style="@style/title0"
+        android:id="@+id/tvCompanyTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:layout_marginTop="8dp"
+        android:text="@string/futo"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/tvCompanyTitle"
+        android:textAppearance="@style/headline"
+        app:layout_constraintBottom_toTopOf="@id/tvCircles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivLogo"
@@ -41,16 +42,16 @@
 
 
     <TextView
-        android:id="@+id/tvCompanyTitle"
+        android:id="@+id/tvCircles"
+        style="@style/title0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/company_title"
+        android:text="@string/app_name"
         android:textAlignment="center"
-        android:textAppearance="@style/headline"
         app:layout_constraintBottom_toTopOf="@id/tilUserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCircles" />
+        app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle" />
 
     <TextView
         android:id="@+id/tvAt"
@@ -73,7 +74,7 @@
         android:hint="@string/username"
         app:layout_constraintEnd_toStartOf="@id/tvDomainSeparator"
         app:layout_constraintStart_toEndOf="@id/tvAt"
-        app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle">
+        app:layout_constraintTop_toBottomOf="@id/tvCircles">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -110,7 +111,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDomainSeparator"
-        app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle">
+        app:layout_constraintTop_toBottomOf="@id/tvCircles">
 
         <org.futo.circles.view.DomainAutocompleteView
             android:id="@+id/tvDomain"

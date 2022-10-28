@@ -24,3 +24,5 @@ const val SYSTEM_NOTICES_TAG = "m.server_notice"
 
 const val TYPE_PARAM_KEY = "type"
 
+const val CREATE_ROOM_DELAY = 1000L
+

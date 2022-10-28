@@ -10,8 +10,8 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.sdkVersion
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.0.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
@@ -28,14 +28,12 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            resValue "string", "app_name", "Circuli Stage"
             buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
-            buildConfigField "String", "EU_SERVER_DOMAIN", "\"eu.kombucha.social\""
+            buildConfigField "String", "EU_SERVER_DOMAIN", "\"nl.circles-dev.net\""
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            resValue "string", "app_name", "Circuli"
             buildConfigField "String", "US_SERVER_DOMAIN", "\"circu.li\""
             buildConfigField "String", "EU_SERVER_DOMAIN", "\"eu.circu.li\""
         }
@@ -46,7 +44,7 @@ android {
     productFlavors {
         gplay {
             dimension flavor_dimension_name
-            buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "true")
+            buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "false")
         }
         fdroid {
             dimension flavor_dimension_name
@@ -116,7 +114,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
 
     //Firebase crash reports
-    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.0'
+    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.1'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
 
     //Subscriptions
@@ -127,6 +125,10 @@ dependencies {
 
     //Retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    //QR
+    implementation 'com.google.zxing:core:3.3.3'
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
     //test
     testImplementation 'junit:junit:4.13.2'

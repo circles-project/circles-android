@@ -2,6 +2,7 @@ package org.futo.circles.extensions
 
 import android.content.Context
 import androidx.annotation.DimenRes
+import org.futo.circles.R
 
 fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
 

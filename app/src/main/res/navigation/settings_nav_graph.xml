@@ -61,6 +61,18 @@
         <action
             android:id="@+id/to_reAuthStagesDialogFragment"
             app:destination="@id/reAuthStagesDialogFragment" />
+
+        <action
+            android:id="@+id/to_verifySessionDialogFragment"
+            app:destination="@id/verifySessionDialogFragment">
+
+            <argument
+                android:name="deviceId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
     </dialog>
     <dialog
         android:id="@+id/systemNoticesDialogFragment"
@@ -75,6 +87,17 @@
         <argument
             android:name="type"
             app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/verifySessionDialogFragment"
+        android:name="org.futo.circles.feature.settings.active_sessions.verify.VerifySessionDialogFragment"
+        tools:layout="@layout/dialog_fragment_verify_session">
+
+        <argument
+            android:name="deviceId"
+            app:argType="string"
             app:nullable="false" />
 
     </dialog>
