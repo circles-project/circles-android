@@ -28,6 +28,7 @@ class SignUpDataSource(
     val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
     val finishRegistrationLiveData = SingleEventLiveData<Response<Unit>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
+    val spaceTreeLoadingLiveData = coreSpacesTreeBuilder.loadingLiveData
 
     val stagesToComplete = mutableListOf<Stage>()
 
