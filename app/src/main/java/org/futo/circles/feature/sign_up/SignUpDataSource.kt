@@ -2,9 +2,6 @@ package org.futo.circles.feature.sign_up
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import org.futo.circles.R
 import org.futo.circles.core.*
 import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
@@ -29,7 +26,7 @@ class SignUpDataSource(
 
     val subtitleLiveData = MutableLiveData<String>()
     val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
-    val finishRegistrationLiveData = SingleEventLiveData<Response<List<Unit>>>()
+    val finishRegistrationLiveData = SingleEventLiveData<Response<Unit>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
 
     val stagesToComplete = mutableListOf<Stage>()
@@ -113,12 +110,8 @@ class SignUpDataSource(
     private suspend fun finishRegistration(session: Session) = createResult {
         MatrixInstanceProvider.matrix.authenticationService().reset()
         MatrixSessionProvider.awaitForSessionStart(session)
-        coroutineScope {
-            listOf(
-                async { coreSpacesTreeBuilder.createCoreSpacesTree() },
-                async { createPassPhraseDataSource.createPassPhraseBackup(userName, passphrase) }
-            ).awaitAll()
-        }
+        createPassPhraseDataSource.createPassPhraseBackup(userName, passphrase)
+        coreSpacesTreeBuilder.createCoreSpacesTree()
     }
 
     private fun getCurrentStageIndex() =
