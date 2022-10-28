@@ -16,6 +16,7 @@ class LoginStagesViewModel(
     val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
     val loginNavigationLiveData = loginStagesDataSource.loginNavigationLiveData
     val passPhraseLoadingLiveData = loginStagesDataSource.passPhraseLoadingLiveData
+    val spacesTreeLoadingLiveData = loginStagesDataSource.spacesTreeLoadingLiveData
     val messageEventLiveData = loginStagesDataSource.messageEventLiveData
 
     fun restoreBackup(passphrase: String) {

@@ -19,7 +19,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), BackPressOwner {
 
     private val viewModel by viewModel<SignUpViewModel>()
     private val binding by viewBinding(FragmentSignUpBinding::bind)
-    private val createPassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
+    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 
     private val childNavHostFragment by lazy {
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -42,11 +42,14 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), BackPressOwner {
             success = { navigateToSetupProfile() },
             error = { message ->
                 showError(message)
-                createPassPhraseLoadingDialog.dismiss()
+                loadingDialog.dismiss()
             }
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
-            createPassPhraseLoadingDialog.handleLoading(it)
+            loadingDialog.handleLoading(it)
+        }
+        viewModel.spaceTreeLoadingLiveData.observeData(this){
+            loadingDialog.handleLoading(it)
         }
     }
 

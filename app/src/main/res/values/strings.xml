@@ -286,6 +286,7 @@
     <string name="session_verified">Session verified</string>
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
+    <string name="configuring_workspace">Configuring workspace</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

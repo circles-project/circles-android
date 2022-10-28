@@ -26,6 +26,7 @@ class LoginStagesDataSource(
 
     val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
     val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
+    val spacesTreeLoadingLiveData = coreSpacesTreeBuilder.loadingLiveData
     val messageEventLiveData = SingleEventLiveData<Int>()
 
     override suspend fun performLoginStage(
