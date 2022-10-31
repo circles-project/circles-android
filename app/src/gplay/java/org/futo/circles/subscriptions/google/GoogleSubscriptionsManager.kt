@@ -10,6 +10,7 @@ import org.futo.circles.R
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.onBG
 import org.futo.circles.model.SubscriptionListItem
+import org.futo.circles.model.SubscriptionReceiptData
 import org.futo.circles.subscriptions.ItemPurchasedListener
 import org.futo.circles.subscriptions.SubscriptionManager
 import kotlin.coroutines.resume
@@ -23,11 +24,11 @@ class GoogleSubscriptionsManager(
     private val purchasesUpdatedListener =
         PurchasesUpdatedListener { billingResult, purchases ->
             purchases?.let {
-                if (billingResult.responseCode == OK)
-                    itemPurchasedListener?.onItemPurchased(
-                        purchases.lastOrNull()?.originalJson ?: ""
-                    )
-                else itemPurchasedListener?.onPurchaseFailed(billingResult.responseCode)
+                if (billingResult.responseCode == OK) {
+                    purchases.lastOrNull()?.toSubscriptionReceiptData()?.let {
+                        itemPurchasedListener?.onItemPurchased(it)
+                    } ?: itemPurchasedListener?.onPurchaseFailed(ERROR)
+                } else itemPurchasedListener?.onPurchaseFailed(billingResult.responseCode)
             }
         }
 
@@ -46,7 +47,7 @@ class GoogleSubscriptionsManager(
         })
     }
 
-    override suspend fun getActiveSubscriptionReceipt(): Response<String> =
+    override suspend fun getActiveSubscriptionReceipt(): Response<SubscriptionReceiptData> =
         when (val code =
             client.isFeatureSupported(BillingClient.FeatureType.SUBSCRIPTIONS).responseCode) {
             OK -> getLastActiveSubscriptionReceipt()
@@ -111,7 +112,7 @@ class GoogleSubscriptionsManager(
             })
         }
 
-    private suspend fun getLastActiveSubscriptionReceipt(): Response<String> {
+    private suspend fun getLastActiveSubscriptionReceipt(): Response<SubscriptionReceiptData> {
         val params = QueryPurchasesParams.newBuilder()
             .setProductType(BillingClient.ProductType.SUBS)
             .build()
@@ -119,7 +120,8 @@ class GoogleSubscriptionsManager(
         val purchaseResult = onBG { client.queryPurchasesAsync(params) }
 
         return if (purchaseResult.billingResult.responseCode == OK) {
-            purchaseResult.purchasesList.lastOrNull()?.originalJson
+            purchaseResult.purchasesList.lastOrNull()
+                ?.toSubscriptionReceiptData()
                 ?.let { Response.Success(data = it) }
                 ?: getErrorResponseForCode(code = ERROR)
         } else {
@@ -180,5 +182,10 @@ class GoogleSubscriptionsManager(
         ITEM_NOT_OWNED -> Response.Error(fragment.getString(R.string.item_not_owned))
         DEVELOPER_ERROR -> Response.Error(fragment.getString(R.string.developer_error))
         else -> Response.Error(fragment.getString(R.string.purchase_failed_format, code))
+    }
+
+    fun Purchase.toSubscriptionReceiptData(): SubscriptionReceiptData? {
+        val productId = products.lastOrNull() ?: return null
+        return SubscriptionReceiptData(productId, purchaseToken)
     }
 }
