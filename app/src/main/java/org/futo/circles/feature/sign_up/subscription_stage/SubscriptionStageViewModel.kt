@@ -7,6 +7,7 @@ import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.extensions.launchUi
 import org.futo.circles.model.SubscriptionListItem
+import org.futo.circles.model.SubscriptionReceiptData
 import org.futo.circles.subscriptions.SubscriptionManager
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 
@@ -18,9 +19,9 @@ class SubscriptionStageViewModel(
     val purchaseLiveData = SingleEventLiveData<Response<Unit>>()
     val subscriptionsListLiveData = MutableLiveData<Response<List<SubscriptionListItem>>>()
 
-    fun validateSubscription(productId: String, purchaseToken: String) {
+    fun validateSubscription(subscriptionReceiptData: SubscriptionReceiptData) {
         launchBg {
-            subscribeLiveData.postValue(dataSource.validateSubscription(productId, purchaseToken))
+            subscribeLiveData.postValue(dataSource.validateSubscription(subscriptionReceiptData))
         }
     }
 

@@ -9,6 +9,7 @@ import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.subscription_stage.SubscriptionStageDataSource
+import org.futo.circles.model.SubscriptionReceiptData
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
@@ -41,21 +42,22 @@ class SignUpDataSource(
         private set
 
     private var passphrase: String = ""
+    private val subscriptionStageDataSource = SubscriptionStageDataSource(this)
 
     suspend fun startSignUpStages(
         stages: List<Stage>,
         serverDomain: String,
-        subscriptionReceipt: String?
+        subscriptionReceiptData: SubscriptionReceiptData?
     ) {
         currentStage = null
         stagesToComplete.clear()
         passphrase = ""
         domain = serverDomain
         stagesToComplete.addAll(stages)
-        subscriptionReceipt?.let { skipSubscriptionStageIfValid(it) } ?: navigateToNextStage()
+        subscriptionReceiptData?.let { skipSubscriptionStageIfValid(it) } ?: navigateToNextStage()
     }
 
-    private suspend fun skipSubscriptionStageIfValid(subscriptionReceipt: String) {
+    private suspend fun skipSubscriptionStageIfValid(subscriptionReceiptData: SubscriptionReceiptData) {
         setNextStage()
         (currentStage as? Stage.Other)?.takeIf {
             it.type == REGISTRATION_SUBSCRIPTION_TYPE
@@ -64,8 +66,7 @@ class SignUpDataSource(
             navigateToNextStage()
             return
         }
-        val response = SubscriptionStageDataSource(this)
-            .validateSubscriptionReceipt(subscriptionReceipt)
+        val response = subscriptionStageDataSource.validateSubscription(subscriptionReceiptData)
 
         if (response is Response.Error) {
             currentStage = null

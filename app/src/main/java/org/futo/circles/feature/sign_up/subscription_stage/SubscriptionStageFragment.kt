@@ -9,6 +9,7 @@ import org.futo.circles.databinding.FragmentSubscriptionStageBinding
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showError
 import org.futo.circles.feature.sign_up.subscription_stage.list.SubscriptionsAdapter
+import org.futo.circles.model.SubscriptionReceiptData
 import org.futo.circles.subscriptions.ItemPurchasedListener
 import org.futo.circles.subscriptions.SubscriptionManagerProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,8 +23,8 @@ class SubscriptionStageFragment :
     private val subscriptionManager by lazy {
         SubscriptionManagerProvider.getManager(
             this, object : ItemPurchasedListener {
-                override fun onItemPurchased(productId: String, purchaseToken: String) {
-                    viewModel.validateSubscription(productId, purchaseToken)
+                override fun onItemPurchased(subscriptionReceiptData: SubscriptionReceiptData) {
+                    viewModel.validateSubscription(subscriptionReceiptData)
                 }
 
                 override fun onPurchaseFailed(errorCode: Int) {
