@@ -44,7 +44,7 @@ android {
     productFlavors {
         gplay {
             dimension flavor_dimension_name
-            buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "false")
+            buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "true")
         }
         fdroid {
             dimension flavor_dimension_name
