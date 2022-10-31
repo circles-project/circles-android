@@ -18,9 +18,9 @@ class SubscriptionStageViewModel(
     val purchaseLiveData = SingleEventLiveData<Response<Unit>>()
     val subscriptionsListLiveData = MutableLiveData<Response<List<SubscriptionListItem>>>()
 
-    fun validateSubscriptionReceipt(receipt: String) {
+    fun validateSubscription(productId: String, purchaseToken: String) {
         launchBg {
-            subscribeLiveData.postValue(dataSource.validateSubscriptionReceipt(receipt))
+            subscribeLiveData.postValue(dataSource.validateSubscription(productId, purchaseToken))
         }
     }
 
