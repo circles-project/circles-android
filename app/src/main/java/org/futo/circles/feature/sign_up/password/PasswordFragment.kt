@@ -2,6 +2,7 @@ package org.futo.circles.feature.sign_up.password
 
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -35,26 +36,30 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
 
     private fun setupViews() {
         with(binding) {
-            btnLogin.setText(
-                getString(
-                    when (args.mode) {
-                        PasswordModeArg.ReAuthBsSpekeSignup,
-                        PasswordModeArg.SignupPasswordStage,
-                        PasswordModeArg.SignupBsSpekeStage -> R.string.set_password
-                        else -> R.string.log_in
-                    }
-                )
-            )
-            btnLogin.setOnClickListener {
-                startLoading(btnLogin)
-                viewModel.loginWithPassword(tilPassword.getText())
+            btnLogin.apply {
+                setText(getString(if (isSignupMode()) R.string.set_password else R.string.log_in))
+                setOnClickListener {
+                    startLoading(btnLogin)
+                    viewModel.loginWithPassword(tilPassword.getText())
+                }
             }
-            tilPassword.editText?.doAfterTextChanged {
-                btnLogin.isEnabled =
-                    tilPassword.getText().length >= (viewModel.minimumPasswordLengthLiveData.value
-                        ?: 1)
+            tilPassword.editText?.apply {
+                doAfterTextChanged { onPasswordDataChanged() }
+                imeOptions = if (isSignupMode()) EditorInfo.IME_ACTION_NEXT
+                else EditorInfo.IME_ACTION_DONE
             }
+            tilRepeatPassword.editText?.doAfterTextChanged {
+                onPasswordDataChanged()
+            }
+            tilRepeatPassword.setIsVisible(isSignupMode())
         }
+    }
+
+    private fun isSignupMode() = when (args.mode) {
+        PasswordModeArg.ReAuthBsSpekeSignup,
+        PasswordModeArg.SignupPasswordStage,
+        PasswordModeArg.SignupBsSpekeStage -> true
+        else -> false
     }
 
     private fun setupObservers() {
@@ -63,5 +68,16 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
             binding.tvMinimumLength.text = getString(R.string.minimum_length_format, it)
             binding.tvMinimumLength.setIsVisible(it > 1)
         }
+    }
+
+    private fun onPasswordDataChanged() {
+        val password = binding.tilPassword.getText()
+        val repeat = binding.tilRepeatPassword.getText()
+        val minLength = viewModel.minimumPasswordLengthLiveData.value ?: 1
+        val isPasswordLengthCorrect = password.length >= minLength
+
+        binding.btnLogin.isEnabled =
+            if (isSignupMode()) isPasswordLengthCorrect && password == repeat
+            else isPasswordLengthCorrect
     }
 }
