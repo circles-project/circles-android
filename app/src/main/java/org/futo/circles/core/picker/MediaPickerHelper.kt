@@ -1,12 +1,7 @@
 package org.futo.circles.core.picker
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import org.futo.circles.R
@@ -15,43 +10,35 @@ import org.futo.circles.core.utils.FileUtils.createVideoFile
 import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.showError
 import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage
-import java.io.File
 import java.io.IOException
 
-class GetContentWithMultiFilter : ActivityResultContracts.GetContent() {
-    override fun createIntent(context: Context, input: String): Intent {
-        val inputArray = input.split(";").toTypedArray()
-        val myIntent = super.createIntent(context, "*/*")
-        myIntent.putExtra(Intent.EXTRA_MIME_TYPES, inputArray)
-        return myIntent
-    }
-}
-
-enum class MediaType { Image, Video }
 
 class MediaPickerHelper(
     private val fragment: Fragment,
     private val allMediaTypeAvailable: Boolean = false
-) :
-    PickMediaDialogListener {
+) : PickMediaDialogListener {
 
     private val pickMediaDialog by lazy {
         PickMediaDialog(fragment.requireContext(), this, allMediaTypeAvailable)
     }
 
-    private var mediaData: Pair<MediaType, Uri>? = null
+    private val cameraPermissionHelper = CameraPermissionHelper(fragment)
+    private var cameraUri: Uri? = null
 
-    private val cameraIntentLauncher =
-        fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-        { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                mediaData?.let {
-                    when (it.first) {
-                        MediaType.Image -> onImageSelected?.invoke(itemId, it.second)
-                        MediaType.Video -> onVideoSelected?.invoke(it.second)
-                    }
-                } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
-            }
+    private val photoIntentLauncher =
+        fragment.registerForActivityResult(ActivityResultContracts.TakePicture())
+        {
+            cameraUri?.let {
+                onImageSelected?.invoke(itemId, it)
+            } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
+        }
+
+    private val videoIntentLauncher =
+        fragment.registerForActivityResult(ActivityResultContracts.CaptureVideo())
+        {
+            cameraUri?.let {
+                onVideoSelected?.invoke(it)
+            } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
         }
 
     private val deviceIntentLauncher = fragment.registerForActivityResult(
@@ -81,8 +68,12 @@ class MediaPickerHelper(
 
     override fun onPickMethodSelected(method: PickImageMethod) {
         when (method) {
-            PickImageMethod.Photo -> dispatchCameraIntent(MediaType.Image)
-            PickImageMethod.Video -> dispatchCameraIntent(MediaType.Video)
+            PickImageMethod.Photo -> cameraPermissionHelper.runWithCameraPermission {
+                dispatchCameraIntent(MediaType.Image)
+            }
+            PickImageMethod.Video -> cameraPermissionHelper.runWithCameraPermission {
+                dispatchCameraIntent(MediaType.Video)
+            }
             PickImageMethod.Device -> dispatchDevicePickerIntent()
             PickImageMethod.Gallery -> showGalleryPicker()
         }
@@ -118,29 +109,23 @@ class MediaPickerHelper(
 
     private fun dispatchCameraIntent(type: MediaType) {
         val context = fragment.context ?: return
-        val intentAction = when (type) {
-            MediaType.Image -> MediaStore.ACTION_IMAGE_CAPTURE
-            MediaType.Video -> MediaStore.ACTION_VIDEO_CAPTURE
-        }
-        Intent(intentAction).also { captureIntent ->
-            val file: File? = try {
-                when (type) {
-                    MediaType.Image -> createImageFile(context)
-                    MediaType.Video -> createVideoFile(context)
+        try {
+            cameraUri = when (type) {
+                MediaType.Image -> {
+                    val imageFileUri = createImageFile(context).getUri(context)
+                    photoIntentLauncher.launch(imageFileUri)
+                    imageFileUri
                 }
-            } catch (ex: IOException) {
-                null
-            }
-            file?.let {
-                val uri: Uri = file.getUri(context).also { mediaData = type to it }
-                captureIntent.apply {
-                    putExtra(MediaStore.EXTRA_OUTPUT, uri)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                MediaType.Video -> {
+                    val videoFileUri = createVideoFile(context).getUri(context)
+                    videoIntentLauncher.launch(videoFileUri)
+                    videoFileUri
                 }
-                cameraIntentLauncher.launch(captureIntent)
             }
+        } catch (ignore: IOException) {
         }
     }
+
 
     companion object {
         const val IS_VIDEO_AVAILABLE = "IsVideoAvailable"
