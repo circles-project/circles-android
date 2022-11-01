@@ -2,10 +2,12 @@ package org.futo.circles.core.picker
 
 import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import org.futo.circles.R
 import org.futo.circles.extensions.showDialog
@@ -16,38 +18,27 @@ class CameraPermissionHelper(private val fragment: Fragment) {
 
     fun runWithCameraPermission(action: () -> Unit) {
         onGranted = action
-        if (checkForCameraPermissionDeny()) return
-        requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+        when {
+            isCameraPermissionGranted() -> onGranted?.invoke()
+            shouldShowCameraRationale() -> showPermissionDeny()
+            else -> requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
     }
 
     private val requestCameraPermissionLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            if (granted) {
-                onGranted?.invoke()
-            } else {
-                ActivityCompat.requestPermissions(
-                    fragment.requireActivity(),
-                    arrayOf(Manifest.permission.CAMERA),
-                    REQUEST_CAMERA_CODE
-                )
-            }
+            if (granted) onGranted?.invoke()
+            else showPermissionDeny()
         }
 
-    private fun checkForCameraPermissionDeny(): Boolean {
-        val check = ActivityCompat.shouldShowRequestPermissionRationale(
-            fragment.requireActivity(),
-            Manifest.permission.CAMERA
+    private fun showPermissionDeny() {
+        fragment.showDialog(
+            titleResIdRes = R.string.permission_denied,
+            messageResId = R.string.enable_camera_permission_message,
+            negativeButtonVisible = true,
+            positiveButtonRes = R.string.open_settings,
+            positiveAction = { openAppSettings() }
         )
-        if (check) {
-            fragment.showDialog(
-                titleResIdRes = R.string.permission_denied,
-                messageResId = R.string.enable_camera_permission_message,
-                negativeButtonVisible = true,
-                positiveButtonRes = R.string.open_settings,
-                positiveAction = { openAppSettings() }
-            )
-        }
-        return check
     }
 
     private fun openAppSettings() {
@@ -58,7 +49,13 @@ class CameraPermissionHelper(private val fragment: Fragment) {
         fragment.requireActivity().startActivity(intent)
     }
 
-    companion object {
-        private const val REQUEST_CAMERA_CODE = 1001
-    }
+    private fun shouldShowCameraRationale() = ActivityCompat.shouldShowRequestPermissionRationale(
+        fragment.requireActivity(),
+        Manifest.permission.CAMERA
+    )
+
+    private fun isCameraPermissionGranted() = ContextCompat.checkSelfPermission(
+        fragment.requireContext(),
+        Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_GRANTED
 }
