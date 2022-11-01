@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
+import org.futo.circles.model.SubscriptionReceiptData
 import org.futo.circles.subscriptions.SubscriptionManager
 
 class SelectSignUpTypeViewModel(
@@ -13,7 +14,7 @@ class SelectSignUpTypeViewModel(
 
     val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
     val isSubscribedLiveData = MutableLiveData(false)
-    var subscriptionReceipt: String? = null
+    var subscriptionReceiptData: SubscriptionReceiptData? = null
 
     fun startSignUp(
         serverDomain: String,
@@ -24,7 +25,7 @@ class SelectSignUpTypeViewModel(
                 dataSource.startNewRegistration(
                     serverDomain,
                     isSubscription,
-                    subscriptionReceipt
+                    subscriptionReceiptData
                 )
             )
         }
@@ -38,7 +39,7 @@ class SelectSignUpTypeViewModel(
         launchBg {
             when (val result = subscriptionManager.getActiveSubscriptionReceipt()) {
                 is Response.Success -> {
-                    subscriptionReceipt = result.data
+                    subscriptionReceiptData = result.data
                     isSubscribedLiveData.postValue(true)
                 }
                 is Response.Error -> isSubscribedLiveData.postValue(false)
