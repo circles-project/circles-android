@@ -1,14 +1,13 @@
 package org.futo.circles.feature.settings.active_sessions.verify
 
-import android.Manifest
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.picker.CameraPermissionHelper
 import org.futo.circles.databinding.DialogFragmentVerifySessionBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
@@ -40,18 +39,7 @@ class VerifySessionDialogFragment :
             }
         }
 
-    private val requestCameraPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            if (granted) {
-                QrScannerActivity.startForResult(requireActivity(), scanActivityResultLauncher)
-            } else {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(Manifest.permission.CAMERA),
-                    1
-                )
-            }
-        }
+    private val cameraPermissionHelper = CameraPermissionHelper(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,7 +50,9 @@ class VerifySessionDialogFragment :
     private fun setupViews() {
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.btnVerify.setOnClickListener {
-            requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            cameraPermissionHelper.runWithCameraPermission {
+                QrScannerActivity.startForResult(requireActivity(), scanActivityResultLauncher)
+            }
         }
     }
 
@@ -103,7 +93,7 @@ class VerifySessionDialogFragment :
         }
     }
 
-    companion object{
+    companion object {
         private const val CLOSE_DELAY = 1500L
     }
 }
