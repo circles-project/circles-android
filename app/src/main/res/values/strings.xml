@@ -291,6 +291,11 @@
     <string name="open_settings">Open settings</string>
     <string name="repeat_password">Repeat password</string>
     <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
+    <string name="weak_password">Weak password</string>
+    <string name="fair_password">Fair password</string>
+    <string name="good_password">Good password</string>
+    <string name="strong_password">Strong password</string>
+    <string name="very_strong_password">Very strong password</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
