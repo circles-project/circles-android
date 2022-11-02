@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.RoomsListener
 import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.databinding.FragmentSelectRoomsBinding
 import org.futo.circles.extensions.observeData
@@ -36,9 +37,11 @@ class SelectRoomsFragment : Fragment(R.layout.fragment_select_rooms),
     private val selectedRoomsAdapter by lazy { SelectedChipsRoomsAdapter(viewModel::onRoomSelected) }
 
     override var selectRoomsListener: SelectRoomsListener? = null
+    private var roomsChangedListener: RoomsListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        roomsChangedListener = (parentFragment as? RoomsListener)
         selectRoomsListener = (parentFragment as? SelectRoomsListener)
         if (selectRoomsListener == null)
             selectRoomsListener = activity as? SelectRoomsListener
@@ -65,6 +68,7 @@ class SelectRoomsFragment : Fragment(R.layout.fragment_select_rooms),
     private fun setupObservers() {
         viewModel.roomsLiveData.observeData(this) { items ->
             selectRoomsAdapter.submitList(items)
+            roomsChangedListener?.onRoomsListChanged(items)
             val selectedRooms = viewModel.getSelectedRooms()
             selectedRoomsAdapter.submitList(selectedRooms)
             binding.selectedCircleDivider.setIsVisible(selectedRooms.isNotEmpty())
