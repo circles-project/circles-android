@@ -43,7 +43,10 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
                 }
             }
             tilPassword.editText?.apply {
-                doAfterTextChanged { onPasswordDataChanged() }
+                doAfterTextChanged {
+                    if (isSignupMode()) vPasswordStrength.calculateStrength(tilPassword.getText())
+                    onPasswordDataChanged()
+                }
                 imeOptions = if (isSignupMode()) EditorInfo.IME_ACTION_NEXT
                 else EditorInfo.IME_ACTION_DONE
             }
@@ -53,9 +56,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
     }
 
     private fun isSignupMode() = when (args.mode) {
-        PasswordModeArg.ReAuthBsSpekeSignup,
-        PasswordModeArg.SignupPasswordStage,
-        PasswordModeArg.SignupBsSpekeStage -> true
+        PasswordModeArg.ReAuthBsSpekeSignup, PasswordModeArg.SignupPasswordStage, PasswordModeArg.SignupBsSpekeStage -> true
         else -> false
     }
 
@@ -67,7 +68,6 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
         val password = binding.tilPassword.getText()
         val repeat = binding.tilRepeatPassword.getText()
         binding.btnLogin.isEnabled = if (isSignupMode()) {
-            binding.vPasswordStrength.calculateStrength(password)
             binding.vPasswordStrength.isPasswordStrong() && password == repeat
         } else password.isNotEmpty()
     }

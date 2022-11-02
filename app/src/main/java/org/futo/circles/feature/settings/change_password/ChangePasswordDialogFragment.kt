@@ -33,13 +33,14 @@ class ChangePasswordDialogFragment :
         with(binding) {
             toolbar.setNavigationOnClickListener { onBackPressed() }
             tilOldsPassword.editText?.doAfterTextChanged {
-                it?.let { onPasswordsDataChanged() }
+                onPasswordsDataChanged()
             }
             tilNewPassword.editText?.doAfterTextChanged {
-                it?.let { onPasswordsDataChanged() }
+                binding.vPasswordStrength.calculateStrength(tilNewPassword.getText())
+                onPasswordsDataChanged()
             }
             tilRepeatPassword.editText?.doAfterTextChanged {
-                it?.let { onPasswordsDataChanged() }
+                onPasswordsDataChanged()
             }
             btnSave.setOnClickListener {
                 viewModel.changePassword(tilOldsPassword.getText(), tilNewPassword.getText())
@@ -68,7 +69,6 @@ class ChangePasswordDialogFragment :
         val old = binding.tilOldsPassword.getText()
         val new = binding.tilNewPassword.getText()
         val repeat = binding.tilRepeatPassword.getText()
-        binding.vPasswordStrength.calculateStrength(new)
         val isStrong = binding.vPasswordStrength.isPasswordStrong()
 
         val isValid =
