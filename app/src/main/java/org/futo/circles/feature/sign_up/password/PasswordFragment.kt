@@ -12,7 +12,6 @@ import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.databinding.FragmentPasswordBinding
 import org.futo.circles.extensions.getText
-import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.PasswordModeArg
@@ -48,9 +47,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
                 imeOptions = if (isSignupMode()) EditorInfo.IME_ACTION_NEXT
                 else EditorInfo.IME_ACTION_DONE
             }
-            tilRepeatPassword.editText?.doAfterTextChanged {
-                onPasswordDataChanged()
-            }
+            tilRepeatPassword.editText?.doAfterTextChanged { onPasswordDataChanged() }
             tilRepeatPassword.setIsVisible(isSignupMode())
         }
     }
@@ -69,11 +66,9 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
     private fun onPasswordDataChanged() {
         val password = binding.tilPassword.getText()
         val repeat = binding.tilRepeatPassword.getText()
-        val minLength = 1
-        val isPasswordLengthCorrect = password.length >= minLength
-
-        binding.btnLogin.isEnabled =
-            if (isSignupMode()) isPasswordLengthCorrect && password == repeat
-            else isPasswordLengthCorrect
+        binding.btnLogin.isEnabled = if (isSignupMode()) {
+            binding.vPasswordStrength.calculateStrength(password)
+            binding.vPasswordStrength.isPasswordStrong() && password == repeat
+        } else password.isNotEmpty()
     }
 }
