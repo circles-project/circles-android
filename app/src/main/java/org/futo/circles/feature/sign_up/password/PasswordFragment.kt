@@ -64,16 +64,12 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
 
     private fun setupObservers() {
         viewModel.passwordResponseLiveData.observeResponse(this)
-        viewModel.minimumPasswordLengthLiveData.observeData(this) {
-            binding.tvMinimumLength.text = getString(R.string.minimum_length_format, it)
-            binding.tvMinimumLength.setIsVisible(it > 1)
-        }
     }
 
     private fun onPasswordDataChanged() {
         val password = binding.tilPassword.getText()
         val repeat = binding.tilRepeatPassword.getText()
-        val minLength = viewModel.minimumPasswordLengthLiveData.value ?: 1
+        val minLength = 1
         val isPasswordLengthCorrect = password.length >= minLength
 
         binding.btnLogin.isEnabled =
