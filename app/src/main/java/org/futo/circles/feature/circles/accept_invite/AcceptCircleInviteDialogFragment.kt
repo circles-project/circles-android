@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
+import org.futo.circles.core.RoomsListener
 import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.onBackPressed
+import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.room.select.SelectRoomsFragment
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.SelectableRoomListItem
@@ -20,7 +22,7 @@ import org.koin.core.parameter.parametersOf
 
 class AcceptCircleInviteDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentAcceptCircleInviteBinding::inflate),
-    HasLoadingState, SelectRoomsListener {
+    HasLoadingState, SelectRoomsListener, RoomsListener {
 
     override val fragment: Fragment = this
     private val args: AcceptCircleInviteDialogFragmentArgs by navArgs()
@@ -53,10 +55,8 @@ class AcceptCircleInviteDialogFragment :
                 viewModel.acceptInvite(selectRoomsFragment.getSelectedRooms())
                 startLoading(btnInvite)
             }
-            fbAddRoom.setOnClickListener {
-                findNavController()
-                    .navigate(AcceptCircleInviteDialogFragmentDirections.toCreateRoomDialogFragment())
-            }
+            fbAddRoom.setOnClickListener { navigateToCreateCircle() }
+            btnCreateCircle.setOnClickListener { navigateToCreateCircle() }
         }
     }
 
@@ -66,7 +66,17 @@ class AcceptCircleInviteDialogFragment :
         )
     }
 
+    private fun navigateToCreateCircle() {
+        findNavController()
+            .navigate(AcceptCircleInviteDialogFragmentDirections.toCreateRoomDialogFragment())
+    }
+
     override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {
         binding.btnInvite.isEnabled = rooms.isNotEmpty()
+    }
+
+    override fun onRoomsListChanged(rooms: List<SelectableRoomListItem>) {
+        binding.createCircleGroup.setIsVisible(rooms.isEmpty())
+        binding.selectCircleGroup.setIsVisible(!rooms.isEmpty())
     }
 }

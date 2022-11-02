@@ -291,6 +291,7 @@
     <string name="enable_camera_permission_message">Seem like you denied this permission previously. In order to use this feature please grant Camera permission in settings.</string>
     <string name="open_settings">Open settings</string>
     <string name="repeat_password">Repeat password</string>
+    <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
