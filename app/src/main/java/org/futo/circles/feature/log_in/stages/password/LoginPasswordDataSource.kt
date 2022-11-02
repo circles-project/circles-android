@@ -11,12 +11,6 @@ class LoginPasswordDataSource(
     private val loginStagesDataSource: BaseLoginStagesDataSource
 ) : PasswordDataSource {
 
-    override fun getMinimumPasswordLength(): Int =
-        ((loginStagesDataSource.currentStage as? Stage.Other)?.params?.getOrDefault(
-            MINIMUM_LENGTH_KEY, 1.0
-        ) as? Double)?.toInt() ?: 1
-
-
     override suspend fun processPasswordStage(password: String): Response<Unit> {
         val result = loginStagesDataSource.performLoginStage(
             mapOf(
@@ -32,6 +26,5 @@ class LoginPasswordDataSource(
 
     companion object {
         const val PASSWORD_PARAM_KEY = "password"
-        private const val MINIMUM_LENGTH_KEY = "minimum_length"
     }
 }

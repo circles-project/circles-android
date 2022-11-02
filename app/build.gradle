@@ -130,6 +130,9 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.3'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
+    //Password strength
+    implementation 'com.nulab-inc:zxcvbn:1.7.0'
+
     //test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

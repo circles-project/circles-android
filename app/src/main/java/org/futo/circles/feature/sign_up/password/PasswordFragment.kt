@@ -12,7 +12,6 @@ import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.databinding.FragmentPasswordBinding
 import org.futo.circles.extensions.getText
-import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.PasswordModeArg
@@ -44,40 +43,32 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
                 }
             }
             tilPassword.editText?.apply {
-                doAfterTextChanged { onPasswordDataChanged() }
+                doAfterTextChanged {
+                    if (isSignupMode()) vPasswordStrength.calculateStrength(tilPassword.getText())
+                    onPasswordDataChanged()
+                }
                 imeOptions = if (isSignupMode()) EditorInfo.IME_ACTION_NEXT
                 else EditorInfo.IME_ACTION_DONE
             }
-            tilRepeatPassword.editText?.doAfterTextChanged {
-                onPasswordDataChanged()
-            }
+            tilRepeatPassword.editText?.doAfterTextChanged { onPasswordDataChanged() }
             tilRepeatPassword.setIsVisible(isSignupMode())
         }
     }
 
     private fun isSignupMode() = when (args.mode) {
-        PasswordModeArg.ReAuthBsSpekeSignup,
-        PasswordModeArg.SignupPasswordStage,
-        PasswordModeArg.SignupBsSpekeStage -> true
+        PasswordModeArg.ReAuthBsSpekeSignup, PasswordModeArg.SignupPasswordStage, PasswordModeArg.SignupBsSpekeStage -> true
         else -> false
     }
 
     private fun setupObservers() {
         viewModel.passwordResponseLiveData.observeResponse(this)
-        viewModel.minimumPasswordLengthLiveData.observeData(this) {
-            binding.tvMinimumLength.text = getString(R.string.minimum_length_format, it)
-            binding.tvMinimumLength.setIsVisible(it > 1)
-        }
     }
 
     private fun onPasswordDataChanged() {
         val password = binding.tilPassword.getText()
         val repeat = binding.tilRepeatPassword.getText()
-        val minLength = viewModel.minimumPasswordLengthLiveData.value ?: 1
-        val isPasswordLengthCorrect = password.length >= minLength
-
-        binding.btnLogin.isEnabled =
-            if (isSignupMode()) isPasswordLengthCorrect && password == repeat
-            else isPasswordLengthCorrect
+        binding.btnLogin.isEnabled = if (isSignupMode()) {
+            binding.vPasswordStrength.isPasswordStrong() && password == repeat
+        } else password.isNotEmpty()
     }
 }
