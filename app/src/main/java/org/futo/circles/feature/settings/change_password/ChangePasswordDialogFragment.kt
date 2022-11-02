@@ -68,8 +68,11 @@ class ChangePasswordDialogFragment :
         val old = binding.tilOldsPassword.getText()
         val new = binding.tilNewPassword.getText()
         val repeat = binding.tilRepeatPassword.getText()
+        binding.vPasswordStrength.calculateStrength(new)
+        val isStrong = binding.vPasswordStrength.isPasswordStrong()
 
-        val isValid = old.isNotEmpty() && new.isNotEmpty() && repeat.isNotEmpty() && new == repeat
+        val isValid =
+            old.isNotEmpty() && new.isNotEmpty() && repeat.isNotEmpty() && new == repeat && isStrong
         binding.btnSave.isEnabled = isValid
     }
 
