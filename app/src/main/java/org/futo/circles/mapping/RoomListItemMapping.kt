@@ -4,6 +4,7 @@ import org.futo.circles.extensions.getTimelineRoomFor
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUser
+import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 fun RoomSummary.nameOrId() = displayName.takeIf { it.isNotEmpty() } ?: roomId
@@ -56,5 +57,5 @@ fun RoomSummary.toSelectableRoomListItem(selected: Boolean = false) = Selectable
 fun RoomSummary.getFollowersCount(): Int =
     getTimelineRoomFor(roomId)?.roomSummary()?.otherMemberIds?.size ?: 0
 
-fun RoomSummary.getInviterName(): String =
-    MatrixSessionProvider.currentSession?.getUser(inviterId ?: "")?.displayName ?: ""
+fun RoomSummary.getInviterName() =
+    MatrixSessionProvider.currentSession?.getUserOrDefault(inviterId ?: "")?.notEmptyDisplayName() ?: ""

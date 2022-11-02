@@ -1,5 +1,6 @@
 package org.futo.circles.mapping
 
+import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.model.CirclesUserSummary
 import org.futo.circles.model.PeopleUserListItem
 import org.futo.circles.model.UserListItem
@@ -23,6 +24,8 @@ fun User.toPeopleUserListItem(isIgnored: Boolean) = PeopleUserListItem(
     isIgnored = isIgnored
 )
 
-fun User.notEmptyDisplayName() =
-    displayName?.takeIf { it.isNotEmpty() }
+fun User.notEmptyDisplayName(): String {
+    val name = displayName?.takeIf { it.isNotEmpty() }
         ?: userId.replace("@", "").substringBefore(":")
+    return UserUtils.removeDomainSuffix(name)
+}
