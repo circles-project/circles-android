@@ -40,7 +40,6 @@ class LoadingButton(
     }
 
     override fun setOnClickListener(l: OnClickListener?) {
-        super.setOnClickListener(l)
         binding.button.setOnClickListener(l)
     }
 
