@@ -11,9 +11,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:navigationContentDescription="@string/back"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="@string/sign_up"
         app:subtitleCentered="true"
+        app:title="@string/sign_up"
         app:titleCentered="true" />
 
     <View
