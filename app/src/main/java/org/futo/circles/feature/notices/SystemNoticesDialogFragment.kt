@@ -34,7 +34,6 @@ class SystemNoticesDialogFragment :
     }
 
     private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.rvTimeline.adapter = listAdapter
     }
 

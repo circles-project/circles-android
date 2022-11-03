@@ -31,7 +31,6 @@ class ChangePasswordDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { onBackPressed() }
             tilOldsPassword.editText?.doAfterTextChanged {
                 onPasswordsDataChanged()
             }

@@ -47,7 +47,6 @@ class CreatePostDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { onBackPressed() }
             args.userName?.let {
                 toolbar.title = context?.getString(R.string.reply_to_format, it)
             }

@@ -40,7 +40,6 @@ class CreatePollDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { onBackPressed() }
             btnCreate.setOnClickListener {
                 createPoll()
                 onBackPressed()

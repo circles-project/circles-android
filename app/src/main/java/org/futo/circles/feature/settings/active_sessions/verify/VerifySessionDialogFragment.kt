@@ -48,7 +48,6 @@ class VerifySessionDialogFragment :
     }
 
     private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.btnVerify.setOnClickListener {
             cameraPermissionHelper.runWithCameraPermission {
                 QrScannerActivity.startForResult(requireActivity(), scanActivityResultLauncher)
