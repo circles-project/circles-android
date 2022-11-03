@@ -35,7 +35,6 @@ class InviteMembersDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         addSelectUsersFragment()
         setupObservers()
         binding.btnInvite.setOnClickListener {

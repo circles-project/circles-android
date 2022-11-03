@@ -35,7 +35,6 @@ class FollowingDialogFragment :
     }
 
     private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.rvRooms.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = listAdapter

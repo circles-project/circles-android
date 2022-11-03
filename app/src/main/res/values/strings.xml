@@ -296,6 +296,7 @@
     <string name="good_password">Good password</string>
     <string name="strong_password">Strong password</string>
     <string name="very_strong_password">Very strong password</string>
+    <string name="back">Back</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

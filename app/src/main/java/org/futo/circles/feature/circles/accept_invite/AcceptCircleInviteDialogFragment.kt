@@ -50,7 +50,6 @@ class AcceptCircleInviteDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { onBackPressed() }
             btnInvite.setOnClickListener {
                 viewModel.acceptInvite(selectRoomsFragment.getSelectedRooms())
                 startLoading(btnInvite)

@@ -35,7 +35,6 @@ class ReportDialogFragment :
     }
 
     private fun setupViews() {
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.rvCategories.adapter = listAdapter
         binding.btnReport.setOnClickListener {
             viewModel.report(binding.scoreSlider.value.toInt())

@@ -53,7 +53,6 @@ class ActiveSessionsDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { onBackPressed() }
             rvSessions.apply {
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
                 adapter = sessionsListAdapter
