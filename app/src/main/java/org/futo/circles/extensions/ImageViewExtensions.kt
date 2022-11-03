@@ -20,22 +20,6 @@ fun ImageView.loadImage(url: String?) {
         .into(this)
 }
 
-fun ImageView.loadMatrixImage(
-    url: String?,
-    loadOriginalSize: Boolean = false,
-    placeholder: Drawable? = null,
-    preferredSize: Size? = null
-) {
-    val size = if (loadOriginalSize) null else preferredSize ?: Size(width, height)
-    val resolvedUrl = MatrixSessionProvider.currentSession?.resolveUrl(url, size)
-    Glide.with(this)
-        .load(resolvedUrl)
-        .fitCenter()
-        .error(placeholder)
-        .into(this)
-}
-
-
 @Suppress("DEPRECATION")
 fun ImageView.loadEncryptedImage(
     content: MediaContentData, preferredSize: Size? = null, loadOriginalSize: Boolean = false
@@ -77,4 +61,19 @@ fun ImageView.loadProfileIcon(
 
 fun ImageView.setIsEncryptedIcon(isEncrypted: Boolean) {
     setImageResource(if (isEncrypted) R.drawable.ic_lock else R.drawable.ic_lock_open)
+}
+
+private fun ImageView.loadMatrixImage(
+    url: String?,
+    loadOriginalSize: Boolean = false,
+    placeholder: Drawable? = null,
+    preferredSize: Size? = null
+) {
+    val size = if (loadOriginalSize) null else preferredSize ?: Size(width, height)
+    val resolvedUrl = MatrixSessionProvider.currentSession?.resolveUrl(url, size)
+    Glide.with(this)
+        .load(resolvedUrl)
+        .fitCenter()
+        .error(placeholder)
+        .into(this)
 }

@@ -65,6 +65,7 @@ class PreviewPostView(
 
     fun setMedia(contentUri: Uri, mediaType: MediaType) {
         postContent = MediaPostContent(contentUri, mediaType)
+        updateContentView()
         when (mediaType) {
             MediaType.Image -> {
                 binding.lImageContent.ivImageContent.loadImage(contentUri.toString())
@@ -76,7 +77,6 @@ class PreviewPostView(
                 }
             }
         }
-        updateContentView()
         listener?.onPostContentAvailable(true)
     }
 
