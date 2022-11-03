@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.appbar.MaterialToolbar
 import org.futo.circles.R
+import org.futo.circles.extensions.onBackPressed
 
 
 abstract class BaseFullscreenDialogFragment(
@@ -16,6 +18,7 @@ abstract class BaseFullscreenDialogFragment(
 ) : AppCompatDialogFragment() {
 
     private var _binding: ViewBinding? = null
+    protected open val toolbarId = R.id.toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +33,11 @@ abstract class BaseFullscreenDialogFragment(
         return _binding?.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
+    }
+
     protected fun getBinding() = _binding
 
     override fun onDestroyView() {
@@ -37,4 +45,10 @@ abstract class BaseFullscreenDialogFragment(
         _binding = null
     }
 
+    private fun setupToolbar() {
+        view?.findViewById<MaterialToolbar>(toolbarId)?.let {
+            it.setNavigationOnClickListener { onBackPressed() }
+            it.navigationContentDescription = getString(R.string.back)
+        }
+    }
 }
