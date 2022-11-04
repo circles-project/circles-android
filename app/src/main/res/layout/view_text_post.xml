@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <org.futo.circles.view.PostLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lTextPost"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <org.futo.circles.view.read_more.ReadMoreTextView
         android:id="@+id/tvContent"
         style="@style/postMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/post_text_side_margin"
         android:autoLink="web"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        app:readMoreMaxLines="7"
+        app:readMoreText="@string/show_more"
+        app:readMoreTextColor="@color/blue" />
 
 </org.futo.circles.view.PostLayout>
