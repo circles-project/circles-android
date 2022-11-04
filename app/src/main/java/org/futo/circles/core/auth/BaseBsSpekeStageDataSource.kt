@@ -12,8 +12,6 @@ import org.matrix.android.sdk.api.util.JsonDict
 
 abstract class BaseBsSpekeStageDataSource(private val context: Context) : PasswordDataSource {
 
-    override fun getMinimumPasswordLength(): Int = 1
-
     protected abstract val userName: String
     protected abstract val domain: String
     protected abstract val isLoginMode: Boolean

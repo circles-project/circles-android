@@ -16,4 +16,11 @@
     <declare-styleable name="GroupPostHeaderView">
         <attr name="optionsVisible" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="ReadMoreTextView">
+        <attr name="readMoreMaxLines" format="integer" />
+        <attr name="readMoreText" format="string" />
+        <attr name="readMoreTextColor" format="reference|color" />
+    </declare-styleable>
+    <attr name="readMoreTextViewStyle" format="reference" />
 </resources>

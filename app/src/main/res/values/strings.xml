@@ -266,7 +266,6 @@
     <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
     <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
     <string name="set_password">Set password</string>
-    <string name="minimum_length_format">Minimum length %d</string>
     <string name="unsupported_login_method">Unsupported login method</string>
     <string name="blind_salt_is_missing">Blind salt is missing</string>
     <string name="b_param_is_missing">B param is missing</string>
@@ -287,6 +286,18 @@
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
     <string name="configuring_workspace">Configuring workspace</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="enable_camera_permission_message">Seem like you denied this permission previously. In order to use this feature please grant Camera permission in settings.</string>
+    <string name="open_settings">Open settings</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
+    <string name="weak_password">Weak password</string>
+    <string name="fair_password">Fair password</string>
+    <string name="good_password">Good password</string>
+    <string name="strong_password">Strong password</string>
+    <string name="very_strong_password">Very strong password</string>
+    <string name="back">Back</string>
+    <string name="show_more">Show more</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

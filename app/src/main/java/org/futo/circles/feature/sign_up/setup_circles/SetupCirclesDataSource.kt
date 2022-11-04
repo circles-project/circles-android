@@ -27,7 +27,7 @@ class SetupCirclesDataSource(
     private fun getUserName(): String {
         val session = MatrixSessionProvider.currentSession
         val userId = session?.myUserId ?: return ""
-        return session.getUser(userId)?.notEmptyDisplayName()?:""
+        return session.getUser(userId)?.notEmptyDisplayName() ?: ""
     }
 
     fun addCirclesCoverImage(id: Int, uri: Uri) {

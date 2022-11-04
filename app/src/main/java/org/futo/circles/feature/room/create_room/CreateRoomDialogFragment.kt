@@ -39,7 +39,6 @@ class CreateRoomDialogFragment :
     private fun setupViews() {
         setupInviteMembers()
         with(binding) {
-            toolbar.setNavigationOnClickListener { onBackPressed() }
             toolbar.title = getTitle()
             tvNameHeader.text = getCreateHeader()
             topicViewGroup.setIsVisible(args.type == CircleRoomTypeArg.Group)

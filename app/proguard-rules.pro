@@ -20,10 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-## Okio start https://github.com/square/okio/blob/master/okio/src/jvmMain/resources/META-INF/proguard/okio.pro
-# Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
--dontwarn org.codehaus.mojo.animal_sniffer.
-## Okio end
 
 ## OkHttp start https://github.com/square/okhttp/blob/master/okhttp/src/main/resources/META-INF/proguard/okhttp3.pro
 # A resource is loaded with a relative path so the package of this class must be preserved.
@@ -34,7 +30,6 @@
 
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
--dontwarn org.conscrypt.ConscryptHostnameVerifier
 ## OkHttp end
 
 ## Glide start https://github.com/bumptech/glide
@@ -77,7 +72,7 @@ native <methods>;
 -keep class org.matrix.android.sdk.internal.auth.db.PendingSessionData
 -keep class org.futo.circles.model.CircleRoomTypeArg
 -keep class org.futo.circles.model.PasswordModeArg
--keep class org.futo.circles.model.TermsModeArgs
+-keep class org.futo.circles.model.TermsModeArg
 
 -keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
 -keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.

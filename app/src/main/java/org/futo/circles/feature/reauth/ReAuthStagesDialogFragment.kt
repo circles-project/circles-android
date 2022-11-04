@@ -41,7 +41,6 @@ class ReAuthStagesDialogFragment :
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
         binding.toolbar.title = getString(R.string.confirm_auth)
         setupObservers()
     }

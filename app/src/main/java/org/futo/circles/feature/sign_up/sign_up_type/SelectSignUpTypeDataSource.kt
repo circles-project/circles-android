@@ -6,6 +6,7 @@ import org.futo.circles.core.REGISTRATION_SUBSCRIPTION_TYPE
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.sign_up.SignUpDataSource
+import org.futo.circles.model.SubscriptionReceiptData
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.registration.Stage
 
@@ -23,7 +24,7 @@ class SelectSignUpTypeDataSource(
     suspend fun startNewRegistration(
         domain: String,
         isSubscription: Boolean,
-        subscriptionReceipt: String?
+        subscriptionReceiptData: SubscriptionReceiptData?
     ) = createResult {
         authService.cancelPendingLoginOrRegistration()
         authService.initiateAuth(buildHomeServerConfigFromDomain(domain))
@@ -31,7 +32,7 @@ class SelectSignUpTypeDataSource(
         signUpDataSource.startSignUpStages(
             prepareStagesList(isSubscription, flows),
             domain,
-            subscriptionReceipt
+            subscriptionReceiptData
         )
     }
 

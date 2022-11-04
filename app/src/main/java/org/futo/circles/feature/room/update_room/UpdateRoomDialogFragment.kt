@@ -37,7 +37,6 @@ class UpdateRoomDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            toolbar.setNavigationOnClickListener { onBackPressed() }
             toolbar.title = getTitle()
             tvNameHeader.text = getNameHeader()
             tvEncryptionWarning.text = getEncryptionWarning()
