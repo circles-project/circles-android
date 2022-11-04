@@ -33,7 +33,6 @@ class ReadMoreTextView @JvmOverloads constructor(
     private var originalText: CharSequence? = null
     private var collapseText: CharSequence? = null
 
-
     init {
         context.obtainStyledAttributes(
             attrs, R.styleable.ReadMoreTextView, defStyleAttr, 0
@@ -48,9 +47,12 @@ class ReadMoreTextView @JvmOverloads constructor(
                 R.styleable.ReadMoreTextView_readMoreTextColor
             ) ?: readMoreTextColor
         }
-        if (originalText != null) {
-            invalidateText()
-        }
+
+        if (hasOnClickListeners()) throw IllegalStateException("Custom onClickListener not supported")
+        super.setOnClickListener { toggle() }
+
+        if (originalText != null) invalidateText()
+
     }
 
     override fun setLines(lines: Int) {
@@ -62,6 +64,10 @@ class ReadMoreTextView @JvmOverloads constructor(
     }
 
     override fun setEllipsize(where: TextUtils.TruncateAt?) {
+        throw IllegalStateException("Not supported")
+    }
+
+    override fun setOnClickListener(l: OnClickListener?) {
         throw IllegalStateException("Not supported")
     }
 
