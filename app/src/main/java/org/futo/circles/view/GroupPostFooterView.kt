@@ -11,6 +11,7 @@ import org.futo.circles.R
 import org.futo.circles.databinding.ViewGroupPostFooterBinding
 import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.Post
 import org.futo.circles.model.ReactionsData
 import org.futo.circles.model.RootPost
@@ -38,7 +39,7 @@ class GroupPostFooterView(
                     optionsListener?.onReply(
                         it.postInfo.roomId,
                         it.id,
-                        it.postInfo.sender.disambiguatedDisplayName
+                        it.postInfo.sender.notEmptyDisplayName()
                     )
                 }
             }
