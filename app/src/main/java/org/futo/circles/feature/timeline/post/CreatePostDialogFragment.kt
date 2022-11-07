@@ -17,10 +17,6 @@ import org.futo.circles.view.PreviewPostListener
 import java.text.DateFormat
 import java.util.*
 
-interface CreatePostListener {
-    fun onSendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?)
-}
-
 class CreatePostDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentCreatePostBinding::inflate) {
 
