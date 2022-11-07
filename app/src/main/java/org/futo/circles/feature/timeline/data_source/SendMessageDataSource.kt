@@ -26,7 +26,8 @@ class SendMessageDataSource(private val context: Context) {
             MediaType.Video -> uri.toVideoContentAttachmentData(context)
         }
         content?.let {
-            roomForMessage?.sendService()?.sendMedia(it, true, emptySet(), threadEventId)
+            val shouldCompress = it.mimeType != WEBP_MIME_TYPE
+            roomForMessage?.sendService()?.sendMedia(it, shouldCompress, emptySet(), threadEventId)
         }
     }
 
@@ -37,4 +38,7 @@ class SendMessageDataSource(private val context: Context) {
 
     }
 
+    companion object {
+        private const val WEBP_MIME_TYPE = "image/webp"
+    }
 }
