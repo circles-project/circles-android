@@ -1,7 +1,6 @@
 package org.futo.circles.core.picker
 
 import android.content.ActivityNotFoundException
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -94,7 +93,11 @@ class MediaPickerHelper(
     private fun dispatchDevicePickerIntent() {
         val mimeTypes = mutableListOf("image/*")
         if (allMediaTypeAvailable) mimeTypes.add("video/*")
-        deviceIntentLauncher.launch(mimeTypes.joinToString(";"))
+        try {
+            deviceIntentLauncher.launch(mimeTypes.joinToString(";"))
+        } catch (e: Exception) {
+            handleException(e)
+        }
     }
 
     private fun handlePickerFragmentResult(key: String, bundle: Bundle) {
@@ -124,12 +127,16 @@ class MediaPickerHelper(
                 }
             }
         } catch (e: Exception) {
-            val message = when (e) {
-                is ActivityNotFoundException -> fragment.getString(R.string.no_application_found_for_action)
-                else -> e.message ?: fragment.getString(R.string.unexpected_error)
-            }
-            fragment.showError(message)
+            handleException(e)
         }
+    }
+
+    private fun handleException(e: Exception) {
+        val message = when (e) {
+            is ActivityNotFoundException -> fragment.getString(R.string.no_application_found_for_action)
+            else -> e.message ?: fragment.getString(R.string.unexpected_error)
+        }
+        fragment.showError(message)
     }
 
 
