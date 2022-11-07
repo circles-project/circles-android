@@ -10,7 +10,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
 import org.futo.circles.core.utils.UserUtils
-import org.futo.circles.databinding.ViewGroupPostHeaderBinding
+import org.futo.circles.databinding.ViewPostHeaderBinding
 import org.futo.circles.extensions.getAttributes
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.setIsEncryptedIcon
@@ -20,17 +20,15 @@ import org.futo.circles.model.PollContent
 import org.futo.circles.model.PollState
 import org.futo.circles.model.Post
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
-import org.matrix.android.sdk.api.session.room.sender.SenderInfo
-import java.lang.String.format
 import java.util.*
 
-class GroupPostHeaderView(
+class PostHeaderView(
     context: Context,
     attrs: AttributeSet? = null,
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        ViewGroupPostHeaderBinding.inflate(LayoutInflater.from(context), this)
+        ViewPostHeaderBinding.inflate(LayoutInflater.from(context), this)
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
@@ -71,7 +69,7 @@ class GroupPostHeaderView(
             tvUserName.text = name
             tvUserId.text = UserUtils.removeDomainSuffix(userId)
             ivEncrypted.setIsEncryptedIcon(isEncrypted)
-            tvMessageTime.text = DateFormat.format("MMM dd, h:mm a",Date(timestamp))
+            tvMessageTime.text = DateFormat.format("MMM dd, h:mm a", Date(timestamp))
         }
     }
 
