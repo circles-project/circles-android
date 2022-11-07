@@ -299,6 +299,7 @@
     <string name="back">Back</string>
     <string name="show_more">Show more</string>
     <string name="no_application_found_for_action">Sorry, no external application has been found to complete this action</string>
+    <string name="edit">Edit</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
