@@ -1,5 +1,7 @@
 package org.futo.circles.core.picker
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -10,7 +12,6 @@ import org.futo.circles.core.utils.FileUtils.createVideoFile
 import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.showError
 import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage
-import java.io.IOException
 
 
 class MediaPickerHelper(
@@ -122,7 +123,12 @@ class MediaPickerHelper(
                     videoFileUri
                 }
             }
-        } catch (ignore: IOException) {
+        } catch (e: Exception) {
+            val message = when (e) {
+                is ActivityNotFoundException -> fragment.getString(R.string.no_application_found_for_action)
+                else -> e.message ?: fragment.getString(R.string.unexpected_error)
+            }
+            fragment.showError(message)
         }
     }
 
