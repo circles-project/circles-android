@@ -19,6 +19,7 @@ import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.PollContent
 import org.futo.circles.model.PollState
 import org.futo.circles.model.Post
+import org.futo.circles.model.PostContentType
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import java.util.*
 
@@ -94,6 +95,9 @@ class PostHeaderView(
                     R.id.delete -> optionsListener?.onRemove(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
+                    R.id.edit -> optionsListener?.onEditPostClicked(
+                        unwrappedPost.postInfo.roomId, unwrappedPost.id
+                    )
                     R.id.ignore -> optionsListener?.onIgnore(unwrappedPost.postInfo.sender.userId)
                     R.id.save_to_device -> optionsListener?.onSaveToDevice(unwrappedPost.content)
                     R.id.save_to_gallery -> optionsListener?.onSaveToGallery(
@@ -116,6 +120,8 @@ class PostHeaderView(
             menu.findItem(R.id.save_to_gallery).isVisible = unwrappedPost.content.isMedia()
             menu.findItem(R.id.ignore).isVisible = !unwrappedPost.isMyPost()
             menu.findItem(R.id.report).isVisible = !unwrappedPost.isMyPost()
+            menu.findItem(R.id.edit).isVisible =
+                unwrappedPost.isMyPost() && unwrappedPost.content.type == PostContentType.TEXT_CONTENT
             menu.findItem(R.id.delete).isVisible =
                 unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value
 

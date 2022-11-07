@@ -19,6 +19,7 @@ interface PostOptionsListener {
     fun onShare(content: PostContent)
     fun onIgnore(senderId: String)
     fun onSaveToDevice(content: PostContent)
+    fun onEditPostClicked(roomId: String, eventId: String)
     fun onSaveToGallery(roomId: String, eventId: String)
     fun onReply(roomId: String, eventId: String, userName: String)
     fun onShowPreview(roomId: String, eventId: String)
