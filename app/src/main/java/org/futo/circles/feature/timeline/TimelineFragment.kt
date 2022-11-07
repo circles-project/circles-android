@@ -195,6 +195,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.saveToDevice(content)
     }
 
+    override fun onEditPostClicked(roomId: String, eventId: String) {
+        navigateToCreatePost(roomId, eventId = eventId)
+    }
+
     override fun onSaveToGallery(roomId: String, eventId: String) {
         findNavController().navigate(
             TimelineFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
@@ -234,6 +238,15 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         threadEventId: String?
     ) {
         viewModel.sendPost(roomId, postContent, threadEventId)
+    }
+
+    override fun onEditTextPost(
+        eventId: String,
+        roomId: String,
+        newMessage: String,
+        threadEventId: String?
+    ) {
+        viewModel.editTextPost(eventId, roomId, newMessage, threadEventId)
     }
 
     override fun onCreatePoll(roomId: String, pollContent: CreatePollContent) {
