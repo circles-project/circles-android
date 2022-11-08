@@ -5,13 +5,10 @@ import org.futo.circles.model.Post
 import org.futo.circles.model.PostContentType
 import org.futo.circles.model.ReplyPost
 import org.futo.circles.model.RootPost
-import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.EventType
-import org.matrix.android.sdk.api.session.events.model.toContent
-import org.matrix.android.sdk.api.session.events.model.toModel
-import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
+import org.matrix.android.sdk.api.session.room.timeline.isEdition
 
 class TimelineBuilder {
 
@@ -67,12 +64,16 @@ class TimelineBuilder {
     }
 
     private fun processSnapshot(list: List<TimelineEvent>): List<TimelineEvent> {
-        val roomId = list.firstOrNull()?.roomId ?: return emptyList()
-        currentSnapshotMap[roomId] = list
+        val filteredList = removeEditionsAndDeletedEvents(list)
+        val roomId = filteredList.firstOrNull()?.roomId ?: return emptyList()
+        currentSnapshotMap[roomId] = filteredList
         val fullTimelineEventList = mutableListOf<TimelineEvent>()
         currentSnapshotMap.values.forEach { fullTimelineEventList.addAll(it) }
         return fullTimelineEventList.sortedByDescending { it.root.originServerTs }
     }
+
+    private fun removeEditionsAndDeletedEvents(list: List<TimelineEvent>) =
+        list.filter { !it.isEdition() && !it.root.isRedacted() }
 
     private fun handleRepliesVisibilityForPost(messagesWithReplies: List<RootPost>): MutableList<Post> {
         val list: MutableList<Post> = mutableListOf()
