@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.post
+package org.futo.circles.feature.timeline.post.create
 
 import android.content.Context
 import android.net.Uri
@@ -11,10 +11,13 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
+import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.model.CreatePostContent
+import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.PreviewPostListener
-import java.text.DateFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.util.*
 
 class CreatePostDialogFragment :
@@ -23,6 +26,9 @@ class CreatePostDialogFragment :
     private val args: CreatePostDialogFragmentArgs by navArgs()
     private val binding by lazy {
         getBinding() as DialogFragmentCreatePostBinding
+    }
+    private val viewModel by viewModel<CreatePostViewModel> {
+        parametersOf(args.roomId, args.eventId, args.isEdit)
     }
 
     private val mediaPickerHelper = MediaPickerHelper(this, true)
@@ -39,22 +45,27 @@ class CreatePostDialogFragment :
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         setupViews()
+        setupObservers()
     }
 
     private fun setupViews() {
+        setToolbarTitle()
         with(binding) {
-            args.userName?.let {
-                toolbar.title = context?.getString(R.string.reply_to_format, it)
+            btnPost.apply {
+                setOnClickListener {
+                    sendPost()
+                    onBackPressed()
+                }
+                setText(getString(if (args.isEdit) R.string.edit else R.string.send))
             }
-            btnPost.setOnClickListener {
-                sendPost()
-                onBackPressed()
-            }
-            btnUploadMedia.setOnClickListener {
-                mediaPickerHelper.showMediaPickerDialog(
-                    onImageSelected = { _, uri -> onMediaSelected(uri, MediaType.Image) },
-                    onVideoSelected = { uri -> onMediaSelected(uri, MediaType.Video) }
-                )
+            btnUploadMedia.apply {
+                setOnClickListener {
+                    mediaPickerHelper.showMediaPickerDialog(
+                        onImageSelected = { _, uri -> onMediaSelected(uri, MediaType.Image) },
+                        onVideoSelected = { uri -> onMediaSelected(uri, MediaType.Video) }
+                    )
+                }
+                setIsVisible(!args.isEdit)
             }
             vPostPreview.setListener(object : PreviewPostListener {
                 override fun onPostContentAvailable(isAvailable: Boolean) {
@@ -64,13 +75,34 @@ class CreatePostDialogFragment :
         }
     }
 
+    private fun setupObservers() {
+        viewModel.textToEditLiveData.observeData(this) {
+            binding.vPostPreview.setText(it)
+        }
+    }
+
+    private fun setToolbarTitle() {
+        binding.toolbar.title = when {
+            args.isEdit -> getString(R.string.edit_post)
+            args.userName != null -> getString(R.string.reply_to_format, args.userName)
+            else -> getString(R.string.create_post)
+        }
+    }
+
     private fun onMediaSelected(uri: Uri, type: MediaType) {
         binding.vPostPreview.setMedia(uri, type)
     }
 
     private fun sendPost() {
-        createPostListener?.onSendPost(
+        if (args.isEdit) onEditPost()
+        else createPostListener?.onSendPost(
             args.roomId, binding.vPostPreview.getPostContent(), args.eventId
         )
+    }
+
+    private fun onEditPost() {
+        val newMessage = (binding.vPostPreview.getPostContent() as? TextPostContent)?.text ?: return
+        val eventId = args.eventId ?: return
+        createPostListener?.onEditTextPost(args.roomId, newMessage, eventId)
     }
 }

@@ -261,7 +261,7 @@
     </dialog>
     <dialog
         android:id="@+id/createPostBottomSheet"
-        android:name="org.futo.circles.feature.timeline.post.CreatePostDialogFragment"
+        android:name="org.futo.circles.feature.timeline.post.create.CreatePostDialogFragment"
         android:label="CreatePostBottomSheet"
         tools:layout="@layout/dialog_fragment_create_post">
 
