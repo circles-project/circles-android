@@ -20,7 +20,7 @@ import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.feature.timeline.list.PostViewHolder
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
-import org.futo.circles.feature.timeline.post.CreatePostListener
+import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.CreatePollContent
@@ -240,11 +240,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.sendPost(roomId, postContent, threadEventId)
     }
 
-    override fun onEditTextPost(
-        eventId: String,
-        roomId: String,
-        newMessage: String
-    ) {
+    override fun onEditTextPost(roomId: String, newMessage: String, eventId: String) {
         viewModel.editTextPost(eventId, roomId, newMessage)
     }
 
