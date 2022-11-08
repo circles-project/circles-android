@@ -3,6 +3,7 @@ package org.futo.circles.mapping
 import org.futo.circles.model.*
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getRelationContent
+import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited
 import org.matrix.android.sdk.api.session.room.timeline.isReply
 
 
@@ -20,7 +21,8 @@ private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     sender = senderInfo,
     reactionsData = annotations?.reactionsSummary?.map {
         ReactionsData(it.key, it.count, it.addedByMe)
-    } ?: emptyList()
+    } ?: emptyList(),
+    isEdited = hasBeenEdited()
 )
 
 private fun TimelineEvent.toRootPost(postContentType: PostContentType, isRepliesVisible: Boolean) =

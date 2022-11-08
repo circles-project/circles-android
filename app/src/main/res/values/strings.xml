@@ -301,6 +301,7 @@
     <string name="no_application_found_for_action">Sorry, no external application has been found to complete this action</string>
     <string name="edit">Edit</string>
     <string name="edit_post">Edit post</string>
+    <string name="edited_label">(Edited)</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

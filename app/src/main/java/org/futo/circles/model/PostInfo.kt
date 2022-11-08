@@ -8,5 +8,6 @@ data class PostInfo(
     val sender: SenderInfo,
     val isEncrypted: Boolean,
     val timestamp: Long,
-    val reactionsData: List<ReactionsData>
+    val reactionsData: List<ReactionsData>,
+    val isEdited: Boolean
 )
