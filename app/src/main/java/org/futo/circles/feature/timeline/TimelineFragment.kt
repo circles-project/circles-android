@@ -196,7 +196,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun onEditPostClicked(roomId: String, eventId: String) {
-        navigateToCreatePost(roomId, eventId = eventId)
+        navigateToCreatePost(roomId, eventId = eventId, isEdit = true)
     }
 
     override fun onSaveToGallery(roomId: String, eventId: String) {
@@ -243,10 +243,9 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     override fun onEditTextPost(
         eventId: String,
         roomId: String,
-        newMessage: String,
-        threadEventId: String?
+        newMessage: String
     ) {
-        viewModel.editTextPost(eventId, roomId, newMessage, threadEventId)
+        viewModel.editTextPost(eventId, roomId, newMessage)
     }
 
     override fun onCreatePoll(roomId: String, pollContent: CreatePollContent) {
@@ -277,10 +276,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     private fun navigateToCreatePost(
         roomId: String,
         userName: String? = null,
-        eventId: String? = null
+        eventId: String? = null,
+        isEdit: Boolean = false
     ) {
         findNavController().navigate(
-            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId)
+            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId, isEdit)
         )
     }
 
