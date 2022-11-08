@@ -71,8 +71,8 @@ class TimelineViewModel(
         if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 
-    fun editTextPost(eventId: String, roomId: String, newMessage: String, threadEventId: String?) {
-        sendMessageDataSource.editTextMessage(eventId, roomId, newMessage, threadEventId)
+    fun editTextPost(eventId: String, roomId: String, newMessage: String) {
+        sendMessageDataSource.editTextMessage(eventId, roomId, newMessage)
     }
 
     fun createPoll(roomId: String, pollContent: CreatePollContent) {

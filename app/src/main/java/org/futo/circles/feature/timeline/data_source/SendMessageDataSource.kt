@@ -10,6 +10,7 @@ import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
+import org.matrix.android.sdk.api.session.room.timeline.getRelationContent
 
 class SendMessageDataSource(private val context: Context) {
 
@@ -21,12 +22,12 @@ class SendMessageDataSource(private val context: Context) {
             ?: roomForMessage?.sendService()?.sendTextMessage(message)
     }
 
-    fun editTextMessage(eventId: String, roomId: String, message: String, threadEventId: String?) {
+    fun editTextMessage(eventId: String, roomId: String, message: String) {
         val roomForMessage = session?.getRoom(roomId) ?: return
         val event = roomForMessage.getTimelineEvent(eventId) ?: return
-        threadEventId?.let {
-            val replyEvent = roomForMessage.getTimelineEvent(it) ?: return
-            roomForMessage.relationService().editReply(event, replyEvent, message)
+        event.getRelationContent()?.inReplyTo?.eventId?.let {
+            val rootEvent = roomForMessage.getTimelineEvent(it) ?: return
+            roomForMessage.relationService().editReply(rootEvent, event, message)
         } ?: roomForMessage.relationService()
             .editTextMessage(event, MessageType.MSGTYPE_TEXT, message, false)
     }
