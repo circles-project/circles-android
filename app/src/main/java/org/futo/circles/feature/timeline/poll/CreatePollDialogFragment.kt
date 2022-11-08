@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
+import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentCreatePollBinding
 import org.futo.circles.extensions.getText
@@ -19,6 +20,7 @@ class CreatePollDialogFragment :
     private val binding by lazy {
         getBinding() as DialogFragmentCreatePollBinding
     }
+    private val isEdit by lazy { args.eventId != null }
 
     private var createPollListener: CreatePollListener? = null
 
@@ -35,9 +37,13 @@ class CreatePollDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            btnCreate.setOnClickListener {
-                createPoll()
-                onBackPressed()
+            toolbar.title = getString(if (isEdit) R.string.edit_poll else R.string.create_poll)
+            btnCreate.apply {
+                setText(getString(if (isEdit) R.string.edit else R.string.create))
+                setOnClickListener {
+                    createPoll()
+                    onBackPressed()
+                }
             }
             lvPostOptions.setOnChangeListener { handleCreateButtonAvailable() }
             tilQuestion.editText?.doAfterTextChanged { handleCreateButtonAvailable() }
@@ -54,14 +60,14 @@ class CreatePollDialogFragment :
     }
 
     private fun createPoll() {
-        createPollListener?.onCreatePoll(
-            args.roomId,
-            CreatePollContent(
-                if (binding.btnOpenPoll.isChecked) PollType.DISCLOSED else PollType.UNDISCLOSED,
-                binding.tilQuestion.getText(),
-                binding.lvPostOptions.getOptionsList()
-            )
+        val pollContent = CreatePollContent(
+            if (binding.btnOpenPoll.isChecked) PollType.DISCLOSED else PollType.UNDISCLOSED,
+            binding.tilQuestion.getText(),
+            binding.lvPostOptions.getOptionsList()
         )
+        args.eventId?.let {
+            createPollListener?.onEditPoll(args.roomId, it, pollContent)
+        } ?: createPollListener?.onCreatePoll(args.roomId, pollContent)
     }
 
 }
