@@ -96,6 +96,11 @@
                 app:argType="string"
                 app:nullable="false" />
 
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
         </action>
         <action
             android:id="@+id/to_reportDialogFragment"
@@ -373,6 +378,11 @@
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="true" />
 
     </dialog>
 </navigation>
