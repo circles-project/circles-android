@@ -25,6 +25,7 @@ class CreatePollOptionsLayout(
     }.toList()
 
     fun addOption(text: String? = null) {
+        handleImeOption()
         val option = CreatePollOptionView(context).apply {
             setup(
                 this@CreatePollOptionsLayout.childCount + 1,
@@ -43,6 +44,10 @@ class CreatePollOptionsLayout(
             (child as? CreatePollOptionView)?.setHint(i + 1)
         }
         onChangeListener?.invoke()
+    }
+
+    private fun handleImeOption() {
+        (children.lastOrNull() as? CreatePollOptionView)?.setImeActionNext()
     }
 
     fun isValidInput() = getOptionsList().size >= 2

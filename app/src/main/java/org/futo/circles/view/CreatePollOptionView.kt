@@ -3,6 +3,7 @@ package org.futo.circles.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.R
@@ -25,9 +26,16 @@ class CreatePollOptionView(
     ) {
         setHint(position)
         binding.ivRemove.setOnClickListener { onRemove.invoke(this) }
-        binding.tilOption.editText?.doAfterTextChanged {
-            textChanged(binding.tilOption.getText())
+        binding.tilOption.editText?.apply {
+            imeOptions = EditorInfo.IME_ACTION_DONE
+            doAfterTextChanged {
+                textChanged(binding.tilOption.getText())
+            }
         }
+    }
+
+    fun setImeActionNext() {
+        binding.tilOption.editText?.imeOptions = EditorInfo.IME_ACTION_NEXT
     }
 
     fun setText(text: String) {
