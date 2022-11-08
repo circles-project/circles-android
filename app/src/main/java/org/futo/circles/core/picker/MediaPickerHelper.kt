@@ -27,7 +27,8 @@ class MediaPickerHelper(
 
     private val photoIntentLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.TakePicture())
-        {
+        { success ->
+            if (!success) return@registerForActivityResult
             cameraUri?.let {
                 onImageSelected?.invoke(itemId, it)
             } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
@@ -35,7 +36,8 @@ class MediaPickerHelper(
 
     private val videoIntentLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.CaptureVideo())
-        {
+        { success ->
+            if (!success) return@registerForActivityResult
             cameraUri?.let {
                 onVideoSelected?.invoke(it)
             } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
