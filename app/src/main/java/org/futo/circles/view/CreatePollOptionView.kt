@@ -30,6 +30,10 @@ class CreatePollOptionView(
         }
     }
 
+    fun setText(text: String) {
+        binding.tilOption.editText?.setText(text)
+    }
+
     fun setHint(position: Int) {
         binding.tilOption.hint = context.getString(R.string.option_format, position)
     }

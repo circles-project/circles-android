@@ -14,8 +14,6 @@ class CreatePollOptionsLayout(
 
     init {
         orientation = VERTICAL
-        addOption()
-        addOption()
     }
 
     fun setOnChangeListener(listener: () -> Unit) {
@@ -26,12 +24,13 @@ class CreatePollOptionsLayout(
         (child as? CreatePollOptionView)?.getText()?.takeIf { it.isNotEmpty() }
     }.toList()
 
-    fun addOption() {
+    fun addOption(text: String? = null) {
         val option = CreatePollOptionView(context).apply {
             setup(
                 this@CreatePollOptionsLayout.childCount + 1,
                 ::onRemoveOption
             ) { onChangeListener?.invoke() }
+            text?.let { setText(text) }
         }
         val layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         layoutParams.setMargins(0, 8, 0, 0)

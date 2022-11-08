@@ -9,8 +9,11 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentCreatePollBinding
 import org.futo.circles.extensions.getText
+import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.model.CreatePollContent
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.message.PollType
 
 class CreatePollDialogFragment :
@@ -21,6 +24,10 @@ class CreatePollDialogFragment :
         getBinding() as DialogFragmentCreatePollBinding
     }
     private val isEdit by lazy { args.eventId != null }
+
+    private val viewModel by viewModel<CreatePollViewModel> {
+        parametersOf(args.roomId, args.eventId)
+    }
 
     private var createPollListener: CreatePollListener? = null
 
@@ -33,6 +40,7 @@ class CreatePollDialogFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
+        setupObservers()
     }
 
     private fun setupViews() {
@@ -50,6 +58,20 @@ class CreatePollDialogFragment :
             btnAddOption.setOnClickListener {
                 lvPostOptions.addOption()
                 lvPostOptions.post { scrollView.fullScroll(View.FOCUS_DOWN) }
+            }
+            if (!isEdit) repeat(2) { lvPostOptions.addOption() }
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.pollToEditLiveData.observeData(this) { content ->
+            with(binding) {
+                tilQuestion.editText?.setText(content.question)
+                content.options.forEach { option ->
+                    lvPostOptions.addOption(option.optionAnswer)
+                }
+                binding.btnClosedPoll.isChecked = content.isClosedType
+                handleCreateButtonAvailable()
             }
         }
     }
