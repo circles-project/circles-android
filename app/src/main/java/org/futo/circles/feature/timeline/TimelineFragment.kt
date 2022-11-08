@@ -250,6 +250,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.createPoll(roomId, pollContent)
     }
 
+    override fun onEditPoll(roomId: String, eventId: String, pollContent: CreatePollContent) {
+        viewModel.editPoll(roomId, eventId, pollContent)
+    }
+
     override fun onEmojiSelected(roomId: String, eventId: String, emoji: String) {
         viewModel.sendReaction(roomId, eventId, emoji)
     }
