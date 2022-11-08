@@ -44,7 +44,13 @@ class SendMessageDataSource(private val context: Context) {
         val roomForMessage = session?.getRoom(roomId)
         roomForMessage?.sendService()
             ?.sendPoll(pollContent.pollType, pollContent.question, pollContent.options)
+    }
 
+    fun editPoll(roomId: String, eventId: String, pollContent: CreatePollContent) {
+        val roomForMessage = session?.getRoom(roomId) ?: return
+        val event = roomForMessage.getTimelineEvent(eventId) ?: return
+        roomForMessage.relationService()
+            .editPoll(event, pollContent.pollType, pollContent.question, pollContent.options)
     }
 
     companion object {
