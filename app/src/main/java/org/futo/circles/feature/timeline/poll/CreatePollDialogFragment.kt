@@ -12,10 +12,6 @@ import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.model.CreatePollContent
 import org.matrix.android.sdk.api.session.room.model.message.PollType
 
-interface CreatePollListener {
-    fun onCreatePoll(roomId: String, pollContent: CreatePollContent)
-}
-
 class CreatePollDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentCreatePollBinding::inflate) {
 
@@ -31,7 +27,6 @@ class CreatePollDialogFragment :
         createPollListener =
             parentFragmentManager.fragments.firstOrNull { it is CreatePollListener } as? CreatePollListener
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
