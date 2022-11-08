@@ -10,7 +10,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
 import org.futo.circles.core.utils.UserUtils
-import org.futo.circles.databinding.ViewGroupPostHeaderBinding
+import org.futo.circles.databinding.ViewPostHeaderBinding
 import org.futo.circles.extensions.getAttributes
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.setIsEncryptedIcon
@@ -19,18 +19,17 @@ import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.PollContent
 import org.futo.circles.model.PollState
 import org.futo.circles.model.Post
+import org.futo.circles.model.PostContentType
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
-import org.matrix.android.sdk.api.session.room.sender.SenderInfo
-import java.lang.String.format
 import java.util.*
 
-class GroupPostHeaderView(
+class PostHeaderView(
     context: Context,
     attrs: AttributeSet? = null,
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        ViewGroupPostHeaderBinding.inflate(LayoutInflater.from(context), this)
+        ViewPostHeaderBinding.inflate(LayoutInflater.from(context), this)
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
@@ -71,7 +70,7 @@ class GroupPostHeaderView(
             tvUserName.text = name
             tvUserId.text = UserUtils.removeDomainSuffix(userId)
             ivEncrypted.setIsEncryptedIcon(isEncrypted)
-            tvMessageTime.text = DateFormat.format("MMM dd, h:mm a",Date(timestamp))
+            tvMessageTime.text = DateFormat.format("MMM dd, h:mm a", Date(timestamp))
         }
     }
 
@@ -96,6 +95,9 @@ class GroupPostHeaderView(
                     R.id.delete -> optionsListener?.onRemove(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
+                    R.id.edit -> optionsListener?.onEditPostClicked(
+                        unwrappedPost.postInfo.roomId, unwrappedPost.id
+                    )
                     R.id.ignore -> optionsListener?.onIgnore(unwrappedPost.postInfo.sender.userId)
                     R.id.save_to_device -> optionsListener?.onSaveToDevice(unwrappedPost.content)
                     R.id.save_to_gallery -> optionsListener?.onSaveToGallery(
@@ -118,6 +120,8 @@ class GroupPostHeaderView(
             menu.findItem(R.id.save_to_gallery).isVisible = unwrappedPost.content.isMedia()
             menu.findItem(R.id.ignore).isVisible = !unwrappedPost.isMyPost()
             menu.findItem(R.id.report).isVisible = !unwrappedPost.isMyPost()
+            menu.findItem(R.id.edit).isVisible =
+                unwrappedPost.isMyPost() && unwrappedPost.content.type == PostContentType.TEXT_CONTENT
             menu.findItem(R.id.delete).isVisible =
                 unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value
 

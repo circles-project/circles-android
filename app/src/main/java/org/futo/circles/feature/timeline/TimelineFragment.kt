@@ -20,7 +20,7 @@ import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.feature.timeline.list.PostViewHolder
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
-import org.futo.circles.feature.timeline.post.CreatePostListener
+import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.CreatePollContent
@@ -195,6 +195,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.saveToDevice(content)
     }
 
+    override fun onEditPostClicked(roomId: String, eventId: String) {
+        navigateToCreatePost(roomId, eventId = eventId, isEdit = true)
+    }
+
     override fun onSaveToGallery(roomId: String, eventId: String) {
         findNavController().navigate(
             TimelineFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
@@ -236,6 +240,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.sendPost(roomId, postContent, threadEventId)
     }
 
+    override fun onEditTextPost(roomId: String, newMessage: String, eventId: String) {
+        viewModel.editTextPost(eventId, roomId, newMessage)
+    }
+
     override fun onCreatePoll(roomId: String, pollContent: CreatePollContent) {
         viewModel.createPoll(roomId, pollContent)
     }
@@ -264,10 +272,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     private fun navigateToCreatePost(
         roomId: String,
         userName: String? = null,
-        eventId: String? = null
+        eventId: String? = null,
+        isEdit: Boolean = false
     ) {
         findNavController().navigate(
-            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId)
+            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId, isEdit)
         )
     }
 

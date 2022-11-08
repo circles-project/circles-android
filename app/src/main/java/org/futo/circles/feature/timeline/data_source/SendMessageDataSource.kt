@@ -8,6 +8,8 @@ import org.futo.circles.extensions.toVideoContentAttachmentData
 import org.futo.circles.model.CreatePollContent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.getTimelineEvent
+import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
 class SendMessageDataSource(private val context: Context) {
 
@@ -17,6 +19,13 @@ class SendMessageDataSource(private val context: Context) {
         val roomForMessage = session?.getRoom(roomId)
         threadEventId?.let { roomForMessage?.relationService()?.replyInThread(it, message) }
             ?: roomForMessage?.sendService()?.sendTextMessage(message)
+    }
+
+    fun editTextMessage(eventId: String, roomId: String, message: String) {
+        val roomForMessage = session?.getRoom(roomId) ?: return
+        val event = roomForMessage.getTimelineEvent(eventId) ?: return
+        roomForMessage.relationService()
+            .editTextMessage(event, MessageType.MSGTYPE_TEXT, message, false)
     }
 
     fun sendMedia(roomId: String, uri: Uri, threadEventId: String?, type: MediaType) {

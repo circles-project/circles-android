@@ -9,9 +9,11 @@ import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
 import org.futo.circles.databinding.LayoutPostBinding
-import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.model.*
+import org.futo.circles.model.Post
+import org.futo.circles.model.PostContent
+import org.futo.circles.model.PostItemPayload
+import org.futo.circles.model.ReplyPost
 
 
 interface PostOptionsListener {
@@ -19,6 +21,7 @@ interface PostOptionsListener {
     fun onShare(content: PostContent)
     fun onIgnore(senderId: String)
     fun onSaveToDevice(content: PostContent)
+    fun onEditPostClicked(roomId: String, eventId: String)
     fun onSaveToGallery(roomId: String, eventId: String)
     fun onReply(roomId: String, eventId: String, userName: String)
     fun onShowPreview(roomId: String, eventId: String)
@@ -62,7 +65,11 @@ class PostLayout(
     }
 
     fun setPayload(payload: PostItemPayload) {
-        binding.postFooter.bindRepliesButton(payload.hasReplies, payload.repliesCount, payload.isRepliesVisible)
+        binding.postFooter.bindRepliesButton(
+            payload.hasReplies,
+            payload.repliesCount,
+            payload.isRepliesVisible
+        )
     }
 
     private fun setGeneralMessageData(data: Post, userPowerLevel: Int) {
@@ -70,6 +77,7 @@ class PostLayout(
         binding.vReplyMargin.setIsVisible(isReply)
         binding.postHeader.setData(data, userPowerLevel)
         binding.postFooter.setData(data, isReply)
+        binding.tvEditedLabel.setIsVisible(data.postInfo.isEdited)
     }
 
     override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
