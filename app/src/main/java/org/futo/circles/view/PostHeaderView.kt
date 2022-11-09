@@ -16,10 +16,7 @@ import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.setIsEncryptedIcon
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.mapping.notEmptyDisplayName
-import org.futo.circles.model.PollContent
-import org.futo.circles.model.PollState
-import org.futo.circles.model.Post
-import org.futo.circles.model.PostContentType
+import org.futo.circles.model.*
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import java.util.*
 
@@ -108,6 +105,9 @@ class PostHeaderView(
                         unwrappedPost.postInfo.roomId,
                         unwrappedPost.id
                     )
+                    R.id.edit_poll -> optionsListener?.onEditPollClicked(
+                        unwrappedPost.postInfo.roomId, unwrappedPost.id
+                    )
                     R.id.end_poll -> optionsListener?.endPoll(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
@@ -125,9 +125,12 @@ class PostHeaderView(
             menu.findItem(R.id.delete).isVisible =
                 unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value
 
+            val isPoll = unwrappedPost.content.isPoll()
             val pollState = (unwrappedPost.content as? PollContent)?.state
+            menu.findItem(R.id.edit_poll).isVisible =
+                isPoll && unwrappedPost.isMyPost() && pollState?.canEdit() == true
             menu.findItem(R.id.end_poll).isVisible =
-                unwrappedPost.content.isPoll() && pollState != PollState.Ended &&
+                isPoll && pollState != PollState.Ended &&
                         (unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value)
 
             show()

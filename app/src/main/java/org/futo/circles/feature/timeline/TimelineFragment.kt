@@ -101,9 +101,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             bindToRecyclerView(binding.rvTimeline)
             setListener(object : CreatePostMenuListener {
                 override fun onCreatePoll() {
-                    findNavController().navigate(
-                        TimelineFragmentDirections.toCreatePoll(timelineId)
-                    )
+                    navigateToCreatePoll(timelineId)
                 }
 
                 override fun onCreatePost() {
@@ -232,6 +230,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         )
     }
 
+    override fun onEditPollClicked(roomId: String, eventId: String) {
+        navigateToCreatePoll(roomId, eventId)
+    }
+
     override fun onSendPost(
         roomId: String,
         postContent: CreatePostContent,
@@ -246,6 +248,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     override fun onCreatePoll(roomId: String, pollContent: CreatePollContent) {
         viewModel.createPoll(roomId, pollContent)
+    }
+
+    override fun onEditPoll(roomId: String, eventId: String, pollContent: CreatePollContent) {
+        viewModel.editPoll(roomId, eventId, pollContent)
     }
 
     override fun onEmojiSelected(roomId: String, eventId: String, emoji: String) {
@@ -277,6 +283,12 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     ) {
         findNavController().navigate(
             TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId, isEdit)
+        )
+    }
+
+    private fun navigateToCreatePoll(roomId: String, eventId: String? = null) {
+        findNavController().navigate(
+            TimelineFragmentDirections.toCreatePoll(roomId, eventId)
         )
     }
 

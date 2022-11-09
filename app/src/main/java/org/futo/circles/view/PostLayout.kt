@@ -31,6 +31,7 @@ interface PostOptionsListener {
     fun onEmojiChipClicked(roomId: String, eventId: String, emoji: String, isUnSend: Boolean)
     fun onPollOptionSelected(roomId: String, eventId: String, optionId: String)
     fun endPoll(roomId: String, eventId: String)
+    fun onEditPollClicked(roomId: String, eventId: String)
 }
 
 class PostLayout(

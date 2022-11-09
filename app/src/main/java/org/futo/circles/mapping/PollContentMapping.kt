@@ -10,9 +10,10 @@ import org.matrix.android.sdk.api.session.room.model.message.PollAnswer
 import org.matrix.android.sdk.api.session.room.model.message.PollType
 import org.matrix.android.sdk.api.session.room.send.SendState
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
+import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 
 fun TimelineEvent.toPollContent(): PollContent {
-    val pollContent = root.getClearContent().toModel<MessagePollContent>()
+    val pollContent = getLastMessageContent() as? MessagePollContent
     val pollCreationInfo = pollContent?.getBestPollCreationInfo()
     val pollResponseData = this.annotations?.pollResponseSummary?.let {
         PollResponseData(
