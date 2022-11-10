@@ -17,6 +17,7 @@ class SettingsViewModel(
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToMatrixChangePasswordEvent = SingleEventLiveData<Unit>()
     val changePasswordResponseLiveData = SingleEventLiveData<Response<Unit?>>()
+    val clearCacheLiveData = SingleEventLiveData<Unit>()
 
     fun logOut() {
         launchBg { logOutLiveData.postValue(settingsDataSource.logOut()) }
@@ -41,5 +42,10 @@ class SettingsViewModel(
     private suspend fun createNewBackupInNeeded() {
         val createBackupResult = settingsDataSource.createNewBackupIfNeeded()
         changePasswordResponseLiveData.postValue(createBackupResult)
+    }
+
+    fun clearCash() {
+        launchBg { settingsDataSource.clearCache() }
+        clearCacheLiveData.postValue(Unit)
     }
 }

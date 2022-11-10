@@ -124,6 +124,21 @@
                 android:background="@color/divider_color" />
 
             <TextView
+                android:id="@+id/tvClearCache"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_cache_and_reload"
+                app:drawableStartCompat="@drawable/ic_reload" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginHorizontal="8dp"
+                android:background="@color/divider_color" />
+
+            <TextView
                 android:id="@+id/tvLogout"
                 style="@style/settingMenuItem"
                 android:layout_width="match_parent"

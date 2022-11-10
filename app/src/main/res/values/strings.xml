@@ -303,6 +303,7 @@
     <string name="edit_post">Edit post</string>
     <string name="edited_label">(Edited)</string>
     <string name="edit_poll">Edit poll</string>
+    <string name="clear_cache_and_reload">Clear cache and reload</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
