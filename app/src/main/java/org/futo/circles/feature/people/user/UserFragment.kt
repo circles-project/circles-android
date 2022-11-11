@@ -45,9 +45,7 @@ class UserFragment : Fragment(R.layout.fragment_user) {
 
 
     private fun setupObservers() {
-        viewModel.userLiveData.observeData(this) {
-            it.getOrNull()?.let { user -> setupUserInfo(user) }
-        }
+        viewModel.userLiveData.observeData(this) { setupUserInfo(it) }
         viewModel.usersCirclesLiveData?.observeData(this) {
             usersCirclesAdapter.submitList(it)
             binding.tvEmptyCirclesList.setIsVisible(it.isEmpty())

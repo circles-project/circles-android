@@ -3,9 +3,10 @@ package org.futo.circles.feature.room.select_users
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import org.futo.circles.core.DEFAULT_USER_PREFIX
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.extensions.getKnownUsersLive
+import org.futo.circles.extensions.getUserIdsToExclude
 import org.futo.circles.mapping.toUserListItem
 import org.futo.circles.model.HeaderItem
 import org.futo.circles.model.InviteMemberListItem
@@ -21,10 +22,7 @@ class SelectUsersDataSource(roomId: String?) {
     private val room = session?.getRoom(roomId ?: "")
 
     private val existingMembersIds = mutableListOf<String>().apply {
-        session?.myUserId?.let {
-            add(it)
-            add(DEFAULT_USER_PREFIX + it.substringAfter(":"))
-        }
+        addAll(session?.getUserIdsToExclude() ?: emptySet())
         room?.roomSummary()?.otherMemberIds?.let { addAll(it) }
     }.toSet()
 
@@ -41,7 +39,7 @@ class SelectUsersDataSource(roomId: String?) {
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
 
-    private fun searchKnownUsers(query: String) = session?.userService()?.getUsersLive()?.asFlow()
+    private fun searchKnownUsers(query: String) = session?.getKnownUsersLive()?.asFlow()
         ?.map { list ->
             list.filterNot { user -> existingMembersIds.contains(user.userId) }
                 .filter { user ->
