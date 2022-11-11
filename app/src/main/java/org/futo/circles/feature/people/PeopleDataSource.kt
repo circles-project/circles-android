@@ -1,32 +1,28 @@
 package org.futo.circles.feature.people
 
 import androidx.lifecycle.asFlow
-import org.futo.circles.core.DEFAULT_USER_PREFIX
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import org.futo.circles.extensions.getKnownUsersLive
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
 import org.futo.circles.provider.MatrixSessionProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
 import org.matrix.android.sdk.api.session.user.model.User
 
 class PeopleDataSource {
 
     private val session = MatrixSessionProvider.currentSession
 
-    private val excludeUserIds = mutableListOf(
-        session?.myUserId ?: "",
-        DEFAULT_USER_PREFIX + session?.myUserId?.substringAfter(":")
-    ).toSet()
-
     fun getPeopleList() = combine(getKnownUsersFlow(), getIgnoredUserFlow())
     { knowUsers, ignoredUsers ->
         buildList(knowUsers, ignoredUsers)
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
-    private fun getKnownUsersFlow() = session?.userService()?.getUsersLive()?.asFlow()
-        ?.map { list -> list.filterNot { user -> excludeUserIds.contains(user.userId) } }
-        ?: flowOf()
+    private fun getKnownUsersFlow() = session?.getKnownUsersLive()?.asFlow() ?: flowOf()
 
     private fun getIgnoredUserFlow() =
         session?.userService()?.getIgnoredUsersLive()?.asFlow() ?: flowOf()
