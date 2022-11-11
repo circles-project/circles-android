@@ -25,7 +25,7 @@ class SendMessageDataSource(private val context: Context) {
         val roomForMessage = session?.getRoom(roomId) ?: return
         val event = roomForMessage.getTimelineEvent(eventId) ?: return
         roomForMessage.relationService()
-            .editTextMessage(event, MessageType.MSGTYPE_TEXT, message, false)
+            .editTextMessage(event, MessageType.MSGTYPE_TEXT, message, null, false)
     }
 
     fun sendMedia(roomId: String, uri: Uri, threadEventId: String?, type: MediaType) {

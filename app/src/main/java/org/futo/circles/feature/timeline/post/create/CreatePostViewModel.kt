@@ -24,6 +24,6 @@ class CreatePostViewModel(
         val session = MatrixSessionProvider.currentSession
         val room = session?.getRoom(roomId) ?: return
         val event = room.getTimelineEvent(eventId) ?: return
-        textToEditLiveData.postValue(event.getTextEditableContent())
+        textToEditLiveData.postValue(event.getTextEditableContent(false))
     }
 }
