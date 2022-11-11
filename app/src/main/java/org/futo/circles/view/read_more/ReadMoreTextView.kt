@@ -129,20 +129,7 @@ class ReadMoreTextView @JvmOverloads constructor(
                             readMoreTextColor,
                             null
                         )
-                        val clickSpan = object : ClickableSpan() {
-                            override fun onClick(widget: View) {
-                                toggle()
-                            }
-
-                            override fun updateDrawState(ds: TextPaint) {
-                                ds.isUnderlineText = false
-                            }
-
-                        }
-                        val spans = listOfNotNull(
-                            textAppearanceSpan,
-                            clickSpan
-                        )
+                        val spans = listOfNotNull(textAppearanceSpan)
                         val readMoreTextWithStyle = buildReadMoreText(spans = spans.toTypedArray())
                         val readMorePaint = TextPaint().apply {
                             set(paint)
