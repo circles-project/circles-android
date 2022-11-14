@@ -33,7 +33,7 @@ fun Uri.getFilename(context: Context): String? {
 
 fun Uri.toImageContentAttachmentData(context: Context): ContentAttachmentData? {
     val attachmentInfo = getMediaAttachmentInfo(context) ?: return null
-    val resolution = ImageUtils.getImageResolution(this)
+    val resolution = ImageUtils.getImageResolution(context, this)
     val orientation = ImageUtils.getOrientation(context, this)
     return ContentAttachmentData(
         mimeType = attachmentInfo.mimeType,

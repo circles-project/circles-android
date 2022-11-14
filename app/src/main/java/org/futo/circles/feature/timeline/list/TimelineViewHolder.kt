@@ -1,5 +1,8 @@
 package org.futo.circles.feature.timeline.list
 
+import android.annotation.SuppressLint
+import android.text.method.LinkMovementMethod
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
@@ -14,6 +17,7 @@ import org.futo.circles.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.model.*
 import org.futo.circles.view.PostLayout
 import org.futo.circles.view.PostOptionsListener
+
 
 sealed class PostViewHolder(view: View, private val userPowerLevel: Int) :
     RecyclerView.ViewHolder(view) {
@@ -42,6 +46,18 @@ class TextPostViewHolder(
 
     init {
         binding.lTextPost.setListener(postOptionsListener)
+        handleTextClick()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun handleTextClick() {
+        binding.tvContent.apply {
+            movementMethod = LinkMovementMethod.getInstance()
+            setOnTouchListener { v, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) v.requestFocus()
+                false
+            }
+        }
     }
 
     override fun bind(post: Post) {

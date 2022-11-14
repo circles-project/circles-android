@@ -63,6 +63,11 @@ class PreviewPostView(
         listener = previewPostListener
     }
 
+    fun setText(message: String) {
+        binding.etTextPost.setText(message)
+        setTextContent()
+    }
+
     fun setMedia(contentUri: Uri, mediaType: MediaType) {
         postContent = MediaPostContent(contentUri, mediaType)
         updateContentView()

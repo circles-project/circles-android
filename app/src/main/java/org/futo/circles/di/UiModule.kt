@@ -47,6 +47,8 @@ import org.futo.circles.feature.sign_up.username.UsernameViewModel
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailViewModel
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
+import org.futo.circles.feature.timeline.poll.CreatePollViewModel
+import org.futo.circles.feature.timeline.post.create.CreatePostViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.PasswordModeArg
@@ -152,4 +154,8 @@ val uiModule = module {
     viewModel { ReAuthStageViewModel(get()) }
     viewModel { UsernameViewModel(get()) }
     viewModel { (deviceId: String) -> VerifySessionViewModel(deviceId, get()) }
+    viewModel { (roomId: String, eventId: String?, isEdit: Boolean) ->
+        CreatePostViewModel(roomId, eventId, isEdit)
+    }
+    viewModel { (roomId: String, eventId: String?) -> CreatePollViewModel(roomId, eventId) }
 }

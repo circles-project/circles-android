@@ -8,21 +8,22 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import org.futo.circles.R
-import org.futo.circles.databinding.ViewGroupPostFooterBinding
+import org.futo.circles.databinding.ViewPostFooterBinding
 import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.Post
 import org.futo.circles.model.ReactionsData
 import org.futo.circles.model.RootPost
 
 
-class GroupPostFooterView(
+class PostFooterView(
     context: Context,
     attrs: AttributeSet? = null,
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =
-        ViewGroupPostFooterBinding.inflate(LayoutInflater.from(context), this)
+        ViewPostFooterBinding.inflate(LayoutInflater.from(context), this)
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
@@ -38,7 +39,7 @@ class GroupPostFooterView(
                     optionsListener?.onReply(
                         it.postInfo.roomId,
                         it.id,
-                        it.postInfo.sender.disambiguatedDisplayName
+                        it.postInfo.sender.notEmptyDisplayName()
                     )
                 }
             }

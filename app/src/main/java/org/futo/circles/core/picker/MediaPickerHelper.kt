@@ -1,5 +1,6 @@
 package org.futo.circles.core.picker
 
+import android.content.ActivityNotFoundException
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -10,7 +11,6 @@ import org.futo.circles.core.utils.FileUtils.createVideoFile
 import org.futo.circles.extensions.getUri
 import org.futo.circles.extensions.showError
 import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage
-import java.io.IOException
 
 
 class MediaPickerHelper(
@@ -27,7 +27,8 @@ class MediaPickerHelper(
 
     private val photoIntentLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.TakePicture())
-        {
+        { success ->
+            if (!success) return@registerForActivityResult
             cameraUri?.let {
                 onImageSelected?.invoke(itemId, it)
             } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
@@ -35,7 +36,8 @@ class MediaPickerHelper(
 
     private val videoIntentLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.CaptureVideo())
-        {
+        { success ->
+            if (!success) return@registerForActivityResult
             cameraUri?.let {
                 onVideoSelected?.invoke(it)
             } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
@@ -93,7 +95,11 @@ class MediaPickerHelper(
     private fun dispatchDevicePickerIntent() {
         val mimeTypes = mutableListOf("image/*")
         if (allMediaTypeAvailable) mimeTypes.add("video/*")
-        deviceIntentLauncher.launch(mimeTypes.joinToString(";"))
+        try {
+            deviceIntentLauncher.launch(mimeTypes.joinToString(";"))
+        } catch (e: Exception) {
+            handleException(e)
+        }
     }
 
     private fun handlePickerFragmentResult(key: String, bundle: Bundle) {
@@ -122,8 +128,17 @@ class MediaPickerHelper(
                     videoFileUri
                 }
             }
-        } catch (ignore: IOException) {
+        } catch (e: Exception) {
+            handleException(e)
         }
+    }
+
+    private fun handleException(e: Exception) {
+        val message = when (e) {
+            is ActivityNotFoundException -> fragment.getString(R.string.no_application_found_for_action)
+            else -> e.message ?: fragment.getString(R.string.unexpected_error)
+        }
+        fragment.showError(message)
     }
 
 

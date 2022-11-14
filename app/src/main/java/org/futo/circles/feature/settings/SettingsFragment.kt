@@ -38,6 +38,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvDeactivate.setOnClickListener { showDeactivateAccountDialog() }
             tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigateToSystemNotices() }
+            tvClearCache.setOnClickListener { viewModel.clearCash() }
         }
     }
 
@@ -74,6 +75,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
+        }
+        viewModel.clearCacheLiveData.observeData(this) {
+            (activity as? MainActivity)?.restartForClearCache()
         }
     }
 

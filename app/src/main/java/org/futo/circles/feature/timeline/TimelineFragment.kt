@@ -20,7 +20,7 @@ import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.feature.timeline.list.PostViewHolder
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
-import org.futo.circles.feature.timeline.post.CreatePostListener
+import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.CreatePollContent
@@ -101,9 +101,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             bindToRecyclerView(binding.rvTimeline)
             setListener(object : CreatePostMenuListener {
                 override fun onCreatePoll() {
-                    findNavController().navigate(
-                        TimelineFragmentDirections.toCreatePoll(timelineId)
-                    )
+                    navigateToCreatePoll(timelineId)
                 }
 
                 override fun onCreatePost() {
@@ -195,6 +193,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.saveToDevice(content)
     }
 
+    override fun onEditPostClicked(roomId: String, eventId: String) {
+        navigateToCreatePost(roomId, eventId = eventId, isEdit = true)
+    }
+
     override fun onSaveToGallery(roomId: String, eventId: String) {
         findNavController().navigate(
             TimelineFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
@@ -228,6 +230,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         )
     }
 
+    override fun onEditPollClicked(roomId: String, eventId: String) {
+        navigateToCreatePoll(roomId, eventId)
+    }
+
     override fun onSendPost(
         roomId: String,
         postContent: CreatePostContent,
@@ -236,8 +242,16 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.sendPost(roomId, postContent, threadEventId)
     }
 
+    override fun onEditTextPost(roomId: String, newMessage: String, eventId: String) {
+        viewModel.editTextPost(eventId, roomId, newMessage)
+    }
+
     override fun onCreatePoll(roomId: String, pollContent: CreatePollContent) {
         viewModel.createPoll(roomId, pollContent)
+    }
+
+    override fun onEditPoll(roomId: String, eventId: String, pollContent: CreatePollContent) {
+        viewModel.editPoll(roomId, eventId, pollContent)
     }
 
     override fun onEmojiSelected(roomId: String, eventId: String, emoji: String) {
@@ -264,10 +278,17 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     private fun navigateToCreatePost(
         roomId: String,
         userName: String? = null,
-        eventId: String? = null
+        eventId: String? = null,
+        isEdit: Boolean = false
     ) {
         findNavController().navigate(
-            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId)
+            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId, isEdit)
+        )
+    }
+
+    private fun navigateToCreatePoll(roomId: String, eventId: String? = null) {
+        findNavController().navigate(
+            TimelineFragmentDirections.toCreatePoll(roomId, eventId)
         )
     }
 

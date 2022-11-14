@@ -5,10 +5,10 @@ import androidx.lifecycle.map
 import org.futo.circles.R
 import org.futo.circles.extensions.getRoomOwners
 import org.futo.circles.mapping.toJoinedCircleListItem
-import org.futo.circles.model.CIRCLE_TAG
 import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.TIMELINE_TYPE
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
@@ -24,7 +24,9 @@ class UserDataSource(
         )
     }
 
-    val userLiveData = session.userService().getUserLive(userId)
+    val userLiveData = session.userService().getUserLive(userId).map {
+        it.getOrNull() ?: session.getUserOrDefault(userId)
+    }
 
     val userCirclesLiveData =
         MatrixSessionProvider.currentSession?.roomService()

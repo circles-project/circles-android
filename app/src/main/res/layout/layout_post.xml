@@ -52,7 +52,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="8dp" />
 
-            <org.futo.circles.view.GroupPostHeaderView
+            <org.futo.circles.view.PostHeaderView
                 android:id="@+id/postHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -72,16 +72,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/postHeader" />
 
+            <TextView
+                android:id="@+id/tvEditedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="@string/edited_label"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintTop_toBottomOf="@id/lvContent"
+                tools:visibility="visible" />
 
-            <org.futo.circles.view.GroupPostFooterView
+            <org.futo.circles.view.PostFooterView
                 android:id="@+id/postFooter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                app:layout_constraintTop_toBottomOf="@id/lvContent" />
+                app:layout_constraintTop_toBottomOf="@id/tvEditedLabel"
+                app:layout_goneMarginTop="8dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

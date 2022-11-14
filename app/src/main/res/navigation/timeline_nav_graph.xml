@@ -80,6 +80,12 @@
                 app:argType="string"
                 app:nullable="true" />
 
+            <argument
+                android:name="isEdit"
+                android:defaultValue="false"
+                app:argType="boolean"
+                app:nullable="false" />
+
         </action>
         <action
             android:id="@+id/to_createPoll"
@@ -89,6 +95,11 @@
                 android:name="roomId"
                 app:argType="string"
                 app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
 
         </action>
         <action
@@ -255,7 +266,7 @@
     </dialog>
     <dialog
         android:id="@+id/createPostBottomSheet"
-        android:name="org.futo.circles.feature.timeline.post.CreatePostDialogFragment"
+        android:name="org.futo.circles.feature.timeline.post.create.CreatePostDialogFragment"
         android:label="CreatePostBottomSheet"
         tools:layout="@layout/dialog_fragment_create_post">
 
@@ -273,6 +284,11 @@
             android:name="eventId"
             app:argType="string"
             app:nullable="true" />
+
+        <argument
+            android:name="isEdit"
+            app:argType="boolean"
+            app:nullable="false" />
 
     </dialog>
     <dialog
@@ -362,6 +378,11 @@
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="true" />
 
     </dialog>
 </navigation>

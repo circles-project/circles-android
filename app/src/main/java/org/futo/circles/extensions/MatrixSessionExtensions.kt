@@ -1,12 +1,18 @@
 package org.futo.circles.extensions
 
 import android.util.Size
-import org.futo.circles.provider.MatrixSessionProvider
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import org.futo.circles.core.DEFAULT_USER_PREFIX
+import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
+import org.matrix.android.sdk.api.session.getUserOrDefault
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import org.matrix.android.sdk.api.session.user.model.User
 
 private val sessionCoroutineScopes = HashMap<String, CoroutineScope>(1)
 
@@ -35,3 +41,18 @@ fun Session.resolveUrl(
         resolver?.resolveFullSize(url)
     }
 }
+
+fun Session.getUserIdsToExclude() = mutableListOf(
+    myUserId,
+    DEFAULT_USER_PREFIX + myUserId.substringAfter(":")
+).toSet()
+
+fun Session.getKnownUsersLive(): LiveData<List<User>> =
+    roomService().getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
+        .map { roomSummaries ->
+            val knowUsers = mutableSetOf<User>()
+            roomSummaries.forEach { summary ->
+                summary.otherMemberIds.forEach { knowUsers.add(getUserOrDefault(it)) }
+            }
+            knowUsers.toList().filterNot { getUserIdsToExclude().contains(it.userId) }
+        }

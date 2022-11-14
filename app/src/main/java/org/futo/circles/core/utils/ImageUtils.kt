@@ -5,14 +5,17 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Size
 import androidx.exifinterface.media.ExifInterface
-import java.io.File
 
 object ImageUtils {
 
-    fun getImageResolution(uri: Uri): Size {
+    fun getImageResolution(context: Context, uri: Uri): Size {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(uri.path?.let { File(it).absolutePath }, options)
+        BitmapFactory.decodeStream(
+            context.contentResolver.openInputStream(uri),
+            null,
+            options
+        )
         return Size(options.outWidth, options.outHeight)
     }
 

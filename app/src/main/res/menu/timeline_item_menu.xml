@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/edit"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/edit" />
+
+    <item
         android:id="@+id/save_to_device"
         android:icon="@drawable/ic_download"
         android:title="@string/save_to_device" />
@@ -10,6 +15,11 @@
         android:id="@+id/save_to_gallery"
         android:icon="@drawable/ic_cloud_download"
         android:title="@string/save_to_gallery" />
+
+    <item
+        android:id="@+id/edit_poll"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/edit_poll" />
 
     <item
         android:id="@+id/end_poll"
