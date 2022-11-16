@@ -31,6 +31,13 @@ android {
             buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
             buildConfigField "String", "EU_SERVER_DOMAIN", "\"nl.circles-dev.net\""
         }
+        stage {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['release']
+            buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
+            buildConfigField "String", "EU_SERVER_DOMAIN", "\"nl.circles-dev.net\""
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
