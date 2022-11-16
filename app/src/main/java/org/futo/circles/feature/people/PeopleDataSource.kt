@@ -11,6 +11,8 @@ import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 
 class PeopleDataSource {
@@ -21,6 +23,12 @@ class PeopleDataSource {
     { knowUsers, ignoredUsers ->
         buildList(knowUsers, ignoredUsers)
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
+
+    suspend fun loadAllRoomMembersIfNeeded(){
+        session?.roomService()?.getRoomSummaries(roomSummaryQueryParams())?.forEach {
+            session.getRoom(it.roomId)?.membershipService()?.loadRoomMembersIfNeeded()
+        }
+    }
 
     private fun getKnownUsersFlow() = session?.getKnownUsersLive()?.asFlow() ?: flowOf()
 
