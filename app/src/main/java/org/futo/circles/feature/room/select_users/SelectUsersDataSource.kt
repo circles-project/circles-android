@@ -3,10 +3,7 @@ package org.futo.circles.feature.room.select_users
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.getKnownUsersLive
-import org.futo.circles.extensions.getUserIdsToExclude
+import org.futo.circles.extensions.*
 import org.futo.circles.mapping.toUserListItem
 import org.futo.circles.model.HeaderItem
 import org.futo.circles.model.InviteMemberListItem
@@ -40,34 +37,47 @@ class SelectUsersDataSource(roomId: String?) {
 
 
     private fun searchKnownUsers(query: String) = session?.getKnownUsersLive()?.asFlow()
-        ?.map { list ->
-            list.filterNot { user -> existingMembersIds.contains(user.userId) }
-                .filter { user ->
-                    (user.displayName?.contains(query, true) ?: false
-                            || user.userId.contains(query, true))
-                            && existingMembersIds.contains(user.userId).not()
-                }
+        ?.map {
+            it.filter { user ->
+                val containsInName = user.displayName?.contains(query, true) ?: false
+                val containsInId = user.userId.contains(query, true)
+                val notInExistingMembers = existingMembersIds.contains(user.userId).not()
+                (containsInName || containsInId) && notInExistingMembers
+            }
         } ?: flowOf()
 
 
     private suspend fun searchSuggestions(query: String): Flow<List<User>> = flow {
-        val users = session?.userService()
-            ?.searchUsersDirectory(query, MAX_SUGGESTION_COUNT, existingMembersIds)?.toMutableList()
-            ?: mutableListOf()
-
-        val user = searchUserById(query)
-        val list =
-            user?.let {
-                if (users.firstOrNull { it.userId == user.userId } != null) users
-                else mutableListOf(user).apply { addAll(users) }
-            } ?: users
-
-        emit(list)
+        val userFromDirectory = searchInUsersDirectory(query)
+        val userById = searchUserById(query)
+        val list = userFromDirectory.toMutableList().apply { userById?.let { add(it) } }
+        emit(list.distinctBy { it.userId })
     }
 
-    private suspend fun searchUserById(userId: String) = (createResult {
-        session?.userService()?.resolveUser(userId)
+    private suspend fun searchUserById(query: String) = (createResult {
+        session?.userService()?.resolveUser(convertQueryToUserId(query))
     } as? Response.Success)?.data
+
+    private suspend fun searchInUsersDirectory(query: String): List<User> {
+        val usersByQuery = launchDirectorySearch(query)
+        val usersById = launchDirectorySearch(convertQueryToUserId(query))
+        return mutableListOf<User>().apply {
+            addAll(usersByQuery)
+            addAll(usersById)
+        }
+    }
+
+    private suspend fun launchDirectorySearch(query: String) = session?.userService()
+        ?.searchUsersDirectory(query, MAX_SUGGESTION_COUNT, existingMembersIds)?.toMutableList()
+        ?: mutableListOf()
+
+    private fun convertQueryToUserId(query: String): String {
+        var userId: String? = null
+        if (!query.startsWith("@")) userId = "@$query"
+        val domain = session?.getServerDomain() ?: ""
+        if (!query.contains(":")) userId += ":$domain"
+        return userId ?: query
+    }
 
     private fun buildList(
         knowUsers: List<User>,
@@ -91,7 +101,6 @@ class SelectUsersDataSource(roomId: String?) {
                 suggestion.toUserListItem(selectedUsers.containsWithId(suggestion.userId))
             })
         }
-
         if (list.isEmpty()) list.add(NoResultsItem())
         return list
     }
