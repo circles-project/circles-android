@@ -44,8 +44,10 @@ fun Session.resolveUrl(
 
 fun Session.getUserIdsToExclude() = mutableListOf(
     myUserId,
-    DEFAULT_USER_PREFIX + myUserId.substringAfter(":")
+    DEFAULT_USER_PREFIX + getServerDomain()
 ).toSet()
+
+fun Session.getServerDomain() = myUserId.substringAfter(":")
 
 fun Session.getKnownUsersLive(): LiveData<List<User>> =
     roomService().getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
