@@ -7,18 +7,28 @@ import org.futo.circles.extensions.toImageContentAttachmentData
 import org.futo.circles.extensions.toVideoContentAttachmentData
 import org.futo.circles.model.CreatePollContent
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.content.ContentAttachmentData
 import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
+import org.matrix.android.sdk.api.session.room.model.relation.RelationDefaultContent
+import org.matrix.android.sdk.api.session.room.model.relation.ReplyToContent
 
 class SendMessageDataSource(private val context: Context) {
 
     private val session = MatrixSessionProvider.currentSession
 
     fun sendTextMessage(roomId: String, message: String, threadEventId: String?) {
-        val roomForMessage = session?.getRoom(roomId)
-        threadEventId?.let { roomForMessage?.relationService()?.replyInThread(it, message) }
-            ?: roomForMessage?.sendService()?.sendTextMessage(message)
+        val roomForMessage = session?.getRoom(roomId) ?: return
+        threadEventId?.let {
+            sendTextReply(roomForMessage, threadEventId, message)
+        } ?: roomForMessage.sendService().sendTextMessage(message)
+    }
+
+    private fun sendTextReply(roomForMessage: Room, threadEventId: String, message: String) {
+        val event = roomForMessage.getTimelineEvent(threadEventId) ?: return
+        roomForMessage.relationService().replyToMessage(event, message)
     }
 
     fun editTextMessage(eventId: String, roomId: String, message: String) {
@@ -29,15 +39,26 @@ class SendMessageDataSource(private val context: Context) {
     }
 
     fun sendMedia(roomId: String, uri: Uri, threadEventId: String?, type: MediaType) {
-        val roomForMessage = session?.getRoom(roomId)
+        val roomForMessage = session?.getRoom(roomId) ?: return
         val content = when (type) {
             MediaType.Image -> uri.toImageContentAttachmentData(context)
             MediaType.Video -> uri.toVideoContentAttachmentData(context)
-        }
-        content?.let {
-            val shouldCompress = it.mimeType != WEBP_MIME_TYPE
-            roomForMessage?.sendService()?.sendMedia(it, shouldCompress, emptySet(), threadEventId)
-        }
+        } ?: return
+        val shouldCompress = content.mimeType != WEBP_MIME_TYPE
+        threadEventId?.let {
+            sendMediaReply(roomForMessage, content, shouldCompress, it)
+        } ?: roomForMessage.sendService().sendMedia(content, shouldCompress, emptySet())
+    }
+
+    private fun sendMediaReply(
+        roomForMessage: Room,
+        content: ContentAttachmentData,
+        shouldCompress: Boolean,
+        threadEventId: String
+    ) {
+        val replyToContent = RelationDefaultContent(null, null, ReplyToContent(threadEventId))
+        roomForMessage.sendService()
+            .sendMedia(content, shouldCompress, emptySet(), null, replyToContent)
     }
 
     fun createPoll(roomId: String, pollContent: CreatePollContent) {
