@@ -11,6 +11,7 @@ import org.futo.circles.model.NoResultsItem
 import org.futo.circles.model.UserListItem
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 
 class SelectUsersDataSource(roomId: String?) {
@@ -24,6 +25,12 @@ class SelectUsersDataSource(roomId: String?) {
     }.toSet()
 
     val selectedUsersFlow = MutableStateFlow<List<UserListItem>>(emptyList())
+
+    suspend fun loadAllRoomMembersIfNeeded(){
+        session?.roomService()?.getRoomSummaries(roomSummaryQueryParams())?.forEach {
+            session.getRoom(it.roomId)?.membershipService()?.loadRoomMembersIfNeeded()
+        }
+    }
 
     suspend fun search(query: String) =
         combine(
