@@ -3,6 +3,7 @@ package org.futo.circles.mapping
 import org.futo.circles.extensions.getTimelineRoomFor
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
@@ -19,7 +20,8 @@ fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     topic = topic,
     isEncrypted = isEncrypted,
     membersCount = joinedMembersCount ?: 0,
-    timestamp = latestPreviewableEvent?.root?.originServerTs ?: System.currentTimeMillis()
+    timestamp = latestPreviewableEvent?.root?.originServerTs ?: System.currentTimeMillis(),
+    unreadCount = notificationCount
 )
 
 fun RoomSummary.toInviteGroupListItem() = InvitedGroupListItem(
@@ -34,6 +36,7 @@ fun RoomSummary.toJoinedCircleListItem() = JoinedCircleListItem(
     info = toRoomInfo(),
     followingCount = spaceChildren?.size?.takeIf { it != 0 }?.minus(1) ?: 0,
     followedByCount = getFollowersCount(),
+    unreadCount = getCircleUnreadMessagesCount()
 )
 
 fun RoomSummary.toInviteCircleListItem() = InvitedCircleListItem(
@@ -53,9 +56,20 @@ fun RoomSummary.toSelectableRoomListItem(selected: Boolean = false) = Selectable
     isSelected = selected
 )
 
-fun RoomSummary.getFollowersCount(): Int =
+private fun RoomSummary.getFollowersCount(): Int =
     getTimelineRoomFor(roomId)?.roomSummary()?.otherMemberIds?.size ?: 0
 
-fun RoomSummary.getInviterName() =
+private fun RoomSummary.getInviterName() =
     MatrixSessionProvider.currentSession?.getUserOrDefault(inviterId ?: "")?.notEmptyDisplayName()
         ?: ""
+
+private fun RoomSummary.getCircleUnreadMessagesCount(): Int {
+    var unreadInCircle = 0
+    spaceChildren?.forEach {
+        val unreadInChildRoom =
+            MatrixSessionProvider.currentSession?.getRoomSummary(it.childRoomId)?.notificationCount
+                ?: 0
+        unreadInCircle += unreadInChildRoom
+    }
+    return unreadInCircle
+}
