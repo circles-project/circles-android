@@ -103,7 +103,7 @@ class TimelineViewModel(
         launchBg { deleteCircleLiveData.postValue(leaveRoomDataSource.deleteCircle()) }
     }
 
-    fun isSingleOwner(): Boolean = leaveRoomDataSource.isUserSingleRoomOwner()
+    fun canLeaveRoom(): Boolean = leaveRoomDataSource.canLeaveRoom()
 
     fun pollVote(roomId: String, eventId: String, optionId: String) {
         postOptionsDataSource.pollVote(roomId, eventId, optionId)

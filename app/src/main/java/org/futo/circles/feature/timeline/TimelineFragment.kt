@@ -317,18 +317,18 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     private fun showLeaveGroupDialog() {
-        if (viewModel.isSingleOwner()) {
-            showDialog(
-                titleResIdRes = R.string.leave_group,
-                messageResId = R.string.select_another_admin_message
-            )
-        } else {
+        if (viewModel.canLeaveRoom()) {
             showDialog(
                 titleResIdRes = R.string.leave_group,
                 messageResId = R.string.leave_group_message,
                 positiveButtonRes = R.string.leave,
                 negativeButtonVisible = true,
                 positiveAction = { viewModel.leaveGroup() }
+            )
+        } else {
+            showDialog(
+                titleResIdRes = R.string.leave_group,
+                messageResId = R.string.select_another_admin_message
             )
         }
     }
