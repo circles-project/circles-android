@@ -1,13 +1,10 @@
 package org.futo.circles.feature.settings
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.amulyakhare.textdrawable.TextDrawable
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
@@ -57,8 +54,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             error = { showError(getString(R.string.invalid_auth)) }
         )
         systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
-            val count = it ?: 0
-            handleSystemNoticesCount(count)
+            binding.ivNoticesCount.setCount(it ?: 0)
         }
         viewModel.startReAuthEventLiveData.observeData(this) {
             findNavController().navigate(SettingsFragmentDirections.toReAuthStagesDialogFragment())
@@ -105,23 +101,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         findNavController().navigate(
             SettingsFragmentDirections.toSystemNoticesDialogFragment(systemNoticesRoomId)
         )
-    }
-
-    private fun handleSystemNoticesCount(count: Int) {
-        binding.ivNoticesCount.setIsVisible(count > 0)
-        if (count > 0) {
-            binding.ivNoticesCount.setImageDrawable(
-                TextDrawable.Builder()
-                    .setShape(TextDrawable.SHAPE_ROUND_RECT)
-                    .setColor(
-                        ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
-                    )
-                    .setTextColor(Color.WHITE)
-                    .setBold()
-                    .setText(count.toString())
-                    .build()
-            )
-        }
     }
 
     private fun showLogoutDialog() {
