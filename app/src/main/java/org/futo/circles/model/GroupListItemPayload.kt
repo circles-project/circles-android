@@ -5,5 +5,6 @@ data class GroupListItemPayload(
     val isEncrypted: Boolean?,
     val membersCount: Int?,
     val timestamp: Long?,
+    val unreadCount: Int?,
     val needUpdateFullItem: Boolean
 )
