@@ -23,4 +23,8 @@
         <attr name="readMoreTextColor" format="reference|color" />
     </declare-styleable>
     <attr name="readMoreTextViewStyle" format="reference" />
+
+    <declare-styleable name="NotificationCounterView">
+        <attr name="notificationCircleBackground" format="reference|color" />
+    </declare-styleable>
 </resources>

@@ -46,6 +46,7 @@ import org.futo.circles.feature.sign_up.terms.SignupAcceptTermsDataSource
 import org.futo.circles.feature.sign_up.username.UsernameDataSource
 import org.futo.circles.feature.sign_up.validate_email.ValidateEmailDataSource
 import org.futo.circles.feature.sign_up.validate_token.ValidateTokenDataSource
+import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineBuilder
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
@@ -125,4 +126,5 @@ val dataSourceModule = module {
         else LoginBsSpekeDataSource(get(), false, get<LoginStagesDataSource>())
     }
     factory { UsernameDataSource(get()) }
+    factory { ReadMessageDataSource() }
 }
