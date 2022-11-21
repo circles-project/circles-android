@@ -53,6 +53,7 @@ class JoinedGroupViewHolder(
         setTopic(data.topic)
         setMembersCount(data.membersCount)
         setUpdateTime(data.timestamp)
+        setUnreadCount(data.unreadCount)
     }
 
     fun bindPayload(data: GroupListItemPayload) {
@@ -60,6 +61,7 @@ class JoinedGroupViewHolder(
         data.topic?.let { setTopic(it) }
         data.membersCount?.let { setMembersCount(it) }
         data.timestamp?.let { setUpdateTime(it) }
+        data.unreadCount?.let { setUnreadCount(it) }
     }
 
     private fun setTopic(topic: String) {
@@ -82,6 +84,10 @@ class JoinedGroupViewHolder(
                 timestamp, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS
             )
         )
+    }
+
+    private fun setUnreadCount(count: Int) {
+        binding.vNotificationsCount.setCount(count)
     }
 }
 
@@ -131,12 +137,14 @@ class JoinedCircleViewHolder(
             setTitle(tvCircleTitle, data.info.title)
             setFollowingCount(data.followingCount)
             setFollowedByCount(data.followedByCount)
+            setUnreadCount(data.unreadCount)
         }
     }
 
     fun bindPayload(data: CircleListItemPayload) {
-        setFollowingCount(data.followersCount)
-        setFollowedByCount(data.followedByCount)
+        data.followersCount?.let { setFollowingCount(it) }
+        data.followedByCount?.let { setFollowedByCount(it) }
+        data.unreadCount?.let { setUnreadCount(it) }
     }
 
     private fun setFollowingCount(followersCount: Int) {
@@ -145,6 +153,10 @@ class JoinedCircleViewHolder(
 
     private fun setFollowedByCount(followedByCount: Int) {
         binding.tvFollowedBy.text = context.getString(R.string.followed_by_format, followedByCount)
+    }
+
+    private fun setUnreadCount(count: Int) {
+        binding.vNotificationsCount.setCount(count)
     }
 }
 
