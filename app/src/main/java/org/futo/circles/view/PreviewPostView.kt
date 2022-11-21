@@ -90,7 +90,15 @@ class PreviewPostView(
     private fun updateContentView() {
         binding.lVideoContent.root.setIsVisible((postContent as? MediaPostContent)?.mediaType == MediaType.Video)
         binding.lImageContent.root.setIsVisible((postContent as? MediaPostContent)?.mediaType == MediaType.Image)
-        binding.etTextPost.setIsVisible(postContent is TextPostContent || postContent == null)
+        val isTextContent = postContent is TextPostContent || postContent == null
+        binding.etTextPost.apply {
+            setIsVisible(isTextContent)
+            if (isTextContent) post {
+                requestFocus()
+                setSelection(text.length)
+            }
+        }
+
     }
 
     private fun setTextContent() {
