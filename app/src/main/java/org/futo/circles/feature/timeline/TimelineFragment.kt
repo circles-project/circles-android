@@ -48,7 +48,12 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
     private val binding by viewBinding(FragmentTimelineBinding::bind)
     private val listAdapter by lazy {
-        TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
+        TimelineAdapter(
+            getCurrentUserPowerLevel(args.roomId),
+            this,
+            onLoadMore = { viewModel.loadMore() },
+            onRead = { roomId, eventId -> viewModel.markEventAsRead(roomId, eventId) }
+        )
     }
     private var isGroupSettingAvailable = false
     private var isGroupInviteAvailable = false

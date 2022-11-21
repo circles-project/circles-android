@@ -7,6 +7,7 @@ import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.share.ShareableContent
+import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
@@ -18,7 +19,8 @@ class TimelineViewModel(
     private val leaveRoomDataSource: LeaveRoomDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
-    private val userOptionsDataSource: UserOptionsDataSource
+    private val userOptionsDataSource: UserOptionsDataSource,
+    private val readMessageDataSource: ReadMessageDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
     val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
@@ -111,6 +113,10 @@ class TimelineViewModel(
 
     fun endPoll(roomId: String, eventId: String) {
         postOptionsDataSource.endPoll(roomId, eventId)
+    }
+
+    fun markEventAsRead(roomId: String, eventId: String) {
+        launchBg { readMessageDataSource.markAsRead(roomId, eventId) }
     }
 
 }
