@@ -11,8 +11,7 @@ import org.futo.circles.view.PostOptionsListener
 class TimelineAdapter(
     private val userPowerLevel: Int,
     private val postOptionsListener: PostOptionsListener,
-    private val onLoadMore: () -> Unit,
-    private val onRead: (roomId: String, eventId: String) -> Unit
+    private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<Post, PostViewHolder>(PayloadIdEntityCallback { old, new ->
     (new as? RootPost)?.let { rootPost ->
         PostItemPayload(
@@ -47,9 +46,7 @@ class TimelineAdapter(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
-        onRead(item.postInfo.roomId, item.id)
+        holder.bind(getItem(position))
         if (position >= itemCount - LOAD_MORE_THRESHOLD) onLoadMore()
     }
 

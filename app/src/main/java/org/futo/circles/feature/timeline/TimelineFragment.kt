@@ -11,6 +11,8 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.list.BaseRvDecoration
@@ -33,6 +35,7 @@ import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
+
 class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListener,
     CreatePostListener, CreatePollListener, EmojiPickerListener, MenuProvider {
 
@@ -48,12 +51,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
     private val binding by viewBinding(FragmentTimelineBinding::bind)
     private val listAdapter by lazy {
-        TimelineAdapter(
-            getCurrentUserPowerLevel(args.roomId),
-            this,
-            onLoadMore = { viewModel.loadMore() },
-            onRead = { roomId, eventId -> viewModel.markEventAsRead(roomId, eventId) }
-        )
+        TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
     }
     private var isGroupSettingAvailable = false
     private var isGroupInviteAvailable = false
@@ -101,6 +99,14 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             addItemDecoration(
                 BaseRvDecoration.OffsetDecoration<PostViewHolder>(offset = context.dimen(R.dimen.group_post_item_offset))
             )
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val manager = (layoutManager as? LinearLayoutManager) ?: return
+                    val firstVisiblePosition = manager.findFirstVisibleItemPosition()
+                    val lastVisiblePosition = manager.findLastVisibleItemPosition()
+                    viewModel.markEventAsRead(firstVisiblePosition, lastVisiblePosition)
+                }
+            })
         }
         binding.fabMenu.apply {
             bindToRecyclerView(binding.rvTimeline)
