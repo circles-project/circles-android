@@ -17,6 +17,7 @@ import org.futo.circles.model.Post
 import org.futo.circles.model.PostContent
 import org.futo.circles.model.PostItemPayload
 import org.futo.circles.model.ReplyPost
+import org.matrix.android.sdk.api.session.room.send.SendState
 
 
 interface PostOptionsListener {
@@ -75,6 +76,7 @@ class PostLayout(
             payload.isRepliesVisible
         )
         setShadow(payload.readInfo.isReadByMe)
+        setSendStatus(payload.sendState, payload.readInfo.readByCount)
     }
 
     private fun setGeneralMessageData(data: Post, userPowerLevel: Int) {
@@ -84,6 +86,7 @@ class PostLayout(
         binding.postFooter.setData(data, isReply)
         setIsEdited(data.postInfo.isEdited)
         setShadow(data.readInfo.isReadByMe)
+        setSendStatus(data.sendState, data.readInfo.readByCount)
     }
 
     private fun setIsEdited(isEdited: Boolean) {
@@ -98,6 +101,28 @@ class PostLayout(
                 FloatArray(8) { context.convertDpToPixel(4f) },
                 Shadow.Position.CENTER
             )
+    }
+
+    private fun setSendStatus(sendState: SendState, readByCount: Int) {
+        when {
+            sendState.isSending() -> {
+                binding.ivSendStatus.setImageResource(R.drawable.ic_sending)
+                binding.tvReadByCount.text = ""
+            }
+            sendState.hasFailed() -> {
+                binding.ivSendStatus.setImageResource(R.drawable.ic_send_failed)
+                binding.tvReadByCount.text = ""
+            }
+            sendState.isSent() -> {
+                if (readByCount > 0) {
+                    binding.ivSendStatus.setImageResource(R.drawable.ic_seen)
+                    binding.tvReadByCount.text = readByCount.toString()
+                } else {
+                    binding.ivSendStatus.setImageResource(R.drawable.ic_sent)
+                    binding.tvReadByCount.text = ""
+                }
+            }
+        }
     }
 
     override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
