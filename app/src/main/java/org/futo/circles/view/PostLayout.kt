@@ -1,14 +1,17 @@
 package org.futo.circles.view
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.blure.complexview.Shadow
 import org.futo.circles.R
 import org.futo.circles.databinding.LayoutPostBinding
+import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.Post
 import org.futo.circles.model.PostContent
@@ -71,6 +74,7 @@ class PostLayout(
             payload.repliesCount,
             payload.isRepliesVisible
         )
+        setShadow(payload.readInfo.isReadByMe)
     }
 
     private fun setGeneralMessageData(data: Post, userPowerLevel: Int) {
@@ -78,11 +82,26 @@ class PostLayout(
         binding.vReplyMargin.setIsVisible(isReply)
         binding.postHeader.setData(data, userPowerLevel)
         binding.postFooter.setData(data, isReply)
-        binding.tvEditedLabel.setIsVisible(data.postInfo.isEdited)
+        setIsEdited(data.postInfo.isEdited)
+        setShadow(data.readInfo.isReadByMe)
+    }
+
+    private fun setIsEdited(isEdited: Boolean) {
+        binding.tvEditedLabel.setIsVisible(isEdited)
+    }
+
+    private fun setShadow(isReadByMe: Boolean) {
+        val color = if (isReadByMe) "#8E8E93" else "#0E7AFE"
+        binding.lShadow.shadow =
+            Shadow(
+                1, 255, color, GradientDrawable.RECTANGLE,
+                FloatArray(8) { context.convertDpToPixel(4f) },
+                Shadow.Position.CENTER
+            )
     }
 
     override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
-        if (child.id == R.id.postCard || child.id == R.id.vReplyMargin) {
+        if (child.id == R.id.vReplyMargin || child.id == R.id.lShadow) {
             super.addView(child, index, params)
         } else {
             findViewById<FrameLayout>(R.id.lvContent).addView(child, index, params)
