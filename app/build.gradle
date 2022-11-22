@@ -136,6 +136,9 @@ dependencies {
     //Webp animations
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.24.0'
 
+    // Custom shadow
+    implementation 'com.github.BluRe-CN:ComplexView:1.1'
+
     //test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
