@@ -30,7 +30,7 @@ private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
 private fun TimelineEvent.toReadInfo(): PostReadInfo = PostReadInfo(
     isReadByMe = MatrixSessionProvider.currentSession?.getRoom(roomId)?.readService()
         ?.isEventRead(eventId) ?: false,
-    readByCount = readReceipts.size
+    readByCount = readReceipts.size - 1
 )
 
 private fun TimelineEvent.toRootPost(postContentType: PostContentType, isRepliesVisible: Boolean) =
