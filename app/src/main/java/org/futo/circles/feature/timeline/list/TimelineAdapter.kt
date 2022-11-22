@@ -13,14 +13,14 @@ class TimelineAdapter(
     private val postOptionsListener: PostOptionsListener,
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<Post, PostViewHolder>(PayloadIdEntityCallback { old, new ->
-    (new as? RootPost)?.let { rootPost ->
-        PostItemPayload(
-            repliesCount = rootPost.getRepliesCount(),
-            isRepliesVisible = rootPost.isRepliesVisible,
-            hasReplies = rootPost.hasReplies(),
-            needToUpdateFullItem = rootPost.content != old.content || rootPost.postInfo != old.postInfo
-        )
-    }
+    PostItemPayload(
+        repliesCount = (new as? RootPost)?.getRepliesCount() ?: 0,
+        isRepliesVisible = (new as? RootPost)?.isRepliesVisible ?: false,
+        hasReplies = (new as? RootPost)?.hasReplies() ?: false,
+        sendState = new.sendState,
+        readInfo = new.readInfo,
+        needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
+    )
 }) {
 
 
