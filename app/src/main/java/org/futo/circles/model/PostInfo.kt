@@ -1,5 +1,6 @@
 package org.futo.circles.model
 
+import org.matrix.android.sdk.api.session.room.send.SendState
 import org.matrix.android.sdk.api.session.room.sender.SenderInfo
 
 data class PostInfo(
@@ -9,5 +10,8 @@ data class PostInfo(
     val isEncrypted: Boolean,
     val timestamp: Long,
     val reactionsData: List<ReactionsData>,
-    val isEdited: Boolean
+    val isEdited: Boolean,
+    val isReadByMe: Boolean,
+    val sendState: SendState,
+    val readByCount: Int
 )

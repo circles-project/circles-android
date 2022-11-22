@@ -1,6 +1,8 @@
 package org.futo.circles.mapping
 
 import org.futo.circles.model.*
+import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getRelationContent
 import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited
@@ -22,7 +24,11 @@ private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     reactionsData = annotations?.reactionsSummary?.map {
         ReactionsData(it.key, it.count, it.addedByMe)
     } ?: emptyList(),
-    isEdited = hasBeenEdited()
+    isEdited = hasBeenEdited(),
+    isReadByMe = MatrixSessionProvider.currentSession?.getRoom(roomId)?.readService()
+        ?.isEventRead(eventId) ?: false,
+    sendState = root.sendState,
+    readByCount = readReceipts.size
 )
 
 private fun TimelineEvent.toRootPost(postContentType: PostContentType, isRepliesVisible: Boolean) =
