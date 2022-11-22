@@ -75,7 +75,7 @@ class PostLayout(
             payload.repliesCount,
             payload.isRepliesVisible
         )
-        setShadow(payload.readInfo.isReadByMe)
+        setShadow(payload.readInfo.shouldIndicateAsNew)
         setSendStatus(payload.sendState, payload.readInfo.readByCount)
     }
 
@@ -85,7 +85,7 @@ class PostLayout(
         binding.postHeader.setData(data, userPowerLevel)
         binding.postFooter.setData(data, isReply)
         setIsEdited(data.postInfo.isEdited)
-        setShadow(data.readInfo.isReadByMe)
+        setShadow(data.readInfo.shouldIndicateAsNew)
         setSendStatus(data.sendState, data.readInfo.readByCount)
     }
 
@@ -93,8 +93,8 @@ class PostLayout(
         binding.tvEditedLabel.setIsVisible(isEdited)
     }
 
-    private fun setShadow(isReadByMe: Boolean) {
-        val color = if (isReadByMe) "#8E8E93" else "#0E7AFE"
+    private fun setShadow(isNew: Boolean) {
+        val color = if (isNew) "#0E7AFE" else "#8E8E93"
         binding.lShadow.shadow =
             Shadow(
                 1, 255, color, GradientDrawable.RECTANGLE,
