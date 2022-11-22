@@ -1,6 +1,5 @@
 package org.futo.circles.feature.timeline
 
-import android.util.Log
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.async
 import org.futo.circles.core.SingleEventLiveData
@@ -127,6 +126,11 @@ class TimelineViewModel(
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        readMessageDataSource.setReadMarker()
+        super.onCleared()
     }
 
 }
