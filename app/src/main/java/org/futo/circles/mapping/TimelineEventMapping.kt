@@ -24,10 +24,12 @@ private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     reactionsData = annotations?.reactionsSummary?.map {
         ReactionsData(it.key, it.count, it.addedByMe)
     } ?: emptyList(),
-    isEdited = hasBeenEdited(),
+    isEdited = hasBeenEdited()
+)
+
+private fun TimelineEvent.toReadInfo(): PostReadInfo = PostReadInfo(
     isReadByMe = MatrixSessionProvider.currentSession?.getRoom(roomId)?.readService()
         ?.isEventRead(eventId) ?: false,
-    sendState = root.sendState,
     readByCount = readReceipts.size
 )
 
@@ -36,12 +38,16 @@ private fun TimelineEvent.toRootPost(postContentType: PostContentType, isReplies
         postInfo = toPostInfo(),
         content = toPostContent(postContentType),
         isRepliesVisible = isRepliesVisible,
+        sendState = root.sendState,
+        readInfo = toReadInfo()
     )
 
 private fun TimelineEvent.toReplyPost(postContentType: PostContentType) = ReplyPost(
     postInfo = toPostInfo(),
     content = toPostContent(postContentType),
     replyToId = getRelationContent()?.inReplyTo?.eventId ?: "",
+    readInfo = toReadInfo(),
+    sendState = root.sendState
 )
 
 private fun TimelineEvent.toPostContent(postContentType: PostContentType): PostContent =
