@@ -5,7 +5,10 @@ import org.futo.circles.model.Post
 import org.futo.circles.model.PostContentType
 import org.futo.circles.model.ReplyPost
 import org.futo.circles.model.RootPost
+import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 import org.matrix.android.sdk.api.session.room.timeline.isEdition
@@ -16,6 +19,7 @@ class TimelineBuilder {
 
     private var currentList: MutableList<Post> = mutableListOf()
     private var currentSnapshotMap: MutableMap<String, List<TimelineEvent>> = mutableMapOf()
+    private var lastReadEventTime: Long? = null
 
     private val supportedTimelineEvens: List<String> = mutableListOf(EventType.MESSAGE).apply {
         addAll(EventType.POLL_START)
@@ -90,11 +94,24 @@ class TimelineBuilder {
     private fun isRepliesVisibleFor(id: String) = repliesVisibleEvents.contains(id)
 
     private fun transformToPosts(list: List<TimelineEvent>): List<Post> {
+        setCurrentReadReceiptTime(list.firstOrNull()?.roomId ?: "")
         return list.mapNotNull { timelineEvent ->
             getPostContentTypeFor(timelineEvent)?.let { contentType ->
-                timelineEvent.toPost(contentType, isRepliesVisibleFor(timelineEvent.eventId))
+                timelineEvent.toPost(
+                    contentType,
+                    lastReadEventTime ?: 0,
+                    isRepliesVisibleFor(timelineEvent.eventId)
+                )
             }
         }
+    }
+
+    private fun setCurrentReadReceiptTime(roomId: String) {
+        val session = MatrixSessionProvider.currentSession ?: return
+        val room = session.getRoom(roomId) ?: return
+        val readEventId = room.readService().getUserReadReceipt(session.myUserId) ?: return
+        val readEventTime = room.getTimelineEvent(readEventId)?.root?.originServerTs ?: return
+        if (lastReadEventTime == null) lastReadEventTime = readEventTime
     }
 
     private fun getPostContentTypeFor(event: TimelineEvent): PostContentType? {

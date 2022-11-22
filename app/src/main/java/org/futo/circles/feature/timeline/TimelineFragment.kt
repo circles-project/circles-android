@@ -96,9 +96,6 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         binding.rvTimeline.apply {
             adapter = listAdapter
             itemAnimator = null
-            addItemDecoration(
-                BaseRvDecoration.OffsetDecoration<PostViewHolder>(offset = context.dimen(R.dimen.group_post_item_offset))
-            )
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     val manager = (layoutManager as? LinearLayoutManager) ?: return
