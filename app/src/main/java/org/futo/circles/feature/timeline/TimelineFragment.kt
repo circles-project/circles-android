@@ -51,8 +51,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     private val listAdapter by lazy {
         TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
     }
-    private var isGroupSettingAvailable = false
-    private var isGroupInviteAvailable = false
+    private var groupPowerLevelsContent: PowerLevelsContent? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,8 +69,12 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     private fun inflateGroupMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.group_timeline_menu, menu)
-        menu.findItem(R.id.configureGroup).isVisible = isGroupSettingAvailable
-        menu.findItem(R.id.inviteMembers).isVisible = isGroupInviteAvailable
+        menu.findItem(R.id.configureGroup).isVisible =
+            groupPowerLevelsContent?.isCurrentUserAbleToChangeSettings() ?: false
+        menu.findItem(R.id.inviteMembers).isVisible =
+            groupPowerLevelsContent?.isCurrentUserAbleToInvite() ?: false
+        menu.findItem(R.id.deleteGroup).isVisible =
+            groupPowerLevelsContent?.isCurrentUserAdmin() ?: false
     }
 
     private fun inflateCircleMenu(menu: Menu, inflater: MenuInflater) {
@@ -85,7 +88,8 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             R.id.inviteMembers, R.id.inviteFollowers -> navigateToInviteMembers()
             R.id.leaveGroup -> showLeaveGroupDialog()
             R.id.iFollowing -> navigateToFollowing()
-            R.id.deleteCircle -> showDeleteConfirmation()
+            R.id.deleteCircle -> showDeleteCircleConfirmation()
+            R.id.deleteGroup -> showDeleteGroupConfirmation()
         }
         return true
     }
@@ -275,8 +279,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         binding.fabMenu.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
-        isGroupSettingAvailable = powerLevelsContent.isCurrentUserAbleToChangeSettings()
-        isGroupInviteAvailable = powerLevelsContent.isCurrentUserAbleToInvite()
+        groupPowerLevelsContent = powerLevelsContent
         activity?.invalidateOptionsMenu()
     }
 
@@ -343,13 +346,23 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         }
     }
 
-    private fun showDeleteConfirmation() {
+    private fun showDeleteCircleConfirmation() {
         showDialog(
             titleResIdRes = R.string.delete_circle,
             messageResId = R.string.delete_circle_message,
             positiveButtonRes = R.string.delete,
             negativeButtonVisible = true,
             positiveAction = { viewModel.deleteCircle() }
+        )
+    }
+
+    private fun showDeleteGroupConfirmation() {
+        showDialog(
+            titleResIdRes = R.string.delete_group,
+            messageResId = R.string.delete_group_message,
+            positiveButtonRes = R.string.delete,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.deleteGroup() }
         )
     }
 }
