@@ -304,6 +304,10 @@
     <string name="edited_label">(Edited)</string>
     <string name="edit_poll">Edit poll</string>
     <string name="clear_cache_and_reload">Clear cache and reload</string>
+    <string name="other">Other</string>
+    <string name="version_format">Version %s</string>
+    <string name="developer_mode_enabled">Developer mode is enabled</string>
+    <string name="developer_mode_disabled">Developer mode is disabled</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
