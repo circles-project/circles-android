@@ -35,6 +35,15 @@ class LeaveRoomDataSource(
         session?.roomService()?.leaveRoom(roomId)
     }
 
+    suspend fun deleteGroup() = createResult {
+        roomRelationsBuilder.removeFromAllParents(roomId)
+        val group = session?.getRoom(roomId)
+        group?.roomSummary()?.otherMemberIds?.forEach { memberId ->
+            group.membershipService().ban(memberId)
+        }
+        session?.roomService()?.leaveRoom(roomId)
+    }
+
     suspend fun deleteGallery() = createResult {
         roomRelationsBuilder.removeFromAllParents(roomId)
         session?.roomService()?.leaveRoom(roomId)

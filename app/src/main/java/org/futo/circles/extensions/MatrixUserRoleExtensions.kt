@@ -24,6 +24,11 @@ fun PowerLevelsContent.isCurrentUserAbleToPost(): Boolean {
     return PowerLevelsHelper(this).isUserAllowedToSend(userId, false, EventType.MESSAGE)
 }
 
+fun PowerLevelsContent.isCurrentUserAdmin(): Boolean {
+    val userId = MatrixSessionProvider.currentSession?.myUserId ?: return false
+    return PowerLevelsHelper(this).getUserRole(userId) == Role.Admin
+}
+
 fun PowerLevelsContent.isCurrentUserAbleToInvite(): Boolean {
     val userId = MatrixSessionProvider.currentSession?.myUserId ?: return false
     return PowerLevelsHelper(this).isUserAbleToInvite(userId)
@@ -64,7 +69,10 @@ fun PowerLevelsContent.getCurrentUserPowerLevel(): Int {
 fun getPowerLevelContent(roomId: String): PowerLevelsContent? {
     val session = MatrixSessionProvider.currentSession ?: return null
     val room = session.getRoom(roomId) ?: return null
-    return room.getStateEvent(EventType.STATE_ROOM_POWER_LEVELS, QueryStringValue.IsEmpty)?.content.toModel<PowerLevelsContent>()
+    return room.getStateEvent(
+        EventType.STATE_ROOM_POWER_LEVELS,
+        QueryStringValue.IsEmpty
+    )?.content.toModel<PowerLevelsContent>()
 }
 
 fun getCurrentUserPowerLevel(roomId: String): Int {
