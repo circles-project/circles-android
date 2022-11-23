@@ -15,11 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.databinding.FragmentTimelineBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.share.ShareProvider
-import org.futo.circles.feature.timeline.list.PostViewHolder
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
@@ -240,6 +238,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     override fun onEditPollClicked(roomId: String, eventId: String) {
         navigateToCreatePoll(roomId, eventId)
+    }
+
+    override fun onInfoClicked(roomId: String, eventId: String) {
+        findNavController().navigate(TimelineFragmentDirections.toPostInfo(roomId, eventId))
     }
 
     override fun onSendPost(
