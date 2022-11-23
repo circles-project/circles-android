@@ -102,10 +102,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             itemAnimator = null
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    val manager = (layoutManager as? LinearLayoutManager) ?: return
-                    val firstVisiblePosition = manager.findFirstVisibleItemPosition()
-                    val lastVisiblePosition = manager.findLastVisibleItemPosition()
-                    viewModel.markEventAsRead(firstVisiblePosition, lastVisiblePosition)
+                    handleMarkEventsAsRead()
                 }
             })
         }
@@ -282,6 +279,12 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         binding.fabMenu.setIsVisible(isUserAdmin)
     }
 
+    private fun handleMarkEventsAsRead() {
+        val manager = (binding.rvTimeline.layoutManager as? LinearLayoutManager) ?: return
+        val firstVisiblePosition = manager.findFirstVisibleItemPosition()
+        val lastVisiblePosition = manager.findLastVisibleItemPosition()
+        viewModel.markEventAsRead(firstVisiblePosition, lastVisiblePosition)
+    }
 
     private fun showLeaveGroupDialog() {
         if (viewModel.canLeaveRoom()) {
