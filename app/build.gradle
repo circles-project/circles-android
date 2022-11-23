@@ -126,6 +126,9 @@ dependencies {
     //Retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
+    //Gson
+    implementation 'com.google.code.gson:gson:2.10'
+
     //QR
     implementation 'com.google.zxing:core:3.3.3'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
@@ -145,7 +148,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 }
 
-if (getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("gplay")){
+if (getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("gplay")) {
     apply plugin: 'com.google.gms.google-services'
     apply plugin: 'com.google.firebase.crashlytics'
 }

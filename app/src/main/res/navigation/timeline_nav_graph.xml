@@ -173,6 +173,22 @@
 
         </action>
 
+        <action
+            android:id="@+id/to_postInfo"
+            app:destination="@id/postInfoDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+
     </fragment>
 
     <dialog
@@ -383,6 +399,22 @@
             android:name="eventId"
             app:argType="string"
             app:nullable="true" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/postInfoDialogFragment"
+        android:name="org.futo.circles.feature.timeline.post.info.PostInfoDialogFragment"
+        tools:layout="@layout/dialog_fragment_post_info">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
 
     </dialog>
 </navigation>

@@ -159,6 +159,20 @@
                 app:drawableStartCompat="@drawable/ic_deactivate_account"
                 app:drawableTint="@color/red" />
 
+            <TextView
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/other" />
+
+            <TextView
+                android:id="@+id/tvVersion"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Version"
+                app:drawableStartCompat="@drawable/ic_app_version" />
+
         </LinearLayout>
 
     </ScrollView>
