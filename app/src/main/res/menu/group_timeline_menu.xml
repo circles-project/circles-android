@@ -21,4 +21,9 @@
         android:icon="@drawable/ic_logout"
         android:title="@string/leave_group" />
 
+    <item
+        android:id="@+id/deleteGroup"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/delete_group" />
+
 </menu>
