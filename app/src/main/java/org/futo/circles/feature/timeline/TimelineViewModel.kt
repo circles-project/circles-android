@@ -102,6 +102,10 @@ class TimelineViewModel(
         launchBg { leaveGroupLiveData.postValue(leaveRoomDataSource.leaveGroup()) }
     }
 
+    fun deleteGroup() {
+        launchBg { deleteCircleLiveData.postValue(leaveRoomDataSource.deleteGroup()) }
+    }
+
     fun deleteCircle() {
         launchBg { deleteCircleLiveData.postValue(leaveRoomDataSource.deleteCircle()) }
     }
