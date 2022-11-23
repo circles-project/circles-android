@@ -1,8 +1,10 @@
 package org.futo.circles.feature.timeline.post.info
 
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.provider.MatrixSessionProvider
+import org.json.JSONObject
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
@@ -21,17 +23,21 @@ class PostInfoViewModel(
     private fun updateInfo() {
         val session = MatrixSessionProvider.currentSession ?: return
         val room = session.getRoom(roomId) ?: return
-        val info = "${getRoomInfo(room)}\n${getEventInfo(room)}"
+        val info = "${getEventInfo(room)}\n\n\n${getRoomInfo(room)}"
         infoLiveData.postValue(info)
     }
 
     private fun getRoomInfo(room: Room): String {
-        val roomSummary = room.roomSummary()?.toString()
-        return "Room:\n$roomSummary"
+        val roomSummary = room.roomSummary() ?: return ""
+        val roomJson = Gson().toJson(roomSummary)
+        val formattedJson = JSONObject(roomJson).toString(4)
+        return "Room:\n$formattedJson"
     }
 
     private fun getEventInfo(room: Room): String {
-        val event = room.getTimelineEvent(eventId)?.root?.toString() ?: return ""
-        return "Event:\n$event"
+        val event = room.getTimelineEvent(eventId) ?: return ""
+        val eventJson = Gson().toJson(event)
+        val formattedJson = JSONObject(eventJson).toString(4)
+        return "Event:\n$formattedJson"
     }
 }
