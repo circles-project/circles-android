@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.R
 import org.futo.circles.glide.GlideApp
-import org.futo.circles.model.MediaContentData
+import org.futo.circles.model.MediaFileData
 import org.futo.circles.provider.MatrixSessionProvider
 
 fun ImageView.loadImage(url: String?) {
@@ -21,7 +21,7 @@ fun ImageView.loadImage(url: String?) {
 }
 
 fun ImageView.loadEncryptedImage(
-    content: MediaContentData, preferredSize: Size? = null, loadOriginalSize: Boolean = false
+    content: MediaFileData, preferredSize: Size? = null, loadOriginalSize: Boolean = false
 ) {
     val loadWidth = if (loadOriginalSize) Target.SIZE_ORIGINAL else preferredSize?.width ?: width
     val loadHeight = if (loadOriginalSize) Target.SIZE_ORIGINAL else preferredSize?.height ?: height

@@ -114,7 +114,7 @@ class MediaPreviewDialogFragment :
     private fun setupObservers() {
         viewModel.imageLiveData.observeData(this) {
             binding.videoView.gone()
-            it.mediaContentData.loadEncryptedIntoWithAspect(binding.ivImage, it.aspectRatio)
+            it.mediaFileData.loadEncryptedIntoWithAspect(binding.ivImage, it.aspectRatio)
         }
         viewModel.videoLiveData.observeData(this) {
             binding.ivImage.gone()
