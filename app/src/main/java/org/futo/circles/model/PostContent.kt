@@ -23,6 +23,7 @@ data class TextContent(
 ) : PostContent(PostContentType.TEXT_CONTENT)
 
 data class ImageContent(
+    val caption: String?,
     val mediaContentData: MediaContentData,
     val thumbnailUrl: String,
     val width: Int,
@@ -33,6 +34,7 @@ data class ImageContent(
 }
 
 data class VideoContent(
+    val caption: String?,
     val mediaContentData: MediaContentData,
     val thumbnailUrl: String,
     val width: Int,
