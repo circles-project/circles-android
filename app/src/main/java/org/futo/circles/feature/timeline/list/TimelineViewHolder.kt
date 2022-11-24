@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.databinding.ImagePostViewBinding
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.ViewPollPostBinding
-import org.futo.circles.databinding.ViewTextPostBinding
-import org.futo.circles.databinding.ViewVideoPostBinding
+import org.futo.circles.databinding.ViewTextMediaPostBinding
 import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.loadEncryptedIntoWithAspect
+import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.extensions.visible
 import org.futo.circles.model.*
 import org.futo.circles.view.PostLayout
 import org.futo.circles.view.PostOptionsListener
@@ -33,25 +34,27 @@ sealed class PostViewHolder(view: View, private val userPowerLevel: Int) :
     }
 }
 
-class TextPostViewHolder(
+class TextMediaPostViewHolder(
     parent: ViewGroup,
     postOptionsListener: PostOptionsListener,
     userPowerLevel: Int
-) : PostViewHolder(inflate(parent, ViewTextPostBinding::inflate), userPowerLevel) {
+) : PostViewHolder(inflate(parent, ViewTextMediaPostBinding::inflate), userPowerLevel),
+    UploadMediaViewHolder {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ViewTextPostBinding
-    override val postLayout: PostLayout = binding.lTextPost
+    private val binding = baseBinding as ViewTextMediaPostBinding
+    override val postLayout: PostLayout = binding.lPost
+    override val uploadMediaTracker = UploadMediaTracker()
 
     init {
-        binding.lTextPost.setListener(postOptionsListener)
+        binding.lPost.setListener(postOptionsListener)
         handleTextClick()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun handleTextClick() {
-        binding.tvContent.apply {
+        binding.tvTextContent.apply {
             movementMethod = LinkMovementMethod.getInstance()
             setOnTouchListener { v, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) v.requestFocus()
@@ -62,79 +65,50 @@ class TextPostViewHolder(
 
     override fun bind(post: Post) {
         super.bind(post)
-
-        (post.content as? TextContent)?.let {
-            binding.tvContent.text = it.message
-        }
-    }
-}
-
-class ImagePostViewHolder(
-    parent: ViewGroup,
-    postOptionsListener: PostOptionsListener,
-    userPowerLevel: Int
-) : PostViewHolder(inflate(parent, ImagePostViewBinding::inflate), userPowerLevel),
-    UploadMediaViewHolder {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ImagePostViewBinding
-    override val postLayout: PostLayout = binding.lImagePost
-    override val uploadMediaTracker = UploadMediaTracker()
-
-    init {
-        binding.lImagePost.setListener(postOptionsListener)
-    }
-
-    override fun bind(post: Post) {
-        super.bind(post)
-        val content = post.content as? ImageContent ?: return
-        val image = binding.imageItem.ivGalleryImage
-        image.post {
-            val size = content.calculateSize(image.width)
-            image.updateLayoutParams {
-                width = size.width
-                height = size.height
-            }
-        }
-        binding.vLoadingImage.gone()
-        uploadMediaTracker.track(post.id, binding.vLoadingImage)
-        content.mediaContentData.loadEncryptedIntoWithAspect(image, content.aspectRatio)
-    }
-}
-
-class VideoPostViewHolder(
-    parent: ViewGroup,
-    postOptionsListener: PostOptionsListener,
-    userPowerLevel: Int
-) : PostViewHolder(inflate(parent, ViewVideoPostBinding::inflate), userPowerLevel),
-    UploadMediaViewHolder {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ViewVideoPostBinding
-    override val postLayout: PostLayout = binding.lVideoPost
-    override val uploadMediaTracker = UploadMediaTracker()
-
-    init {
-        binding.lVideoPost.setListener(postOptionsListener)
-    }
-
-    override fun bind(post: Post) {
-        super.bind(post)
-        val content = post.content as? VideoContent ?: return
-        val image = binding.videoItem.ivVideoCover
-        image.post {
-            val size = content.calculateSize(image.width)
-            image.updateLayoutParams {
-                width = size.width
-                height = size.height
-            }
-        }
         binding.vLoadingView.gone()
-        uploadMediaTracker.track(post.id, binding.vLoadingView)
-        content.mediaContentData.loadEncryptedIntoWithAspect(image, content.aspectRatio)
-        binding.videoItem.tvDuration.text = content.duration
+        when (val content = post.content) {
+            is TextContent -> bindTextPost(content)
+            is MediaContent -> {
+                bindMediaContent(content)
+                uploadMediaTracker.track(post.id, binding.vLoadingView)
+            }
+            else -> return
+        }
+    }
+
+    private fun bindTextPost(content: TextContent) {
+        binding.tvTextContent.apply {
+            text = content.message
+            visible()
+        }
+        binding.vMediaContent.lMedia.gone()
+    }
+
+    private fun bindMediaContent(content: MediaContent) {
+        bindMediaCaption(content)
+        bindMediaCover(content)
+        binding.vMediaContent.videoGroup.setIsVisible(content.getMediaType() == MediaType.Video)
+        binding.vMediaContent.tvDuration.text = content.mediaContentInfo.duration
+    }
+
+    private fun bindMediaCaption(content: MediaContent) {
+        binding.tvTextContent.apply {
+            val caption = content.mediaContentInfo.caption
+            setIsVisible(caption != null)
+            text = caption
+        }
+    }
+
+    private fun bindMediaCover(content: MediaContent) {
+        val image = binding.vMediaContent.ivCover
+        image.post {
+            val size = content.calculateSize(image.width)
+            image.updateLayoutParams {
+                width = size.width
+                height = size.height
+            }
+        }
+        content.mediaFileData.loadEncryptedIntoWithAspect(image, content.aspectRatio)
     }
 }
 
