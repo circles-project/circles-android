@@ -56,7 +56,8 @@ class LeaveRoomDataSource(
             })?.size == 1
         if (isSingleMember) return true
         val isUserOwner = getCurrentUserPowerLevel(roomId) == Role.Admin.value
-        val isSingleOwner = getRoomOwners(roomId).size == 1
-        return isUserOwner && !isSingleOwner
+        if(!isUserOwner) return true
+        val roomHasOneOwner = getRoomOwners(roomId).size == 1
+        return !roomHasOneOwner
     }
 }
