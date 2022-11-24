@@ -14,10 +14,16 @@ import org.matrix.android.sdk.api.session.room.model.message.getFileName
 import org.matrix.android.sdk.api.session.room.model.message.getFileUrl
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
+const val MediaCaptionFieldKey = "caption"
+
+private fun TimelineEvent.getCaption(): String? =
+    root.getClearContent()?.get(MediaCaptionFieldKey)?.toString()
+
 fun TimelineEvent.toImageContent(): ImageContent {
     val messageContent = root.getClearContent().toModel<MessageImageContent>()
 
     return ImageContent(
+        caption = getCaption(),
         mediaContentData = toMediaContentData(MediaType.Image),
         thumbnailUrl = messageContent?.info?.thumbnailFile?.url ?: "",
         width = messageContent?.info?.width ?: Target.SIZE_ORIGINAL,
@@ -29,6 +35,7 @@ fun TimelineEvent.toVideoContent(): VideoContent {
     val messageContent = root.getClearContent().toModel<MessageVideoContent>()
 
     return VideoContent(
+        caption = getCaption(),
         mediaContentData = toMediaContentData(MediaType.Video),
         thumbnailUrl = messageContent?.videoInfo?.thumbnailFile?.url ?: "",
         width = messageContent?.videoInfo?.width ?: Target.SIZE_ORIGINAL,
