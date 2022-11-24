@@ -1,7 +1,6 @@
 package org.futo.circles.feature.timeline
 
 import androidx.lifecycle.asLiveData
-import kotlinx.coroutines.async
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
@@ -120,14 +119,12 @@ class TimelineViewModel(
         postOptionsDataSource.endPoll(roomId, eventId)
     }
 
-    @Suppress("DeferredResultUnused")
     fun markEventAsRead(firstVisiblePosition: Int, lastVisiblePosition: Int) {
         val list = timelineEventsLiveData.value ?: return
         launchBg {
             (firstVisiblePosition..lastVisiblePosition).forEach {
-                list.getOrNull(it)?.let {
-                    async { readMessageDataSource.markAsRead(it.postInfo.roomId, it.id) }
-                }
+                list.getOrNull(it)
+                    ?.let { readMessageDataSource.markAsRead(it.postInfo.roomId, it.id) }
             }
         }
     }
