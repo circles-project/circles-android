@@ -20,7 +20,6 @@ fun ImageView.loadImage(url: String?) {
         .into(this)
 }
 
-@Suppress("DEPRECATION")
 fun ImageView.loadEncryptedImage(
     content: MediaContentData, preferredSize: Size? = null, loadOriginalSize: Boolean = false
 ) {
@@ -31,7 +30,6 @@ fun ImageView.loadEncryptedImage(
         GlideApp
             .with(context)
             .load(content)
-            .thumbnail(.05f)
             .override(loadWidth, loadHeight)
             .fitCenter()
             .into(this)
