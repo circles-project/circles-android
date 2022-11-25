@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
@@ -41,8 +41,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lvContent"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/postHeader">
@@ -50,40 +52,48 @@
         <EditText
             android:id="@+id/etTextPost"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="54dp"
+            android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="top"
             android:hint="@string/enter_your_message_here"
             android:inputType="textCapSentences|textMultiLine"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:minLines="20"
             android:scrollbars="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
-            android:id="@+id/lImageContent"
-            layout="@layout/layout_preview_image_post_content"
-            android:layout_width="match_parent"
+            android:id="@+id/lMediaContent"
+            layout="@layout/list_item_gallery_media"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/etTextPost"
+            tools:visibility="visible" />
 
-        <include
-            android:id="@+id/lVideoContent"
-            layout="@layout/layout_preview_video_post_content"
-            android:layout_width="match_parent"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivRemoveImage"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_margin="16dp"
+            android:background="@color/close_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_close"
+            app:layout_constraintEnd_toEndOf="@id/lMediaContent"
+            app:layout_constraintTop_toTopOf="@id/lMediaContent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/mediaContentGroup"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:constraint_referenced_ids="ivRemoveImage, lMediaContent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

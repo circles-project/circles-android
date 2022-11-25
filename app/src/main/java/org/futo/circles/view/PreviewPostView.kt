@@ -50,10 +50,7 @@ class PreviewPostView(
         binding.etTextPost.doAfterTextChanged {
             listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)
         }
-        binding.lImageContent.ivRemoveImage.setOnClickListener {
-            setTextContent()
-        }
-        binding.lVideoContent.ivRemoveVideo.setOnClickListener {
+        binding.ivRemoveImage.setOnClickListener {
             setTextContent()
         }
         updateContentView()
@@ -69,36 +66,32 @@ class PreviewPostView(
     }
 
     fun setMedia(contentUri: Uri, mediaType: MediaType) {
-        postContent = MediaPostContent(contentUri, mediaType)
+        val caption = binding.etTextPost.text.toString().trim()
+        postContent = MediaPostContent(caption, contentUri, mediaType)
         updateContentView()
-        when (mediaType) {
-            MediaType.Image -> {
-                binding.lImageContent.ivImageContent.loadImage(contentUri.toString())
-            }
-            MediaType.Video -> {
-                binding.lVideoContent.apply {
-                    ivVideoCover.loadImage(contentUri.toString())
-                    tvDuration.text = getVideoDurationString(getVideoDuration(context, contentUri))
-                }
-            }
-        }
+        binding.lMediaContent.ivCover.loadImage(contentUri.toString())
+        val isVideo = mediaType == MediaType.Video
+        binding.lMediaContent.videoGroup.setIsVisible(isVideo)
+        if (isVideo)
+            binding.lMediaContent.tvDuration.text =
+                getVideoDurationString(getVideoDuration(context, contentUri))
+
         listener?.onPostContentAvailable(true)
     }
 
-    fun getPostContent() = postContent ?: TextPostContent(binding.etTextPost.text.toString().trim())
+    fun getPostContent() = (postContent as? MediaPostContent)?.copy(
+        caption = binding.etTextPost.text.toString().trim().takeIf { it.isNotEmpty() }
+    ) ?: TextPostContent(binding.etTextPost.text.toString().trim())
 
     private fun updateContentView() {
-        binding.lVideoContent.root.setIsVisible((postContent as? MediaPostContent)?.mediaType == MediaType.Video)
-        binding.lImageContent.root.setIsVisible((postContent as? MediaPostContent)?.mediaType == MediaType.Image)
         val isTextContent = postContent is TextPostContent || postContent == null
+        binding.mediaContentGroup.setIsVisible(!isTextContent)
         binding.etTextPost.apply {
-            setIsVisible(isTextContent)
             if (isTextContent) post {
                 requestFocus()
                 setSelection(text.length)
             }
         }
-
     }
 
     private fun setTextContent() {
