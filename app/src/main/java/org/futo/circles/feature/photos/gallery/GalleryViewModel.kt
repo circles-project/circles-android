@@ -39,7 +39,7 @@ class GalleryViewModel(
     }
 
     fun uploadMedia(uri: Uri, mediaType: MediaType) {
-        sendMessageDataSource.sendMedia(roomId, uri, null, mediaType)
+        sendMessageDataSource.sendMedia(roomId, uri, null,null, mediaType)
         scrollToTopLiveData.postValue(Unit)
     }
 

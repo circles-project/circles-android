@@ -5,6 +5,7 @@ import android.net.Uri
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.toImageContentAttachmentData
 import org.futo.circles.extensions.toVideoContentAttachmentData
+import org.futo.circles.mapping.MediaCaptionFieldKey
 import org.futo.circles.model.CreatePollContent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.content.ContentAttachmentData
@@ -38,7 +39,13 @@ class SendMessageDataSource(private val context: Context) {
             .editTextMessage(event, MessageType.MSGTYPE_TEXT, message, null, false)
     }
 
-    fun sendMedia(roomId: String, uri: Uri, threadEventId: String?, type: MediaType) {
+    fun sendMedia(
+        roomId: String,
+        uri: Uri,
+        caption: String?,
+        threadEventId: String?,
+        type: MediaType
+    ) {
         val roomForMessage = session?.getRoom(roomId) ?: return
         val content = when (type) {
             MediaType.Image -> uri.toImageContentAttachmentData(context)
@@ -47,7 +54,12 @@ class SendMessageDataSource(private val context: Context) {
         val shouldCompress = content.mimeType != WEBP_MIME_TYPE
         threadEventId?.let {
             sendMediaReply(roomForMessage, content, shouldCompress, it)
-        } ?: roomForMessage.sendService().sendMedia(content, shouldCompress, emptySet())
+        } ?: roomForMessage.sendService().sendMedia(
+            content,
+            shouldCompress,
+            emptySet(),
+            additionalContent = caption?.let { mapOf(MediaCaptionFieldKey to it) }
+        )
     }
 
     private fun sendMediaReply(

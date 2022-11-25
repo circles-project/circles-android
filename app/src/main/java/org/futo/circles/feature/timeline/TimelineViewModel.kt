@@ -64,7 +64,7 @@ class TimelineViewModel(
     fun sendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?) {
         when (postContent) {
             is MediaPostContent -> sendMessageDataSource.sendMedia(
-                roomId, postContent.uri, threadEventId, postContent.mediaType
+                roomId, postContent.uri, postContent.caption, threadEventId, postContent.mediaType
             )
             is TextPostContent -> sendMessageDataSource.sendTextMessage(
                 roomId, postContent.text, threadEventId

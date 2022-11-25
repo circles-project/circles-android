@@ -23,7 +23,9 @@ class SavePostToGalleryDataSource(
                 FileUtils.downloadEncryptedFileToContentUri(context, mediaContent.mediaFileData)
             uri?.let {
                 selectedGalleries.forEach {
-                    sendMessageDataSource.sendMedia(it.id, uri, null, mediaContent.getMediaType())
+                    sendMessageDataSource.sendMedia(
+                        it.id, uri, null, null, mediaContent.getMediaType()
+                    )
                 }
             }
         }
