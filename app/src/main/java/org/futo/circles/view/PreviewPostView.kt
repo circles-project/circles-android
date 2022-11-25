@@ -7,8 +7,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.utils.ImageUtils
+import org.futo.circles.core.utils.VideoUtils
 import org.futo.circles.core.utils.VideoUtils.getVideoDuration
 import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
 import org.futo.circles.databinding.ViewPreviewPostBinding
@@ -74,7 +77,7 @@ class PreviewPostView(
         val caption = binding.etTextPost.text.toString().trim()
         postContent = MediaPostContent(caption, contentUri, mediaType)
         updateContentView()
-        binding.lMediaContent.ivCover.loadImage(contentUri.toString())
+        loadMediaCover(contentUri, mediaType)
         val isVideo = mediaType == MediaType.Video
         binding.lMediaContent.videoGroup.setIsVisible(isVideo)
         if (isVideo)
@@ -103,6 +106,21 @@ class PreviewPostView(
         postContent = null
         updateContentView()
         listener?.onPostContentAvailable(binding.etTextPost.text?.toString()?.isNotBlank() == true)
+    }
+
+    private fun loadMediaCover(uri: Uri, mediaType: MediaType) {
+        val size = when (mediaType) {
+            MediaType.Image -> ImageUtils.getImageResolution(context, uri)
+            MediaType.Video -> VideoUtils.getVideoResolution(context, uri)
+        }
+        val aspectRatio = size.width.toFloat() / size.height.toFloat()
+        binding.lMediaContent.ivCover.post {
+            binding.lMediaContent.ivCover.updateLayoutParams {
+                width = binding.lvContent.width
+                height = (width / aspectRatio).toInt()
+            }
+        }
+        binding.lMediaContent.ivCover.loadImage(uri.toString())
     }
 
     private fun requestFocusOnText() {
