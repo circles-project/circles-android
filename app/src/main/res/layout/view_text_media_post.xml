@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.futo.circles.view.PostLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lPost"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <org.futo.circles.view.read_more.ReadMoreTextView
+            android:id="@+id/tvTextContent"
+            style="@style/postMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/post_text_side_margin"
+            android:autoLink="web"
+            android:textIsSelectable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:readMoreMaxLines="7"
+            app:readMoreText="@string/show_more"
+            app:readMoreTextColor="@color/blue" />
+
+        <include
+            android:id="@+id/vMediaContent"
+            layout="@layout/list_item_gallery_media"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTextContent"
+            app:layout_goneMarginTop="0dp" />
+
+
+        <org.futo.circles.view.LoadingView
+            android:id="@+id/vLoadingView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="16dp"
+            android:background="@color/white"
+            android:padding="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/vMediaContent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/vMediaContent"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</org.futo.circles.view.PostLayout>

@@ -1,5 +1,6 @@
 package org.futo.circles.mapping
 
+import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.getReadByCountForEvent
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
@@ -60,7 +61,7 @@ private fun TimelineEvent.toReplyPost(postContentType: PostContentType, lastRead
 private fun TimelineEvent.toPostContent(postContentType: PostContentType): PostContent =
     when (postContentType) {
         PostContentType.TEXT_CONTENT -> toTextContent()
-        PostContentType.IMAGE_CONTENT -> toImageContent()
-        PostContentType.VIDEO_CONTENT -> toVideoContent()
+        PostContentType.IMAGE_CONTENT -> toMediaContent(MediaType.Image)
+        PostContentType.VIDEO_CONTENT -> toMediaContent(MediaType.Video)
         PostContentType.POLL_CONTENT -> toPollContent()
     }

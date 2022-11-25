@@ -2,10 +2,9 @@ package org.futo.circles.extensions
 
 import android.util.Size
 import android.widget.ImageView
-import com.bumptech.glide.Glide
-import org.futo.circles.model.MediaContentData
+import org.futo.circles.model.MediaFileData
 
-fun MediaContentData.loadEncryptedIntoWithAspect(imageView: ImageView, aspectRatio: Float) {
+fun MediaFileData.loadEncryptedIntoWithAspect(imageView: ImageView, aspectRatio: Float) {
     imageView.post {
         if (fileUrl.startsWith(UriContentScheme)) {
             imageView.loadImage(fileUrl)

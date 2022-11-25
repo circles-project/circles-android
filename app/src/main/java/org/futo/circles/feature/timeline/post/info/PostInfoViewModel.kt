@@ -29,15 +29,15 @@ class PostInfoViewModel(
 
     private fun getRoomInfo(room: Room): String {
         val roomSummary = room.roomSummary() ?: return ""
-        val roomJson = Gson().toJson(roomSummary)
-        val formattedJson = JSONObject(roomJson).toString(4)
+        val formattedJson = JSONObject(Gson().toJson(roomSummary)).toString(4)
         return "Room:\n$formattedJson"
     }
 
     private fun getEventInfo(room: Room): String {
         val event = room.getTimelineEvent(eventId) ?: return ""
-        val eventJson = Gson().toJson(event)
-        val formattedJson = JSONObject(eventJson).toString(4)
-        return "Event:\n$formattedJson"
+        val formattedEventJson = JSONObject(Gson().toJson(event)).toString(4)
+        val formattedClearContentJson =
+            JSONObject(Gson().toJson(event.root.getClearContent())).toString(4)
+        return "Event:\n$formattedEventJson\nContent:$formattedClearContentJson"
     }
 }

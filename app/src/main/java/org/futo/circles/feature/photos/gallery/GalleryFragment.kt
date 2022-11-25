@@ -22,7 +22,7 @@ import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.picker.PickGalleryMediaListener
 import org.futo.circles.databinding.FragmentGalleryBinding
 import org.futo.circles.extensions.*
-import org.futo.circles.feature.photos.gallery.list.GalleryContentViewHolder
+import org.futo.circles.feature.photos.gallery.list.GalleryItemViewHolder
 import org.futo.circles.feature.photos.gallery.list.GalleryItemsAdapter
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.GalleryContentListItem
@@ -63,7 +63,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
     private fun setupViews() {
         binding.rvGallery.apply {
             adapter = listAdapter
-            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryContentViewHolder>(2))
+            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryItemViewHolder>(2))
             bindToFab(binding.fbUploadImage)
         }
         binding.fbUploadImage.setOnClickListener { showImagePicker() }
