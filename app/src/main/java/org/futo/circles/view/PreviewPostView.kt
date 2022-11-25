@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.inputmethod.InputMethodManager
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.core.picker.MediaType
@@ -47,6 +48,9 @@ class PreviewPostView(
                 true
             )
         }
+        binding.lvContent.setOnClickListener {
+            requestFocusOnText()
+        }
         binding.etTextPost.doAfterTextChanged {
             listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)
         }
@@ -86,18 +90,27 @@ class PreviewPostView(
     private fun updateContentView() {
         val isTextContent = postContent is TextPostContent || postContent == null
         binding.mediaContentGroup.setIsVisible(!isTextContent)
-        binding.etTextPost.apply {
-            if (isTextContent) post {
-                requestFocus()
-                setSelection(text.length)
-            }
-        }
+        if (isTextContent) requestFocusOnText()
     }
 
     private fun setTextContent() {
         postContent = null
         updateContentView()
         listener?.onPostContentAvailable(binding.etTextPost.text?.toString()?.isNotBlank() == true)
+    }
+
+    private fun requestFocusOnText() {
+        binding.etTextPost.post {
+            requestFocus()
+            binding.etTextPost.setSelection(binding.etTextPost.text.length)
+            showKeyboard()
+        }
+    }
+
+    private fun showKeyboard() {
+        val inputMethodManager: InputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(binding.etTextPost,0)
     }
 
     private fun getMyUser(): User? {
