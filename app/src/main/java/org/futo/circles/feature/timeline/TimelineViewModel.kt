@@ -119,11 +119,11 @@ class TimelineViewModel(
         postOptionsDataSource.endPoll(roomId, eventId)
     }
 
-    fun markEventAsRead(firstVisiblePosition: Int, lastVisiblePosition: Int) {
+    fun markEventAsRead(positions: List<Int>) {
         val list = timelineEventsLiveData.value ?: return
         launchBg {
-            (firstVisiblePosition..lastVisiblePosition).forEach {
-                list.getOrNull(it)
+            positions.forEach { position ->
+                list.getOrNull(position)
                     ?.let { readMessageDataSource.markAsRead(it.postInfo.roomId, it.id) }
             }
         }

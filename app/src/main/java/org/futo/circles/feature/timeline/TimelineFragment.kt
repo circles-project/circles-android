@@ -11,7 +11,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.databinding.FragmentTimelineBinding
@@ -100,11 +99,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         binding.rvTimeline.apply {
             adapter = listAdapter
             itemAnimator = null
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    handleMarkEventsAsRead()
-                }
-            })
+            MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
         }
         binding.fabMenu.apply {
             bindToRecyclerView(binding.rvTimeline)
@@ -277,13 +272,6 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
         val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
         binding.fabMenu.setIsVisible(isUserAdmin)
-    }
-
-    private fun handleMarkEventsAsRead() {
-        val manager = (binding.rvTimeline.layoutManager as? LinearLayoutManager) ?: return
-        val firstVisiblePosition = manager.findFirstVisibleItemPosition()
-        val lastVisiblePosition = manager.findLastVisibleItemPosition()
-        viewModel.markEventAsRead(firstVisiblePosition, lastVisiblePosition)
     }
 
     private fun showLeaveGroupDialog() {
