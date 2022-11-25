@@ -12,6 +12,7 @@ import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.VideoUtils.getVideoDuration
 import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
 import org.futo.circles.databinding.ViewPreviewPostBinding
+import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.loadImage
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.mapping.notEmptyDisplayName
@@ -91,6 +92,11 @@ class PreviewPostView(
         val isTextContent = postContent is TextPostContent || postContent == null
         binding.mediaContentGroup.setIsVisible(!isTextContent)
         if (isTextContent) requestFocusOnText()
+        binding.etTextPost.setPadding(
+            context.convertDpToPixel(12f).toInt(),
+            0, context.convertDpToPixel(12f).toInt(),
+            if (isTextContent) context.convertDpToPixel(64f).toInt() else 0
+        )
     }
 
     private fun setTextContent() {
@@ -110,7 +116,7 @@ class PreviewPostView(
     private fun showKeyboard() {
         val inputMethodManager: InputMethodManager =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(binding.etTextPost,0)
+        inputMethodManager.showSoftInput(binding.etTextPost, 0)
     }
 
     private fun getMyUser(): User? {
