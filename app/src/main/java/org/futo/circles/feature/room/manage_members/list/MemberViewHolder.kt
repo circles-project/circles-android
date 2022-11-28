@@ -7,7 +7,6 @@ import org.futo.circles.R
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemInviteHeaderBinding
-import org.futo.circles.databinding.ListItemInvitedUserBinding
 import org.futo.circles.databinding.ListItemMemberBinding
 import org.futo.circles.databinding.ListItemNotJoinedUserBinding
 import org.futo.circles.extensions.*
@@ -21,7 +20,6 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 abstract class ManageMembersViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: ManageMembersListItem)
 }
-
 
 class MemberViewHolder(
     parent: ViewGroup,
