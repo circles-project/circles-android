@@ -2,7 +2,7 @@ package org.futo.circles.mapping
 
 import org.futo.circles.model.CirclesUserSummary
 import org.futo.circles.model.GroupMemberListItem
-import org.futo.circles.model.InvitedUserListItem
+import org.futo.circles.model.NotJoinedUserListItem
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
@@ -24,8 +24,9 @@ fun RoomMemberSummary.toGroupMemberListItem(
     powerLevelsContent = powerLevelsContent
 )
 
-fun RoomMemberSummary.toInvitedUserListItem(powerLevelsContent: PowerLevelsContent) =
-    InvitedUserListItem(
+fun RoomMemberSummary.toNotJoinedUserListItem(powerLevelsContent: PowerLevelsContent) =
+    NotJoinedUserListItem(
         user = toCircleUserSummary(),
-        powerLevelsContent = powerLevelsContent
+        powerLevelsContent = powerLevelsContent,
+        membership = membership
     )
