@@ -10,7 +10,7 @@ import org.futo.circles.core.ExpandableItemsDataSource
 import org.futo.circles.extensions.createResult
 import org.futo.circles.mapping.nameOrId
 import org.futo.circles.mapping.toGroupMemberListItem
-import org.futo.circles.mapping.toInvitedUserListItem
+import org.futo.circles.mapping.toNotJoinedUserListItem
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.query.QueryStringValue
@@ -53,11 +53,7 @@ class ManageMembersDataSource(
     }
 
     private fun getRoomMembersSummaryFlow(): Flow<List<RoomMemberSummary>> {
-        val roomMemberQueryParams = roomMemberQueryParams {
-            displayName = QueryStringValue.IsNotEmpty
-            memberships = Membership.activeMemberships()
-        }
-        return room?.membershipService()?.getRoomMembersLive(roomMemberQueryParams)?.asFlow()
+        return room?.membershipService()?.getRoomMembersLive(roomMemberQueryParams())?.asFlow()
             ?: flowOf()
     }
 
@@ -77,32 +73,39 @@ class ManageMembersDataSource(
         val roleHelper = PowerLevelsHelper(powerLevelsContent)
         val fullList = mutableListOf<ManageMembersListItem>()
         val currentMembers = mutableListOf<GroupMemberListItem>()
-        val invitedUsers = mutableListOf<InvitedUserListItem>()
+        val invitedUsers = mutableListOf<NotJoinedUserListItem>()
+        val bannedUsers = mutableListOf<NotJoinedUserListItem>()
 
         members.forEach { member ->
-            if (member.membership == Membership.INVITE) {
-                invitedUsers.add(member.toInvitedUserListItem(powerLevelsContent))
-            } else {
-                val role = roleHelper.getUserRole(member.userId)
-                val isOptionsVisible = usersWithVisibleOptions.contains(member.userId)
-                currentMembers.add(
+            when (member.membership) {
+                Membership.INVITE -> invitedUsers.add(
+                    member.toNotJoinedUserListItem(powerLevelsContent)
+                )
+                Membership.BAN -> bannedUsers.add(
+                    member.toNotJoinedUserListItem(powerLevelsContent)
+                )
+                Membership.JOIN -> currentMembers.add(
                     member.toGroupMemberListItem(
-                        role, isOptionsVisible, powerLevelsContent
+                        roleHelper.getUserRole(member.userId),
+                        usersWithVisibleOptions.contains(member.userId),
+                        powerLevelsContent
                     )
                 )
+                else -> {}
             }
         }
-
         if (currentMembers.isNotEmpty()) {
             fullList.add(ManageMembersHeaderListItem(context.getString(R.string.current_members)))
             fullList.addAll(currentMembers.sortedByDescending { it.role.value })
         }
-
         if (invitedUsers.isNotEmpty()) {
             fullList.add(ManageMembersHeaderListItem(context.getString(R.string.invited_users)))
             fullList.addAll(invitedUsers)
         }
-
+        if (bannedUsers.isNotEmpty()) {
+            fullList.add(ManageMembersHeaderListItem(context.getString(R.string.banned_users)))
+            fullList.addAll(bannedUsers)
+        }
         return fullList
     }
 
@@ -110,6 +113,9 @@ class ManageMembersDataSource(
         createResult { room?.membershipService()?.remove(userId) }
 
     suspend fun banUser(userId: String) = createResult { room?.membershipService()?.ban(userId) }
+
+    suspend fun unBanUser(userId: String) =
+        createResult { room?.membershipService()?.unban(userId) }
 
     suspend fun changeAccessLevel(userId: String, levelValue: Int) = createResult {
         val content = powerLevelsContent?.setUserPowerLevel(userId, levelValue).toContent()
