@@ -111,7 +111,7 @@ dependencies {
     implementation "androidx.browser:browser:1.4.0"
 
     //ExoPlayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
 
     //Firebase crash reports
     gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.2'
