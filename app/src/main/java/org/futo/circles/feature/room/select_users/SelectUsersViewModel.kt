@@ -16,6 +16,10 @@ class SelectUsersViewModel(
     val searchUsersLiveData = MutableLiveData<List<InviteMemberListItem>>()
     val selectedUsersLiveData = dataSource.selectedUsersFlow.asLiveData()
 
+    init {
+        launchBg { dataSource.loadAllRoomMembersIfNeeded() }
+    }
+
     fun initSearchListener(queryFlow: StateFlow<String>) {
         launchUi {
             queryFlow

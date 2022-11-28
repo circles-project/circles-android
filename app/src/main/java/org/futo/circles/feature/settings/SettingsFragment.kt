@@ -1,19 +1,19 @@
 package org.futo.circles.feature.settings
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.amulyakhare.textdrawable.TextDrawable
+import org.futo.circles.BuildConfig
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
+import org.futo.circles.provider.PreferencesProvider
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,6 +23,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val viewModel by viewModel<SettingsViewModel>()
     private val systemNoticesCountViewModel by sharedViewModel<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
+    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,7 +40,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash() }
+            tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
         }
+        setVersion()
     }
 
     private fun setupObservers() {
@@ -57,8 +60,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             error = { showError(getString(R.string.invalid_auth)) }
         )
         systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
-            val count = it ?: 0
-            handleSystemNoticesCount(count)
+            binding.ivNoticesCount.setCount(it ?: 0)
         }
         viewModel.startReAuthEventLiveData.observeData(this) {
             findNavController().navigate(SettingsFragmentDirections.toReAuthStagesDialogFragment())
@@ -107,23 +109,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         )
     }
 
-    private fun handleSystemNoticesCount(count: Int) {
-        binding.ivNoticesCount.setIsVisible(count > 0)
-        if (count > 0) {
-            binding.ivNoticesCount.setImageDrawable(
-                TextDrawable.Builder()
-                    .setShape(TextDrawable.SHAPE_ROUND_RECT)
-                    .setColor(
-                        ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
-                    )
-                    .setTextColor(Color.WHITE)
-                    .setBold()
-                    .setText(count.toString())
-                    .build()
-            )
-        }
-    }
-
     private fun showLogoutDialog() {
         showDialog(
             titleResIdRes = R.string.log_out,
@@ -142,4 +127,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             positiveAction = { viewModel.deactivateAccount() })
     }
 
+    private fun setVersion() {
+        binding.tvVersion.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
+    }
+
+    private fun toggleDeveloperMode() {
+        val isEnabled = preferencesProvider.isDeveloperModeEnabled()
+        preferencesProvider.setDeveloperMode(!isEnabled)
+        val messageId = if (isEnabled) R.string.developer_mode_disabled
+        else R.string.developer_mode_enabled
+        Toast.makeText(requireContext(), getString(messageId), Toast.LENGTH_LONG).show()
+    }
 }

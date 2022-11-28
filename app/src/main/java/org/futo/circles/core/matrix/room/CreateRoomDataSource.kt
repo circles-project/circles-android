@@ -2,15 +2,21 @@ package org.futo.circles.core.matrix.room
 
 import android.content.Context
 import android.net.Uri
+import org.futo.circles.BuildConfig
 import org.futo.circles.model.Circle
 import org.futo.circles.model.CirclesRoom
 import org.futo.circles.model.Timeline
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM
+import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.events.model.content.EncryptionEventContent
+import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomDirectoryVisibility
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomPreset
+import org.matrix.android.sdk.api.session.room.model.create.CreateRoomStateEvent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.space.CreateSpaceParams
 
@@ -68,6 +74,7 @@ class CreateRoomDataSource(
                 powerLevelContentOverride = PowerLevelsContent(
                     invite = Role.Moderator.value
                 )
+                overrideEncryptionForTestBuilds(this)
             }
         }.apply {
             circlesRoom.type?.let { this.roomType = it }
@@ -79,5 +86,24 @@ class CreateRoomDataSource(
             avatarUri = iconUri
             inviteIds?.let { invitedUserIds.addAll(it) }
         }
+    }
+
+    private fun overrideEncryptionForTestBuilds(params: CreateRoomParams) {
+        if (!BuildConfig.DEBUG) return
+        params.initialStates.add(
+            CreateRoomStateEvent(
+                type = EventType.STATE_ROOM_ENCRYPTION,
+                content = EncryptionEventContent(
+                    algorithm = MXCRYPTO_ALGORITHM_MEGOLM,
+                    rotationPeriodMs = DEBUG_ROTATION_PERIOD,
+                    rotationPeriodMsgs = DEBUG_PERIOD_MSG
+                ).toContent()
+            )
+        )
+    }
+
+    companion object {
+        private const val DEBUG_ROTATION_PERIOD = 3600000L
+        private const val DEBUG_PERIOD_MSG = 10L
     }
 }

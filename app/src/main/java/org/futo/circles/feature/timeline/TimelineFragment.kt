@@ -9,15 +9,13 @@ import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.databinding.FragmentTimelineBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.share.ShareProvider
-import org.futo.circles.feature.timeline.list.PostViewHolder
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
@@ -32,6 +30,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
+
 
 class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListener,
     CreatePostListener, CreatePollListener, EmojiPickerListener, MenuProvider {
@@ -50,8 +49,8 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     private val listAdapter by lazy {
         TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
     }
-    private var isGroupSettingAvailable = false
-    private var isGroupInviteAvailable = false
+    private val navigator by lazy { TimelineNavigator(this) }
+    private var groupPowerLevelsContent: PowerLevelsContent? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,8 +68,12 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     private fun inflateGroupMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.group_timeline_menu, menu)
-        menu.findItem(R.id.configureGroup).isVisible = isGroupSettingAvailable
-        menu.findItem(R.id.inviteMembers).isVisible = isGroupInviteAvailable
+        menu.findItem(R.id.configureGroup).isVisible =
+            groupPowerLevelsContent?.isCurrentUserAbleToChangeSettings() ?: false
+        menu.findItem(R.id.inviteMembers).isVisible =
+            groupPowerLevelsContent?.isCurrentUserAbleToInvite() ?: false
+        menu.findItem(R.id.deleteGroup).isVisible =
+            groupPowerLevelsContent?.isCurrentUserAdmin() ?: false
     }
 
     private fun inflateCircleMenu(menu: Menu, inflater: MenuInflater) {
@@ -79,12 +82,15 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.configureGroup, R.id.configureCircle -> navigateToUpdateRoom()
-            R.id.manageMembers, R.id.myFollowers -> navigateToManageMembers()
-            R.id.inviteMembers, R.id.inviteFollowers -> navigateToInviteMembers()
+            R.id.configureGroup, R.id.configureCircle ->
+                navigator.navigateToUpdateRoom(args.roomId, args.type)
+            R.id.manageMembers, R.id.myFollowers ->
+                navigator.navigateToManageMembers(timelineId, args.type)
+            R.id.inviteMembers, R.id.inviteFollowers -> navigator.navigateToInviteMembers(timelineId)
             R.id.leaveGroup -> showLeaveGroupDialog()
-            R.id.iFollowing -> navigateToFollowing()
-            R.id.deleteCircle -> showDeleteConfirmation()
+            R.id.iFollowing -> navigator.navigateToFollowing(args.roomId)
+            R.id.deleteCircle -> showDeleteConfirmation(true)
+            R.id.deleteGroup -> showDeleteConfirmation(false)
         }
         return true
     }
@@ -93,19 +99,17 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         binding.rvTimeline.apply {
             adapter = listAdapter
             itemAnimator = null
-            addItemDecoration(
-                BaseRvDecoration.OffsetDecoration<PostViewHolder>(offset = context.dimen(R.dimen.group_post_item_offset))
-            )
+            MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
         }
         binding.fabMenu.apply {
             bindToRecyclerView(binding.rvTimeline)
             setListener(object : CreatePostMenuListener {
                 override fun onCreatePoll() {
-                    navigateToCreatePoll(timelineId)
+                    navigator.navigateToCreatePoll(timelineId)
                 }
 
                 override fun onCreatePost() {
-                    navigateToCreatePost(timelineId)
+                    navigator.navigateToCreatePost(timelineId)
                 }
             })
         }
@@ -150,19 +154,15 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun onShowPreview(roomId: String, eventId: String) {
-        findNavController().navigate(
-            TimelineFragmentDirections.toMediaPreviewDialogFragment(roomId, eventId)
-        )
+        navigator.navigateToShowMediaPreview(roomId, eventId)
     }
 
     override fun onShowEmoji(roomId: String, eventId: String) {
-        findNavController().navigate(
-            TimelineFragmentDirections.toEmojiBottomSheet(roomId, eventId)
-        )
+        navigator.navigateToShowEmoji(roomId, eventId)
     }
 
     override fun onReply(roomId: String, eventId: String, userName: String) {
-        navigateToCreatePost(roomId, userName, eventId)
+        navigator.navigateToCreatePost(roomId, userName, eventId)
     }
 
     override fun onShare(content: PostContent) {
@@ -194,19 +194,15 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun onEditPostClicked(roomId: String, eventId: String) {
-        navigateToCreatePost(roomId, eventId = eventId, isEdit = true)
+        navigator.navigateToCreatePost(roomId, eventId = eventId, isEdit = true)
     }
 
     override fun onSaveToGallery(roomId: String, eventId: String) {
-        findNavController().navigate(
-            TimelineFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
-        )
+        navigator.navigateToSaveToGallery(roomId, eventId)
     }
 
     override fun onReport(roomId: String, eventId: String) {
-        findNavController().navigate(
-            TimelineFragmentDirections.toReportDialogFragment(roomId, eventId)
-        )
+        navigator.navigateToReport(roomId, eventId)
     }
 
     override fun onEmojiChipClicked(
@@ -231,7 +227,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun onEditPollClicked(roomId: String, eventId: String) {
-        navigateToCreatePoll(roomId, eventId)
+        navigator.navigateToCreatePoll(roomId, eventId)
+    }
+
+    override fun onInfoClicked(roomId: String, eventId: String) {
+        navigator.navigateToInfo(roomId, eventId)
     }
 
     override fun onSendPost(
@@ -265,8 +265,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         binding.fabMenu.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
-        isGroupSettingAvailable = powerLevelsContent.isCurrentUserAbleToChangeSettings()
-        isGroupInviteAvailable = powerLevelsContent.isCurrentUserAbleToInvite()
+        groupPowerLevelsContent = powerLevelsContent
         activity?.invalidateOptionsMenu()
     }
 
@@ -275,54 +274,8 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         binding.fabMenu.setIsVisible(isUserAdmin)
     }
 
-    private fun navigateToCreatePost(
-        roomId: String,
-        userName: String? = null,
-        eventId: String? = null,
-        isEdit: Boolean = false
-    ) {
-        findNavController().navigate(
-            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId, isEdit)
-        )
-    }
-
-    private fun navigateToCreatePoll(roomId: String, eventId: String? = null) {
-        findNavController().navigate(
-            TimelineFragmentDirections.toCreatePoll(roomId, eventId)
-        )
-    }
-
-    private fun navigateToInviteMembers() {
-        findNavController().navigate(
-            TimelineFragmentDirections.toInviteMembersDialogFragment(timelineId)
-        )
-    }
-
-    private fun navigateToUpdateRoom() {
-        findNavController().navigate(
-            TimelineFragmentDirections.toUpdateRoomDialogFragment(args.roomId, args.type)
-        )
-    }
-
-    private fun navigateToManageMembers() {
-        findNavController().navigate(
-            TimelineFragmentDirections.toManageMembersDialogFragment(timelineId, args.type)
-        )
-    }
-
-    private fun navigateToFollowing() {
-        findNavController().navigate(
-            TimelineFragmentDirections.toFollowingDialogFragment(args.roomId)
-        )
-    }
-
     private fun showLeaveGroupDialog() {
-        if (viewModel.isSingleOwner()) {
-            showDialog(
-                titleResIdRes = R.string.leave_group,
-                messageResId = R.string.select_another_admin_message
-            )
-        } else {
+        if (viewModel.canLeaveRoom()) {
             showDialog(
                 titleResIdRes = R.string.leave_group,
                 messageResId = R.string.leave_group_message,
@@ -330,16 +283,24 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
                 negativeButtonVisible = true,
                 positiveAction = { viewModel.leaveGroup() }
             )
+        } else {
+            showDialog(
+                titleResIdRes = R.string.leave_group,
+                messageResId = R.string.select_another_admin_message
+            )
         }
     }
 
-    private fun showDeleteConfirmation() {
+    private fun showDeleteConfirmation(isCircle: Boolean) {
         showDialog(
-            titleResIdRes = R.string.delete_circle,
-            messageResId = R.string.delete_circle_message,
+            titleResIdRes = if (isCircle) R.string.delete_circle else R.string.delete_group,
+            messageResId = if (isCircle) R.string.delete_circle_message else R.string.delete_group_message,
             positiveButtonRes = R.string.delete,
             negativeButtonVisible = true,
-            positiveAction = { viewModel.deleteCircle() }
+            positiveAction = {
+                if (isCircle) viewModel.deleteCircle()
+                else viewModel.deleteGroup()
+            }
         )
     }
 }

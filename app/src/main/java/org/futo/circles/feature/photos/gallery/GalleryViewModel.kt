@@ -14,7 +14,10 @@ import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
-import org.futo.circles.model.*
+import org.futo.circles.model.GalleryContentListItem
+import org.futo.circles.model.MediaContent
+import org.futo.circles.model.MediaFileData
+import org.futo.circles.model.PostContentType
 
 class GalleryViewModel(
     private val roomId: String,
@@ -28,19 +31,15 @@ class GalleryViewModel(
     val deleteGalleryLiveData = SingleEventLiveData<Response<Unit?>>()
     val galleryItemsLiveData = timelineDataSource.timelineEventsLiveData.map { list ->
         list.mapNotNull { post ->
-            when (val content = post.content) {
-                is ImageContent -> GalleryImageListItem(post.id, content, post.postInfo)
-                is VideoContent ->
-                    if (isVideoAvailable)
-                        GalleryVideoListItem(post.id, content, post.postInfo)
-                    else null
-                else -> null
+            (post.content as? MediaContent)?.let {
+                if (it.type == PostContentType.VIDEO_CONTENT && !isVideoAvailable) null
+                else GalleryContentListItem(post.id, post.postInfo, it)
             }
         }
     }
 
     fun uploadMedia(uri: Uri, mediaType: MediaType) {
-        sendMessageDataSource.sendMedia(roomId, uri, null, mediaType)
+        sendMessageDataSource.sendMedia(roomId, uri, null,null, mediaType)
         scrollToTopLiveData.postValue(Unit)
     }
 
@@ -53,26 +52,18 @@ class GalleryViewModel(
         item: GalleryContentListItem,
         listener: PickGalleryMediaListener
     ) = launchBg {
-        when (item.type) {
-            PostContentType.IMAGE_CONTENT -> {
-                val data = (item as? GalleryImageListItem)?.imageContent?.mediaContentData
-                onMediaSelected(context, data, listener, MediaType.Image)
-            }
-            PostContentType.VIDEO_CONTENT -> {
-                val data = (item as? GalleryVideoListItem)?.videoContent?.mediaContentData
-                onMediaSelected(context, data, listener, MediaType.Video)
-            }
-            else -> {}
-        }
+        onMediaSelected(
+            context, item.mediaContent.mediaFileData, listener, item.mediaContent.getMediaType()
+        )
     }
 
     private suspend fun onMediaSelected(
         context: Context,
-        mediaContentData: MediaContentData?,
+        mediaFileData: MediaFileData?,
         listener: PickGalleryMediaListener,
         mediaType: MediaType
     ) {
-        val content = mediaContentData ?: return
+        val content = mediaFileData ?: return
         val uri = downloadEncryptedFileToContentUri(context, content) ?: return
         onUI { listener.onMediaSelected(uri, mediaType) }
     }

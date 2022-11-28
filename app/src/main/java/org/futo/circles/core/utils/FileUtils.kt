@@ -10,7 +10,7 @@ import okio.sink
 import okio.source
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.getUri
-import org.futo.circles.model.MediaContentData
+import org.futo.circles.model.MediaFileData
 import org.futo.circles.provider.MatrixSessionProvider
 import java.io.File
 import java.io.IOException
@@ -36,7 +36,7 @@ object FileUtils {
     }
 
     private suspend fun downloadEncryptedFile(
-        contentData: MediaContentData,
+        contentData: MediaFileData,
         onError: (message: String) -> Unit = {}
     ): File? {
         val session = MatrixSessionProvider.currentSession ?: kotlin.run {
@@ -56,20 +56,20 @@ object FileUtils {
 
     suspend fun downloadEncryptedFileToContentUri(
         context: Context,
-        contentData: MediaContentData
+        contentData: MediaFileData
     ): Uri? = downloadEncryptedFile(contentData)?.getUri(context)
 
     suspend fun saveMediaFileToDevice(
         context: Context,
-        mediaContentData: MediaContentData,
+        mediaFileData: MediaFileData,
         mediaType: MediaType
     ) {
-        val localFile = downloadEncryptedFile(mediaContentData) ?: return
+        val localFile = downloadEncryptedFile(mediaFileData) ?: return
 
         val values = ContentValues().apply {
-            put(MediaStore.Images.Media.TITLE, mediaContentData.fileName)
-            put(MediaStore.Images.Media.DISPLAY_NAME, mediaContentData.fileName)
-            put(MediaStore.Images.Media.MIME_TYPE, mediaContentData.mimeType)
+            put(MediaStore.Images.Media.TITLE, mediaFileData.fileName)
+            put(MediaStore.Images.Media.DISPLAY_NAME, mediaFileData.fileName)
+            put(MediaStore.Images.Media.MIME_TYPE, mediaFileData.mimeType)
         }
 
         val externalContentUri = when (mediaType) {

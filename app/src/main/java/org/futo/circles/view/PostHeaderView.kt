@@ -17,6 +17,7 @@ import org.futo.circles.extensions.setIsEncryptedIcon
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.*
+import org.futo.circles.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import java.util.*
 
@@ -31,7 +32,7 @@ class PostHeaderView(
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
     private var userPowerLevel: Int = Role.Default.value
-
+    private val preferencesProvider by lazy { PreferencesProvider(context) }
 
     init {
         parseAttributes(attrs)
@@ -111,6 +112,9 @@ class PostHeaderView(
                     R.id.end_poll -> optionsListener?.endPoll(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
+                    R.id.info -> optionsListener?.onInfoClicked(
+                        unwrappedPost.postInfo.roomId, unwrappedPost.id
+                    )
                 }
                 true
             }
@@ -132,6 +136,8 @@ class PostHeaderView(
             menu.findItem(R.id.end_poll).isVisible =
                 isPoll && pollState != PollState.Ended &&
                         (unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value)
+
+            menu.findItem(R.id.info).isVisible = preferencesProvider.isDeveloperModeEnabled()
 
             show()
         }

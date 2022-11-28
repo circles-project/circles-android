@@ -16,10 +16,6 @@ import org.futo.circles.feature.room.select_users.list.selected.SelectedUsersLis
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-interface SelectUsersListener {
-    fun onUserSelected(usersIds: List<String>)
-}
-
 class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
 
     private val roomId: String? by lazy {

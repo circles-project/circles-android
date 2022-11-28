@@ -7,6 +7,8 @@ import org.futo.circles.extensions.getRoomOwners
 import org.futo.circles.extensions.getTimelineRoomFor
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 class LeaveRoomDataSource(
@@ -33,13 +35,29 @@ class LeaveRoomDataSource(
         session?.roomService()?.leaveRoom(roomId)
     }
 
+    suspend fun deleteGroup() = createResult {
+        roomRelationsBuilder.removeFromAllParents(roomId)
+        val group = session?.getRoom(roomId)
+        group?.roomSummary()?.otherMemberIds?.forEach { memberId ->
+            group.membershipService().ban(memberId)
+        }
+        session?.roomService()?.leaveRoom(roomId)
+    }
+
     suspend fun deleteGallery() = createResult {
         roomRelationsBuilder.removeFromAllParents(roomId)
         session?.roomService()?.leaveRoom(roomId)
     }
 
-    fun isUserSingleRoomOwner(): Boolean {
+    fun canLeaveRoom(): Boolean {
+        val isSingleMember =
+            room?.membershipService()?.getRoomMembers(roomMemberQueryParams {
+                memberships = listOf(Membership.JOIN)
+            })?.size == 1
+        if (isSingleMember) return true
         val isUserOwner = getCurrentUserPowerLevel(roomId) == Role.Admin.value
-        return isUserOwner && getRoomOwners(roomId).size == 1
+        if(!isUserOwner) return true
+        val roomHasOneOwner = getRoomOwners(roomId).size == 1
+        return !roomHasOneOwner
     }
 }

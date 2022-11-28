@@ -5,17 +5,16 @@ import android.util.Log
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
-import org.futo.circles.extensions.coroutineScope
-import org.futo.circles.model.ImageContent
-import org.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.futo.circles.model.MediaContentData
+import org.futo.circles.extensions.coroutineScope
+import org.futo.circles.model.MediaFileData
+import org.futo.circles.provider.MatrixSessionProvider
 import java.io.IOException
 import java.io.InputStream
 
-class CirclesGlideDataFetcher(context: Context, private val data: MediaContentData) :
+class CirclesGlideDataFetcher(context: Context, private val data: MediaFileData) :
     DataFetcher<InputStream> {
 
     private val localFilesHelper = LocalFileHelper(context)
@@ -59,7 +58,7 @@ class CirclesGlideDataFetcher(context: Context, private val data: MediaContentDa
             callback.onLoadFailed(IllegalArgumentException("No File service"))
         }
 
-        matrixSession.coroutineScope.launch {
+        matrixSession.coroutineScope.launch(Dispatchers.IO) {
             val result = runCatching {
                 fileService.downloadFile(
                     fileName = data.fileName,

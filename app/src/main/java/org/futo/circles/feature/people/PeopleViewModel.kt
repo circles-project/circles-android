@@ -14,6 +14,10 @@ class PeopleViewModel(
     val peopleLiveData = peopleDataSource.getPeopleList().asLiveData()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
 
+    init {
+        launchBg { peopleDataSource.loadAllRoomMembersIfNeeded() }
+    }
+
     fun unIgnoreUser(id: String) {
         launchBg {
             ignoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(id))

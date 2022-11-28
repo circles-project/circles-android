@@ -1,17 +1,22 @@
 package org.futo.circles.mapping
 
+import org.futo.circles.core.picker.MediaType
+import org.futo.circles.extensions.getReadByCountForEvent
 import org.futo.circles.model.*
+import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getRelationContent
 import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited
 import org.matrix.android.sdk.api.session.room.timeline.isReply
 
-
 fun TimelineEvent.toPost(
     postContentType: PostContentType,
+    lastReadEventTime: Long = 0L,
     isRepliesVisible: Boolean = false
 ): Post =
-    if (isReply()) toReplyPost(postContentType) else toRootPost(postContentType, isRepliesVisible)
+    if (isReply()) toReplyPost(postContentType, lastReadEventTime)
+    else toRootPost(postContentType, isRepliesVisible, lastReadEventTime)
 
 private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     id = eventId,
@@ -25,23 +30,38 @@ private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     isEdited = hasBeenEdited()
 )
 
-private fun TimelineEvent.toRootPost(postContentType: PostContentType, isRepliesVisible: Boolean) =
+private fun TimelineEvent.toReadInfo(lastReadEventTime: Long): PostReadInfo = PostReadInfo(
+    shouldIndicateAsNew = (root.originServerTs ?: 0L) > lastReadEventTime,
+    readByCount = MatrixSessionProvider.currentSession?.getRoom(roomId)
+        ?.getReadByCountForEvent(eventId) ?: 0
+)
+
+private fun TimelineEvent.toRootPost(
+    postContentType: PostContentType,
+    isRepliesVisible: Boolean,
+    lastReadEventTime: Long
+) =
     RootPost(
         postInfo = toPostInfo(),
         content = toPostContent(postContentType),
         isRepliesVisible = isRepliesVisible,
+        sendState = root.sendState,
+        readInfo = toReadInfo(lastReadEventTime)
     )
 
-private fun TimelineEvent.toReplyPost(postContentType: PostContentType) = ReplyPost(
-    postInfo = toPostInfo(),
-    content = toPostContent(postContentType),
-    replyToId = getRelationContent()?.inReplyTo?.eventId ?: "",
-)
+private fun TimelineEvent.toReplyPost(postContentType: PostContentType, lastReadEventTime: Long) =
+    ReplyPost(
+        postInfo = toPostInfo(),
+        content = toPostContent(postContentType),
+        replyToId = getRelationContent()?.inReplyTo?.eventId ?: "",
+        readInfo = toReadInfo(lastReadEventTime),
+        sendState = root.sendState
+    )
 
 private fun TimelineEvent.toPostContent(postContentType: PostContentType): PostContent =
     when (postContentType) {
         PostContentType.TEXT_CONTENT -> toTextContent()
-        PostContentType.IMAGE_CONTENT -> toImageContent()
-        PostContentType.VIDEO_CONTENT -> toVideoContent()
+        PostContentType.IMAGE_CONTENT -> toMediaContent(MediaType.Image)
+        PostContentType.VIDEO_CONTENT -> toMediaContent(MediaType.Video)
         PostContentType.POLL_CONTENT -> toPollContent()
     }

@@ -115,8 +115,11 @@
     <string name="access_level">Access level</string>
     <string name="remove">Remove</string>
     <string name="ban">Ban</string>
+    <string name="unban">Unban</string>
     <string name="current_members">Current members</string>
     <string name="invited_users">Invited users</string>
+    <string name="banned_users">Banned users</string>
+    <string name="banned">Banned</string>
     <string name="invited">Invited</string>
     <string name="admin">Admin</string>
     <string name="moderator">Moderator</string>
@@ -127,6 +130,8 @@
     <string name="remove_user_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
     <string name="ban_user">Ban user</string>
     <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
+    <string name="unban_user">Unban user</string>
+    <string name="unban_user_message">Are you sure you want to unban this user?\n\nUser will be able to join again.</string>
     <string name="set_access_level">Set access level</string>
     <string name="configure_group">Configure group</string>
     <string name="change_icon">Change icon</string>
@@ -174,10 +179,12 @@
     <string name="configure_circle">Configure circle</string>
     <string name="configure_gallery">Configure gallery</string>
     <string name="delete_circle">Delete circle</string>
+    <string name="delete_group">Delete group</string>
     <string name="delete_gallery">Delete gallery</string>
     <string name="my_followers">My followers</string>
     <string name="people_i_m_following">People I\'m following</string>
     <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
+    <string name="delete_group_message">Are you sure you want to remove this group?</string>
     <string name="delete_gallery_message">Are you sure you want to remove this gallery?</string>
     <string name="timeline_not_found">Timeline not found</string>
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
@@ -304,6 +311,11 @@
     <string name="edited_label">(Edited)</string>
     <string name="edit_poll">Edit poll</string>
     <string name="clear_cache_and_reload">Clear cache and reload</string>
+    <string name="other">Other</string>
+    <string name="version_format">Version %s</string>
+    <string name="developer_mode_enabled">Developer mode is enabled</string>
+    <string name="developer_mode_disabled">Developer mode is disabled</string>
+    <string name="info">Info</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

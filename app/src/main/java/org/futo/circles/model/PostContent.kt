@@ -1,6 +1,7 @@
 package org.futo.circles.model
 
 import android.util.Size
+import org.futo.circles.core.picker.MediaType
 import org.matrix.android.sdk.api.session.crypto.attachments.ElementToDecrypt
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
@@ -11,7 +12,7 @@ enum class PostContentType(val typeKey: String) {
     POLL_CONTENT(MessageType.MSGTYPE_POLL_START)
 }
 
-sealed class PostContent(val type: PostContentType) {
+sealed class PostContent(open val type: PostContentType) {
     fun isMedia(): Boolean =
         type == PostContentType.IMAGE_CONTENT || type == PostContentType.VIDEO_CONTENT
 
@@ -22,28 +23,26 @@ data class TextContent(
     val message: String
 ) : PostContent(PostContentType.TEXT_CONTENT)
 
-data class ImageContent(
-    val mediaContentData: MediaContentData,
-    val thumbnailUrl: String,
-    val width: Int,
-    val height: Int
-) : PostContent(PostContentType.IMAGE_CONTENT) {
-    val aspectRatio = width.toFloat() / height.toFloat()
+data class MediaContent(
+    override val type: PostContentType,
+    val mediaFileData: MediaFileData,
+    val mediaContentInfo: MediaContentInfo,
+) : PostContent(type) {
+    val aspectRatio = mediaContentInfo.width.toFloat() / mediaContentInfo.height.toFloat()
     fun calculateSize(width: Int) = Size(width, (width / aspectRatio).toInt())
+    fun getMediaType(): MediaType =
+        if (type == PostContentType.VIDEO_CONTENT) MediaType.Video else MediaType.Image
 }
 
-data class VideoContent(
-    val mediaContentData: MediaContentData,
+data class MediaContentInfo(
+    val caption: String?,
     val thumbnailUrl: String,
     val width: Int,
     val height: Int,
     val duration: String
-) : PostContent(PostContentType.VIDEO_CONTENT) {
-    val aspectRatio = width.toFloat() / height.toFloat()
-    fun calculateSize(width: Int) = Size(width, (width / aspectRatio).toInt())
-}
+)
 
-data class MediaContentData(
+data class MediaFileData(
     val fileName: String,
     val mimeType: String,
     val fileUrl: String,

@@ -6,6 +6,7 @@ import org.futo.circles.extensions.isCurrentUserAbleToBan
 import org.futo.circles.extensions.isCurrentUserAbleToChangeSettings
 import org.futo.circles.extensions.isCurrentUserAbleToKick
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
@@ -35,9 +36,10 @@ data class GroupMemberListItem(
 
 }
 
-data class InvitedUserListItem(
+data class NotJoinedUserListItem(
     val user: CirclesUserSummary,
-    val powerLevelsContent: PowerLevelsContent
+    val powerLevelsContent: PowerLevelsContent,
+    val membership: Membership
 ) : ManageMembersListItem() {
     override val id: String = user.id
 }

@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/lMedia"
     android:foreground="?attr/selectableItemBackground">
 
     <ImageView
-        android:id="@+id/ivVideoCover"
+        android:id="@+id/ivCover"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
@@ -16,6 +17,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivVideoIndicator"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:src="@drawable/ic_play_round"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.15"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:tint="@color/blue" />
 
     <TextView
         android:id="@+id/tvDuration"
@@ -28,8 +45,14 @@
         android:shadowDy="1"
         android:shadowRadius="2"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/ivVideoCover"
-        app:layout_constraintEnd_toEndOf="@+id/ivVideoCover"
+        app:layout_constraintBottom_toBottomOf="@+id/ivCover"
+        app:layout_constraintEnd_toEndOf="@+id/ivCover"
         tools:text="00:00" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/videoGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="ivVideoIndicator, tvDuration" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

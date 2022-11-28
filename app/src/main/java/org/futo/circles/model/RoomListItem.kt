@@ -20,7 +20,8 @@ data class JoinedGroupListItem(
     val topic: String,
     val membersCount: Int,
     val isEncrypted: Boolean,
-    val timestamp: Long
+    val timestamp: Long,
+    val unreadCount: Int
 ) : RoomListItem(id, info, Membership.JOIN)
 
 data class InvitedGroupListItem(
@@ -34,7 +35,8 @@ data class JoinedCircleListItem(
     override val id: String,
     override val info: RoomInfo,
     val followingCount: Int,
-    val followedByCount: Int
+    val followedByCount: Int,
+    val unreadCount: Int
 ) : RoomListItem(id, info, Membership.JOIN)
 
 data class InvitedCircleListItem(

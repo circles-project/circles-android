@@ -12,8 +12,9 @@ class RoomsListAdapter(
 ) : BaseRvAdapter<RoomListItem, RoomViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedCircleListItem && old is JoinedCircleListItem) {
         CircleListItemPayload(
-            followersCount = new.followingCount,
-            followedByCount = new.followedByCount,
+            followersCount = new.followingCount.takeIf { it != old.followingCount },
+            followedByCount = new.followedByCount.takeIf { it != old.followedByCount },
+            unreadCount = new.unreadCount.takeIf { it != old.unreadCount },
             needUpdateFullItem = new.info.title != old.info.title || new.info.avatarUrl != old.info.avatarUrl
         )
     } else if (new is JoinedGroupListItem && old is JoinedGroupListItem) {
@@ -22,6 +23,7 @@ class RoomsListAdapter(
             isEncrypted = new.isEncrypted.takeIf { it != old.isEncrypted },
             membersCount = new.membersCount.takeIf { it != old.membersCount },
             timestamp = new.timestamp.takeIf { it != old.timestamp },
+            unreadCount = new.unreadCount.takeIf { it != old.unreadCount },
             needUpdateFullItem = new.info.title != old.info.title || new.info.avatarUrl != old.info.avatarUrl
         )
     } else null

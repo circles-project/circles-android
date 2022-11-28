@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.extensions.launchBg
-import org.futo.circles.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.feature.share.ShareableContent
-import org.futo.circles.model.ImageContent
-import org.futo.circles.model.VideoContent
+import org.futo.circles.feature.timeline.post.PostOptionsDataSource
+import org.futo.circles.model.MediaContent
+import org.futo.circles.model.PostContentType
 
 class MediaPreviewViewModel(
     private val roomId: String,
@@ -19,22 +19,21 @@ class MediaPreviewViewModel(
     private val postOptionsDataSource: PostOptionsDataSource
 ) : ViewModel() {
 
-    val imageLiveData = MutableLiveData<ImageContent>()
-    val videoLiveData = MutableLiveData<Pair<VideoContent, Uri>>()
+    val imageLiveData = MutableLiveData<MediaContent>()
+    val videoLiveData = MutableLiveData<Pair<MediaContent, Uri>>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val downloadLiveData = SingleEventLiveData<Unit>()
 
 
     fun loadData(context: Context) {
-        val content = mediaPreviewDataSource.getPostContent() ?: return
-        when (content) {
-            is ImageContent -> imageLiveData.postValue(content)
-            is VideoContent -> launchBg {
-                val uri =
-                    FileUtils.downloadEncryptedFileToContentUri(context, content.mediaContentData)
-                uri?.let { videoLiveData.postValue(content to uri) }
+        val content = (mediaPreviewDataSource.getPostContent() as? MediaContent) ?: return
+        when (content.type) {
+            PostContentType.IMAGE_CONTENT -> imageLiveData.postValue(content)
+            PostContentType.VIDEO_CONTENT -> launchBg {
+                FileUtils.downloadEncryptedFileToContentUri(context, content.mediaFileData)
+                    ?.let { videoLiveData.postValue(content to it) }
             }
-            else -> throw IllegalArgumentException("Wrong media type")
+            else -> return
         }
     }
 

@@ -7,6 +7,7 @@ import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.share.ShareableContent
+import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
@@ -18,7 +19,8 @@ class TimelineViewModel(
     private val leaveRoomDataSource: LeaveRoomDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
-    private val userOptionsDataSource: UserOptionsDataSource
+    private val userOptionsDataSource: UserOptionsDataSource,
+    private val readMessageDataSource: ReadMessageDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
     val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
@@ -62,7 +64,7 @@ class TimelineViewModel(
     fun sendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?) {
         when (postContent) {
             is MediaPostContent -> sendMessageDataSource.sendMedia(
-                roomId, postContent.uri, threadEventId, postContent.mediaType
+                roomId, postContent.uri, postContent.caption, threadEventId, postContent.mediaType
             )
             is TextPostContent -> sendMessageDataSource.sendTextMessage(
                 roomId, postContent.text, threadEventId
@@ -99,11 +101,15 @@ class TimelineViewModel(
         launchBg { leaveGroupLiveData.postValue(leaveRoomDataSource.leaveGroup()) }
     }
 
+    fun deleteGroup() {
+        launchBg { deleteCircleLiveData.postValue(leaveRoomDataSource.deleteGroup()) }
+    }
+
     fun deleteCircle() {
         launchBg { deleteCircleLiveData.postValue(leaveRoomDataSource.deleteCircle()) }
     }
 
-    fun isSingleOwner(): Boolean = leaveRoomDataSource.isUserSingleRoomOwner()
+    fun canLeaveRoom(): Boolean = leaveRoomDataSource.canLeaveRoom()
 
     fun pollVote(roomId: String, eventId: String, optionId: String) {
         postOptionsDataSource.pollVote(roomId, eventId, optionId)
@@ -111,6 +117,21 @@ class TimelineViewModel(
 
     fun endPoll(roomId: String, eventId: String) {
         postOptionsDataSource.endPoll(roomId, eventId)
+    }
+
+    fun markEventAsRead(positions: List<Int>) {
+        val list = timelineEventsLiveData.value ?: return
+        launchBg {
+            positions.forEach { position ->
+                list.getOrNull(position)
+                    ?.let { readMessageDataSource.markAsRead(it.postInfo.roomId, it.id) }
+            }
+        }
+    }
+
+    override fun onCleared() {
+        readMessageDataSource.setReadMarker()
+        super.onCleared()
     }
 
 }

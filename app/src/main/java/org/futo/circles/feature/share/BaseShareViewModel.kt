@@ -19,7 +19,7 @@ class BaseShareViewModel(
         mediaType: MediaType
     ) {
         selectedRoomsId.forEach {
-            sendMessageDataSource.sendMedia(it, uri, null, mediaType)
+            sendMessageDataSource.sendMedia(it, uri, null, null, mediaType)
         }
         saveResultLiveData.postValue(Response.Success(Unit))
     }

@@ -2,18 +2,17 @@ package org.futo.circles.feature.room.manage_members.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
+import org.futo.circles.feature.room.ManageMembersOptionsListener
 import org.futo.circles.model.GroupMemberListItem
-import org.futo.circles.model.InvitedUserListItem
 import org.futo.circles.model.ManageMembersHeaderListItem
 import org.futo.circles.model.ManageMembersListItem
-import org.futo.circles.view.ManageMembersOptionsListener
+import org.futo.circles.model.NotJoinedUserListItem
 
-private enum class ManageGroupMembersViewTypes { Header, Member, Invited }
+private enum class ManageGroupMembersViewTypes { Header, Member, NotJoined }
 
 class GroupMembersListAdapter(
-    private val onToggleOptions: (String) -> Unit,
-    private val onCancelInvite: (String) -> Unit,
-    private val manageMembersListener: ManageMembersOptionsListener
+    private val manageMembersListener: ManageMembersOptionsListener,
+    private val onToggleOptions: (String) -> Unit
 ) : BaseRvAdapter<ManageMembersListItem, ManageMembersViewHolder>(
     DefaultIdEntityCallback()
 ) {
@@ -21,7 +20,7 @@ class GroupMembersListAdapter(
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is ManageMembersHeaderListItem -> ManageGroupMembersViewTypes.Header.ordinal
         is GroupMemberListItem -> ManageGroupMembersViewTypes.Member.ordinal
-        is InvitedUserListItem -> ManageGroupMembersViewTypes.Invited.ordinal
+        is NotJoinedUserListItem -> ManageGroupMembersViewTypes.NotJoined.ordinal
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManageMembersViewHolder {
@@ -32,9 +31,8 @@ class GroupMembersListAdapter(
                 onUserClicked = { position -> onToggleOptions(getItem(position).id) },
                 manageMembersListener = manageMembersListener
             )
-            ManageGroupMembersViewTypes.Invited -> InvitedUserViewHolder(
-                parent= parent,
-                onCancelInvitation = { position -> onCancelInvite(getItem(position).id) },
+            ManageGroupMembersViewTypes.NotJoined -> NotJoinedUserViewHolder(
+                parent, manageMembersListener,
             )
         }
     }

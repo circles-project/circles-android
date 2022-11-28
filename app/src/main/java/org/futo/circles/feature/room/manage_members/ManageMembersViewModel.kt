@@ -31,6 +31,10 @@ class ManageMembersViewModel(
         launchBg { banUserResultLiveData.postValue(dataSource.banUser(userId)) }
     }
 
+    fun unBanUser(userId: String) {
+        launchBg { banUserResultLiveData.postValue(dataSource.unBanUser(userId)) }
+    }
+
     fun changeAccessLevel(userId: String, levelValue: Int) {
         launchBg {
             changeAccessLevelLiveData.postValue(dataSource.changeAccessLevel(userId, levelValue))

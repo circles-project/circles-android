@@ -49,6 +49,7 @@ import org.futo.circles.feature.sign_up.validate_token.ValidateTokenViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
 import org.futo.circles.feature.timeline.poll.CreatePollViewModel
 import org.futo.circles.feature.timeline.post.create.CreatePostViewModel
+import org.futo.circles.feature.timeline.post.info.PostInfoViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.PasswordModeArg
@@ -65,7 +66,12 @@ val uiModule = module {
     viewModel { PhotosViewModel(get()) }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineViewModel(
-            get { parametersOf(roomId, type) }, get { parametersOf(roomId) }, get(), get(), get()
+            get { parametersOf(roomId, type) },
+            get { parametersOf(roomId) },
+            get(),
+            get(),
+            get(),
+            get()
         )
     }
     viewModel { (roomId: String) -> InviteMembersViewModel(get { parametersOf(roomId) }) }
@@ -158,4 +164,5 @@ val uiModule = module {
         CreatePostViewModel(roomId, eventId, isEdit)
     }
     viewModel { (roomId: String, eventId: String?) -> CreatePollViewModel(roomId, eventId) }
+    viewModel { (roomId: String, eventId: String) -> PostInfoViewModel(roomId, eventId) }
 }
