@@ -13,15 +13,16 @@ import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.PreviewPostListener
+import org.futo.circles.view.markdown.TextStyle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.*
 
 class CreatePostDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentCreatePostBinding::inflate) {
+    BaseFullscreenDialogFragment(DialogFragmentCreatePostBinding::inflate),
+    PostConfigurationOptionListener {
 
     private val args: CreatePostDialogFragmentArgs by navArgs()
     private val binding by lazy {
@@ -58,14 +59,9 @@ class CreatePostDialogFragment :
                 }
                 setText(getString(if (args.isEdit) R.string.edit else R.string.send))
             }
-            btnUploadMedia.apply {
-                setOnClickListener {
-                    mediaPickerHelper.showMediaPickerDialog(
-                        onImageSelected = { _, uri -> onMediaSelected(uri, MediaType.Image) },
-                        onVideoSelected = { uri -> onMediaSelected(uri, MediaType.Video) }
-                    )
-                }
-                setIsVisible(!args.isEdit)
+            binding.vPostOptions.apply {
+                setOptionsListener(this@CreatePostDialogFragment)
+                showMainOptionsList(!args.isEdit)
             }
             vPostPreview.setListener(object : PreviewPostListener {
                 override fun onPostContentAvailable(isAvailable: Boolean) {
@@ -104,5 +100,25 @@ class CreatePostDialogFragment :
         val newMessage = (binding.vPostPreview.getPostContent() as? TextPostContent)?.text ?: return
         val eventId = args.eventId ?: return
         createPostListener?.onEditTextPost(args.roomId, newMessage, eventId)
+    }
+
+    override fun onUploadMediaClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onEmojiClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMentionClicked() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onTextStyleSelected(textStyle: TextStyle) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onAddLinkClicked() {
+        TODO("Not yet implemented")
     }
 }
