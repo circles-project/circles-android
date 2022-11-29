@@ -28,7 +28,7 @@ class MarkdownStylesBar(
         StyleBarListItem(MainStyleBarOption.TextStyle.ordinal, R.drawable.ic_text)
     )
 
-    private val textStyleOptions = listOf(
+    private var textStyleOptions = listOf(
         StyleBarListItem(TextStyle.BOLD.ordinal, R.drawable.ic_bold),
         StyleBarListItem(TextStyle.ITALIC.ordinal, R.drawable.ic_italic),
         StyleBarListItem(TextStyle.STRIKE.ordinal, R.drawable.ic_strikethrough),
@@ -89,13 +89,16 @@ class MarkdownStylesBar(
     }
 
     private fun onTextStyleSelected(id: Int) {
-        postConfigurationListener?.onTextStyleSelected(TextStyle.values()[id])
+        val item = textStyleOptions.firstOrNull { it.id == id } ?: return
+        postConfigurationListener?.onTextStyleSelected(TextStyle.values()[id], !item.isSelected)
         selectTextStyle(id)
     }
 
     private fun selectTextStyle(id: Int) {
-        textStyleOptionsAdapter.submitList(textStyleOptions.map {
-            it.copy(isSelected = it.id == id)
-        })
+        textStyleOptions = textStyleOptions.map {
+            if (it.id == id) it.copy(isSelected = !it.isSelected)
+            else it
+        }
+        textStyleOptionsAdapter.submitList(textStyleOptions)
     }
 }
