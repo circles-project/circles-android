@@ -105,7 +105,7 @@ class PreviewPostView(
     private fun setTextContent() {
         postContent = null
         updateContentView()
-        listener?.onPostContentAvailable(binding.etTextPost.text?.toString()?.isNotBlank() == true)
+        listener?.onPostContentAvailable(binding.etTextPost.text.toString().isNotBlank())
     }
 
     private fun loadMediaCover(uri: Uri, mediaType: MediaType) {

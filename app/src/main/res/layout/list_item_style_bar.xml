@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btnOption"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:backgroundTint="@color/style_bar_option_color"
+    android:checkable="true" />

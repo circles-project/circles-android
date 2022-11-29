@@ -4,7 +4,6 @@ enum class TextStyle {
     BOLD,
     ITALIC,
     STRIKE,
-    QUOTE,
     LINK,
     UNORDERED_LIST,
     ORDERED_LIST,
