@@ -128,7 +128,9 @@ class CreatePostDialogFragment :
     }
 
     override fun onAddLinkClicked() {
-
+        AddLinkDialog(requireContext()) { title, link ->
+            binding.vPostPreview.insertLink(title, link)
+        }.show()
     }
 
     override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
