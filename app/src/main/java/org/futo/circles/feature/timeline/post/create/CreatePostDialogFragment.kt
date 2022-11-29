@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
@@ -13,6 +14,7 @@ import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.onBackPressed
+import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.PreviewPostListener
 import org.futo.circles.view.markdown.TextStyle
@@ -22,7 +24,7 @@ import java.util.*
 
 class CreatePostDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentCreatePostBinding::inflate),
-    PostConfigurationOptionListener {
+    PostConfigurationOptionListener, EmojiPickerListener {
 
     private val args: CreatePostDialogFragmentArgs by navArgs()
     private val binding by lazy {
@@ -112,18 +114,24 @@ class CreatePostDialogFragment :
     }
 
     override fun onEmojiClicked() {
-        TODO("Not yet implemented")
+        findNavController().navigate(
+            CreatePostDialogFragmentDirections.toEmojiBottomSheet(null, null)
+        )
     }
 
     override fun onMentionClicked() {
-        TODO("Not yet implemented")
+        binding.vPostPreview.insertMention()
     }
 
-    override fun onTextStyleSelected(textStyle: TextStyle) {
-        TODO("Not yet implemented")
+    override fun onTextStyleSelected(textStyle: TextStyle, isSelected: Boolean) {
+        binding.vPostPreview.setTextStyle(textStyle, isSelected)
     }
 
     override fun onAddLinkClicked() {
-        TODO("Not yet implemented")
+
+    }
+
+    override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
+        binding.vPostPreview.insertEmoji(emoji)
     }
 }

@@ -77,6 +77,22 @@ class PreviewPostView(
         setTextContent()
     }
 
+    fun setTextStyle(style: TextStyle, isSelected: Boolean) {
+        binding.etTextPost.triggerStyle(style, isSelected)
+    }
+
+    fun insertEmoji(unicode: String) {
+        binding.etTextPost.insertEmoji(unicode)
+    }
+
+    fun insertMention() {
+        binding.etTextPost.insertMention()
+    }
+
+    fun insertLink(title: String?, link: String) {
+        binding.etTextPost.addLinkSpan(title, link)
+    }
+
     fun setMedia(contentUri: Uri, mediaType: MediaType) {
         val caption = binding.etTextPost.text.toString().trim()
         postContent = MediaPostContent(caption, contentUri, mediaType)

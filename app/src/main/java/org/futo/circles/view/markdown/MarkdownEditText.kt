@@ -53,6 +53,18 @@ class MarkdownEditText(
         onHighlightSpanListener = onHighlight
     }
 
+    fun insertEmoji(unicode: String) {
+        insertText(unicode)
+    }
+
+    fun insertMention() {
+        insertText("@")
+    }
+
+    private fun insertText(message: String) {
+        text.insert(selectionStart, message)
+    }
+
     private fun markwonBuilder(context: Context): Markwon {
         movementMethod = EnhancedMovementMethod().getsInstance()
         return Markwon.builder(context)
