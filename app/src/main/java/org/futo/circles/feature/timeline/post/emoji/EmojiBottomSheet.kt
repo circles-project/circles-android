@@ -20,7 +20,7 @@ import org.futo.circles.R
 import org.futo.circles.databinding.BottomSheetEmojiBinding
 
 interface EmojiPickerListener {
-    fun onEmojiSelected(roomId: String, eventId: String, emoji: String)
+    fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String)
 }
 
 class EmojiBottomSheet : BottomSheetDialogFragment() {

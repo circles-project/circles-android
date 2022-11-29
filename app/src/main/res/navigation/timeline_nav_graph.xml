@@ -306,6 +306,9 @@
             app:argType="boolean"
             app:nullable="false" />
 
+        <action
+            android:id="@+id/to_emojiBottomSheet"
+            app:destination="@id/emojiBottomSheet" />
     </dialog>
     <dialog
         android:id="@+id/reportDialogFragment"
@@ -333,12 +336,12 @@
         <argument
             android:name="roomId"
             app:argType="string"
-            app:nullable="false" />
+            app:nullable="true" />
 
         <argument
             android:name="eventId"
             app:argType="string"
-            app:nullable="false" />
+            app:nullable="true" />
 
     </dialog>
     <dialog
