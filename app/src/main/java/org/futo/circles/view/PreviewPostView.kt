@@ -23,6 +23,7 @@ import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.view.markdown.TextStyle
 import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -39,7 +40,6 @@ class PreviewPostView(
         ViewPreviewPostBinding.inflate(LayoutInflater.from(context), this)
 
     private var listener: PreviewPostListener? = null
-
     private var postContent: CreatePostContent? = null
 
     init {
@@ -64,8 +64,12 @@ class PreviewPostView(
         updateContentView()
     }
 
-    fun setListener(previewPostListener: PreviewPostListener) {
+    fun setListener(
+        previewPostListener: PreviewPostListener,
+        onHighlightTextStyle: (TextStyle?) -> Unit
+    ) {
         listener = previewPostListener
+        binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
     }
 
     fun setText(message: String) {

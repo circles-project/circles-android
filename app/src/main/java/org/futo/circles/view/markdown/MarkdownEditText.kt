@@ -10,7 +10,6 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
-import com.google.android.material.button.MaterialButton
 import io.noties.markwon.*
 import io.noties.markwon.core.spans.BulletListItemSpan
 import io.noties.markwon.core.spans.EmphasisSpan
@@ -25,7 +24,6 @@ import org.commonmark.node.SoftLineBreak
 import org.futo.circles.R
 import org.futo.circles.extensions.getGivenSpans
 import org.futo.circles.extensions.getGivenSpansAt
-import org.futo.circles.view.markdown.style_bar.MarkdownStylesBar
 
 class MarkdownEditText(
     context: Context,
@@ -34,7 +32,6 @@ class MarkdownEditText(
 
     private val markwon: Markwon
     private var textWatcher: TextWatcher? = null
-    private var markdownStylesBar: MarkdownStylesBar? = null
     private var isSelectionStyling = false
     private var bulletSpanStart = 0
     private var numberedSpanStart = 0
@@ -42,6 +39,7 @@ class MarkdownEditText(
     private val textWatchers: MutableList<TextWatcher> = mutableListOf()
     private val taskBoxColor by lazy { ContextCompat.getColor(context, R.color.blue) }
     private val taskBoxMarkColor = Color.WHITE
+    private var onHighlightSpanListener: ((TextStyle?) -> Unit)? = null
 
     init {
         markwon = markwonBuilder(context)
@@ -49,6 +47,10 @@ class MarkdownEditText(
 
     override fun getText(): Editable {
         return super.getText() ?: Editable.Factory.getInstance().newEditable("")
+    }
+
+    fun setHighlightSelectedSpanListener(onHighlight: (TextStyle?) -> Unit) {
+        onHighlightSpanListener = onHighlight
     }
 
     private fun markwonBuilder(context: Context): Markwon {
@@ -90,27 +92,20 @@ class MarkdownEditText(
             }).build()
     }
 
-    fun setStylesBar(stylesBar: MarkdownStylesBar) {
-        stylesBar.markdownEditText = this
-        this.markdownStylesBar = stylesBar
-    }
-
     fun triggerStyle(textStyle: TextStyle, stop: Boolean) {
         if (stop) {
             clearTextWatchers()
         } else {
             when (textStyle) {
-                TextStyle.UNORDERED_LIST -> triggerUnOrderedListStyle(stop)
-                TextStyle.ORDERED_LIST -> triggerOrderedListStyle(stop)
-                TextStyle.TASKS_LIST -> triggerTasksListStyle(stop)
+                TextStyle.UNORDERED_LIST -> triggerUnOrderedListStyle()
+                TextStyle.ORDERED_LIST -> triggerOrderedListStyle()
+                TextStyle.TASKS_LIST -> triggerTasksListStyle()
                 else -> {
                     if (isSelectionStyling) {
                         styliseText(textStyle, selectionStart, selectionEnd)
                         isSelectionStyling = false
                     } else {
                         textWatcher = object : TextWatcher {
-                            override fun afterTextChanged(s: Editable?) {}
-
                             override fun beforeTextChanged(
                                 s: CharSequence?,
                                 start: Int,
@@ -125,12 +120,11 @@ class MarkdownEditText(
                                 before: Int,
                                 count: Int
                             ) {
-
-                                if (before < count) {
-                                    styliseText(textStyle, start)
-                                }
+                                if (before < count) styliseText(textStyle, start)
                             }
 
+                            override fun afterTextChanged(s: Editable?) {
+                            }
                         }
                         addTextWatcher(textWatcher!!)
                     }
@@ -139,304 +133,273 @@ class MarkdownEditText(
 
 
         }
-
-
     }
 
-    fun triggerUnOrderedListStyle(stop: Boolean) {
-        if (stop) {
-            clearTextWatchers()
-        } else {
-            val currentLineStart = layout.getLineStart(getCurrentCursorLine())
-            if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
-                    span = arrayOf(
-                        TextStyle.UNORDERED_LIST
-                    ), currentLineStart, currentLineStart + 1
-                ).isEmpty()
-            ) {
-                if (text.isNotEmpty()) {
-                    if (text.length > 1 && text.getGivenSpansAt(
-                            span = arrayOf(
-                                TextStyle.ORDERED_LIST,
-                                TextStyle.TASKS_LIST,
-                            ), selectionStart - 2, selectionStart
-                        ).isEmpty()
-                    ) {
-                        if (text.toString().substring(text.length - 2, text.length) != "\n") {
-                            text.insert(selectionStart, "\n ")
-                        } else {
-                            text.insert(selectionStart, " ")
-                        }
-                    } else {
+    private fun triggerUnOrderedListStyle() {
+        val currentLineStart = layout.getLineStart(getCurrentCursorLine())
+        if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
+                span = arrayOf(
+                    TextStyle.UNORDERED_LIST
+                ), currentLineStart, currentLineStart + 1
+            ).isEmpty()
+        ) {
+            if (text.isNotEmpty()) {
+                if (text.length > 1 && text.getGivenSpansAt(
+                        span = arrayOf(
+                            TextStyle.ORDERED_LIST,
+                            TextStyle.TASKS_LIST,
+                        ), selectionStart - 2, selectionStart
+                    ).isEmpty()
+                ) {
+                    if (text.toString().substring(text.length - 2, text.length) != "\n") {
                         text.insert(selectionStart, "\n ")
+                    } else {
+                        text.insert(selectionStart, " ")
                     }
-
                 } else {
-                    text.insert(selectionStart, " ")
+                    text.insert(selectionStart, "\n ")
                 }
 
-                bulletSpanStart = selectionStart - 1
-                text.setSpan(
-                    BulletListItemSpan(markwon.configuration().theme(), 0),
-                    bulletSpanStart,
-                    selectionStart,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+            } else {
+                text.insert(selectionStart, " ")
             }
 
-            addTextWatcher(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {}
+            bulletSpanStart = selectionStart - 1
+            text.setSpan(
+                BulletListItemSpan(markwon.configuration().theme(), 0),
+                bulletSpanStart,
+                selectionStart,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
 
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
+        addTextWatcher(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
 
-                var lineCount = getLineCount()
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (before < count) {
-                        // If there's a new line
-                        if (selectionStart == selectionEnd && lineCount < getLineCount()) {
-                            lineCount = getLineCount()
-                            val string = text.toString()
-                            // If user hit enter
-                            if (string[selectionStart - 1] == '\n') {
-                                bulletSpanStart = selectionStart
-                                text.insert(selectionStart, " ")
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            var lineCount = getLineCount()
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (before < count) {
+                    // If there's a new line
+                    if (selectionStart == selectionEnd && lineCount < getLineCount()) {
+                        lineCount = getLineCount()
+                        val string = text.toString()
+                        // If user hit enter
+                        if (string[selectionStart - 1] == '\n') {
+                            bulletSpanStart = selectionStart
+                            text.insert(selectionStart, " ")
+                            text.setSpan(
+                                BulletListItemSpan(markwon.configuration().theme(), 0),
+                                bulletSpanStart,
+                                bulletSpanStart + 1,
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        } else {
+                            for (bulletSpan in text.getGivenSpansAt(
+                                span = arrayOf(TextStyle.UNORDERED_LIST),
+                                bulletSpanStart,
+                                bulletSpanStart + 1
+                            )) {
+                                text.removeSpan(bulletSpan)
                                 text.setSpan(
                                     BulletListItemSpan(markwon.configuration().theme(), 0),
                                     bulletSpanStart,
-                                    bulletSpanStart + 1,
+                                    selectionStart,
                                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                                 )
-                            } else {
-                                for (bulletSpan in text.getGivenSpansAt(
-                                    span = arrayOf(TextStyle.UNORDERED_LIST),
-                                    bulletSpanStart,
-                                    bulletSpanStart + 1
-                                )) {
-                                    text.removeSpan(bulletSpan)
-                                    text.setSpan(
-                                        BulletListItemSpan(markwon.configuration().theme(), 0),
-                                        bulletSpanStart,
-                                        selectionStart,
-                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                                    )
-                                }
                             }
                         }
-
                     }
-
                 }
-
-            })
-
-        }
-
-
+            }
+        })
     }
 
-    private fun triggerOrderedListStyle(stop: Boolean) {
-        if (stop) {
-            clearTextWatchers()
-        } else {
-            var currentNum = 1
-            val currentLineStart = layout.getLineStart(getCurrentCursorLine())
-            if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
-                    span = arrayOf(
-                        TextStyle.ORDERED_LIST
-                    ), currentLineStart, currentLineStart + 1
-                ).isEmpty()
-            ) {
-                if (text.isNotEmpty()) {
-                    if (text.length > 1 && text.getGivenSpansAt(
-                            span = arrayOf(
-                                TextStyle.UNORDERED_LIST,
-                                TextStyle.TASKS_LIST,
-                            ), selectionStart - 2, selectionStart
-                        ).isEmpty()
-                    ) {
-                        if (text.toString().substring(text.length - 2, text.length) != "\n") {
-                            text.insert(selectionStart, "\n ")
-                        } else {
-                            text.insert(selectionStart, " ")
-                        }
-                    } else {
+    private fun triggerOrderedListStyle() {
+        var currentNum = 1
+        val currentLineStart = layout.getLineStart(getCurrentCursorLine())
+        if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
+                span = arrayOf(
+                    TextStyle.ORDERED_LIST
+                ), currentLineStart, currentLineStart + 1
+            ).isEmpty()
+        ) {
+            if (text.isNotEmpty()) {
+                if (text.length > 1 && text.getGivenSpansAt(
+                        span = arrayOf(
+                            TextStyle.UNORDERED_LIST,
+                            TextStyle.TASKS_LIST,
+                        ), selectionStart - 2, selectionStart
+                    ).isEmpty()
+                ) {
+                    if (text.toString().substring(text.length - 2, text.length) != "\n") {
                         text.insert(selectionStart, "\n ")
+                    } else {
+                        text.insert(selectionStart, " ")
                     }
-
                 } else {
-                    text.insert(selectionStart, " ")
+                    text.insert(selectionStart, "\n ")
                 }
 
-                numberedSpanStart = selectionStart - 1
-                text.setSpan(
-                    OrderedListItemSpan(markwon.configuration().theme(), "${currentNum}."),
-                    numberedSpanStart,
-                    selectionStart,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
+            } else {
+                text.insert(selectionStart, " ")
             }
 
-            currentNum++
+            numberedSpanStart = selectionStart - 1
+            text.setSpan(
+                OrderedListItemSpan(markwon.configuration().theme(), "${currentNum}."),
+                numberedSpanStart,
+                selectionStart,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
 
-            addTextWatcher(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {}
+        currentNum++
 
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
+        addTextWatcher(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
 
-                var lineCount = getLineCount()
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (before < count) {
-                        if (selectionStart == selectionEnd && lineCount < getLineCount()) {
-                            lineCount = getLineCount()
-                            val string = text.toString()
-                            // If user hit enter
-                            if (string[selectionStart - 1] == '\n') {
-                                numberedSpanStart = selectionStart
-                                text.insert(selectionStart, " ")
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
+            var lineCount = getLineCount()
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (before < count) {
+                    if (selectionStart == selectionEnd && lineCount < getLineCount()) {
+                        lineCount = getLineCount()
+                        val string = text.toString()
+                        // If user hit enter
+                        if (string[selectionStart - 1] == '\n') {
+                            numberedSpanStart = selectionStart
+                            text.insert(selectionStart, " ")
+                            text.setSpan(
+                                OrderedListItemSpan(
+                                    markwon.configuration().theme(),
+                                    "${currentNum}-"
+                                ),
+                                numberedSpanStart,
+                                numberedSpanStart + 1,
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                            currentNum++
+                        } else {
+                            for (numberedSpan in text.getGivenSpansAt(
+                                span = arrayOf(TextStyle.ORDERED_LIST),
+                                numberedSpanStart,
+                                numberedSpanStart + 1
+                            )) {
+                                val orderedSpan = numberedSpan as OrderedListItemSpan
+                                text.removeSpan(numberedSpan)
                                 text.setSpan(
                                     OrderedListItemSpan(
                                         markwon.configuration().theme(),
-                                        "${currentNum}-"
+                                        orderedSpan.number
                                     ),
                                     numberedSpanStart,
-                                    numberedSpanStart + 1,
+                                    selectionStart,
                                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                                 )
-                                currentNum++
-                            } else {
-                                for (numberedSpan in text.getGivenSpansAt(
-                                    span = arrayOf(TextStyle.ORDERED_LIST),
-                                    numberedSpanStart,
-                                    numberedSpanStart + 1
-                                )) {
-                                    val orderedSpan = numberedSpan as OrderedListItemSpan
-                                    text.removeSpan(numberedSpan)
-                                    text.setSpan(
-                                        OrderedListItemSpan(
-                                            markwon.configuration().theme(),
-                                            orderedSpan.number
-                                        ),
-                                        numberedSpanStart,
-                                        selectionStart,
-                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                                    )
-                                }
                             }
                         }
-
                     }
                 }
-
-            })
-        }
+            }
+        })
     }
 
-    private fun triggerTasksListStyle(stop: Boolean) {
-        if (stop) {
-            clearTextWatchers()
-        } else {
-            val currentLineStart = layout.getLineStart(getCurrentCursorLine())
-            if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
-                    span = arrayOf(
-                        TextStyle.TASKS_LIST
-                    ), currentLineStart, currentLineStart + 1
-                ).isEmpty()
-            ) {
-                if (text.isNotEmpty()) {
-                    if (text.length > 1 && text.getGivenSpansAt(
-                            span = arrayOf(
-                                TextStyle.ORDERED_LIST,
-                                TextStyle.UNORDERED_LIST,
-                            ), selectionStart - 2, selectionStart
-                        ).isEmpty()
-                    ) {
-                        if (text.toString().substring(text.length - 2, text.length) != "\n") {
-                            text.insert(selectionStart, "\n ")
-                        } else {
-                            text.insert(selectionStart, " ")
-                        }
-                    } else {
+    private fun triggerTasksListStyle() {
+        val currentLineStart = layout.getLineStart(getCurrentCursorLine())
+        if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
+                span = arrayOf(
+                    TextStyle.TASKS_LIST
+                ), currentLineStart, currentLineStart + 1
+            ).isEmpty()
+        ) {
+            if (text.isNotEmpty()) {
+                if (text.length > 1 && text.getGivenSpansAt(
+                        span = arrayOf(
+                            TextStyle.ORDERED_LIST,
+                            TextStyle.UNORDERED_LIST,
+                        ), selectionStart - 2, selectionStart
+                    ).isEmpty()
+                ) {
+                    if (text.toString().substring(text.length - 2, text.length) != "\n") {
                         text.insert(selectionStart, "\n ")
+                    } else {
+                        text.insert(selectionStart, " ")
                     }
-
                 } else {
-                    text.insert(selectionStart, " ")
+                    text.insert(selectionStart, "\n ")
                 }
-                taskSpanStart = selectionStart - 1
-                setTaskSpan(
-                    taskSpanStart,
-                    selectionStart, false
-                )
+
+            } else {
+                text.insert(selectionStart, " ")
+            }
+            taskSpanStart = selectionStart - 1
+            setTaskSpan(
+                taskSpanStart,
+                selectionStart, false
+            )
+        }
+        addTextWatcher(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
             }
 
-
-
-            addTextWatcher(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {}
-
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                var lineCount = getLineCount()
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    if (before < count) {
-                        // If there's a new line
-                        if (selectionStart == selectionEnd && lineCount < getLineCount()) {
-                            lineCount = getLineCount()
-                            val string = text.toString()
-                            // If user hit enter
-                            if (string[selectionStart - 1] == '\n') {
-                                taskSpanStart = selectionStart
-                                text.insert(selectionStart, " ")
+            var lineCount = getLineCount()
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (before < count) {
+                    // If there's a new line
+                    if (selectionStart == selectionEnd && lineCount < getLineCount()) {
+                        lineCount = getLineCount()
+                        val string = text.toString()
+                        // If user hit enter
+                        if (string[selectionStart - 1] == '\n') {
+                            taskSpanStart = selectionStart
+                            text.insert(selectionStart, " ")
+                            setTaskSpan(
+                                taskSpanStart,
+                                taskSpanStart + 1, false
+                            )
+                        } else {
+                            for (span in text.getGivenSpansAt(
+                                span = arrayOf(TextStyle.TASKS_LIST),
+                                taskSpanStart,
+                                taskSpanStart + 1
+                            )) {
+                                val taskSpan = span as TaskListSpan
+                                text.removeSpan(span)
                                 setTaskSpan(
                                     taskSpanStart,
-                                    taskSpanStart + 1, false
+                                    selectionStart, taskSpan.isDone
                                 )
-                            } else {
-                                for (span in text.getGivenSpansAt(
-                                    span = arrayOf(TextStyle.TASKS_LIST),
-                                    taskSpanStart,
-                                    taskSpanStart + 1
-                                )) {
-                                    val taskSpan = span as TaskListSpan
-                                    text.removeSpan(span)
-                                    setTaskSpan(
-                                        taskSpanStart,
-                                        selectionStart, taskSpan.isDone
-                                    )
-
-                                }
                             }
                         }
-
                     }
-
                 }
-
-            })
-
-        }
+            }
+        })
     }
 
-
-    private fun addLinkSpan(title: String?, link: String) {
+    fun addLinkSpan(title: String?, link: String) {
         val title1 = if (title.isNullOrEmpty()) link else title
         if (selectionStart == selectionEnd) {
             val cursorStart = selectionStart
@@ -516,7 +479,7 @@ class MarkdownEditText(
         }
     }
 
-    fun getMD(): String {
+    fun getTextWithMarkdown(): String {
         clearTextWatchers()
         var mdText = text
         val startList = emptyList<Int>().toMutableList()
@@ -700,12 +663,9 @@ class MarkdownEditText(
         }
     }
 
-
-    private var selectedButtonId: Int? = null
-
     override fun onSelectionChanged(selStart: Int, selEnd: Int) {
         super.onSelectionChanged(selStart, selEnd)
-        if (selStart == selEnd && markdownStylesBar != null && selStart > 0) {
+        if (selStart == selEnd && selStart > 0) {
             val currentLineStart = layout.getLineStart(getCurrentCursorLine())
             val listsSpans = text.getGivenSpansAt(
                 span = arrayOf(
@@ -716,30 +676,9 @@ class MarkdownEditText(
             )
             if (listsSpans.size > 0) {
                 when (listsSpans[0]) {
-                    is BulletListItemSpan -> {
-                        val bulletButton =
-                            markdownStylesBar?.getViewWithId(R.id.style_button_unordered_list) as MaterialButton?
-                        if (bulletButton != null && !bulletButton.isChecked) {
-                            bulletButton.isChecked = true
-                        }
-                        selectedButtonId = bulletButton?.id
-                    }
-                    is OrderedListItemSpan -> {
-                        val listButton =
-                            markdownStylesBar!!.getViewWithId(R.id.style_button_ordered_list) as MaterialButton?
-                        if (listButton != null && !listButton.isChecked) {
-                            listButton.isChecked = true
-                        }
-                        selectedButtonId = listButton?.id
-                    }
-                    is TaskListSpan -> {
-                        val taskButton =
-                            markdownStylesBar!!.getViewWithId(R.id.style_button_task_list) as MaterialButton?
-                        if (taskButton != null && !taskButton.isChecked) {
-                            taskButton.isChecked = true
-                        }
-                        selectedButtonId = taskButton?.id
-                    }
+                    is BulletListItemSpan -> onHighlightSpanListener?.invoke(TextStyle.UNORDERED_LIST)
+                    is OrderedListItemSpan -> onHighlightSpanListener?.invoke(TextStyle.ORDERED_LIST)
+                    is TaskListSpan -> onHighlightSpanListener?.invoke(TextStyle.TASKS_LIST)
                 }
             } else {
                 val selectedSpans = text.getGivenSpansAt(
@@ -753,49 +692,14 @@ class MarkdownEditText(
                 if (selectedSpans.size > 0) {
                     for (span in selectedSpans.distinctBy { it.javaClass }) {
                         when (span) {
-                            is StrongEmphasisSpan -> {
-                                val boldButton =
-                                    markdownStylesBar!!.getViewWithId(R.id.style_button_bold) as MaterialButton?
-                                if (boldButton != null && !boldButton.isChecked) {
-                                    boldButton.isChecked = true
-                                }
-                                selectedButtonId = boldButton?.id
-                            }
-                            is EmphasisSpan -> {
-                                val italicButton =
-                                    markdownStylesBar!!.getViewWithId(R.id.style_button_italic) as MaterialButton?
-                                if (italicButton != null && !italicButton.isChecked) {
-                                    italicButton.isChecked = true
-                                }
-                                selectedButtonId = italicButton?.id
-                            }
-                            is StrikethroughSpan -> {
-                                val strikeThroughButton =
-                                    markdownStylesBar!!.getViewWithId(R.id.style_button_strike) as MaterialButton?
-                                if (strikeThroughButton != null && !strikeThroughButton.isChecked) {
-                                    strikeThroughButton.isChecked = true
-                                }
-                                selectedButtonId = strikeThroughButton?.id
-                            }
-
+                            is StrongEmphasisSpan -> onHighlightSpanListener?.invoke(TextStyle.BOLD)
+                            is EmphasisSpan -> onHighlightSpanListener?.invoke(TextStyle.ITALIC)
+                            is StrikethroughSpan -> onHighlightSpanListener?.invoke(TextStyle.STRIKE)
                         }
                     }
-                } else {
-                    if (selectedButtonId != null) {
-                        val button =
-                            markdownStylesBar!!.getViewWithId(
-                                selectedButtonId!!
-                            ) as MaterialButton?
-                        if (button != null && button.isChecked) {
-                            button.isChecked = false
-                        }
-                    }
-                }
+                } else onHighlightSpanListener?.invoke(null)
             }
-
-        } else if (selStart != selEnd && markdownStylesBar != null) {
-            isSelectionStyling = true
-        }
+        } else if (selStart != selEnd) isSelectionStyling = true
     }
 
     private fun addTextWatcher(textWatcher: TextWatcher) {

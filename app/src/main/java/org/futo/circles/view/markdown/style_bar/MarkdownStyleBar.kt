@@ -60,6 +60,11 @@ class MarkdownStylesBar(
         )
     }
 
+    fun highlightStyle(textStyle: TextStyle?) {
+        val styleOrdinal = textStyle?.ordinal ?: -1
+        selectTextStyle(styleOrdinal)
+    }
+
     private fun setupViews() {
         setTextOptionsOpened(false)
         binding.ivCancel.setOnClickListener { setTextOptionsOpened(false) }
@@ -85,6 +90,12 @@ class MarkdownStylesBar(
 
     private fun onTextStyleSelected(id: Int) {
         postConfigurationListener?.onTextStyleSelected(TextStyle.values()[id])
+        selectTextStyle(id)
     }
 
+    private fun selectTextStyle(id: Int) {
+        textStyleOptionsAdapter.submitList(textStyleOptions.map {
+            it.copy(isSelected = it.id == id)
+        })
+    }
 }

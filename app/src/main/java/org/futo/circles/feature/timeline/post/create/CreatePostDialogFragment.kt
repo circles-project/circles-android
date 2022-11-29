@@ -67,7 +67,9 @@ class CreatePostDialogFragment :
                 override fun onPostContentAvailable(isAvailable: Boolean) {
                     binding.btnPost.isEnabled = isAvailable
                 }
-            })
+            },
+                onHighlightTextStyle = { textStyle -> binding.vPostOptions.highlightStyle(textStyle) }
+            )
         }
     }
 
@@ -103,7 +105,10 @@ class CreatePostDialogFragment :
     }
 
     override fun onUploadMediaClicked() {
-        TODO("Not yet implemented")
+        mediaPickerHelper.showMediaPickerDialog(
+            onImageSelected = { _, uri -> onMediaSelected(uri, MediaType.Image) },
+            onVideoSelected = { uri -> onMediaSelected(uri, MediaType.Video) }
+        )
     }
 
     override fun onEmojiClicked() {
