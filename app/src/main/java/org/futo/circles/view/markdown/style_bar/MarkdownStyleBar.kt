@@ -90,7 +90,7 @@ class MarkdownStyleBar(
 
     private fun onTextStyleSelected(id: Int) {
         val item = textStyleOptions.firstOrNull { it.id == id } ?: return
-        postConfigurationListener?.onTextStyleSelected(TextStyle.values()[id], !item.isSelected)
+        postConfigurationListener?.onTextStyleSelected(TextStyle.values()[id], item.isSelected)
         selectTextStyle(id)
     }
 

@@ -123,8 +123,8 @@ class CreatePostDialogFragment :
         binding.vPostPreview.insertMention()
     }
 
-    override fun onTextStyleSelected(textStyle: TextStyle, isSelected: Boolean) {
-        binding.vPostPreview.setTextStyle(textStyle, isSelected)
+    override fun onTextStyleSelected(textStyle: TextStyle, isStop: Boolean) {
+        binding.vPostPreview.setTextStyle(textStyle, isStop)
     }
 
     override fun onAddLinkClicked() {
