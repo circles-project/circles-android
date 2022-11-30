@@ -79,23 +79,7 @@ class MarkdownEditText(
                         TaskListItem::class.java
                     ) { configuration, props ->
                         val span = origin?.getSpans(configuration, props)
-                        (span as? TaskListSpan)?.let {
-                            val taskClick = object : ClickableSpan() {
-                                override fun onClick(widget: View) {
-                                    span.isDone = !span.isDone
-                                    text.setSpan(
-                                        span,
-                                        text.getSpanStart(span),
-                                        text.getSpanEnd(span),
-                                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                                    )
-                                }
-
-                                override fun updateDrawState(ds: TextPaint) {
-                                }
-                            }
-                            arrayOf(span, taskClick)
-                        }
+                        (span as? TaskListSpan)?.let { arrayOf(span, getTaskClickableSpan(span)) }
                     }
                 }
             }).build()
@@ -121,6 +105,10 @@ class MarkdownEditText(
                 }
             }
         }
+    }
+
+    private fun triggerListStyle(){
+
     }
 
     private fun triggerUnOrderedListStyle() {
@@ -354,16 +342,14 @@ class MarkdownEditText(
 
     fun addLinkSpan(title: String?, link: String) {
         val title1 = if (title.isNullOrEmpty()) link else title
-        if (selectionStart == selectionEnd) {
-            val cursorStart = selectionStart
-            text.insert(cursorStart, title1)
-            text.setSpan(
-                LinkSpan(markwon.configuration().theme(), link, LinkResolverDef()),
-                cursorStart,
-                cursorStart + title1.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-        }
+        val cursorStart = selectionStart
+        text.insert(cursorStart, title1)
+        text.setSpan(
+            LinkSpan(markwon.configuration().theme(), link, LinkResolverDef()),
+            cursorStart,
+            cursorStart + title1.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
     }
 
     private fun setTaskSpan(start: Int, end: Int, isDone: Boolean) {
@@ -372,30 +358,9 @@ class MarkdownEditText(
             TaskListDrawable(taskBoxColor, taskBoxColor, taskBoxMarkColor),
             isDone
         )
-        text.setSpan(
-            taskSpan,
-            start,
-            end,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        text.setSpan(object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                val spanStart = text.getSpanStart(taskSpan)
-                val spanEnd = text.getSpanEnd(taskSpan)
-                taskSpan.isDone = !taskSpan.isDone
-                if (spanStart >= 0) {
-                    text.setSpan(
-                        taskSpan,
-                        spanStart,
-                        spanEnd,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-            }
-        }, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        text.setSpan(taskSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        text.setSpan(getTaskClickableSpan(taskSpan), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
     }
-
 
     private fun styliseText(
         textStyle: TextStyle,
@@ -403,33 +368,70 @@ class MarkdownEditText(
         end: Int? = null
     ) {
         val endIndex = end ?: (start + 1)
-        when (textStyle) {
-            TextStyle.BOLD -> {
-                text.setSpan(
-                    StrongEmphasisSpan(),
-                    start,
-                    endIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-            TextStyle.ITALIC -> {
-                text.setSpan(
-                    EmphasisSpan(),
-                    start,
-                    endIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-            TextStyle.STRIKE -> {
-                text.setSpan(
-                    StrikethroughSpan(),
-                    start,
-                    endIndex,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-            else -> {}
+        val span = when (textStyle) {
+            TextStyle.BOLD -> StrongEmphasisSpan()
+            TextStyle.ITALIC -> EmphasisSpan()
+            TextStyle.STRIKE -> StrikethroughSpan()
+            else -> null
         }
+        span?.let {
+            text.setSpan(it, start, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+    }
+
+    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+        super.onSelectionChanged(selStart, selEnd)
+        if (selStart == selEnd && selStart > 0) {
+            val currentLineStart = layout.getLineStart(getCurrentCursorLine())
+            val listsSpans = text.getGivenSpansAt(
+                span = arrayOf(TextStyle.UNORDERED_LIST, TextStyle.TASKS_LIST),
+                start = currentLineStart, end = currentLineStart + 1
+            )
+            if (listsSpans.size > 0) {
+                when (listsSpans[0]) {
+                    is BulletListItemSpan -> onHighlightSpanListener?.invoke(TextStyle.UNORDERED_LIST)
+                    is OrderedListItemSpan -> onHighlightSpanListener?.invoke(TextStyle.ORDERED_LIST)
+                    is TaskListSpan -> onHighlightSpanListener?.invoke(TextStyle.TASKS_LIST)
+                }
+            } else {
+                val selectedSpans = text.getGivenSpansAt(
+                    span = arrayOf(TextStyle.BOLD, TextStyle.ITALIC, TextStyle.STRIKE),
+                    start = selStart - 1, end = selStart
+                )
+                if (selectedSpans.size > 0) {
+                    for (span in selectedSpans.distinctBy { it.javaClass }) {
+                        when (span) {
+                            is StrongEmphasisSpan -> onHighlightSpanListener?.invoke(TextStyle.BOLD)
+                            is EmphasisSpan -> onHighlightSpanListener?.invoke(TextStyle.ITALIC)
+                            is StrikethroughSpan -> onHighlightSpanListener?.invoke(TextStyle.STRIKE)
+                        }
+                    }
+                } else onHighlightSpanListener?.invoke(null)
+            }
+        } else if (selStart != selEnd) isSelectionStyling = true
+    }
+
+    private fun getTaskClickableSpan(taskSpan: TaskListSpan) = object : ClickableSpan() {
+        override fun onClick(widget: View) {
+            val spanStart = text.getSpanStart(taskSpan)
+            val spanEnd = text.getSpanEnd(taskSpan)
+            taskSpan.isDone = !taskSpan.isDone
+            if (spanStart >= 0) {
+                text.setSpan(taskSpan, spanStart, spanEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+        }
+    }
+
+    private fun addTextWatcher(textWatcher: TextWatcher) {
+        textWatchers.add(textWatcher)
+    }
+
+    private fun clearTextWatchers() {
+        textWatchers.forEach { removeTextChangedListener(it) }
+    }
+
+    private fun getCurrentCursorLine(): Int {
+        return if (selectionStart != -1) layout.getLineForOffset(selectionStart) else -1
     }
 
     fun getTextWithMarkdown(): String {
@@ -543,33 +545,21 @@ class MarkdownEditText(
                                 )
                                 i += 4 + (selectedSpan.link.length - spannedText.length)
                             }
-
                         }
                     }
-
                 }
-
             }
-
         }
         return mdText.toString()
     }
 
     private fun filterSpans() {
         val spans = text.getGivenSpans(
-            span = arrayOf(
-                TextStyle.BOLD,
-                TextStyle.ITALIC,
-                TextStyle.STRIKE,
-                TextStyle.LINK
-            )
+            span = arrayOf(TextStyle.BOLD, TextStyle.ITALIC, TextStyle.STRIKE, TextStyle.LINK)
         )
-
         for (span in spans) {
             val selectedSpans = text.getGivenSpansAt(
-                span = arrayOf(span),
-                text.getSpanStart(span),
-                text.getSpanEnd(span)
+                span = arrayOf(span), text.getSpanStart(span), text.getSpanEnd(span)
             )
             if (selectedSpans.size > 1) {
                 var smallSpanIndex = 0
@@ -592,17 +582,12 @@ class MarkdownEditText(
         }
 
         val listsSpans = text.getGivenSpans(
-            span = arrayOf(
-                TextStyle.UNORDERED_LIST,
-                TextStyle.TASKS_LIST
-            )
+            span = arrayOf(TextStyle.UNORDERED_LIST, TextStyle.TASKS_LIST)
         )
-
         if (listsSpans.isNotEmpty()) {
             for (span in listsSpans) {
                 val spanStart = text.getSpanStart(span)
                 val spanEnd = text.getSpanEnd(span)
-
                 if (spanEnd - spanStart > 1) {
                     text.removeSpan(span)
                     text.setSpan(
@@ -614,56 +599,5 @@ class MarkdownEditText(
                 }
             }
         }
-    }
-
-    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
-        super.onSelectionChanged(selStart, selEnd)
-        if (selStart == selEnd && selStart > 0) {
-            val currentLineStart = layout.getLineStart(getCurrentCursorLine())
-            val listsSpans = text.getGivenSpansAt(
-                span = arrayOf(
-                    TextStyle.UNORDERED_LIST,
-                    TextStyle.TASKS_LIST
-                ),
-                start = currentLineStart, end = currentLineStart + 1
-            )
-            if (listsSpans.size > 0) {
-                when (listsSpans[0]) {
-                    is BulletListItemSpan -> onHighlightSpanListener?.invoke(TextStyle.UNORDERED_LIST)
-                    is OrderedListItemSpan -> onHighlightSpanListener?.invoke(TextStyle.ORDERED_LIST)
-                    is TaskListSpan -> onHighlightSpanListener?.invoke(TextStyle.TASKS_LIST)
-                }
-            } else {
-                val selectedSpans = text.getGivenSpansAt(
-                    span = arrayOf(
-                        TextStyle.BOLD,
-                        TextStyle.ITALIC,
-                        TextStyle.STRIKE
-                    ),
-                    start = selStart - 1, end = selStart
-                )
-                if (selectedSpans.size > 0) {
-                    for (span in selectedSpans.distinctBy { it.javaClass }) {
-                        when (span) {
-                            is StrongEmphasisSpan -> onHighlightSpanListener?.invoke(TextStyle.BOLD)
-                            is EmphasisSpan -> onHighlightSpanListener?.invoke(TextStyle.ITALIC)
-                            is StrikethroughSpan -> onHighlightSpanListener?.invoke(TextStyle.STRIKE)
-                        }
-                    }
-                } else onHighlightSpanListener?.invoke(null)
-            }
-        } else if (selStart != selEnd) isSelectionStyling = true
-    }
-
-    private fun addTextWatcher(textWatcher: TextWatcher) {
-        textWatchers.add(textWatcher)
-    }
-
-    private fun clearTextWatchers() {
-        textWatchers.forEach { removeTextChangedListener(it) }
-    }
-
-    private fun getCurrentCursorLine(): Int {
-        return if (selectionStart != -1) layout.getLineForOffset(selectionStart) else -1
     }
 }
