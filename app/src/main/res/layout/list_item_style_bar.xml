@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/btnOption"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cvOption"
     android:layout_width="48dp"
     android:layout_height="48dp"
-    android:backgroundTint="@color/style_bar_option_color"
-    android:checkable="true" />
+    android:layout_marginHorizontal="4dp"
+    android:foreground="?selectableItemBackground"
+    android:clickable="true"
+    android:clipToPadding="false"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_mention" />
+
+</androidx.cardview.widget.CardView>

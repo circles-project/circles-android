@@ -12,7 +12,7 @@ import org.futo.circles.model.MainStyleBarOption
 import org.futo.circles.model.StyleBarListItem
 import org.futo.circles.view.markdown.TextStyle
 
-class MarkdownStylesBar(
+class MarkdownStyleBar(
     context: Context,
     attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
