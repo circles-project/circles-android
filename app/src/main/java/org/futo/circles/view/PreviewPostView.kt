@@ -52,9 +52,7 @@ class PreviewPostView(
                 true
             )
         }
-        binding.lvContent.setOnClickListener {
-            requestFocusOnText()
-        }
+        setOnClickListener { requestFocusOnText() }
         binding.etTextPost.doAfterTextChanged {
             listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)
         }
