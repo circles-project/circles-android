@@ -299,7 +299,7 @@ class MarkdownEditText(
                             text.setSpan(
                                 OrderedListItemSpan(
                                     markwon.configuration().theme(),
-                                    "${currentNum}-"
+                                    "${currentNum}."
                                 ),
                                 numberedSpanStart,
                                 numberedSpanStart + 1,
