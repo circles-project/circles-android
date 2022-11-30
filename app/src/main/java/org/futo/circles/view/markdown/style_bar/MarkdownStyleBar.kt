@@ -60,9 +60,11 @@ class MarkdownStyleBar(
         )
     }
 
-    fun highlightStyle(textStyle: TextStyle?) {
-        val styleOrdinal = textStyle?.ordinal ?: -1
-        selectTextStyle(styleOrdinal)
+    fun highlightStyle(textStyles: List<TextStyle>) {
+        textStyleOptions = textStyleOptions.map {
+            it.copy(isSelected = it.id in textStyles.map { it.ordinal })
+        }
+        textStyleOptionsAdapter.submitList(textStyleOptions)
     }
 
     private fun setupViews() {
@@ -91,10 +93,10 @@ class MarkdownStyleBar(
     private fun onTextStyleSelected(id: Int) {
         val item = textStyleOptions.firstOrNull { it.id == id } ?: return
         postConfigurationListener?.onTextStyleSelected(TextStyle.values()[id], item.isSelected)
-        selectTextStyle(id)
+        toggleTextStyleSelect(id)
     }
 
-    private fun selectTextStyle(id: Int) {
+    private fun toggleTextStyleSelect(id: Int) {
         textStyleOptions = textStyleOptions.map {
             if (it.id == id) it.copy(isSelected = !it.isSelected)
             else it
