@@ -1,5 +1,12 @@
 package org.futo.circles.view.markdown
 
+import android.text.style.BulletSpan
+import android.text.style.StrikethroughSpan
+import io.noties.markwon.core.spans.EmphasisSpan
+import io.noties.markwon.core.spans.LinkSpan
+import io.noties.markwon.core.spans.StrongEmphasisSpan
+import io.noties.markwon.ext.tasklist.TaskListSpan
+
 enum class TextStyle {
     BOLD,
     ITALIC,
@@ -8,4 +15,14 @@ enum class TextStyle {
     UNORDERED_LIST,
     ORDERED_LIST,
     TASKS_LIST
+}
+
+fun TextStyle.toSpanClass() = when (this) {
+    TextStyle.BOLD -> StrongEmphasisSpan::class.java
+    TextStyle.ITALIC -> EmphasisSpan::class.java
+    TextStyle.STRIKE -> StrikethroughSpan::class.java
+    TextStyle.LINK -> LinkSpan::class.java
+    TextStyle.UNORDERED_LIST -> BulletSpan::class.java
+    TextStyle.ORDERED_LIST -> OrderedListItemSpan::class.java
+    TextStyle.TASKS_LIST -> TaskListSpan::class.java
 }
