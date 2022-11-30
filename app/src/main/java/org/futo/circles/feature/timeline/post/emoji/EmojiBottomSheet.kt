@@ -32,7 +32,7 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         emojiPickerListener =
-            parentFragmentManager.fragments.firstOrNull { it is EmojiPickerListener } as? EmojiPickerListener
+            parentFragmentManager.fragments.findLast { it is EmojiPickerListener } as? EmojiPickerListener
     }
 
     override fun onCreateView(
