@@ -80,7 +80,7 @@ class PreviewPostView(
     }
 
     fun insertEmoji(unicode: String) {
-        binding.etTextPost.insertEmoji(unicode)
+        binding.etTextPost.insertText(unicode)
     }
 
     fun insertMention() {

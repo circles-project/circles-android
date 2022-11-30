@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import io.noties.markwon.*
 import io.noties.markwon.core.spans.BulletListItemSpan
 import io.noties.markwon.core.spans.EmphasisSpan
@@ -53,15 +54,11 @@ class MarkdownEditText(
         onHighlightSpanListener = onHighlight
     }
 
-    fun insertEmoji(unicode: String) {
-        insertText(unicode)
-    }
-
     fun insertMention() {
         insertText("@")
     }
 
-    private fun insertText(message: String) {
+    fun insertText(message: String) {
         text.insert(selectionStart, message)
     }
 
@@ -117,42 +114,19 @@ class MarkdownEditText(
                         styliseText(textStyle, selectionStart, selectionEnd)
                         isSelectionStyling = false
                     } else {
-                        textWatcher = object : TextWatcher {
-                            override fun beforeTextChanged(
-                                s: CharSequence?,
-                                start: Int,
-                                count: Int,
-                                after: Int
-                            ) {
-                            }
-
-                            override fun onTextChanged(
-                                s: CharSequence?,
-                                start: Int,
-                                before: Int,
-                                count: Int
-                            ) {
-                                if (before < count) styliseText(textStyle, start)
-                            }
-
-                            override fun afterTextChanged(s: Editable?) {
-                            }
-                        }
-                        addTextWatcher(textWatcher!!)
+                        textWatcher = doOnTextChanged { _, start, before, count ->
+                            if (before < count) styliseText(textStyle, start)
+                        }.also { addTextWatcher(it) }
                     }
                 }
             }
-
-
         }
     }
 
     private fun triggerUnOrderedListStyle() {
         val currentLineStart = layout.getLineStart(getCurrentCursorLine())
         if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
-                span = arrayOf(
-                    TextStyle.UNORDERED_LIST
-                ), currentLineStart, currentLineStart + 1
+                span = arrayOf(TextStyle.UNORDERED_LIST), currentLineStart, currentLineStart + 1
             ).isEmpty()
         ) {
             if (text.isNotEmpty()) {
@@ -184,49 +158,36 @@ class MarkdownEditText(
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
-
-        addTextWatcher(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            var lineCount = getLineCount()
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (before < count) {
-                    // If there's a new line
-                    if (selectionStart == selectionEnd && lineCount < getLineCount()) {
-                        lineCount = getLineCount()
-                        val string = text.toString()
-                        // If user hit enter
-                        if (string[selectionStart - 1] == '\n') {
-                            bulletSpanStart = selectionStart
-                            text.insert(selectionStart, " ")
+        var mLineCount = lineCount
+        addTextWatcher(doOnTextChanged { _, _, before, count ->
+            if (before < count) {
+                // If there's a new line
+                if (selectionStart == selectionEnd && mLineCount < lineCount) {
+                    mLineCount = lineCount
+                    val string = text.toString()
+                    // If user hit enter
+                    if (string[selectionStart - 1] == '\n') {
+                        bulletSpanStart = selectionStart
+                        text.insert(selectionStart, " ")
+                        text.setSpan(
+                            BulletListItemSpan(markwon.configuration().theme(), 0),
+                            bulletSpanStart,
+                            bulletSpanStart + 1,
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    } else {
+                        for (bulletSpan in text.getGivenSpansAt(
+                            span = arrayOf(TextStyle.UNORDERED_LIST),
+                            bulletSpanStart,
+                            bulletSpanStart + 1
+                        )) {
+                            text.removeSpan(bulletSpan)
                             text.setSpan(
                                 BulletListItemSpan(markwon.configuration().theme(), 0),
                                 bulletSpanStart,
-                                bulletSpanStart + 1,
+                                selectionStart,
                                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                             )
-                        } else {
-                            for (bulletSpan in text.getGivenSpansAt(
-                                span = arrayOf(TextStyle.UNORDERED_LIST),
-                                bulletSpanStart,
-                                bulletSpanStart + 1
-                            )) {
-                                text.removeSpan(bulletSpan)
-                                text.setSpan(
-                                    BulletListItemSpan(markwon.configuration().theme(), 0),
-                                    bulletSpanStart,
-                                    selectionStart,
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                                )
-                            }
                         }
                     }
                 }
@@ -275,22 +236,12 @@ class MarkdownEditText(
 
         currentNum++
 
-        addTextWatcher(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            var lineCount = getLineCount()
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        var mLineCount = lineCount
+        addTextWatcher(
+            doOnTextChanged { _, _, before, count ->
                 if (before < count) {
-                    if (selectionStart == selectionEnd && lineCount < getLineCount()) {
-                        lineCount = getLineCount()
+                    if (selectionStart == selectionEnd && mLineCount < lineCount) {
+                        mLineCount = lineCount
                         val string = text.toString()
                         // If user hit enter
                         if (string[selectionStart - 1] == '\n') {
@@ -328,7 +279,7 @@ class MarkdownEditText(
                     }
                 }
             }
-        })
+        )
     }
 
     private fun triggerTasksListStyle() {
@@ -365,23 +316,13 @@ class MarkdownEditText(
                 selectionStart, false
             )
         }
-        addTextWatcher(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            var lineCount = getLineCount()
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        var mLineCount = lineCount
+        addTextWatcher(
+            doOnTextChanged { _, _, before, count ->
                 if (before < count) {
                     // If there's a new line
-                    if (selectionStart == selectionEnd && lineCount < getLineCount()) {
-                        lineCount = getLineCount()
+                    if (selectionStart == selectionEnd && mLineCount < lineCount) {
+                        mLineCount = lineCount
                         val string = text.toString()
                         // If user hit enter
                         if (string[selectionStart - 1] == '\n') {
@@ -408,7 +349,7 @@ class MarkdownEditText(
                     }
                 }
             }
-        })
+        )
     }
 
     fun addLinkSpan(title: String?, link: String) {
@@ -716,11 +657,10 @@ class MarkdownEditText(
 
     private fun addTextWatcher(textWatcher: TextWatcher) {
         textWatchers.add(textWatcher)
-        addTextChangedListener(textWatcher)
     }
 
     private fun clearTextWatchers() {
-        for (textWatcher in textWatchers) removeTextChangedListener(textWatcher)
+        textWatchers.forEach { removeTextChangedListener(it) }
     }
 
     private fun getCurrentCursorLine(): Int {
