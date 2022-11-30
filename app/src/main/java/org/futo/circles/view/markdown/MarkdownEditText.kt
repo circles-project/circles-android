@@ -32,11 +32,8 @@ class MarkdownEditText(
 ) : AppCompatEditText(context, attrs) {
 
     private val markwon: Markwon
-    private var textWatcher: TextWatcher? = null
     private var isSelectionStyling = false
-    private var bulletSpanStart = 0
-    private var numberedSpanStart = 0
-    private var taskSpanStart = 0
+    private var listSpanStart = 0
     private val textWatchers: MutableList<TextWatcher> = mutableListOf()
     private val taskBoxColor by lazy { ContextCompat.getColor(context, R.color.blue) }
     private val taskBoxMarkColor = Color.WHITE
@@ -90,39 +87,37 @@ class MarkdownEditText(
             clearTextWatchers()
         } else {
             when (textStyle) {
-                TextStyle.UNORDERED_LIST -> triggerUnOrderedListStyle()
-                TextStyle.ORDERED_LIST -> triggerOrderedListStyle()
-                TextStyle.TASKS_LIST -> triggerTasksListStyle()
+                TextStyle.UNORDERED_LIST, TextStyle.ORDERED_LIST, TextStyle.TASKS_LIST ->
+                    triggerListStyle(textStyle)
                 else -> {
                     if (isSelectionStyling) {
                         styliseText(textStyle, selectionStart, selectionEnd)
                         isSelectionStyling = false
                     } else {
-                        textWatcher = doOnTextChanged { _, start, before, count ->
+                        addTextWatcher(doOnTextChanged { _, start, before, count ->
                             if (before < count) styliseText(textStyle, start)
-                        }.also { addTextWatcher(it) }
+                        })
                     }
                 }
             }
         }
     }
 
-    private fun triggerListStyle(){
-
-    }
-
-    private fun triggerUnOrderedListStyle() {
+    private fun triggerListStyle(listSpanStyle: TextStyle) {
+        var currentNum = 1
         val currentLineStart = layout.getLineStart(getCurrentCursorLine())
         if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
-                span = arrayOf(TextStyle.UNORDERED_LIST), currentLineStart, currentLineStart + 1
+                span = arrayOf(listSpanStyle), currentLineStart, currentLineStart + 1
             ).isEmpty()
         ) {
             if (text.isNotEmpty()) {
+                val otherListSpans = mutableListOf(
+                    TextStyle.ORDERED_LIST,
+                    TextStyle.UNORDERED_LIST,
+                    TextStyle.TASKS_LIST
+                ).apply { remove(listSpanStyle) }.toTypedArray()
                 if (text.length > 1 && text.getGivenSpansAt(
-                        span = arrayOf(
-                            TextStyle.ORDERED_LIST,
-                            TextStyle.TASKS_LIST,
-                        ), selectionStart - 2, selectionStart
+                        span = otherListSpans, selectionStart - 2, selectionStart
                     ).isEmpty()
                 ) {
                     if (text.toString().substring(text.length - 2, text.length) != "\n") {
@@ -138,41 +133,44 @@ class MarkdownEditText(
                 text.insert(selectionStart, " ")
             }
 
-            bulletSpanStart = selectionStart - 1
+            listSpanStart = selectionStart - 1
             text.setSpan(
-                BulletListItemSpan(markwon.configuration().theme(), 0),
-                bulletSpanStart,
+                getListSpan(listSpanStyle, "${currentNum}.", false),
+                listSpanStart,
                 selectionStart,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
         }
+        currentNum++
         var mLineCount = lineCount
         addTextWatcher(doOnTextChanged { _, _, before, count ->
             if (before < count) {
-                // If there's a new line
                 if (selectionStart == selectionEnd && mLineCount < lineCount) {
                     mLineCount = lineCount
                     val string = text.toString()
                     // If user hit enter
                     if (string[selectionStart - 1] == '\n') {
-                        bulletSpanStart = selectionStart
+                        listSpanStart = selectionStart
                         text.insert(selectionStart, " ")
                         text.setSpan(
-                            BulletListItemSpan(markwon.configuration().theme(), 0),
-                            bulletSpanStart,
-                            bulletSpanStart + 1,
+                            getListSpan(listSpanStyle, "${currentNum}.", false),
+                            listSpanStart,
+                            listSpanStart + 1,
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                         )
+                        currentNum++
                     } else {
                         for (bulletSpan in text.getGivenSpansAt(
-                            span = arrayOf(TextStyle.UNORDERED_LIST),
-                            bulletSpanStart,
-                            bulletSpanStart + 1
+                            span = arrayOf(listSpanStyle),
+                            listSpanStart,
+                            listSpanStart + 1
                         )) {
+                            val number = (bulletSpan as? OrderedListItemSpan)?.number ?: ""
+                            val isDone = (bulletSpan as? TaskListSpan)?.isDone ?: false
                             text.removeSpan(bulletSpan)
                             text.setSpan(
-                                BulletListItemSpan(markwon.configuration().theme(), 0),
-                                bulletSpanStart,
+                                getListSpan(listSpanStyle, number, isDone),
+                                listSpanStart,
                                 selectionStart,
                                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                             )
@@ -183,171 +181,21 @@ class MarkdownEditText(
         })
     }
 
-    private fun triggerOrderedListStyle() {
-        var currentNum = 1
-        val currentLineStart = layout.getLineStart(getCurrentCursorLine())
-        if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
-                span = arrayOf(
-                    TextStyle.ORDERED_LIST
-                ), currentLineStart, currentLineStart + 1
-            ).isEmpty()
-        ) {
-            if (text.isNotEmpty()) {
-                if (text.length > 1 && text.getGivenSpansAt(
-                        span = arrayOf(
-                            TextStyle.UNORDERED_LIST,
-                            TextStyle.TASKS_LIST,
-                        ), selectionStart - 2, selectionStart
-                    ).isEmpty()
-                ) {
-                    if (text.toString().substring(text.length - 2, text.length) != "\n") {
-                        text.insert(selectionStart, "\n ")
-                    } else {
-                        text.insert(selectionStart, " ")
-                    }
-                } else {
-                    text.insert(selectionStart, "\n ")
-                }
-
-            } else {
-                text.insert(selectionStart, " ")
-            }
-
-            numberedSpanStart = selectionStart - 1
-            text.setSpan(
-                OrderedListItemSpan(markwon.configuration().theme(), "${currentNum}."),
-                numberedSpanStart,
-                selectionStart,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+    private fun getListSpan(listSpanStyle: TextStyle, currentNum: String, isDone: Boolean): Any =
+        when (listSpanStyle) {
+            TextStyle.ORDERED_LIST -> OrderedListItemSpan(markwon.configuration().theme(), currentNum)
+            TextStyle.TASKS_LIST -> setTaskSpan(listSpanStart, selectionStart, isDone)
+            else -> BulletListItemSpan(markwon.configuration().theme(), 0)
         }
-
-        currentNum++
-
-        var mLineCount = lineCount
-        addTextWatcher(
-            doOnTextChanged { _, _, before, count ->
-                if (before < count) {
-                    if (selectionStart == selectionEnd && mLineCount < lineCount) {
-                        mLineCount = lineCount
-                        val string = text.toString()
-                        // If user hit enter
-                        if (string[selectionStart - 1] == '\n') {
-                            numberedSpanStart = selectionStart
-                            text.insert(selectionStart, " ")
-                            text.setSpan(
-                                OrderedListItemSpan(
-                                    markwon.configuration().theme(),
-                                    "${currentNum}."
-                                ),
-                                numberedSpanStart,
-                                numberedSpanStart + 1,
-                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                            )
-                            currentNum++
-                        } else {
-                            for (numberedSpan in text.getGivenSpansAt(
-                                span = arrayOf(TextStyle.ORDERED_LIST),
-                                numberedSpanStart,
-                                numberedSpanStart + 1
-                            )) {
-                                val orderedSpan = numberedSpan as OrderedListItemSpan
-                                text.removeSpan(numberedSpan)
-                                text.setSpan(
-                                    OrderedListItemSpan(
-                                        markwon.configuration().theme(),
-                                        orderedSpan.number
-                                    ),
-                                    numberedSpanStart,
-                                    selectionStart,
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        )
-    }
-
-    private fun triggerTasksListStyle() {
-        val currentLineStart = layout.getLineStart(getCurrentCursorLine())
-        if (text.length < currentLineStart + 1 || text.getGivenSpansAt(
-                span = arrayOf(
-                    TextStyle.TASKS_LIST
-                ), currentLineStart, currentLineStart + 1
-            ).isEmpty()
-        ) {
-            if (text.isNotEmpty()) {
-                if (text.length > 1 && text.getGivenSpansAt(
-                        span = arrayOf(
-                            TextStyle.ORDERED_LIST,
-                            TextStyle.UNORDERED_LIST,
-                        ), selectionStart - 2, selectionStart
-                    ).isEmpty()
-                ) {
-                    if (text.toString().substring(text.length - 2, text.length) != "\n") {
-                        text.insert(selectionStart, "\n ")
-                    } else {
-                        text.insert(selectionStart, " ")
-                    }
-                } else {
-                    text.insert(selectionStart, "\n ")
-                }
-
-            } else {
-                text.insert(selectionStart, " ")
-            }
-            taskSpanStart = selectionStart - 1
-            setTaskSpan(
-                taskSpanStart,
-                selectionStart, false
-            )
-        }
-        var mLineCount = lineCount
-        addTextWatcher(
-            doOnTextChanged { _, _, before, count ->
-                if (before < count) {
-                    // If there's a new line
-                    if (selectionStart == selectionEnd && mLineCount < lineCount) {
-                        mLineCount = lineCount
-                        val string = text.toString()
-                        // If user hit enter
-                        if (string[selectionStart - 1] == '\n') {
-                            taskSpanStart = selectionStart
-                            text.insert(selectionStart, " ")
-                            setTaskSpan(
-                                taskSpanStart,
-                                taskSpanStart + 1, false
-                            )
-                        } else {
-                            for (span in text.getGivenSpansAt(
-                                span = arrayOf(TextStyle.TASKS_LIST),
-                                taskSpanStart,
-                                taskSpanStart + 1
-                            )) {
-                                val taskSpan = span as TaskListSpan
-                                text.removeSpan(span)
-                                setTaskSpan(
-                                    taskSpanStart,
-                                    selectionStart, taskSpan.isDone
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        )
-    }
 
     fun addLinkSpan(title: String?, link: String) {
-        val title1 = if (title.isNullOrEmpty()) link else title
+        val newTitle = if (title.isNullOrEmpty()) link else title
         val cursorStart = selectionStart
-        text.insert(cursorStart, title1)
+        text.insert(cursorStart, newTitle)
         text.setSpan(
             LinkSpan(markwon.configuration().theme(), link, LinkResolverDef()),
             cursorStart,
-            cursorStart + title1.length,
+            cursorStart + newTitle.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
     }
