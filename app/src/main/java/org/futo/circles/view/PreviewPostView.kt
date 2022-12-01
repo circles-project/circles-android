@@ -64,7 +64,7 @@ class PreviewPostView(
 
     fun setListener(
         previewPostListener: PreviewPostListener,
-        onHighlightTextStyle: (TextStyle?) -> Unit
+        onHighlightTextStyle: (List<TextStyle>) -> Unit
     ) {
         listener = previewPostListener
         binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)

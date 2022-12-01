@@ -42,6 +42,7 @@ class MarkdownEditText(
     private var onHighlightSpanListener: ((List<TextStyle>) -> Unit)? = null
 
     init {
+        movementMethod = EnhancedMovementMethod().getsInstance()
         markwon = markwonBuilder(context)
     }
 
@@ -59,29 +60,6 @@ class MarkdownEditText(
 
     fun insertText(message: String) {
         text.insert(selectionStart, message)
-    }
-
-    private fun markwonBuilder(context: Context): Markwon {
-        movementMethod = EnhancedMovementMethod().getsInstance()
-        return Markwon.builder(context)
-            .usePlugin(StrikethroughPlugin.create())
-            .usePlugin(TaskListPlugin.create(taskBoxColor, taskBoxColor, taskBoxMarkColor))
-            .usePlugin(object : AbstractMarkwonPlugin() {
-                override fun configureVisitor(builder: MarkwonVisitor.Builder) {
-                    super.configureVisitor(builder)
-                    builder.on(SoftLineBreak::class.java) { visitor, _ -> visitor.forceNewLine() }
-                }
-
-                override fun configureSpansFactory(builder: MarkwonSpansFactory.Builder) {
-                    val origin = builder.getFactory(TaskListItem::class.java)
-                    builder.setFactory(
-                        TaskListItem::class.java
-                    ) { configuration, props ->
-                        val span = origin?.getSpans(configuration, props)
-                        (span as? TaskListSpan)?.let { arrayOf(span, getTaskClickableSpan(span)) }
-                    }
-                }
-            }).build()
     }
 
     fun triggerStyle(textStyle: TextStyle, stop: Boolean) {
@@ -232,43 +210,43 @@ class MarkdownEditText(
         }
     }
 
-    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
-        super.onSelectionChanged(selStart, selEnd)
-        if (selStart != selEnd) isSelectionStyling = true
-        if (selStart <= 0) {
-            onHighlightSpanListener?.invoke(emptyList())
-            return
-        }
-        val spans = mutableListOf<TextStyle>()
-        val currentLineStart = layout.getLineStart(getCurrentCursorLine())
-        val listsSpans = text.getGivenSpansAt(
-            span = arrayOf(
-                TextStyle.UNORDERED_LIST,
-                TextStyle.TASKS_LIST,
-                TextStyle.ORDERED_LIST
-            ),
-            start = currentLineStart, end = currentLineStart + 1
-        )
-        listsSpans.forEach {
-            when (it) {
-                is BulletListItemSpan -> spans.add(TextStyle.UNORDERED_LIST)
-                is OrderedListItemSpan -> spans.add(TextStyle.ORDERED_LIST)
-                is TaskListSpan -> spans.add(TextStyle.TASKS_LIST)
-            }
-        }
-        val textSpans = text.getGivenSpansAt(
-            span = arrayOf(TextStyle.BOLD, TextStyle.ITALIC, TextStyle.STRIKE),
-            start = selStart - 1, end = selStart
-        )
-        textSpans.forEach {
-            when (it) {
-                is StrongEmphasisSpan -> spans.add(TextStyle.BOLD)
-                is EmphasisSpan -> spans.add(TextStyle.ITALIC)
-                is StrikethroughSpan -> spans.add(TextStyle.STRIKE)
-            }
-        }
-        onHighlightSpanListener?.invoke(spans)
-    }
+//    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+//        super.onSelectionChanged(selStart, selEnd)
+//        if (selStart != selEnd) isSelectionStyling = true
+//        if (selStart <= 0) {
+//            onHighlightSpanListener?.invoke(emptyList())
+//            return
+//        }
+//        val spans = mutableListOf<TextStyle>()
+//        val currentLineStart = layout.getLineStart(getCurrentCursorLine())
+//        val listsSpans = text.getGivenSpansAt(
+//            span = arrayOf(
+//                TextStyle.UNORDERED_LIST,
+//                TextStyle.TASKS_LIST,
+//                TextStyle.ORDERED_LIST
+//            ),
+//            start = currentLineStart, end = currentLineStart + 1
+//        )
+//        listsSpans.forEach {
+//            when (it) {
+//                is BulletListItemSpan -> spans.add(TextStyle.UNORDERED_LIST)
+//                is OrderedListItemSpan -> spans.add(TextStyle.ORDERED_LIST)
+//                is TaskListSpan -> spans.add(TextStyle.TASKS_LIST)
+//            }
+//        }
+//        val textSpans = text.getGivenSpansAt(
+//            span = arrayOf(TextStyle.BOLD, TextStyle.ITALIC, TextStyle.STRIKE),
+//            start = selStart - 1, end = selStart
+//        )
+//        textSpans.forEach {
+//            when (it) {
+//                is StrongEmphasisSpan -> spans.add(TextStyle.BOLD)
+//                is EmphasisSpan -> spans.add(TextStyle.ITALIC)
+//                is StrikethroughSpan -> spans.add(TextStyle.STRIKE)
+//            }
+//        }
+//        onHighlightSpanListener?.invoke(spans)
+//    }
 
     private fun getTaskClickableSpan(taskSpan: TaskListSpan) = object : ClickableSpan() {
         override fun onClick(widget: View) {
@@ -331,4 +309,24 @@ class MarkdownEditText(
         }
         return textCopy.toString()
     }
+
+    private fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
+        .usePlugin(StrikethroughPlugin.create())
+        .usePlugin(TaskListPlugin.create(taskBoxColor, taskBoxColor, taskBoxMarkColor))
+        .usePlugin(object : AbstractMarkwonPlugin() {
+            override fun configureVisitor(builder: MarkwonVisitor.Builder) {
+                super.configureVisitor(builder)
+                builder.on(SoftLineBreak::class.java) { visitor, _ -> visitor.forceNewLine() }
+            }
+
+            override fun configureSpansFactory(builder: MarkwonSpansFactory.Builder) {
+                val origin = builder.getFactory(TaskListItem::class.java)
+                builder.setFactory(
+                    TaskListItem::class.java
+                ) { configuration, props ->
+                    val span = origin?.getSpans(configuration, props)
+                    (span as? TaskListSpan)?.let { arrayOf(span, getTaskClickableSpan(span)) }
+                }
+            }
+        }).build()
 }
