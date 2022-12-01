@@ -48,7 +48,7 @@ class MarkdownEditText(
         movementMethod = EnhancedMovementMethod().getsInstance()
         markwon = markwonBuilder(context)
         doOnTextChanged { _, start, before, count ->
-            styliseText(start, count)
+            styliseText(start, start + count)
             handleListSpanTextChange(before, count)
         }
     }
@@ -174,6 +174,7 @@ class MarkdownEditText(
 
     private fun styliseText(start: Int, end: Int) {
         if (start >= end) return
+
         selectedStyles.forEach { textStyle ->
             val span = when (textStyle) {
                 TextStyle.BOLD -> StrongEmphasisSpan()
