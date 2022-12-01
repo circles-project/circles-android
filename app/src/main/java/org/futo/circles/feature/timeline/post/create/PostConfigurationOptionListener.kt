@@ -6,6 +6,6 @@ interface PostConfigurationOptionListener {
     fun onUploadMediaClicked()
     fun onEmojiClicked()
     fun onMentionClicked()
-    fun onTextStyleSelected(textStyle: TextStyle, isStop: Boolean)
+    fun onTextStyleSelected(textStyle: TextStyle, isSelected: Boolean)
     fun onAddLinkClicked()
 }

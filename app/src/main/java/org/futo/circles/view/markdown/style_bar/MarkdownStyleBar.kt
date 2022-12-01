@@ -92,15 +92,6 @@ class MarkdownStyleBar(
 
     private fun onTextStyleSelected(id: Int) {
         val item = textStyleOptions.firstOrNull { it.id == id } ?: return
-        postConfigurationListener?.onTextStyleSelected(TextStyle.values()[id], item.isSelected)
-        toggleTextStyleSelect(id)
-    }
-
-    private fun toggleTextStyleSelect(id: Int) {
-        textStyleOptions = textStyleOptions.map {
-            if (it.id == id) it.copy(isSelected = !it.isSelected)
-            else it
-        }
-        textStyleOptionsAdapter.submitList(textStyleOptions)
+        postConfigurationListener?.onTextStyleSelected(TextStyle.values()[id], !item.isSelected)
     }
 }

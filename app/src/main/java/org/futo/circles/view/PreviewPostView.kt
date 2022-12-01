@@ -75,8 +75,8 @@ class PreviewPostView(
         setTextContent()
     }
 
-    fun setTextStyle(style: TextStyle, isStop: Boolean) {
-        binding.etTextPost.triggerStyle(style, isStop)
+    fun setTextStyle(style: TextStyle, isSelected: Boolean) {
+        binding.etTextPost.triggerStyle(style, isSelected)
     }
 
     fun insertEmoji(unicode: String) {
