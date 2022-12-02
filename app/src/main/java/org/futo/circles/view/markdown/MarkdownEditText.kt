@@ -44,7 +44,7 @@ class MarkdownEditText(
     private val listStyles =
         arrayOf(TextStyle.UNORDERED_LIST, TextStyle.ORDERED_LIST, TextStyle.TASKS_LIST)
     private var onHighlightSpanListener: ((List<TextStyle>) -> Unit)? = null
-    private var selectedStyles: MutableList<TextStyle> = mutableListOf()
+    private val selectedStyles = mutableSetOf<TextStyle>()
 
     init {
         movementMethod = EnhancedMovementMethod().getsInstance()
@@ -77,7 +77,7 @@ class MarkdownEditText(
             selectedStyles.add(textStyle)
         } else selectedStyles.remove(textStyle)
         handleSelectionStylingIfNeed()
-        onHighlightSpanListener?.invoke(selectedStyles)
+        onHighlightSpanListener?.invoke(selectedStyles.toList())
     }
 
     private fun handleSelectionStylingIfNeed() {
@@ -201,7 +201,7 @@ class MarkdownEditText(
         isSelectionStyling = selStart != selEnd
         if (selStart <= 0) return
 
-        val spans = mutableListOf<TextStyle>()
+        val spans = mutableSetOf<TextStyle>()
         val currentLineStart = layout.getLineStart(getCurrentCursorLine())
         val listsSpans = text.getGivenSpansAt(
             span = listStyles,
@@ -214,9 +214,11 @@ class MarkdownEditText(
                 is TaskListSpan -> spans.add(TextStyle.TASKS_LIST)
             }
         }
+        val textStart = if (isSelectionStyling) selStart else selStart - 1
+        val textEnd = if (isSelectionStyling) selEnd else selStart
         val textSpans = text.getGivenSpansAt(
             span = textStyles,
-            start = selStart - 1, end = selStart
+            start = textStart, end = textEnd
         )
         textSpans.forEach {
             when (it) {
@@ -225,8 +227,11 @@ class MarkdownEditText(
                 is StrikethroughSpan -> spans.add(TextStyle.STRIKE)
             }
         }
-        //selectedStyles = spans
-        onHighlightSpanListener?.invoke(spans)
+        if (spans != selectedStyles) {
+            selectedStyles.clear()
+            selectedStyles.addAll(spans)
+        }
+        onHighlightSpanListener?.invoke(spans.toList())
     }
 
     private fun getTaskClickableSpan(taskSpan: TaskListSpan) = object : ClickableSpan() {
