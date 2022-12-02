@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cvOption"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    app:cardCornerRadius="8dp"
+    android:elevation="4dp"
+    android:layout_marginHorizontal="4dp"
+    android:foreground="?selectableItemBackground"
+    android:clickable="true"
+    android:clipToPadding="false"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_mention" />
+
+</androidx.cardview.widget.CardView>

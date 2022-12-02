@@ -23,6 +23,8 @@ import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.view.markdown.MarkdownParser
+import org.futo.circles.view.markdown.TextStyle
 import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -39,7 +41,6 @@ class PreviewPostView(
         ViewPreviewPostBinding.inflate(LayoutInflater.from(context), this)
 
     private var listener: PreviewPostListener? = null
-
     private var postContent: CreatePostContent? = null
 
     init {
@@ -52,9 +53,7 @@ class PreviewPostView(
                 true
             )
         }
-        binding.lvContent.setOnClickListener {
-            requestFocusOnText()
-        }
+        setOnClickListener { requestFocusOnText() }
         binding.etTextPost.doAfterTextChanged {
             listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)
         }
@@ -64,13 +63,33 @@ class PreviewPostView(
         updateContentView()
     }
 
-    fun setListener(previewPostListener: PreviewPostListener) {
+    fun setListener(
+        previewPostListener: PreviewPostListener,
+        onHighlightTextStyle: (List<TextStyle>) -> Unit
+    ) {
         listener = previewPostListener
+        binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
     }
 
     fun setText(message: String) {
-        binding.etTextPost.setText(message)
+        binding.etTextPost.text = MarkdownParser.markdownToEditable(message, context)
         setTextContent()
+    }
+
+    fun setTextStyle(style: TextStyle, isSelected: Boolean) {
+        binding.etTextPost.triggerStyle(style, isSelected)
+    }
+
+    fun insertEmoji(unicode: String) {
+        binding.etTextPost.insertText(unicode)
+    }
+
+    fun insertMention() {
+        binding.etTextPost.insertMention()
+    }
+
+    fun insertLink(title: String?, link: String) {
+        binding.etTextPost.addLinkSpan(title, link)
     }
 
     fun setMedia(contentUri: Uri, mediaType: MediaType) {
@@ -88,8 +107,8 @@ class PreviewPostView(
     }
 
     fun getPostContent() = (postContent as? MediaPostContent)?.copy(
-        caption = binding.etTextPost.text.toString().trim().takeIf { it.isNotEmpty() }
-    ) ?: TextPostContent(binding.etTextPost.text.toString().trim())
+        caption = binding.etTextPost.getTextWithMarkdown().trim().takeIf { it.isNotEmpty() }
+    ) ?: TextPostContent(binding.etTextPost.getTextWithMarkdown().trim())
 
     private fun updateContentView() {
         val isTextContent = postContent is TextPostContent || postContent == null
@@ -105,7 +124,7 @@ class PreviewPostView(
     private fun setTextContent() {
         postContent = null
         updateContentView()
-        listener?.onPostContentAvailable(binding.etTextPost.text?.toString()?.isNotBlank() == true)
+        listener?.onPostContentAvailable(binding.etTextPost.text.toString().isNotBlank())
     }
 
     private fun loadMediaCover(uri: Uri, mediaType: MediaType) {

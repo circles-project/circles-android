@@ -11,7 +11,7 @@ import org.futo.circles.model.ActiveSession
 
 class ActiveSessionInfoView(
     context: Context,
-    attrs: AttributeSet? = null,
+    attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
 
     private val binding = ViewActiveSessionInfoBinding.inflate(LayoutInflater.from(context), this)

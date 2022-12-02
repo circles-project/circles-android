@@ -17,7 +17,7 @@ class SystemNoticesTimelineViewModel(
             if (it is RootPost && it.content.type == PostContentType.TEXT_CONTENT)
                 SystemNoticeListItem(
                     it.id,
-                    (it.content as? TextContent)?.message ?: "",
+                    (it.content as? TextContent)?.message?.toString() ?: "",
                     it.postInfo.timestamp
                 )
             else null

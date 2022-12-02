@@ -10,7 +10,6 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.databinding.FragmentTimelineBinding
@@ -254,7 +253,9 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.editPoll(roomId, eventId, pollContent)
     }
 
-    override fun onEmojiSelected(roomId: String, eventId: String, emoji: String) {
+    override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
+        roomId ?: return
+        eventId ?: return
         viewModel.sendReaction(roomId, eventId, emoji)
     }
 
