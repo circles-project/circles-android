@@ -39,6 +39,8 @@ class MarkdownEditText(
     private var currentListSpanLine = 0
     private val taskBoxColor by lazy { ContextCompat.getColor(context, R.color.blue) }
     private val taskBoxMarkColor = Color.WHITE
+    private val textStyles =
+        arrayOf(TextStyle.BOLD, TextStyle.ITALIC, TextStyle.STRIKE)
     private val listStyles =
         arrayOf(TextStyle.UNORDERED_LIST, TextStyle.ORDERED_LIST, TextStyle.TASKS_LIST)
     private var onHighlightSpanListener: ((List<TextStyle>) -> Unit)? = null
@@ -71,18 +73,25 @@ class MarkdownEditText(
 
     fun triggerStyle(textStyle: TextStyle, isSelected: Boolean) {
         if (isSelected) {
-            if (textStyle in listStyles) {
-                selectedStyles.removeAll { it in listStyles }
-                triggerListStyle(textStyle)
-            }
+            selectOnlyOneListStyleIfNeed(textStyle)
             selectedStyles.add(textStyle)
         } else selectedStyles.remove(textStyle)
-
-        if (isSelectionStyling) {
-            styliseText(selectionStart, selectionEnd)
-            isSelectionStyling = false
-        }
+        handleSelectionStylingIfNeed()
         onHighlightSpanListener?.invoke(selectedStyles)
+    }
+
+    private fun handleSelectionStylingIfNeed() {
+        if (!isSelectionStyling) return
+        text.getGivenSpansAt(span = textStyles, selectionStart, selectionEnd).forEach {
+            text.removeSpan(it)
+        }
+        styliseText(selectionStart, selectionEnd)
+    }
+
+    private fun selectOnlyOneListStyleIfNeed(textStyle: TextStyle) {
+        if (textStyle !in listStyles) return
+        selectedStyles.removeAll { it in listStyles }
+        triggerListStyle(textStyle)
     }
 
     private fun triggerListStyle(listSpanStyle: TextStyle) {
@@ -174,7 +183,6 @@ class MarkdownEditText(
 
     private fun styliseText(start: Int, end: Int) {
         if (start >= end) return
-
         selectedStyles.forEach { textStyle ->
             val span = when (textStyle) {
                 TextStyle.BOLD -> StrongEmphasisSpan()
@@ -188,43 +196,38 @@ class MarkdownEditText(
         }
     }
 
-//    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
-//        super.onSelectionChanged(selStart, selEnd)
-//        if (selStart != selEnd) isSelectionStyling = true
-//        if (selStart <= 0) {
-//            onHighlightSpanListener?.invoke(emptyList())
-//            return
-//        }
-//        val spans = mutableListOf<TextStyle>()
-//        val currentLineStart = layout.getLineStart(getCurrentCursorLine())
-//        val listsSpans = text.getGivenSpansAt(
-//            span = arrayOf(
-//                TextStyle.UNORDERED_LIST,
-//                TextStyle.TASKS_LIST,
-//                TextStyle.ORDERED_LIST
-//            ),
-//            start = currentLineStart, end = currentLineStart + 1
-//        )
-//        listsSpans.forEach {
-//            when (it) {
-//                is BulletListItemSpan -> spans.add(TextStyle.UNORDERED_LIST)
-//                is OrderedListItemSpan -> spans.add(TextStyle.ORDERED_LIST)
-//                is TaskListSpan -> spans.add(TextStyle.TASKS_LIST)
-//            }
-//        }
-//        val textSpans = text.getGivenSpansAt(
-//            span = arrayOf(TextStyle.BOLD, TextStyle.ITALIC, TextStyle.STRIKE),
-//            start = selStart - 1, end = selStart
-//        )
-//        textSpans.forEach {
-//            when (it) {
-//                is StrongEmphasisSpan -> spans.add(TextStyle.BOLD)
-//                is EmphasisSpan -> spans.add(TextStyle.ITALIC)
-//                is StrikethroughSpan -> spans.add(TextStyle.STRIKE)
-//            }
-//        }
-//        onHighlightSpanListener?.invoke(spans)
-//    }
+    override fun onSelectionChanged(selStart: Int, selEnd: Int) {
+        super.onSelectionChanged(selStart, selEnd)
+        isSelectionStyling = selStart != selEnd
+        if (selStart <= 0) return
+
+        val spans = mutableListOf<TextStyle>()
+        val currentLineStart = layout.getLineStart(getCurrentCursorLine())
+        val listsSpans = text.getGivenSpansAt(
+            span = listStyles,
+            start = currentLineStart, end = currentLineStart + 1
+        )
+        listsSpans.forEach {
+            when (it) {
+                is BulletListItemSpan -> spans.add(TextStyle.UNORDERED_LIST)
+                is OrderedListItemSpan -> spans.add(TextStyle.ORDERED_LIST)
+                is TaskListSpan -> spans.add(TextStyle.TASKS_LIST)
+            }
+        }
+        val textSpans = text.getGivenSpansAt(
+            span = textStyles,
+            start = selStart - 1, end = selStart
+        )
+        textSpans.forEach {
+            when (it) {
+                is StrongEmphasisSpan -> spans.add(TextStyle.BOLD)
+                is EmphasisSpan -> spans.add(TextStyle.ITALIC)
+                is StrikethroughSpan -> spans.add(TextStyle.STRIKE)
+            }
+        }
+        //selectedStyles = spans
+        onHighlightSpanListener?.invoke(spans)
+    }
 
     private fun getTaskClickableSpan(taskSpan: TaskListSpan) = object : ClickableSpan() {
         override fun onClick(widget: View) {
