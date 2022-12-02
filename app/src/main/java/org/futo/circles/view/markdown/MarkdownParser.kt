@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.text.Editable
 import android.text.style.StrikethroughSpan
+import android.text.util.Linkify
 import androidx.core.content.ContextCompat
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
@@ -17,6 +18,7 @@ import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tasklist.TaskListItem
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import io.noties.markwon.ext.tasklist.TaskListSpan
+import io.noties.markwon.linkify.LinkifyPlugin
 import org.commonmark.node.SoftLineBreak
 import org.futo.circles.R
 import org.futo.circles.extensions.getGivenSpansAt
@@ -71,6 +73,7 @@ object MarkdownParser {
 
     fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
         .usePlugin(StrikethroughPlugin.create())
+        .usePlugin(LinkifyPlugin.create())
         .usePlugin(
             TaskListPlugin.create(
                 ContextCompat.getColor(context, R.color.blue),
