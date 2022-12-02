@@ -64,14 +64,17 @@ object MarkdownParser {
 
     private fun setTextStyleSpan(editable: Editable, mark: String, span: Any) {
         var pointer = 0
-        val indexes = mutableListOf<Int>()
         while (pointer <= editable.lastIndex) {
             val start = editable.indexOf(mark, pointer)
             val end = editable.indexOf(mark, start + mark.length)
             if (start == -1 || end == -1) break
-
             editable.setSpan(span, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             pointer = end + mark.length
+        }
+        while (true) {
+            val index = editable.indexOf(mark, 0)
+            if (index == -1) break
+            editable.replace(index, index + mark.length, "")
         }
 
     }
