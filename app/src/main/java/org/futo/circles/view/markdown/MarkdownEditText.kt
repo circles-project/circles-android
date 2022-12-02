@@ -191,7 +191,8 @@ class MarkdownEditText(
                 else -> null
             }
             span?.let {
-                text.setSpan(it, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                if (text.getGivenSpansAt(span = arrayOf(textStyle), start, end).isEmpty())
+                    text.setSpan(it, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
         }
     }
@@ -244,7 +245,6 @@ class MarkdownEditText(
             }
         }
     }
-
 
     private fun getCurrentCursorLine(): Int {
         return if (selectionStart != -1) layout.getLineForOffset(selectionStart) else -1
