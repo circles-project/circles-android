@@ -1,6 +1,5 @@
 package org.futo.circles.feature.timeline.post.create
 
-import android.text.Editable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.futo.circles.provider.MatrixSessionProvider
@@ -15,7 +14,7 @@ class CreatePostViewModel(
     isEdit: Boolean
 ) : ViewModel() {
 
-    val textToEditLiveData = MutableLiveData<Editable>()
+    val textToEditLiveData = MutableLiveData<String>()
 
     init {
         if (isEdit) setEditPostInfo()
@@ -26,8 +25,6 @@ class CreatePostViewModel(
         val session = MatrixSessionProvider.currentSession
         val room = session?.getRoom(roomId) ?: return
         val event = room.getTimelineEvent(eventId) ?: return
-        textToEditLiveData.postValue(
-            MarkdownParser.markdownToEditable(event.getTextEditableContent(false))
-        )
+        textToEditLiveData.postValue(event.getTextEditableContent(false))
     }
 }

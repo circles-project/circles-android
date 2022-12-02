@@ -3,7 +3,6 @@ package org.futo.circles.view
 
 import android.content.Context
 import android.net.Uri
-import android.text.Editable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
@@ -24,6 +23,7 @@ import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.view.markdown.MarkdownParser
 import org.futo.circles.view.markdown.TextStyle
 import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.user.model.User
@@ -71,8 +71,8 @@ class PreviewPostView(
         binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
     }
 
-    fun setText(message: Editable) {
-        binding.etTextPost.text = message
+    fun setText(message: String) {
+        binding.etTextPost.text = MarkdownParser.markdownToEditable(message, context)
         setTextContent()
     }
 

@@ -1,5 +1,6 @@
 package org.futo.circles.mapping
 
+import android.content.Context
 import android.text.Editable
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.core.picker.MediaType
@@ -20,11 +21,13 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 const val MediaCaptionFieldKey = "caption"
 
 
-fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
+fun TimelineEvent.toMediaContent(mediaType: MediaType, context: Context): MediaContent {
     val messageContentInfo = root.getClearContent().let {
         when (mediaType) {
-            MediaType.Image -> it.toModel<MessageImageContent>().toMediaContentInfo(getCaption())
-            MediaType.Video -> it.toModel<MessageVideoContent>().toMediaContentInfo(getCaption())
+            MediaType.Image -> it.toModel<MessageImageContent>()
+                .toMediaContentInfo(getCaption(context))
+            MediaType.Video -> it.toModel<MessageVideoContent>()
+                .toMediaContentInfo(getCaption(context))
         }
     }
     return MediaContent(
@@ -34,8 +37,9 @@ fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
     )
 }
 
-private fun TimelineEvent.getCaption() =
-    root.getClearContent()?.get(MediaCaptionFieldKey)?.let { MarkdownParser.markdownToEditable(it.toString()) }
+private fun TimelineEvent.getCaption(context: Context) =
+    root.getClearContent()?.get(MediaCaptionFieldKey)
+        ?.let { MarkdownParser.markdownToEditable(it.toString(), context) }
 
 private fun MessageImageContent?.toMediaContentInfo(caption: Editable?): MediaContentInfo {
     return MediaContentInfo(

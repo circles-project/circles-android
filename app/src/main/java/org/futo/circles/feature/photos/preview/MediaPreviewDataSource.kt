@@ -1,7 +1,9 @@
 package org.futo.circles.feature.photos.preview
 
+import android.content.Context
 import org.futo.circles.mapping.toPost
-import org.futo.circles.model.*
+import org.futo.circles.model.PostContent
+import org.futo.circles.model.PostContentType
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
@@ -11,7 +13,8 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
 class MediaPreviewDataSource(
     private val roomId: String,
-    private val eventId: String
+    private val eventId: String,
+    private val context: Context
 ) {
 
     private val session = MatrixSessionProvider.currentSession
@@ -19,7 +22,7 @@ class MediaPreviewDataSource(
     fun getPostContent(): PostContent? {
         val roomForMessage = session?.getRoom(roomId)
         val timelineEvent = roomForMessage?.getTimelineEvent(eventId) ?: return null
-        val post = getPostContentTypeFor(timelineEvent)?.let { timelineEvent.toPost(it) }
+        val post = getPostContentTypeFor(timelineEvent)?.let { timelineEvent.toPost(context, it ) }
             ?: return null
         return post.content
     }

@@ -65,7 +65,7 @@ val dataSourceModule = module {
         LeaveRoomDataSource(roomId, get())
     }
     factory { PostOptionsDataSource(get()) }
-    factory { TimelineBuilder() }
+    factory { TimelineBuilder(get()) }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
     factory { (roomId: String?) -> SelectUsersDataSource(roomId) }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
@@ -104,7 +104,7 @@ val dataSourceModule = module {
     factory { ChangePasswordDataSource(get(), get()) }
     factory { ActiveSessionsDataSource(get(), get()) }
     factory { AuthConfirmationProvider(get()) }
-    factory { (roomId: String, eventId: String) -> MediaPreviewDataSource(roomId, eventId) }
+    factory { (roomId: String, eventId: String) -> MediaPreviewDataSource(roomId, eventId, get()) }
     factory { SelectGalleriesDataSource() }
     factory { SavePostToGalleryDataSource(get(), get()) }
     factory { PeopleDataSource() }
