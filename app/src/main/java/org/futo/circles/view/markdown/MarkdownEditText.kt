@@ -18,12 +18,8 @@ import io.noties.markwon.core.spans.BulletListItemSpan
 import io.noties.markwon.core.spans.EmphasisSpan
 import io.noties.markwon.core.spans.LinkSpan
 import io.noties.markwon.core.spans.StrongEmphasisSpan
-import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tasklist.TaskListDrawable
-import io.noties.markwon.ext.tasklist.TaskListItem
-import io.noties.markwon.ext.tasklist.TaskListPlugin
 import io.noties.markwon.ext.tasklist.TaskListSpan
-import org.commonmark.node.SoftLineBreak
 import org.futo.circles.R
 import org.futo.circles.extensions.getGivenSpansAt
 
@@ -48,7 +44,7 @@ class MarkdownEditText(
 
     init {
         movementMethod = EnhancedMovementMethod().getsInstance()
-        markwon = markwonBuilder(context)
+        markwon = MarkdownParser.markwonBuilder(context)
         doOnTextChanged { _, start, before, count ->
             styliseText(start, start + count)
             handleListSpanTextChange(before, count)
@@ -251,24 +247,4 @@ class MarkdownEditText(
     private fun getCurrentCursorLine(): Int {
         return if (selectionStart != -1) layout.getLineForOffset(selectionStart) else -1
     }
-
-    private fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
-        .usePlugin(StrikethroughPlugin.create())
-        .usePlugin(TaskListPlugin.create(taskBoxColor, taskBoxColor, taskBoxMarkColor))
-        .usePlugin(object : AbstractMarkwonPlugin() {
-            override fun configureVisitor(builder: MarkwonVisitor.Builder) {
-                super.configureVisitor(builder)
-                builder.on(SoftLineBreak::class.java) { visitor, _ -> visitor.forceNewLine() }
-            }
-
-            override fun configureSpansFactory(builder: MarkwonSpansFactory.Builder) {
-                val origin = builder.getFactory(TaskListItem::class.java)
-                builder.setFactory(
-                    TaskListItem::class.java
-                ) { configuration, props ->
-                    val span = origin?.getSpans(configuration, props)
-                    (span as? TaskListSpan)?.let { arrayOf(span, getTaskClickableSpan(span)) }
-                }
-            }
-        }).build()
 }
