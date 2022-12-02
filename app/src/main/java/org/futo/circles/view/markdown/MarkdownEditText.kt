@@ -276,13 +276,12 @@ class MarkdownEditText(
                     textCopy.insert(start, linkStartMark)
                     textCopy.insert(end + linkStartMark.length, "](${it.link})")
                 }
-                is BulletListItemSpan -> {
-
+                is BulletListItemSpan -> textCopy.insert(start, "*")
+                is OrderedListItemSpan -> textCopy.insert(start, it.number)
+                is TaskListSpan -> {
+                    val taskSpanMark = if (it.isDone) "* []" else "* [x]"
+                    textCopy.insert(start, taskSpanMark)
                 }
-                is OrderedListItemSpan -> {
-
-                }
-                is TaskListSpan -> {}
             }
         }
         return textCopy.toString()

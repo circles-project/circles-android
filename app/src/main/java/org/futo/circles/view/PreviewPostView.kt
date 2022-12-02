@@ -106,8 +106,8 @@ class PreviewPostView(
     }
 
     fun getPostContent() = (postContent as? MediaPostContent)?.copy(
-        caption = binding.etTextPost.text.toString().trim().takeIf { it.isNotEmpty() }
-    ) ?: TextPostContent(binding.etTextPost.text.toString().trim())
+        caption = binding.etTextPost.getTextWithMarkdown().trim().takeIf { it.isNotEmpty() }
+    ) ?: TextPostContent(binding.etTextPost.getTextWithMarkdown().trim())
 
     private fun updateContentView() {
         val isTextContent = postContent is TextPostContent || postContent == null
