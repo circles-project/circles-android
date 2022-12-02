@@ -38,20 +38,17 @@ object MarkdownParser {
             val end = textCopy.getSpanEnd(it)
             when (it) {
                 is StrongEmphasisSpan -> {
-                    var endIndex = end + boldMark.length
-                    if (textCopy.getOrNull(end - 1).toString() == " ") endIndex -= 1
+                    val endIndex = calculateLastIndexToInsert(textCopy, end, boldMark)
                     textCopy.insert(start, boldMark)
                     textCopy.insert(endIndex, boldMark)
                 }
                 is EmphasisSpan -> {
-                    var endIndex = end + italicMark.length
-                    if (textCopy.getOrNull(end - 1).toString() == " ") endIndex -= 1
+                    val endIndex = calculateLastIndexToInsert(textCopy, end, italicMark)
                     textCopy.insert(start, italicMark)
                     textCopy.insert(endIndex, italicMark)
                 }
                 is StrikethroughSpan -> {
-                    var endIndex = end + strikeMark.length
-                    if (textCopy.getOrNull(end - 1).toString() == " ") endIndex -= 1
+                    val endIndex = calculateLastIndexToInsert(textCopy, end, strikeMark)
                     textCopy.insert(start, strikeMark)
                     textCopy.insert(endIndex, strikeMark)
                 }
@@ -102,5 +99,12 @@ object MarkdownParser {
                 }
             }
         }).build()
+
+    private fun calculateLastIndexToInsert(textCopy: Editable, spanEnd: Int, mark: String): Int {
+        var endIndex = spanEnd + mark.length
+        val lastChar = textCopy.getOrNull(spanEnd - 1).toString()
+        if (lastChar == " " || lastChar == "\n") endIndex -= 1
+        return endIndex
+    }
 
 }
