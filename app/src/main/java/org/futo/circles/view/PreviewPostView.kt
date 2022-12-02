@@ -3,6 +3,7 @@ package org.futo.circles.view
 
 import android.content.Context
 import android.net.Uri
+import android.text.Editable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
@@ -70,8 +71,8 @@ class PreviewPostView(
         binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
     }
 
-    fun setText(message: String) {
-        binding.etTextPost.setText(message)
+    fun setText(message: Editable) {
+        binding.etTextPost.text = message
         setTextContent()
     }
 

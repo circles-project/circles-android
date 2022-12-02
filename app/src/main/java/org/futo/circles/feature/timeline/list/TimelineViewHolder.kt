@@ -5,6 +5,7 @@ import android.text.method.LinkMovementMethod
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
@@ -78,7 +79,7 @@ class TextMediaPostViewHolder(
 
     private fun bindTextPost(content: TextContent) {
         binding.tvTextContent.apply {
-            text = content.message
+            setText(content.message, TextView.BufferType.SPANNABLE)
             visible()
         }
         binding.vMediaContent.lMedia.gone()
@@ -95,7 +96,7 @@ class TextMediaPostViewHolder(
         binding.tvTextContent.apply {
             val caption = content.mediaContentInfo.caption
             setIsVisible(caption != null)
-            text = caption
+            setText(caption, TextView.BufferType.SPANNABLE)
         }
     }
 

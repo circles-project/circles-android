@@ -1,5 +1,6 @@
 package org.futo.circles.mapping
 
+import android.text.Editable
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.VideoUtils
@@ -7,6 +8,7 @@ import org.futo.circles.model.MediaContent
 import org.futo.circles.model.MediaContentInfo
 import org.futo.circles.model.MediaFileData
 import org.futo.circles.model.PostContentType
+import org.futo.circles.view.markdown.MarkdownParser
 import org.matrix.android.sdk.api.session.crypto.attachments.toElementToDecrypt
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent
@@ -33,9 +35,9 @@ fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
 }
 
 private fun TimelineEvent.getCaption() =
-    root.getClearContent()?.get(MediaCaptionFieldKey)?.toString()
+    root.getClearContent()?.get(MediaCaptionFieldKey)?.let { MarkdownParser.markdownToEditable(it.toString()) }
 
-private fun MessageImageContent?.toMediaContentInfo(caption: String?): MediaContentInfo {
+private fun MessageImageContent?.toMediaContentInfo(caption: Editable?): MediaContentInfo {
     return MediaContentInfo(
         caption = caption,
         thumbnailUrl = this?.info?.thumbnailFile?.url ?: "",
@@ -45,7 +47,7 @@ private fun MessageImageContent?.toMediaContentInfo(caption: String?): MediaCont
     )
 }
 
-private fun MessageVideoContent?.toMediaContentInfo(caption: String?): MediaContentInfo {
+private fun MessageVideoContent?.toMediaContentInfo(caption: Editable?): MediaContentInfo {
     return MediaContentInfo(
         caption = caption,
         thumbnailUrl = this?.videoInfo?.thumbnailFile?.url ?: "",

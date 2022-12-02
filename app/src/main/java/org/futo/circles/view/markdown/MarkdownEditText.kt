@@ -59,6 +59,8 @@ class MarkdownEditText(
         return super.getText() ?: Editable.Factory.getInstance().newEditable("")
     }
 
+    fun getTextWithMarkdown() = MarkdownParser.editableToMarkdown(text)
+
     fun setHighlightSelectedSpanListener(onHighlight: (List<TextStyle>) -> Unit) {
         onHighlightSpanListener = onHighlight
     }
@@ -248,43 +250,6 @@ class MarkdownEditText(
 
     private fun getCurrentCursorLine(): Int {
         return if (selectionStart != -1) layout.getLineForOffset(selectionStart) else -1
-    }
-
-    fun getTextWithMarkdown(): String {
-        val textCopy = Editable.Factory.getInstance().newEditable(text)
-        text.getGivenSpansAt(span = TextStyle.values()).forEach {
-            val start = textCopy.getSpanStart(it)
-            val end = textCopy.getSpanEnd(it)
-            when (it) {
-                is StrongEmphasisSpan -> {
-                    val boldMark = "**"
-                    textCopy.insert(start, boldMark)
-                    textCopy.insert(end + boldMark.length, boldMark)
-                }
-                is EmphasisSpan -> {
-                    val italicMark = "_"
-                    textCopy.insert(start, italicMark)
-                    textCopy.insert(end + italicMark.length, italicMark)
-                }
-                is StrikethroughSpan -> {
-                    val strikeMark = "~~"
-                    textCopy.insert(start, strikeMark)
-                    textCopy.insert(end + strikeMark.length, strikeMark)
-                }
-                is LinkSpan -> {
-                    val linkStartMark = "["
-                    textCopy.insert(start, linkStartMark)
-                    textCopy.insert(end + linkStartMark.length, "](${it.link})")
-                }
-                is BulletListItemSpan -> textCopy.insert(start, "*")
-                is OrderedListItemSpan -> textCopy.insert(start, it.number)
-                is TaskListSpan -> {
-                    val taskSpanMark = if (it.isDone) "* []" else "* [x]"
-                    textCopy.insert(start, taskSpanMark)
-                }
-            }
-        }
-        return textCopy.toString()
     }
 
     private fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
