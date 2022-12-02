@@ -1,7 +1,7 @@
 package org.futo.circles.view.markdown
 
-import android.text.style.BulletSpan
 import android.text.style.StrikethroughSpan
+import io.noties.markwon.core.spans.BulletListItemSpan
 import io.noties.markwon.core.spans.EmphasisSpan
 import io.noties.markwon.core.spans.LinkSpan
 import io.noties.markwon.core.spans.StrongEmphasisSpan
@@ -22,7 +22,7 @@ fun TextStyle.toSpanClass() = when (this) {
     TextStyle.ITALIC -> EmphasisSpan::class.java
     TextStyle.STRIKE -> StrikethroughSpan::class.java
     TextStyle.LINK -> LinkSpan::class.java
-    TextStyle.UNORDERED_LIST -> BulletSpan::class.java
+    TextStyle.UNORDERED_LIST -> BulletListItemSpan::class.java
     TextStyle.ORDERED_LIST -> OrderedListItemSpan::class.java
     TextStyle.TASKS_LIST -> TaskListSpan::class.java
 }
