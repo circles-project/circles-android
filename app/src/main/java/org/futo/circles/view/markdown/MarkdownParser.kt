@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.text.Editable
 import android.text.style.StrikethroughSpan
-import android.text.util.Linkify
 import androidx.core.content.ContextCompat
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
@@ -39,16 +38,22 @@ object MarkdownParser {
             val end = textCopy.getSpanEnd(it)
             when (it) {
                 is StrongEmphasisSpan -> {
+                    var endIndex = end + boldMark.length
+                    if (textCopy.getOrNull(end - 1).toString() == " ") endIndex -= 1
                     textCopy.insert(start, boldMark)
-                    textCopy.insert(end + boldMark.length, boldMark)
+                    textCopy.insert(endIndex, boldMark)
                 }
                 is EmphasisSpan -> {
+                    var endIndex = end + italicMark.length
+                    if (textCopy.getOrNull(end - 1).toString() == " ") endIndex -= 1
                     textCopy.insert(start, italicMark)
-                    textCopy.insert(end + italicMark.length, italicMark)
+                    textCopy.insert(endIndex, italicMark)
                 }
                 is StrikethroughSpan -> {
+                    var endIndex = end + strikeMark.length
+                    if (textCopy.getOrNull(end - 1).toString() == " ") endIndex -= 1
                     textCopy.insert(start, strikeMark)
-                    textCopy.insert(end + strikeMark.length, strikeMark)
+                    textCopy.insert(endIndex, strikeMark)
                 }
                 is LinkSpan -> {
                     val linkStartMark = "["
