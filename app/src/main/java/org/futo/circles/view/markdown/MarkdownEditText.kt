@@ -13,7 +13,8 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
-import io.noties.markwon.*
+import io.noties.markwon.LinkResolverDef
+import io.noties.markwon.Markwon
 import io.noties.markwon.core.spans.BulletListItemSpan
 import io.noties.markwon.core.spans.EmphasisSpan
 import io.noties.markwon.core.spans.LinkSpan
@@ -199,6 +200,7 @@ class MarkdownEditText(
         super.onSelectionChanged(selStart, selEnd)
         isSelectionStyling = selStart != selEnd
         if (selStart <= 0) return
+        if (isDividerSymbol(selStart - 1) && !isSelectionStyling) return
 
         val spans = mutableSetOf<TextStyle>()
         val currentLineStart = layout.getLineStart(getCurrentCursorLine())
@@ -231,6 +233,11 @@ class MarkdownEditText(
             selectedStyles.addAll(spans)
         }
         onHighlightSpanListener?.invoke(spans.toList())
+    }
+
+    private fun isDividerSymbol(index: Int): Boolean {
+        val char = text.getOrNull(index).toString()
+        return char == " " || char == "\n"
     }
 
     private fun getTaskClickableSpan(taskSpan: TaskListSpan) = object : ClickableSpan() {
