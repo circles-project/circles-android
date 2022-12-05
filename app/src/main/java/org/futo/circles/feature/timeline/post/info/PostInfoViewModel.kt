@@ -23,7 +23,9 @@ class PostInfoViewModel(
     private fun updateInfo() {
         val session = MatrixSessionProvider.currentSession ?: return
         val room = session.getRoom(roomId) ?: return
-        val info = "${getEventInfo(room)}\n\n\n${getRoomInfo(room)}"
+        val info = getEventInfo(room) +
+                "\n\n-----------------------------------------------------\n\n" +
+                getRoomInfo(room)
         infoLiveData.postValue(info)
     }
 

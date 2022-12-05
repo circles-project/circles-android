@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.post.info
+package org.futo.circles.feature.timeline.post.state
 
 import android.os.Bundle
 import android.view.View
@@ -7,28 +7,29 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentDebugInfoBinding
 import org.futo.circles.extensions.observeData
+import org.futo.circles.feature.timeline.post.info.PostInfoDialogFragmentArgs
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class PostInfoDialogFragment :
+class RoomStateEventsDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentDebugInfoBinding::inflate) {
 
-    private val args: PostInfoDialogFragmentArgs by navArgs()
+    private val args: RoomStateEventsDialogFragmentArgs by navArgs()
     private val binding by lazy {
         getBinding() as DialogFragmentDebugInfoBinding
     }
-    private val viewModel by viewModel<PostInfoViewModel> {
-        parametersOf(args.roomId, args.eventId)
+    private val viewModel by viewModel<RoomStateEventsViewModel> {
+        parametersOf(args.roomId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.title = getString(R.string.info)
+        binding.toolbar.title = getString(R.string.state_events)
         setupObservers()
     }
 
     private fun setupObservers() {
-        viewModel.infoLiveData.observeData(this) {
+        viewModel.stateEventsLiveData?.observeData(this) {
             binding.tvInfo.text = it
         }
     }

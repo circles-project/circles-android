@@ -320,6 +320,7 @@
     <string name="link">Link</string>
     <string name="add">Add</string>
     <string name="add_link">Add link</string>
+    <string name="state_events">State events</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
