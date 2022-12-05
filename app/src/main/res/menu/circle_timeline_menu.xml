@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/stateEvents"
+        android:icon="@drawable/ic_info"
+        android:title="@string/state_events" />
+
+    <item
         android:id="@+id/configureCircle"
         android:icon="@drawable/ic_settings"
         android:title="@string/configure_circle" />

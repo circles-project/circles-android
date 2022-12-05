@@ -51,6 +51,7 @@ import org.futo.circles.feature.timeline.poll.CreatePollViewModel
 import org.futo.circles.feature.timeline.post.create.CreatePostViewModel
 import org.futo.circles.feature.timeline.post.info.PostInfoViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
+import org.futo.circles.feature.timeline.post.state.RoomStateEventsViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.PasswordModeArg
 import org.futo.circles.model.TermsModeArg
@@ -165,4 +166,5 @@ val uiModule = module {
     }
     viewModel { (roomId: String, eventId: String?) -> CreatePollViewModel(roomId, eventId) }
     viewModel { (roomId: String, eventId: String) -> PostInfoViewModel(roomId, eventId) }
+    viewModel { (roomId: String) -> RoomStateEventsViewModel(roomId) }
 }

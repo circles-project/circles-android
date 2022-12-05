@@ -51,6 +51,11 @@ class TimelineNavigator(private val fragment: TimelineFragment) {
             .navigate(TimelineFragmentDirections.toPostInfo(roomId, eventId))
     }
 
+    fun navigateToStateEvents(roomId: String) {
+        fragment.findNavController()
+            .navigate(TimelineFragmentDirections.toStateEvents(roomId))
+    }
+
     fun navigateToSaveToGallery(roomId: String, eventId: String) {
         fragment.findNavController().navigate(
             TimelineFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
