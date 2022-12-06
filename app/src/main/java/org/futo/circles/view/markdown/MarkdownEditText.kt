@@ -182,6 +182,7 @@ class MarkdownEditText(
 
     private fun styliseText(start: Int, end: Int) {
         if (start >= end) return
+        if (text.substring(start, end).isBlank()) return
         selectedStyles.forEach { textStyle ->
             val span = when (textStyle) {
                 TextStyle.BOLD -> StrongEmphasisSpan()
