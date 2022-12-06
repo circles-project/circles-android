@@ -16,6 +16,7 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
+import org.matrix.android.sdk.api.util.awaitCallback
 
 enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password, BSspeke, Username }
 
@@ -113,6 +114,9 @@ class SignUpDataSource(
         MatrixInstanceProvider.matrix.authenticationService().reset()
         MatrixSessionProvider.awaitForSessionStart(session)
         createPassPhraseDataSource.createPassPhraseBackup(userName, passphrase)
+        awaitCallback {
+            session.cryptoService().crossSigningService().initializeCrossSigning(null, it)
+        }
         coreSpacesTreeBuilder.createCoreSpacesTree()
     }
 
