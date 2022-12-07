@@ -22,9 +22,10 @@ import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
+import org.futo.circles.model.UserListItem
 import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.view.markdown.MarkdownParser
-import org.futo.circles.view.markdown.TextStyle
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
+import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
 import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -63,12 +64,14 @@ class PreviewPostView(
         updateContentView()
     }
 
-    fun setListener(
+    fun setup(
         previewPostListener: PreviewPostListener,
-        onHighlightTextStyle: (List<TextStyle>) -> Unit
+        onHighlightTextStyle: (List<TextStyle>) -> Unit,
+        roomId: String
     ) {
         listener = previewPostListener
         binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
+        binding.etTextPost.initMentionsAutocomplete(roomId)
     }
 
     fun setText(message: String) {

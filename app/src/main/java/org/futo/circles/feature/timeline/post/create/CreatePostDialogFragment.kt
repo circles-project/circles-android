@@ -15,9 +15,9 @@ import org.futo.circles.databinding.DialogFragmentCreatePostBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
+import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.PreviewPostListener
-import org.futo.circles.view.markdown.TextStyle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.*
@@ -65,12 +65,14 @@ class CreatePostDialogFragment :
                 setOptionsListener(this@CreatePostDialogFragment)
                 showMainOptionsList(!args.isEdit)
             }
-            vPostPreview.setListener(object : PreviewPostListener {
-                override fun onPostContentAvailable(isAvailable: Boolean) {
-                    binding.btnPost.isEnabled = isAvailable
-                }
-            },
-                onHighlightTextStyle = { textStyle -> binding.vPostOptions.highlightStyle(textStyle) }
+            vPostPreview.setup(
+                object : PreviewPostListener {
+                    override fun onPostContentAvailable(isAvailable: Boolean) {
+                        binding.btnPost.isEnabled = isAvailable
+                    }
+                },
+                onHighlightTextStyle = { textStyle -> binding.vPostOptions.highlightStyle(textStyle) },
+                roomId = args.roomId
             )
         }
     }
