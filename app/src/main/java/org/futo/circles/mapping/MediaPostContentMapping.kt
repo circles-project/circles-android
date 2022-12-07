@@ -9,7 +9,7 @@ import org.futo.circles.model.MediaContent
 import org.futo.circles.model.MediaContentInfo
 import org.futo.circles.model.MediaFileData
 import org.futo.circles.model.PostContentType
-import org.futo.circles.view.markdown.MarkdownParser
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
 import org.matrix.android.sdk.api.session.crypto.attachments.toElementToDecrypt
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent

@@ -1,6 +1,6 @@
 package org.futo.circles.feature.timeline.post.create
 
-import org.futo.circles.view.markdown.TextStyle
+import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
 
 interface PostConfigurationOptionListener {
     fun onUploadMediaClicked()

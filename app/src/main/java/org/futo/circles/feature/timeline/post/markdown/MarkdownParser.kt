@@ -1,4 +1,4 @@
-package org.futo.circles.view.markdown
+package org.futo.circles.feature.timeline.post.markdown
 
 import android.content.Context
 import android.graphics.Color
@@ -21,10 +21,13 @@ import io.noties.markwon.linkify.LinkifyPlugin
 import org.commonmark.node.SoftLineBreak
 import org.futo.circles.R
 import org.futo.circles.extensions.getGivenSpansAt
+import org.futo.circles.feature.timeline.post.markdown.span.OrderedListItemSpan
+import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
 
 
 object MarkdownParser {
 
+    const val mentionMark = "@"
     private const val boldMark = "**"
     private const val italicMark = "_"
     private const val strikeMark = "~~"

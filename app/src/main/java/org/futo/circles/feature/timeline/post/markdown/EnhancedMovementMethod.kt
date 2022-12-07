@@ -1,4 +1,4 @@
-package org.futo.circles.view.markdown
+package org.futo.circles.feature.timeline.post.markdown
 
 
 import android.text.Selection

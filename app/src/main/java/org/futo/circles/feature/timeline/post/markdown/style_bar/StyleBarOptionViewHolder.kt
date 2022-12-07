@@ -1,4 +1,4 @@
-package org.futo.circles.view.markdown.style_bar
+package org.futo.circles.feature.timeline.post.markdown.style_bar
 
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat

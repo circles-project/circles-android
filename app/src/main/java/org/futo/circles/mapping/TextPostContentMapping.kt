@@ -2,7 +2,7 @@ package org.futo.circles.mapping
 
 import android.content.Context
 import org.futo.circles.model.TextContent
-import org.futo.circles.view.markdown.MarkdownParser
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getTextEditableContent
 

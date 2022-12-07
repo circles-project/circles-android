@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.post.state
+package org.futo.circles.feature.timeline.state
 
 import android.os.Bundle
 import android.view.View

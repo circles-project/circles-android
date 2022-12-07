@@ -1,4 +1,4 @@
-package org.futo.circles.view.markdown.style_bar
+package org.futo.circles.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -10,7 +10,8 @@ import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.timeline.post.create.PostConfigurationOptionListener
 import org.futo.circles.model.MainStyleBarOption
 import org.futo.circles.model.StyleBarListItem
-import org.futo.circles.view.markdown.TextStyle
+import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
+import org.futo.circles.feature.timeline.post.markdown.style_bar.OptionsStyleBarAdapter
 
 class MarkdownStyleBar(
     context: Context,
