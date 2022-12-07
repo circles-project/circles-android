@@ -22,7 +22,6 @@ import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
-import org.futo.circles.model.UserListItem
 import org.futo.circles.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
@@ -88,7 +87,7 @@ class PreviewPostView(
     }
 
     fun insertMention() {
-        binding.etTextPost.insertMention()
+        binding.etTextPost.insertMentionMark()
     }
 
     fun insertLink(title: String?, link: String) {

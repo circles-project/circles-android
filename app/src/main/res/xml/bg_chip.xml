@@ -1,0 +1,7 @@
+<chip xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.MaterialComponents.Chip.Entry"
+    app:chipBackgroundColor="@color/highlight_color"
+    app:chipIcon="@drawable/ic_mention"
+    app:chipIconSize="16sp"
+    app:chipIconTint="@color/blue"
+    app:closeIconEnabled="false" />
