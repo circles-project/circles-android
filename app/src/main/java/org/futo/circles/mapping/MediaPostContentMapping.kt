@@ -1,7 +1,5 @@
 package org.futo.circles.mapping
 
-import android.content.Context
-import android.text.Editable
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.VideoUtils
@@ -9,7 +7,6 @@ import org.futo.circles.model.MediaContent
 import org.futo.circles.model.MediaContentInfo
 import org.futo.circles.model.MediaFileData
 import org.futo.circles.model.PostContentType
-import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
 import org.matrix.android.sdk.api.session.crypto.attachments.toElementToDecrypt
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent
@@ -21,13 +18,13 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 const val MediaCaptionFieldKey = "caption"
 
 
-fun TimelineEvent.toMediaContent(mediaType: MediaType, context: Context): MediaContent {
+fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
     val messageContentInfo = root.getClearContent().let {
         when (mediaType) {
             MediaType.Image -> it.toModel<MessageImageContent>()
-                .toMediaContentInfo(getCaption(context))
+                .toMediaContentInfo(getCaption())
             MediaType.Video -> it.toModel<MessageVideoContent>()
-                .toMediaContentInfo(getCaption(context))
+                .toMediaContentInfo(getCaption())
         }
     }
     return MediaContent(
@@ -37,11 +34,10 @@ fun TimelineEvent.toMediaContent(mediaType: MediaType, context: Context): MediaC
     )
 }
 
-private fun TimelineEvent.getCaption(context: Context) =
-    root.getClearContent()?.get(MediaCaptionFieldKey)
-        ?.let { MarkdownParser.markdownToEditable(it.toString(), context) }
+private fun TimelineEvent.getCaption() =
+    root.getClearContent()?.get(MediaCaptionFieldKey)?.toString()
 
-private fun MessageImageContent?.toMediaContentInfo(caption: Editable?): MediaContentInfo {
+private fun MessageImageContent?.toMediaContentInfo(caption: String?): MediaContentInfo {
     return MediaContentInfo(
         caption = caption,
         thumbnailUrl = this?.info?.thumbnailFile?.url ?: "",
@@ -51,7 +47,7 @@ private fun MessageImageContent?.toMediaContentInfo(caption: Editable?): MediaCo
     )
 }
 
-private fun MessageVideoContent?.toMediaContentInfo(caption: Editable?): MediaContentInfo {
+private fun MessageVideoContent?.toMediaContentInfo(caption: String?): MediaContentInfo {
     return MediaContentInfo(
         caption = caption,
         thumbnailUrl = this?.videoInfo?.thumbnailFile?.url ?: "",

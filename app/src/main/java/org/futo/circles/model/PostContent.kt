@@ -1,6 +1,5 @@
 package org.futo.circles.model
 
-import android.text.Editable
 import android.util.Size
 import org.futo.circles.core.picker.MediaType
 import org.matrix.android.sdk.api.session.crypto.attachments.ElementToDecrypt
@@ -21,7 +20,7 @@ sealed class PostContent(open val type: PostContentType) {
 }
 
 data class TextContent(
-    val message: Editable
+    val message: String
 ) : PostContent(PostContentType.TEXT_CONTENT)
 
 data class MediaContent(
@@ -36,7 +35,7 @@ data class MediaContent(
 }
 
 data class MediaContentInfo(
-    val caption: Editable?,
+    val caption: String?,
     val thumbnailUrl: String,
     val width: Int,
     val height: Int,

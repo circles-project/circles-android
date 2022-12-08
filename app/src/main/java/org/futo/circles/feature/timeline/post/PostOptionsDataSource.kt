@@ -42,7 +42,7 @@ class PostOptionsDataSource(
     suspend fun getShareableContent(content: PostContent): ShareableContent? = onBG {
         when (content) {
             is MediaContent -> getShareableMediaContent(content.mediaFileData)
-            is TextContent -> TextShareable(content.message.toString())
+            is TextContent -> TextShareable(content.message)
             else -> throw IllegalArgumentException("Not shareable post content")
         }
     }

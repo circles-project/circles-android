@@ -1,6 +1,5 @@
 package org.futo.circles.feature.timeline.data_source
 
-import android.content.Context
 import org.futo.circles.mapping.toPost
 import org.futo.circles.model.Post
 import org.futo.circles.model.PostContentType
@@ -14,9 +13,7 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 import org.matrix.android.sdk.api.session.room.timeline.isEdition
 
-class TimelineBuilder(
-    private val context: Context
-) {
+class TimelineBuilder {
 
     private val repliesVisibleEvents: MutableSet<String> = mutableSetOf()
 
@@ -101,7 +98,6 @@ class TimelineBuilder(
         return list.mapNotNull { timelineEvent ->
             getPostContentTypeFor(timelineEvent)?.let { contentType ->
                 timelineEvent.toPost(
-                    context,
                     contentType,
                     lastReadEventTime ?: 0,
                     isRepliesVisibleFor(timelineEvent.eventId)
