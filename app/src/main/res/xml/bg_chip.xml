@@ -4,4 +4,7 @@
     app:chipIcon="@drawable/ic_mention"
     app:chipIconSize="16sp"
     app:chipIconTint="@color/blue"
-    app:closeIconEnabled="false" />
+    app:chipMinHeight="24dp"
+    app:closeIconEnabled="false"
+    app:textEndPadding="1dp"
+    app:textStartPadding="1dp" />
