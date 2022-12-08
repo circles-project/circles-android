@@ -147,6 +147,7 @@ dependencies {
     implementation "io.noties.markwon:linkify:$markwon_version"
     implementation "io.noties.markwon:ext-strikethrough:$markwon_version"
     implementation "io.noties.markwon:ext-tasklist:$markwon_version"
+    implementation "io.noties.markwon:simple-ext:$markwon_version"
 
     //Mentions autocomplete
     implementation "com.otaliastudios:autocomplete:1.1.0"
