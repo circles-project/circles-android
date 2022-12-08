@@ -101,7 +101,7 @@ class MarkdownEditText(
             .with(object : AutocompleteCallback<UserListItem> {
                 override fun onPopupItemClicked(editable: Editable, item: UserListItem): Boolean {
                     val range = CharPolicy.getQueryRange(editable) ?: return false
-                    insertMentionSpan(editable, item.user.name, range[0], range[1])
+                    insertMentionSpan(editable, item.user.name, range[0])
                     return true
                 }
 
@@ -203,7 +203,7 @@ class MarkdownEditText(
         )
     }
 
-    private fun insertMentionSpan(editable: Editable, name: String, start: Int, end: Int) {
+    private fun insertMentionSpan(editable: Editable, name: String, start: Int) {
         editable.setSpan(
             MentionSpan(context, name), start - 1, start,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
