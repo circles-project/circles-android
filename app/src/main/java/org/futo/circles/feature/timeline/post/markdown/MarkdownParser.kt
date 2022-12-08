@@ -7,7 +7,6 @@ import android.text.style.StrikethroughSpan
 import androidx.core.content.ContextCompat
 import androidx.core.text.getSpans
 import io.noties.markwon.Markwon
-import io.noties.markwon.SpanFactory
 import io.noties.markwon.core.spans.BulletListItemSpan
 import io.noties.markwon.core.spans.EmphasisSpan
 import io.noties.markwon.core.spans.LinkSpan
@@ -16,9 +15,9 @@ import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import io.noties.markwon.ext.tasklist.TaskListSpan
 import io.noties.markwon.linkify.LinkifyPlugin
-import io.noties.markwon.simple.ext.SimpleExtPlugin
 import org.futo.circles.R
 import org.futo.circles.extensions.getGivenSpansAt
+import org.futo.circles.feature.timeline.post.markdown.mentions.plugin.MentionPlugin
 import org.futo.circles.feature.timeline.post.markdown.span.MentionSpan
 import org.futo.circles.feature.timeline.post.markdown.span.OrderedListItemSpan
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
@@ -78,14 +77,7 @@ object MarkdownParser {
     fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
         .usePlugin(StrikethroughPlugin.create())
         .usePlugin(LinkifyPlugin.create())
-        .usePlugin(SimpleExtPlugin.create().addExtension(
-            1, '@'
-        ) { configuration, props ->
-            val span =
-                (configuration.spansFactory() as? SpanFactory)?.getSpans(configuration, props)
-            val name = (span as? MentionSpan)?.name ?: "test"
-            MentionSpan(context, name)
-        })
+        .usePlugin(MentionPlugin(context))
         .usePlugin(
             TaskListPlugin.create(
                 ContextCompat.getColor(context, R.color.blue),
