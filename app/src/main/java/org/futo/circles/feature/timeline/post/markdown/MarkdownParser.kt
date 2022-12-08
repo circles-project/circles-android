@@ -5,22 +5,21 @@ import android.graphics.Color
 import android.text.Editable
 import android.text.style.StrikethroughSpan
 import androidx.core.content.ContextCompat
-import io.noties.markwon.AbstractMarkwonPlugin
+import androidx.core.text.getSpans
 import io.noties.markwon.Markwon
-import io.noties.markwon.MarkwonSpansFactory
-import io.noties.markwon.MarkwonVisitor
+import io.noties.markwon.SpanFactory
 import io.noties.markwon.core.spans.BulletListItemSpan
 import io.noties.markwon.core.spans.EmphasisSpan
 import io.noties.markwon.core.spans.LinkSpan
 import io.noties.markwon.core.spans.StrongEmphasisSpan
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
-import io.noties.markwon.ext.tasklist.TaskListItem
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import io.noties.markwon.ext.tasklist.TaskListSpan
 import io.noties.markwon.linkify.LinkifyPlugin
-import org.commonmark.node.SoftLineBreak
+import io.noties.markwon.simple.ext.SimpleExtPlugin
 import org.futo.circles.R
 import org.futo.circles.extensions.getGivenSpansAt
+import org.futo.circles.feature.timeline.post.markdown.span.MentionSpan
 import org.futo.circles.feature.timeline.post.markdown.span.OrderedListItemSpan
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
 
@@ -68,40 +67,32 @@ object MarkdownParser {
                 }
             }
         }
+        text.getSpans<MentionSpan>().forEach {
+            val end = textCopy.getSpanEnd(it)
+            val textToInsert = it.name + mentionMark
+            textCopy.insert(end, textToInsert)
+        }
         return textCopy.toString()
-    }
-
-    fun markdownToEditable(markdown: String, context: Context): Editable {
-        return Editable.Factory.getInstance()
-            .newEditable(markwonBuilder(context).toMarkdown(markdown))
     }
 
     fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
         .usePlugin(StrikethroughPlugin.create())
         .usePlugin(LinkifyPlugin.create())
+        .usePlugin(SimpleExtPlugin.create().addExtension(
+            1, '@'
+        ) { configuration, props ->
+            val span =
+                (configuration.spansFactory() as? SpanFactory)?.getSpans(configuration, props)
+            val name = (span as? MentionSpan)?.name ?: "test"
+            MentionSpan(context, name)
+        })
         .usePlugin(
             TaskListPlugin.create(
                 ContextCompat.getColor(context, R.color.blue),
                 ContextCompat.getColor(context, R.color.blue),
                 Color.WHITE
             )
-        )
-        .usePlugin(object : AbstractMarkwonPlugin() {
-            override fun configureVisitor(builder: MarkwonVisitor.Builder) {
-                super.configureVisitor(builder)
-                builder.on(SoftLineBreak::class.java) { visitor, _ -> visitor.forceNewLine() }
-            }
-
-            override fun configureSpansFactory(builder: MarkwonSpansFactory.Builder) {
-                val origin = builder.getFactory(TaskListItem::class.java)
-                builder.setFactory(
-                    TaskListItem::class.java
-                ) { configuration, props ->
-                    val span = origin?.getSpans(configuration, props)
-                    (span as? TaskListSpan)?.let { arrayOf(span) }
-                }
-            }
-        }).build()
+        ).build()
 
     private fun calculateLastIndexToInsert(textCopy: Editable, spanEnd: Int, mark: String): Int {
         var endIndex = spanEnd + mark.length
