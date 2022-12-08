@@ -21,6 +21,9 @@ import org.futo.circles.feature.timeline.post.markdown.mentions.plugin.MentionPl
 import org.futo.circles.feature.timeline.post.markdown.span.MentionSpan
 import org.futo.circles.feature.timeline.post.markdown.span.OrderedListItemSpan
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
+import org.futo.circles.mapping.notEmptyDisplayName
+import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getUserOrDefault
 
 
 object MarkdownParser {
@@ -86,11 +89,17 @@ object MarkdownParser {
             )
         ).build()
 
+    fun hasCurrentUserMention(text: String): Boolean {
+        val session = MatrixSessionProvider.currentSession ?: return false
+        val userName = session.getUserOrDefault(session.myUserId).notEmptyDisplayName()
+        val mentionString = mentionMark + userName + mentionMark
+        return text.contains(mentionString)
+    }
+
     private fun calculateLastIndexToInsert(textCopy: Editable, spanEnd: Int, mark: String): Int {
         var endIndex = spanEnd + mark.length
         val lastChar = textCopy.getOrNull(spanEnd - 1).toString()
         if (lastChar == " " || lastChar == "\n") endIndex -= 1
         return endIndex
     }
-
 }
