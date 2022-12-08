@@ -13,10 +13,8 @@ import org.futo.circles.R
 import org.futo.circles.databinding.LayoutPostBinding
 import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.model.Post
-import org.futo.circles.model.PostContent
-import org.futo.circles.model.PostItemPayload
-import org.futo.circles.model.ReplyPost
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
+import org.futo.circles.model.*
 import org.matrix.android.sdk.api.session.room.send.SendState
 
 
@@ -85,9 +83,23 @@ class PostLayout(
         binding.vReplyMargin.setIsVisible(isReply)
         binding.postHeader.setData(data, userPowerLevel)
         binding.postFooter.setData(data, isReply)
+        setMentionBorder(data.content)
         setIsEdited(data.postInfo.isEdited)
         setShadow(data.readInfo.shouldIndicateAsNew)
         setSendStatus(data.sendState, data.readInfo.readByCount)
+    }
+
+    private fun setMentionBorder(content: PostContent) {
+        val hasMention = when (content) {
+            is MediaContent -> content.mediaContentInfo.caption?.let {
+                MarkdownParser.hasCurrentUserMention(it)
+            } ?: false
+            is TextContent ->  MarkdownParser.hasCurrentUserMention(content.message)
+            is PollContent -> false
+        }
+        if (hasMention)
+            binding.lCard.setBackgroundResource(R.drawable.bg_mention_highlight)
+        else binding.lCard.background = null
     }
 
     private fun setIsEdited(isEdited: Boolean) {
