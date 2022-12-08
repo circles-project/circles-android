@@ -20,12 +20,17 @@ class MentionPlugin(private val context: Context) : AbstractMarkwonPlugin() {
         builder.on(
             MentionNode::class.java
         ) { visitor, simpleExtNode ->
-            val length = visitor.length()
+            val start = visitor.length()
             visitor.visitChildren(simpleExtNode)
+            val name = visitor.builder().toString()
+            visitor.builder().apply {
+                clear()
+                append("@")
+            }
             SpannableBuilder.setSpans(
                 visitor.builder(),
-                MentionSpan(context, visitor.builder().toString()),
-                length,
+                MentionSpan(context, name),
+                start,
                 visitor.length()
             )
         }
