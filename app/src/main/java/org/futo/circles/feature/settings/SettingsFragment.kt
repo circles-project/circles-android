@@ -14,6 +14,7 @@ import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
 import org.futo.circles.provider.PreferencesProvider
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -21,7 +22,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val binding by viewBinding(FragmentSettingsBinding::bind)
     private val viewModel by viewModel<SettingsViewModel>()
-    private val systemNoticesCountViewModel by sharedViewModel<SystemNoticesCountSharedViewModel>()
+    private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
 

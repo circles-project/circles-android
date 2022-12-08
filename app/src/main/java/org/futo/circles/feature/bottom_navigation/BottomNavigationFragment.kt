@@ -12,12 +12,13 @@ import org.futo.circles.R
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setSupportActionBar
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
     private val binding by viewBinding(FragmentBottomNavigationBinding::bind)
-    private val systemNoticesCountViewModel by sharedViewModel<SystemNoticesCountSharedViewModel>()
+    private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
