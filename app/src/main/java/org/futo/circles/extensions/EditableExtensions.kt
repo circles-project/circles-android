@@ -1,8 +1,8 @@
 package org.futo.circles.extensions
 
 import android.text.Editable
-import org.futo.circles.view.markdown.TextStyle
-import org.futo.circles.view.markdown.toSpanClass
+import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
+import org.futo.circles.feature.timeline.post.markdown.span.toSpanClass
 
 fun Editable.getGivenSpansAt(
     vararg span: TextStyle,

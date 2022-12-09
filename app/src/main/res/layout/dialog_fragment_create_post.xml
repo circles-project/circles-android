@@ -60,7 +60,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <org.futo.circles.view.markdown.style_bar.MarkdownStyleBar
+        <org.futo.circles.view.MarkdownStyleBar
             android:id="@+id/vPostOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

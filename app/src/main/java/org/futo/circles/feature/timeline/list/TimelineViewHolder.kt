@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
+import org.futo.circles.core.list.context
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.ViewPollPostBinding
 import org.futo.circles.databinding.ViewTextMediaPostBinding
@@ -16,6 +17,7 @@ import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.extensions.visible
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
 import org.futo.circles.model.*
 import org.futo.circles.view.PostLayout
 import org.futo.circles.view.PostOptionsListener
@@ -25,6 +27,7 @@ sealed class PostViewHolder(view: View, private val userPowerLevel: Int) :
     RecyclerView.ViewHolder(view) {
 
     abstract val postLayout: PostLayout
+    protected val markwon = MarkdownParser.markwonBuilder(context)
 
     open fun bind(post: Post) {
         postLayout.setData(post, userPowerLevel)
@@ -79,7 +82,7 @@ class TextMediaPostViewHolder(
 
     private fun bindTextPost(content: TextContent) {
         binding.tvTextContent.apply {
-            setText(content.message, TextView.BufferType.SPANNABLE)
+            setText(markwon.toMarkdown(content.message), TextView.BufferType.SPANNABLE)
             visible()
         }
         binding.vMediaContent.lMedia.gone()
@@ -96,7 +99,7 @@ class TextMediaPostViewHolder(
         binding.tvTextContent.apply {
             val caption = content.mediaContentInfo.caption
             setIsVisible(caption != null)
-            setText(caption, TextView.BufferType.SPANNABLE)
+            caption?.let { setText(markwon.toMarkdown(it), TextView.BufferType.SPANNABLE) }
         }
     }
 

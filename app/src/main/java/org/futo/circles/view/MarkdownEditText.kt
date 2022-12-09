@@ -1,8 +1,9 @@
-package org.futo.circles.view.markdown
+package org.futo.circles.view
 
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.Spannable
 import android.text.Spanned
@@ -13,6 +14,9 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
+import com.otaliastudios.autocomplete.Autocomplete
+import com.otaliastudios.autocomplete.AutocompleteCallback
+import com.otaliastudios.autocomplete.CharPolicy
 import io.noties.markwon.LinkResolverDef
 import io.noties.markwon.Markwon
 import io.noties.markwon.core.spans.BulletListItemSpan
@@ -23,6 +27,14 @@ import io.noties.markwon.ext.tasklist.TaskListDrawable
 import io.noties.markwon.ext.tasklist.TaskListSpan
 import org.futo.circles.R
 import org.futo.circles.extensions.getGivenSpansAt
+import org.futo.circles.feature.timeline.post.markdown.EnhancedMovementMethod
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
+import org.futo.circles.feature.timeline.post.markdown.mentions.MentionsPresenter
+import org.futo.circles.feature.timeline.post.markdown.span.MentionSpan
+import org.futo.circles.feature.timeline.post.markdown.span.OrderedListItemSpan
+import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
+import org.futo.circles.model.UserListItem
+
 
 class MarkdownEditText(
     context: Context,
@@ -62,8 +74,8 @@ class MarkdownEditText(
         onHighlightSpanListener = onHighlight
     }
 
-    fun insertMention() {
-        insertText("@")
+    fun insertMentionMark() {
+        insertText(MarkdownParser.mentionMark)
     }
 
     fun insertText(message: String) {
@@ -77,6 +89,27 @@ class MarkdownEditText(
         } else selectedStyles.remove(textStyle)
         handleSelectionStylingIfNeed()
         onHighlightSpanListener?.invoke(selectedStyles.toList())
+    }
+
+    fun initMentionsAutocomplete(roomId: String) {
+        Autocomplete.on<UserListItem>(this)
+            .with(CharPolicy('@', true))
+            .with(MentionsPresenter(context, roomId))
+            .with(
+                ColorDrawable(ContextCompat.getColor(context, R.color.post_card_background_color))
+            )
+            .with(object : AutocompleteCallback<UserListItem> {
+                override fun onPopupItemClicked(editable: Editable, item: UserListItem): Boolean {
+                    val range = CharPolicy.getQueryRange(editable) ?: return false
+                    insertMentionSpan(editable, item.user.name, range[0])
+                    return true
+                }
+
+                override fun onPopupVisibilityChanged(shown: Boolean) {
+                }
+            })
+            .with(6f)
+            .build()
     }
 
     private fun handleSelectionStylingIfNeed() {
@@ -167,6 +200,13 @@ class MarkdownEditText(
             cursorStart,
             cursorStart + newTitle.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+    }
+
+    private fun insertMentionSpan(editable: Editable, name: String, start: Int) {
+        editable.setSpan(
+            MentionSpan(context, name), start - 1, start,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
     }
 

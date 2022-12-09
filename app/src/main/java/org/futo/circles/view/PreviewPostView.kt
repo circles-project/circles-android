@@ -6,6 +6,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
@@ -18,13 +19,13 @@ import org.futo.circles.databinding.ViewPreviewPostBinding
 import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.loadImage
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
+import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.view.markdown.MarkdownParser
-import org.futo.circles.view.markdown.TextStyle
 import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -63,16 +64,21 @@ class PreviewPostView(
         updateContentView()
     }
 
-    fun setListener(
+    fun setup(
         previewPostListener: PreviewPostListener,
-        onHighlightTextStyle: (List<TextStyle>) -> Unit
+        onHighlightTextStyle: (List<TextStyle>) -> Unit,
+        roomId: String
     ) {
         listener = previewPostListener
         binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
+        binding.etTextPost.initMentionsAutocomplete(roomId)
     }
 
     fun setText(message: String) {
-        binding.etTextPost.text = MarkdownParser.markdownToEditable(message, context)
+        binding.etTextPost.setText(
+            MarkdownParser.markwonBuilder(context).toMarkdown(message),
+            TextView.BufferType.SPANNABLE
+        )
         setTextContent()
     }
 
@@ -85,7 +91,7 @@ class PreviewPostView(
     }
 
     fun insertMention() {
-        binding.etTextPost.insertMention()
+        binding.etTextPost.insertMentionMark()
     }
 
     fun insertLink(title: String?, link: String) {

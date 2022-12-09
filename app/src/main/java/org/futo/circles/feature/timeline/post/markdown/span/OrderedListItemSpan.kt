@@ -1,11 +1,9 @@
-package org.futo.circles.view.markdown
+package org.futo.circles.feature.timeline.post.markdown.span
 
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.text.Layout
-import android.text.Spanned
 import android.text.style.LeadingMarginSpan
-import android.widget.TextView
 import io.noties.markwon.core.MarkwonTheme
 import io.noties.markwon.utils.LeadingMarginUtils
 

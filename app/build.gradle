@@ -92,15 +92,14 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.androidx_nav_version"
 
     //Koin
-    def koin_version = "3.2.0"
-    implementation "io.insert-koin:koin-core:$koin_version"
-    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-core:3.2.2"
+    implementation "io.insert-koin:koin-android:3.3.0"
 
     //ViewBinding
     implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6'
 
     //Glide
-    def glide_version = "4.13.2"
+    def glide_version = '4.14.2'
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
@@ -130,7 +129,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10'
 
     //QR
-    implementation 'com.google.zxing:core:3.3.3'
+    implementation 'com.google.zxing:core:3.5.1'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
     //Password strength
@@ -148,6 +147,9 @@ dependencies {
     implementation "io.noties.markwon:linkify:$markwon_version"
     implementation "io.noties.markwon:ext-strikethrough:$markwon_version"
     implementation "io.noties.markwon:ext-tasklist:$markwon_version"
+
+    //Mentions autocomplete
+    implementation "com.otaliastudios:autocomplete:1.1.0"
 
     //test
     testImplementation 'junit:junit:4.13.2'

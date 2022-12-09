@@ -433,7 +433,7 @@
     </dialog>
     <dialog
         android:id="@+id/stateEventsDialogFragment"
-        android:name="org.futo.circles.feature.timeline.post.state.RoomStateEventsDialogFragment"
+        android:name="org.futo.circles.feature.timeline.state.RoomStateEventsDialogFragment"
         tools:layout="@layout/dialog_fragment_debug_info">
 
         <argument

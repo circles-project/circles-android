@@ -1,4 +1,4 @@
-package org.futo.circles.view.markdown
+package org.futo.circles.feature.timeline.post.markdown.span
 
 import android.text.style.StrikethroughSpan
 import io.noties.markwon.core.spans.BulletListItemSpan

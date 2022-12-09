@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <org.futo.circles.view.markdown.MarkdownEditText
+            <org.futo.circles.view.MarkdownEditText
                 android:id="@+id/etTextPost"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
