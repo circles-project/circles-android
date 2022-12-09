@@ -128,6 +128,19 @@
                 android:text="@string/clear_cache_and_reload"
                 app:drawableStartCompat="@drawable/ic_reload" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginHorizontal="8dp"
+                android:background="@color/divider_color" />
+
+            <TextView
+                android:id="@+id/tvSwitchUser"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_user"
+                app:drawableStartCompat="@drawable/ic_switch_user" />
 
             <View
                 android:layout_width="match_parent"
