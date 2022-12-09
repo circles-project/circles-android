@@ -35,6 +35,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun setupViews() {
         with(binding) {
             tvLogout.setOnClickListener { showLogoutDialog() }
+            tvSwitchUser.setOnClickListener { showSwitchUserDialog() }
             tvEditProfile.setOnClickListener { navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
             tvDeactivate.setOnClickListener { showDeactivateAccountDialog() }
@@ -117,6 +118,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             positiveButtonRes = R.string.log_out,
             negativeButtonVisible = true,
             positiveAction = { viewModel.logOut() })
+    }
+
+    private fun showSwitchUserDialog() {
+        showDialog(
+            titleResIdRes = R.string.switch_user,
+            messageResId = R.string.switch_user_message,
+            positiveButtonRes = R.string.switch_str,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.switchUser() })
     }
 
     private fun showDeactivateAccountDialog() {
