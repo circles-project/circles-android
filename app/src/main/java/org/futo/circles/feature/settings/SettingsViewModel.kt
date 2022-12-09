@@ -23,6 +23,10 @@ class SettingsViewModel(
         launchBg { logOutLiveData.postValue(settingsDataSource.logOut()) }
     }
 
+    fun switchUser() {
+        launchBg { logOutLiveData.postValue(settingsDataSource.switchUser()) }
+    }
+
     fun deactivateAccount() {
         launchBg {
             val deactivateResult = settingsDataSource.deactivateAccount()
