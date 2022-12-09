@@ -321,6 +321,9 @@
     <string name="add">Add</string>
     <string name="add_link">Add link</string>
     <string name="state_events">State events</string>
+    <string name="switch_user">Switch User</string>
+    <string name="switch_str">Switch</string>
+    <string name="switch_user_message">Are you sure you want to switch user?</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
