@@ -1,4 +1,4 @@
-package org.futo.circles.view.read_more
+package org.futo.circles.view
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -7,10 +7,8 @@ import android.graphics.Typeface
 import android.text.Layout
 import android.text.TextPaint
 import android.text.TextUtils
-import android.text.style.ClickableSpan
 import android.text.style.TextAppearanceSpan
 import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.use
 import androidx.core.text.buildSpannedString

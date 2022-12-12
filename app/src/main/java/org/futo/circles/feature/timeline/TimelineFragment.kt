@@ -10,7 +10,6 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.databinding.FragmentTimelineBinding
@@ -24,6 +23,7 @@ import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.CreatePollContent
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.PostContent
+import org.futo.circles.provider.PreferencesProvider
 import org.futo.circles.view.CreatePostMenuListener
 import org.futo.circles.view.PostOptionsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -51,6 +51,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
     private val navigator by lazy { TimelineNavigator(this) }
     private var groupPowerLevelsContent: PowerLevelsContent? = null
+    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,10 +75,14 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             groupPowerLevelsContent?.isCurrentUserAbleToInvite() ?: false
         menu.findItem(R.id.deleteGroup).isVisible =
             groupPowerLevelsContent?.isCurrentUserAdmin() ?: false
+        menu.findItem(R.id.stateEvents).isVisible =
+            preferencesProvider.isDeveloperModeEnabled()
     }
 
     private fun inflateCircleMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.circle_timeline_menu, menu)
+        menu.findItem(R.id.stateEvents).isVisible =
+            preferencesProvider.isDeveloperModeEnabled()
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
@@ -91,6 +96,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             R.id.iFollowing -> navigator.navigateToFollowing(args.roomId)
             R.id.deleteCircle -> showDeleteConfirmation(true)
             R.id.deleteGroup -> showDeleteConfirmation(false)
+            R.id.stateEvents -> navigator.navigateToStateEvents(timelineId)
         }
         return true
     }
@@ -254,7 +260,9 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.editPoll(roomId, eventId, pollContent)
     }
 
-    override fun onEmojiSelected(roomId: String, eventId: String, emoji: String) {
+    override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
+        roomId ?: return
+        eventId ?: return
         viewModel.sendReaction(roomId, eventId, emoji)
     }
 

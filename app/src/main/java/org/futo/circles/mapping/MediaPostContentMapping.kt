@@ -21,8 +21,10 @@ const val MediaCaptionFieldKey = "caption"
 fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
     val messageContentInfo = root.getClearContent().let {
         when (mediaType) {
-            MediaType.Image -> it.toModel<MessageImageContent>().toMediaContentInfo(getCaption())
-            MediaType.Video -> it.toModel<MessageVideoContent>().toMediaContentInfo(getCaption())
+            MediaType.Image -> it.toModel<MessageImageContent>()
+                .toMediaContentInfo(getCaption())
+            MediaType.Video -> it.toModel<MessageVideoContent>()
+                .toMediaContentInfo(getCaption())
         }
     }
     return MediaContent(

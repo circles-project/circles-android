@@ -15,6 +15,7 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
+import org.matrix.android.sdk.api.util.awaitCallback
 
 enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase }
 
@@ -55,10 +56,10 @@ class LoginStagesDataSource(
 
     private suspend fun finishLogin(session: Session) {
         MatrixSessionProvider.awaitForSessionSync(session)
-        handleKeysBackup(userPassword)
+        handleKeysBackup()
     }
 
-    private suspend fun handleKeysBackup(password: String) {
+    private suspend fun handleKeysBackup() {
         when (restoreBackupDataSource.getEncryptionAlgorithm()) {
             MXCRYPTO_ALGORITHM_MEGOLM_BACKUP ->
                 loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
@@ -66,7 +67,7 @@ class LoginStagesDataSource(
                 messageEventLiveData.postValue(R.string.no_backup_message)
                 createSpacesTreeIfNotExist()
             }
-            else -> restoreBackup(password)
+            else -> restoreBackup(userPassword)
         }
     }
 
@@ -96,8 +97,24 @@ class LoginStagesDataSource(
     private suspend fun handleRestoreResult(restoreResult: Response<Unit>): Response<Unit> {
         when (restoreResult) {
             is Response.Error -> loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
-            is Response.Success -> createSpacesTreeIfNotExist()
+            is Response.Success -> onBackupSuccessfullyRestored()
         }
         return restoreResult
+    }
+
+    private suspend fun onBackupSuccessfullyRestored() {
+        enableCrossSigningIfNeed()
+        createSpacesTreeIfNotExist()
+    }
+
+    private suspend fun enableCrossSigningIfNeed() {
+        val session = MatrixSessionProvider.currentSession ?: return
+        if (session.cryptoService().crossSigningService().isCrossSigningVerified()) return
+        createResult {
+            awaitCallback {
+                MatrixSessionProvider.currentSession?.cryptoService()?.crossSigningService()
+                    ?.initializeCrossSigning(null, it)
+            }
+        }
     }
 }

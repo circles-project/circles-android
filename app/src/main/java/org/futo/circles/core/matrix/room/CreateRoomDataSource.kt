@@ -74,6 +74,7 @@ class CreateRoomDataSource(
                 powerLevelContentOverride = PowerLevelsContent(
                     invite = Role.Moderator.value
                 )
+                enableEncryption()
                 overrideEncryptionForTestBuilds(this)
             }
         }.apply {

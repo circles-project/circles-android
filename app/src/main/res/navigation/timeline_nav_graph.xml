@@ -189,6 +189,17 @@
 
         </action>
 
+        <action
+            android:id="@+id/to_stateEvents"
+            app:destination="@id/stateEventsDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
     </fragment>
 
     <dialog
@@ -306,6 +317,9 @@
             app:argType="boolean"
             app:nullable="false" />
 
+        <action
+            android:id="@+id/to_emojiBottomSheet"
+            app:destination="@id/emojiBottomSheet" />
     </dialog>
     <dialog
         android:id="@+id/reportDialogFragment"
@@ -333,12 +347,12 @@
         <argument
             android:name="roomId"
             app:argType="string"
-            app:nullable="false" />
+            app:nullable="true" />
 
         <argument
             android:name="eventId"
             app:argType="string"
-            app:nullable="false" />
+            app:nullable="true" />
 
     </dialog>
     <dialog
@@ -404,7 +418,7 @@
     <dialog
         android:id="@+id/postInfoDialogFragment"
         android:name="org.futo.circles.feature.timeline.post.info.PostInfoDialogFragment"
-        tools:layout="@layout/dialog_fragment_post_info">
+        tools:layout="@layout/dialog_fragment_debug_info">
 
         <argument
             android:name="roomId"
@@ -413,6 +427,17 @@
 
         <argument
             android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/stateEventsDialogFragment"
+        android:name="org.futo.circles.feature.timeline.state.RoomStateEventsDialogFragment"
+        tools:layout="@layout/dialog_fragment_debug_info">
+
+        <argument
+            android:name="roomId"
             app:argType="string"
             app:nullable="false" />
 

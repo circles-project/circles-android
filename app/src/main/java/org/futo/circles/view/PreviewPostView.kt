@@ -6,6 +6,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
@@ -18,6 +19,8 @@ import org.futo.circles.databinding.ViewPreviewPostBinding
 import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.loadImage
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
+import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
@@ -39,7 +42,6 @@ class PreviewPostView(
         ViewPreviewPostBinding.inflate(LayoutInflater.from(context), this)
 
     private var listener: PreviewPostListener? = null
-
     private var postContent: CreatePostContent? = null
 
     init {
@@ -52,9 +54,7 @@ class PreviewPostView(
                 true
             )
         }
-        binding.lvContent.setOnClickListener {
-            requestFocusOnText()
-        }
+        setOnClickListener { requestFocusOnText() }
         binding.etTextPost.doAfterTextChanged {
             listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)
         }
@@ -64,13 +64,38 @@ class PreviewPostView(
         updateContentView()
     }
 
-    fun setListener(previewPostListener: PreviewPostListener) {
+    fun setup(
+        previewPostListener: PreviewPostListener,
+        onHighlightTextStyle: (List<TextStyle>) -> Unit,
+        roomId: String
+    ) {
         listener = previewPostListener
+        binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
+        binding.etTextPost.initMentionsAutocomplete(roomId)
     }
 
     fun setText(message: String) {
-        binding.etTextPost.setText(message)
+        binding.etTextPost.setText(
+            MarkdownParser.markwonBuilder(context).toMarkdown(message),
+            TextView.BufferType.SPANNABLE
+        )
         setTextContent()
+    }
+
+    fun setTextStyle(style: TextStyle, isSelected: Boolean) {
+        binding.etTextPost.triggerStyle(style, isSelected)
+    }
+
+    fun insertEmoji(unicode: String) {
+        binding.etTextPost.insertText(unicode)
+    }
+
+    fun insertMention() {
+        binding.etTextPost.insertMentionMark()
+    }
+
+    fun insertLink(title: String?, link: String) {
+        binding.etTextPost.addLinkSpan(title, link)
     }
 
     fun setMedia(contentUri: Uri, mediaType: MediaType) {
@@ -88,8 +113,8 @@ class PreviewPostView(
     }
 
     fun getPostContent() = (postContent as? MediaPostContent)?.copy(
-        caption = binding.etTextPost.text.toString().trim().takeIf { it.isNotEmpty() }
-    ) ?: TextPostContent(binding.etTextPost.text.toString().trim())
+        caption = binding.etTextPost.getTextWithMarkdown().trim().takeIf { it.isNotEmpty() }
+    ) ?: TextPostContent(binding.etTextPost.getTextWithMarkdown().trim())
 
     private fun updateContentView() {
         val isTextContent = postContent is TextPostContent || postContent == null
@@ -105,7 +130,7 @@ class PreviewPostView(
     private fun setTextContent() {
         postContent = null
         updateContentView()
-        listener?.onPostContentAvailable(binding.etTextPost.text?.toString()?.isNotBlank() == true)
+        listener?.onPostContentAvailable(binding.etTextPost.text.toString().isNotBlank())
     }
 
     private fun loadMediaCover(uri: Uri, mediaType: MediaType) {

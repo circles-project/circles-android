@@ -3,18 +3,19 @@ package org.futo.circles.feature.timeline.post.info
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
+import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.DialogFragmentPostInfoBinding
+import org.futo.circles.databinding.DialogFragmentDebugInfoBinding
 import org.futo.circles.extensions.observeData
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class PostInfoDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentPostInfoBinding::inflate) {
+    BaseFullscreenDialogFragment(DialogFragmentDebugInfoBinding::inflate) {
 
     private val args: PostInfoDialogFragmentArgs by navArgs()
     private val binding by lazy {
-        getBinding() as DialogFragmentPostInfoBinding
+        getBinding() as DialogFragmentDebugInfoBinding
     }
     private val viewModel by viewModel<PostInfoViewModel> {
         parametersOf(args.roomId, args.eventId)
@@ -22,6 +23,7 @@ class PostInfoDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.toolbar.title = getString(R.string.info)
         setupObservers()
     }
 

@@ -1,4 +1,4 @@
-package org.futo.circles.view.read_more
+package org.futo.circles.view
 
 import android.text.Layout
 import android.text.StaticLayout

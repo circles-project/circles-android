@@ -316,6 +316,11 @@
     <string name="developer_mode_enabled">Developer mode is enabled</string>
     <string name="developer_mode_disabled">Developer mode is disabled</string>
     <string name="info">Info</string>
+    <string name="message">Message</string>
+    <string name="link">Link</string>
+    <string name="add">Add</string>
+    <string name="add_link">Add link</string>
+    <string name="state_events">State events</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

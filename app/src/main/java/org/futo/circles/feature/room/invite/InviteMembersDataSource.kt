@@ -1,14 +1,13 @@
 package org.futo.circles.feature.room.invite
 
 import android.content.Context
-import org.futo.circles.R
-import org.futo.circles.extensions.createResult
-import org.futo.circles.mapping.nameOrId
-import org.futo.circles.model.UserListItem
-import org.futo.circles.provider.MatrixSessionProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import org.futo.circles.R
+import org.futo.circles.extensions.createResult
+import org.futo.circles.mapping.nameOrId
+import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 
 class InviteMembersDataSource(

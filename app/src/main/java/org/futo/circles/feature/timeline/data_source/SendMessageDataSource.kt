@@ -24,12 +24,12 @@ class SendMessageDataSource(private val context: Context) {
         val roomForMessage = session?.getRoom(roomId) ?: return
         threadEventId?.let {
             sendTextReply(roomForMessage, threadEventId, message)
-        } ?: roomForMessage.sendService().sendTextMessage(message)
+        } ?: roomForMessage.sendService().sendTextMessage(message, autoMarkdown = true)
     }
 
     private fun sendTextReply(roomForMessage: Room, threadEventId: String, message: String) {
         val event = roomForMessage.getTimelineEvent(threadEventId) ?: return
-        roomForMessage.relationService().replyToMessage(event, message)
+        roomForMessage.relationService().replyToMessage(event, message, autoMarkdown = true)
     }
 
     fun editTextMessage(eventId: String, roomId: String, message: String) {

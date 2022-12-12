@@ -49,7 +49,10 @@ private fun TimelineEvent.toRootPost(
         readInfo = toReadInfo(lastReadEventTime)
     )
 
-private fun TimelineEvent.toReplyPost(postContentType: PostContentType, lastReadEventTime: Long) =
+private fun TimelineEvent.toReplyPost(
+    postContentType: PostContentType,
+    lastReadEventTime: Long
+) =
     ReplyPost(
         postInfo = toPostInfo(),
         content = toPostContent(postContentType),
@@ -58,7 +61,9 @@ private fun TimelineEvent.toReplyPost(postContentType: PostContentType, lastRead
         sendState = root.sendState
     )
 
-private fun TimelineEvent.toPostContent(postContentType: PostContentType): PostContent =
+private fun TimelineEvent.toPostContent(
+    postContentType: PostContentType
+): PostContent =
     when (postContentType) {
         PostContentType.TEXT_CONTENT -> toTextContent()
         PostContentType.IMAGE_CONTENT -> toMediaContent(MediaType.Image)
