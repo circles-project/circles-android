@@ -37,7 +37,7 @@ class SettingsDataSource(
                 isLoading = true
             }
         )
-        session.signOutService().signOut(true)
+        session.signOutService().signOut(logoutFromHomeServer)
         loadingLiveData.postValue(loadingData.apply { isLoading = false })
     }
 
