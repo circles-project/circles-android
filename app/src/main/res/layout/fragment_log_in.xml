@@ -33,12 +33,9 @@
         android:text="@string/futo"
         android:textAlignment="center"
         android:textAppearance="@style/headline"
-        app:layout_constraintBottom_toTopOf="@id/tvCircles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivLogo"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
 
     <TextView
@@ -48,7 +45,6 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/tilUserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle" />
@@ -140,8 +136,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tilUserName" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSwitchUsers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/tvNotMember"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvNotMember"
         style="@style/body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
