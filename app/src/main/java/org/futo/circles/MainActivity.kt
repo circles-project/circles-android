@@ -16,8 +16,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         syncSessionIfCashWasCleared()
     }
 
-    // Special action to clear cache and/or clear credentials (Element workaround to clear database)
-    fun restartForLogout() {
+    fun clearSessionAndRestart() {
         MatrixSessionProvider.clearSession()
         this.startActivity(createRestartIntent())
     }
@@ -41,7 +40,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     private fun setInvalidTokenListener() {
         MatrixSessionListenerProvider.setOnInvalidTokenListener {
             Toast.makeText(this, getString(R.string.you_are_signed_out), Toast.LENGTH_LONG).show()
-            restartForLogout()
+            clearSessionAndRestart()
         }
     }
 

@@ -15,7 +15,6 @@ import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
 import org.futo.circles.provider.PreferencesProvider
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -49,7 +48,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun setupObservers() {
         viewModel.logOutLiveData.observeResponse(this,
-            success = { navigateToLogin() }
+            success = { clearSessionAndRestart() }
         )
         viewModel.profileLiveData.observeData(this) {
             it.getOrNull()?.let { binding.vUser.setData(it) }
@@ -58,7 +57,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             loadingDialog.handleLoading(it)
         }
         viewModel.deactivateLiveData.observeResponse(this,
-            success = { navigateToLogin() },
+            success = { clearSessionAndRestart() },
             error = { showError(getString(R.string.invalid_auth)) }
         )
         systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
@@ -93,8 +92,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         findNavController().navigate(SettingsFragmentDirections.toEditProfileDialogFragment())
     }
 
-    private fun navigateToLogin() {
-        (activity as? MainActivity)?.restartForLogout()
+    private fun clearSessionAndRestart() {
+        (activity as? MainActivity)?.clearSessionAndRestart()
     }
 
     private fun navigateToActiveSessions() {
@@ -126,7 +125,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             messageResId = R.string.switch_user_message,
             positiveButtonRes = R.string.switch_str,
             negativeButtonVisible = true,
-            positiveAction = { viewModel.switchUser() })
+            positiveAction = { clearSessionAndRestart() })
     }
 
     private fun showDeactivateAccountDialog() {
