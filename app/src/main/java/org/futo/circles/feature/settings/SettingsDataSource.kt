@@ -30,18 +30,16 @@ class SettingsDataSource(
     val loadingLiveData = MutableLiveData<LoadingData>()
     private val loadingData = LoadingData(total = 0)
 
-    suspend fun logOut(logoutFromHomeServer: Boolean = true) = createResult {
+    suspend fun logOut() = createResult {
         loadingLiveData.postValue(
             loadingData.apply {
-                messageId = if (logoutFromHomeServer) R.string.log_out else R.string.switch_user
+                messageId = R.string.log_out
                 isLoading = true
             }
         )
-        session.signOutService().signOut(logoutFromHomeServer)
+        session.signOutService().signOut(true)
         loadingLiveData.postValue(loadingData.apply { isLoading = false })
     }
-
-    suspend fun switchUser() = logOut(false)
 
     suspend fun deactivateAccount(): Response<Unit> = createResult {
         session.accountService().deactivateAccount(false, authConfirmationProvider)
