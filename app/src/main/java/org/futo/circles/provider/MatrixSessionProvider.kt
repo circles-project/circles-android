@@ -29,8 +29,9 @@ object MatrixSessionProvider {
     }
 
     fun clearSession() {
-        currentSession?.syncService()?.stopSync()
-        currentSession?.removeListener(MatrixSessionListenerProvider.sessionListener)
+        val session = currentSession ?: return
+        if (session.syncService().isSyncThreadAlive()) session.syncService().stopSync()
+        session.removeListener(MatrixSessionListenerProvider.sessionListener)
         currentSession = null
     }
 
