@@ -12,8 +12,10 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.FragmentLogInBinding
 import org.futo.circles.extensions.getText
+import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showError
+import org.futo.circles.feature.log_in.list.SwitchUsersAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -28,6 +30,13 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             listOf(BuildConfig.US_SERVER_DOMAIN, BuildConfig.EU_SERVER_DOMAIN)
+        )
+    }
+
+    private val switchUsersAdapter by lazy {
+        SwitchUsersAdapter(
+            onResumeClicked = { id -> viewModel.resumeSwitchUserSession(id) },
+            onRemoveClicked = { id -> viewModel.removeSwitchUser(id) }
         )
     }
 
@@ -48,6 +57,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 }
             }
             tilDomain.hint = BuildConfig.US_SERVER_DOMAIN
+            binding.rvSwitchUsers.adapter = switchUsersAdapter
         }
     }
 
@@ -57,6 +67,9 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 findNavController().navigate(LogInFragmentDirections.toLoginStagesFragment())
             }
         )
+        viewModel.switchUsersLiveData.observeData(this) {
+            switchUsersAdapter.submitList(it)
+        }
     }
 
     private fun setOnClickActions() {
