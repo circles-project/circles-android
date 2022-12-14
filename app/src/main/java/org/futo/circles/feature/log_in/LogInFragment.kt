@@ -34,7 +34,10 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
 
     private val switchUsersAdapter by lazy {
         SwitchUsersAdapter(
-            onResumeClicked = { id -> viewModel.resumeSwitchUserSession(id) },
+            onResumeClicked = { id ->
+                startLoading(binding.btnLogin)
+                viewModel.resumeSwitchUserSession(id)
+            },
             onRemoveClicked = { id -> showRemoveUserDialog(id) }
         )
     }
@@ -72,6 +75,9 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
         viewModel.switchUsersLiveData.observeData(this) {
             binding.tvResumeSession.setIsVisible(it.isNotEmpty())
             switchUsersAdapter.submitList(it)
+        }
+        viewModel.navigateToBottomMenuScreenLiveData.observeData(this) {
+            findNavController().navigate(LogInFragmentDirections.toBottomNavigationFragment())
         }
     }
 
