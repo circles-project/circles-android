@@ -79,7 +79,7 @@ class ManageMembersDialogFragment :
     override fun onRemoveUser(userId: String) {
         showDialog(
             titleResIdRes = R.string.remove_user,
-            messageResId = R.string.remove_user_message,
+            messageResId = R.string.remove_user_in_room_message,
             positiveButtonRes = R.string.remove,
             negativeButtonVisible = true,
             positiveAction = { viewModel.removeUser(userId) }
