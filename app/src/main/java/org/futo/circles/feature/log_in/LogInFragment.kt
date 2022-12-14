@@ -70,6 +70,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
             }
         )
         viewModel.switchUsersLiveData.observeData(this) {
+            binding.tvResumeSession.setIsVisible(it.isNotEmpty())
             switchUsersAdapter.submitList(it)
         }
     }
