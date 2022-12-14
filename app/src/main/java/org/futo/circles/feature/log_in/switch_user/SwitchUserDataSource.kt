@@ -19,9 +19,8 @@ class SwitchUserDataSource {
             )
         }
 
-    fun removeSwitchUser(id: String): List<SwitchUserListItem> {
+    suspend fun removeSwitchUser(id: String) {
         authService.removeSession(id)
-        return getSwitchUsersList()
     }
 
     fun getSessionWithId(id: String) = getSwitchUsersList().firstOrNull { it.id == id }?.session

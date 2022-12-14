@@ -23,7 +23,11 @@ class LogInViewModel(
     }
 
     fun removeSwitchUser(id: String) {
-        switchUsersLiveData.postValue(switchUserDataSource.removeSwitchUser(id))
+        launchBg {
+            switchUserDataSource.removeSwitchUser(id)
+            switchUsersLiveData.postValue(switchUserDataSource.getSwitchUsersList())
+        }
+
     }
 
     fun resumeSwitchUserSession(id: String) {
