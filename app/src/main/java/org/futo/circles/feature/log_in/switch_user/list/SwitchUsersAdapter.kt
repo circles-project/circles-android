@@ -1,4 +1,4 @@
-package org.futo.circles.feature.log_in.list
+package org.futo.circles.feature.log_in.switch_user.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter

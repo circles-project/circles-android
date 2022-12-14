@@ -5,15 +5,15 @@ import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
-import org.futo.circles.model.SwitchUserListItem
-import org.futo.circles.provider.MatrixInstanceProvider
+import org.futo.circles.feature.log_in.switch_user.SwitchUserDataSource
 
 class LogInViewModel(
-    private val loginDataSource: LoginDataSource
+    private val loginDataSource: LoginDataSource,
+    private val switchUserDataSource: SwitchUserDataSource
 ) : ViewModel() {
 
     val loginResultLiveData = SingleEventLiveData<Response<Unit>>()
-    val switchUsersLiveData = MutableLiveData<List<SwitchUserListItem>>()
+    val switchUsersLiveData = MutableLiveData(switchUserDataSource.getSwitchUsersList())
 
     fun startLogInFlow(userName: String, domain: String) {
         launchBg {
@@ -22,15 +22,8 @@ class LogInViewModel(
         }
     }
 
-    private fun submitSwitchUsersList() {
-        val users = MatrixInstanceProvider.matrix.authenticationService().getAllAuthSessionsParams()
-            .map { SwitchUserListItem(it) }
-        switchUsersLiveData.postValue(users)
-    }
-
     fun removeSwitchUser(id: String) {
-        MatrixInstanceProvider.matrix.authenticationService().removeSession(id)
-        submitSwitchUsersList()
+        switchUsersLiveData.postValue(switchUserDataSource.removeSwitchUser(id))
     }
 
     fun resumeSwitchUserSession(id: String) {
