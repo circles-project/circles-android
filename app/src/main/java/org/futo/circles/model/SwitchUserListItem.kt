@@ -1,11 +1,11 @@
 package org.futo.circles.model
 
 import org.futo.circles.core.list.IdEntity
-import org.matrix.android.sdk.api.auth.data.SessionParams
-import org.matrix.android.sdk.api.auth.data.sessionId
+import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.session.user.model.User
 
 data class SwitchUserListItem(
-    val params: SessionParams
-) : IdEntity<String> {
-    override val id: String = params.credentials.sessionId()
-}
+    override val id: String,
+    val session: Session,
+    val user: User
+) : IdEntity<String>
