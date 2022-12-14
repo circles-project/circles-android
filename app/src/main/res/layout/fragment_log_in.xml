@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="24dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:paddingTop="16dp"
     android:paddingBottom="24dp"
     tools:context=".feature.log_in.LogInFragment">
@@ -54,6 +55,7 @@
         style="@style/body"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginStart="24dp"
         android:gravity="center"
         android:text="@string/at_symbol"
         android:textSize="15sp"
@@ -105,6 +107,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvDomainSeparator"
         app:layout_constraintTop_toBottomOf="@id/tvCircles">
@@ -130,22 +133,40 @@
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/log_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tilUserName" />
 
+
+    <TextView
+        android:id="@+id/tvResumeSession"
+        style="@style/body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/resume_session"
+        app:layout_constraintBottom_toTopOf="@id/rvSwitchUsers"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSwitchUsers"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/tvNotMember"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+        app:layout_constraintTop_toBottomOf="@id/tvResumeSession" />
 
     <TextView
         android:id="@+id/tvNotMember"
@@ -162,6 +183,8 @@
         android:id="@+id/btnSignUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

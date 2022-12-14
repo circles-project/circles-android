@@ -10,12 +10,11 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.databinding.FragmentLogInBinding
-import org.futo.circles.extensions.getText
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showError
-import org.futo.circles.feature.log_in.list.SwitchUsersAdapter
+import org.futo.circles.extensions.*
+import org.futo.circles.feature.log_in.switch_user.list.SwitchUsersAdapter
+import org.futo.circles.feature.log_in.switch_user.list.SwitchUsersViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -36,7 +35,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
     private val switchUsersAdapter by lazy {
         SwitchUsersAdapter(
             onResumeClicked = { id -> viewModel.resumeSwitchUserSession(id) },
-            onRemoveClicked = { id -> viewModel.removeSwitchUser(id) }
+            onRemoveClicked = { id -> showRemoveUserDialog(id) }
         )
     }
 
@@ -57,7 +56,10 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 }
             }
             tilDomain.hint = BuildConfig.US_SERVER_DOMAIN
-            binding.rvSwitchUsers.adapter = switchUsersAdapter
+            binding.rvSwitchUsers.apply {
+                adapter = switchUsersAdapter
+                addItemDecoration(BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(16))
+            }
         }
     }
 
@@ -91,4 +93,13 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
 
     private fun getDomain() = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
         ?: BuildConfig.US_SERVER_DOMAIN
+
+    private fun showRemoveUserDialog(id: String) {
+        showDialog(
+            titleResIdRes = R.string.remove_user,
+            messageResId = R.string.remove_user_message,
+            positiveButtonRes = R.string.remove,
+            negativeButtonVisible = true,
+            positiveAction = { viewModel.removeSwitchUser(id) })
+    }
 }
