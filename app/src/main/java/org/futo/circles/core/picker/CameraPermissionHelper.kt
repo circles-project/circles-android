@@ -9,8 +9,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import org.futo.circles.R
-import org.futo.circles.extensions.showDialog
+import org.futo.circles.extensions.withConfirmation
+import org.futo.circles.model.ConfirmationType
 
 class CameraPermissionHelper(private val fragment: Fragment) {
 
@@ -32,13 +32,7 @@ class CameraPermissionHelper(private val fragment: Fragment) {
         }
 
     private fun showPermissionDeny() {
-        fragment.showDialog(
-            titleResIdRes = R.string.permission_denied,
-            messageResId = R.string.enable_camera_permission_message,
-            negativeButtonVisible = true,
-            positiveButtonRes = R.string.open_settings,
-            positiveAction = { openAppSettings() }
-        )
+        fragment.withConfirmation(ConfirmationType.PERMISSION_DENIED) { openAppSettings() }
     }
 
     private fun openAppSettings() {
