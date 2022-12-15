@@ -13,6 +13,7 @@ import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
+import org.futo.circles.model.ConfirmationType
 import org.futo.circles.provider.PreferencesProvider
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,11 +34,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun setupViews() {
         with(binding) {
-            tvLogout.setOnClickListener { showLogoutDialog() }
-            tvSwitchUser.setOnClickListener { showSwitchUserDialog() }
+            tvLogout.setOnClickListener { withConfirmation(ConfirmationType.LOG_OUT) { viewModel.logOut() } }
+            tvSwitchUser.setOnClickListener { withConfirmation(ConfirmationType.SWITCH_USER) { clearSessionAndRestart() } }
             tvEditProfile.setOnClickListener { navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
-            tvDeactivate.setOnClickListener { showDeactivateAccountDialog() }
+            tvDeactivate.setOnClickListener { withConfirmation(ConfirmationType.DEACTIVATE_ACCOUNT) { viewModel.deactivateAccount() } }
             tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash() }
@@ -108,33 +109,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         findNavController().navigate(
             SettingsFragmentDirections.toSystemNoticesDialogFragment(systemNoticesRoomId)
         )
-    }
-
-    private fun showLogoutDialog() {
-        showDialog(
-            titleResIdRes = R.string.log_out,
-            messageResId = R.string.log_out_message,
-            positiveButtonRes = R.string.log_out,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.logOut() })
-    }
-
-    private fun showSwitchUserDialog() {
-        showDialog(
-            titleResIdRes = R.string.switch_user,
-            messageResId = R.string.switch_user_message,
-            positiveButtonRes = R.string.switch_str,
-            negativeButtonVisible = true,
-            positiveAction = { clearSessionAndRestart() })
-    }
-
-    private fun showDeactivateAccountDialog() {
-        showDialog(
-            titleResIdRes = R.string.deactivate_my_account,
-            messageResId = R.string.deactivate_message,
-            positiveButtonRes = R.string.deactivate,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.deactivateAccount() })
     }
 
     private fun setVersion() {
