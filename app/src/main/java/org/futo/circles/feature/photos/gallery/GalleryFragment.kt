@@ -25,6 +25,7 @@ import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.list.GalleryItemViewHolder
 import org.futo.circles.feature.photos.gallery.list.GalleryItemsAdapter
 import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.model.ConfirmationType
 import org.futo.circles.model.GalleryContentListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -99,7 +100,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.configureGallery -> navigateToUpdateRoom()
-                    R.id.deleteGallery -> showDeleteConfirmation()
+                    R.id.deleteGallery -> withConfirmation(ConfirmationType.DELETE_GALLERY) { viewModel.deleteGallery() }
                 }
                 return true
             }
@@ -131,16 +132,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
                 GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, item.id)
             )
         }
-    }
-
-    private fun showDeleteConfirmation() {
-        showDialog(
-            titleResIdRes = R.string.delete_gallery,
-            messageResId = R.string.delete_gallery_message,
-            positiveButtonRes = R.string.delete,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.deleteGallery() }
-        )
     }
 
     companion object {
