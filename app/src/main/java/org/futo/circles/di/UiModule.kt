@@ -60,7 +60,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val uiModule = module {
-    viewModel { LogInViewModel(get()) }
+    viewModel { LogInViewModel(get(), get()) }
     viewModel { GroupsViewModel(get()) }
     viewModel { CirclesViewModel(get()) }
     viewModel { PeopleViewModel(get(), get()) }

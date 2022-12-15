@@ -1,164 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="24dp"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:orientation="vertical"
     android:paddingTop="16dp"
-    android:paddingBottom="24dp"
-    tools:context=".feature.log_in.LogInFragment">
+    android:paddingBottom="24dp">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineLogo"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
+        android:clipChildren="false">
 
-    <org.futo.circles.view.CirclesLogoView
-        android:id="@+id/ivLogo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineLogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <org.futo.circles.view.CirclesLogoView
+            android:id="@+id/ivLogo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="h,1:0.6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvCompanyTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/futo"
-        android:textAlignment="center"
-        android:textAppearance="@style/headline"
-        app:layout_constraintBottom_toTopOf="@id/tvCircles"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivLogo"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-
-    <TextView
-        android:id="@+id/tvCircles"
-        style="@style/title0"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/tilUserName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle" />
-
-    <TextView
-        android:id="@+id/tvAt"
-        style="@style/body"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="@string/at_symbol"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/tilUserName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tilUserName" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUserName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/username"
-        app:layout_constraintEnd_toStartOf="@id/tvDomainSeparator"
-        app:layout_constraintStart_toEndOf="@id/tvAt"
-        app:layout_constraintTop_toBottomOf="@id/tvCircles">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvCompanyTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="textVisiblePassword"
-            android:maxLines="1"
-            android:paddingStart="8dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="12dp"
-            android:textSize="15sp" />
+            android:layout_marginTop="8dp"
+            android:text="@string/futo"
+            android:textAlignment="center"
+            android:textAppearance="@style/headline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tvDomainSeparator"
-        style="@style/body"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:text="@string/user_id_separator"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@id/tilUserName"
-        app:layout_constraintEnd_toStartOf="@id/tilDomain"
-        app:layout_constraintStart_toEndOf="@id/tilUserName"
-        app:layout_constraintTop_toTopOf="@id/tilUserName" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilDomain"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvDomainSeparator"
-        app:layout_constraintTop_toBottomOf="@id/tvCircles">
-
-        <org.futo.circles.view.DomainAutocompleteView
-            android:id="@+id/tvDomain"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvCircles"
+            style="@style/title0"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/domain"
-            android:imeOptions="actionDone"
-            android:inputType="textVisiblePassword"
-            android:maxLines="1"
-            android:paddingStart="8dp"
-            android:paddingTop="12dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="12dp"
-            android:textSize="15sp" />
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tvAt"
+            style="@style/body"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:gravity="center"
+            android:text="@string/at_symbol"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/tilUserName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tilUserName" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilUserName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/username"
+            app:layout_constraintEnd_toStartOf="@id/tvDomainSeparator"
+            app:layout_constraintStart_toEndOf="@id/tvAt"
+            app:layout_constraintTop_toBottomOf="@id/tvCircles">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textVisiblePassword"
+                android:maxLines="1"
+                android:paddingStart="8dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="12dp"
+                android:textSize="15sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvDomainSeparator"
+            style="@style/body"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/user_id_separator"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/tilUserName"
+            app:layout_constraintEnd_toStartOf="@id/tilDomain"
+            app:layout_constraintStart_toEndOf="@id/tilUserName"
+            app:layout_constraintTop_toTopOf="@id/tilUserName" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDomain"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvDomainSeparator"
+            app:layout_constraintTop_toBottomOf="@id/tvCircles">
+
+            <org.futo.circles.view.DomainAutocompleteView
+                android:id="@+id/tvDomain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/domain"
+                android:imeOptions="actionDone"
+                android:inputType="textVisiblePassword"
+                android:maxLines="1"
+                android:paddingStart="8dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="12dp"
+                android:textSize="15sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-    <org.futo.circles.view.LoadingButton
-        android:id="@+id/btnLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/log_in"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilUserName" />
-
-    <TextView
-        android:id="@+id/textView"
-        style="@style/body"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/not_a_member"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/btnSignUp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <org.futo.circles.view.LoadingButton
-        android:id="@+id/btnSignUp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <org.futo.circles.view.LoadingButton
+            android:id="@+id/btnLogin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="24dp"
+            android:text="@string/log_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilUserName" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvResumeSession"
+            style="@style/body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="36dp"
+            android:text="@string/resume_session"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/rvSwitchUsers"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSwitchUsers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/tvNotMember"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvResumeSession" />
+
+        <TextView
+            android:id="@+id/tvNotMember"
+            style="@style/body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="36dp"
+            android:text="@string/not_a_member"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/btnSignUp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <org.futo.circles.view.LoadingButton
+            android:id="@+id/btnSignUp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="24dp"
+            android:text="@string/sign_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

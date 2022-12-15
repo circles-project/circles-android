@@ -6,6 +6,7 @@
     <string name="log_in">Log In</string>
     <string name="set_username">Set username</string>
     <string name="not_a_member">Not a member?</string>
+    <string name="resume_session">Resume session:</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_using_active_subscription">Sign Up using your active subscription</string>
     <string name="circles">Circles</string>
@@ -127,7 +128,8 @@
     <string name="cancel_invite">Cancel invite</string>
     <string name="cancel_invite_message">Are you sure you want to cancel the invite for this user?</string>
     <string name="remove_user">Remove user</string>
-    <string name="remove_user_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
+    <string name="remove_user_message">Are you sure you want to remove this user?</string>
+    <string name="remove_user_in_room_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
     <string name="ban_user">Ban user</string>
     <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
     <string name="unban_user">Unban user</string>
@@ -321,6 +323,9 @@
     <string name="add">Add</string>
     <string name="add_link">Add link</string>
     <string name="state_events">State events</string>
+    <string name="switch_user">Switch User</string>
+    <string name="switch_str">Switch</string>
+    <string name="switch_user_message">Are you sure you want to switch user?</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

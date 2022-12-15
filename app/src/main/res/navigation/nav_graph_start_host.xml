@@ -34,6 +34,11 @@
         <action
             android:id="@+id/to_loginStagesFragment"
             app:destination="@id/loginStagesFragment" />
+        <action
+            android:id="@+id/to_bottomNavigationFragment"
+            app:destination="@id/bottomNavigationFragment"
+            app:popUpTo="@id/logInFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -52,7 +57,7 @@
         android:id="@+id/bottomNavigationFragment"
         android:name="org.futo.circles.feature.bottom_navigation.BottomNavigationFragment"
         android:label="Bottom Navigation"
-        tools:layout="@layout/fragment_bottom_navigation"/>
+        tools:layout="@layout/fragment_bottom_navigation" />
     <fragment
         android:id="@+id/setupProfileFragment"
         android:name="org.futo.circles.feature.sign_up.setup_profile.SetupProfileFragment"

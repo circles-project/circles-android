@@ -7,7 +7,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.futo.circles.core.DEFAULT_USER_PREFIX
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.getUserOrDefault
@@ -29,16 +28,16 @@ fun Session.resolveUrl(
     url: String?,
     size: Size? = null
 ): String? {
-    val resolver = MatrixSessionProvider.currentSession?.contentUrlResolver()
+    val resolver = contentUrlResolver()
 
     return size?.let {
-        resolver?.resolveThumbnail(
+        resolver.resolveThumbnail(
             url,
             size.width, size.height,
             ContentUrlResolver.ThumbnailMethod.SCALE
         )
     } ?: run {
-        resolver?.resolveFullSize(url)
+        resolver.resolveFullSize(url)
     }
 }
 

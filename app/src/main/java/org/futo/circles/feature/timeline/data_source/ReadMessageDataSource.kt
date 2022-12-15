@@ -5,6 +5,7 @@ import org.futo.circles.extensions.coroutineScope
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
+import org.matrix.android.sdk.api.session.room.read.ReadService
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
 class ReadMessageDataSource {
@@ -14,7 +15,7 @@ class ReadMessageDataSource {
     suspend fun markAsRead(roomId: String, eventId: String) {
         val room = MatrixSessionProvider.currentSession?.roomService()?.getRoom(roomId) ?: return
         updateMostRecentEvent(room, eventId)
-        room.readService().setReadReceipt(eventId)
+        room.readService().setReadReceipt(eventId, ReadService.THREAD_ID_MAIN)
     }
 
     fun setReadMarker() {
