@@ -15,6 +15,7 @@ import org.futo.circles.databinding.FragmentLogInBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.log_in.switch_user.list.SwitchUsersAdapter
 import org.futo.circles.feature.log_in.switch_user.list.SwitchUsersViewHolder
+import org.futo.circles.model.ConfirmationType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -38,7 +39,11 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 startLoading(binding.btnLogin)
                 viewModel.resumeSwitchUserSession(id)
             },
-            onRemoveClicked = { id -> showRemoveUserDialog(id) }
+            onRemoveClicked = { id ->
+                withConfirmation(ConfirmationType.REMOVE_USER) {
+                    viewModel.removeSwitchUser(id)
+                }
+            }
         )
     }
 
@@ -100,13 +105,4 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
 
     private fun getDomain() = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
         ?: BuildConfig.US_SERVER_DOMAIN
-
-    private fun showRemoveUserDialog(id: String) {
-        showDialog(
-            titleResIdRes = R.string.remove_user,
-            messageResId = R.string.remove_user_message,
-            positiveButtonRes = R.string.remove,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.removeSwitchUser(id) })
-    }
 }
