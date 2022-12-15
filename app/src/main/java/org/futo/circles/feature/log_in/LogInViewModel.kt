@@ -33,7 +33,7 @@ class LogInViewModel(
     fun resumeSwitchUserSession(id: String) {
         val session = switchUserDataSource.getSessionWithId(id) ?: return
         launchBg {
-            MatrixSessionProvider.awaitForSessionSync(session)
+            MatrixSessionProvider.awaitForSessionStart(session)
             navigateToBottomMenuScreenLiveData.postValue(Unit)
         }
     }
