@@ -10,8 +10,9 @@ import org.futo.circles.R
 import org.futo.circles.databinding.FragmentPeopleBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showDialog
+import org.futo.circles.extensions.withConfirmation
 import org.futo.circles.feature.people.list.PeopleAdapter
+import org.futo.circles.model.ConfirmationType
 import org.futo.circles.model.PeopleUserListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -52,18 +53,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people) {
     }
 
     private fun handleIgnoreClicked(user: PeopleUserListItem, ignore: Boolean) {
-        if (ignore) showIgnoreConfirmation(user.id)
+        if (ignore) withConfirmation(ConfirmationType.IGNORE_USER) { viewModel.ignoreUser(user.id) }
         else viewModel.unIgnoreUser(user.id)
     }
-
-    private fun showIgnoreConfirmation(userId: String) {
-        showDialog(
-            titleResIdRes = R.string.ignore,
-            messageResId = R.string.ignore_user_message,
-            positiveButtonRes = R.string.ignore,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.ignoreUser(userId) }
-        )
-    }
-
 }
