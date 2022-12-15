@@ -6,13 +6,13 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
-import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentManageMembersBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.room.ManageMembersOptionsListener
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelListener
 import org.futo.circles.feature.room.manage_members.list.GroupMembersListAdapter
+import org.futo.circles.model.ConfirmationType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -77,23 +77,11 @@ class ManageMembersDialogFragment :
     }
 
     override fun onRemoveUser(userId: String) {
-        showDialog(
-            titleResIdRes = R.string.remove_user,
-            messageResId = R.string.remove_user_in_room_message,
-            positiveButtonRes = R.string.remove,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.removeUser(userId) }
-        )
+        withConfirmation(ConfirmationType.REMOVE_ROOM_USER) { viewModel.removeUser(userId) }
     }
 
     override fun onBanUser(userId: String) {
-        showDialog(
-            titleResIdRes = R.string.ban_user,
-            messageResId = R.string.ban_user_message,
-            positiveButtonRes = R.string.ban,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.banUser(userId) }
-        )
+        withConfirmation(ConfirmationType.BAN_USER) { viewModel.banUser(userId) }
     }
 
     override fun onChangeAccessLevel(userId: String, levelValue: Int) {
@@ -101,22 +89,11 @@ class ManageMembersDialogFragment :
     }
 
     override fun unBanUser(userId: String) {
-        showDialog(
-            titleResIdRes = R.string.unban_user,
-            messageResId = R.string.unban_user_message,
-            positiveButtonRes = R.string.unban,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.unBanUser(userId) }
-        )
+        withConfirmation(ConfirmationType.UNBAN_USER) { viewModel.unBanUser(userId) }
     }
 
     override fun cancelPendingInvitation(userId: String) {
-        showDialog(
-            titleResIdRes = R.string.cancel_invite,
-            messageResId = R.string.cancel_invite_message,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.removeUser(userId) }
-        )
+        withConfirmation(ConfirmationType.CANCEL_INVITE) { viewModel.removeUser(userId) }
     }
 
 }
