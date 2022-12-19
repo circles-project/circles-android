@@ -24,6 +24,12 @@ fun PowerLevelsContent.isCurrentUserAbleToPost(): Boolean {
     return PowerLevelsHelper(this).isUserAllowedToSend(userId, false, EventType.MESSAGE)
 }
 
+fun PowerLevelsContent.isCurrentUserOnlyAdmin(roomId: String): Boolean {
+    val isAdmin = isCurrentUserAdmin()
+    val roomOwnersCount = getRoomOwners(roomId).size
+    return isAdmin && roomOwnersCount == 1
+}
+
 fun PowerLevelsContent.isCurrentUserAdmin(): Boolean {
     val userId = MatrixSessionProvider.currentSession?.myUserId ?: return false
     return PowerLevelsHelper(this).getUserRole(userId) == Role.Admin
