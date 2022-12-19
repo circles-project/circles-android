@@ -71,7 +71,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         menu.findItem(R.id.inviteMembers).isVisible =
             groupPowerLevelsContent?.isCurrentUserAbleToInvite() ?: false
         menu.findItem(R.id.deleteGroup).isVisible =
-            groupPowerLevelsContent?.isCurrentUserAdmin() ?: false
+            groupPowerLevelsContent?.isCurrentUserOnlyAdmin(args.roomId) ?: false
         menu.findItem(R.id.stateEvents).isVisible =
             preferencesProvider.isDeveloperModeEnabled()
     }
