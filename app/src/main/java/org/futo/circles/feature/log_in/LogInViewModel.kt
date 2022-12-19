@@ -31,10 +31,11 @@ class LogInViewModel(
     }
 
     fun resumeSwitchUserSession(id: String) {
-        val session = switchUserDataSource.getSessionWithId(id) ?: return
         launchBg {
-            MatrixSessionProvider.awaitForSessionStart(session)
-            navigateToBottomMenuScreenLiveData.postValue(Unit)
+            switchUserDataSource.switchToSessionWithId(id)?.let {
+                MatrixSessionProvider.awaitForSessionStart(it)
+                navigateToBottomMenuScreenLiveData.postValue(Unit)
+            }
         }
     }
 

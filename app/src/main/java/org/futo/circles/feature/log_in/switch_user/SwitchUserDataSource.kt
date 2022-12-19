@@ -24,7 +24,13 @@ class SwitchUserDataSource {
         authService.removeSession(id)
     }
 
-    fun getSessionWithId(id: String): Session? =
+    suspend fun switchToSessionWithId(id: String): Session? {
+        val session = getSessionWithId(id) ?: return null
+        authService.switchToSessionWithId(id)
+        return session
+    }
+
+    private fun getSessionWithId(id: String): Session? =
         getSwitchUsersList().firstOrNull { it.id == id }?.session
 
     fun getSessionCredentialsIdByUserInfo(userName: String, domain: String): String? {
