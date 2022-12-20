@@ -32,7 +32,7 @@ class RoomRelationsBuilder {
 
     suspend fun setInvitedGroupRelations(roomId: String) {
         val circlesRoom = Group()
-        session?.getRoom(roomId)?.tagsService()?.addTag(circlesRoom.tag, null)
+        circlesRoom.tag?.let { session?.getRoom(roomId)?.tagsService()?.addTag(it, null) }
         circlesRoom.parentTag?.let { tag ->
             findRoomByTag(tag)
                 ?.let { room -> setRelations(roomId, room, false) }

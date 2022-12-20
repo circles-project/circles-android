@@ -50,7 +50,7 @@ class CreateRoomDataSource(
             ?.createRoom(getParams(circlesRoom, name, topic, iconUri, inviteIds))
             ?: throw Exception("Can not create room")
 
-        session?.getRoom(id)?.tagsService()?.addTag(circlesRoom.tag, null)
+        circlesRoom.tag?.let { session?.getRoom(id)?.tagsService()?.addTag(it, null) }
         circlesRoom.parentTag?.let { tag ->
             roomRelationsBuilder.findRoomByTag(tag)
                 ?.let { room -> roomRelationsBuilder.setRelations(id, room) }
