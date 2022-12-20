@@ -14,6 +14,7 @@ const val CIRCLE_TAG = "$orgPrefix.social.circle"
 const val GROUP_TYPE = "$orgPrefix.social.group"
 const val GALLERY_TYPE = "$orgPrefix.social.gallery"
 const val TIMELINE_TYPE = "$orgPrefix.social.timeline"
+const val PROFILE_TYPE = "$orgPrefix.social.profile_space"
 
 
 sealed class CirclesRoom(
@@ -72,6 +73,13 @@ data class Gallery(
     override val tag: String? = null,
     override val parentTag: String? = PHOTOS_SPACE_TAG,
     override val type: String? = GALLERY_TYPE
+) : CirclesRoom(nameId, tag, parentTag, type)
+
+data class ProfileRoom(
+    override val nameId: Int? = null,
+    override val tag: String? = null,
+    override val parentTag: String? = ROOT_SPACE_TAG,
+    override val type: String? = PROFILE_TYPE
 ) : CirclesRoom(nameId, tag, parentTag, type)
 
 data class Timeline(
