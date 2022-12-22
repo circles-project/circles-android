@@ -6,6 +6,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomType
 
 private const val orgPrefix = "org.futo"
 private const val CIRCLES_SPACE_TAG = "$orgPrefix.space.circles"
+private const val PEOPLE_SPACE_TAG = "$orgPrefix.space.people"
 private const val GROUPS_SPACE_TAG = "$orgPrefix.space.groups"
 private const val PHOTOS_SPACE_TAG = "$orgPrefix.space.photos"
 const val ROOT_SPACE_TAG = "$orgPrefix.space.root"
@@ -36,6 +37,13 @@ data class RootSpace(
 data class CirclesSpace(
     override val nameId: Int? = R.string.circles_space_name,
     override val tag: String? = CIRCLES_SPACE_TAG,
+    override val parentTag: String? = ROOT_SPACE_TAG,
+    override val type: String? = RoomType.SPACE
+) : CirclesRoom(nameId, tag, parentTag, type)
+
+data class PeopleSpace(
+    override val nameId: Int? = R.string.people_space_name,
+    override val tag: String? = PEOPLE_SPACE_TAG,
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE
 ) : CirclesRoom(nameId, tag, parentTag, type)

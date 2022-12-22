@@ -19,7 +19,7 @@ class CoreSpacesTreeBuilder(
     val loadingLiveData = MutableLiveData<LoadingData>()
 
     private val coreSpaces = listOf(
-        RootSpace(), CirclesSpace(), GroupsSpace(), PhotosSpace()
+        RootSpace(), CirclesSpace(), PeopleSpace(), GroupsSpace(), PhotosSpace()
     )
 
     suspend fun createCoreSpacesTree() {
