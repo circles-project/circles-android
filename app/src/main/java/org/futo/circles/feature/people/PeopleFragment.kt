@@ -1,7 +1,12 @@
 package org.futo.circles.feature.people
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,7 +21,8 @@ import org.futo.circles.model.ConfirmationType
 import org.futo.circles.model.PeopleUserListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PeopleFragment : Fragment(R.layout.fragment_people) {
+
+class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
 
     private val viewModel by viewModel<PeopleViewModel>()
     private val binding by viewBinding(FragmentPeopleBinding::bind)
@@ -32,7 +38,21 @@ class PeopleFragment : Fragment(R.layout.fragment_people) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
+        activity?.addMenuProvider(this, viewLifecycleOwner)
     }
+
+    override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.bottom_nav_toolbar_menu, menu)
+        (menu.findItem(R.id.search).actionView as? SearchView)
+            ?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean = false
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return true
+                }
+            })
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = true
 
     private fun setupViews() {
         binding.rvUsers.apply {
