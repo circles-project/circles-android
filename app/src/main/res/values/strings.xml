@@ -327,6 +327,7 @@
     <string name="switch_user">Switch User</string>
     <string name="switch_str">Switch</string>
     <string name="switch_user_message">Are you sure you want to switch user?</string>
+    <string name="search_people">Search people</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
