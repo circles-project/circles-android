@@ -22,6 +22,6 @@ val roomDSModule = module {
     factory { CirclesDataSource() }
     factory { PhotosDataSource() }
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
-    factory { PeopleDataSource() }
+    factory { PeopleDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
 }
