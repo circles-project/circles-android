@@ -1,8 +1,11 @@
 package org.futo.circles.feature.room.select_users
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
-import org.futo.circles.extensions.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
+import org.futo.circles.extensions.getUserIdsToExclude
 import org.futo.circles.mapping.toUserListItem
 import org.futo.circles.model.HeaderItem
 import org.futo.circles.model.InviteMemberListItem
@@ -15,7 +18,10 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 
-class SelectUsersDataSource(roomId: String?) {
+class SelectUsersDataSource(
+    roomId: String?,
+    private val searchUserDataSource: SearchUserDataSource
+) {
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId ?: "")
@@ -39,57 +45,14 @@ class SelectUsersDataSource(roomId: String?) {
 
     suspend fun search(query: String) =
         combine(
-            searchKnownUsers(query),
-            searchSuggestions(query),
+            searchUserDataSource.searchKnownUsers(query, existingMembersIds),
+            searchUserDataSource.searchSuggestions(query, existingMembersIds),
             selectedUsersFlow
         )
         { knowUsers, suggestions, selectedUsers ->
             buildList(knowUsers, suggestions, selectedUsers)
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
-
-    private fun searchKnownUsers(query: String) = session?.getKnownUsersFlow()
-        ?.map {
-            it.filter { user ->
-                val containsInName = user.displayName?.contains(query, true) ?: false
-                val containsInId = user.userId.contains(query, true)
-                val notInExistingMembers = existingMembersIds.contains(user.userId).not()
-                (containsInName || containsInId) && notInExistingMembers
-            }
-        } ?: flowOf()
-
-
-    private suspend fun searchSuggestions(query: String): Flow<List<User>> = flow {
-        val userFromDirectory = searchInUsersDirectory(query)
-        val userById = searchUserById(query)
-        val list = userFromDirectory.toMutableList().apply { userById?.let { add(it) } }
-        emit(list.distinctBy { it.userId })
-    }
-
-    private suspend fun searchUserById(query: String) = (createResult {
-        session?.userService()?.resolveUser(convertQueryToUserId(query))
-    } as? Response.Success)?.data
-
-    private suspend fun searchInUsersDirectory(query: String): List<User> {
-        val usersByQuery = launchDirectorySearch(query)
-        val usersById = launchDirectorySearch(convertQueryToUserId(query))
-        return mutableListOf<User>().apply {
-            addAll(usersByQuery)
-            addAll(usersById)
-        }
-    }
-
-    private suspend fun launchDirectorySearch(query: String) = session?.userService()
-        ?.searchUsersDirectory(query, MAX_SUGGESTION_COUNT, existingMembersIds)?.toMutableList()
-        ?: mutableListOf()
-
-    private fun convertQueryToUserId(query: String): String {
-        var userId: String? = null
-        if (!query.startsWith("@")) userId = "@$query"
-        val domain = session?.getServerDomain() ?: ""
-        if (!query.contains(":")) userId += ":$domain"
-        return userId ?: query
-    }
 
     private fun buildList(
         knowUsers: List<User>,
@@ -127,8 +90,4 @@ class SelectUsersDataSource(roomId: String?) {
         selectedUsersFlow.value = list
     }
 
-
-    private companion object {
-        private const val MAX_SUGGESTION_COUNT = 30
-    }
 }
