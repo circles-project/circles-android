@@ -51,11 +51,15 @@ class PeopleDataSource(
             list.add(PeopleHeaderItem.knownUsersHeader)
             list.addAll(filteredKnownUsers)
         }
+        
         if (ignoredUsers.isNotEmpty()) {
             list.add(PeopleHeaderItem.ignoredUsers)
             list.addAll(ignoredUsers.map { it.toPeopleUserListItem(true) })
         }
-        if (suggestions.isNotEmpty()) {
+
+        val existingIds = list.map { it.id }
+        val filteredSuggestion = suggestions.filterNot { existingIds.contains(it.userId) }
+        if (filteredSuggestion.isNotEmpty()) {
             list.add(PeopleHeaderItem.suggestions)
             list.addAll(suggestions.map { it.toPeopleUserListItem(false) })
         }
