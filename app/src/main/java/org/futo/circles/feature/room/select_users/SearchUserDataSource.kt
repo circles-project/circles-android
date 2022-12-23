@@ -9,13 +9,21 @@ import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.getKnownUsersFlow
 import org.futo.circles.extensions.getServerDomain
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 
 class SearchUserDataSource {
 
     private val session = MatrixSessionProvider.currentSession
 
-    fun searchKnownUsers(query: String, userIdsToExclude: Set<String>) =
+    suspend fun loadAllRoomMembersIfNeeded() {
+        session?.roomService()?.getRoomSummaries(roomSummaryQueryParams())?.forEach {
+            session.getRoom(it.roomId)?.membershipService()?.loadRoomMembersIfNeeded()
+        }
+    }
+
+    fun searchKnownUsers(query: String, userIdsToExclude: Set<String> = emptySet()) =
         session?.getKnownUsersFlow()
             ?.map {
                 it.filter { user ->
@@ -28,7 +36,7 @@ class SearchUserDataSource {
 
     suspend fun searchSuggestions(
         query: String,
-        userIdsToExclude: Set<String>
+        userIdsToExclude: Set<String> = emptySet()
     ): Flow<List<User>> = flow {
         val userFromDirectory = searchInUsersDirectory(query, userIdsToExclude)
         val userById = searchUserById(query)

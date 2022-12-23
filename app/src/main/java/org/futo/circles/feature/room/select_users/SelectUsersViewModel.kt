@@ -17,7 +17,7 @@ class SelectUsersViewModel(
     val selectedUsersLiveData = dataSource.selectedUsersFlow.asLiveData()
 
     init {
-        launchBg { dataSource.loadAllRoomMembersIfNeeded() }
+        launchBg { dataSource.refreshRoomMembers() }
     }
 
     fun initSearchListener(queryFlow: StateFlow<String>) {
