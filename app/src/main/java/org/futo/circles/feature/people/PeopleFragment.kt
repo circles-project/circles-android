@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.databinding.FragmentPeopleBinding
+import org.futo.circles.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.withConfirmation
@@ -43,13 +44,9 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
 
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.bottom_nav_toolbar_menu, menu)
-        (menu.findItem(R.id.search).actionView as? SearchView)
-            ?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean = false
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    return true
-                }
-            })
+        (menu.findItem(R.id.search).actionView as? SearchView)?.getQueryTextChangeStateFlow()?.let {
+            viewModel.initSearchListener(it)
+        }
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean = true
