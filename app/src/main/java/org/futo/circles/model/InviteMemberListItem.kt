@@ -12,7 +12,7 @@ data class HeaderItem(
 
     companion object {
         val knownUsersHeader = HeaderItem(R.string.known_users)
-        val suggestionHeader = HeaderItem(R.string.suggestion)
+        val suggestionHeader = HeaderItem(R.string.suggestions)
     }
 }
 

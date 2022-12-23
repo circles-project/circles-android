@@ -12,6 +12,7 @@ data class PeopleHeaderItem(
 
     companion object {
         val knownUsersHeader = PeopleHeaderItem(R.string.known_users)
+        val suggestions = PeopleHeaderItem(R.string.suggestions)
         val ignoredUsers = PeopleHeaderItem(R.string.ignored_users)
     }
 }
