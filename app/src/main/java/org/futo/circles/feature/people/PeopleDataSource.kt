@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
-import org.futo.circles.extensions.getKnownUsersLive
+import org.futo.circles.extensions.getKnownUsersFlow
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
@@ -24,13 +24,13 @@ class PeopleDataSource {
         buildList(knowUsers, ignoredUsers)
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
-    suspend fun loadAllRoomMembersIfNeeded(){
+    suspend fun loadAllRoomMembersIfNeeded() {
         session?.roomService()?.getRoomSummaries(roomSummaryQueryParams())?.forEach {
             session.getRoom(it.roomId)?.membershipService()?.loadRoomMembersIfNeeded()
         }
     }
 
-    private fun getKnownUsersFlow() = session?.getKnownUsersLive()?.asFlow() ?: flowOf()
+    private fun getKnownUsersFlow() = session?.getKnownUsersFlow() ?: flowOf()
 
     private fun getIgnoredUserFlow() =
         session?.userService()?.getIgnoredUsersLive()?.asFlow() ?: flowOf()

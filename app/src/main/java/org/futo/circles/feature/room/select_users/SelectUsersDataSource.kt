@@ -1,6 +1,5 @@
 package org.futo.circles.feature.room.select_users
 
-import androidx.lifecycle.asFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import org.futo.circles.extensions.*
@@ -49,7 +48,7 @@ class SelectUsersDataSource(roomId: String?) {
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
 
-    private fun searchKnownUsers(query: String) = session?.getKnownUsersLive()?.asFlow()
+    private fun searchKnownUsers(query: String) = session?.getKnownUsersFlow()
         ?.map {
             it.filter { user ->
                 val containsInName = user.displayName?.contains(query, true) ?: false
