@@ -6,36 +6,40 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
-import org.futo.circles.extensions.getKnownUsersFlow
+import org.futo.circles.feature.room.select_users.SearchUserDataSource
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 
-class PeopleDataSource {
+class PeopleDataSource(
+    private val searchUserDataSource: SearchUserDataSource
+) {
 
     private val session = MatrixSessionProvider.currentSession
 
-    fun getPeopleList() = combine(getKnownUsersFlow(), getIgnoredUserFlow())
-    { knowUsers, ignoredUsers ->
-        buildList(knowUsers, ignoredUsers)
+    suspend fun getPeopleList(query: String) = combine(
+        searchUserDataSource.searchKnownUsers(query),
+        searchUserDataSource.searchSuggestions(query),
+        getIgnoredUserFlow()
+    )
+    { knowUsers, suggestions, ignoredUsers ->
+        buildList(knowUsers, suggestions, ignoredUsers)
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
-    suspend fun loadAllRoomMembersIfNeeded() {
-        session?.roomService()?.getRoomSummaries(roomSummaryQueryParams())?.forEach {
-            session.getRoom(it.roomId)?.membershipService()?.loadRoomMembersIfNeeded()
-        }
+    suspend fun refreshRoomMembers() {
+        searchUserDataSource.loadAllRoomMembersIfNeeded()
     }
-
-    private fun getKnownUsersFlow() = session?.getKnownUsersFlow() ?: flowOf()
 
     private fun getIgnoredUserFlow() =
         session?.userService()?.getIgnoredUsersLive()?.asFlow() ?: flowOf()
 
-    private fun buildList(knowUsers: List<User>, ignoredUsers: List<User>): List<PeopleListItem> {
+    private fun buildList(
+        knowUsers: List<User>,
+        suggestions: List<User>,
+        ignoredUsers: List<User>
+    ): List<PeopleListItem> {
         val filteredKnownUsers = knowUsers.filterNot { knowUser ->
             ignoredUsers.firstOrNull { ignoredUser ->
                 ignoredUser.userId == knowUser.userId
@@ -50,6 +54,10 @@ class PeopleDataSource {
         if (ignoredUsers.isNotEmpty()) {
             list.add(PeopleHeaderItem.ignoredUsers)
             list.addAll(ignoredUsers.map { it.toPeopleUserListItem(true) })
+        }
+        if (suggestions.isNotEmpty()) {
+            list.add(PeopleHeaderItem.suggestions)
+            list.addAll(suggestions.map { it.toPeopleUserListItem(false) })
         }
         return list
     }
