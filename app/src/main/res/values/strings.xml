@@ -328,6 +328,11 @@
     <string name="switch_str">Switch</string>
     <string name="switch_user_message">Are you sure you want to switch user?</string>
     <string name="search_people">Search people</string>
+    <string name="circle_type">Circle type</string>
+    <string name="public_type">Public</string>
+    <string name="private_type">Private</string>
+    <string name="public_circle_explanation">Other users can ask to join</string>
+    <string name="private_circle_explanation">Accessible only by your invitation</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
