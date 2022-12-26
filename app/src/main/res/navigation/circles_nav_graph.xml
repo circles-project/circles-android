@@ -29,16 +29,8 @@
         </action>
 
         <action
-            android:id="@+id/to_createRoomDialogFragment"
-            app:destination="@id/createRoomDialogFragment">
-
-            <argument
-                android:name="type"
-                android:defaultValue="Circle"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
-                app:nullable="false" />
-
-        </action>
+            android:id="@+id/to_createCircleDialogFragment"
+            app:destination="@id/createCircleDialogFragment" />
         <action
             android:id="@+id/to_acceptCircleInviteDialogFragment"
             app:destination="@id/acceptCircleInviteDialogFragment">
@@ -54,17 +46,10 @@
     <include app:graph="@navigation/timeline_nav_graph" />
 
     <dialog
-        android:id="@+id/createRoomDialogFragment"
-        android:name="org.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
+        android:id="@+id/createCircleDialogFragment"
+        android:name="org.futo.circles.feature.circles.create.CreateCircleDialogFragment"
         android:label="CreateCircleDialogFragment"
-        tools:layout="@layout/dialog_fragment_create_room">
-
-        <argument
-            android:name="type"
-            app:argType="org.futo.circles.model.CircleRoomTypeArg"
-            app:nullable="false" />
-
-    </dialog>
+        tools:layout="@layout/dialog_fragment_create_circle" />
     <dialog
         android:id="@+id/acceptCircleInviteDialogFragment"
         android:name="org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDialogFragment"
@@ -77,16 +62,8 @@
             app:nullable="false" />
 
         <action
-            android:id="@+id/to_createRoomDialogFragment"
-            app:destination="@id/createRoomDialogFragment">
-
-            <argument
-                android:name="type"
-                android:defaultValue="Circle"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
-                app:nullable="false" />
-
-        </action>
+            android:id="@+id/to_createCircleDialogFragment"
+            app:destination="@id/createCircleDialogFragment" />
 
     </dialog>
 
