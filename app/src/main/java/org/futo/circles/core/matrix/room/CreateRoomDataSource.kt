@@ -12,10 +12,8 @@ import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.content.EncryptionEventContent
 import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
-import org.matrix.android.sdk.api.session.room.model.RoomDirectoryVisibility
+import org.matrix.android.sdk.api.session.room.model.*
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
-import org.matrix.android.sdk.api.session.room.model.create.CreateRoomPreset
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomStateEvent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.space.CreateSpaceParams
@@ -30,10 +28,11 @@ class CreateRoomDataSource(
     suspend fun createCircleWithTimeline(
         name: String? = null,
         iconUri: Uri? = null,
-        inviteIds: List<String>? = null
+        inviteIds: List<String>? = null,
+        isTimelinePublic: Boolean
     ): String {
         val circleId = createRoom(Circle(), name, null, iconUri)
-        val timelineId = createRoom(Timeline(), name, null, iconUri, inviteIds)
+        val timelineId = createRoom(Timeline(), name, null, iconUri, inviteIds, isTimelinePublic)
         session?.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
         return circleId
@@ -44,10 +43,11 @@ class CreateRoomDataSource(
         name: String? = null,
         topic: String? = null,
         iconUri: Uri? = null,
-        inviteIds: List<String>? = null
+        inviteIds: List<String>? = null,
+        isPublic: Boolean = false
     ): String {
         val id = session?.roomService()
-            ?.createRoom(getParams(circlesRoom, name, topic, iconUri, inviteIds))
+            ?.createRoom(getParams(circlesRoom, name, topic, iconUri, inviteIds, isPublic))
             ?: throw Exception("Can not create room")
 
         circlesRoom.tag?.let { session?.getRoom(id)?.tagsService()?.addTag(it, null) }
@@ -63,14 +63,25 @@ class CreateRoomDataSource(
         name: String? = null,
         topic: String? = null,
         iconUri: Uri? = null,
-        inviteIds: List<String>? = null
+        inviteIds: List<String>? = null,
+        isPublic: Boolean = false
     ): CreateRoomParams {
         val params = if (circlesRoom.isSpace()) {
             CreateSpaceParams()
         } else {
             CreateRoomParams().apply {
                 visibility = RoomDirectoryVisibility.PRIVATE
-                preset = CreateRoomPreset.PRESET_PRIVATE_CHAT
+                guestAccess = GuestAccess.CanJoin
+                historyVisibility = RoomHistoryVisibility.SHARED
+                initialStates.add(
+                    CreateRoomStateEvent(
+                        EventType.STATE_ROOM_JOIN_RULES,
+                        RoomJoinRulesContent(
+                            if (isPublic) RoomJoinRules.KNOCK.value
+                            else RoomJoinRules.INVITE.value
+                        ).toContent()
+                    )
+                )
                 powerLevelContentOverride = PowerLevelsContent(
                     invite = Role.Moderator.value
                 )

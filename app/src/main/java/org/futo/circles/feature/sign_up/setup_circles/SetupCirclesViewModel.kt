@@ -26,7 +26,8 @@ class SetupCirclesViewModel(
                 circlesList.forEachIndexed { i, item ->
                     createRoomDataSource.createCircleWithTimeline(
                         name = item.name,
-                        iconUri = item.coverUri
+                        iconUri = item.coverUri,
+                        null, true
                     )
                     if (i != lastItemIndex) delay(CREATE_ROOM_DELAY)
                 }

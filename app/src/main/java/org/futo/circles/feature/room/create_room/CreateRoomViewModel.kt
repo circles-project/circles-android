@@ -11,7 +11,6 @@ import org.futo.circles.extensions.launchBg
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.Gallery
 import org.futo.circles.model.Group
-import org.futo.circles.model.UserListItem
 
 class CreateRoomViewModel(
     private val dataSource: CreateRoomDataSource
@@ -28,12 +27,13 @@ class CreateRoomViewModel(
         name: String,
         topic: String,
         inviteIds: List<String>?,
-        roomType: CircleRoomTypeArg
+        roomType: CircleRoomTypeArg,
+        isPublic: Boolean
     ) {
         launchBg {
             val result = createResult {
                 when (roomType) {
-                    CircleRoomTypeArg.Circle -> createCircle(name, inviteIds)
+                    CircleRoomTypeArg.Circle -> createCircle(name, inviteIds, isPublic)
                     CircleRoomTypeArg.Group -> createGroup(name, topic, inviteIds)
                     CircleRoomTypeArg.Photo -> createGallery(name)
                 }
@@ -51,11 +51,12 @@ class CreateRoomViewModel(
             inviteIds = inviteIds
         )
 
-    private suspend fun createCircle(name: String, inviteIds: List<String>?) =
+    private suspend fun createCircle(name: String, inviteIds: List<String>?, isPublic: Boolean) =
         dataSource.createCircleWithTimeline(
             name = name,
             iconUri = selectedImageLiveData.value,
-            inviteIds = inviteIds
+            inviteIds = inviteIds,
+            isPublic
         )
 
     private suspend fun createGallery(name: String) = dataSource.createRoom(

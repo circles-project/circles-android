@@ -39,7 +39,12 @@ class CreateCircleDialogFragment :
                 it?.let { btnCreate.isEnabled = it.isNotEmpty() }
             }
             btnCreate.setOnClickListener {
-                createRoom(CircleRoomTypeArg.Circle, tilName.getText())
+                createRoom(
+                    CircleRoomTypeArg.Circle,
+                    tilName.getText(),
+                    null,
+                    binding.btnPrivate.isChecked
+                )
                 startLoading(btnCreate)
             }
         }
