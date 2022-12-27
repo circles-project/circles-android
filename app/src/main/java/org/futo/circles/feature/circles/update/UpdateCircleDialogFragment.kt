@@ -56,14 +56,23 @@ class UpdateCircleDialogFragment :
             tilName.editText?.doAfterTextChanged {
                 it?.let { onInputDataChanged() }
             }
+            binding.circleTypeGroup.setOnCheckedChangeListener { _, _ ->
+                onInputDataChanged()
+            }
             btnSave.setOnClickListener {
-                updateRoom(tilName.getText())
+                updateRoom(tilName.getText(), null, getSelectedJoinRules())
                 startLoading(btnSave)
             }
         }
     }
 
+    private fun getSelectedJoinRules(): RoomJoinRules {
+        val checkedId = binding.circleTypeGroup.checkedRadioButtonId
+        return if (checkedId == binding.btnPublic.id) RoomJoinRules.KNOCK
+        else RoomJoinRules.INVITE
+    }
+
     private fun onInputDataChanged() {
-        onInputRoomDataChanged(binding.tilName.getText())
+        onInputRoomDataChanged(binding.tilName.getText(), null, getSelectedJoinRules())
     }
 }
