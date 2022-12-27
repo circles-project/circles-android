@@ -1,4 +1,5 @@
-package org.futo.circles.feature.circles.update
+package org.futo.circles.feature.photos
+
 
 import android.net.Uri
 import android.os.Bundle
@@ -8,23 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.picker.MediaPickerHelper
-import org.futo.circles.databinding.DialogFragmentUpdateCircleBinding
+import org.futo.circles.databinding.DialogFragmentUpdateGalleryBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.feature.room.update.UpdateRoomDialogFragment
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
-class UpdateCircleDialogFragment :
-    UpdateRoomDialogFragment(DialogFragmentUpdateCircleBinding::inflate) {
+class UpdateGalleryDialogFragment :
+    UpdateRoomDialogFragment(DialogFragmentUpdateGalleryBinding::inflate) {
 
-    private val args: UpdateCircleDialogFragmentArgs by navArgs()
+    private val args: UpdateGalleryDialogFragmentArgs by navArgs()
     override val roomId: String = args.roomId
     override val fragment: Fragment = this
     override val mediaPickerHelper: MediaPickerHelper = MediaPickerHelper(this)
-    override val successMessageResId: Int = R.string.circle_updated
+    override val successMessageResId: Int = R.string.gallery_updated
 
     private val binding by lazy {
-        getBinding() as DialogFragmentUpdateCircleBinding
+        getBinding() as DialogFragmentUpdateGalleryBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
