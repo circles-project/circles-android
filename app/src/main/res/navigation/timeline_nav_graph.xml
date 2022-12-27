@@ -275,7 +275,7 @@
     </dialog>
     <dialog
         android:id="@+id/updateRoomDialogFragment"
-        android:name="org.futo.circles.feature.room.update_room.UpdateRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.update.UpdateRoomDialogFragment"
         android:label="UpdateRoomDialogFragment"
         tools:layout="@layout/dialog_fragment_update_room">
 
