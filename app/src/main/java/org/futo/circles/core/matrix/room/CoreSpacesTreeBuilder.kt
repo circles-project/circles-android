@@ -36,7 +36,7 @@ class CoreSpacesTreeBuilder(
         }
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
         delay(CREATE_ROOM_DELAY)
-        createRoomDataSource.createRoom(ProfileRoom(), getCurrentUserName())
+        createRoomDataSource.createRoom(ProfileRoom(), getCurrentUserName(), isPublic = true)
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
