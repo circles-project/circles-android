@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,9 +13,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="@string/configure_group"
         app:titleCentered="true"
-        app:titleMarginEnd="72dp"
-        tools:title="@string/configure_group">
+        app:titleMarginEnd="72dp">
 
         <org.futo.circles.view.LoadingButton
             android:id="@+id/btnSave"
@@ -91,10 +90,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:text="@string/group_name"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/btnChangeIcon"
-        tools:text="@string/group_name" />
+        app:layout_constraintTop_toBottomOf="@id/btnChangeIcon" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilName"
@@ -149,13 +148,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/topicViewGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="tilTopic,tvTopicHeader"
-        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/tvEncryptionWarning"
@@ -165,12 +157,12 @@
         android:layout_marginTop="16dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
+        android:text="@string/group_encryption_warning"
         android:textColor="@color/yellow"
         app:drawableStartCompat="@drawable/ic_info"
         app:drawableTint="@color/yellow"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tilTopic"
-        tools:text="@string/group_encryption_warning" />
+        app:layout_constraintTop_toBottomOf="@id/tilTopic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
