@@ -142,7 +142,6 @@
             android:id="@+id/btnPublic"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:checked="true"
             android:text="@string/public_type"
             android:textAppearance="@style/body" />
 
@@ -158,6 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_marginTop="8dp"
+            android:checked="true"
             android:text="@string/private_type"
             android:textAppearance="@style/body" />
 
