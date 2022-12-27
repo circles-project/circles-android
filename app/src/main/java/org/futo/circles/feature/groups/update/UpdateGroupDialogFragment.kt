@@ -18,7 +18,7 @@ class UpdateGroupDialogFragment :
     UpdateRoomDialogFragment(DialogFragmentUpdateGroupBinding::inflate) {
 
     private val args: UpdateGroupDialogFragmentArgs by navArgs()
-    override val roomId: String = args.roomId
+    override val roomId: String get() = args.roomId
     override val fragment: Fragment = this
     override val mediaPickerHelper: MediaPickerHelper = MediaPickerHelper(this)
     override val successMessageResId: Int = R.string.group_updated

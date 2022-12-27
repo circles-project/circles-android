@@ -179,12 +179,12 @@
         android:layout_marginTop="16dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
+        android:text="@string/circle_encryption_warning"
         android:textColor="@color/yellow"
         app:drawableStartCompat="@drawable/ic_info"
         app:drawableTint="@color/yellow"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/circleTypeGroup"
-        tools:text="@string/circle_encryption_warning" />
+        app:layout_constraintTop_toBottomOf="@id/circleTypeGroup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

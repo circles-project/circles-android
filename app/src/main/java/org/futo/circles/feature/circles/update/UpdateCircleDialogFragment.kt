@@ -18,7 +18,7 @@ class UpdateCircleDialogFragment :
     UpdateRoomDialogFragment(DialogFragmentUpdateCircleBinding::inflate) {
 
     private val args: UpdateCircleDialogFragmentArgs by navArgs()
-    override val roomId: String = args.roomId
+    override val roomId: String get() = args.roomId
     override val fragment: Fragment = this
     override val mediaPickerHelper: MediaPickerHelper = MediaPickerHelper(this)
     override val successMessageResId: Int = R.string.circle_updated
