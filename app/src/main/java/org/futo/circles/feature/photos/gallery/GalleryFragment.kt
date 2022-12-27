@@ -120,7 +120,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private fun navigateToUpdateRoom() {
         findNavController().navigate(
-            GalleryFragmentDirections.toUpdateRoomDialogFragment(args.roomId)
+            GalleryFragmentDirections.toUpdateGalleryDialogFragment(args.roomId)
         )
     }
 

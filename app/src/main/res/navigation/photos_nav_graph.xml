@@ -42,20 +42,13 @@
             app:nullable="false" />
 
         <action
-            android:id="@+id/to_updateRoomDialogFragment"
-            app:destination="@id/updateRoomDialogFragment">
+            android:id="@+id/to_updateGalleryDialogFragment"
+            app:destination="@id/updateGalleryDialogFragment">
 
             <argument
                 android:name="roomId"
                 app:argType="string"
                 app:nullable="false" />
-
-            <argument
-                android:name="type"
-                android:defaultValue="Photo"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
-                app:nullable="false" />
-
         </action>
         <action
             android:id="@+id/to_galleryImageDialogFragment"
@@ -75,22 +68,15 @@
 
     </fragment>
 
-
     <dialog
-        android:id="@+id/updateRoomDialogFragment"
-        android:name="org.futo.circles.feature.room.update.UpdateRoomDialogFragment"
-        tools:layout="@layout/dialog_fragment_update_room">
+        android:id="@+id/updateGalleryDialogFragment"
+        android:name="org.futo.circles.feature.photos.UpdateGalleryDialogFragment"
+        tools:layout="@layout/dialog_fragment_update_gallery">
 
         <argument
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
-
-        <argument
-            android:name="type"
-            app:argType="org.futo.circles.model.CircleRoomTypeArg"
-            app:nullable="false" />
-
 
     </dialog>
     <dialog

@@ -29,9 +29,10 @@ class TimelineNavigator(private val fragment: TimelineFragment) {
     }
 
     fun navigateToUpdateRoom(roomId: String, type: CircleRoomTypeArg) {
-        fragment.findNavController().navigate(
-            TimelineFragmentDirections.toUpdateRoomDialogFragment(roomId, type)
-        )
+        val destination = if (type == CircleRoomTypeArg.Circle)
+            TimelineFragmentDirections.toUpdateCircleDialogFragment(roomId)
+        else TimelineFragmentDirections.toUpdateGroupDialogFragment(roomId)
+        fragment.findNavController().navigate(destination)
     }
 
     fun navigateToManageMembers(timelineId: String, type: CircleRoomTypeArg) {
