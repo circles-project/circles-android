@@ -12,6 +12,7 @@ import org.futo.circles.databinding.DialogFragmentUpdateCircleBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.feature.room.update.UpdateRoomDialogFragment
+import org.matrix.android.sdk.api.session.room.model.RoomJoinRules
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 class UpdateCircleDialogFragment :
@@ -40,6 +41,8 @@ class UpdateCircleDialogFragment :
     override fun setInitialGroupData(room: RoomSummary) {
         binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
         binding.tilName.editText?.setText(room.displayName)
+        binding.btnPrivate.isChecked = room.joinRules == RoomJoinRules.INVITE
+        binding.btnPublic.isChecked = room.joinRules == RoomJoinRules.KNOCK
     }
 
     override fun setUpdateButtonEnabled(isEnabled: Boolean) {
