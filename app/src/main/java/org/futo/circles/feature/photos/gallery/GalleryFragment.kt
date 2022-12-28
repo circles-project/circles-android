@@ -13,6 +13,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.list.BaseRvDecoration
@@ -63,6 +64,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private fun setupViews() {
         binding.rvGallery.apply {
+            layoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
+                    gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                }
             adapter = listAdapter
             addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryItemViewHolder>(2))
             bindToFab(binding.fbUploadImage)
