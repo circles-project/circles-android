@@ -57,7 +57,7 @@ class PeopleDataSource(
         }
 
         val known = filteredKnownUsers.filterNot { it.isFollowedByMe }
-        if (filteredKnownUsers.isNotEmpty()) {
+        if (known.isNotEmpty()) {
             list.add(PeopleHeaderItem.knownUsersHeader)
             list.addAll(known)
         }
@@ -71,7 +71,7 @@ class PeopleDataSource(
         val filteredSuggestion = suggestions.filterNot { existingIds.contains(it.userId) }
         if (filteredSuggestion.isNotEmpty()) {
             list.add(PeopleHeaderItem.suggestions)
-            list.addAll(suggestions.map {
+            list.addAll(filteredSuggestion.map {
                 it.toPeopleUserListItem(profileRoomId = getProfileRoomForUser(it.userId)?.roomId)
             })
         }
