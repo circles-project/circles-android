@@ -10,7 +10,7 @@ private enum class PeopleListViewType { Header, User }
 
 class PeopleAdapter(
     private val onUserClicked: (PeopleUserListItem) -> Unit,
-    private val onIgnore: (PeopleUserListItem, Boolean) -> Unit,
+    private val onFollow: (PeopleUserListItem) -> Unit
 ) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(
     DefaultIdEntityCallback()
 ) {
@@ -26,9 +26,7 @@ class PeopleAdapter(
             PeopleListViewType.User -> PeopleUserViewHolder(
                 parent,
                 onUserClicked = { position -> onUserClicked(getItem(position) as PeopleUserListItem) },
-                onIgnore = { position, ignore ->
-                    onIgnore(getItem(position) as PeopleUserListItem, ignore)
-                },
+                onFollow = { position -> onFollow(getItem(position) as PeopleUserListItem) }
             )
         }
     }

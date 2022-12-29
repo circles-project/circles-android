@@ -21,7 +21,7 @@ abstract class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 class PeopleUserViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit,
-    private val onIgnore: (Int, Boolean) -> Unit
+    private val onFollow: (Int) -> Unit
 ) : PeopleViewHolder(inflate(parent, ListItemPeopleBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -30,8 +30,7 @@ class PeopleUserViewHolder(
 
     init {
         onClick(itemView) { position -> onUserClicked(position) }
-        onClick(binding.btnIgnore) { position -> onIgnore(position, true) }
-        onClick(binding.btnUnignore) { position -> onIgnore(position, false) }
+        onClick(binding.btnFollow) { position -> onFollow(position) }
     }
 
     override fun bind(data: PeopleListItem) {
@@ -41,8 +40,7 @@ class PeopleUserViewHolder(
             userItem.tvUserName.text = data.user.name
             userItem.tvUserId.text = data.id
             userItem.ivUserImage.loadProfileIcon(data.user.avatarUrl, data.user.name)
-            btnIgnore.setIsVisible(!data.isIgnored)
-            btnUnignore.setIsVisible(data.isIgnored)
+            btnFollow.setIsVisible(data.canFollow())
         }
     }
 }
