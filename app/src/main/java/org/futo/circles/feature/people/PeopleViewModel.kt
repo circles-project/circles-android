@@ -8,29 +8,17 @@ import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.extensions.launchUi
 import org.futo.circles.model.PeopleListItem
+import org.futo.circles.model.PeopleUserListItem
 
 class PeopleViewModel(
-    private val peopleDataSource: PeopleDataSource,
-    private val userOptionsDataSource: UserOptionsDataSource
+    private val peopleDataSource: PeopleDataSource
 ) : ViewModel() {
 
     val peopleLiveData = MutableLiveData<List<PeopleListItem>>()
-    val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val followUserLiveData = SingleEventLiveData<Response<Unit?>>()
 
     init {
         launchBg { peopleDataSource.refreshRoomMembers() }
-    }
-
-    fun unIgnoreUser(id: String) {
-        launchBg {
-            ignoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(id))
-        }
-    }
-
-    fun ignoreUser(id: String) {
-        launchBg {
-            ignoreUserLiveData.postValue(userOptionsDataSource.ignoreSender(id))
-        }
     }
 
     fun initSearchListener(queryFlow: StateFlow<String>) {
@@ -41,5 +29,9 @@ class PeopleViewModel(
                 .flatMapLatest { query -> peopleDataSource.getPeopleList(query) }
                 .collectLatest { items -> peopleLiveData.postValue(items) }
         }
+    }
+
+    fun followUser(user: PeopleUserListItem) {
+
     }
 }
