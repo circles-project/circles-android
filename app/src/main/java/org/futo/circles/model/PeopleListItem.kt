@@ -11,6 +11,7 @@ data class PeopleHeaderItem(
     override val id: String = titleRes.toString()
 
     companion object {
+        val followingUsersHeader = PeopleHeaderItem(R.string.following_users)
         val knownUsersHeader = PeopleHeaderItem(R.string.known_users)
         val suggestions = PeopleHeaderItem(R.string.suggestions)
         val ignoredUsers = PeopleHeaderItem(R.string.ignored_users)
@@ -19,7 +20,11 @@ data class PeopleHeaderItem(
 
 data class PeopleUserListItem(
     val user: CirclesUserSummary,
+    val profileRoomId: String?,
+    val isFollowedByMe: Boolean,
     val isIgnored: Boolean = false
 ) : PeopleListItem() {
     override val id: String = user.id
+
+    fun canFollow() = profileRoomId != null && !isIgnored && !isFollowedByMe
 }
