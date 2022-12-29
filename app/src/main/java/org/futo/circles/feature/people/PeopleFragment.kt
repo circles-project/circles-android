@@ -31,7 +31,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
     private val peopleAdapter by lazy {
         PeopleAdapter(
             onUserClicked = { user -> navigateToUserPage(user) },
-            onIgnore = { user, ignore -> handleIgnoreClicked(user, ignore) },
+            onFollow = { user -> viewModel.followUser(user) },
         )
     }
 
@@ -62,15 +62,10 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         viewModel.peopleLiveData.observeData(this) { items ->
             peopleAdapter.submitList(items)
         }
-        viewModel.ignoreUserLiveData.observeResponse(this)
+        viewModel.followUserLiveData.observeResponse(this)
     }
 
     private fun navigateToUserPage(user: PeopleUserListItem) {
         findNavController().navigate(PeopleFragmentDirections.toUserFragment(user.id))
-    }
-
-    private fun handleIgnoreClicked(user: PeopleUserListItem, ignore: Boolean) {
-        if (ignore) withConfirmation(ConfirmationType.IGNORE_USER) { viewModel.ignoreUser(user.id) }
-        else viewModel.unIgnoreUser(user.id)
     }
 }
