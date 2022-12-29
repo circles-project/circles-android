@@ -16,14 +16,21 @@ fun User.toUserListItem(isSelected: Boolean) = UserListItem(
     isSelected = isSelected
 )
 
-fun User.toPeopleUserListItem(isIgnored: Boolean) = PeopleUserListItem(
-    user = CirclesUserSummary(
-        id = userId,
-        name = notEmptyDisplayName(),
-        avatarUrl = avatarUrl ?: ""
-    ),
-    isIgnored = isIgnored
-)
+fun User.toPeopleUserListItem(
+    profileRoomId: String? = null,
+    isFollowedByMe: Boolean = false,
+    isIgnored: Boolean = false
+) =
+    PeopleUserListItem(
+        user = CirclesUserSummary(
+            id = userId,
+            name = notEmptyDisplayName(),
+            avatarUrl = avatarUrl ?: ""
+        ),
+        isIgnored = isIgnored,
+        isFollowedByMe = isFollowedByMe,
+        profileRoomId = profileRoomId
+    )
 
 fun User.notEmptyDisplayName(): String = getName(userId, displayName)
 
