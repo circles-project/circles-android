@@ -29,10 +29,11 @@ class CreateRoomDataSource(
         name: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        isTimelinePublic: Boolean
+        isKnockingAllowed: Boolean
     ): String {
         val circleId = createRoom(Circle(), name, null, iconUri)
-        val timelineId = createRoom(Timeline(), name, null, iconUri, inviteIds, isTimelinePublic)
+        val timelineId =
+            createRoom(Timeline(), name, null, iconUri, inviteIds, allowKnock = isKnockingAllowed)
         session?.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
         return circleId
@@ -44,11 +45,13 @@ class CreateRoomDataSource(
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
+        allowKnock: Boolean = false,
         isPublic: Boolean = false
     ): String {
         val id = session?.roomService()
-            ?.createRoom(getParams(circlesRoom, name, topic, iconUri, inviteIds, isPublic))
-            ?: throw Exception("Can not create room")
+            ?.createRoom(
+                getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock, isPublic)
+            ) ?: throw Exception("Can not create room")
 
         circlesRoom.tag?.let { session?.getRoom(id)?.tagsService()?.addTag(it, null) }
         circlesRoom.parentTag?.let { tag ->
@@ -64,27 +67,27 @@ class CreateRoomDataSource(
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
+        allowKnock: Boolean = false,
         isPublic: Boolean = false
     ): CreateRoomParams {
         val params = if (circlesRoom.isSpace()) {
             CreateSpaceParams()
         } else {
             CreateRoomParams().apply {
-                visibility = RoomDirectoryVisibility.PRIVATE
+                visibility = if (isPublic) RoomDirectoryVisibility.PUBLIC
+                else RoomDirectoryVisibility.PRIVATE
                 guestAccess = GuestAccess.CanJoin
                 historyVisibility = RoomHistoryVisibility.SHARED
                 initialStates.add(
                     CreateRoomStateEvent(
                         EventType.STATE_ROOM_JOIN_RULES,
                         RoomJoinRulesContent(
-                            if (isPublic) RoomJoinRules.KNOCK.value
+                            if (allowKnock) RoomJoinRules.KNOCK.value
                             else RoomJoinRules.INVITE.value
                         ).toContent()
                     )
                 )
-                powerLevelContentOverride = PowerLevelsContent(
-                    invite = Role.Moderator.value
-                )
+                powerLevelContentOverride = PowerLevelsContent(invite = Role.Moderator.value)
                 enableEncryption()
                 overrideEncryptionForTestBuilds(this)
             }

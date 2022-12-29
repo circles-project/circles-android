@@ -28,12 +28,12 @@ class CreateRoomViewModel(
         topic: String,
         inviteIds: List<String>?,
         roomType: CircleRoomTypeArg,
-        isPublic: Boolean
+        isKnockingAllowed: Boolean
     ) {
         launchBg {
             val result = createResult {
                 when (roomType) {
-                    CircleRoomTypeArg.Circle -> createCircle(name, inviteIds, isPublic)
+                    CircleRoomTypeArg.Circle -> createCircle(name, inviteIds, isKnockingAllowed)
                     CircleRoomTypeArg.Group -> createGroup(name, topic, inviteIds)
                     CircleRoomTypeArg.Photo -> createGallery(name)
                 }
@@ -51,12 +51,12 @@ class CreateRoomViewModel(
             inviteIds = inviteIds
         )
 
-    private suspend fun createCircle(name: String, inviteIds: List<String>?, isPublic: Boolean) =
+    private suspend fun createCircle(name: String, inviteIds: List<String>?, isKnockingAllowed: Boolean) =
         dataSource.createCircleWithTimeline(
             name = name,
             iconUri = selectedImageLiveData.value,
             inviteIds = inviteIds,
-            isPublic
+            isKnockingAllowed
         )
 
     private suspend fun createGallery(name: String) = dataSource.createRoom(

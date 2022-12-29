@@ -5,10 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.delay
 import org.futo.circles.R
 import org.futo.circles.core.CREATE_ROOM_DELAY
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
 class CoreSpacesTreeBuilder(
@@ -36,16 +34,16 @@ class CoreSpacesTreeBuilder(
         }
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
         delay(CREATE_ROOM_DELAY)
-        createRoomDataSource.createRoom(ProfileRoom(), getCurrentUserName(), isPublic = true)
+        createRoomDataSource.createRoom(
+            ProfileRoom(),
+            MatrixSessionProvider.currentSession?.myUserId ?: "",
+            allowKnock = true,
+            isPublic = true
+        )
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
     fun isCirclesHierarchyCreated(): Boolean = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
         ?.firstOrNull { summary -> summary.hasTag(ROOT_SPACE_TAG) } != null
-
-    private fun getCurrentUserName(): String {
-        val session = MatrixSessionProvider.currentSession ?: return ""
-        return session.getUserOrDefault(session.myUserId).notEmptyDisplayName()
-    }
 }
