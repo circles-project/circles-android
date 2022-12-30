@@ -15,7 +15,6 @@
     <string name="photos">Photos</string>
     <string name="topic_formatter">Topic: %s</string>
     <string name="last_updated_formatter">Last updated %s</string>
-    <string name="none">none</string>
     <string name="my_groups">My Groups</string>
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
