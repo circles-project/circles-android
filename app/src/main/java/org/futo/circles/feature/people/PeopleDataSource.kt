@@ -14,8 +14,8 @@ import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
 import org.futo.circles.model.PeopleUserListItem
-import org.futo.circles.model.UserListItem
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.roomdirectory.PublicRoomsFilter
 import org.matrix.android.sdk.api.session.room.model.roomdirectory.PublicRoomsParams
@@ -27,8 +27,12 @@ class PeopleDataSource(
 
     private val session = MatrixSessionProvider.currentSession
 
+    //61 - !dYyuPbUOkbUYUOMbot:nl.circles-dev.net
+    //64 - !fznKPZDngFIyKzprgp:nl.circles-dev.net
     suspend fun followUser(userListItem: PeopleUserListItem) =
-        createResult { session?.roomService()?.joinRoom("") }
+        createResult {
+            session?.roomService()?.knock("!dYyuPbUOkbUYUOMbot:nl.circles-dev.net")
+        }
 
     suspend fun getPeopleList(query: String) = combine(
         searchUserDataSource.searchKnownUsers(query),
