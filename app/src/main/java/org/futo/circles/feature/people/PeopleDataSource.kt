@@ -13,6 +13,8 @@ import org.futo.circles.feature.room.select_users.SearchUserDataSource
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
+import org.futo.circles.model.PeopleUserListItem
+import org.futo.circles.model.UserListItem
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.roomdirectory.PublicRoomsFilter
@@ -24,6 +26,9 @@ class PeopleDataSource(
 ) {
 
     private val session = MatrixSessionProvider.currentSession
+
+    suspend fun followUser(userListItem: PeopleUserListItem) =
+        createResult { session?.roomService()?.joinRoom("") }
 
     suspend fun getPeopleList(query: String) = combine(
         searchUserDataSource.searchKnownUsers(query),

@@ -32,6 +32,8 @@ class PeopleViewModel(
     }
 
     fun followUser(user: PeopleUserListItem) {
-
+        launchBg {
+            followUserLiveData.postValue(peopleDataSource.followUser(user))
+        }
     }
 }
