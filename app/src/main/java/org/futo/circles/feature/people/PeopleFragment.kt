@@ -16,9 +16,8 @@ import org.futo.circles.databinding.FragmentPeopleBinding
 import org.futo.circles.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.withConfirmation
+import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.people.list.PeopleAdapter
-import org.futo.circles.model.ConfirmationType
 import org.futo.circles.model.PeopleUserListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -62,7 +61,8 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         viewModel.peopleLiveData.observeData(this) { items ->
             peopleAdapter.submitList(items)
         }
-        viewModel.followUserLiveData.observeResponse(this)
+        viewModel.followUserLiveData.observeResponse(this,
+            success = { showSuccess(getString(R.string.request_sent)) })
     }
 
     private fun navigateToUserPage(user: PeopleUserListItem) {
