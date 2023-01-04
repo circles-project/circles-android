@@ -14,17 +14,34 @@ data class PeopleHeaderItem(
         val followingUsersHeader = PeopleHeaderItem(R.string.following_users)
         val knownUsersHeader = PeopleHeaderItem(R.string.known_users)
         val suggestions = PeopleHeaderItem(R.string.suggestions)
+        val requests = PeopleHeaderItem(R.string.requests)
         val ignoredUsers = PeopleHeaderItem(R.string.ignored_users)
     }
 }
 
-data class PeopleUserListItem(
+data class PeopleSuggestionUserListItem(
     val user: CirclesUserSummary,
     val profileRoomId: String?,
-    val isFollowedByMe: Boolean,
-    val isIgnored: Boolean = false
+    val isKnown: Boolean
 ) : PeopleListItem() {
     override val id: String = user.id
+    fun canFollow() = profileRoomId != null
+}
 
-    fun canFollow() = profileRoomId != null && !isIgnored && !isFollowedByMe
+data class PeopleFollowingUserListItem(
+    val user: CirclesUserSummary
+) : PeopleListItem() {
+    override val id: String = user.id
+}
+
+data class PeopleIgnoredUserListItem(
+    val user: CirclesUserSummary
+) : PeopleListItem() {
+    override val id: String = user.id
+}
+
+data class PeopleRequestUserListItem(
+    val user: CirclesUserSummary
+) : PeopleListItem() {
+    override val id: String = user.id
 }
