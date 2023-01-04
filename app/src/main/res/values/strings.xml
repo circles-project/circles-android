@@ -30,6 +30,7 @@
     <string name="known_users">Known users</string>
     <string name="ignored_users">Ignored users</string>
     <string name="suggestions">Suggestions</string>
+    <string name="requests">Requests</string>
     <string name="no_results">No results</string>
     <string name="invite">Invite</string>
     <string name="invitation_sent">Invitation sent</string>
