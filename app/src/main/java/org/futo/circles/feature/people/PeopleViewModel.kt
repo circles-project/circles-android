@@ -8,7 +8,7 @@ import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.extensions.launchUi
 import org.futo.circles.model.PeopleListItem
-import org.futo.circles.model.PeopleUserListItem
+import org.futo.circles.model.PeopleSuggestionUserListItem
 
 class PeopleViewModel(
     private val peopleDataSource: PeopleDataSource
@@ -31,7 +31,7 @@ class PeopleViewModel(
         }
     }
 
-    fun followUser(user: PeopleUserListItem) {
+    fun followUser(user: PeopleSuggestionUserListItem) {
         launchBg {
             followUserLiveData.postValue(peopleDataSource.followUser(user))
         }
