@@ -1,36 +1,36 @@
 package org.futo.circles.mapping
 
 import org.futo.circles.core.utils.UserUtils
-import org.futo.circles.model.CirclesUserSummary
-import org.futo.circles.model.PeopleUserListItem
-import org.futo.circles.model.UserListItem
+import org.futo.circles.model.*
 import org.matrix.android.sdk.api.session.room.sender.SenderInfo
 import org.matrix.android.sdk.api.session.user.model.User
 
 fun User.toUserListItem(isSelected: Boolean) = UserListItem(
-    user = CirclesUserSummary(
-        id = userId,
-        name = notEmptyDisplayName(),
-        avatarUrl = avatarUrl ?: ""
-    ),
+    user = toCirclesUserSummary(),
     isSelected = isSelected
 )
 
-fun User.toPeopleUserListItem(
-    profileRoomId: String? = null,
-    isFollowedByMe: Boolean = false,
-    isIgnored: Boolean = false
-) =
-    PeopleUserListItem(
-        user = CirclesUserSummary(
-            id = userId,
-            name = notEmptyDisplayName(),
-            avatarUrl = avatarUrl ?: ""
-        ),
-        isIgnored = isIgnored,
-        isFollowedByMe = isFollowedByMe,
-        profileRoomId = profileRoomId
-    )
+fun User.toPeopleSuggestionUserListItem(
+    isKnown: Boolean,
+    profileRoomId: String?
+) = PeopleSuggestionUserListItem(
+    user = toCirclesUserSummary(),
+    profileRoomId = profileRoomId,
+    isKnown = isKnown
+)
+
+fun User.toPeopleIgnoredUserListItem() = PeopleIgnoredUserListItem(user = toCirclesUserSummary())
+
+fun User.toPeopleRequestUserListItem() = PeopleRequestUserListItem(user = toCirclesUserSummary())
+
+fun User.toPeopleFollowingUserListItem() =
+    PeopleFollowingUserListItem(user = toCirclesUserSummary())
+
+fun User.toCirclesUserSummary() = CirclesUserSummary(
+    id = userId,
+    name = notEmptyDisplayName(),
+    avatarUrl = avatarUrl ?: ""
+)
 
 fun User.notEmptyDisplayName(): String = getName(userId, displayName)
 
