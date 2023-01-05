@@ -336,6 +336,7 @@
     <string name="public_circle_explanation">Other users can ask to join</string>
     <string name="private_circle_explanation">Accessible only by your invitation</string>
     <string name="request_sent">Request sent</string>
+    <string name="wants_to_follow_you">wants to follow you</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
