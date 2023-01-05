@@ -8,8 +8,10 @@ import org.futo.circles.core.list.context
 import org.futo.circles.databinding.*
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
-import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.model.*
+import org.futo.circles.model.PeopleHeaderItem
+import org.futo.circles.model.PeopleListItem
+import org.futo.circles.model.PeopleRequestUserListItem
+import org.futo.circles.model.PeopleUserListItem
 import org.futo.circles.view.UserListItemView
 
 abstract class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -39,12 +41,6 @@ class PeopleSuggestionUserViewHolder(
 
     init {
         onClick(binding.btnFollow) { position -> onFollow(position) }
-    }
-
-    override fun bind(data: PeopleListItem) {
-        super.bind(data)
-        val canFollow = (data as? PeopleSuggestionUserListItem)?.profileRoomId != null
-        binding.btnFollow.setIsVisible(canFollow)
     }
 }
 
