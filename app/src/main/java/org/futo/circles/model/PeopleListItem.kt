@@ -19,29 +19,32 @@ data class PeopleHeaderItem(
     }
 }
 
+sealed class PeopleUserListItem(
+    open val user: CirclesUserSummary
+) : PeopleListItem()
+
 data class PeopleSuggestionUserListItem(
-    val user: CirclesUserSummary,
+    override val user: CirclesUserSummary,
     val profileRoomId: String?,
     val isKnown: Boolean
-) : PeopleListItem() {
+) : PeopleUserListItem(user) {
     override val id: String = user.id
-    fun canFollow() = profileRoomId != null
 }
 
 data class PeopleFollowingUserListItem(
-    val user: CirclesUserSummary
-) : PeopleListItem() {
+    override val user: CirclesUserSummary
+) : PeopleUserListItem(user) {
     override val id: String = user.id
 }
 
 data class PeopleIgnoredUserListItem(
-    val user: CirclesUserSummary
-) : PeopleListItem() {
+    override val user: CirclesUserSummary
+) : PeopleUserListItem(user) {
     override val id: String = user.id
 }
 
 data class PeopleRequestUserListItem(
-    val user: CirclesUserSummary
-) : PeopleListItem() {
+    override val user: CirclesUserSummary
+) : PeopleUserListItem(user) {
     override val id: String = user.id
 }
