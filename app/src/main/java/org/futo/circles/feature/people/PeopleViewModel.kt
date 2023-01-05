@@ -18,6 +18,7 @@ class PeopleViewModel(
     val peopleLiveData = MutableLiveData<List<PeopleListItem>>()
     val followUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val followUserRequestLiveData = SingleEventLiveData<Response<Unit?>>()
 
     init {
         launchBg { peopleDataSource.refreshRoomMembers() }
@@ -33,15 +34,25 @@ class PeopleViewModel(
         }
     }
 
-    fun followUser(user: PeopleSuggestionUserListItem) {
+    fun followUser(userId: String) {
         launchBg {
-            followUserLiveData.postValue(peopleDataSource.followUser(user))
+            followUserLiveData.postValue(peopleDataSource.followUser(userId))
         }
     }
 
-    fun unIgnoreUser(id: String) {
+    fun unIgnoreUser(userId: String) {
         launchBg {
-            unIgnoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(id))
+            unIgnoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(userId))
+        }
+    }
+
+    fun onFollowRequestAnswered(userId: String, accepted: Boolean) {
+        if (accepted) {
+
+        } else {
+            launchBg {
+                followUserRequestLiveData.postValue(peopleDataSource.declineFollowRequest(userId))
+            }
         }
     }
 }

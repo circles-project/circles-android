@@ -33,8 +33,11 @@ class PeopleDataSource(
     //64 - !fznKPZDngFIyKzprgp:nl.circles-dev.net
     private val profileRoomId = "!dYyuPbUOkbUYUOMbot:nl.circles-dev.net"
 
-    suspend fun followUser(userListItem: PeopleSuggestionUserListItem) =
+    suspend fun followUser(userId: String) =
         createResult { session?.roomService()?.knock(profileRoomId) }
+
+    suspend fun declineFollowRequest(userId: String) =
+        createResult { session?.getRoom(profileRoomId)?.membershipService()?.remove(userId) }
 
     private fun getProfileRoomMembersKnockFlow(): Flow<List<User>> =
         session?.getRoom(profileRoomId)?.membershipService()
