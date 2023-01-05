@@ -8,10 +8,10 @@ import org.futo.circles.model.*
 private enum class PeopleListViewType { Header, Following, Request, Suggestion, Ignored }
 
 class PeopleAdapter(
-    private val onUserClicked: (PeopleFollowingUserListItem) -> Unit,
-    private val onFollow: (PeopleSuggestionUserListItem) -> Unit,
-    private val onUnIgnore: (PeopleIgnoredUserListItem) -> Unit,
-    private val onRequestClicked: (PeopleRequestUserListItem, Boolean) -> Unit
+    private val onUserClicked: (String) -> Unit,
+    private val onFollow: (String) -> Unit,
+    private val onUnIgnore: (String) -> Unit,
+    private val onRequestClicked: (String, Boolean) -> Unit
 ) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(DefaultIdEntityCallback()) {
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
@@ -27,21 +27,21 @@ class PeopleAdapter(
             Header -> PeopleHeaderViewHolder(parent)
             Following -> PeopleFollowingUserViewHolder(
                 parent,
-                onUserClicked = { position -> onUserClicked(getItem(position) as PeopleFollowingUserListItem) }
+                onUserClicked = { position -> onUserClicked(getItem(position).id) }
             )
             Request -> PeopleRequestUserViewHolder(
                 parent,
                 onRequestClicked = { position, isAccepted ->
-                    onRequestClicked(getItem(position) as PeopleRequestUserListItem, isAccepted)
+                    onRequestClicked(getItem(position).id, isAccepted)
                 }
             )
             Suggestion -> PeopleSuggestionUserViewHolder(
                 parent,
-                onFollow = { position -> onFollow(getItem(position) as PeopleSuggestionUserListItem) }
+                onFollow = { position -> onFollow(getItem(position).id) }
             )
             Ignored -> PeopleIgnoredUserViewHolder(
                 parent,
-                onUnIgnore = { position -> onUnIgnore(getItem(position) as PeopleIgnoredUserListItem) }
+                onUnIgnore = { position -> onUnIgnore(getItem(position).id) }
             )
         }
     }

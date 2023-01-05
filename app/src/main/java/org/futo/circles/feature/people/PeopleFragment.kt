@@ -18,7 +18,6 @@ import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.people.list.PeopleAdapter
-import org.futo.circles.model.PeopleListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -29,10 +28,12 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
 
     private val peopleAdapter by lazy {
         PeopleAdapter(
-            onUserClicked = { user -> navigateToUserPage(user) },
+            onUserClicked = { userId -> navigateToUserPage(userId) },
             onFollow = { user -> viewModel.followUser(user) },
-            onRequestClicked = { user, isAccepted -> },
-            onUnIgnore = { user -> viewModel.unIgnoreUser(user.id) }
+            onRequestClicked = { userId, isAccepted ->
+                viewModel.onFollowRequestAnswered(userId, isAccepted)
+            },
+            onUnIgnore = { userId -> viewModel.unIgnoreUser(userId) }
         )
     }
 
@@ -68,7 +69,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         viewModel.unIgnoreUserLiveData.observeResponse(this)
     }
 
-    private fun navigateToUserPage(user: PeopleListItem) {
-        findNavController().navigate(PeopleFragmentDirections.toUserFragment(user.id))
+    private fun navigateToUserPage(userId: String) {
+        findNavController().navigate(PeopleFragmentDirections.toUserFragment(userId))
     }
 }
