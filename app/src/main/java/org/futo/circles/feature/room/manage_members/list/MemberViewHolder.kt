@@ -36,11 +36,7 @@ class MemberViewHolder(
 
         with(binding) {
             tvRole.text = context.getString(data.role.getRoleNameResId())
-            with(lUser) {
-                ivUserImage.loadProfileIcon(data.user.avatarUrl, data.user.name)
-                tvUserName.text = data.user.name
-                tvUserId.text = data.id
-            }
+            vUser.bind(data.user)
             if (data.isOptionsAvailable) {
                 ivOptionsArrow.visible()
                 ivOptionsArrow.setImageResource(
