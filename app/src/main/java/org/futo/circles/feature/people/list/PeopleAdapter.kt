@@ -2,31 +2,46 @@ package org.futo.circles.feature.people.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.model.PeopleHeaderItem
-import org.futo.circles.model.PeopleListItem
-import org.futo.circles.model.PeopleUserListItem
+import org.futo.circles.feature.people.list.PeopleListViewType.*
+import org.futo.circles.model.*
 
-private enum class PeopleListViewType { Header, User }
+private enum class PeopleListViewType { Header, Following, Request, Suggestion, Ignored }
 
 class PeopleAdapter(
-    private val onUserClicked: (PeopleUserListItem) -> Unit,
-    private val onFollow: (PeopleUserListItem) -> Unit
-) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(
-    DefaultIdEntityCallback()
-) {
+    private val onUserClicked: (PeopleFollowingUserListItem) -> Unit,
+    private val onFollow: (PeopleSuggestionUserListItem) -> Unit,
+    private val onUnIgnore: (PeopleIgnoredUserListItem) -> Unit,
+    private val onRequestClicked: (PeopleRequestUserListItem, Boolean) -> Unit
+) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(DefaultIdEntityCallback()) {
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
-        is PeopleHeaderItem -> PeopleListViewType.Header.ordinal
-        is PeopleUserListItem -> PeopleListViewType.User.ordinal
+        is PeopleHeaderItem -> Header.ordinal
+        is PeopleFollowingUserListItem -> Following.ordinal
+        is PeopleSuggestionUserListItem -> Suggestion.ordinal
+        is PeopleIgnoredUserListItem -> Ignored.ordinal
+        is PeopleRequestUserListItem -> Request.ordinal
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
-        return when (PeopleListViewType.values()[viewType]) {
-            PeopleListViewType.Header -> PeopleHeaderViewHolder(parent)
-            PeopleListViewType.User -> PeopleUserViewHolder(
+        return when (values()[viewType]) {
+            Header -> PeopleHeaderViewHolder(parent)
+            Following -> PeopleFollowingUserViewHolder(
                 parent,
-                onUserClicked = { position -> onUserClicked(getItem(position) as PeopleUserListItem) },
-                onFollow = { position -> onFollow(getItem(position) as PeopleUserListItem) }
+                onUserClicked = { position -> onUserClicked(getItem(position) as PeopleFollowingUserListItem) }
+            )
+            Request -> PeopleRequestUserViewHolder(
+                parent,
+                onRequestClicked = { position, isAccepted ->
+                    onRequestClicked(getItem(position) as PeopleRequestUserListItem, isAccepted)
+                }
+            )
+            Suggestion -> PeopleSuggestionUserViewHolder(
+                parent,
+                onFollow = { position -> onFollow(getItem(position) as PeopleSuggestionUserListItem) }
+            )
+            Ignored -> PeopleIgnoredUserViewHolder(
+                parent,
+                onUnIgnore = { position -> onUnIgnore(getItem(position) as PeopleIgnoredUserListItem) }
             )
         }
     }
