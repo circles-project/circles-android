@@ -5,42 +5,98 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.ListItemInviteHeaderBinding
-import org.futo.circles.databinding.ListItemPeopleBinding
+import org.futo.circles.databinding.*
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.model.PeopleHeaderItem
-import org.futo.circles.model.PeopleListItem
-import org.futo.circles.model.PeopleUserListItem
+import org.futo.circles.model.*
+import org.futo.circles.view.UserListItemView
 
 abstract class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: PeopleListItem)
 }
 
-class PeopleUserViewHolder(
+sealed class PeopleBaseUserViewHolder(view: View) : PeopleViewHolder(view) {
+
+    abstract val userListItem: UserListItemView
+
+    override fun bind(data: PeopleListItem) {
+        (data as? PeopleUserListItem)?.let {
+            userListItem.bind(it.user)
+        }
+    }
+}
+
+class PeopleSuggestionUserViewHolder(
     parent: ViewGroup,
-    private val onUserClicked: (Int) -> Unit,
     private val onFollow: (Int) -> Unit
-) : PeopleViewHolder(inflate(parent, ListItemPeopleBinding::inflate)) {
+) : PeopleBaseUserViewHolder(inflate(parent, ListItemPeopleSuggestionBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemPeopleBinding
+    private val binding = baseBinding as ListItemPeopleSuggestionBinding
+    override val userListItem: UserListItemView = binding.userItem
 
     init {
-        onClick(itemView) { position -> onUserClicked(position) }
         onClick(binding.btnFollow) { position -> onFollow(position) }
     }
 
     override fun bind(data: PeopleListItem) {
-        if (data !is PeopleUserListItem) return
+        super.bind(data)
+        val canFollow = (data as? PeopleSuggestionUserListItem)?.profileRoomId != null
+        binding.btnFollow.setIsVisible(canFollow)
+    }
+}
 
+class PeopleIgnoredUserViewHolder(
+    parent: ViewGroup,
+    private val onUnIgnore: (Int) -> Unit
+) : PeopleBaseUserViewHolder(inflate(parent, ListItemPeopleIgnoredBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemPeopleIgnoredBinding
+    override val userListItem: UserListItemView = binding.userItem
+
+    init {
+        onClick(binding.btnUnIgnore) { position -> onUnIgnore(position) }
+    }
+}
+
+class PeopleFollowingUserViewHolder(
+    parent: ViewGroup,
+    private val onUserClicked: (Int) -> Unit
+) : PeopleBaseUserViewHolder(inflate(parent, ListItemPeopleFollowingBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemPeopleFollowingBinding
+    override val userListItem: UserListItemView = binding.userItem
+
+    init {
+        onClick(itemView) { position -> onUserClicked(position) }
+    }
+}
+
+class PeopleRequestUserViewHolder(
+    parent: ViewGroup,
+    private val onRequestClicked: (Int, Boolean) -> Unit
+) : PeopleViewHolder(inflate(parent, ListItemPeopleRequestBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemPeopleRequestBinding
+
+    init {
+        onClick(binding.btnAccept) { position -> onRequestClicked(position, true) }
+        onClick(binding.btnDecline) { position -> onRequestClicked(position, false) }
+    }
+
+    override fun bind(data: PeopleListItem) {
+        val user = (data as? PeopleRequestUserListItem)?.user ?: return
         with(binding) {
-            userItem.tvUserName.text = data.user.name
-            userItem.tvUserId.text = data.id
-            userItem.ivUserImage.loadProfileIcon(data.user.avatarUrl, data.user.name)
-            btnFollow.setIsVisible(data.canFollow())
+            tvUserName.text = user.name
+            ivUserImage.loadProfileIcon(user.avatarUrl, user.name)
         }
     }
 }
@@ -55,7 +111,6 @@ class PeopleHeaderViewHolder(
 
     override fun bind(data: PeopleListItem) {
         if (data !is PeopleHeaderItem) return
-
         binding.tvHeader.text = context.getString(data.titleRes)
     }
 }
