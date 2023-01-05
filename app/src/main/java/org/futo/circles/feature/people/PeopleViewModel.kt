@@ -11,11 +11,13 @@ import org.futo.circles.model.PeopleListItem
 import org.futo.circles.model.PeopleSuggestionUserListItem
 
 class PeopleViewModel(
-    private val peopleDataSource: PeopleDataSource
+    private val peopleDataSource: PeopleDataSource,
+    private val userOptionsDataSource: UserOptionsDataSource
 ) : ViewModel() {
 
     val peopleLiveData = MutableLiveData<List<PeopleListItem>>()
     val followUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
 
     init {
         launchBg { peopleDataSource.refreshRoomMembers() }
@@ -34,6 +36,12 @@ class PeopleViewModel(
     fun followUser(user: PeopleSuggestionUserListItem) {
         launchBg {
             followUserLiveData.postValue(peopleDataSource.followUser(user))
+        }
+    }
+
+    fun unIgnoreUser(id: String) {
+        launchBg {
+            unIgnoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(id))
         }
     }
 }

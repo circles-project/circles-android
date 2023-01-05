@@ -31,6 +31,8 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         PeopleAdapter(
             onUserClicked = { user -> navigateToUserPage(user) },
             onFollow = { user -> viewModel.followUser(user) },
+            onRequestClicked = { user, isAccepted -> },
+            onUnIgnore = { user -> viewModel.unIgnoreUser(user.id) }
         )
     }
 
@@ -63,6 +65,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         }
         viewModel.followUserLiveData.observeResponse(this,
             success = { showSuccess(getString(R.string.request_sent)) })
+        viewModel.unIgnoreUserLiveData.observeResponse(this)
     }
 
     private fun navigateToUserPage(user: PeopleListItem) {
