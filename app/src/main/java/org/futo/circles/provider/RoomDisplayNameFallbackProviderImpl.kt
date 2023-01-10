@@ -1,6 +1,7 @@
 package org.futo.circles.provider
 
-import org.matrix.android.sdk.api.RoomDisplayNameFallbackProvider
+import org.matrix.android.sdk.api.provider.RoomDisplayNameFallbackProvider
+
 
 class RoomDisplayNameFallbackProviderImpl : RoomDisplayNameFallbackProvider {
 
@@ -22,6 +23,11 @@ class RoomDisplayNameFallbackProviderImpl : RoomDisplayNameFallbackProvider {
     override fun getNameFor4members(name1: String, name2: String, name3: String, name4: String) =
         "$name1, $name2, $name3 and $name4"
 
-    override fun getNameFor4membersAndMore(name1: String, name2: String, name3: String, remainingCount: Int) =
+    override fun getNameFor4membersAndMore(
+        name1: String,
+        name2: String,
+        name3: String,
+        remainingCount: Int
+    ) =
         "$name1, $name2, $name3 and $remainingCount others"
 }
