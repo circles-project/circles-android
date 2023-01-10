@@ -67,6 +67,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         viewModel.followUserLiveData.observeResponse(this,
             success = { showSuccess(getString(R.string.request_sent)) })
         viewModel.unIgnoreUserLiveData.observeResponse(this)
+        viewModel.followUserRequestLiveData.observeResponse(this)
     }
 
     private fun navigateToUserPage(userId: String) {

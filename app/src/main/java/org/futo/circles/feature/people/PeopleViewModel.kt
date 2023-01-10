@@ -8,7 +8,6 @@ import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.extensions.launchUi
 import org.futo.circles.model.PeopleListItem
-import org.futo.circles.model.PeopleSuggestionUserListItem
 
 class PeopleViewModel(
     private val peopleDataSource: PeopleDataSource,
@@ -47,12 +46,11 @@ class PeopleViewModel(
     }
 
     fun onFollowRequestAnswered(userId: String, accepted: Boolean) {
-        if (accepted) {
-
-        } else {
-            launchBg {
-                followUserRequestLiveData.postValue(peopleDataSource.declineFollowRequest(userId))
-            }
+        launchBg {
+            val result = if (accepted) peopleDataSource.acceptFollowRequest(userId)
+            else peopleDataSource.declineFollowRequest(userId)
+            followUserRequestLiveData.postValue(result)
         }
+
     }
 }

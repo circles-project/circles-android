@@ -36,6 +36,11 @@ class PeopleDataSource(
     suspend fun followUser(userId: String) =
         createResult { session?.roomService()?.knock(profileRoomId) }
 
+    suspend fun acceptFollowRequest(userId: String) =
+        createResult {
+            session?.roomService()?.getRoom(profileRoomId)?.membershipService()?.invite(userId)
+        }
+
     suspend fun declineFollowRequest(userId: String) =
         createResult { session?.getRoom(profileRoomId)?.membershipService()?.remove(userId) }
 
