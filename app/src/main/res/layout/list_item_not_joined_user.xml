@@ -6,9 +6,8 @@
     android:layout_height="wrap_content"
     android:paddingVertical="4dp">
 
-    <include
+    <org.futo.circles.view.UserListItemView
         android:id="@+id/lUser"
-        layout="@layout/view_user_list_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@id/tvStatus"

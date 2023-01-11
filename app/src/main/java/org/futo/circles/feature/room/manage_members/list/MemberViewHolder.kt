@@ -83,11 +83,7 @@ class NotJoinedUserViewHolder(
     override fun bind(data: ManageMembersListItem) {
         if (data !is NotJoinedUserListItem) return
 
-        with(binding.lUser) {
-            ivUserImage.loadProfileIcon(data.user.avatarUrl, data.user.name)
-            tvUserName.text = data.user.name
-            tvUserId.text = data.id
-        }
+        binding.lUser.bind(data.user)
 
         when (data.membership) {
             Membership.INVITE -> {
