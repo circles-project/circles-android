@@ -112,9 +112,11 @@ dependencies {
     //ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
 
-    //Firebase crash reports
-    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.2'
-    gplayImplementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
+    //Firebase
+    gplayImplementation platform('com.google.firebase:firebase-bom:31.1.1')
+    gplayImplementation'com.google.firebase:firebase-crashlytics-ktx'
+    gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
+    gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
 
     //Subscriptions
     gplayImplementation 'com.android.billingclient:billing-ktx:5.1.0'
