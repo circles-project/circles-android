@@ -97,6 +97,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <receiver
+            android:name=".feature.notifications.KeepInternalDistributor"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.unifiedpush.android.distributor.REGISTER" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
