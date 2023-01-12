@@ -14,4 +14,6 @@ object UserUtils {
         }
         return shortUserId
     }
+
+    fun getServerDomain(userId: String) = userId.substringAfter(":")
 }

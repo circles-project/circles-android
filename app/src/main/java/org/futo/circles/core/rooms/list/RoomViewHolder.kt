@@ -13,6 +13,7 @@ import org.futo.circles.databinding.*
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setIsEncryptedIcon
+import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.*
 
 abstract class RoomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -65,10 +66,8 @@ class JoinedGroupViewHolder(
     }
 
     private fun setTopic(topic: String) {
-        binding.tvTopic.text = context.getString(
-            R.string.topic_formatter,
-            topic.takeIf { it.isNotEmpty() } ?: context.getString(R.string.none)
-        )
+        binding.tvTopic.setIsVisible(topic.isNotEmpty())
+        binding.tvTopic.text = context.getString(R.string.topic_formatter, topic)
     }
 
     private fun setMembersCount(membersCount: Int) {

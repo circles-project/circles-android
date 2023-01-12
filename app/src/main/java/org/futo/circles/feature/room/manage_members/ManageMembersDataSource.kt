@@ -43,7 +43,6 @@ class ManageMembersDataSource(
         room?.roomSummary()?.nameOrId() ?: roomId
     )
 
-
     fun getRoomMembersFlow(): Flow<List<ManageMembersListItem>> {
         return combine(
             getRoomMembersSummaryFlow(), getRoomMembersRoleFlow(), itemsWithVisibleOptionsFlow
@@ -52,10 +51,9 @@ class ManageMembersDataSource(
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
     }
 
-    private fun getRoomMembersSummaryFlow(): Flow<List<RoomMemberSummary>> {
-        return room?.membershipService()?.getRoomMembersLive(roomMemberQueryParams())?.asFlow()
+    private fun getRoomMembersSummaryFlow(): Flow<List<RoomMemberSummary>> =
+        room?.membershipService()?.getRoomMembersLive(roomMemberQueryParams())?.asFlow()
             ?: flowOf()
-    }
 
     private fun getRoomMembersRoleFlow(): Flow<PowerLevelsContent> {
         return room?.stateService()

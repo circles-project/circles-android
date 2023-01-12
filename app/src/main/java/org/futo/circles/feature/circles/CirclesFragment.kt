@@ -15,7 +15,7 @@ class CirclesFragment : RoomsFragment(), HasInvites {
     }
 
     override fun navigateToCreateRoom() {
-        findNavController().navigate(CirclesFragmentDirections.toCreateRoomDialogFragment())
+        findNavController().navigate(CirclesFragmentDirections.toCreateCircleDialogFragment())
     }
 
     override fun onAcceptInviteClicked(room: RoomListItem) {

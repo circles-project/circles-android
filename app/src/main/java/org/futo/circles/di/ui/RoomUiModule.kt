@@ -7,10 +7,10 @@ import org.futo.circles.feature.people.PeopleViewModel
 import org.futo.circles.feature.photos.PhotosViewModel
 import org.futo.circles.feature.photos.gallery.GalleryViewModel
 import org.futo.circles.feature.photos.select.SelectGalleriesViewModel
-import org.futo.circles.feature.room.create_room.CreateRoomViewModel
+import org.futo.circles.feature.room.create.CreateRoomViewModel
 import org.futo.circles.feature.room.select.SelectRoomsViewModel
 import org.futo.circles.feature.room.select_users.SelectUsersViewModel
-import org.futo.circles.feature.room.update_room.UpdateRoomViewModel
+import org.futo.circles.feature.room.update.UpdateRoomViewModel
 import org.futo.circles.feature.timeline.state.RoomStateEventsViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.dsl.viewModel

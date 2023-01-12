@@ -18,9 +18,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <include
-            android:id="@+id/lUser"
-            layout="@layout/list_item_user"
+        <org.futo.circles.view.UserListItemView
+            android:id="@+id/vUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="@id/tvRole"
@@ -35,9 +34,9 @@
             android:ellipsize="end"
             android:lines="1"
             android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="@id/lUser"
+            app:layout_constraintBottom_toBottomOf="@id/vUser"
             app:layout_constraintEnd_toStartOf="@id/ivOptionsArrow"
-            app:layout_constraintTop_toTopOf="@id/lUser"
+            app:layout_constraintTop_toTopOf="@id/vUser"
             tools:text="Admin" />
 
         <ImageView
@@ -46,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:src="@drawable/ic_keyboard_arrow_down"
-            app:layout_constraintBottom_toBottomOf="@id/lUser"
+            app:layout_constraintBottom_toBottomOf="@id/vUser"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/blue" />

@@ -15,7 +15,6 @@
     <string name="photos">Photos</string>
     <string name="topic_formatter">Topic: %s</string>
     <string name="last_updated_formatter">Last updated %s</string>
-    <string name="none">none</string>
     <string name="my_groups">My Groups</string>
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
@@ -26,9 +25,12 @@
     <string name="invite_followers">Invite followers</string>
     <string name="invite_to_format">Invite to %s</string>
     <string name="enter_name_or_id">Enter name or userId</string>
+    <string name="follow">Follow</string>
+    <string name="following_users">Following users</string>
     <string name="known_users">Known users</string>
     <string name="ignored_users">Ignored users</string>
-    <string name="suggestion">Suggestions</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="requests">Requests</string>
     <string name="no_results">No results</string>
     <string name="invite">Invite</string>
     <string name="invitation_sent">Invitation sent</string>
@@ -91,6 +93,7 @@
     <string name="circles_created">Circles created</string>
     <string name="root_space_name">Circles</string>
     <string name="circles_space_name">My Circles</string>
+    <string name="people_space_name">My People</string>
     <string name="groups_space_name">My Groups</string>
     <string name="photos_space_name">My Photo Galleries</string>
     <string name="log_out">Log out</string>
@@ -326,6 +329,14 @@
     <string name="switch_user">Switch User</string>
     <string name="switch_str">Switch</string>
     <string name="switch_user_message">Are you sure you want to switch user?</string>
+    <string name="search_people">Search people</string>
+    <string name="circle_type">Circle type</string>
+    <string name="public_type">Public</string>
+    <string name="private_type">Private</string>
+    <string name="public_circle_explanation">Other users can ask to join</string>
+    <string name="private_circle_explanation">Accessible only by your invitation</string>
+    <string name="request_sent">Request sent</string>
+    <string name="wants_to_follow_you">wants to follow you</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

@@ -47,20 +47,27 @@
 
         </action>
         <action
-            android:id="@+id/to_updateRoomDialogFragment"
-            app:destination="@id/updateRoomDialogFragment">
+            android:id="@+id/to_updateCircleDialogFragment"
+            app:destination="@id/updateCircleDialogFragment">
 
             <argument
                 android:name="roomId"
                 app:argType="string"
                 app:nullable="false" />
 
+        </action>
+
+        <action
+            android:id="@+id/to_updateGroupDialogFragment"
+            app:destination="@id/updateGroupDialogFragment">
+
             <argument
-                android:name="type"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                android:name="roomId"
+                app:argType="string"
                 app:nullable="false" />
 
         </action>
+
         <action
             android:id="@+id/to_createPostBottomSheet"
             app:destination="@id/createPostBottomSheet">
@@ -274,23 +281,29 @@
 
     </dialog>
     <dialog
-        android:id="@+id/updateRoomDialogFragment"
-        android:name="org.futo.circles.feature.room.update_room.UpdateRoomDialogFragment"
-        android:label="UpdateRoomDialogFragment"
-        tools:layout="@layout/dialog_fragment_update_room">
+        android:id="@+id/updateCircleDialogFragment"
+        android:name="org.futo.circles.feature.circles.update.UpdateCircleDialogFragment"
+        tools:layout="@layout/dialog_fragment_update_circle">
 
         <argument
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
 
+    </dialog>
+
+    <dialog
+        android:id="@+id/updateGroupDialogFragment"
+        android:name="org.futo.circles.feature.groups.update.UpdateGroupDialogFragment"
+        tools:layout="@layout/dialog_fragment_update_group">
+
         <argument
-            android:name="type"
-            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            android:name="roomId"
+            app:argType="string"
             app:nullable="false" />
 
-
     </dialog>
+
     <dialog
         android:id="@+id/createPostBottomSheet"
         android:name="org.futo.circles.feature.timeline.post.create.CreatePostDialogFragment"

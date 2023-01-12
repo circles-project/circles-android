@@ -17,7 +17,7 @@ class CoreSpacesTreeBuilder(
     val loadingLiveData = MutableLiveData<LoadingData>()
 
     private val coreSpaces = listOf(
-        RootSpace(), CirclesSpace(), GroupsSpace(), PhotosSpace()
+        RootSpace(), CirclesSpace(), PeopleSpace(), GroupsSpace(), PhotosSpace()
     )
 
     suspend fun createCoreSpacesTree() {
@@ -33,11 +33,17 @@ class CoreSpacesTreeBuilder(
             delay(CREATE_ROOM_DELAY)
         }
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
+        delay(CREATE_ROOM_DELAY)
+        createRoomDataSource.createRoom(
+            ProfileRoom(),
+            MatrixSessionProvider.currentSession?.myUserId ?: "",
+            allowKnock = true,
+            isPublic = true
+        )
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
     fun isCirclesHierarchyCreated(): Boolean = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
         ?.firstOrNull { summary -> summary.hasTag(ROOT_SPACE_TAG) } != null
-
 }

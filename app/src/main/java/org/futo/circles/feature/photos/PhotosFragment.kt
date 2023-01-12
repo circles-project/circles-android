@@ -33,6 +33,6 @@ class PhotosFragment : RoomsFragment() {
     }
 
     override fun navigateToCreateRoom() {
-        findNavController().navigate(PhotosFragmentDirections.toCreateRoomDialogFragment())
+        findNavController().navigate(PhotosFragmentDirections.toCreateGalleryDialogFragment())
     }
 }

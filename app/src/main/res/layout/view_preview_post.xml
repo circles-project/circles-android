@@ -87,6 +87,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_close"
+                android:tint="@color/white"
                 app:layout_constraintEnd_toEndOf="@id/lMediaContent"
                 app:layout_constraintTop_toTopOf="@id/lMediaContent"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />

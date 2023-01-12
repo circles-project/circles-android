@@ -10,6 +10,7 @@ import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.invite.InviteMembersDataSource
 import org.futo.circles.feature.room.manage_members.ManageMembersDataSource
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelDataSource
+import org.futo.circles.feature.room.select_users.SearchUserDataSource
 import org.futo.circles.feature.room.select_users.SelectUsersDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
@@ -29,7 +30,8 @@ val timelineDsModule = module {
     factory { PostOptionsDataSource(get()) }
     factory { TimelineBuilder() }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
-    factory { (roomId: String?) -> SelectUsersDataSource(roomId) }
+    factory { (roomId: String?) -> SelectUsersDataSource(roomId, get()) }
+    factory { SearchUserDataSource() }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         ManageMembersDataSource(roomId, type, get())
     }
