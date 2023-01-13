@@ -9,7 +9,7 @@ import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
 class PushParser {
-    
+
     fun parsePushDataUnifiedPush(message: ByteArray): PushData? {
         return try {
             Gson().fromJson(String(message), PushDataUnifiedPush::class.java).toPushData()
