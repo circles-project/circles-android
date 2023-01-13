@@ -338,6 +338,9 @@
     <string name="request_sent">Request sent</string>
     <string name="wants_to_follow_you">wants to follow you</string>
 
+    <string name="pusher_http_url" translatable="false">https://matrix.org/_matrix/push/v1/notify</string>
+    <string name="default_push_gateway_http_url" translatable="false">https://matrix.gateway.unifiedpush.org/_matrix/push/v1/notify</string>
+
     <string-array name="report_categories">
         <item>@string/crude_language</item>
         <item>@string/copyright_violation</item>
