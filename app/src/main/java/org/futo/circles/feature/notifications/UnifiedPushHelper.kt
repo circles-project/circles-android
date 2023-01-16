@@ -17,7 +17,7 @@ import java.net.URL
 class UnifiedPushHelper(
     private val context: Context,
     private val preferencesProvider: PreferencesProvider,
-    private val fcmHelper: FcmHelper,
+    private val fcmHelper: FcmHelper
 ) {
 
     fun register(
@@ -32,8 +32,6 @@ class UnifiedPushHelper(
 
     private fun registerInternal(
         activity: AppCompatActivity,
-        force: Boolean = false,
-        pushersManager: PushersManager? = null,
         onDoneRunnable: Runnable? = null
     ) {
         activity.lifecycleScope.launch {
@@ -43,12 +41,8 @@ class UnifiedPushHelper(
                 onDoneRunnable?.run()
                 return@launch
             }
-            if (force) {
-                // Un-register first
-                unregister(pushersManager)
-            }
-            // the !force should not be needed
-            if (!force && UnifiedPush.getDistributor(context).isNotEmpty()) {
+
+            if (UnifiedPush.getDistributor(context).isNotEmpty()) {
                 UnifiedPush.registerApp(context)
                 onDoneRunnable?.run()
                 return@launch
@@ -56,16 +50,10 @@ class UnifiedPushHelper(
 
             val distributors = UnifiedPush.getDistributors(context)
 
-            if (!force && distributors.size == 1) {
+            if (distributors.size == 1) {
                 UnifiedPush.saveDistributor(context, distributors.first())
                 UnifiedPush.registerApp(context)
                 onDoneRunnable?.run()
-            } else {
-                openDistributorDialogInternal(
-                    activity = activity,
-                    onDoneRunnable = onDoneRunnable,
-                    distributors = distributors
-                )
             }
         }
     }
