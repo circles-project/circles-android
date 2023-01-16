@@ -3,10 +3,14 @@ package org.futo.circles.provider
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.core.content.edit
+import org.futo.circles.feature.notifications.BackgroundSyncMode
 
 class PreferencesProvider(
     private val context: Context
 ) {
+
+    private fun getSharedPreferences() =
+        context.getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE)
 
     fun setDeveloperMode(isEnabled: Boolean) {
         getSharedPreferences().edit { putBoolean(DEV_MODE_KEY, isEnabled) }
@@ -27,14 +31,37 @@ class PreferencesProvider(
         getSharedPreferences().edit { putString(PUSH_GATEWAY, gateway) }
     }
 
-    private fun getSharedPreferences() =
-        context.getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE)
-
-    companion object {
-        private const val PREFERENCES_NAME = "Circles Preferences"
-        private const val DEV_MODE_KEY = "Circles Developer mode"
-        private const val PUSH_ENDPOINT_OR_TOKEN = "Circles push endpoint"
-        private const val PUSH_GATEWAY = "Circles push gateway"
+    fun setFdroidSyncBackgroundMode(mode: BackgroundSyncMode) {
+        getSharedPreferences().edit {
+            putString(FDROID_BACKGROUND_SYNC_MODE, mode.name)
+        }
     }
 
+    fun getFdroidSyncBackgroundMode(): BackgroundSyncMode {
+        val strPref = getSharedPreferences()
+            .getString(
+                FDROID_BACKGROUND_SYNC_MODE,
+                BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_BATTERY.name
+            )
+        return BackgroundSyncMode.values().firstOrNull { it.name == strPref }
+            ?: BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_BATTERY
+    }
+
+    fun areNotificationEnabledForDevice(): Boolean =
+        getSharedPreferences().getBoolean(ARE_NOTIFICATIONS_ENABLED, true)
+
+    fun setNotificationEnabledForDevice(enabled: Boolean) {
+        getSharedPreferences().edit {
+            putBoolean(ARE_NOTIFICATIONS_ENABLED, enabled)
+        }
+    }
+
+    companion object {
+        private const val PREFERENCES_NAME = "circles_preferences"
+        private const val DEV_MODE_KEY = "developer_mode"
+        private const val PUSH_ENDPOINT_OR_TOKEN = "push_endpoint"
+        private const val PUSH_GATEWAY = "push_gateway"
+        private const val FDROID_BACKGROUND_SYNC_MODE = "fdroid_background_sync_mode"
+        private const val ARE_NOTIFICATIONS_ENABLED = "are_notifications_enabled"
+    }
 }
