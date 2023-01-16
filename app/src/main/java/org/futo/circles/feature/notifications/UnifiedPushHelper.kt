@@ -22,26 +22,9 @@ class UnifiedPushHelper(
 
     fun register(
         activity: AppCompatActivity,
-        onDoneRunnable: Runnable? = null,
-    ) {
-        registerInternal(
-            activity,
-            onDoneRunnable = onDoneRunnable
-        )
-    }
-
-    private fun registerInternal(
-        activity: AppCompatActivity,
         onDoneRunnable: Runnable? = null
     ) {
         activity.lifecycleScope.launch {
-            if (!vectorFeatures.allowExternalUnifiedPushDistributors()) {
-                UnifiedPush.saveDistributor(context, context.packageName)
-                UnifiedPush.registerApp(context)
-                onDoneRunnable?.run()
-                return@launch
-            }
-
             if (UnifiedPush.getDistributor(context).isNotEmpty()) {
                 UnifiedPush.registerApp(context)
                 onDoneRunnable?.run()
@@ -60,8 +43,6 @@ class UnifiedPushHelper(
 
 
     suspend fun unregister(pushersManager: PushersManager? = null) {
-        val mode = BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_REALTIME
-        vectorPreferences.setFdroidSyncBackgroundMode(mode)
         try {
             getEndpointOrToken()?.let { pushersManager?.unregisterPusher(it) }
         } catch (ignore: Exception) {
