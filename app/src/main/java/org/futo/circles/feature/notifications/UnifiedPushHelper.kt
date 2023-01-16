@@ -43,6 +43,7 @@ class UnifiedPushHelper(
 
 
     suspend fun unregister(pushersManager: PushersManager? = null) {
+        preferencesProvider.setFdroidSyncBackgroundMode(BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_REALTIME)
         try {
             getEndpointOrToken()?.let { pushersManager?.unregisterPusher(it) }
         } catch (ignore: Exception) {
