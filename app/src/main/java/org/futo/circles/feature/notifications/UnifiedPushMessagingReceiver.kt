@@ -14,7 +14,7 @@ class UnifiedPushMessagingReceiver(
     private val pushersManager: PushersManager,
     private val pushParser: PushParser,
     private val preferencesProvider: PreferencesProvider,
-    private val vectorPushHandler: VectorPushHandler,
+    private val pushHandler: PushHandler,
     private val guardServiceStarter: GuardServiceStarter,
     private val unifiedPushHelper: UnifiedPushHelper
 ) : MessagingReceiver() {
@@ -22,7 +22,7 @@ class UnifiedPushMessagingReceiver(
     private val coroutineScope = CoroutineScope(SupervisorJob())
 
     override fun onMessage(context: Context, message: ByteArray, instance: String) {
-        pushParser.parsePushDataUnifiedPush(message)?.let { vectorPushHandler.handle(it) }
+        pushParser.parsePushDataUnifiedPush(message)?.let { pushHandler.handle(it) }
     }
 
     override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {
