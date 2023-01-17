@@ -1,6 +1,5 @@
 package org.futo.circles.feature.notifications
 
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.Lifecycle
@@ -8,6 +7,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.*
 import org.futo.circles.feature.notifications.model.PushData
 import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.provider.PreferencesProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.getRoom
@@ -16,12 +16,8 @@ import org.matrix.android.sdk.api.session.room.getTimelineEvent
 class PushHandler(
     private val notificationDrawerManager: NotificationDrawerManager,
     private val notifiableEventResolver: NotifiableEventResolver,
-    private val activeSessionHolder: ActiveSessionHolder,
-    private val vectorPreferences: VectorPreferences,
-    private val vectorDataStore: VectorDataStore,
-    private val wifiDetector: WifiDetector,
-    private val actionIds: NotificationActionIds,
-    private val context: Context
+    private val preferencesProvider: PreferencesProvider,
+    private val wifiDetector: WifiDetector
 ) {
 
     private val coroutineScope = CoroutineScope(SupervisorJob())
@@ -29,9 +25,9 @@ class PushHandler(
     private val mUIHandler by lazy { Handler(Looper.getMainLooper()) }
 
     fun handle(pushData: PushData) {
-        runBlocking { vectorDataStore.incrementPushCounter() }
+        runBlocking { preferencesProvider.incrementPushCounter() }
 
-        if (!vectorPreferences.areNotificationEnabledForDevice()) return
+        if (!preferencesProvider.areNotificationEnabledForDevice()) return
 
         mUIHandler.post {
             if (!ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))
@@ -39,10 +35,10 @@ class PushHandler(
         }
     }
 
+    //TODO activeSessionHolder.getOrInitializeSession(startSync = false)
     private suspend fun handleInternal(pushData: PushData) {
         try {
-            val session = activeSessionHolder.getOrInitializeSession(startSync = false) ?: return
-
+            val session = MatrixSessionProvider.currentSession ?: return
             if (!isEventAlreadyKnown(pushData)) {
                 getEventFastLane(session, pushData)
                 session.syncService().requireBackgroundSync()
