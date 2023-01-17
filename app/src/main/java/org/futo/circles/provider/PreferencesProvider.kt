@@ -56,6 +56,16 @@ class PreferencesProvider(
         }
     }
 
+    fun setPushCount(count: Int) {
+        getSharedPreferences().edit { putInt(PUSH_COUNT, count) }
+    }
+
+    fun incrementPushCounter() {
+        setPushCount(getPushCount() + 1)
+    }
+
+    fun getPushCount(): Int = getSharedPreferences().getInt(PUSH_COUNT, 0)
+
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
@@ -63,5 +73,6 @@ class PreferencesProvider(
         private const val PUSH_GATEWAY = "push_gateway"
         private const val FDROID_BACKGROUND_SYNC_MODE = "fdroid_background_sync_mode"
         private const val ARE_NOTIFICATIONS_ENABLED = "are_notifications_enabled"
+        private const val PUSH_COUNT = "push_count"
     }
 }
