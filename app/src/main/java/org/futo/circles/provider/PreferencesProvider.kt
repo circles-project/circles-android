@@ -66,6 +66,15 @@ class PreferencesProvider(
 
     fun getPushCount(): Int = getSharedPreferences().getInt(PUSH_COUNT, 0)
 
+    fun useCompleteNotificationFormat(): Boolean =
+        getSharedPreferences().getBoolean(USE_COMPLETE_NOTIFICATION_FORMAT, true)
+
+    fun setUseCompleteNotificationFormatEnabled(enabled: Boolean) {
+        getSharedPreferences().edit {
+            putBoolean(USE_COMPLETE_NOTIFICATION_FORMAT, enabled)
+        }
+    }
+
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
@@ -74,5 +83,6 @@ class PreferencesProvider(
         private const val FDROID_BACKGROUND_SYNC_MODE = "fdroid_background_sync_mode"
         private const val ARE_NOTIFICATIONS_ENABLED = "are_notifications_enabled"
         private const val PUSH_COUNT = "push_count"
+        private const val USE_COMPLETE_NOTIFICATION_FORMAT = "use_complete_notification_format"
     }
 }
