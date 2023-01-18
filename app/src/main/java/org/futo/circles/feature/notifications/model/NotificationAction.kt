@@ -1,0 +1,24 @@
+package org.futo.circles.feature.notifications.model
+
+import org.matrix.android.sdk.api.session.pushrules.Action
+
+data class NotificationAction(
+        val shouldNotify: Boolean,
+        val highlight: Boolean,
+        val soundName: String?
+)
+
+fun List<Action>.toNotificationAction(): NotificationAction {
+    var shouldNotify = false
+    var highlight = false
+    var sound: String? = null
+    forEach { action ->
+        when (action) {
+            is Action.Notify -> shouldNotify = true
+            is Action.DoNotNotify -> shouldNotify = false
+            is Action.Highlight -> highlight = action.highlight
+            is Action.Sound -> sound = action.sound
+        }
+    }
+    return NotificationAction(shouldNotify, highlight, sound)
+}
