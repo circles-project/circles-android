@@ -343,6 +343,14 @@
     <string name="notification_unknown_new_event">New Event</string>
     <string name="notification_unknown_room_name">Room</string>
     <string name="notification_new_invitation">New Invitation</string>
+    <string name="sent_a_video">Video.</string>
+    <string name="sent_an_image">Image.</string>
+    <string name="sent_a_poll">Poll</string>
+    <string name="sent_a_reaction">Reacted with: %s</string>
+    <string name="poll_response_room_list_preview">Vote cast</string>
+    <string name="poll_end_room_list_preview">Poll ended</string>
+    <string name="verification_request">Verification Request</string>
+    <string name="encrypted_message">Encrypted message</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
