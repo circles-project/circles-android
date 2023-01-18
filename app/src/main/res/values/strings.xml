@@ -340,6 +340,9 @@
 
     <string name="pusher_http_url" translatable="false">https://matrix.org/_matrix/push/v1/notify</string>
     <string name="default_push_gateway_http_url" translatable="false">https://matrix.gateway.unifiedpush.org/_matrix/push/v1/notify</string>
+    <string name="notification_unknown_new_event">New Event</string>
+    <string name="notification_unknown_room_name">Room</string>
+    <string name="notification_new_invitation">New Invitation</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
