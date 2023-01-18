@@ -31,8 +31,7 @@ inline fun <reified R> Any?.takeAs(): R? {
 class NotifiableEventResolver(
     private val context: Context,
     private val noticeEventFormatter: NoticeEventFormatter,
-    private val displayableEventFormatter: DisplayableEventFormatter,
-    private val clock: Clock
+    private val displayableEventFormatter: DisplayableEventFormatter
 ) {
 
     private val nonEncryptedNotifiableEventTypes: List<String> =
@@ -63,7 +62,7 @@ class NotifiableEventResolver(
                     eventId = event.eventId!!,
                     editedEventId = timelineEvent.getEditedEventId(),
                     noisy = false,
-                    timestamp = event.originServerTs ?: clock.epochMillis(),
+                    timestamp = event.originServerTs ?: System.currentTimeMillis(),
                     description = bodyPreview,
                     title = context.getString(R.string.notification_unknown_new_event),
                     soundName = null,
