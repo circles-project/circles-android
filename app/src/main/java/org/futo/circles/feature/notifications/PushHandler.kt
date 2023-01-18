@@ -5,6 +5,7 @@ import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.*
+import org.futo.circles.feature.notifications.model.NotifiableMessageEvent
 import org.futo.circles.feature.notifications.model.PushData
 import org.futo.circles.provider.MatrixSessionProvider
 import org.futo.circles.provider.PreferencesProvider
@@ -51,18 +52,18 @@ class PushHandler(
         pushData.roomId ?: return
         pushData.eventId ?: return
 
-        if (notificationDrawerManager.shouldIgnoreMessageEventInRoom(pushData.roomId)) return
         if (wifiDetector.isConnectedToWifi().not()) return
+        val event = tryOrNull { session.eventService().getEvent(pushData.roomId, pushData.eventId) } ?: return
 
-        val event = tryOrNull { session.eventService().getEvent(pushData.roomId, pushData.eventId) }
-            ?: return
+        val resolvedEvent = notifiableEventResolver.resolveInMemoryEvent(session, event, canBeReplaced = true)
 
-        val resolvedEvent =
-            notifiableEventResolver.resolveInMemoryEvent(session, event, canBeReplaced = true)
+        if (resolvedEvent is NotifiableMessageEvent) {
+            if (notificationDrawerManager.shouldIgnoreMessageEventInRoom(resolvedEvent)) return
+        }
 
         resolvedEvent?.let {
-            notificationDrawerManager.updateEvents { it.onNotifiableEventReceived(resolvedEvent) }
-        }
+                notificationDrawerManager.updateEvents { it.onNotifiableEventReceived(resolvedEvent) }
+            }
     }
 
     private fun isEventAlreadyKnown(pushData: PushData): Boolean {
