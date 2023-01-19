@@ -610,6 +610,15 @@
     </plurals>
     <string name="notification_inline_reply_failed">** Failed to send - please open room</string>
     <string name="notification_sender_me">Me</string>
+    <string name="notification_noisy_notifications">Noisy notifications</string>
+    <string name="notification_silent_notifications">Silent notifications</string>
+    <string name="notification_listening_for_events">Listening for events</string>
+    <string name="updating_your_data">Updating your data…</string>
+    <string name="notification_new_messages">New Messages</string>
+    <string name="action_mark_room_read">Mark as read</string>
+    <string name="action_quick_reply">Quick reply</string>
+    <string name="action_reject">Reject</string>
+    <string name="action_join">Join</string>
 
 
     <string-array name="report_categories">
