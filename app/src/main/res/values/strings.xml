@@ -609,6 +609,7 @@
         <item quantity="other">%1$s: %2$d messages</item>
     </plurals>
     <string name="notification_inline_reply_failed">** Failed to send - please open room</string>
+    <string name="notification_sender_me">Me</string>
 
 
     <string-array name="report_categories">

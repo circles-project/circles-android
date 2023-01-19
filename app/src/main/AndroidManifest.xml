@@ -98,6 +98,11 @@
         </provider>
 
         <receiver
+            android:name=".feature.notifications.NotificationBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
             android:name=".feature.notifications.KeepInternalDistributor"
             android:enabled="true"
             android:exported="false">
