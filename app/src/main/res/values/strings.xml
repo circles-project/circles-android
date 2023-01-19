@@ -352,6 +352,235 @@
     <string name="verification_request">Verification Request</string>
     <string name="encrypted_message">Encrypted message</string>
 
+    <string name="notice_power_level_changed_by_you">You changed the power level of %1$s.</string>
+    <string name="notice_power_level_changed">%1$s changed the power level of %2$s.</string>
+    <string name="notice_power_level_diff">%1$s from %2$s to %3$s</string>
+    <string name="notice_crypto_unable_to_decrypt">** Unable to decrypt: %s **</string>
+    <string name="notice_crypto_error_unknown_inbound_session_id">The sender\'s device has not sent us the keys for this message.</string>
+    <string name="notice_voice_broadcast_ended">%1$s ended a voice broadcast.</string>
+    <string name="notice_voice_broadcast_ended_by_you">You ended a voice broadcast.</string>
+    <string name="notice_room_invite_no_invitee">%s\'s invitation</string>
+    <string name="notice_room_invite_no_invitee_by_you">Your invitation</string>
+    <string name="notice_room_created">%1$s created the room</string>
+    <string name="notice_room_created_by_you">You created the room</string>
+    <string name="notice_direct_room_created">%1$s created the discussion</string>
+    <string name="notice_direct_room_created_by_you">You created the discussion</string>
+    <string name="notice_room_invite">%1$s invited %2$s</string>
+    <string name="notice_room_invite_by_you">You invited %1$s</string>
+    <string name="notice_room_invite_you">%1$s invited you</string>
+    <string name="notice_room_join">%1$s joined the room</string>
+    <string name="notice_room_join_by_you">You joined the room</string>
+    <string name="notice_direct_room_join">%1$s joined</string>
+    <string name="notice_direct_room_join_by_you">You joined</string>
+    <string name="notice_room_leave">%1$s left the room</string>
+    <string name="notice_room_leave_by_you">You left the room</string>
+    <string name="notice_direct_room_leave">%1$s left the room</string>
+    <string name="notice_direct_room_leave_by_you">You left the room</string>
+    <string name="notice_room_reject">%1$s rejected the invitation</string>
+    <string name="notice_room_reject_by_you">You rejected the invitation</string>
+    <string name="notice_room_remove">%1$s removed %2$s</string>
+    <string name="notice_room_remove_by_you">You removed %1$s</string>
+    <string name="notice_room_unban">%1$s unbanned %2$s</string>
+    <string name="notice_room_unban_by_you">You unbanned %1$s</string>
+    <string name="notice_room_ban">%1$s banned %2$s</string>
+    <string name="notice_room_ban_by_you">You banned %1$s</string>
+    <string name="notice_room_withdraw">%1$s withdrew %2$s\'s invitation</string>
+    <string name="notice_room_withdraw_by_you">You withdrew %1$s\'s invitation</string>
+    <string name="notice_avatar_url_changed">%1$s changed their avatar</string>
+    <string name="notice_avatar_url_changed_by_you">You changed your avatar</string>
+    <string name="notice_display_name_set">%1$s set their display name to %2$s</string>
+    <string name="notice_display_name_set_by_you">You set your display name to %1$s</string>
+    <string name="notice_display_name_changed_from">%1$s changed their display name from %2$s to %3$s</string>
+    <string name="notice_display_name_changed_from_by_you">You changed your display name from %1$s to %2$s</string>
+    <string name="notice_display_name_removed">%1$s removed their display name (it was %2$s)</string>
+    <string name="notice_display_name_removed_by_you">You removed your display name (it was %1$s)</string>
+    <string name="notice_room_topic_changed">%1$s changed the topic to: %2$s</string>
+    <string name="notice_room_topic_changed_by_you">You changed the topic to: %1$s</string>
+    <string name="notice_room_avatar_changed">%1$s changed the room avatar</string>
+    <string name="notice_room_avatar_changed_by_you">You changed the room avatar</string>
+    <string name="notice_room_name_changed">%1$s changed the room name to: %2$s</string>
+    <string name="notice_room_name_changed_by_you">You changed the room name to: %1$s</string>
+    <string name="notice_placed_video_call">%s placed a video call.</string>
+    <string name="notice_placed_video_call_by_you">You placed a video call.</string>
+    <string name="notice_placed_voice_call">%s placed a voice call.</string>
+    <string name="notice_placed_voice_call_by_you">You placed a voice call.</string>
+    <string name="notice_call_candidates">%s sent data to setup the call.</string>
+    <string name="notice_call_candidates_by_you">You sent data to setup the call.</string>
+    <string name="notice_answered_call">%s answered the call.</string>
+    <string name="notice_answered_call_by_you">You answered the call.</string>
+    <string name="notice_ended_call">%s ended the call.</string>
+    <string name="notice_ended_call_by_you">You ended the call.</string>
+    <string name="notice_made_future_room_visibility">%1$s made future room history visible to %2$s</string>
+    <string name="notice_made_future_room_visibility_by_you">You made future room history visible to %1$s</string>
+    <string name="notice_made_future_direct_room_visibility">%1$s made future messages visible to %2$s</string>
+    <string name="notice_made_future_direct_room_visibility_by_you">You made future messages visible to %1$s</string>
+    <string name="notice_room_visibility_invited">all room members, from the point they are invited.</string>
+    <string name="notice_room_visibility_joined">all room members, from the point they joined.</string>
+    <string name="notice_room_visibility_shared">all room members.</string>
+    <string name="notice_room_visibility_world_readable">anyone.</string>
+    <string name="notice_room_update">%s upgraded this room.</string>
+    <string name="notice_room_update_by_you">You upgraded this room.</string>
+    <string name="notice_direct_room_update">%s upgraded here.</string>
+    <string name="notice_direct_room_update_by_you">You upgraded here.</string>
+    <string name="notice_room_server_acl_set_title">%s set the server ACLs for this room.</string>
+    <string name="notice_room_server_acl_set_title_by_you">You set the server ACLs for this room.</string>
+    <string name="notice_room_server_acl_set_banned">• Servers matching %s are banned.</string>
+    <string name="notice_room_server_acl_set_allowed">• Servers matching %s are allowed.</string>
+    <string name="notice_room_server_acl_set_ip_literals_allowed">• Servers matching IP literals are allowed.</string>
+    <string name="notice_room_server_acl_set_ip_literals_not_allowed">• Servers matching IP literals are banned.</string>
+    <string name="notice_room_server_acl_updated_title">%s changed the server ACLs for this room.</string>
+    <string name="notice_room_server_acl_updated_title_by_you">You changed the server ACLs for this room.</string>
+    <plurals name="notice_room_server_acl_changes">
+        <item quantity="one">%d server ACLs change</item>
+        <item quantity="other">%d server ACLs changes</item>
+    </plurals>
+    <string name="notice_room_server_acl_updated_banned">• Servers matching %s are now banned.</string>
+    <string name="notice_room_server_acl_updated_was_banned">• Servers matching %s were removed from the ban list.</string>
+    <string name="notice_room_server_acl_updated_allowed">• Servers matching %s are now allowed.</string>
+    <string name="notice_room_server_acl_updated_was_allowed">• Servers matching %s were removed from the allowed list.</string>
+    <string name="notice_room_server_acl_updated_ip_literals_allowed">• Servers matching IP literals are now allowed.</string>
+    <string name="notice_room_server_acl_updated_ip_literals_not_allowed">• Servers matching IP literals are now banned.</string>
+    <string name="notice_room_server_acl_updated_no_change">No change.</string>
+    <string name="notice_room_server_acl_allow_is_empty">🎉 All servers are banned from participating! This room can no longer be used.</string>
+    <string name="notice_avatar_changed_too">(avatar was changed too)</string>
+    <string name="notice_room_name_removed">%1$s removed the room name</string>
+    <string name="notice_room_name_removed_by_you">You removed the room name</string>
+    <string name="notice_room_topic_removed">%1$s removed the room topic</string>
+    <string name="notice_room_topic_removed_by_you">You removed the room topic</string>
+    <string name="notice_room_avatar_removed">%1$s removed the room avatar</string>
+    <string name="notice_room_avatar_removed_by_you">You removed the room avatar</string>
+    <string name="notice_room_third_party_invite">%1$s sent an invitation to %2$s to join the room</string>
+    <string name="notice_room_third_party_invite_by_you">You sent an invitation to %1$s to join the room</string>
+    <string name="notice_direct_room_third_party_invite">%1$s invited %2$s</string>
+    <string name="notice_direct_room_third_party_invite_by_you">You invited %1$s</string>
+    <string name="notice_room_third_party_revoked_invite">%1$s revoked the invitation for %2$s to join the room</string>
+    <string name="notice_room_third_party_revoked_invite_by_you">You revoked the invitation for %1$s to join the room</string>
+    <string name="notice_direct_room_third_party_revoked_invite">%1$s revoked the invitation for %2$s</string>
+    <string name="notice_direct_room_third_party_revoked_invite_by_you">You revoked the invitation for %1$s</string>
+    <string name="notice_room_third_party_registered_invite">%1$s accepted the invitation for %2$s</string>
+    <string name="notice_room_third_party_registered_invite_by_you">You accepted the invitation for %1$s</string>
+    <string name="notice_widget_added">%1$s added %2$s widget</string>
+    <string name="notice_widget_added_by_you">You added %1$s widget</string>
+    <string name="notice_widget_removed">%1$s removed %2$s widget</string>
+    <string name="notice_widget_removed_by_you">You removed %1$s widget</string>
+    <string name="notice_widget_modified">%1$s modified %2$s widget</string>
+    <string name="notice_widget_modified_by_you">You modified %1$s widget</string>
+    <string name="notice_room_invite_no_invitee_with_reason">%1$s\'s invitation. Reason: %2$s</string>
+    <string name="notice_room_invite_no_invitee_with_reason_by_you">Your invitation. Reason: %1$s</string>
+    <string name="notice_room_invite_with_reason">%1$s invited %2$s. Reason: %3$s</string>
+    <string name="notice_room_invite_with_reason_by_you">You invited %1$s. Reason: %2$s</string>
+    <string name="notice_room_invite_you_with_reason">%1$s invited you. Reason: %2$s</string>
+    <string name="notice_room_join_with_reason">%1$s joined the room. Reason: %2$s</string>
+    <string name="notice_room_join_with_reason_by_you">You joined the room. Reason: %1$s</string>
+    <string name="notice_direct_room_join_with_reason">%1$s joined. Reason: %2$s</string>
+    <string name="notice_direct_room_join_with_reason_by_you">You joined. Reason: %1$s</string>
+    <string name="notice_room_leave_with_reason">%1$s left the room. Reason: %2$s</string>
+    <string name="notice_room_leave_with_reason_by_you">You left the room. Reason: %1$s</string>
+    <string name="notice_direct_room_leave_with_reason">%1$s left. Reason: %2$s</string>
+    <string name="notice_direct_room_leave_with_reason_by_you">You left. Reason: %1$s</string>
+    <string name="notice_room_reject_with_reason">%1$s rejected the invitation. Reason: %2$s</string>
+    <string name="notice_room_reject_with_reason_by_you">You rejected the invitation. Reason: %1$s</string>
+    <string name="notice_room_remove_with_reason">%1$s removed %2$s. Reason: %3$s</string>
+    <string name="notice_room_remove_with_reason_by_you">You removed %1$s. Reason: %2$s</string>
+    <string name="notice_room_unban_with_reason">%1$s unbanned %2$s. Reason: %3$s</string>
+    <string name="notice_room_unban_with_reason_by_you">You unbanned %1$s. Reason: %2$s</string>
+    <string name="notice_room_ban_with_reason">%1$s banned %2$s. Reason: %3$s</string>
+    <string name="notice_room_ban_with_reason_by_you">You banned %1$s. Reason: %2$s</string>
+    <string name="notice_room_third_party_registered_invite_with_reason">%1$s accepted the invitation for %2$s. Reason: %3$s</string>
+    <string name="notice_room_third_party_registered_invite_with_reason_by_you">You accepted the invitation for %1$s. Reason: %2$s</string>
+    <string name="notice_room_withdraw_with_reason">%1$s withdrew %2$s\'s invitation. Reason: %3$s</string>
+    <string name="notice_room_withdraw_with_reason_by_you">You withdrew %1$s\'s invitation. Reason: %2$s</string>
+
+    <plurals name="notice_room_aliases_added">
+        <item quantity="one">%1$s added %2$s as an address for this room.</item>
+        <item quantity="other">%1$s added %2$s as addresses for this room.</item>
+    </plurals>
+
+    <plurals name="notice_room_aliases_added_by_you">
+        <item quantity="one">You added %1$s as an address for this room.</item>
+        <item quantity="other">You added %1$s as addresses for this room.</item>
+    </plurals>
+
+    <plurals name="notice_room_aliases_removed">
+        <item quantity="one">%1$s removed %2$s as an address for this room.</item>
+        <item quantity="other">%1$s removed %2$s as addresses for this room.</item>
+    </plurals>
+
+    <plurals name="notice_room_aliases_removed_by_you">
+        <item quantity="one">You removed %1$s as an address for this room.</item>
+        <item quantity="other">You removed %1$s as addresses for this room.</item>
+    </plurals>
+
+    <string name="notice_room_aliases_added_and_removed">%1$s added %2$s and removed %3$s as addresses for this room.</string>
+    <string name="notice_room_aliases_added_and_removed_by_you">You added %1$s and removed %2$s as addresses for this room.</string>
+
+    <string name="notice_room_canonical_alias_set">"%1$s set the main address for this room to %2$s."</string>
+    <string name="notice_room_canonical_alias_set_by_you">"You set the main address for this room to %1$s."</string>
+    <string name="notice_room_canonical_alias_unset">"%1$s removed the main address for this room."</string>
+    <string name="notice_room_canonical_alias_unset_by_you">"You removed the main address for this room."</string>
+
+    <plurals name="notice_room_canonical_alias_alternative_added">
+        <item quantity="one">%1$s added the alternative address %2$s for this room.</item>
+        <item quantity="other">%1$s added the alternative addresses %2$s for this room.</item>
+    </plurals>
+
+    <plurals name="notice_room_canonical_alias_alternative_added_by_you">
+        <item quantity="one">You added the alternative address %1$s for this room.</item>
+        <item quantity="other">You added the alternative addresses %1$s for this room.</item>
+    </plurals>
+
+    <plurals name="notice_room_canonical_alias_alternative_removed">
+        <item quantity="one">%1$s removed the alternative address %2$s for this room.</item>
+        <item quantity="other">%1$s removed the alternative addresses %2$s for this room.</item>
+    </plurals>
+
+    <plurals name="notice_room_canonical_alias_alternative_removed_by_you">
+        <item quantity="one">You removed the alternative address %1$s for this room.</item>
+        <item quantity="other">You removed the alternative addresses %1$s for this room.</item>
+    </plurals>
+    <string name="notice_room_canonical_alias_alternative_changed">%1$s changed the alternative addresses for this room.</string>
+    <string name="notice_room_canonical_alias_alternative_changed_by_you">You changed the alternative addresses for this room.</string>
+    <string name="notice_room_canonical_alias_main_and_alternative_changed">%1$s changed the main and alternative addresses for this room.</string>
+    <string name="notice_room_canonical_alias_main_and_alternative_changed_by_you">You changed the main and alternative addresses for this room.</string>
+    <string name="notice_room_canonical_alias_no_change">%1$s changed the addresses for this room.</string>
+    <string name="notice_room_canonical_alias_no_change_by_you">You changed the addresses for this room.</string>
+    <string name="notice_room_guest_access_can_join">"%1$s has allowed guests to join the room."</string>
+    <string name="notice_room_guest_access_can_join_by_you">"You have allowed guests to join the room."</string>
+    <string name="notice_direct_room_guest_access_can_join">"%1$s has allowed guests to join here."</string>
+    <string name="notice_direct_room_guest_access_can_join_by_you">"You have allowed guests to join here."</string>
+    <string name="notice_room_guest_access_forbidden">"%1$s has prevented guests from joining the room."</string>
+    <string name="notice_room_guest_access_forbidden_by_you">"You have prevented guests from joining the room."</string>
+    <string name="notice_direct_room_guest_access_forbidden">"%1$s has prevented guests from joining the room."</string>
+    <string name="notice_direct_room_guest_access_forbidden_by_you">"You have prevented guests from joining the room."</string>
+    <string name="notice_end_to_end_ok">%1$s turned on end-to-end encryption.</string>
+    <string name="notice_end_to_end_ok_by_you">You turned on end-to-end encryption.</string>
+    <string name="notice_end_to_end_unknown_algorithm">%1$s turned on end-to-end encryption (unrecognized algorithm %2$s).</string>
+    <string name="notice_end_to_end_unknown_algorithm_by_you">You turned on end-to-end encryption (unrecognized algorithm %1$s).</string>
+    <string name="notice_member_no_changes">"%1$s made no changes"</string>
+    <string name="notice_member_no_changes_by_you">"You made no changes"</string>
+    <string name="call_tile_you_declined_this_call">You declined this call</string>
+    <string name="call_tile_other_declined">%1$s declined this call</string>
+    <string name="room_join_rules_public">%1$s made the room public to whoever knows the link.</string>
+    <string name="room_join_rules_public_by_you">You made the room public to whoever knows the link.</string>
+    <string name="room_join_rules_invite">%1$s made the room invite only.</string>
+    <string name="room_join_rules_invite_by_you">You made the room invite only.</string>
+    <string name="direct_room_join_rules_invite">%1$s made this invite only.</string>
+    <string name="direct_room_join_rules_invite_by_you">You made this invite only.</string>
+    <string name="event_redacted_by_user_reason_with_reason">Event deleted by user, reason: %1$s</string>
+    <string name="event_redacted_by_admin_reason_with_reason">Event moderated by room admin, reason: %1$s</string>
+    <string name="event_redacted_by_user_reason">Event deleted by user</string>
+    <string name="event_redacted_by_admin_reason">Event moderated by room admin</string>
+    <string name="room_settings_read_history_entry_anyone">Anyone</string>
+    <string name="room_settings_read_history_entry_members_only_option_time_shared">Members only (since the point in time of selecting this option)</string>
+    <string name="room_settings_read_history_entry_members_only_invited">Members only (since they were invited)</string>
+    <string name="room_settings_read_history_entry_members_only_joined">Members only (since they joined)</string>
+    <string name="power_level_admin">Admin</string>
+    <string name="power_level_moderator">Moderator</string>
+    <string name="power_level_default">Default</string>
+    <string name="power_level_custom">Custom (%1$d)</string>
+    <string name="power_level_custom_no_value">Custom</string>
+
+
     <string-array name="report_categories">
         <item>@string/crude_language</item>
         <item>@string/copyright_violation</item>
