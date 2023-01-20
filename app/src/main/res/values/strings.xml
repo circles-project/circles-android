@@ -298,8 +298,9 @@
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
     <string name="configuring_workspace">Configuring workspace</string>
-    <string name="permission_denied">Permission denied</string>
-    <string name="enable_camera_permission_message">Seem like you denied this permission previously. In order to use this feature please grant Camera permission in settings.</string>
+    <string name="permission_denied_title_format">%s permission denied</string>
+    <string name="camera">Camera</string>
+    <string name="permission_denied_message_format">Seem like you denied %1$s permission previously. In order to use this feature please grant %2$s permission in settings.</string>
     <string name="open_settings">Open settings</string>
     <string name="repeat_password">Repeat password</string>
     <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>

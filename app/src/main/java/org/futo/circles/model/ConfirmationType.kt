@@ -18,11 +18,6 @@ enum class ConfirmationType(val titleRes: Int, val messageRes: Int, val positive
         R.string.log_out_message,
         R.string.log_out
     ),
-    PERMISSION_DENIED(
-        R.string.permission_denied,
-        R.string.enable_camera_permission_message,
-        R.string.open_settings
-    ),
     REMOVE_USER(
         R.string.remove_user,
         R.string.remove_user_message,
