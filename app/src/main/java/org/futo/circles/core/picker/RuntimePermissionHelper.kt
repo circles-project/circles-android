@@ -21,6 +21,10 @@ class RuntimePermissionHelper(
 
     fun runWithPermission(action: () -> Unit) {
         onGranted = action
+        handlePermissionRequest()
+    }
+
+    fun handlePermissionRequest() {
         if (isPermissionGranted()) onGranted?.invoke()
         else requestPermissionLauncher.launch(permission)
     }
