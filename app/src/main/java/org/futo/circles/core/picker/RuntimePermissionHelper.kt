@@ -1,6 +1,5 @@
 package org.futo.circles.core.picker
 
-import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,20 +11,23 @@ import androidx.fragment.app.Fragment
 import org.futo.circles.extensions.withConfirmation
 import org.futo.circles.model.ConfirmationType
 
-class CameraPermissionHelper(private val fragment: Fragment) {
+class RuntimePermissionHelper(
+    private val fragment: Fragment,
+    private val permission: String
+) {
 
     private var onGranted: (() -> Unit)? = null
 
-    fun runWithCameraPermission(action: () -> Unit) {
+    fun runWithPermission(action: () -> Unit) {
         onGranted = action
         when {
-            isCameraPermissionGranted() -> onGranted?.invoke()
+            isPermissionGranted() -> onGranted?.invoke()
             shouldShowCameraRationale() -> showPermissionDeny()
-            else -> requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            else -> requestPermissionLauncher.launch(permission)
         }
     }
 
-    private val requestCameraPermissionLauncher =
+    private val requestPermissionLauncher =
         fragment.registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (granted) onGranted?.invoke()
             else showPermissionDeny()
@@ -44,12 +46,10 @@ class CameraPermissionHelper(private val fragment: Fragment) {
     }
 
     private fun shouldShowCameraRationale() = ActivityCompat.shouldShowRequestPermissionRationale(
-        fragment.requireActivity(),
-        Manifest.permission.CAMERA
+        fragment.requireActivity(), permission
     )
 
-    private fun isCameraPermissionGranted() = ContextCompat.checkSelfPermission(
-        fragment.requireContext(),
-        Manifest.permission.CAMERA
+    private fun isPermissionGranted() = ContextCompat.checkSelfPermission(
+        fragment.requireContext(), permission
     ) == PackageManager.PERMISSION_GRANTED
 }
