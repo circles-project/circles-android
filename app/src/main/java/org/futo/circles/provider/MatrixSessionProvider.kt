@@ -15,7 +15,7 @@ object MatrixSessionProvider {
     fun initSession(context: Context) {
         Matrix(
             context = context, matrixConfiguration = MatrixConfiguration(
-                roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl(),
+                roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl(context),
                 threadMessagesEnabledDefault = false
             )
         ).also { MatrixInstanceProvider.saveMatrixInstance(it) }

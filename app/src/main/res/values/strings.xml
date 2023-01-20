@@ -620,6 +620,10 @@
     <string name="action_quick_reply">Quick reply</string>
     <string name="action_reject">Reject</string>
     <string name="action_join">Join</string>
+    <string name="name_for_room_invite">Room invite</string>
+    <string name="name_for_empty_room">Empty room</string>
+    <string name="and">and</string>
+    <string name="others">others</string>
 
 
     <string-array name="report_categories">
