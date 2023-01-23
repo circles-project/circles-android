@@ -628,7 +628,8 @@
     <string name="name_for_empty_room">Empty room</string>
     <string name="and">and</string>
     <string name="others">others</string>
-
+    <string name="notification_initial_sync">Initial Sync…</string>
+    <string name="notification_listening_for_notifications">Listening for notifications</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
