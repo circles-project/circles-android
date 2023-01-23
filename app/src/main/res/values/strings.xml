@@ -242,6 +242,7 @@
     <string name="notifications">Notifications</string>
     <string name="system_notices">System notices</string>
     <string name="push_notifications">Push notifications</string>
+    <string name="push_notifications_test">Push notifications test</string>
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
     <string name="confirm_auth">Confirm auth</string>

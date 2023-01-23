@@ -53,6 +53,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvClearCache.setOnClickListener { viewModel.clearCash() }
             lPushNotifications.setOnClickListener { openAppSettings() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
+            tvNotificationsTest.setOnClickListener { navigateToPushTest() }
+            tvNotificationsTest.setIsVisible(preferencesProvider.isDeveloperModeEnabled())
         }
         setVersion()
     }
@@ -133,6 +135,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun setVersion() {
         binding.tvVersion.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
+    }
+
+    private fun navigateToPushTest() {
+
     }
 
     private fun toggleDeveloperMode() {

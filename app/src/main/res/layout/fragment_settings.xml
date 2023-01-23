@@ -133,6 +133,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tvNotificationsTest"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/push_notifications_test"
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/ic_notifications"
+                tools:visibility="visible" />
+
+            <TextView
                 style="@style/settingMenuHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
