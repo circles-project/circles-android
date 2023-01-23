@@ -1,5 +1,6 @@
 package org.futo.circles.di.ui
 
+import org.futo.circles.feature.home.HomeViewModel
 import org.futo.circles.feature.log_in.LogInViewModel
 import org.futo.circles.feature.log_in.stages.LoginStagesViewModel
 import org.futo.circles.feature.log_in.stages.password.DirectLoginPasswordDataSource
@@ -29,6 +30,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val authUiModule = module {
+    viewModel { HomeViewModel() }
     viewModel { LogInViewModel(get(), get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { ValidateTokenViewModel(get()) }

@@ -1,4 +1,4 @@
-package org.futo.circles.feature.bottom_navigation
+package org.futo.circles.feature.home
 
 import android.Manifest
 import android.os.Build
@@ -18,8 +18,9 @@ import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setSupportActionBar
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
+class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
     private val binding by viewBinding(FragmentBottomNavigationBinding::bind)
 
@@ -27,6 +28,7 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
     private val notificationPermissionHelper =
         RuntimePermissionHelper(this, Manifest.permission.POST_NOTIFICATIONS)
 
+    private val viewModel by viewModel<HomeViewModel>()
     private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,8 +38,7 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
             setupToolBar(controller)
         }
         setupObservers()
-
-        if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) notificationPermissionHelper.handlePermissionRequest()
+        registerPushNotifications()
     }
 
     private fun setupObservers() {
@@ -48,6 +49,12 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
                 number = count
             }
         }
+    }
+
+    private fun registerPushNotifications() {
+        if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            notificationPermissionHelper.runWithPermission { viewModel.registerPushNotifications() }
+        else viewModel.registerPushNotifications()
     }
 
     private fun findChildNavController() =
