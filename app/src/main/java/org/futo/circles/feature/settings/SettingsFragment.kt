@@ -1,12 +1,9 @@
 package org.futo.circles.feature.settings
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -98,11 +95,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun updatePushNotificationStatus() {
-        val isPushNotificationsAllowed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            ContextCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
-        else true
+        val isPushNotificationsAllowed =
+            NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
         binding.tvPushNotificationsStatus.text =
             getString(if (isPushNotificationsAllowed) R.string.enabled else R.string.disabled)
     }
