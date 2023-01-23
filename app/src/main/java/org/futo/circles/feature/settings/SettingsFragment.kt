@@ -13,7 +13,7 @@ import org.futo.circles.R
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
-import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
+import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.model.ConfirmationType
 import org.futo.circles.provider.PreferencesProvider
 import org.koin.androidx.viewmodel.ext.android.activityViewModel

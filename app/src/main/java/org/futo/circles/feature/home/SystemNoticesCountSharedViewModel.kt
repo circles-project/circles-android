@@ -1,4 +1,4 @@
-package org.futo.circles.feature.bottom_navigation
+package org.futo.circles.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map

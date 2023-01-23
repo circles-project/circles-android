@@ -1,6 +1,6 @@
 package org.futo.circles.di.ui
 
-import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
+import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
 import org.futo.circles.feature.people.user.UserViewModel
 import org.futo.circles.feature.settings.SettingsViewModel
