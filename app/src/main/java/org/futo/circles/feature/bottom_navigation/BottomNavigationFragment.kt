@@ -37,7 +37,7 @@ class BottomNavigationFragment : Fragment(R.layout.fragment_bottom_navigation) {
         }
         setupObservers()
 
-        if (VERSION.SDK_INT >= 33) notificationPermissionHelper.handlePermissionRequest()
+        if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) notificationPermissionHelper.handlePermissionRequest()
     }
 
     private fun setupObservers() {
