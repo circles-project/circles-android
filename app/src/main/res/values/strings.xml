@@ -241,6 +241,9 @@
     <string name="passphrase">Passphrase</string>
     <string name="notifications">Notifications</string>
     <string name="system_notices">System notices</string>
+    <string name="push_notifications">Push notifications</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
     <string name="confirm_auth">Confirm auth</string>
     <string name="confirm">Confirm</string>
     <string name="enable_cross_signing">Enable Cross Signing</string>
