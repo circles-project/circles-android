@@ -2,15 +2,13 @@ package org.futo.circles.core.picker
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.futo.circles.R
+import org.futo.circles.extensions.openAppSettings
 
 class RuntimePermissionHelper(
     private val fragment: Fragment,
@@ -46,20 +44,12 @@ class RuntimePermissionHelper(
                 )
             )
             .setPositiveButton(R.string.open_settings) { dialogInterface, _ ->
-                openAppSettings()
+                fragment.openAppSettings()
                 dialogInterface.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialogInterface, _ ->
                 dialogInterface.dismiss()
             }.show()
-    }
-
-    private fun openAppSettings() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val uri = Uri.fromParts("package", fragment.requireContext().packageName, null)
-        intent.data = uri
-        fragment.requireActivity().startActivity(intent)
     }
 
     private fun isPermissionGranted() = ContextCompat.checkSelfPermission(

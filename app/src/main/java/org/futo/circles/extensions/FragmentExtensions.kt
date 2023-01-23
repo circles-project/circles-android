@@ -1,8 +1,10 @@
 package org.futo.circles.extensions
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -108,4 +110,12 @@ fun Fragment.withConfirmation(type: ConfirmationType, action: () -> Unit) {
         negativeButtonVisible = true,
         positiveAction = action
     )
+}
+
+fun Fragment.openAppSettings() {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    val uri = Uri.fromParts("package", requireContext().packageName, null)
+    intent.data = uri
+    requireActivity().startActivity(intent)
 }
