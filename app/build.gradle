@@ -83,6 +83,7 @@ dependencies {
     //Kotlin
     implementation "androidx.core:core-ktx:1.9.0"
     implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     //androidx lifecycle
     def lifecycle_version = "2.5.1"
