@@ -64,6 +64,38 @@
                 android:text="@string/notifications" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lPushNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/tvPushNotifications"
+                    style="@style/settingMenuItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/push_notifications"
+                    app:drawableStartCompat="@drawable/ic_notifications"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvPushNotificationsStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enabled"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvPushNotifications"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/lSystemNotices"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -183,8 +215,8 @@
                 style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Version"
-                app:drawableStartCompat="@drawable/ic_app_version" />
+                app:drawableStartCompat="@drawable/ic_app_version"
+                tools:text="Version" />
 
         </LinearLayout>
 
