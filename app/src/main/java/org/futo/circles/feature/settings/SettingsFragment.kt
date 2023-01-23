@@ -1,8 +1,12 @@
 package org.futo.circles.feature.settings
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -32,6 +36,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        updatePushNotificationStatus()
+    }
+
     private fun setupViews() {
         with(binding) {
             tvLogout.setOnClickListener { withConfirmation(ConfirmationType.LOG_OUT) { viewModel.logOut() } }
@@ -42,6 +51,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash() }
+            lPushNotifications.setOnClickListener { openAppSettings() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
         }
         setVersion()
@@ -83,6 +93,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         viewModel.clearCacheLiveData.observeData(this) {
             (activity as? MainActivity)?.restartForClearCache()
         }
+    }
+
+    private fun updatePushNotificationStatus() {
+        val isPushNotificationsAllowed = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        else true
+        binding.tvPushNotificationsStatus.text =
+            getString(if (isPushNotificationsAllowed) R.string.enabled else R.string.disabled)
     }
 
     private fun navigateToMatrixChangePassword() {
