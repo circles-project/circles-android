@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import org.futo.circles.R
-import org.futo.circles.feature.notifications.model.DiscoveryResponse
+import org.futo.circles.model.DiscoveryResponse
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.PreferencesProvider
 import org.matrix.android.sdk.api.cache.CacheStrategy

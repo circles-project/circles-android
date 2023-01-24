@@ -1,5 +1,5 @@
 
-package org.futo.circles.feature.notifications.model
+package org.futo.circles.model
 
 
 data class RoomEventGroupInfo(

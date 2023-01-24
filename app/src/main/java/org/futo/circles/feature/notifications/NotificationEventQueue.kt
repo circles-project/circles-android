@@ -1,9 +1,9 @@
 package org.futo.circles.feature.notifications
 
-import org.futo.circles.feature.notifications.model.InviteNotifiableEvent
-import org.futo.circles.feature.notifications.model.NotifiableEvent
-import org.futo.circles.feature.notifications.model.NotifiableMessageEvent
-import org.futo.circles.feature.notifications.model.SimpleNotifiableEvent
+import org.futo.circles.model.InviteNotifiableEvent
+import org.futo.circles.model.NotifiableEvent
+import org.futo.circles.model.NotifiableMessageEvent
+import org.futo.circles.model.SimpleNotifiableEvent
 
 data class NotificationEventQueue(
     private val queue: MutableList<NotifiableEvent>,

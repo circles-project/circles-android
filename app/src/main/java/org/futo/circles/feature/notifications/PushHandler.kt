@@ -5,8 +5,8 @@ import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.*
-import org.futo.circles.feature.notifications.model.NotifiableMessageEvent
-import org.futo.circles.feature.notifications.model.PushData
+import org.futo.circles.model.NotifiableMessageEvent
+import org.futo.circles.model.PushData
 import org.futo.circles.provider.MatrixSessionProvider
 import org.futo.circles.provider.PreferencesProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull

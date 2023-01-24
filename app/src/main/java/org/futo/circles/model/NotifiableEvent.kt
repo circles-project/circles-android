@@ -1,4 +1,4 @@
-package org.futo.circles.feature.notifications.model
+package org.futo.circles.model
 
 import java.io.Serializable
 

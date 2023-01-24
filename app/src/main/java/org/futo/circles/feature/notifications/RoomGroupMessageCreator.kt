@@ -5,9 +5,9 @@ import android.graphics.Bitmap
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
 import org.futo.circles.R
-import org.futo.circles.feature.notifications.model.NotifiableMessageEvent
-import org.futo.circles.feature.notifications.model.RoomEventGroupInfo
-import org.futo.circles.feature.notifications.model.RoomNotification
+import org.futo.circles.model.NotifiableMessageEvent
+import org.futo.circles.model.RoomEventGroupInfo
+import org.futo.circles.model.RoomNotification
 
 class RoomGroupMessageCreator(
     private val context: Context,

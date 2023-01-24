@@ -1,6 +1,6 @@
 package org.futo.circles.feature.notifications
 
-import org.futo.circles.feature.notifications.model.NotifiableEvent
+import org.futo.circles.model.NotifiableEvent
 
 class NotificationState(
         private val queuedEvents: NotificationEventQueue,

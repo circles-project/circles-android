@@ -3,8 +3,8 @@ package org.futo.circles.feature.notifications
 import android.content.Context
 import android.net.Uri
 import org.futo.circles.R
-import org.futo.circles.feature.notifications.model.*
 import org.futo.circles.mapping.notEmptyDisplayName
+import org.futo.circles.model.*
 import org.matrix.android.sdk.api.extensions.orFalse
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver

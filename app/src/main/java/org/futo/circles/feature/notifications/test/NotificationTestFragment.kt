@@ -6,8 +6,7 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.FragmentNotificationsTestBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NotificationTestFragment :
-    BaseFullscreenDialogFragment(FragmentNotificationsTestBinding::inflate) {
+class NotificationTestFragment : BaseFullscreenDialogFragment(FragmentNotificationsTestBinding::inflate) {
 
     private val viewModel by viewModel<NotificationTestViewModel>()
 

@@ -1,10 +1,10 @@
 package org.futo.circles.feature.notifications
 
 import com.google.gson.Gson
-import org.futo.circles.feature.notifications.model.PushData
-import org.futo.circles.feature.notifications.model.PushDataFcm
-import org.futo.circles.feature.notifications.model.PushDataUnifiedPush
-import org.futo.circles.feature.notifications.model.toPushData
+import org.futo.circles.model.PushData
+import org.futo.circles.model.PushDataFcm
+import org.futo.circles.model.PushDataUnifiedPush
+import org.futo.circles.model.toPushData
 import org.matrix.android.sdk.api.extensions.tryOrNull
 
 

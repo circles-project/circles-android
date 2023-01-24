@@ -1,15 +1,14 @@
 package org.futo.circles.feature.notifications
 
 import com.google.gson.annotations.SerializedName
-import org.futo.circles.feature.notifications.model.NotifiableEvent
-import org.futo.circles.feature.notifications.model.NotifiableMessageEvent
+import org.futo.circles.model.NotifiableEvent
+import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.Content
 import org.matrix.android.sdk.api.session.events.model.isVoiceMessage
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
-import org.matrix.android.sdk.api.session.room.model.message.MessageAudioContent
 import org.matrix.android.sdk.api.session.room.model.message.MessageAudioEvent
 import org.matrix.android.sdk.api.session.room.model.message.asMessageAudioEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent

@@ -4,8 +4,8 @@ import android.app.Notification
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import org.futo.circles.R
-import org.futo.circles.feature.notifications.model.OneShotNotification
-import org.futo.circles.feature.notifications.model.RoomNotification
+import org.futo.circles.model.OneShotNotification
+import org.futo.circles.model.RoomNotification
 
 
 class SummaryGroupMessageCreator(

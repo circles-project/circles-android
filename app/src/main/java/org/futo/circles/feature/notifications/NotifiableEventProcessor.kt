@@ -2,7 +2,7 @@ package org.futo.circles.feature.notifications
 
 import org.futo.circles.feature.notifications.ProcessedEvent.Type.KEEP
 import org.futo.circles.feature.notifications.ProcessedEvent.Type.REMOVE
-import org.futo.circles.feature.notifications.model.*
+import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.getRoom

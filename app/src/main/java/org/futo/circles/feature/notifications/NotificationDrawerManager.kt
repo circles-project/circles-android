@@ -5,9 +5,9 @@ import android.os.Handler
 import android.os.HandlerThread
 import androidx.annotation.WorkerThread
 import org.futo.circles.R
-import org.futo.circles.feature.notifications.model.NotifiableEvent
-import org.futo.circles.feature.notifications.model.NotifiableMessageEvent
-import org.futo.circles.feature.notifications.model.shouldIgnoreMessageEventInRoom
+import org.futo.circles.model.NotifiableEvent
+import org.futo.circles.model.NotifiableMessageEvent
+import org.futo.circles.model.shouldIgnoreMessageEventInRoom
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.provider.MatrixSessionProvider
 import org.futo.circles.provider.PreferencesProvider

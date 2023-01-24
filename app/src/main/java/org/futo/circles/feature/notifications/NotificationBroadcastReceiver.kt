@@ -7,7 +7,7 @@ import androidx.core.app.RemoteInput
 import kotlinx.coroutines.launch
 import org.futo.circles.R
 import org.futo.circles.extensions.coroutineScope
-import org.futo.circles.feature.notifications.model.NotifiableMessageEvent
+import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session

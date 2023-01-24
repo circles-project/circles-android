@@ -21,9 +21,9 @@ import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import org.futo.circles.MainActivity
 import org.futo.circles.R
-import org.futo.circles.feature.notifications.model.InviteNotifiableEvent
-import org.futo.circles.feature.notifications.model.RoomEventGroupInfo
-import org.futo.circles.feature.notifications.model.SimpleNotifiableEvent
+import org.futo.circles.model.InviteNotifiableEvent
+import org.futo.circles.model.RoomEventGroupInfo
+import org.futo.circles.model.SimpleNotifiableEvent
 import kotlin.random.Random
 
 //TODO singleton
