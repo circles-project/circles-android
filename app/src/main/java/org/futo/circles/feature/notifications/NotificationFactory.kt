@@ -1,6 +1,5 @@
 package org.futo.circles.feature.notifications
 
-import org.futo.circles.feature.notifications.model.*
 import org.futo.circles.model.*
 
 private typealias ProcessedMessageEvents = List<ProcessedEvent<NotifiableMessageEvent>>

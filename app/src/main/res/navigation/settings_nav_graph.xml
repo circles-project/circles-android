@@ -112,7 +112,7 @@
 
     <dialog
         android:id="@+id/notificationTestFragment"
-        android:name="org.futo.circles.feature.notifications.test.NotificationTestFragment"
-        tools:layout="@layout/fragment_notifications_test" />
+        android:name="org.futo.circles.feature.notifications.test.NotificationTestDialogFragment"
+        tools:layout="@layout/dialog_fragment_notifications_test" />
 
 </navigation>
