@@ -41,6 +41,9 @@
         <action
             android:id="@+id/to_reAuthStagesDialogFragment"
             app:destination="@id/reAuthStagesDialogFragment" />
+        <action
+            android:id="@+id/to_notificationTestFragment"
+            app:destination="@id/notificationTestFragment" />
     </fragment>
 
     <dialog
@@ -105,6 +108,11 @@
     <dialog
         android:id="@+id/reAuthStagesDialogFragment"
         android:name="org.futo.circles.feature.reauth.ReAuthStagesDialogFragment"
-        tools:layout="@layout/fragment_login_stages"/>
+        tools:layout="@layout/fragment_login_stages" />
+
+    <dialog
+        android:id="@+id/notificationTestFragment"
+        android:name="org.futo.circles.feature.notifications.test.NotificationTestFragment"
+        tools:layout="@layout/fragment_notifications_test" />
 
 </navigation>

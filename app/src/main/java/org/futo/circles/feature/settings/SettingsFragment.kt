@@ -132,7 +132,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun navigateToPushTest() {
-
+        findNavController().navigate(SettingsFragmentDirections.toSystemNoticesDialogFragment())
     }
 
     private fun toggleDeveloperMode() {
