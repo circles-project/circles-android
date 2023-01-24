@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.view.Gravity
 import android.view.View
@@ -118,4 +119,14 @@ fun Fragment.openAppSettings() {
     val uri = Uri.fromParts("package", requireContext().packageName, null)
     intent.data = uri
     requireActivity().startActivity(intent)
+}
+
+fun Fragment.openNotificationSettings() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val intent = Intent().apply {
+            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+        }
+        requireActivity().startActivity(intent)
+    } else openAppSettings()
 }

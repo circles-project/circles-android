@@ -48,7 +48,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash() }
-            lPushNotifications.setOnClickListener { openAppSettings() }
+            lPushNotifications.setOnClickListener { openNotificationSettings() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvNotificationsTest.setOnClickListener { navigateToPushTest() }
             tvNotificationsTest.setIsVisible(preferencesProvider.isDeveloperModeEnabled())
