@@ -125,7 +125,7 @@ fun Fragment.openNotificationSettings() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val intent = Intent().apply {
             action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-            putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+            putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
         }
         requireActivity().startActivity(intent)
     } else openAppSettings()
