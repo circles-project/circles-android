@@ -630,6 +630,103 @@
     <string name="others">others</string>
     <string name="notification_initial_sync">Initial Sync…</string>
     <string name="notification_listening_for_notifications">Listening for notifications</string>
+    <string name="settings_troubleshoot_diagnostic">Troubleshooting diagnostics</string>
+    <string name="settings_troubleshoot_diagnostic_run_button_title">Run Tests</string>
+    <string name="settings_troubleshoot_diagnostic_running_status">Running… (%1$d of %2$d)</string>
+    <string name="settings_troubleshoot_diagnostic_success_status">Basic diagnostic is OK. If you still do not receive notifications, please submit a bug report to help us investigate.</string>
+    <string name="settings_troubleshoot_diagnostic_failure_status_with_quickfix">One or more tests have failed, try suggested fix(es).</string>
+    <string name="settings_troubleshoot_diagnostic_failure_status_no_quickfix">One or more tests have failed, please submit a bug report to help us investigate.</string>
+
+    <string name="settings_troubleshoot_test_system_settings_title">System Settings.</string>
+    <string name="settings_troubleshoot_test_system_settings_success">Notifications are enabled in the system settings.</string>
+    <string name="settings_troubleshoot_test_system_settings_failed">Notifications are disabled in the system settings.\nPlease check system settings.</string>
+    <string name="settings_troubleshoot_test_system_settings_permission_failed">${app_name} needs the permission to show notifications.\nPlease grant the permission.</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="grant_permission">Grant Permission</string>
+
+    <string name="settings_troubleshoot_test_account_settings_title">Account Settings.</string>
+    <string name="settings_troubleshoot_test_account_settings_success">Notifications are enabled for your account.</string>
+    <string name="settings_troubleshoot_test_account_settings_failed">Notifications are disabled for your account.\nPlease check account settings.</string>
+    <string name="settings_troubleshoot_test_account_settings_quickfix">Enable</string>
+
+    <string name="settings_troubleshoot_test_device_settings_title">Session Settings.</string>
+    <string name="settings_troubleshoot_test_device_settings_success">Notifications are enabled for this session.</string>
+    <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
+    <string name="settings_troubleshoot_test_device_settings_failed">Notifications are not enabled for this session.\nPlease check the ${app_name} settings.</string>
+    <string name="settings_troubleshoot_test_device_settings_quickfix">Enable</string>
+
+    <string name="settings_troubleshoot_test_bing_settings_title">Custom Settings.</string>
+    <string name="settings_troubleshoot_test_bing_settings_success_with_warn">Notice that some messages type are set to be silent (will produce a notification with no sound).</string>
+    <string name="settings_troubleshoot_test_bing_settings_failed">Some notifications are disabled in your custom settings.</string>
+
+    <string name="settings_troubleshoot_test_play_services_title">Play Services Check</string>
+    <string name="settings_troubleshoot_test_play_services_success">Google Play Services APK is available and up-to-date.</string>
+    <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
+    <string name="settings_troubleshoot_test_play_services_failed">${app_name} uses Google Play Services to deliver push messages but it doesn’t seem to be configured correctly:\n%1$s</string>
+    <string name="settings_troubleshoot_test_play_services_quickfix">Fix Play Services</string>
+
+    <string name="settings_troubleshoot_test_fcm_title">Firebase Token</string>
+    <string name="settings_troubleshoot_test_fcm_success">FCM token successfully retrieved:\n%1$s</string>
+    <string name="settings_troubleshoot_test_fcm_failed">Failed to retrieved FCM token:\n%1$s</string>
+    <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
+    <string name="settings_troubleshoot_test_fcm_failed_too_many_registration">[%1$s]\nThis error is out of control of ${app_name} and according to Google, this error indicates that the device has too many apps registered with FCM. The error only occurs in cases where there are extreme numbers of apps, so it should not affect the average user.</string>
+    <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
+    <string name="settings_troubleshoot_test_fcm_failed_service_not_available">[%1$s]\nThis error is out of control of ${app_name}. It can occur for several reasons. Maybe it will work if you retry later, you can also check that Google Play Service is not restricted in data usage in the system settings, or that your device clock is correct, or it can happen on custom ROM.</string>
+    <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
+    <string name="settings_troubleshoot_test_fcm_failed_account_missing">[%1$s]\nThis error is out of control of ${app_name}. There is no Google account on the phone. Please open the account manager and add a Google account.</string>
+    <string name="settings_troubleshoot_test_fcm_failed_account_missing_quick_fix">Add Account</string>
+
+    <string name="settings_troubleshoot_test_token_registration_title">Token Registration</string>
+    <string name="settings_troubleshoot_test_token_registration_success">FCM token successfully registered to homeserver.</string>
+    <string name="settings_troubleshoot_test_token_registration_failed">Failed to register FCM token to homeserver:\n%1$s</string>
+
+    <string name="settings_troubleshoot_test_endpoint_registration_title">Endpoint Registration</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_success">Endpoint successfully registered to homeserver.</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_failed">Failed to register endpoint token to homeserver:\n%1$s</string>
+
+    <string name="settings_troubleshoot_test_push_loop_title">Test Push</string>
+    <string name="settings_troubleshoot_test_push_loop_waiting_for_push">The application is waiting for the PUSH</string>
+    <string name="settings_troubleshoot_test_push_loop_success">The application is receiving PUSH</string>
+    <string name="settings_troubleshoot_test_push_loop_failed">Failed to receive push. Solution could be to reinstall the application.</string>
+    <string name="settings_troubleshoot_test_push_notification_content">You are viewing the notification! Click me!</string>
+    <string name="settings_troubleshoot_test_notification_title">Notification Display</string>
+    <string name="settings_troubleshoot_test_notification_notice">Please click on the notification. If you do not see the notification, please check the system settings.</string>
+    <string name="settings_troubleshoot_test_notification_notification_clicked">The notification has been clicked!</string>
+
+    <string name="settings_troubleshoot_test_service_boot_title">Start on boot</string>
+    <string name="settings_troubleshoot_test_service_boot_success">Service will start when the device is restarted.</string>
+    <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
+    <string name="settings_troubleshoot_test_service_boot_failed">The service will not start when the device is restarted, you will not receive notifications until ${app_name} has been opened once.</string>
+    <string name="settings_troubleshoot_test_service_boot_quickfix">Enable Start on boot</string>
+
+    <string name="settings_troubleshoot_test_bg_restricted_title">Check background restrictions</string>
+    <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
+    <string name="settings_troubleshoot_test_bg_restricted_success">Background restrictions are disabled for ${app_name}. This test should be run using mobile data (no WIFI).\n%1$s</string>
+    <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
+    <string name="settings_troubleshoot_test_bg_restricted_failed">Background restrictions are enabled for ${app_name}.\nWork that the app tries to do will be aggressively restricted while it is in the background, and this could affect notifications.\n%1$s</string>
+    <string name="settings_troubleshoot_test_bg_restricted_quickfix">Disable restrictions</string>
+
+    <string name="settings_troubleshoot_test_battery_title">Battery Optimization</string>
+    <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
+    <string name="settings_troubleshoot_test_battery_success">${app_name} is not affected by Battery Optimization.</string>
+    <string name="settings_troubleshoot_test_battery_failed">If a user leaves a device unplugged and stationary for a period of time, with the screen off, the device enters Doze mode. This prevents apps from accessing the network and defers their jobs, syncs, and standard alarms. </string>
+    <string name="settings_troubleshoot_test_battery_quickfix">Ignore Optimization</string>
+    <string name="settings_troubleshoot_test_distributors_title">Available methods</string>
+    <string name="settings_troubleshoot_test_distributors_gplay">No other method than Google Play Service found.</string>
+    <string name="settings_troubleshoot_test_distributors_fdroid">No other method than background synchronization found.</string>
+    <plurals name="settings_troubleshoot_test_distributors_many">
+        <item quantity="one">Found %d method.</item>
+        <item quantity="other">Found %d methods.</item>
+    </plurals>
+    <string name="settings_troubleshoot_test_current_distributor_title">Method</string>
+    <string name="settings_troubleshoot_test_current_distributor">Currently using %s.</string>
+    <string name="settings_troubleshoot_test_current_endpoint_title">Endpoint</string>
+    <string name="settings_troubleshoot_test_current_endpoint_success">Current endpoint: %s</string>
+    <string name="settings_troubleshoot_test_current_endpoint_failed">Cannot find the endpoint.</string>
+    <string name="settings_troubleshoot_test_current_gateway_title">Gateway</string>
+    <string name="settings_troubleshoot_test_current_gateway">Current gateway: %s</string>
+    <string name="unifiedpush_distributor_fcm_fallback">Google Services</string>
+    <string name="unifiedpush_distributor_background_sync">Background synchronization</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
