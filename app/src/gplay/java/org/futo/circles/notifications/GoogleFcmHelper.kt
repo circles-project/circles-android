@@ -1,4 +1,4 @@
-package org.futo.circles.subscriptions.notifications
+package org.futo.circles.notifications
 
 import android.content.Context
 import android.widget.Toast

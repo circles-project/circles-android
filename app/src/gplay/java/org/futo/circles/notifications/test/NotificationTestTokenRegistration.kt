@@ -1,8 +1,9 @@
-package org.futo.circles.feature.notifications.test.task
+package org.futo.circles.notifications.test
 
 import androidx.fragment.app.FragmentActivity
 import org.futo.circles.R
 import org.futo.circles.feature.notifications.FcmHelper
+import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
 import org.futo.circles.model.NotificationTestStatus
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.pushers.PusherState

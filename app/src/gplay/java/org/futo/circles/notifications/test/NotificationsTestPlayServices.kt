@@ -1,9 +1,10 @@
-package org.futo.circles.feature.notifications.test.task
+package org.futo.circles.notifications.test
 
 import android.content.Context
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import org.futo.circles.R
+import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
 import org.futo.circles.model.NotificationTestStatus
 
 class NotificationsTestPlayServices(
