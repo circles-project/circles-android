@@ -31,7 +31,7 @@ class NotificationTestViewHolder(
                     ivTestStatus.visible()
                     testProgress.gone()
                     ivTestStatus.setImageResource(
-                        if (data.status == NotificationTestStatus.FAILURE) R.drawable.ic_error
+                        if (data.status == NotificationTestStatus.FAILED) R.drawable.ic_error
                         else R.drawable.ic_check_circle
                     )
                 }

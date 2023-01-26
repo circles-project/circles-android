@@ -641,7 +641,6 @@
     <string name="settings_troubleshoot_test_system_settings_success">Notifications are enabled in the system settings.</string>
     <string name="settings_troubleshoot_test_system_settings_failed">Notifications are disabled in the system settings.\nPlease check system settings.</string>
     <string name="settings_troubleshoot_test_system_settings_permission_failed">${app_name} needs the permission to show notifications.\nPlease grant the permission.</string>
-    <string name="open_settings">Open Settings</string>
     <string name="grant_permission">Grant Permission</string>
 
     <string name="settings_troubleshoot_test_account_settings_title">Account Settings.</string>
