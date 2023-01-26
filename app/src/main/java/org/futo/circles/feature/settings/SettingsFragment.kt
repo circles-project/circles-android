@@ -51,9 +51,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             lPushNotifications.setOnClickListener { openNotificationSettings() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvNotificationsTest.setOnClickListener { navigateToPushTest() }
-            tvNotificationsTest.setIsVisible(preferencesProvider.isDeveloperModeEnabled())
         }
         setVersion()
+        updateSettingsItemsVisibility()
     }
 
     private fun setupObservers() {
@@ -141,5 +141,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val messageId = if (isEnabled) R.string.developer_mode_disabled
         else R.string.developer_mode_enabled
         Toast.makeText(requireContext(), getString(messageId), Toast.LENGTH_LONG).show()
+        updateSettingsItemsVisibility()
+    }
+
+    private fun updateSettingsItemsVisibility() {
+        binding.tvNotificationsTest.setIsVisible(preferencesProvider.isDeveloperModeEnabled())
     }
 }
