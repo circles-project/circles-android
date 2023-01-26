@@ -105,6 +105,10 @@
             tools:ignore="Instantiatable" />
 
         <receiver
+            android:name=".feature.notifications.test.task.TestNotificationReceiver"
+            android:exported="false" />
+
+        <receiver
             android:name=".feature.notifications.NotificationBroadcastReceiver"
             android:enabled="true"
             android:exported="false" />
