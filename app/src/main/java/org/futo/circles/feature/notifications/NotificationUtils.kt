@@ -2,6 +2,7 @@
 
 package org.futo.circles.feature.notifications
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,18 +10,22 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import org.futo.circles.MainActivity
 import org.futo.circles.R
+import org.futo.circles.feature.notifications.test.task.TestNotificationReceiver
 import org.futo.circles.model.InviteNotifiableEvent
 import org.futo.circles.model.RoomEventGroupInfo
 import org.futo.circles.model.SimpleNotifiableEvent
@@ -356,6 +361,44 @@ class NotificationUtils(
                 setAutoCancel(true)
             }
             .build()
+    }
+
+    @SuppressLint("LaunchActivityFromNotification", "MissingPermission")
+    fun displayDiagnosticNotification() {
+        val testActionIntent = Intent(context, TestNotificationReceiver::class.java)
+        testActionIntent.action = actionIds.diagnostic
+        val testPendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            testActionIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
+        )
+
+        notificationManager.notify(
+            "DIAGNOSTIC",
+            888,
+            NotificationCompat.Builder(context, NOISY_NOTIFICATION_CHANNEL_ID)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(context.getString(R.string.settings_troubleshoot_test_push_notification_content))
+                .setSmallIcon(R.drawable.ic_check)
+                .setLargeIcon(getBitmap(context, R.mipmap.ic_launcher))
+                .setColor(ContextCompat.getColor(context, R.color.blue))
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_STATUS)
+                .setAutoCancel(true)
+                .setContentIntent(testPendingIntent)
+                .build()
+        )
+    }
+
+    private fun getBitmap(context: Context, @DrawableRes drawableRes: Int): Bitmap? {
+        val drawable = ResourcesCompat.getDrawable(context.resources, drawableRes, null) ?: return null
+        val canvas = Canvas()
+        val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        canvas.setBitmap(bitmap)
+        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        drawable.draw(canvas)
+        return bitmap
     }
 
     fun buildSimpleEventNotification(
