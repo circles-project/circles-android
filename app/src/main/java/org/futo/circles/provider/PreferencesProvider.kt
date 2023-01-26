@@ -75,6 +75,16 @@ class PreferencesProvider(
         }
     }
 
+    fun getFcmToken(): String? {
+        return getSharedPreferences().getString(FCM_TOKEN, null)
+    }
+
+    fun storeFcmToken(token: String?) {
+        getSharedPreferences().edit {
+            putString(FCM_TOKEN, token)
+        }
+    }
+
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
@@ -84,5 +94,6 @@ class PreferencesProvider(
         private const val ARE_NOTIFICATIONS_ENABLED = "are_notifications_enabled"
         private const val PUSH_COUNT = "push_count"
         private const val USE_COMPLETE_NOTIFICATION_FORMAT = "use_complete_notification_format"
+        private const val FCM_TOKEN = "fcm_token"
     }
 }
