@@ -12,8 +12,20 @@ import kotlin.math.abs
 private const val DEFAULT_PUSHER_FILE_TAG = "mobile"
 
 class PushersManager(
-    private val context: Context
+    private val context: Context,
+    private val unifiedPushHelper: UnifiedPushHelper
 ) {
+
+    suspend fun testPush() {
+        val currentSession = MatrixSessionProvider.currentSession ?: return
+
+        currentSession.pushersService().testPush(
+            unifiedPushHelper.getPushGateway() ?: return,
+            BuildConfig.APPLICATION_ID,
+            unifiedPushHelper.getEndpointOrToken().orEmpty(),
+            TEST_EVENT_ID
+        )
+    }
 
     fun enqueueRegisterPusherWithFcmKey(pushKey: String): UUID {
         return enqueueRegisterPusher(pushKey, context.getString(R.string.pusher_http_url))
@@ -49,5 +61,9 @@ class PushersManager(
     suspend fun unregisterPusher(pushKey: String) {
         val currentSession = MatrixSessionProvider.currentSession ?: return
         currentSession.pushersService().removeHttpPusher(pushKey, BuildConfig.APPLICATION_ID)
+    }
+
+    companion object {
+        const val TEST_EVENT_ID = "\$THIS_IS_A_FAKE_EVENT_ID"
     }
 }
