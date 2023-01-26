@@ -9,7 +9,8 @@ private val dataSourceModules = listOf(
     settingsDSModule,
     roomDSModule,
     timelineDsModule,
-    notificationsDsModule
+    notificationsDsModule,
+    flavourModule
 )
 
 private val uiModules = listOf(
