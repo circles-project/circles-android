@@ -8,9 +8,11 @@ import org.futo.circles.feature.settings.SettingsDataSource
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsDataSource
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
 import org.futo.circles.feature.sign_up.username.UsernameDataSource
+import org.futo.circles.provider.PreferencesProvider
 import org.koin.dsl.module
 
 val settingsDSModule = module {
+    factory { PreferencesProvider(get()) }
     factory { SwitchUserDataSource() }
     factory { SettingsDataSource(get(), get(), get()) }
     factory { CreatePassPhraseDataSource(get()) }
