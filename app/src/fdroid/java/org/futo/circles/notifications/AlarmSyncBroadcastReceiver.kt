@@ -1,4 +1,4 @@
-package org.futo.circles.feature.notifications
+package org.futo.circles.notifications
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -8,6 +8,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import org.futo.circles.feature.notifications.CirclesSyncAndroidService
+import org.futo.circles.feature.notifications.PendingIntentCompat
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.sync.job.SyncAndroidService
 

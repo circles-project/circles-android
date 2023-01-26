@@ -1,8 +1,6 @@
 package org.futo.circles.notifications
 
 import android.content.Context
-import org.futo.circles.feature.notifications.AlarmSyncBroadcastReceiver
-import org.futo.circles.feature.notifications.BackgroundSyncStarter
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.provider.MatrixSessionProvider

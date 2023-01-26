@@ -1,6 +1,7 @@
-package org.futo.circles.feature.notifications
+package org.futo.circles.notifications
 
 import android.content.Context
+import org.futo.circles.feature.notifications.BackgroundSyncMode
 import org.futo.circles.provider.MatrixSessionProvider
 import org.futo.circles.provider.PreferencesProvider
 
