@@ -1,10 +1,11 @@
-package org.futo.circles.feature.notifications.test.task
+package org.futo.circles.notifications.test
 
 import android.content.Context
 import android.net.ConnectivityManager
 import androidx.core.content.getSystemService
 import androidx.core.net.ConnectivityManagerCompat
 import org.futo.circles.R
+import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
 import org.futo.circles.model.NotificationTestStatus
 
 class NotificationsBackgroundRestrictionsTest(
