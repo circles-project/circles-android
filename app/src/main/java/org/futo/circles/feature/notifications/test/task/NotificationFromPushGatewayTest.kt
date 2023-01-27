@@ -2,7 +2,6 @@ package org.futo.circles.feature.notifications.test.task
 
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.futo.circles.R
@@ -18,41 +17,35 @@ class NotificationFromPushGatewayTest(
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_push_loop_title),
     TestPushDisplayEvenReceiver {
 
-    private var action: Job? = null
     private var pushReceived: Boolean = false
 
     override fun perform() {
         pushReceived = false
-        action = MatrixSessionProvider.currentSession?.coroutineScope?.launch {
+        MatrixSessionProvider.currentSession?.coroutineScope?.launch {
             val result = runCatching { pushersManager.testPush() }
 
             withContext(Dispatchers.Main) {
-                status = result
-                    .fold(
-                        {
-                            if (pushReceived) {
-                                // Push already received (race condition)
-                                description =
-                                    context.getString(R.string.settings_troubleshoot_test_push_loop_success)
-                                NotificationTestStatus.SUCCESS
-                            } else {
-                                // Wait for the push to be received
-                                description =
-                                    context.getString(R.string.settings_troubleshoot_test_push_loop_waiting_for_push)
-                                NotificationTestStatus.RUNNING
-                            }
-                        },
-                        {
-                            description = ErrorParser.getErrorMessage(it)
-                            NotificationTestStatus.FAILED
+                result.fold(
+                    {
+                        if (pushReceived) {
+                            description =
+                                context.getString(R.string.settings_troubleshoot_test_push_loop_success)
+                            status = NotificationTestStatus.SUCCESS
+                        } else {
+                            description =
+                                context.getString(R.string.settings_troubleshoot_test_push_loop_waiting_for_push)
+                            status = NotificationTestStatus.RUNNING
                         }
-                    )
+                        updateTestInfo()
+                    },
+                    {
+                        description = ErrorParser.getErrorMessage(it)
+                        status = NotificationTestStatus.FAILED
+                        updateTestInfo()
+                    }
+                )
             }
         }
-    }
-
-    fun cancel() {
-        action?.cancel()
     }
 
     override fun onTestPushDisplayed() {
