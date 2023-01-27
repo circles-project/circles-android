@@ -1,13 +1,7 @@
 package org.futo.circles.feature.notifications.test.task
 
 import android.content.Context
-import androidx.fragment.app.FragmentActivity
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
-import kotlinx.coroutines.launch
 import org.futo.circles.R
-import org.futo.circles.extensions.coroutineScope
-import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.UnifiedPushHelper
 import org.futo.circles.model.NotificationTestStatus
 import org.futo.circles.provider.MatrixSessionProvider
@@ -39,7 +33,8 @@ class NotificationsEndpointAsTokenRegistrationTest(
             )
             status = NotificationTestStatus.FAILED
         } else {
-            description = context.getString(R.string.settings_troubleshoot_test_endpoint_registration_success)
+            description =
+                context.getString(R.string.settings_troubleshoot_test_endpoint_registration_success)
             status = NotificationTestStatus.SUCCESS
         }
     }

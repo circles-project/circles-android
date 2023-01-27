@@ -15,7 +15,8 @@ import org.futo.circles.provider.MatrixSessionProvider
 class NotificationFromPushGatewayTest(
     private val context: Context,
     private val pushersManager: PushersManager
-) : BaseNotificationTest(R.string.settings_troubleshoot_test_push_loop_title) {
+) : BaseNotificationTest(R.string.settings_troubleshoot_test_push_loop_title),
+    TestPushDisplayEvenReceiver {
 
     private var action: Job? = null
     private var pushReceived: Boolean = false
@@ -50,14 +51,15 @@ class NotificationFromPushGatewayTest(
         }
     }
 
-    fun onPushReceived() {
+    fun cancel() {
+        action?.cancel()
+    }
+
+    override fun onTestPushDisplayed() {
         pushReceived = true
         description =
             context.getString(R.string.settings_troubleshoot_test_push_loop_success)
         status = NotificationTestStatus.SUCCESS
-    }
-
-    fun cancel() {
-        action?.cancel()
+        updateTestInfo()
     }
 }

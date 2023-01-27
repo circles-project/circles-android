@@ -10,7 +10,7 @@ class NotificationTestSend(
     private val context: Context,
     private val notificationUtils: NotificationUtils
 ) :
-    BaseNotificationTest(R.string.settings_troubleshoot_test_notification_title) {
+    BaseNotificationTest(R.string.settings_troubleshoot_test_notification_title), TestPushClicker {
 
     override fun perform() {
         notificationUtils.displayDiagnosticNotification()
@@ -19,10 +19,11 @@ class NotificationTestSend(
         status = NotificationTestStatus.IDLE
     }
 
-    fun onNotificationClicked() {
+    override fun onTestPushClicked() {
         description =
             context.getString(R.string.settings_troubleshoot_test_notification_notification_clicked)
         quickFix = null
         status = NotificationTestStatus.SUCCESS
+        updateTestInfo()
     }
 }
