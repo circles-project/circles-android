@@ -1,9 +1,12 @@
 package org.futo.circles.feature.notifications
 
+import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.model.PushData
@@ -15,6 +18,7 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 
 class PushHandler(
+    private val context: Context,
     private val notificationDrawerManager: NotificationDrawerManager,
     private val notifiableEventResolver: NotifiableEventResolver,
     private val preferencesProvider: PreferencesProvider,
@@ -28,6 +32,12 @@ class PushHandler(
     fun handle(pushData: PushData) {
         runBlocking { preferencesProvider.incrementPushCounter() }
 
+        if (pushData.eventId == PushersManager.TEST_EVENT_ID) {
+            val intent = Intent(NotificationActionIds.push)
+            LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+            return
+        }
+
         if (!preferencesProvider.areNotificationEnabledForDevice()) return
 
         mUIHandler.post {
@@ -36,7 +46,6 @@ class PushHandler(
         }
     }
 
-    //TODO activeSessionHolder.getOrInitializeSession(startSync = false)
     private suspend fun handleInternal(pushData: PushData) {
         try {
             val session = MatrixSessionProvider.currentSession ?: return
@@ -53,17 +62,19 @@ class PushHandler(
         pushData.eventId ?: return
 
         if (wifiDetector.isConnectedToWifi().not()) return
-        val event = tryOrNull { session.eventService().getEvent(pushData.roomId, pushData.eventId) } ?: return
+        val event = tryOrNull { session.eventService().getEvent(pushData.roomId, pushData.eventId) }
+            ?: return
 
-        val resolvedEvent = notifiableEventResolver.resolveInMemoryEvent(session, event, canBeReplaced = true)
+        val resolvedEvent =
+            notifiableEventResolver.resolveInMemoryEvent(session, event, canBeReplaced = true)
 
         if (resolvedEvent is NotifiableMessageEvent) {
             if (notificationDrawerManager.shouldIgnoreMessageEventInRoom(resolvedEvent)) return
         }
 
         resolvedEvent?.let {
-                notificationDrawerManager.updateEvents { it.onNotifiableEventReceived(resolvedEvent) }
-            }
+            notificationDrawerManager.updateEvents { it.onNotifiableEventReceived(resolvedEvent) }
+        }
     }
 
     private fun isEventAlreadyKnown(pushData: PushData): Boolean {
