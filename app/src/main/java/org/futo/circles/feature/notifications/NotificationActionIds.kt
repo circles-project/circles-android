@@ -2,9 +2,9 @@ package org.futo.circles.feature.notifications
 
 import org.futo.circles.BuildConfig
 
-data class NotificationActionIds(
-    private val applicationId: String = BuildConfig.APPLICATION_ID
-) {
+object NotificationActionIds {
+
+    private const val applicationId: String = BuildConfig.APPLICATION_ID
 
     val join = "$applicationId.NotificationActions.JOIN_ACTION"
     val reject = "$applicationId.NotificationActions.REJECT_ACTION"
