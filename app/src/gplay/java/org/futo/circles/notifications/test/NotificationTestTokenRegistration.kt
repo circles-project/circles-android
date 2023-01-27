@@ -1,6 +1,6 @@
 package org.futo.circles.notifications.test
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import org.futo.circles.R
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
@@ -9,7 +9,7 @@ import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.pushers.PusherState
 
 class NotificationTestTokenRegistration(
-    private val context: FragmentActivity,
+    private val context: Context,
     private val fcmHelper: FcmHelper
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_token_registration_title) {
 
