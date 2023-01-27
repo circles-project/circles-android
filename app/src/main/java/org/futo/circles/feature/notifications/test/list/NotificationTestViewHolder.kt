@@ -36,6 +36,10 @@ class NotificationTestViewHolder(
                     ivTestStatus.gone()
                     testProgress.visible()
                 }
+                NotificationTestStatus.IDLE -> {
+                    ivTestStatus.gone()
+                    testProgress.gone()
+                }
                 else -> {
                     ivTestStatus.visible()
                     testProgress.gone()
