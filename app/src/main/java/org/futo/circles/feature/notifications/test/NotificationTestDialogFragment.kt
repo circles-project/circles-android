@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentNotificationsTestBinding
@@ -77,7 +78,10 @@ class NotificationTestDialogFragment :
     }
 
     private fun setupViews() {
-        binding.rvNotificationsTests.adapter = testAdapter
+        binding.rvNotificationsTests.apply {
+            adapter = testAdapter
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
     }
 
     private fun setupObservers() {
