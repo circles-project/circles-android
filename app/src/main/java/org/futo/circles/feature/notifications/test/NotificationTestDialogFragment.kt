@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
@@ -52,16 +53,28 @@ class NotificationTestDialogFragment :
 
     override fun onResume() {
         super.onResume()
-        tryOrNull(getString(R.string.unable_to_register_receiver)) {
+        try {
             LocalBroadcastManager.getInstance(requireContext())
                 .registerReceiver(broadcastReceiverPush, IntentFilter(NotificationActionIds.push))
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.unable_to_register_receiver),
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        tryOrNull(getString(R.string.unable_to_register_receiver)) {
+        try {
             LocalBroadcastManager.getInstance(requireContext())
                 .registerReceiver(
                     broadcastReceiverNotification,
                     IntentFilter(NotificationActionIds.diagnostic)
                 )
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.unable_to_register_receiver),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
