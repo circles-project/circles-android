@@ -19,7 +19,7 @@ class NotificationTestViewModel(
     }
 
     private fun setupTests() {
-        testsLiveData.postValue(testList.map { it.toListItem() })
+        testsLiveData.value = testList.map { it.toListItem() }
         testList.forEach {
             it.runTest { updateTestInfo(it) }
         }
@@ -29,7 +29,7 @@ class NotificationTestViewModel(
         val list = testsLiveData.value?.toMutableList() ?: mutableListOf()
         val index = list.indexOfFirst { it.id == item.id }.takeIf { it != -1 } ?: return
         list[index] = item
-        testsLiveData.postValue(list)
+        testsLiveData.value = list
     }
 
     fun onTestPushReceived() {
