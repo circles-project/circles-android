@@ -26,6 +26,7 @@
     <string name="invite_to_format">Invite to %s</string>
     <string name="enter_name_or_id">Enter name or userId</string>
     <string name="follow">Follow</string>
+    <string name="fix">Fix</string>
     <string name="following_users">Following users</string>
     <string name="known_users">Known users</string>
     <string name="ignored_users">Ignored users</string>
@@ -727,6 +728,7 @@
     <string name="unifiedpush_distributor_fcm_fallback">Google Services</string>
     <string name="unifiedpush_distributor_background_sync">Background synchronization</string>
     <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
+    <string name="unable_to_register_receiver">Unable to register the receiver</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
