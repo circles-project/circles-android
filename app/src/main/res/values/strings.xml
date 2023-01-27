@@ -638,24 +638,24 @@
     <string name="settings_troubleshoot_diagnostic_failure_status_with_quickfix">One or more tests have failed, try suggested fix(es).</string>
     <string name="settings_troubleshoot_diagnostic_failure_status_no_quickfix">One or more tests have failed, please submit a bug report to help us investigate.</string>
 
-    <string name="settings_troubleshoot_test_system_settings_title">System Settings.</string>
+    <string name="settings_troubleshoot_test_system_settings_title">System Settings</string>
     <string name="settings_troubleshoot_test_system_settings_success">Notifications are enabled in the system settings.</string>
     <string name="settings_troubleshoot_test_system_settings_failed">Notifications are disabled in the system settings.\nPlease check system settings.</string>
     <string name="settings_troubleshoot_test_system_settings_permission_failed">${app_name} needs the permission to show notifications.\nPlease grant the permission.</string>
     <string name="grant_permission">Grant Permission</string>
 
-    <string name="settings_troubleshoot_test_account_settings_title">Account Settings.</string>
+    <string name="settings_troubleshoot_test_account_settings_title">Account Settings</string>
     <string name="settings_troubleshoot_test_account_settings_success">Notifications are enabled for your account.</string>
     <string name="settings_troubleshoot_test_account_settings_failed">Notifications are disabled for your account.\nPlease check account settings.</string>
     <string name="settings_troubleshoot_test_account_settings_quickfix">Enable</string>
 
-    <string name="settings_troubleshoot_test_device_settings_title">Session Settings.</string>
+    <string name="settings_troubleshoot_test_device_settings_title">Session Settings</string>
     <string name="settings_troubleshoot_test_device_settings_success">Notifications are enabled for this session.</string>
     <!-- Note to translators: the translation MUST contain the string "${app_name}", which will be replaced by the application name -->
     <string name="settings_troubleshoot_test_device_settings_failed">Notifications are not enabled for this session.\nPlease check the ${app_name} settings.</string>
     <string name="settings_troubleshoot_test_device_settings_quickfix">Enable</string>
 
-    <string name="settings_troubleshoot_test_bing_settings_title">Custom Settings.</string>
+    <string name="settings_troubleshoot_test_bing_settings_title">Custom Settings</string>
     <string name="settings_troubleshoot_test_bing_settings_success_with_warn">Notice that some messages type are set to be silent (will produce a notification with no sound).</string>
     <string name="settings_troubleshoot_test_bing_settings_failed">Some notifications are disabled in your custom settings.</string>
 
