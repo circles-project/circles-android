@@ -18,28 +18,27 @@ import java.util.*
 
 
 class NotificationBroadcastReceiver(
-    private val notificationDrawerManager: NotificationDrawerManager,
-    private val actionIds: NotificationActionIds
+    private val notificationDrawerManager: NotificationDrawerManager
 ) : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent == null || context == null) return
         when (intent.action) {
-            actionIds.smartReply ->
+            NotificationActionIds.smartReply ->
                 handleSmartReply(intent, context)
-            actionIds.dismissRoom ->
+            NotificationActionIds.dismissRoom ->
                 intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
                     notificationDrawerManager.updateEvents { it.clearMessagesForRoom(roomId) }
                 }
-            actionIds.dismissSummary ->
+            NotificationActionIds.dismissSummary ->
                 notificationDrawerManager.clearAllEvents()
-            actionIds.markRoomRead ->
+            NotificationActionIds.markRoomRead ->
                 intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
                     notificationDrawerManager.updateEvents { it.clearMessagesForRoom(roomId) }
                     handleMarkAsRead(roomId)
                 }
-            actionIds.join -> {
+            NotificationActionIds.join -> {
                 intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
                     notificationDrawerManager.updateEvents {
                         it.clearMemberShipNotificationForRoom(
@@ -49,7 +48,7 @@ class NotificationBroadcastReceiver(
                     handleJoinRoom(roomId)
                 }
             }
-            actionIds.reject -> {
+            NotificationActionIds.reject -> {
                 intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
                     notificationDrawerManager.updateEvents {
                         it.clearMemberShipNotificationForRoom(

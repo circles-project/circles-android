@@ -30,11 +30,8 @@ import org.futo.circles.model.InviteNotifiableEvent
 import org.futo.circles.model.RoomEventGroupInfo
 import org.futo.circles.model.SimpleNotifiableEvent
 import kotlin.random.Random
-
-//TODO singleton
 class NotificationUtils(
-    private val context: Context,
-    private val actionIds: NotificationActionIds
+    private val context: Context
 ) {
 
     companion object {
@@ -208,7 +205,7 @@ class NotificationUtils(
                 // Add actions and notification intents
                 // Mark room as read
                 val markRoomReadIntent = Intent(context, NotificationBroadcastReceiver::class.java)
-                markRoomReadIntent.action = actionIds.markRoomRead
+                markRoomReadIntent.action = NotificationActionIds.markRoomRead
                 markRoomReadIntent.data = createIgnoredUri(roomInfo.roomId)
                 markRoomReadIntent.putExtra(
                     NotificationBroadcastReceiver.KEY_ROOM_ID,
@@ -265,7 +262,7 @@ class NotificationUtils(
 
                 val intent = Intent(context, NotificationBroadcastReceiver::class.java)
                 intent.putExtra(NotificationBroadcastReceiver.KEY_ROOM_ID, roomInfo.roomId)
-                intent.action = actionIds.dismissRoom
+                intent.action = NotificationActionIds.dismissRoom
                 val pendingIntent = PendingIntent.getBroadcast(
                     context.applicationContext,
                     System.currentTimeMillis().toInt(),
@@ -303,7 +300,7 @@ class NotificationUtils(
                 val roomId = inviteNotifiableEvent.roomId
                 // offer to type a quick reject button
                 val rejectIntent = Intent(context, NotificationBroadcastReceiver::class.java)
-                rejectIntent.action = actionIds.reject
+                rejectIntent.action = NotificationActionIds.reject
                 rejectIntent.data = createIgnoredUri("$roomId&$matrixId")
                 rejectIntent.putExtra(NotificationBroadcastReceiver.KEY_ROOM_ID, roomId)
                 val rejectIntentPendingIntent = PendingIntent.getBroadcast(
@@ -321,7 +318,7 @@ class NotificationUtils(
 
                 // offer to type a quick accept button
                 val joinIntent = Intent(context, NotificationBroadcastReceiver::class.java)
-                joinIntent.action = actionIds.join
+                joinIntent.action = NotificationActionIds.join
                 joinIntent.data = createIgnoredUri("$roomId&$matrixId")
                 joinIntent.putExtra(NotificationBroadcastReceiver.KEY_ROOM_ID, roomId)
                 val joinIntentPendingIntent = PendingIntent.getBroadcast(
@@ -366,7 +363,7 @@ class NotificationUtils(
     @SuppressLint("LaunchActivityFromNotification", "MissingPermission")
     fun displayDiagnosticNotification() {
         val testActionIntent = Intent(context, TestNotificationReceiver::class.java)
-        testActionIntent.action = actionIds.diagnostic
+        testActionIntent.action = NotificationActionIds.diagnostic
         val testPendingIntent = PendingIntent.getBroadcast(
             context,
             0,
@@ -451,7 +448,7 @@ class NotificationUtils(
 
     private fun buildOpenRoomIntent(roomId: String): PendingIntent? {
         val roomIntentTap = getMainIntent(context)
-        roomIntentTap.action = actionIds.tapToView
+        roomIntentTap.action = NotificationActionIds.tapToView
         // pending intent get reused by system, this will mess up the extra params, so put unique info to avoid that
         roomIntentTap.data = createIgnoredUri("openRoom?$roomId")
 
@@ -493,7 +490,7 @@ class NotificationUtils(
         val intent: Intent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent = Intent(context, NotificationBroadcastReceiver::class.java)
-            intent.action = actionIds.smartReply
+            intent.action = NotificationActionIds.smartReply
             intent.data = createIgnoredUri(roomId)
             intent.putExtra(NotificationBroadcastReceiver.KEY_ROOM_ID, roomId)
             threadId?.let {
@@ -574,7 +571,7 @@ class NotificationUtils(
 
     private fun getDismissSummaryPendingIntent(): PendingIntent {
         val intent = Intent(context, NotificationBroadcastReceiver::class.java)
-        intent.action = actionIds.dismissSummary
+        intent.action = NotificationActionIds.dismissSummary
         intent.data = createIgnoredUri("deleteSummary")
         return PendingIntent.getBroadcast(
             context.applicationContext,

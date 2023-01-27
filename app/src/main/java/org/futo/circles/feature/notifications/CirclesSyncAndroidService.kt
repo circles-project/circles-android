@@ -49,13 +49,7 @@ class CirclesSyncAndroidService : SyncAndroidService() {
         }
     }
 
-    val notificationUtils: NotificationUtils by lazy {
-        NotificationUtils(
-            applicationContext,
-            NotificationActionIds()
-        )
-    }
-
+    private val notificationUtils: NotificationUtils by lazy { NotificationUtils(applicationContext) }
 
     override fun provideMatrix() = MatrixInstanceProvider.matrix
 
