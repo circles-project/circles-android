@@ -13,7 +13,6 @@ class NotificationsTestFirebaseToken(
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_fcm_title) {
 
     override fun perform() {
-        status = NotificationTestStatus.RUNNING
         try {
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -30,6 +29,7 @@ class NotificationsTestFirebaseToken(
                     }
                     status = NotificationTestStatus.SUCCESS
                 }
+                updateTestInfo()
             }
         } catch (e: Throwable) {
             description = context.getString(
@@ -37,6 +37,7 @@ class NotificationsTestFirebaseToken(
                 e.localizedMessage
             )
             status = NotificationTestStatus.FAILED
+            updateTestInfo()
         }
     }
 }
