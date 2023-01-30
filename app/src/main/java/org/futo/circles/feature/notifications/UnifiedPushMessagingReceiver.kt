@@ -12,7 +12,6 @@ import org.unifiedpush.android.connector.MessagingReceiver
 
 class UnifiedPushMessagingReceiver(
     private val pushersManager: PushersManager,
-    private val pushParser: PushParser,
     private val preferencesProvider: PreferencesProvider,
     private val pushHandler: PushHandler,
     private val guardServiceStarter: GuardServiceStarter,
@@ -22,7 +21,7 @@ class UnifiedPushMessagingReceiver(
     private val coroutineScope = CoroutineScope(SupervisorJob())
 
     override fun onMessage(context: Context, message: ByteArray, instance: String) {
-        pushParser.parsePushDataUnifiedPush(message)?.let { pushHandler.handle(it) }
+        PushParser.parsePushDataUnifiedPush(message)?.let { pushHandler.handle(it) }
     }
 
     override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {

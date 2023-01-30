@@ -12,7 +12,6 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     private val fcmHelper: FcmHelper by inject()
     private val pushersManager: PushersManager by inject()
-    private val pushParser: PushParser by inject()
     private val vectorPushHandler: PushHandler by inject()
     private val unifiedPushHelper: UnifiedPushHelper by inject()
 
@@ -25,7 +24,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-        pushParser.parsePushDataFcm(message.data).let {
+        PushParser.parsePushDataFcm(message.data).let {
             vectorPushHandler.handle(it)
         }
     }

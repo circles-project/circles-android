@@ -8,7 +8,7 @@ import org.futo.circles.model.toPushData
 import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
-class PushParser {
+object PushParser {
 
     fun parsePushDataUnifiedPush(message: ByteArray): PushData? {
         return try {
