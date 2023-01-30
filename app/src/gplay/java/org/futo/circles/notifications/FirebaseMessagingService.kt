@@ -2,7 +2,7 @@ package org.futo.circles.notifications
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import org.futo.circles.R
+import org.futo.circles.core.PUSHER_URL
 import org.futo.circles.feature.notifications.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.android.ext.android.inject
@@ -17,9 +17,9 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         fcmHelper.storeFcmToken(token)
-        if (MatrixSessionProvider.currentSession != null && unifiedPushHelper.isEmbeddedDistributor()
-        ) {
-            pushersManager.enqueueRegisterPusher(token, getString(R.string.pusher_http_url))
+        MatrixSessionProvider.currentSession?.let {
+            if (unifiedPushHelper.isEmbeddedDistributor())
+                pushersManager.enqueueRegisterPusher(token, PUSHER_URL)
         }
     }
 

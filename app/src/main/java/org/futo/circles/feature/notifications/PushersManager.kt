@@ -1,8 +1,9 @@
 package org.futo.circles.feature.notifications
 
 import android.content.Context
-import org.futo.circles.BuildConfig
 import org.futo.circles.R
+import org.futo.circles.core.PUSHER_APP_ID
+import org.futo.circles.core.PUSHER_URL
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.pushers.HttpPusher
 import java.util.*
@@ -21,14 +22,14 @@ class PushersManager(
 
         currentSession.pushersService().testPush(
             unifiedPushHelper.getPushGateway() ?: return,
-            BuildConfig.APPLICATION_ID,
+            PUSHER_APP_ID,
             unifiedPushHelper.getEndpointOrToken().orEmpty(),
             TEST_EVENT_ID
         )
     }
 
     fun enqueueRegisterPusherWithFcmKey(pushKey: String): UUID {
-        return enqueueRegisterPusher(pushKey, context.getString(R.string.pusher_http_url))
+        return enqueueRegisterPusher(pushKey, PUSHER_URL)
     }
 
     fun enqueueRegisterPusher(
@@ -45,7 +46,7 @@ class PushersManager(
         gateway: String
     ) = HttpPusher(
         pushKey,
-        BuildConfig.APPLICATION_ID,
+        PUSHER_APP_ID,
         profileTag = DEFAULT_PUSHER_FILE_TAG + "_" + abs(MatrixSessionProvider.currentSession?.myUserId.hashCode()),
         Locale.getDefault().language,
         context.getString(R.string.app_name),
@@ -60,7 +61,7 @@ class PushersManager(
 
     suspend fun unregisterPusher(pushKey: String) {
         val currentSession = MatrixSessionProvider.currentSession ?: return
-        currentSession.pushersService().removeHttpPusher(pushKey, BuildConfig.APPLICATION_ID)
+        currentSession.pushersService().removeHttpPusher(pushKey, PUSHER_APP_ID)
     }
 
     companion object {

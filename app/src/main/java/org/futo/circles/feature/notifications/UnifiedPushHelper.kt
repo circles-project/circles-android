@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import org.futo.circles.R
+import org.futo.circles.core.PUSHER_URL
 import org.futo.circles.model.DiscoveryResponse
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.PreferencesProvider
@@ -20,47 +21,13 @@ class UnifiedPushHelper(
     private val fcmHelper: FcmHelper
 ) {
 
-    fun register(
-        activity: AppCompatActivity,
-        onDoneRunnable: Runnable? = null
-    ) {
-        activity.lifecycleScope.launch {
-            if (UnifiedPush.getDistributor(context).isNotEmpty()) {
-                UnifiedPush.registerApp(context)
-                onDoneRunnable?.run()
-                return@launch
-            }
-
-            val distributors = UnifiedPush.getDistributors(context)
-
-            if (distributors.size == 1) {
-                UnifiedPush.saveDistributor(context, distributors.first())
-                UnifiedPush.registerApp(context)
-                onDoneRunnable?.run()
-            }
-        }
-    }
-
-
-    suspend fun unregister(pushersManager: PushersManager? = null) {
-        preferencesProvider.setFdroidSyncBackgroundMode(BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_REALTIME)
-        try {
-            getEndpointOrToken()?.let { pushersManager?.unregisterPusher(it) }
-        } catch (ignore: Exception) {
-        }
-
-        preferencesProvider.storeUnifiedPushEndpoint(null)
-        preferencesProvider.storePushGateway(null)
-        UnifiedPush.unregisterApp(context)
-    }
-
 
     suspend fun storeCustomOrDefaultGateway(
         endpoint: String,
         onDoneRunnable: Runnable? = null
     ) {
         if (UnifiedPush.getDistributor(context) == context.packageName) {
-            preferencesProvider.storePushGateway(context.getString(R.string.pusher_http_url))
+            preferencesProvider.storePushGateway(PUSHER_URL)
             onDoneRunnable?.run()
             return
         }
@@ -130,7 +97,7 @@ class UnifiedPushHelper(
     }
 
     fun getPushGateway(): String? {
-        return if (isEmbeddedDistributor()) context.getString(R.string.pusher_http_url)
+        return if (isEmbeddedDistributor()) PUSHER_URL
         else preferencesProvider.getPushGateway()
     }
 }
