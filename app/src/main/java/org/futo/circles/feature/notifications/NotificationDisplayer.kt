@@ -1,5 +1,6 @@
 package org.futo.circles.feature.notifications
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
@@ -8,6 +9,7 @@ class NotificationDisplayer(context: Context) {
 
     private val notificationManager = NotificationManagerCompat.from(context)
 
+    @SuppressLint("MissingPermission")
     fun showNotificationMessage(tag: String?, id: Int, notification: Notification) {
         notificationManager.notify(tag, id, notification)
     }

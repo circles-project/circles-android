@@ -13,7 +13,7 @@ import org.matrix.android.sdk.api.session.room.timeline.getTextDisplayableConten
 
 class DisplayableEventFormatter(
     private val context: Context,
-    private val noticeEventFormatter: NoticeEventFormatter,
+    private val noticeEventFormatter: NoticeEventFormatter
 ) {
 
     fun format(timelineEvent: TimelineEvent, isDm: Boolean, appendAuthor: Boolean): CharSequence {

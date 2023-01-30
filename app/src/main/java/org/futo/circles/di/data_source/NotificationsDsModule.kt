@@ -1,8 +1,6 @@
 package org.futo.circles.di.data_source
 
-import org.futo.circles.feature.notifications.NotificationUtils
-import org.futo.circles.feature.notifications.PushersManager
-import org.futo.circles.feature.notifications.UnifiedPushHelper
+import org.futo.circles.feature.notifications.*
 import org.futo.circles.feature.notifications.test.task.*
 import org.koin.dsl.module
 
@@ -10,7 +8,6 @@ val notificationsDsModule = module {
     factory { PushersManager(get(), get()) }
     factory { UnifiedPushHelper(get(), get(), get()) }
     single { NotificationUtils(get()) }
-
     factory { NotificationAccountSettingsTest(get()) }
     factory { NotificationAvailableUnifiedDistributorsTest(get(), get(), get()) }
     factory { NotificationCurrentPushDistributorTest(get(), get()) }
@@ -21,4 +18,20 @@ val notificationsDsModule = module {
     factory { NotificationTestSend(get(), get()) }
     factory { NotificationUnifiedEndpointTest(get(), get()) }
     factory { NotificationUnifiedGatewayTest(get(), get()) }
+    factory { PushHandler(get(), get(), get(), get(), get()) }
+    factory { WifiDetector(get()) }
+    single { NotificationDrawerManager(get(), get(), get(), get(), get(), get()) }
+    factory { NotifiableEventResolver(get(), get(), get()) }
+    factory { NotificationDisplayer(get()) }
+    factory { NotifiableEventProcessor() }
+    factory { NotificationRenderer(get(), get()) }
+    factory { NotificationEventPersistence(get()) }
+    factory { NotificationFactory(get(), get(), get()) }
+    factory { SummaryGroupMessageCreator(get(), get()) }
+    factory { RoomGroupMessageCreator(get(), get(), get()) }
+    factory { NotificationBitmapLoader(get()) }
+    factory { RoomHistoryVisibilityFormatter(get()) }
+    factory { RoleFormatter(get()) }
+    factory { NoticeEventFormatter(get(), get(), get()) }
+    factory { DisplayableEventFormatter(get(), get()) }
 }

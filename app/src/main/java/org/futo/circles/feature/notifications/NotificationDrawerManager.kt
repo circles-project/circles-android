@@ -15,14 +15,12 @@ import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.getUserOrDefault
 
-//TODO Singleton
 class NotificationDrawerManager(
     context: Context,
     private val notificationDisplayer: NotificationDisplayer,
     private val notifiableEventProcessor: NotifiableEventProcessor,
     private val notificationRenderer: NotificationRenderer,
     private val notificationEventPersistence: NotificationEventPersistence,
-    private val filteredEventDetector: FilteredEventDetector,
     private val preferencesProvider: PreferencesProvider
 ) {
 
@@ -61,7 +59,6 @@ class NotificationDrawerManager(
 
     fun NotificationEventQueue.onNotifiableEventReceived(notifiableEvent: NotifiableEvent) {
         if (!preferencesProvider.areNotificationEnabledForDevice()) return
-        if (filteredEventDetector.shouldBeIgnored(notifiableEvent)) return
         add(notifiableEvent)
     }
 

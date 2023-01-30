@@ -10,7 +10,6 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.signature.ObjectKey
 
-//TODO Singleton
 class NotificationBitmapLoader(private val context: Context) {
 
     @WorkerThread

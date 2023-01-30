@@ -7,6 +7,7 @@ import androidx.core.content.getSystemService
 import org.matrix.android.sdk.api.extensions.orFalse
 
 class WifiDetector(context: Context) {
+
     private val connectivityManager = context.getSystemService<ConnectivityManager>()
 
     fun isConnectedToWifi(): Boolean = connectivityManager?.activeNetwork
