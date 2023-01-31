@@ -30,7 +30,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val authUiModule = module {
-    viewModel { HomeViewModel(get(), get()) }
+    viewModel { HomeViewModel(get()) }
     viewModel { LogInViewModel(get(), get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { ValidateTokenViewModel(get()) }

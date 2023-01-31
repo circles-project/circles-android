@@ -6,6 +6,7 @@ import org.futo.circles.core.PUSHER_APP_ID
 import org.futo.circles.core.PUSHER_URL
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.pushers.HttpPusher
+import org.unifiedpush.android.connector.UnifiedPush
 import java.util.*
 import kotlin.math.abs
 
@@ -15,9 +16,7 @@ private const val DEFAULT_PUSHER_FILE_TAG = "mobile"
 class PushersManager(private val context: Context, private val fcmHelper: FcmHelper) {
 
     suspend fun testPush() {
-        val currentSession = MatrixSessionProvider.currentSession ?: return
-
-        currentSession.pushersService().testPush(
+        MatrixSessionProvider.currentSession?.pushersService()?.testPush(
             PUSHER_URL,
             PUSHER_APP_ID,
             fcmHelper.getFcmToken().orEmpty(),
@@ -29,6 +28,19 @@ class PushersManager(private val context: Context, private val fcmHelper: FcmHel
         val currentSession = MatrixSessionProvider.currentSession
         val pusher = createHttpPusher(pushKey)
         return currentSession?.pushersService()?.enqueueAddHttpPusher(pusher) ?: UUID.randomUUID()
+    }
+
+    fun registerPushNotifications(context: Context) {
+        UnifiedPush.saveDistributor(context, PUSHER_APP_ID)
+        UnifiedPush.registerApp(context)
+        if (fcmHelper.isFirebaseAvailable())
+            fcmHelper.ensureFcmTokenIsRetrieved(this, shouldAddHttpPusher())
+    }
+
+    private fun shouldAddHttpPusher(): Boolean {
+        val currentSession = MatrixSessionProvider.currentSession ?: return false
+        val currentPushers = currentSession.pushersService().getPushers()
+        return currentPushers.none { it.deviceId == currentSession.sessionParams.deviceId }
     }
 
     private fun createHttpPusher(
@@ -47,11 +59,6 @@ class PushersManager(private val context: Context, private val fcmHelper: FcmHel
         append = false,
         withEventIdOnly = true
     )
-
-    suspend fun unregisterPusher(pushKey: String) {
-        val currentSession = MatrixSessionProvider.currentSession ?: return
-        currentSession.pushersService().removeHttpPusher(pushKey, PUSHER_APP_ID)
-    }
 
     companion object {
         const val TEST_EVENT_ID = "\$THIS_IS_A_FAKE_EVENT_ID"

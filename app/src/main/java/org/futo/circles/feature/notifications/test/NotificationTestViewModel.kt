@@ -2,7 +2,7 @@ package org.futo.circles.feature.notifications.test
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.futo.circles.feature.notifications.NotificationTestsProvider
+import org.futo.circles.feature.notifications.test.task.NotificationTestsProvider
 import org.futo.circles.feature.notifications.test.task.TestPushClicker
 import org.futo.circles.feature.notifications.test.task.TestPushDisplayEvenReceiver
 import org.futo.circles.model.NotificationTestListItem
