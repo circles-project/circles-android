@@ -18,13 +18,6 @@ class PreferencesProvider(
 
     fun isDeveloperModeEnabled(): Boolean = getSharedPreferences().getBoolean(DEV_MODE_KEY, false)
 
-    fun getUnifiedPushEndpoint(): String? =
-        getSharedPreferences().getString(PUSH_ENDPOINT_OR_TOKEN, null)
-
-    fun storeUnifiedPushEndpoint(endpoint: String?) {
-        getSharedPreferences().edit { putString(PUSH_ENDPOINT_OR_TOKEN, endpoint) }
-    }
-
     fun getPushGateway(): String? = getSharedPreferences().getString(PUSH_GATEWAY, null)
 
     fun storePushGateway(gateway: String?) {
@@ -79,10 +72,8 @@ class PreferencesProvider(
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
-        private const val PUSH_ENDPOINT_OR_TOKEN = "push_endpoint"
         private const val PUSH_GATEWAY = "push_gateway"
         private const val FDROID_BACKGROUND_SYNC_MODE = "fdroid_background_sync_mode"
-        private const val ARE_NOTIFICATIONS_ENABLED = "are_notifications_enabled"
         private const val PUSH_COUNT = "push_count"
         private const val USE_COMPLETE_NOTIFICATION_FORMAT = "use_complete_notification_format"
         private const val FCM_TOKEN = "fcm_token"

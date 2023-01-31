@@ -6,10 +6,9 @@ import org.koin.dsl.module
 
 val notificationsDsModule = module {
     factory { PushersManager(get(), get()) }
-    factory { UnifiedPushHelper(get(), get(), get()) }
     single { NotificationUtils(get()) }
     factory { NotificationAccountSettingsTest(get()) }
-    factory { NotificationAvailableUnifiedDistributorsTest(get(), get(), get()) }
+    factory { NotificationAvailableUnifiedDistributorsTest(get(), get()) }
     factory { NotificationCurrentPushDistributorTest(get(), get()) }
     factory { NotificationPushRulesSettingsTest(get()) }
     factory { NotificationFromPushGatewayTest(get(), get()) }

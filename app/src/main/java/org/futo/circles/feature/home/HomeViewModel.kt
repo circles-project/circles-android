@@ -4,20 +4,18 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.PushersManager
-import org.futo.circles.feature.notifications.UnifiedPushHelper
 import org.futo.circles.provider.MatrixSessionProvider
 import org.unifiedpush.android.connector.UnifiedPush
 
 class HomeViewModel(
     private val pushersManager: PushersManager,
-    private val unifiedPushHelper: UnifiedPushHelper,
     private val fcmHelper: FcmHelper
 ) : ViewModel() {
 
     fun registerPushNotifications(context: Context) {
         UnifiedPush.saveDistributor(context, context.packageName)
         UnifiedPush.registerApp(context)
-        if (unifiedPushHelper.isEmbeddedDistributor())
+        if (fcmHelper.isFirebaseAvailable())
             fcmHelper.ensureFcmTokenIsRetrieved(pushersManager, shouldAddHttpPusher())
     }
 

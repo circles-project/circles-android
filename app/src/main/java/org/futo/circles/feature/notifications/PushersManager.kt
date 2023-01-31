@@ -12,38 +12,27 @@ import kotlin.math.abs
 
 private const val DEFAULT_PUSHER_FILE_TAG = "mobile"
 
-class PushersManager(
-    private val context: Context,
-    private val unifiedPushHelper: UnifiedPushHelper
-) {
+class PushersManager(private val context: Context, private val fcmHelper: FcmHelper) {
 
     suspend fun testPush() {
         val currentSession = MatrixSessionProvider.currentSession ?: return
 
         currentSession.pushersService().testPush(
-            unifiedPushHelper.getPushGateway() ?: return,
+            PUSHER_URL,
             PUSHER_APP_ID,
-            unifiedPushHelper.getEndpointOrToken().orEmpty(),
+            fcmHelper.getFcmToken().orEmpty(),
             TEST_EVENT_ID
         )
     }
 
     fun enqueueRegisterPusherWithFcmKey(pushKey: String): UUID {
-        return enqueueRegisterPusher(pushKey, PUSHER_URL)
-    }
-
-    fun enqueueRegisterPusher(
-        pushKey: String,
-        gateway: String
-    ): UUID {
         val currentSession = MatrixSessionProvider.currentSession
-        val pusher = createHttpPusher(pushKey, gateway)
+        val pusher = createHttpPusher(pushKey)
         return currentSession?.pushersService()?.enqueueAddHttpPusher(pusher) ?: UUID.randomUUID()
     }
 
     private fun createHttpPusher(
-        pushKey: String,
-        gateway: String
+        pushKey: String
     ) = HttpPusher(
         pushKey,
         PUSHER_APP_ID,
@@ -51,7 +40,7 @@ class PushersManager(
         Locale.getDefault().language,
         context.getString(R.string.app_name),
         MatrixSessionProvider.currentSession?.sessionParams?.deviceId ?: DEFAULT_PUSHER_FILE_TAG,
-        gateway,
+        PUSHER_URL,
         enabled = true,
         deviceId = MatrixSessionProvider.currentSession?.sessionParams?.deviceId
             ?: DEFAULT_PUSHER_FILE_TAG,

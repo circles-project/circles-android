@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application>
-
         <service android:name=".notifications.FirebaseMessagingService"
             android:exported="false"
             tools:ignore="Instantiatable">
