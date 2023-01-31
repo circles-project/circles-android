@@ -14,7 +14,7 @@ val notificationsDsModule = module {
     factory { NotificationFromPushGatewayTest(get(), get()) }
     factory { NotificationSystemSettingsTest(get()) }
     factory { NotificationTestSend(get(), get()) }
-    factory { PushHandler(get(), get(), get(), get(), get()) }
+    factory { PushHandler(get(), get(), get(), get()) }
     factory { WifiDetector(get()) }
     single { NotificationDrawerManager(get(), get(), get(), get(), get(), get()) }
     factory { NotifiableEventResolver(get(), get(), get()) }

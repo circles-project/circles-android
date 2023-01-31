@@ -15,7 +15,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     private val fcmHelper: FcmHelper by inject()
     private val pushersManager: PushersManager by inject()
-    private val vectorPushHandler: PushHandler by inject()
+    private val pushHandler: PushHandler by inject()
 
     override fun onNewToken(token: String) {
         fcmHelper.storeFcmToken(token)
@@ -23,7 +23,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-        vectorPushHandler.handle(message.toPushData())
+        pushHandler.handle(message.toPushData())
     }
 
     private fun RemoteMessage.toPushData(): PushData = PushData(

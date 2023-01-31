@@ -7,11 +7,13 @@ import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.model.PushData
 import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.provider.PreferencesProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.getRoom
@@ -21,20 +23,16 @@ class PushHandler(
     private val context: Context,
     private val notificationDrawerManager: NotificationDrawerManager,
     private val notifiableEventResolver: NotifiableEventResolver,
-    private val preferencesProvider: PreferencesProvider,
     private val wifiDetector: WifiDetector
 ) {
 
     private val coroutineScope = CoroutineScope(SupervisorJob())
-
     private val mUIHandler by lazy { Handler(Looper.getMainLooper()) }
 
     fun handle(pushData: PushData) {
-        runBlocking { preferencesProvider.incrementPushCounter() }
-
         if (pushData.eventId == PushersManager.TEST_EVENT_ID) {
-            val intent = Intent(NotificationActionIds.push)
-            LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+            LocalBroadcastManager.getInstance(context)
+                .sendBroadcast(Intent(NotificationActionIds.push))
             return
         }
 
