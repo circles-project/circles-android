@@ -2,6 +2,7 @@ package org.futo.circles.feature.notifications.test.task
 
 import android.content.Context
 import org.futo.circles.R
+import org.futo.circles.core.PUSHER_APP_ID
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.model.NotificationTestStatus
 import org.unifiedpush.android.connector.UnifiedPush
@@ -9,7 +10,7 @@ import org.unifiedpush.android.connector.UnifiedPush
 
 class NotificationAvailableUnifiedDistributorsTest(
     private val context: Context,
-    private val fcmHelper: FcmHelper,
+    private val fcmHelper: FcmHelper
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_distributors_title) {
 
     override fun perform() {
@@ -34,6 +35,6 @@ class NotificationAvailableUnifiedDistributorsTest(
     }
 
     private fun getExternalDistributors(): List<String> {
-        return UnifiedPush.getDistributors(context).filterNot { it == context.packageName }
+        return UnifiedPush.getDistributors(context).filterNot { it == PUSHER_APP_ID }
     }
 }
