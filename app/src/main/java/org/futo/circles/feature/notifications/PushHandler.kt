@@ -38,8 +38,6 @@ class PushHandler(
             return
         }
 
-        if (!preferencesProvider.areNotificationEnabledForDevice()) return
-
         mUIHandler.post {
             if (!ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))
                 coroutineScope.launch(Dispatchers.IO) { handleInternal(pushData) }

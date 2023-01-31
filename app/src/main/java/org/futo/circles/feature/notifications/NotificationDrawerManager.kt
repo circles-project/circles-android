@@ -58,7 +58,6 @@ class NotificationDrawerManager(
     }
 
     fun NotificationEventQueue.onNotifiableEventReceived(notifiableEvent: NotifiableEvent) {
-        if (!preferencesProvider.areNotificationEnabledForDevice()) return
         add(notifiableEvent)
     }
 

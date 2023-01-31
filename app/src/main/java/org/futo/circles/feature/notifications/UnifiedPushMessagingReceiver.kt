@@ -25,7 +25,7 @@ class UnifiedPushMessagingReceiver(
     }
 
     override fun onNewEndpoint(context: Context, endpoint: String, instance: String) {
-        if (preferencesProvider.areNotificationEnabledForDevice() && MatrixSessionProvider.currentSession != null) {
+        if (MatrixSessionProvider.currentSession != null) {
             if (unifiedPushHelper.getEndpointOrToken() != endpoint) {
                 preferencesProvider.storeUnifiedPushEndpoint(endpoint)
                 coroutineScope.launch {

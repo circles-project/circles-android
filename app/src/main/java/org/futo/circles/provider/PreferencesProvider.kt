@@ -47,15 +47,6 @@ class PreferencesProvider(
             ?: BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_BATTERY
     }
 
-    fun areNotificationEnabledForDevice(): Boolean =
-        getSharedPreferences().getBoolean(ARE_NOTIFICATIONS_ENABLED, true)
-
-    fun setNotificationEnabledForDevice(enabled: Boolean) {
-        getSharedPreferences().edit {
-            putBoolean(ARE_NOTIFICATIONS_ENABLED, enabled)
-        }
-    }
-
     fun setPushCount(count: Int) {
         getSharedPreferences().edit { putInt(PUSH_COUNT, count) }
     }

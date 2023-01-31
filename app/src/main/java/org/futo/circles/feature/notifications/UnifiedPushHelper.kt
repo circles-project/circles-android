@@ -65,8 +65,7 @@ class UnifiedPushHelper(
     }
 
     fun getExternalDistributors(): List<String> {
-        return UnifiedPush.getDistributors(context)
-            .filterNot { it == context.packageName }
+        return UnifiedPush.getDistributors(context).filterNot { it == context.packageName }
     }
 
     fun getCurrentDistributorName(): String {
@@ -74,20 +73,6 @@ class UnifiedPushHelper(
             isEmbeddedDistributor() -> context.getString(R.string.unifiedpush_distributor_fcm_fallback)
             isBackgroundSync() -> context.getString(R.string.unifiedpush_distributor_background_sync)
             else -> UnifiedPush.getDistributor(context)
-        }
-    }
-
-    fun getPrivacyFriendlyUpEndpoint(): String? {
-        val endpoint = getEndpointOrToken()
-        if (endpoint.isNullOrEmpty()) return null
-        if (isEmbeddedDistributor()) {
-            return endpoint
-        }
-        return try {
-            val parsed = URL(endpoint)
-            "${parsed.protocol}://${parsed.host}/***"
-        } catch (e: Exception) {
-            null
         }
     }
 
