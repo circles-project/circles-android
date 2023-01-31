@@ -18,12 +18,6 @@ class PreferencesProvider(
 
     fun isDeveloperModeEnabled(): Boolean = getSharedPreferences().getBoolean(DEV_MODE_KEY, false)
 
-    fun getPushGateway(): String? = getSharedPreferences().getString(PUSH_GATEWAY, null)
-
-    fun storePushGateway(gateway: String?) {
-        getSharedPreferences().edit { putString(PUSH_GATEWAY, gateway) }
-    }
-
     fun setFdroidSyncBackgroundMode(mode: BackgroundSyncMode) {
         getSharedPreferences().edit {
             putString(FDROID_BACKGROUND_SYNC_MODE, mode.name)
@@ -39,16 +33,6 @@ class PreferencesProvider(
         return BackgroundSyncMode.values().firstOrNull { it.name == strPref }
             ?: BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_BATTERY
     }
-
-    fun setPushCount(count: Int) {
-        getSharedPreferences().edit { putInt(PUSH_COUNT, count) }
-    }
-
-    fun incrementPushCounter() {
-        setPushCount(getPushCount() + 1)
-    }
-
-    fun getPushCount(): Int = getSharedPreferences().getInt(PUSH_COUNT, 0)
 
     fun useCompleteNotificationFormat(): Boolean =
         getSharedPreferences().getBoolean(USE_COMPLETE_NOTIFICATION_FORMAT, true)
@@ -72,9 +56,7 @@ class PreferencesProvider(
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
-        private const val PUSH_GATEWAY = "push_gateway"
         private const val FDROID_BACKGROUND_SYNC_MODE = "fdroid_background_sync_mode"
-        private const val PUSH_COUNT = "push_count"
         private const val USE_COMPLETE_NOTIFICATION_FORMAT = "use_complete_notification_format"
         private const val FCM_TOKEN = "fcm_token"
     }
