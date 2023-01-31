@@ -19,7 +19,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.app.RemoteInput
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -30,6 +29,7 @@ import org.futo.circles.model.InviteNotifiableEvent
 import org.futo.circles.model.RoomEventGroupInfo
 import org.futo.circles.model.SimpleNotifiableEvent
 import kotlin.random.Random
+
 class NotificationUtils(
     private val context: Context
 ) {
@@ -39,7 +39,6 @@ class NotificationUtils(
         private const val LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID =
             "LISTEN_FOR_EVENTS_NOTIFICATION_CHANNEL_ID"
         private const val NOISY_NOTIFICATION_CHANNEL_ID = "DEFAULT_NOISY_NOTIFICATION_CHANNEL_ID"
-        const val SILENT_NOTIFICATION_CHANNEL_ID = "DEFAULT_SILENT_NOTIFICATION_CHANNEL_ID_V2"
 
         @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
         fun supportNotificationChannels() = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -49,16 +48,13 @@ class NotificationUtils(
 
 
     fun createNotificationChannels() {
-        if (!supportNotificationChannels()) {
-            return
-        }
+        if (!supportNotificationChannels()) return
 
         val accentColor = ContextCompat.getColor(context, R.color.blue)
 
         notificationManager.createNotificationChannel(NotificationChannel(
             NOISY_NOTIFICATION_CHANNEL_ID,
-            context.getString(R.string.notification_noisy_notifications)
-                .ifEmpty { "Noisy notifications" },
+            context.getString(R.string.notification_noisy_notifications),
             NotificationManager.IMPORTANCE_DEFAULT
         )
             .apply {
@@ -68,26 +64,9 @@ class NotificationUtils(
                 lightColor = accentColor
             })
 
-        /**
-         * Low notification importance: shows everywhere, but is not intrusive.
-         */
-        notificationManager.createNotificationChannel(NotificationChannel(
-            SILENT_NOTIFICATION_CHANNEL_ID,
-            context.getString(R.string.notification_silent_notifications)
-                .ifEmpty { "Silent notifications" },
-            NotificationManager.IMPORTANCE_LOW
-        )
-            .apply {
-                description = context.getString(R.string.notification_silent_notifications)
-                setSound(null, null)
-                enableLights(true)
-                lightColor = accentColor
-            })
-
         notificationManager.createNotificationChannel(NotificationChannel(
             LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID,
-            context.getString(R.string.notification_listening_for_events)
-                .ifEmpty { "Listening for events" },
+            context.getString(R.string.notification_listening_for_events),
             NotificationManager.IMPORTANCE_MIN
         )
             .apply {
@@ -95,10 +74,6 @@ class NotificationUtils(
                 setSound(null, null)
                 setShowBadge(false)
             })
-    }
-
-    fun getChannel(channelId: String): NotificationChannel? {
-        return notificationManager.getNotificationChannel(channelId)
     }
 
     fun buildForegroundServiceNotification(
@@ -126,31 +101,12 @@ class NotificationUtils(
                         setProgress(0, 0, true)
                     }
                 }
-
-        // PRIORITY_MIN should not be used with Service#startForeground(int, Notification)
         builder.priority = NotificationCompat.PRIORITY_LOW
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//            builder.priority = NotificationCompat.PRIORITY_MIN
-//        }
-
         val notification = builder.build()
 
         notification.flags = notification.flags or Notification.FLAG_NO_CLEAR
 
         return notification
-    }
-
-    /**
-     * Creates a notification that indicates the application is initializing.
-     */
-    fun buildStartAppNotification(): Notification {
-        return NotificationCompat.Builder(context, LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID)
-            .setContentTitle(context.getString(R.string.updating_your_data))
-            .setSmallIcon(R.drawable.ic_check)
-            .setColor(ContextCompat.getColor(context, R.color.blue))
-            .setCategory(NotificationCompat.CATEGORY_SERVICE)
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .build()
     }
 
     /**
@@ -171,8 +127,7 @@ class NotificationUtils(
 
         val smallIcon = R.drawable.ic_check
 
-        val channelID =
-            if (roomInfo.shouldBing) NOISY_NOTIFICATION_CHANNEL_ID else SILENT_NOTIFICATION_CHANNEL_ID
+        val channelID = NOISY_NOTIFICATION_CHANNEL_ID
         return NotificationCompat.Builder(context, channelID)
             .setOnlyAlertOnce(roomInfo.isUpdated)
             .setWhen(lastMessageTimestamp)
@@ -228,37 +183,8 @@ class NotificationUtils(
                     .build()
                     .let { addAction(it) }
 
-                // Quick reply
-                if (!roomInfo.hasSmartReplyError) {
-                    buildQuickReplyIntent(
-                        roomInfo.roomId,
-                        threadId,
-                        senderDisplayNameForReplyCompat
-                    )?.let { replyPendingIntent ->
-                        val remoteInput =
-                            RemoteInput.Builder(NotificationBroadcastReceiver.KEY_TEXT_REPLY)
-                                .setLabel(context.getString(R.string.action_quick_reply))
-                                .build()
-                        NotificationCompat.Action.Builder(
-                            R.drawable.ic_check,
-                            context.getString(R.string.action_quick_reply),
-                            replyPendingIntent
-                        )
-                            .addRemoteInput(remoteInput)
-                            .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_REPLY)
-                            .setShowsUserInterface(false)
-                            .build()
-                            .let { addAction(it) }
-                    }
-                }
-
-                if (openIntent != null) {
-                    setContentIntent(openIntent)
-                }
-
-                if (largeIcon != null) {
-                    setLargeIcon(largeIcon)
-                }
+                if (openIntent != null) setContentIntent(openIntent)
+                if (largeIcon != null) setLargeIcon(largeIcon)
 
                 val intent = Intent(context, NotificationBroadcastReceiver::class.java)
                 intent.putExtra(NotificationBroadcastReceiver.KEY_ROOM_ID, roomInfo.roomId)
@@ -283,8 +209,7 @@ class NotificationUtils(
         // Build the pending intent for when the notification is clicked
         val smallIcon = R.drawable.ic_check
 
-        val channelID =
-            if (inviteNotifiableEvent.noisy) NOISY_NOTIFICATION_CHANNEL_ID else SILENT_NOTIFICATION_CHANNEL_ID
+        val channelID = NOISY_NOTIFICATION_CHANNEL_ID
 
         return NotificationCompat.Builder(context, channelID)
             .setOnlyAlertOnce(true)
@@ -389,9 +314,14 @@ class NotificationUtils(
     }
 
     private fun getBitmap(context: Context, @DrawableRes drawableRes: Int): Bitmap? {
-        val drawable = ResourcesCompat.getDrawable(context.resources, drawableRes, null) ?: return null
+        val drawable =
+            ResourcesCompat.getDrawable(context.resources, drawableRes, null) ?: return null
         val canvas = Canvas()
-        val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
         canvas.setBitmap(bitmap)
         drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
         drawable.draw(canvas)
@@ -406,8 +336,7 @@ class NotificationUtils(
         // Build the pending intent for when the notification is clicked
         val smallIcon = R.drawable.ic_check
 
-        val channelID =
-            if (simpleNotifiableEvent.noisy) NOISY_NOTIFICATION_CHANNEL_ID else SILENT_NOTIFICATION_CHANNEL_ID
+        val channelID = NOISY_NOTIFICATION_CHANNEL_ID
 
         return NotificationCompat.Builder(context, channelID)
             .setOnlyAlertOnce(true)
@@ -475,53 +404,6 @@ class NotificationUtils(
         )
     }
 
-    /*
-        Direct reply is new in Android N, and Android already handles the UI, so the right pending intent
-        here will ideally be a Service/IntentService (for a long running background task) or a BroadcastReceiver,
-         which runs on the UI thread. It also works without unlocking, making the process really fluid for the user.
-        However, for Android devices running Marshmallow and below (API level 23 and below),
-        it will be more appropriate to use an activity. Since you have to provide your own UI.
-     */
-    private fun buildQuickReplyIntent(
-        roomId: String,
-        threadId: String?,
-        senderName: String?
-    ): PendingIntent? {
-        val intent: Intent
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent = Intent(context, NotificationBroadcastReceiver::class.java)
-            intent.action = NotificationActionIds.smartReply
-            intent.data = createIgnoredUri(roomId)
-            intent.putExtra(NotificationBroadcastReceiver.KEY_ROOM_ID, roomId)
-            threadId?.let {
-                intent.putExtra(NotificationBroadcastReceiver.KEY_THREAD_ID, it)
-            }
-
-            return PendingIntent.getBroadcast(
-                context,
-                System.currentTimeMillis().toInt(),
-                intent,
-                // PendingIntents attached to actions with remote inputs must be mutable
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_MUTABLE
-            )
-        } else {
-            /*
-            TODO
-            if (!LockScreenActivity.isDisplayingALockScreenActivity()) {
-                // start your activity for Android M and below
-                val quickReplyIntent = Intent(context, LockScreenActivity::class.java)
-                quickReplyIntent.putExtra(LockScreenActivity.EXTRA_ROOM_ID, roomId)
-                quickReplyIntent.putExtra(LockScreenActivity.EXTRA_SENDER_NAME, senderName ?: "")
-
-                // the action must be unique else the parameters are ignored
-                quickReplyIntent.action = QUICK_LAUNCH_ACTION
-                quickReplyIntent.data = createIgnoredUri($roomId")
-                return PendingIntent.getActivity(context, 0, quickReplyIntent, PendingIntentCompat.FLAG_IMMUTABLE)
-            }
-             */
-        }
-        return null
-    }
 
     // // Number of new notifications for API <24 (M and below) devices.
     /**
@@ -538,7 +420,7 @@ class NotificationUtils(
 
         return NotificationCompat.Builder(
             context,
-            if (noisy) NOISY_NOTIFICATION_CHANNEL_ID else SILENT_NOTIFICATION_CHANNEL_ID
+            NOISY_NOTIFICATION_CHANNEL_ID
         )
             .setOnlyAlertOnce(true)
             // used in compat < N, after summary is built based on child notifications

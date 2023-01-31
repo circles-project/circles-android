@@ -25,8 +25,6 @@ class NotificationBroadcastReceiver(
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent == null || context == null) return
         when (intent.action) {
-            NotificationActionIds.smartReply ->
-                handleSmartReply(intent, context)
             NotificationActionIds.dismissRoom ->
                 intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
                     notificationDrawerManager.updateEvents { it.clearMessagesForRoom(roomId) }
@@ -98,77 +96,7 @@ class NotificationBroadcastReceiver(
         }
     }
 
-    private fun handleSmartReply(intent: Intent, context: Context) {
-        val message = getReplyMessage(intent)
-        val roomId = intent.getStringExtra(KEY_ROOM_ID)
-        val threadId = intent.getStringExtra(KEY_THREAD_ID)
-
-        if (message.isNullOrBlank() || roomId.isNullOrBlank()) {
-            // ignore this event
-            // Can this happen? should we update notification?
-            return
-        }
-        MatrixSessionProvider.currentSession?.let { session ->
-            session.getRoom(roomId)?.let { room ->
-                sendMatrixEvent(message, threadId, session, room, context)
-            }
-        }
-    }
-
-    private fun sendMatrixEvent(
-        message: String,
-        threadId: String?,
-        session: Session,
-        room: Room,
-        context: Context?
-    ) {
-        if (threadId != null) {
-            room.relationService().replyInThread(
-                rootThreadEventId = threadId,
-                replyInThreadText = message,
-            )
-        } else {
-            room.sendService().sendTextMessage(message)
-        }
-
-        // Create a new event to be displayed in the notification drawer, right now
-
-        val notifiableMessageEvent = NotifiableMessageEvent(
-            // Generate a Fake event id
-            eventId = UUID.randomUUID().toString(),
-            editedEventId = null,
-            noisy = false,
-            timestamp = System.currentTimeMillis(),
-            senderName = session.roomService()
-                .getRoomMember(session.myUserId, room.roomId)?.displayName
-                ?: context?.getString(R.string.notification_sender_me),
-            senderId = session.myUserId,
-            body = message,
-            imageUriString = null,
-            roomId = room.roomId,
-            threadId = threadId,
-            roomName = room.roomSummary()?.displayName ?: room.roomId,
-            roomIsDirect = room.roomSummary()?.isDirect == true,
-            outGoingMessage = true,
-            canBeReplaced = false
-        )
-
-        notificationDrawerManager.updateEvents { it.onNotifiableEventReceived(notifiableMessageEvent) }
-    }
-
-    private fun getReplyMessage(intent: Intent?): String? {
-        if (intent != null) {
-            val remoteInput = RemoteInput.getResultsFromIntent(intent)
-            if (remoteInput != null) {
-                return remoteInput.getCharSequence(KEY_TEXT_REPLY)?.toString()
-            }
-        }
-        return null
-    }
-
     companion object {
         const val KEY_ROOM_ID = "roomID"
-        const val KEY_THREAD_ID = "threadID"
-        const val KEY_TEXT_REPLY = "key_text_reply"
     }
 }
