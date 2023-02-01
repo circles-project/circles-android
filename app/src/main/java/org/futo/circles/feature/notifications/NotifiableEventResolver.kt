@@ -66,8 +66,7 @@ class NotifiableEventResolver(
             resolveMessageEvent(
                 timelineEvent,
                 session,
-                canBeReplaced = canBeReplaced,
-                isNoisy = !notificationAction.soundName.isNullOrBlank()
+                canBeReplaced = canBeReplaced
             )
         } else null
     }
@@ -75,8 +74,7 @@ class NotifiableEventResolver(
     private suspend fun resolveMessageEvent(
         event: TimelineEvent,
         session: Session,
-        canBeReplaced: Boolean,
-        isNoisy: Boolean
+        canBeReplaced: Boolean
     ): NotifiableMessageEvent? {
         val room = session.getRoom(event.root.roomId!!)
         return if (room == null) {
@@ -89,7 +87,7 @@ class NotifiableEventResolver(
                 editedEventId = event.getEditedEventId(),
                 canBeReplaced = canBeReplaced,
                 timestamp = event.root.originServerTs ?: 0,
-                noisy = isNoisy,
+                noisy = true,
                 senderName = senderDisplayName,
                 senderId = event.root.senderId,
                 body = body.toString(),
@@ -115,7 +113,7 @@ class NotifiableEventResolver(
                         editedEventId = event.getEditedEventId(),
                         canBeReplaced = canBeReplaced,
                         timestamp = event.root.originServerTs ?: 0,
-                        noisy = isNoisy,
+                        noisy = true,
                         senderName = senderDisplayName,
                         senderId = event.root.senderId,
                         body = body,
@@ -183,34 +181,4 @@ class NotifiableEventResolver(
         }.getOrNull()
     }
 
-    private fun resolveStateRoomEvent(
-        event: Event,
-        session: Session
-    ): NotifiableEvent? {
-        val content = event.content?.toModel<RoomMemberContent>() ?: return null
-        val roomId = event.roomId ?: return null
-        val dName =
-            event.senderId?.let { session.roomService().getRoomMember(it, roomId)?.displayName }
-        if (Membership.INVITE == content.membership) {
-            val roomSummary = session.getRoomSummary(roomId)
-            val body =
-                displayableEventFormatter.formatRoomThirdPartyInvite(event, dName)
-                    ?: context.getString(R.string.notification_new_invitation)
-            return InviteNotifiableEvent(
-                session.myUserId,
-                eventId = event.eventId!!,
-                editedEventId = null,
-                canBeReplaced = false,
-                roomId = roomId,
-                roomName = roomSummary?.displayName,
-                timestamp = event.originServerTs ?: 0,
-                noisy = true,
-                title = context.getString(R.string.notification_new_invitation),
-                description = body.toString(),
-                soundName = null,
-                type = event.getClearType()
-            )
-        }
-        return null
-    }
 }
