@@ -29,54 +29,11 @@ class NotificationBroadcastReceiver(
                 intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
                     notificationDrawerManager.updateEvents { it.clearMessagesForRoom(roomId) }
                 }
-            NotificationActionIds.dismissSummary ->
-                notificationDrawerManager.clearAllEvents()
             NotificationActionIds.markRoomRead ->
                 intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
                     notificationDrawerManager.updateEvents { it.clearMessagesForRoom(roomId) }
                     handleMarkAsRead(roomId)
                 }
-            NotificationActionIds.join -> {
-                intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
-                    notificationDrawerManager.updateEvents {
-                        it.clearMemberShipNotificationForRoom(
-                            roomId
-                        )
-                    }
-                    handleJoinRoom(roomId)
-                }
-            }
-            NotificationActionIds.reject -> {
-                intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
-                    notificationDrawerManager.updateEvents {
-                        it.clearMemberShipNotificationForRoom(
-                            roomId
-                        )
-                    }
-                    handleRejectRoom(roomId)
-                }
-            }
-        }
-    }
-
-    private fun handleJoinRoom(roomId: String) {
-        MatrixSessionProvider.currentSession?.let { session ->
-            val room = session.getRoom(roomId)
-            if (room != null) {
-                session.coroutineScope.launch {
-                    tryOrNull {
-                        session.roomService().joinRoom(room.roomId)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun handleRejectRoom(roomId: String) {
-        MatrixSessionProvider.currentSession?.let { session ->
-            session.coroutineScope.launch {
-                tryOrNull { session.roomService().leaveRoom(roomId) }
-            }
         }
     }
 

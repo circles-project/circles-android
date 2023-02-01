@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED_PARAMETER")
-
 package org.futo.circles.feature.notifications
 
 import android.annotation.SuppressLint
@@ -222,41 +220,6 @@ class NotificationUtils(
             .setSmallIcon(smallIcon)
             .setColor(accentColor)
             .apply {
-                val roomId = inviteNotifiableEvent.roomId
-                // offer to type a quick reject button
-                val rejectIntent = Intent(context, NotificationBroadcastReceiver::class.java)
-                rejectIntent.action = NotificationActionIds.reject
-                rejectIntent.data = createIgnoredUri("$roomId&$matrixId")
-                rejectIntent.putExtra(NotificationBroadcastReceiver.KEY_ROOM_ID, roomId)
-                val rejectIntentPendingIntent = PendingIntent.getBroadcast(
-                    context,
-                    System.currentTimeMillis().toInt(),
-                    rejectIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
-                )
-
-                addAction(
-                    R.drawable.ic_check,
-                    context.getString(R.string.action_reject),
-                    rejectIntentPendingIntent
-                )
-
-                // offer to type a quick accept button
-                val joinIntent = Intent(context, NotificationBroadcastReceiver::class.java)
-                joinIntent.action = NotificationActionIds.join
-                joinIntent.data = createIgnoredUri("$roomId&$matrixId")
-                joinIntent.putExtra(NotificationBroadcastReceiver.KEY_ROOM_ID, roomId)
-                val joinIntentPendingIntent = PendingIntent.getBroadcast(
-                    context,
-                    System.currentTimeMillis().toInt(),
-                    joinIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
-                )
-                addAction(
-                    R.drawable.ic_check,
-                    context.getString(R.string.action_join),
-                    joinIntentPendingIntent
-                )
 
                 val contentIntent = getMainIntent(context)
                 contentIntent.flags =
@@ -378,9 +341,7 @@ class NotificationUtils(
     private fun buildOpenRoomIntent(roomId: String): PendingIntent? {
         val roomIntentTap = getMainIntent(context)
         roomIntentTap.action = NotificationActionIds.tapToView
-        // pending intent get reused by system, this will mess up the extra params, so put unique info to avoid that
         roomIntentTap.data = createIgnoredUri("openRoom?$roomId")
-
         // Recreate the back stack
         return TaskStackBuilder.create(context)
             .addNextIntentWithParentStack(getMainIntent(context))
@@ -389,78 +350,6 @@ class NotificationUtils(
                 System.currentTimeMillis().toInt(),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
             )
-    }
-
-    private fun buildOpenHomePendingIntentForSummary(): PendingIntent {
-        val intent = getMainIntent(context)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        intent.data = createIgnoredUri("tapSummary")
-        val mainIntent = getMainIntent(context)
-        return PendingIntent.getActivity(
-            context,
-            Random.nextInt(1000),
-            mainIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
-        )
-    }
-
-
-    // // Number of new notifications for API <24 (M and below) devices.
-    /**
-     * Build the summary notification.
-     */
-    fun buildSummaryListNotification(
-        style: NotificationCompat.InboxStyle?,
-        compatSummary: String,
-        noisy: Boolean,
-        lastMessageTimestamp: Long
-    ): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.blue)
-        val smallIcon = R.drawable.ic_check
-
-        return NotificationCompat.Builder(
-            context,
-            NOISY_NOTIFICATION_CHANNEL_ID
-        )
-            .setOnlyAlertOnce(true)
-            // used in compat < N, after summary is built based on child notifications
-            .setWhen(lastMessageTimestamp)
-            .setStyle(style)
-            .setContentTitle(context.getString(R.string.app_name))
-            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-            .setSmallIcon(smallIcon)
-            // set content text to support devices running API level < 24
-            .setContentText(compatSummary)
-            .setGroup(context.getString(R.string.app_name))
-            // set this notification as the summary for the group
-            .setGroupSummary(true)
-            .setColor(accentColor)
-            .apply {
-                if (noisy) {
-                    // Compat
-                    priority = NotificationCompat.PRIORITY_DEFAULT
-                    setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                    setLights(accentColor, 500, 500)
-                } else {
-                    // compat
-                    priority = NotificationCompat.PRIORITY_LOW
-                }
-            }
-            .setContentIntent(buildOpenHomePendingIntentForSummary())
-            .setDeleteIntent(getDismissSummaryPendingIntent())
-            .build()
-    }
-
-    private fun getDismissSummaryPendingIntent(): PendingIntent {
-        val intent = Intent(context, NotificationBroadcastReceiver::class.java)
-        intent.action = NotificationActionIds.dismissSummary
-        intent.data = createIgnoredUri("deleteSummary")
-        return PendingIntent.getBroadcast(
-            context.applicationContext,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
-        )
     }
 }
 

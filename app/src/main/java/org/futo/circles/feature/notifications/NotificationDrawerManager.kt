@@ -5,23 +5,22 @@ import android.os.Handler
 import android.os.HandlerThread
 import androidx.annotation.WorkerThread
 import org.futo.circles.R
+import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.NotifiableEvent
 import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.model.shouldIgnoreMessageEventInRoom
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.provider.MatrixSessionProvider
 import org.futo.circles.provider.PreferencesProvider
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.getUserOrDefault
 
 class NotificationDrawerManager(
     context: Context,
-    private val notificationDisplayer: NotificationDisplayer,
     private val notifiableEventProcessor: NotifiableEventProcessor,
     private val notificationRenderer: NotificationRenderer,
-    private val notificationEventPersistence: NotificationEventPersistence,
-    private val preferencesProvider: PreferencesProvider
+    private val notificationEventPersistence: NotificationEventPersistence
 ) {
 
     private val handlerThread: HandlerThread =
@@ -36,8 +35,6 @@ class NotificationDrawerManager(
     private var currentRoomId: String? = null
     private var currentThreadId: String? = null
     private val firstThrottler = FirstThrottler(200)
-
-    private var useCompleteNotificationFormat = preferencesProvider.useCompleteNotificationFormat()
 
     init {
         handlerThread.start()
@@ -61,42 +58,6 @@ class NotificationDrawerManager(
         add(notifiableEvent)
     }
 
-    fun clearAllEvents() {
-        updateEvents { it.clear() }
-    }
-
-    fun setCurrentRoom(roomId: String?) {
-        updateEvents {
-            val hasChanged = roomId != currentRoomId
-            currentRoomId = roomId
-            if (hasChanged && roomId != null) {
-                it.clearMessagesForRoom(roomId)
-            }
-        }
-    }
-
-    fun setCurrentThread(threadId: String?) {
-        updateEvents {
-            val hasChanged = threadId != currentThreadId
-            currentThreadId = threadId
-            currentRoomId?.let { roomId ->
-                if (hasChanged && threadId != null) {
-                    it.clearMessagesForThread(roomId, threadId)
-                }
-            }
-        }
-    }
-
-    fun notificationStyleChanged() {
-        updateEvents {
-            val newSettings = preferencesProvider.useCompleteNotificationFormat()
-            if (newSettings != useCompleteNotificationFormat) {
-                notificationDisplayer.cancelAllNotifications()
-                useCompleteNotificationFormat = newSettings
-            }
-        }
-    }
-
     fun updateEvents(action: NotificationDrawerManager.(NotificationEventQueue) -> Unit) {
         notificationState.updateQueuedEvents(this) { queuedEvents, _ ->
             action(queuedEvents)
@@ -108,12 +69,7 @@ class NotificationDrawerManager(
         val canHandle = firstThrottler.canHandle()
         backgroundHandler.removeCallbacksAndMessages(null)
         backgroundHandler.postDelayed(
-            {
-                try {
-                    refreshNotificationDrawerBg()
-                } catch (ignore: Throwable) {
-                }
-            },
+            { tryOrNull { refreshNotificationDrawerBg() } },
             canHandle.waitMillis()
         )
     }
@@ -162,7 +118,6 @@ class NotificationDrawerManager(
             session.myUserId,
             myUserDisplayName,
             myUserAvatarUrl,
-            useCompleteNotificationFormat,
             eventsToRender
         )
     }
@@ -172,7 +127,6 @@ class NotificationDrawerManager(
     }
 
     companion object {
-        const val SUMMARY_NOTIFICATION_ID = 0
         const val ROOM_MESSAGES_NOTIFICATION_ID = 1
         const val ROOM_EVENT_NOTIFICATION_ID = 2
         const val ROOM_INVITATION_NOTIFICATION_ID = 3

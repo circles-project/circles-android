@@ -34,15 +34,6 @@ class PreferencesProvider(
             ?: BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_BATTERY
     }
 
-    fun useCompleteNotificationFormat(): Boolean =
-        getSharedPreferences().getBoolean(USE_COMPLETE_NOTIFICATION_FORMAT, true)
-
-    fun setUseCompleteNotificationFormatEnabled(enabled: Boolean) {
-        getSharedPreferences().edit {
-            putBoolean(USE_COMPLETE_NOTIFICATION_FORMAT, enabled)
-        }
-    }
-
     fun getFcmToken(): String? {
         return getSharedPreferences().getString(FCM_TOKEN, null)
     }
@@ -57,7 +48,6 @@ class PreferencesProvider(
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
         private const val FDROID_BACKGROUND_SYNC_MODE = "fdroid_background_sync_mode"
-        private const val USE_COMPLETE_NOTIFICATION_FORMAT = "use_complete_notification_format"
         private const val FCM_TOKEN = "fcm_token"
     }
 }

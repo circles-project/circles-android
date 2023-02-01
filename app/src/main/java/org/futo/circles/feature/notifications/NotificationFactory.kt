@@ -6,8 +6,7 @@ private typealias ProcessedMessageEvents = List<ProcessedEvent<NotifiableMessage
 
 class NotificationFactory(
     private val notificationUtils: NotificationUtils,
-    private val roomGroupMessageCreator: RoomGroupMessageCreator,
-    private val summaryGroupMessageCreator: SummaryGroupMessageCreator
+    private val roomGroupMessageCreator: RoomGroupMessageCreator
 ) {
 
     fun Map<String, ProcessedMessageEvents>.toNotifications(
@@ -69,31 +68,6 @@ class NotificationFactory(
                     )
                 )
             }
-        }
-    }
-
-    fun createSummaryNotification(
-        roomNotifications: List<RoomNotification>,
-        invitationNotifications: List<OneShotNotification>,
-        simpleNotifications: List<OneShotNotification>,
-        useCompleteNotificationFormat: Boolean
-    ): SummaryNotification {
-        val roomMeta =
-            roomNotifications.filterIsInstance<RoomNotification.Message>().map { it.meta }
-        val invitationMeta =
-            invitationNotifications.filterIsInstance<OneShotNotification.Append>().map { it.meta }
-        val simpleMeta =
-            simpleNotifications.filterIsInstance<OneShotNotification.Append>().map { it.meta }
-        return when {
-            roomMeta.isEmpty() && invitationMeta.isEmpty() && simpleMeta.isEmpty() -> SummaryNotification.Removed
-            else -> SummaryNotification.Update(
-                summaryGroupMessageCreator.createSummaryNotification(
-                    roomNotifications = roomMeta,
-                    invitationNotifications = invitationMeta,
-                    simpleNotifications = simpleMeta,
-                    useCompleteNotificationFormat = useCompleteNotificationFormat
-                )
-            )
         }
     }
 }

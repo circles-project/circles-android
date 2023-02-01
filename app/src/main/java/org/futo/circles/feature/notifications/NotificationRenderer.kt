@@ -4,7 +4,6 @@ import androidx.annotation.WorkerThread
 import org.futo.circles.feature.notifications.NotificationDrawerManager.Companion.ROOM_EVENT_NOTIFICATION_ID
 import org.futo.circles.feature.notifications.NotificationDrawerManager.Companion.ROOM_INVITATION_NOTIFICATION_ID
 import org.futo.circles.feature.notifications.NotificationDrawerManager.Companion.ROOM_MESSAGES_NOTIFICATION_ID
-import org.futo.circles.feature.notifications.NotificationDrawerManager.Companion.SUMMARY_NOTIFICATION_ID
 import org.futo.circles.model.*
 
 class NotificationRenderer(
@@ -17,7 +16,6 @@ class NotificationRenderer(
         myUserId: String,
         myUserDisplayName: String,
         myUserAvatarUrl: String?,
-        useCompleteNotificationFormat: Boolean,
         eventsToProcess: List<ProcessedEvent<NotifiableEvent>>
     ) {
         val (roomEvents, simpleEvents, invitationEvents) = eventsToProcess.groupByType()
@@ -25,17 +23,7 @@ class NotificationRenderer(
             val roomNotifications = roomEvents.toNotifications(myUserDisplayName, myUserAvatarUrl)
             val invitationNotifications = invitationEvents.toNotifications(myUserId)
             val simpleNotifications = simpleEvents.toNotifications(myUserId)
-            val summaryNotification = createSummaryNotification(
-                roomNotifications = roomNotifications,
-                invitationNotifications = invitationNotifications,
-                simpleNotifications = simpleNotifications,
-                useCompleteNotificationFormat = useCompleteNotificationFormat
-            )
-
-            if (summaryNotification == SummaryNotification.Removed) {
-                notificationDisplayer.cancelNotificationMessage(null, SUMMARY_NOTIFICATION_ID)
-            }
-
+            
             roomNotifications.forEach { wrapper ->
                 when (wrapper) {
                     is RoomNotification.Removed -> {
@@ -44,13 +32,12 @@ class NotificationRenderer(
                             ROOM_MESSAGES_NOTIFICATION_ID
                         )
                     }
-                    is RoomNotification.Message -> if (useCompleteNotificationFormat) {
+                    is RoomNotification.Message ->
                         notificationDisplayer.showNotificationMessage(
                             wrapper.meta.roomId,
                             ROOM_MESSAGES_NOTIFICATION_ID,
                             wrapper.notification
                         )
-                    }
                 }
             }
 
@@ -62,13 +49,12 @@ class NotificationRenderer(
                             ROOM_INVITATION_NOTIFICATION_ID
                         )
                     }
-                    is OneShotNotification.Append -> if (useCompleteNotificationFormat) {
+                    is OneShotNotification.Append ->
                         notificationDisplayer.showNotificationMessage(
                             wrapper.meta.key,
                             ROOM_INVITATION_NOTIFICATION_ID,
                             wrapper.notification
                         )
-                    }
                 }
             }
 
@@ -80,22 +66,13 @@ class NotificationRenderer(
                             ROOM_EVENT_NOTIFICATION_ID
                         )
                     }
-                    is OneShotNotification.Append -> if (useCompleteNotificationFormat) {
+                    is OneShotNotification.Append ->
                         notificationDisplayer.showNotificationMessage(
                             wrapper.meta.key,
                             ROOM_EVENT_NOTIFICATION_ID,
                             wrapper.notification
                         )
-                    }
                 }
-            }
-
-            if (summaryNotification is SummaryNotification.Update) {
-                notificationDisplayer.showNotificationMessage(
-                    null,
-                    SUMMARY_NOTIFICATION_ID,
-                    summaryNotification.notification
-                )
             }
         }
     }
