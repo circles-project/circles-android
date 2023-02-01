@@ -113,10 +113,8 @@ class NotificationUtils(
     fun buildMessagesListNotification(
         messageStyle: NotificationCompat.MessagingStyle,
         roomInfo: RoomEventGroupInfo,
-        threadId: String?,
         largeIcon: Bitmap?,
         lastMessageTimestamp: Long,
-        senderDisplayNameForReplyCompat: String?,
         tickerText: String
     ): Notification {
         val accentColor = ContextCompat.getColor(context, R.color.blue)
@@ -200,8 +198,7 @@ class NotificationUtils(
     }
 
     fun buildRoomInvitationNotification(
-        inviteNotifiableEvent: InviteNotifiableEvent,
-        matrixId: String
+        inviteNotifiableEvent: InviteNotifiableEvent
     ): Notification {
         val accentColor = ContextCompat.getColor(context, R.color.blue)
         // Build the pending intent for when the notification is clicked

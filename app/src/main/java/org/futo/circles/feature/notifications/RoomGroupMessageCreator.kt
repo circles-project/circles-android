@@ -74,10 +74,8 @@ class RoomGroupMessageCreator(
                     it.customSound = events.last().soundName
                     it.isUpdated = events.last().isUpdated
                 },
-                threadId = lastKnownRoomEvent.threadId,
                 largeIcon = largeBitmap,
                 lastMessageTimestamp,
-                userDisplayName,
                 tickerText
             ),
             meta

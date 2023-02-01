@@ -41,7 +41,7 @@ class NotificationFactory(
             when (processed) {
                 ProcessedEvent.Type.REMOVE -> OneShotNotification.Removed(key = event.roomId)
                 ProcessedEvent.Type.KEEP -> OneShotNotification.Append(
-                    notificationUtils.buildRoomInvitationNotification(event, myUserId),
+                    notificationUtils.buildRoomInvitationNotification(event),
                     OneShotNotification.Append.Meta(
                         key = event.roomId,
                         summaryLine = event.description,

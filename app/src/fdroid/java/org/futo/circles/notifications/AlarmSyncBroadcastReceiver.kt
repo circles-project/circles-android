@@ -9,7 +9,6 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import org.futo.circles.feature.notifications.CirclesSyncAndroidService
-import org.futo.circles.feature.notifications.PendingIntentCompat
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.sync.job.SyncAndroidService
 
@@ -51,7 +50,7 @@ class AlarmSyncBroadcastReceiver : BroadcastReceiver() {
                 context,
                 REQUEST_CODE,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             val firstMillis = System.currentTimeMillis() + delayInSeconds * 1000L
             val alarmMgr = context.getSystemService<AlarmManager>()!!
@@ -65,7 +64,7 @@ class AlarmSyncBroadcastReceiver : BroadcastReceiver() {
                 context,
                 REQUEST_CODE,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             val alarmMgr = context.getSystemService<AlarmManager>()!!
             alarmMgr.cancel(pIntent)
