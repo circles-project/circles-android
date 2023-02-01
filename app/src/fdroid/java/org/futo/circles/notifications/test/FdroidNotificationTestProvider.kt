@@ -1,6 +1,5 @@
 package org.futo.circles.notifications.test
 
-import org.futo.circles.feature.notifications.NotificationTestsProvider
 import org.futo.circles.feature.notifications.test.task.*
 
 class FdroidNotificationTestProvider(

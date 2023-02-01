@@ -347,8 +347,8 @@
     <string name="notification_unknown_new_event">New Event</string>
     <string name="notification_unknown_room_name">Room</string>
     <string name="notification_new_invitation">New Invitation</string>
-    <string name="sent_a_video">Video.</string>
-    <string name="sent_an_image">Image.</string>
+    <string name="sent_a_video">Video</string>
+    <string name="sent_an_image">Image</string>
     <string name="sent_a_poll">Poll</string>
     <string name="sent_a_reaction">Reacted with: %s</string>
     <string name="poll_response_room_list_preview">Vote cast</string>

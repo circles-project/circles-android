@@ -23,7 +23,7 @@ class NotificationRenderer(
             val roomNotifications = roomEvents.toNotifications(myUserDisplayName, myUserAvatarUrl)
             val invitationNotifications = invitationEvents.toNotifications(myUserId)
             val simpleNotifications = simpleEvents.toNotifications(myUserId)
-            
+
             roomNotifications.forEach { wrapper ->
                 when (wrapper) {
                     is RoomNotification.Removed -> {

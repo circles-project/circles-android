@@ -33,13 +33,6 @@ class DisplayableEventFormatter(
                             val body = messageContent.getTextDisplayableContent()
                             simpleFormat(senderName, body, appendAuthor)
                         }
-                        MessageType.MSGTYPE_VERIFICATION_REQUEST -> {
-                            simpleFormat(
-                                senderName,
-                                context.getString(R.string.verification_request),
-                                appendAuthor
-                            )
-                        }
                         MessageType.MSGTYPE_IMAGE -> {
                             simpleFormat(
                                 senderName, context.getString(R.string.sent_an_image), appendAuthor
