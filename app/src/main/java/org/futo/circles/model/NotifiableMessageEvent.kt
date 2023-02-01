@@ -34,10 +34,3 @@ data class NotifiableMessageEvent(
     val imageUri: Uri?
         get() = imageUriString?.let { Uri.parse(it) }
 }
-
-fun NotifiableMessageEvent.shouldIgnoreMessageEventInRoom(currentRoomId: String?, currentThreadId: String?): Boolean {
-    return when (currentRoomId) {
-        null -> false
-        else -> roomId == currentRoomId && threadId == currentThreadId
-    }
-}

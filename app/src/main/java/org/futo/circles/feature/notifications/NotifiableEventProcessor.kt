@@ -13,15 +13,12 @@ class NotifiableEventProcessor {
 
     fun process(
         queuedEvents: List<NotifiableEvent>,
-        currentRoomId: String?,
-        currentThreadId: String?,
         renderedEvents: ProcessedEvents
     ): ProcessedEvents {
         val processedEvents = queuedEvents.map {
             val type = when (it) {
                 is InviteNotifiableEvent -> KEEP
                 is NotifiableMessageEvent -> when {
-                    it.shouldIgnoreMessageEventInRoom(currentRoomId, currentThreadId) -> REMOVE
                     isMessageOutdated(it) -> REMOVE
                     else -> KEEP
                 }
