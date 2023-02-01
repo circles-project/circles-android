@@ -16,16 +16,12 @@ val notificationsDsModule = module {
     factory { NotificationTestSend(get(), get()) }
     factory { PushHandler(get(), get(), get()) }
     single { NotificationDrawerManager(get(), get(), get(), get()) }
-    factory { NotifiableEventResolver(get(), get(), get()) }
-    factory { NotificationDisplayer(get()) }
+    factory { NotifiableEventResolver(get(), get()) }
     factory { NotifiableEventProcessor() }
     factory { NotificationRenderer(get(), get()) }
     factory { NotificationEventPersistence(get()) }
     factory { NotificationFactory(get(), get()) }
     factory { RoomGroupMessageCreator(get(), get(), get()) }
     factory { NotificationBitmapLoader(get()) }
-    factory { RoomHistoryVisibilityFormatter(get()) }
-    factory { RoleFormatter(get()) }
-    factory { NoticeEventFormatter(get(), get(), get()) }
-    factory { DisplayableEventFormatter(get(), get()) }
+    factory { DisplayableEventFormatter(get()) }
 }

@@ -83,7 +83,7 @@ class NotificationUtils(
         i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         val mainIntent = getMainIntent(context)
         val pi =
-            PendingIntent.getActivity(context, 0, mainIntent, PendingIntentCompat.FLAG_IMMUTABLE)
+            PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val accentColor = ContextCompat.getColor(context, R.color.blue)
 
@@ -168,7 +168,7 @@ class NotificationUtils(
                     context,
                     System.currentTimeMillis().toInt(),
                     markRoomReadIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
 
                 NotificationCompat.Action.Builder(
@@ -191,7 +191,7 @@ class NotificationUtils(
                     context.applicationContext,
                     System.currentTimeMillis().toInt(),
                     intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
                 setDeleteIntent(pendingIntent)
             }
@@ -231,7 +231,7 @@ class NotificationUtils(
                         context,
                         0,
                         contentIntent,
-                        PendingIntentCompat.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_IMMUTABLE
                     )
                 )
 
@@ -256,7 +256,7 @@ class NotificationUtils(
             context,
             0,
             testActionIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         notificationManager.notify(
@@ -321,7 +321,7 @@ class NotificationUtils(
                         context,
                         0,
                         contentIntent,
-                        PendingIntentCompat.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_IMMUTABLE
                     )
                 )
 
@@ -348,7 +348,7 @@ class NotificationUtils(
             .addNextIntent(roomIntentTap)
             .getPendingIntent(
                 System.currentTimeMillis().toInt(),
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntentCompat.FLAG_IMMUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
     }
 }

@@ -29,8 +29,6 @@ class NotificationDrawerManager(
 
     private val notificationState by lazy { createInitialNotificationState() }
     private val avatarSize = context.resources.getDimensionPixelSize(R.dimen.profile_avatar_size)
-    private var currentRoomId: String? = null
-    private var currentThreadId: String? = null
     private val firstThrottler = FirstThrottler(200)
 
     init {

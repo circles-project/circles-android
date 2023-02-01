@@ -2,8 +2,11 @@ package org.futo.circles.feature.notifications
 
 import android.content.Context
 import org.futo.circles.R
+import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
+import org.matrix.android.sdk.api.session.room.model.RoomThirdPartyInviteContent
 import org.matrix.android.sdk.api.session.room.model.message.MessagePollContent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.session.room.model.relation.ReactionContent
@@ -12,13 +15,12 @@ import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 import org.matrix.android.sdk.api.session.room.timeline.getTextDisplayableContent
 
 class DisplayableEventFormatter(
-    private val context: Context,
-    private val noticeEventFormatter: NoticeEventFormatter
+    private val context: Context
 ) {
 
-    fun format(timelineEvent: TimelineEvent, isDm: Boolean, appendAuthor: Boolean): CharSequence {
+    fun format(timelineEvent: TimelineEvent, appendAuthor: Boolean): CharSequence {
         if (timelineEvent.root.isRedacted())
-            return noticeEventFormatter.formatRedactedEvent(timelineEvent.root)
+            return formatRedactedEvent(timelineEvent.root)
 
         if (timelineEvent.root.isEncrypted() && timelineEvent.root.mxDecryptionResult == null)
             return context.getString(R.string.encrypted_message)
@@ -65,7 +67,15 @@ class DisplayableEventFormatter(
             in EventType.POLL_END.values -> {
                 context.getString(R.string.poll_end_room_list_preview)
             }
-            else -> noticeEventFormatter.format(timelineEvent, isDm) ?: ""
+            EventType.STATE_ROOM_THIRD_PARTY_INVITE -> formatRoomThirdPartyInvite(
+                timelineEvent.root,
+                senderName
+            ) ?: context.getString(R.string.notification_new_invitation)
+            else -> simpleFormat(
+                senderName,
+                context.getString(R.string.notifications),
+                appendAuthor
+            )
         }
     }
 
@@ -78,5 +88,76 @@ class DisplayableEventFormatter(
             body
         }
     }
+
+    private fun formatRedactedEvent(event: Event): String {
+        return (event
+            .unsignedData
+            ?.redactedEvent
+            ?.content
+            ?.get("reason") as? String)
+            ?.takeIf { it.isNotBlank() }
+            .let { reason ->
+                if (reason == null) {
+                    if (event.isRedactedBySameUser()) {
+                        context.getString(R.string.event_redacted_by_user_reason)
+                    } else {
+                        context.getString(R.string.event_redacted_by_admin_reason)
+                    }
+                } else {
+                    if (event.isRedactedBySameUser()) {
+                        context.getString(
+                            R.string.event_redacted_by_user_reason_with_reason,
+                            reason
+                        )
+                    } else {
+                        context.getString(
+                            R.string.event_redacted_by_admin_reason_with_reason,
+                            reason
+                        )
+                    }
+                }
+            }
+    }
+
+    fun formatRoomThirdPartyInvite(
+        event: Event,
+        senderName: String?
+    ): CharSequence? {
+        val content = event.content.toModel<RoomThirdPartyInviteContent>()
+        val prevContent = event.resolvedPrevContent()?.toModel<RoomThirdPartyInviteContent>()
+
+        return when {
+            prevContent != null -> {
+                if (event.isSentByCurrentUser()) {
+                    context.getString(
+                        R.string.notice_room_third_party_revoked_invite_by_you,
+                        prevContent.displayName
+                    )
+                } else {
+                    context.getString(
+                        R.string.notice_room_third_party_revoked_invite,
+                        senderName, prevContent.displayName
+                    )
+                }
+            }
+            content != null -> {
+                if (event.isSentByCurrentUser()) {
+                    context.getString(
+                        R.string.notice_room_third_party_invite_by_you,
+                        content.displayName
+                    )
+                } else {
+                    context.getString(
+                        R.string.notice_room_third_party_invite,
+                        senderName, content.displayName
+                    )
+                }
+            }
+            else -> null
+        }
+    }
+
+    private fun Event.isSentByCurrentUser() =
+        senderId != null && senderId == MatrixSessionProvider.currentSession?.myUserId
 
 }

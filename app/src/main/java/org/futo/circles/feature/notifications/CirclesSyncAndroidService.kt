@@ -202,9 +202,9 @@ private fun Context.rescheduleSyncService(
         startService(intent)
     } else {
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            PendingIntent.getForegroundService(this, 0, intent, PendingIntentCompat.FLAG_IMMUTABLE)
+            PendingIntent.getForegroundService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         } else {
-            PendingIntent.getService(this, 0, intent, PendingIntentCompat.FLAG_IMMUTABLE)
+            PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         }
         val firstMillis = currentTimeMillis + syncDelaySeconds * 1000L
         val alarmMgr = getSystemService<AlarmManager>()!!
