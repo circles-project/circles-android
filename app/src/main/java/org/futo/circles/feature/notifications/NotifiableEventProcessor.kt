@@ -2,30 +2,22 @@ package org.futo.circles.feature.notifications
 
 import org.futo.circles.feature.notifications.ProcessedEvent.Type.KEEP
 import org.futo.circles.feature.notifications.ProcessedEvent.Type.REMOVE
-import org.futo.circles.model.*
+import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.getRoom
 
-private typealias ProcessedEvents = List<ProcessedEvent<NotifiableEvent>>
+private typealias ProcessedEvents = List<ProcessedEvent<NotifiableMessageEvent>>
 
 class NotifiableEventProcessor {
 
     fun process(
-        queuedEvents: List<NotifiableEvent>,
+        queuedEvents: List<NotifiableMessageEvent>,
         renderedEvents: ProcessedEvents
     ): ProcessedEvents {
         val processedEvents = queuedEvents.map {
-            val type = when (it) {
-                is InviteNotifiableEvent -> KEEP
-                is NotifiableMessageEvent -> when {
-                    isMessageOutdated(it) -> REMOVE
-                    else -> KEEP
-                }
-                is SimpleNotifiableEvent -> when (it.type) {
-                    EventType.REDACTION -> REMOVE
-                    else -> KEEP
-                }
+            val type = when {
+                isMessageOutdated(it) -> REMOVE
+                else -> KEEP
             }
             ProcessedEvent(type, it)
         }
@@ -37,15 +29,11 @@ class NotifiableEventProcessor {
         return removedEventsDiff + processedEvents
     }
 
-    private fun isMessageOutdated(notifiableEvent: NotifiableEvent): Boolean {
+    private fun isMessageOutdated(NotifiableMessageEvent: NotifiableMessageEvent): Boolean {
         val session = MatrixSessionProvider.currentSession ?: return false
-
-        if (notifiableEvent is NotifiableMessageEvent) {
-            val eventID = notifiableEvent.eventId
-            val roomID = notifiableEvent.roomId
-            val room = session.getRoom(roomID) ?: return false
-            return room.readService().isEventRead(eventID)
-        }
-        return false
+        val eventID = NotifiableMessageEvent.eventId
+        val roomID = NotifiableMessageEvent.roomId
+        val room = session.getRoom(roomID) ?: return false
+        return room.readService().isEventRead(eventID)
     }
 }

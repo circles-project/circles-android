@@ -1,44 +1,27 @@
 package org.futo.circles.feature.notifications
 
-import org.futo.circles.model.InviteNotifiableEvent
-import org.futo.circles.model.NotifiableEvent
 import org.futo.circles.model.NotifiableMessageEvent
-import org.futo.circles.model.SimpleNotifiableEvent
 
 data class NotificationEventQueue(
-    private val queue: MutableList<NotifiableEvent>,
+    private val queue: MutableList<NotifiableMessageEvent>,
     private val seenEventIds: CircularCache<String>
 ) {
 
     fun markRedacted(eventIds: List<String>) {
         eventIds.forEach { redactedId ->
-            queue.replace(redactedId) {
-                when (it) {
-                    is InviteNotifiableEvent -> it.copy(isRedacted = true)
-                    is NotifiableMessageEvent -> it.copy(isRedacted = true)
-                    is SimpleNotifiableEvent -> it.copy(isRedacted = true)
-                }
-            }
+            queue.replace(redactedId) { it.copy(isRedacted = true) }
         }
     }
 
     fun syncRoomEvents(roomsLeft: Collection<String>, roomsJoined: Collection<String>) {
         if (roomsLeft.isNotEmpty() || roomsJoined.isNotEmpty()) {
-            queue.removeAll {
-                when (it) {
-                    is NotifiableMessageEvent -> roomsLeft.contains(it.roomId)
-                    is InviteNotifiableEvent -> roomsLeft.contains(it.roomId) || roomsJoined.contains(
-                        it.roomId
-                    )
-                    else -> false
-                }
-            }
+            queue.removeAll { roomsLeft.contains(it.roomId) }
         }
     }
 
     fun isEmpty() = queue.isEmpty()
 
-    fun clearAndAdd(events: List<NotifiableEvent>) {
+    fun clearAndAdd(events: List<NotifiableMessageEvent>) {
         queue.clear()
         queue.addAll(events)
     }
@@ -47,7 +30,7 @@ data class NotificationEventQueue(
         queue.clear()
     }
 
-    fun add(notifiableEvent: NotifiableEvent) {
+    fun add(notifiableEvent: NotifiableMessageEvent) {
         val existing = findExistingById(notifiableEvent)
         val edited = findEdited(notifiableEvent)
         when {
@@ -65,11 +48,11 @@ data class NotificationEventQueue(
         }
     }
 
-    private fun findExistingById(notifiableEvent: NotifiableEvent): NotifiableEvent? {
+    private fun findExistingById(notifiableEvent: NotifiableMessageEvent): NotifiableMessageEvent? {
         return queue.firstOrNull { it.eventId == notifiableEvent.eventId }
     }
 
-    private fun findEdited(notifiableEvent: NotifiableEvent): NotifiableEvent? {
+    private fun findEdited(notifiableEvent: NotifiableMessageEvent): NotifiableMessageEvent? {
         return notifiableEvent.editedEventId?.let { editedId ->
             queue.firstOrNull {
                 it.eventId == editedId || it.editedEventId == editedId
@@ -77,35 +60,21 @@ data class NotificationEventQueue(
         }
     }
 
-    private fun replace(replace: NotifiableEvent, with: NotifiableEvent) {
+    private fun replace(replace: NotifiableMessageEvent, with: NotifiableMessageEvent) {
         queue.remove(replace)
-        queue.add(
-            when (with) {
-                is InviteNotifiableEvent -> with.copy(isUpdated = true)
-                is NotifiableMessageEvent -> with.copy(isUpdated = true)
-                is SimpleNotifiableEvent -> with.copy(isUpdated = true)
-            }
-        )
-    }
-
-    fun clearMemberShipNotificationForRoom(roomId: String) {
-        queue.removeAll { it is InviteNotifiableEvent && it.roomId == roomId }
+        queue.add(with.copy(isUpdated = true))
     }
 
     fun clearMessagesForRoom(roomId: String) {
-        queue.removeAll { it is NotifiableMessageEvent && it.roomId == roomId }
+        queue.removeAll { it.roomId == roomId }
     }
 
-    fun clearMessagesForThread(roomId: String, threadId: String) {
-        queue.removeAll { it is NotifiableMessageEvent && it.roomId == roomId && it.threadId == threadId }
-    }
-
-    fun rawEvents(): List<NotifiableEvent> = queue
+    fun rawEvents(): List<NotifiableMessageEvent> = queue
 }
 
-private fun MutableList<NotifiableEvent>.replace(
+private fun MutableList<NotifiableMessageEvent>.replace(
     eventId: String,
-    block: (NotifiableEvent) -> NotifiableEvent
+    block: (NotifiableMessageEvent) -> NotifiableMessageEvent
 ) {
     val indexToReplace = indexOfFirst { it.eventId == eventId }
     if (indexToReplace == -1) return

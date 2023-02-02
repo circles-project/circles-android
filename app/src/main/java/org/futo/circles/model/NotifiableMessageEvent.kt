@@ -2,11 +2,12 @@ package org.futo.circles.model
 
 import android.net.Uri
 import org.matrix.android.sdk.api.session.events.model.EventType
+import java.io.Serializable
 
 data class NotifiableMessageEvent(
-        override val eventId: String,
-        override val editedEventId: String?,
-        override val canBeReplaced: Boolean,
+        val eventId: String,
+        val editedEventId: String?,
+        val canBeReplaced: Boolean,
         val noisy: Boolean,
         val timestamp: Long,
         val senderName: String?,
@@ -23,9 +24,9 @@ data class NotifiableMessageEvent(
         val soundName: String? = null,
         val outGoingMessage: Boolean = false,
         val outGoingMessageFailed: Boolean = false,
-        override val isRedacted: Boolean = false,
-        override val isUpdated: Boolean = false
-) : NotifiableEvent {
+        val isRedacted: Boolean = false,
+        val isUpdated: Boolean = false
+) : Serializable {
 
     val type: String = EventType.MESSAGE
     val description: String = body ?: ""

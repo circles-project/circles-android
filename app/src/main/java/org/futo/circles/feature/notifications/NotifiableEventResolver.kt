@@ -40,7 +40,7 @@ class NotifiableEventResolver(
         session: Session,
         event: Event,
         canBeReplaced: Boolean
-    ): NotifiableEvent? {
+    ): NotifiableMessageEvent? {
         if (!event.supportsNotification()) return null
 
         if (event.isEdition()) return null

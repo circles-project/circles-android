@@ -1,7 +1,7 @@
 package org.futo.circles.feature.notifications
 
 import android.content.Context
-import org.futo.circles.model.NotifiableEvent
+import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.provider.MatrixInstanceProvider
 import java.io.File
 import java.io.FileOutputStream
@@ -15,12 +15,12 @@ class NotificationEventPersistence(
 
     private val matrix = MatrixInstanceProvider.matrix
 
-    fun loadEvents(factory: (List<NotifiableEvent>) -> NotificationEventQueue): NotificationEventQueue {
+    fun loadEvents(factory: (List<NotifiableMessageEvent>) -> NotificationEventQueue): NotificationEventQueue {
         try {
             val file = File(context.applicationContext.cacheDir, ROOMS_NOTIFICATIONS_FILE_NAME)
             if (file.exists()) {
                 file.inputStream().use {
-                    val events: ArrayList<NotifiableEvent>? =
+                    val events: ArrayList<NotifiableMessageEvent>? =
                         matrix.secureStorageService().loadSecureSecret(it, KEY_ALIAS_SECRET_STORAGE)
                     if (events != null) {
                         return factory(events)

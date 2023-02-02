@@ -23,10 +23,7 @@ import androidx.core.content.res.ResourcesCompat
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.feature.notifications.test.task.TestNotificationReceiver
-import org.futo.circles.model.InviteNotifiableEvent
 import org.futo.circles.model.RoomEventGroupInfo
-import org.futo.circles.model.SimpleNotifiableEvent
-import kotlin.random.Random
 
 class NotificationUtils(
     private val context: Context
@@ -197,54 +194,6 @@ class NotificationUtils(
             .build()
     }
 
-    fun buildRoomInvitationNotification(
-        inviteNotifiableEvent: InviteNotifiableEvent
-    ): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
-        // Build the pending intent for when the notification is clicked
-        val smallIcon = R.drawable.ic_push_notification
-
-        val channelID = NOISY_NOTIFICATION_CHANNEL_ID
-
-        return NotificationCompat.Builder(context, channelID)
-            .setOnlyAlertOnce(true)
-            .setContentTitle(
-                inviteNotifiableEvent.roomName ?: context.getString(R.string.app_name)
-            )
-            .setContentText(inviteNotifiableEvent.description)
-            .setGroup(context.getString(R.string.app_name))
-            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
-            .setSmallIcon(smallIcon)
-            .setColor(accentColor)
-            .apply {
-
-                val contentIntent = getMainIntent(context)
-                contentIntent.flags =
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                // pending intent get reused by system, this will mess up the extra params, so put unique info to avoid that
-                contentIntent.data = createIgnoredUri(inviteNotifiableEvent.eventId)
-                setContentIntent(
-                    PendingIntent.getActivity(
-                        context,
-                        0,
-                        contentIntent,
-                        PendingIntent.FLAG_IMMUTABLE
-                    )
-                )
-
-                if (inviteNotifiableEvent.noisy) {
-                    // Compat
-                    priority = NotificationCompat.PRIORITY_DEFAULT
-                    setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                    setLights(accentColor, 500, 500)
-                } else {
-                    priority = NotificationCompat.PRIORITY_LOW
-                }
-                setAutoCancel(true)
-            }
-            .build()
-    }
-
     @SuppressLint("LaunchActivityFromNotification", "MissingPermission")
     fun displayDiagnosticNotification() {
         val testActionIntent = Intent(context, TestNotificationReceiver::class.java)
@@ -286,53 +235,6 @@ class NotificationUtils(
         drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
         drawable.draw(canvas)
         return bitmap
-    }
-
-    fun buildSimpleEventNotification(
-        simpleNotifiableEvent: SimpleNotifiableEvent,
-        matrixId: String
-    ): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
-        // Build the pending intent for when the notification is clicked
-        val smallIcon = R.drawable.ic_push_notification
-
-        val channelID = NOISY_NOTIFICATION_CHANNEL_ID
-
-        return NotificationCompat.Builder(context, channelID)
-            .setOnlyAlertOnce(true)
-            .setContentTitle(context.getString(R.string.app_name))
-            .setContentText(simpleNotifiableEvent.description)
-            .setGroup(context.getString(R.string.app_name))
-            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
-            .setSmallIcon(smallIcon)
-            .setColor(accentColor)
-            .setAutoCancel(true)
-            .apply {
-                val contentIntent = getMainIntent(context)
-                contentIntent.flags =
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                // pending intent get reused by system, this will mess up the extra params, so put unique info to avoid that
-                contentIntent.data = createIgnoredUri(simpleNotifiableEvent.eventId)
-                setContentIntent(
-                    PendingIntent.getActivity(
-                        context,
-                        0,
-                        contentIntent,
-                        PendingIntent.FLAG_IMMUTABLE
-                    )
-                )
-
-                if (simpleNotifiableEvent.noisy) {
-                    // Compat
-                    priority = NotificationCompat.PRIORITY_DEFAULT
-                    setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                    setLights(accentColor, 500, 500)
-                } else {
-                    priority = NotificationCompat.PRIORITY_LOW
-                }
-                setAutoCancel(true)
-            }
-            .build()
     }
 
     private fun buildOpenRoomIntent(roomId: String): PendingIntent? {
