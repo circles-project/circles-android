@@ -59,9 +59,6 @@ class RoomGroupMessageCreator(
             notificationUtils.buildMessagesListNotification(
                 style,
                 RoomEventGroupInfo(roomId, roomName).also {
-                    it.hasSmartReplyError = false
-                    it.shouldBing = meta.shouldBing
-                    it.customSound = events.last().soundName
                     it.isUpdated = events.last().isUpdated
                 },
                 largeIcon = largeBitmap,

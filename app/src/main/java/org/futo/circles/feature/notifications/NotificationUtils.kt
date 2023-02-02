@@ -8,22 +8,21 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.bundleOf
+import androidx.navigation.NavDeepLinkBuilder
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.extensions.getBitmap
 import org.futo.circles.feature.notifications.test.task.TestNotificationReceiver
+import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.RoomEventGroupInfo
 
 class NotificationUtils(
@@ -116,10 +115,7 @@ class NotificationUtils(
         tickerText: String
     ): Notification {
         val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
-        // Build the pending intent for when the notification is clicked
-        val openIntent = buildOpenRoomIntent(roomInfo.roomId)
 
-        val smallIcon = R.drawable.ic_push_notification
 
         val channelID = NOISY_NOTIFICATION_CHANNEL_ID
         return NotificationCompat.Builder(context, channelID)
@@ -139,20 +135,15 @@ class NotificationUtils(
             )
             .setGroup(context.getString(R.string.app_name))
             .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
-            .setSmallIcon(smallIcon)
+            .setSmallIcon(R.drawable.ic_push_notification)
             .setColor(accentColor)
+            .setAutoCancel(true)
             .apply {
-                if (roomInfo.shouldBing) {
-                    // Compat
-                    priority = NotificationCompat.PRIORITY_DEFAULT
-                    setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                    setLights(accentColor, 500, 500)
-                } else {
-                    priority = NotificationCompat.PRIORITY_LOW
-                }
+                priority = NotificationCompat.PRIORITY_DEFAULT
+                setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                setLights(accentColor, 500, 500)
 
-                // Add actions and notification intents
-                // Mark room as read
+
                 val markRoomReadIntent = Intent(context, NotificationBroadcastReceiver::class.java)
                 markRoomReadIntent.action = NotificationActionIds.markRoomRead
                 markRoomReadIntent.data = createIgnoredUri(roomInfo.roomId)
@@ -177,7 +168,7 @@ class NotificationUtils(
                     .build()
                     .let { addAction(it) }
 
-                if (openIntent != null) setContentIntent(openIntent)
+                setContentIntent(buildOpenRoomIntent(roomInfo.roomId))
                 if (largeIcon != null) setLargeIcon(largeIcon)
 
                 val intent = Intent(context, NotificationBroadcastReceiver::class.java)
@@ -223,19 +214,12 @@ class NotificationUtils(
         )
     }
 
-    private fun buildOpenRoomIntent(roomId: String): PendingIntent? {
-        val roomIntentTap = getMainIntent(context)
-        roomIntentTap.action = NotificationActionIds.tapToView
-        roomIntentTap.data = createIgnoredUri("openRoom?$roomId")
-        // Recreate the back stack
-        return TaskStackBuilder.create(context)
-            .addNextIntentWithParentStack(getMainIntent(context))
-            .addNextIntent(roomIntentTap)
-            .getPendingIntent(
-                System.currentTimeMillis().toInt(),
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-    }
+    private fun buildOpenRoomIntent(roomId: String): PendingIntent =
+        NavDeepLinkBuilder(context)
+            .setGraph(R.navigation.nav_graph_bottom_menu)
+            .setDestination(R.id.timelineFragment)
+            .setArguments(bundleOf("roomId" to roomId, "type" to CircleRoomTypeArg.Group))
+            .createPendingIntent()
 }
 
 fun getMainIntent(context: Context): Intent {

@@ -8,7 +8,6 @@ import org.futo.circles.extensions.coroutineScope
 import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.java.KoinJavaComponent.inject
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.read.ReadService
