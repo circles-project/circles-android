@@ -41,7 +41,7 @@ class NotificationRenderer(
             LinkedHashMap()
         forEach {
             val roomEvents = roomIdToEventMap.getOrPut(it.event.roomId) { ArrayList() }
-            roomEvents.add(it.castedToEventType())
+            roomEvents.add(it)
         }
         return roomIdToEventMap
     }
@@ -68,15 +68,8 @@ class NotificationRenderer(
     }
 
     private fun ProcessedMessageEvents.hasNoEventsToDisplay() = isEmpty() || all {
-        it.type == ProcessedEvent.Type.REMOVE || it.event.canNotBeDisplayed()
+        it.type == ProcessedEvent.Type.REMOVE || it.event.isRedacted
     }
-
-    private fun NotifiableMessageEvent.canNotBeDisplayed() = isRedacted
-
-    @Suppress("UNCHECKED_CAST")
-    private fun <T : NotifiableMessageEvent> ProcessedEvent<NotifiableMessageEvent>.castedToEventType(): ProcessedEvent<T> =
-        this as ProcessedEvent<T>
-
 
     @SuppressLint("MissingPermission")
     private fun showNotificationMessage(tag: String?, notification: Notification) {
