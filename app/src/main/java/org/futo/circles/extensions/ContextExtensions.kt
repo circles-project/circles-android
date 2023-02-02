@@ -1,9 +1,12 @@
 package org.futo.circles.extensions
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.util.DisplayMetrics
 import androidx.annotation.DimenRes
-import org.futo.circles.R
+import androidx.annotation.DrawableRes
+import androidx.core.content.res.ResourcesCompat
 
 fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
 
@@ -17,4 +20,19 @@ fun Context.disableScreenScale(): Context {
 
 fun Context.convertDpToPixel(dp: Float): Float {
     return dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+}
+
+fun Context.getBitmap(@DrawableRes drawableRes: Int): Bitmap? {
+    val drawable =
+        ResourcesCompat.getDrawable(resources, drawableRes, null) ?: return null
+    val canvas = Canvas()
+    val bitmap = Bitmap.createBitmap(
+        drawable.intrinsicWidth,
+        drawable.intrinsicHeight,
+        Bitmap.Config.ARGB_8888
+    )
+    canvas.setBitmap(bitmap)
+    drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+    drawable.draw(canvas)
+    return bitmap
 }
