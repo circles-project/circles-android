@@ -23,7 +23,6 @@ class RoomGroupMessageCreator(
     ): RoomNotification.Message {
         val lastKnownRoomEvent = events.last()
         val roomName = lastKnownRoomEvent.roomName ?: lastKnownRoomEvent.senderName ?: ""
-        val roomIsGroup = !lastKnownRoomEvent.roomIsDirect
         val style = NotificationCompat.MessagingStyle(
             Person.Builder()
                 .setName(userDisplayName)
@@ -31,26 +30,17 @@ class RoomGroupMessageCreator(
                 .setKey(lastKnownRoomEvent.matrixID)
                 .build()
         ).also {
-            it.conversationTitle = roomName.takeIf { roomIsGroup }
-            it.isGroupConversation = roomIsGroup
+            it.conversationTitle = roomName
+            it.isGroupConversation = true
             it.addMessagesFromEvents(events)
         }
 
-        val tickerText = if (roomIsGroup) {
-            context.getString(
+        val tickerText = context.getString(
                 R.string.notification_ticker_text_group,
                 roomName,
                 events.last().senderName,
                 events.last().description
             )
-        } else {
-            context.getString(
-                R.string.notification_ticker_text_dm,
-                events.last().senderName,
-                events.last().description
-            )
-        }
-
         val largeBitmap = getRoomBitmap(events)
 
         val lastMessageTimestamp = events.last().timestamp
@@ -68,7 +58,7 @@ class RoomGroupMessageCreator(
         return RoomNotification.Message(
             notificationUtils.buildMessagesListNotification(
                 style,
-                RoomEventGroupInfo(roomId, roomName, isDirect = !roomIsGroup).also {
+                RoomEventGroupInfo(roomId, roomName).also {
                     it.hasSmartReplyError = false
                     it.shouldBing = meta.shouldBing
                     it.customSound = events.last().soundName
@@ -112,7 +102,11 @@ class RoomGroupMessageCreator(
     ): CharSequence {
         return try {
             when (events.size) {
-                1 -> String.format("%s: %s ", roomName, events.first().senderName) + events.first().description
+                1 -> String.format(
+                    "%s: %s ",
+                    roomName,
+                    events.first().senderName
+                ) + events.first().description
                 else -> {
                     context.resources.getQuantityString(
                         R.plurals.notification_compat_summary_line_for_room,
@@ -129,7 +123,6 @@ class RoomGroupMessageCreator(
 
     private fun getRoomBitmap(events: List<NotifiableMessageEvent>): Bitmap? {
         return events.lastOrNull()
-            ?.roomAvatarPath
-            ?.let { bitmapLoader.getRoomBitmap(it) }
+            ?.let { bitmapLoader.getRoomBitmap(it.roomName ?: "", it.roomAvatarPath) }
     }
 }

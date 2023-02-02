@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import org.futo.circles.MainActivity
 import org.futo.circles.R
+import org.futo.circles.extensions.getBitmap
 import org.futo.circles.feature.notifications.test.task.TestNotificationReceiver
 import org.futo.circles.model.RoomEventGroupInfo
 
@@ -212,7 +213,7 @@ class NotificationUtils(
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(context.getString(R.string.settings_troubleshoot_test_push_notification_content))
                 .setSmallIcon(R.drawable.ic_push_notification)
-                .setLargeIcon(getBitmap(context, R.mipmap.ic_launcher))
+                .setLargeIcon(context.getBitmap(R.mipmap.ic_launcher))
                 .setColor(ContextCompat.getColor(context, R.color.launcher_background_color))
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
@@ -220,21 +221,6 @@ class NotificationUtils(
                 .setContentIntent(testPendingIntent)
                 .build()
         )
-    }
-
-    private fun getBitmap(context: Context, @DrawableRes drawableRes: Int): Bitmap? {
-        val drawable =
-            ResourcesCompat.getDrawable(context.resources, drawableRes, null) ?: return null
-        val canvas = Canvas()
-        val bitmap = Bitmap.createBitmap(
-            drawable.intrinsicWidth,
-            drawable.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
-        )
-        canvas.setBitmap(bitmap)
-        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-        drawable.draw(canvas)
-        return bitmap
     }
 
     private fun buildOpenRoomIntent(roomId: String): PendingIntent? {

@@ -2,9 +2,12 @@ package org.futo.circles.feature.notifications
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import androidx.annotation.WorkerThread
 import androidx.core.graphics.drawable.IconCompat
+import com.amulyakhare.textdrawable.TextDrawable
+import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -13,27 +16,30 @@ import com.bumptech.glide.signature.ObjectKey
 class NotificationBitmapLoader(private val context: Context) {
 
     @WorkerThread
-    fun getRoomBitmap(path: String?): Bitmap? {
-        if (path == null) {
-            return null
-        }
-        return loadRoomBitmap(path)
-    }
+    fun getRoomBitmap(roomName: String, path: String?): Bitmap {
+        val placeholder = TextDrawable.Builder()
+            .setShape(TextDrawable.SHAPE_RECT)
+            .setColor(ColorGenerator.DEFAULT.getColor(roomName))
+            .setTextColor(Color.WHITE)
+            .setWidth(64)
+            .setHeight(64)
+            .setText(roomName.first().toString())
+            .build()
 
-    @WorkerThread
-    private fun loadRoomBitmap(path: String): Bitmap? {
         return try {
             Glide.with(context)
                 .asBitmap()
                 .load(path)
                 .format(DecodeFormat.PREFER_ARGB_8888)
                 .signature(ObjectKey("room-icon-notification"))
+                .error(placeholder)
                 .submit()
                 .get()
         } catch (e: Exception) {
-            null
+            placeholder.bitmap
         }
     }
+
 
     @WorkerThread
     fun getUserIcon(path: String?): IconCompat? {
