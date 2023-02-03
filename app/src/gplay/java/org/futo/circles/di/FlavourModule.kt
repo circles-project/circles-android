@@ -1,6 +1,7 @@
 package org.futo.circles.di
 
 import org.futo.circles.feature.notifications.FcmHelper
+import org.futo.circles.feature.notifications.GuardServiceStarter
 import org.futo.circles.feature.notifications.test.task.NotificationTestsProvider
 import org.futo.circles.notifications.GoogleFcmHelper
 import org.futo.circles.notifications.test.GoogleNotificationTestProvider
@@ -29,4 +30,5 @@ val flavourModule = module {
             get()
         )
     }
+    single<GuardServiceStarter> { object : GuardServiceStarter {} }
 }
