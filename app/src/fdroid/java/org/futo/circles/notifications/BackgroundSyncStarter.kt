@@ -1,36 +1,21 @@
 package org.futo.circles.notifications
 
 import android.content.Context
-import org.futo.circles.feature.notifications.BackgroundSyncMode
+import androidx.core.app.NotificationManagerCompat
+import org.futo.circles.feature.notifications.CirclesSyncAndroidService.Companion.DEFAULT_SYNC_DELAY_SECONDS
+import org.futo.circles.feature.notifications.CirclesSyncAndroidService.Companion.DEFAULT_SYNC_TIMEOUT_SECONDS
 import org.futo.circles.provider.MatrixSessionProvider
 import org.futo.circles.provider.PreferencesProvider
 
 class BackgroundSyncStarter(
-    private val context: Context,
-    private val preferencesProvider: PreferencesProvider
+    private val context: Context
 ) {
     fun start() {
         val activeSession = MatrixSessionProvider.currentSession ?: return
-        when (preferencesProvider.getFdroidSyncBackgroundMode()) {
-            BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_BATTERY -> {
-                activeSession.syncService().startAutomaticBackgroundSync(
-                    DEFAULT_SYNC_TIMEOUT_SECONDS.toLong(),
-                    DEFAULT_SYNC_DELAY_SECONDS.toLong()
-                )
-            }
-            BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_REALTIME -> {
-                AlarmSyncBroadcastReceiver.scheduleAlarm(
-                    context,
-                    activeSession.sessionId,
-                    DEFAULT_SYNC_DELAY_SECONDS
-                )
-            }
-            BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_DISABLED -> {}
-        }
-    }
-
-    companion object {
-        const val DEFAULT_SYNC_DELAY_SECONDS = 60
-        const val DEFAULT_SYNC_TIMEOUT_SECONDS = 6
+        if (NotificationManagerCompat.from(context).areNotificationsEnabled())
+            activeSession.syncService().startAutomaticBackgroundSync(
+                DEFAULT_SYNC_TIMEOUT_SECONDS.toLong(),
+                DEFAULT_SYNC_DELAY_SECONDS.toLong()
+            )
     }
 }

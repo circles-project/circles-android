@@ -25,7 +25,6 @@ class FdroidFcmHelper(
 
     override fun onEnterForeground() {
         MatrixSessionProvider.currentSession?.syncService()?.stopAnyBackgroundSync()
-        AlarmSyncBroadcastReceiver.cancelAlarm(context)
     }
 
     override fun onEnterBackground() {

@@ -15,6 +15,9 @@ class CirclesSyncAndroidService : SyncAndroidService() {
 
     companion object {
 
+        const val DEFAULT_SYNC_DELAY_SECONDS = 60
+        const val DEFAULT_SYNC_TIMEOUT_SECONDS = 6
+
         fun newOneShotIntent(
             context: Context,
             sessionId: String
@@ -53,9 +56,9 @@ class CirclesSyncAndroidService : SyncAndroidService() {
 
     override fun provideMatrix() = MatrixInstanceProvider.matrix
 
-    override fun getDefaultSyncDelaySeconds() = BackgroundSyncMode.DEFAULT_SYNC_DELAY_SECONDS
+    override fun getDefaultSyncDelaySeconds() = DEFAULT_SYNC_DELAY_SECONDS
 
-    override fun getDefaultSyncTimeoutSeconds() = BackgroundSyncMode.DEFAULT_SYNC_TIMEOUT_SECONDS
+    override fun getDefaultSyncTimeoutSeconds() = DEFAULT_SYNC_TIMEOUT_SECONDS
 
     override fun onStart(isInitialSync: Boolean) {
         val notificationSubtitleRes = if (isInitialSync) {
@@ -131,11 +134,11 @@ class CirclesSyncAndroidService : SyncAndroidService() {
             val sessionId = inputData.getString(KEY_SESSION_ID) ?: return Result.failure()
             val syncTimeoutSeconds = inputData.getInt(
                 KEY_SYNC_TIMEOUT_SECONDS,
-                BackgroundSyncMode.DEFAULT_SYNC_TIMEOUT_SECONDS
+                DEFAULT_SYNC_TIMEOUT_SECONDS
             )
             val syncDelaySeconds = inputData.getInt(
                 KEY_SYNC_DELAY_SECONDS,
-                BackgroundSyncMode.DEFAULT_SYNC_DELAY_SECONDS
+                DEFAULT_SYNC_DELAY_SECONDS
             )
             val isPeriodic = inputData.getBoolean(KEY_IS_PERIODIC, false)
 

@@ -3,7 +3,6 @@ package org.futo.circles.provider
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.core.content.edit
-import org.futo.circles.feature.notifications.BackgroundSyncMode
 
 class PreferencesProvider(
     private val context: Context
@@ -17,23 +16,7 @@ class PreferencesProvider(
     }
 
     fun isDeveloperModeEnabled(): Boolean = getSharedPreferences().getBoolean(DEV_MODE_KEY, false)
-
-    fun setFdroidSyncBackgroundMode(mode: BackgroundSyncMode) {
-        getSharedPreferences().edit {
-            putString(FDROID_BACKGROUND_SYNC_MODE, mode.name)
-        }
-    }
-
-    fun getFdroidSyncBackgroundMode(): BackgroundSyncMode {
-        val strPref = getSharedPreferences()
-            .getString(
-                FDROID_BACKGROUND_SYNC_MODE,
-                BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_BATTERY.name
-            )
-        return BackgroundSyncMode.values().firstOrNull { it.name == strPref }
-            ?: BackgroundSyncMode.FDROID_BACKGROUND_SYNC_MODE_FOR_BATTERY
-    }
-
+    
     fun getFcmToken(): String? {
         return getSharedPreferences().getString(FCM_TOKEN, null)
     }

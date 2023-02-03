@@ -9,7 +9,6 @@ class FdroidNotificationTestProvider(
     private val testCurrentUnifiedPushDistributor: NotificationCurrentPushDistributorTest,
     private val testAvailableUnifiedPushDistributors: NotificationAvailableUnifiedDistributorsTest,
     private val testBackgroundRestrictions: NotificationsBackgroundRestrictionsTest,
-    private val testBatteryOptimization: NotificationsBatteryOptimizationTest,
     private val testNotification: NotificationTestSend
 ) : NotificationTestsProvider {
 
@@ -21,7 +20,6 @@ class FdroidNotificationTestProvider(
         list.add(testAvailableUnifiedPushDistributors)
         list.add(testCurrentUnifiedPushDistributor)
         list.add(testBackgroundRestrictions)
-        list.add(testBatteryOptimization)
         list.add(testNotification)
         return list
     }
