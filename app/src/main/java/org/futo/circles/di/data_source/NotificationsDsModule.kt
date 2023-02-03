@@ -23,4 +23,5 @@ val notificationsDsModule = module {
     factory { RoomGroupMessageCreator(get(), get(), get()) }
     factory { NotificationBitmapLoader(get()) }
     factory { DisplayableEventFormatter(get()) }
+    single { PushRuleTriggerListener(get(), get()) }
 }

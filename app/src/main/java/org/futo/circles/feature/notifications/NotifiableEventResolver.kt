@@ -36,6 +36,19 @@ class NotifiableEventResolver(
     private val nonEncryptedNotifiableEventTypes: List<String> =
         listOf(EventType.MESSAGE) + EventType.POLL_START.values
 
+    suspend fun resolveEvent(event: Event, session: Session, isNoisy: Boolean): NotifiableMessageEvent? {
+        val roomID = event.roomId ?: return null
+        val eventId = event.eventId ?: return null
+        val timelineEvent = session.getRoom(roomID)?.getTimelineEvent(eventId) ?: return null
+        return when (event.getClearType()) {
+            in nonEncryptedNotifiableEventTypes,
+            EventType.ENCRYPTED -> {
+                resolveMessageEvent(timelineEvent, session, canBeReplaced = false)
+            }
+            else -> null
+        }
+    }
+
     suspend fun resolveInMemoryEvent(
         session: Session,
         event: Event,

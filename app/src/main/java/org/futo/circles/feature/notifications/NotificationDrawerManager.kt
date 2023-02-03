@@ -60,6 +60,10 @@ class NotificationDrawerManager(
         refreshNotificationDrawer()
     }
 
+    fun clearAllEvents() {
+        updateEvents { it.clear() }
+    }
+
     private fun refreshNotificationDrawer() {
         val canHandle = firstThrottler.canHandle()
         backgroundHandler.removeCallbacksAndMessages(null)
