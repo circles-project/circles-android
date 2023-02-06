@@ -4,8 +4,10 @@ import android.content.Context
 import android.net.Uri
 import org.futo.circles.R
 import org.futo.circles.mapping.notEmptyDisplayName
-import org.futo.circles.model.*
-import org.matrix.android.sdk.api.extensions.orFalse
+import org.futo.circles.model.InviteNotifiableEvent
+import org.futo.circles.model.NotifiableEvent
+import org.futo.circles.model.NotifiableMessageEvent
+import org.futo.circles.model.toNotificationAction
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.crypto.MXCryptoError
@@ -36,9 +38,12 @@ class NotifiableEventResolver(
     private val nonEncryptedNotifiableEventTypes: List<String> =
         listOf(EventType.MESSAGE) + EventType.POLL_START.values
 
-    suspend fun resolveEvent(event: Event, session: Session, isNoisy: Boolean): NotifiableMessageEvent? {
+    suspend fun resolveEvent(event: Event, session: Session): NotifiableEvent? {
         val roomID = event.roomId ?: return null
         val eventId = event.eventId ?: return null
+        if (event.getClearType() == EventType.STATE_ROOM_MEMBER) {
+            return resolveStateRoomEvent(event, session)
+        }
         val timelineEvent = session.getRoom(roomID)?.getTimelineEvent(eventId) ?: return null
         return when (event.getClearType()) {
             in nonEncryptedNotifiableEventTypes,
@@ -82,6 +87,33 @@ class NotifiableEventResolver(
                 canBeReplaced = canBeReplaced
             )
         } else null
+    }
+
+    private fun resolveStateRoomEvent(event: Event, session: Session): NotifiableEvent? {
+        val content = event.content?.toModel<RoomMemberContent>() ?: return null
+        val roomId = event.roomId ?: return null
+        val dName =
+            event.senderId?.let { session.roomService().getRoomMember(it, roomId)?.displayName }
+        if (Membership.INVITE == content.membership) {
+            val roomSummary = session.getRoomSummary(roomId)
+            val body = displayableEventFormatter.formatRoomThirdPartyInvite(event, dName)
+                ?: context.getString(R.string.notification_new_invitation)
+            return InviteNotifiableEvent(
+                session.myUserId,
+                eventId = event.eventId!!,
+                editedEventId = null,
+                canBeReplaced = false,
+                roomId = roomId,
+                roomName = roomSummary?.displayName,
+                timestamp = event.originServerTs ?: 0,
+                noisy = true,
+                title = context.getString(R.string.notification_new_invitation),
+                description = body.toString(),
+                soundName = null, // will be set later
+                type = event.getClearType()
+            )
+        }
+        return null
     }
 
     private suspend fun resolveMessageEvent(
