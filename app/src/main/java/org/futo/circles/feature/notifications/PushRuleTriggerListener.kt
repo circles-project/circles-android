@@ -1,6 +1,7 @@
 package org.futo.circles.feature.notifications
 
 import kotlinx.coroutines.*
+import org.futo.circles.model.NotifiableEvent
 import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.model.toNotificationAction
 import org.futo.circles.provider.MatrixSessionProvider
@@ -38,11 +39,11 @@ class PushRuleTriggerListener(
     private suspend fun createNotifiableEvents(
         pushEvents: PushEvents,
         session: Session
-    ): List<NotifiableMessageEvent> {
+    ): List<NotifiableEvent> {
         return pushEvents.matchedEvents.mapNotNull { (event, pushRule) ->
             val action = pushRule.getActions().toNotificationAction()
             if (action.shouldNotify) {
-                resolver.resolveEvent(event, session, true)
+                resolver.resolveEvent(event, session)
             } else null
         }
     }
