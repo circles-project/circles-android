@@ -18,7 +18,7 @@ val notificationsDsModule = module {
     single { NotificationDrawerManager(get(), get(), get(), get()) }
     factory { NotifiableEventResolver(get(), get()) }
     factory { NotifiableEventProcessor() }
-    factory { NotificationRenderer(get(), get()) }
+    factory { NotificationRenderer(get(), get(), get()) }
     factory { NotificationEventPersistence(get()) }
     factory { RoomGroupMessageCreator(get(), get(), get()) }
     factory { NotificationBitmapLoader(get()) }
