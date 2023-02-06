@@ -5,13 +5,16 @@ import android.app.Notification
 import android.content.Context
 import androidx.annotation.WorkerThread
 import androidx.core.app.NotificationManagerCompat
+import org.futo.circles.feature.notifications.NotificationDrawerManager.Companion.ROOM_INVITATION_NOTIFICATION_ID
 import org.futo.circles.feature.notifications.NotificationDrawerManager.Companion.ROOM_MESSAGES_NOTIFICATION_ID
 import org.futo.circles.model.*
 
 private typealias ProcessedMessageEvents = List<ProcessedEvent<NotifiableMessageEvent>>
+
 class NotificationRenderer(
     context: Context,
-    private val roomGroupMessageCreator: RoomGroupMessageCreator
+    private val roomGroupMessageCreator: RoomGroupMessageCreator,
+    private val notificationUtils: NotificationUtils
 ) {
 
     private val notificationManager = NotificationManagerCompat.from(context)
@@ -20,30 +23,46 @@ class NotificationRenderer(
     fun render(
         myUserDisplayName: String,
         myUserAvatarUrl: String?,
-        eventsToProcess: List<ProcessedEvent<NotifiableMessageEvent>>
+        eventsToProcess: List<ProcessedEvent<NotifiableEvent>>
     ) {
-        val roomEvents = eventsToProcess.groupByType()
+        val (roomEvents, invitationEvents) = eventsToProcess.groupByType()
         val roomNotifications = roomEvents.toNotifications(myUserDisplayName, myUserAvatarUrl)
+        val invitationNotifications = invitationEvents.toNotifications()
+
         roomNotifications.forEach { wrapper ->
             when (wrapper) {
-                is RoomNotification.Removed -> cancelNotificationMessage(wrapper.roomId)
+                is RoomNotification.Removed -> {
+                    cancelNotificationMessage(
+                        wrapper.roomId,
+                        ROOM_MESSAGES_NOTIFICATION_ID
+                    )
+                }
                 is RoomNotification.Message ->
                     showNotificationMessage(
                         wrapper.meta.roomId,
+                        ROOM_MESSAGES_NOTIFICATION_ID,
+                        wrapper.notification
+                    )
+
+            }
+        }
+
+        invitationNotifications.forEach { wrapper ->
+            when (wrapper) {
+                is OneShotNotification.Removed -> {
+                    cancelNotificationMessage(
+                        wrapper.key,
+                        ROOM_INVITATION_NOTIFICATION_ID
+                    )
+                }
+                is OneShotNotification.Append ->
+                    showNotificationMessage(
+                        wrapper.meta.key,
+                        ROOM_INVITATION_NOTIFICATION_ID,
                         wrapper.notification
                     )
             }
         }
-    }
-
-    private fun List<ProcessedEvent<NotifiableMessageEvent>>.groupByType(): MutableMap<String, MutableList<ProcessedEvent<NotifiableMessageEvent>>> {
-        val roomIdToEventMap: MutableMap<String, MutableList<ProcessedEvent<NotifiableMessageEvent>>> =
-            LinkedHashMap()
-        forEach {
-            val roomEvents = roomIdToEventMap.getOrPut(it.event.roomId) { ArrayList() }
-            roomEvents.add(it)
-        }
-        return roomIdToEventMap
     }
 
 
@@ -67,17 +86,56 @@ class NotificationRenderer(
         }
     }
 
+    @JvmName("toNotificationsInviteNotifiableEvent")
+    fun List<ProcessedEvent<InviteNotifiableEvent>>.toNotifications(): List<OneShotNotification> {
+        return map { (processed, event) ->
+            when (processed) {
+                ProcessedEvent.Type.REMOVE -> OneShotNotification.Removed(key = event.roomId)
+                ProcessedEvent.Type.KEEP -> OneShotNotification.Append(
+                    notificationUtils.buildRoomInvitationNotification(event),
+                    OneShotNotification.Append.Meta(
+                        key = event.roomId,
+                        summaryLine = event.description,
+                        isNoisy = event.noisy,
+                        timestamp = event.timestamp
+                    )
+                )
+            }
+        }
+    }
+
+
     private fun ProcessedMessageEvents.hasNoEventsToDisplay() = isEmpty() || all {
         it.type == ProcessedEvent.Type.REMOVE || it.event.isRedacted
     }
 
     @SuppressLint("MissingPermission")
-    private fun showNotificationMessage(tag: String?, notification: Notification) {
-        notificationManager.notify(tag, ROOM_MESSAGES_NOTIFICATION_ID, notification)
+    private fun showNotificationMessage(tag: String?, id: Int, notification: Notification) {
+        notificationManager.notify(tag, id, notification)
     }
 
-    private fun cancelNotificationMessage(tag: String?) {
-        notificationManager.cancel(tag, ROOM_MESSAGES_NOTIFICATION_ID)
+    private fun cancelNotificationMessage(tag: String?, id: Int) {
+        notificationManager.cancel(tag, id)
     }
+
+    private fun List<ProcessedEvent<NotifiableEvent>>.groupByType(): GroupedNotificationEvents {
+        val roomIdToEventMap: MutableMap<String, MutableList<ProcessedEvent<NotifiableMessageEvent>>> =
+            LinkedHashMap()
+        val invitationEvents: MutableList<ProcessedEvent<InviteNotifiableEvent>> = ArrayList()
+        forEach {
+            when (val event = it.event) {
+                is InviteNotifiableEvent -> invitationEvents.add(it.castedToEventType())
+                is NotifiableMessageEvent -> {
+                    val roomEvents = roomIdToEventMap.getOrPut(event.roomId) { ArrayList() }
+                    roomEvents.add(it.castedToEventType())
+                }
+            }
+        }
+        return GroupedNotificationEvents(roomIdToEventMap, invitationEvents)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun <T : NotifiableEvent> ProcessedEvent<NotifiableEvent>.castedToEventType(): ProcessedEvent<T> =
+        this as ProcessedEvent<T>
 
 }

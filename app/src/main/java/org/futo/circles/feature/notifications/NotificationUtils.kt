@@ -23,6 +23,7 @@ import org.futo.circles.R
 import org.futo.circles.extensions.getBitmap
 import org.futo.circles.feature.notifications.test.task.TestNotificationReceiver
 import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.model.InviteNotifiableEvent
 import org.futo.circles.model.RoomEventGroupInfo
 
 class NotificationUtils(
@@ -33,7 +34,7 @@ class NotificationUtils(
         const val NOTIFICATION_ID_FOREGROUND_SERVICE = 61
         private const val LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID =
             "LISTEN_FOR_EVENTS_NOTIFICATION_CHANNEL_ID"
-        private const val NOISY_NOTIFICATION_CHANNEL_ID = "DEFAULT_NOISY_NOTIFICATION_CHANNEL_ID"
+        private const val ROOM_NOTIFICATION_CHANNEL_ID = "DEFAULT_ROOM_NOTIFICATION_CHANNEL_ID"
 
         @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
         fun supportNotificationChannels() = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -48,12 +49,12 @@ class NotificationUtils(
         val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
 
         notificationManager.createNotificationChannel(NotificationChannel(
-            NOISY_NOTIFICATION_CHANNEL_ID,
-            context.getString(R.string.notification_noisy_notifications),
+            ROOM_NOTIFICATION_CHANNEL_ID,
+            context.getString(R.string.notification_room_notifications),
             NotificationManager.IMPORTANCE_DEFAULT
         )
             .apply {
-                description = context.getString(R.string.notification_noisy_notifications)
+                description = context.getString(R.string.notification_room_notifications)
                 enableVibration(true)
                 enableLights(true)
                 lightColor = accentColor
@@ -117,7 +118,7 @@ class NotificationUtils(
         val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
 
 
-        val channelID = NOISY_NOTIFICATION_CHANNEL_ID
+        val channelID = ROOM_NOTIFICATION_CHANNEL_ID
         return NotificationCompat.Builder(context, channelID)
             .setOnlyAlertOnce(roomInfo.isUpdated)
             .setWhen(lastMessageTimestamp)
@@ -186,6 +187,43 @@ class NotificationUtils(
             .build()
     }
 
+    fun buildRoomInvitationNotification(
+        inviteNotifiableEvent: InviteNotifiableEvent
+    ): Notification {
+        val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
+        val smallIcon = R.drawable.ic_push_notification
+
+        val channelID = ROOM_NOTIFICATION_CHANNEL_ID
+
+        return NotificationCompat.Builder(context, channelID)
+            .setOnlyAlertOnce(true)
+            .setContentTitle(inviteNotifiableEvent.roomName ?: context.getString(R.string.app_name))
+            .setContentText(inviteNotifiableEvent.description)
+            .setGroup(context.getString(R.string.app_name))
+            .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
+            .setSmallIcon(smallIcon)
+            .setColor(accentColor)
+            .apply {
+                val contentIntent = Intent(context, MainActivity::class.java)
+                contentIntent.flags =
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                contentIntent.data = createIgnoredUri(inviteNotifiableEvent.eventId)
+                setContentIntent(
+                    PendingIntent.getActivity(
+                        context,
+                        0,
+                        contentIntent,
+                        PendingIntent.FLAG_IMMUTABLE
+                    )
+                )
+                priority = NotificationCompat.PRIORITY_DEFAULT
+                setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                setLights(accentColor, 500, 500)
+                setAutoCancel(true)
+            }
+            .build()
+    }
+
     @SuppressLint("LaunchActivityFromNotification", "MissingPermission")
     fun displayDiagnosticNotification() {
         val testActionIntent = Intent(context, TestNotificationReceiver::class.java)
@@ -200,7 +238,7 @@ class NotificationUtils(
         notificationManager.notify(
             "DIAGNOSTIC",
             888,
-            NotificationCompat.Builder(context, NOISY_NOTIFICATION_CHANNEL_ID)
+            NotificationCompat.Builder(context, ROOM_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(context.getString(R.string.settings_troubleshoot_test_push_notification_content))
                 .setSmallIcon(R.drawable.ic_push_notification)

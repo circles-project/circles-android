@@ -6,6 +6,7 @@ import android.os.HandlerThread
 import androidx.annotation.WorkerThread
 import org.futo.circles.R
 import org.futo.circles.mapping.notEmptyDisplayName
+import org.futo.circles.model.NotifiableEvent
 import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
@@ -49,7 +50,7 @@ class NotificationDrawerManager(
         return NotificationState(queuedEvents, renderedEvents)
     }
 
-    fun NotificationEventQueue.onNotifiableEventReceived(notifiableEvent: NotifiableMessageEvent) {
+    fun NotificationEventQueue.onNotifiableEventReceived(notifiableEvent: NotifiableEvent) {
         add(notifiableEvent)
     }
 
@@ -101,7 +102,7 @@ class NotificationDrawerManager(
 
     private fun renderEvents(
         session: Session,
-        eventsToRender: List<ProcessedEvent<NotifiableMessageEvent>>
+        eventsToRender: List<ProcessedEvent<NotifiableEvent>>
     ) {
         val user = session.getUserOrDefault(session.myUserId)
         val myUserDisplayName = user.notEmptyDisplayName()
@@ -116,5 +117,6 @@ class NotificationDrawerManager(
 
     companion object {
         const val ROOM_MESSAGES_NOTIFICATION_ID = 1
+        const val ROOM_INVITATION_NOTIFICATION_ID = 2
     }
 }
