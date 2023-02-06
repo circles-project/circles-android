@@ -371,7 +371,7 @@
         <item quantity="one">%1$s: %2$d message</item>
         <item quantity="other">%1$s: %2$d messages</item>
     </plurals>
-    <string name="notification_noisy_notifications">Noisy notifications</string>
+    <string name="notification_room_notifications">Room notifications</string>
     <string name="notification_listening_for_events">Listening for events</string>
     <string name="notification_new_messages">New Messages</string>
     <string name="action_mark_room_read">Mark as read</string>
