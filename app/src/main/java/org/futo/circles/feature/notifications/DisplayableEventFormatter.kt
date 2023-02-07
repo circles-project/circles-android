@@ -124,36 +124,12 @@ class DisplayableEventFormatter(
         senderName: String?
     ): CharSequence? {
         val content = event.content.toModel<RoomThirdPartyInviteContent>()
-        val prevContent = event.resolvedPrevContent()?.toModel<RoomThirdPartyInviteContent>()
-
-        return when {
-            prevContent != null -> {
-                if (event.isSentByCurrentUser()) {
-                    context.getString(
-                        R.string.notice_room_third_party_revoked_invite_by_you,
-                        prevContent.displayName
-                    )
-                } else {
-                    context.getString(
-                        R.string.notice_room_third_party_revoked_invite,
-                        senderName, prevContent.displayName
-                    )
-                }
-            }
-            content != null -> {
-                if (event.isSentByCurrentUser()) {
-                    context.getString(
-                        R.string.notice_room_third_party_invite_by_you,
-                        content.displayName
-                    )
-                } else {
-                    context.getString(
-                        R.string.notice_room_third_party_invite,
-                        senderName, content.displayName
-                    )
-                }
-            }
-            else -> null
+        return content?.let {
+            if (!event.isSentByCurrentUser()) {
+                context.getString(
+                    R.string.notice_room_third_party_invite, senderName
+                )
+            } else null
         }
     }
 

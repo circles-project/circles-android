@@ -352,7 +352,7 @@
     <string name="poll_end_room_list_preview">Poll ended</string>
     <string name="encrypted_message">Encrypted message</string>
 
-    <string name="notice_room_third_party_invite">%1$s sent an invitation to %2$s to join the room</string>
+    <string name="notice_room_third_party_invite">%1$s sent an invitation to join the room</string>
     <string name="notice_room_third_party_invite_by_you">You sent an invitation to %1$s to join the room</string>
     <string name="notice_room_third_party_revoked_invite">%1$s revoked the invitation for %2$s to join the room</string>
     <string name="notice_room_third_party_revoked_invite_by_you">You revoked the invitation for %1$s to join the room</string>
