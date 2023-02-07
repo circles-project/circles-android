@@ -353,10 +353,6 @@
     <string name="encrypted_message">Encrypted message</string>
 
     <string name="notice_room_third_party_invite">%1$s sent an invitation to join the room</string>
-    <string name="notice_room_third_party_invite_by_you">You sent an invitation to %1$s to join the room</string>
-    <string name="notice_room_third_party_revoked_invite">%1$s revoked the invitation for %2$s to join the room</string>
-    <string name="notice_room_third_party_revoked_invite_by_you">You revoked the invitation for %1$s to join the room</string>
-
     <string name="event_redacted_by_user_reason_with_reason">Event deleted by user, reason: %1$s</string>
     <string name="event_redacted_by_admin_reason_with_reason">Event moderated by room admin, reason: %1$s</string>
     <string name="event_redacted_by_user_reason">Event deleted by user</string>
@@ -372,6 +368,7 @@
         <item quantity="other">%1$s: %2$d messages</item>
     </plurals>
     <string name="notification_room_notifications">Room notifications</string>
+    <string name="notification_invitations">Invitations</string>
     <string name="notification_listening_for_events">Listening for events</string>
     <string name="notification_new_messages">New Messages</string>
     <string name="action_mark_room_read">Mark as read</string>

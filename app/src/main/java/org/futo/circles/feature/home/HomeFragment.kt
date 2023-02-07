@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -17,18 +18,22 @@ import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setSupportActionBar
+import org.futo.circles.model.GROUP_TYPE
+import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.matrix.android.sdk.api.session.getRoomSummary
 
 class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
     private val binding by viewBinding(FragmentBottomNavigationBinding::bind)
 
+    private val args: HomeFragmentArgs by navArgs()
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val notificationPermissionHelper =
         RuntimePermissionHelper(this, Manifest.permission.POST_NOTIFICATIONS)
 
-    private val viewModel by viewModel<HomeViewModel>()
+    private val viewModel by activityViewModel<HomeViewModel>()
     private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,6 +44,17 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
         }
         setupObservers()
         registerPushNotifications()
+        handleOpenFromNotification()
+    }
+
+    private fun handleOpenFromNotification() {
+        val roomId = args.roomId ?: return
+        val summary = MatrixSessionProvider.currentSession?.getRoomSummary(roomId) ?: return
+        binding.bottomNavigationView.selectedItemId =
+            if (summary.roomType == GROUP_TYPE) R.id.groups_nav_graph
+            else R.id.circles_nav_graph
+        viewModel.postNotificationData(summary)
+        arguments?.clear()
     }
 
     private fun setupObservers() {
