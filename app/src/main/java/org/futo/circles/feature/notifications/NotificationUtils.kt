@@ -22,7 +22,6 @@ import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.extensions.getBitmap
 import org.futo.circles.feature.notifications.test.task.TestNotificationReceiver
-import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.InviteNotifiableEvent
 import org.futo.circles.model.RoomEventGroupInfo
 
@@ -35,6 +34,7 @@ class NotificationUtils(
         private const val LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID =
             "LISTEN_FOR_EVENTS_NOTIFICATION_CHANNEL_ID"
         private const val ROOM_NOTIFICATION_CHANNEL_ID = "DEFAULT_ROOM_NOTIFICATION_CHANNEL_ID"
+        private const val INVITE_NOTIFICATION_CHANNEL_ID = "DEFAULT_INVITE_NOTIFICATION_CHANNEL_ID"
 
         @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
         fun supportNotificationChannels() = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -61,6 +61,18 @@ class NotificationUtils(
             })
 
         notificationManager.createNotificationChannel(NotificationChannel(
+            INVITE_NOTIFICATION_CHANNEL_ID,
+            context.getString(R.string.notification_invitations),
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+            .apply {
+                description = context.getString(R.string.notification_invitations)
+                enableVibration(true)
+                enableLights(true)
+                lightColor = accentColor
+            })
+
+        notificationManager.createNotificationChannel(NotificationChannel(
             LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID,
             context.getString(R.string.notification_listening_for_events),
             NotificationManager.IMPORTANCE_MIN
@@ -76,15 +88,11 @@ class NotificationUtils(
         @StringRes subTitleResId: Int,
         withProgress: Boolean = true
     ): Notification {
-        // build the pending intent go to the home screen if this is clicked.
         val i = getMainIntent(context)
         i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         val mainIntent = getMainIntent(context)
-        val pi =
-            PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_IMMUTABLE)
-
+        val pi = PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_IMMUTABLE)
         val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
-
         val builder =
             NotificationCompat.Builder(context, LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(subTitleResId))
@@ -105,9 +113,7 @@ class NotificationUtils(
         return notification
     }
 
-    /**
-     * Build a notification for a Room.
-     */
+
     fun buildMessagesListNotification(
         messageStyle: NotificationCompat.MessagingStyle,
         roomInfo: RoomEventGroupInfo,
@@ -116,10 +122,7 @@ class NotificationUtils(
         tickerText: String
     ): Notification {
         val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
-
-
-        val channelID = ROOM_NOTIFICATION_CHANNEL_ID
-        return NotificationCompat.Builder(context, channelID)
+        return NotificationCompat.Builder(context, ROOM_NOTIFICATION_CHANNEL_ID)
             .setOnlyAlertOnce(roomInfo.isUpdated)
             .setWhen(lastMessageTimestamp)
             .setStyle(messageStyle)
@@ -169,7 +172,7 @@ class NotificationUtils(
                     .build()
                     .let { addAction(it) }
 
-                setContentIntent(buildOpenRoomIntent(roomInfo.roomId))
+                setContentIntent(buildNotificationClickIntent(roomInfo.roomId))
                 if (largeIcon != null) setLargeIcon(largeIcon)
 
                 val intent = Intent(context, NotificationBroadcastReceiver::class.java)
@@ -191,17 +194,13 @@ class NotificationUtils(
         inviteNotifiableEvent: InviteNotifiableEvent
     ): Notification {
         val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
-        val smallIcon = R.drawable.ic_push_notification
-
-        val channelID = ROOM_NOTIFICATION_CHANNEL_ID
-
-        return NotificationCompat.Builder(context, channelID)
+        return NotificationCompat.Builder(context, INVITE_NOTIFICATION_CHANNEL_ID)
             .setOnlyAlertOnce(true)
             .setContentTitle(inviteNotifiableEvent.roomName ?: context.getString(R.string.app_name))
             .setContentText(inviteNotifiableEvent.description)
             .setGroup(context.getString(R.string.app_name))
             .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
-            .setSmallIcon(smallIcon)
+            .setSmallIcon(R.drawable.ic_push_notification)
             .setColor(accentColor)
             .apply {
                 val contentIntent = Intent(context, MainActivity::class.java)
@@ -209,12 +208,7 @@ class NotificationUtils(
                     Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 contentIntent.data = createIgnoredUri(inviteNotifiableEvent.eventId)
                 setContentIntent(
-                    PendingIntent.getActivity(
-                        context,
-                        0,
-                        contentIntent,
-                        PendingIntent.FLAG_IMMUTABLE
-                    )
+                    buildNotificationClickIntent(inviteNotifiableEvent.roomId)
                 )
                 priority = NotificationCompat.PRIORITY_DEFAULT
                 setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
@@ -252,18 +246,18 @@ class NotificationUtils(
         )
     }
 
-    private fun buildOpenRoomIntent(roomId: String): PendingIntent =
+    private fun buildNotificationClickIntent(roomId: String): PendingIntent =
         NavDeepLinkBuilder(context)
-            .setGraph(R.navigation.nav_graph_bottom_menu)
-            .setDestination(R.id.timelineFragment)
-            .setArguments(bundleOf("roomId" to roomId, "type" to CircleRoomTypeArg.Group))
+            .setGraph(R.navigation.nav_graph_start_host)
+            .setDestination(R.id.bottomNavigationFragment)
+            .setArguments(bundleOf("roomId" to roomId))
             .createPendingIntent()
+
+    private fun getMainIntent(context: Context): Intent {
+        return Intent(context, MainActivity::class.java)
+    }
+
+    private fun createIgnoredUri(path: String): Uri = Uri.parse("ignored://$path")
 }
 
-fun getMainIntent(context: Context): Intent {
-    return Intent(context, MainActivity::class.java)
-}
 
-const val IGNORED_SCHEMA = "ignored"
-
-fun createIgnoredUri(path: String): Uri = Uri.parse("$IGNORED_SCHEMA://$path")
