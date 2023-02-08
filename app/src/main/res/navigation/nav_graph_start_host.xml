@@ -56,15 +56,7 @@
     <fragment
         android:id="@+id/bottomNavigationFragment"
         android:name="org.futo.circles.feature.home.HomeFragment"
-        tools:layout="@layout/fragment_bottom_navigation">
-
-        <argument
-            android:name="roomId"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-
-    </fragment>
+        tools:layout="@layout/fragment_bottom_navigation" />
     <fragment
         android:id="@+id/setupProfileFragment"
         android:name="org.futo.circles.feature.sign_up.setup_profile.SetupProfileFragment"

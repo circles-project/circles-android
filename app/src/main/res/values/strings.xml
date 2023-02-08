@@ -432,6 +432,7 @@
     <string name="settings_troubleshoot_test_battery_title">Battery Optimization</string>
     <string name="settings_troubleshoot_test_battery_success">Circles is not affected by Battery Optimization.</string>
     <string name="settings_troubleshoot_test_battery_failed">If a user leaves a device unplugged and stationary for a period of time, with the screen off, the device enters Doze mode. This prevents apps from accessing the network and defers their jobs, syncs, and standard alarms. </string>
+    <string name="shortcut_disabled">Shortcut disabled</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
