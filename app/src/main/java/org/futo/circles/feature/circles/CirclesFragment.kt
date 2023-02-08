@@ -6,7 +6,6 @@ import androidx.navigation.fragment.findNavController
 import org.futo.circles.core.rooms.HasInvites
 import org.futo.circles.core.rooms.RoomsFragment
 import org.futo.circles.extensions.observeData
-import org.futo.circles.feature.groups.GroupsFragmentDirections
 import org.futo.circles.feature.home.HomeViewModel
 import org.futo.circles.model.RoomListItem
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -19,7 +18,7 @@ class CirclesFragment : RoomsFragment(), HasInvites {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel.notificationLiveData.observeData(this) {
-            findNavController().navigate(GroupsFragmentDirections.toTimeline(it))
+            findNavController().navigate(CirclesFragmentDirections.toTimeline(it))
         }
     }
 
