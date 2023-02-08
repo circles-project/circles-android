@@ -44,7 +44,7 @@ class NotificationUtils(
     fun createNotificationChannels() {
         if (!supportNotificationChannels()) return
 
-        val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
+        val accentColor = ContextCompat.getColor(context, R.color.blue)
 
         notificationManager.createNotificationChannel(NotificationChannel(
             ROOM_NOTIFICATION_CHANNEL_ID,
@@ -90,7 +90,7 @@ class NotificationUtils(
         i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         val mainIntent = getMainIntent(context)
         val pi = PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_IMMUTABLE)
-        val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
+        val accentColor = ContextCompat.getColor(context, R.color.blue)
         val builder =
             NotificationCompat.Builder(context, LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(subTitleResId))
@@ -119,7 +119,7 @@ class NotificationUtils(
         lastMessageTimestamp: Long,
         tickerText: String
     ): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
+        val accentColor = ContextCompat.getColor(context, R.color.blue)
         return NotificationCompat.Builder(context, ROOM_NOTIFICATION_CHANNEL_ID)
             .setOnlyAlertOnce(roomInfo.isUpdated)
             .setWhen(lastMessageTimestamp)
@@ -191,7 +191,7 @@ class NotificationUtils(
     fun buildRoomInvitationNotification(
         inviteNotifiableEvent: InviteNotifiableEvent
     ): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.launcher_background_color)
+        val accentColor = ContextCompat.getColor(context, R.color.blue)
         return NotificationCompat.Builder(context, INVITE_NOTIFICATION_CHANNEL_ID)
             .setOnlyAlertOnce(true)
             .setContentTitle(inviteNotifiableEvent.roomName ?: context.getString(R.string.app_name))
@@ -235,7 +235,7 @@ class NotificationUtils(
                 .setContentText(context.getString(R.string.settings_troubleshoot_test_push_notification_content))
                 .setSmallIcon(R.drawable.ic_push_notification)
                 .setLargeIcon(context.getBitmap(R.mipmap.ic_launcher))
-                .setColor(ContextCompat.getColor(context, R.color.launcher_background_color))
+                .setColor(ContextCompat.getColor(context, R.color.blue))
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
                 .setAutoCancel(true)
