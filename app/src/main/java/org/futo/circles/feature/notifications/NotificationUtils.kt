@@ -16,8 +16,6 @@ import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
-import androidx.navigation.NavDeepLinkBuilder
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.extensions.getBitmap
@@ -247,11 +245,12 @@ class NotificationUtils(
     }
 
     private fun buildNotificationClickIntent(roomId: String): PendingIntent =
-        NavDeepLinkBuilder(context)
-            .setGraph(R.navigation.nav_graph_start_host)
-            .setDestination(R.id.bottomNavigationFragment)
-            .setArguments(bundleOf("roomId" to roomId))
-            .createPendingIntent()
+        PendingIntent.getActivity(
+            context,
+            1,
+            MainActivity.getOpenRoomIntent(context, roomId),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
     private fun getMainIntent(context: Context): Intent {
         return Intent(context, MainActivity::class.java)
