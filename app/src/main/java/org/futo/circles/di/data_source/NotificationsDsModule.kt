@@ -24,4 +24,6 @@ val notificationsDsModule = module {
     factory { NotificationBitmapLoader(get()) }
     factory { DisplayableEventFormatter(get()) }
     single { PushRuleTriggerListener(get(), get()) }
+    factory { ShortcutCreator(get()) }
+    factory { ShortcutsHandler(get(), get()) }
 }
