@@ -135,6 +135,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             isNotificationsEnabledForRoom = it
+            activity?.invalidateOptionsMenu()
         }
         viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
             onUserAccessLevelChanged(powerLevelsContent)
