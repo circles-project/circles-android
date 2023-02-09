@@ -14,13 +14,9 @@ class NotificationsBackgroundRestrictionsTest(
 
     override fun perform() {
         context.getSystemService<ConnectivityManager>()!!.apply {
-            // Checks if the device is on a metered network
             if (isActiveNetworkMetered) {
-                // Checks user’s Data Saver settings.
                 when (ConnectivityManagerCompat.getRestrictBackgroundStatus(this)) {
                     ConnectivityManagerCompat.RESTRICT_BACKGROUND_STATUS_ENABLED -> {
-                        // Background data usage is blocked for this app. Wherever possible,
-                        // the app should also use less data in the foreground.
                         description = context.getString(
                             R.string.settings_troubleshoot_test_bg_restricted_failed,
                             "RESTRICT_BACKGROUND_STATUS_ENABLED"
@@ -29,8 +25,6 @@ class NotificationsBackgroundRestrictionsTest(
                         quickFix = null
                     }
                     ConnectivityManagerCompat.RESTRICT_BACKGROUND_STATUS_WHITELISTED -> {
-                        // The app is whitelisted. Wherever possible,
-                        // the app should use less data in the foreground and background.
                         description = context.getString(
                             R.string.settings_troubleshoot_test_bg_restricted_success,
                             "RESTRICT_BACKGROUND_STATUS_WHITELISTED"
@@ -39,8 +33,6 @@ class NotificationsBackgroundRestrictionsTest(
                         quickFix = null
                     }
                     ConnectivityManagerCompat.RESTRICT_BACKGROUND_STATUS_DISABLED -> {
-                        // Data Saver is disabled. Since the device is connected to a
-                        // metered network, the app should use less data wherever possible.
                         description = context.getString(
                             R.string.settings_troubleshoot_test_bg_restricted_success,
                             "RESTRICT_BACKGROUND_STATUS_DISABLED"
@@ -50,8 +42,6 @@ class NotificationsBackgroundRestrictionsTest(
                     }
                 }
             } else {
-                // The device is not on a metered network.
-                // Use data as required to perform syncs, downloads, and updates.
                 description = context.getString(
                     R.string.settings_troubleshoot_test_bg_restricted_success,
                     ""

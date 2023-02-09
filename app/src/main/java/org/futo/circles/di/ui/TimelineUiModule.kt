@@ -18,6 +18,7 @@ val timelineUiModule = module {
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineViewModel(
             get { parametersOf(roomId, type) },
+            get { parametersOf(roomId, type) },
             get { parametersOf(roomId) },
             get(), get(), get(), get()
         )

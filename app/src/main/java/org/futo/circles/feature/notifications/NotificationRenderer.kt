@@ -65,7 +65,6 @@ class NotificationRenderer(
         }
     }
 
-
     private fun Map<String, ProcessedMessageEvents>.toNotifications(
         myUserDisplayName: String,
         myUserAvatarUrl: String?
