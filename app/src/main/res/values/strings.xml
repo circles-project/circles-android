@@ -351,7 +351,7 @@
     <string name="poll_response_room_list_preview">Vote cast</string>
     <string name="poll_end_room_list_preview">Poll ended</string>
     <string name="encrypted_message">Encrypted message</string>
-
+    <string name="notifications_disabled">notifications disabled</string>
     <string name="notice_room_third_party_invite">%1$s sent an invitation to join the room</string>
     <string name="event_redacted_by_user_reason_with_reason">Event deleted by user, reason: %1$s</string>
     <string name="event_redacted_by_admin_reason_with_reason">Event moderated by room admin, reason: %1$s</string>

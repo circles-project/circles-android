@@ -58,6 +58,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         activity?.addMenuProvider(this, viewLifecycleOwner)
     }
 
+    override fun onDetach() {
+        setToolbarSubTitle("")
+        super.onDetach()
+    }
+
     @SuppressLint("RestrictedApi")
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
@@ -135,6 +140,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             isNotificationsEnabledForRoom = it
+            setToolbarSubTitle(if (it) "" else getString(R.string.notifications_disabled))
             activity?.invalidateOptionsMenu()
         }
         viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
