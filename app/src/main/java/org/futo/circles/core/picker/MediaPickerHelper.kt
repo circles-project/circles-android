@@ -1,5 +1,6 @@
 package org.futo.circles.core.picker
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.net.Uri
 import android.os.Bundle
@@ -22,7 +23,8 @@ class MediaPickerHelper(
         PickMediaDialog(fragment.requireContext(), this, allMediaTypeAvailable)
     }
 
-    private val cameraPermissionHelper = CameraPermissionHelper(fragment)
+    private val cameraPermissionHelper =
+        RuntimePermissionHelper(fragment, Manifest.permission.CAMERA)
     private var cameraUri: Uri? = null
 
     private val photoIntentLauncher =
@@ -70,10 +72,10 @@ class MediaPickerHelper(
 
     override fun onPickMethodSelected(method: PickImageMethod) {
         when (method) {
-            PickImageMethod.Photo -> cameraPermissionHelper.runWithCameraPermission {
+            PickImageMethod.Photo -> cameraPermissionHelper.runWithPermission {
                 dispatchCameraIntent(MediaType.Image)
             }
-            PickImageMethod.Video -> cameraPermissionHelper.runWithCameraPermission {
+            PickImageMethod.Video -> cameraPermissionHelper.runWithPermission {
                 dispatchCameraIntent(MediaType.Video)
             }
             PickImageMethod.Device -> dispatchDevicePickerIntent()

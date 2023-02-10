@@ -7,6 +7,7 @@ import org.futo.circles.feature.photos.preview.MediaPreviewDataSource
 import org.futo.circles.feature.photos.save.SavePostToGalleryDataSource
 import org.futo.circles.feature.photos.select.SelectGalleriesDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
+import org.futo.circles.feature.room.RoomNotificationsDataSource
 import org.futo.circles.feature.room.invite.InviteMembersDataSource
 import org.futo.circles.feature.room.manage_members.ManageMembersDataSource
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelDataSource
@@ -24,6 +25,9 @@ import org.koin.dsl.module
 val timelineDsModule = module {
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         TimelineDataSource(roomId, type, get())
+    }
+    factory { (roomId: String, type: CircleRoomTypeArg) ->
+        RoomNotificationsDataSource(roomId, type, get())
     }
     factory { SendMessageDataSource(get()) }
     factory { (roomId: String) -> LeaveRoomDataSource(roomId, get()) }

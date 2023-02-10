@@ -2,20 +2,28 @@ package org.futo.circles.provider
 
 import android.content.Context
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.futo.circles.feature.notifications.GuardServiceStarter
+import org.futo.circles.feature.notifications.PushRuleTriggerListener
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.statistics.StatisticEvent
 
-object MatrixSessionProvider {
+object MatrixSessionProvider : KoinComponent {
 
     var currentSession: Session? = null
         private set
 
+    private val guardServiceStarter: GuardServiceStarter by inject()
+    private val pushRuleTriggerListener: PushRuleTriggerListener by inject()
+
     fun initSession(context: Context) {
         Matrix(
             context = context, matrixConfiguration = MatrixConfiguration(
-                roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl()
+                roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl(context),
+                threadMessagesEnabledDefault = false
             )
         ).also { MatrixInstanceProvider.saveMatrixInstance(it) }
 
@@ -32,6 +40,8 @@ object MatrixSessionProvider {
         val session = currentSession ?: return
         if (session.syncService().isSyncThreadAlive()) session.close()
         session.removeListener(MatrixSessionListenerProvider.sessionListener)
+        pushRuleTriggerListener.stop()
+        guardServiceStarter.stop()
         currentSession = null
     }
 
@@ -40,6 +50,8 @@ object MatrixSessionProvider {
         enableInviteKeysSharing(session)
         currentSession = session.apply { open(); syncService().startSync(true) }
         session.addListener(MatrixSessionListenerProvider.sessionListener)
+        pushRuleTriggerListener.startWithSession(session)
+        guardServiceStarter.start()
     }
 
     suspend fun awaitForSessionStart(session: Session) =

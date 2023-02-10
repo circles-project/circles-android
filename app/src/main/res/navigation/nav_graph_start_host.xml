@@ -55,8 +55,7 @@
 
     <fragment
         android:id="@+id/bottomNavigationFragment"
-        android:name="org.futo.circles.feature.bottom_navigation.BottomNavigationFragment"
-        android:label="Bottom Navigation"
+        android:name="org.futo.circles.feature.home.HomeFragment"
         tools:layout="@layout/fragment_bottom_navigation" />
     <fragment
         android:id="@+id/setupProfileFragment"

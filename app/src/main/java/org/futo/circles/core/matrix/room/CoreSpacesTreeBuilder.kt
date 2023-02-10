@@ -20,6 +20,7 @@ class CoreSpacesTreeBuilder(
         RootSpace(), CirclesSpace(), PeopleSpace(), GroupsSpace(), PhotosSpace()
     )
 
+    //Todo profile space
     suspend fun createCoreSpacesTree() {
         loadingLiveData.postValue(
             LoadingData(
@@ -33,13 +34,13 @@ class CoreSpacesTreeBuilder(
             delay(CREATE_ROOM_DELAY)
         }
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
-        delay(CREATE_ROOM_DELAY)
-        createRoomDataSource.createRoom(
-            ProfileRoom(),
-            MatrixSessionProvider.currentSession?.myUserId ?: "",
-            allowKnock = true,
-            isPublic = true
-        )
+//        delay(CREATE_ROOM_DELAY)
+//        createRoomDataSource.createRoom(
+//            ProfileRoom(),
+//            MatrixSessionProvider.currentSession?.myUserId ?: "",
+//            allowKnock = true,
+//            isPublic = true
+//        )
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 

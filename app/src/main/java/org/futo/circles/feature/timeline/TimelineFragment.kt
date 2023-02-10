@@ -48,6 +48,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
     private val navigator by lazy { TimelineNavigator(this) }
     private var groupPowerLevelsContent: PowerLevelsContent? = null
+    private var isNotificationsEnabledForRoom: Boolean = true
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,6 +56,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         setupViews()
         setupObservers()
         activity?.addMenuProvider(this, viewLifecycleOwner)
+    }
+
+    override fun onDetach() {
+        setToolbarSubTitle("")
+        super.onDetach()
     }
 
     @SuppressLint("RestrictedApi")
@@ -74,16 +80,23 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             groupPowerLevelsContent?.isCurrentUserOnlyAdmin(args.roomId) ?: false
         menu.findItem(R.id.stateEvents).isVisible =
             preferencesProvider.isDeveloperModeEnabled()
+        menu.findItem(R.id.muteNotifications).isVisible = isNotificationsEnabledForRoom
+        menu.findItem(R.id.unMuteNotifications).isVisible = !isNotificationsEnabledForRoom
     }
 
     private fun inflateCircleMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.circle_timeline_menu, menu)
-        menu.findItem(R.id.stateEvents).isVisible =
-            preferencesProvider.isDeveloperModeEnabled()
+        menu.findItem(R.id.stateEvents).isVisible = preferencesProvider.isDeveloperModeEnabled()
+        menu.findItem(R.id.muteNotifications).isVisible = isNotificationsEnabledForRoom
+        menu.findItem(R.id.unMuteNotifications).isVisible = !isNotificationsEnabledForRoom
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.muteNotifications ->
+                viewModel.setNotificationsEnabled(false)
+            R.id.unMuteNotifications ->
+                viewModel.setNotificationsEnabled(true)
             R.id.configureGroup, R.id.configureCircle ->
                 navigator.navigateToUpdateRoom(args.roomId, args.type)
             R.id.manageMembers, R.id.myFollowers ->
@@ -124,6 +137,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
+        }
+        viewModel.notificationsStateLiveData.observeData(this) {
+            isNotificationsEnabledForRoom = it
+            setToolbarSubTitle(if (it) "" else getString(R.string.notifications_disabled))
+            activity?.invalidateOptionsMenu()
         }
         viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
             onUserAccessLevelChanged(powerLevelsContent)

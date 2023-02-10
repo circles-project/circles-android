@@ -1,8 +1,11 @@
 package org.futo.circles.extensions
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
+import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -66,6 +69,10 @@ fun Fragment.setToolbarTitle(title: String) {
     (activity as? AppCompatActivity)?.supportActionBar?.title = title
 }
 
+fun Fragment.setToolbarSubTitle(title: String) {
+    (activity as? AppCompatActivity)?.supportActionBar?.subtitle = title
+}
+
 fun Fragment.showDialog(
     @StringRes titleResIdRes: Int,
     @StringRes messageResId: Int? = null,
@@ -108,4 +115,22 @@ fun Fragment.withConfirmation(type: ConfirmationType, action: () -> Unit) {
         negativeButtonVisible = true,
         positiveAction = action
     )
+}
+
+fun Fragment.openAppSettings() {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    val uri = Uri.fromParts("package", requireContext().packageName, null)
+    intent.data = uri
+    requireActivity().startActivity(intent)
+}
+
+fun Fragment.openNotificationSettings() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val intent = Intent().apply {
+            action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+            putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+        }
+        requireActivity().startActivity(intent)
+    } else openAppSettings()
 }

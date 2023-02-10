@@ -8,7 +8,6 @@ import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.room.select_users.SearchUserDataSource
-import org.futo.circles.mapping.toPeopleFollowingUserListItem
 import org.futo.circles.mapping.toPeopleIgnoredUserListItem
 import org.futo.circles.mapping.toPeopleRequestUserListItem
 import org.futo.circles.mapping.toPeopleSuggestionUserListItem
@@ -68,6 +67,7 @@ class PeopleDataSource(
     private fun getIgnoredUserFlow() =
         session?.userService()?.getIgnoredUsersLive()?.asFlow() ?: flowOf()
 
+    //Todo profile space
     private suspend fun buildList(
         knowUsers: List<User>,
         suggestions: List<User>,
@@ -78,16 +78,18 @@ class PeopleDataSource(
             addAll(ignoredUsers.map { it.toPeopleIgnoredUserListItem() })
             addAll(requests.map { it.toPeopleRequestUserListItem() })
             addAll(knowUsers.map {
-                val profileRoomId = getProfileRoomForUser(it.userId)?.roomId
-                if (amIFollowThisUserProfile(profileRoomId)) it.toPeopleFollowingUserListItem()
-                else it.toPeopleSuggestionUserListItem(true, profileRoomId)
+//                val profileRoomId = getProfileRoomForUser(it.userId)?.roomId
+//                if (amIFollowThisUserProfile(profileRoomId)) it.toPeopleFollowingUserListItem()
+//                else it.toPeopleSuggestionUserListItem(true, profileRoomId)
+                it.toPeopleSuggestionUserListItem(true, null)
             })
             addAll(
                 suggestions.map {
-                    it.toPeopleSuggestionUserListItem(
-                        false,
-                        getProfileRoomForUser(it.userId)?.roomId
-                    )
+//                    it.toPeopleSuggestionUserListItem(
+//                        false,
+//                        getProfileRoomForUser(it.userId)?.roomId
+//                    )
+                    it.toPeopleSuggestionUserListItem(false, null)
                 }
             )
         }.distinctBy { it.id }

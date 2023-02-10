@@ -3,6 +3,7 @@ package org.futo.circles.feature.settings
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -12,7 +13,7 @@ import org.futo.circles.R
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
-import org.futo.circles.feature.bottom_navigation.SystemNoticesCountSharedViewModel
+import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.model.ConfirmationType
 import org.futo.circles.provider.PreferencesProvider
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -32,6 +33,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        updatePushNotificationStatus()
+    }
+
     private fun setupViews() {
         with(binding) {
             tvLogout.setOnClickListener { withConfirmation(ConfirmationType.LOG_OUT) { viewModel.logOut() } }
@@ -42,9 +48,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash() }
+            lPushNotifications.setOnClickListener { openNotificationSettings() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
+            tvNotificationsTest.setOnClickListener { navigateToPushTest() }
         }
         setVersion()
+        updateSettingsItemsVisibility()
     }
 
     private fun setupObservers() {
@@ -85,6 +94,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
+    private fun updatePushNotificationStatus() {
+        val isPushNotificationsAllowed =
+            NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
+        binding.tvPushNotificationsStatus.text =
+            getString(if (isPushNotificationsAllowed) R.string.enabled else R.string.disabled)
+    }
+
     private fun navigateToMatrixChangePassword() {
         findNavController().navigate(SettingsFragmentDirections.toChangePasswordDialogFragment())
     }
@@ -115,11 +131,20 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.tvVersion.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
     }
 
+    private fun navigateToPushTest() {
+        findNavController().navigate(SettingsFragmentDirections.toNotificationTestFragment())
+    }
+
     private fun toggleDeveloperMode() {
         val isEnabled = preferencesProvider.isDeveloperModeEnabled()
         preferencesProvider.setDeveloperMode(!isEnabled)
         val messageId = if (isEnabled) R.string.developer_mode_disabled
         else R.string.developer_mode_enabled
         Toast.makeText(requireContext(), getString(messageId), Toast.LENGTH_LONG).show()
+        updateSettingsItemsVisibility()
+    }
+
+    private fun updateSettingsItemsVisibility() {
+        binding.tvNotificationsTest.setIsVisible(preferencesProvider.isDeveloperModeEnabled())
     }
 }

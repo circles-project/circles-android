@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Circles</string>
     <string name="futo">FUTO</string>
+    <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
@@ -26,6 +27,7 @@
     <string name="invite_to_format">Invite to %s</string>
     <string name="enter_name_or_id">Enter name or userId</string>
     <string name="follow">Follow</string>
+    <string name="fix">Fix</string>
     <string name="following_users">Following users</string>
     <string name="known_users">Known users</string>
     <string name="ignored_users">Ignored users</string>
@@ -241,6 +243,10 @@
     <string name="passphrase">Passphrase</string>
     <string name="notifications">Notifications</string>
     <string name="system_notices">System notices</string>
+    <string name="push_notifications">Push notifications</string>
+    <string name="push_notifications_test">Push notifications test</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
     <string name="confirm_auth">Confirm auth</string>
     <string name="confirm">Confirm</string>
     <string name="enable_cross_signing">Enable Cross Signing</string>
@@ -285,8 +291,6 @@
     <string name="phf_blocks_error_format">Phf blocks must be bigger than %d</string>
     <string name="phf_iterations_error_format">Phf iterations must be bigger than %d</string>
     <string name="system_notices_room_not_found">System notices room not found.</string>
-    <string name="upload_media">Upload media</string>
-    <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
     <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
     <string name="you_are_signed_out">You’re signed out</string>
@@ -298,8 +302,9 @@
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
     <string name="configuring_workspace">Configuring workspace</string>
-    <string name="permission_denied">Permission denied</string>
-    <string name="enable_camera_permission_message">Seem like you denied this permission previously. In order to use this feature please grant Camera permission in settings.</string>
+    <string name="permission_denied_title_format">%s permission denied</string>
+    <string name="camera">Camera</string>
+    <string name="permission_denied_message_format">Seem like you denied %1$s permission previously. In order to use this feature please grant %2$s permission in settings.</string>
     <string name="open_settings">Open settings</string>
     <string name="repeat_password">Repeat password</string>
     <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
@@ -337,6 +342,99 @@
     <string name="private_circle_explanation">Accessible only by your invitation</string>
     <string name="request_sent">Request sent</string>
     <string name="wants_to_follow_you">wants to follow you</string>
+    <string name="notification_unknown_room_name">Room</string>
+    <string name="notification_new_invitation">New Invitation</string>
+    <string name="sent_a_video">Video</string>
+    <string name="sent_an_image">Image</string>
+    <string name="sent_a_poll">Poll</string>
+    <string name="sent_a_reaction">Reacted with: %s</string>
+    <string name="poll_response_room_list_preview">Vote cast</string>
+    <string name="poll_end_room_list_preview">Poll ended</string>
+    <string name="encrypted_message">Encrypted message</string>
+    <string name="notifications_disabled">notifications disabled</string>
+    <string name="notice_room_third_party_invite">%1$s sent an invitation to join the room</string>
+    <string name="event_redacted_by_user_reason_with_reason">Event deleted by user, reason: %1$s</string>
+    <string name="event_redacted_by_admin_reason_with_reason">Event moderated by room admin, reason: %1$s</string>
+    <string name="event_redacted_by_user_reason">Event deleted by user</string>
+    <string name="event_redacted_by_admin_reason">Event moderated by room admin</string>
+    <plurals name="room_new_messages_notification">
+        <item quantity="one">%d new message</item>
+        <item quantity="other">%d new messages</item>
+    </plurals>
+    <string name="notification_ticker_text_dm">%1$s: %2$s</string>
+    <string name="notification_ticker_text_group">%1$s: %2$s %3$s</string>
+    <plurals name="notification_compat_summary_line_for_room">
+        <item quantity="one">%1$s: %2$d message</item>
+        <item quantity="other">%1$s: %2$d messages</item>
+    </plurals>
+    <string name="notification_room_notifications">Room notifications</string>
+    <string name="notification_invitations">Invitations</string>
+    <string name="notification_listening_for_events">Listening for events</string>
+    <string name="notification_new_messages">New Messages</string>
+    <string name="action_mark_room_read">Mark as read</string>
+    <string name="name_for_room_invite">Room invite</string>
+    <string name="name_for_empty_room">Empty room</string>
+    <string name="and">and</string>
+    <string name="notification_initial_sync">Initial Sync…</string>
+    <string name="notification_listening_for_notifications">Listening for notifications</string>
+
+    <string name="settings_troubleshoot_test_system_settings_title">System Settings</string>
+    <string name="settings_troubleshoot_test_system_settings_success">Notifications are enabled in the system settings.</string>
+    <string name="settings_troubleshoot_test_system_settings_failed">Notifications are disabled in the system settings.\nPlease check system settings.</string>
+    <string name="settings_troubleshoot_test_system_settings_permission_failed">Circles needs the permission to show notifications.\nPlease grant the permission.</string>
+
+    <string name="settings_troubleshoot_test_account_settings_title">Account Settings</string>
+    <string name="settings_troubleshoot_test_account_settings_success">Notifications are enabled for your account.</string>
+    <string name="settings_troubleshoot_test_account_settings_failed">Notifications are disabled for your account.\nPlease check account settings.</string>
+
+    <string name="settings_troubleshoot_test_bing_settings_title">Custom Settings</string>
+    <string name="settings_troubleshoot_test_bing_settings_success_with_warn">Notice that some messages type are set to be silent (will produce a notification with no sound).</string>
+    <string name="settings_troubleshoot_test_bing_settings_failed">Some notifications are disabled in your custom settings.</string>
+
+    <string name="settings_troubleshoot_test_play_services_title">Play Services Check</string>
+    <string name="settings_troubleshoot_test_play_services_success">Google Play Services APK is available and up-to-date.</string>
+    <string name="settings_troubleshoot_test_play_services_failed">Circles uses Google Play Services to deliver push messages but it doesn’t seem to be configured correctly:\n%1$s</string>
+
+    <string name="settings_troubleshoot_test_fcm_title">Firebase Token</string>
+    <string name="settings_troubleshoot_test_fcm_success">FCM token successfully retrieved:\n%1$s</string>
+    <string name="settings_troubleshoot_test_fcm_failed">Failed to retrieved FCM token:\n%1$s</string>
+
+    <string name="settings_troubleshoot_test_token_registration_title">Token Registration</string>
+    <string name="settings_troubleshoot_test_token_registration_success">FCM token successfully registered to homeserver.</string>
+    <string name="settings_troubleshoot_test_token_registration_failed">Failed to register FCM token to homeserver:\n%1$s</string>
+
+    <string name="settings_troubleshoot_test_push_loop_title">Test Push</string>
+    <string name="settings_troubleshoot_test_push_loop_waiting_for_push">The application is waiting for the PUSH</string>
+    <string name="settings_troubleshoot_test_push_loop_success">The application is receiving PUSH</string>
+    <string name="settings_troubleshoot_test_push_notification_content">You are viewing the notification! Click me!</string>
+    <string name="settings_troubleshoot_test_notification_title">Notification Display</string>
+    <string name="settings_troubleshoot_test_notification_notice">Please click on the notification. If you do not see the notification, please check the system settings.</string>
+    <string name="settings_troubleshoot_test_notification_notification_clicked">The notification has been clicked!</string>
+
+    <string name="settings_troubleshoot_test_distributors_title">Available methods</string>
+    <string name="settings_troubleshoot_test_distributors_gplay">No other method than Google Play Service found.</string>
+    <string name="settings_troubleshoot_test_distributors_fdroid">No other method than background synchronization found.</string>
+    <plurals name="settings_troubleshoot_test_distributors_many">
+        <item quantity="one">Found %d method.</item>
+        <item quantity="other">Found %d methods.</item>
+    </plurals>
+    <string name="settings_troubleshoot_test_current_distributor_title">Method</string>
+    <string name="settings_troubleshoot_test_current_distributor">Currently using %s.</string>
+    <string name="unifiedpush_distributor_fcm_fallback">Google Services</string>
+    <string name="unifiedpush_distributor_background_sync">Background synchronization</string>
+    <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
+    <string name="unable_to_register_receiver">Unable to register the receiver</string>
+
+    <string name="settings_troubleshoot_test_bg_restricted_title">Check background restrictions</string>
+    <string name="settings_troubleshoot_test_bg_restricted_success">Background restrictions are disabled for Circles. This test should be run using mobile data (no WIFI).\n%1$s</string>
+    <string name="settings_troubleshoot_test_bg_restricted_failed">Background restrictions are enabled for Circles.\nWork that the app tries to do will be aggressively restricted while it is in the background, and this could affect notifications.\n%1$s</string>
+
+    <string name="settings_troubleshoot_test_battery_title">Battery Optimization</string>
+    <string name="settings_troubleshoot_test_battery_success">Circles is not affected by Battery Optimization.</string>
+    <string name="settings_troubleshoot_test_battery_failed">If a user leaves a device unplugged and stationary for a period of time, with the screen off, the device enters Doze mode. This prevents apps from accessing the network and defers their jobs, syncs, and standard alarms. </string>
+    <string name="shortcut_disabled">Shortcut disabled</string>
+    <string name="mute_notifications">Mute notifications</string>
+    <string name="unmute_notifications">Unmute notifications</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

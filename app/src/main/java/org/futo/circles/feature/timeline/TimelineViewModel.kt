@@ -6,6 +6,7 @@ import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
+import org.futo.circles.feature.room.RoomNotificationsDataSource
 import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
@@ -15,6 +16,7 @@ import org.futo.circles.model.*
 import org.matrix.android.sdk.api.util.Cancelable
 
 class TimelineViewModel(
+    private val roomNotificationsDataSource: RoomNotificationsDataSource,
     private val timelineDataSource: TimelineDataSource,
     private val leaveRoomDataSource: LeaveRoomDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
@@ -23,6 +25,7 @@ class TimelineViewModel(
     private val readMessageDataSource: ReadMessageDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
+    val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
     val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
     val accessLevelLiveData = timelineDataSource.accessLevelFlow.asLiveData()
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
@@ -132,6 +135,10 @@ class TimelineViewModel(
     override fun onCleared() {
         readMessageDataSource.setReadMarker()
         super.onCleared()
+    }
+
+    fun setNotificationsEnabled(enabled: Boolean) {
+        launchBg { roomNotificationsDataSource.setNotificationsEnabled(enabled) }
     }
 
 }

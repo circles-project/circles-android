@@ -69,18 +69,21 @@ android {
             version '3.18.1'
         }
     }
+    namespace 'org.futo.circles'
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     //Matrix
-    implementation 'org.matrix.android:matrix-sdk-android:1.5.18.1'
+    implementation 'org.matrix.android:matrix-sdk-android:1.5.18.2'
 
     //Kotlin
     implementation "androidx.core:core-ktx:1.9.0"
+    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     //androidx lifecycle
     def lifecycle_version = "2.5.1"
@@ -112,9 +115,14 @@ dependencies {
     //ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
 
-    //Firebase crash reports
-    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.2'
-    gplayImplementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
+    //Firebase
+    gplayImplementation platform('com.google.firebase:firebase-bom:31.1.1')
+    gplayImplementation'com.google.firebase:firebase-crashlytics-ktx'
+    gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
+    gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
+
+    // UnifiedPush
+    implementation 'com.github.UnifiedPush:android-connector:2.1.1'
 
     //Subscriptions
     gplayImplementation 'com.android.billingclient:billing-ktx:5.1.0'
