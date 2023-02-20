@@ -12,7 +12,7 @@ import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.session.room.model.relation.ReactionContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
-import org.matrix.android.sdk.api.session.room.timeline.getTextDisplayableContent
+import org.matrix.android.sdk.api.session.room.timeline.getTextEditableContent
 
 class DisplayableEventFormatter(
     private val context: Context
@@ -32,8 +32,11 @@ class DisplayableEventFormatter(
                 timelineEvent.getLastMessageContent()?.let { messageContent ->
                     when (messageContent.msgType) {
                         MessageType.MSGTYPE_TEXT -> {
-                            val body = messageContent.getTextDisplayableContent()
-                            simpleFormat(senderName, body, appendAuthor)
+                            simpleFormat(
+                                senderName,
+                                timelineEvent.getTextEditableContent(false),
+                                appendAuthor
+                            )
                         }
                         MessageType.MSGTYPE_IMAGE -> {
                             simpleFormat(
