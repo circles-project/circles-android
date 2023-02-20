@@ -135,7 +135,7 @@ class NotifiableEventResolver(
                 noisy = true,
                 senderName = senderDisplayName,
                 senderId = event.root.senderId,
-                body = body.toString(),
+                body = body,
                 imageUriString = event.fetchImageIfPresent(session)?.toString(),
                 roomId = event.root.roomId!!,
                 threadId = event.root.getRootThreadEventId(),
@@ -149,7 +149,7 @@ class NotifiableEventResolver(
                     val body = displayableEventFormatter.format(
                         event,
                         appendAuthor = false
-                    ).toString()
+                    )
                     val roomName = room.roomSummary()?.displayName ?: ""
                     val senderDisplayName = event.senderInfo.disambiguatedDisplayName
 

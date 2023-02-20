@@ -11,7 +11,7 @@ data class NotifiableMessageEvent(
     val timestamp: Long,
     val senderName: String?,
     val senderId: String?,
-    val body: String?,
+    val body: CharSequence?,
     val imageUriString: String?,
     val roomId: String,
     val threadId: String?,
@@ -28,7 +28,7 @@ data class NotifiableMessageEvent(
 ) : NotifiableEvent {
 
     val type: String = EventType.MESSAGE
-    val description: String = body ?: ""
+    val description: String = body.toString()
     val title: String = senderName ?: ""
 
     val imageUri: Uri?
