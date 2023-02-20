@@ -2,6 +2,7 @@ package org.futo.circles.feature.notifications
 
 import android.content.Context
 import org.futo.circles.R
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.EventType
@@ -18,6 +19,8 @@ class DisplayableEventFormatter(
     private val context: Context
 ) {
 
+    private val markwon = MarkdownParser.markwonNotificationBuilder(context)
+
     fun format(timelineEvent: TimelineEvent, appendAuthor: Boolean): CharSequence {
         if (timelineEvent.root.isRedacted())
             return formatRedactedEvent(timelineEvent.root)
@@ -32,9 +35,10 @@ class DisplayableEventFormatter(
                 timelineEvent.getLastMessageContent()?.let { messageContent ->
                     when (messageContent.msgType) {
                         MessageType.MSGTYPE_TEXT -> {
+                            val body = timelineEvent.getTextEditableContent(false)
                             simpleFormat(
                                 senderName,
-                                timelineEvent.getTextEditableContent(false),
+                                markwon.toMarkdown(body),
                                 appendAuthor
                             )
                         }
