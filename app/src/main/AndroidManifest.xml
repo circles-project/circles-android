@@ -112,15 +112,6 @@
             android:name=".feature.notifications.NotificationBroadcastReceiver"
             android:enabled="true"
             android:exported="false" />
-
-        <receiver
-            android:name=".feature.notifications.KeepInternalDistributor"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="org.unifiedpush.android.distributor.REGISTER" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>
