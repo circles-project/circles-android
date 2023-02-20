@@ -2,11 +2,15 @@ package org.futo.circles.feature.timeline.post.markdown
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.text.Editable
 import android.text.style.StrikethroughSpan
+import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
 import androidx.core.text.getSpans
+import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
+import io.noties.markwon.MarkwonSpansFactory
 import io.noties.markwon.core.spans.BulletListItemSpan
 import io.noties.markwon.core.spans.EmphasisSpan
 import io.noties.markwon.core.spans.LinkSpan
@@ -15,6 +19,8 @@ import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.ext.tasklist.TaskListPlugin
 import io.noties.markwon.ext.tasklist.TaskListSpan
 import io.noties.markwon.linkify.LinkifyPlugin
+import org.commonmark.node.Emphasis
+import org.commonmark.node.StrongEmphasis
 import org.futo.circles.R
 import org.futo.circles.extensions.getGivenSpansAt
 import org.futo.circles.feature.timeline.post.markdown.mentions.plugin.MentionPlugin
@@ -81,6 +87,31 @@ object MarkdownParser {
         .usePlugin(StrikethroughPlugin.create())
         .usePlugin(LinkifyPlugin.create())
         .usePlugin(MentionPlugin(context))
+        .usePlugin(
+            TaskListPlugin.create(
+                ContextCompat.getColor(context, R.color.blue),
+                ContextCompat.getColor(context, R.color.blue),
+                Color.WHITE
+            )
+        ).build()
+
+    fun markwonNotificationBuilder(context: Context): Markwon = Markwon.builder(context)
+        .usePlugin(object : AbstractMarkwonPlugin() {
+            override fun configureSpansFactory(builder: MarkwonSpansFactory.Builder) {
+                builder.setFactory(
+                    Emphasis::class.java
+                ) { _, _ -> StyleSpan(Typeface.ITALIC) }
+            }
+        })
+        .usePlugin(object : AbstractMarkwonPlugin() {
+            override fun configureSpansFactory(builder: MarkwonSpansFactory.Builder) {
+                builder.setFactory(
+                    StrongEmphasis::class.java
+                ) { _, _ -> StyleSpan(Typeface.BOLD) }
+            }
+        })
+        .usePlugin(StrikethroughPlugin.create())
+        .usePlugin(LinkifyPlugin.create())
         .usePlugin(
             TaskListPlugin.create(
                 ContextCompat.getColor(context, R.color.blue),
