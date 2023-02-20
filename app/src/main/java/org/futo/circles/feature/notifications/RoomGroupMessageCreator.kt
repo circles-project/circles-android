@@ -5,15 +5,19 @@ import android.graphics.Bitmap
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
 import org.futo.circles.R
+import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
 import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.model.RoomEventGroupInfo
 import org.futo.circles.model.RoomNotification
+
 
 class RoomGroupMessageCreator(
     private val context: Context,
     private val bitmapLoader: NotificationBitmapLoader,
     private val notificationUtils: NotificationUtils
 ) {
+
+    private val markwon = MarkdownParser.markwonBuilder(context)
 
     fun createRoomMessage(
         events: List<NotifiableMessageEvent>,
@@ -36,11 +40,11 @@ class RoomGroupMessageCreator(
         }
 
         val tickerText = context.getString(
-                R.string.notification_ticker_text_group,
-                roomName,
-                events.last().senderName,
-                events.last().description
-            )
+            R.string.notification_ticker_text_group,
+            roomName,
+            events.last().senderName,
+            events.last().description
+        )
         val largeBitmap = getRoomBitmap(events)
 
         val lastMessageTimestamp = events.last().timestamp
@@ -81,7 +85,7 @@ class RoomGroupMessageCreator(
                     .build()
             }
             val message = NotificationCompat.MessagingStyle.Message(
-                event.body,
+                markwon.toMarkdown(event.body ?: ""),
                 event.timestamp,
                 senderPerson
             ).also { message ->
