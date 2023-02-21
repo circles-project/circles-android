@@ -204,7 +204,6 @@
     <string name="change_password">Change password</string>
     <string name="session">Session</string>
     <string name="login_sessions">Login sessions</string>
-    <string name="account">Account</string>
     <string name="deactivate_my_account">Deactivate my account</string>
     <string name="settings">Settings</string>
     <string name="user_id">User ID</string>
@@ -415,6 +414,7 @@
     <string name="shortcut_disabled">Shortcut disabled</string>
     <string name="mute_notifications">Mute notifications</string>
     <string name="unmute_notifications">Unmute notifications</string>
+    <string name="account_and_session">Account and Session</string>
     <!--Fdroid-->
 
     <string-array name="report_categories">
