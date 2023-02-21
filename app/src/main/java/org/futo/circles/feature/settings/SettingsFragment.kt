@@ -14,10 +14,13 @@ import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
+import org.futo.circles.feature.timeline.TimelineNavigator
+import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.ConfirmationType
 import org.futo.circles.provider.PreferencesProvider
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.matrix.android.sdk.api.session.user.model.User
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
@@ -26,6 +29,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
+    private val navigator by lazy { SettingsNavigator(this) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,15 +46,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         with(binding) {
             tvLogout.setOnClickListener { withConfirmation(ConfirmationType.LOG_OUT) { viewModel.logOut() } }
             tvSwitchUser.setOnClickListener { withConfirmation(ConfirmationType.SWITCH_USER) { clearSessionAndRestart() } }
-            tvEditProfile.setOnClickListener { navigateToProfile() }
+            ivProfile.setOnClickListener { navigator.navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
             tvDeactivate.setOnClickListener { withConfirmation(ConfirmationType.DEACTIVATE_ACCOUNT) { viewModel.deactivateAccount() } }
-            tvLoginSessions.setOnClickListener { navigateToActiveSessions() }
-            lSystemNotices.setOnClickListener { navigateToSystemNotices() }
+            tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
+            lSystemNotices.setOnClickListener { navigator.navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash() }
             lPushNotifications.setOnClickListener { openNotificationSettings() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
-            tvNotificationsTest.setOnClickListener { navigateToPushTest() }
+            tvNotificationsTest.setOnClickListener { navigator.navigateToPushTest() }
         }
         setVersion()
         updateSettingsItemsVisibility()
@@ -61,7 +65,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             success = { clearSessionAndRestart() }
         )
         viewModel.profileLiveData.observeData(this) {
-            it.getOrNull()?.let { binding.vUser.setData(it) }
+            it.getOrNull()?.let { bindProfile(it) }
         }
         viewModel.loadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
@@ -74,10 +78,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             binding.ivNoticesCount.setCount(it ?: 0)
         }
         viewModel.startReAuthEventLiveData.observeData(this) {
-            findNavController().navigate(SettingsFragmentDirections.toReAuthStagesDialogFragment())
+            navigator.navigateToReAuthStages()
         }
         viewModel.navigateToMatrixChangePasswordEvent.observeData(this) {
-            navigateToMatrixChangePassword()
+            navigator.navigateToMatrixChangePassword()
         }
         viewModel.changePasswordResponseLiveData.observeResponse(this,
             success = { showSuccess(getString(R.string.password_changed)) },
@@ -94,6 +98,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
+    private fun bindProfile(user: User) {
+        with(binding) {
+            ivProfile.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
+            tvUserName.text = user.notEmptyDisplayName()
+            tvUserId.text = user.userId
+        }
+    }
+
     private fun updatePushNotificationStatus() {
         val isPushNotificationsAllowed =
             NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
@@ -101,38 +113,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             getString(if (isPushNotificationsAllowed) R.string.enabled else R.string.disabled)
     }
 
-    private fun navigateToMatrixChangePassword() {
-        findNavController().navigate(SettingsFragmentDirections.toChangePasswordDialogFragment())
-    }
-
-    private fun navigateToProfile() {
-        findNavController().navigate(SettingsFragmentDirections.toEditProfileDialogFragment())
-    }
-
     private fun clearSessionAndRestart() {
         (activity as? MainActivity)?.clearSessionAndRestart()
     }
 
-    private fun navigateToActiveSessions() {
-        findNavController().navigate(SettingsFragmentDirections.toActiveSessionsDialogFragment())
-    }
-
-    private fun navigateToSystemNotices() {
-        val systemNoticesRoomId = getSystemNoticesRoomId() ?: run {
-            showError(getString(R.string.system_notices_room_not_found))
-            return
-        }
-        findNavController().navigate(
-            SettingsFragmentDirections.toSystemNoticesDialogFragment(systemNoticesRoomId)
-        )
-    }
-
     private fun setVersion() {
         binding.tvVersion.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
-    }
-
-    private fun navigateToPushTest() {
-        findNavController().navigate(SettingsFragmentDirections.toNotificationTestFragment())
     }
 
     private fun toggleDeveloperMode() {
