@@ -65,12 +65,59 @@
             android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvUserName"
             tools:text="texsdt" />
 
+        <ImageView
+            android:id="@+id/ivShareProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="64dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="4dp"
+            android:src="@drawable/ic_qr"
+            app:layout_constraintEnd_toStartOf="@id/ivScanProfile"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserId" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/share_profile"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@id/ivShareProfile"
+            app:layout_constraintStart_toStartOf="@id/ivShareProfile"
+            app:layout_constraintTop_toBottomOf="@id/ivShareProfile" />
+
+        <ImageView
+            android:id="@+id/ivScanProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="4dp"
+            android:src="@drawable/ic_qr_scanner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivShareProfile"
+            app:layout_constraintTop_toTopOf="@id/ivShareProfile" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/scan_profile"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@id/ivScanProfile"
+            app:layout_constraintStart_toStartOf="@id/ivScanProfile"
+            app:layout_constraintTop_toBottomOf="@id/ivScanProfile" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -183,7 +230,7 @@
                 style="@style/settingMenuHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/account_and_session" />
+                android:text="@string/account" />
 
             <TextView
                 android:id="@+id/tvChangePassword"
