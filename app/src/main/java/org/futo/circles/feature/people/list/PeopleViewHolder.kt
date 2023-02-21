@@ -16,32 +16,21 @@ abstract class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: PeopleListItem)
 }
 
-sealed class PeopleBaseUserViewHolder(view: View) : PeopleViewHolder(view) {
-
-    abstract val userListItem: UserListItemView
-
-    override fun bind(data: PeopleListItem) {
-        (data as? PeopleUserListItem)?.let {
-            userListItem.bind(it.user)
-        }
-    }
-}
-
 class PeopleSuggestionUserViewHolder(
     parent: ViewGroup,
     private val onFollow: (Int) -> Unit
-) : PeopleBaseUserViewHolder(inflate(parent, ListItemPeopleSuggestionBinding::inflate)) {
+) : PeopleViewHolder(inflate(parent, ListItemPeopleSuggestionBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
     private val binding = baseBinding as ListItemPeopleSuggestionBinding
-    override val userListItem: UserListItemView = binding.userItem
 
     init {
         onClick(binding.btnFollow) { position -> onFollow(position) }
     }
 
     override fun bind(data: PeopleListItem) {
+        (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
         val user = (data as? PeopleSuggestionUserListItem) ?: return
         binding.btnFollow.setIsVisible(user.profileRoomId != null)
     }
@@ -50,30 +39,36 @@ class PeopleSuggestionUserViewHolder(
 class PeopleIgnoredUserViewHolder(
     parent: ViewGroup,
     private val onUnIgnore: (Int) -> Unit
-) : PeopleBaseUserViewHolder(inflate(parent, ListItemPeopleIgnoredBinding::inflate)) {
+) : PeopleViewHolder(inflate(parent, ListItemPeopleIgnoredBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
     private val binding = baseBinding as ListItemPeopleIgnoredBinding
-    override val userListItem: UserListItemView = binding.userItem
 
     init {
         onClick(binding.btnUnIgnore) { position -> onUnIgnore(position) }
+    }
+
+    override fun bind(data: PeopleListItem) {
+        (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
     }
 }
 
 class PeopleFollowingUserViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit
-) : PeopleBaseUserViewHolder(inflate(parent, ListItemPeopleFollowingBinding::inflate)) {
+) : PeopleViewHolder(inflate(parent, ListItemPeopleFollowingBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
     private val binding = baseBinding as ListItemPeopleFollowingBinding
-    override val userListItem: UserListItemView = binding.userItem
 
     init {
         onClick(itemView) { position -> onUserClicked(position) }
+    }
+
+    override fun bind(data: PeopleListItem) {
+        (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
     }
 }
 
