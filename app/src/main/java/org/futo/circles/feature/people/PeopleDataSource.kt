@@ -9,7 +9,6 @@ import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.room.select_users.SearchUserDataSource
 import org.futo.circles.mapping.toPeopleIgnoredUserListItem
-import org.futo.circles.mapping.toPeopleRequestUserListItem
 import org.futo.circles.mapping.toPeopleSuggestionUserListItem
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
@@ -53,11 +52,11 @@ class PeopleDataSource(
     suspend fun getPeopleList(query: String) = combine(
         searchUserDataSource.searchKnownUsers(query),
         searchUserDataSource.searchSuggestions(query),
-        getIgnoredUserFlow(),
-        getProfileRoomMembersKnockFlow()
+        getIgnoredUserFlow()
+        //getProfileRoomMembersKnockFlow()
     )
-    { knowUsers, suggestions, ignoredUsers, requests ->
-        buildList(knowUsers, suggestions, ignoredUsers, requests)
+    { knowUsers, suggestions, ignoredUsers ->
+        buildList(knowUsers, suggestions, ignoredUsers)
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
     suspend fun refreshRoomMembers() {
@@ -71,12 +70,11 @@ class PeopleDataSource(
     private suspend fun buildList(
         knowUsers: List<User>,
         suggestions: List<User>,
-        ignoredUsers: List<User>,
-        requests: List<User>
+        ignoredUsers: List<User>
     ): List<PeopleListItem> {
         val uniqueItemsList = mutableListOf<PeopleListItem>().apply {
             addAll(ignoredUsers.map { it.toPeopleIgnoredUserListItem() })
-            addAll(requests.map { it.toPeopleRequestUserListItem() })
+            // addAll(requests.map { it.toPeopleRequestUserListItem() })
             addAll(knowUsers.map {
 //                val profileRoomId = getProfileRoomForUser(it.userId)?.roomId
 //                if (amIFollowThisUserProfile(profileRoomId)) it.toPeopleFollowingUserListItem()
@@ -85,10 +83,6 @@ class PeopleDataSource(
             })
             addAll(
                 suggestions.map {
-//                    it.toPeopleSuggestionUserListItem(
-//                        false,
-//                        getProfileRoomForUser(it.userId)?.roomId
-//                    )
                     it.toPeopleSuggestionUserListItem(false, null)
                 }
             )
