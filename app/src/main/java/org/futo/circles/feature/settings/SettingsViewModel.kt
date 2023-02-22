@@ -49,4 +49,8 @@ class SettingsViewModel(
         launchBg { settingsDataSource.clearCache() }
         clearCacheLiveData.postValue(Unit)
     }
+
+    fun onProfileQrScanned(scannedQrCode: String) {
+
+    }
 }

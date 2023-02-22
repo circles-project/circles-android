@@ -1,8 +1,11 @@
 package org.futo.circles.feature.settings
 
+import android.Manifest
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -11,9 +14,11 @@ import org.futo.circles.BuildConfig
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.core.matrix.pass_phrase.LoadingDialog
+import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
+import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
 import org.futo.circles.feature.timeline.TimelineNavigator
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.ConfirmationType
@@ -30,6 +35,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }
+    private val cameraPermissionHelper = RuntimePermissionHelper(this, Manifest.permission.CAMERA)
+    private val scanActivityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == Activity.RESULT_OK) {
+                val scannedQrCode = QrScannerActivity.getResultText(activityResult.data)
+                viewModel.onProfileQrScanned(scannedQrCode)
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,6 +68,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             lPushNotifications.setOnClickListener { openNotificationSettings() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvNotificationsTest.setOnClickListener { navigator.navigateToPushTest() }
+            ivScanProfile.setOnClickListener {
+                cameraPermissionHelper.runWithPermission {
+                    QrScannerActivity.startForResult(requireActivity(), scanActivityResultLauncher)
+                }
+            }
         }
         setVersion()
         updateSettingsItemsVisibility()
