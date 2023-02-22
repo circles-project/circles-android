@@ -42,4 +42,9 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             .navigate(SettingsFragmentDirections.toReAuthStagesDialogFragment())
     }
 
+    fun navigateToShareProfile() {
+        fragment.findNavController()
+            .navigate(SettingsFragmentDirections.toShareProfileDialogFragment())
+    }
+
 }

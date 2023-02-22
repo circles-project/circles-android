@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.BuildConfig
 import org.futo.circles.MainActivity
@@ -19,7 +18,6 @@ import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
-import org.futo.circles.feature.timeline.TimelineNavigator
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.ConfirmationType
 import org.futo.circles.provider.PreferencesProvider
@@ -73,6 +71,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                     QrScannerActivity.startForResult(requireActivity(), scanActivityResultLauncher)
                 }
             }
+            ivShareProfile.setOnClickListener { navigator.navigateToShareProfile() }
         }
         setVersion()
         updateSettingsItemsVisibility()
