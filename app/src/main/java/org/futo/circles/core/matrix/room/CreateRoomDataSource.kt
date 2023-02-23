@@ -69,21 +69,18 @@ class CreateRoomDataSource(
         allowKnock: Boolean = false
     ): CreateRoomParams {
         val params = if (circlesRoom.isSpace()) {
-            CreateSpaceParams()
+            CreateSpaceParams().apply {
+                if (allowKnock) {
+                    guestAccess = GuestAccess.CanJoin
+                    setInviteRules(this, true)
+                }
+            }
         } else {
             CreateRoomParams().apply {
                 visibility = RoomDirectoryVisibility.PRIVATE
                 guestAccess = GuestAccess.CanJoin
                 historyVisibility = RoomHistoryVisibility.SHARED
-                initialStates.add(
-                    CreateRoomStateEvent(
-                        EventType.STATE_ROOM_JOIN_RULES,
-                        RoomJoinRulesContent(
-                            if (allowKnock) RoomJoinRules.KNOCK.value
-                            else RoomJoinRules.INVITE.value
-                        ).toContent()
-                    )
-                )
+                setInviteRules(this, allowKnock)
                 powerLevelContentOverride = PowerLevelsContent(invite = Role.Moderator.value)
                 enableEncryption()
                 overrideEncryptionForTestBuilds(this)
@@ -98,6 +95,18 @@ class CreateRoomDataSource(
             avatarUri = iconUri
             inviteIds?.let { invitedUserIds.addAll(it) }
         }
+    }
+
+    private fun setInviteRules(params: CreateRoomParams, allowKnock: Boolean) {
+        params.initialStates.add(
+            CreateRoomStateEvent(
+                EventType.STATE_ROOM_JOIN_RULES,
+                RoomJoinRulesContent(
+                    if (allowKnock) RoomJoinRules.KNOCK.value
+                    else RoomJoinRules.INVITE.value
+                ).toContent()
+            )
+        )
     }
 
     private fun overrideEncryptionForTestBuilds(params: CreateRoomParams) {
