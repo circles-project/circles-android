@@ -17,7 +17,7 @@ class CoreSpacesTreeBuilder(
     val loadingLiveData = MutableLiveData<LoadingData>()
 
     private val coreSpaces = listOf(
-        RootSpace(), CirclesSpace(), GroupsSpace(), PhotosSpace(), PrivateCirclesSpace(), SharedCirclesSpace()
+        RootSpace(), CirclesSpace(), GroupsSpace(), PhotosSpace(), PrivateCirclesSpace()
     )
 
     suspend fun createCoreSpacesTree() {
@@ -32,6 +32,8 @@ class CoreSpacesTreeBuilder(
             createRoomDataSource.createRoom(it)
             delay(CREATE_ROOM_DELAY)
         }
+        createRoomDataSource.createRoom(SharedCirclesSpace(), allowKnock = true)
+        delay(CREATE_ROOM_DELAY)
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
