@@ -29,7 +29,7 @@ class PeopleDataSource(
     private val session = MatrixSessionProvider.currentSession
     private val profileRoomId = getSharedCirclesSpaceId() ?: ""
 
-    //TODO implement this when we will bi able to store id in profile data
+    //TODO implement this when we will be able to store shared circles id in profile data
     suspend fun followUser(userId: String) =
         createResult { session?.roomService()?.knock("") }
 

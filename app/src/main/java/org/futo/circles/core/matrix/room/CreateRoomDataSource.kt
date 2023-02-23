@@ -31,9 +31,9 @@ class CreateRoomDataSource(
         inviteIds: List<String>? = null,
         isKnockingAllowed: Boolean
     ): String {
-        val circleId = createRoom(Circle(), name, null, iconUri)
+        val circleId = createRoom(Circle(isPublic = isKnockingAllowed), name, null, iconUri)
         val timelineId =
-            createRoom(Timeline(), name, null, iconUri, inviteIds, allowKnock = isKnockingAllowed)
+            createRoom(Timeline(), name, null, iconUri, inviteIds, isKnockingAllowed)
         session?.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
         return circleId
