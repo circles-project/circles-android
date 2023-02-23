@@ -82,7 +82,7 @@ class PeopleRequestUserViewHolder(
     private val binding = baseBinding as ListItemPeopleRequestBinding
 
     init {
-        onClick(binding.btnAccept) { position -> onRequestClicked(position, true) }
+        onClick(binding.btnInvite) { position -> onRequestClicked(position, true) }
         onClick(binding.btnDecline) { position -> onRequestClicked(position, false) }
     }
 
