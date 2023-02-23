@@ -7,8 +7,10 @@ import kotlinx.coroutines.flow.*
 import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.extensions.getSharedCirclesSpaceId
 import org.futo.circles.feature.room.select_users.SearchUserDataSource
 import org.futo.circles.mapping.toPeopleIgnoredUserListItem
+import org.futo.circles.mapping.toPeopleRequestUserListItem
 import org.futo.circles.mapping.toPeopleSuggestionUserListItem
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
@@ -25,14 +27,11 @@ class PeopleDataSource(
 ) {
 
     private val session = MatrixSessionProvider.currentSession
+    private val profileRoomId = getSharedCirclesSpaceId() ?: ""
 
-    //TODO get profile room id from user's profile
-    //61 - !dYyuPbUOkbUYUOMbot:nl.circles-dev.net
-    //64 - !fznKPZDngFIyKzprgp:nl.circles-dev.net
-    private val profileRoomId = "!dYyuPbUOkbUYUOMbot:nl.circles-dev.net"
-
+    //TODO implement this when we will bi able to store id in profile data
     suspend fun followUser(userId: String) =
-        createResult { session?.roomService()?.knock(profileRoomId) }
+        createResult { session?.roomService()?.knock("") }
 
     suspend fun acceptFollowRequest(userId: String) =
         createResult {
@@ -52,11 +51,11 @@ class PeopleDataSource(
     suspend fun getPeopleList(query: String) = combine(
         searchUserDataSource.searchKnownUsers(query),
         searchUserDataSource.searchSuggestions(query),
-        getIgnoredUserFlow()
-        //getProfileRoomMembersKnockFlow()
+        getIgnoredUserFlow(),
+        getProfileRoomMembersKnockFlow()
     )
-    { knowUsers, suggestions, ignoredUsers ->
-        buildList(knowUsers, suggestions, ignoredUsers)
+    { knowUsers, suggestions, ignoredUsers, requests ->
+        buildList(knowUsers, suggestions, ignoredUsers, requests)
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
     suspend fun refreshRoomMembers() {
@@ -70,15 +69,13 @@ class PeopleDataSource(
     private suspend fun buildList(
         knowUsers: List<User>,
         suggestions: List<User>,
-        ignoredUsers: List<User>
+        ignoredUsers: List<User>,
+        requests: List<User>
     ): List<PeopleListItem> {
         val uniqueItemsList = mutableListOf<PeopleListItem>().apply {
             addAll(ignoredUsers.map { it.toPeopleIgnoredUserListItem() })
-            // addAll(requests.map { it.toPeopleRequestUserListItem() })
+            addAll(requests.map { it.toPeopleRequestUserListItem() })
             addAll(knowUsers.map {
-//                val profileRoomId = getProfileRoomForUser(it.userId)?.roomId
-//                if (amIFollowThisUserProfile(profileRoomId)) it.toPeopleFollowingUserListItem()
-//                else it.toPeopleSuggestionUserListItem(true, profileRoomId)
                 it.toPeopleSuggestionUserListItem(true, null)
             })
             addAll(
@@ -122,29 +119,6 @@ class PeopleDataSource(
         }
 
         return displayList
-    }
-
-    private suspend fun getProfileRoomForUser(userId: String): Room? {
-        val publicRoomResult = createResult {
-            session?.roomDirectoryService()?.getPublicRooms(
-                UserUtils.getServerDomain(userId),
-                PublicRoomsParams(limit = 1, filter = PublicRoomsFilter(userId))
-            )
-        }
-        return when (publicRoomResult) {
-            is Response.Error -> null
-            is Response.Success -> {
-                val profileRoomId =
-                    publicRoomResult.data?.chunk?.firstOrNull()?.roomId ?: return null
-                session?.roomService()?.getRoom(profileRoomId)
-            }
-        }
-    }
-
-    private fun amIFollowThisUserProfile(profileRoomId: String?): Boolean {
-        profileRoomId ?: return false
-        return session?.roomService()?.getRoom(profileRoomId)?.membershipService()
-            ?.getRoomMember(session.myUserId) != null
     }
 
 }
