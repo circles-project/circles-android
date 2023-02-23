@@ -7,7 +7,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomType
 private const val orgPrefix = "org.futo"
 private const val CIRCLES_SPACE_TAG = "$orgPrefix.space.circles"
 private const val PRIVATE_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.private"
-private const val SHARED_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.shared"
+const val SHARED_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.shared"
 private const val GROUPS_SPACE_TAG = "$orgPrefix.space.groups"
 private const val PHOTOS_SPACE_TAG = "$orgPrefix.space.photos"
 const val ROOT_SPACE_TAG = "$orgPrefix.space.root"
