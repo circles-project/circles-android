@@ -113,6 +113,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         viewModel.clearCacheLiveData.observeData(this) {
             (activity as? MainActivity)?.restartForClearCache()
         }
+        viewModel.scanProfileQrResultLiveData.observeResponse(this,
+            success = { showSuccess(getString(R.string.request_sent)) })
     }
 
     private fun bindProfile(user: User) {
