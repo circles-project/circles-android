@@ -45,12 +45,11 @@ class CreateRoomDataSource(
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        allowKnock: Boolean = false,
-        isPublic: Boolean = false
+        allowKnock: Boolean = false
     ): String {
         val id = session?.roomService()
             ?.createRoom(
-                getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock, isPublic)
+                getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock)
             ) ?: throw Exception("Can not create room")
 
         circlesRoom.tag?.let { session?.getRoom(id)?.tagsService()?.addTag(it, null) }
@@ -67,15 +66,13 @@ class CreateRoomDataSource(
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        allowKnock: Boolean = false,
-        isPublic: Boolean = false
+        allowKnock: Boolean = false
     ): CreateRoomParams {
         val params = if (circlesRoom.isSpace()) {
             CreateSpaceParams()
         } else {
             CreateRoomParams().apply {
-                visibility = if (isPublic) RoomDirectoryVisibility.PUBLIC
-                else RoomDirectoryVisibility.PRIVATE
+                visibility = RoomDirectoryVisibility.PRIVATE
                 guestAccess = GuestAccess.CanJoin
                 historyVisibility = RoomHistoryVisibility.SHARED
                 initialStates.add(
