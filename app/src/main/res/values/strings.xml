@@ -94,7 +94,8 @@
     <string name="circles_created">Circles created</string>
     <string name="root_space_name">Circles</string>
     <string name="circles_space_name">My Circles</string>
-    <string name="people_space_name">My People</string>
+    <string name="private_circles_space_name">Private Circles</string>
+    <string name="shared_circles_space_name">Shared Circles</string>
     <string name="groups_space_name">My Groups</string>
     <string name="photos_space_name">My Photo Galleries</string>
     <string name="log_out">Log out</string>
