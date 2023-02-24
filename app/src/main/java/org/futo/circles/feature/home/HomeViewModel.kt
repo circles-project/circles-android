@@ -55,6 +55,7 @@ class HomeViewModel(
     private fun autoAcceptInviteOnKnock() {
         val session = MatrixSessionProvider.currentSession ?: return
         session.roomService().getRoomSummaries(roomSummaryQueryParams {
+            excludeType = null
             memberships = listOf(Membership.INVITE)
         }).firstOrNull { it.roomType == RoomType.SPACE }?.let {
             launchBg { session.roomService().joinRoom(it.roomId) }
