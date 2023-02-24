@@ -13,7 +13,7 @@ import org.futo.circles.extensions.bindToFab
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.photos.list.PhotosListAdapter
-import org.futo.circles.model.RoomListItem
+import org.futo.circles.model.GalleryListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PhotosFragment : Fragment(R.layout.fragment_rooms) {
@@ -50,7 +50,7 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms) {
         viewModel.roomsLiveData?.observeData(this) { listAdapter.submitList(it) }
     }
 
-    private fun onRoomListItemClicked(room: RoomListItem) {
+    private fun onRoomListItemClicked(room: GalleryListItem) {
         pickGalleryListener?.onGalleryChosen(room.id) ?: run {
             findNavController().navigate(PhotosFragmentDirections.toGalleryFragment(room.id))
         }

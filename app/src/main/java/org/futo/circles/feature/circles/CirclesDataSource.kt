@@ -5,7 +5,7 @@ import org.futo.circles.extensions.createResult
 import org.futo.circles.mapping.toInviteCircleListItem
 import org.futo.circles.mapping.toJoinedCircleListItem
 import org.futo.circles.model.CIRCLE_TAG
-import org.futo.circles.model.RoomListItem
+import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.TIMELINE_TYPE
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -18,7 +18,7 @@ class CirclesDataSource {
         ?.getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
         ?.map { list -> filterCircles(list) }
 
-    private fun filterCircles(list: List<RoomSummary>): List<RoomListItem> {
+    private fun filterCircles(list: List<RoomSummary>): List<CircleListItem> {
         return list.mapNotNull { summary ->
             if (isCircle(summary)) summary.toJoinedCircleListItem()
             else if (isInviteToCircleTimeline(summary)) summary.toInviteCircleListItem()

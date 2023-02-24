@@ -6,7 +6,7 @@ import org.futo.circles.extensions.createResult
 import org.futo.circles.mapping.toInviteGroupListItem
 import org.futo.circles.mapping.toJoinedGroupListItem
 import org.futo.circles.model.GROUP_TYPE
-import org.futo.circles.model.RoomListItem
+import org.futo.circles.model.GroupListItem
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -24,7 +24,7 @@ class GroupsDataSource(
         MatrixSessionProvider.currentSession?.roomService()?.leaveRoom(roomId)
     }
 
-    private fun filterGroups(list: List<RoomSummary>): List<RoomListItem> {
+    private fun filterGroups(list: List<RoomSummary>): List<GroupListItem> {
         return list.mapNotNull { summary ->
             if (summary.roomType == GROUP_TYPE) {
                 when (summary.membership) {

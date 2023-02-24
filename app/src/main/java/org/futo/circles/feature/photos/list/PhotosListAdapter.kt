@@ -3,10 +3,9 @@ package org.futo.circles.feature.photos.list
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.model.GalleryListItem
-import org.futo.circles.model.RoomListItem
 
 class PhotosListAdapter(
-    private val onRoomClicked: (RoomListItem) -> Unit
+    private val onRoomClicked: (GalleryListItem) -> Unit
 ) : BaseRvAdapter<GalleryListItem, GalleryViewHolder>(DefaultIdEntityCallback()) {
 
     override fun onCreateViewHolder(

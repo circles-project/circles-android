@@ -7,13 +7,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.core.rooms.list.RoomsListAdapter
 import org.futo.circles.databinding.FragmentRoomsBinding
 import org.futo.circles.extensions.bindToFab
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.observeResponse
+import org.futo.circles.feature.circles.list.CirclesListAdapter
 import org.futo.circles.feature.home.HomeViewModel
-import org.futo.circles.model.RoomListItem
+import org.futo.circles.model.CircleListItem
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,7 +23,7 @@ class CirclesFragment : Fragment(R.layout.fragment_rooms) {
     private val homeViewModel by activityViewModel<HomeViewModel>()
     private val binding by viewBinding(FragmentRoomsBinding::bind)
     private val listAdapter by lazy {
-        RoomsListAdapter(
+        CirclesListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onInviteClicked = { roomListItem, isAccepted ->
                 onInviteClicked(roomListItem, isAccepted)
@@ -54,12 +54,12 @@ class CirclesFragment : Fragment(R.layout.fragment_rooms) {
         viewModel.inviteResultLiveData.observeResponse(this)
     }
 
-    private fun onInviteClicked(room: RoomListItem, isAccepted: Boolean) {
+    private fun onInviteClicked(room: CircleListItem, isAccepted: Boolean) {
         if (isAccepted) onAcceptInviteClicked(room)
         else viewModel.rejectInvite(room.id)
     }
 
-    private fun onRoomListItemClicked(room: RoomListItem) {
+    private fun onRoomListItemClicked(room: CircleListItem) {
         findNavController().navigate(CirclesFragmentDirections.toTimeline(room.id))
     }
 
@@ -67,7 +67,7 @@ class CirclesFragment : Fragment(R.layout.fragment_rooms) {
         findNavController().navigate(CirclesFragmentDirections.toCreateCircleDialogFragment())
     }
 
-    private fun onAcceptInviteClicked(room: RoomListItem) {
+    private fun onAcceptInviteClicked(room: CircleListItem) {
         findNavController().navigate(
             CirclesFragmentDirections.toAcceptCircleInviteDialogFragment(room.id)
         )
