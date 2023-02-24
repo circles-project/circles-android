@@ -1,15 +1,21 @@
 package org.futo.circles.feature.photos
 
-import org.futo.circles.core.rooms.data_source.RoomsDataSource
+import androidx.lifecycle.map
 import org.futo.circles.mapping.toGalleryListItem
 import org.futo.circles.model.GALLERY_TYPE
 import org.futo.circles.model.RoomListItem
+import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
-class PhotosDataSource : RoomsDataSource() {
+class PhotosDataSource {
 
-    override fun filterRooms(list: List<RoomSummary>): List<RoomListItem> {
+    fun getGalleriesLiveData() = MatrixSessionProvider.currentSession?.roomService()
+        ?.getRoomSummariesLive(roomSummaryQueryParams())
+        ?.map { list -> filterGalleries(list) }
+
+    private fun filterGalleries(list: List<RoomSummary>): List<RoomListItem> {
         return list.mapNotNull { summary ->
             if (summary.roomType == GALLERY_TYPE && summary.membership == Membership.JOIN) {
                 summary.toGalleryListItem()
