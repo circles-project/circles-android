@@ -6,7 +6,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomType
 
 private const val orgPrefix = "org.futo"
 private const val CIRCLES_SPACE_TAG = "$orgPrefix.space.circles"
-private const val PRIVATE_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.private"
+const val PRIVATE_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.private"
 const val SHARED_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.shared"
 private const val GROUPS_SPACE_TAG = "$orgPrefix.space.groups"
 private const val PHOTOS_SPACE_TAG = "$orgPrefix.space.photos"
@@ -42,14 +42,14 @@ data class CirclesSpace(
 ) : CirclesRoom(nameId, tag, parentTag, type)
 
 data class PrivateCirclesSpace(
-    override val nameId: Int? = R.string.private_circles_space_name,
+    override val nameId: Int? = R.string.private_circles,
     override val tag: String? = PRIVATE_CIRCLES_SPACE_TAG,
     override val parentTag: String? = CIRCLES_SPACE_TAG,
     override val type: String? = RoomType.SPACE
 ) : CirclesRoom(nameId, tag, parentTag, type)
 
 data class SharedCirclesSpace(
-    override val nameId: Int? = R.string.shared_circles_space_name,
+    override val nameId: Int? = R.string.shared_circles,
     override val tag: String? = SHARED_CIRCLES_SPACE_TAG,
     override val parentTag: String? = CIRCLES_SPACE_TAG,
     override val type: String? = RoomType.SPACE

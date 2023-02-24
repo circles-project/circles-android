@@ -2,12 +2,9 @@ package org.futo.circles.feature.circles.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.model.CircleListItem
-import org.futo.circles.model.CircleListItemPayload
-import org.futo.circles.model.InvitedCircleListItem
-import org.futo.circles.model.JoinedCircleListItem
+import org.futo.circles.model.*
 
-enum class CirclesListItemViewType { JoinedCircle, InvitedCircle }
+enum class CirclesListItemViewType { JoinedCircle, InvitedCircle, Header }
 
 class CirclesListAdapter(
     private val onRoomClicked: (CircleListItem) -> Unit,
@@ -26,6 +23,7 @@ class CirclesListAdapter(
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is JoinedCircleListItem -> CirclesListItemViewType.JoinedCircle.ordinal
         is InvitedCircleListItem -> CirclesListItemViewType.InvitedCircle.ordinal
+        is CirclesHeaderItem -> CirclesListItemViewType.Header.ordinal
     }
 
     override fun onCreateViewHolder(
@@ -42,6 +40,7 @@ class CirclesListAdapter(
                 onInviteClicked(getItem(position), isAccepted)
             }
         )
+        CirclesListItemViewType.Header -> CircleHeaderViewHolder(parent = parent)
     }
 
     override fun onBindViewHolder(holder: CirclesViewHolder, position: Int) {

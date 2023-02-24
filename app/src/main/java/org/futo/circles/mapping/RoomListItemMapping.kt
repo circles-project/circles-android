@@ -31,9 +31,10 @@ fun RoomSummary.toInviteGroupListItem() = InvitedGroupListItem(
     inviterName = getInviterName()
 )
 
-fun RoomSummary.toJoinedCircleListItem() = JoinedCircleListItem(
+fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) = JoinedCircleListItem(
     id = roomId,
     info = toRoomInfo(),
+    isShared = isShared,
     followingCount = spaceChildren?.size?.takeIf { it != 0 }?.minus(1) ?: 0,
     followedByCount = getFollowersCount(),
     unreadCount = getCircleUnreadMessagesCount()
