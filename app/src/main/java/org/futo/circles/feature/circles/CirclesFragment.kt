@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.core.list.RoomsDividerDecoration
-import org.futo.circles.core.rooms.list.RoomListItemViewType
 import org.futo.circles.core.rooms.list.RoomsListAdapter
 import org.futo.circles.databinding.FragmentRoomsBinding
 import org.futo.circles.extensions.bindToFab
@@ -40,7 +39,7 @@ class CirclesFragment : Fragment(R.layout.fragment_rooms) {
 
     private fun setupViews() {
         binding.rvRooms.apply {
-            addItemDecoration(RoomsDividerDecoration(context, RoomListItemViewType.Gallery.ordinal))
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = listAdapter
             bindToFab(binding.fbAddRoom)
         }

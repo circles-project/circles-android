@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.core.list.RoomsDividerDecoration
 import org.futo.circles.core.picker.PickGalleryListener
-import org.futo.circles.core.rooms.list.RoomListItemViewType
-import org.futo.circles.core.rooms.list.RoomsListAdapter
 import org.futo.circles.databinding.FragmentRoomsBinding
 import org.futo.circles.extensions.bindToFab
 import org.futo.circles.extensions.observeData
@@ -25,10 +22,7 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms) {
 
     private var pickGalleryListener: PickGalleryListener? = null
     private val listAdapter by lazy {
-        RoomsListAdapter(
-            onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
-            onInviteClicked = { roomListItem, isAccepted -> }
-        )
+        PhotosListAdapter(onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) })
     }
 
     override fun onAttach(context: Context) {
@@ -45,7 +39,6 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms) {
     private fun setupViews() {
         binding.fbAddRoom.setIsVisible(pickGalleryListener == null)
         binding.rvRooms.apply {
-            addItemDecoration(RoomsDividerDecoration(context, RoomListItemViewType.Gallery.ordinal))
             adapter = listAdapter
             bindToFab(binding.fbAddRoom)
         }
@@ -61,6 +54,7 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms) {
             findNavController().navigate(PhotosFragmentDirections.toGalleryFragment(room.id))
         }
     }
+
     private fun navigateToCreateRoom() {
         findNavController().navigate(PhotosFragmentDirections.toCreateGalleryDialogFragment())
     }

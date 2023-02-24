@@ -185,25 +185,3 @@ class InvitedCircleViewHolder(
     }
 }
 
-class GalleryViewHolder(
-    parent: ViewGroup,
-    onGalleryClicked: (Int) -> Unit
-) : RoomViewHolder(inflate(parent, ListItemGalleryBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemGalleryBinding
-
-    init {
-        onClick(itemView) { position -> onGalleryClicked(position) }
-    }
-
-    override fun bind(data: RoomListItem) {
-        if (data !is GalleryListItem) return
-
-        with(binding) {
-            setIcon(ivGalleryImage, data.info.avatarUrl, "")
-            setTitle(tvGalleryName, data.info.title)
-        }
-    }
-}
