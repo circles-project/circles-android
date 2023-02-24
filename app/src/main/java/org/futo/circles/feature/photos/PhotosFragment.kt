@@ -12,6 +12,7 @@ import org.futo.circles.databinding.FragmentRoomsBinding
 import org.futo.circles.extensions.bindToFab
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.feature.photos.list.PhotosListAdapter
 import org.futo.circles.model.RoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
