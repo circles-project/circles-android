@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Circles</string>
     <string name="futo">FUTO</string>
-    <string name="flavour_does_not_support_subscriptions">This flavour does not support subscriptions</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
@@ -35,6 +34,7 @@
     <string name="requests">Requests</string>
     <string name="no_results">No results</string>
     <string name="invite">Invite</string>
+    <string name="invites">Invites</string>
     <string name="invitation_sent">Invitation sent</string>
     <string name="manage_members">Manage members</string>
     <string name="group_members_format">%s members</string>
@@ -95,7 +95,8 @@
     <string name="circles_created">Circles created</string>
     <string name="root_space_name">Circles</string>
     <string name="circles_space_name">My Circles</string>
-    <string name="people_space_name">My People</string>
+    <string name="private_circles">Private Circles</string>
+    <string name="shared_circles">Shared Circles</string>
     <string name="groups_space_name">My Groups</string>
     <string name="photos_space_name">My Photo Galleries</string>
     <string name="log_out">Log out</string>
@@ -200,12 +201,9 @@
     <string name="invited_by_format">Invited by %s</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
-    <string name="profile">Profile</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="change_password">Change password</string>
-    <string name="session">Session</string>
     <string name="login_sessions">Login sessions</string>
-    <string name="account">Account</string>
     <string name="deactivate_my_account">Deactivate my account</string>
     <string name="settings">Settings</string>
     <string name="user_id">User ID</string>
@@ -357,16 +355,7 @@
     <string name="event_redacted_by_admin_reason_with_reason">Event moderated by room admin, reason: %1$s</string>
     <string name="event_redacted_by_user_reason">Event deleted by user</string>
     <string name="event_redacted_by_admin_reason">Event moderated by room admin</string>
-    <plurals name="room_new_messages_notification">
-        <item quantity="one">%d new message</item>
-        <item quantity="other">%d new messages</item>
-    </plurals>
-    <string name="notification_ticker_text_dm">%1$s: %2$s</string>
     <string name="notification_ticker_text_group">%1$s: %2$s %3$s</string>
-    <plurals name="notification_compat_summary_line_for_room">
-        <item quantity="one">%1$s: %2$d message</item>
-        <item quantity="other">%1$s: %2$d messages</item>
-    </plurals>
     <string name="notification_room_notifications">Room notifications</string>
     <string name="notification_invitations">Invitations</string>
     <string name="notification_listening_for_events">Listening for events</string>
@@ -377,32 +366,25 @@
     <string name="and">and</string>
     <string name="notification_initial_sync">Initial Sync…</string>
     <string name="notification_listening_for_notifications">Listening for notifications</string>
-
     <string name="settings_troubleshoot_test_system_settings_title">System Settings</string>
     <string name="settings_troubleshoot_test_system_settings_success">Notifications are enabled in the system settings.</string>
     <string name="settings_troubleshoot_test_system_settings_failed">Notifications are disabled in the system settings.\nPlease check system settings.</string>
     <string name="settings_troubleshoot_test_system_settings_permission_failed">Circles needs the permission to show notifications.\nPlease grant the permission.</string>
-
     <string name="settings_troubleshoot_test_account_settings_title">Account Settings</string>
     <string name="settings_troubleshoot_test_account_settings_success">Notifications are enabled for your account.</string>
     <string name="settings_troubleshoot_test_account_settings_failed">Notifications are disabled for your account.\nPlease check account settings.</string>
-
     <string name="settings_troubleshoot_test_bing_settings_title">Custom Settings</string>
     <string name="settings_troubleshoot_test_bing_settings_success_with_warn">Notice that some messages type are set to be silent (will produce a notification with no sound).</string>
     <string name="settings_troubleshoot_test_bing_settings_failed">Some notifications are disabled in your custom settings.</string>
-
     <string name="settings_troubleshoot_test_play_services_title">Play Services Check</string>
     <string name="settings_troubleshoot_test_play_services_success">Google Play Services APK is available and up-to-date.</string>
     <string name="settings_troubleshoot_test_play_services_failed">Circles uses Google Play Services to deliver push messages but it doesn’t seem to be configured correctly:\n%1$s</string>
-
     <string name="settings_troubleshoot_test_fcm_title">Firebase Token</string>
     <string name="settings_troubleshoot_test_fcm_success">FCM token successfully retrieved:\n%1$s</string>
     <string name="settings_troubleshoot_test_fcm_failed">Failed to retrieved FCM token:\n%1$s</string>
-
     <string name="settings_troubleshoot_test_token_registration_title">Token Registration</string>
     <string name="settings_troubleshoot_test_token_registration_success">FCM token successfully registered to homeserver.</string>
     <string name="settings_troubleshoot_test_token_registration_failed">Failed to register FCM token to homeserver:\n%1$s</string>
-
     <string name="settings_troubleshoot_test_push_loop_title">Test Push</string>
     <string name="settings_troubleshoot_test_push_loop_waiting_for_push">The application is waiting for the PUSH</string>
     <string name="settings_troubleshoot_test_push_loop_success">The application is receiving PUSH</string>
@@ -410,31 +392,22 @@
     <string name="settings_troubleshoot_test_notification_title">Notification Display</string>
     <string name="settings_troubleshoot_test_notification_notice">Please click on the notification. If you do not see the notification, please check the system settings.</string>
     <string name="settings_troubleshoot_test_notification_notification_clicked">The notification has been clicked!</string>
-
     <string name="settings_troubleshoot_test_distributors_title">Available methods</string>
     <string name="settings_troubleshoot_test_distributors_gplay">No other method than Google Play Service found.</string>
     <string name="settings_troubleshoot_test_distributors_fdroid">No other method than background synchronization found.</string>
-    <plurals name="settings_troubleshoot_test_distributors_many">
-        <item quantity="one">Found %d method.</item>
-        <item quantity="other">Found %d methods.</item>
-    </plurals>
     <string name="settings_troubleshoot_test_current_distributor_title">Method</string>
     <string name="settings_troubleshoot_test_current_distributor">Currently using %s.</string>
     <string name="unifiedpush_distributor_fcm_fallback">Google Services</string>
     <string name="unifiedpush_distributor_background_sync">Background synchronization</string>
     <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
     <string name="unable_to_register_receiver">Unable to register the receiver</string>
-
-    <string name="settings_troubleshoot_test_bg_restricted_title">Check background restrictions</string>
-    <string name="settings_troubleshoot_test_bg_restricted_success">Background restrictions are disabled for Circles. This test should be run using mobile data (no WIFI).\n%1$s</string>
-    <string name="settings_troubleshoot_test_bg_restricted_failed">Background restrictions are enabled for Circles.\nWork that the app tries to do will be aggressively restricted while it is in the background, and this could affect notifications.\n%1$s</string>
-
-    <string name="settings_troubleshoot_test_battery_title">Battery Optimization</string>
-    <string name="settings_troubleshoot_test_battery_success">Circles is not affected by Battery Optimization.</string>
-    <string name="settings_troubleshoot_test_battery_failed">If a user leaves a device unplugged and stationary for a period of time, with the screen off, the device enters Doze mode. This prevents apps from accessing the network and defers their jobs, syncs, and standard alarms. </string>
-    <string name="shortcut_disabled">Shortcut disabled</string>
+    <string name="share_profile">Share profile</string>
+    <string name="scan_profile">Scan profile</string>
+    <string name="account">Account</string>
     <string name="mute_notifications">Mute notifications</string>
     <string name="unmute_notifications">Unmute notifications</string>
+    <string name="shortcut_disabled">Shortcut disabled</string>
+    <string name="shared_circles_space_not_found">Shared Circles space not found</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
@@ -455,6 +428,21 @@
         <item>@string/family</item>
         <item>@string/community</item>
     </string-array>
+
+    <plurals name="notification_compat_summary_line_for_room">
+        <item quantity="one">%1$s: %2$d message</item>
+        <item quantity="other">%1$s: %2$d messages</item>
+    </plurals>
+
+    <plurals name="settings_troubleshoot_test_distributors_many">
+        <item quantity="one">Found %d method.</item>
+        <item quantity="other">Found %d methods.</item>
+    </plurals>
+
+    <plurals name="room_new_messages_notification">
+        <item quantity="one">%d new message</item>
+        <item quantity="other">%d new messages</item>
+    </plurals>
 
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>

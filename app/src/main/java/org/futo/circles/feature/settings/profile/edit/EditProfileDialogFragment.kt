@@ -1,4 +1,4 @@
-package org.futo.circles.feature.settings.edit_profile
+package org.futo.circles.feature.settings.profile.edit
 
 import android.os.Bundle
 import android.view.View

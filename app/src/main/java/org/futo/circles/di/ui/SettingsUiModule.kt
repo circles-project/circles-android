@@ -7,7 +7,8 @@ import org.futo.circles.feature.settings.SettingsViewModel
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
 import org.futo.circles.feature.settings.active_sessions.verify.VerifySessionViewModel
 import org.futo.circles.feature.settings.change_password.ChangePasswordViewModel
-import org.futo.circles.feature.settings.edit_profile.EditProfileViewModel
+import org.futo.circles.feature.settings.profile.edit.EditProfileViewModel
+import org.futo.circles.feature.settings.profile.share.ShareProfileViewModel
 import org.futo.circles.feature.sign_up.username.UsernameViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -28,4 +29,5 @@ val settingsUiModule = module {
     }
     viewModel { UsernameViewModel(get()) }
     viewModel { (deviceId: String) -> VerifySessionViewModel(deviceId, get()) }
+    viewModel { ShareProfileViewModel() }
 }

@@ -1,27 +1,67 @@
 package org.futo.circles.feature.circles
 
-import org.futo.circles.core.rooms.data_source.RoomsDataSource
+import androidx.lifecycle.map
+import org.futo.circles.extensions.createResult
+import org.futo.circles.extensions.getPrivateCirclesSpaceId
+import org.futo.circles.extensions.getSharedCirclesSpaceId
 import org.futo.circles.mapping.toInviteCircleListItem
 import org.futo.circles.mapping.toJoinedCircleListItem
 import org.futo.circles.model.CIRCLE_TAG
-import org.futo.circles.model.RoomListItem
+import org.futo.circles.model.CircleListItem
+import org.futo.circles.model.CirclesHeaderItem
 import org.futo.circles.model.TIMELINE_TYPE
+import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
-class CirclesDataSource : RoomsDataSource() {
+class CirclesDataSource {
 
-    override fun filterRooms(list: List<RoomSummary>): List<RoomListItem> {
-        return list.mapNotNull { summary ->
-            if (isCircle(summary)) summary.toJoinedCircleListItem()
-            else if (isInviteToCircleTimeline(summary)) summary.toInviteCircleListItem()
-            else null
-        }.sortedBy { it.membership }
+    fun getCirclesLiveData() = MatrixSessionProvider.currentSession?.roomService()
+        ?.getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
+        ?.map { list -> buildCirclesList(list) }
+
+    private fun buildCirclesList(list: List<RoomSummary>): List<CircleListItem> {
+        val invites =
+            list.filter { isInviteToCircleTimeline(it) }.map { it.toInviteCircleListItem() }
+        val joinedCircles = list.filter { isJoinedCircle(it) }
+        val sharedCircles = joinedCircles.filter { getSharedCirclesIds().contains(it.roomId) }
+            .map { it.toJoinedCircleListItem(true) }
+        val privateCircles = joinedCircles.filter { getPrivateCirclesIds().contains(it.roomId) }
+            .map { it.toJoinedCircleListItem(false) }
+
+        val displayList = mutableListOf<CircleListItem>()
+        if (invites.isNotEmpty()) {
+            displayList.add(CirclesHeaderItem.invitesCirclesHeader)
+            displayList.addAll(invites)
+        }
+        if (sharedCircles.isNotEmpty()) {
+            displayList.add(CirclesHeaderItem.sharedCirclesHeader)
+            displayList.addAll(sharedCircles)
+        }
+        if (privateCircles.isNotEmpty()) {
+            displayList.add(CirclesHeaderItem.privateCirclesHeader)
+            displayList.addAll(privateCircles)
+        }
+        return displayList
     }
 
-    private fun isCircle(summary: RoomSummary) =
+    private fun getSharedCirclesIds() = getSharedCirclesSpaceId()?.let {
+        MatrixSessionProvider.currentSession?.getRoomSummary(it)?.spaceChildren?.map { it.childRoomId }
+    } ?: emptyList()
+
+    private fun getPrivateCirclesIds() = getPrivateCirclesSpaceId()?.let {
+        MatrixSessionProvider.currentSession?.getRoomSummary(it)?.spaceChildren?.map { it.childRoomId }
+    } ?: emptyList()
+
+    private fun isJoinedCircle(summary: RoomSummary) =
         summary.hasTag(CIRCLE_TAG) && summary.membership == Membership.JOIN
 
     private fun isInviteToCircleTimeline(summary: RoomSummary) =
         summary.roomType == TIMELINE_TYPE && summary.membership == Membership.INVITE
+
+    suspend fun rejectInvite(roomId: String) = createResult {
+        MatrixSessionProvider.currentSession?.roomService()?.leaveRoom(roomId)
+    }
 }

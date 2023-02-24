@@ -1,4 +1,4 @@
-package org.futo.circles.core.rooms.list
+package org.futo.circles.feature.groups.list
 
 import android.text.format.DateUtils
 import android.view.View
@@ -9,15 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.*
+import org.futo.circles.databinding.ListItemInvitedGroupBinding
+import org.futo.circles.databinding.ListItemJoinedGroupBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setIsEncryptedIcon
 import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.model.*
+import org.futo.circles.model.GroupListItem
+import org.futo.circles.model.GroupListItemPayload
+import org.futo.circles.model.InvitedGroupListItem
+import org.futo.circles.model.JoinedGroupListItem
 
-abstract class RoomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    abstract fun bind(data: RoomListItem)
+
+abstract class GroupViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    abstract fun bind(data: GroupListItem)
 
     protected fun setIcon(groupIcon: ImageView, avatarUrl: String?, title: String) {
         groupIcon.loadProfileIcon(avatarUrl, title)
@@ -35,7 +40,7 @@ abstract class RoomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 class JoinedGroupViewHolder(
     parent: ViewGroup,
     onGroupClicked: (Int) -> Unit
-) : RoomViewHolder(inflate(parent, ListItemJoinedGroupBinding::inflate)) {
+) : GroupViewHolder(inflate(parent, ListItemJoinedGroupBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
@@ -45,7 +50,7 @@ class JoinedGroupViewHolder(
         onClick(itemView) { position -> onGroupClicked(position) }
     }
 
-    override fun bind(data: RoomListItem) {
+    override fun bind(data: GroupListItem) {
         if (data !is JoinedGroupListItem) return
 
         setIcon(binding.ivGroup, data.info.avatarUrl, data.info.title)
@@ -93,7 +98,7 @@ class JoinedGroupViewHolder(
 class InvitedGroupViewHolder(
     parent: ViewGroup,
     onInviteClicked: (Int, Boolean) -> Unit
-) : RoomViewHolder(inflate(parent, ListItemInvitedGroupBinding::inflate)) {
+) : GroupViewHolder(inflate(parent, ListItemInvitedGroupBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
@@ -104,7 +109,7 @@ class InvitedGroupViewHolder(
         onClick(binding.btnDecline) { position -> onInviteClicked(position, false) }
     }
 
-    override fun bind(data: RoomListItem) {
+    override fun bind(data: GroupListItem) {
         if (data !is InvitedGroupListItem) return
 
         setIcon(binding.ivGroup, data.info.avatarUrl, data.info.title)
@@ -113,97 +118,4 @@ class InvitedGroupViewHolder(
         binding.tvInviterName.text = context.getString(R.string.invited_by_format, data.inviterName)
     }
 
-}
-
-class JoinedCircleViewHolder(
-    parent: ViewGroup,
-    onCircleClicked: (Int) -> Unit
-) : RoomViewHolder(inflate(parent, ListItemJoinedCircleBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemJoinedCircleBinding
-
-    init {
-        onClick(itemView) { position -> onCircleClicked(position) }
-    }
-
-    override fun bind(data: RoomListItem) {
-        if (data !is JoinedCircleListItem) return
-
-        with(binding) {
-            setIcon(ivCircle, data.info.avatarUrl, data.info.title)
-            setTitle(tvCircleTitle, data.info.title)
-            setFollowingCount(data.followingCount)
-            setFollowedByCount(data.followedByCount)
-            setUnreadCount(data.unreadCount)
-        }
-    }
-
-    fun bindPayload(data: CircleListItemPayload) {
-        data.followersCount?.let { setFollowingCount(it) }
-        data.followedByCount?.let { setFollowedByCount(it) }
-        data.unreadCount?.let { setUnreadCount(it) }
-    }
-
-    private fun setFollowingCount(followersCount: Int) {
-        binding.tvFollowing.text = context.getString(R.string.following_format, followersCount)
-    }
-
-    private fun setFollowedByCount(followedByCount: Int) {
-        binding.tvFollowedBy.text = context.getString(R.string.followed_by_format, followedByCount)
-    }
-
-    private fun setUnreadCount(count: Int) {
-        binding.vNotificationsCount.setCount(count)
-    }
-}
-
-class InvitedCircleViewHolder(
-    parent: ViewGroup,
-    onInviteClicked: (Int, Boolean) -> Unit
-) : RoomViewHolder(inflate(parent, ListItemInvitedCircleBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemInvitedCircleBinding
-
-    init {
-        onClick(binding.btnAccept) { position -> onInviteClicked(position, true) }
-        onClick(binding.btnDecline) { position -> onInviteClicked(position, false) }
-    }
-
-    override fun bind(data: RoomListItem) {
-        if (data !is InvitedCircleListItem) return
-
-        with(binding) {
-            setIcon(ivCircle, data.info.avatarUrl, data.info.title)
-            setTitle(tvCircleTitle, data.info.title)
-            binding.tvInvitedBy.text =
-                context.getString(R.string.invited_by_format, data.inviterName)
-        }
-    }
-}
-
-class GalleryViewHolder(
-    parent: ViewGroup,
-    onGalleryClicked: (Int) -> Unit
-) : RoomViewHolder(inflate(parent, ListItemGalleryBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemGalleryBinding
-
-    init {
-        onClick(itemView) { position -> onGalleryClicked(position) }
-    }
-
-    override fun bind(data: RoomListItem) {
-        if (data !is GalleryListItem) return
-
-        with(binding) {
-            setIcon(ivGalleryImage, data.info.avatarUrl, "")
-            setTitle(tvGalleryName, data.info.title)
-        }
-    }
 }

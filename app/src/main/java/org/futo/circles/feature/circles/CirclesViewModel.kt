@@ -1,17 +1,17 @@
 package org.futo.circles.feature.circles
 
-import androidx.lifecycle.map
-import org.futo.circles.core.rooms.RoomsViewModel
-import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import androidx.lifecycle.ViewModel
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.extensions.Response
+import org.futo.circles.extensions.launchBg
 
-class CirclesViewModel(
-    private val dataSource: CirclesDataSource
-) : RoomsViewModel(dataSource) {
+class CirclesViewModel(private val dataSource: CirclesDataSource) : ViewModel() {
 
-    override val roomsLiveData =
-        MatrixSessionProvider.currentSession?.roomService()
-            ?.getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
-            ?.map { list -> dataSource.filterRooms(list) }
+    val roomsLiveData = dataSource.getCirclesLiveData()
+    val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
+
+    fun rejectInvite(roomId: String) {
+        launchBg { inviteResultLiveData.postValue(dataSource.rejectInvite(roomId)) }
+    }
 
 }

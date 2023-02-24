@@ -31,9 +31,9 @@ class CreateRoomDataSource(
         inviteIds: List<String>? = null,
         isKnockingAllowed: Boolean
     ): String {
-        val circleId = createRoom(Circle(), name, null, iconUri)
+        val circleId = createRoom(Circle(isPublic = isKnockingAllowed), name, null, iconUri)
         val timelineId =
-            createRoom(Timeline(), name, null, iconUri, inviteIds, allowKnock = isKnockingAllowed)
+            createRoom(Timeline(), name, null, iconUri, inviteIds, isKnockingAllowed)
         session?.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
         return circleId
@@ -45,12 +45,11 @@ class CreateRoomDataSource(
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        allowKnock: Boolean = false,
-        isPublic: Boolean = false
+        allowKnock: Boolean = false
     ): String {
         val id = session?.roomService()
             ?.createRoom(
-                getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock, isPublic)
+                getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock)
             ) ?: throw Exception("Can not create room")
 
         circlesRoom.tag?.let { session?.getRoom(id)?.tagsService()?.addTag(it, null) }
@@ -67,26 +66,21 @@ class CreateRoomDataSource(
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        allowKnock: Boolean = false,
-        isPublic: Boolean = false
+        allowKnock: Boolean = false
     ): CreateRoomParams {
         val params = if (circlesRoom.isSpace()) {
-            CreateSpaceParams()
+            CreateSpaceParams().apply {
+                if (allowKnock) {
+                    guestAccess = GuestAccess.CanJoin
+                    setInviteRules(this, true)
+                }
+            }
         } else {
             CreateRoomParams().apply {
-                visibility = if (isPublic) RoomDirectoryVisibility.PUBLIC
-                else RoomDirectoryVisibility.PRIVATE
+                visibility = RoomDirectoryVisibility.PRIVATE
                 guestAccess = GuestAccess.CanJoin
                 historyVisibility = RoomHistoryVisibility.SHARED
-                initialStates.add(
-                    CreateRoomStateEvent(
-                        EventType.STATE_ROOM_JOIN_RULES,
-                        RoomJoinRulesContent(
-                            if (allowKnock) RoomJoinRules.KNOCK.value
-                            else RoomJoinRules.INVITE.value
-                        ).toContent()
-                    )
-                )
+                setInviteRules(this, allowKnock)
                 powerLevelContentOverride = PowerLevelsContent(invite = Role.Moderator.value)
                 enableEncryption()
                 overrideEncryptionForTestBuilds(this)
@@ -101,6 +95,18 @@ class CreateRoomDataSource(
             avatarUri = iconUri
             inviteIds?.let { invitedUserIds.addAll(it) }
         }
+    }
+
+    private fun setInviteRules(params: CreateRoomParams, allowKnock: Boolean) {
+        params.initialStates.add(
+            CreateRoomStateEvent(
+                EventType.STATE_ROOM_JOIN_RULES,
+                RoomJoinRulesContent(
+                    if (allowKnock) RoomJoinRules.KNOCK.value
+                    else RoomJoinRules.INVITE.value
+                ).toContent()
+            )
+        )
     }
 
     private fun overrideEncryptionForTestBuilds(params: CreateRoomParams) {

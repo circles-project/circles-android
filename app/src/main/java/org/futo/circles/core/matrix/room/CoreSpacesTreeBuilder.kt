@@ -17,10 +17,9 @@ class CoreSpacesTreeBuilder(
     val loadingLiveData = MutableLiveData<LoadingData>()
 
     private val coreSpaces = listOf(
-        RootSpace(), CirclesSpace(), PeopleSpace(), GroupsSpace(), PhotosSpace()
+        RootSpace(), CirclesSpace(), GroupsSpace(), PhotosSpace(), PrivateCirclesSpace()
     )
 
-    //Todo profile space
     suspend fun createCoreSpacesTree() {
         loadingLiveData.postValue(
             LoadingData(
@@ -33,14 +32,9 @@ class CoreSpacesTreeBuilder(
             createRoomDataSource.createRoom(it)
             delay(CREATE_ROOM_DELAY)
         }
+        createRoomDataSource.createRoom(SharedCirclesSpace(), allowKnock = true)
+        delay(CREATE_ROOM_DELAY)
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
-//        delay(CREATE_ROOM_DELAY)
-//        createRoomDataSource.createRoom(
-//            ProfileRoom(),
-//            MatrixSessionProvider.currentSession?.myUserId ?: "",
-//            allowKnock = true,
-//            isPublic = true
-//        )
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 

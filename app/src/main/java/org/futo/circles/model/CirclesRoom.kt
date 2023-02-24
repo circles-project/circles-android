@@ -6,7 +6,8 @@ import org.matrix.android.sdk.api.session.room.model.RoomType
 
 private const val orgPrefix = "org.futo"
 private const val CIRCLES_SPACE_TAG = "$orgPrefix.space.circles"
-private const val PEOPLE_SPACE_TAG = "$orgPrefix.space.people"
+const val PRIVATE_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.private"
+const val SHARED_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.shared"
 private const val GROUPS_SPACE_TAG = "$orgPrefix.space.groups"
 private const val PHOTOS_SPACE_TAG = "$orgPrefix.space.photos"
 const val ROOT_SPACE_TAG = "$orgPrefix.space.root"
@@ -15,7 +16,6 @@ const val CIRCLE_TAG = "$orgPrefix.social.circle"
 const val GROUP_TYPE = "$orgPrefix.social.group"
 const val GALLERY_TYPE = "$orgPrefix.social.gallery"
 const val TIMELINE_TYPE = "$orgPrefix.social.timeline"
-const val PROFILE_TYPE = "$orgPrefix.social.profile_space"
 
 
 sealed class CirclesRoom(
@@ -41,10 +41,17 @@ data class CirclesSpace(
     override val type: String? = RoomType.SPACE
 ) : CirclesRoom(nameId, tag, parentTag, type)
 
-data class PeopleSpace(
-    override val nameId: Int? = R.string.people_space_name,
-    override val tag: String? = PEOPLE_SPACE_TAG,
-    override val parentTag: String? = ROOT_SPACE_TAG,
+data class PrivateCirclesSpace(
+    override val nameId: Int? = R.string.private_circles,
+    override val tag: String? = PRIVATE_CIRCLES_SPACE_TAG,
+    override val parentTag: String? = CIRCLES_SPACE_TAG,
+    override val type: String? = RoomType.SPACE
+) : CirclesRoom(nameId, tag, parentTag, type)
+
+data class SharedCirclesSpace(
+    override val nameId: Int? = R.string.shared_circles,
+    override val tag: String? = SHARED_CIRCLES_SPACE_TAG,
+    override val parentTag: String? = CIRCLES_SPACE_TAG,
     override val type: String? = RoomType.SPACE
 ) : CirclesRoom(nameId, tag, parentTag, type)
 
@@ -65,7 +72,8 @@ data class GroupsSpace(
 data class Circle(
     override val nameId: Int? = null,
     override val tag: String? = CIRCLE_TAG,
-    override val parentTag: String? = CIRCLES_SPACE_TAG,
+    val isPublic: Boolean = false,
+    override val parentTag: String? = if (isPublic) SHARED_CIRCLES_SPACE_TAG else PRIVATE_CIRCLES_SPACE_TAG,
     override val type: String? = RoomType.SPACE
 ) : CirclesRoom(nameId, tag, parentTag, type)
 
@@ -81,13 +89,6 @@ data class Gallery(
     override val tag: String? = null,
     override val parentTag: String? = PHOTOS_SPACE_TAG,
     override val type: String? = GALLERY_TYPE
-) : CirclesRoom(nameId, tag, parentTag, type)
-
-data class ProfileRoom(
-    override val nameId: Int? = null,
-    override val tag: String? = null,
-    override val parentTag: String? = ROOT_SPACE_TAG,
-    override val type: String? = PROFILE_TYPE
 ) : CirclesRoom(nameId, tag, parentTag, type)
 
 data class Timeline(
