@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.matrix.room.CreateRoomDataSource
+import org.futo.circles.extensions.getSharedCirclesSpaceId
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
 import org.futo.circles.model.CIRCLE_TAG
 import org.futo.circles.model.GROUP_TYPE
+import org.futo.circles.model.SharedCirclesSpace
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -17,6 +20,7 @@ import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
 class HomeViewModel(
     private val pushersManager: PushersManager,
+    private val createRoomDataSource: CreateRoomDataSource,
     shortcutsHandler: ShortcutsHandler
 ) : ViewModel() {
 
@@ -24,7 +28,13 @@ class HomeViewModel(
 
     init {
         shortcutsHandler.observeRoomsAndBuildShortcuts(viewModelScope)
+        createSharedCirclesSpaceIfNotExist()
         autoAcceptInviteOnKnock()
+    }
+
+    private fun createSharedCirclesSpaceIfNotExist() {
+        if (getSharedCirclesSpaceId() != null) return
+        launchBg { createRoomDataSource.createRoom(SharedCirclesSpace(), allowKnock = true) }
     }
 
     fun registerPushNotifications(context: Context) {
