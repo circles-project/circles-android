@@ -64,8 +64,7 @@ data class GroupsSpace(
 data class Circle(
     override val nameId: Int? = null,
     override val tag: String? = CIRCLE_TAG,
-    val isPublic: Boolean = false,
-    override val parentTag: String? = if (isPublic) SHARED_CIRCLES_SPACE_TAG else CIRCLES_SPACE_TAG,
+    override val parentTag: String? = CIRCLES_SPACE_TAG,
     override val type: String? = RoomType.SPACE
 ) : CirclesRoom(nameId, tag, parentTag, type)
 

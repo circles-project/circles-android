@@ -3,6 +3,7 @@ package org.futo.circles.core.matrix.room
 import android.content.Context
 import android.net.Uri
 import org.futo.circles.BuildConfig
+import org.futo.circles.extensions.getSharedCirclesSpaceId
 import org.futo.circles.model.Circle
 import org.futo.circles.model.CirclesRoom
 import org.futo.circles.model.Timeline
@@ -31,11 +32,12 @@ class CreateRoomDataSource(
         inviteIds: List<String>? = null,
         isKnockingAllowed: Boolean
     ): String {
-        val circleId = createRoom(Circle(isPublic = isKnockingAllowed), name, null, iconUri)
+        val circleId = createRoom(Circle(), name, null, iconUri)
         val timelineId =
-            createRoom(Timeline(), name, null, iconUri, inviteIds, isKnockingAllowed)
+            createRoom(Timeline(), name, null, iconUri, inviteIds, true)
         session?.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
+        if (isKnockingAllowed) addToSharedCircles(timelineId)
         return circleId
     }
 
@@ -121,6 +123,13 @@ class CreateRoomDataSource(
                 ).toContent()
             )
         )
+    }
+
+    private suspend fun addToSharedCircles(timelineId: String) {
+        session?.getRoom(getSharedCirclesSpaceId() ?: "")
+            ?.let { sharedCirclesSpace ->
+                roomRelationsBuilder.setRelations(timelineId, sharedCirclesSpace)
+            }
     }
 
     companion object {
