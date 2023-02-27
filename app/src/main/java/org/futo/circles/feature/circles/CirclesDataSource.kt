@@ -3,6 +3,7 @@ package org.futo.circles.feature.circles
 import androidx.lifecycle.map
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.getSharedCirclesSpaceId
+import org.futo.circles.extensions.getTimelineRoomFor
 import org.futo.circles.mapping.toInviteCircleListItem
 import org.futo.circles.mapping.toJoinedCircleListItem
 import org.futo.circles.model.CIRCLE_TAG
@@ -25,7 +26,10 @@ class CirclesDataSource {
         val invites =
             list.filter { isInviteToCircleTimeline(it) }.map { it.toInviteCircleListItem() }
         val joinedCircles = list.filter { isJoinedCircle(it) }
-        val sharedCircles = joinedCircles.filter { getSharedCirclesIds().contains(it.roomId) }
+        val sharedCircles = joinedCircles.filter { joinedCircle ->
+            val timelineId = getTimelineRoomFor(joinedCircle.roomId)?.roomId
+            getSharedCirclesIds().contains(timelineId)
+        }
         val privateCircles = joinedCircles - sharedCircles.toSet()
 
         val displayList = mutableListOf<CircleListItem>()
