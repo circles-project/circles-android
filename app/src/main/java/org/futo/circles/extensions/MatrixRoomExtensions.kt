@@ -1,7 +1,6 @@
 package org.futo.circles.extensions
 
 import org.futo.circles.core.SYSTEM_NOTICES_TAG
-import org.futo.circles.model.PRIVATE_CIRCLES_SPACE_TAG
 import org.futo.circles.model.SHARED_CIRCLES_SPACE_TAG
 import org.futo.circles.model.TIMELINE_TYPE
 import org.futo.circles.provider.MatrixSessionProvider
@@ -33,7 +32,6 @@ fun getSystemNoticesRoomId(): String? {
 }
 
 fun getSharedCirclesSpaceId(): String? = getSpaceIdByTag(SHARED_CIRCLES_SPACE_TAG)
-fun getPrivateCirclesSpaceId(): String? = getSpaceIdByTag(PRIVATE_CIRCLES_SPACE_TAG)
 
 fun getSpaceIdByTag(tag: String): String? {
     val session = MatrixSessionProvider.currentSession ?: return null

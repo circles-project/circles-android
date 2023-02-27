@@ -2,7 +2,6 @@ package org.futo.circles.feature.circles
 
 import androidx.lifecycle.map
 import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.getPrivateCirclesSpaceId
 import org.futo.circles.extensions.getSharedCirclesSpaceId
 import org.futo.circles.mapping.toInviteCircleListItem
 import org.futo.circles.mapping.toJoinedCircleListItem
@@ -27,9 +26,7 @@ class CirclesDataSource {
             list.filter { isInviteToCircleTimeline(it) }.map { it.toInviteCircleListItem() }
         val joinedCircles = list.filter { isJoinedCircle(it) }
         val sharedCircles = joinedCircles.filter { getSharedCirclesIds().contains(it.roomId) }
-            .map { it.toJoinedCircleListItem(true) }
-        val privateCircles = joinedCircles.filter { getPrivateCirclesIds().contains(it.roomId) }
-            .map { it.toJoinedCircleListItem(false) }
+        val privateCircles = joinedCircles - sharedCircles.toSet()
 
         val displayList = mutableListOf<CircleListItem>()
         if (invites.isNotEmpty()) {
@@ -38,20 +35,16 @@ class CirclesDataSource {
         }
         if (sharedCircles.isNotEmpty()) {
             displayList.add(CirclesHeaderItem.sharedCirclesHeader)
-            displayList.addAll(sharedCircles)
+            displayList.addAll(sharedCircles.map { it.toJoinedCircleListItem(true) })
         }
         if (privateCircles.isNotEmpty()) {
             displayList.add(CirclesHeaderItem.privateCirclesHeader)
-            displayList.addAll(privateCircles)
+            displayList.addAll(privateCircles.map { it.toJoinedCircleListItem(false) })
         }
         return displayList
     }
 
     private fun getSharedCirclesIds() = getSharedCirclesSpaceId()?.let {
-        MatrixSessionProvider.currentSession?.getRoomSummary(it)?.spaceChildren?.map { it.childRoomId }
-    } ?: emptyList()
-
-    private fun getPrivateCirclesIds() = getPrivateCirclesSpaceId()?.let {
         MatrixSessionProvider.currentSession?.getRoomSummary(it)?.spaceChildren?.map { it.childRoomId }
     } ?: emptyList()
 
