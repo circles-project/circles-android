@@ -1,9 +1,8 @@
 package org.futo.circles.feature.circles
 
 import androidx.lifecycle.map
+import org.futo.circles.core.utils.isCircleShared
 import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.getSharedCirclesSpaceId
-import org.futo.circles.extensions.getTimelineRoomFor
 import org.futo.circles.mapping.toInviteCircleListItem
 import org.futo.circles.mapping.toJoinedCircleListItem
 import org.futo.circles.model.CIRCLE_TAG
@@ -11,7 +10,6 @@ import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CirclesHeaderItem
 import org.futo.circles.model.TIMELINE_TYPE
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
@@ -26,10 +24,8 @@ class CirclesDataSource {
         val invites =
             list.filter { isInviteToCircleTimeline(it) }.map { it.toInviteCircleListItem() }
         val joinedCircles = list.filter { isJoinedCircle(it) }
-        val sharedCircles = joinedCircles.filter { joinedCircle ->
-            val timelineId = getTimelineRoomFor(joinedCircle.roomId)?.roomId
-            getSharedCirclesIds().contains(timelineId)
-        }
+        val sharedCircles =
+            joinedCircles.filter { joinedCircle -> isCircleShared(joinedCircle.roomId) }
         val privateCircles = joinedCircles - sharedCircles.toSet()
 
         val displayList = mutableListOf<CircleListItem>()
@@ -47,10 +43,6 @@ class CirclesDataSource {
         }
         return displayList
     }
-
-    private fun getSharedCirclesIds() = getSharedCirclesSpaceId()?.let {
-        MatrixSessionProvider.currentSession?.getRoomSummary(it)?.spaceChildren?.map { it.childRoomId }
-    } ?: emptyList()
 
     private fun isJoinedCircle(summary: RoomSummary) =
         summary.hasTag(CIRCLE_TAG) && summary.membership == Membership.JOIN
