@@ -3,7 +3,7 @@ package org.futo.circles.core.matrix.room
 import android.content.Context
 import android.net.Uri
 import org.futo.circles.BuildConfig
-import org.futo.circles.extensions.getSharedCirclesSpaceId
+import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.model.Circle
 import org.futo.circles.model.CirclesRoom
 import org.futo.circles.model.Timeline
@@ -125,10 +125,17 @@ class CreateRoomDataSource(
         )
     }
 
-    private suspend fun addToSharedCircles(timelineId: String) {
+    suspend fun addToSharedCircles(timelineId: String) {
         session?.getRoom(getSharedCirclesSpaceId() ?: "")
             ?.let { sharedCirclesSpace ->
                 roomRelationsBuilder.setRelations(timelineId, sharedCirclesSpace)
+            }
+    }
+
+    suspend fun removeFromSharedCircles(timelineId: String) {
+        session?.getRoom(getSharedCirclesSpaceId() ?: "")
+            ?.let { sharedCirclesSpace ->
+                roomRelationsBuilder.removeRelations(timelineId, sharedCirclesSpace.roomId)
             }
     }
 
