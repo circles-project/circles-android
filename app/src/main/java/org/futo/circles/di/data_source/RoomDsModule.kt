@@ -17,7 +17,7 @@ val roomDSModule = module {
     factory { CreateRoomDataSource(get(), get()) }
     factory { RoomRelationsBuilder() }
     factory { CoreSpacesTreeBuilder(get(), get()) }
-    factory { (roomId: String) -> UpdateRoomDataSource(roomId, get()) }
+    factory { (roomId: String) -> UpdateRoomDataSource(roomId, get(), get()) }
     factory { GroupsDataSource(get()) }
     factory { CirclesDataSource() }
     factory { PhotosDataSource() }
