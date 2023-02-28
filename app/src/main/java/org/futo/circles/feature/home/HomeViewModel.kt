@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
-import org.futo.circles.extensions.getSharedCirclesSpaceId
+import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler

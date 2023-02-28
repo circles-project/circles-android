@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import org.futo.circles.R
+import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.getTimelineRoomFor
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom

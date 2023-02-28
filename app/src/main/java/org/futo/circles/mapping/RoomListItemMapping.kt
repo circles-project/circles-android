@@ -1,6 +1,6 @@
 package org.futo.circles.mapping
 
-import org.futo.circles.extensions.getTimelineRoomFor
+import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoomSummary

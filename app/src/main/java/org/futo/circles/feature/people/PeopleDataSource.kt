@@ -4,10 +4,8 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import org.futo.circles.core.utils.UserUtils
-import org.futo.circles.extensions.Response
+import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.getSharedCirclesSpaceId
 import org.futo.circles.feature.room.select_users.SearchUserDataSource
 import org.futo.circles.mapping.toPeopleIgnoredUserListItem
 import org.futo.circles.mapping.toPeopleRequestUserListItem
@@ -15,11 +13,8 @@ import org.futo.circles.mapping.toPeopleSuggestionUserListItem
 import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.model.roomdirectory.PublicRoomsFilter
-import org.matrix.android.sdk.api.session.room.model.roomdirectory.PublicRoomsParams
 import org.matrix.android.sdk.api.session.user.model.User
 
 class PeopleDataSource(

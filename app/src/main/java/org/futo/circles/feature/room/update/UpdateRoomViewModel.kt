@@ -21,18 +21,18 @@ class UpdateRoomViewModel(
         selectedImageLiveData.value = uri
     }
 
-    fun update(name: String, topic: String, joinRules: RoomJoinRules) {
+    fun update(name: String, topic: String, isPublic: Boolean) {
         launchBg {
             updateGroupResponseLiveData.postValue(
-                dataSource.updateRoom(name, topic, selectedImageLiveData.value, joinRules)
+                dataSource.updateRoom(name, topic, selectedImageLiveData.value, isPublic)
             )
         }
     }
 
-    fun handleRoomDataUpdate(name: String, topic: String, joinRules: RoomJoinRules) {
+    fun handleRoomDataUpdate(name: String, topic: String, isPublic: Boolean) {
         val isDataUpdated = dataSource.isNameChanged(name) ||
                 dataSource.isTopicChanged(topic) ||
-                dataSource.isJoinRulesChanged(joinRules) ||
+                dataSource.isPrivateSharedChanged(isPublic) ||
                 selectedImageLiveData.value != null
         isRoomDataChangedLiveData.postValue(isDataUpdated)
     }
