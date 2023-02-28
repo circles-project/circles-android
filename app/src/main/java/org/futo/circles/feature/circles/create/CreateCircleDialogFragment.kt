@@ -43,7 +43,7 @@ class CreateCircleDialogFragment :
                     CircleRoomTypeArg.Circle,
                     tilName.getText(),
                     null,
-                    binding.btnPrivate.isChecked
+                    binding.btnPublic.isChecked
                 )
                 startLoading(btnCreate)
             }
