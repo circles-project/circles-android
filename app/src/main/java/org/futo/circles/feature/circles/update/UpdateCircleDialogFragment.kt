@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.picker.MediaPickerHelper
+import org.futo.circles.core.utils.isCircleShared
 import org.futo.circles.databinding.DialogFragmentUpdateCircleBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.loadProfileIcon
@@ -41,8 +42,9 @@ class UpdateCircleDialogFragment :
     override fun setInitialGroupData(room: RoomSummary) {
         binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
         binding.tilName.editText?.setText(room.displayName)
-        binding.btnPrivate.isChecked = room.joinRules == RoomJoinRules.INVITE
-        binding.btnPublic.isChecked = room.joinRules == RoomJoinRules.KNOCK
+        val isCircleShared = isCircleShared(roomId)
+        binding.btnPrivate.isChecked = !isCircleShared
+        binding.btnPublic.isChecked = isCircleShared
     }
 
     override fun setUpdateButtonEnabled(isEnabled: Boolean) {
@@ -60,19 +62,19 @@ class UpdateCircleDialogFragment :
                 onInputDataChanged()
             }
             btnSave.setOnClickListener {
-                updateRoom(tilName.getText(), null, getSelectedJoinRules())
+                updateRoom(tilName.getText(), null, isPublicRulesSelected())
                 startLoading(btnSave)
             }
         }
     }
 
-    private fun getSelectedJoinRules(): RoomJoinRules {
+    private fun isPublicRulesSelected(): Boolean {
         val checkedId = binding.circleTypeGroup.checkedRadioButtonId
-        return if (checkedId == binding.btnPublic.id) RoomJoinRules.KNOCK
-        else RoomJoinRules.INVITE
+        return checkedId == binding.btnPublic.id
+
     }
 
     private fun onInputDataChanged() {
-        onInputRoomDataChanged(binding.tilName.getText(), null, getSelectedJoinRules())
+        onInputRoomDataChanged(binding.tilName.getText(), null, isPublicRulesSelected())
     }
 }

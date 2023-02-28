@@ -15,7 +15,6 @@ import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showSuccess
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import org.matrix.android.sdk.api.session.room.model.RoomJoinRules
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 abstract class UpdateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding) :
@@ -38,17 +37,17 @@ abstract class UpdateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Bo
     protected fun onInputRoomDataChanged(
         name: String,
         topic: String? = null,
-        joinRules: RoomJoinRules = RoomJoinRules.INVITE
+        isPublic: Boolean = false
     ) {
-        viewModel.handleRoomDataUpdate(name, topic ?: "", joinRules)
+        viewModel.handleRoomDataUpdate(name, topic ?: "", isPublic)
     }
 
     protected fun updateRoom(
         name: String,
         topic: String? = null,
-        joinRules: RoomJoinRules = RoomJoinRules.INVITE
+        isPublic: Boolean = false
     ) {
-        viewModel.update(name, topic ?: "", joinRules)
+        viewModel.update(name, topic ?: "", isPublic)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
