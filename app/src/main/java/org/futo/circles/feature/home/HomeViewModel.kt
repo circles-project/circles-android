@@ -2,6 +2,7 @@ package org.futo.circles.feature.home
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
@@ -25,11 +26,15 @@ class HomeViewModel(
 ) : ViewModel() {
 
     val notificationLiveData = SingleEventLiveData<String>()
+    val inviteIntoSharedSpaceLiveData = MatrixSessionProvider.currentSession?.roomService()
+        ?.getRoomSummariesLive(roomSummaryQueryParams {
+            excludeType = null
+            memberships = listOf(Membership.INVITE)
+        })?.map { it.filter { it.roomType == RoomType.SPACE }.map { it.roomId } }
 
     init {
         shortcutsHandler.observeRoomsAndBuildShortcuts(viewModelScope)
         createSharedCirclesSpaceIfNotExist()
-        autoAcceptInviteOnKnock()
     }
 
     private fun createSharedCirclesSpaceIfNotExist() {
@@ -62,13 +67,9 @@ class HomeViewModel(
         return parentCircle?.roomId
     }
 
-    private fun autoAcceptInviteOnKnock() {
-        val session = MatrixSessionProvider.currentSession ?: return
-        session.roomService().getRoomSummaries(roomSummaryQueryParams {
-            excludeType = null
-            memberships = listOf(Membership.INVITE)
-        }).firstOrNull { it.roomType == RoomType.SPACE }?.let {
-            launchBg { session.roomService().joinRoom(it.roomId) }
+    fun autoAcceptInviteOnKnock(roomIds: List<String>) {
+        MatrixSessionProvider.currentSession?.let { session ->
+            roomIds.forEach { launchBg { session.roomService().joinRoom(it) } }
         }
     }
 }

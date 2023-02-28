@@ -63,6 +63,9 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
                 number = count
             }
         }
+        viewModel.inviteIntoSharedSpaceLiveData?.observeData(this) {
+            viewModel.autoAcceptInviteOnKnock(it)
+        }
     }
 
     private fun registerPushNotifications() {
