@@ -18,7 +18,8 @@ abstract class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 class PeopleSuggestionUserViewHolder(
     parent: ViewGroup,
-    private val onFollow: (Int) -> Unit
+    private val onFollow: (Int) -> Unit,
+    private val onUserClicked: (Int) -> Unit
 ) : PeopleViewHolder(inflate(parent, ListItemPeopleSuggestionBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -27,6 +28,7 @@ class PeopleSuggestionUserViewHolder(
 
     init {
         onClick(binding.btnFollow) { position -> onFollow(position) }
+        onClick(itemView) { position -> onUserClicked(position) }
     }
 
     override fun bind(data: PeopleListItem) {

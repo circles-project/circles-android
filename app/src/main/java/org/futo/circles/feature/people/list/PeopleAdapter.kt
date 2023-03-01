@@ -37,7 +37,8 @@ class PeopleAdapter(
             )
             Suggestion -> PeopleSuggestionUserViewHolder(
                 parent,
-                onFollow = { position -> onFollow(getItem(position).id) }
+                onFollow = { position -> onFollow(getItem(position).id) },
+                onUserClicked = { position -> onUserClicked(getItem(position).id) }
             )
             Ignored -> PeopleIgnoredUserViewHolder(
                 parent,
