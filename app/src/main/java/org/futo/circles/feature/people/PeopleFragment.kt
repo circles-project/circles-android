@@ -29,7 +29,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
     private val peopleAdapter by lazy {
         PeopleAdapter(
             onUserClicked = { userId -> navigateToUserPage(userId) },
-            onFollow = { user -> viewModel.followUser(user) },
             onRequestClicked = { userId, isAccepted ->
                 viewModel.onFollowRequestAnswered(userId, isAccepted)
             },

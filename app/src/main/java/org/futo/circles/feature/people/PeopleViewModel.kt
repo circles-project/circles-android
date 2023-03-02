@@ -33,12 +33,6 @@ class PeopleViewModel(
         }
     }
 
-    fun followUser(userId: String) {
-        launchBg {
-            followUserLiveData.postValue(peopleDataSource.followUser(userId))
-        }
-    }
-
     fun unIgnoreUser(userId: String) {
         launchBg {
             unIgnoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(userId))
