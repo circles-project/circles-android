@@ -8,34 +8,10 @@ import org.futo.circles.core.list.context
 import org.futo.circles.databinding.*
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.*
-import org.futo.circles.view.UserListItemView
 
 abstract class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: PeopleListItem)
-}
-
-class PeopleSuggestionUserViewHolder(
-    parent: ViewGroup,
-    private val onFollow: (Int) -> Unit,
-    private val onUserClicked: (Int) -> Unit
-) : PeopleViewHolder(inflate(parent, ListItemPeopleSuggestionBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemPeopleSuggestionBinding
-
-    init {
-        onClick(binding.btnFollow) { position -> onFollow(position) }
-        onClick(itemView) { position -> onUserClicked(position) }
-    }
-
-    override fun bind(data: PeopleListItem) {
-        (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
-        val user = (data as? PeopleSuggestionUserListItem) ?: return
-        binding.btnFollow.setIsVisible(user.profileRoomId != null)
-    }
 }
 
 class PeopleIgnoredUserViewHolder(
@@ -56,7 +32,7 @@ class PeopleIgnoredUserViewHolder(
     }
 }
 
-class PeopleFollowingUserViewHolder(
+class PeopleDefaultUserViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit
 ) : PeopleViewHolder(inflate(parent, ListItemPeopleFollowingBinding::inflate)) {
@@ -89,7 +65,7 @@ class PeopleRequestUserViewHolder(
     }
 
     override fun bind(data: PeopleListItem) {
-        val user = (data as? PeopleRequestUserListItem)?.user ?: return
+        val user = (data as? PeopleUserListItem)?.user ?: return
         with(binding) {
             tvUserName.text = user.name
             ivUserImage.loadProfileIcon(user.avatarUrl, user.name)
