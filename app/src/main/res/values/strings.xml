@@ -101,6 +101,7 @@
     <string name="groups_space_name">My Groups</string>
     <string name="photos_space_name">My Photo Galleries</string>
     <string name="log_out">Log out</string>
+    <string name="others">Others</string>
     <string name="log_out_message">Are you sure you want to log out?</string>
     <string name="generating_recovery_key">Generating recovery key from passphrase.</string>
     <string name="creating_backup">Creating backup</string>
@@ -230,7 +231,6 @@
     <string name="pick_media">Pick media</string>
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
-    <string name="users_circles_format">%s\'s Circles</string>
     <string name="server_location">Server Location</string>
     <string name="us_server_format"><![CDATA[<b>US</b> - (%s)]]></string>
     <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>
