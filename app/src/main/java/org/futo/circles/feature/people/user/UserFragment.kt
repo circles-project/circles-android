@@ -46,10 +46,9 @@ class UserFragment : Fragment(R.layout.fragment_user) {
 
     private fun setupObservers() {
         viewModel.userLiveData.observeData(this) { setupUserInfo(it) }
-        viewModel.usersCirclesLiveData?.observeData(this) {
+        viewModel.timelineLiveDataLiveData.observeData(this) {
             usersCirclesAdapter.submitList(it)
             binding.tvEmptyCirclesList.setIsVisible(it.isEmpty())
-            binding.tvCirclesListTitle.setIsVisible(it.isNotEmpty())
         }
     }
 
@@ -59,8 +58,6 @@ class UserFragment : Fragment(R.layout.fragment_user) {
             tvUserId.text = user.userId
             tvUserName.text = user.notEmptyDisplayName()
             ivUser.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
-            tvCirclesListTitle.text =
-                getString(R.string.users_circles_format, user.notEmptyDisplayName())
             tvEmptyCirclesList.text =
                 getString(R.string.not_following_any_circles_format, user.notEmptyDisplayName())
         }
