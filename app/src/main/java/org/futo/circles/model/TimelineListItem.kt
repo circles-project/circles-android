@@ -12,7 +12,7 @@ data class TimelineHeaderItem(
 
     companion object {
         val followingHeader = TimelineHeaderItem(R.string.following)
-        val othersHeader = TimelineHeaderItem(R.string.shared_circles)
+        val othersHeader = TimelineHeaderItem(R.string.others)
     }
 }
 
