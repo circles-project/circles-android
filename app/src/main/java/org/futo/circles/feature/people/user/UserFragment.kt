@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.databinding.FragmentUserBinding
-import org.futo.circles.extensions.loadProfileIcon
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.extensions.*
 import org.futo.circles.feature.people.user.list.UsersCirclesAdapter
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,7 +26,11 @@ class UserFragment : Fragment(R.layout.fragment_user) {
     }
     private val binding by viewBinding(FragmentUserBinding::bind)
 
-    private val usersCirclesAdapter by lazy { UsersCirclesAdapter() }
+    private val usersCirclesAdapter by lazy {
+        UsersCirclesAdapter(
+            onRequestFollow = { timelineId -> viewModel.requestFollowTimeline(timelineId) }
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,6 +52,8 @@ class UserFragment : Fragment(R.layout.fragment_user) {
             usersCirclesAdapter.submitList(it)
             binding.tvEmptyCirclesList.setIsVisible(it.isEmpty())
         }
+        viewModel.requstFollowLiveData.observeResponse(this,
+            success = { showSuccess(getString(R.string.request_sent)) })
     }
 
     private fun setupUserInfo(user: User) {

@@ -3,8 +3,13 @@ package org.futo.circles.feature.people.user
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.collectLatest
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.extensions.Response
+import org.futo.circles.extensions.createResult
+import org.futo.circles.extensions.launchBg
 import org.futo.circles.extensions.launchUi
 import org.futo.circles.model.TimelineListItem
+import org.futo.circles.provider.MatrixSessionProvider
 
 class UserViewModel(
     private val userDataSource: UserDataSource
@@ -12,6 +17,7 @@ class UserViewModel(
 
     val userLiveData = userDataSource.userLiveData
     val timelineLiveDataLiveData = MutableLiveData<List<TimelineListItem>>()
+    val requstFollowLiveData = SingleEventLiveData<Response<Unit?>>()
 
     init {
         getUsersTimelines()
@@ -22,6 +28,15 @@ class UserViewModel(
             userDataSource.getTimelinesFlow().collectLatest {
                 timelineLiveDataLiveData.postValue(it)
             }
+        }
+    }
+
+    fun requestFollowTimeline(timelineId: String) {
+        launchBg {
+            val result = createResult {
+                MatrixSessionProvider.currentSession?.roomService()?.knock(timelineId)
+            }
+            requstFollowLiveData.postValue(result)
         }
     }
 
