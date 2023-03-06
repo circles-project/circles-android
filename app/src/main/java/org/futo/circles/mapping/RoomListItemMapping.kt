@@ -7,6 +7,8 @@ import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
+import org.matrix.android.sdk.api.session.room.model.SpaceChildInfo
+import org.matrix.android.sdk.api.session.room.peeking.PeekResult
 
 fun RoomSummary.nameOrId() = displayName.takeIf { it.isNotEmpty() } ?: roomId
 
@@ -80,4 +82,13 @@ fun RoomSummary.toTimelineRoomListItem() = TimelineRoomListItem(
     id = roomId,
     info = toRoomInfo(),
     isJoined = membership == Membership.JOIN
+)
+
+fun SpaceChildInfo.toTimelineRoomListItem() = TimelineRoomListItem(
+    id = childRoomId,
+    info = RoomInfo(
+        title = name?.takeIf { it.isNotEmpty() } ?: childRoomId,
+        avatarUrl = avatarUrl ?: ""
+    ),
+    isJoined = false
 )
