@@ -8,8 +8,9 @@ import org.futo.circles.model.TimelineListItem
 import org.futo.circles.model.TimelineRoomListItem
 
 private enum class TimelineViewType { Header, Room }
-class UsersCirclesAdapter :
-    BaseRvAdapter<TimelineListItem, UserTimelineViewHolder>(DefaultIdEntityCallback()) {
+class UsersCirclesAdapter(
+    private val onRequestFollow: (String) -> Unit
+) : BaseRvAdapter<TimelineListItem, UserTimelineViewHolder>(DefaultIdEntityCallback()) {
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is TimelineHeaderItem -> Header
@@ -21,7 +22,9 @@ class UsersCirclesAdapter :
         viewType: Int
     ): UserTimelineViewHolder = when (values()[viewType]) {
         Header -> UserTimelineHeaderViewHolder(parent)
-        Room -> UsersTimelineRoomViewHolder(parent)
+        Room -> UsersTimelineRoomViewHolder(
+            parent,
+            onRequestFollow = { position -> onRequestFollow(getItem(position).id) })
     }
 
 
