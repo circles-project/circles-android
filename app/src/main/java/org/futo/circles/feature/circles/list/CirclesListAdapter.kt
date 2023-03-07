@@ -9,7 +9,7 @@ enum class CirclesListItemViewType { JoinedCircle, InvitedCircle, RequestCircle,
 class CirclesListAdapter(
     private val onRoomClicked: (CircleListItem) -> Unit,
     private val onInviteClicked: (CircleListItem, Boolean) -> Unit,
-    private val onRequestClicked: (CircleListItem, Boolean) -> Unit
+    private val onRequestClicked: (RequestCircleListItem, Boolean) -> Unit
 ) : BaseRvAdapter<CircleListItem, CirclesViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedCircleListItem && old is JoinedCircleListItem) {
         CircleListItemPayload(
@@ -46,7 +46,9 @@ class CirclesListAdapter(
         CirclesListItemViewType.RequestCircle -> RequestedCircleViewHolder(
             parent = parent,
             onRequestClicked = { position, isAccepted ->
-                onRequestClicked(getItem(position), isAccepted)
+                (getItem(position) as? RequestCircleListItem)?.let {
+                    onRequestClicked(it, isAccepted)
+                }
             }
         )
     }
