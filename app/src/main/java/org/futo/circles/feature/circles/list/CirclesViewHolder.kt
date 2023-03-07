@@ -114,15 +114,14 @@ class RequestedCircleViewHolder(
     }
 
     override fun bind(data: CircleListItem) {
-        if (data !is InvitedCircleListItem) return
+        if (data !is RequestCircleListItem) return
 
         with(binding) {
             setIcon(ivCircle, data.info.avatarUrl, data.info.title)
-            binding.tvCircleTitle.text = context.getString(
-                R.string.requested_to_follow_format,
-                data.inviterName,
-                data.info.title
+            binding.tvRequestUserId.text = context.getString(
+                R.string.requested_to_follow_format, data.requesterName
             )
+            binding.tvTimelineTitle.text = data.info.title
         }
     }
 }

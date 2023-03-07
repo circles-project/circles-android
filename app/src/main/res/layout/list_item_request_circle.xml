@@ -26,17 +26,30 @@
 
 
     <TextView
-        android:id="@+id/tvCircleTitle"
-        style="@style/title2"
+        android:id="@+id/tvRequestUserId"
+        style="@style/body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:ellipsize="end"
         android:lines="1"
-        app:layout_constraintBottom_toTopOf="@+id/btnInvite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivCircle"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivCircle"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="texsdt" />
+
+    <TextView
+        android:id="@+id/tvTimelineTitle"
+        style="@style/body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivCircle"
+        app:layout_constraintTop_toBottomOf="@+id/tvRequestUserId"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="texsdt" />
 
@@ -50,7 +63,8 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnDecline"
-        app:layout_constraintStart_toStartOf="@id/tvCircleTitle" />
+        app:layout_constraintStart_toStartOf="@id/tvRequestUserId"
+        app:layout_constraintTop_toBottomOf="@id/tvTimelineTitle" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDecline"
@@ -62,7 +76,8 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnInvite" />
+        app:layout_constraintStart_toEndOf="@id/btnInvite"
+        app:layout_constraintTop_toTopOf="@id/btnInvite" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

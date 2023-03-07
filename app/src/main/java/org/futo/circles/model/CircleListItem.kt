@@ -43,5 +43,6 @@ data class RequestCircleListItem(
     override val id: String,
     override val info: RoomInfo,
     val requesterName: String,
+    val requesterId: String,
 ) : CircleRoomListItem(id, info, Membership.KNOCK)
 
