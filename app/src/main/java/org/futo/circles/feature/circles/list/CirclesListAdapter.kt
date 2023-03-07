@@ -4,11 +4,12 @@ import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.model.*
 
-enum class CirclesListItemViewType { JoinedCircle, InvitedCircle, Header }
+enum class CirclesListItemViewType { JoinedCircle, InvitedCircle, RequestCircle, Header }
 
 class CirclesListAdapter(
     private val onRoomClicked: (CircleListItem) -> Unit,
-    private val onInviteClicked: (CircleListItem, Boolean) -> Unit
+    private val onInviteClicked: (CircleListItem, Boolean) -> Unit,
+    private val onRequestClicked: (CircleListItem, Boolean) -> Unit
 ) : BaseRvAdapter<CircleListItem, CirclesViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedCircleListItem && old is JoinedCircleListItem) {
         CircleListItemPayload(
@@ -24,6 +25,7 @@ class CirclesListAdapter(
         is JoinedCircleListItem -> CirclesListItemViewType.JoinedCircle.ordinal
         is InvitedCircleListItem -> CirclesListItemViewType.InvitedCircle.ordinal
         is CirclesHeaderItem -> CirclesListItemViewType.Header.ordinal
+        is RequestCircleListItem -> CirclesListItemViewType.RequestCircle.ordinal
     }
 
     override fun onCreateViewHolder(
@@ -41,6 +43,12 @@ class CirclesListAdapter(
             }
         )
         CirclesListItemViewType.Header -> CircleHeaderViewHolder(parent = parent)
+        CirclesListItemViewType.RequestCircle -> RequestedCircleViewHolder(
+            parent = parent,
+            onRequestClicked = { position, isAccepted ->
+                onRequestClicked(getItem(position), isAccepted)
+            }
+        )
     }
 
     override fun onBindViewHolder(holder: CirclesViewHolder, position: Int) {

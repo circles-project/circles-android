@@ -27,6 +27,9 @@ class CirclesFragment : Fragment(R.layout.fragment_rooms) {
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onInviteClicked = { roomListItem, isAccepted ->
                 onInviteClicked(roomListItem, isAccepted)
+            },
+            onRequestClicked = { roomListItem, isAccepted ->
+                onRequestClicked(roomListItem, isAccepted)
             }
         )
     }
@@ -57,6 +60,11 @@ class CirclesFragment : Fragment(R.layout.fragment_rooms) {
     private fun onInviteClicked(room: CircleListItem, isAccepted: Boolean) {
         if (isAccepted) onAcceptInviteClicked(room)
         else viewModel.rejectInvite(room.id)
+    }
+
+    private fun onRequestClicked(room: CircleListItem, isAccepted: Boolean) {
+        if (isAccepted) viewModel.inviteUser(room)
+        else viewModel.kickUser(room)
     }
 
     private fun onRoomListItemClicked(room: CircleListItem) {
