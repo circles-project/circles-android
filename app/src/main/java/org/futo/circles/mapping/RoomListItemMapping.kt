@@ -49,6 +49,12 @@ fun RoomSummary.toInviteCircleListItem() = InvitedCircleListItem(
     inviterName = getInviterName()
 )
 
+fun RoomSummary.toRequestCircleListItem() = RequestCircleListItem(
+    id = roomId,
+    info = toRoomInfo(),
+    requesterName = getInviterName()
+)
+
 fun RoomSummary.toGalleryListItem() = GalleryListItem(
     id = roomId,
     info = toRoomInfo()
