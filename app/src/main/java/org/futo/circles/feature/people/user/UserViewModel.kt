@@ -13,8 +13,7 @@ import org.futo.circles.model.TimelineListItem
 import org.futo.circles.provider.MatrixSessionProvider
 
 class UserViewModel(
-    private val userDataSource: UserDataSource,
-    private val roomRelationsBuilder: RoomRelationsBuilder
+    private val userDataSource: UserDataSource
 ) : ViewModel() {
 
     val userLiveData = userDataSource.userLiveData
@@ -45,7 +44,6 @@ class UserViewModel(
     fun unFollow(timelineId: String) {
         launchBg {
             createResult {
-                roomRelationsBuilder.removeFromAllParents(timelineId)
                 MatrixSessionProvider.currentSession?.roomService()?.leaveRoom(timelineId)
             }
         }

@@ -20,9 +20,7 @@ val settingsUiModule = module {
     viewModel { EditProfileViewModel(get()) }
     viewModel { ChangePasswordViewModel(get()) }
     viewModel { ActiveSessionsViewModel(get()) }
-    viewModel { (userId: String) ->
-        UserViewModel(get { parametersOf(userId) }, get())
-    }
+    viewModel { (userId: String) -> UserViewModel(get { parametersOf(userId) }) }
     viewModel { SystemNoticesCountSharedViewModel() }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         SystemNoticesTimelineViewModel(get { parametersOf(roomId, type) })
