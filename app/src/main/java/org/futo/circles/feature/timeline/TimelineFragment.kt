@@ -171,6 +171,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         )
     }
 
+    override fun onUserClicked(userId: String) {
+        navigator.navigateToUserDialogFragment(userId)
+    }
+
     override fun onShowRepliesClicked(eventId: String) {
         viewModel.toggleRepliesVisibilityFor(eventId)
     }
