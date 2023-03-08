@@ -199,6 +199,7 @@
     <string name="timeline_not_found">Timeline not found</string>
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
     <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
+    <string name="unfollow">Unfollow</string>
     <string name="decline">Decline</string>
     <string name="invited_by_format">Invited by %s</string>
     <string name="requested_to_follow_format">%s requested to follow</string>

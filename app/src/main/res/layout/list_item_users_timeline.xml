@@ -49,4 +49,17 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUnFollow"
+        style="@style/NegativeButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/unfollow"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

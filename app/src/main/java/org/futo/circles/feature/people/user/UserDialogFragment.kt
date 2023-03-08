@@ -27,7 +27,8 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
 
     private val usersCirclesAdapter by lazy {
         UsersCirclesAdapter(
-            onRequestFollow = { timelineId -> viewModel.requestFollowTimeline(timelineId) }
+            onRequestFollow = { timelineId -> viewModel.requestFollowTimeline(timelineId) },
+            onUnFollow = { timelineId -> viewModel.unFollow(timelineId) }
         )
     }
 
@@ -51,7 +52,7 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             usersCirclesAdapter.submitList(it)
             binding.tvEmptyCirclesList.setIsVisible(it.isEmpty())
         }
-        viewModel.requstFollowLiveData.observeResponse(this,
+        viewModel.requestFollowLiveData.observeResponse(this,
             success = { showSuccess(getString(R.string.request_sent)) })
     }
 
