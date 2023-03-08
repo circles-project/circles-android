@@ -2,13 +2,11 @@ package org.futo.circles.feature.people.user
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
-import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
-import org.futo.circles.databinding.FragmentUserBinding
+import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.databinding.DialogFragmentUserBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.people.user.list.UsersCirclesAdapter
 import org.futo.circles.mapping.notEmptyDisplayName
@@ -17,14 +15,15 @@ import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.user.model.User
 
 
-class UserFragment : Fragment(R.layout.fragment_user) {
+class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBinding::inflate) {
 
-    private val args: UserFragmentArgs by navArgs()
-
+    private val args: UserDialogFragmentArgs by navArgs()
     private val viewModel by viewModel<UserViewModel> {
         parametersOf(args.userId)
     }
-    private val binding by viewBinding(FragmentUserBinding::bind)
+    private val binding by lazy {
+        getBinding() as DialogFragmentUserBinding
+    }
 
     private val usersCirclesAdapter by lazy {
         UsersCirclesAdapter(
@@ -58,7 +57,7 @@ class UserFragment : Fragment(R.layout.fragment_user) {
 
     private fun setupUserInfo(user: User) {
         with(binding) {
-            (activity as? AppCompatActivity)?.supportActionBar?.title = user.notEmptyDisplayName()
+            toolbar.title = user.notEmptyDisplayName()
             tvUserId.text = user.userId
             tvUserName.text = user.notEmptyDisplayName()
             ivUser.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
