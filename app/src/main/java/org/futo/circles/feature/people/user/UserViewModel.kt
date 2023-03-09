@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import kotlinx.coroutines.flow.collectLatest
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.matrix.room.RoomRelationsBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.launchBg
@@ -16,7 +17,8 @@ import org.futo.circles.provider.MatrixSessionProvider
 class UserViewModel(
     private val userId: String,
     private val userDataSource: UserDataSource,
-    private val userOptionsDataSource: UserOptionsDataSource
+    private val userOptionsDataSource: UserOptionsDataSource,
+    private val roomRelationsBuilder: RoomRelationsBuilder
 ) : ViewModel() {
 
     val userLiveData = userDataSource.userLiveData
@@ -53,6 +55,7 @@ class UserViewModel(
     fun unFollowTimeline(timelineId: String) {
         launchBg {
             createResult {
+                roomRelationsBuilder.removeFromAllParents(timelineId)
                 MatrixSessionProvider.currentSession?.roomService()?.leaveRoom(timelineId)
             }
         }
