@@ -2,23 +2,32 @@ package org.futo.circles.feature.people.user
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import kotlinx.coroutines.flow.collectLatest
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.core.matrix.room.RoomRelationsBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.extensions.launchUi
+import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.model.TimelineListItem
 import org.futo.circles.provider.MatrixSessionProvider
 
 class UserViewModel(
-    private val userDataSource: UserDataSource
+    private val userId: String,
+    private val userDataSource: UserDataSource,
+    private val userOptionsDataSource: UserOptionsDataSource
 ) : ViewModel() {
 
     val userLiveData = userDataSource.userLiveData
     val timelineLiveDataLiveData = MutableLiveData<List<TimelineListItem>>()
     val requestFollowLiveData = SingleEventLiveData<Response<Unit?>>()
+    val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val unFollowUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val isUserIgnoredLiveData = userOptionsDataSource.ignoredUsersLiveData?.map {
+        it.firstOrNull { it.userId == userId } != null
+    }
 
     init {
         getUsersTimelines()
@@ -41,12 +50,32 @@ class UserViewModel(
         }
     }
 
-    fun unFollow(timelineId: String) {
+    fun unFollowTimeline(timelineId: String) {
         launchBg {
             createResult {
                 MatrixSessionProvider.currentSession?.roomService()?.leaveRoom(timelineId)
             }
         }
     }
+
+    fun ignoreUser() {
+        launchBg {
+            ignoreUserLiveData.postValue(userOptionsDataSource.ignoreSender(userId))
+        }
+    }
+
+    fun unIgnoreUser() {
+        launchBg {
+            unIgnoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(userId))
+        }
+    }
+
+    fun unFollowUser() {
+        launchBg {
+            unFollowUserLiveData.postValue(userOptionsDataSource.unFollowUser(userId))
+        }
+    }
+
+    fun amIFollowingUser(): Boolean = userOptionsDataSource.amIFollowingUser(userId)
 
 }
