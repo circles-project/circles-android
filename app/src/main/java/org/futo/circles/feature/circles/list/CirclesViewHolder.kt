@@ -11,9 +11,9 @@ import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.databinding.ListItemInvitedCircleBinding
 import org.futo.circles.databinding.ListItemJoinedCircleBinding
+import org.futo.circles.databinding.ListItemRequestCircleBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
-import org.futo.circles.feature.people.list.PeopleViewHolder
 import org.futo.circles.model.*
 
 abstract class CirclesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -95,6 +95,33 @@ class InvitedCircleViewHolder(
             setTitle(tvCircleTitle, data.info.title)
             binding.tvInvitedBy.text =
                 context.getString(R.string.invited_by_format, data.inviterName)
+        }
+    }
+}
+
+class RequestedCircleViewHolder(
+    parent: ViewGroup,
+    onRequestClicked: (Int, Boolean) -> Unit
+) : CirclesViewHolder(inflate(parent, ListItemRequestCircleBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemRequestCircleBinding
+
+    init {
+        onClick(binding.btnInvite) { position -> onRequestClicked(position, true) }
+        onClick(binding.btnDecline) { position -> onRequestClicked(position, false) }
+    }
+
+    override fun bind(data: CircleListItem) {
+        if (data !is RequestCircleListItem) return
+
+        with(binding) {
+            setIcon(ivCircle, data.info.avatarUrl, data.info.title)
+            binding.tvRequestUserId.text = context.getString(
+                R.string.requested_to_follow_format, data.requesterName
+            )
+            binding.tvTimelineTitle.text = data.info.title
         }
     }
 }

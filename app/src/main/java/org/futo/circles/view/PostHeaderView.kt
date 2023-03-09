@@ -17,6 +17,7 @@ import org.futo.circles.extensions.setIsEncryptedIcon
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.*
+import org.futo.circles.provider.MatrixSessionProvider
 import org.futo.circles.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import java.util.*
@@ -26,8 +27,7 @@ class PostHeaderView(
     attrs: AttributeSet? = null,
 ) : ConstraintLayout(context, attrs) {
 
-    private val binding =
-        ViewPostHeaderBinding.inflate(LayoutInflater.from(context), this)
+    private val binding = ViewPostHeaderBinding.inflate(LayoutInflater.from(context), this)
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
@@ -57,14 +57,16 @@ class PostHeaderView(
     }
 
     fun bindViewData(
-        userId: String,
-        name: String,
-        avatarUrl: String?,
-        timestamp: Long,
-        isEncrypted: Boolean
+        userId: String, name: String, avatarUrl: String?, timestamp: Long, isEncrypted: Boolean
     ) {
         with(binding) {
-            ivSenderImage.loadProfileIcon(avatarUrl, name)
+            ivSenderImage.apply {
+                loadProfileIcon(avatarUrl, name)
+                setOnClickListener {
+                    if (userId != MatrixSessionProvider.currentSession?.myUserId)
+                        optionsListener?.onUserClicked(userId)
+                }
+            }
             tvUserName.text = name
             tvUserId.text = UserUtils.removeDomainSuffix(userId)
             ivEncrypted.setIsEncryptedIcon(isEncrypted)
@@ -103,8 +105,7 @@ class PostHeaderView(
                     )
 
                     R.id.report -> optionsListener?.onReport(
-                        unwrappedPost.postInfo.roomId,
-                        unwrappedPost.id
+                        unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
                     R.id.edit_poll -> optionsListener?.onEditPollClicked(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
@@ -134,8 +135,7 @@ class PostHeaderView(
             menu.findItem(R.id.edit_poll).isVisible =
                 isPoll && unwrappedPost.isMyPost() && pollState?.canEdit() == true
             menu.findItem(R.id.end_poll).isVisible =
-                isPoll && pollState != PollState.Ended &&
-                        (unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value)
+                isPoll && pollState != PollState.Ended && (unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value)
 
             menu.findItem(R.id.info).isVisible = preferencesProvider.isDeveloperModeEnabled()
 

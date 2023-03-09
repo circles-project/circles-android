@@ -21,7 +21,12 @@ val settingsUiModule = module {
     viewModel { ChangePasswordViewModel(get()) }
     viewModel { ActiveSessionsViewModel(get()) }
     viewModel { (userId: String) ->
-        UserViewModel(get { parametersOf(userId) })
+        UserViewModel(
+            userId,
+            get { parametersOf(userId) },
+            get(),
+            get()
+        )
     }
     viewModel { SystemNoticesCountSharedViewModel() }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->

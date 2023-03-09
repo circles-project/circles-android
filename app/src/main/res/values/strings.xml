@@ -27,7 +27,8 @@
     <string name="enter_name_or_id">Enter name or userId</string>
     <string name="follow">Follow</string>
     <string name="fix">Fix</string>
-    <string name="following_users">Following users</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
     <string name="known_users">Known users</string>
     <string name="ignored_users">Ignored users</string>
     <string name="suggestions">Suggestions</string>
@@ -100,6 +101,7 @@
     <string name="groups_space_name">My Groups</string>
     <string name="photos_space_name">My Photo Galleries</string>
     <string name="log_out">Log out</string>
+    <string name="others">Others</string>
     <string name="log_out_message">Are you sure you want to log out?</string>
     <string name="generating_recovery_key">Generating recovery key from passphrase.</string>
     <string name="creating_backup">Creating backup</string>
@@ -162,7 +164,10 @@
     <string name="remove_post_message">Are you sure you want to remove this post?</string>
     <string name="remove_image_message">Are you sure you want to remove this image?</string>
     <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
+    <string name="unfollow_user_message">Are you sure you want to unfollow this user?</string>
+    <string name="unfollow_user_timeline">Are you sure you want to unfollow this timeline?</string>
     <string name="user_ignored">User ignored</string>
+    <string name="user_unignored">User un ignored</string>
     <string name="reporting_inappropriate_content">Reporting inappropriate content</string>
     <string name="reporting_message">Thank you for helping to keep this community safe and pleasant for everyone.\nThe following brief questions will help us to respond most effectively to your report.</string>
     <string name="how_inappropriate_is_the_reported_content">How inappropriate is the reported content?</string>
@@ -197,8 +202,10 @@
     <string name="timeline_not_found">Timeline not found</string>
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
     <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
+    <string name="unfollow">Unfollow</string>
     <string name="decline">Decline</string>
     <string name="invited_by_format">Invited by %s</string>
+    <string name="requested_to_follow_format">%s requested to follow</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
     <string name="edit_profile">Edit Profile</string>
@@ -229,7 +236,6 @@
     <string name="pick_media">Pick media</string>
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
-    <string name="users_circles_format">%s\'s Circles</string>
     <string name="server_location">Server Location</string>
     <string name="us_server_format"><![CDATA[<b>US</b> - (%s)]]></string>
     <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>

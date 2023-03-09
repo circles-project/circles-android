@@ -14,6 +14,7 @@ import org.futo.circles.extensions.observeResponse
 import org.futo.circles.feature.circles.list.CirclesListAdapter
 import org.futo.circles.feature.home.HomeViewModel
 import org.futo.circles.model.CircleListItem
+import org.futo.circles.model.RequestCircleListItem
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,6 +28,9 @@ class CirclesFragment : Fragment(R.layout.fragment_rooms) {
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onInviteClicked = { roomListItem, isAccepted ->
                 onInviteClicked(roomListItem, isAccepted)
+            },
+            onRequestClicked = { roomListItem, isAccepted ->
+                onRequestClicked(roomListItem, isAccepted)
             }
         )
     }
@@ -57,6 +61,11 @@ class CirclesFragment : Fragment(R.layout.fragment_rooms) {
     private fun onInviteClicked(room: CircleListItem, isAccepted: Boolean) {
         if (isAccepted) onAcceptInviteClicked(room)
         else viewModel.rejectInvite(room.id)
+    }
+
+    private fun onRequestClicked(room: RequestCircleListItem, isAccepted: Boolean) {
+        if (isAccepted) viewModel.inviteUser(room)
+        else viewModel.kickUser(room)
     }
 
     private fun onRoomListItemClicked(room: CircleListItem) {

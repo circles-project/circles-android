@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="4dp">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivCircle"
+        android:layout_width="@dimen/circle_icon_size"
+        android:layout_height="@dimen/circle_icon_size"
+        android:padding="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        tools:src="@color/blue" />
+
+
+    <TextView
+        android:id="@+id/tvRequestUserId"
+        style="@style/body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivCircle"
+        app:layout_constraintTop_toTopOf="@id/ivCircle"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="texsdt" />
+
+    <TextView
+        android:id="@+id/tvTimelineTitle"
+        style="@style/body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivCircle"
+        app:layout_constraintTop_toBottomOf="@+id/tvRequestUserId"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="texsdt" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnInvite"
+        style="@style/AccentButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@string/invite"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnDecline"
+        app:layout_constraintStart_toStartOf="@id/tvRequestUserId"
+        app:layout_constraintTop_toBottomOf="@id/tvTimelineTitle" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnDecline"
+        style="@style/NegativeButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/decline"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnInvite"
+        app:layout_constraintTop_toTopOf="@id/btnInvite" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

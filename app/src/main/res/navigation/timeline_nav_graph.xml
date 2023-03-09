@@ -206,6 +206,16 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_userDialogFragment"
+            app:destination="@id/userDialogFragment">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
     </fragment>
 
@@ -451,6 +461,17 @@
 
         <argument
             android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/userDialogFragment"
+        android:name="org.futo.circles.feature.people.user.UserDialogFragment"
+        tools:layout="@layout/dialog_fragment_user">
+
+        <argument
+            android:name="userId"
             app:argType="string"
             app:nullable="false" />
 

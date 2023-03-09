@@ -1,12 +1,14 @@
 package org.futo.circles.core.utils
 
 import org.futo.circles.core.SYSTEM_NOTICES_TAG
+import org.futo.circles.extensions.getRoomOwners
 import org.futo.circles.extensions.getTimelineRoom
 import org.futo.circles.model.SHARED_CIRCLES_SPACE_TAG
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.Room
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
@@ -22,6 +24,12 @@ fun getSystemNoticesRoomId(): String? {
 }
 
 fun getSharedCirclesSpaceId(): String? = getSpaceIdByTag(SHARED_CIRCLES_SPACE_TAG)
+
+fun getSharedCircleFor(userId: String) = MatrixSessionProvider.currentSession?.roomService()
+    ?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })?.firstOrNull { summary ->
+        summary.roomType == RoomType.SPACE && summary.membership == Membership.JOIN &&
+                getRoomOwners(summary.roomId).map { it.userId }.contains(userId)
+    }
 
 fun getSpaceIdByTag(tag: String): String? {
     val session = MatrixSessionProvider.currentSession ?: return null

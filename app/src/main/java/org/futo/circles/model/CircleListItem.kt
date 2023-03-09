@@ -11,6 +11,7 @@ data class CirclesHeaderItem(
     override val id: String = titleRes.toString()
 
     companion object {
+        val requestsCirclesHeader = CirclesHeaderItem(R.string.requests)
         val invitesCirclesHeader = CirclesHeaderItem(R.string.invites)
         val sharedCirclesHeader = CirclesHeaderItem(R.string.shared_circles)
         val privateCirclesHeader = CirclesHeaderItem(R.string.private_circles)
@@ -37,4 +38,11 @@ data class InvitedCircleListItem(
     override val info: RoomInfo,
     val inviterName: String,
 ) : CircleRoomListItem(id, info, Membership.INVITE)
+
+data class RequestCircleListItem(
+    override val id: String,
+    override val info: RoomInfo,
+    val requesterName: String,
+    val requesterId: String,
+) : CircleRoomListItem(id, info, Membership.KNOCK)
 

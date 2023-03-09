@@ -28,6 +28,16 @@ enum class ConfirmationType(val titleRes: Int, val messageRes: Int, val positive
         R.string.ignore_user_message,
         R.string.ignore
     ),
+    UNFOLLOW_USER(
+        R.string.unfollow,
+        R.string.unfollow_user_message,
+        R.string.unfollow
+    ),
+    UNFOLLOW_TIMELINE(
+        R.string.unfollow,
+        R.string.unfollow_user_message,
+        R.string.unfollow
+    ),
     DELETE_GALLERY(
         R.string.delete_gallery,
         R.string.delete_gallery_message,
