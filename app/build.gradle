@@ -82,11 +82,11 @@ dependencies {
 
     //Kotlin
     implementation "androidx.core:core-ktx:1.9.0"
-    implementation 'androidx.lifecycle:lifecycle-process:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-process:2.6.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.0'
 
     //androidx lifecycle
-    def lifecycle_version = "2.5.1"
+    def lifecycle_version = "2.6.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
@@ -113,7 +113,7 @@ dependencies {
     implementation "androidx.browser:browser:1.5.0"
 
     //ExoPlayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.3'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.4'
 
     //Firebase
     gplayImplementation platform('com.google.firebase:firebase-bom:31.1.1')
