@@ -164,7 +164,10 @@
     <string name="remove_post_message">Are you sure you want to remove this post?</string>
     <string name="remove_image_message">Are you sure you want to remove this image?</string>
     <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
+    <string name="unfollow_user_message">Are you sure you want to unfollow this user?</string>
+    <string name="unfollow_user_timeline">Are you sure you want to unfollow this timeline?</string>
     <string name="user_ignored">User ignored</string>
+    <string name="user_unignored">User un ignored</string>
     <string name="reporting_inappropriate_content">Reporting inappropriate content</string>
     <string name="reporting_message">Thank you for helping to keep this community safe and pleasant for everyone.\nThe following brief questions will help us to respond most effectively to your report.</string>
     <string name="how_inappropriate_is_the_reported_content">How inappropriate is the reported content?</string>
