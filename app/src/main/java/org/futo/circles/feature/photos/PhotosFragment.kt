@@ -80,6 +80,6 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms), MenuProvider {
     }
 
     private fun navigateToBackupSettings() {
-
+        findNavController().navigate(PhotosFragmentDirections.toMediaBackupDialogFragment())
     }
 }
