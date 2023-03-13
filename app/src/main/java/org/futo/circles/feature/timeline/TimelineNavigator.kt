@@ -29,9 +29,10 @@ class TimelineNavigator(private val fragment: TimelineFragment) {
     }
 
     fun navigateToUpdateRoom(roomId: String, type: CircleRoomTypeArg) {
-        fragment.findNavController().navigate(
-            TimelineFragmentDirections.toUpdateRoomDialogFragment(roomId, type)
-        )
+        val destination = if (type == CircleRoomTypeArg.Circle)
+            TimelineFragmentDirections.toUpdateCircleDialogFragment(roomId)
+        else TimelineFragmentDirections.toUpdateGroupDialogFragment(roomId)
+        fragment.findNavController().navigate(destination)
     }
 
     fun navigateToManageMembers(timelineId: String, type: CircleRoomTypeArg) {
@@ -77,6 +78,12 @@ class TimelineNavigator(private val fragment: TimelineFragment) {
     fun navigateToShowEmoji(roomId: String, eventId: String) {
         fragment.findNavController().navigate(
             TimelineFragmentDirections.toEmojiBottomSheet(roomId, eventId)
+        )
+    }
+
+    fun navigateToUserDialogFragment(userId: String) {
+        fragment.findNavController().navigate(
+            TimelineFragmentDirections.toUserDialogFragment(userId)
         )
     }
 }

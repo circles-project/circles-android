@@ -22,7 +22,7 @@ class TimelineBuilder {
     private var lastReadEventTime: Long? = null
 
     private val supportedTimelineEvens: List<String> = mutableListOf(EventType.MESSAGE).apply {
-        addAll(EventType.POLL_START)
+        addAll(EventType.POLL_START.values)
     }
 
     fun build(snapshot: List<TimelineEvent>): List<Post> {

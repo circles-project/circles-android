@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.databinding.FragmentTimelineBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.share.ShareProvider
@@ -19,10 +20,7 @@ import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
-import org.futo.circles.model.CircleRoomTypeArg
-import org.futo.circles.model.CreatePollContent
-import org.futo.circles.model.CreatePostContent
-import org.futo.circles.model.PostContent
+import org.futo.circles.model.*
 import org.futo.circles.provider.PreferencesProvider
 import org.futo.circles.view.CreatePostMenuListener
 import org.futo.circles.view.PostOptionsListener
@@ -51,6 +49,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
     private val navigator by lazy { TimelineNavigator(this) }
     private var groupPowerLevelsContent: PowerLevelsContent? = null
+    private var isNotificationsEnabledForRoom: Boolean = true
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,6 +57,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         setupViews()
         setupObservers()
         activity?.addMenuProvider(this, viewLifecycleOwner)
+    }
+
+    override fun onDetach() {
+        setToolbarSubTitle("")
+        super.onDetach()
     }
 
     @SuppressLint("RestrictedApi")
@@ -74,19 +78,26 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         menu.findItem(R.id.inviteMembers).isVisible =
             groupPowerLevelsContent?.isCurrentUserAbleToInvite() ?: false
         menu.findItem(R.id.deleteGroup).isVisible =
-            groupPowerLevelsContent?.isCurrentUserAdmin() ?: false
+            groupPowerLevelsContent?.isCurrentUserOnlyAdmin(args.roomId) ?: false
         menu.findItem(R.id.stateEvents).isVisible =
             preferencesProvider.isDeveloperModeEnabled()
+        menu.findItem(R.id.muteNotifications).isVisible = isNotificationsEnabledForRoom
+        menu.findItem(R.id.unMuteNotifications).isVisible = !isNotificationsEnabledForRoom
     }
 
     private fun inflateCircleMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.circle_timeline_menu, menu)
-        menu.findItem(R.id.stateEvents).isVisible =
-            preferencesProvider.isDeveloperModeEnabled()
+        menu.findItem(R.id.stateEvents).isVisible = preferencesProvider.isDeveloperModeEnabled()
+        menu.findItem(R.id.muteNotifications).isVisible = isNotificationsEnabledForRoom
+        menu.findItem(R.id.unMuteNotifications).isVisible = !isNotificationsEnabledForRoom
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.muteNotifications ->
+                viewModel.setNotificationsEnabled(false)
+            R.id.unMuteNotifications ->
+                viewModel.setNotificationsEnabled(true)
             R.id.configureGroup, R.id.configureCircle ->
                 navigator.navigateToUpdateRoom(args.roomId, args.type)
             R.id.manageMembers, R.id.myFollowers ->
@@ -94,8 +105,8 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             R.id.inviteMembers, R.id.inviteFollowers -> navigator.navigateToInviteMembers(timelineId)
             R.id.leaveGroup -> showLeaveGroupDialog()
             R.id.iFollowing -> navigator.navigateToFollowing(args.roomId)
-            R.id.deleteCircle -> showDeleteConfirmation(true)
-            R.id.deleteGroup -> showDeleteConfirmation(false)
+            R.id.deleteCircle -> withConfirmation(ConfirmationType.DELETE_CIRCLE) { viewModel.deleteCircle() }
+            R.id.deleteGroup -> withConfirmation(ConfirmationType.DELETE_GROUP) { viewModel.deleteGroup() }
             R.id.stateEvents -> navigator.navigateToStateEvents(timelineId)
         }
         return true
@@ -128,6 +139,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
         }
+        viewModel.notificationsStateLiveData.observeData(this) {
+            isNotificationsEnabledForRoom = it
+            setToolbarSubTitle(if (it) "" else getString(R.string.notifications_disabled))
+            activity?.invalidateOptionsMenu()
+        }
         viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
             onUserAccessLevelChanged(powerLevelsContent)
         }
@@ -155,6 +171,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         )
     }
 
+    override fun onUserClicked(userId: String) {
+        navigator.navigateToUserDialogFragment(userId)
+    }
+
     override fun onShowRepliesClicked(eventId: String) {
         viewModel.toggleRepliesVisibilityFor(eventId)
     }
@@ -176,23 +196,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun onRemove(roomId: String, eventId: String) {
-        showDialog(
-            titleResIdRes = R.string.remove_post,
-            messageResId = R.string.remove_post_message,
-            positiveButtonRes = R.string.remove,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.removeMessage(roomId, eventId) }
-        )
+        withConfirmation(ConfirmationType.REMOVE_POST) { viewModel.removeMessage(roomId, eventId) }
     }
 
     override fun onIgnore(senderId: String) {
-        showDialog(
-            titleResIdRes = R.string.ignore_sender,
-            messageResId = R.string.ignore_user_message,
-            positiveButtonRes = R.string.ignore,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.ignoreSender(senderId) }
-        )
+        withConfirmation(ConfirmationType.IGNORE_SENDER) { viewModel.ignoreSender(senderId) }
     }
 
     override fun onSaveToDevice(content: PostContent) {
@@ -223,13 +231,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun endPoll(roomId: String, eventId: String) {
-        showDialog(
-            titleResIdRes = R.string.end_poll,
-            messageResId = R.string.end_poll_message,
-            positiveButtonRes = R.string.end_poll,
-            negativeButtonVisible = true,
-            positiveAction = { viewModel.endPoll(roomId, eventId) }
-        )
+        withConfirmation(ConfirmationType.END_POLL) { viewModel.endPoll(roomId, eventId) }
     }
 
     override fun onEditPollClicked(roomId: String, eventId: String) {
@@ -284,31 +286,12 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     private fun showLeaveGroupDialog() {
         if (viewModel.canLeaveRoom()) {
-            showDialog(
-                titleResIdRes = R.string.leave_group,
-                messageResId = R.string.leave_group_message,
-                positiveButtonRes = R.string.leave,
-                negativeButtonVisible = true,
-                positiveAction = { viewModel.leaveGroup() }
-            )
+            withConfirmation(ConfirmationType.LEAVE_GROUP) { viewModel.leaveGroup() }
         } else {
             showDialog(
                 titleResIdRes = R.string.leave_group,
                 messageResId = R.string.select_another_admin_message
             )
         }
-    }
-
-    private fun showDeleteConfirmation(isCircle: Boolean) {
-        showDialog(
-            titleResIdRes = if (isCircle) R.string.delete_circle else R.string.delete_group,
-            messageResId = if (isCircle) R.string.delete_circle_message else R.string.delete_group_message,
-            positiveButtonRes = R.string.delete,
-            negativeButtonVisible = true,
-            positiveAction = {
-                if (isCircle) viewModel.deleteCircle()
-                else viewModel.deleteGroup()
-            }
-        )
     }
 }

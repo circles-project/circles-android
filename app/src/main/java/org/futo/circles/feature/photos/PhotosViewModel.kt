@@ -1,17 +1,11 @@
 package org.futo.circles.feature.photos
 
-import androidx.lifecycle.map
-import org.futo.circles.core.rooms.RoomsViewModel
-import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import androidx.lifecycle.ViewModel
 
 class PhotosViewModel(
-    private val dataSource: PhotosDataSource
-) : RoomsViewModel(dataSource) {
+    dataSource: PhotosDataSource
+) : ViewModel() {
 
-    override val roomsLiveData =
-        MatrixSessionProvider.currentSession?.roomService()
-            ?.getRoomSummariesLive(roomSummaryQueryParams())
-            ?.map { list -> dataSource.filterRooms(list) }
+    val roomsLiveData = dataSource.getGalleriesLiveData()
 
 }

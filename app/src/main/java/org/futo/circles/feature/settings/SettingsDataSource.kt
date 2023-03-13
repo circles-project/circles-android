@@ -32,7 +32,10 @@ class SettingsDataSource(
 
     suspend fun logOut() = createResult {
         loadingLiveData.postValue(
-            loadingData.apply { messageId = R.string.log_out; isLoading = true }
+            loadingData.apply {
+                messageId = R.string.log_out
+                isLoading = true
+            }
         )
         session.signOutService().signOut(true)
         loadingLiveData.postValue(loadingData.apply { isLoading = false })

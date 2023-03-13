@@ -1,5 +1,6 @@
 package org.futo.circles.core.matrix.room
 
+import org.futo.circles.extensions.getRoomOwners
 import org.futo.circles.model.Group
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
@@ -26,13 +27,14 @@ class RoomRelationsBuilder {
     suspend fun removeFromAllParents(childId: String) {
         session?.getRoom(childId)?.roomSummary()?.spaceParents?.forEach {
             val parentId = it.roomSummary?.roomId ?: ""
-            removeRelations(childId, parentId)
+            if (getRoomOwners(parentId).firstOrNull { it.userId == session?.myUserId } != null)
+                removeRelations(childId, parentId)
         }
     }
 
     suspend fun setInvitedGroupRelations(roomId: String) {
         val circlesRoom = Group()
-        session?.getRoom(roomId)?.tagsService()?.addTag(circlesRoom.tag, null)
+        circlesRoom.tag?.let { session?.getRoom(roomId)?.tagsService()?.addTag(it, null) }
         circlesRoom.parentTag?.let { tag ->
             findRoomByTag(tag)
                 ?.let { room -> setRelations(roomId, room, false) }

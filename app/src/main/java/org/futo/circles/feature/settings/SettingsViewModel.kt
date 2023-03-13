@@ -3,7 +3,9 @@ package org.futo.circles.feature.settings
 import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
+import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.launchBg
+import org.futo.circles.provider.MatrixSessionProvider
 
 class SettingsViewModel(
     private val settingsDataSource: SettingsDataSource
@@ -17,6 +19,7 @@ class SettingsViewModel(
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToMatrixChangePasswordEvent = SingleEventLiveData<Unit>()
     val changePasswordResponseLiveData = SingleEventLiveData<Response<Unit?>>()
+    val scanProfileQrResultLiveData = SingleEventLiveData<Response<Unit?>>()
     val clearCacheLiveData = SingleEventLiveData<Unit>()
 
     fun logOut() {
@@ -47,5 +50,14 @@ class SettingsViewModel(
     fun clearCash() {
         launchBg { settingsDataSource.clearCache() }
         clearCacheLiveData.postValue(Unit)
+    }
+
+    fun onProfileQrScanned(sharedCirclesSpaceId: String) {
+        launchBg {
+            val result = createResult {
+                MatrixSessionProvider.currentSession?.roomService()?.knock(sharedCirclesSpaceId)
+            }
+            scanProfileQrResultLiveData.postValue(result)
+        }
     }
 }

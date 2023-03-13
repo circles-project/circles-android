@@ -1,56 +1,133 @@
 package org.futo.circles.feature.people
 
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
-import org.futo.circles.extensions.getKnownUsersLive
+import kotlinx.coroutines.flow.*
+import org.futo.circles.core.utils.getSharedCircleFor
+import org.futo.circles.core.utils.getSharedCirclesSpaceId
+import org.futo.circles.extensions.createResult
+import org.futo.circles.feature.room.select_users.SearchUserDataSource
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
+import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleListItem
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.user.model.User
 
-class PeopleDataSource {
+class PeopleDataSource(
+    private val searchUserDataSource: SearchUserDataSource
+) {
 
     private val session = MatrixSessionProvider.currentSession
+    private val profileRoomId = getSharedCirclesSpaceId() ?: ""
 
-    fun getPeopleList() = combine(getKnownUsersFlow(), getIgnoredUserFlow())
-    { knowUsers, ignoredUsers ->
-        buildList(knowUsers, ignoredUsers)
-    }.flowOn(Dispatchers.IO).distinctUntilChanged()
-
-    suspend fun loadAllRoomMembersIfNeeded(){
-        session?.roomService()?.getRoomSummaries(roomSummaryQueryParams())?.forEach {
-            session.getRoom(it.roomId)?.membershipService()?.loadRoomMembersIfNeeded()
-        }
+    suspend fun acceptFollowRequest(userId: String) = createResult {
+        session?.roomService()?.getRoom(profileRoomId)?.membershipService()?.invite(userId)
     }
 
-    private fun getKnownUsersFlow() = session?.getKnownUsersLive()?.asFlow() ?: flowOf()
+    suspend fun declineFollowRequest(userId: String) =
+        createResult { session?.getRoom(profileRoomId)?.membershipService()?.remove(userId) }
+
+    private fun getProfileRoomMembersKnockFlow(): Flow<List<User>> =
+        session?.getRoom(profileRoomId)?.membershipService()
+            ?.getRoomMembersLive(roomMemberQueryParams { memberships = listOf(Membership.KNOCK) })
+            ?.map { it.map { User(it.userId, it.displayName, it.avatarUrl) } }?.asFlow() ?: flowOf()
+
+    suspend fun getPeopleList(query: String) = combine(
+        searchUserDataSource.searchKnownUsers(query),
+        searchUserDataSource.searchSuggestions(query),
+        getIgnoredUserFlow(),
+        getProfileRoomMembersKnockFlow()
+    ) { knowUsers, suggestions, ignoredUsers, requests ->
+        buildList(knowUsers, suggestions, ignoredUsers, requests)
+    }.flowOn(Dispatchers.IO).distinctUntilChanged()
+
+    suspend fun refreshRoomMembers() {
+        searchUserDataSource.loadAllRoomMembersIfNeeded()
+    }
 
     private fun getIgnoredUserFlow() =
         session?.userService()?.getIgnoredUsersLive()?.asFlow() ?: flowOf()
 
-    private fun buildList(knowUsers: List<User>, ignoredUsers: List<User>): List<PeopleListItem> {
-        val filteredKnownUsers = knowUsers.filterNot { knowUser ->
-            ignoredUsers.firstOrNull { ignoredUser ->
-                ignoredUser.userId == knowUser.userId
-            } != null
-        }.map { it.toPeopleUserListItem(false) }
+    private fun buildList(
+        knowUsers: List<User>,
+        suggestions: List<User>,
+        ignoredUsers: List<User>,
+        requests: List<User>
+    ): List<PeopleListItem> {
+        val uniqueItemsList = mutableListOf<PeopleListItem>().apply {
+            addAll(ignoredUsers.map { it.toPeopleUserListItem(PeopleItemType.Ignored) })
+            addAll(requests.map { it.toPeopleUserListItem(PeopleItemType.Request) })
+            addAll(knowUsers.map { it.toPeopleUserListItem(getKnownUserItemType(it.userId)) })
+            addAll(suggestions.map { it.toPeopleUserListItem(PeopleItemType.Suggestion) })
+        }.distinctBy { it.id }.filterNot { it.id == session?.myUserId }
 
-        val list = mutableListOf<PeopleListItem>()
-        if (filteredKnownUsers.isNotEmpty()) {
-            list.add(PeopleHeaderItem.knownUsersHeader)
-            list.addAll(filteredKnownUsers)
+        return mutableListOf<PeopleListItem>().apply {
+            addSection(
+                PeopleHeaderItem.requests,
+                uniqueItemsList.filter { it.type == PeopleItemType.Request }
+            )
+            addSection(
+                PeopleHeaderItem.friends,
+                uniqueItemsList.filter { it.type == PeopleItemType.Friend }
+            )
+            addSection(
+                PeopleHeaderItem.followingUsersHeader,
+                uniqueItemsList.filter { it.type == PeopleItemType.Following }
+            )
+            addSection(
+                PeopleHeaderItem.followersUsersHeader,
+                uniqueItemsList.filter { it.type == PeopleItemType.Follower }
+            )
+            addSection(
+                PeopleHeaderItem.knownUsersHeader,
+                uniqueItemsList.filter { it.type == PeopleItemType.Known }
+            )
+            addSection(
+                PeopleHeaderItem.suggestions,
+                uniqueItemsList.filter { it.type == PeopleItemType.Suggestion }
+            )
+            addSection(
+                PeopleHeaderItem.ignoredUsers,
+                uniqueItemsList.filter { it.type == PeopleItemType.Ignored }
+            )
         }
-        if (ignoredUsers.isNotEmpty()) {
-            list.add(PeopleHeaderItem.ignoredUsers)
-            list.addAll(ignoredUsers.map { it.toPeopleUserListItem(true) })
-        }
-        return list
     }
+
+    private fun getKnownUserItemType(userId: String): PeopleItemType {
+        val isFollower = isMyFollower(userId)
+        val amIFollowing = amIFollowing(userId)
+        val isFriend = isFollower && amIFollowing
+
+        return when {
+            isFriend -> PeopleItemType.Friend
+            amIFollowing -> PeopleItemType.Following
+            isFollower -> PeopleItemType.Follower
+            else -> PeopleItemType.Known
+        }
+    }
+
+    private fun MutableList<PeopleListItem>.addSection(
+        title: PeopleHeaderItem,
+        items: List<PeopleListItem>
+    ) {
+        if (items.isNotEmpty()) {
+            add(title)
+            addAll(items)
+        }
+    }
+
+    private fun isMyFollower(userId: String): Boolean {
+        val mySharedCircleMembers = getSharedCirclesSpaceId()?.let {
+            session?.getRoom(it)?.roomSummary()?.otherMemberIds
+        } ?: emptyList()
+        return mySharedCircleMembers.contains(userId)
+    }
+
+    private fun amIFollowing(userId: String) = getSharedCircleFor(userId) != null
+
 }

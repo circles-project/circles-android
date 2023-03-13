@@ -19,6 +19,7 @@ import org.matrix.android.sdk.api.session.room.send.SendState
 
 
 interface PostOptionsListener {
+    fun onUserClicked(userId: String)
     fun onShowRepliesClicked(eventId: String)
     fun onShare(content: PostContent)
     fun onIgnore(senderId: String)

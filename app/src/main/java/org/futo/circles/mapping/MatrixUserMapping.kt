@@ -2,27 +2,24 @@ package org.futo.circles.mapping
 
 import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.model.CirclesUserSummary
+import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleUserListItem
 import org.futo.circles.model.UserListItem
 import org.matrix.android.sdk.api.session.room.sender.SenderInfo
 import org.matrix.android.sdk.api.session.user.model.User
 
 fun User.toUserListItem(isSelected: Boolean) = UserListItem(
-    user = CirclesUserSummary(
-        id = userId,
-        name = notEmptyDisplayName(),
-        avatarUrl = avatarUrl ?: ""
-    ),
+    user = toCirclesUserSummary(),
     isSelected = isSelected
 )
 
-fun User.toPeopleUserListItem(isIgnored: Boolean) = PeopleUserListItem(
-    user = CirclesUserSummary(
-        id = userId,
-        name = notEmptyDisplayName(),
-        avatarUrl = avatarUrl ?: ""
-    ),
-    isIgnored = isIgnored
+fun User.toPeopleUserListItem(type: PeopleItemType) =
+    PeopleUserListItem(toCirclesUserSummary(), type)
+
+fun User.toCirclesUserSummary() = CirclesUserSummary(
+    id = userId,
+    name = notEmptyDisplayName(),
+    avatarUrl = avatarUrl ?: ""
 )
 
 fun User.notEmptyDisplayName(): String = getName(userId, displayName)

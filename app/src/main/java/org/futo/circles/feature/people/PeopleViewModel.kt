@@ -1,32 +1,50 @@
 package org.futo.circles.feature.people
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
+import kotlinx.coroutines.flow.*
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
+import org.futo.circles.extensions.launchUi
+import org.futo.circles.model.PeopleListItem
 
 class PeopleViewModel(
-    peopleDataSource: PeopleDataSource,
+    private val peopleDataSource: PeopleDataSource,
     private val userOptionsDataSource: UserOptionsDataSource
 ) : ViewModel() {
 
-    val peopleLiveData = peopleDataSource.getPeopleList().asLiveData()
-    val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val peopleLiveData = MutableLiveData<List<PeopleListItem>>()
+    val followUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val followUserRequestLiveData = SingleEventLiveData<Response<Unit?>>()
 
     init {
-        launchBg { peopleDataSource.loadAllRoomMembersIfNeeded() }
+        launchBg { peopleDataSource.refreshRoomMembers() }
     }
 
-    fun unIgnoreUser(id: String) {
-        launchBg {
-            ignoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(id))
+    fun initSearchListener(queryFlow: StateFlow<String>) {
+        launchUi {
+            queryFlow
+                .debounce(500)
+                .distinctUntilChanged()
+                .flatMapLatest { query -> peopleDataSource.getPeopleList(query) }
+                .collectLatest { items -> peopleLiveData.postValue(items) }
         }
     }
 
-    fun ignoreUser(id: String) {
+    fun unIgnoreUser(userId: String) {
         launchBg {
-            ignoreUserLiveData.postValue(userOptionsDataSource.ignoreSender(id))
+            unIgnoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(userId))
         }
+    }
+
+    fun onFollowRequestAnswered(userId: String, accepted: Boolean) {
+        launchBg {
+            val result = if (accepted) peopleDataSource.acceptFollowRequest(userId)
+            else peopleDataSource.declineFollowRequest(userId)
+            followUserRequestLiveData.postValue(result)
+        }
+
     }
 }

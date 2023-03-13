@@ -1,5 +1,6 @@
 package org.futo.circles.feature.settings.active_sessions.verify
 
+import android.Manifest
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
@@ -7,7 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.picker.CameraPermissionHelper
+import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.DialogFragmentVerifySessionBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
@@ -39,7 +40,7 @@ class VerifySessionDialogFragment :
             }
         }
 
-    private val cameraPermissionHelper = CameraPermissionHelper(this)
+    private val cameraPermissionHelper = RuntimePermissionHelper(this, Manifest.permission.CAMERA)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +50,7 @@ class VerifySessionDialogFragment :
 
     private fun setupViews() {
         binding.btnVerify.setOnClickListener {
-            cameraPermissionHelper.runWithCameraPermission {
+            cameraPermissionHelper.runWithPermission {
                 QrScannerActivity.startForResult(requireActivity(), scanActivityResultLauncher)
             }
         }

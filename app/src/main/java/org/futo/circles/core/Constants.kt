@@ -1,5 +1,7 @@
 package org.futo.circles.core
 
+import org.futo.circles.BuildConfig
+
 const val FILE_PROVIDER_AUTHORITY_EXTENSION = ".provider"
 
 const val REGISTRATION_TOKEN_TYPE = "m.login.registration_token"
@@ -25,4 +27,7 @@ const val SYSTEM_NOTICES_TAG = "m.server_notice"
 const val TYPE_PARAM_KEY = "type"
 
 const val CREATE_ROOM_DELAY = 1000L
+
+const val PUSHER_URL = "https://sygnal.nl.circles-dev.net/_matrix/push/v1/notify"
+const val PUSHER_APP_ID = "${BuildConfig.APPLICATION_ID}.android"
 

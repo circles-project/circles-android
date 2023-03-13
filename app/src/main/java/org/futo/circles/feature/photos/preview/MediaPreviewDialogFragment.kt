@@ -18,6 +18,7 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentMediaPreviewBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.share.ShareProvider
+import org.futo.circles.model.ConfirmationType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -102,7 +103,10 @@ class MediaPreviewDialogFragment :
                         true
                     }
                     R.id.delete -> {
-                        showRemoveConfirmation()
+                        withConfirmation(ConfirmationType.REMOVE_IMAGE) {
+                            viewModel.removeImage()
+                            onBackPressed()
+                        }
                         true
                     }
                     else -> false
@@ -128,19 +132,6 @@ class MediaPreviewDialogFragment :
         viewModel.downloadLiveData.observeData(this) {
             context?.let { showSuccess(it.getString(R.string.saved), false) }
         }
-    }
-
-    private fun showRemoveConfirmation() {
-        showDialog(
-            titleResIdRes = R.string.remove_image,
-            messageResId = R.string.remove_image_message,
-            positiveButtonRes = R.string.remove,
-            negativeButtonVisible = true,
-            positiveAction = {
-                viewModel.removeImage()
-                onBackPressed()
-            }
-        )
     }
 
     private fun toggle() {

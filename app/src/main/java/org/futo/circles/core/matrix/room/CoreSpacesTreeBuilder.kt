@@ -32,6 +32,8 @@ class CoreSpacesTreeBuilder(
             createRoomDataSource.createRoom(it)
             delay(CREATE_ROOM_DELAY)
         }
+        createRoomDataSource.createRoom(SharedCirclesSpace(), allowKnock = true)
+        delay(CREATE_ROOM_DELAY)
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
@@ -39,5 +41,4 @@ class CoreSpacesTreeBuilder(
     fun isCirclesHierarchyCreated(): Boolean = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
         ?.firstOrNull { summary -> summary.hasTag(ROOT_SPACE_TAG) } != null
-
 }

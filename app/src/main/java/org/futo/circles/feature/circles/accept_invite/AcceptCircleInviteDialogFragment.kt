@@ -67,7 +67,7 @@ class AcceptCircleInviteDialogFragment :
 
     private fun navigateToCreateCircle() {
         findNavController()
-            .navigate(AcceptCircleInviteDialogFragmentDirections.toCreateRoomDialogFragment())
+            .navigate(AcceptCircleInviteDialogFragmentDirections.toCreateCircleDialogFragment())
     }
 
     override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {

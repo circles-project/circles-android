@@ -6,15 +6,125 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <org.futo.circles.view.ProfileView
-        android:id="@+id/vUser"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp" />
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="@dimen/circle_icon_size"
+            android:layout_height="@dimen/circle_icon_size"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            tools:src="@color/blue" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivEdit"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@color/blue"
+            android:padding="2dp"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/white"
+            app:contentPadding="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+            app:layout_constraintEnd_toEndOf="@id/ivProfile"
+            app:layout_constraintTop_toTopOf="@id/ivProfile"
+            app:layout_constraintVertical_bias="0.85"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            app:strokeColor="@color/white"
+            app:strokeWidth="1dp" />
+
+
+        <TextView
+            android:id="@+id/tvUserName"
+            style="@style/title2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfile"
+            tools:text="texsdt" />
+
+        <TextView
+            android:id="@+id/tvUserId"
+            style="@style/subheadline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserName"
+            tools:text="texsdt" />
+
+        <ImageView
+            android:id="@+id/ivShareProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="64dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="4dp"
+            android:src="@drawable/ic_qr"
+            app:layout_constraintEnd_toStartOf="@id/ivScanProfile"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserId" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/share_profile"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@id/ivShareProfile"
+            app:layout_constraintStart_toStartOf="@id/ivShareProfile"
+            app:layout_constraintTop_toBottomOf="@id/ivShareProfile" />
+
+        <ImageView
+            android:id="@+id/ivScanProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="4dp"
+            android:src="@drawable/ic_qr_scanner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivShareProfile"
+            app:layout_constraintTop_toTopOf="@id/ivShareProfile" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/scan_profile"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@id/ivScanProfile"
+            app:layout_constraintStart_toStartOf="@id/ivScanProfile"
+            app:layout_constraintTop_toBottomOf="@id/ivScanProfile" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
+        android:layout_marginTop="8dp"
         android:background="@color/divider_color" />
 
     <ScrollView
@@ -32,36 +142,42 @@
                 style="@style/settingMenuHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile" />
-
-
-            <TextView
-                android:id="@+id/tvEditProfile"
-                style="@style/settingMenuItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/edit_profile"
-                app:drawableStartCompat="@drawable/ic_edit" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
-                android:layout_marginHorizontal="8dp"
-                android:background="@color/divider_color" />
-
-            <TextView
-                android:id="@+id/tvChangePassword"
-                style="@style/settingMenuItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/change_password"
-                app:drawableStartCompat="@drawable/ic_lock" />
-
-            <TextView
-                style="@style/settingMenuHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="@string/notifications" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lPushNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/tvPushNotifications"
+                    style="@style/settingMenuItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:text="@string/push_notifications"
+                    app:drawableStartCompat="@drawable/ic_notifications"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvPushNotificationsStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enabled"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvPushNotifications"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/lSystemNotices"
@@ -101,10 +217,34 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tvNotificationsTest"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/push_notifications_test"
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/ic_notifications"
+                tools:visibility="visible" />
+
+            <TextView
                 style="@style/settingMenuHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/session" />
+                android:text="@string/account" />
+
+            <TextView
+                android:id="@+id/tvChangePassword"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/change_password"
+                app:drawableStartCompat="@drawable/ic_lock" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginHorizontal="8dp"
+                android:background="@color/divider_color" />
 
             <TextView
                 android:id="@+id/tvLoginSessions"
@@ -128,6 +268,19 @@
                 android:text="@string/clear_cache_and_reload"
                 app:drawableStartCompat="@drawable/ic_reload" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginHorizontal="8dp"
+                android:background="@color/divider_color" />
+
+            <TextView
+                android:id="@+id/tvSwitchUser"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_user"
+                app:drawableStartCompat="@drawable/ic_switch_user" />
 
             <View
                 android:layout_width="match_parent"
@@ -143,11 +296,11 @@
                 android:text="@string/log_out"
                 app:drawableStartCompat="@drawable/ic_logout" />
 
-            <TextView
-                style="@style/settingMenuHeader"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/account" />
+                android:layout_height="@dimen/divider_height"
+                android:layout_marginHorizontal="8dp"
+                android:background="@color/divider_color" />
 
             <TextView
                 android:id="@+id/tvDeactivate"
@@ -170,8 +323,8 @@
                 style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Version"
-                app:drawableStartCompat="@drawable/ic_app_version" />
+                app:drawableStartCompat="@drawable/ic_app_version"
+                tools:text="Version" />
 
         </LinearLayout>
 

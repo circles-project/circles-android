@@ -29,31 +29,16 @@
         </action>
 
         <action
-            android:id="@+id/to_createRoomDialogFragment"
-            app:destination="@id/createRoomDialogFragment">
-
-            <argument
-                android:name="type"
-                android:defaultValue="Group"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
-                app:nullable="false" />
-
-        </action>
+            android:id="@+id/to_createGroupDialogFragment"
+            app:destination="@id/createGroupDialogFragment" />
 
     </fragment>
 
     <include app:graph="@navigation/timeline_nav_graph" />
 
     <dialog
-        android:id="@+id/createRoomDialogFragment"
-        android:name="org.futo.circles.feature.room.create_room.CreateRoomDialogFragment"
-        tools:layout="@layout/dialog_fragment_create_room">
-
-        <argument
-            android:name="type"
-            app:argType="org.futo.circles.model.CircleRoomTypeArg"
-            app:nullable="false" />
-
-    </dialog>
+        android:id="@+id/createGroupDialogFragment"
+        android:name="org.futo.circles.feature.groups.create.CreateGroupDialogFragment"
+        tools:layout="@layout/dialog_fragment_create_group" />
 
 </navigation>

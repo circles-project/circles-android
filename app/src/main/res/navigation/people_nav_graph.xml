@@ -22,16 +22,16 @@
         </action>
     </fragment>
 
-    <fragment
+    <dialog
         android:id="@+id/userFragment"
-        android:name="org.futo.circles.feature.people.user.UserFragment"
-        tools:layout="@layout/fragment_user">
+        android:name="org.futo.circles.feature.people.user.UserDialogFragment"
+        tools:layout="@layout/dialog_fragment_user">
 
         <argument
             android:name="userId"
             app:argType="string"
             app:nullable="false" />
 
-    </fragment>
+    </dialog>
 
 </navigation>

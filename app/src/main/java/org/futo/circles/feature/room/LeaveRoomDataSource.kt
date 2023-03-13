@@ -1,10 +1,10 @@
 package org.futo.circles.feature.room
 
 import org.futo.circles.core.matrix.room.RoomRelationsBuilder
+import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.getCurrentUserPowerLevel
 import org.futo.circles.extensions.getRoomOwners
-import org.futo.circles.extensions.getTimelineRoomFor
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams

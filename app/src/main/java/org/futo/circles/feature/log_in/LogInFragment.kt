@@ -10,10 +10,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.databinding.FragmentLogInBinding
-import org.futo.circles.extensions.getText
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showError
+import org.futo.circles.extensions.*
+import org.futo.circles.feature.log_in.switch_user.list.SwitchUsersAdapter
+import org.futo.circles.feature.log_in.switch_user.list.SwitchUsersViewHolder
+import org.futo.circles.model.ConfirmationType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -28,6 +30,20 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             listOf(BuildConfig.US_SERVER_DOMAIN, BuildConfig.EU_SERVER_DOMAIN)
+        )
+    }
+
+    private val switchUsersAdapter by lazy {
+        SwitchUsersAdapter(
+            onResumeClicked = { id ->
+                startLoading(binding.btnLogin)
+                viewModel.resumeSwitchUserSession(id)
+            },
+            onRemoveClicked = { id ->
+                withConfirmation(ConfirmationType.REMOVE_USER) {
+                    viewModel.removeSwitchUser(id)
+                }
+            }
         )
     }
 
@@ -48,6 +64,10 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 }
             }
             tilDomain.hint = BuildConfig.US_SERVER_DOMAIN
+            binding.rvSwitchUsers.apply {
+                adapter = switchUsersAdapter
+                addItemDecoration(BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(16))
+            }
         }
     }
 
@@ -57,6 +77,13 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 findNavController().navigate(LogInFragmentDirections.toLoginStagesFragment())
             }
         )
+        viewModel.switchUsersLiveData.observeData(this) {
+            binding.tvResumeSession.setIsVisible(it.isNotEmpty())
+            switchUsersAdapter.submitList(it)
+        }
+        viewModel.navigateToBottomMenuScreenLiveData.observeData(this) {
+            findNavController().navigate(LogInFragmentDirections.toBottomNavigationFragment())
+        }
     }
 
     private fun setOnClickActions() {

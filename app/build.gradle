@@ -10,8 +10,8 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.sdkVersion
-        versionCode 10
-        versionName "1.0.9"
+        versionCode 11
+        versionName "1.0.10"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
@@ -69,21 +69,24 @@ android {
             version '3.18.1'
         }
     }
+    namespace 'org.futo.circles'
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     //Matrix
-    implementation 'org.matrix.android:matrix-sdk-android:1.5.8'
+    implementation 'org.matrix.android:matrix-sdk-android:1.5.25.1'
 
     //Kotlin
     implementation "androidx.core:core-ktx:1.9.0"
+    implementation 'androidx.lifecycle:lifecycle-process:2.6.0'
+    implementation 'androidx.work:work-runtime-ktx:2.8.0'
 
     //androidx lifecycle
-    def lifecycle_version = "2.5.1"
+    def lifecycle_version = "2.6.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
@@ -107,14 +110,19 @@ dependencies {
     implementation 'com.alvinhkh:TextDrawable:c1c2b5b'
 
     //ChromeTabs
-    implementation "androidx.browser:browser:1.4.0"
+    implementation "androidx.browser:browser:1.5.0"
 
     //ExoPlayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.4'
 
-    //Firebase crash reports
-    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.2'
-    gplayImplementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
+    //Firebase
+    gplayImplementation platform('com.google.firebase:firebase-bom:31.1.1')
+    gplayImplementation'com.google.firebase:firebase-crashlytics-ktx'
+    gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
+    gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
+
+    // UnifiedPush
+    implementation 'com.github.UnifiedPush:android-connector:2.1.1'
 
     //Subscriptions
     gplayImplementation 'com.android.billingclient:billing-ktx:5.1.0'
@@ -153,8 +161,8 @@ dependencies {
 
     //test
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
 
 if (getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("gplay")) {

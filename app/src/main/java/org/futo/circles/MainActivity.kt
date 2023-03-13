@@ -1,5 +1,6 @@
 package org.futo.circles
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -16,8 +17,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         syncSessionIfCashWasCleared()
     }
 
-    // Special action to clear cache and/or clear credentials (Element workaround to clear database)
-    fun restartForLogout() {
+    fun clearSessionAndRestart() {
         MatrixSessionProvider.clearSession()
         this.startActivity(createRestartIntent())
     }
@@ -41,11 +41,17 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     private fun setInvalidTokenListener() {
         MatrixSessionListenerProvider.setOnInvalidTokenListener {
             Toast.makeText(this, getString(R.string.you_are_signed_out), Toast.LENGTH_LONG).show()
-            restartForLogout()
+            clearSessionAndRestart()
         }
     }
 
     companion object {
         private const val IS_CLEAR_CACHE = "is_clear_cache"
+        const val ROOM_ID_PARAM = "roomId"
+        fun getOpenRoomIntent(context: Context, roomId: String): Intent =
+            Intent(context, MainActivity::class.java).apply {
+                action = "OPEN_ROOM"
+                putExtra(ROOM_ID_PARAM, roomId)
+            }
     }
 }

@@ -106,7 +106,7 @@ class SignUpDataSource(
 
     private fun isStageRetry(result: RegistrationResult?): Boolean {
         val nextStageType =
-            ((result as? RegistrationResult.FlowResponse)?.flowResult?.missingStages?.lastOrNull() as? Stage.Other)?.type
+            ((result as? RegistrationResult.FlowResponse)?.flowResult?.missingStages?.firstOrNull() as? Stage.Other)?.type
         return nextStageType == (currentStage as? Stage.Other)?.type && nextStageType != null
     }
 

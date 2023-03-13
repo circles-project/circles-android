@@ -41,11 +41,17 @@
         <action
             android:id="@+id/to_reAuthStagesDialogFragment"
             app:destination="@id/reAuthStagesDialogFragment" />
+        <action
+            android:id="@+id/to_notificationTestFragment"
+            app:destination="@id/notificationTestFragment" />
+        <action
+            android:id="@+id/to_shareProfileDialogFragment"
+            app:destination="@id/shareProfileDialogFragment" />
     </fragment>
 
     <dialog
         android:id="@+id/editProfileDialogFragment"
-        android:name="org.futo.circles.feature.settings.edit_profile.EditProfileDialogFragment"
+        android:name="org.futo.circles.feature.settings.profile.edit.EditProfileDialogFragment"
         android:label="ProfileDialogFragment"
         tools:layout="@layout/dialog_fragment_edit_profile" />
     <dialog
@@ -105,6 +111,15 @@
     <dialog
         android:id="@+id/reAuthStagesDialogFragment"
         android:name="org.futo.circles.feature.reauth.ReAuthStagesDialogFragment"
-        tools:layout="@layout/fragment_login_stages"/>
+        tools:layout="@layout/fragment_login_stages" />
+
+    <dialog
+        android:id="@+id/notificationTestFragment"
+        android:name="org.futo.circles.feature.notifications.test.NotificationTestDialogFragment"
+        tools:layout="@layout/dialog_fragment_notifications_test" />
+    <dialog
+        android:id="@+id/shareProfileDialogFragment"
+        android:name="org.futo.circles.feature.settings.profile.share.ShareProfileDialogFragment"
+        tools:layout="@layout/dialog_fragment_share_profile" />
 
 </navigation>

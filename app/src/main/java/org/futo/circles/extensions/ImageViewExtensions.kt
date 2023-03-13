@@ -12,6 +12,7 @@ import org.futo.circles.R
 import org.futo.circles.glide.GlideApp
 import org.futo.circles.model.MediaFileData
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.Session
 
 fun ImageView.loadImage(url: String?) {
     Glide.with(this)
@@ -40,7 +41,8 @@ fun ImageView.loadProfileIcon(
     url: String?,
     userId: String,
     loadOriginalSize: Boolean = false,
-    preferredSize: Size? = null
+    preferredSize: Size? = null,
+    session: Session? = null
 ) {
 
     val backgroundColor = ColorGenerator.DEFAULT.getColor(userId)
@@ -53,7 +55,7 @@ fun ImageView.loadProfileIcon(
         .setText(text)
         .build()
 
-    loadMatrixImage(url, loadOriginalSize, placeholder, preferredSize)
+    loadMatrixImage(url, loadOriginalSize, placeholder, preferredSize, session)
 }
 
 
@@ -65,10 +67,12 @@ private fun ImageView.loadMatrixImage(
     url: String?,
     loadOriginalSize: Boolean = false,
     placeholder: Drawable? = null,
-    preferredSize: Size? = null
+    preferredSize: Size? = null,
+    session: Session? = null
 ) {
+    val currentSession = session ?: MatrixSessionProvider.currentSession
     val size = if (loadOriginalSize) null else preferredSize ?: Size(width, height)
-    val resolvedUrl = MatrixSessionProvider.currentSession?.resolveUrl(url, size)
+    val resolvedUrl = currentSession?.resolveUrl(url, size)
     Glide.with(this)
         .load(resolvedUrl)
         .fitCenter()
