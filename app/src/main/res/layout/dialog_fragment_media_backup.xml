@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -40,6 +41,7 @@
             android:id="@+id/tvBackup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:text="@string/backup"
             android:textAppearance="@style/body"
             app:layout_constraintEnd_toStartOf="@id/svBackup"
@@ -59,7 +61,6 @@
             android:id="@+id/svBackup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@id/tvBackupHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvBackup" />
@@ -96,4 +97,12 @@
         app:layout_constraintEnd_toEndOf="@id/tvBackupFolders"
         app:layout_constraintStart_toStartOf="@id/tvBackupFolders"
         app:layout_constraintTop_toBottomOf="@id/tvBackupFoldersHint" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupBackupFolders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tvBackupFolders, tvBackupFoldersHint, rvDeviceFolders"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
