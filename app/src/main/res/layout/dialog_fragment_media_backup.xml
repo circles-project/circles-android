@@ -16,7 +16,6 @@
         app:title="@string/media_backup"
         app:titleCentered="true" />
 
-
     <View
         android:id="@+id/toolbarDivider"
         android:layout_width="0dp"
@@ -26,4 +25,75 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lBackupSwitchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarDivider">
+
+        <TextView
+            android:id="@+id/tvBackup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/backup"
+            android:textAppearance="@style/body"
+            app:layout_constraintEnd_toStartOf="@id/svBackup"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvBackupHint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/back_up_photos_and_videos_from_this_device_to_your_gallery"
+            app:layout_constraintEnd_toEndOf="@id/tvBackup"
+            app:layout_constraintStart_toStartOf="@id/tvBackup"
+            app:layout_constraintTop_toBottomOf="@id/tvBackup" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/svBackup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvBackupHint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvBackup" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvBackupFolders"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/back_up_device_folders"
+        android:textAppearance="@style/body"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/lBackupSwitchContainer"
+        app:layout_constraintTop_toBottomOf="@id/lBackupSwitchContainer" />
+
+    <TextView
+        android:id="@+id/tvBackupFoldersHint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/backup_folders_hint"
+        app:layout_constraintEnd_toEndOf="@id/tvBackupFolders"
+        app:layout_constraintStart_toStartOf="@id/tvBackupFolders"
+        app:layout_constraintTop_toBottomOf="@id/tvBackupFolders" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDeviceFolders"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="@id/tvBackupFolders"
+        app:layout_constraintStart_toStartOf="@id/tvBackupFolders"
+        app:layout_constraintTop_toBottomOf="@id/tvBackupFoldersHint" />
 </androidx.constraintlayout.widget.ConstraintLayout>
