@@ -414,6 +414,7 @@
     <string name="unmute_notifications">Unmute notifications</string>
     <string name="shortcut_disabled">Shortcut disabled</string>
     <string name="shared_circles_space_not_found">Shared Circles space not found</string>
+    <string name="media_backup">Media backup</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
