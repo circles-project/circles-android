@@ -3,9 +3,6 @@ package org.futo.circles.di.data_source
 import org.futo.circles.feature.circles.following.FollowingDataSource
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.people.user.UserDataSource
-import org.futo.circles.feature.photos.preview.MediaPreviewDataSource
-import org.futo.circles.feature.photos.save.SavePostToGalleryDataSource
-import org.futo.circles.feature.photos.select.SelectGalleriesDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.RoomNotificationsDataSource
 import org.futo.circles.feature.room.invite.InviteMembersDataSource
@@ -44,9 +41,6 @@ val timelineDsModule = module {
     }
     factory { (roomId: String, eventId: String) -> ReportDataSource(roomId, eventId, get()) }
     factory { (roomId: String) -> FollowingDataSource(roomId, get(), get()) }
-    factory { (roomId: String, eventId: String) -> MediaPreviewDataSource(roomId, eventId) }
-    factory { SelectGalleriesDataSource() }
-    factory { SavePostToGalleryDataSource(get(), get()) }
     factory { UserOptionsDataSource() }
     factory { (userId: String) -> UserDataSource(get(), userId) }
     factory { ReadMessageDataSource() }
