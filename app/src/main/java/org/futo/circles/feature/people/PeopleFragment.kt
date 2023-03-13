@@ -45,7 +45,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
 
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        inflater.inflate(R.menu.bottom_nav_toolbar_menu, menu)
+        inflater.inflate(R.menu.people_tab_menu, menu)
         (menu.findItem(R.id.search).actionView as? SearchView)?.getQueryTextChangeStateFlow()?.let {
             viewModel.initSearchListener(it)
         }
