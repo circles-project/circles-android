@@ -23,7 +23,7 @@ val photosUiModule = module {
         )
     }
     viewModel { SelectGalleriesViewModel(get()) }
-    viewModel { MediaBackupViewModel() }
+    viewModel { MediaBackupViewModel(get()) }
     viewModel { (roomId: String, eventId: String) ->
         MediaPreviewViewModel(roomId, eventId, get { parametersOf(roomId, eventId) }, get())
     }
