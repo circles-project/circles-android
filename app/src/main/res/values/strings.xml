@@ -418,7 +418,7 @@
     <string name="backup">Backup</string>
     <string name="back_up_photos_and_videos_from_this_device_to_your_gallery">Back up photos and videos from this device to your Gallery</string>
     <string name="back_up_device_folders">Back up device folders</string>
-    <string name="backup_folders_hint">Your camera folder is automatically backed up. Choose other folders to backup and view in your Gallery:</string>
+    <string name="backup_folders_hint">Choose folders to backup and view in your Gallery:</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
