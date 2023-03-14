@@ -3,11 +3,11 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.os.Build
 import android.provider.MediaStore
-import org.futo.circles.model.MediaFolder
+import org.futo.circles.model.MediaFolderListItem
 
 class MediaBackupDataSource(private val context: Context) {
 
-    fun getMediaFolders(): List<MediaFolder> {
+    fun getMediaFolders(): List<MediaFolderListItem> {
         val projection = arrayOf(
             MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
             MediaStore.Images.Media.BUCKET_ID
@@ -17,7 +17,7 @@ class MediaBackupDataSource(private val context: Context) {
                 MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
             else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 
-        val foldersList = HashSet<MediaFolder>()
+        val foldersList = HashSet<MediaFolderListItem>()
         context.contentResolver.query(
             collection,
             projection,
@@ -33,7 +33,7 @@ class MediaBackupDataSource(private val context: Context) {
             while (cursor.moveToNext()) {
                 val bucketId = cursor.getLong(bucketIdColumnIndex)
                 val bucketName = cursor.getString(bucketNameColumnIndex)
-                val mediaFolder = MediaFolder(bucketId, bucketName)
+                val mediaFolder = MediaFolderListItem(bucketId, bucketName)
                 foldersList.add(mediaFolder)
             }
         }
