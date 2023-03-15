@@ -5,20 +5,24 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.DialogFragmentMediaBackupBinding
+import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.photos.backup.list.MediaFoldersListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MediaBackupDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentMediaBackupBinding::inflate) {
+    BaseFullscreenDialogFragment(DialogFragmentMediaBackupBinding::inflate), HasLoadingState {
 
     private val viewModel by viewModel<MediaBackupViewModel>()
 
+    override val fragment: Fragment = this
     private val binding by lazy {
         getBinding() as DialogFragmentMediaBackupBinding
     }
@@ -51,6 +55,10 @@ class MediaBackupDialogFragment :
             rvDeviceFolders.apply {
                 adapter = foldersAdapter
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            }
+            btnSave.setOnClickListener {
+                viewModel.saveBackupSettings()
+                startLoading(btnSave)
             }
         }
     }
