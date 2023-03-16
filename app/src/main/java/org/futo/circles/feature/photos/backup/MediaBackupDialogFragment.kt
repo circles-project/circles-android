@@ -1,19 +1,14 @@
 package org.futo.circles.feature.photos.backup
 
-import android.Manifest
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
+import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.DialogFragmentMediaBackupBinding
-import org.futo.circles.extensions.getText
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.backup.list.MediaFoldersListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,13 +22,11 @@ class MediaBackupDialogFragment :
         getBinding() as DialogFragmentMediaBackupBinding
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private val readMediaPermissionHelper =
-        RuntimePermissionHelper(this, Manifest.permission.READ_MEDIA_IMAGES)
-
     private val foldersAdapter by lazy {
         MediaFoldersListAdapter(
-            onItemCheckChanged = { id -> viewModel.onFolderBackupCheckChanged(id) }
+            onItemCheckChanged = { id ->
+                viewModel.onFolderBackupCheckChanged(id, binding.svBackup.isChecked)
+            }
         )
     }
 
@@ -50,14 +43,14 @@ class MediaBackupDialogFragment :
             }
             svBackup.setOnCheckedChangeListener { _, isChecked ->
                 groupBackupFolders.setIsVisible(isChecked)
-                if (isChecked) getFoldersList()
+                onInputDataChanged()
             }
             rvDeviceFolders.apply {
                 adapter = foldersAdapter
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
             btnSave.setOnClickListener {
-                viewModel.saveBackupSettings()
+                viewModel.saveBackupSettings(svBackup.isChecked)
                 startLoading(btnSave)
             }
         }
@@ -67,11 +60,20 @@ class MediaBackupDialogFragment :
         viewModel.mediaFolderLiveData.observeData(this) {
             foldersAdapter.submitList(it)
         }
+        viewModel.saveBackupSettingsResultLiveData.observeResponse(this,
+            success = {
+                showSuccess(getString(R.string.saved),true)
+                onBackPressed()
+            })
+        viewModel.initialBackupSettingsLiveData.observeData(this) {
+            binding.svBackup.isChecked = it.isBackupEnabled
+        }
+        viewModel.isSettingsDataChangedLiveData.observeData(this) {
+            binding.btnSave.isEnabled = it
+        }
     }
 
-    private fun getFoldersList() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            readMediaPermissionHelper.runWithPermission { viewModel.getMediaFolders() }
-        else viewModel.getMediaFolders()
+    private fun onInputDataChanged() {
+        viewModel.handleDataSettingsChanged(binding.svBackup.isChecked)
     }
 }
