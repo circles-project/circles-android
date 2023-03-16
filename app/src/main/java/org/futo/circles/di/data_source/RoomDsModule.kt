@@ -7,7 +7,6 @@ import org.futo.circles.feature.circles.CirclesDataSource
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSource
 import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.people.PeopleDataSource
-import org.futo.circles.feature.photos.PhotosDataSource
 import org.futo.circles.feature.room.select.SelectRoomsDataSource
 import org.futo.circles.feature.room.update.UpdateRoomDataSource
 import org.futo.circles.model.CircleRoomTypeArg
@@ -20,7 +19,6 @@ val roomDSModule = module {
     factory { (roomId: String) -> UpdateRoomDataSource(roomId, get(), get()) }
     factory { GroupsDataSource(get()) }
     factory { CirclesDataSource() }
-    factory { PhotosDataSource() }
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
     factory { PeopleDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }

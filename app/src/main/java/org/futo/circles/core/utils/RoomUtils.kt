@@ -3,6 +3,7 @@ package org.futo.circles.core.utils
 import org.futo.circles.core.SYSTEM_NOTICES_TAG
 import org.futo.circles.extensions.getRoomOwners
 import org.futo.circles.extensions.getTimelineRoom
+import org.futo.circles.model.PHOTOS_SPACE_TAG
 import org.futo.circles.model.SHARED_CIRCLES_SPACE_TAG
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
@@ -23,6 +24,7 @@ fun getSystemNoticesRoomId(): String? {
         .firstOrNull { it.hasTag(SYSTEM_NOTICES_TAG) }?.roomId
 }
 
+fun getPhotosSpaceId(): String? = getSpaceIdByTag(PHOTOS_SPACE_TAG)
 fun getSharedCirclesSpaceId(): String? = getSpaceIdByTag(SHARED_CIRCLES_SPACE_TAG)
 
 fun getSharedCircleFor(userId: String) = MatrixSessionProvider.currentSession?.roomService()

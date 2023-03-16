@@ -8,6 +8,7 @@ private val dataSourceModules = listOf(
     authDsModule,
     settingsDSModule,
     roomDSModule,
+    photosDSModule,
     timelineDsModule,
     notificationsDsModule,
     flavourModule
@@ -17,6 +18,7 @@ private val uiModules = listOf(
     authUiModule,
     settingsUiModule,
     roomUiModule,
+    photosUiModule,
     timelineUiModule,
     notificationsUiModule
 )
