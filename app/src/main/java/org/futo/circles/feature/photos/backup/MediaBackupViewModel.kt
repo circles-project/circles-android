@@ -29,9 +29,9 @@ class MediaBackupViewModel(
         launchBg { mediaFolderLiveData.postValue(dataSource.getMediaFolders(selectedFoldersIds.toList())) }
     }
 
-    fun onFolderBackupCheckChanged(id: String, isBackupEnabled: Boolean) {
-        if (selectedFoldersIds.contains(id)) selectedFoldersIds.remove(id)
-        else selectedFoldersIds.add(id)
+    fun onFolderBackupCheckChanged(id: String, isSelected: Boolean, isBackupEnabled: Boolean) {
+        if (isSelected) selectedFoldersIds.add(id)
+        else selectedFoldersIds.remove(id)
         handleDataSettingsChanged(isBackupEnabled)
     }
 

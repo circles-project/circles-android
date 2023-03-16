@@ -5,13 +5,15 @@ import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.model.MediaFolderListItem
 
 class MediaFoldersListAdapter(
-    private val onItemCheckChanged: (String) -> Unit,
+    private val onItemCheckChanged: (String, Boolean) -> Unit,
 ) : BaseRvAdapter<MediaFolderListItem, MediaFolderViewHolder>(DefaultIdEntityCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MediaFolderViewHolder(parent,
-            onCheckChanged = { position -> onItemCheckChanged(getItem(position).id) }
+            onCheckChanged = { position, isSelected ->
+                onItemCheckChanged(getItem(position).id, isSelected)
+            }
         )
 
     override fun onBindViewHolder(holder: MediaFolderViewHolder, position: Int) {

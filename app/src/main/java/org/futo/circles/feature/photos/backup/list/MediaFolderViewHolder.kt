@@ -11,7 +11,7 @@ import kotlin.math.pow
 
 class MediaFolderViewHolder(
     parent: ViewGroup,
-    private val onCheckChanged: (Int) -> Unit
+    private val onCheckChanged: (Int, Boolean) -> Unit
 ) : RecyclerView.ViewHolder(inflate(parent, ListItemMediaFolderBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -20,8 +20,8 @@ class MediaFolderViewHolder(
 
     init {
         onClick(itemView) { binding.svFolder.isChecked = !binding.svFolder.isChecked }
-        binding.svFolder.setOnCheckedChangeListener { _, _ ->
-            bindingAdapterPosition.takeIf { it != -1 }?.let { onCheckChanged(it) }
+        binding.svFolder.setOnCheckedChangeListener { _, isSelected ->
+            bindingAdapterPosition.takeIf { it != -1 }?.let { onCheckChanged(it, isSelected) }
         }
     }
 
@@ -37,6 +37,8 @@ class MediaFolderViewHolder(
         if (size <= 0) return "0 B"
         val units = arrayOf("B", "KB", "MB", "GB", "TB")
         val digitGroups = (log10(size.toDouble()) / log10(1024.0)).toInt()
-        return String.format("%.1f %s", size / 1024.0.pow(digitGroups.toDouble()), units[digitGroups])
+        return String.format(
+            "%.1f %s", size / 1024.0.pow(digitGroups.toDouble()), units[digitGroups]
+        )
     }
 }

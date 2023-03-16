@@ -24,8 +24,8 @@ class MediaBackupDialogFragment :
 
     private val foldersAdapter by lazy {
         MediaFoldersListAdapter(
-            onItemCheckChanged = { id ->
-                viewModel.onFolderBackupCheckChanged(id, binding.svBackup.isChecked)
+            onItemCheckChanged = { id, isSelected ->
+                viewModel.onFolderBackupCheckChanged(id, isSelected, binding.svBackup.isChecked)
             }
         )
     }
@@ -62,7 +62,7 @@ class MediaBackupDialogFragment :
         }
         viewModel.saveBackupSettingsResultLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.saved),true)
+                showSuccess(getString(R.string.saved), true)
                 onBackPressed()
             })
         viewModel.initialBackupSettingsLiveData.observeData(this) {
