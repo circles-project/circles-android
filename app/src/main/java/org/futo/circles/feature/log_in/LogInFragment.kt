@@ -59,8 +59,9 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
             tvDomain.apply {
                 setAdapter(autocompleteAdapter)
                 onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-                    tilDomain.hint = if (hasFocus) getString(R.string.domain)
-                    else BuildConfig.US_SERVER_DOMAIN
+                    tilDomain.hint =
+                        if (!hasFocus && tvDomain.text.isEmpty()) BuildConfig.US_SERVER_DOMAIN
+                        else getString(R.string.domain)
                 }
             }
             tilDomain.hint = BuildConfig.US_SERVER_DOMAIN
