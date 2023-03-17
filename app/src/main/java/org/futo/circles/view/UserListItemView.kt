@@ -12,7 +12,7 @@ import org.futo.circles.model.CirclesUserSummary
 
 class UserListItemView(
     context: Context,
-    attrs: AttributeSet? = null,
+    attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
 
     private val binding =

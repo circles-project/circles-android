@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemInviteHeaderBinding
-import org.futo.circles.databinding.ListItemPeopleFollowingBinding
+import org.futo.circles.databinding.ListItemPeopleDefaultBinding
 import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
 import org.futo.circles.databinding.ListItemPeopleRequestBinding
 import org.futo.circles.extensions.loadProfileIcon
@@ -43,11 +43,11 @@ class PeopleIgnoredUserViewHolder(
 class PeopleDefaultUserViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit
-) : PeopleViewHolder(inflate(parent, ListItemPeopleFollowingBinding::inflate)) {
+) : PeopleViewHolder(inflate(parent, ListItemPeopleDefaultBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemPeopleFollowingBinding
+    private val binding = baseBinding as ListItemPeopleDefaultBinding
 
     init {
         onClick(itemView) { position -> onUserClicked(position) }
