@@ -4,12 +4,18 @@ import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleListItem
+import org.futo.circles.model.PeopleUserListItem
+import org.futo.circles.model.PeopleUserListItemPayload
 
 class PeopleAdapter(
     private val onUserClicked: (String) -> Unit,
     private val onUnIgnore: (String) -> Unit,
     private val onRequestClicked: (String, Boolean) -> Unit
-) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(DefaultIdEntityCallback()) {
+) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(PayloadIdEntityCallback { old, new ->
+    if (new is PeopleUserListItem && old is PeopleUserListItem) {
+        PeopleUserListItemPayload(user = new.user.takeIf { it != old.user })
+    }
+}) {
 
     override fun getItemViewType(position: Int): Int = getItem(position).type.ordinal
 
@@ -35,6 +41,20 @@ class PeopleAdapter(
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    override fun onBindViewHolder(
+        holder: PeopleViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            payloads.forEach { payload ->
+                (payload as? PeopleUserListItemPayload)?.let { holder.bindPayload(payload) }
+            }
+        }
     }
 
 }
