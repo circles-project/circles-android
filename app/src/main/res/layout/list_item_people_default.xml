@@ -6,7 +6,7 @@
     android:clickable="true"
     android:focusable="true">
 
-    <org.futo.circles.view.UserListItemView
+    <org.futo.circles.view.PeopleTabUserListItemView
         android:id="@+id/userItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
