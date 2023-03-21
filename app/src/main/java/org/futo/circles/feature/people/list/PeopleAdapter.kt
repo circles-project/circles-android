@@ -14,7 +14,7 @@ class PeopleAdapter(
 ) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is PeopleUserListItem && old is PeopleUserListItem) {
         PeopleUserListItemPayload(user = new.user.takeIf { it != old.user })
-    }
+    } else null
 }) {
 
     override fun getItemViewType(position: Int): Int = getItem(position).type.ordinal
