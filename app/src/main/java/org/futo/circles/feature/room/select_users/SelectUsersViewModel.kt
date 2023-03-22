@@ -23,8 +23,6 @@ class SelectUsersViewModel(
     fun initSearchListener(queryFlow: StateFlow<String>) {
         launchUi {
             queryFlow
-                .debounce(500)
-                .distinctUntilChanged()
                 .flatMapLatest { query -> dataSource.search(query) }
                 .collectLatest { items -> searchUsersLiveData.postValue(items) }
         }

@@ -2,7 +2,9 @@ package org.futo.circles.feature.people
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
@@ -26,8 +28,6 @@ class PeopleViewModel(
     fun initSearchListener(queryFlow: StateFlow<String>) {
         launchUi {
             queryFlow
-                .debounce(500)
-                .distinctUntilChanged()
                 .flatMapLatest { query -> peopleDataSource.getPeopleList(query) }
                 .collectLatest { items -> peopleLiveData.postValue(items) }
         }
