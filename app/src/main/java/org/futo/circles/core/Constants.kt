@@ -33,3 +33,5 @@ const val CREATE_ROOM_DELAY = 1000L
 const val PUSHER_URL = "https://sygnal.nl.circles-dev.net/_matrix/push/v1/notify"
 const val PUSHER_APP_ID = "${BuildConfig.APPLICATION_ID}.android"
 
+const val READ_ONLY_ROLE = -10
+
