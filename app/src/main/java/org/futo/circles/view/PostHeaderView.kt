@@ -125,22 +125,29 @@ class PostHeaderView(
             menu.findItem(R.id.save_to_gallery).isVisible = unwrappedPost.content.isMedia()
             menu.findItem(R.id.ignore).isVisible = !unwrappedPost.isMyPost()
             menu.findItem(R.id.report).isVisible = !unwrappedPost.isMyPost()
-            menu.findItem(R.id.edit).isVisible =
-                unwrappedPost.isMyPost() && unwrappedPost.content.type == PostContentType.TEXT_CONTENT
-            menu.findItem(R.id.delete).isVisible =
-                unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value
-
+            menu.findItem(R.id.edit).isVisible = canEditPost(unwrappedPost)
+            menu.findItem(R.id.delete).isVisible = canDeletePost(unwrappedPost)
             val isPoll = unwrappedPost.content.isPoll()
             val pollState = (unwrappedPost.content as? PollContent)?.state
-            menu.findItem(R.id.edit_poll).isVisible =
-                isPoll && unwrappedPost.isMyPost() && pollState?.canEdit() == true
-            menu.findItem(R.id.end_poll).isVisible =
-                isPoll && pollState != PollState.Ended && (unwrappedPost.isMyPost() || userPowerLevel >= Role.Moderator.value)
-
+            menu.findItem(R.id.edit_poll).isVisible = canEditPoll(unwrappedPost, isPoll, pollState)
+            menu.findItem(R.id.end_poll).isVisible = canEndPoll(unwrappedPost, isPoll, pollState)
             menu.findItem(R.id.info).isVisible = preferencesProvider.isDeveloperModeEnabled()
-
             show()
         }
     }
+
+    private fun canDeletePost(unwrappedPost: Post) =
+        (areUserAbleToPost() && unwrappedPost.isMyPost()) || userPowerLevel >= Role.Moderator.value
+
+    private fun canEditPost(unwrappedPost: Post) = areUserAbleToPost() && unwrappedPost.isMyPost()
+            && unwrappedPost.content.type == PostContentType.TEXT_CONTENT
+
+    private fun canEndPoll(unwrappedPost: Post, isPoll: Boolean, pollState: PollState?) =
+        isPoll && pollState != PollState.Ended && canDeletePost(unwrappedPost)
+
+    private fun canEditPoll(unwrappedPost: Post, isPoll: Boolean, pollState: PollState?) =
+        isPoll && unwrappedPost.isMyPost() && areUserAbleToPost() && pollState?.canEdit() == true
+
+    private fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
 
 }

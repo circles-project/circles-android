@@ -83,7 +83,7 @@ class PostLayout(
         val isReply = data is ReplyPost
         binding.vReplyMargin.setIsVisible(isReply)
         binding.postHeader.setData(data, userPowerLevel)
-        binding.postFooter.setData(data, isReply)
+        binding.postFooter.setData(data, isReply, userPowerLevel)
         setMentionBorder(data.content)
         setIsEdited(data.postInfo.isEdited)
         setShadow(data.readInfo.shouldIndicateAsNew)
