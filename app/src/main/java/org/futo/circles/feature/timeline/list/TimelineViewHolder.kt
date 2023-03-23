@@ -23,13 +23,13 @@ import org.futo.circles.view.PostLayout
 import org.futo.circles.view.PostOptionsListener
 
 
-sealed class PostViewHolder(view: View, private val userPowerLevel: Int) :
+sealed class PostViewHolder(view: View) :
     RecyclerView.ViewHolder(view) {
 
     abstract val postLayout: PostLayout
     protected val markwon = MarkdownParser.markwonBuilder(context)
 
-    open fun bind(post: Post) {
+    open fun bind(post: Post, userPowerLevel: Int) {
         postLayout.setData(post, userPowerLevel)
     }
 
@@ -40,10 +40,8 @@ sealed class PostViewHolder(view: View, private val userPowerLevel: Int) :
 
 class TextMediaPostViewHolder(
     parent: ViewGroup,
-    postOptionsListener: PostOptionsListener,
-    userPowerLevel: Int
-) : PostViewHolder(inflate(parent, ViewTextMediaPostBinding::inflate), userPowerLevel),
-    UploadMediaViewHolder {
+    postOptionsListener: PostOptionsListener
+) : PostViewHolder(inflate(parent, ViewTextMediaPostBinding::inflate)), UploadMediaViewHolder {
 
     private companion object : ViewBindingHolder
 
@@ -67,8 +65,8 @@ class TextMediaPostViewHolder(
         }
     }
 
-    override fun bind(post: Post) {
-        super.bind(post)
+    override fun bind(post: Post, userPowerLevel: Int) {
+        super.bind(post, userPowerLevel)
         binding.vLoadingView.gone()
         when (val content = post.content) {
             is TextContent -> bindTextPost(content)
@@ -118,9 +116,8 @@ class TextMediaPostViewHolder(
 
 class PollPostViewHolder(
     parent: ViewGroup,
-    private val postOptionsListener: PostOptionsListener,
-    userPowerLevel: Int
-) : PostViewHolder(inflate(parent, ViewPollPostBinding::inflate), userPowerLevel) {
+    private val postOptionsListener: PostOptionsListener
+) : PostViewHolder(inflate(parent, ViewPollPostBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
@@ -131,8 +128,8 @@ class PollPostViewHolder(
         binding.lPollPost.setListener(postOptionsListener)
     }
 
-    override fun bind(post: Post) {
-        super.bind(post)
+    override fun bind(post: Post, userPowerLevel: Int) {
+        super.bind(post, userPowerLevel)
         (post.content as? PollContent)?.let {
             binding.pollContentView.setup(it) { optionId ->
                 postOptionsListener.onPollOptionSelected(post.postInfo.roomId, post.id, optionId)
