@@ -222,6 +222,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     override fun onEmojiChipClicked(
         roomId: String, eventId: String, emoji: String, isUnSend: Boolean
     ) {
+        if (viewModel.accessLevelLiveData.value?.isCurrentUserAbleToPost() != true) {
+            showError(getString(R.string.you_can_not_post_to_this_room))
+            return
+        }
         if (isUnSend) viewModel.unSendReaction(roomId, eventId, emoji)
         else viewModel.sendReaction(roomId, eventId, emoji)
     }
@@ -271,6 +275,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     private fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         if (isGroupMode) onGroupUserAccessLevelChanged(powerLevelsContent)
         else onCircleUserAccessLeveChanged(powerLevelsContent)
+        listAdapter.updateUserPowerLevel(getCurrentUserPowerLevel(args.roomId))
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {

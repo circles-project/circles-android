@@ -160,6 +160,7 @@
     <string name="ignore">Ignore</string>
     <string name="report">Report</string>
     <string name="saved">Saved</string>
+    <string name="you_can_not_post_to_this_room">You can not post to this room</string>
     <string name="remove_post">Remove post</string>
     <string name="remove_image">Remove image</string>
     <string name="remove_post_message">Are you sure you want to remove this post?</string>
