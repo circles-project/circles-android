@@ -15,6 +15,7 @@ import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.Post
 import org.futo.circles.model.ReactionsData
 import org.futo.circles.model.RootPost
+import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 
 class PostFooterView(
@@ -27,6 +28,7 @@ class PostFooterView(
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
+    private var userPowerLevel: Int = Role.Default.value
 
     init {
         setupViews()
@@ -59,8 +61,9 @@ class PostFooterView(
         optionsListener = postOptionsListener
     }
 
-    fun setData(data: Post, isReply: Boolean) {
+    fun setData(data: Post, isReply: Boolean, powerLevel: Int) {
         post = data
+        userPowerLevel = powerLevel
         bindViewData(isReply, data.canShare())
         bindRepliesButton(data)
         bindReactionsList(data.postInfo.reactionsData)
@@ -73,12 +76,13 @@ class PostFooterView(
         with(binding) {
             btnShare.setIsVisible(canShare)
             btnReply.setIsVisible(!isReply)
+            btnReply.isEnabled = areUserAbleToPost()
+            btnLike.isEnabled = areUserAbleToPost()
         }
     }
 
     private fun bindRepliesButton(post: Post) {
         val rootPost = (post as? RootPost) ?: kotlin.run { binding.btnShowReplies.gone(); return }
-
         bindRepliesButton(
             rootPost.hasReplies(), rootPost.getRepliesCount(), rootPost.isRepliesVisible
         )
@@ -133,5 +137,7 @@ class PostFooterView(
 
         }
     }
+
+    private fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
 
 }
