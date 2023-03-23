@@ -133,6 +133,7 @@
     <string name="admin">Admin</string>
     <string name="moderator">Moderator</string>
     <string name="user">User</string>
+    <string name="read_only">Read-only</string>
     <string name="cancel_invite">Cancel invite</string>
     <string name="cancel_invite_message">Are you sure you want to cancel the invite for this user?</string>
     <string name="remove_user">Remove user</string>
