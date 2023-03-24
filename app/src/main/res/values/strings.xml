@@ -421,6 +421,13 @@
     <string name="back_up_photos_and_videos_from_this_device_to_your_gallery">Back up photos and videos from this device to your Gallery</string>
     <string name="back_up_device_folders">Back up device folders</string>
     <string name="backup_folders_hint">Choose folders to backup and view in your Gallery:</string>
+    <string name="bootstrap_crosssigning_progress_initializing">Publishing created identity keys</string>
+    <string name="bootstrap_crosssigning_progress_pbkdf2">Generating secure key from passphrase</string>
+    <string name="bootstrap_crosssigning_progress_default_key">Defining SSSS default Key</string>
+    <string name="bootstrap_crosssigning_progress_save_msk">Synchronizing Master key</string>
+    <string name="bootstrap_crosssigning_progress_save_usk">Synchronizing User key</string>
+    <string name="bootstrap_crosssigning_progress_save_ssk">Synchronizing Self Signing key</string>
+    <string name="bootstrap_crosssigning_progress_key_backup">Setting Up Key Backup</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
