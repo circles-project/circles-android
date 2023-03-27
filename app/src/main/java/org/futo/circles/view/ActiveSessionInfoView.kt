@@ -26,8 +26,8 @@ class ActiveSessionInfoView(
         binding.btnVerify.setOnClickListener {
             deviceId?.let { activeSessionClickListener?.onVerifySessionClicked(it) }
         }
-        binding.btnEnableCrossSigning.setOnClickListener {
-            activeSessionClickListener?.onEnableCrossSigningClicked()
+        binding.btnResetKeys.setOnClickListener {
+            activeSessionClickListener?.onResetKeysClicked()
         }
     }
 
@@ -42,7 +42,7 @@ class ActiveSessionInfoView(
             tvPublicKey.text = activeSession.cryptoDeviceInfo.identityKey() ?: ""
             btnVerify.setIsVisible(activeSession.canVerify)
             btnRemove.setIsVisible(!activeSession.isCurrentSession())
-            btnEnableCrossSigning.setIsVisible(activeSession.canEnableCrossSigning)
+            btnResetKeys.setIsVisible(activeSession.isResetKeysVisible)
         }
     }
 }
