@@ -1,5 +1,6 @@
 package org.futo.circles.core.matrix.pass_phrase.restore
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
@@ -112,13 +113,12 @@ class RestoreBackupDataSource(
     suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
         val key = readRecoveryKeyFile(uri)
         val recoveryKey = if (ssssRestoreDataSource.isBackupKeyInQuadS())
-            ssssRestoreDataSource.getRecoveryKeyFromFileKey(
-                context, key, progressObserver
-            )
+            ssssRestoreDataSource.getRecoveryKeyFromFileKey(context, key, progressObserver)
         else key
         restoreKeysWithRecoveryKey(recoveryKey)
     }
 
+    @SuppressLint("Recycle")
     private fun readRecoveryKeyFile(uri: Uri): String {
         val recoveryKey = context.contentResolver
             .openInputStream(uri)
