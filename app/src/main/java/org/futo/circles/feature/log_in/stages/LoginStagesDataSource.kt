@@ -9,13 +9,13 @@ import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
+import org.futo.circles.feature.settings.active_sessions.bootstrap.CrossSigningDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
-import org.matrix.android.sdk.api.util.awaitCallback
 
 enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase }
 
@@ -67,7 +67,7 @@ class LoginStagesDataSource(
                 messageEventLiveData.postValue(R.string.no_backup_message)
                 createSpacesTreeIfNotExist()
             }
-            else -> restoreBackup(userPassword)
+            else -> restoreBackup(userPassword, true)
         }
     }
 
@@ -80,9 +80,9 @@ class LoginStagesDataSource(
         )
     }
 
-    suspend fun restoreBackup(password: String): Response<Unit> {
+    suspend fun restoreBackup(password: String, isBsSpeke: Boolean = false): Response<Unit> {
         val restoreResult = createResult {
-            restoreBackupDataSource.restoreKeysWithPassPhase(password)
+            restoreBackupDataSource.restoreKeysWithPassPhase(password, "taras99",isBsSpeke)
         }
         return handleRestoreResult(restoreResult)
     }
@@ -97,24 +97,8 @@ class LoginStagesDataSource(
     private suspend fun handleRestoreResult(restoreResult: Response<Unit>): Response<Unit> {
         when (restoreResult) {
             is Response.Error -> loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
-            is Response.Success -> onBackupSuccessfullyRestored()
+            is Response.Success -> createSpacesTreeIfNotExist()
         }
         return restoreResult
-    }
-
-    private suspend fun onBackupSuccessfullyRestored() {
-        enableCrossSigningIfNeed()
-        createSpacesTreeIfNotExist()
-    }
-
-    private suspend fun enableCrossSigningIfNeed() {
-        val session = MatrixSessionProvider.currentSession ?: return
-        if (session.cryptoService().crossSigningService().isCrossSigningVerified()) return
-        createResult {
-            awaitCallback {
-                MatrixSessionProvider.currentSession?.cryptoService()?.crossSigningService()
-                    ?.initializeCrossSigning(null, it)
-            }
-        }
     }
 }

@@ -26,7 +26,7 @@ class SSSSDataSource(private val context: Context) {
         return (sssBackupSecret.content["encrypted"] as? Map<*, *>)?.containsKey(keyInfo.id) == true
     }
 
-    suspend fun storeIntoSSSSWithKey(recoveryKey: String) {
+    suspend fun storeIntoSSSSWithKey(recoveryKey: String): SsssKeyCreationInfo {
         val session = MatrixSessionProvider.currentSession
             ?: throw Exception(context.getString(R.string.session_is_not_created))
         val quadS = session.sharedSecretStorageService()
@@ -37,39 +37,34 @@ class SSSSDataSource(private val context: Context) {
             EmptyKeySigner()
         )
         storeSecret(session, keyInfo)
+        return keyInfo
     }
 
-    suspend fun storeIntoSSSSWithPassphrase(passphrase: String) {
-        val session = MatrixSessionProvider.currentSession ?: return
+    suspend fun storeIntoSSSSWithPassphrase(
+        passphrase: String,
+        userName: String,
+        isBsSpeke: Boolean
+    ): SsssKeyCreationInfo {
+        val session = MatrixSessionProvider.currentSession
+            ?: throw Exception(context.getString(R.string.session_is_not_created))
         val quadS = session.sharedSecretStorageService()
         val keyInfo = quadS.generateKeyWithPassphrase(
             UUID.randomUUID().toString(),
             "ssss_key",
             passphrase,
             EmptyKeySigner(),
-            null
+            null,
+            userName, isBsSpeke
         )
         storeSecret(session, keyInfo)
-    }
-
-    private suspend fun storeSecret(
-        session: Session,
-        keyInfo: SsssKeyCreationInfo
-    ) {
-        val secret =
-            extractCurveKeyFromRecoveryKey(keyInfo.recoveryKey)?.toBase64NoPadding() ?: return
-        session.sharedSecretStorageService().storeSecret(
-            name = KEYBACKUP_SECRET_SSSS_NAME,
-            secretBase64 = secret,
-            keys = listOf(KeyRef(keyInfo.keyId, keyInfo.keySpec))
-        )
-        session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
+        return keyInfo
     }
 
     suspend fun getRecoveryKeyFromPassphrase(
         context: Context,
         passphrase: String,
-        progressObserver: StepProgressListener
+        progressObserver: StepProgressListener,
+        isBsSpeke: Boolean
     ): String {
         val session = MatrixSessionProvider.currentSession
             ?: throw Exception(context.getString(R.string.session_is_not_created))
@@ -90,7 +85,8 @@ class SSSSDataSource(private val context: Context) {
                         StepProgressListener.Step.ComputingKey(progress, total)
                     )
                 }
-            }
+            },
+            isBsSpeke
         )
         val secret = getSecret(session, keyInfo, keySpec)
             ?: throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_passphrase))
@@ -120,6 +116,20 @@ class SSSSDataSource(private val context: Context) {
         return computeRecoveryKey(secret.fromBase64())
     }
 
+    private suspend fun storeSecret(
+        session: Session,
+        keyInfo: SsssKeyCreationInfo
+    ) {
+        val secret =
+            extractCurveKeyFromRecoveryKey(keyInfo.recoveryKey)?.toBase64NoPadding() ?: return
+        session.sharedSecretStorageService().storeSecret(
+            name = KEYBACKUP_SECRET_SSSS_NAME,
+            secretBase64 = secret,
+            keys = listOf(KeyRef(keyInfo.keyId, keyInfo.keySpec))
+        )
+        session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
+    }
+
     private fun getKeyInfo(session: Session, context: Context): KeyInfo {
         val keyInfoResult = session.sharedSecretStorageService().getDefaultKey()
         if (!keyInfoResult.isSuccess())
@@ -127,7 +137,6 @@ class SSSSDataSource(private val context: Context) {
 
         return (keyInfoResult as KeyInfoResult.Success).keyInfo
     }
-
 
     private suspend fun getSecret(
         session: Session,
