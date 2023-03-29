@@ -3,6 +3,8 @@ package org.futo.circles.core.matrix.pass_phrase.create
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
+import org.futo.circles.core.matrix.pass_phrase.restore.SSSSDataSource
+import org.futo.circles.feature.settings.active_sessions.bootstrap.CrossSigningDataSource
 import org.futo.circles.model.LoadingData
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
@@ -10,7 +12,11 @@ import org.matrix.android.sdk.api.session.crypto.keysbackup.MegolmBackupCreation
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
 import org.matrix.android.sdk.api.util.awaitCallback
 
-class CreatePassPhraseDataSource(private val context: Context) {
+class CreatePassPhraseDataSource(
+    private val context: Context,
+    private val ssssDataSource: SSSSDataSource,
+    private val crossSigningDataSource: CrossSigningDataSource
+) {
 
     private val keysBackupService by lazy {
         MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
@@ -28,6 +34,8 @@ class CreatePassPhraseDataSource(private val context: Context) {
             keysBackupService.prepareBcryptKeysBackupVersion(userName, passphrase, it)
         }
         createKeyBackup(backupCreationInfo)
+        ssssDataSource.storeIntoSSSSWithKey(backupCreationInfo.recoveryKey)
+        crossSigningDataSource.initCrossSigning()
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
@@ -62,7 +70,6 @@ class CreatePassPhraseDataSource(private val context: Context) {
     }
 
     private suspend fun getCurrentBackupVersion() =
-        awaitCallback { keysBackupService.getCurrentVersion(it) }
-            .toKeysVersionResult()
+        awaitCallback { keysBackupService.getCurrentVersion(it) }.toKeysVersionResult()
 }
 
