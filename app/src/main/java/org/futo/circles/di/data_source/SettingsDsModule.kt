@@ -16,7 +16,7 @@ val settingsDSModule = module {
     factory { SwitchUserDataSource() }
     factory { SettingsDataSource(get(), get(), get()) }
     factory { CreatePassPhraseDataSource(get(), get(), get()) }
-    factory { RestoreBackupDataSource(get(), get()) }
+    factory { RestoreBackupDataSource(get(), get(), get()) }
     factory { SSSSDataSource(get()) }
     factory { ChangePasswordDataSource(get(), get()) }
     factory { ActiveSessionsDataSource(get(), get()) }

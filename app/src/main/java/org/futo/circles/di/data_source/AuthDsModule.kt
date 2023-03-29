@@ -24,7 +24,7 @@ import org.koin.dsl.module
 val authDsModule = module {
     factory { LoginDataSource(get(), get()) }
     single { SignUpDataSource(get(), get(), get()) }
-    single { LoginStagesDataSource(get(), get(), get(), get()) }
+    single { LoginStagesDataSource(get(), get(), get()) }
     single { ReAuthStagesDataSource(get()) }
     factory { ValidateTokenDataSource(get()) }
     factory { SelectSignUpTypeDataSource(get(), get()) }
