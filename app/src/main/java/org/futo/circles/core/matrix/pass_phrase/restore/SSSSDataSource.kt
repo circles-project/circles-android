@@ -8,23 +8,62 @@ import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.crypto.crosssigning.KEYBACKUP_SECRET_SSSS_NAME
 import org.matrix.android.sdk.api.session.crypto.keysbackup.computeRecoveryKey
-import org.matrix.android.sdk.api.session.securestorage.KeyInfo
-import org.matrix.android.sdk.api.session.securestorage.KeyInfoResult
-import org.matrix.android.sdk.api.session.securestorage.RawBytesKeySpec
+import org.matrix.android.sdk.api.session.crypto.keysbackup.extractCurveKeyFromRecoveryKey
+import org.matrix.android.sdk.api.session.securestorage.*
 import org.matrix.android.sdk.api.util.fromBase64
+import org.matrix.android.sdk.api.util.toBase64NoPadding
+import java.util.*
 
-class SSSSRestoreDataSource {
+class SSSSDataSource(private val context: Context) {
 
     fun isBackupKeyInQuadS(): Boolean {
         val session = MatrixSessionProvider.currentSession ?: return false
         val sssBackupSecret = session.accountDataService().getUserAccountDataEvent(
             KEYBACKUP_SECRET_SSSS_NAME
         ) ?: return false
-
         val defaultKeyResult = session.sharedSecretStorageService().getDefaultKey()
         val keyInfo = (defaultKeyResult as? KeyInfoResult.Success)?.keyInfo ?: return false
-
         return (sssBackupSecret.content["encrypted"] as? Map<*, *>)?.containsKey(keyInfo.id) == true
+    }
+
+    suspend fun storeIntoSSSSWithKey(recoveryKey: String) {
+        val session = MatrixSessionProvider.currentSession
+            ?: throw Exception(context.getString(R.string.session_is_not_created))
+        val quadS = session.sharedSecretStorageService()
+        val keyInfo = quadS.generateKey(
+            UUID.randomUUID().toString(),
+            RawBytesKeySpec.fromRecoveryKey(recoveryKey),
+            "ssss_key",
+            EmptyKeySigner()
+        )
+        storeSecret(session, keyInfo)
+    }
+
+    suspend fun storeIntoSSSSWithPassphrase(passphrase: String) {
+        val session = MatrixSessionProvider.currentSession ?: return
+        val quadS = session.sharedSecretStorageService()
+        val keyInfo = quadS.generateKeyWithPassphrase(
+            UUID.randomUUID().toString(),
+            "ssss_key",
+            passphrase,
+            EmptyKeySigner(),
+            null
+        )
+        storeSecret(session, keyInfo)
+    }
+
+    private suspend fun storeSecret(
+        session: Session,
+        keyInfo: SsssKeyCreationInfo
+    ) {
+        val secret =
+            extractCurveKeyFromRecoveryKey(keyInfo.recoveryKey)?.toBase64NoPadding() ?: return
+        session.sharedSecretStorageService().storeSecret(
+            name = KEYBACKUP_SECRET_SSSS_NAME,
+            secretBase64 = secret,
+            keys = listOf(KeyRef(keyInfo.keyId, keyInfo.keySpec))
+        )
+        session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
     }
 
     suspend fun getRecoveryKeyFromPassphrase(
