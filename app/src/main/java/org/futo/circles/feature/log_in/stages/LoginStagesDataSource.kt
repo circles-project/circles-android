@@ -9,7 +9,6 @@ import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.matrix.room.CoreSpacesTreeBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
-import org.futo.circles.feature.settings.active_sessions.bootstrap.CrossSigningDataSource
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
@@ -82,7 +81,7 @@ class LoginStagesDataSource(
 
     suspend fun restoreBackup(password: String, isBsSpeke: Boolean = false): Response<Unit> {
         val restoreResult = createResult {
-            restoreBackupDataSource.restoreKeysWithPassPhase(password, "taras99",isBsSpeke)
+            restoreBackupDataSource.restoreKeysWithPassPhase(password, userName, isBsSpeke)
         }
         return handleRestoreResult(restoreResult)
     }
