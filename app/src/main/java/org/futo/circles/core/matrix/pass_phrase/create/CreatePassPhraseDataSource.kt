@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
 import org.futo.circles.core.matrix.pass_phrase.restore.SSSSDataSource
-import org.futo.circles.feature.settings.active_sessions.bootstrap.CrossSigningDataSource
+import org.futo.circles.feature.settings.active_sessions.CrossSigningDataSource
 import org.futo.circles.model.LoadingData
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion

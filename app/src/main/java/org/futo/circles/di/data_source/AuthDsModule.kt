@@ -8,7 +8,7 @@ import org.futo.circles.feature.log_in.stages.password.LoginBsSpekeDataSource
 import org.futo.circles.feature.log_in.stages.password.LoginPasswordDataSource
 import org.futo.circles.feature.log_in.stages.terms.LoginAcceptTermsDataSource
 import org.futo.circles.feature.reauth.ReAuthStagesDataSource
-import org.futo.circles.feature.settings.active_sessions.bootstrap.CrossSigningDataSource
+import org.futo.circles.feature.settings.active_sessions.CrossSigningDataSource
 import org.futo.circles.feature.sign_up.SignUpDataSource
 import org.futo.circles.feature.sign_up.password.SignupBsSpekeDataSource
 import org.futo.circles.feature.sign_up.password.SignupPasswordDataSource

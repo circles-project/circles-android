@@ -1,4 +1,4 @@
-package org.futo.circles.feature.settings.active_sessions.bootstrap
+package org.futo.circles.feature.settings.active_sessions
 
 import android.content.Context
 import org.futo.circles.R

@@ -5,7 +5,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
-import org.futo.circles.feature.settings.active_sessions.bootstrap.CrossSigningDataSource
+import org.futo.circles.feature.settings.active_sessions.CrossSigningDataSource
 import org.futo.circles.model.KeyData
 import org.futo.circles.model.LoadingData
 import org.futo.circles.provider.MatrixSessionProvider
