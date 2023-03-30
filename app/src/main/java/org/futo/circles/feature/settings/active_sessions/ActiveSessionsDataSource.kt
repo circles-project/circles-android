@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import org.futo.circles.R
 import org.futo.circles.core.ExpandableItemsDataSource
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
@@ -16,7 +15,6 @@ import org.futo.circles.model.SessionHeader
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
-import org.matrix.android.sdk.api.session.crypto.verification.VerificationMethod
 import org.matrix.android.sdk.api.util.awaitCallback
 
 class ActiveSessionsDataSource(
@@ -69,7 +67,7 @@ class ActiveSessionsDataSource(
                 deviceInfo = currentSession.first,
                 cryptoDeviceInfo = currentSession.second,
                 canVerify = !isCurrentSessionVerified && otherSessions.isNotEmpty(),
-                canEnableCrossSigning = !isCurrentSessionVerified,
+                isResetKeysVisible = !isCurrentSessionVerified,
                 isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.second.deviceId)
             )
         )
@@ -80,7 +78,7 @@ class ActiveSessionsDataSource(
                     deviceInfo = it.first,
                     cryptoDeviceInfo = it.second,
                     canVerify = isCurrentSessionVerified && it.second.trustLevel?.isCrossSigningVerified() != true,
-                    canEnableCrossSigning = false,
+                    isResetKeysVisible = false,
                     isOptionsVisible = sessionsWithVisibleOptions.contains(it.second.deviceId)
                 )
             }
@@ -95,7 +93,7 @@ class ActiveSessionsDataSource(
         }
     }
 
-    suspend fun enableCrossSigning(): Response<Unit> = createResult {
+    suspend fun resetKeysToEnableCrossSigning(): Response<Unit> = createResult {
         awaitCallback {
             session.cryptoService().crossSigningService().initializeCrossSigning(authConfirmationProvider, it)
         }

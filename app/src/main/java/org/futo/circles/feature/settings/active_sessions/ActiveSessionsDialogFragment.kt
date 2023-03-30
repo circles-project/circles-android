@@ -39,8 +39,8 @@ class ActiveSessionsDialogFragment :
                 )
             }
 
-            override fun onEnableCrossSigningClicked() {
-                withConfirmation(ConfirmationType.ENABLE_CROSS_SIGNING) { viewModel.enableCrossSigning() }
+            override fun onResetKeysClicked() {
+                withConfirmation(ConfirmationType.RESET_KEYS) { viewModel.resetKeysToEnableCrossSigning() }
             }
 
             override fun onRemoveSessionClicked(deviceId: String) {
@@ -71,7 +71,7 @@ class ActiveSessionsDialogFragment :
         viewModel.removeSessionLiveData.observeResponse(this,
             error = { showError(getString(R.string.invalid_auth)) }
         )
-        viewModel.enableCrossSigningLiveData.observeResponse(this,
+        viewModel.resetKeysLiveData.observeResponse(this,
             error = { showError(getString(R.string.invalid_auth)) }
         )
         viewModel.startReAuthEventLiveData.observeData(this) {

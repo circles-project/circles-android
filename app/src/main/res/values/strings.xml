@@ -255,8 +255,8 @@
     <string name="disabled">Disabled</string>
     <string name="confirm_auth">Confirm auth</string>
     <string name="confirm">Confirm</string>
-    <string name="enable_cross_signing">Enable Cross Signing</string>
-    <string name="enable_cross_signing_message">Confirm auth to enable cross signing</string>
+    <string name="reset_keys">Reset keys</string>
+    <string name="reset_keys_message">Confirm auth to reset keys and enable cross signing</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
     <string name="purchase_failed_format">Purchase failed with code %d</string>
@@ -421,6 +421,7 @@
     <string name="back_up_photos_and_videos_from_this_device_to_your_gallery">Back up photos and videos from this device to your Gallery</string>
     <string name="back_up_device_folders">Back up device folders</string>
     <string name="backup_folders_hint">Choose folders to backup and view in your Gallery:</string>
+    <string name="key_is_missing">The key is missing</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
