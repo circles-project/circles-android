@@ -35,7 +35,7 @@ class CreatePassPhraseDataSource(
         }
         createKeyBackup(backupCreationInfo)
         val keyData = ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, true)
-        crossSigningDataSource.initCrossSigning(keyData.keySpec)
+        crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 

@@ -15,14 +15,17 @@ import org.matrix.android.sdk.api.util.awaitCallback
 
 class CrossSigningDataSource(private val context: Context) {
 
-    suspend fun initCrossSigning(keySpec: SsssKeySpec) {
+    suspend fun initCrossSigningIfNeed(keySpec: SsssKeySpec) {
         val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
             context.getString(R.string.session_is_not_created)
         )
         val crossSigningService = session.cryptoService().crossSigningService()
-        if (!crossSigningService.isCrossSigningInitialized())
+        try {
+            session.sharedSecretStorageService().getSecret(MASTER_KEY_SSSS_NAME, null, keySpec)
+        } catch (ignore: Throwable) {
             awaitCallback { crossSigningService.initializeCrossSigning(null, it) }
-        storeKeys(session, keySpec)
+            storeKeys(session, keySpec)
+        }
     }
 
     suspend fun configureCrossSigning(keySpec: SsssKeySpec) {
@@ -31,6 +34,8 @@ class CrossSigningDataSource(private val context: Context) {
         )
         val keyId = (session.sharedSecretStorageService()
             .getDefaultKey() as? KeyInfoResult.Success)?.keyInfo?.id
+
+        initCrossSigningIfNeed(keySpec)
 
         val ssssService = session.sharedSecretStorageService()
         val mskPrivateKey =
