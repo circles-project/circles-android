@@ -34,8 +34,8 @@ class CreatePassPhraseDataSource(
             keysBackupService.prepareBcryptKeysBackupVersion(userName, passphrase, it)
         }
         createKeyBackup(backupCreationInfo)
-        ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, true)
-        crossSigningDataSource.initCrossSigning()
+        val keyData = ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, true)
+        crossSigningDataSource.initCrossSigning(keyData.keySpec)
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
