@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
 import org.futo.circles.feature.settings.active_sessions.bootstrap.CrossSigningDataSource
+import org.futo.circles.model.KeyData
 import org.futo.circles.model.LoadingData
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.StepProgressListener
@@ -67,33 +68,32 @@ class RestoreBackupDataSource(
         userName: String,
         isBsSpeke: Boolean = false
     ) {
-        val recoveryKey =
+        val keyData =
             if (!ssssDataSource.isBackupKeyInQuadS())
                 ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, isBsSpeke)
-                    .recoveryKey
             else
                 ssssDataSource.getRecoveryKeyFromPassphrase(
                     context, passphrase, progressObserver, isBsSpeke
                 )
-        restoreKeysWithRecoveryKey(recoveryKey)
+        restoreKeysWithRecoveryKey(keyData)
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
-    private suspend fun restoreKeysWithRecoveryKey(recoveryKey: String) {
+    private suspend fun restoreKeysWithRecoveryKey(keyData: KeyData) {
         val keysBackupService = getKeysBackupService()
         val keyVersion = getKeysVersion(keysBackupService)
         try {
             awaitCallback {
                 keysBackupService.restoreKeysWithRecoveryKey(
                     keyVersion,
-                    recoveryKey,
+                    keyData.recoveryKey,
                     null,
                     MatrixSessionProvider.currentSession?.myUserId,
                     progressObserver,
                     it
                 )
             }
-            crossSigningDataSource.configureCrossSigning(recoveryKey)
+            crossSigningDataSource.configureCrossSigning(keyData.keySpec)
             trustOnDecrypt(keysBackupService, keyVersion)
         } catch (e: Exception) {
             throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_key))
@@ -103,10 +103,10 @@ class RestoreBackupDataSource(
 
     suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
         val key = readRecoveryKeyFile(uri)
-        val recoveryKey =
-            if (!ssssDataSource.isBackupKeyInQuadS()) ssssDataSource.storeIntoSSSSWithKey(key).recoveryKey
+        val keyData =
+            if (!ssssDataSource.isBackupKeyInQuadS()) ssssDataSource.storeIntoSSSSWithKey(key)
             else ssssDataSource.getRecoveryKeyFromFileKey(context, key, progressObserver)
-        restoreKeysWithRecoveryKey(recoveryKey)
+        restoreKeysWithRecoveryKey(keyData)
     }
 
     @SuppressLint("Recycle")

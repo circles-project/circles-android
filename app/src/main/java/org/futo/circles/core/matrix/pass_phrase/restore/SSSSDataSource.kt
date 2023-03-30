@@ -2,6 +2,7 @@ package org.futo.circles.core.matrix.pass_phrase.restore
 
 import android.content.Context
 import org.futo.circles.R
+import org.futo.circles.model.KeyData
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.ProgressListener
 import org.matrix.android.sdk.api.listeners.StepProgressListener
@@ -26,7 +27,7 @@ class SSSSDataSource(private val context: Context) {
         return (sssBackupSecret.content["encrypted"] as? Map<*, *>)?.containsKey(keyInfo.id) == true
     }
 
-    suspend fun storeIntoSSSSWithKey(recoveryKey: String): SsssKeyCreationInfo {
+    suspend fun storeIntoSSSSWithKey(recoveryKey: String): KeyData {
         val session = MatrixSessionProvider.currentSession
             ?: throw Exception(context.getString(R.string.session_is_not_created))
         val quadS = session.sharedSecretStorageService()
@@ -37,14 +38,14 @@ class SSSSDataSource(private val context: Context) {
             EmptyKeySigner()
         )
         storeSecret(session, keyInfo)
-        return keyInfo
+        return KeyData(keyInfo.recoveryKey, keyInfo.keySpec)
     }
 
     suspend fun storeIntoSSSSWithPassphrase(
         passphrase: String,
         userName: String,
         isBsSpeke: Boolean
-    ): SsssKeyCreationInfo {
+    ): KeyData {
         val session = MatrixSessionProvider.currentSession
             ?: throw Exception(context.getString(R.string.session_is_not_created))
         val quadS = session.sharedSecretStorageService()
@@ -57,7 +58,7 @@ class SSSSDataSource(private val context: Context) {
             userName, isBsSpeke
         )
         storeSecret(session, keyInfo)
-        return keyInfo
+        return KeyData(keyInfo.recoveryKey, keyInfo.keySpec)
     }
 
     suspend fun getRecoveryKeyFromPassphrase(
@@ -65,7 +66,7 @@ class SSSSDataSource(private val context: Context) {
         passphrase: String,
         progressObserver: StepProgressListener,
         isBsSpeke: Boolean
-    ): String {
+    ): KeyData {
         val session = MatrixSessionProvider.currentSession
             ?: throw Exception(context.getString(R.string.session_is_not_created))
 
@@ -91,14 +92,14 @@ class SSSSDataSource(private val context: Context) {
         val secret = getSecret(session, keyInfo, keySpec)
             ?: throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_passphrase))
 
-        return computeRecoveryKey(secret.fromBase64())
+        return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
     }
 
     suspend fun getRecoveryKeyFromFileKey(
         context: Context,
         recoveryKey: String,
         progressObserver: StepProgressListener
-    ): String {
+    ): KeyData {
         val session = MatrixSessionProvider.currentSession
             ?: throw Exception(context.getString(R.string.session_is_not_created))
 
@@ -113,7 +114,7 @@ class SSSSDataSource(private val context: Context) {
         val secret = getSecret(session, keyInfo, keySpec)
             ?: throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_key))
 
-        return computeRecoveryKey(secret.fromBase64())
+        return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
     }
 
     private suspend fun storeSecret(

@@ -9,6 +9,7 @@ import org.matrix.android.sdk.api.session.crypto.crosssigning.USER_SIGNING_KEY_S
 import org.matrix.android.sdk.api.session.crypto.crosssigning.isVerified
 import org.matrix.android.sdk.api.session.securestorage.KeyInfoResult
 import org.matrix.android.sdk.api.session.securestorage.RawBytesKeySpec
+import org.matrix.android.sdk.api.session.securestorage.SsssKeySpec
 import org.matrix.android.sdk.api.util.awaitCallback
 
 class CrossSigningDataSource(private val context: Context) {
@@ -23,16 +24,12 @@ class CrossSigningDataSource(private val context: Context) {
     }
 
 
-    suspend fun configureCrossSigning(recoveryKey: String) {
+    suspend fun configureCrossSigning(keySpec: SsssKeySpec) {
         val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
             context.getString(R.string.session_is_not_created)
         )
         val keyId = (session.sharedSecretStorageService()
             .getDefaultKey() as? KeyInfoResult.Success)?.keyInfo?.id
-        val keySpec =
-            RawBytesKeySpec.fromRecoveryKey(recoveryKey) ?: throw IllegalArgumentException(
-                context.getString(R.string.backup_could_not_be_decrypted_with_key)
-            )
 
         val ssssService = session.sharedSecretStorageService()
         val mskPrivateKey =
