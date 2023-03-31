@@ -422,6 +422,11 @@
     <string name="back_up_device_folders">Back up device folders</string>
     <string name="backup_folders_hint">Choose folders to backup and view in your Gallery:</string>
     <string name="key_is_missing">The key is missing</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="shake_detected_message">Would you like to open the bug report screen?</string>
+    <string name="shake_detected">Shake detected</string>
+    <string name="bug_report">Bug report</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

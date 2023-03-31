@@ -162,6 +162,9 @@ dependencies {
     //Mentions autocomplete
     implementation "com.otaliastudios:autocomplete:1.1.0"
 
+    //Shake detection
+    implementation 'com.squareup:seismic:1.0.3'
+
     //test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
