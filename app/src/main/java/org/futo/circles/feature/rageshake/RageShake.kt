@@ -1,6 +1,5 @@
 package org.futo.circles.feature.rageshake
 
-import android.app.Activity
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.VibrationEffect
