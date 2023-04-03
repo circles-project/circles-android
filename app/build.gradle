@@ -29,7 +29,7 @@ android {
         debug {
             minifyEnabled false
             buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
-            buildConfigField "String", "EU_SERVER_DOMAIN", "\"conduit.circles-dev.net\""
+            buildConfigField "String", "EU_SERVER_DOMAIN", "\"matrix.org\""
         }
         release {
             minifyEnabled true
