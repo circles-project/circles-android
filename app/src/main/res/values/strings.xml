@@ -430,7 +430,6 @@
     <string name="send_screenshot">Send screenshot</string>
     <string name="logs_from_this_client_will_be_sent_with_bug_report">Logs from this client will be sent with bug report</string>
     <string name="send_logs">Send logs</string>
-    <string name="contact_info">Contact Info</string>
     <string name="describe_your_problem_here">Describe your problem here</string>
     <string name="description">Description</string>
 
