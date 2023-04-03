@@ -3,6 +3,7 @@ package org.futo.circles.di.ui
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
 import org.futo.circles.feature.people.user.UserViewModel
+import org.futo.circles.feature.rageshake.BugReportViewModel
 import org.futo.circles.feature.settings.SettingsViewModel
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
 import org.futo.circles.feature.settings.active_sessions.verify.VerifySessionViewModel
@@ -35,4 +36,5 @@ val settingsUiModule = module {
     viewModel { UsernameViewModel(get()) }
     viewModel { (deviceId: String) -> VerifySessionViewModel(deviceId, get()) }
     viewModel { ShareProfileViewModel() }
+    viewModel { BugReportViewModel(get()) }
 }
