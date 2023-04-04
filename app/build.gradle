@@ -30,12 +30,14 @@ android {
             minifyEnabled false
             buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
             buildConfigField "String", "EU_SERVER_DOMAIN", "\"matrix.org\""
+            buildConfigField "String", "RAGESHAKE_URL", "\"https://rageshake.nl.circles-dev.net/bugreports/submit\""
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "US_SERVER_DOMAIN", "\"circu.li\""
             buildConfigField "String", "EU_SERVER_DOMAIN", "\"eu.circu.li\""
+            buildConfigField "String", "RAGESHAKE_URL", "\"https://rageshake.nl.circles-dev.net/bugreports/submit\""
         }
     }
 
