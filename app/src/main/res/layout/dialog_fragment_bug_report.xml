@@ -218,7 +218,9 @@
                 android:id="@+id/ivScreenshot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:maxHeight="350dp"
+                android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 app:layout_constraintStart_toStartOf="@id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@id/lScreenshot" />

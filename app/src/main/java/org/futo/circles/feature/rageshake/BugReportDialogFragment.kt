@@ -57,6 +57,11 @@ class BugReportDialogFragment :
                 dismiss()
             }
         )
+        viewModel.screenshotLiveData.observeData(this) { bitmap ->
+            binding.lScreenshot.setIsVisible(bitmap != null)
+            binding.svScreenshot.isChecked = bitmap != null
+            bitmap?.let { binding.ivScreenshot.setImageBitmap(bitmap) }
+        }
     }
 
     private fun validateInput() {

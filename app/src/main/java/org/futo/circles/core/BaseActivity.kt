@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.ContextWrapper
 import androidx.appcompat.app.AppCompatActivity
 import org.futo.circles.extensions.disableScreenScale
+import org.futo.circles.feature.rageshake.BugReportDataCollector
 import org.futo.circles.feature.rageshake.RageShake
+import org.koin.android.ext.android.inject
 
 abstract class BaseActivity(contentLayoutId: Int) : AppCompatActivity(contentLayoutId) {
 
-    private val rageShake by lazy { RageShake(this) }
+    private val bugReportDataCollector by inject<BugReportDataCollector>()
+    private val rageShake by lazy { RageShake(this, bugReportDataCollector) }
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(ContextWrapper(newBase.disableScreenScale()))
     }
