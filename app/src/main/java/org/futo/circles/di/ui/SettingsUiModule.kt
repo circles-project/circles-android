@@ -36,5 +36,5 @@ val settingsUiModule = module {
     viewModel { UsernameViewModel(get()) }
     viewModel { (deviceId: String) -> VerifySessionViewModel(deviceId, get()) }
     viewModel { ShareProfileViewModel() }
-    viewModel { BugReportViewModel(get()) }
+    viewModel { BugReportViewModel(get(), get()) }
 }

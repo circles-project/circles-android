@@ -4,6 +4,8 @@ import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSourc
 import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.matrix.pass_phrase.restore.SSSSDataSource
 import org.futo.circles.feature.log_in.switch_user.SwitchUserDataSource
+import org.futo.circles.feature.rageshake.BugReportDataCollector
+import org.futo.circles.feature.rageshake.BugReportDataSource
 import org.futo.circles.feature.settings.SettingsDataSource
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsDataSource
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
@@ -21,4 +23,6 @@ val settingsDSModule = module {
     factory { ChangePasswordDataSource(get(), get()) }
     factory { ActiveSessionsDataSource(get(), get()) }
     factory { UsernameDataSource(get()) }
+    single { BugReportDataCollector(get()) }
+    factory { BugReportDataSource(get()) }
 }
