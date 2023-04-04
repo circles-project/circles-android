@@ -432,6 +432,7 @@
     <string name="send_logs">Send logs</string>
     <string name="describe_your_problem_here">Describe your problem here</string>
     <string name="description">Description</string>
+    <string name="rage_shake_report">Rageshake report</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
