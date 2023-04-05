@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity
 import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.futo.circles.extensions.getAllChildFragments
+import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
 import java.io.File
 import java.io.IOException
@@ -31,6 +32,7 @@ class BugReportDataCollector(private val context: Context) {
         val map = mutableMapOf<String, Any>(
             "app" to context.getString(R.string.app_name),
             "label" to context.getString(R.string.rage_shake_report),
+            "user_agent" to MatrixInstanceProvider.matrix.getUserAgent(),
             "platform" to "Android",
             "version" to BuildConfig.VERSION_NAME,
             "flavour" to BuildConfig.FLAVOR,
