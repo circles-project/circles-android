@@ -3,7 +3,7 @@ package org.futo.circles.feature.notifications
 import android.content.Context
 import org.futo.circles.R
 import org.futo.circles.core.PUSHER_APP_ID
-import org.futo.circles.core.PUSHER_URL
+import org.futo.circles.core.utils.ConfigUtils.getPusherUrl
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.pushers.HttpPusher
 import org.unifiedpush.android.connector.UnifiedPush
@@ -17,7 +17,7 @@ class PushersManager(private val context: Context, private val fcmHelper: FcmHel
 
     suspend fun testPush() {
         MatrixSessionProvider.currentSession?.pushersService()?.testPush(
-            PUSHER_URL,
+            getPusherUrl(),
             PUSHER_APP_ID,
             fcmHelper.getFcmToken().orEmpty(),
             TEST_EVENT_ID
@@ -52,7 +52,7 @@ class PushersManager(private val context: Context, private val fcmHelper: FcmHel
         Locale.getDefault().language,
         context.getString(R.string.app_name),
         MatrixSessionProvider.currentSession?.sessionParams?.deviceId ?: DEFAULT_PUSHER_FILE_TAG,
-        PUSHER_URL,
+        getPusherUrl(),
         enabled = true,
         deviceId = MatrixSessionProvider.currentSession?.sessionParams?.deviceId
             ?: DEFAULT_PUSHER_FILE_TAG,
