@@ -35,7 +35,7 @@ const val PUSHER_APP_ID = "${BuildConfig.APPLICATION_ID}.android"
 
 const val READ_ONLY_ROLE = -10
 
-const val US_RAGESHAKE_URL = "https://rageshake.nl.circles-dev.net/bugreports/submit"
-const val EU_RAGESHAKE_URL = "https://rageshake.nl.circles-dev.net/bugreports/submit"
-const val DEBUG_RAGESHAKE_URL = "https://rageshake.nl.circles-dev.net/bugreports/submit"
+const val US_RAGESHAKE_URL = "https://rageshake.nl.circles-dev.net/bugreports/submit/"
+const val EU_RAGESHAKE_URL = "https://rageshake.nl.circles-dev.net/bugreports/submit/"
+const val DEBUG_RAGESHAKE_URL = "https://rageshake.nl.circles-dev.net/bugreports/submit/"
 
