@@ -1,7 +1,7 @@
 package org.futo.circles.di.api
 
 import okhttp3.OkHttpClient
-import org.futo.circles.io.CirclesApiService
+import org.futo.circles.io.BugreportApiService
 import org.koin.dsl.module
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -19,6 +19,6 @@ val apiModule = module {
     }
 
     single {
-        get<Retrofit>().create(CirclesApiService::class.java)
+        get<Retrofit>().create(BugreportApiService::class.java)
     }
 }
