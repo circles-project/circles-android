@@ -13,6 +13,6 @@ interface BugreportApiService {
     @POST
     suspend fun sendBugReport(
         @Url url: String,
-        @PartMap map: Map<String, RequestBody>
+        @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>
     ): ResponseBody
 }
