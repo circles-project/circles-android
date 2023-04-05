@@ -7,11 +7,16 @@ import android.os.Build
 import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.futo.circles.extensions.getAllChildFragments
 import org.futo.circles.provider.MatrixInstanceProvider
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.util.MimeTypes
 import java.io.File
 import java.io.IOException
 import java.io.OutputStreamWriter
@@ -27,30 +32,39 @@ class BugReportDataCollector(private val context: Context) {
         contactInfo: String,
         sendLogs: Boolean,
         sendScreenshot: Boolean
-    ): Map<String, Any> {
+    ): Map<String, RequestBody> {
         val session = MatrixSessionProvider.currentSession
-        val map = mutableMapOf<String, Any>(
-            "app" to context.getString(R.string.app_name),
-            "label" to context.getString(R.string.rage_shake_report),
-            "user_agent" to MatrixInstanceProvider.matrix.getUserAgent(),
-            "platform" to "Android",
-            "version" to BuildConfig.VERSION_NAME,
-            "flavour" to BuildConfig.FLAVOR,
-            "build_type" to BuildConfig.BUILD_TYPE,
-            "user_id" to (session?.myUserId ?: ""),
-            "device_id" to (session?.sessionParams?.deviceId ?: ""),
-            "home_server_url" to (session?.sessionParams?.homeServerUrl ?: ""),
-            "text" to description,
-            "email" to contactInfo,
-            "device" to Build.MODEL.trim(),
-            "os" to Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ") " +
-                    Build.VERSION.INCREMENTAL + "-" + Build.VERSION.CODENAME
+        val map = mutableMapOf(
+            "app" to context.getString(R.string.app_name).toTextRequestBody(),
+            "label" to context.getString(R.string.rage_shake_report).toTextRequestBody(),
+            "user_agent" to MatrixInstanceProvider.matrix.getUserAgent().toTextRequestBody(),
+            "platform" to "Android".toTextRequestBody(),
+            "version" to BuildConfig.VERSION_NAME.toTextRequestBody(),
+            "flavour" to BuildConfig.FLAVOR.toTextRequestBody(),
+            "build_type" to BuildConfig.BUILD_TYPE.toTextRequestBody(),
+            "user_id" to (session?.myUserId ?: "").toTextRequestBody(),
+            "device_id" to (session?.sessionParams?.deviceId ?: "").toTextRequestBody(),
+            "home_server_url" to (session?.sessionParams?.homeServerUrl ?: "").toTextRequestBody(),
+            "text" to description.toTextRequestBody(),
+            "email" to contactInfo.toTextRequestBody(),
+            "device" to Build.MODEL.trim().toTextRequestBody(),
+            "os" to (Build.VERSION.RELEASE + " (API " + Build.VERSION.SDK_INT + ") " +
+                    Build.VERSION.INCREMENTAL + "-" + Build.VERSION.CODENAME).toTextRequestBody()
 
         )
-        if (sendLogs) saveLogCat()?.let { map["compressed-log"] = it }
-        if (sendScreenshot) saveScreenshot()?.let { map["file"] = it }
+        if (sendLogs)
+            saveLogCat()?.let {
+                map["compressed-log\"; filename=\"${it.name}\" "] =
+                    it.asRequestBody(MimeTypes.OctetStream.toMediaTypeOrNull())
+            }
+        if (sendScreenshot) saveScreenshot()?.let {
+            map["file\"; filename=\"${it.name}\" "] =
+                it.asRequestBody(MimeTypes.OctetStream.toMediaTypeOrNull())
+        }
         return map
     }
+
+    private fun String.toTextRequestBody() = toRequestBody(MimeTypes.PlainText.toMediaTypeOrNull())
 
     private fun saveLogCat(): File? {
         val logCatErrFile = File(context.cacheDir.absolutePath, LOG_CAT_FILENAME)
