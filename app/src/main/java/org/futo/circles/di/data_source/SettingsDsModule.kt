@@ -24,5 +24,5 @@ val settingsDSModule = module {
     factory { ActiveSessionsDataSource(get(), get()) }
     factory { UsernameDataSource(get()) }
     single { BugReportDataCollector(get()) }
-    factory { BugReportDataSource(get()) }
+    factory { BugReportDataSource(get(), get()) }
 }
