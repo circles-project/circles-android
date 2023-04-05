@@ -10,11 +10,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.squareup.seismic.ShakeDetector
 import org.futo.circles.R
 
-class RageShake(private val activity: AppCompatActivity) : ShakeDetector.Listener {
+class RageShake(
+    private val activity: AppCompatActivity,
+    private val bugReportDataCollector: BugReportDataCollector
+) : ShakeDetector.Listener {
 
     private var shakeDetector: ShakeDetector? = null
     private var dialogDisplayed = false
-
 
     fun start() {
         val sensorManager = activity.getSystemService<SensorManager>() ?: return
@@ -38,10 +40,10 @@ class RageShake(private val activity: AppCompatActivity) : ShakeDetector.Listene
             .setOnDismissListener { dialogDisplayed = false }
             .setNegativeButton(R.string.no, null)
             .show()
-
     }
 
     private fun openBugReportScreen() {
+        bugReportDataCollector.takeScreenshot(activity)
         BugReportDialogFragment.show(activity)
     }
 

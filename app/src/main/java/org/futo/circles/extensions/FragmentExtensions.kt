@@ -134,3 +134,7 @@ fun Fragment.openNotificationSettings() {
         requireActivity().startActivity(intent)
     } else openAppSettings()
 }
+
+fun Fragment.getAllChildFragments(): List<Fragment> {
+    return listOf(this) + childFragmentManager.fragments.map { it.getAllChildFragments() }.flatten()
+}

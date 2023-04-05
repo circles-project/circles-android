@@ -30,8 +30,15 @@ const val TYPE_PARAM_KEY = "type"
 
 const val CREATE_ROOM_DELAY = 1000L
 
-const val PUSHER_URL = "https://sygnal.nl.circles-dev.net/_matrix/push/v1/notify"
+const val US_PUSHER_URL = "https://sygnal.nl.circles-dev.net/_matrix/push/v1/notify"
+const val EU_PUSHER_URL = "https://sygnal.nl.circles-dev.net/_matrix/push/v1/notify"
+const val DEBUG_PUSHER_URL = "https://sygnal.nl.circles-dev.net/_matrix/push/v1/notify"
+
 const val PUSHER_APP_ID = "${BuildConfig.APPLICATION_ID}.android"
 
 const val READ_ONLY_ROLE = -10
+
+const val US_RAGESHAKE_URL = "https://rageshake.nl.circles-dev.net/bugreports/submit/"
+const val EU_RAGESHAKE_URL = "https://rageshake.nl.circles-dev.net/bugreports/submit/"
+const val DEBUG_RAGESHAKE_URL = "https://rageshake.nl.circles-dev.net/bugreports/submit/"
 

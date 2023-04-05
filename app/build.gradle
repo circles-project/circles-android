@@ -29,7 +29,7 @@ android {
         debug {
             minifyEnabled false
             buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
-            buildConfigField "String", "EU_SERVER_DOMAIN", "\"conduit.circles-dev.net\""
+            buildConfigField "String", "EU_SERVER_DOMAIN", "\"matrix.org\""
         }
         release {
             minifyEnabled true
@@ -134,7 +134,9 @@ dependencies {
     implementation "com.vanniktech:emoji-google:0.15.0"
 
     //Retrofit2
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    def retrofit_version = '2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     //Gson
     implementation 'com.google.code.gson:gson:2.10'

@@ -427,6 +427,12 @@
     <string name="shake_detected_message">Would you like to open the bug report screen?</string>
     <string name="shake_detected">Shake detected</string>
     <string name="bug_report">Bug report</string>
+    <string name="send_screenshot">Send screenshot</string>
+    <string name="logs_from_this_client_will_be_sent_with_bug_report">Logs from this client will be sent with bug report</string>
+    <string name="send_logs">Send logs</string>
+    <string name="describe_your_problem_here">Describe your problem here</string>
+    <string name="description">Description</string>
+    <string name="rage_shake_report">Rageshake report</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

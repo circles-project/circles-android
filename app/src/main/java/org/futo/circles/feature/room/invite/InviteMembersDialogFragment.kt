@@ -14,7 +14,6 @@ import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.room.select_users.SelectUsersFragment
 import org.futo.circles.feature.room.select_users.SelectUsersListener
-import org.futo.circles.model.UserListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
