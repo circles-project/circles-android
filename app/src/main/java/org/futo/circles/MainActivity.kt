@@ -27,9 +27,14 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     private fun syncSessionIfCashWasCleared() {
-        val isClearCashReload = intent?.getBooleanExtra(IS_CLEAR_CACHE, false) ?: false
-        if (isClearCashReload) MatrixSessionProvider.currentSession?.syncService()?.startSync(true)
-        intent?.removeExtra(IS_CLEAR_CACHE)
+        lifecycleScope.launch(Dispatchers.Main) {
+            val isClearCashReload = intent?.getBooleanExtra(IS_CLEAR_CACHE, false) ?: false
+            if (isClearCashReload) {
+                delay(500L)
+                MatrixSessionProvider.currentSession?.syncService()?.startSync(true)
+                intent?.removeExtra(IS_CLEAR_CACHE)
+            }
+        }
     }
 
     private fun createRestartIntent(): Intent {
