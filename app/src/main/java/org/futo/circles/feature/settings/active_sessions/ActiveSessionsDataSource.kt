@@ -16,6 +16,7 @@ import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
 import org.matrix.android.sdk.api.util.awaitCallback
+import java.util.concurrent.TimeUnit
 
 class ActiveSessionsDataSource(
     private val context: Context,
@@ -73,8 +74,9 @@ class ActiveSessionsDataSource(
         )
         if (otherSessions.isNotEmpty()) {
             sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
-            sessionsList.addAll(otherSessions.map {
-                ActiveSession(
+            sessionsList.addAll(otherSessions.mapNotNull {
+                if (isSessionInactive(it.first.lastSeenTs)) null
+                else ActiveSession(
                     deviceInfo = it.first,
                     cryptoDeviceInfo = it.second,
                     canVerify = isCurrentSessionVerified && it.second.trustLevel?.isCrossSigningVerified() != true,
@@ -95,8 +97,21 @@ class ActiveSessionsDataSource(
 
     suspend fun resetKeysToEnableCrossSigning(): Response<Unit> = createResult {
         awaitCallback {
-            session.cryptoService().crossSigningService().initializeCrossSigning(authConfirmationProvider, it)
+            session.cryptoService().crossSigningService()
+                .initializeCrossSigning(authConfirmationProvider, it)
         }
+    }
+
+    private fun isSessionInactive(lastSeenTsMillis: Long?): Boolean =
+        if (lastSeenTsMillis == null || lastSeenTsMillis <= 0) {
+            false
+        } else {
+            val diffMilliseconds = System.currentTimeMillis() - lastSeenTsMillis
+            diffMilliseconds >= TimeUnit.DAYS.toMillis(SESSION_IS_MARKED_AS_INACTIVE_AFTER_DAYS)
+        }
+
+    companion object {
+        private const val SESSION_IS_MARKED_AS_INACTIVE_AFTER_DAYS = 30L
     }
 
 }
