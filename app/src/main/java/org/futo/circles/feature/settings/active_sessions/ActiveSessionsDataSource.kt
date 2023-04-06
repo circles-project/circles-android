@@ -58,6 +58,7 @@ class ActiveSessionsDataSource(
             devicesList.firstOrNull { it.second.deviceId == MatrixSessionProvider.currentSession?.sessionParams?.deviceId }
                 ?: return emptyList()
         val otherSessions = devicesList.toMutableList().apply { remove(currentSession) }
+            .filter { !isSessionInactive(it.first.lastSeenTs) }
         val isCurrentSessionVerified =
             currentSession.second.trustLevel?.isCrossSigningVerified() == true
 
@@ -74,9 +75,8 @@ class ActiveSessionsDataSource(
         )
         if (otherSessions.isNotEmpty()) {
             sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
-            sessionsList.addAll(otherSessions.mapNotNull {
-                if (isSessionInactive(it.first.lastSeenTs)) null
-                else ActiveSession(
+            sessionsList.addAll(otherSessions.map {
+                ActiveSession(
                     deviceInfo = it.first,
                     cryptoDeviceInfo = it.second,
                     canVerify = isCurrentSessionVerified && it.second.trustLevel?.isCrossSigningVerified() != true,
