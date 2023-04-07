@@ -2,6 +2,7 @@ package org.futo.circles.feature.blurhash
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.util.Base64
 import com.bumptech.glide.Glide
@@ -19,7 +20,7 @@ object ThumbHash {
     private const val MAX_WIDTH = 100
     private const val MAX_HEIGHT = 100
 
-    private suspend fun getThumbHash(context: Context, uri: Uri): String {
+    suspend fun getThumbHash(context: Context, uri: Uri): String {
         val initialBitmap = withContext(Dispatchers.IO) {
             Glide.with(context)
                 .asBitmap()
@@ -30,12 +31,36 @@ object ThumbHash {
                 .submit()
                 .get()
         }
-        val argbBitmap =
-            Bitmap.createBitmap(initialBitmap.width, initialBitmap.height, Bitmap.Config.ARGB_8888)
-        val buffer = ByteBuffer.allocate(argbBitmap.byteCount)
-        argbBitmap.copyPixelsToBuffer(buffer)
-        val hashBytes = rgbaToThumbHash(argbBitmap.width, argbBitmap.height, buffer.array())
+        val argbBytes = bitmapToRgbaByteArray(initialBitmap)
+        val hashBytes = rgbaToThumbHash(initialBitmap.width, initialBitmap.height, argbBytes)
         return Base64.encodeToString(hashBytes, Base64.DEFAULT)
+    }
+
+    fun getBitmapFromHash(hash: String, fullWidth: Int? = null, fullHeight: Int? = null): Bitmap {
+        val image = thumbHashToRGBA(Base64.decode(hash, Base64.DEFAULT))
+        val bmp = Bitmap.createBitmap(image.width, image.height, Bitmap.Config.ARGB_8888)
+        bmp.copyPixelsFromBuffer(ByteBuffer.wrap(image.rgba))
+        fullWidth ?: return bmp
+        fullHeight ?: return bmp
+        return Bitmap.createScaledBitmap(bmp, fullWidth, fullHeight, true)
+    }
+
+    private fun bitmapToRgbaByteArray(bitmap: Bitmap): ByteArray {
+        val width = bitmap.width
+        val height = bitmap.height
+        val pixels = IntArray(width * height)
+
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        val rgbaBytes = ByteArray(pixels.size * 4)
+        for (i in pixels.indices) {
+            val pixel = pixels[i]
+            rgbaBytes[i * 4] = Color.red(pixel).toByte()
+            rgbaBytes[i * 4 + 1] = Color.green(pixel).toByte()
+            rgbaBytes[i * 4 + 2] = Color.blue(pixel).toByte()
+            rgbaBytes[i * 4 + 3] = Color.alpha(pixel).toByte()
+        }
+        return rgbaBytes
     }
 
     private fun rgbaToThumbHash(w: Int, h: Int, rgba: ByteArray): ByteArray {
