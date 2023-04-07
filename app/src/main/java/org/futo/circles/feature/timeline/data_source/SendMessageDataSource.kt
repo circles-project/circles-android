@@ -10,7 +10,6 @@ import org.futo.circles.mapping.MediaCaptionFieldKey
 import org.futo.circles.mapping.ThumbHashFieldKey
 import org.futo.circles.model.CreatePollContent
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.content.ContentAttachmentData
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
@@ -57,25 +56,17 @@ class SendMessageDataSource(private val context: Context) {
         val additionalContent = mutableMapOf<String, Any>()
         caption?.let { additionalContent[MediaCaptionFieldKey] = it }
         additionalContent[ThumbHashFieldKey] = ThumbHash.getThumbHash(context, uri)
-        threadEventId?.let {
-            sendMediaReply(roomForMessage, content, shouldCompress, it)
-        } ?: roomForMessage.sendService().sendMedia(
+        val replyToContent = threadEventId?.let {
+            RelationDefaultContent(null, null, ReplyToContent(it))
+        }
+        roomForMessage.sendService().sendMedia(
             content,
             shouldCompress,
             emptySet(),
-            additionalContent = additionalContent
+            null,
+            replyToContent,
+            additionalContent
         )
-    }
-
-    private fun sendMediaReply(
-        roomForMessage: Room,
-        content: ContentAttachmentData,
-        shouldCompress: Boolean,
-        threadEventId: String
-    ) {
-        val replyToContent = RelationDefaultContent(null, null, ReplyToContent(threadEventId))
-        roomForMessage.sendService()
-            .sendMedia(content, shouldCompress, emptySet(), null, replyToContent)
     }
 
     fun createPoll(roomId: String, pollContent: CreatePollContent) {
