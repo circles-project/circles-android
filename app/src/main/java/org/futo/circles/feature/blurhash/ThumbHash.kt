@@ -1,5 +1,14 @@
 package org.futo.circles.feature.blurhash
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.util.Base64
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.nio.ByteBuffer
 import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
@@ -7,8 +16,30 @@ import kotlin.math.roundToInt
 
 object ThumbHash {
 
-    fun rgbaToThumbHash(w: Int, h: Int, rgba: ByteArray): ByteArray {
-        require(!(w > 100 || h > 100)) { w.toString() + "x" + h + " doesn't fit in 100x100" }
+    private const val MAX_WIDTH = 100
+    private const val MAX_HEIGHT = 100
+
+    private suspend fun getThumbHash(context: Context, uri: Uri): String {
+        val initialBitmap = withContext(Dispatchers.IO) {
+            Glide.with(context)
+                .asBitmap()
+                .load(uri)
+                .fitCenter()
+                .format(DecodeFormat.PREFER_ARGB_8888)
+                .override(MAX_WIDTH, MAX_HEIGHT)
+                .submit()
+                .get()
+        }
+        val argbBitmap =
+            Bitmap.createBitmap(initialBitmap.width, initialBitmap.height, Bitmap.Config.ARGB_8888)
+        val buffer = ByteBuffer.allocate(argbBitmap.byteCount)
+        argbBitmap.copyPixelsToBuffer(buffer)
+        val hashBytes = rgbaToThumbHash(argbBitmap.width, argbBitmap.height, buffer.array())
+        return Base64.encodeToString(hashBytes, Base64.DEFAULT)
+    }
+
+    private fun rgbaToThumbHash(w: Int, h: Int, rgba: ByteArray): ByteArray {
+        require(!(w > MAX_WIDTH || h > MAX_HEIGHT)) { w.toString() + "x" + h + " doesn't fit in 100x100" }
 
         var avgR = 0f
         var avgG = 0f
@@ -92,7 +123,7 @@ object ThumbHash {
     }
 
 
-    fun thumbHashToRGBA(hash: ByteArray): ThumbHashImage {
+    private fun thumbHashToRGBA(hash: ByteArray): ThumbHashImage {
         val header24 =
             hash[0].toInt() and 255 or (hash[1].toInt() and 255 shl 8) or (hash[2].toInt() and 255 shl 16)
         val header16 = hash[3].toInt() and 255 or (hash[4].toInt() and 255 shl 8)
@@ -210,7 +241,7 @@ object ThumbHash {
         return ThumbHashImage(w, h, rgba)
     }
 
-    fun thumbHashToAverageRGBA(hash: ByteArray): RGBA {
+    private fun thumbHashToAverageRGBA(hash: ByteArray): RGBA {
         val header =
             hash[0].toInt() and 255 or (hash[1].toInt() and 255 shl 8) or (hash[2].toInt() and 255 shl 16)
         val l = (header and 63).toFloat() / 63.0f
@@ -229,7 +260,7 @@ object ThumbHash {
         )
     }
 
-    fun thumbHashToApproximateAspectRatio(hash: ByteArray): Float {
+    private fun thumbHashToApproximateAspectRatio(hash: ByteArray): Float {
         val header = hash[3]
         val hasAlpha = hash[2].toInt() and 0x80 != 0
         val isLandscape = hash[4].toInt() and 0x80 != 0
