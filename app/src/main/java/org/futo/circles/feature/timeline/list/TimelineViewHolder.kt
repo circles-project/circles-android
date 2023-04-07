@@ -110,7 +110,11 @@ class TextMediaPostViewHolder(
                 height = size.height
             }
         }
-        content.mediaFileData.loadEncryptedIntoWithAspect(image, content.aspectRatio)
+        content.mediaFileData.loadEncryptedIntoWithAspect(
+            image,
+            content.aspectRatio,
+            content.mediaContentInfo.thumbHash
+        )
     }
 }
 
