@@ -5,7 +5,9 @@ import android.net.Uri
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.toImageContentAttachmentData
 import org.futo.circles.extensions.toVideoContentAttachmentData
+import org.futo.circles.feature.blurhash.ThumbHash
 import org.futo.circles.mapping.MediaCaptionFieldKey
+import org.futo.circles.mapping.ThumbHashFieldKey
 import org.futo.circles.model.CreatePollContent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.content.ContentAttachmentData
@@ -39,7 +41,7 @@ class SendMessageDataSource(private val context: Context) {
             .editTextMessage(event, MessageType.MSGTYPE_TEXT, message, null, false)
     }
 
-    fun sendMedia(
+    suspend fun sendMedia(
         roomId: String,
         uri: Uri,
         caption: String?,
@@ -52,13 +54,16 @@ class SendMessageDataSource(private val context: Context) {
             MediaType.Video -> uri.toVideoContentAttachmentData(context)
         } ?: return
         val shouldCompress = content.mimeType != WEBP_MIME_TYPE
+        val additionalContent = mutableMapOf<String, Any>()
+        caption?.let { additionalContent[MediaCaptionFieldKey] = it }
+        additionalContent[ThumbHashFieldKey] = ThumbHash.getThumbHash(context, uri)
         threadEventId?.let {
             sendMediaReply(roomForMessage, content, shouldCompress, it)
         } ?: roomForMessage.sendService().sendMedia(
             content,
             shouldCompress,
             emptySet(),
-            additionalContent = caption?.let { mapOf(MediaCaptionFieldKey to it) }
+            additionalContent = additionalContent
         )
     }
 

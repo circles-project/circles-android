@@ -65,15 +65,21 @@ class TimelineViewModel(
     }
 
     fun sendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?) {
-        when (postContent) {
-            is MediaPostContent -> sendMessageDataSource.sendMedia(
-                roomId, postContent.uri, postContent.caption, threadEventId, postContent.mediaType
-            )
-            is TextPostContent -> sendMessageDataSource.sendTextMessage(
-                roomId, postContent.text, threadEventId
-            )
+        launchBg {
+            when (postContent) {
+                is MediaPostContent -> sendMessageDataSource.sendMedia(
+                    roomId,
+                    postContent.uri,
+                    postContent.caption,
+                    threadEventId,
+                    postContent.mediaType
+                )
+                is TextPostContent -> sendMessageDataSource.sendTextMessage(
+                    roomId, postContent.text, threadEventId
+                )
+            }
+            if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
         }
-        if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
     }
 
     fun editTextPost(eventId: String, roomId: String, newMessage: String) {

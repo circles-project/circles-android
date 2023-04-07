@@ -16,7 +16,7 @@ import org.matrix.android.sdk.api.session.room.model.message.getFileUrl
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
 const val MediaCaptionFieldKey = "caption"
-
+const val ThumbHashFieldKey = "thumbHash"
 
 fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
     val messageContentInfo = root.getClearContent().let {

@@ -39,8 +39,10 @@ class GalleryViewModel(
     }
 
     fun uploadMedia(uri: Uri, mediaType: MediaType) {
-        sendMessageDataSource.sendMedia(roomId, uri, null,null, mediaType)
-        scrollToTopLiveData.postValue(Unit)
+        launchBg {
+            sendMessageDataSource.sendMedia(roomId, uri, null, null, mediaType)
+            scrollToTopLiveData.postValue(Unit)
+        }
     }
 
     fun deleteGallery() {
