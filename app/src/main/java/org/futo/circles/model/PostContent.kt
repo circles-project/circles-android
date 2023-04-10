@@ -1,5 +1,6 @@
 package org.futo.circles.model
 
+import android.graphics.Bitmap
 import android.util.Size
 import org.futo.circles.core.picker.MediaType
 import org.matrix.android.sdk.api.session.crypto.attachments.ElementToDecrypt
@@ -39,7 +40,8 @@ data class MediaContentInfo(
     val thumbnailUrl: String,
     val width: Int,
     val height: Int,
-    val duration: String
+    val duration: String,
+    val thumbHash: String?
 )
 
 data class MediaFileData(

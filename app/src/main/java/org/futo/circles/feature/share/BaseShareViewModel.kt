@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.Response
+import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 
 class BaseShareViewModel(
@@ -18,9 +19,11 @@ class BaseShareViewModel(
         selectedRoomsId: List<String>,
         mediaType: MediaType
     ) {
-        selectedRoomsId.forEach {
-            sendMessageDataSource.sendMedia(it, uri, null, null, mediaType)
+        launchBg {
+            selectedRoomsId.forEach {
+                sendMessageDataSource.sendMedia(it, uri, null, null, mediaType)
+            }
+            saveResultLiveData.postValue(Response.Success(Unit))
         }
-        saveResultLiveData.postValue(Response.Success(Unit))
     }
 }

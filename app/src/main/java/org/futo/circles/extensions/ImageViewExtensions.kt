@@ -1,6 +1,7 @@
 package org.futo.circles.extensions
 
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.Size
 import android.widget.ImageView
@@ -9,6 +10,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.R
+import org.futo.circles.feature.blurhash.ThumbHash
 import org.futo.circles.glide.GlideApp
 import org.futo.circles.model.MediaFileData
 import org.futo.circles.provider.MatrixSessionProvider
@@ -22,15 +24,27 @@ fun ImageView.loadImage(url: String?) {
 }
 
 fun ImageView.loadEncryptedImage(
-    content: MediaFileData, preferredSize: Size? = null, loadOriginalSize: Boolean = false
+    content: MediaFileData,
+    preferredSize: Size? = null,
+    loadOriginalSize: Boolean = false,
+    thumbHash: String? = null
 ) {
     val loadWidth = if (loadOriginalSize) Target.SIZE_ORIGINAL else preferredSize?.width ?: width
     val loadHeight = if (loadOriginalSize) Target.SIZE_ORIGINAL else preferredSize?.height ?: height
-
+    val placeholder = thumbHash?.let {
+        BitmapDrawable(
+            resources,
+            ThumbHash.getBitmapFromHash(
+                it,
+                loadWidth.takeIf { it > 0 },
+                loadHeight.takeIf { it > 0 })
+        )
+    }
     content.elementToDecrypt?.let {
         GlideApp
             .with(context)
             .load(content)
+            .placeholder(placeholder)
             .override(loadWidth, loadHeight)
             .fitCenter()
             .into(this)
