@@ -16,15 +16,14 @@ import org.matrix.android.sdk.api.session.room.model.message.getFileUrl
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
 const val MediaCaptionFieldKey = "caption"
-const val ThumbHashFieldKey = "thumbHash"
 
 fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
     val messageContentInfo = root.getClearContent().let {
         when (mediaType) {
             MediaType.Image -> it.toModel<MessageImageContent>()
-                .toMediaContentInfo(getCaption(), getThumbHash())
+                .toMediaContentInfo(getCaption())
             MediaType.Video -> it.toModel<MessageVideoContent>()
-                .toMediaContentInfo(getCaption(), getThumbHash())
+                .toMediaContentInfo(getCaption())
         }
     }
     return MediaContent(
@@ -34,35 +33,28 @@ fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
     )
 }
 
-private fun TimelineEvent.getThumbHash() =
-    root.getClearContent()?.get(ThumbHashFieldKey)?.toString()
-
 private fun TimelineEvent.getCaption() =
     root.getClearContent()?.get(MediaCaptionFieldKey)?.toString()
 
-private fun MessageImageContent?.toMediaContentInfo(
-    caption: String?,
-    thumbHash: String?
-): MediaContentInfo = MediaContentInfo(
-    caption = caption,
-    thumbnailUrl = this?.info?.thumbnailFile?.url ?: "",
-    width = this?.info?.width ?: Target.SIZE_ORIGINAL,
-    height = this?.info?.height ?: Target.SIZE_ORIGINAL,
-    duration = "",
-    thumbHash
-)
+private fun MessageImageContent?.toMediaContentInfo(caption: String?): MediaContentInfo =
+    MediaContentInfo(
+        caption = caption,
+        thumbnailUrl = this?.info?.thumbnailFile?.url ?: "",
+        width = this?.info?.width ?: Target.SIZE_ORIGINAL,
+        height = this?.info?.height ?: Target.SIZE_ORIGINAL,
+        duration = "",
+        thumbHash = this?.info?.blurHash
+    )
 
-private fun MessageVideoContent?.toMediaContentInfo(
-    caption: String?,
-    thumbHash: String?
-): MediaContentInfo = MediaContentInfo(
-    caption = caption,
-    thumbnailUrl = this?.videoInfo?.thumbnailFile?.url ?: "",
-    width = this?.videoInfo?.width ?: Target.SIZE_ORIGINAL,
-    height = this?.videoInfo?.height ?: Target.SIZE_ORIGINAL,
-    duration = VideoUtils.getVideoDurationString(this?.videoInfo?.duration?.toLong() ?: 0L),
-    thumbHash
-)
+private fun MessageVideoContent?.toMediaContentInfo(caption: String?): MediaContentInfo =
+    MediaContentInfo(
+        caption = caption,
+        thumbnailUrl = this?.videoInfo?.thumbnailFile?.url ?: "",
+        width = this?.videoInfo?.width ?: Target.SIZE_ORIGINAL,
+        height = this?.videoInfo?.height ?: Target.SIZE_ORIGINAL,
+        duration = VideoUtils.getVideoDurationString(this?.videoInfo?.duration?.toLong() ?: 0L),
+        thumbHash = this?.videoInfo?.blurHash
+    )
 
 private fun TimelineEvent.toMediaContentData(mediaType: MediaType): MediaFileData {
     val messageContent = root.getClearContent().let {

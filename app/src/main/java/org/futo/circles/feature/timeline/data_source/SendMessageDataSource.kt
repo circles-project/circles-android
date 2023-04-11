@@ -5,9 +5,7 @@ import android.net.Uri
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.toImageContentAttachmentData
 import org.futo.circles.extensions.toVideoContentAttachmentData
-import org.futo.circles.feature.blurhash.ThumbHash
 import org.futo.circles.mapping.MediaCaptionFieldKey
-import org.futo.circles.mapping.ThumbHashFieldKey
 import org.futo.circles.model.CreatePollContent
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
@@ -55,7 +53,6 @@ class SendMessageDataSource(private val context: Context) {
         val shouldCompress = content.mimeType != WEBP_MIME_TYPE
         val additionalContent = mutableMapOf<String, Any>()
         caption?.let { additionalContent[MediaCaptionFieldKey] = it }
-        additionalContent[ThumbHashFieldKey] = ThumbHash.getThumbHash(context, uri)
         val replyToContent = threadEventId?.let {
             RelationDefaultContent(null, null, ReplyToContent(it))
         }
