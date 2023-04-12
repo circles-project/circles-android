@@ -3,7 +3,7 @@ package org.futo.circles.feature.notifications
 import android.content.Context
 import org.futo.circles.R
 import org.futo.circles.core.PUSHER_APP_ID
-import org.futo.circles.core.utils.ConfigUtils.getPusherUrl
+import org.futo.circles.core.getPusherUrl
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.pushers.HttpPusher
 import org.unifiedpush.android.connector.UnifiedPush

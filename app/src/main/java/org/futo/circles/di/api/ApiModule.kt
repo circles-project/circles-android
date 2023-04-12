@@ -3,7 +3,7 @@ package org.futo.circles.di.api
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
-import org.futo.circles.core.utils.ConfigUtils
+import org.futo.circles.core.getRageShakeUrl
 import org.futo.circles.io.BugreportApiService
 import org.koin.dsl.module
 import retrofit2.Converter
@@ -18,7 +18,7 @@ val apiModule = module {
 
     single {
         Retrofit.Builder()
-            .baseUrl(ConfigUtils.getRageshakeUrl())
+            .baseUrl(getRageShakeUrl())
             .addConverterFactory(get())
             .client(OkHttpClient.Builder().build())
             .build()

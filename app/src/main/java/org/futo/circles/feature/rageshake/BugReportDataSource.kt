@@ -1,7 +1,7 @@
 package org.futo.circles.feature.rageshake
 
 import okhttp3.ResponseBody
-import org.futo.circles.core.utils.ConfigUtils
+import org.futo.circles.core.getRageShakeUrl
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.io.BugreportApiService
@@ -22,7 +22,7 @@ class BugReportDataSource(
         val data =
             bugReportDataCollector.collectData(description, contactInfo, sendLogs, sendScreenshot)
         return createResult {
-            bugreportApiService.sendBugReport(ConfigUtils.getRageshakeUrl(), data)
+            bugreportApiService.sendBugReport(getRageShakeUrl(), data)
         }
     }
 }
