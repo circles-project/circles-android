@@ -251,8 +251,6 @@
     <string name="system_notices">System notices</string>
     <string name="push_notifications">Push notifications</string>
     <string name="push_notifications_test">Push notifications test</string>
-    <string name="enabled">Enabled</string>
-    <string name="disabled">Disabled</string>
     <string name="confirm_auth">Confirm auth</string>
     <string name="confirm">Confirm</string>
     <string name="reset_keys">Reset keys</string>
@@ -433,6 +431,7 @@
     <string name="describe_your_problem_here">Describe your problem here</string>
     <string name="description">Description</string>
     <string name="rage_shake_report">Rageshake report</string>
+    <string name="notification_method">Notification method</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

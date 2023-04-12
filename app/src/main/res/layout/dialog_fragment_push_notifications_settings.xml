@@ -21,12 +21,69 @@
         android:layout_height="@dimen/divider_height"
         android:background="@color/divider_color" />
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lPushNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/tvPushNotifications"
+            style="@style/settingMenuItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:clickable="false"
+            android:focusable="false"
+            android:paddingVertical="16dp"
+            android:text="@string/push_notifications"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/svPushNotificationsStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/divider_color" />
+
     <TextView
-        android:id="@+id/tvPushNotifications"
+        android:id="@+id/tvNotificationsMethod"
         style="@style/settingMenuItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/push_notifications" />
+        android:paddingVertical="16dp"
+        android:text="@string/notification_method" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/tvNotificationsTest"
+        style="@style/settingMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        android:text="@string/push_notifications_test" />
 
 </LinearLayout>
