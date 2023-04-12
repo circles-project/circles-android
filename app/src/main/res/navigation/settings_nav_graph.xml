@@ -120,6 +120,14 @@
     <dialog
         android:id="@+id/pushNotificationsSettingsDialogFragment"
         android:name="org.futo.circles.feature.notifications.settings.PushNotificationsSettingsDialogFragment"
-        tools:layout="@layout/dialog_fragment_push_notifications_settings" />
+        tools:layout="@layout/dialog_fragment_push_notifications_settings">
+        <action
+            android:id="@+id/to_notificationTestDialogFragment"
+            app:destination="@id/notificationTestDialogFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/notificationTestDialogFragment"
+        android:name="org.futo.circles.feature.notifications.test.NotificationTestDialogFragment"
+        tools:layout="@layout/dialog_fragment_notifications_test" />
 
 </navigation>

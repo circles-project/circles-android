@@ -9,7 +9,7 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
 
     fun navigateToPushSettings() {
         fragment.findNavController()
-            .navigate(SettingsFragmentDirections.toPushNotificationsDialogFragment())
+            .navigate(SettingsFragmentDirections.toPushNotificationsSettingsDialogFragment())
     }
 
     fun navigateToActiveSessions() {
