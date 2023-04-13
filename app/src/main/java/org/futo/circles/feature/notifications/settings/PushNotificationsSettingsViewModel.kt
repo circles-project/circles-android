@@ -16,4 +16,6 @@ class PushNotificationsSettingsViewModel(
     fun saveSelectedDistributor() {
 
     }
+
+    fun getCurrentDistributorName() = unifiedPushHelper.getCurrentDistributorName()
 }

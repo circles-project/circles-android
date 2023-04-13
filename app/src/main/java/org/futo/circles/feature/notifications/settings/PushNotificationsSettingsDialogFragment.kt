@@ -9,6 +9,7 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentPushNotificationsSettingsBinding
 import org.futo.circles.extensions.openNotificationSettings
+import org.futo.circles.extensions.setEnabledChildren
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PushNotificationsSettingsDialogFragment :
@@ -34,7 +35,8 @@ class PushNotificationsSettingsDialogFragment :
                 findNavController()
                     .navigate(PushNotificationsSettingsDialogFragmentDirections.toNotificationTestDialogFragment())
             }
-            tvNotificationsMethod.setOnClickListener { showSelectDistributorDialog() }
+            lNotificationsMethod.setOnClickListener { showSelectDistributorDialog() }
+            setCurrentDistributorName()
         }
     }
 
@@ -43,6 +45,7 @@ class PushNotificationsSettingsDialogFragment :
             .setTitle(R.string.unifiedpush_distributors_dialog_title)
             .setPositiveButton(R.string.save) { dialogInterface, _ ->
                 viewModel.saveSelectedDistributor()
+                setCurrentDistributorName()
                 dialogInterface.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialogInterface, _ ->
@@ -59,9 +62,16 @@ class PushNotificationsSettingsDialogFragment :
     private fun updatePushNotificationStatus() {
         val isPushNotificationsAllowed =
             NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
-        binding.svPushNotificationsStatus.isChecked = isPushNotificationsAllowed
-        binding.tvNotificationsTest.isEnabled = isPushNotificationsAllowed
-        binding.tvNotificationsMethod.isEnabled = isPushNotificationsAllowed
+        with(binding){
+            svPushNotificationsStatus.isChecked = isPushNotificationsAllowed
+            tvNotificationsTest.isEnabled = isPushNotificationsAllowed
+            lNotificationsMethod.isEnabled = isPushNotificationsAllowed
+            tvNotificationsMethod.isEnabled = isPushNotificationsAllowed
+        }
+    }
+
+    private fun setCurrentDistributorName(){
+        binding.tvSelectedNotificationsMethod.text = viewModel.getCurrentDistributorName()
     }
 
 }
