@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentPushNotificationsSettingsBinding
 import org.futo.circles.extensions.openNotificationSettings
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PushNotificationsSettingsDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentPushNotificationsSettingsBinding::inflate) {
 
     private val binding by lazy { getBinding() as DialogFragmentPushNotificationsSettingsBinding }
+    private val viewModel by viewModel<PushNotificationsSettingsViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,13 +34,34 @@ class PushNotificationsSettingsDialogFragment :
                 findNavController()
                     .navigate(PushNotificationsSettingsDialogFragmentDirections.toNotificationTestDialogFragment())
             }
+            tvNotificationsMethod.setOnClickListener { showSelectDistributorDialog() }
         }
+    }
+
+    private fun showSelectDistributorDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.unifiedpush_distributors_dialog_title)
+            .setPositiveButton(R.string.save) { dialogInterface, _ ->
+                viewModel.saveSelectedDistributor()
+                dialogInterface.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+            .setCancelable(false)
+            .setSingleChoiceItems(
+                viewModel.getAvailableDistributors().toTypedArray(),
+                0
+            ) { _, index -> viewModel.onDistributorSelected(index) }
+            .show()
     }
 
     private fun updatePushNotificationStatus() {
         val isPushNotificationsAllowed =
             NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
         binding.svPushNotificationsStatus.isChecked = isPushNotificationsAllowed
+        binding.tvNotificationsTest.isEnabled = isPushNotificationsAllowed
+        binding.tvNotificationsMethod.isEnabled = isPushNotificationsAllowed
     }
 
 }
