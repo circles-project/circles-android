@@ -9,7 +9,6 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentPushNotificationsSettingsBinding
 import org.futo.circles.extensions.openNotificationSettings
-import org.futo.circles.extensions.setEnabledChildren
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PushNotificationsSettingsDialogFragment :
@@ -62,7 +61,7 @@ class PushNotificationsSettingsDialogFragment :
     private fun updatePushNotificationStatus() {
         val isPushNotificationsAllowed =
             NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
-        with(binding){
+        with(binding) {
             svPushNotificationsStatus.isChecked = isPushNotificationsAllowed
             tvNotificationsTest.isEnabled = isPushNotificationsAllowed
             lNotificationsMethod.isEnabled = isPushNotificationsAllowed
@@ -70,7 +69,7 @@ class PushNotificationsSettingsDialogFragment :
         }
     }
 
-    private fun setCurrentDistributorName(){
+    private fun setCurrentDistributorName() {
         binding.tvSelectedNotificationsMethod.text = viewModel.getCurrentDistributorName()
     }
 
