@@ -8,5 +8,12 @@ class PushNotificationsSettingsViewModel(
 ) : ViewModel() {
 
 
-    fun geAvailableDistributors() = unifiedPushHelper.getAvailableDistributorsNames()
+    fun getAvailableDistributors() = unifiedPushHelper.getAvailableDistributorsNames()
+    fun onDistributorSelected(index: Int) {
+
+    }
+
+    fun saveSelectedDistributor() {
+
+    }
 }
