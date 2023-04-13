@@ -432,6 +432,7 @@
     <string name="description">Description</string>
     <string name="rage_shake_report">Rageshake report</string>
     <string name="notification_method">Notification method</string>
+    <string name="unifiedpush_distributors_dialog_title">Choose how to receive notifications</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

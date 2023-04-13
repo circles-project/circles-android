@@ -26,4 +26,5 @@ val notificationsDsModule = module {
     single { PushRuleTriggerListener(get(), get()) }
     factory { ShortcutCreator(get()) }
     factory { ShortcutsHandler(get(), get()) }
+    factory { UnifiedPushHelper(get(), get(), get()) }
 }
