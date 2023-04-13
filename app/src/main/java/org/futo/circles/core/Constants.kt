@@ -38,6 +38,8 @@ const val READ_ONLY_ROLE = -10
 fun getRageShakeUrl(): String = "https://rageshake.${getCirclesDomain()}/bugreports/submit/"
 fun getPusherUrl(): String = "https://sygnal.${getCirclesDomain()}/_matrix/push/v1/notify"
 
+const val DEFAULT_PUSH_GATEWAY = "https://matrix.gateway.unifiedpush.org/_matrix/push/v1/notify"
+
 private fun getCirclesDomain(): String {
     if (BuildConfig.DEBUG) return BuildConfig.US_SERVER_DOMAIN
     val homeServerUrl = MatrixSessionProvider.currentSession?.sessionParams?.homeServerUrl ?: ""
