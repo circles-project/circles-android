@@ -41,11 +41,19 @@ class PreferencesProvider(
         getSharedPreferences().edit { putString(PUSH_GATEWAY, gateway) }
     }
 
+    fun setFdroidBackgroundSyncEnabled(isEnabled: Boolean) {
+        getSharedPreferences().edit { putBoolean(FDROID_BACKGROUND_SYNC, isEnabled) }
+    }
+
+    fun isFdroidBackgroundSyncEnabled(): Boolean =
+        getSharedPreferences().getBoolean(FDROID_BACKGROUND_SYNC, false)
+
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
         private const val FCM_TOKEN = "fcm_token"
-        private const val ENDPOINT_OR_TOKEN = "UNIFIED_PUSH_ENDPOINT_OR_TOKEN"
-        private const val PUSH_GATEWAY = "PUSH_GATEWAY"
+        private const val ENDPOINT_OR_TOKEN = "unified_push_endpoint_or_token"
+        private const val PUSH_GATEWAY = "push_gateway"
+        private const val FDROID_BACKGROUND_SYNC = "fdroid_background_sync"
     }
 }
