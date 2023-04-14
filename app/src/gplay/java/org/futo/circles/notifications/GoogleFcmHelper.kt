@@ -32,9 +32,7 @@ class GoogleFcmHelper(
             try {
                 FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
                     storeFcmToken(token)
-                    if (registerPusher) {
-                        pushersManager.enqueueRegisterPusherWithFcmKey(token)
-                    }
+                    if (registerPusher) pushersManager.enqueueRegisterPusherWithFcmKey(token)
                 }
             } catch (ignore: Throwable) {
             }
