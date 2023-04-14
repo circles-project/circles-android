@@ -31,7 +31,7 @@ class PushersManager(private val context: Context, private val fcmHelper: FcmHel
     }
 
     fun registerPushNotifications(context: Context) {
-        UnifiedPush.saveDistributor(context, PUSHER_APP_ID)
+        UnifiedPush.saveDistributor(context, "")
         UnifiedPush.registerApp(context)
         if (fcmHelper.isFirebaseAvailable())
             fcmHelper.ensureFcmTokenIsRetrieved(this, shouldAddHttpPusher())
