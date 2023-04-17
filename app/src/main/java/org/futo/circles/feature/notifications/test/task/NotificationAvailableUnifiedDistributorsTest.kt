@@ -3,18 +3,18 @@ package org.futo.circles.feature.notifications.test.task
 import android.content.Context
 import org.futo.circles.R
 import org.futo.circles.feature.notifications.FcmHelper
-import org.futo.circles.feature.notifications.UnifiedPushHelper
+import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.model.NotificationTestStatus
 
 
 class NotificationAvailableUnifiedDistributorsTest(
     private val context: Context,
     private val fcmHelper: FcmHelper,
-    private val unifiedPushHelper: UnifiedPushHelper
+    private val pushersManager: PushersManager
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_distributors_title) {
 
     override fun perform() {
-        val distributors = unifiedPushHelper.getExternalDistributors()
+        val distributors = pushersManager.getExternalDistributors()
         description = if (distributors.isEmpty()) {
             context.getString(
                 if (fcmHelper.isFirebaseAvailable()) {
