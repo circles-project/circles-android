@@ -1,6 +1,5 @@
 package org.futo.circles.feature.home
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
@@ -42,7 +41,7 @@ class HomeViewModel(
         launchBg { createRoomDataSource.createRoom(SharedCirclesSpace(), allowKnock = true) }
     }
 
-    fun registerPushNotifications(context: Context) {
+    fun registerPushNotifications() {
         pushersManager.registerPushNotifications()
     }
 
