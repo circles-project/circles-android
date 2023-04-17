@@ -8,6 +8,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentPushNotificationsSettingsBinding
+import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.openNotificationSettings
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -16,10 +17,12 @@ class PushNotificationsSettingsDialogFragment :
 
     private val binding by lazy { getBinding() as DialogFragmentPushNotificationsSettingsBinding }
     private val viewModel by viewModel<PushNotificationsSettingsViewModel>()
+    private var selectedDistributorIndex = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
+        setupObservers()
     }
 
     override fun onResume() {
@@ -39,12 +42,18 @@ class PushNotificationsSettingsDialogFragment :
         }
     }
 
+    private fun setupObservers() {
+        viewModel.pushDistributorChangedEventLiveData.observeData(this) {
+            setCurrentDistributorName()
+        }
+    }
+
     private fun showSelectDistributorDialog() {
+        selectedDistributorIndex = viewModel.getSavedDistributorIndex()
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.unifiedpush_distributors_dialog_title)
             .setPositiveButton(R.string.save) { dialogInterface, _ ->
-                viewModel.saveSelectedDistributor()
-                setCurrentDistributorName()
+                viewModel.saveSelectedDistributor(selectedDistributorIndex)
                 dialogInterface.dismiss()
             }
             .setNegativeButton(android.R.string.cancel) { dialogInterface, _ ->
@@ -52,9 +61,9 @@ class PushNotificationsSettingsDialogFragment :
             }
             .setCancelable(false)
             .setSingleChoiceItems(
-                viewModel.getAvailableDistributors().toTypedArray(),
-                0
-            ) { _, index -> viewModel.onDistributorSelected(index) }
+                viewModel.getAvailableDistributorsNames().toTypedArray(),
+                selectedDistributorIndex
+            ) { _, index -> selectedDistributorIndex = index }
             .show()
     }
 

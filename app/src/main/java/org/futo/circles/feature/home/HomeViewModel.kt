@@ -43,7 +43,7 @@ class HomeViewModel(
     }
 
     fun registerPushNotifications(context: Context) {
-        pushersManager.registerPushNotifications(context)
+        pushersManager.registerPushNotifications()
     }
 
     fun postNotificationData(summary: RoomSummary) {
