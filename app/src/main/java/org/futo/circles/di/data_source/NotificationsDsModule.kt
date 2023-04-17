@@ -5,7 +5,7 @@ import org.futo.circles.feature.notifications.test.task.*
 import org.koin.dsl.module
 
 val notificationsDsModule = module {
-    factory { PushersManager(get(), get()) }
+    factory { PushersManager(get(), get(), get()) }
     single { NotificationUtils(get()) }
     factory { NotificationAccountSettingsTest(get()) }
     factory { NotificationAvailableUnifiedDistributorsTest(get(), get(), get()) }
@@ -26,5 +26,4 @@ val notificationsDsModule = module {
     single { PushRuleTriggerListener(get(), get()) }
     factory { ShortcutCreator(get()) }
     factory { ShortcutsHandler(get(), get()) }
-    factory { UnifiedPushHelper(get(), get(), get()) }
 }
