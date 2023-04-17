@@ -408,6 +408,9 @@
     <string name="settings_troubleshoot_test_current_endpoint_title">Endpoint</string>
     <string name="settings_troubleshoot_test_current_endpoint_success">Current endpoint: %s</string>
     <string name="settings_troubleshoot_test_current_endpoint_failed">Cannot find the endpoint.</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_title">Endpoint Registration</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_success">Endpoint successfully registered to homeserver.</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_failed">Failed to register endpoint token to homeserver:\n%1$s</string>
     <string name="unifiedpush_distributor_fcm_fallback">Google Services</string>
     <string name="unifiedpush_distributor_background_sync">Background synchronization</string>
     <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
