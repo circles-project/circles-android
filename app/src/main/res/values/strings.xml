@@ -403,6 +403,8 @@
     <string name="settings_troubleshoot_test_distributors_fdroid">No other method than background synchronization found.</string>
     <string name="settings_troubleshoot_test_current_distributor_title">Method</string>
     <string name="settings_troubleshoot_test_current_distributor">Currently using %s.</string>
+    <string name="settings_troubleshoot_test_current_gateway_title">Gateway</string>
+    <string name="settings_troubleshoot_test_current_gateway">Current gateway: %s</string>
     <string name="unifiedpush_distributor_fcm_fallback">Google Services</string>
     <string name="unifiedpush_distributor_background_sync">Background synchronization</string>
     <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
