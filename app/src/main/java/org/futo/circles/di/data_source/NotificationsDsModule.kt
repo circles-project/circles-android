@@ -12,6 +12,7 @@ val notificationsDsModule = module {
     factory { NotificationCurrentPushDistributorTest(get(), get()) }
     factory { NotificationPushRulesSettingsTest(get()) }
     factory { NotificationsUnifiedPushGatewayTest(get(), get()) }
+    factory { NotificationsUnifiedPushEndpointTest(get(), get()) }
     factory { NotificationFromPushGatewayTest(get(), get()) }
     factory { NotificationSystemSettingsTest(get()) }
     factory { NotificationTestSend(get(), get()) }
