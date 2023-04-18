@@ -22,7 +22,7 @@ class PushNotificationsSettingsViewModel(
         if (selectedDistributor == currentDistributor) return
         launchBg {
             pushersManager.unregisterUnifiedPush()
-            pushersManager.registerUnifiedPush(selectedDistributor)
+            pushersManager.registerPushNotifications(selectedDistributor)
             pushDistributorChangedEventLiveData.postValue(Unit)
         }
     }

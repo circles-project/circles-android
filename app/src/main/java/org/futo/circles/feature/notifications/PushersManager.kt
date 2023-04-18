@@ -42,13 +42,14 @@ class PushersManager(
         gateway: String
     ): UUID {
         val currentSession =
-            MatrixSessionProvider.currentSession ?: throw IllegalArgumentException()
+            MatrixSessionProvider.currentSession
+                ?: throw IllegalArgumentException(context.getString(R.string.session_is_not_created))
         val pusher = createHttpPusher(pushKey, gateway)
         return currentSession.pushersService().enqueueAddHttpPusher(pusher)
     }
 
-    fun registerPushNotifications() {
-        registerUnifiedPush()
+    fun registerPushNotifications(distributor: String? = null) {
+        registerUnifiedPush(distributor)
         if (isEmbeddedDistributor())
             fcmHelper.ensureFcmTokenIsRetrieved(this, shouldAddHttpPusher())
     }
@@ -58,9 +59,18 @@ class PushersManager(
             ?.removeHttpPusher(pushKey, PUSHER_APP_ID)
     }
 
-    fun registerUnifiedPush(distributor: String? = null) {
-        distributor?.let { saveAndRegisterApp(distributor) }
-            ?: saveAndRegisterApp(context.packageName)
+    private fun registerUnifiedPush(distributor: String? = null) {
+        distributor?.let {
+            saveAndRegisterApp(distributor)
+            return
+        }
+        if (UnifiedPush.getDistributor(context).isNotEmpty()) {
+            UnifiedPush.registerApp(context)
+            return
+        }
+        val distributors = getAllDistributors()
+        return if (distributors.size == 1) saveAndRegisterApp(distributors.first())
+        else saveAndRegisterApp(context.packageName)
     }
 
     private fun shouldAddHttpPusher(): Boolean {
