@@ -6,6 +6,7 @@ import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.PushHandler
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.model.PushData
+import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.android.ext.android.inject
 import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.extensions.tryOrNull
@@ -18,6 +19,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
     private val pushHandler: PushHandler by inject()
 
     override fun onNewToken(token: String) {
+        MatrixSessionProvider.currentSession ?: return
         fcmHelper.storeFcmToken(token)
         pushersManager.enqueueRegisterPusherWithFcmKey(token)
     }
