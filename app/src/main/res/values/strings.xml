@@ -251,8 +251,6 @@
     <string name="system_notices">System notices</string>
     <string name="push_notifications">Push notifications</string>
     <string name="push_notifications_test">Push notifications test</string>
-    <string name="enabled">Enabled</string>
-    <string name="disabled">Disabled</string>
     <string name="confirm_auth">Confirm auth</string>
     <string name="confirm">Confirm</string>
     <string name="reset_keys">Reset keys</string>
@@ -405,6 +403,14 @@
     <string name="settings_troubleshoot_test_distributors_fdroid">No other method than background synchronization found.</string>
     <string name="settings_troubleshoot_test_current_distributor_title">Method</string>
     <string name="settings_troubleshoot_test_current_distributor">Currently using %s.</string>
+    <string name="settings_troubleshoot_test_current_gateway_title">Gateway</string>
+    <string name="settings_troubleshoot_test_current_gateway">Current gateway: %s</string>
+    <string name="settings_troubleshoot_test_current_endpoint_title">Endpoint</string>
+    <string name="settings_troubleshoot_test_current_endpoint_success">Current endpoint: %s</string>
+    <string name="settings_troubleshoot_test_current_endpoint_failed">Cannot find the endpoint.</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_title">Endpoint Registration</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_success">Endpoint successfully registered to homeserver.</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_failed">Failed to register endpoint token to homeserver:\n%1$s</string>
     <string name="unifiedpush_distributor_fcm_fallback">Google Services</string>
     <string name="unifiedpush_distributor_background_sync">Background synchronization</string>
     <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
@@ -433,6 +439,8 @@
     <string name="describe_your_problem_here">Describe your problem here</string>
     <string name="description">Description</string>
     <string name="rage_shake_report">Rageshake report</string>
+    <string name="notification_method">Notification method</string>
+    <string name="unifiedpush_distributors_dialog_title">Choose how to receive notifications</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

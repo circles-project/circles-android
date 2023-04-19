@@ -5,12 +5,15 @@ import org.futo.circles.feature.notifications.test.task.*
 import org.koin.dsl.module
 
 val notificationsDsModule = module {
-    factory { PushersManager(get(), get()) }
+    factory { PushersManager(get(), get(), get(), get()) }
     single { NotificationUtils(get()) }
     factory { NotificationAccountSettingsTest(get()) }
-    factory { NotificationAvailableUnifiedDistributorsTest(get(), get()) }
+    factory { NotificationAvailableUnifiedDistributorsTest(get(), get(), get()) }
     factory { NotificationCurrentPushDistributorTest(get(), get()) }
     factory { NotificationPushRulesSettingsTest(get()) }
+    factory { NotificationsUnifiedPushGatewayTest(get(), get()) }
+    factory { NotificationsEndpointAsTokenRegistrationTest(get(), get()) }
+    factory { NotificationsUnifiedPushEndpointTest(get(), get()) }
     factory { NotificationFromPushGatewayTest(get(), get()) }
     factory { NotificationSystemSettingsTest(get()) }
     factory { NotificationTestSend(get(), get()) }

@@ -71,9 +71,9 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
     private fun registerPushNotifications() {
         if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             notificationPermissionHelper.runWithPermission {
-                viewModel.registerPushNotifications(requireContext())
+                viewModel.registerPushNotifications()
             }
-        else viewModel.registerPushNotifications(requireContext())
+        else viewModel.registerPushNotifications()
     }
 
     private fun findChildNavController() =

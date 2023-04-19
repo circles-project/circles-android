@@ -144,40 +144,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/notifications" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/lPushNotifications"
+            <TextView
+                android:id="@+id/tvPushNotifications"
+                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
+                android:text="@string/push_notifications"
+                app:drawableStartCompat="@drawable/ic_notifications" />
 
-                <TextView
-                    android:id="@+id/tvPushNotifications"
-                    style="@style/settingMenuItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/push_notifications"
-                    app:drawableStartCompat="@drawable/ic_notifications"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvPushNotificationsStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/enabled"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tvPushNotifications"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/lSystemNotices"
@@ -215,16 +189,6 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/tvNotificationsTest"
-                style="@style/settingMenuItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/push_notifications_test"
-                android:visibility="gone"
-                app:drawableStartCompat="@drawable/ic_notifications"
-                tools:visibility="visible" />
 
             <TextView
                 style="@style/settingMenuHeader"
