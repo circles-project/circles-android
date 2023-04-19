@@ -46,7 +46,7 @@ class PreferencesProvider(
     }
 
     fun isFdroidBackgroundSyncEnabled(): Boolean =
-        getSharedPreferences().getBoolean(FDROID_BACKGROUND_SYNC, false)
+        getSharedPreferences().getBoolean(FDROID_BACKGROUND_SYNC, true)
 
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
