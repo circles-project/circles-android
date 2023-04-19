@@ -21,7 +21,8 @@ import kotlin.math.abs
 class PushersManager(
     private val context: Context,
     private val fcmHelper: FcmHelper,
-    private val preferencesProvider: PreferencesProvider
+    private val preferencesProvider: PreferencesProvider,
+    private val guardServiceStarter: GuardServiceStarter
 ) {
 
     suspend fun testPush() {
@@ -52,6 +53,7 @@ class PushersManager(
         registerUnifiedPush(distributor)
         if (isEmbeddedDistributor())
             fcmHelper.ensureFcmTokenIsRetrieved(this, shouldAddHttpPusher())
+        if (isBackgroundSync()) guardServiceStarter.start()
     }
 
     suspend fun unregisterPusher(pushKey: String) {
