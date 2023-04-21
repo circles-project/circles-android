@@ -25,7 +25,12 @@ class MediaBackupDialogFragment :
     private val foldersAdapter by lazy {
         MediaFoldersListAdapter(
             onItemCheckChanged = { id, isSelected ->
-                viewModel.onFolderBackupCheckChanged(id, isSelected, binding.svBackup.isChecked)
+                viewModel.onFolderBackupCheckChanged(
+                    id,
+                    isSelected,
+                    binding.svBackup.isChecked,
+                    binding.svWiFi.isChecked
+                )
             }
         )
     }
@@ -41,16 +46,20 @@ class MediaBackupDialogFragment :
             lBackupSwitchContainer.setOnClickListener {
                 svBackup.isChecked = !svBackup.isChecked
             }
+            lWifi.setOnClickListener {
+                svWiFi.isChecked = !svWiFi.isChecked
+            }
             svBackup.setOnCheckedChangeListener { _, isChecked ->
                 groupBackupFolders.setIsVisible(isChecked)
                 onInputDataChanged()
             }
+            svWiFi.setOnCheckedChangeListener { _, _ -> onInputDataChanged() }
             rvDeviceFolders.apply {
                 adapter = foldersAdapter
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
             btnSave.setOnClickListener {
-                viewModel.saveBackupSettings(svBackup.isChecked)
+                viewModel.saveBackupSettings(svBackup.isChecked, svWiFi.isChecked)
                 startLoading(btnSave)
             }
         }
@@ -67,6 +76,7 @@ class MediaBackupDialogFragment :
             })
         viewModel.initialBackupSettingsLiveData.observeData(this) {
             binding.svBackup.isChecked = it.isBackupEnabled
+            binding.svWiFi.isChecked = it.backupOverWifi
         }
         viewModel.isSettingsDataChangedLiveData.observeData(this) {
             binding.btnSave.isEnabled = it
@@ -74,6 +84,6 @@ class MediaBackupDialogFragment :
     }
 
     private fun onInputDataChanged() {
-        viewModel.handleDataSettingsChanged(binding.svBackup.isChecked)
+        viewModel.handleDataSettingsChanged(binding.svBackup.isChecked, binding.svWiFi.isChecked)
     }
 }

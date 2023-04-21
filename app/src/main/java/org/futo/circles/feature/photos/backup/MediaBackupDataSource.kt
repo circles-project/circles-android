@@ -6,6 +6,7 @@ import org.futo.circles.core.ROOM_BACKUP_EVENT_TYPE
 import org.futo.circles.core.utils.getPhotosSpaceId
 import org.futo.circles.extensions.createResult
 import org.futo.circles.model.MediaBackupSettingsData
+import org.futo.circles.model.MediaBackupSettingsData.Companion.backupOverWifiKey
 import org.futo.circles.model.MediaBackupSettingsData.Companion.foldersKey
 import org.futo.circles.model.MediaBackupSettingsData.Companion.isBackupEnabledKey
 import org.futo.circles.model.MediaFolderListItem
@@ -76,6 +77,7 @@ class MediaBackupDataSource(private val context: Context) {
     @Suppress("UNCHECKED_CAST")
     private fun createMediaBackupData(content: Content?) = MediaBackupSettingsData(
         (content?.get(isBackupEnabledKey) as? Boolean) ?: false,
+        (content?.get(backupOverWifiKey) as? Boolean) ?: false,
         (content?.get(foldersKey) as? List<String>) ?: emptyList()
     )
 }
