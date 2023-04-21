@@ -74,10 +74,27 @@ class MediaBackupDataSource(private val context: Context) {
         return foldersList.values.toList()
     }
 
+    fun getAllMediasToBackup() {
+
+    }
+
     @Suppress("UNCHECKED_CAST")
     private fun createMediaBackupData(content: Content?) = MediaBackupSettingsData(
         (content?.get(isBackupEnabledKey) as? Boolean) ?: false,
         (content?.get(backupOverWifiKey) as? Boolean) ?: false,
         (content?.get(foldersKey) as? List<String>) ?: emptyList()
     )
+
+    private fun getMediaFileUniqueId(filePath: String): String {
+        val file = File(filePath)
+        val fileName = file.name
+        val fileSize = file.length()
+        val fileLastModified = file.lastModified()
+        return "$fileName$fileSize$fileLastModified".hashCode().toString()
+    }
+
+    fun needToBackup(path: String): Boolean {
+        val parentPath = File(path).parent
+        return getInitialBackupSettings().folders.contains(parentPath)
+    }
 }
