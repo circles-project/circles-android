@@ -26,7 +26,7 @@ class MediaBackupViewModel(
         val data = dataSource.getInitialBackupSettings()
         initialBackupSettingsLiveData.value = data
         selectedFoldersIds.addAll(data.folders)
-        launchBg { mediaFolderLiveData.postValue(dataSource.getMediaFolders(selectedFoldersIds.toList())) }
+        launchBg { mediaFolderLiveData.postValue(dataSource.getAllMediaFolders(selectedFoldersIds.toList())) }
     }
 
     fun onFolderBackupCheckChanged(

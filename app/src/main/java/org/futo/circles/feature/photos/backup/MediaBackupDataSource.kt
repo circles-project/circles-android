@@ -3,6 +3,7 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
+import android.text.TextUtils
 import org.futo.circles.core.ROOM_BACKUP_EVENT_TYPE
 import org.futo.circles.core.utils.getPhotosSpaceId
 import org.futo.circles.extensions.createResult
@@ -31,34 +32,27 @@ class MediaBackupDataSource(private val context: Context) {
             ?.updateAccountData(ROOM_BACKUP_EVENT_TYPE, data.toMap())
     }
 
-    private fun getMediaCursor(isVideo: Boolean): Cursor? {
+    private fun getMediaCursor(where: String? = null): Cursor? {
         val projection =
             arrayOf(
-                getBucketIdConstant(isVideo),
-                getBucketNameConstant(isVideo),
-                getMediaDataConstant(isVideo),
+                MediaStore.Images.Media.BUCKET_ID,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Images.Media.DATA
             )
-        val sortOrder =
-            if (isVideo) "${MediaStore.Video.Media.DATE_MODIFIED} DESC" else "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
-        val uri =
-            if (isVideo) MediaStore.Video.Media.EXTERNAL_CONTENT_URI else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         return context.applicationContext.contentResolver
-            .query(uri, projection, null, null, sortOrder)
+            .query(uri, projection, where, null, sortOrder)
     }
 
-    private fun collectFolderData(
-        folders: MutableMap<String, MediaFolderListItem>,
-        cursor: Cursor?,
-        isVideo: Boolean
-    ) {
-        cursor?.use {
+    fun getAllMediaFolders(selectedFoldersIds: List<String>): List<MediaFolderListItem> {
+        val folders = mutableMapOf<String, MediaFolderListItem>()
+        getMediaCursor()?.use { cursor ->
             val bucketIdColumn =
-                cursor.getColumnIndexOrThrow(getBucketIdConstant(isVideo))
+                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_ID)
             val bucketNameColumn =
-                cursor.getColumnIndexOrThrow(getBucketNameConstant(isVideo))
-            val mediaDataColumn = cursor.getColumnIndexOrThrow(
-                getMediaDataConstant(isVideo)
-            )
+                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+            val mediaDataColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             while (cursor.moveToNext()) {
                 val bucketId = cursor.getString(bucketIdColumn)
                 val bucketName = cursor.getString(bucketNameColumn)
@@ -71,21 +65,6 @@ class MediaBackupDataSource(private val context: Context) {
                 folders[bucketId] = MediaFolderListItem(bucketId, bucketName, folderPath, size)
             }
         }
-    }
-
-    private fun getBucketIdConstant(isVideo: Boolean) =
-        if (isVideo) MediaStore.Video.Media.BUCKET_ID else MediaStore.Images.Media.BUCKET_ID
-
-    private fun getBucketNameConstant(isVideo: Boolean) =
-        if (isVideo) MediaStore.Video.Media.BUCKET_DISPLAY_NAME else MediaStore.Images.Media.BUCKET_DISPLAY_NAME
-
-    private fun getMediaDataConstant(isVideo: Boolean) =
-        if (isVideo) MediaStore.Video.Media.DATA else MediaStore.Images.Media.DATA
-
-    fun getMediaFolders(selectedFoldersIds: List<String>): List<MediaFolderListItem> {
-        val folders = mutableMapOf<String, MediaFolderListItem>()
-        collectFolderData(folders, getMediaCursor(false), false)
-        collectFolderData(folders, getMediaCursor(true), true)
         return folders.values.toList().map {
             it.copy(isSelected = selectedFoldersIds.contains(it.id))
         }
@@ -93,14 +72,19 @@ class MediaBackupDataSource(private val context: Context) {
 
     fun getAllMediasToBackup(): MutableMap<String, List<MediaToBackupItem>> {
         val foldersToBackup = getInitialBackupSettings().folders
+        val where = if (foldersToBackup.isNotEmpty()) {
+            val bucketString = TextUtils.join(", ", foldersToBackup);
+            "${MediaStore.Images.Media.BUCKET_ID} in (" + bucketString + ")";
+        }else null
         val mediaToBackup = mutableMapOf<String, List<MediaToBackupItem>>()
-        getMediaCursor(false)?.use { cursor ->
+        getMediaCursor(where)?.use { cursor ->
+            val bucketIdColumn =
+                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_ID)
             val mediaDataColumnId = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             while (cursor.moveToNext()) {
+                val bucketId = cursor.getString(bucketIdColumn)
                 val file = File(cursor.getString(mediaDataColumnId))
-                val folderPath = file.parent ?: continue
-                if (!foldersToBackup.contains(folderPath)) continue
-                mediaToBackup[folderPath] = mediaToBackup.getOrDefault(folderPath, emptyList())
+                mediaToBackup[bucketId] = mediaToBackup.getOrDefault(bucketId, emptyList())
                     .toMutableList().apply { add(file.toMediaToBackupItem()) }
             }
         }
