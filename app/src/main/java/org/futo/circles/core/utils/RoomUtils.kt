@@ -18,10 +18,12 @@ fun getTimelineRoomFor(circleId: String): Room? {
     return session.getRoom(circleId)?.getTimelineRoom()
 }
 
-fun getSystemNoticesRoomId(): String? {
+fun getSystemNoticesRoomId(): String? = getRoomIdByTag(SYSTEM_NOTICES_TAG)
+
+fun getRoomIdByTag(tag: String): String? {
     val session = MatrixSessionProvider.currentSession ?: return null
     return session.roomService().getRoomSummaries(roomSummaryQueryParams())
-        .firstOrNull { it.hasTag(SYSTEM_NOTICES_TAG) }?.roomId
+        .firstOrNull { it.hasTag(tag) }?.roomId
 }
 
 fun getPhotosSpaceId(): String? = getSpaceIdByTag(PHOTOS_SPACE_TAG)
