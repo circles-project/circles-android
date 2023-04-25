@@ -9,15 +9,17 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.provider.MediaStore
-import androidx.work.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.futo.circles.core.matrix.room.CreateRoomDataSource
+import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.utils.getRoomIdByTag
 import org.futo.circles.feature.photos.backup.MediaBackupDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
+import org.futo.circles.model.Gallery
 import org.koin.android.ext.android.inject
-import java.util.concurrent.TimeUnit
 
 
 class MediaBackupService : Service() {
@@ -25,16 +27,13 @@ class MediaBackupService : Service() {
     private val job = Job()
     private val backupScope = CoroutineScope(Dispatchers.IO + job)
     private val sendMessageDataSource: SendMessageDataSource by inject()
+    private val createRoomDataSource: CreateRoomDataSource by inject()
     private val mediaBackupDataSource: MediaBackupDataSource by inject()
     private var isBackupRunning = false
 
     private val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean, uri: Uri?) {
             if (isBackupRunning) return
-            val path = uri?.path ?: return
-            if (mediaBackupDataSource.needToBackup(path)) {
-
-            }
         }
     }
 
@@ -52,8 +51,29 @@ class MediaBackupService : Service() {
         backupScope.launch {
             isBackupRunning = true
             val media = mediaBackupDataSource.getAllMediasToBackup()
+            createGalleriesIfNotExist(media.keys.toList())
+            media.keys.forEach { bucketId ->
+                val roomId = getRoomIdByTag(bucketId) ?: return@forEach
+                media[bucketId]?.forEach { item ->
+                    sendMessageDataSource.sendMedia(
+                        roomId, item.uri, null, null, MediaType.Image
+                    )
+                }
+            }
+            isBackupRunning = false
         }
         return START_STICKY
+    }
+
+    private suspend fun createGalleriesIfNotExist(folderKeys: List<String>) {
+        folderKeys.forEach { bucketId ->
+            if (getRoomIdByTag(bucketId) == null) {
+                createRoomDataSource.createRoom(
+                    circlesRoom = Gallery(tag = bucketId),
+                    name = mediaBackupDataSource.getFolderNameBy(bucketId)
+                )
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -68,21 +88,5 @@ class MediaBackupService : Service() {
 
     companion object {
         fun getIntent(context: Context) = Intent(context, MediaBackupService::class.java)
-
-        private fun scheduleBackup(context: Context) {
-            val backupRequest = OneTimeWorkRequestBuilder<MediaBackupWorker>()
-                .setInitialDelay(1, TimeUnit.DAYS)
-                .setConstraints(
-                    Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .setRequiresCharging(false)
-                        .build()
-                ).build()
-            WorkManager.getInstance(context.applicationContext).enqueueUniqueWork(
-                "media_backup",
-                ExistingWorkPolicy.REPLACE,
-                backupRequest
-            )
-        }
     }
 }
