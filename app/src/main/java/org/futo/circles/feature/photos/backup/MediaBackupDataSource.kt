@@ -3,31 +3,27 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import android.util.Log
 import org.futo.circles.core.ROOM_BACKUP_EVENT_TYPE
 import org.futo.circles.core.utils.getPhotosSpaceId
 import org.futo.circles.extensions.createResult
 import org.futo.circles.model.MediaBackupSettingsData
-import org.futo.circles.model.MediaBackupSettingsData.Companion.backupOverWifiKey
-import org.futo.circles.model.MediaBackupSettingsData.Companion.foldersKey
-import org.futo.circles.model.MediaBackupSettingsData.Companion.isBackupEnabledKey
 import org.futo.circles.model.MediaFolderListItem
 import org.futo.circles.model.MediaToBackupItem
+import org.futo.circles.model.toMediaBackupSettingsData
 import org.futo.circles.model.toMediaToBackupItem
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.events.model.Content
 import org.matrix.android.sdk.api.session.getRoom
 import java.io.File
 
 
 class MediaBackupDataSource(private val context: Context) {
 
-    fun getInitialBackupSettings(): MediaBackupSettingsData {
-        val content = MatrixSessionProvider.currentSession?.getRoom(getPhotosSpaceId() ?: "")
+    fun getInitialBackupSettings(): MediaBackupSettingsData =
+        MatrixSessionProvider.currentSession?.getRoom(getPhotosSpaceId() ?: "")
             ?.roomAccountDataService()
             ?.getAccountDataEvent(ROOM_BACKUP_EVENT_TYPE)?.content
-        return createMediaBackupData(content)
-    }
+            .toMediaBackupSettingsData()
+
 
     suspend fun saveBackupSettings(data: MediaBackupSettingsData) = createResult {
         MatrixSessionProvider.currentSession?.getRoom(getPhotosSpaceId() ?: "")
@@ -39,16 +35,15 @@ class MediaBackupDataSource(private val context: Context) {
         val projection =
             arrayOf(
                 getBucketIdConstant(isVideo),
-                getBucketNameConstant(isVideo)
+                getBucketNameConstant(isVideo),
+                getMediaDataConstant(isVideo),
             )
         val sortOrder =
             if (isVideo) "${MediaStore.Video.Media.DATE_MODIFIED} DESC" else "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
         val uri =
             if (isVideo) MediaStore.Video.Media.EXTERNAL_CONTENT_URI else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         return context.applicationContext.contentResolver
-            .query(MediaStore.Video.Media.getContentUri(
-                MediaStore.VOLUME_EXTERNAL
-            ), projection, null, null, sortOrder)
+            .query(uri, projection, null, null, sortOrder)
     }
 
     private fun collectFolderData(
@@ -66,7 +61,6 @@ class MediaBackupDataSource(private val context: Context) {
             )
             while (cursor.moveToNext()) {
                 val bucketId = cursor.getString(bucketIdColumn)
-                Log.d("MyLog", bucketId)
                 val bucketName = cursor.getString(bucketNameColumn)
                 val file = File(cursor.getString(mediaDataColumn))
                 val folderPath = file.parent ?: continue
@@ -90,7 +84,7 @@ class MediaBackupDataSource(private val context: Context) {
 
     fun getMediaFolders(selectedFoldersIds: List<String>): List<MediaFolderListItem> {
         val folders = mutableMapOf<String, MediaFolderListItem>()
-        //collectFolderData(folders, getMediaCursor(false), false)
+        collectFolderData(folders, getMediaCursor(false), false)
         collectFolderData(folders, getMediaCursor(true), true)
         return folders.values.toList().map {
             it.copy(isSelected = selectedFoldersIds.contains(it.id))
@@ -112,13 +106,6 @@ class MediaBackupDataSource(private val context: Context) {
         }
         return mediaToBackup
     }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun createMediaBackupData(content: Content?) = MediaBackupSettingsData(
-        (content?.get(isBackupEnabledKey) as? Boolean) ?: false,
-        (content?.get(backupOverWifiKey) as? Boolean) ?: false,
-        (content?.get(foldersKey) as? List<String>) ?: emptyList()
-    )
 
     fun needToBackup(path: String): Boolean {
         val parentPath = File(path).parent ?: false
