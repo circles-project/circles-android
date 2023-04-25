@@ -3,7 +3,6 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import android.text.TextUtils
 import org.futo.circles.core.ROOM_BACKUP_EVENT_TYPE
 import org.futo.circles.core.utils.getPhotosSpaceId
 import org.futo.circles.extensions.createResult
@@ -32,7 +31,9 @@ class MediaBackupDataSource(private val context: Context) {
             ?.updateAccountData(ROOM_BACKUP_EVENT_TYPE, data.toMap())
     }
 
-    private fun getMediaCursor(where: String? = null): Cursor? {
+    private fun getMediaCursor(
+        selection: String? = null
+    ): Cursor? {
         val projection =
             arrayOf(
                 MediaStore.Images.Media.BUCKET_ID,
@@ -42,7 +43,7 @@ class MediaBackupDataSource(private val context: Context) {
         val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         return context.contentResolver
-            .query(uri, projection, where, null, sortOrder)
+            .query(uri, projection, selection, null, sortOrder)
     }
 
     fun getAllMediaFolders(
@@ -87,12 +88,11 @@ class MediaBackupDataSource(private val context: Context) {
 
     fun getAllMediasToBackup(): MutableMap<String, List<MediaToBackupItem>> {
         val foldersToBackup = getInitialBackupSettings().folders
-        val where = if (foldersToBackup.isNotEmpty()) {
-            val bucketString = TextUtils.join(", ", foldersToBackup)
-            "${MediaStore.Images.Media.BUCKET_ID} in (" + bucketString + ")"
-        } else null
+        val selection = if (foldersToBackup.isNotEmpty())
+            "${MediaStore.Images.Media.BUCKET_ID} IN (${foldersToBackup.joinToString()})"
+        else null
         val mediaToBackup = mutableMapOf<String, List<MediaToBackupItem>>()
-        getMediaCursor(where)?.use { cursor ->
+        getMediaCursor(selection)?.use { cursor ->
             val bucketIdColumn =
                 cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_ID)
             val mediaDataColumnId = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
