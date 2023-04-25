@@ -18,6 +18,7 @@ import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setSupportActionBar
+import org.futo.circles.feature.photos.backup.service.MediaBackupService
 import org.futo.circles.model.GROUP_TYPE
 import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -33,6 +34,9 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
     private val viewModel by activityViewModel<HomeViewModel>()
     private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
+    private val backupServiceIntent by lazy {
+        MediaBackupService.getIntent(requireContext())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,7 +46,13 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
         }
         setupObservers()
         registerPushNotifications()
+        activity?.startService(backupServiceIntent)
         handleOpenFromNotification()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.stopService(backupServiceIntent)
     }
 
     private fun handleOpenFromNotification() {
