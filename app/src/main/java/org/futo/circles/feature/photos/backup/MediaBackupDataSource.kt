@@ -3,6 +3,8 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import org.futo.circles.core.ROOM_BACKUP_EVENT_TYPE
 import org.futo.circles.core.utils.getPhotosSpaceId
 import org.futo.circles.extensions.createResult
@@ -17,6 +19,13 @@ import java.io.File
 
 
 class MediaBackupDataSource(private val context: Context) {
+
+    fun getInitialBackupSettingsLive(): LiveData<MediaBackupSettingsData>? =
+        MatrixSessionProvider.currentSession?.getRoom(getPhotosSpaceId() ?: "")
+            ?.roomAccountDataService()
+            ?.getLiveAccountDataEvent(ROOM_BACKUP_EVENT_TYPE)?.map {
+                it.getOrNull()?.content.toMediaBackupSettingsData()
+            }
 
     fun getInitialBackupSettings(): MediaBackupSettingsData =
         MatrixSessionProvider.currentSession?.getRoom(getPhotosSpaceId() ?: "")
