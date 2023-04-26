@@ -9,6 +9,7 @@ import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
+import org.futo.circles.feature.photos.backup.MediaBackupDataSource
 import org.futo.circles.model.CIRCLE_TAG
 import org.futo.circles.model.GROUP_TYPE
 import org.futo.circles.model.SharedCirclesSpace
@@ -21,9 +22,11 @@ import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 class HomeViewModel(
     private val pushersManager: PushersManager,
     private val createRoomDataSource: CreateRoomDataSource,
+    mediaBackupDataSource: MediaBackupDataSource,
     shortcutsHandler: ShortcutsHandler
 ) : ViewModel() {
 
+    val mediaBackupSettingsLiveData = mediaBackupDataSource.getInitialBackupSettingsLive()
     val notificationLiveData = SingleEventLiveData<String>()
     val inviteIntoSharedSpaceLiveData = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummariesLive(roomSummaryQueryParams {
