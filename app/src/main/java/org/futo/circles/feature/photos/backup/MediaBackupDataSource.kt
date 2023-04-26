@@ -99,21 +99,14 @@ class MediaBackupDataSource(private val context: Context) {
         return null
     }
 
-    fun getAllMediasToBackup(): MutableMap<String, List<MediaToBackupItem>> {
-        val foldersToBackup = getInitialBackupSettings().folders
-        val selection = if (foldersToBackup.isNotEmpty())
-            "${MediaStore.Images.Media.BUCKET_ID} IN (${foldersToBackup.joinToString()})"
-        else null
-        val mediaToBackup = mutableMapOf<String, List<MediaToBackupItem>>()
+    fun getMediasToBackupInBucket(bucketId: String): List<MediaToBackupItem> {
+        val selection = "${MediaStore.Images.Media.BUCKET_ID} = $bucketId"
+        val mediaToBackup = mutableListOf<MediaToBackupItem>()
         getMediaCursor(selection)?.use { cursor ->
-            val bucketIdColumn =
-                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_ID)
             val mediaDataColumnId = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             while (cursor.moveToNext()) {
-                val bucketId = cursor.getString(bucketIdColumn)
                 val file = File(cursor.getString(mediaDataColumnId))
-                mediaToBackup[bucketId] = mediaToBackup.getOrDefault(bucketId, emptyList())
-                    .toMutableList().apply { add(file.toMediaToBackupItem(context)) }
+                mediaToBackup.add(file.toMediaToBackupItem(context))
             }
         }
         return mediaToBackup

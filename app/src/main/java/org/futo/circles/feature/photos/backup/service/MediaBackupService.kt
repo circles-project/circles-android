@@ -50,11 +50,12 @@ class MediaBackupService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         backupScope.launch {
             isBackupRunning = true
-            val media = mediaBackupDataSource.getAllMediasToBackup()
-            createGalleriesIfNotExist(media.keys.toList())
-            media.keys.forEach { bucketId ->
+            val foldersToBackup = mediaBackupDataSource.getInitialBackupSettings().folders
+            createGalleriesIfNotExist(foldersToBackup)
+            foldersToBackup.forEach { bucketId ->
                 val roomId = getRoomIdByTag(bucketId) ?: return@forEach
-                media[bucketId]?.forEach { item ->
+                val mediaInFolder = mediaBackupDataSource.getMediasToBackupInBucket(bucketId)
+                mediaInFolder.forEach { item ->
                     sendMessageDataSource.sendMedia(
                         roomId, item.uri, null, null, MediaType.Image
                     )
