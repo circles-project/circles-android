@@ -42,8 +42,12 @@ class MediaBackupDataSource(private val context: Context) {
             )
         val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        return context.contentResolver
-            .query(uri, projection, selection, null, sortOrder)
+        return try {
+            context.contentResolver
+                .query(uri, projection, selection, null, sortOrder)
+        } catch (_: Exception) {
+            null
+        }
     }
 
     fun getAllMediaFolders(
