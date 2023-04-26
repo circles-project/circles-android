@@ -17,7 +17,7 @@ import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.getRoomIdByTag
 import org.futo.circles.feature.photos.backup.MediaBackupDataSource
-import org.futo.circles.feature.room.RoomAccountDataDataSource
+import org.futo.circles.feature.room.RoomAccountDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.model.Gallery
 import org.koin.android.ext.android.inject
@@ -30,7 +30,7 @@ class MediaBackupService : Service() {
     private val sendMessageDataSource: SendMessageDataSource by inject()
     private val createRoomDataSource: CreateRoomDataSource by inject()
     private val mediaBackupDataSource: MediaBackupDataSource by inject()
-    private val roomAccountDataDataSource: RoomAccountDataDataSource by inject()
+    private val roomAccountDataSource: RoomAccountDataSource by inject()
     private var isBackupRunning = false
 
     private val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
@@ -52,7 +52,7 @@ class MediaBackupService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         backupScope.launch {
             isBackupRunning = true
-            val foldersToBackup = roomAccountDataDataSource.getMediaBackupSettings().folders
+            val foldersToBackup = roomAccountDataSource.getMediaBackupSettings().folders
             createGalleriesIfNotExist(foldersToBackup)
             foldersToBackup.forEach { bucketId ->
                 val roomId = getRoomIdByTag(bucketId) ?: return@forEach

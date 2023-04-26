@@ -12,7 +12,7 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.accountdata.RoomAccountDataEvent
 import org.matrix.android.sdk.api.util.Optional
 
-class RoomAccountDataDataSource {
+class RoomAccountDataSource {
 
     fun getMediaBackupSettingsLive() =
         getAccountDataEventLive(getPhotosSpaceId() ?: "", ROOM_BACKUP_EVENT_TYPE)?.map {
