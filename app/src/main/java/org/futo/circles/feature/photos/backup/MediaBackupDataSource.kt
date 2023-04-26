@@ -3,42 +3,15 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
-import org.futo.circles.core.ROOM_BACKUP_EVENT_TYPE
-import org.futo.circles.core.utils.getPhotosSpaceId
-import org.futo.circles.extensions.createResult
-import org.futo.circles.model.MediaBackupSettingsData
 import org.futo.circles.model.MediaFolderListItem
 import org.futo.circles.model.MediaToBackupItem
-import org.futo.circles.model.toMediaBackupSettingsData
 import org.futo.circles.model.toMediaToBackupItem
-import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.getRoom
 import java.io.File
 
 
-class MediaBackupDataSource(private val context: Context) {
-
-    fun getInitialBackupSettingsLive(): LiveData<MediaBackupSettingsData>? =
-        MatrixSessionProvider.currentSession?.getRoom(getPhotosSpaceId() ?: "")
-            ?.roomAccountDataService()
-            ?.getLiveAccountDataEvent(ROOM_BACKUP_EVENT_TYPE)?.map {
-                it.getOrNull()?.content.toMediaBackupSettingsData()
-            }
-
-    fun getInitialBackupSettings(): MediaBackupSettingsData =
-        MatrixSessionProvider.currentSession?.getRoom(getPhotosSpaceId() ?: "")
-            ?.roomAccountDataService()
-            ?.getAccountDataEvent(ROOM_BACKUP_EVENT_TYPE)?.content
-            .toMediaBackupSettingsData()
-
-
-    suspend fun saveBackupSettings(data: MediaBackupSettingsData) = createResult {
-        MatrixSessionProvider.currentSession?.getRoom(getPhotosSpaceId() ?: "")
-            ?.roomAccountDataService()
-            ?.updateAccountData(ROOM_BACKUP_EVENT_TYPE, data.toMap())
-    }
+class MediaBackupDataSource(
+    private val context: Context
+) {
 
     private fun getMediaCursor(
         selection: String? = null

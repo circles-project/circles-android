@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
+import org.futo.circles.feature.room.RoomAccountDataDataSource
 import org.futo.circles.model.MediaBackupSettingsData
 import org.futo.circles.model.MediaFolderListItem
 
 class MediaBackupViewModel(
-    private val dataSource: MediaBackupDataSource
+    private val roomAccountDataDataSource: RoomAccountDataDataSource,
+    private val mediaBackupDataSource: MediaBackupDataSource
 ) : ViewModel() {
 
     val mediaFolderLiveData = SingleEventLiveData<List<MediaFolderListItem>>()
@@ -23,10 +25,14 @@ class MediaBackupViewModel(
     }
 
     private fun getInitialBackupSettings() {
-        val data = dataSource.getInitialBackupSettings()
+        val data = roomAccountDataDataSource.getMediaBackupSettings()
         initialBackupSettingsLiveData.value = data
         selectedFoldersIds.addAll(data.folders)
-        launchBg { mediaFolderLiveData.postValue(dataSource.getAllMediaFolders(selectedFoldersIds.toList())) }
+        launchBg {
+            mediaFolderLiveData.postValue(
+                mediaBackupDataSource.getAllMediaFolders(selectedFoldersIds.toList())
+            )
+        }
     }
 
     fun onFolderBackupCheckChanged(
@@ -42,7 +48,7 @@ class MediaBackupViewModel(
 
     fun saveBackupSettings(isBackupEnabled: Boolean, backupOverWifi: Boolean) {
         launchBg {
-            val result = dataSource.saveBackupSettings(
+            val result = roomAccountDataDataSource.saveMediaBackupSettings(
                 MediaBackupSettingsData(
                     isBackupEnabled,
                     backupOverWifi,
