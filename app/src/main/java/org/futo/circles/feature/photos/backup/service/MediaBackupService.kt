@@ -35,7 +35,12 @@ class MediaBackupService : Service() {
 
     private val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean, uri: Uri?) {
-            if (isBackupRunning) return
+            if (isBackupRunning || selfChange) return
+            val path = uri?.path ?: return
+            val bucketId = mediaBackupDataSource.getBucketIdByChildFilePath(path) ?: return
+            val foldersToBackup = roomAccountDataSource.getMediaBackupSettings().folders
+            if (foldersToBackup.contains(bucketId))
+                backupScope.launch { backupMediasInFolder(bucketId) }
         }
     }
 
@@ -53,30 +58,31 @@ class MediaBackupService : Service() {
         backupScope.launch {
             isBackupRunning = true
             val foldersToBackup = roomAccountDataSource.getMediaBackupSettings().folders
-            createGalleriesIfNotExist(foldersToBackup)
-            foldersToBackup.forEach { bucketId ->
-                val roomId = getRoomIdByTag(bucketId) ?: return@forEach
-                val mediaInFolder = mediaBackupDataSource.getMediasToBackupInBucket(bucketId)
-                mediaInFolder.forEach { item ->
-                    sendMessageDataSource.sendMedia(
-                        roomId, item.uri, null, null, MediaType.Image
-                    )
-                }
-            }
+            foldersToBackup.forEach { backupMediasInFolder(it) }
             isBackupRunning = false
         }
         return START_STICKY
     }
 
-    private suspend fun createGalleriesIfNotExist(folderKeys: List<String>) {
-        folderKeys.forEach { bucketId ->
-            if (getRoomIdByTag(bucketId) == null) {
-                createRoomDataSource.createRoom(
-                    circlesRoom = Gallery(tag = bucketId),
-                    name = mediaBackupDataSource.getFolderNameBy(bucketId)
-                )
-            }
+    private suspend fun backupMediasInFolder(bucketId: String) {
+        val roomId = createGalleryIfNotExist(bucketId)
+        val mediaInFolder = mediaBackupDataSource.getMediasToBackupInBucket(bucketId)
+        mediaInFolder.forEach { item ->
+            sendMessageDataSource.sendMedia(
+                roomId, item.uri, null, null, MediaType.Image
+            )
         }
+    }
+
+    private suspend fun createGalleryIfNotExist(bucketId: String): String {
+        var roomId = getRoomIdByTag(bucketId)
+        if (roomId == null) {
+            roomId = createRoomDataSource.createRoom(
+                circlesRoom = Gallery(tag = bucketId),
+                name = mediaBackupDataSource.getFolderNameBy(bucketId)
+            )
+        }
+        return roomId
     }
 
     override fun onDestroy() {

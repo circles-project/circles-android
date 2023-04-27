@@ -72,6 +72,19 @@ class MediaBackupDataSource(
         return null
     }
 
+    fun getBucketIdByChildFilePath(path: String): String? {
+        val projection = arrayOf(MediaStore.Images.Media.BUCKET_ID)
+        val selection = "${MediaStore.Images.Media.DATA} = ?"
+        val selectionArgs = arrayOf(path)
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        context.contentResolver.query(uri, projection, selection, selectionArgs, null)
+            ?.use { cursor ->
+                if (cursor.moveToFirst())
+                    return cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_ID))
+            }
+        return null
+    }
+
     fun getMediasToBackupInBucket(bucketId: String): List<MediaToBackupItem> {
         val selection = "${MediaStore.Images.Media.BUCKET_ID} = $bucketId"
         val mediaToBackup = mutableListOf<MediaToBackupItem>()
