@@ -3,6 +3,12 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
+import org.futo.circles.core.matrix.room.CreateRoomDataSource
+import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.utils.getRoomIdByTag
+import org.futo.circles.feature.room.RoomAccountDataSource
+import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
+import org.futo.circles.model.Gallery
 import org.futo.circles.model.MediaFolderListItem
 import org.futo.circles.model.MediaToBackupItem
 import org.futo.circles.model.toMediaToBackupItem
@@ -10,26 +16,21 @@ import java.io.File
 
 
 class MediaBackupDataSource(
-    private val context: Context
+    private val context: Context,
+    private val sendMessageDataSource: SendMessageDataSource,
+    private val createRoomDataSource: CreateRoomDataSource,
+    private val roomAccountDataSource: RoomAccountDataSource
 ) {
 
-    private fun getMediaCursor(
-        selection: String? = null
-    ): Cursor? {
-        val projection =
-            arrayOf(
-                MediaStore.Images.Media.BUCKET_ID,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-                MediaStore.Images.Media.DATA
-            )
-        val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
-        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        return try {
-            context.contentResolver
-                .query(uri, projection, selection, null, sortOrder)
-        } catch (_: Exception) {
-            null
-        }
+    suspend fun startMediaBackup() {
+        val foldersToBackup = roomAccountDataSource.getMediaBackupSettings().folders
+        foldersToBackup.forEach { backupMediasInFolder(it) }
+    }
+
+    suspend fun startBackupByFilePath(path: String) {
+        val bucketId = getBucketIdByChildFilePath(path) ?: return
+        val foldersToBackup = roomAccountDataSource.getMediaBackupSettings().folders
+        if (foldersToBackup.contains(bucketId)) backupMediasInFolder(bucketId)
     }
 
     fun getAllMediaFolders(
@@ -58,7 +59,48 @@ class MediaBackupDataSource(
         }
     }
 
-    fun getFolderNameBy(bucketId: String): String? {
+    private suspend fun backupMediasInFolder(bucketId: String) {
+        val roomId = createGalleryIfNotExist(bucketId)
+        val dateModified = roomAccountDataSource.getMediaBackupDateModified(roomId)
+        val mediaInFolder = getMediasToBackupInBucket(bucketId, dateModified)
+        mediaInFolder.forEach { item ->
+            sendMessageDataSource.sendMedia(
+                roomId, item.uri, null, null, MediaType.Image
+            )
+        }
+    }
+
+    private suspend fun createGalleryIfNotExist(bucketId: String): String {
+        var roomId = getRoomIdByTag(bucketId)
+        if (roomId == null) {
+            roomId = createRoomDataSource.createRoom(
+                circlesRoom = Gallery(tag = bucketId),
+                name = getFolderNameBy(bucketId)
+            )
+        }
+        return roomId
+    }
+
+    private fun getMediaCursor(
+        selection: String? = null
+    ): Cursor? {
+        val projection =
+            arrayOf(
+                MediaStore.Images.Media.BUCKET_ID,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Images.Media.DATA
+            )
+        val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        return try {
+            context.contentResolver
+                .query(uri, projection, selection, null, sortOrder)
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    private fun getFolderNameBy(bucketId: String): String? {
         val projection = arrayOf(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
         val selection = "${MediaStore.Images.Media.BUCKET_ID} = ?"
         val selectionArgs = arrayOf(bucketId)
@@ -72,7 +114,7 @@ class MediaBackupDataSource(
         return null
     }
 
-    fun getBucketIdByChildFilePath(path: String): String? {
+    private fun getBucketIdByChildFilePath(path: String): String? {
         val projection = arrayOf(MediaStore.Images.Media.BUCKET_ID)
         val selection = "${MediaStore.Images.Media.DATA} = ?"
         val selectionArgs = arrayOf(path)
@@ -85,10 +127,13 @@ class MediaBackupDataSource(
         return null
     }
 
-    fun getMediasToBackupInBucket(bucketId: String, dateModified: Long?): List<MediaToBackupItem> {
+    private fun getMediasToBackupInBucket(
+        bucketId: String,
+        dateModified: Long?
+    ): List<MediaToBackupItem> {
         var selection = "${MediaStore.Images.Media.BUCKET_ID} = $bucketId"
         dateModified?.let {
-            selection+=" AND ${MediaStore.Images.Media.DATE_MODIFIED} > $it"
+            selection += " AND ${MediaStore.Images.Media.DATE_MODIFIED} > $it"
         }
         val mediaToBackup = mutableListOf<MediaToBackupItem>()
         getMediaCursor(selection)?.use { cursor ->
