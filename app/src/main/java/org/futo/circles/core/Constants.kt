@@ -20,6 +20,7 @@ const val LOGIN_BSSPEKE_OPRF_TYPE = "m.login.bsspeke-ecc.oprf"
 const val LOGIN_BSSPEKE_VERIFY_TYPE = "m.login.bsspeke-ecc.verify"
 
 const val ROOM_BACKUP_EVENT_TYPE = "m.room.media_backup"
+const val ROOM_BACKUP_DATE_ADDED_EVENT_TYPE = "m.room.media_backup.date_added"
 
 const val LOGIN_PASSWORD_USER_ID_TYPE = "m.id.user"
 
