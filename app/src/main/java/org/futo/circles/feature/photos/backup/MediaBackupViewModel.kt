@@ -39,19 +39,25 @@ class MediaBackupViewModel(
         id: String,
         isSelected: Boolean,
         isBackupEnabled: Boolean,
-        backupOverWifi: Boolean
+        backupOverWifi: Boolean,
+        compressBeforeSending: Boolean
     ) {
         if (isSelected) selectedFoldersIds.add(id)
         else selectedFoldersIds.remove(id)
-        handleDataSettingsChanged(isBackupEnabled, backupOverWifi)
+        handleDataSettingsChanged(isBackupEnabled, backupOverWifi, compressBeforeSending)
     }
 
-    fun saveBackupSettings(isBackupEnabled: Boolean, backupOverWifi: Boolean) {
+    fun saveBackupSettings(
+        isBackupEnabled: Boolean,
+        backupOverWifi: Boolean,
+        compressBeforeSending: Boolean
+    ) {
         launchBg {
             val result = roomAccountDataSource.saveMediaBackupSettings(
                 MediaBackupSettingsData(
                     isBackupEnabled,
                     backupOverWifi,
+                    compressBeforeSending,
                     selectedFoldersIds.toList()
                 )
             )
@@ -59,9 +65,18 @@ class MediaBackupViewModel(
         }
     }
 
-    fun handleDataSettingsChanged(isBackupEnabled: Boolean, backupOverWifi: Boolean) {
+    fun handleDataSettingsChanged(
+        isBackupEnabled: Boolean,
+        backupOverWifi: Boolean,
+        compressBeforeSending: Boolean
+    ) {
         val newSettings =
-            MediaBackupSettingsData(isBackupEnabled, backupOverWifi, selectedFoldersIds.toList())
+            MediaBackupSettingsData(
+                isBackupEnabled,
+                backupOverWifi,
+                compressBeforeSending,
+                selectedFoldersIds.toList()
+            )
         isSettingsDataChangedLiveData.value = newSettings != initialBackupSettingsLiveData.value
     }
 

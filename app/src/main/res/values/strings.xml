@@ -442,6 +442,7 @@
     <string name="notification_method">Notification method</string>
     <string name="unifiedpush_distributors_dialog_title">Choose how to receive notifications</string>
     <string name="backup_over_wifi_only">Backup over WiFi only</string>
+    <string name="compress_before_sending">Compress before sending</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

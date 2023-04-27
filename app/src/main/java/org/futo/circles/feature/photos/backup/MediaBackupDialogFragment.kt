@@ -8,7 +8,11 @@ import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentMediaBackupBinding
-import org.futo.circles.extensions.*
+import org.futo.circles.extensions.observeData
+import org.futo.circles.extensions.observeResponse
+import org.futo.circles.extensions.onBackPressed
+import org.futo.circles.extensions.setIsVisible
+import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.photos.backup.list.MediaFoldersListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,7 +33,8 @@ class MediaBackupDialogFragment :
                     id,
                     isSelected,
                     binding.svBackup.isChecked,
-                    binding.svWiFi.isChecked
+                    binding.svWiFi.isChecked,
+                    binding.svCompress.isChecked
                 )
             }
         )
@@ -49,17 +54,25 @@ class MediaBackupDialogFragment :
             lWifi.setOnClickListener {
                 svWiFi.isChecked = !svWiFi.isChecked
             }
+            lCompressed.setOnClickListener {
+                svCompress.isChecked = !svCompress.isChecked
+            }
             svBackup.setOnCheckedChangeListener { _, isChecked ->
                 groupBackupFolders.setIsVisible(isChecked)
                 onInputDataChanged()
             }
             svWiFi.setOnCheckedChangeListener { _, _ -> onInputDataChanged() }
+            svCompress.setOnCheckedChangeListener { _, _ -> onInputDataChanged() }
             rvDeviceFolders.apply {
                 adapter = foldersAdapter
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
             btnSave.setOnClickListener {
-                viewModel.saveBackupSettings(svBackup.isChecked, svWiFi.isChecked)
+                viewModel.saveBackupSettings(
+                    svBackup.isChecked,
+                    svWiFi.isChecked,
+                    svCompress.isChecked
+                )
                 startLoading(btnSave)
             }
         }
@@ -77,6 +90,7 @@ class MediaBackupDialogFragment :
         viewModel.initialBackupSettingsLiveData.observeData(this) {
             binding.svBackup.isChecked = it.isBackupEnabled
             binding.svWiFi.isChecked = it.backupOverWifi
+            binding.svCompress.isChecked = it.compressBeforeSending
         }
         viewModel.isSettingsDataChangedLiveData.observeData(this) {
             binding.btnSave.isEnabled = it
@@ -84,6 +98,10 @@ class MediaBackupDialogFragment :
     }
 
     private fun onInputDataChanged() {
-        viewModel.handleDataSettingsChanged(binding.svBackup.isChecked, binding.svWiFi.isChecked)
+        viewModel.handleDataSettingsChanged(
+            binding.svBackup.isChecked,
+            binding.svWiFi.isChecked,
+            binding.svCompress.isChecked
+        )
     }
 }

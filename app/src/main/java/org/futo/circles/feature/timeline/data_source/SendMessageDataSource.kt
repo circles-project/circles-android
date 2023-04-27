@@ -43,14 +43,15 @@ class SendMessageDataSource(private val context: Context) {
         uri: Uri,
         caption: String?,
         threadEventId: String?,
-        type: MediaType
+        type: MediaType,
+        compressBeforeSending: Boolean = true
     ) {
         val roomForMessage = session?.getRoom(roomId) ?: return
         val content = when (type) {
             MediaType.Image -> uri.toImageContentAttachmentData(context)
             MediaType.Video -> uri.toVideoContentAttachmentData(context)
         } ?: return
-        val shouldCompress = content.mimeType != WEBP_MIME_TYPE
+        val shouldCompress = if (compressBeforeSending) content.mimeType != WEBP_MIME_TYPE else false
         val additionalContent = mutableMapOf<String, Any>()
         caption?.let { additionalContent[MediaCaptionFieldKey] = it }
         val replyToContent = threadEventId?.let {
