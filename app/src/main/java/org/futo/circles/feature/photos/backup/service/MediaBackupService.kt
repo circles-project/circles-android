@@ -66,7 +66,8 @@ class MediaBackupService : Service() {
 
     private suspend fun backupMediasInFolder(bucketId: String) {
         val roomId = createGalleryIfNotExist(bucketId)
-        val mediaInFolder = mediaBackupDataSource.getMediasToBackupInBucket(bucketId)
+        val dateModified = roomAccountDataSource.getMediaBackupDateModified(roomId)
+        val mediaInFolder = mediaBackupDataSource.getMediasToBackupInBucket(bucketId, dateModified)
         mediaInFolder.forEach { item ->
             sendMessageDataSource.sendMedia(
                 roomId, item.uri, null, null, MediaType.Image

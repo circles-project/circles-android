@@ -10,11 +10,18 @@ data class MediaToBackupItem(
     override val id: String,
     val displayName: String,
     val uri: Uri,
-    val size: Long
+    val size: Long,
+    val dateAdded: Long
 ) : IdEntity<String>
 
 fun File.toMediaToBackupItem(context: Context) =
-    MediaToBackupItem(getMediaFileUniqueId(this), name, getUri(context), length())
+    MediaToBackupItem(
+        getMediaFileUniqueId(this),
+        name,
+        getUri(context),
+        length(),
+        lastModified()
+    )
 
 private fun getMediaFileUniqueId(file: File): String {
     val fileName = file.name

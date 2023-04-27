@@ -85,8 +85,11 @@ class MediaBackupDataSource(
         return null
     }
 
-    fun getMediasToBackupInBucket(bucketId: String): List<MediaToBackupItem> {
-        val selection = "${MediaStore.Images.Media.BUCKET_ID} = $bucketId"
+    fun getMediasToBackupInBucket(bucketId: String, dateModified: Long?): List<MediaToBackupItem> {
+        var selection = "${MediaStore.Images.Media.BUCKET_ID} = $bucketId"
+        dateModified?.let {
+            selection+=" AND ${MediaStore.Images.Media.DATE_MODIFIED} > $it"
+        }
         val mediaToBackup = mutableListOf<MediaToBackupItem>()
         getMediaCursor(selection)?.use { cursor ->
             val mediaDataColumnId = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)

@@ -2,7 +2,7 @@ package org.futo.circles.feature.room
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import org.futo.circles.core.ROOM_BACKUP_DATE_ADDED_EVENT_TYPE
+import org.futo.circles.core.ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE
 import org.futo.circles.core.ROOM_BACKUP_EVENT_TYPE
 import org.futo.circles.core.utils.getPhotosSpaceId
 import org.futo.circles.extensions.createResult
@@ -28,14 +28,14 @@ class RoomAccountDataSource {
         getPhotosSpaceId() ?: "", ROOM_BACKUP_EVENT_TYPE, data.toMap()
     )
 
-    fun getMediaBackupDateAdded(roomId: String) =
+    fun getMediaBackupDateModified(roomId: String) =
         getAccountDataEvent(
             roomId,
-            ROOM_BACKUP_DATE_ADDED_EVENT_TYPE
-        )?.content?.get(dateAddedKey) as? Long
+            ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE
+        )?.content?.get(dateModifiedKey) as? Long
 
-    suspend fun saveMediaBackupDateAdded(roomId: String, dateAdded: Long) = updateRoomAccountData(
-        roomId, ROOM_BACKUP_DATE_ADDED_EVENT_TYPE, mapOf(dateAddedKey to dateAdded)
+    suspend fun saveMediaBackupDateModified(roomId: String, dateModified: Long) = updateRoomAccountData(
+        roomId, ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE, mapOf(dateModifiedKey to dateModified)
     )
 
     private fun getAccountDataEventLive(
@@ -65,7 +65,7 @@ class RoomAccountDataSource {
     }
 
     companion object {
-        private const val dateAddedKey = "date_added"
+        private const val dateModifiedKey = "date_modified"
     }
 
 }
