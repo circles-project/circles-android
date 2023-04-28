@@ -34,9 +34,12 @@ class RoomAccountDataSource {
             ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE
         )?.content?.get(dateModifiedKey) as? Long
 
-    suspend fun saveMediaBackupDateModified(roomId: String, dateModified: Long) = updateRoomAccountData(
-        roomId, ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE, mapOf(dateModifiedKey to dateModified)
-    )
+    suspend fun saveMediaBackupDateModified(roomId: String, dateModified: Long) {
+        val savedModifiedDate = getMediaBackupDateModified(roomId) ?: 0L
+        if (dateModified > savedModifiedDate) updateRoomAccountData(
+            roomId, ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE, mapOf(dateModifiedKey to dateModified)
+        )
+    }
 
     private fun getAccountDataEventLive(
         roomId: String,
