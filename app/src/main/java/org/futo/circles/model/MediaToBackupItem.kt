@@ -11,7 +11,7 @@ data class MediaToBackupItem(
     val displayName: String,
     val uri: Uri,
     val size: Long,
-    val dateAdded: Long
+    val dateModified: Long
 ) : IdEntity<String>
 
 fun File.toMediaToBackupItem(context: Context) =
