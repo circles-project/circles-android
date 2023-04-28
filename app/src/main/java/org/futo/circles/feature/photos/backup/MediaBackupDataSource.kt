@@ -3,6 +3,7 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
+import androidx.appcompat.app.AppCompatActivity
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.getRoomIdByTag
@@ -12,7 +13,11 @@ import org.futo.circles.model.Gallery
 import org.futo.circles.model.MediaFolderListItem
 import org.futo.circles.model.MediaToBackupItem
 import org.futo.circles.model.toMediaToBackupItem
+import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
 import java.io.File
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 class MediaBackupDataSource(
@@ -63,10 +68,23 @@ class MediaBackupDataSource(
         val roomId = createGalleryIfNotExist(bucketId)
         val dateModified = roomAccountDataSource.getMediaBackupDateModified(roomId)
         val mediaInFolder = getMediasToBackupInBucket(bucketId, dateModified)
+
         mediaInFolder.forEach { item ->
             sendMessageDataSource.sendMedia(
                 roomId, item.uri, null, null, MediaType.Image
             )
+            val room = MatrixSessionProvider.currentSession?.getRoom(roomId) ?: return@forEach
+            val eventId = room.roomSummary()?.latestPreviewableEvent?.eventId ?: return@forEach
+            val isSent = suspendCoroutine { continuation ->
+                (context as? AppCompatActivity)?.runOnUiThread {
+                    room.timelineService().getTimelineEventLive(eventId).observeForever {
+                        val sendState = it.getOrNull()?.root?.sendState
+                        if (sendState?.hasFailed() == true) continuation.resume(false)
+                        if (sendState?.isSent() == true) continuation.resume(true)
+                    }
+                }
+            }
+            if (isSent) roomAccountDataSource.saveMediaBackupDateModified(roomId, item.dateModified)
         }
     }
 
