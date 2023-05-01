@@ -3,7 +3,7 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import androidx.appcompat.app.AppCompatActivity
+import android.util.Log
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.getRoomIdByTag
@@ -13,11 +13,7 @@ import org.futo.circles.model.Gallery
 import org.futo.circles.model.MediaFolderListItem
 import org.futo.circles.model.MediaToBackupItem
 import org.futo.circles.model.toMediaToBackupItem
-import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.getRoom
 import java.io.File
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 
 class MediaBackupDataSource(
@@ -29,6 +25,7 @@ class MediaBackupDataSource(
 
     suspend fun startMediaBackup() {
         val foldersToBackup = roomAccountDataSource.getMediaBackupSettings().folders
+        Log.d("MyLog", "folders to backup $foldersToBackup")
         foldersToBackup.forEach { backupMediasInFolder(it) }
     }
 
@@ -67,24 +64,22 @@ class MediaBackupDataSource(
     private suspend fun backupMediasInFolder(bucketId: String) {
         val roomId = createGalleryIfNotExist(bucketId)
         val dateModified = roomAccountDataSource.getMediaBackupDateModified(roomId)
+        Log.d("MyLog", "saved date in $bucketId - $dateModified")
         val mediaInFolder = getMediasToBackupInBucket(bucketId, dateModified)
-
+        Log.d(
+            "MyLog",
+            "media in $bucketId - ${mediaInFolder.map { "${it.id}/${it.dateModified}" }}"
+        )
         mediaInFolder.forEach { item ->
-            sendMessageDataSource.sendMedia(
+            val sendCancelable = sendMessageDataSource.sendMedia(
                 roomId, item.uri, null, null, MediaType.Image
             )
-            val room = MatrixSessionProvider.currentSession?.getRoom(roomId) ?: return@forEach
-            val eventId = room.roomSummary()?.latestPreviewableEvent?.eventId ?: return@forEach
-            val isSent = suspendCoroutine { continuation ->
-                (context as? AppCompatActivity)?.runOnUiThread {
-                    room.timelineService().getTimelineEventLive(eventId).observeForever {
-                        val sendState = it.getOrNull()?.root?.sendState
-                        if (sendState?.hasFailed() == true) continuation.resume(false)
-                        if (sendState?.isSent() == true) continuation.resume(true)
-                    }
-                }
+            Log.d("MyLog", "sent ${item.id}")
+            val isUploaded = sendMessageDataSource.awaitForUploading(sendCancelable)
+            if (isUploaded) {
+                roomAccountDataSource.saveMediaBackupDateModified(roomId, item.dateModified)
+                Log.d("MyLog", "saved ${item.id}/${item.dateModified}")
             }
-            if (isSent) roomAccountDataSource.saveMediaBackupDateModified(roomId, item.dateModified)
         }
     }
 
