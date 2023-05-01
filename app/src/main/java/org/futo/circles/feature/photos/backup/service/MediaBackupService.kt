@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.database.ContentObserver
 import android.net.Uri
+import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -13,6 +14,7 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.futo.circles.feature.photos.backup.MediaBackupDataSource
 import org.koin.android.ext.android.inject
@@ -20,17 +22,21 @@ import org.koin.android.ext.android.inject
 
 class MediaBackupService : Service() {
 
-    private val job = Job()
+    private val binder = MediaBackupServiceBinder()
+    private val job = SupervisorJob()
     private val backupScope = CoroutineScope(Dispatchers.IO + job)
     private val mediaBackupDataSource: MediaBackupDataSource by inject()
-    private var isBackupRunning = false
+    private var backupJob: Job? = null
 
     private val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean, uri: Uri?) {
-            if (isBackupRunning || selfChange) return
+            if (backupJob != null || selfChange) return
             val path = uri?.path ?: return
             Log.d("MyLog", "from observer $uri")
-            backupScope.launch { mediaBackupDataSource.startBackupByFilePath(path) }
+            backupJob = backupScope.launch {
+                mediaBackupDataSource.startBackupByFilePath(path)
+                backupJob = null
+            }
         }
     }
 
@@ -39,16 +45,8 @@ class MediaBackupService : Service() {
         contentResolver.registerContentObserver(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, contentObserver
         )
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("MyLog", "start")
-        backupScope.launch {
-            isBackupRunning = true
-            mediaBackupDataSource.startMediaBackup()
-            isBackupRunning = false
-        }
-        return START_NOT_STICKY
+        Log.d("MyLog", "create")
+        startBackup()
     }
 
     override fun onDestroy() {
@@ -57,8 +55,23 @@ class MediaBackupService : Service() {
         contentResolver.unregisterContentObserver(contentObserver);
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
+    override fun onBind(intent: Intent?): IBinder = binder
+
+    fun onBackupSettingsUpdated() {
+        backupJob?.cancel()
+        startBackup()
+    }
+
+    private fun startBackup() {
+        Log.d("MyLog", "start 2")
+        backupJob = backupScope.launch {
+            mediaBackupDataSource.startMediaBackup()
+            backupJob = null
+        }
+    }
+
+    inner class MediaBackupServiceBinder : Binder() {
+        fun getService(): MediaBackupService = this@MediaBackupService
     }
 
     companion object {
