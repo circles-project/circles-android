@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.provider.MediaStore
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -28,6 +29,7 @@ class MediaBackupService : Service() {
         override fun onChange(selfChange: Boolean, uri: Uri?) {
             if (isBackupRunning || selfChange) return
             val path = uri?.path ?: return
+            Log.d("MyLog", "from observer $uri")
             backupScope.launch { mediaBackupDataSource.startBackupByFilePath(path) }
         }
     }
@@ -35,20 +37,18 @@ class MediaBackupService : Service() {
     override fun onCreate() {
         super.onCreate()
         contentResolver.registerContentObserver(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, false, contentObserver
-        )
-        contentResolver.registerContentObserver(
-            MediaStore.Video.Media.EXTERNAL_CONTENT_URI, false, contentObserver
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, contentObserver
         )
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d("MyLog", "start")
         backupScope.launch {
             isBackupRunning = true
             mediaBackupDataSource.startMediaBackup()
             isBackupRunning = false
         }
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     override fun onDestroy() {
