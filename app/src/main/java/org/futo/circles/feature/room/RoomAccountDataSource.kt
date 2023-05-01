@@ -29,10 +29,10 @@ class RoomAccountDataSource {
     )
 
     fun getMediaBackupDateModified(roomId: String) =
-        getAccountDataEvent(
+        (getAccountDataEvent(
             roomId,
             ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE
-        )?.content?.get(dateModifiedKey) as? Long
+        )?.content?.get(dateModifiedKey) as? Double)?.toLong()
 
     suspend fun saveMediaBackupDateModified(roomId: String, dateModified: Long) {
         val savedModifiedDate = getMediaBackupDateModified(roomId) ?: 0L
