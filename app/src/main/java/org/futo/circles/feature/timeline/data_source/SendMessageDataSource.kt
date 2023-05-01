@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 import org.futo.circles.core.picker.MediaType
@@ -85,7 +84,6 @@ class SendMessageDataSource(private val context: Context) {
         return suspendCoroutine {
             val observer = object : Observer<WorkInfo> {
                 override fun onChanged(value: WorkInfo) {
-                    Log.d("MyLog", value.state.toString())
                     if (value.state.isFinished) {
                         checkWorkerLiveState.removeObserver(this)
                         it.resume(value.state == WorkInfo.State.SUCCEEDED)

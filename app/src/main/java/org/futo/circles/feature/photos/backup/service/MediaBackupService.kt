@@ -32,7 +32,6 @@ class MediaBackupService : Service() {
         override fun onChange(selfChange: Boolean, uri: Uri?) {
             if (backupJob != null || selfChange) return
             val path = uri?.path ?: return
-            Log.d("MyLog", "from observer $uri")
             backupJob = backupScope.launch {
                 mediaBackupDataSource.startBackupByFilePath(path)
                 backupJob = null
@@ -45,7 +44,6 @@ class MediaBackupService : Service() {
         contentResolver.registerContentObserver(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, contentObserver
         )
-        Log.d("MyLog", "create")
         startBackup()
     }
 
@@ -63,7 +61,6 @@ class MediaBackupService : Service() {
     }
 
     private fun startBackup() {
-        Log.d("MyLog", "start 2")
         backupJob = backupScope.launch {
             mediaBackupDataSource.startMediaBackup()
             backupJob = null

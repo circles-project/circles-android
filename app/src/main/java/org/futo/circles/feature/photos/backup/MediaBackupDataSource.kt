@@ -3,7 +3,6 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import android.util.Log
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.getRoomIdByTag
@@ -25,7 +24,6 @@ class MediaBackupDataSource(
 
     suspend fun startMediaBackup() {
         val foldersToBackup = roomAccountDataSource.getMediaBackupSettings().folders
-        Log.d("MyLog", "folders to backup $foldersToBackup")
         foldersToBackup.forEach { backupMediasInFolder(it) }
     }
 
@@ -64,22 +62,14 @@ class MediaBackupDataSource(
     private suspend fun backupMediasInFolder(bucketId: String) {
         val roomId = createGalleryIfNotExist(bucketId)
         val dateModified = roomAccountDataSource.getMediaBackupDateModified(roomId)
-        Log.d("MyLog", "saved date in $bucketId - $dateModified")
         val mediaInFolder = getMediasToBackupInBucket(bucketId, dateModified)
-        Log.d(
-            "MyLog",
-            "media in $bucketId - ${mediaInFolder.map { "${it.id}/${it.dateModified}" }}"
-        )
         mediaInFolder.forEach { item ->
             val sendCancelable = sendMessageDataSource.sendMedia(
                 roomId, item.uri, null, null, MediaType.Image
             )
-            Log.d("MyLog", "sent ${item.id}")
             val isUploaded = sendMessageDataSource.awaitForUploading(sendCancelable)
-            if (isUploaded) {
+            if (isUploaded)
                 roomAccountDataSource.saveMediaBackupDateModified(roomId, item.dateModified)
-                Log.d("MyLog", "saved ${item.id}/${item.dateModified}")
-            }
         }
     }
 
