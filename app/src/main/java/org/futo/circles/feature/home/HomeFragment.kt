@@ -1,7 +1,6 @@
 package org.futo.circles.feature.home
 
 import android.Manifest
-import android.content.Intent
 import android.os.Build
 import android.os.Build.VERSION
 import android.os.Bundle
@@ -17,13 +16,12 @@ import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
-import org.futo.circles.extensions.isConnectedToWifi
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setSupportActionBar
-import org.futo.circles.feature.photos.backup.service.MediaBackupService
+import org.futo.circles.feature.photos.backup.service.MediaBackupServiceManager
 import org.futo.circles.model.GROUP_TYPE
-import org.futo.circles.model.MediaBackupSettingsData
 import org.futo.circles.provider.MatrixSessionProvider
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.matrix.android.sdk.api.session.getRoomSummary
 
@@ -37,7 +35,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
     private val viewModel by activityViewModel<HomeViewModel>()
     private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
-    private var backupServiceIntent: Intent? = null
+    private val mediaBackupServiceManager: MediaBackupServiceManager by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,9 +48,9 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
         handleOpenFromNotification()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        backupServiceIntent?.let { activity?.stopService(it) }
+    override fun onStop() {
+        super.onStop()
+        mediaBackupServiceManager.unbindMediaService(requireContext())
     }
 
     private fun handleOpenFromNotification() {
@@ -77,22 +75,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
             viewModel.autoAcceptInviteOnKnock(it)
         }
         viewModel.mediaBackupSettingsLiveData?.observeData(this) {
-            startBackupService(it)
-        }
-    }
-
-    private fun startBackupService(backupSettingsData: MediaBackupSettingsData) {
-        backupServiceIntent?.let { activity?.stopService(it) }
-        if (backupSettingsData.isBackupEnabled) {
-            if (backupSettingsData.backupOverWifi) {
-                if (requireContext().isConnectedToWifi()) {
-                    backupServiceIntent = MediaBackupService.getIntent(requireContext())
-                    activity?.startService(backupServiceIntent)
-                }
-            } else {
-                backupServiceIntent = MediaBackupService.getIntent(requireContext())
-                activity?.startService(backupServiceIntent)
-            }
+            mediaBackupServiceManager.bindMediaServiceIfNeeded(requireContext(), it)
         }
     }
 
