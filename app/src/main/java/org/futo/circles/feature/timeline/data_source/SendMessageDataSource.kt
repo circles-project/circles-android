@@ -14,6 +14,7 @@ import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.session.room.model.relation.RelationDefaultContent
 import org.matrix.android.sdk.api.session.room.model.relation.ReplyToContent
+import org.matrix.android.sdk.api.util.Cancelable
 
 class SendMessageDataSource(private val context: Context) {
 
@@ -45,12 +46,12 @@ class SendMessageDataSource(private val context: Context) {
         threadEventId: String?,
         type: MediaType,
         compressBeforeSending: Boolean = true
-    ) {
-        val roomForMessage = session?.getRoom(roomId) ?: return
+    ): Cancelable? {
+        val roomForMessage = session?.getRoom(roomId) ?: return null
         val content = when (type) {
             MediaType.Image -> uri.toImageContentAttachmentData(context)
             MediaType.Video -> uri.toVideoContentAttachmentData(context)
-        } ?: return
+        } ?: return null
         val shouldCompress =
             if (compressBeforeSending) content.mimeType != WEBP_MIME_TYPE else false
         val additionalContent = mutableMapOf<String, Any>()
@@ -58,7 +59,7 @@ class SendMessageDataSource(private val context: Context) {
         val replyToContent = threadEventId?.let {
             RelationDefaultContent(null, null, ReplyToContent(it))
         }
-        roomForMessage.sendService().sendMedia(
+        return roomForMessage.sendService().sendMedia(
             content,
             shouldCompress,
             emptySet(),
