@@ -4,8 +4,15 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.provider.MediaStore
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import org.futo.circles.extensions.isConnectedToWifi
 import org.futo.circles.model.MediaBackupSettingsData
+import java.util.concurrent.TimeUnit
 
 class MediaBackupServiceManager {
 
@@ -45,11 +52,31 @@ class MediaBackupServiceManager {
             MediaBackupService.getIntent(context).also { intent ->
                 context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
             }
+            scheduleBackup(context)
         }
     }
 
     private fun clear() {
         mediaBackupService = null
         mediaBackupService = null
+    }
+
+    private fun scheduleBackup(context: Context) {
+        val backupRequest = PeriodicWorkRequestBuilder<MediaBackupWorker>(1, TimeUnit.DAYS)
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .addContentUriTrigger(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true)
+                    .build()
+            ).build()
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            MEDIA_BACKUP_SCHEDULED_WORK_KEY,
+            ExistingPeriodicWorkPolicy.UPDATE,
+            backupRequest
+        )
+    }
+
+    companion object {
+        private const val MEDIA_BACKUP_SCHEDULED_WORK_KEY = "media_backup"
     }
 }
