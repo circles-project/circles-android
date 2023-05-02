@@ -10,7 +10,6 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import org.futo.circles.extensions.isConnectedToWifi
 import org.futo.circles.model.MediaBackupSettingsData
 import java.util.concurrent.TimeUnit
 
@@ -32,13 +31,11 @@ class MediaBackupServiceManager {
 
     fun bindMediaServiceIfNeeded(context: Context, backupSettingsData: MediaBackupSettingsData) {
         if (savedBackupSettings == backupSettingsData) return
-        if (backupSettingsData.isBackupEnabled) {
-            if (backupSettingsData.backupOverWifi) {
-                if (context.isConnectedToWifi()) bindMediaService(context, backupSettingsData)
-            } else bindMediaService(context, backupSettingsData)
-        } else {
-            unbindMediaService(context)
-        }
+        if (backupSettingsData.shouldStartBackup(context)) bindMediaService(
+            context,
+            backupSettingsData
+        )
+        else unbindMediaService(context)
     }
 
     fun unbindMediaService(context: Context) {
