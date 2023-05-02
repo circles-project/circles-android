@@ -12,11 +12,17 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import org.futo.circles.R
+import org.futo.circles.feature.photos.backup.MediaBackupDataSource
+import org.futo.circles.feature.room.RoomAccountDataSource
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class MediaBackupWorker(context: Context, params: WorkerParameters) :
-    CoroutineWorker(context, params) {
+    CoroutineWorker(context, params), KoinComponent {
 
     private val notificationManager = NotificationManagerCompat.from(context)
+    private val mediaBackupDataSource: MediaBackupDataSource by inject()
+    private val roomAccountDataSource: RoomAccountDataSource by inject()
 
     override suspend fun doWork(): Result {
         setForeground(createForegroundInfo())
@@ -60,8 +66,10 @@ class MediaBackupWorker(context: Context, params: WorkerParameters) :
             })
     }
 
-    private fun backupMediaFiles() {
-
+    private suspend fun backupMediaFiles() {
+        val backupSettings = roomAccountDataSource.getMediaBackupSettings()
+        if (backupSettings.shouldStartBackup(applicationContext))
+            mediaBackupDataSource.startMediaBackup()
     }
 
     companion object {
