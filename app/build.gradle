@@ -114,7 +114,7 @@ dependencies {
     implementation "androidx.browser:browser:1.5.0"
 
     //ExoPlayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.5'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.6'
     //Image zoom
     implementation 'com.jsibbold:zoomage:1.3.1'
 
