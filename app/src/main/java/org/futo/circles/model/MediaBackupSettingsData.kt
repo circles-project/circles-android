@@ -1,5 +1,7 @@
 package org.futo.circles.model
 
+import android.content.Context
+import org.futo.circles.extensions.isConnectedToWifi
 import org.matrix.android.sdk.api.session.events.model.Content
 
 data class MediaBackupSettingsData(
@@ -21,6 +23,15 @@ data class MediaBackupSettingsData(
         compressBeforeSendingKey to compressBeforeSending,
         foldersKey to folders
     )
+
+    fun shouldStartBackup(context: Context): Boolean {
+        if (isBackupEnabled) {
+            if (backupOverWifi) {
+                if (context.isConnectedToWifi()) return true
+            } else return true
+        }
+        return false
+    }
 }
 
 @Suppress("UNCHECKED_CAST")
