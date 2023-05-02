@@ -120,7 +120,7 @@ dependencies {
 
     //Firebase
     gplayImplementation platform('com.google.firebase:firebase-bom:31.1.1')
-    gplayImplementation'com.google.firebase:firebase-crashlytics-ktx'
+    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
 
@@ -166,6 +166,9 @@ dependencies {
 
     //Shake detection
     implementation 'com.squareup:seismic:1.0.3'
+
+    //Worker
+    implementation "androidx.work:work-runtime-ktx:2.8.1"
 
     //test
     testImplementation 'junit:junit:4.13.2'
