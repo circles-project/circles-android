@@ -4,7 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.ServiceConnection
 import android.os.IBinder
-import android.provider.MediaStore
+import android.util.Log
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -39,16 +39,19 @@ class MediaBackupServiceManager {
     }
 
     fun unbindMediaService(context: Context) {
-        context.unbindService(connection)
-        clear()
+        try {
+            context.unbindService(connection)
+            clear()
+        } catch (_: Exception) {
+        }
     }
 
     private fun bindMediaService(context: Context, backupSettingsData: MediaBackupSettingsData) {
         savedBackupSettings = backupSettingsData
         mediaBackupService?.onBackupSettingsUpdated() ?: run {
-            MediaBackupService.getIntent(context).also { intent ->
-                context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
-            }
+//            MediaBackupService.getIntent(context).also { intent ->
+//                context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+//            }
             scheduleBackup(context)
         }
     }
@@ -59,11 +62,10 @@ class MediaBackupServiceManager {
     }
 
     private fun scheduleBackup(context: Context) {
-        val backupRequest = PeriodicWorkRequestBuilder<MediaBackupWorker>(1, TimeUnit.DAYS)
+        val backupRequest = PeriodicWorkRequestBuilder<MediaBackupWorker>(15, TimeUnit.MINUTES)
             .setConstraints(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
-                    .addContentUriTrigger(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true)
                     .build()
             ).build()
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
@@ -71,6 +73,7 @@ class MediaBackupServiceManager {
             ExistingPeriodicWorkPolicy.UPDATE,
             backupRequest
         )
+        Log.d("MyLog", "scheduled")
     }
 
     companion object {
