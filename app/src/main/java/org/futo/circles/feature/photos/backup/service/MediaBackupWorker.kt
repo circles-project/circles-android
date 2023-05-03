@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -11,6 +12,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import kotlinx.coroutines.delay
 import org.futo.circles.R
 import org.futo.circles.feature.photos.backup.MediaBackupDataSource
 import org.futo.circles.feature.room.RoomAccountDataSource
@@ -25,8 +27,13 @@ class MediaBackupWorker(context: Context, params: WorkerParameters) :
     private val roomAccountDataSource: RoomAccountDataSource by inject()
 
     override suspend fun doWork(): Result {
-        setForeground(createForegroundInfo())
-        backupMediaFiles()
+        try {
+            setForeground(createForegroundInfo())
+            delay(10_000)
+            backupMediaFiles()
+        } catch (_: Exception) {
+            return Result.failure()
+        }
         return Result.success()
     }
 
@@ -68,6 +75,7 @@ class MediaBackupWorker(context: Context, params: WorkerParameters) :
 
     private suspend fun backupMediaFiles() {
         val backupSettings = roomAccountDataSource.getMediaBackupSettings()
+        Log.d("MyLog", backupSettings.toString())
         if (backupSettings.shouldStartBackup(applicationContext))
             mediaBackupDataSource.startMediaBackup()
     }
