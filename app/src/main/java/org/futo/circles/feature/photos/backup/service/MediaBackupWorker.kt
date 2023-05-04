@@ -29,7 +29,6 @@ class MediaBackupWorker(context: Context, params: WorkerParameters) :
     override suspend fun doWork(): Result {
         try {
             setForeground(createForegroundInfo())
-            delay(10_000)
             backupMediaFiles()
         } catch (_: Exception) {
             return Result.failure()
