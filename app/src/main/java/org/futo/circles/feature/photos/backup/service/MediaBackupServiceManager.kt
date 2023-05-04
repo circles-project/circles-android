@@ -49,9 +49,9 @@ class MediaBackupServiceManager {
     private fun bindMediaService(context: Context, backupSettingsData: MediaBackupSettingsData) {
         savedBackupSettings = backupSettingsData
         mediaBackupService?.onBackupSettingsUpdated() ?: run {
-//            MediaBackupService.getIntent(context).also { intent ->
-//                context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
-//            }
+            MediaBackupService.getIntent(context).also { intent ->
+                context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+            }
             scheduleBackup(context)
         }
     }
