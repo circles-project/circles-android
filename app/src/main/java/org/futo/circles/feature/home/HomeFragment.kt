@@ -48,11 +48,6 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
         handleOpenFromNotification()
     }
 
-    override fun onStop() {
-        super.onStop()
-        mediaBackupServiceManager.unbindMediaService(requireContext())
-    }
-
     private fun handleOpenFromNotification() {
         val roomId = activity?.intent?.getStringExtra(MainActivity.ROOM_ID_PARAM) ?: return
         val summary = MatrixSessionProvider.currentSession?.getRoomSummary(roomId) ?: return

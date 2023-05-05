@@ -8,8 +8,7 @@ import android.content.Intent
 class MediaBackupBroadcastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {
-        val serviceIntent = Intent(context, MediaBackupService::class.java)
-        context.startService(serviceIntent)
+        context.startService(MediaBackupService.getIntent(context))
     }
 }
 
