@@ -24,10 +24,9 @@ class MediaBackupDataSource(
 ) {
 
     suspend fun startMediaBackup() {
-        Log.d("MyLog", "start backup")
-        val foldersToBackup = roomAccountDataSource.getMediaBackupSettings().folders
-        Log.d("MyLog", "folders $foldersToBackup")
-        foldersToBackup.forEach { backupMediasInFolder(it) }
+        val settings = roomAccountDataSource.getMediaBackupSettings()
+        if (settings.shouldStartBackup(context))
+            settings.folders.forEach { backupMediasInFolder(it) }
     }
 
     suspend fun startBackupByFilePath(path: String) {
@@ -66,7 +65,6 @@ class MediaBackupDataSource(
         val roomId = createGalleryIfNotExist(bucketId)
         val dateModified = roomAccountDataSource.getMediaBackupDateModified(roomId)
         val mediaInFolder = getMediasToBackupInBucket(bucketId, dateModified)
-        Log.d("MyLog", "media in $bucketId - ${mediaInFolder.map { it.id }}")
         mediaInFolder.forEach { item ->
             val sendCancelable = sendMessageDataSource.sendMedia(
                 roomId, item.uri, null, null, MediaType.Image
