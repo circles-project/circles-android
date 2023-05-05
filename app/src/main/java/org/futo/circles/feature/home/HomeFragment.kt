@@ -18,8 +18,10 @@ import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setSupportActionBar
+import org.futo.circles.feature.photos.backup.service.MediaBackupServiceManager
 import org.futo.circles.model.GROUP_TYPE
 import org.futo.circles.provider.MatrixSessionProvider
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.matrix.android.sdk.api.session.getRoomSummary
 
@@ -33,6 +35,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
     private val viewModel by activityViewModel<HomeViewModel>()
     private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
+    private val mediaBackupServiceManager: MediaBackupServiceManager by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,6 +68,9 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
         }
         viewModel.inviteIntoSharedSpaceLiveData?.observeData(this) {
             viewModel.autoAcceptInviteOnKnock(it)
+        }
+        viewModel.mediaBackupSettingsLiveData?.observeData(this) {
+            mediaBackupServiceManager.bindMediaServiceIfNeeded(requireContext(), it)
         }
     }
 

@@ -53,11 +53,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
         freeCompilerArgs += [
                 "-opt-in=kotlinx.coroutines.FlowPreview",
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
@@ -79,11 +79,10 @@ dependencies {
     implementation "androidx.autofill:autofill:1.1.0"
 
     //Matrix
-    implementation 'org.matrix.android:matrix-sdk-android:1.5.30.1'
+    implementation 'org.matrix.android:matrix-sdk-android:1.5.30.5'
 
     //Kotlin
     implementation "androidx.core:core-ktx:1.10.0"
-    implementation 'androidx.work:work-runtime-ktx:2.8.1'
 
     //androidx lifecycle
     def lifecycle_version = "2.6.1"
@@ -114,13 +113,13 @@ dependencies {
     implementation "androidx.browser:browser:1.5.0"
 
     //ExoPlayer
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.5'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.6'
     //Image zoom
     implementation 'com.jsibbold:zoomage:1.3.1'
 
     //Firebase
     gplayImplementation platform('com.google.firebase:firebase-bom:31.1.1')
-    gplayImplementation'com.google.firebase:firebase-crashlytics-ktx'
+    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
 
@@ -166,6 +165,14 @@ dependencies {
 
     //Shake detection
     implementation 'com.squareup:seismic:1.0.3'
+
+    //Worker
+    def work_version = "2.8.1"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+
+    //Coroutines
+    def coroutines_version = "1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
 
     //test
     testImplementation 'junit:junit:4.13.2'

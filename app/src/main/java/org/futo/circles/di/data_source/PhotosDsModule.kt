@@ -12,5 +12,5 @@ val photosDSModule = module {
     factory { (roomId: String, eventId: String) -> MediaPreviewDataSource(roomId, eventId) }
     factory { SelectGalleriesDataSource() }
     factory { SavePostToGalleryDataSource(get(), get()) }
-    factory { MediaBackupDataSource(get()) }
+    factory { MediaBackupDataSource(get(), get(), get(), get()) }
 }

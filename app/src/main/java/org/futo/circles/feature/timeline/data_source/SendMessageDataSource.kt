@@ -2,6 +2,10 @@ package org.futo.circles.feature.timeline.data_source
 
 import android.content.Context
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import androidx.lifecycle.Observer
+import androidx.work.WorkInfo
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.extensions.toImageContentAttachmentData
 import org.futo.circles.extensions.toVideoContentAttachmentData
@@ -14,6 +18,11 @@ import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.session.room.model.relation.RelationDefaultContent
 import org.matrix.android.sdk.api.session.room.model.relation.ReplyToContent
+import org.matrix.android.sdk.api.util.Cancelable
+import org.matrix.android.sdk.api.util.CancelableBag
+import org.matrix.android.sdk.internal.util.CancelableWork
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class SendMessageDataSource(private val context: Context) {
 
@@ -43,20 +52,22 @@ class SendMessageDataSource(private val context: Context) {
         uri: Uri,
         caption: String?,
         threadEventId: String?,
-        type: MediaType
-    ) {
-        val roomForMessage = session?.getRoom(roomId) ?: return
+        type: MediaType,
+        compressBeforeSending: Boolean = true
+    ): Cancelable? {
+        val roomForMessage = session?.getRoom(roomId) ?: return null
         val content = when (type) {
             MediaType.Image -> uri.toImageContentAttachmentData(context)
             MediaType.Video -> uri.toVideoContentAttachmentData(context)
-        } ?: return
-        val shouldCompress = content.mimeType != WEBP_MIME_TYPE
+        } ?: return null
+        val shouldCompress =
+            if (compressBeforeSending) content.mimeType != WEBP_MIME_TYPE else false
         val additionalContent = mutableMapOf<String, Any>()
         caption?.let { additionalContent[MediaCaptionFieldKey] = it }
         val replyToContent = threadEventId?.let {
             RelationDefaultContent(null, null, ReplyToContent(it))
         }
-        roomForMessage.sendService().sendMedia(
+        return roomForMessage.sendService().sendMedia(
             content,
             shouldCompress,
             emptySet(),
@@ -64,6 +75,23 @@ class SendMessageDataSource(private val context: Context) {
             replyToContent,
             additionalContent
         )
+    }
+
+    suspend fun awaitForUploading(cancelable: Cancelable?): Boolean {
+        val work = ((cancelable as? CancelableBag)?.firstOrNull() as? CancelableWork)
+            ?: throw IllegalArgumentException()
+        val checkWorkerLiveState = work.workManager.getWorkInfoByIdLiveData(work.workId)
+        return suspendCoroutine {
+            val observer = object : Observer<WorkInfo> {
+                override fun onChanged(value: WorkInfo) {
+                    if (value.state.isFinished) {
+                        checkWorkerLiveState.removeObserver(this)
+                        it.resume(value.state == WorkInfo.State.SUCCEEDED)
+                    }
+                }
+            }
+            Handler(Looper.getMainLooper()).post { checkWorkerLiveState.observeForever(observer) }
+        }
     }
 
     fun createPoll(roomId: String, pollContent: CreatePollContent) {

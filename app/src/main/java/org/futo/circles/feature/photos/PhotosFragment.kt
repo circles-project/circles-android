@@ -54,7 +54,7 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms), MenuProvider {
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-        //inflater.inflate(R.menu.photos_tab_menu, menu)
+        inflater.inflate(R.menu.photos_tab_menu, menu)
     }
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {

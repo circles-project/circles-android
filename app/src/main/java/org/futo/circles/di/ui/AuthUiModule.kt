@@ -30,7 +30,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val authUiModule = module {
-    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel { HomeViewModel(get(), get(), get(), get()) }
     viewModel { LogInViewModel(get(), get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { ValidateTokenViewModel(get()) }
@@ -54,16 +54,20 @@ val authUiModule = module {
                 PasswordModeArg.LoginPasswordStage -> get<LoginPasswordDataSource> {
                     parametersOf(false)
                 }
+
                 PasswordModeArg.ReAuthPassword -> get<LoginPasswordDataSource> { parametersOf(true) }
                 PasswordModeArg.LoginBsSpekeStage -> get<LoginBsSpekeDataSource> {
                     parametersOf(false, false)
                 }
+
                 PasswordModeArg.ReAuthBsSpekeLogin -> get<LoginBsSpekeDataSource> {
                     parametersOf(true, false)
                 }
+
                 PasswordModeArg.ReAuthBsSpekeSignup -> get<LoginBsSpekeDataSource> {
                     parametersOf(true, true)
                 }
+
                 PasswordModeArg.LoginDirect -> get<DirectLoginPasswordDataSource>()
                 PasswordModeArg.SignupPasswordStage -> get<SignupPasswordDataSource>()
                 PasswordModeArg.SignupBsSpekeStage -> get<SignupBsSpekeDataSource>()

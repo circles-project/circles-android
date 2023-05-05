@@ -6,8 +6,11 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -103,10 +106,16 @@
         </provider>
 
         <service
+            android:name=".feature.photos.backup.service.MediaBackupService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
             android:name=".feature.notifications.CirclesSyncAndroidService"
             android:exported="false"
             android:foregroundServiceType="dataSync"
             tools:ignore="Instantiatable" />
+
 
         <receiver
             android:name=".feature.notifications.test.task.TestNotificationReceiver"
@@ -138,6 +147,16 @@
                 <action android:name="org.unifiedpush.android.distributor.REGISTER" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".feature.photos.backup.service.MediaBackupBroadcastReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
