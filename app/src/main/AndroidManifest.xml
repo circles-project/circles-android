@@ -105,7 +105,10 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <service android:name=".feature.photos.backup.service.MediaBackupService" />
+        <service
+            android:name=".feature.photos.backup.service.MediaBackupService"
+            android:enabled="true"
+            android:exported="false" />
 
         <service
             android:name=".feature.notifications.CirclesSyncAndroidService"
@@ -113,10 +116,6 @@
             android:foregroundServiceType="dataSync"
             tools:ignore="Instantiatable" />
 
-        <service
-            android:name="androidx.work.impl.foreground.SystemForegroundService"
-            android:foregroundServiceType="dataSync"
-            tools:node="merge" />
 
         <receiver
             android:name=".feature.notifications.test.task.TestNotificationReceiver"
@@ -149,9 +148,10 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".feature.photos.backup.service.MediaBackupBroadcastReceiver"
+        <receiver
+            android:name=".feature.photos.backup.service.MediaBackupBroadcastReceiver"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
