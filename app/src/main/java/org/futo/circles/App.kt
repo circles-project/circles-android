@@ -1,6 +1,7 @@
 package org.futo.circles
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
@@ -21,6 +22,7 @@ class App : Application() {
     private val fcmHelper: FcmHelper by inject()
     override fun onCreate() {
         super.onCreate()
+        Log.d("MyLog", "app create")
         startKoin {
             androidContext(this@App)
             modules(applicationModules)

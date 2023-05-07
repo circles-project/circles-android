@@ -24,9 +24,13 @@ class MediaBackupDataSource(
 ) {
 
     suspend fun startMediaBackup() {
+        Log.d("MyLog", "start backup")
         val settings = roomAccountDataSource.getMediaBackupSettings()
-        if (settings.shouldStartBackup(context))
+        Log.d("MyLog", "settings $settings")
+        if (settings.shouldStartBackup(context)) {
+            Log.d("MyLog", "start folders backup")
             settings.folders.forEach { backupMediasInFolder(it) }
+        }
     }
 
     suspend fun startBackupByFilePath(path: String) {
@@ -63,20 +67,25 @@ class MediaBackupDataSource(
 
     private suspend fun backupMediasInFolder(bucketId: String) {
         val roomId = createGalleryIfNotExist(bucketId)
+        Log.d("MyLog", "room $roomId")
         val dateModified = roomAccountDataSource.getMediaBackupDateModified(roomId)
         val mediaInFolder = getMediasToBackupInBucket(bucketId, dateModified)
         mediaInFolder.forEach { item ->
             val sendCancelable = sendMessageDataSource.sendMedia(
                 roomId, item.uri, null, null, MediaType.Image
             )
+            Log.d("MyLog", "send")
             val isUploaded = sendMessageDataSource.awaitForUploading(sendCancelable)
-            if (isUploaded)
+            if (isUploaded) {
                 roomAccountDataSource.saveMediaBackupDateModified(roomId, item.dateModified)
+                Log.d("MyLog", "saved ${item.dateModified}")
+            }
         }
     }
 
     private suspend fun createGalleryIfNotExist(bucketId: String): String {
         var roomId = getRoomIdByTag(bucketId)
+        Log.d("MyLog", "found room $roomId")
         if (roomId == null) {
             roomId = createRoomDataSource.createRoom(
                 circlesRoom = Gallery(tag = bucketId),
