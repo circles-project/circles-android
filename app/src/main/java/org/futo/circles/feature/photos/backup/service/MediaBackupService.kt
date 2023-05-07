@@ -22,29 +22,48 @@ import org.koin.android.ext.android.inject
 
 class MediaBackupService : Service() {
 
+    private val binder = MediaBackupServiceBinder()
     private val job = SupervisorJob()
     private val backupScope = CoroutineScope(Dispatchers.IO + job)
     private val mediaBackupDataSource: MediaBackupDataSource by inject()
     private var backupJob: Job? = null
 
+    private val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
+        override fun onChange(selfChange: Boolean, uri: Uri?) {
+            if (backupJob != null || selfChange) return
+            val path = uri?.path ?: return
+            backupJob = backupScope.launch {
+                mediaBackupDataSource.startBackupByFilePath(path)
+                backupJob = null
+            }
+        }
+    }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onCreate() {
+        super.onCreate()
+        contentResolver.registerContentObserver(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, contentObserver
+        )
         startBackup()
-        return START_STICKY
     }
 
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
+        contentResolver.unregisterContentObserver(contentObserver);
     }
 
-    override fun onBind(intent: Intent?): IBinder? = null
+    override fun onBind(intent: Intent?): IBinder = binder
 
-    private fun startBackup(onDone: (() -> Unit)? = null) {
+    fun onBackupSettingsUpdated() {
+        backupJob?.cancel()
+        startBackup()
+    }
+
+    private fun startBackup() {
         backupJob = backupScope.launch {
             mediaBackupDataSource.startMediaBackup()
             backupJob = null
-            onDone?.invoke()
         }
     }
 
