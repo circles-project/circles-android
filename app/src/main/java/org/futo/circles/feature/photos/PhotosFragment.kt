@@ -38,10 +38,6 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms), MenuProvider {
     private val readMediaPermissionHelper =
         RuntimePermissionHelper(this, Manifest.permission.READ_MEDIA_IMAGES)
 
-    @RequiresApi(Build.VERSION_CODES.P)
-    private val foregroundServicePermissionHelper =
-        RuntimePermissionHelper(this, Manifest.permission.FOREGROUND_SERVICE)
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         pickGalleryListener = parentFragment as? PickGalleryListener
@@ -89,13 +85,9 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms), MenuProvider {
     }
 
     private fun openBackupSettingsWithNecessaryPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            foregroundServicePermissionHelper.runWithPermission {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                    readMediaPermissionHelper.runWithPermission { navigateToBackupSettings() }
-                else navigateToBackupSettings()
-            }
-        } else navigateToBackupSettings()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            readMediaPermissionHelper.runWithPermission { navigateToBackupSettings() }
+        else navigateToBackupSettings()
     }
 
     private fun navigateToCreateRoom() {
