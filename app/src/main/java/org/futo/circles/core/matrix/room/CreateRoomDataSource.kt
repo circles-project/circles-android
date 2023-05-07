@@ -2,6 +2,7 @@ package org.futo.circles.core.matrix.room
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import org.futo.circles.BuildConfig
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.model.Circle
@@ -13,7 +14,12 @@ import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.content.EncryptionEventContent
 import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.model.*
+import org.matrix.android.sdk.api.session.room.model.GuestAccess
+import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
+import org.matrix.android.sdk.api.session.room.model.RoomDirectoryVisibility
+import org.matrix.android.sdk.api.session.room.model.RoomHistoryVisibility
+import org.matrix.android.sdk.api.session.room.model.RoomJoinRules
+import org.matrix.android.sdk.api.session.room.model.RoomJoinRulesContent
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomStateEvent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
@@ -49,10 +55,20 @@ class CreateRoomDataSource(
         inviteIds: List<String>? = null,
         allowKnock: Boolean = false
     ): String {
-        val id = session?.roomService()
-            ?.createRoom(
-                getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock)
-            ) ?: throw Exception("Can not create room")
+        Log.d("MyLog", "create room $name")
+        Log.d("MyLog", "session $session")
+        Log.d("MyLog", "session ${session?.roomService()}")
+        val id = try {
+            session?.roomService()
+                ?.createRoom(
+                    getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock)
+                ) ?: throw Exception("Can not create room")
+        } catch (e: Throwable) {
+            Log.d("MyLog", "failed to create room ${e}")
+            throw Exception("Can not create room")
+        }
+
+        Log.d("MyLog", "created room $id")
 
         circlesRoom.tag?.let { session?.getRoom(id)?.tagsService()?.addTag(it, null) }
         circlesRoom.parentTag?.let { tag ->

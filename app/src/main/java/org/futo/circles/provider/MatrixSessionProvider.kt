@@ -1,6 +1,7 @@
 package org.futo.circles.provider
 
 import android.content.Context
+import android.util.Log
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.futo.circles.feature.notifications.GuardServiceStarter
 import org.futo.circles.feature.notifications.PushRuleTriggerListener
@@ -48,6 +49,7 @@ object MatrixSessionProvider : KoinComponent {
     private fun startSession(session: Session, listener: Session.Listener? = null) {
         listener?.let { session.addListener(it) }
         enableInviteKeysSharing(session)
+        Log.d("MyLog", "start session")
         currentSession = session.apply { open(); syncService().startSync(true) }
         session.addListener(MatrixSessionListenerProvider.sessionListener)
         pushRuleTriggerListener.startWithSession(session)
