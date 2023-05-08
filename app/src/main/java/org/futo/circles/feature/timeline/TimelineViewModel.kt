@@ -8,6 +8,7 @@ import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.RoomNotificationsDataSource
 import org.futo.circles.feature.share.ShareableContent
+import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
@@ -19,6 +20,7 @@ class TimelineViewModel(
     private val roomNotificationsDataSource: RoomNotificationsDataSource,
     private val timelineDataSource: TimelineDataSource,
     private val leaveRoomDataSource: LeaveRoomDataSource,
+    accessLevelDataSource: AccessLevelDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
@@ -27,7 +29,7 @@ class TimelineViewModel(
 
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
     val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
-    val accessLevelLiveData = timelineDataSource.accessLevelFlow.asLiveData()
+    val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
     val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
