@@ -27,14 +27,8 @@ class TimelineDataSource(
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)
-
     val roomTitleLiveData = room?.getRoomSummaryLive()?.map { it.getOrNull()?.nameOrId() }
     val timelineEventsLiveData = MutableLiveData<List<Post>>()
-    val accessLevelFlow =
-        room?.stateService()
-            ?.getStateEventLive(EventType.STATE_ROOM_POWER_LEVELS, QueryStringValue.IsEmpty)
-            ?.asFlow()
-            ?.mapNotNull { it.getOrNull()?.content.toModel<PowerLevelsContent>() } ?: flowOf()
 
     private var timelines: MutableList<Timeline> = mutableListOf()
 
