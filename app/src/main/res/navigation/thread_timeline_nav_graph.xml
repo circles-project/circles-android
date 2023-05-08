@@ -21,11 +21,6 @@
             app:argType="string"
             app:nullable="false" />
 
-        <argument
-            android:name="type"
-            app:argType="org.futo.circles.model.CircleRoomTypeArg"
-            app:nullable="false" />
-
 
         <action
             android:id="@+id/to_createPostBottomSheet"

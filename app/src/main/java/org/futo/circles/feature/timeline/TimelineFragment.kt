@@ -96,12 +96,16 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         when (item.itemId) {
             R.id.muteNotifications ->
                 viewModel.setNotificationsEnabled(false)
+
             R.id.unMuteNotifications ->
                 viewModel.setNotificationsEnabled(true)
+
             R.id.configureGroup, R.id.configureCircle ->
                 navigator.navigateToUpdateRoom(args.roomId, args.type)
+
             R.id.manageMembers, R.id.myFollowers ->
                 navigator.navigateToManageMembers(timelineId, args.type)
+
             R.id.inviteMembers, R.id.inviteFollowers -> navigator.navigateToInviteMembers(timelineId)
             R.id.leaveGroup -> showLeaveGroupDialog()
             R.id.iFollowing -> navigator.navigateToFollowing(args.roomId)
@@ -188,7 +192,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun onReply(roomId: String, eventId: String, userName: String) {
-        navigator.navigateToCreatePost(roomId, userName, eventId)
+        navigator.navigateToThread(roomId, eventId)
     }
 
     override fun onShare(content: PostContent) {

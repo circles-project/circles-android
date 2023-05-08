@@ -16,11 +16,9 @@ import org.futo.circles.extensions.showError
 import org.futo.circles.extensions.showSuccess
 import org.futo.circles.extensions.withConfirmation
 import org.futo.circles.feature.share.ShareProvider
-import org.futo.circles.feature.timeline.MarkAsReadBuffer
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
-import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.ConfirmationType
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.PostContent
@@ -28,7 +26,6 @@ import org.futo.circles.view.PostOptionsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
-import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 class ThreadTimelineDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentThreadTimelineBinding::inflate), PostOptionsListener,
@@ -38,7 +35,7 @@ class ThreadTimelineDialogFragment :
     private val viewModel by viewModel<ThreadTimelineViewModel> {
         parametersOf(args.roomId, args.eventId)
     }
-    private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
+
     private val navigator by lazy { ThreadTimelineNavigator(this) }
 
     private val binding by lazy {
@@ -47,11 +44,9 @@ class ThreadTimelineDialogFragment :
 
     private val listAdapter by lazy {
         TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) {
-           // viewModel.loadMore()
+            // viewModel.loadMore()
         }
     }
-
-    private var groupPowerLevelsContent: PowerLevelsContent? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,10 +59,10 @@ class ThreadTimelineDialogFragment :
             adapter = listAdapter
             itemAnimator = null
             bindToFab(binding.fbCreatePost)
-           // MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
+            // MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
         }
         binding.fbCreatePost.setOnClickListener {
-           // navigator.navigateToCreatePost(timelineId)
+            //navigator.navigateToCreatePost(timelineId)
         }
     }
 
@@ -185,20 +180,8 @@ class ThreadTimelineDialogFragment :
     }
 
     private fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
-        if (isGroupMode) onGroupUserAccessLevelChanged(powerLevelsContent)
-        else onCircleUserAccessLeveChanged(powerLevelsContent)
-        listAdapter.updateUserPowerLevel(getCurrentUserPowerLevel(args.roomId))
-    }
-
-    private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         binding.fbCreatePost.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
-        groupPowerLevelsContent = powerLevelsContent
-        activity?.invalidateOptionsMenu()
-    }
-
-    private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
-        val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
-        binding.fbCreatePost.setIsVisible(isUserAdmin)
+        listAdapter.updateUserPowerLevel(getCurrentUserPowerLevel(args.roomId))
     }
 
 }
