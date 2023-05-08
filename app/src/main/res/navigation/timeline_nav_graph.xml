@@ -217,6 +217,28 @@
 
         </action>
 
+        <action
+            android:id="@+id/to_thread"
+            app:destination="@id/thread_timeline_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Group"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+
     </fragment>
 
     <dialog
@@ -476,4 +498,7 @@
             app:nullable="false" />
 
     </dialog>
+
+    <include app:graph="@navigation/thread_timeline_nav_graph" />
+
 </navigation>
