@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/thread_timeline_nav_graph"
+    app:startDestination="@id/threadTimelineDialogFragment">
+
+
+    <dialog
+        android:id="@+id/threadTimelineDialogFragment"
+        android:name="org.futo.circles.feature.timeline.thread.ThreadTimelineDialogFragment"
+        tools:layout="@layout/dialog_fragment_thread_timeline">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+
+        <action
+            android:id="@+id/to_createPostBottomSheet"
+            app:destination="@id/createPostBottomSheet">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="userName"
+                app:argType="string"
+                app:nullable="true" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+            <argument
+                android:name="isEdit"
+                android:defaultValue="false"
+                app:argType="boolean"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_reportDialogFragment"
+            app:destination="@id/reportDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_emojiBottomSheet"
+            app:destination="@id/emojiBottomSheet">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_saveToGalleyDialogFragment"
+            app:destination="@id/saveToGalleyDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_mediaPreviewDialogFragment"
+            app:destination="@id/mediaPreviewDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_postInfo"
+            app:destination="@id/postInfoDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+
+
+        <action
+            android:id="@+id/to_userDialogFragment"
+            app:destination="@id/userDialogFragment">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/createPostBottomSheet"
+        android:name="org.futo.circles.feature.timeline.post.create.CreatePostDialogFragment"
+        android:label="CreatePostBottomSheet"
+        tools:layout="@layout/dialog_fragment_create_post">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="userName"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="isEdit"
+            app:argType="boolean"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_emojiBottomSheet"
+            app:destination="@id/emojiBottomSheet" />
+    </dialog>
+    <dialog
+        android:id="@+id/reportDialogFragment"
+        android:name="org.futo.circles.feature.timeline.post.report.ReportDialogFragment"
+        android:label="ReportDialogFragment"
+        tools:layout="@layout/dialog_fragment_report">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/emojiBottomSheet"
+        android:name="org.futo.circles.feature.timeline.post.emoji.EmojiBottomSheet"
+        android:label="EmojiBottomSheet"
+        tools:layout="@layout/bottom_sheet_emoji">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="true" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="true" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/saveToGalleyDialogFragment"
+        android:name="org.futo.circles.feature.photos.save.SavePostToGalleyDialogFragment"
+        tools:layout="@layout/dialog_fragment_save_post_to_gallery">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/mediaPreviewDialogFragment"
+        android:name="org.futo.circles.feature.photos.preview.MediaPreviewDialogFragment"
+        tools:layout="@layout/dialog_fragment_media_preview">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/postInfoDialogFragment"
+        android:name="org.futo.circles.feature.timeline.post.info.PostInfoDialogFragment"
+        tools:layout="@layout/dialog_fragment_debug_info">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/userDialogFragment"
+        android:name="org.futo.circles.feature.people.user.UserDialogFragment"
+        tools:layout="@layout/dialog_fragment_user">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+</navigation>
