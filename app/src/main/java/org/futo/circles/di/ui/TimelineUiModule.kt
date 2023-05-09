@@ -7,17 +7,16 @@ import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLeve
 import org.futo.circles.feature.share.BaseShareViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
-import org.futo.circles.feature.timeline.thread.ThreadTimelineViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val timelineUiModule = module {
-    viewModel { (roomId: String, type: CircleRoomTypeArg) ->
+    viewModel { (roomId: String, threadEventId: String?, type: CircleRoomTypeArg) ->
         TimelineViewModel(
             get { parametersOf(roomId, type) },
-            get { parametersOf(roomId, type) },
+            get { parametersOf(roomId, threadEventId, type) },
             get { parametersOf(roomId) },
             get { parametersOf(roomId) },
             get(), get(), get(), get()
@@ -34,12 +33,5 @@ val timelineUiModule = module {
     viewModel { BaseShareViewModel(get()) }
     viewModel { (levelValue: Int, myUserLevelValue: Int) ->
         ChangeAccessLevelViewModel(get { parametersOf(levelValue, myUserLevelValue) })
-    }
-    viewModel { (roomId: String, eventId: String) ->
-        ThreadTimelineViewModel(
-            get { parametersOf(roomId) },
-            get { parametersOf(roomId, eventId) },
-            get(), get(), get()
-        )
     }
 }

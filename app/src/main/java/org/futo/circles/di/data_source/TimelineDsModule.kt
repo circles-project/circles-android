@@ -17,13 +17,12 @@ import org.futo.circles.feature.timeline.data_source.TimelineBuilder
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.feature.timeline.post.report.ReportDataSource
-import org.futo.circles.feature.timeline.thread.ThreadTimelineDataSource
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val timelineDsModule = module {
-    factory { (roomId: String, type: CircleRoomTypeArg) ->
-        TimelineDataSource(roomId, type, get())
+    factory { (roomId: String, threadEventId: String?, type: CircleRoomTypeArg) ->
+        TimelineDataSource(roomId, threadEventId, type, get())
     }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         RoomNotificationsDataSource(roomId, type, get())
@@ -47,7 +46,4 @@ val timelineDsModule = module {
     factory { UserOptionsDataSource() }
     factory { (userId: String) -> UserDataSource(get(), userId) }
     factory { ReadMessageDataSource() }
-    factory { (roomId: String, eventId: String) ->
-        ThreadTimelineDataSource(roomId, eventId)
-    }
 }

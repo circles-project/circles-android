@@ -1,26 +1,20 @@
 package org.futo.circles.feature.timeline.data_source
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.mapNotNull
 import org.futo.circles.mapping.nameOrId
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.Post
 import org.futo.circles.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.query.QueryStringValue
-import org.matrix.android.sdk.api.session.events.model.EventType
-import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
-import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 
 class TimelineDataSource(
     roomId: String,
+    private val threadEventId: String?,
     private val type: CircleRoomTypeArg,
     private val timelineBuilder: TimelineBuilder
 ) : Timeline.Listener {
@@ -35,10 +29,15 @@ class TimelineDataSource(
     fun startTimeline() {
         getTimelineRooms().forEach { room ->
             val timeline =
-                room.timelineService().createTimeline(null, TimelineSettings(MESSAGES_PER_PAGE))
+                room.timelineService().createTimeline(
+                    null, TimelineSettings(
+                        initialSize = MESSAGES_PER_PAGE,
+                        rootThreadEventId = threadEventId
+                    )
+                )
                     .apply {
                         addListener(this@TimelineDataSource)
-                        start()
+                        start(threadEventId)
                     }
             timelines.add(timeline)
         }
@@ -77,6 +76,7 @@ class TimelineDataSource(
         CircleRoomTypeArg.Circle -> room?.roomSummary()?.spaceChildren?.mapNotNull {
             session?.getRoom(it.childRoomId)
         } ?: emptyList()
+
         else -> listOfNotNull(room)
     }
 

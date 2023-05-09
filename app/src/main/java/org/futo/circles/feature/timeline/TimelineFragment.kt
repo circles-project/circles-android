@@ -34,8 +34,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     CreatePostListener, CreatePollListener, EmojiPickerListener, MenuProvider {
 
     private val args: TimelineFragmentArgs by navArgs()
-    private val viewModel by viewModel<TimelineViewModel> { parametersOf(args.roomId, args.type) }
+    private val viewModel by viewModel<TimelineViewModel> {
+        parametersOf(args.roomId, args.threadEventId, args.type)
+    }
     private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
+    private val isThread by lazy { args.threadEventId != null }
 
     private val timelineId by lazy {
         if (isGroupMode) args.roomId
@@ -68,6 +71,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
+        if (isThread) return
         if (isGroupMode) inflateGroupMenu(menu, inflater) else inflateCircleMenu(menu, inflater)
     }
 
@@ -137,8 +141,10 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     private fun setupObservers() {
-        viewModel.titleLiveData?.observeData(this) { title ->
-            setToolbarTitle(title ?: "")
+        viewModel.titleLiveData?.observeData(this) { roomName ->
+            val title = if (isThread) getString(R.string.thread_format, roomName ?: "")
+            else roomName ?: ""
+            setToolbarTitle(title)
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
@@ -192,7 +198,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun onReply(roomId: String, eventId: String, userName: String) {
-        navigator.navigateToThread(roomId, eventId)
+        navigator.navigateToThread(roomId, eventId, args.type)
     }
 
     override fun onShare(content: PostContent) {

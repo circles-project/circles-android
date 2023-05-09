@@ -444,7 +444,7 @@
     <string name="backup_over_wifi_only">Backup over WiFi only</string>
     <string name="compress_before_sending">Compress before sending</string>
     <string name="notification_media_backup">Media backup</string>
-    <string name="thread">Thread</string>
+    <string name="thread_format">%s (thread)</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
