@@ -9,11 +9,9 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.chip.Chip
 import org.futo.circles.R
 import org.futo.circles.databinding.ViewPostFooterBinding
-import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.Post
 import org.futo.circles.model.ReactionsData
-import org.futo.circles.model.RootPost
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 
@@ -53,20 +51,16 @@ class PostFooterView(
         optionsListener = postOptionsListener
     }
 
-    fun setData(data: Post, isReply: Boolean, powerLevel: Int) {
+    fun setData(data: Post, powerLevel: Int) {
         post = data
         userPowerLevel = powerLevel
-        bindViewData(isReply, data.canShare())
+        bindViewData(data.canShare())
         bindReactionsList(data.postInfo.reactionsData)
     }
 
-    private fun bindViewData(
-        isReply: Boolean,
-        canShare: Boolean
-    ) {
+    private fun bindViewData(canShare: Boolean) {
         with(binding) {
             btnShare.setIsVisible(canShare)
-            btnReply.setIsVisible(!isReply)
             btnReply.isEnabled = areUserAbleToPost()
             btnLike.isEnabled = areUserAbleToPost()
         }

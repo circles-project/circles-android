@@ -6,7 +6,6 @@ import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.model.Post
 import org.futo.circles.model.PostContentType
 import org.futo.circles.model.PostItemPayload
-import org.futo.circles.model.RootPost
 import org.futo.circles.view.PostOptionsListener
 
 class TimelineAdapter(
@@ -15,9 +14,6 @@ class TimelineAdapter(
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<Post, PostViewHolder>(PayloadIdEntityCallback { old, new ->
     PostItemPayload(
-        repliesCount = (new as? RootPost)?.getRepliesCount() ?: 0,
-        isRepliesVisible = (new as? RootPost)?.isRepliesVisible ?: false,
-        hasReplies = (new as? RootPost)?.hasReplies() ?: false,
         sendState = new.sendState,
         readInfo = new.readInfo,
         needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo

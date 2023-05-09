@@ -74,10 +74,8 @@ class PostLayout(
     }
 
     private fun setGeneralMessageData(data: Post, userPowerLevel: Int) {
-        val isReply = data is ReplyPost
-        binding.vReplyMargin.setIsVisible(isReply)
         binding.postHeader.setData(data, userPowerLevel)
-        binding.postFooter.setData(data, isReply, userPowerLevel)
+        binding.postFooter.setData(data, userPowerLevel)
         setMentionBorder(data.content)
         setIsEdited(data.postInfo.isEdited)
         setShadow(data.readInfo.shouldIndicateAsNew)
@@ -134,7 +132,7 @@ class PostLayout(
     }
 
     override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
-        if (child.id == R.id.vReplyMargin || child.id == R.id.lShadow) {
+        if (child.id == R.id.lShadow) {
             super.addView(child, index, params)
         } else {
             findViewById<FrameLayout>(R.id.lvContent).addView(child, index, params)
