@@ -87,9 +87,9 @@ class TimelineNavigator(private val fragment: TimelineFragment) {
         )
     }
 
-    fun navigateToThread(roomId: String, threadEventId: String, type: CircleRoomTypeArg) {
+    fun navigateToThread(roomId: String, threadEventId: String) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toThreadTimeline(roomId, threadEventId, type)
+            TimelineFragmentDirections.toThreadTimeline(roomId, threadEventId)
         )
     }
 }

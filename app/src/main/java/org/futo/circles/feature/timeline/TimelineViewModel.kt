@@ -38,10 +38,6 @@ class TimelineViewModel(
     val deleteCircleLiveData = SingleEventLiveData<Response<Unit?>>()
 
 
-    fun toggleRepliesVisibilityFor(eventId: String) {
-        timelineDataSource.toggleRepliesVisibility(eventId)
-    }
-
     fun sharePostContent(content: PostContent) {
         launchBg {
             postOptionsDataSource.getShareableContent(content)?.let { shareLiveData.postValue(it) }

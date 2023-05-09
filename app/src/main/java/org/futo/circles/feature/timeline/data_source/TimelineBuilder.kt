@@ -34,39 +34,6 @@ class TimelineBuilder {
         return handleRepliesVisibilityForPost(messagesWithReplies).also { currentList = it }
     }
 
-    fun toggleRepliesVisibilityFor(eventId: String): List<Post> =
-        if (isRepliesVisibleFor(eventId)) removeRepliesFromCurrentListFor(eventId)
-        else addRepliesToCurrentListFor(eventId)
-
-    private fun addRepliesToCurrentListFor(eventId: String): List<Post> {
-        val list: MutableList<Post> = mutableListOf()
-        repliesVisibleEvents.add(eventId)
-        currentList.forEach { post ->
-            if (post.id == eventId && post is RootPost) {
-                list.add(post.copy(isRepliesVisible = true))
-                list.addAll(post.replies)
-            } else {
-                list.add(post)
-            }
-        }
-        return list.also { currentList = list }
-    }
-
-    private fun removeRepliesFromCurrentListFor(eventId: String): List<Post> {
-        val list: MutableList<Post> = mutableListOf()
-        repliesVisibleEvents.remove(eventId)
-        val rootPostsList = getOnlyRootMessages(currentList)
-        rootPostsList.forEach { rootPost ->
-            if (rootPost.id == eventId) {
-                list.add(rootPost.copy(isRepliesVisible = false))
-            } else {
-                list.add(rootPost)
-                if (rootPost.isRepliesVisible) list.addAll(rootPost.replies)
-            }
-        }
-        return list.also { currentList = list }
-    }
-
     private fun processSnapshot(list: List<TimelineEvent>): List<TimelineEvent> {
         val filteredList = removeEditionsAndDeletedEvents(list)
         val roomId = filteredList.firstOrNull()?.roomId ?: return emptyList()

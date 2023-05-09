@@ -11,7 +11,6 @@ import org.futo.circles.R
 import org.futo.circles.databinding.ViewPostFooterBinding
 import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.Post
 import org.futo.circles.model.ReactionsData
 import org.futo.circles.model.RootPost
@@ -38,11 +37,7 @@ class PostFooterView(
         with(binding) {
             btnReply.setOnClickListener {
                 post?.let {
-                    optionsListener?.onReply(
-                        it.postInfo.roomId,
-                        it.id,
-                        it.postInfo.sender.notEmptyDisplayName()
-                    )
+                    optionsListener?.onReply(it.postInfo.roomId, it.id)
                 }
             }
             btnShare.setOnClickListener {
@@ -50,9 +45,6 @@ class PostFooterView(
             }
             btnLike.setOnClickListener {
                 post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
-            }
-            binding.btnShowReplies.setOnClickListener {
-                post?.let { optionsListener?.onShowRepliesClicked(it.id) }
             }
         }
     }
@@ -65,7 +57,6 @@ class PostFooterView(
         post = data
         userPowerLevel = powerLevel
         bindViewData(isReply, data.canShare())
-        bindRepliesButton(data)
         bindReactionsList(data.postInfo.reactionsData)
     }
 
@@ -78,28 +69,6 @@ class PostFooterView(
             btnReply.setIsVisible(!isReply)
             btnReply.isEnabled = areUserAbleToPost()
             btnLike.isEnabled = areUserAbleToPost()
-        }
-    }
-
-    private fun bindRepliesButton(post: Post) {
-        val rootPost = (post as? RootPost) ?: kotlin.run { binding.btnShowReplies.gone(); return }
-        bindRepliesButton(
-            rootPost.hasReplies(), rootPost.getRepliesCount(), rootPost.isRepliesVisible
-        )
-    }
-
-    fun bindRepliesButton(
-        hasReplies: Boolean,
-        repliesCount: Int,
-        isRepliesVisible: Boolean
-    ) {
-        with(binding.btnShowReplies) {
-            setIsVisible(hasReplies)
-            text = context.resources.getQuantityString(
-                R.plurals.replies_plurals,
-                repliesCount, repliesCount
-            )
-            setIsOpened(isRepliesVisible)
         }
     }
 

@@ -20,13 +20,12 @@ import org.matrix.android.sdk.api.session.room.send.SendState
 
 interface PostOptionsListener {
     fun onUserClicked(userId: String)
-    fun onShowRepliesClicked(eventId: String)
     fun onShare(content: PostContent)
     fun onIgnore(senderId: String)
     fun onSaveToDevice(content: PostContent)
     fun onEditPostClicked(roomId: String, eventId: String)
     fun onSaveToGallery(roomId: String, eventId: String)
-    fun onReply(roomId: String, eventId: String, userName: String)
+    fun onReply(roomId: String, eventId: String)
     fun onShowPreview(roomId: String, eventId: String)
     fun onShowEmoji(roomId: String, eventId: String)
     fun onReport(roomId: String, eventId: String)
@@ -70,11 +69,6 @@ class PostLayout(
     }
 
     fun setPayload(payload: PostItemPayload) {
-        binding.postFooter.bindRepliesButton(
-            payload.hasReplies,
-            payload.repliesCount,
-            payload.isRepliesVisible
-        )
         setShadow(payload.readInfo.shouldIndicateAsNew)
         setSendStatus(payload.sendState, payload.readInfo.readByCount)
     }

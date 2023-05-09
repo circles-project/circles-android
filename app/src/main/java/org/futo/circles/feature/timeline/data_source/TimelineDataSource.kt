@@ -67,11 +67,6 @@ class TimelineDataSource(
         timelines.forEach { it.restartWithEventId(null) }
     }
 
-    fun toggleRepliesVisibility(eventId: String) {
-        timelineEventsLiveData.value = timelineBuilder.toggleRepliesVisibilityFor(eventId)
-    }
-
-
     private fun getTimelineRooms(): List<Room> = when (type) {
         CircleRoomTypeArg.Circle -> room?.roomSummary()?.spaceChildren?.mapNotNull {
             session?.getRoom(it.childRoomId)

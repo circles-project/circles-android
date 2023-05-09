@@ -180,10 +180,6 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         navigator.navigateToUserDialogFragment(userId)
     }
 
-    override fun onShowRepliesClicked(eventId: String) {
-        viewModel.toggleRepliesVisibilityFor(eventId)
-    }
-
     override fun onShowPreview(roomId: String, eventId: String) {
         navigator.navigateToShowMediaPreview(roomId, eventId)
     }
@@ -192,8 +188,8 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         navigator.navigateToShowEmoji(roomId, eventId)
     }
 
-    override fun onReply(roomId: String, eventId: String, userName: String) {
-        navigator.navigateToThread(roomId, eventId, args.type)
+    override fun onReply(roomId: String, eventId: String) {
+        navigator.navigateToThread(roomId, eventId)
     }
 
     override fun onShare(content: PostContent) {

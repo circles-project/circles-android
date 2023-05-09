@@ -486,11 +486,6 @@
         <item quantity="other">%d members</item>
     </plurals>
 
-    <plurals name="replies_plurals">
-        <item quantity="one">%d reply</item>
-        <item quantity="other">%d replies</item>
-    </plurals>
-
     <plurals name="days">
         <item quantity="one">%1$d day</item>
         <item quantity="many">%1$d days</item>
