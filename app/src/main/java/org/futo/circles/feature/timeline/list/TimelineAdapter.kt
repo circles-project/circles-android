@@ -11,6 +11,7 @@ import org.futo.circles.view.PostOptionsListener
 class TimelineAdapter(
     private var userPowerLevel: Int,
     private val postOptionsListener: PostOptionsListener,
+    private val isThread: Boolean,
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<Post, PostViewHolder>(PayloadIdEntityCallback { old, new ->
     PostItemPayload(
@@ -31,8 +32,11 @@ class TimelineAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return when (PostContentType.values()[viewType]) {
-            PostContentType.POLL_CONTENT -> PollPostViewHolder(parent, postOptionsListener)
-            else -> TextMediaPostViewHolder(parent, postOptionsListener)
+            PostContentType.POLL_CONTENT -> PollPostViewHolder(
+                parent, postOptionsListener, isThread
+            )
+
+            else -> TextMediaPostViewHolder(parent, postOptionsListener, isThread)
         }
     }
 

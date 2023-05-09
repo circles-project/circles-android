@@ -48,7 +48,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
     private val binding by viewBinding(FragmentTimelineBinding::bind)
     private val listAdapter by lazy {
-        TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
+        TimelineAdapter(
+            getCurrentUserPowerLevel(args.roomId),
+            this,
+            isThread
+        ) { viewModel.loadMore() }
     }
     private val navigator by lazy { TimelineNavigator(this) }
     private var groupPowerLevelsContent: PowerLevelsContent? = null

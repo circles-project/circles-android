@@ -23,14 +23,14 @@ import org.futo.circles.view.PostLayout
 import org.futo.circles.view.PostOptionsListener
 
 
-sealed class PostViewHolder(view: View) :
+sealed class PostViewHolder(view: View, private val isThread: Boolean) :
     RecyclerView.ViewHolder(view) {
 
     abstract val postLayout: PostLayout
     protected val markwon = MarkdownParser.markwonBuilder(context)
 
     open fun bind(post: Post, userPowerLevel: Int) {
-        postLayout.setData(post, userPowerLevel)
+        postLayout.setData(post, userPowerLevel, isThread)
     }
 
     fun bindPayload(payload: PostItemPayload) {
@@ -40,8 +40,10 @@ sealed class PostViewHolder(view: View) :
 
 class TextMediaPostViewHolder(
     parent: ViewGroup,
-    postOptionsListener: PostOptionsListener
-) : PostViewHolder(inflate(parent, ViewTextMediaPostBinding::inflate)), UploadMediaViewHolder {
+    postOptionsListener: PostOptionsListener,
+    isThread: Boolean
+) : PostViewHolder(inflate(parent, ViewTextMediaPostBinding::inflate), isThread),
+    UploadMediaViewHolder {
 
     private companion object : ViewBindingHolder
 
@@ -74,6 +76,7 @@ class TextMediaPostViewHolder(
                 bindMediaContent(content)
                 uploadMediaTracker.track(post.id, binding.vLoadingView)
             }
+
             else -> return
         }
     }
@@ -120,8 +123,9 @@ class TextMediaPostViewHolder(
 
 class PollPostViewHolder(
     parent: ViewGroup,
-    private val postOptionsListener: PostOptionsListener
-) : PostViewHolder(inflate(parent, ViewPollPostBinding::inflate)) {
+    private val postOptionsListener: PostOptionsListener,
+    isThread: Boolean
+) : PostViewHolder(inflate(parent, ViewPollPostBinding::inflate), isThread) {
 
     private companion object : ViewBindingHolder
 

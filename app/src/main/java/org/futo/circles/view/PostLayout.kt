@@ -14,7 +14,12 @@ import org.futo.circles.databinding.LayoutPostBinding
 import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
-import org.futo.circles.model.*
+import org.futo.circles.model.MediaContent
+import org.futo.circles.model.PollContent
+import org.futo.circles.model.Post
+import org.futo.circles.model.PostContent
+import org.futo.circles.model.PostItemPayload
+import org.futo.circles.model.TextContent
 import org.matrix.android.sdk.api.session.room.send.SendState
 
 
@@ -63,9 +68,9 @@ class PostLayout(
     }
 
 
-    fun setData(data: Post, userPowerLevel: Int) {
+    fun setData(data: Post, userPowerLevel: Int, isThread: Boolean) {
         post = data
-        setGeneralMessageData(data, userPowerLevel)
+        setGeneralMessageData(data, userPowerLevel, isThread)
     }
 
     fun setPayload(payload: PostItemPayload) {
@@ -73,9 +78,9 @@ class PostLayout(
         setSendStatus(payload.sendState, payload.readInfo.readByCount)
     }
 
-    private fun setGeneralMessageData(data: Post, userPowerLevel: Int) {
+    private fun setGeneralMessageData(data: Post, userPowerLevel: Int, isThread: Boolean) {
         binding.postHeader.setData(data, userPowerLevel)
-        binding.postFooter.setData(data, userPowerLevel)
+        binding.postFooter.setData(data, userPowerLevel, isThread)
         setMentionBorder(data.content)
         setIsEdited(data.postInfo.isEdited)
         setShadow(data.readInfo.shouldIndicateAsNew)
@@ -87,7 +92,8 @@ class PostLayout(
             is MediaContent -> content.mediaContentInfo.caption?.let {
                 MarkdownParser.hasCurrentUserMention(it)
             } ?: false
-            is TextContent ->  MarkdownParser.hasCurrentUserMention(content.message)
+
+            is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
             is PollContent -> false
         }
         if (hasMention)
@@ -115,10 +121,12 @@ class PostLayout(
                 binding.ivSendStatus.setImageResource(R.drawable.ic_sending)
                 binding.tvReadByCount.text = ""
             }
+
             sendState.hasFailed() -> {
                 binding.ivSendStatus.setImageResource(R.drawable.ic_send_failed)
                 binding.tvReadByCount.text = ""
             }
+
             sendState.isSent() -> {
                 if (readByCount > 0) {
                     binding.ivSendStatus.setImageResource(R.drawable.ic_seen)

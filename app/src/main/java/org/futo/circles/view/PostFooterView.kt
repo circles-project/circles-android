@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.google.android.material.chip.Chip
 import org.futo.circles.R
 import org.futo.circles.databinding.ViewPostFooterBinding
@@ -51,16 +52,17 @@ class PostFooterView(
         optionsListener = postOptionsListener
     }
 
-    fun setData(data: Post, powerLevel: Int) {
+    fun setData(data: Post, powerLevel: Int, isThread: Boolean) {
         post = data
         userPowerLevel = powerLevel
-        bindViewData(data.canShare())
+        bindViewData(data.canShare(), isThread)
         bindReactionsList(data.postInfo.reactionsData)
     }
 
-    private fun bindViewData(canShare: Boolean) {
+    private fun bindViewData(canShare: Boolean, isThread: Boolean) {
         with(binding) {
             btnShare.setIsVisible(canShare)
+            btnReply.isVisible = !isThread
             btnReply.isEnabled = areUserAbleToPost()
             btnLike.isEnabled = areUserAbleToPost()
         }
