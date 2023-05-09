@@ -13,10 +13,10 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val timelineUiModule = module {
-    viewModel { (roomId: String, threadEventId: String?, type: CircleRoomTypeArg) ->
+    viewModel { (roomId: String, type: CircleRoomTypeArg, threadEventId: String?) ->
         TimelineViewModel(
             get { parametersOf(roomId, type) },
-            get { parametersOf(roomId, threadEventId, type) },
+            get { parametersOf(roomId, type, threadEventId) },
             get { parametersOf(roomId) },
             get { parametersOf(roomId) },
             get(), get(), get(), get()

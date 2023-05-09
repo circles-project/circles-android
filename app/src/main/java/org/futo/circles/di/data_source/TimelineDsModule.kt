@@ -21,8 +21,8 @@ import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val timelineDsModule = module {
-    factory { (roomId: String, threadEventId: String?, type: CircleRoomTypeArg) ->
-        TimelineDataSource(roomId, threadEventId, type, get())
+    factory { (roomId: String, type: CircleRoomTypeArg, threadEventId: String?) ->
+        TimelineDataSource(roomId, type, threadEventId, get())
     }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         RoomNotificationsDataSource(roomId, type, get())

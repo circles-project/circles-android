@@ -17,7 +17,7 @@ val photosUiModule = module {
         GalleryViewModel(
             roomId,
             isVideoAvailable,
-            get { parametersOf(roomId, type) },
+            get { parametersOf(roomId, type, null) },
             get { parametersOf(roomId) },
             get()
         )

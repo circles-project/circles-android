@@ -31,7 +31,7 @@ val settingsUiModule = module {
     }
     viewModel { SystemNoticesCountSharedViewModel() }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
-        SystemNoticesTimelineViewModel(get { parametersOf(roomId, type) })
+        SystemNoticesTimelineViewModel(get { parametersOf(roomId, type, null) })
     }
     viewModel { UsernameViewModel(get()) }
     viewModel { (deviceId: String) -> VerifySessionViewModel(deviceId, get()) }

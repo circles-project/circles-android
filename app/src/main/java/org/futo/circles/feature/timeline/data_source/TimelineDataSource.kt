@@ -14,8 +14,8 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 
 class TimelineDataSource(
     roomId: String,
-    private val threadEventId: String?,
     private val type: CircleRoomTypeArg,
+    private val threadEventId: String?,
     private val timelineBuilder: TimelineBuilder
 ) : Timeline.Listener {
 
