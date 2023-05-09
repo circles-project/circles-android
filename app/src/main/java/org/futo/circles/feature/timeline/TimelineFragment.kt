@@ -130,18 +130,15 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             itemAnimator = null
             MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
         }
-        binding.fabMenu.apply {
-            bindToRecyclerView(binding.rvTimeline)
-            setListener(object : CreatePostMenuListener {
-                override fun onCreatePoll() {
-                    navigator.navigateToCreatePoll(timelineId)
-                }
+        binding.fabMenu.setUp(object : CreatePostMenuListener {
+            override fun onCreatePoll() {
+                navigator.navigateToCreatePoll(timelineId)
+            }
 
-                override fun onCreatePost() {
-                    navigator.navigateToCreatePost(timelineId)
-                }
-            })
-        }
+            override fun onCreatePost() {
+                navigator.navigateToCreatePost(timelineId)
+            }
+        }, binding.rvTimeline, isThread)
     }
 
     private fun setupObservers() {
