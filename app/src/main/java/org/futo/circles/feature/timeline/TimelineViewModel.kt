@@ -30,7 +30,6 @@ class TimelineViewModel(
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
     val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
-    val scrollToTopLiveData = SingleEventLiveData<Unit>()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -80,7 +79,6 @@ class TimelineViewModel(
                     roomId, postContent.text, threadEventId
                 )
             }
-            if (threadEventId == null) scrollToTopLiveData.postValue(Unit)
         }
     }
 
@@ -90,7 +88,6 @@ class TimelineViewModel(
 
     fun createPoll(roomId: String, pollContent: CreatePollContent) {
         sendMessageDataSource.createPoll(roomId, pollContent)
-        scrollToTopLiveData.postValue(Unit)
     }
 
     fun editPoll(roomId: String, eventId: String, pollContent: CreatePollContent) {

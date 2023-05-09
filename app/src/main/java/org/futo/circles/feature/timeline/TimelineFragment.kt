@@ -157,11 +157,6 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
             onUserAccessLevelChanged(powerLevelsContent)
         }
-        viewModel.scrollToTopLiveData.observeData(this) {
-            binding.rvTimeline.postDelayed(
-                { binding.rvTimeline.scrollToPosition(0) }, 500
-            )
-        }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
         }
@@ -261,7 +256,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         postContent: CreatePostContent,
         threadEventId: String?
     ) {
-        viewModel.sendPost(roomId, postContent, threadEventId)
+        viewModel.sendPost(roomId, postContent, args.threadEventId)
     }
 
     override fun onEditTextPost(roomId: String, newMessage: String, eventId: String) {
