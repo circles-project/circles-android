@@ -83,10 +83,6 @@
                 app:argType="string"
                 app:nullable="false" />
 
-            <argument
-                android:name="userName"
-                app:argType="string"
-                app:nullable="true" />
 
             <argument
                 android:name="eventId"
@@ -352,11 +348,6 @@
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
-
-        <argument
-            android:name="userName"
-            app:argType="string"
-            app:nullable="true" />
 
         <argument
             android:name="eventId"

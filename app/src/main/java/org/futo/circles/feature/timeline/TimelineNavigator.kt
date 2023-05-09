@@ -7,12 +7,11 @@ class TimelineNavigator(private val fragment: TimelineFragment) {
 
     fun navigateToCreatePost(
         roomId: String,
-        userName: String? = null,
         eventId: String? = null,
         isEdit: Boolean = false
     ) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId, isEdit)
+            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, eventId, isEdit)
         )
     }
 
