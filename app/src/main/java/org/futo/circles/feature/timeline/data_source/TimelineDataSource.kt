@@ -23,6 +23,9 @@ class TimelineDataSource(
     private val room = session?.getRoom(roomId)
     val roomTitleLiveData = room?.getRoomSummaryLive()?.map { it.getOrNull()?.nameOrId() }
     val timelineEventsLiveData = MutableLiveData<List<Post>>()
+    private val isThread = threadEventId != null
+    private val listDirection =
+        if (isThread) Timeline.Direction.FORWARDS else Timeline.Direction.BACKWARDS
 
     private var timelines: MutableList<Timeline> = mutableListOf()
 
@@ -53,14 +56,14 @@ class TimelineDataSource(
 
     fun loadMore() {
         timelines.forEach { timeline ->
-            if (timeline.hasMoreToLoad(Timeline.Direction.BACKWARDS))
-                timeline.paginate(Timeline.Direction.BACKWARDS, MESSAGES_PER_PAGE)
+            if (timeline.hasMoreToLoad(listDirection))
+                timeline.paginate(listDirection, MESSAGES_PER_PAGE)
         }
     }
 
     override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
         if (snapshot.isNotEmpty())
-            timelineEventsLiveData.value = timelineBuilder.build(snapshot)
+            timelineEventsLiveData.value = timelineBuilder.build(snapshot, isThread)
     }
 
     override fun onTimelineFailure(throwable: Throwable) {
