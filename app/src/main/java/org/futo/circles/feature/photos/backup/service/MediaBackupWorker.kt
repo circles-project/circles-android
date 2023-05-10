@@ -19,7 +19,7 @@ class MediaBackupWorker(context: Context, params: WorkerParameters) :
     CoroutineWorker(context, params), KoinComponent {
 
     private val mediaBackupDataSource: MediaBackupDataSource by inject()
-    private val creaRooDataSource: CreateRoomDataSource by inject()
+    private val createRooDataSource: CreateRoomDataSource by inject()
     private val roomAccountDataSource: RoomAccountDataSource by inject()
 
     override suspend fun doWork(): Result {
@@ -28,17 +28,13 @@ class MediaBackupWorker(context: Context, params: WorkerParameters) :
 //            Log.d("MyLog", ses.toString())
 //            MatrixSessionProvider.awaitForSessionSync(ses)
 //            Log.d("MyLog", "finish await")
-            creaRooDataSource.createRoom(
+            createRooDataSource.createRoom(
                 circlesRoom = Gallery(tag = "123"),
                 name = "Test"
             )
         }
         return Result.success()
     }
-
-
-    override suspend fun getForegroundInfo(): ForegroundInfo =
-        MediaBackupWorkerNotificationHelper.createForegroundInfo(applicationContext, id)
 
     private suspend fun backupMediaFiles() {
         val backupSettings = roomAccountDataSource.getMediaBackupSettings()

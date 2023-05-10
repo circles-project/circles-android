@@ -17,6 +17,12 @@
             app:nullable="false" />
 
         <argument
+            android:name="threadEventId"
+            app:argType="string"
+            android:defaultValue="@null"
+            app:nullable="true" />
+
+        <argument
             android:name="type"
             app:argType="org.futo.circles.model.CircleRoomTypeArg"
             app:nullable="false" />
@@ -77,10 +83,6 @@
                 app:argType="string"
                 app:nullable="false" />
 
-            <argument
-                android:name="userName"
-                app:argType="string"
-                app:nullable="true" />
 
             <argument
                 android:name="eventId"
@@ -217,6 +219,28 @@
 
         </action>
 
+        <action
+            android:id="@+id/to_thread_timeline"
+            app:destination="@id/timelineFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="threadEventId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Group"
+                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+
     </fragment>
 
     <dialog
@@ -324,11 +348,6 @@
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
-
-        <argument
-            android:name="userName"
-            app:argType="string"
-            app:nullable="true" />
 
         <argument
             android:name="eventId"
@@ -476,4 +495,5 @@
             app:nullable="false" />
 
     </dialog>
+
 </navigation>

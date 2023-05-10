@@ -14,19 +14,23 @@ import org.futo.circles.databinding.LayoutPostBinding
 import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
-import org.futo.circles.model.*
+import org.futo.circles.model.MediaContent
+import org.futo.circles.model.PollContent
+import org.futo.circles.model.Post
+import org.futo.circles.model.PostContent
+import org.futo.circles.model.PostItemPayload
+import org.futo.circles.model.TextContent
 import org.matrix.android.sdk.api.session.room.send.SendState
 
 
 interface PostOptionsListener {
     fun onUserClicked(userId: String)
-    fun onShowRepliesClicked(eventId: String)
     fun onShare(content: PostContent)
     fun onIgnore(senderId: String)
     fun onSaveToDevice(content: PostContent)
     fun onEditPostClicked(roomId: String, eventId: String)
     fun onSaveToGallery(roomId: String, eventId: String)
-    fun onReply(roomId: String, eventId: String, userName: String)
+    fun onReply(roomId: String, eventId: String)
     fun onShowPreview(roomId: String, eventId: String)
     fun onShowEmoji(roomId: String, eventId: String)
     fun onReport(roomId: String, eventId: String)
@@ -64,26 +68,20 @@ class PostLayout(
     }
 
 
-    fun setData(data: Post, userPowerLevel: Int) {
+    fun setData(data: Post, userPowerLevel: Int, isThread: Boolean) {
         post = data
-        setGeneralMessageData(data, userPowerLevel)
+        setGeneralMessageData(data, userPowerLevel, isThread)
     }
 
     fun setPayload(payload: PostItemPayload) {
-        binding.postFooter.bindRepliesButton(
-            payload.hasReplies,
-            payload.repliesCount,
-            payload.isRepliesVisible
-        )
         setShadow(payload.readInfo.shouldIndicateAsNew)
         setSendStatus(payload.sendState, payload.readInfo.readByCount)
+        binding.postFooter.setRepliesCount(payload.repliesCount)
     }
 
-    private fun setGeneralMessageData(data: Post, userPowerLevel: Int) {
-        val isReply = data is ReplyPost
-        binding.vReplyMargin.setIsVisible(isReply)
+    private fun setGeneralMessageData(data: Post, userPowerLevel: Int, isThread: Boolean) {
         binding.postHeader.setData(data, userPowerLevel)
-        binding.postFooter.setData(data, isReply, userPowerLevel)
+        binding.postFooter.setData(data, userPowerLevel, isThread)
         setMentionBorder(data.content)
         setIsEdited(data.postInfo.isEdited)
         setShadow(data.readInfo.shouldIndicateAsNew)
@@ -95,7 +93,8 @@ class PostLayout(
             is MediaContent -> content.mediaContentInfo.caption?.let {
                 MarkdownParser.hasCurrentUserMention(it)
             } ?: false
-            is TextContent ->  MarkdownParser.hasCurrentUserMention(content.message)
+
+            is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
             is PollContent -> false
         }
         if (hasMention)
@@ -123,10 +122,12 @@ class PostLayout(
                 binding.ivSendStatus.setImageResource(R.drawable.ic_sending)
                 binding.tvReadByCount.text = ""
             }
+
             sendState.hasFailed() -> {
                 binding.ivSendStatus.setImageResource(R.drawable.ic_send_failed)
                 binding.tvReadByCount.text = ""
             }
+
             sendState.isSent() -> {
                 if (readByCount > 0) {
                     binding.ivSendStatus.setImageResource(R.drawable.ic_seen)
@@ -140,7 +141,7 @@ class PostLayout(
     }
 
     override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
-        if (child.id == R.id.vReplyMargin || child.id == R.id.lShadow) {
+        if (child.id == R.id.lShadow) {
             super.addView(child, index, params)
         } else {
             findViewById<FrameLayout>(R.id.lvContent).addView(child, index, params)

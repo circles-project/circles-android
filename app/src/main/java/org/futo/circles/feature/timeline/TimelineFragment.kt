@@ -34,8 +34,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     CreatePostListener, CreatePollListener, EmojiPickerListener, MenuProvider {
 
     private val args: TimelineFragmentArgs by navArgs()
-    private val viewModel by viewModel<TimelineViewModel> { parametersOf(args.roomId, args.type) }
+    private val viewModel by viewModel<TimelineViewModel> {
+        parametersOf(args.roomId, args.type, args.threadEventId)
+    }
     private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
+    private val isThread by lazy { args.threadEventId != null }
 
     private val timelineId by lazy {
         if (isGroupMode) args.roomId
@@ -45,7 +48,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
     private val binding by viewBinding(FragmentTimelineBinding::bind)
     private val listAdapter by lazy {
-        TimelineAdapter(getCurrentUserPowerLevel(args.roomId), this) { viewModel.loadMore() }
+        TimelineAdapter(
+            getCurrentUserPowerLevel(args.roomId),
+            this,
+            isThread
+        ) { viewModel.loadMore() }
     }
     private val navigator by lazy { TimelineNavigator(this) }
     private var groupPowerLevelsContent: PowerLevelsContent? = null
@@ -68,6 +75,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
+        if (isThread) return
         if (isGroupMode) inflateGroupMenu(menu, inflater) else inflateCircleMenu(menu, inflater)
     }
 
@@ -96,12 +104,16 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         when (item.itemId) {
             R.id.muteNotifications ->
                 viewModel.setNotificationsEnabled(false)
+
             R.id.unMuteNotifications ->
                 viewModel.setNotificationsEnabled(true)
+
             R.id.configureGroup, R.id.configureCircle ->
                 navigator.navigateToUpdateRoom(args.roomId, args.type)
+
             R.id.manageMembers, R.id.myFollowers ->
                 navigator.navigateToManageMembers(timelineId, args.type)
+
             R.id.inviteMembers, R.id.inviteFollowers -> navigator.navigateToInviteMembers(timelineId)
             R.id.leaveGroup -> showLeaveGroupDialog()
             R.id.iFollowing -> navigator.navigateToFollowing(args.roomId)
@@ -118,23 +130,22 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             itemAnimator = null
             MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
         }
-        binding.fabMenu.apply {
-            bindToRecyclerView(binding.rvTimeline)
-            setListener(object : CreatePostMenuListener {
-                override fun onCreatePoll() {
-                    navigator.navigateToCreatePoll(timelineId)
-                }
+        binding.fabMenu.setUp(object : CreatePostMenuListener {
+            override fun onCreatePoll() {
+                navigator.navigateToCreatePoll(timelineId)
+            }
 
-                override fun onCreatePost() {
-                    navigator.navigateToCreatePost(timelineId)
-                }
-            })
-        }
+            override fun onCreatePost() {
+                navigator.navigateToCreatePost(timelineId)
+            }
+        }, binding.rvTimeline, isThread)
     }
 
     private fun setupObservers() {
-        viewModel.titleLiveData?.observeData(this) { title ->
-            setToolbarTitle(title ?: "")
+        viewModel.titleLiveData?.observeData(this) { roomName ->
+            val title = if (isThread) getString(R.string.thread_format, roomName ?: "")
+            else roomName ?: ""
+            setToolbarTitle(title)
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
@@ -146,11 +157,6 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         }
         viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
             onUserAccessLevelChanged(powerLevelsContent)
-        }
-        viewModel.scrollToTopLiveData.observeData(this) {
-            binding.rvTimeline.postDelayed(
-                { binding.rvTimeline.scrollToPosition(0) }, 500
-            )
         }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
@@ -175,10 +181,6 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         navigator.navigateToUserDialogFragment(userId)
     }
 
-    override fun onShowRepliesClicked(eventId: String) {
-        viewModel.toggleRepliesVisibilityFor(eventId)
-    }
-
     override fun onShowPreview(roomId: String, eventId: String) {
         navigator.navigateToShowMediaPreview(roomId, eventId)
     }
@@ -187,8 +189,8 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         navigator.navigateToShowEmoji(roomId, eventId)
     }
 
-    override fun onReply(roomId: String, eventId: String, userName: String) {
-        navigator.navigateToCreatePost(roomId, userName, eventId)
+    override fun onReply(roomId: String, eventId: String) {
+        navigator.navigateToThread(roomId, eventId)
     }
 
     override fun onShare(content: PostContent) {
@@ -251,7 +253,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         postContent: CreatePostContent,
         threadEventId: String?
     ) {
-        viewModel.sendPost(roomId, postContent, threadEventId)
+        viewModel.sendPost(roomId, postContent, args.threadEventId)
     }
 
     override fun onEditTextPost(roomId: String, newMessage: String, eventId: String) {

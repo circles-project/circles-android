@@ -86,7 +86,6 @@ class CreatePostDialogFragment :
     private fun setToolbarTitle() {
         binding.toolbar.title = when {
             args.isEdit -> getString(R.string.edit_post)
-            args.userName != null -> getString(R.string.reply_to_format, args.userName)
             else -> getString(R.string.create_post)
         }
     }

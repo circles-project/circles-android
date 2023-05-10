@@ -16,8 +16,6 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
-import org.matrix.android.sdk.api.session.room.model.relation.RelationDefaultContent
-import org.matrix.android.sdk.api.session.room.model.relation.ReplyToContent
 import org.matrix.android.sdk.api.util.Cancelable
 import org.matrix.android.sdk.api.util.CancelableBag
 import org.matrix.android.sdk.internal.util.CancelableWork
@@ -37,7 +35,14 @@ class SendMessageDataSource(private val context: Context) {
 
     private fun sendTextReply(roomForMessage: Room, threadEventId: String, message: String) {
         val event = roomForMessage.getTimelineEvent(threadEventId) ?: return
-        roomForMessage.relationService().replyToMessage(event, message, autoMarkdown = true)
+        roomForMessage.relationService()
+            .replyToMessage(
+                event,
+                message,
+                autoMarkdown = true,
+                showInThread = true,
+                rootThreadEventId = threadEventId
+            )
     }
 
     fun editTextMessage(eventId: String, roomId: String, message: String) {
@@ -64,16 +69,13 @@ class SendMessageDataSource(private val context: Context) {
             if (compressBeforeSending) content.mimeType != WEBP_MIME_TYPE else false
         val additionalContent = mutableMapOf<String, Any>()
         caption?.let { additionalContent[MediaCaptionFieldKey] = it }
-        val replyToContent = threadEventId?.let {
-            RelationDefaultContent(null, null, ReplyToContent(it))
-        }
+
         return roomForMessage.sendService().sendMedia(
             content,
             shouldCompress,
             emptySet(),
-            null,
-            replyToContent,
-            additionalContent
+            rootThreadEventId = threadEventId,
+            additionalContent = additionalContent
         )
     }
 

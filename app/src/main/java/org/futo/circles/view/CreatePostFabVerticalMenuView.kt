@@ -59,7 +59,6 @@ class CreatePostFabVerticalMenuView(
 
     init {
         createMainFabAnimation()
-        binding.fbMain.setOnClickListener { toggle() }
         binding.fbCreatePost.setOnClickListener {
             listener?.onCreatePost()
             forceClose()
@@ -70,11 +69,23 @@ class CreatePostFabVerticalMenuView(
         }
     }
 
-    fun setListener(callback: CreatePostMenuListener) {
+    fun setUp(callback: CreatePostMenuListener, recycler: RecyclerView, isThread: Boolean) {
         listener = callback
+        bindToRecyclerView(recycler)
+        setupMainFabButton(isThread)
     }
 
-    fun bindToRecyclerView(recycler: RecyclerView) {
+    private fun setupMainFabButton(isThread: Boolean) {
+        binding.fbMain.apply {
+            setOnClickListener {
+                if (isThread) listener?.onCreatePost()
+                else toggle()
+            }
+            setImageResource(if (isThread) R.drawable.ic_create else R.drawable.ic_add)
+        }
+    }
+
+    private fun bindToRecyclerView(recycler: RecyclerView) {
         recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

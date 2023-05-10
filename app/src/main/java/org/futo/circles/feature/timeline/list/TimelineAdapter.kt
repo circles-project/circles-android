@@ -6,20 +6,18 @@ import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.model.Post
 import org.futo.circles.model.PostContentType
 import org.futo.circles.model.PostItemPayload
-import org.futo.circles.model.RootPost
 import org.futo.circles.view.PostOptionsListener
 
 class TimelineAdapter(
     private var userPowerLevel: Int,
     private val postOptionsListener: PostOptionsListener,
+    private val isThread: Boolean,
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<Post, PostViewHolder>(PayloadIdEntityCallback { old, new ->
     PostItemPayload(
-        repliesCount = (new as? RootPost)?.getRepliesCount() ?: 0,
-        isRepliesVisible = (new as? RootPost)?.isRepliesVisible ?: false,
-        hasReplies = (new as? RootPost)?.hasReplies() ?: false,
         sendState = new.sendState,
         readInfo = new.readInfo,
+        repliesCount = new.repliesCount,
         needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
     )
 }) {
@@ -35,8 +33,11 @@ class TimelineAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return when (PostContentType.values()[viewType]) {
-            PostContentType.POLL_CONTENT -> PollPostViewHolder(parent, postOptionsListener)
-            else -> TextMediaPostViewHolder(parent, postOptionsListener)
+            PostContentType.POLL_CONTENT -> PollPostViewHolder(
+                parent, postOptionsListener, isThread
+            )
+
+            else -> TextMediaPostViewHolder(parent, postOptionsListener, isThread)
         }
     }
 
@@ -54,12 +55,9 @@ class TimelineAdapter(
             super.onBindViewHolder(holder, position, payloads)
         } else {
             payloads.forEach {
-                (it as? PostItemPayload)?.let { payload ->
-                    if (payload.needToUpdateFullItem)
-                        holder.bind(getItem(position), userPowerLevel)
-                    else
-                        holder.bindPayload(payload)
-                }
+                val payload = (it as? PostItemPayload) ?: return@forEach
+                if (payload.needToUpdateFullItem) holder.bind(getItem(position), userPowerLevel)
+                else holder.bindPayload(payload)
             }
         }
     }

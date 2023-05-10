@@ -7,21 +7,13 @@
     android:orientation="horizontal"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <View
-        android:id="@+id/vReplyMargin"
-        android:layout_width="@dimen/reply_post_item_margin"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <com.blure.complexview.ComplexView
         android:id="@+id/lShadow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/vReplyMargin"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:radius="4dp"
         app:shadow="true"

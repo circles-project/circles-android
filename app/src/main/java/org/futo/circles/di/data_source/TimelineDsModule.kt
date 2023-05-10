@@ -10,6 +10,7 @@ import org.futo.circles.feature.room.manage_members.ManageMembersDataSource
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelDataSource
 import org.futo.circles.feature.room.select_users.SearchUserDataSource
 import org.futo.circles.feature.room.select_users.SelectUsersDataSource
+import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineBuilder
@@ -20,8 +21,8 @@ import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val timelineDsModule = module {
-    factory { (roomId: String, type: CircleRoomTypeArg) ->
-        TimelineDataSource(roomId, type, get())
+    factory { (roomId: String, type: CircleRoomTypeArg, threadEventId: String?) ->
+        TimelineDataSource(roomId, type, threadEventId, get())
     }
     factory { (roomId: String, type: CircleRoomTypeArg) ->
         RoomNotificationsDataSource(roomId, type, get())
@@ -30,6 +31,7 @@ val timelineDsModule = module {
     factory { (roomId: String) -> LeaveRoomDataSource(roomId, get()) }
     factory { PostOptionsDataSource(get()) }
     factory { TimelineBuilder() }
+    factory { (roomId: String) -> AccessLevelDataSource(roomId) }
     factory { (roomId: String) -> InviteMembersDataSource(roomId, get()) }
     factory { (roomId: String?) -> SelectUsersDataSource(roomId, get()) }
     factory { SearchUserDataSource() }

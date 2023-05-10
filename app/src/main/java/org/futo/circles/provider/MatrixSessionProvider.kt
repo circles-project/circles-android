@@ -23,8 +23,7 @@ object MatrixSessionProvider : KoinComponent {
     fun initSession(context: Context) {
         Matrix(
             context = context, matrixConfiguration = MatrixConfiguration(
-                roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl(context),
-                threadMessagesEnabledDefault = false
+                roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl(context)
             )
         ).also { MatrixInstanceProvider.saveMatrixInstance(it) }
 
