@@ -59,6 +59,10 @@ class PostFooterView(
         bindReactionsList(data.postInfo.reactionsData)
     }
 
+    fun setRepliesCount(repliesCount: Int) {
+        binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
+    }
+
     private fun bindViewData(repliesCount: Int, canShare: Boolean, isThread: Boolean) {
         with(binding) {
             btnShare.setIsVisible(canShare)
@@ -66,7 +70,7 @@ class PostFooterView(
             btnReply.apply {
                 isVisible = !isThread
                 isEnabled = areUserAbleToPost()
-                text = if (repliesCount > 0) repliesCount.toString() else ""
+                setRepliesCount(repliesCount)
             }
         }
     }
