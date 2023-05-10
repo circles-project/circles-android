@@ -3,6 +3,7 @@ package org.futo.circles.core
 import android.content.Context
 import android.content.ContextWrapper
 import androidx.appcompat.app.AppCompatActivity
+import org.futo.circles.BuildConfig
 import org.futo.circles.extensions.disableScreenScale
 import org.futo.circles.feature.rageshake.BugReportDataCollector
 import org.futo.circles.feature.rageshake.RageShake
@@ -18,7 +19,7 @@ abstract class BaseActivity(contentLayoutId: Int) : AppCompatActivity(contentLay
 
     override fun onResume() {
         super.onResume()
-        rageShake.start()
+        if (BuildConfig.RAGESHAKE_ENABLED) rageShake.start()
     }
 
     override fun onPause() {

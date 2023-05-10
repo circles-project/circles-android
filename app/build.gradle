@@ -19,6 +19,9 @@ android {
                 cFlags += "-std=c11"
             }
         }
+
+        buildConfigField "boolean", "RAGESHAKE_ENABLED", "false"
+        buildConfigField "boolean", "MEDIA_BACKUP_ENABLED", "false"
     }
 
     buildFeatures {
