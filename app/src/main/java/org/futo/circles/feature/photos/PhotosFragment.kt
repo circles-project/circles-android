@@ -15,6 +15,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import org.futo.circles.BuildConfig
 import org.futo.circles.R
 import org.futo.circles.core.picker.PickGalleryListener
 import org.futo.circles.core.picker.RuntimePermissionHelper
@@ -53,6 +54,7 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms), MenuProvider {
     @SuppressLint("RestrictedApi")
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
+        if (BuildConfig.MEDIA_BACKUP_ENABLED.not()) return
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
         inflater.inflate(R.menu.photos_tab_menu, menu)
     }

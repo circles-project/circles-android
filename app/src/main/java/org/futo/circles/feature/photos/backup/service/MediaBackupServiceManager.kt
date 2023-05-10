@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import org.futo.circles.BuildConfig
 import org.futo.circles.model.MediaBackupSettingsData
 import java.util.concurrent.TimeUnit
 
@@ -29,6 +30,7 @@ class MediaBackupServiceManager {
     }
 
     fun bindMediaServiceIfNeeded(context: Context, backupSettingsData: MediaBackupSettingsData) {
+        if (BuildConfig.MEDIA_BACKUP_ENABLED.not()) return
         if (savedBackupSettings == backupSettingsData) return
         savedBackupSettings = backupSettingsData
         mediaBackupService?.onBackupSettingsUpdated() ?: run {
