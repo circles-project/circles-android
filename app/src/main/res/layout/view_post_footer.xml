@@ -41,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
         android:background="?selectableItemBackgroundBorderless"
         android:padding="8dp"
         android:src="@drawable/ic_emoji"
@@ -50,23 +51,33 @@
         app:layout_constraintTop_toBottomOf="@id/divider"
         app:tint="@color/button_src_state_color" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnReply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackgroundBorderless"
-        android:padding="8dp"
-        android:src="@drawable/ic_reply"
+        android:gravity="top"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="2dp"
+        android:textAlignment="gravity"
+        android:textColor="@color/button_src_state_color"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_reply"
+        app:iconGravity="textStart"
+        app:iconTint="@color/button_src_state_color"
         app:layout_constraintBottom_toBottomOf="@id/btnLike"
         app:layout_constraintEnd_toStartOf="@id/btnShare"
         app:layout_constraintStart_toEndOf="@id/btnLike"
         app:layout_constraintTop_toTopOf="@id/btnLike"
-        app:tint="@color/button_src_state_color" />
+        app:tint="@color/button_src_state_color"
+        tools:text="30" />
 
     <ImageButton
         android:id="@+id/btnShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:background="?selectableItemBackgroundBorderless"
         android:padding="8dp"
         android:src="@drawable/ic_share"

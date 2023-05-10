@@ -20,7 +20,8 @@ fun TimelineEvent.toPost(
     postInfo = toPostInfo(),
     content = toPostContent(postContentType),
     sendState = root.sendState,
-    readInfo = toReadInfo(lastReadEventTime)
+    readInfo = toReadInfo(lastReadEventTime),
+    repliesCount = root.threadDetails?.numberOfThreads ?: 0
 )
 
 private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(

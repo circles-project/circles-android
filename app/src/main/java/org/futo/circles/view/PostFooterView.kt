@@ -55,16 +55,19 @@ class PostFooterView(
     fun setData(data: Post, powerLevel: Int, isThread: Boolean) {
         post = data
         userPowerLevel = powerLevel
-        bindViewData(data.canShare(), isThread)
+        bindViewData(data.repliesCount, data.canShare(), isThread)
         bindReactionsList(data.postInfo.reactionsData)
     }
 
-    private fun bindViewData(canShare: Boolean, isThread: Boolean) {
+    private fun bindViewData(repliesCount: Int, canShare: Boolean, isThread: Boolean) {
         with(binding) {
             btnShare.setIsVisible(canShare)
-            btnReply.isVisible = !isThread
-            btnReply.isEnabled = areUserAbleToPost()
             btnLike.isEnabled = areUserAbleToPost()
+            btnReply.apply {
+                isVisible = !isThread
+                isEnabled = areUserAbleToPost()
+                text = if (repliesCount > 0) repliesCount.toString() else ""
+            }
         }
     }
 

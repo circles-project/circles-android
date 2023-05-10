@@ -17,6 +17,7 @@ class TimelineAdapter(
     PostItemPayload(
         sendState = new.sendState,
         readInfo = new.readInfo,
+        repliesCount = new.repliesCount,
         needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
     )
 }) {
@@ -54,12 +55,9 @@ class TimelineAdapter(
             super.onBindViewHolder(holder, position, payloads)
         } else {
             payloads.forEach {
-                (it as? PostItemPayload)?.let { payload ->
-                    if (payload.needToUpdateFullItem)
-                        holder.bind(getItem(position), userPowerLevel)
-                    else
-                        holder.bindPayload(payload)
-                }
+                val payload = (it as? PostItemPayload) ?: return@forEach
+                if (payload.needToUpdateFullItem) holder.bind(getItem(position), userPowerLevel)
+                else holder.bindPayload(payload)
             }
         }
     }

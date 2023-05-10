@@ -25,8 +25,7 @@ class TimelineBuilder {
     fun build(snapshot: List<TimelineEvent>, isThread: Boolean): List<Post> {
         if (snapshot.isEmpty()) return currentList
         val list = processSnapshot(snapshot, isThread)
-        val messageTimelineEvents = getOnlySupportedTimelineEvents(list)
-        return transformToPosts(messageTimelineEvents).also { currentList = it.toMutableList() }
+        return transformToPosts(list).also { currentList = it.toMutableList() }
     }
 
     private fun processSnapshot(list: List<TimelineEvent>, isThread: Boolean): List<TimelineEvent> {
@@ -42,10 +41,13 @@ class TimelineBuilder {
     private fun filterTimelineEvents(
         list: List<TimelineEvent>,
         isThread: Boolean
-    ): List<TimelineEvent> = list.filter {
-        val removedEventsCondition = !it.isEdition() && !it.root.isRedacted()
-        if (isThread) removedEventsCondition
-        else removedEventsCondition && !it.isReply()
+    ): List<TimelineEvent> {
+        val filteredList = list.filter {
+            val removedEventsCondition = !it.isEdition() && !it.root.isRedacted()
+            if (isThread) removedEventsCondition
+            else removedEventsCondition && !it.isReply()
+        }
+        return getOnlySupportedTimelineEvents(filteredList)
     }
 
     private fun getOnlySupportedTimelineEvents(list: List<TimelineEvent>): List<TimelineEvent> =
