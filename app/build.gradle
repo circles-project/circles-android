@@ -21,7 +21,8 @@ android {
         }
 
         buildConfigField "boolean", "RAGESHAKE_ENABLED", "false"
-        buildConfigField "boolean", "MEDIA_BACKUP_ENABLED", "false"
+        buildConfigField "boolean", "MEDIA_BACKUP_ENABLED", "true"
+        buildConfigField "boolean", "IS_SUBSCRIPTIONS_ENABLED", "false"
     }
 
     buildFeatures {
@@ -47,11 +48,9 @@ android {
     productFlavors {
         gplay {
             dimension flavor_dimension_name
-            buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "false")
         }
         fdroid {
             dimension flavor_dimension_name
-            buildConfigField("boolean", "IS_SUBSCRIPTIONS_ENABLED", "false")
         }
     }
 
@@ -182,6 +181,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.work:work-testing:$work_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 }
 
 if (getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("gplay")) {
