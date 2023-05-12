@@ -50,13 +50,12 @@ class WorkerTest {
     @Test
     fun testPeriodicWork() = testScope.runTest {
         val request =
-            PeriodicWorkRequestBuilder<MediaBackupWorker>(16, TimeUnit.MINUTES, 6, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<MediaBackupWorker>(6, TimeUnit.HOURS, 30, TimeUnit.MINUTES)
                 .setConstraints(
                     Constraints.Builder()
                         .setRequiredNetworkType(NetworkType.CONNECTED)
                         .build()
                 ).build()
-
 
         val workManager = WorkManager.getInstance(context)
         val testDriver = WorkManagerTestInitHelper.getTestDriver(context)
