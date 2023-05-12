@@ -21,7 +21,7 @@ android {
         }
 
         buildConfigField "boolean", "RAGESHAKE_ENABLED", "false"
-        buildConfigField "boolean", "MEDIA_BACKUP_ENABLED", "true"
+        buildConfigField "boolean", "MEDIA_BACKUP_ENABLED", "false"
         buildConfigField "boolean", "IS_SUBSCRIPTIONS_ENABLED", "false"
     }
 
