@@ -6,7 +6,7 @@ import android.provider.MediaStore
 import android.util.Log
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.core.utils.getRoomIdByTag
+import org.futo.circles.core.utils.getJoinedRoomIdByTag
 import org.futo.circles.feature.room.RoomAccountDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.model.Gallery
@@ -24,13 +24,9 @@ class MediaBackupDataSource(
 ) {
 
     suspend fun startMediaBackup() {
-        Log.d("MyLog", "start backup")
         val settings = roomAccountDataSource.getMediaBackupSettings()
-        Log.d("MyLog", "settings $settings")
-        if (settings.shouldStartBackup(context)) {
-            Log.d("MyLog", "start folders backup")
+        if (settings.shouldStartBackup(context))
             settings.folders.forEach { backupMediasInFolder(it) }
-        }
     }
 
     suspend fun startBackupByFilePath(path: String) {
@@ -67,25 +63,20 @@ class MediaBackupDataSource(
 
     private suspend fun backupMediasInFolder(bucketId: String) {
         val roomId = createGalleryIfNotExist(bucketId)
-        Log.d("MyLog", "room $roomId")
         val dateModified = roomAccountDataSource.getMediaBackupDateModified(roomId)
         val mediaInFolder = getMediasToBackupInBucket(bucketId, dateModified)
         mediaInFolder.forEach { item ->
             val sendCancelable = sendMessageDataSource.sendMedia(
                 roomId, item.uri, null, null, MediaType.Image
             )
-            Log.d("MyLog", "send")
             val isUploaded = sendMessageDataSource.awaitForUploading(sendCancelable)
-            if (isUploaded) {
+            if (isUploaded)
                 roomAccountDataSource.saveMediaBackupDateModified(roomId, item.dateModified)
-                Log.d("MyLog", "saved ${item.dateModified}")
-            }
         }
     }
 
     private suspend fun createGalleryIfNotExist(bucketId: String): String {
-        var roomId = getRoomIdByTag(bucketId)
-        Log.d("MyLog", "found room $roomId")
+        var roomId = getJoinedRoomIdByTag(bucketId)
         if (roomId == null) {
             roomId = createRoomDataSource.createRoom(
                 circlesRoom = Gallery(tag = bucketId),

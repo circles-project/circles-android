@@ -4,9 +4,10 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.ServiceConnection
 import android.os.IBinder
-import android.util.Log
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import org.futo.circles.BuildConfig
 import org.futo.circles.model.MediaBackupSettingsData
@@ -35,7 +36,7 @@ class MediaBackupServiceManager {
         savedBackupSettings = backupSettingsData
         mediaBackupService?.onBackupSettingsUpdated() ?: run {
             MediaBackupService.bindService(context, connection)
-            //scheduleBackup(context)
+            scheduleBackup(context)
         }
     }
 
@@ -54,18 +55,24 @@ class MediaBackupServiceManager {
 
     private fun scheduleBackup(context: Context) {
         val backupRequest =
-            OneTimeWorkRequestBuilder<MediaBackupWorker>()
-                .setInitialDelay(10, TimeUnit.SECONDS)
-                .build()
-        WorkManager.getInstance(context).enqueueUniqueWork(
+            PeriodicWorkRequestBuilder<MediaBackupWorker>(
+                REPEAT_INTERVAL_HOURS,
+                TimeUnit.HOURS,
+                FLEX_INTERVAL_MINUTES,
+                TimeUnit.MINUTES
+            ).setConstraints(
+                Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+            ).build()
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             MEDIA_BACKUP_SCHEDULED_WORK_KEY,
-            ExistingWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.UPDATE,
             backupRequest
         )
-        Log.d("MyLog", "scheduled")
     }
 
     companion object {
         private const val MEDIA_BACKUP_SCHEDULED_WORK_KEY = "media_backup"
+        private const val REPEAT_INTERVAL_HOURS = 6L
+        private const val FLEX_INTERVAL_MINUTES = 30L
     }
 }

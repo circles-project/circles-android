@@ -48,7 +48,6 @@ object MatrixSessionProvider : KoinComponent {
     private fun startSession(session: Session, listener: Session.Listener? = null) {
         listener?.let { session.addListener(it) }
         enableInviteKeysSharing(session)
-        Log.d("MyLog", "start session")
         currentSession = session.apply { open(); syncService().startSync(true) }
         session.addListener(MatrixSessionListenerProvider.sessionListener)
         pushRuleTriggerListener.startWithSession(session)
