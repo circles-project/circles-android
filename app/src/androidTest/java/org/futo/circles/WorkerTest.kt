@@ -71,7 +71,6 @@ class WorkerTest {
         testDriver.setPeriodDelayMet(request.id)
         testDriver.setAllConstraintsMet(request.id)
         val isSucceeded = awaitForWork(workManager, request.id)
-        Log.d("MyLog", "assert $isSucceeded")
         assertTrue(isSucceeded)
     }
 
@@ -84,7 +83,6 @@ class WorkerTest {
         return suspendCancellableCoroutine {
             val observer = object : Observer<WorkInfo> {
                 override fun onChanged(value: WorkInfo) {
-                    Log.d("MyLog", value.state.toString())
                     if (value.state == WorkInfo.State.ENQUEUED) {
                         checkWorkerLiveState.removeObserver(this)
                         it.resume(true)

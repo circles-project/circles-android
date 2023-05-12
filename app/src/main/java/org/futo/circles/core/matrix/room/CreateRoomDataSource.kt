@@ -2,7 +2,6 @@ package org.futo.circles.core.matrix.room
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import org.futo.circles.BuildConfig
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.model.Circle
@@ -55,21 +54,9 @@ class CreateRoomDataSource(
         inviteIds: List<String>? = null,
         allowKnock: Boolean = false
     ): String {
-        Log.d("MyLog", "create room $name")
-        Log.d("MyLog", "session $session")
-        Log.d("MyLog", "session ${session?.roomService()}")
-        val id = try {
-            session?.roomService()
-                ?.createRoom(
-                    getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock)
-                ) ?: throw Exception("Can not create room")
-        } catch (e: Throwable) {
-            Log.d("MyLog", "failed to create room ${e}")
-            throw Exception("Can not create room")
-        }
-
-        Log.d("MyLog", "created room $id")
-
+        val id = session?.roomService()?.createRoom(
+            getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock)
+        ) ?: throw Exception("Can not create room")
         circlesRoom.tag?.let { session?.getRoom(id)?.tagsService()?.addTag(it, null) }
         circlesRoom.parentTag?.let { tag ->
             roomRelationsBuilder.findRoomByTag(tag)

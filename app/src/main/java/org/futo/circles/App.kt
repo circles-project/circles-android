@@ -22,7 +22,6 @@ class App : Application() {
     private val fcmHelper: FcmHelper by inject()
     override fun onCreate() {
         super.onCreate()
-        Log.d("MyLog", "app create")
         startKoin {
             androidContext(this@App)
             modules(applicationModules)
