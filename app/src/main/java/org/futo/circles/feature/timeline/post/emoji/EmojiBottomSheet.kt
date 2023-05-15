@@ -62,10 +62,26 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
                         onEmojiSelected(emoji.unicode)
                     }, null, null,
                     EmojiTheming(
+                        backgroundColor = ContextCompat.getColor(
+                            requireContext(),
+                            R.color.white
+                        ),
+                        primaryColor = ContextCompat.getColor(
+                            requireContext(),
+                            R.color.blue
+                        ),
                         secondaryColor = Color.RED,
                         dividerColor = ContextCompat.getColor(
                             requireContext(),
                             R.color.divider_color
+                        ),
+                        textColor = ContextCompat.getColor(
+                            requireContext(),
+                            R.color.black
+                        ),
+                        textSecondaryColor = ContextCompat.getColor(
+                            requireContext(),
+                            R.color.gray
                         )
                     ),
                     NoRecentEmoji, SearchEmojiManager(), NoVariantEmoji
