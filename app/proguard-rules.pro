@@ -68,8 +68,6 @@ native <methods>;
 }
 -keep class androidx.renderscript.** { *; }
 
--keep class org.matrix.android.sdk.internal.auth.DefaultAuthenticationService
--keep class org.matrix.android.sdk.internal.auth.db.PendingSessionData
 -keep class org.futo.circles.model.CircleRoomTypeArg
 -keep class org.futo.circles.model.PasswordModeArg
 -keep class org.futo.circles.model.TermsModeArg
@@ -77,12 +75,28 @@ native <methods>;
 -keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
 -keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.
 
--dontwarn org.bouncycastle.jsse.BCSSLParameters
--dontwarn org.bouncycastle.jsse.BCSSLSocket
--dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
--dontwarn org.conscrypt.Conscrypt$Version
--dontwarn org.conscrypt.Conscrypt
--dontwarn org.conscrypt.ConscryptHostnameVerifier
--dontwarn org.openjsse.javax.net.ssl.SSLParameters
--dontwarn org.openjsse.javax.net.ssl.SSLSocket
--dontwarn org.openjsse.net.ssl.OpenJSSE
+-keep class org.bouncycastle.** { *; }
+-dontwarn org.bouncycastle.**
+
+-keep class org.conscrypt.** { *; }
+-dontwarn org.conscrypt.**
+
+-keep class org.openjsse.** { *; }
+-dontwarn org.openjsse.**
+
+### Google Play Billing
+-keep class com.android.vending.billing.**
+
+### Matrix sdk
+-keep class org.matrix.android.** { *; }
+-keep class com.squareup.moshi.** { *; }
+### Matrix sdk
+
+# Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
+ -keep,allowobfuscation,allowshrinking interface retrofit2.Call
+ -keep,allowobfuscation,allowshrinking class retrofit2.Response
+
+ # With R8 full mode generic signatures are stripped for classes that are not
+ # kept. Suspend functions are wrapped in continuations where the type argument
+ # is used.
+ -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
