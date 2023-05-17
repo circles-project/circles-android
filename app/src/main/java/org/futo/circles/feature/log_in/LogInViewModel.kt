@@ -6,7 +6,6 @@ import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.log_in.switch_user.SwitchUserDataSource
-import org.futo.circles.provider.MatrixSessionProvider
 
 class LogInViewModel(
     private val loginDataSource: LoginDataSource,
@@ -33,7 +32,6 @@ class LogInViewModel(
     fun resumeSwitchUserSession(id: String) {
         launchBg {
             switchUserDataSource.switchToSessionWithId(id)?.let {
-                MatrixSessionProvider.awaitForSessionStart(it)
                 navigateToBottomMenuScreenLiveData.postValue(Unit)
             }
         }
