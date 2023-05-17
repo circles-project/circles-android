@@ -1,7 +1,6 @@
 package org.futo.circles.provider
 
 import android.content.Context
-import android.util.Log
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.futo.circles.feature.notifications.GuardServiceStarter
 import org.futo.circles.feature.notifications.PushRuleTriggerListener
@@ -9,6 +8,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.statistics.StatisticEvent
 
@@ -39,16 +39,32 @@ object MatrixSessionProvider : KoinComponent {
     fun clearSession() {
         val session = currentSession ?: return
         if (session.syncService().isSyncThreadAlive()) session.close()
-        session.removeListener(MatrixSessionListenerProvider.sessionListener)
+        clear()
+    }
+
+    fun removeListenersAndStopSync() {
+        val session = currentSession ?: return
+        session.syncService().stopSync()
+        clear()
+    }
+
+    private fun clear() {
+        currentSession?.removeListener(MatrixSessionListenerProvider.sessionListener)
         pushRuleTriggerListener.stop()
         guardServiceStarter.stop()
         currentSession = null
     }
 
-    private fun startSession(session: Session, listener: Session.Listener? = null) {
+    fun startSession(
+        session: Session,
+        listener: Session.Listener? = null
+    ) {
         listener?.let { session.addListener(it) }
         enableInviteKeysSharing(session)
-        currentSession = session.apply { open(); syncService().startSync(true) }
+        currentSession = session.apply {
+            tryOrNull { open() }
+            syncService().startSync(true)
+        }
         session.addListener(MatrixSessionListenerProvider.sessionListener)
         pushRuleTriggerListener.startWithSession(session)
         guardServiceStarter.start()
