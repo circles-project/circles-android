@@ -84,7 +84,7 @@ dependencies {
     implementation 'org.matrix.android:matrix-sdk-android:1.5.30.6'
 
     //Kotlin
-    implementation "androidx.core:core-ktx:1.10.0"
+    implementation "androidx.core:core-ktx:1.10.1"
 
     //androidx lifecycle
     def lifecycle_version = "2.6.1"
@@ -130,7 +130,7 @@ dependencies {
     implementation 'com.github.UnifiedPush:android-connector:2.1.1'
 
     //Subscriptions
-    gplayImplementation 'com.android.billingclient:billing-ktx:5.2.0'
+    gplayImplementation 'com.android.billingclient:billing-ktx:6.0.0'
 
     //Emoji
     implementation "com.vanniktech:emoji-google:0.16.0"
@@ -176,6 +176,9 @@ dependencies {
     //Coroutines
     def coroutines_version = "1.6.4"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+
+    //Log
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     //test
     testImplementation 'junit:junit:4.13.2'
