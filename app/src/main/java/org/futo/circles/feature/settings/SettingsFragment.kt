@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.BuildConfig
@@ -51,7 +50,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun setupViews() {
         with(binding) {
             tvLogout.setOnClickListener { withConfirmation(ConfirmationType.LOG_OUT) { viewModel.logOut() } }
-            tvSwitchUser.setOnClickListener { withConfirmation(ConfirmationType.SWITCH_USER) { clearSessionAndRestart() } }
+            tvSwitchUser.setOnClickListener { withConfirmation(ConfirmationType.SWITCH_USER) { (activity as? MainActivity)?.stopSyncAndRestart() } }
             ivProfile.setOnClickListener { navigator.navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
             tvDeactivate.setOnClickListener { withConfirmation(ConfirmationType.DEACTIVATE_ACCOUNT) { viewModel.deactivateAccount() } }

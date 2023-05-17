@@ -26,6 +26,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         this.startActivity(createRestartIntent())
     }
 
+    fun stopSyncAndRestart() {
+        MatrixSessionProvider.removeListenersAndStopSync()
+        this.startActivity(createRestartIntent())
+    }
+
     fun restartForClearCache() {
         this.startActivity(createRestartIntent().apply { putExtra(IS_CLEAR_CACHE, true) })
     }
