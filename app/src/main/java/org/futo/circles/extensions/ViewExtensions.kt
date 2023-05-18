@@ -1,6 +1,5 @@
 package org.futo.circles.extensions
 
-import android.R
 import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -40,7 +39,7 @@ inline fun View.getAttributes(
 
 fun View.setSelectableItemBackground() {
     val outValue = TypedValue()
-    context.theme.resolveAttribute(R.attr.selectableItemBackground, outValue, true)
+    context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
     setBackgroundResource(outValue.resourceId)
 }
 
