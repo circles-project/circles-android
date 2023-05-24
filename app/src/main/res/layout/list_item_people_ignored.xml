@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingVertical="4dp">
 
-    <org.futo.circles.view.UserListItemView
+    <org.futo.circles.view.PeopleTabUserListItemView
         android:id="@+id/userItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

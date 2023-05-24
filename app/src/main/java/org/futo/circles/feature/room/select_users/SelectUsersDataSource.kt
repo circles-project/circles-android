@@ -5,13 +5,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
+import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.extensions.getUserIdsToExclude
 import org.futo.circles.mapping.toUserListItem
-import org.futo.circles.model.HeaderItem
-import org.futo.circles.model.InviteMemberListItem
-import org.futo.circles.model.NoResultsItem
-import org.futo.circles.model.UserListItem
+import org.futo.circles.model.*
 import org.futo.circles.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -47,14 +46,15 @@ class SelectUsersDataSource(
             selectedUsersFlow
         )
         { knowUsers, suggestions, selectedUsers ->
-            buildList(knowUsers, suggestions, selectedUsers)
+            buildList(knowUsers, suggestions, selectedUsers, query)
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
 
     private fun buildList(
         knowUsers: List<User>,
         suggestions: List<User>,
-        selectedUsers: List<UserListItem>
+        selectedUsers: List<UserListItem>,
+        query: String
     ): List<InviteMemberListItem> {
         val list = mutableListOf<InviteMemberListItem>()
         if (knowUsers.isNotEmpty()) {
@@ -73,8 +73,24 @@ class SelectUsersDataSource(
                 suggestion.toUserListItem(selectedUsers.containsWithId(suggestion.userId))
             })
         }
-        if (list.isEmpty()) list.add(NoResultsItem())
+        if (list.isEmpty()) handleEmptySearchResult(list, query, selectedUsers)
         return list
+    }
+
+    private fun handleEmptySearchResult(
+        list: MutableList<InviteMemberListItem>,
+        query: String,
+        selectedUsers: List<UserListItem>
+    ) {
+        if (MatrixPatterns.isUserId(query)) {
+            list.add(HeaderItem.suggestionHeader)
+            list.add(
+                UserListItem(
+                    CirclesUserSummary(query, UserUtils.removeDomainSuffix(query), ""),
+                    selectedUsers.containsWithId(query)
+                )
+            )
+        } else list.add(NoResultsItem())
     }
 
     private fun List<UserListItem>.containsWithId(id: String) =

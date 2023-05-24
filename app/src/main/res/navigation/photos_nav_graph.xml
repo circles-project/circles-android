@@ -25,6 +25,9 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_mediaBackupDialogFragment"
+            app:destination="@id/mediaBackupDialogFragment" />
     </fragment>
 
     <dialog
@@ -95,5 +98,10 @@
             app:nullable="false" />
 
     </dialog>
+
+    <dialog
+        android:id="@+id/mediaBackupDialogFragment"
+        android:name="org.futo.circles.feature.photos.backup.MediaBackupDialogFragment"
+        tools:layout="@layout/dialog_fragment_media_backup" />
 
 </navigation>

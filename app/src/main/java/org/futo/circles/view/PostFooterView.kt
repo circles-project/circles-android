@@ -6,15 +6,14 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.google.android.material.chip.Chip
 import org.futo.circles.R
 import org.futo.circles.databinding.ViewPostFooterBinding
-import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.Post
 import org.futo.circles.model.ReactionsData
-import org.futo.circles.model.RootPost
+import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 
 class PostFooterView(
@@ -27,6 +26,7 @@ class PostFooterView(
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
+    private var userPowerLevel: Int = Role.Default.value
 
     init {
         setupViews()
@@ -36,11 +36,7 @@ class PostFooterView(
         with(binding) {
             btnReply.setOnClickListener {
                 post?.let {
-                    optionsListener?.onReply(
-                        it.postInfo.roomId,
-                        it.id,
-                        it.postInfo.sender.notEmptyDisplayName()
-                    )
+                    optionsListener?.onReply(it.postInfo.roomId, it.id)
                 }
             }
             btnShare.setOnClickListener {
@@ -49,9 +45,6 @@ class PostFooterView(
             btnLike.setOnClickListener {
                 post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
             }
-            binding.btnShowReplies.setOnClickListener {
-                post?.let { optionsListener?.onShowRepliesClicked(it.id) }
-            }
         }
     }
 
@@ -59,43 +52,26 @@ class PostFooterView(
         optionsListener = postOptionsListener
     }
 
-    fun setData(data: Post, isReply: Boolean) {
+    fun setData(data: Post, powerLevel: Int, isThread: Boolean) {
         post = data
-        bindViewData(isReply, data.canShare())
-        bindRepliesButton(data)
+        userPowerLevel = powerLevel
+        bindViewData(data.repliesCount, data.canShare(), isThread)
         bindReactionsList(data.postInfo.reactionsData)
     }
 
-    private fun bindViewData(
-        isReply: Boolean,
-        canShare: Boolean
-    ) {
+    fun setRepliesCount(repliesCount: Int) {
+        binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
+    }
+
+    private fun bindViewData(repliesCount: Int, canShare: Boolean, isThread: Boolean) {
         with(binding) {
             btnShare.setIsVisible(canShare)
-            btnReply.setIsVisible(!isReply)
-        }
-    }
-
-    private fun bindRepliesButton(post: Post) {
-        val rootPost = (post as? RootPost) ?: kotlin.run { binding.btnShowReplies.gone(); return }
-
-        bindRepliesButton(
-            rootPost.hasReplies(), rootPost.getRepliesCount(), rootPost.isRepliesVisible
-        )
-    }
-
-    fun bindRepliesButton(
-        hasReplies: Boolean,
-        repliesCount: Int,
-        isRepliesVisible: Boolean
-    ) {
-        with(binding.btnShowReplies) {
-            setIsVisible(hasReplies)
-            text = context.resources.getQuantityString(
-                R.plurals.replies_plurals,
-                repliesCount, repliesCount
-            )
-            setIsOpened(isRepliesVisible)
+            btnLike.isEnabled = areUserAbleToPost()
+            btnReply.apply {
+                isVisible = !isThread
+                isEnabled = areUserAbleToPost()
+                setRepliesCount(repliesCount)
+            }
         }
     }
 
@@ -133,5 +109,7 @@ class PostFooterView(
 
         }
     }
+
+    private fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
 
 }

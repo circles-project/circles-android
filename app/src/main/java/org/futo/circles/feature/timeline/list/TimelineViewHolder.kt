@@ -23,14 +23,14 @@ import org.futo.circles.view.PostLayout
 import org.futo.circles.view.PostOptionsListener
 
 
-sealed class PostViewHolder(view: View, private val userPowerLevel: Int) :
+sealed class PostViewHolder(view: View, private val isThread: Boolean) :
     RecyclerView.ViewHolder(view) {
 
     abstract val postLayout: PostLayout
     protected val markwon = MarkdownParser.markwonBuilder(context)
 
-    open fun bind(post: Post) {
-        postLayout.setData(post, userPowerLevel)
+    open fun bind(post: Post, userPowerLevel: Int) {
+        postLayout.setData(post, userPowerLevel, isThread)
     }
 
     fun bindPayload(payload: PostItemPayload) {
@@ -41,8 +41,8 @@ sealed class PostViewHolder(view: View, private val userPowerLevel: Int) :
 class TextMediaPostViewHolder(
     parent: ViewGroup,
     postOptionsListener: PostOptionsListener,
-    userPowerLevel: Int
-) : PostViewHolder(inflate(parent, ViewTextMediaPostBinding::inflate), userPowerLevel),
+    isThread: Boolean
+) : PostViewHolder(inflate(parent, ViewTextMediaPostBinding::inflate), isThread),
     UploadMediaViewHolder {
 
     private companion object : ViewBindingHolder
@@ -67,8 +67,8 @@ class TextMediaPostViewHolder(
         }
     }
 
-    override fun bind(post: Post) {
-        super.bind(post)
+    override fun bind(post: Post, userPowerLevel: Int) {
+        super.bind(post, userPowerLevel)
         binding.vLoadingView.gone()
         when (val content = post.content) {
             is TextContent -> bindTextPost(content)
@@ -76,6 +76,7 @@ class TextMediaPostViewHolder(
                 bindMediaContent(content)
                 uploadMediaTracker.track(post.id, binding.vLoadingView)
             }
+
             else -> return
         }
     }
@@ -112,15 +113,19 @@ class TextMediaPostViewHolder(
                 height = size.height
             }
         }
-        content.mediaFileData.loadEncryptedIntoWithAspect(image, content.aspectRatio)
+        content.mediaFileData.loadEncryptedIntoWithAspect(
+            image,
+            content.aspectRatio,
+            content.mediaContentInfo.thumbHash
+        )
     }
 }
 
 class PollPostViewHolder(
     parent: ViewGroup,
     private val postOptionsListener: PostOptionsListener,
-    userPowerLevel: Int
-) : PostViewHolder(inflate(parent, ViewPollPostBinding::inflate), userPowerLevel) {
+    isThread: Boolean
+) : PostViewHolder(inflate(parent, ViewPollPostBinding::inflate), isThread) {
 
     private companion object : ViewBindingHolder
 
@@ -131,8 +136,8 @@ class PollPostViewHolder(
         binding.lPollPost.setListener(postOptionsListener)
     }
 
-    override fun bind(post: Post) {
-        super.bind(post)
+    override fun bind(post: Post, userPowerLevel: Int) {
+        super.bind(post, userPowerLevel)
         (post.content as? PollContent)?.let {
             binding.pollContentView.setup(it) { optionId ->
                 postOptionsListener.onPollOptionSelected(post.postInfo.roomId, post.id, optionId)

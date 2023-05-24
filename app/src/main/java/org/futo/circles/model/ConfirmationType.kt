@@ -35,7 +35,7 @@ enum class ConfirmationType(val titleRes: Int, val messageRes: Int, val positive
     ),
     UNFOLLOW_TIMELINE(
         R.string.unfollow,
-        R.string.unfollow_user_message,
+        R.string.unfollow_user_timeline,
         R.string.unfollow
     ),
     DELETE_GALLERY(
@@ -103,9 +103,9 @@ enum class ConfirmationType(val titleRes: Int, val messageRes: Int, val positive
         R.string.remove_session_message,
         R.string.remove
     ),
-    ENABLE_CROSS_SIGNING(
-        R.string.enable_cross_signing,
-        R.string.enable_cross_signing_message,
+    RESET_KEYS(
+        R.string.reset_keys,
+        R.string.reset_keys_message,
         R.string.confirm
     )
 }

@@ -8,7 +8,7 @@ private const val orgPrefix = "org.futo"
 private const val CIRCLES_SPACE_TAG = "$orgPrefix.space.circles"
 const val SHARED_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.shared"
 private const val GROUPS_SPACE_TAG = "$orgPrefix.space.groups"
-private const val PHOTOS_SPACE_TAG = "$orgPrefix.space.photos"
+const val PHOTOS_SPACE_TAG = "$orgPrefix.space.photos"
 const val ROOT_SPACE_TAG = "$orgPrefix.space.root"
 const val CIRCLE_TAG = "$orgPrefix.social.circle"
 

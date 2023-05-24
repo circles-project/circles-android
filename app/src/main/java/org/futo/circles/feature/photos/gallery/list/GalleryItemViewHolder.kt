@@ -33,7 +33,9 @@ class GalleryItemViewHolder(
             }
         }
         data.mediaContent.mediaFileData.loadEncryptedIntoWithAspect(
-            binding.ivCover, data.mediaContent.aspectRatio
+            binding.ivCover,
+            data.mediaContent.aspectRatio,
+            data.mediaContent.mediaContentInfo.thumbHash
         )
         binding.videoGroup.setIsVisible(data.mediaContent.type == PostContentType.VIDEO_CONTENT)
         binding.tvDuration.text = data.mediaContent.mediaContentInfo.duration

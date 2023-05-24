@@ -4,6 +4,13 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -12,12 +19,14 @@
     <application
         android:name=".App"
         android:allowBackup="false"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Circles"
-        tools:ignore="DataExtractionRules">
+        tools:ignore="DataExtractionRules"
+        tools:targetApi="tiramisu">
         <activity
             android:name=".feature.settings.active_sessions.verify.qr.QrScannerActivity"
             android:exported="false"
@@ -99,10 +108,16 @@
         </provider>
 
         <service
+            android:name=".feature.photos.backup.service.MediaBackupService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
             android:name=".feature.notifications.CirclesSyncAndroidService"
             android:exported="false"
             android:foregroundServiceType="dataSync"
             tools:ignore="Instantiatable" />
+
 
         <receiver
             android:name=".feature.notifications.test.task.TestNotificationReceiver"
@@ -112,6 +127,29 @@
             android:name=".feature.notifications.NotificationBroadcastReceiver"
             android:enabled="true"
             android:exported="false" />
+
+        <receiver
+            android:name=".feature.notifications.UnifiedPushMessagingReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.unifiedpush.android.connector.MESSAGE" />
+                <action android:name="org.unifiedpush.android.connector.UNREGISTERED" />
+                <action android:name="org.unifiedpush.android.connector.NEW_ENDPOINT" />
+                <action android:name="org.unifiedpush.android.connector.REGISTRATION_FAILED" />
+                <action android:name="org.unifiedpush.android.connector.REGISTRATION_REFUSED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".feature.notifications.KeepInternalDistributor"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.unifiedpush.android.distributor.REGISTER" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

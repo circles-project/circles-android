@@ -4,6 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.futo.circles.core.BaseActivity
 import org.futo.circles.provider.MatrixSessionListenerProvider
 import org.futo.circles.provider.MatrixSessionProvider
@@ -22,14 +26,24 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         this.startActivity(createRestartIntent())
     }
 
+    fun stopSyncAndRestart() {
+        MatrixSessionProvider.removeListenersAndStopSync()
+        this.startActivity(createRestartIntent())
+    }
+
     fun restartForClearCache() {
         this.startActivity(createRestartIntent().apply { putExtra(IS_CLEAR_CACHE, true) })
     }
 
     private fun syncSessionIfCashWasCleared() {
-        val isClearCashReload = intent?.getBooleanExtra(IS_CLEAR_CACHE, false) ?: false
-        if (isClearCashReload) MatrixSessionProvider.currentSession?.syncService()?.startSync(true)
-        intent?.removeExtra(IS_CLEAR_CACHE)
+        lifecycleScope.launch(Dispatchers.Main) {
+            val isClearCashReload = intent?.getBooleanExtra(IS_CLEAR_CACHE, false) ?: false
+            if (isClearCashReload) {
+                delay(500L)
+                MatrixSessionProvider.currentSession?.syncService()?.startSync(true)
+                intent?.removeExtra(IS_CLEAR_CACHE)
+            }
+        }
     }
 
     private fun createRestartIntent(): Intent {
@@ -40,8 +54,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private fun setInvalidTokenListener() {
         MatrixSessionListenerProvider.setOnInvalidTokenListener {
-            Toast.makeText(this, getString(R.string.you_are_signed_out), Toast.LENGTH_LONG).show()
-            clearSessionAndRestart()
+            runOnUiThread {
+                Toast.makeText(this, getString(R.string.you_are_signed_out), Toast.LENGTH_LONG)
+                    .show()
+                clearSessionAndRestart()
+            }
         }
     }
 

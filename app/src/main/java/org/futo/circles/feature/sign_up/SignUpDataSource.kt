@@ -114,9 +114,6 @@ class SignUpDataSource(
         MatrixInstanceProvider.matrix.authenticationService().reset()
         MatrixSessionProvider.awaitForSessionStart(session)
         createPassPhraseDataSource.createPassPhraseBackup(userName, passphrase)
-        awaitCallback {
-            session.cryptoService().crossSigningService().initializeCrossSigning(null, it)
-        }
         coreSpacesTreeBuilder.createCoreSpacesTree()
     }
 

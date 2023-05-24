@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import org.futo.circles.R
 import org.futo.circles.core.ExpandableItemsDataSource
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
@@ -16,8 +15,8 @@ import org.futo.circles.model.SessionHeader
 import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
-import org.matrix.android.sdk.api.session.crypto.verification.VerificationMethod
 import org.matrix.android.sdk.api.util.awaitCallback
+import java.util.concurrent.TimeUnit
 
 class ActiveSessionsDataSource(
     private val context: Context,
@@ -59,6 +58,7 @@ class ActiveSessionsDataSource(
             devicesList.firstOrNull { it.second.deviceId == MatrixSessionProvider.currentSession?.sessionParams?.deviceId }
                 ?: return emptyList()
         val otherSessions = devicesList.toMutableList().apply { remove(currentSession) }
+            .filter { !isSessionInactive(it.first.lastSeenTs) }
         val isCurrentSessionVerified =
             currentSession.second.trustLevel?.isCrossSigningVerified() == true
 
@@ -69,7 +69,7 @@ class ActiveSessionsDataSource(
                 deviceInfo = currentSession.first,
                 cryptoDeviceInfo = currentSession.second,
                 canVerify = !isCurrentSessionVerified && otherSessions.isNotEmpty(),
-                canEnableCrossSigning = !isCurrentSessionVerified,
+                isResetKeysVisible = !isCurrentSessionVerified,
                 isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.second.deviceId)
             )
         )
@@ -80,7 +80,7 @@ class ActiveSessionsDataSource(
                     deviceInfo = it.first,
                     cryptoDeviceInfo = it.second,
                     canVerify = isCurrentSessionVerified && it.second.trustLevel?.isCrossSigningVerified() != true,
-                    canEnableCrossSigning = false,
+                    isResetKeysVisible = false,
                     isOptionsVisible = sessionsWithVisibleOptions.contains(it.second.deviceId)
                 )
             }
@@ -95,10 +95,23 @@ class ActiveSessionsDataSource(
         }
     }
 
-    suspend fun enableCrossSigning(): Response<Unit> = createResult {
+    suspend fun resetKeysToEnableCrossSigning(): Response<Unit> = createResult {
         awaitCallback {
-            session.cryptoService().crossSigningService().initializeCrossSigning(authConfirmationProvider, it)
+            session.cryptoService().crossSigningService()
+                .initializeCrossSigning(authConfirmationProvider, it)
         }
+    }
+
+    private fun isSessionInactive(lastSeenTsMillis: Long?): Boolean =
+        if (lastSeenTsMillis == null || lastSeenTsMillis <= 0) {
+            false
+        } else {
+            val diffMilliseconds = System.currentTimeMillis() - lastSeenTsMillis
+            diffMilliseconds >= TimeUnit.DAYS.toMillis(SESSION_IS_MARKED_AS_INACTIVE_AFTER_DAYS)
+        }
+
+    companion object {
+        private const val SESSION_IS_MARKED_AS_INACTIVE_AFTER_DAYS = 30L
     }
 
 }

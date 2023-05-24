@@ -7,12 +7,11 @@ class TimelineNavigator(private val fragment: TimelineFragment) {
 
     fun navigateToCreatePost(
         roomId: String,
-        userName: String? = null,
         eventId: String? = null,
         isEdit: Boolean = false
     ) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, userName, eventId, isEdit)
+            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, eventId, isEdit)
         )
     }
 
@@ -84,6 +83,12 @@ class TimelineNavigator(private val fragment: TimelineFragment) {
     fun navigateToUserDialogFragment(userId: String) {
         fragment.findNavController().navigate(
             TimelineFragmentDirections.toUserDialogFragment(userId)
+        )
+    }
+
+    fun navigateToThread(roomId: String, threadEventId: String) {
+        fragment.findNavController().navigate(
+            TimelineFragmentDirections.toThreadTimeline(roomId, threadEventId)
         )
     }
 }

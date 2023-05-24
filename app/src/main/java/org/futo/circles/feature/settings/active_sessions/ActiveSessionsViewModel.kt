@@ -12,7 +12,7 @@ class ActiveSessionsViewModel(
 
     val activeSessionsLiveData = dataSource.getActiveSessionsFlow().asLiveData()
     val removeSessionLiveData = SingleEventLiveData<Response<Unit?>>()
-    val enableCrossSigningLiveData = SingleEventLiveData<Response<Unit?>>()
+    val resetKeysLiveData = SingleEventLiveData<Response<Unit?>>()
     val startReAuthEventLiveData = dataSource.startReAuthEventLiveData
 
     fun onSessionClicked(deviceId: String) {
@@ -26,10 +26,10 @@ class ActiveSessionsViewModel(
         }
     }
 
-    fun enableCrossSigning() {
+    fun resetKeysToEnableCrossSigning() {
         launchBg {
-            val crossSigningResult = dataSource.enableCrossSigning()
-            enableCrossSigningLiveData.postValue(crossSigningResult)
+            val resetKeysResult = dataSource.resetKeysToEnableCrossSigning()
+            resetKeysLiveData.postValue(resetKeysResult)
         }
     }
 }

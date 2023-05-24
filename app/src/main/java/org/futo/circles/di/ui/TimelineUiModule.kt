@@ -1,8 +1,6 @@
 package org.futo.circles.di.ui
 
 import org.futo.circles.feature.circles.following.FollowingViewModel
-import org.futo.circles.feature.photos.preview.MediaPreviewViewModel
-import org.futo.circles.feature.photos.save.SavePostToGalleryViewModel
 import org.futo.circles.feature.room.invite.InviteMembersViewModel
 import org.futo.circles.feature.room.manage_members.ManageMembersViewModel
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelViewModel
@@ -15,10 +13,11 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val timelineUiModule = module {
-    viewModel { (roomId: String, type: CircleRoomTypeArg) ->
+    viewModel { (roomId: String, type: CircleRoomTypeArg, threadEventId: String?) ->
         TimelineViewModel(
             get { parametersOf(roomId, type) },
-            get { parametersOf(roomId, type) },
+            get { parametersOf(roomId, type, threadEventId) },
+            get { parametersOf(roomId) },
             get { parametersOf(roomId) },
             get(), get(), get(), get()
         )
@@ -31,12 +30,6 @@ val timelineUiModule = module {
         ReportViewModel(get { parametersOf(roomId, eventId) })
     }
     viewModel { (roomId: String) -> FollowingViewModel(get { parametersOf(roomId) }) }
-    viewModel { (roomId: String, eventId: String) ->
-        MediaPreviewViewModel(roomId, eventId, get { parametersOf(roomId, eventId) }, get())
-    }
-    viewModel { (roomId: String, eventId: String) ->
-        SavePostToGalleryViewModel(get { parametersOf(roomId, eventId) }, get())
-    }
     viewModel { BaseShareViewModel(get()) }
     viewModel { (levelValue: Int, myUserLevelValue: Int) ->
         ChangeAccessLevelViewModel(get { parametersOf(levelValue, myUserLevelValue) })

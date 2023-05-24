@@ -13,6 +13,7 @@ import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import timber.log.Timber
 
 
 class App : Application() {
@@ -29,6 +30,7 @@ class App : Application() {
         EmojiManager.install(GoogleEmojiProvider())
         notificationUtils.createNotificationChannels()
         setupLifecycleObserver()
+        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     }
 
     private fun setupLifecycleObserver() {

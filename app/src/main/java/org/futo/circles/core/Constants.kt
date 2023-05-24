@@ -1,6 +1,7 @@
 package org.futo.circles.core
 
 import org.futo.circles.BuildConfig
+import org.futo.circles.provider.MatrixSessionProvider
 
 const val FILE_PROVIDER_AUTHORITY_EXTENSION = ".provider"
 
@@ -18,6 +19,9 @@ const val DIRECT_LOGIN_PASSWORD_TYPE = "m.login.password.direct"
 const val LOGIN_BSSPEKE_OPRF_TYPE = "m.login.bsspeke-ecc.oprf"
 const val LOGIN_BSSPEKE_VERIFY_TYPE = "m.login.bsspeke-ecc.verify"
 
+const val ROOM_BACKUP_EVENT_TYPE = "m.room.media_backup"
+const val ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE = "m.room.media_backup.date_modified"
+
 const val LOGIN_PASSWORD_USER_ID_TYPE = "m.id.user"
 
 const val DEFAULT_USER_PREFIX = "@notices:"
@@ -28,6 +32,20 @@ const val TYPE_PARAM_KEY = "type"
 
 const val CREATE_ROOM_DELAY = 1000L
 
-const val PUSHER_URL = "https://sygnal.nl.circles-dev.net/_matrix/push/v1/notify"
 const val PUSHER_APP_ID = "${BuildConfig.APPLICATION_ID}.android"
+
+const val READ_ONLY_ROLE = -10
+
+fun getRageShakeUrl(): String = "https://rageshake.${getCirclesDomain()}/bugreports/submit/"
+fun getPusherUrl(): String = "https://sygnal.${getCirclesDomain()}/_matrix/push/v1/notify"
+
+const val DEFAULT_PUSH_GATEWAY = "https://matrix.gateway.unifiedpush.org/_matrix/push/v1/notify"
+
+private fun getCirclesDomain(): String {
+    if (BuildConfig.DEBUG) return BuildConfig.US_SERVER_DOMAIN
+    val homeServerUrl = MatrixSessionProvider.currentSession?.sessionParams?.homeServerUrl ?: ""
+    if (homeServerUrl.contains(BuildConfig.US_SERVER_DOMAIN)) return BuildConfig.US_SERVER_DOMAIN
+    if (homeServerUrl.contains(BuildConfig.EU_SERVER_DOMAIN)) return BuildConfig.EU_SERVER_DOMAIN
+    return BuildConfig.US_SERVER_DOMAIN
+}
 

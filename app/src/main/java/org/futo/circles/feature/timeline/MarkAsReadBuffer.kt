@@ -12,7 +12,7 @@ class MarkAsReadBuffer(
     private val positionsBuffer = mutableSetOf<Int>()
 
     init {
-        handleInitiallyVisibleItems()
+        handleItemsInsert()
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 collectPositions()
@@ -39,16 +39,13 @@ class MarkAsReadBuffer(
         (firstVisiblePosition..lastVisiblePosition).forEach { positionsBuffer.add(it) }
     }
 
-    private fun handleInitiallyVisibleItems(){
+    private fun handleItemsInsert() {
         recyclerView.adapter?.registerAdapterDataObserver(object : AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
                 recyclerView.post {
                     collectPositions()
-                    if (positionsBuffer.isNotEmpty()) {
-                        callMarkAsRead()
-                        recyclerView.adapter?.unregisterAdapterDataObserver(this)
-                    }
+                    callMarkAsRead()
                 }
             }
         })

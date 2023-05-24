@@ -74,10 +74,12 @@
             app:layout_constraintTop_toBottomOf="@id/tvCircles">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints="username"
                 android:imeOptions="actionDone"
-                android:inputType="textVisiblePassword"
+                android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="8dp"
                 android:paddingTop="12dp"
@@ -117,7 +119,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/domain"
                 android:imeOptions="actionDone"
-                android:inputType="textVisiblePassword"
+                android:importantForAutofill="no"
+                android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="8dp"
                 android:paddingTop="12dp"

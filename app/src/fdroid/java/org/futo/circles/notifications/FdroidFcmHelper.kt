@@ -1,12 +1,10 @@
 package org.futo.circles.notifications
 
-import android.content.Context
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.provider.MatrixSessionProvider
 
 class FdroidFcmHelper(
-    private val context: Context,
     private val backgroundSyncStarter: BackgroundSyncStarter
 ) : FcmHelper {
 
@@ -21,7 +19,8 @@ class FdroidFcmHelper(
     override fun ensureFcmTokenIsRetrieved(
         pushersManager: PushersManager,
         registerPusher: Boolean
-    ) {}
+    ) {
+    }
 
     override fun onEnterForeground() {
         MatrixSessionProvider.currentSession?.syncService()?.stopAnyBackgroundSync()

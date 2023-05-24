@@ -8,6 +8,7 @@ import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import org.futo.circles.core.utils.ImageUtils
 import org.futo.circles.core.utils.VideoUtils
+import org.futo.circles.feature.blurhash.ThumbHash
 import org.futo.circles.model.MediaAttachmentInfo
 import org.matrix.android.sdk.api.session.content.ContentAttachmentData
 
@@ -31,7 +32,7 @@ fun Uri.getFilename(context: Context): String? {
     return path?.substringAfterLast('/')
 }
 
-fun Uri.toImageContentAttachmentData(context: Context): ContentAttachmentData? {
+suspend fun Uri.toImageContentAttachmentData(context: Context): ContentAttachmentData? {
     val attachmentInfo = getMediaAttachmentInfo(context) ?: return null
     val resolution = ImageUtils.getImageResolution(context, this)
     val orientation = ImageUtils.getOrientation(context, this)
@@ -43,11 +44,12 @@ fun Uri.toImageContentAttachmentData(context: Context): ContentAttachmentData? {
         height = resolution.height.toLong(),
         width = resolution.width.toLong(),
         exifOrientation = orientation,
-        queryUri = this
+        queryUri = this,
+        blurHash = ThumbHash.getThumbHash(context, this)
     )
 }
 
-fun Uri.toVideoContentAttachmentData(context: Context): ContentAttachmentData? {
+suspend fun Uri.toVideoContentAttachmentData(context: Context): ContentAttachmentData? {
     val attachmentInfo = getMediaAttachmentInfo(context) ?: return null
     val duration = VideoUtils.getVideoDuration(context, this)
     val resolution = VideoUtils.getVideoResolution(context, this)
@@ -59,7 +61,8 @@ fun Uri.toVideoContentAttachmentData(context: Context): ContentAttachmentData? {
         width = resolution.width.toLong(),
         duration = duration,
         name = attachmentInfo.name,
-        queryUri = this
+        queryUri = this,
+        blurHash = ThumbHash.getThumbHash(context, this)
     )
 }
 

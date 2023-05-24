@@ -16,6 +16,7 @@ class ReadMessageDataSource {
         val room = MatrixSessionProvider.currentSession?.roomService()?.getRoom(roomId) ?: return
         updateMostRecentEvent(room, eventId)
         room.readService().setReadReceipt(eventId, ReadService.THREAD_ID_MAIN)
+        room.readService().setReadMarker(eventId)
     }
 
     fun setReadMarker() {

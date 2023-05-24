@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.view.menu.MenuBuilder
@@ -76,10 +77,14 @@ class MediaPreviewDialogFragment :
         super.onDestroy()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupViews() {
         with(binding) {
             lParent.setOnClickListener { toggle() }
-            ivImage.setOnClickListener { toggle() }
+            ivImage.setOnTouchListener { _, event ->
+                if (event.action == MotionEvent.ACTION_DOWN) toggle()
+                false
+            }
             videoView.setOnClickListener { toggle() }
             videoView.player = videoPlayer
             videoView.controllerShowTimeoutMs = AUTO_HIDE_DELAY_MILLIS.toInt()
@@ -118,7 +123,11 @@ class MediaPreviewDialogFragment :
     private fun setupObservers() {
         viewModel.imageLiveData.observeData(this) {
             binding.videoView.gone()
-            it.mediaFileData.loadEncryptedIntoWithAspect(binding.ivImage, it.aspectRatio)
+            it.mediaFileData.loadEncryptedIntoWithAspect(
+                binding.ivImage,
+                it.aspectRatio,
+                it.mediaContentInfo.thumbHash
+            )
         }
         viewModel.videoLiveData.observeData(this) {
             binding.ivImage.gone()

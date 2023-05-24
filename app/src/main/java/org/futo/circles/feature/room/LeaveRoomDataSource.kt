@@ -45,6 +45,9 @@ class LeaveRoomDataSource(
     }
 
     suspend fun deleteGallery() = createResult {
+        session?.getRoom(roomId)?.roomSummary()?.tags?.forEach {
+            session.getRoom(roomId)?.tagsService()?.deleteTag(it.name)
+        }
         roomRelationsBuilder.removeFromAllParents(roomId)
         session?.roomService()?.leaveRoom(roomId)
     }
@@ -56,7 +59,7 @@ class LeaveRoomDataSource(
             })?.size == 1
         if (isSingleMember) return true
         val isUserOwner = getCurrentUserPowerLevel(roomId) == Role.Admin.value
-        if(!isUserOwner) return true
+        if (!isUserOwner) return true
         val roomHasOneOwner = getRoomOwners(roomId).size == 1
         return !roomHasOneOwner
     }

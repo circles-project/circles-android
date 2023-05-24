@@ -7,9 +7,9 @@ import org.futo.circles.extensions.showError
 
 class SettingsNavigator(private val fragment: SettingsFragment) {
 
-    fun navigateToPushTest() {
+    fun navigateToPushSettings() {
         fragment.findNavController()
-            .navigate(SettingsFragmentDirections.toNotificationTestFragment())
+            .navigate(SettingsFragmentDirections.toPushNotificationsSettingsDialogFragment())
     }
 
     fun navigateToActiveSessions() {

@@ -18,7 +18,7 @@ class CirclesListAdapter(
             unreadCount = new.unreadCount.takeIf { it != old.unreadCount },
             needUpdateFullItem = new.info.title != old.info.title || new.info.avatarUrl != old.info.avatarUrl
         )
-    }
+    } else null
 }) {
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {

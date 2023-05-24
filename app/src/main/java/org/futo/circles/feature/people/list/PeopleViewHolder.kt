@@ -5,13 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.*
+import org.futo.circles.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.databinding.ListItemPeopleDefaultBinding
+import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
+import org.futo.circles.databinding.ListItemPeopleRequestBinding
 import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.model.*
 
 abstract class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: PeopleListItem)
+    open fun bindPayload(data: PeopleUserListItemPayload) {}
 }
 
 class PeopleIgnoredUserViewHolder(
@@ -30,16 +34,20 @@ class PeopleIgnoredUserViewHolder(
     override fun bind(data: PeopleListItem) {
         (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
     }
+
+    override fun bindPayload(data: PeopleUserListItemPayload) {
+        data.user?.let { binding.userItem.bind(it) }
+    }
 }
 
 class PeopleDefaultUserViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit
-) : PeopleViewHolder(inflate(parent, ListItemPeopleFollowingBinding::inflate)) {
+) : PeopleViewHolder(inflate(parent, ListItemPeopleDefaultBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemPeopleFollowingBinding
+    private val binding = baseBinding as ListItemPeopleDefaultBinding
 
     init {
         onClick(itemView) { position -> onUserClicked(position) }
@@ -47,6 +55,10 @@ class PeopleDefaultUserViewHolder(
 
     override fun bind(data: PeopleListItem) {
         (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
+    }
+
+    override fun bindPayload(data: PeopleUserListItemPayload) {
+        data.user?.let { binding.userItem.bind(it) }
     }
 }
 
@@ -66,6 +78,14 @@ class PeopleRequestUserViewHolder(
 
     override fun bind(data: PeopleListItem) {
         val user = (data as? PeopleUserListItem)?.user ?: return
+        bindUser(user)
+    }
+
+    override fun bindPayload(data: PeopleUserListItemPayload) {
+        data.user?.let { bindUser(it) }
+    }
+
+    private fun bindUser(user: CirclesUserSummary) {
         with(binding) {
             tvUserName.text = user.name
             ivUserImage.loadProfileIcon(user.avatarUrl, user.name)

@@ -1,6 +1,5 @@
 package org.futo.circles.feature.home
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
@@ -10,6 +9,7 @@ import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
+import org.futo.circles.feature.room.RoomAccountDataSource
 import org.futo.circles.model.CIRCLE_TAG
 import org.futo.circles.model.GROUP_TYPE
 import org.futo.circles.model.SharedCirclesSpace
@@ -22,9 +22,11 @@ import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 class HomeViewModel(
     private val pushersManager: PushersManager,
     private val createRoomDataSource: CreateRoomDataSource,
+    roomAccountDataSource: RoomAccountDataSource,
     shortcutsHandler: ShortcutsHandler
 ) : ViewModel() {
 
+    val mediaBackupSettingsLiveData = roomAccountDataSource.getMediaBackupSettingsLive()
     val notificationLiveData = SingleEventLiveData<String>()
     val inviteIntoSharedSpaceLiveData = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummariesLive(roomSummaryQueryParams {
@@ -42,8 +44,8 @@ class HomeViewModel(
         launchBg { createRoomDataSource.createRoom(SharedCirclesSpace(), allowKnock = true) }
     }
 
-    fun registerPushNotifications(context: Context) {
-        pushersManager.registerPushNotifications(context)
+    fun registerPushNotifications() {
+        pushersManager.registerPushNotifications()
     }
 
     fun postNotificationData(summary: RoomSummary) {
