@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.BuildConfig
 import org.futo.circles.R
-import org.futo.circles.core.picker.PickGalleryListener
+import org.futo.circles.core.PickGalleryListener
 import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.FragmentRoomsBinding
 import org.futo.circles.extensions.*

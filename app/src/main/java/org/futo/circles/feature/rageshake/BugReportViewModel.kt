@@ -3,7 +3,6 @@ package org.futo.circles.feature.rageshake
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import okhttp3.ResponseBody
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource

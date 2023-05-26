@@ -1,7 +1,6 @@
 package org.futo.circles.feature.circles.following
 
 import androidx.lifecycle.ViewModel
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 

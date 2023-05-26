@@ -3,7 +3,6 @@ package org.futo.circles.feature.settings.profile.edit
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.sign_up.setup_profile.SetupProfileDataSource

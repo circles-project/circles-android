@@ -3,7 +3,6 @@ package org.futo.circles.feature.room.create
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult

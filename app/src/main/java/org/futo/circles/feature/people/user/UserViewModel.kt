@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import kotlinx.coroutines.flow.collectLatest
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.room.RoomRelationsBuilder
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult

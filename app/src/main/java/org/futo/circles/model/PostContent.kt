@@ -1,9 +1,8 @@
 package org.futo.circles.model
 
-import android.graphics.Bitmap
 import android.util.Size
+import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.picker.MediaType
-import org.matrix.android.sdk.api.session.crypto.attachments.ElementToDecrypt
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
 enum class PostContentType(val typeKey: String) {
@@ -42,13 +41,6 @@ data class MediaContentInfo(
     val height: Int,
     val duration: String,
     val thumbHash: String?
-)
-
-data class MediaFileData(
-    val fileName: String,
-    val mimeType: String,
-    val fileUrl: String,
-    val elementToDecrypt: ElementToDecrypt?
 )
 
 data class PollContent(

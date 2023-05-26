@@ -2,7 +2,7 @@ package org.futo.circles.feature.room.select.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.core.list.ChipItemViewHolder
+import org.futo.circles.core.ChipItemViewHolder
 import org.futo.circles.model.SelectableRoomListItem
 
 class SelectedChipsRoomsAdapter(

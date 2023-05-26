@@ -1,7 +1,6 @@
 package org.futo.circles.feature.notifications.settings
 
 import androidx.lifecycle.ViewModel
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.notifications.PushersManager
 

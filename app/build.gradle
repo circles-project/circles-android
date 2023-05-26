@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdk rootProject.ext.sdkVersion
@@ -14,11 +13,6 @@ android {
         versionName "1.0.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cFlags += "-std=c11"
-            }
-        }
 
         buildConfigField "boolean", "RAGESHAKE_ENABLED", "false"
         buildConfigField "boolean", "MEDIA_BACKUP_ENABLED", "false"
@@ -65,54 +59,13 @@ android {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         ]
     }
-    externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version '3.18.1'
-        }
-    }
     namespace 'org.futo.circles'
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "androidx.autofill:autofill:1.1.0"
+    implementation project(path: ':core')
+    implementation project(path: ':auth')
 
-    //Matrix
-    implementation 'org.matrix.android:matrix-sdk-android:1.5.30.6'
-
-    //Kotlin
-    implementation "androidx.core:core-ktx:1.10.1"
-
-    //androidx lifecycle
-    def lifecycle_version = "2.6.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
-
-    //androidx navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.androidx_nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.androidx_nav_version"
-
-    //Koin
-    implementation "io.insert-koin:koin-core:3.2.2"
-    implementation "io.insert-koin:koin-android:3.3.0"
-
-    //ViewBinding
-    implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6'
-
-    //Glide
-    def glide_version = '4.15.1'
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
-
-    //TextDrawable
-    implementation 'com.alvinhkh:TextDrawable:c1c2b5b'
-
-    //ChromeTabs
-    implementation "androidx.browser:browser:1.5.0"
 
     //ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
@@ -129,9 +82,6 @@ dependencies {
     // UnifiedPush
     implementation 'com.github.UnifiedPush:android-connector:2.1.1'
 
-    //Subscriptions
-    gplayImplementation 'com.android.billingclient:billing-ktx:6.0.0'
-
     //Emoji
     implementation "com.vanniktech:emoji-google:0.16.0"
 
@@ -147,9 +97,7 @@ dependencies {
     implementation 'com.google.zxing:core:3.5.1'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
-    //Password strength
-    implementation 'com.nulab-inc:zxcvbn:1.7.0'
-
+    
     //Webp animations
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.24.0'
 

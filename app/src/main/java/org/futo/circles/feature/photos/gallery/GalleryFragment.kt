@@ -20,7 +20,7 @@ import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.core.picker.PickGalleryMediaListener
+import org.futo.circles.core.PickGalleryMediaListener
 import org.futo.circles.databinding.FragmentGalleryBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.list.GalleryItemViewHolder

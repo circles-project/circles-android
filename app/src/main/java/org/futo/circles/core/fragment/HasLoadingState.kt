@@ -3,7 +3,6 @@ package org.futo.circles.core.fragment
 import android.view.View
 import androidx.fragment.app.Fragment
 import org.futo.circles.extensions.setEnabledViews
-import org.futo.circles.view.LoadingButton
 
 interface HasLoadingState {
 

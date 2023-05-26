@@ -10,7 +10,6 @@ import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
 import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
-import org.futo.circles.model.LoadingData
 import org.futo.circles.provider.MatrixSessionProvider
 import java.io.File
 

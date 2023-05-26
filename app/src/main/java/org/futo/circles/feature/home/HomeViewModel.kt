@@ -3,7 +3,6 @@ package org.futo.circles.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.matrix.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.extensions.launchBg

@@ -1,0 +1,78 @@
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+android {
+    namespace 'org.futo.circles.auth'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        externalNativeBuild {
+            cmake {
+                cFlags += "-std=c11"
+            }
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    def flavor_dimension_name = "store"
+    flavorDimensions flavor_dimension_name
+    productFlavors {
+        gplay {
+            dimension flavor_dimension_name
+        }
+        fdroid {
+            dimension flavor_dimension_name
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version '3.18.1'
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: ':core')
+
+    //ChromeTabs
+    implementation "androidx.browser:browser:1.5.0"
+
+    //Password strength
+    implementation 'com.nulab-inc:zxcvbn:1.7.0'
+
+    //Subscriptions
+    gplayImplementation 'com.android.billingclient:billing-ktx:6.0.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

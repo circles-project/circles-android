@@ -1,7 +1,6 @@
 package org.futo.circles.feature.photos.save
 
 import android.content.Context
-import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.extensions.onBG
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.model.MediaContent

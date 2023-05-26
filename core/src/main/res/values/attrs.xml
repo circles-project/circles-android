@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="LoadingButton">
+        <attr name="android:text" />
+        <attr name="android:textSize" />
+        <attr name="textPadding" format="dimension" />
+        <attr name="android:enabled" />
+    </declare-styleable>
+
+</resources>
