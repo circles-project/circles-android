@@ -14,13 +14,13 @@ import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.MainActivity
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.picker.RuntimePermissionHelper
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
-import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setSupportActionBar
 import org.futo.circles.feature.photos.backup.service.MediaBackupServiceManager
-import org.futo.circles.model.GROUP_TYPE
-import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.matrix.android.sdk.api.session.getRoomSummary

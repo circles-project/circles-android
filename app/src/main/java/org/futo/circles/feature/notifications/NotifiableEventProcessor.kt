@@ -1,10 +1,10 @@
 package org.futo.circles.feature.notifications
 
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.notifications.ProcessedEvent.Type.KEEP
 import org.futo.circles.feature.notifications.ProcessedEvent.Type.REMOVE
 import org.futo.circles.model.NotifiableEvent
 import org.futo.circles.model.NotifiableMessageEvent
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 
 private typealias ProcessedEvents = List<ProcessedEvent<NotifiableEvent>>

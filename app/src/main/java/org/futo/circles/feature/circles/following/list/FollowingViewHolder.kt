@@ -4,10 +4,10 @@ import android.text.format.DateUtils
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
+import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemFollowingBinding
-import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.FollowingListItem

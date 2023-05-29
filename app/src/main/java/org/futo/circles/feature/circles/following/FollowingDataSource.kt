@@ -3,11 +3,11 @@ package org.futo.circles.feature.circles.following
 import android.content.Context
 import androidx.lifecycle.map
 import org.futo.circles.R
-import org.futo.circles.core.matrix.room.RoomRelationsBuilder
-import org.futo.circles.extensions.createResult
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.model.CIRCLE_TAG
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.room.RoomRelationsBuilder
 import org.futo.circles.mapping.toFollowingListItem
-import org.futo.circles.model.CIRCLE_TAG
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams

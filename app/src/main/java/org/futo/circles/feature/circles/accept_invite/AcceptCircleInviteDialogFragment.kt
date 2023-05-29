@@ -11,7 +11,6 @@ import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
-import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.room.select.SelectRoomsFragment

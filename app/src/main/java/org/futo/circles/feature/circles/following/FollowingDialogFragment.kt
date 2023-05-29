@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentFollowingBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.feature.circles.following.list.FollowingAdapter
 import org.futo.circles.model.FollowingListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel

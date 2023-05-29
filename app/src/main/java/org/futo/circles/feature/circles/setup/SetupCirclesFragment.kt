@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.HasLoadingState
@@ -14,10 +15,7 @@ import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSetupCirclesBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
 import org.futo.circles.feature.circles.setup.list.SetupCirclesAdapter
-import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesFragmentDirections
 import org.futo.circles.model.SetupCircleListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

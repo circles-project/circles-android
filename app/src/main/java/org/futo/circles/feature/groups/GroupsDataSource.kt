@@ -1,13 +1,13 @@
 package org.futo.circles.feature.groups
 
 import androidx.lifecycle.map
-import org.futo.circles.core.matrix.room.RoomRelationsBuilder
-import org.futo.circles.extensions.createResult
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.model.GROUP_TYPE
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.room.RoomRelationsBuilder
 import org.futo.circles.mapping.toInviteGroupListItem
 import org.futo.circles.mapping.toJoinedGroupListItem
-import org.futo.circles.model.GROUP_TYPE
 import org.futo.circles.model.GroupListItem
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams

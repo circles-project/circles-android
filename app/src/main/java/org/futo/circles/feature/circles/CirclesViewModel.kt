@@ -1,11 +1,12 @@
 package org.futo.circles.feature.circles
 
 import androidx.lifecycle.ViewModel
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.model.RequestCircleListItem
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 
 class CirclesViewModel(private val dataSource: CirclesDataSource) : ViewModel() {
