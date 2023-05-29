@@ -9,10 +9,10 @@ import androidx.annotation.WorkerThread
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
 import org.futo.circles.MainActivity
+import org.futo.circles.core.glide.GlideApp
+import org.futo.circles.core.glide.GlideShortcutUtils.adaptiveShortcutDrawable
+import org.futo.circles.core.glide.GlideShortcutUtils.shortcutDrawable
 import org.futo.circles.extensions.dpToPx
-import org.futo.circles.glide.GlideApp
-import org.futo.circles.glide.GlideShortcutUtils.adaptiveShortcutDrawable
-import org.futo.circles.glide.GlideShortcutUtils.shortcutDrawable
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.util.toMatrixItem
 

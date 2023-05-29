@@ -66,7 +66,6 @@ dependencies {
     implementation project(path: ':core')
     implementation project(path: ':auth')
 
-
     //ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
 
@@ -85,19 +84,10 @@ dependencies {
     //Emoji
     implementation "com.vanniktech:emoji-google:0.16.0"
 
-    //Retrofit2
-    def retrofit_version = '2.9.0'
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
-    //Gson
-    implementation 'com.google.code.gson:gson:2.10'
-
     //QR
     implementation 'com.google.zxing:core:3.5.1'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
-    
     //Webp animations
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.24.0'
 
