@@ -1,5 +1,6 @@
 package org.futo.circles.core.utils
 
+import org.futo.circles.core.SYSTEM_NOTICES_TAG
 import org.futo.circles.core.extensions.getRoomOwners
 import org.futo.circles.core.extensions.getTimelineRoom
 import org.futo.circles.core.model.PHOTOS_SPACE_TAG
@@ -17,7 +18,7 @@ fun getTimelineRoomFor(circleId: String): Room? {
     return session.getRoom(circleId)?.getTimelineRoom()
 }
 
-//fun getSystemNoticesRoomId(): String? = getJoinedRoomIdByTag(SYSTEM_NOTICES_TAG)
+fun getSystemNoticesRoomId(): String? = getJoinedRoomIdByTag(SYSTEM_NOTICES_TAG)
 
 fun getJoinedRoomIdByTag(tag: String): String? {
     val session = MatrixSessionProvider.currentSession ?: return null

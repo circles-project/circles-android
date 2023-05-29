@@ -10,8 +10,6 @@ const val ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE = "m.room.media_backup.date_modif
 
 const val DEFAULT_USER_PREFIX = "@notices:"
 
-const val SYSTEM_NOTICES_TAG = "m.server_notice"
-
 const val PUSHER_APP_ID = "${BuildConfig.APPLICATION_ID}.android"
 
 const val READ_ONLY_ROLE = -10
