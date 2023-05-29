@@ -12,7 +12,6 @@
     <string name="circles">Circles</string>
     <string name="groups">Groups</string>
     <string name="people">People</string>
-    <string name="photos">Photos</string>
     <string name="topic_formatter">Topic: %s</string>
     <string name="last_updated_formatter">Last updated %s</string>
     <string name="my_groups">My Groups</string>
@@ -50,12 +49,6 @@
     <string name="gallery_name">Gallery name</string>
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="group_topic">Group topic</string>
-    <string name="upload_media_from">Upload media from</string>
-    <string name="photo">Photo</string>
-    <string name="video">Video</string>
-    <string name="gallery">Gallery</string>
-    <string name="cancel">Cancel</string>
-    <string name="unexpected_error">Something went wrong</string>
     <string name="group_updated">Group updated</string>
     <string name="circle_updated">Circle updated</string>
     <string name="gallery_updated">Gallery updated</string>
@@ -94,12 +87,7 @@
     <string name="family">Family</string>
     <string name="community">Community</string>
     <string name="circles_created">Circles created</string>
-    <string name="root_space_name">Circles</string>
-    <string name="circles_space_name">My Circles</string>
     <string name="private_circles">Private Circles</string>
-    <string name="shared_circles">Shared Circles</string>
-    <string name="groups_space_name">My Groups</string>
-    <string name="photos_space_name">My Photo Galleries</string>
     <string name="log_out">Log out</string>
     <string name="others">Others</string>
     <string name="log_out_message">Are you sure you want to log out?</string>
@@ -115,7 +103,6 @@
     <string name="computing_recovery_key">Computing recovery key.</string>
     <string name="downloading_keys">Downloading keys.</string>
     <string name="importing_keys">Importing keys.</string>
-    <string name="loading">Loading</string>
     <string name="following_format">Following %d</string>
     <string name="followed_by_format">Followed by %d</string>
     <string name="leave">Leave</string>
@@ -130,10 +117,6 @@
     <string name="banned_users">Banned users</string>
     <string name="banned">Banned</string>
     <string name="invited">Invited</string>
-    <string name="admin">Admin</string>
-    <string name="moderator">Moderator</string>
-    <string name="user">User</string>
-    <string name="read_only">Read-only</string>
     <string name="cancel_invite">Cancel invite</string>
     <string name="cancel_invite_message">Are you sure you want to cancel the invite for this user?</string>
     <string name="remove_user">Remove user</string>
@@ -232,9 +215,6 @@
     <string name="remove_session_message">In order to sign out from this session you should confirm your auth.</string>
     <string name="save_to_device">Save to device</string>
     <string name="save_to_gallery">Save to gallery</string>
-    <string name="device">Device</string>
-    <string name="choose_gallery">Choose gallery</string>
-    <string name="pick_media">Pick media</string>
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="server_location">Server Location</string>
@@ -304,11 +284,6 @@
     <string name="session_verified">Session verified</string>
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
-    <string name="configuring_workspace">Configuring workspace</string>
-    <string name="permission_denied_title_format">%s permission denied</string>
-    <string name="camera">Camera</string>
-    <string name="permission_denied_message_format">Seem like you denied %1$s permission previously. In order to use this feature please grant %2$s permission in settings.</string>
-    <string name="open_settings">Open settings</string>
     <string name="repeat_password">Repeat password</string>
     <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
     <string name="weak_password">Weak password</string>
@@ -316,15 +291,12 @@
     <string name="good_password">Good password</string>
     <string name="strong_password">Strong password</string>
     <string name="very_strong_password">Very strong password</string>
-    <string name="back">Back</string>
     <string name="show_more">Show more</string>
-    <string name="no_application_found_for_action">Sorry, no external application has been found to complete this action</string>
     <string name="edit">Edit</string>
     <string name="edit_post">Edit post</string>
     <string name="edited_label">(Edited)</string>
     <string name="edit_poll">Edit poll</string>
     <string name="clear_cache_and_reload">Clear cache and reload</string>
-    <string name="other">Other</string>
     <string name="version_format">Version %s</string>
     <string name="developer_mode_enabled">Developer mode is enabled</string>
     <string name="developer_mode_disabled">Developer mode is disabled</string>
@@ -366,9 +338,6 @@
     <string name="notification_listening_for_events">Listening for events</string>
     <string name="notification_new_messages">New Messages</string>
     <string name="action_mark_room_read">Mark as read</string>
-    <string name="name_for_room_invite">Room invite</string>
-    <string name="name_for_empty_room">Empty room</string>
-    <string name="and">and</string>
     <string name="notification_initial_sync">Initial Sync…</string>
     <string name="notification_listening_for_notifications">Listening for notifications</string>
     <string name="settings_troubleshoot_test_system_settings_title">System Settings</string>
@@ -444,6 +413,11 @@
     <string name="compress_before_sending">Compress before sending</string>
     <string name="notification_media_backup">Media backup</string>
     <string name="thread_format">%s (thread)</string>
+    <string name="unexpected_error">Something went wrong</string>
+    <string name="choose_gallery">Choose gallery</string>
+    <string name="pick_media">Pick media</string>
+    <string name="configuring_workspace">Configuring workspace</string>
+    <string name="shared_circles">Shared Circles</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
