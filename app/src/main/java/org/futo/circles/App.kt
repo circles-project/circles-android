@@ -6,10 +6,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.di.applicationModules
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.NotificationUtils
-import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin

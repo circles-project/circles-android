@@ -1,6 +1,6 @@
 package org.futo.circles.core.utils
 
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
 
 object UserUtils {
 

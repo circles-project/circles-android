@@ -1,5 +1,6 @@
 package org.futo.circles.di.ui
 
+import org.futo.circles.auth.feature.sign_up.username.UsernameViewModel
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
 import org.futo.circles.feature.people.user.UserViewModel
@@ -10,7 +11,6 @@ import org.futo.circles.feature.settings.active_sessions.verify.VerifySessionVie
 import org.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import org.futo.circles.feature.settings.profile.edit.EditProfileViewModel
 import org.futo.circles.feature.settings.profile.share.ShareProfileViewModel
-import org.futo.circles.feature.sign_up.username.UsernameViewModel
 import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
