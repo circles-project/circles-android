@@ -11,12 +11,17 @@ import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentUserBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.people.user.list.UsersCirclesAdapter
-import org.futo.circles.model.ConfirmationType
+import org.futo.circles.model.IgnoreUser
+import org.futo.circles.model.UnfollowTimeline
+import org.futo.circles.model.UnfollowUser
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.user.model.User
@@ -36,7 +41,7 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
         UsersCirclesAdapter(
             onRequestFollow = { timelineId -> viewModel.requestFollowTimeline(timelineId) },
             onUnFollow = { timelineId ->
-                withConfirmation(ConfirmationType.UNFOLLOW_TIMELINE) {
+                withConfirmation(UnfollowTimeline()) {
                     viewModel.unFollowTimeline(timelineId)
                 }
             }
@@ -69,12 +74,12 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             setOnMenuItemClickListener { item ->
                 return@setOnMenuItemClickListener when (item.itemId) {
                     R.id.unFollow -> {
-                        withConfirmation(ConfirmationType.UNFOLLOW_USER) { viewModel.unFollowUser() }
+                        withConfirmation(UnfollowUser()) { viewModel.unFollowUser() }
                         true
                     }
 
                     R.id.ignore -> {
-                        withConfirmation(ConfirmationType.IGNORE_USER) { viewModel.ignoreUser() }
+                        withConfirmation(IgnoreUser()) { viewModel.ignoreUser() }
                         true
                     }
 

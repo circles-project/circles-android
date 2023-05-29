@@ -1,10 +1,10 @@
 package org.futo.circles.feature.timeline.list
 
 import org.futo.circles.R
+import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.view.LoadingView
-import org.futo.circles.extensions.gone
-import org.futo.circles.extensions.visible
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
 object UploadMediaProgressHelper {

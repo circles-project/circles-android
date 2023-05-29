@@ -22,7 +22,7 @@ abstract class BaseFullscreenDialogFragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_FRAME, R.style.Theme_Circles)
+        setStyle(STYLE_NO_FRAME, 0)
     }
 
     override fun onCreateView(

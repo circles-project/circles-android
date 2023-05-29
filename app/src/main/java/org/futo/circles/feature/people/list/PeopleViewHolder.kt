@@ -4,13 +4,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.databinding.ListItemPeopleDefaultBinding
 import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
 import org.futo.circles.databinding.ListItemPeopleRequestBinding
-import org.futo.circles.extensions.onClick
 import org.futo.circles.model.CirclesUserSummary
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem

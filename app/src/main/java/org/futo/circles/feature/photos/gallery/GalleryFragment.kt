@@ -17,8 +17,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.base.PickGalleryMediaListener
+import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.setToolbarTitle
+import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
@@ -28,7 +33,7 @@ import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.list.GalleryItemViewHolder
 import org.futo.circles.feature.photos.gallery.list.GalleryItemsAdapter
 import org.futo.circles.model.CircleRoomTypeArg
-import org.futo.circles.model.ConfirmationType
+import org.futo.circles.model.DeleteGallery
 import org.futo.circles.model.GalleryContentListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -107,7 +112,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.configureGallery -> navigateToUpdateRoom()
-                    R.id.deleteGallery -> withConfirmation(ConfirmationType.DELETE_GALLERY) { viewModel.deleteGallery() }
+                    R.id.deleteGallery -> withConfirmation(DeleteGallery()) { viewModel.deleteGallery() }
                 }
                 return true
             }

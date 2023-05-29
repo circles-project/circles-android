@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.extensions.launchBg
 import org.futo.circles.model.RequestCircleListItem
 import org.matrix.android.sdk.api.session.getRoom
 

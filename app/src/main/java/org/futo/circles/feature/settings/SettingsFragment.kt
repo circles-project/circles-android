@@ -17,14 +17,16 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
-import org.futo.circles.extensions.withConfirmation
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
-import org.futo.circles.model.ConfirmationType
+import org.futo.circles.model.DeactivateAccount
+import org.futo.circles.model.LogOut
+import org.futo.circles.model.SwitchUser
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.matrix.android.sdk.api.session.user.model.User
@@ -54,11 +56,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun setupViews() {
         with(binding) {
-            tvLogout.setOnClickListener { withConfirmation(ConfirmationType.LOG_OUT) { viewModel.logOut() } }
-            tvSwitchUser.setOnClickListener { withConfirmation(ConfirmationType.SWITCH_USER) { (activity as? MainActivity)?.stopSyncAndRestart() } }
+            tvLogout.setOnClickListener { withConfirmation(LogOut()) { viewModel.logOut() } }
+            tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
             ivProfile.setOnClickListener { navigator.navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
-            tvDeactivate.setOnClickListener { withConfirmation(ConfirmationType.DEACTIVATE_ACCOUNT) { viewModel.deactivateAccount() } }
+            tvDeactivate.setOnClickListener { withConfirmation(DeactivateAccount()) { viewModel.deactivateAccount() } }
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigator.navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash() }

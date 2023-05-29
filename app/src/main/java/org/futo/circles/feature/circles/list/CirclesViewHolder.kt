@@ -7,13 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.databinding.ListItemInvitedCircleBinding
 import org.futo.circles.databinding.ListItemJoinedCircleBinding
 import org.futo.circles.databinding.ListItemRequestCircleBinding
-import org.futo.circles.extensions.onClick
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CircleListItemPayload
 import org.futo.circles.model.CirclesHeaderItem

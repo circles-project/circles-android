@@ -6,7 +6,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import org.futo.circles.core.ErrorParser
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
-import org.futo.circles.extensions.launchBg
+import org.futo.circles.core.extensions.launchBg
 
 class InviteMembersViewModel(
     private val dataSource: InviteMembersDataSource

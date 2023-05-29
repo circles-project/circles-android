@@ -3,9 +3,9 @@ package org.futo.circles.feature.circles.setup.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
+import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.databinding.ListItemSetupCircleBinding
-import org.futo.circles.extensions.onClick
 import org.futo.circles.model.SetupCircleListItem
 
 class SetupCirclesViewHolder(

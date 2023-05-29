@@ -2,7 +2,7 @@ package org.futo.circles.feature.timeline.data_source
 
 import kotlinx.coroutines.launch
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.extensions.coroutineScope
+import org.futo.circles.core.extensions.coroutineScope
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.read.ReadService

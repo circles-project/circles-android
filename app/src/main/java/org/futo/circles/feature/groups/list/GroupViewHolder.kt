@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemInvitedGroupBinding
 import org.futo.circles.databinding.ListItemJoinedGroupBinding
-import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setIsEncryptedIcon
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.GroupListItem
 import org.futo.circles.model.GroupListItemPayload
 import org.futo.circles.model.InvitedGroupListItem

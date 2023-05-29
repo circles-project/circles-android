@@ -4,11 +4,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setSelectableItemBackground
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemSelectRoomBinding
-import org.futo.circles.extensions.onClick
-import org.futo.circles.extensions.setSelectableItemBackground
 import org.futo.circles.model.SelectableRoomListItem
 
 class SelectRoomsViewHolder(

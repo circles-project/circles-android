@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.FragmentSelectUsersBinding
 import org.futo.circles.extensions.getQueryTextChangeStateFlow
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.room.select_users.list.search.InviteMembersSearchListAdapter
 import org.futo.circles.feature.room.select_users.list.selected.SelectedUsersListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel

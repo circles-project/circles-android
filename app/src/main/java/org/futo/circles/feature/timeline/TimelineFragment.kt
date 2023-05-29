@@ -19,8 +19,14 @@ import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.setToolbarSubTitle
+import org.futo.circles.core.extensions.setToolbarTitle
+import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.databinding.FragmentTimelineBinding
@@ -126,8 +132,8 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             R.id.inviteMembers, R.id.inviteFollowers -> navigator.navigateToInviteMembers(timelineId)
             R.id.leaveGroup -> showLeaveGroupDialog()
             R.id.iFollowing -> navigator.navigateToFollowing(args.roomId)
-            R.id.deleteCircle -> withConfirmation(ConfirmationType.DELETE_CIRCLE) { viewModel.deleteCircle() }
-            R.id.deleteGroup -> withConfirmation(ConfirmationType.DELETE_GROUP) { viewModel.deleteGroup() }
+            R.id.deleteCircle -> withConfirmation(DeleteCircle()) { viewModel.deleteCircle() }
+            R.id.deleteGroup -> withConfirmation(DeleteGroup()) { viewModel.deleteGroup() }
             R.id.stateEvents -> navigator.navigateToStateEvents(timelineId)
         }
         return true
@@ -207,11 +213,11 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun onRemove(roomId: String, eventId: String) {
-        withConfirmation(ConfirmationType.REMOVE_POST) { viewModel.removeMessage(roomId, eventId) }
+        withConfirmation(RemovePost()) { viewModel.removeMessage(roomId, eventId) }
     }
 
     override fun onIgnore(senderId: String) {
-        withConfirmation(ConfirmationType.IGNORE_SENDER) { viewModel.ignoreSender(senderId) }
+        withConfirmation(IgnoreSender()) { viewModel.ignoreSender(senderId) }
     }
 
     override fun onSaveToDevice(content: PostContent) {
@@ -246,7 +252,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     override fun endPoll(roomId: String, eventId: String) {
-        withConfirmation(ConfirmationType.END_POLL) { viewModel.endPoll(roomId, eventId) }
+        withConfirmation(EndPoll()) { viewModel.endPoll(roomId, eventId) }
     }
 
     override fun onEditPollClicked(roomId: String, eventId: String) {
@@ -302,7 +308,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
 
     private fun showLeaveGroupDialog() {
         if (viewModel.canLeaveRoom()) {
-            withConfirmation(ConfirmationType.LEAVE_GROUP) { viewModel.leaveGroup() }
+            withConfirmation(LeaveGroup()) { viewModel.leaveGroup() }
         } else {
             showDialog(
                 titleResIdRes = R.string.leave_group,

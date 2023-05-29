@@ -6,9 +6,9 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import org.futo.circles.R
+import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.DialogFragmentCreateCircleBinding
-import org.futo.circles.extensions.getText
 import org.futo.circles.feature.room.create.CreateRoomDialogFragment
 import org.futo.circles.model.CircleRoomTypeArg
 

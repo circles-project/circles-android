@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserUtils
-import org.futo.circles.extensions.getUserIdsToExclude
+import org.futo.circles.core.extensions.getUserIdsToExclude
 import org.futo.circles.mapping.toUserListItem
 import org.futo.circles.model.CirclesUserSummary
 import org.futo.circles.model.HeaderItem

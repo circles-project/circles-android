@@ -4,12 +4,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.databinding.ListItemUsersTimelineBinding
-import org.futo.circles.extensions.onClick
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.TimelineHeaderItem
 import org.futo.circles.model.TimelineListItem
 import org.futo.circles.model.TimelineRoomListItem

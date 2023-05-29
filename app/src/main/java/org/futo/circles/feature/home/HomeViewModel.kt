@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.SharedCirclesSpace
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
-import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
 import org.futo.circles.feature.room.RoomAccountDataSource

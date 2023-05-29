@@ -3,7 +3,7 @@ package org.futo.circles.feature.settings.change_password
 import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
-import org.futo.circles.extensions.launchBg
+import org.futo.circles.core.extensions.launchBg
 
 class ChangePasswordViewModel(
     private val changePasswordDataSource: ChangePasswordDataSource

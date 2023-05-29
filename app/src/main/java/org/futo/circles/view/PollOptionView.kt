@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import org.futo.circles.R
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ViewPollOptionBinding
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.PollOption
 import org.futo.circles.model.PollState
 import org.futo.circles.model.canVote

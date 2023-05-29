@@ -3,7 +3,7 @@ package org.futo.circles.feature.timeline
 import androidx.lifecycle.asLiveData
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
-import org.futo.circles.extensions.launchBg
+import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.RoomNotificationsDataSource
@@ -13,7 +13,11 @@ import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.model.*
+import org.futo.circles.model.CreatePollContent
+import org.futo.circles.model.CreatePostContent
+import org.futo.circles.model.MediaPostContent
+import org.futo.circles.model.PostContent
+import org.futo.circles.model.TextPostContent
 import org.matrix.android.sdk.api.util.Cancelable
 
 class TimelineViewModel(

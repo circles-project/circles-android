@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.setSelectableItemBackground
 import org.futo.circles.databinding.ViewUserListItemBinding
-import org.futo.circles.extensions.setSelectableItemBackground
 import org.futo.circles.model.CirclesUserSummary
 
 class UserListItemView(

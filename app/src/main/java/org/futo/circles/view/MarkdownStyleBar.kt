@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ViewMarkdownStylebarBinding
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.timeline.post.create.PostConfigurationOptionListener
 import org.futo.circles.model.MainStyleBarOption
 import org.futo.circles.model.StyleBarListItem

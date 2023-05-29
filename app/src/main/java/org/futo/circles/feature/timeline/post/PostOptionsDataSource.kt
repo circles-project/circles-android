@@ -2,11 +2,11 @@ package org.futo.circles.feature.timeline.post
 
 import android.content.Context
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.onBG
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import org.futo.circles.core.utils.FileUtils.saveMediaFileToDevice
-import org.futo.circles.extensions.onBG
 import org.futo.circles.feature.share.MediaShareable
 import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.feature.share.TextShareable

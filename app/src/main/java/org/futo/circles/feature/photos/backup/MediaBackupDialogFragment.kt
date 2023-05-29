@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentMediaBackupBinding
-import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.photos.backup.list.MediaFoldersListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

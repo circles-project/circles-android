@@ -2,9 +2,9 @@ package org.futo.circles.feature.photos.backup.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.databinding.ListItemMediaFolderBinding
-import org.futo.circles.extensions.onClick
 import org.futo.circles.model.MediaFolderListItem
 import kotlin.math.log10
 import kotlin.math.pow
