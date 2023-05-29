@@ -3,11 +3,11 @@ package org.futo.circles.feature.settings.profile.share
 import android.os.Bundle
 import android.view.View
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentShareProfileBinding
 import org.futo.circles.extensions.gone
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.showError
 import org.futo.circles.extensions.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

@@ -3,7 +3,7 @@ package org.futo.circles.feature.timeline.data_source
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.mapNotNull
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel

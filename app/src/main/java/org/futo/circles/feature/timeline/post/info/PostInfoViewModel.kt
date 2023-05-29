@@ -2,7 +2,8 @@ package org.futo.circles.feature.timeline.post.info
 
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.json.JSONObject
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room

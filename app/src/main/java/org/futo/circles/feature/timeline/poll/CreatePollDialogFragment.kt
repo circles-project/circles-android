@@ -6,10 +6,10 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentCreatePollBinding
 import org.futo.circles.extensions.getText
-import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.model.CreatePollContent
 import org.koin.androidx.viewmodel.ext.android.viewModel

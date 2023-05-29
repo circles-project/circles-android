@@ -16,12 +16,13 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.PickGalleryMediaListener
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.core.PickGalleryMediaListener
-import org.futo.circles.core.extensions.observeData
 import org.futo.circles.databinding.FragmentGalleryBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.list.GalleryItemViewHolder

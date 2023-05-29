@@ -1,18 +1,18 @@
 package org.futo.circles.feature.timeline.post
 
 import android.content.Context
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.model.MediaFileData
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import org.futo.circles.core.utils.FileUtils.saveMediaFileToDevice
-import org.futo.circles.extensions.createResult
 import org.futo.circles.extensions.onBG
 import org.futo.circles.feature.share.MediaShareable
 import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.feature.share.TextShareable
 import org.futo.circles.model.MediaContent
-import org.futo.circles.model.MediaFileData
 import org.futo.circles.model.PostContent
 import org.futo.circles.model.TextContent
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 

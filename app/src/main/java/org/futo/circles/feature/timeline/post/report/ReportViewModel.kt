@@ -1,7 +1,8 @@
 package org.futo.circles.feature.timeline.post.report
 
 import androidx.lifecycle.ViewModel
-import org.futo.circles.extensions.Response
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.Response
 import org.futo.circles.extensions.launchBg
 
 class ReportViewModel(

@@ -1,10 +1,11 @@
 package org.futo.circles.feature.settings
 
 import androidx.lifecycle.ViewModel
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.extensions.launchBg
-import org.futo.circles.provider.MatrixSessionProvider
 
 class SettingsViewModel(
     private val settingsDataSource: SettingsDataSource

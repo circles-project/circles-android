@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import org.futo.circles.core.ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE
 import org.futo.circles.core.ROOM_BACKUP_EVENT_TYPE
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getPhotosSpaceId
-import org.futo.circles.extensions.createResult
 import org.futo.circles.model.MediaBackupSettingsData
 import org.futo.circles.model.toMediaBackupSettingsData
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.accountdata.RoomAccountDataEvent
 import org.matrix.android.sdk.api.util.Optional

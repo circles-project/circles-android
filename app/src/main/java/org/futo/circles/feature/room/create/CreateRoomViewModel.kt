@@ -3,13 +3,14 @@ package org.futo.circles.feature.room.create
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.futo.circles.core.matrix.room.CreateRoomDataSource
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.model.Gallery
+import org.futo.circles.core.model.Group
+import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.model.CircleRoomTypeArg
-import org.futo.circles.model.Gallery
-import org.futo.circles.model.Group
 
 class CreateRoomViewModel(
     private val dataSource: CreateRoomDataSource
@@ -50,7 +51,11 @@ class CreateRoomViewModel(
             inviteIds = inviteIds
         )
 
-    private suspend fun createCircle(name: String, inviteIds: List<String>?, isKnockingAllowed: Boolean) =
+    private suspend fun createCircle(
+        name: String,
+        inviteIds: List<String>?,
+        isKnockingAllowed: Boolean
+    ) =
         dataSource.createCircleWithTimeline(
             name = name,
             iconUri = selectedImageLiveData.value,

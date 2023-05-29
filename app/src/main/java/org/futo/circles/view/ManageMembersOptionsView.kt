@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import org.futo.circles.core.extensions.isCurrentUserAbleToBan
+import org.futo.circles.core.extensions.isCurrentUserAbleToChangeLevelFor
+import org.futo.circles.core.extensions.isCurrentUserAbleToKick
 import org.futo.circles.databinding.ViewManageMembersOptionsBinding
-import org.futo.circles.extensions.isCurrentUserAbleToBan
-import org.futo.circles.extensions.isCurrentUserAbleToChangeLevelFor
-import org.futo.circles.extensions.isCurrentUserAbleToKick
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.room.ManageMembersOptionsListener
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent

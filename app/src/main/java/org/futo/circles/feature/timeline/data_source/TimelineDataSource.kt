@@ -2,10 +2,10 @@ package org.futo.circles.feature.timeline.data_source
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.mapping.nameOrId
 import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.Post
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.timeline.Timeline

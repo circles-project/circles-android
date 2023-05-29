@@ -12,6 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.extensions.getCurrentUserPowerLevel
+import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
+import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
+import org.futo.circles.core.extensions.isCurrentUserAbleToPost
+import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.databinding.FragmentTimelineBinding
 import org.futo.circles.extensions.*
@@ -21,7 +31,6 @@ import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.*
-import org.futo.circles.provider.PreferencesProvider
 import org.futo.circles.view.CreatePostMenuListener
 import org.futo.circles.view.PostOptionsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel

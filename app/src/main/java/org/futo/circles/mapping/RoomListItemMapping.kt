@@ -1,14 +1,20 @@
 package org.futo.circles.mapping
 
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.model.*
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.model.GalleryListItem
+import org.futo.circles.model.InvitedCircleListItem
+import org.futo.circles.model.InvitedGroupListItem
+import org.futo.circles.model.JoinedCircleListItem
+import org.futo.circles.model.JoinedGroupListItem
+import org.futo.circles.model.RoomInfo
+import org.futo.circles.model.SelectableRoomListItem
+import org.futo.circles.model.TimelineRoomListItem
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.SpaceChildInfo
-import org.matrix.android.sdk.api.session.room.peeking.PeekResult
 
 fun RoomSummary.nameOrId() = displayName.takeIf { it.isNotEmpty() } ?: roomId
 

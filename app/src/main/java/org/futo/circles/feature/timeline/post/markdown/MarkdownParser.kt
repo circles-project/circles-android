@@ -22,13 +22,13 @@ import io.noties.markwon.linkify.LinkifyPlugin
 import org.commonmark.node.Emphasis
 import org.commonmark.node.StrongEmphasis
 import org.futo.circles.R
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.extensions.getGivenSpansAt
 import org.futo.circles.feature.timeline.post.markdown.mentions.plugin.MentionPlugin
 import org.futo.circles.feature.timeline.post.markdown.span.MentionSpan
 import org.futo.circles.feature.timeline.post.markdown.span.OrderedListItemSpan
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
 import org.futo.circles.mapping.notEmptyDisplayName
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUserOrDefault
 
 

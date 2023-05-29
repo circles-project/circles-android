@@ -5,11 +5,10 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentActiveSessionsBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showError
 import org.futo.circles.extensions.withConfirmation
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionsAdapter

@@ -10,8 +10,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.RoomsListener
 import org.futo.circles.core.SelectRoomsListener
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.databinding.FragmentSelectRoomsBinding
-import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.photos.select.RoomsPicker
 import org.futo.circles.feature.room.select.list.SelectRoomsAdapter

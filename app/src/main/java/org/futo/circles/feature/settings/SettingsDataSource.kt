@@ -6,11 +6,12 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.futo.circles.R
-import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
+import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
-import org.futo.circles.provider.MatrixSessionProvider
 import java.io.File
 
 class SettingsDataSource(

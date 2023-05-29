@@ -8,11 +8,11 @@ import android.view.WindowManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
-import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.onBackPressed
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle

@@ -13,9 +13,9 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.futo.circles.BuildConfig
 import org.futo.circles.R
+import org.futo.circles.core.provider.MatrixInstanceProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.extensions.getAllChildFragments
-import org.futo.circles.provider.MatrixInstanceProvider
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.util.MimeTypes
 import java.io.File
 import java.io.IOException

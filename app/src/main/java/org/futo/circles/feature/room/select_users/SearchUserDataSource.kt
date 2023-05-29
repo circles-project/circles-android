@@ -4,11 +4,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.extensions.getKnownUsersFlow
 import org.futo.circles.extensions.getServerDomain
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User

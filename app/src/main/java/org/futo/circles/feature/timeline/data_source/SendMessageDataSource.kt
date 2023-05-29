@@ -6,12 +6,12 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
-import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.extensions.toImageContentAttachmentData
 import org.futo.circles.core.extensions.toVideoContentAttachmentData
+import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.mapping.MediaCaptionFieldKey
 import org.futo.circles.model.CreatePollContent
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent

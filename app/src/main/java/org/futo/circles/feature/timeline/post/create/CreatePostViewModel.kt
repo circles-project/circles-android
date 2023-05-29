@@ -2,8 +2,7 @@ package org.futo.circles.feature.timeline.post.create
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getTextEditableContent

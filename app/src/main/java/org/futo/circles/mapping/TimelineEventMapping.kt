@@ -1,14 +1,14 @@
 package org.futo.circles.mapping
 
+import org.futo.circles.core.extensions.getReadByCountForEvent
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.extensions.getReadByCountForEvent
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.Post
 import org.futo.circles.model.PostContent
 import org.futo.circles.model.PostContentType
 import org.futo.circles.model.PostInfo
 import org.futo.circles.model.PostReadInfo
 import org.futo.circles.model.ReactionsData
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited

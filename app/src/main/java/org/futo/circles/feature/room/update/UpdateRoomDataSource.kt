@@ -2,14 +2,14 @@ package org.futo.circles.feature.room.update
 
 import android.content.Context
 import android.net.Uri
-import org.futo.circles.core.matrix.room.CreateRoomDataSource
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.getFilename
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.utils.isCircleShared
-import org.futo.circles.extensions.createResult
-import org.futo.circles.core.extensions.getFilename
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
-import java.util.*
+import java.util.UUID
 
 class UpdateRoomDataSource(
     roomId: String,

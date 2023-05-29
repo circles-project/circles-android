@@ -5,10 +5,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.extensions.getUserIdsToExclude
 import org.futo.circles.mapping.toUserListItem
-import org.futo.circles.model.*
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.model.CirclesUserSummary
+import org.futo.circles.model.HeaderItem
+import org.futo.circles.model.InviteMemberListItem
+import org.futo.circles.model.NoResultsItem
+import org.futo.circles.model.UserListItem
 import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams

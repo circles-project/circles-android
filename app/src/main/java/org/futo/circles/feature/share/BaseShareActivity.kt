@@ -10,10 +10,10 @@ import org.futo.circles.R
 import org.futo.circles.core.BaseActivity
 import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.ActivityBaseShareBinding
 import org.futo.circles.feature.photos.select.RoomsPicker
 import org.futo.circles.model.SelectableRoomListItem
-import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), SelectRoomsListener {

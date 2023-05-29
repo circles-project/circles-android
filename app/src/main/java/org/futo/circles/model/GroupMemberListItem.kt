@@ -1,11 +1,11 @@
 package org.futo.circles.model
 
+import org.futo.circles.core.extensions.getCurrentUserPowerLevel
+import org.futo.circles.core.extensions.isCurrentUserAbleToBan
+import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
+import org.futo.circles.core.extensions.isCurrentUserAbleToKick
 import org.futo.circles.core.list.IdEntity
-import org.futo.circles.extensions.getCurrentUserPowerLevel
-import org.futo.circles.extensions.isCurrentUserAbleToBan
-import org.futo.circles.extensions.isCurrentUserAbleToChangeSettings
-import org.futo.circles.extensions.isCurrentUserAbleToKick
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role

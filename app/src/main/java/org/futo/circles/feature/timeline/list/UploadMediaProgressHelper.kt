@@ -1,6 +1,8 @@
 package org.futo.circles.feature.timeline.list
 
 import org.futo.circles.R
+import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.view.LoadingView
 import org.futo.circles.extensions.gone
 import org.futo.circles.extensions.visible
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
@@ -11,11 +13,12 @@ object UploadMediaProgressHelper {
         object : ContentUploadStateTracker.UpdateListener {
             override fun onUpdate(state: ContentUploadStateTracker.State) {
                 when (state) {
-                    ContentUploadStateTracker.State.CompressingImage-> {
+                    ContentUploadStateTracker.State.CompressingImage -> {
                         loadingView.visible()
                         loadingView.setMessage(R.string.compressing)
                     }
-                    is ContentUploadStateTracker.State.CompressingVideo->{
+
+                    is ContentUploadStateTracker.State.CompressingVideo -> {
                         loadingView.visible()
                         loadingView.setProgress(
                             LoadingData(
@@ -25,6 +28,7 @@ object UploadMediaProgressHelper {
                             )
                         )
                     }
+
                     is ContentUploadStateTracker.State.Encrypting -> {
                         loadingView.visible()
                         loadingView.setProgress(
@@ -35,6 +39,7 @@ object UploadMediaProgressHelper {
                             )
                         )
                     }
+
                     is ContentUploadStateTracker.State.Uploading -> {
                         loadingView.visible()
                         loadingView.setProgress(
@@ -45,6 +50,7 @@ object UploadMediaProgressHelper {
                             )
                         )
                     }
+
                     else -> loadingView.gone()
                 }
             }

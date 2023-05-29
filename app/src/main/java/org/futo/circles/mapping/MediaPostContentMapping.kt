@@ -1,11 +1,11 @@
 package org.futo.circles.mapping
 
 import com.bumptech.glide.request.target.Target
+import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.VideoUtils
 import org.futo.circles.model.MediaContent
 import org.futo.circles.model.MediaContentInfo
-import org.futo.circles.model.MediaFileData
 import org.futo.circles.model.PostContentType
 import org.matrix.android.sdk.api.session.crypto.attachments.toElementToDecrypt
 import org.matrix.android.sdk.api.session.events.model.toModel
@@ -22,6 +22,7 @@ fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
         when (mediaType) {
             MediaType.Image -> it.toModel<MessageImageContent>()
                 .toMediaContentInfo(getCaption())
+
             MediaType.Video -> it.toModel<MessageVideoContent>()
                 .toMediaContentInfo(getCaption())
         }

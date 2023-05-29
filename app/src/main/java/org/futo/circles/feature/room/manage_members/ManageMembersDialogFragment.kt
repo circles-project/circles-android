@@ -6,9 +6,13 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
+import org.futo.circles.core.extensions.getCurrentUserPowerLevel
+import org.futo.circles.core.extensions.getUserPowerLevel
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentManageMembersBinding
-import org.futo.circles.extensions.*
+import org.futo.circles.extensions.withConfirmation
 import org.futo.circles.feature.room.ManageMembersOptionsListener
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelListener
 import org.futo.circles.feature.room.manage_members.list.GroupMembersListAdapter
