@@ -6,6 +6,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import org.futo.circles.R
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showSuccess
@@ -15,7 +16,6 @@ import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.DialogFragmentEditProfileBinding
 import org.futo.circles.extensions.getText
 import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.matrix.android.sdk.api.session.user.model.User
 

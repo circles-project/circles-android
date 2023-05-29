@@ -5,8 +5,8 @@ import android.os.Handler
 import android.os.HandlerThread
 import androidx.annotation.WorkerThread
 import org.futo.circles.R
+import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.NotifiableEvent
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session

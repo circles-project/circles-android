@@ -1,5 +1,6 @@
 package org.futo.circles.mapping
 
+import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.model.GalleryListItem

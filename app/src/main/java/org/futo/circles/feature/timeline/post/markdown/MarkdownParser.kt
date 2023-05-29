@@ -22,13 +22,13 @@ import io.noties.markwon.linkify.LinkifyPlugin
 import org.commonmark.node.Emphasis
 import org.commonmark.node.StrongEmphasis
 import org.futo.circles.R
+import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.extensions.getGivenSpansAt
 import org.futo.circles.feature.timeline.post.markdown.mentions.plugin.MentionPlugin
 import org.futo.circles.feature.timeline.post.markdown.span.MentionSpan
 import org.futo.circles.feature.timeline.post.markdown.span.OrderedListItemSpan
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.matrix.android.sdk.api.session.getUserOrDefault
 
 
@@ -52,21 +52,25 @@ object MarkdownParser {
                     textCopy.insert(start, boldMark)
                     textCopy.insert(endIndex, boldMark)
                 }
+
                 is EmphasisSpan -> {
                     val endIndex = calculateLastIndexToInsert(textCopy, end, italicMark)
                     textCopy.insert(start, italicMark)
                     textCopy.insert(endIndex, italicMark)
                 }
+
                 is StrikethroughSpan -> {
                     val endIndex = calculateLastIndexToInsert(textCopy, end, strikeMark)
                     textCopy.insert(start, strikeMark)
                     textCopy.insert(endIndex, strikeMark)
                 }
+
                 is LinkSpan -> {
                     val linkStartMark = "["
                     textCopy.insert(start, linkStartMark)
                     textCopy.insert(end + linkStartMark.length, "](${it.link})")
                 }
+
                 is BulletListItemSpan -> textCopy.insert(start, "*")
                 is OrderedListItemSpan -> textCopy.insert(start, it.number)
                 is TaskListSpan -> {

@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
+import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.SetupCircleListItem
 import org.matrix.android.sdk.api.session.getUser
 

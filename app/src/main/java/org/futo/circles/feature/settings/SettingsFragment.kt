@@ -12,6 +12,7 @@ import org.futo.circles.BuildConfig
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
@@ -23,7 +24,6 @@ import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.extensions.withConfirmation
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.ConfirmationType
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel

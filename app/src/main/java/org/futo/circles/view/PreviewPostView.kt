@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.core.extensions.loadImage
+import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.ImageUtils
@@ -22,7 +23,6 @@ import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
