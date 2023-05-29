@@ -2,8 +2,8 @@ package org.futo.circles.feature.room
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import org.futo.circles.core.ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE
-import org.futo.circles.core.ROOM_BACKUP_EVENT_TYPE
+import org.futo.circles.base.ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE
+import org.futo.circles.base.ROOM_BACKUP_EVENT_TYPE
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getPhotosSpaceId

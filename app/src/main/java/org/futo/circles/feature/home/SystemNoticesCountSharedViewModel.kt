@@ -2,7 +2,7 @@ package org.futo.circles.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import org.futo.circles.core.DEFAULT_USER_PREFIX
+import org.futo.circles.base.DEFAULT_USER_PREFIX
 import org.futo.circles.core.SYSTEM_NOTICES_TAG
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserUtils

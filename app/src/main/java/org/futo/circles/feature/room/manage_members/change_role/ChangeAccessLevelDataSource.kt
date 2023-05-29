@@ -1,6 +1,6 @@
 package org.futo.circles.feature.room.manage_members.change_role
 
-import org.futo.circles.core.READ_ONLY_ROLE
+import org.futo.circles.base.READ_ONLY_ROLE
 import org.futo.circles.model.AccessLevel
 import org.futo.circles.model.AccessLevelListItem
 import org.matrix.android.sdk.api.session.room.powerlevels.Role

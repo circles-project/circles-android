@@ -1,4 +1,4 @@
-package org.futo.circles.core
+package org.futo.circles.base
 
 import org.futo.circles.BuildConfig
 import org.futo.circles.core.provider.MatrixSessionProvider

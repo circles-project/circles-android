@@ -3,7 +3,7 @@ package org.futo.circles.di.api
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
-import org.futo.circles.core.getRageShakeUrl
+import org.futo.circles.base.getRageShakeUrl
 import org.futo.circles.io.BugreportApiService
 import org.koin.dsl.module
 import retrofit2.Converter

@@ -1,4 +1,4 @@
-package org.futo.circles.core
+package org.futo.circles.base
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

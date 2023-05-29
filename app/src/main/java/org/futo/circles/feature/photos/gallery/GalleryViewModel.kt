@@ -3,7 +3,7 @@ package org.futo.circles.feature.photos.gallery
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.map
-import org.futo.circles.core.PickGalleryMediaListener
+import org.futo.circles.base.PickGalleryMediaListener
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.model.MediaFileData

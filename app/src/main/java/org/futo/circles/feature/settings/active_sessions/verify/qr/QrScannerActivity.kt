@@ -13,7 +13,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.Result
 import com.google.zxing.ResultMetadataType
 import org.futo.circles.R
-import org.futo.circles.core.BaseActivity
+import org.futo.circles.base.BaseActivity
 import org.futo.circles.databinding.ActivityQrScannerBinding
 
 class QrScannerActivity : BaseActivity(R.layout.activity_qr_scanner) {

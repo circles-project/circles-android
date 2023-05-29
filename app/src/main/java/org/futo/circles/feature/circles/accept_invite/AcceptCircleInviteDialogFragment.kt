@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
-import org.futo.circles.core.RoomsListener
-import org.futo.circles.core.SelectRoomsListener
+import org.futo.circles.base.RoomsListener
+import org.futo.circles.base.SelectRoomsListener
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState

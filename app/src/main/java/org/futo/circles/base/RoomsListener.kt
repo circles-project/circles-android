@@ -1,4 +1,4 @@
-package org.futo.circles.core
+package org.futo.circles.base
 
 import org.futo.circles.model.SelectableRoomListItem
 

@@ -1,4 +1,4 @@
-package org.futo.circles.core
+package org.futo.circles.base
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

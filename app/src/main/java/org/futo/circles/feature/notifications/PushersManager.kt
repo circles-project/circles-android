@@ -3,9 +3,9 @@ package org.futo.circles.feature.notifications
 import android.content.Context
 import com.google.gson.Gson
 import org.futo.circles.R
-import org.futo.circles.core.DEFAULT_PUSH_GATEWAY
-import org.futo.circles.core.PUSHER_APP_ID
-import org.futo.circles.core.getPusherUrl
+import org.futo.circles.base.DEFAULT_PUSH_GATEWAY
+import org.futo.circles.base.PUSHER_APP_ID
+import org.futo.circles.base.getPusherUrl
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider

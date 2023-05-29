@@ -1,4 +1,4 @@
-package org.futo.circles.core
+package org.futo.circles.base
 
 import android.content.Context
 import android.content.ContextWrapper

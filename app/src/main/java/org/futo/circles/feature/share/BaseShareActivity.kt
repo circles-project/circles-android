@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.MainActivity
 import org.futo.circles.R
-import org.futo.circles.core.BaseActivity
-import org.futo.circles.core.SelectRoomsListener
+import org.futo.circles.base.BaseActivity
+import org.futo.circles.base.SelectRoomsListener
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.ActivityBaseShareBinding

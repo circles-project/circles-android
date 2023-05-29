@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapNotNull
 import org.futo.circles.R
-import org.futo.circles.core.ExpandableItemsDataSource
+import org.futo.circles.base.ExpandableItemsDataSource
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.mapping.nameOrId
