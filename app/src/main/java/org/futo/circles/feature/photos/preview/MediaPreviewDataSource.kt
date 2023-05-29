@@ -1,9 +1,9 @@
 package org.futo.circles.feature.photos.preview
 
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.mapping.toPost
 import org.futo.circles.model.PostContent
 import org.futo.circles.model.PostContentType
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent

@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentNotificationsTestBinding
-import org.futo.circles.extensions.observeData
 import org.futo.circles.feature.notifications.NotificationActionIds
 import org.futo.circles.feature.notifications.test.list.NotificationsTestAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel

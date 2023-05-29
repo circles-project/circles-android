@@ -9,14 +9,14 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import org.futo.circles.R
+import org.futo.circles.core.extensions.getRoomOwners
+import org.futo.circles.core.model.TIMELINE_TYPE
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getSharedCircleFor
-import org.futo.circles.extensions.getRoomOwners
 import org.futo.circles.mapping.toTimelineRoomListItem
-import org.futo.circles.model.TIMELINE_TYPE
 import org.futo.circles.model.TimelineHeaderItem
 import org.futo.circles.model.TimelineListItem
 import org.futo.circles.model.TimelineRoomListItem
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary

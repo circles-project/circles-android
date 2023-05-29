@@ -3,9 +3,9 @@ package org.futo.circles.feature.photos.gallery.list
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.databinding.ListItemGalleryMediaBinding
-import org.futo.circles.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.extensions.onClick
 import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.model.GalleryContentListItem

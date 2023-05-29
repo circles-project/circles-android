@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.extensions.launchBg
 import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
@@ -31,6 +33,7 @@ class MediaPreviewViewModel(
                 FileUtils.downloadEncryptedFileToContentUri(context, content.mediaFileData)
                     ?.let { videoLiveData.postValue(content to it) }
             }
+
             else -> return
         }
     }

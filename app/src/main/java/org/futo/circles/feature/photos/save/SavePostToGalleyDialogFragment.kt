@@ -6,12 +6,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
 import org.futo.circles.core.SelectRoomsListener
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentSavePostToGalleryBinding
-import org.futo.circles.extensions.observeResponse
 import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.photos.select.SelectGalleriesFragment
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel

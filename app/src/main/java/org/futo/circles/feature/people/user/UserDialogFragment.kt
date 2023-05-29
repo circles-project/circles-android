@@ -7,6 +7,9 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
+import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentUserBinding
 import org.futo.circles.extensions.*
@@ -68,14 +71,17 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
                         withConfirmation(ConfirmationType.UNFOLLOW_USER) { viewModel.unFollowUser() }
                         true
                     }
+
                     R.id.ignore -> {
                         withConfirmation(ConfirmationType.IGNORE_USER) { viewModel.ignoreUser() }
                         true
                     }
+
                     R.id.unIgnore -> {
                         viewModel.unIgnoreUser()
                         true
                     }
+
                     else -> false
                 }
             }

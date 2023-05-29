@@ -2,9 +2,9 @@ package org.futo.circles.feature.notifications.test.task
 
 import android.content.Context
 import org.futo.circles.R
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.NotificationTestStatus
 import org.futo.circles.model.toNotificationAction
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.pushrules.RuleIds
 import org.matrix.android.sdk.api.session.pushrules.getActions
 

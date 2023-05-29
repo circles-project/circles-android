@@ -4,15 +4,15 @@ import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getSharedCircleFor
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
-import org.futo.circles.extensions.createResult
 import org.futo.circles.feature.room.select_users.SearchUserDataSource
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleListItem
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership

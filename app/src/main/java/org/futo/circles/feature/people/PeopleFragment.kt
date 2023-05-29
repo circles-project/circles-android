@@ -12,11 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.databinding.FragmentPeopleBinding
 import org.futo.circles.extensions.getQueryTextChangeStateFlow
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.people.list.PeopleAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

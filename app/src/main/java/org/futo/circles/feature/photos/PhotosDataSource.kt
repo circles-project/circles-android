@@ -1,10 +1,10 @@
 package org.futo.circles.feature.photos
 
 import androidx.lifecycle.map
+import org.futo.circles.core.model.GALLERY_TYPE
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.mapping.toGalleryListItem
-import org.futo.circles.model.GALLERY_TYPE
 import org.futo.circles.model.GalleryListItem
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams

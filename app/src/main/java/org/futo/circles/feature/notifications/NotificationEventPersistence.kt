@@ -1,8 +1,8 @@
 package org.futo.circles.feature.notifications
 
 import android.content.Context
+import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.model.NotifiableMessageEvent
-import org.futo.circles.provider.MatrixInstanceProvider
 import java.io.File
 import java.io.FileOutputStream
 

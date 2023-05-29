@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.HasLoadingState

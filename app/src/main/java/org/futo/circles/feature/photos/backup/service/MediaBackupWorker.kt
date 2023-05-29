@@ -3,8 +3,8 @@ package org.futo.circles.feature.photos.backup.service
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.photos.backup.MediaBackupDataSource
-import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

@@ -15,6 +15,9 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import org.futo.circles.R
+import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentMediaPreviewBinding
 import org.futo.circles.extensions.*
@@ -103,10 +106,12 @@ class MediaPreviewDialogFragment :
                         viewModel.save()
                         true
                     }
+
                     R.id.share -> {
                         viewModel.share()
                         true
                     }
+
                     R.id.delete -> {
                         withConfirmation(ConfirmationType.REMOVE_IMAGE) {
                             viewModel.removeImage()
@@ -114,6 +119,7 @@ class MediaPreviewDialogFragment :
                         }
                         true
                     }
+
                     else -> false
                 }
             }

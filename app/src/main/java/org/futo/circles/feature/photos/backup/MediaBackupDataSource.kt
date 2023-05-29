@@ -3,13 +3,12 @@ package org.futo.circles.feature.photos.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import android.util.Log
-import org.futo.circles.core.matrix.room.CreateRoomDataSource
+import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getJoinedRoomIdByTag
 import org.futo.circles.feature.room.RoomAccountDataSource
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
-import org.futo.circles.model.Gallery
 import org.futo.circles.model.MediaFolderListItem
 import org.futo.circles.model.MediaToBackupItem
 import org.futo.circles.model.toMediaToBackupItem

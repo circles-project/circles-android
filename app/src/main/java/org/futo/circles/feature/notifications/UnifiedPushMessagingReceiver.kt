@@ -6,11 +6,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.model.PushData
 import org.futo.circles.model.PushDataUnifiedPush
 import org.futo.circles.model.toPushData
-import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.provider.PreferencesProvider
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.matrix.android.sdk.api.extensions.tryOrNull

@@ -8,7 +8,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentPushNotificationsSettingsBinding
-import org.futo.circles.extensions.observeData
 import org.futo.circles.extensions.openNotificationSettings
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

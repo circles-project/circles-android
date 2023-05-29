@@ -6,16 +6,17 @@ import org.futo.circles.R
 import org.futo.circles.core.DEFAULT_PUSH_GATEWAY
 import org.futo.circles.core.PUSHER_APP_ID
 import org.futo.circles.core.getPusherUrl
+import org.futo.circles.core.provider.MatrixInstanceProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.extensions.getApplicationLabel
 import org.futo.circles.model.DiscoveryResponse
-import org.futo.circles.provider.MatrixInstanceProvider
-import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.provider.PreferencesProvider
 import org.matrix.android.sdk.api.cache.CacheStrategy
 import org.matrix.android.sdk.api.session.pushers.HttpPusher
 import org.unifiedpush.android.connector.UnifiedPush
 import java.net.URL
-import java.util.*
+import java.util.Locale
+import java.util.UUID
 import kotlin.math.abs
 
 class PushersManager(
