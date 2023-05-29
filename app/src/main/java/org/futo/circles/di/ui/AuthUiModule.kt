@@ -21,7 +21,7 @@ import org.futo.circles.auth.feature.sign_up.validate_token.ValidateTokenViewMod
 import org.futo.circles.auth.model.PasswordModeArg
 import org.futo.circles.auth.model.TermsModeArg
 import org.futo.circles.feature.home.HomeViewModel
-import org.futo.circles.feature.sign_up.setup_circles.SetupCirclesViewModel
+import org.futo.circles.feature.circles.setup.SetupCirclesViewModel
 import org.futo.circles.feature.timeline.poll.CreatePollViewModel
 import org.futo.circles.feature.timeline.post.create.CreatePostViewModel
 import org.futo.circles.feature.timeline.post.info.PostInfoViewModel
