@@ -1,6 +1,5 @@
 package org.futo.circles.mapping
 
-import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.model.CirclesUserSummary
 import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleUserListItem

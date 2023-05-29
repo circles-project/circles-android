@@ -9,7 +9,6 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
-import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.databinding.ViewPostHeaderBinding
 import org.futo.circles.extensions.getAttributes
 import org.futo.circles.extensions.loadProfileIcon

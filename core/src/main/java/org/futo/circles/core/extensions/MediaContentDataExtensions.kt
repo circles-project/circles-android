@@ -1,8 +1,8 @@
-package org.futo.circles.extensions
+package org.futo.circles.core.extensions
 
 import android.util.Size
 import android.widget.ImageView
-import org.futo.circles.model.MediaFileData
+import org.futo.circles.core.model.MediaFileData
 
 fun MediaFileData.loadEncryptedIntoWithAspect(
     imageView: ImageView,

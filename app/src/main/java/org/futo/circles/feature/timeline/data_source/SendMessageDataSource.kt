@@ -7,8 +7,8 @@ import android.os.Looper
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.extensions.toImageContentAttachmentData
-import org.futo.circles.extensions.toVideoContentAttachmentData
+import org.futo.circles.core.extensions.toImageContentAttachmentData
+import org.futo.circles.core.extensions.toVideoContentAttachmentData
 import org.futo.circles.mapping.MediaCaptionFieldKey
 import org.futo.circles.model.CreatePollContent
 import org.futo.circles.provider.MatrixSessionProvider
