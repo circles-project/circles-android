@@ -1,14 +1,6 @@
 <resources>
     <string name="app_name">Circles</string>
     <string name="futo">FUTO</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
-    <string name="log_in">Log In</string>
-    <string name="set_username">Set username</string>
-    <string name="not_a_member">Not a member?</string>
-    <string name="resume_session">Resume session:</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="sign_up_using_active_subscription">Sign Up using your active subscription</string>
     <string name="circles">Circles</string>
     <string name="groups">Groups</string>
     <string name="people">People</string>
@@ -18,7 +10,6 @@
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
     <string name="photo_galleries">Photo Galleries</string>
-    <string name="initial_device_name">FUTO Circles (Android)</string>
     <string name="share">Share</string>
     <string name="invite_members">Invite members</string>
     <string name="invite_followers">Invite followers</string>
@@ -52,34 +43,6 @@
     <string name="group_updated">Group updated</string>
     <string name="circle_updated">Circle updated</string>
     <string name="gallery_updated">Gallery updated</string>
-    <string name="sign_up_for_free_account">Sign up for a free account</string>
-    <string name="choose_a_subscription">Choose a subscription</string>
-    <string name="create_a_subscription">Create a subscription</string>
-    <string name="or">Or</string>
-    <string name="validate_your_token">Validate your token</string>
-    <string name="validate_token">Validate token</string>
-    <string name="sign_up_token_format">abcd–efgh–1234–5678</string>
-    <string name="sign_up_token">SignUp token</string>
-    <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
-    <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
-    <string name="accept">Accept</string>
-    <string name="accept_terms_to_continue">Accept terms to continue</string>
-    <string name="discard_current_registration_progress">Discard current registration progress?</string>
-    <string name="discard_current_login_progress">Discard current login progress?</string>
-    <string name="validate_your_email">Validate your email</string>
-    <string name="validate_email">Validate email</string>
-    <string name="email">Email</string>
-    <string name="validation_code">Validation code</string>
-    <string name="send_validation_code">Send validation code</string>
-    <string name="email_usage_explanation">Must be a currently valid and active address.\n\nDon\'t worry - we will only use this address for security and other alerts about your account. We don\'t send spam, and we don\'t sell your address.</string>
-    <string name="validation_code_explanation">We sent a 6-digit code to your email address to validate your account.\n\nEnter the code here to verify that this address belongs to you.</string>
-    <string name="validation_code_sent_to_format">Validation code sent to %s</string>
-    <string name="upload_a_profile_photo">Upload a profile photo</string>
-    <string name="display_name">Display name</string>
-    <string name="save">Save</string>
-    <string name="skip">Skip</string>
-    <string name="display_name_explanation">Your display name is how other users on the service will identify you.\n\nThe display name must consist of at least 8 characters, including at least two letters [a–z].\n\nIf you like, you can also use the numeric digits [0–9] and/or a few special characters like the dash, underscore, and period or \"dot\".</string>
-    <string name="setup_profile">Setup profile</string>
     <string name="setup_circles">Setup Circles</string>
     <string name="circle_encryption_warning">NOTE: Circle name and cover image are not encrypted</string>
     <string name="gallery_encryption_warning">NOTE: Gallery name and cover image are not encrypted</string>
@@ -91,25 +54,13 @@
     <string name="log_out">Log out</string>
     <string name="others">Others</string>
     <string name="log_out_message">Are you sure you want to log out?</string>
-    <string name="generating_recovery_key">Generating recovery key from passphrase.</string>
-    <string name="creating_backup">Creating backup</string>
-    <string name="removing_backup">Removing previous backup</string>
     <string name="session_is_not_created">Session is not created</string>
-    <string name="backup_already_exist">Backup already exist</string>
-    <string name="not_supported_stage_format">Not supported stage %s</string>
-    <string name="backup_could_not_be_decrypted_with_passphrase">Backup could not be decrypted with this passphrase.</string>
-    <string name="backup_could_not_be_decrypted_with_key">Backup could not be decrypted with this recovery key.</string>
-    <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
-    <string name="computing_recovery_key">Computing recovery key.</string>
-    <string name="downloading_keys">Downloading keys.</string>
-    <string name="importing_keys">Importing keys.</string>
     <string name="following_format">Following %d</string>
     <string name="followed_by_format">Followed by %d</string>
     <string name="leave">Leave</string>
     <string name="leave_group_message">Are you sure you want to leave this group?\n\nThis group is not public. You will not be able to rejoin without an invite.</string>
     <string name="select_another_admin_message">You must select another member as an \"Admin\" to be able to leave this group.</string>
     <string name="access_level">Access level</string>
-    <string name="remove">Remove</string>
     <string name="ban">Ban</string>
     <string name="unban">Unban</string>
     <string name="current_members">Current members</string>
@@ -119,8 +70,6 @@
     <string name="invited">Invited</string>
     <string name="cancel_invite">Cancel invite</string>
     <string name="cancel_invite_message">Are you sure you want to cancel the invite for this user?</string>
-    <string name="remove_user">Remove user</string>
-    <string name="remove_user_message">Are you sure you want to remove this user?</string>
     <string name="remove_user_in_room_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
     <string name="ban_user">Ban user</string>
     <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
@@ -217,26 +166,13 @@
     <string name="save_to_gallery">Save to gallery</string>
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
-    <string name="server_location">Server Location</string>
-    <string name="us_server_format"><![CDATA[<b>US</b> - (%s)]]></string>
-    <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>
-    <string name="user_id_separator">:</string>
-    <string name="domain">Domain</string>
-    <string name="no_backup_message">Keys backup not found</string>
-    <string name="enter_passphrase">Enter Passphrase</string>
-    <string name="restore">Restore</string>
-    <string name="passphrase">Passphrase</string>
     <string name="notifications">Notifications</string>
     <string name="system_notices">System notices</string>
     <string name="push_notifications">Push notifications</string>
     <string name="push_notifications_test">Push notifications test</string>
-    <string name="confirm_auth">Confirm auth</string>
     <string name="confirm">Confirm</string>
     <string name="reset_keys">Reset keys</string>
     <string name="reset_keys_message">Confirm auth to reset keys and enable cross signing</string>
-    <string name="subscriptions">Subscriptions</string>
-    <string name="wrong_signup_config">Wrong signup config!</string>
-    <string name="purchase_failed_format">Purchase failed with code %d</string>
     <string name="feature_not_supported">Feature is not supported</string>
     <string name="service_unavailable">Service unavailable</string>
     <string name="item_unavailable">Item is unavailable</string>
@@ -246,8 +182,6 @@
     <string name="upload_to_gallery">Upload to gallery</string>
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
-    <string name="enter_your_password">Enter your password</string>
-    <string name="enter_your_username">Enter your username</string>
     <string name="poll_type">Poll type</string>
     <string name="open_poll">Open poll</string>
     <string name="open_poll_hint">Voter see results as soon as they have voted</string>
@@ -261,21 +195,7 @@
     <string name="poll_closed_not_voted">Result will be visible when the poll is ended</string>
     <string name="end_poll">End poll</string>
     <string name="end_poll_message">This will stop people from being able to vote and will display the final results of the poll.</string>
-    <string name="username_can_not_be_empty">Username can not be empty.</string>
-    <string name="use_your_recovery_message">Use your Recovery Passphrase or Recovery Key to continue.</string>
-    <string name="upload_recovery_key">Upload Recovery Key</string>
-    <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
-    <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
-    <string name="set_password">Set password</string>
-    <string name="unsupported_login_method">Unsupported login method</string>
-    <string name="blind_salt_is_missing">Blind salt is missing</string>
-    <string name="b_param_is_missing">B param is missing</string>
-    <string name="at_symbol">\@</string>
-    <string name="phf_blocks_error_format">Phf blocks must be bigger than %d</string>
-    <string name="phf_iterations_error_format">Phf iterations must be bigger than %d</string>
     <string name="system_notices_room_not_found">System notices room not found.</string>
-    <string name="not_supported_navigation_event">Not supported navigation event</string>
-    <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
     <string name="you_are_signed_out">You’re signed out</string>
     <string name="verify_session">Verify session</string>
     <string name="scan_qr_code">Scan QR code</string>
@@ -284,13 +204,7 @@
     <string name="session_verified">Session verified</string>
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
-    <string name="repeat_password">Repeat password</string>
     <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
-    <string name="weak_password">Weak password</string>
-    <string name="fair_password">Fair password</string>
-    <string name="good_password">Good password</string>
-    <string name="strong_password">Strong password</string>
-    <string name="very_strong_password">Very strong password</string>
     <string name="show_more">Show more</string>
     <string name="edit">Edit</string>
     <string name="edit_post">Edit post</string>
@@ -395,7 +309,6 @@
     <string name="backup_photos_and_videos_from_this_device_to_your_gallery">Backup photos and videos from this device to your Gallery</string>
     <string name="backup_device_folders">Backup device folders</string>
     <string name="backup_folders_hint">Choose folders to backup and view in your Gallery:</string>
-    <string name="key_is_missing">The key is missing</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="shake_detected_message">Would you like to open the bug report screen?</string>
@@ -418,6 +331,9 @@
     <string name="pick_media">Pick media</string>
     <string name="configuring_workspace">Configuring workspace</string>
     <string name="shared_circles">Shared Circles</string>
+    <string name="remove_user">Remove user</string>
+    <string name="remove">Remove</string>
+    <string name="save">Save</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
@@ -457,30 +373,6 @@
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
         <item quantity="other">%d members</item>
-    </plurals>
-
-    <plurals name="days">
-        <item quantity="one">%1$d day</item>
-        <item quantity="many">%1$d days</item>
-        <item quantity="other">%1$d days</item>
-    </plurals>
-
-    <plurals name="weeks">
-        <item quantity="one">%1$d week</item>
-        <item quantity="many">%1$d weeks</item>
-        <item quantity="other">%1$d weeks</item>
-    </plurals>
-
-    <plurals name="months">
-        <item quantity="one">%1$d month</item>
-        <item quantity="many">%1$d months</item>
-        <item quantity="other">%1$d months</item>
-    </plurals>
-
-    <plurals name="years">
-        <item quantity="one">%1$d year</item>
-        <item quantity="many">%1$d years</item>
-        <item quantity="other">%1$d years</item>
     </plurals>
 
     <plurals name="votes">

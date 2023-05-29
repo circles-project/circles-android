@@ -18,11 +18,6 @@ enum class ConfirmationType(val titleRes: Int, val messageRes: Int, val positive
         R.string.log_out_message,
         R.string.log_out
     ),
-    REMOVE_USER(
-        R.string.remove_user,
-        R.string.remove_user_message,
-        R.string.remove
-    ),
     IGNORE_USER(
         R.string.ignore,
         R.string.ignore_user_message,

@@ -24,9 +24,6 @@
     <string name="no_backup_message">Keys backup not found</string>
     <string name="username_can_not_be_empty">Username can not be empty.</string>
     <string name="confirm_auth">Confirm auth</string>
-    <string name="friends">Friends</string>
-    <string name="family">Family</string>
-    <string name="community">Community</string>
     <string name="email">Email</string>
     <string name="email_usage_explanation">Must be a currently valid and active address.\n\nDon\'t worry - we will only use this address for security and other alerts about your account. We don\'t send spam, and we don\'t sell your address.</string>
     <string name="validation_code">Validation code</string>
@@ -97,10 +94,6 @@
     <string name="remove_user_message">Are you sure you want to remove this user?</string>
     <string name="remove">Remove</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
-    <string name="setup_circles">Setup Circles</string>
-    <string name="circle_encryption_warning">NOTE: Circle name and cover image are not encrypted</string>
-    <string name="circles_created">Circles created</string>
-    <string name="configuring_workspace">Configuring workspace</string>
 
     <string name="navigate_to_bottom_menu_uri" translatable="false">android-app://%1$s/bottomNavigationFragment</string>
     <string name="navigate_to_setup_profile_uri" translatable="false">android-app://%1$s/setupProfileFragment</string>
@@ -132,11 +125,5 @@
         <item quantity="many">%1$d years</item>
         <item quantity="other">%1$d years</item>
     </plurals>
-
-    <string-array name="setup_circles_list">
-        <item>@string/friends</item>
-        <item>@string/family</item>
-        <item>@string/community</item>
-    </string-array>
 
 </resources>
