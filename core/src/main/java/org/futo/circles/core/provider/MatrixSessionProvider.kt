@@ -13,10 +13,13 @@ object MatrixSessionProvider {
     var currentSession: Session? = null
         private set
 
-    //private val guardServiceStarter: GuardServiceStarter by inject()
-    //private val pushRuleTriggerListener: PushRuleTriggerListener by inject()
+    private var notificationSetupListener: MatrixNotificationSetupListener? = null
 
-    fun initSession(context: Context) {
+    fun initSession(
+        context: Context,
+        notificationListener: MatrixNotificationSetupListener? = null
+    ) {
+        notificationSetupListener = notificationListener
         Matrix(
             context = context, matrixConfiguration = MatrixConfiguration(
                 roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl(context)
@@ -46,8 +49,7 @@ object MatrixSessionProvider {
 
     private fun clear() {
         currentSession?.removeListener(MatrixSessionListenerProvider.sessionListener)
-        //pushRuleTriggerListener.stop()
-        //guardServiceStarter.stop()
+        notificationSetupListener?.onStop()
         currentSession = null
     }
 
@@ -62,8 +64,7 @@ object MatrixSessionProvider {
             syncService().startSync(true)
         }
         session.addListener(MatrixSessionListenerProvider.sessionListener)
-        //pushRuleTriggerListener.startWithSession(session)
-        //guardServiceStarter.start()
+        notificationSetupListener?.onStartWithSession(session)
     }
 
     suspend fun awaitForSessionStart(session: Session) =
