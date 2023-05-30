@@ -61,16 +61,4 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.GroupIconRadius" parent="">
-        <item name="cornerSize">10%</item>
-    </style>
-
-    <style name="ShapeAppearanceOverlay.App.Message" parent="">
-        <item name="cornerSizeTopRight">10dp</item>
-        <item name="cornerSizeBottomRight">10dp</item>
-        <item name="cornerSizeTopLeft">10dp</item>
-        <item name="cornerFamilyTopRight">rounded</item>
-    </style>
-
-
 </resources>
