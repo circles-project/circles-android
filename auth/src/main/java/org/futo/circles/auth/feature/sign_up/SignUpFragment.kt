@@ -9,7 +9,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.AuthNavigator
 import org.futo.circles.auth.databinding.FragmentSignUpBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -94,7 +93,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
     }
 
     private fun navigateToSetupProfile() {
-        AuthNavigator.navigateToSetupProfile(requireContext(), findNavController())
+        findNavController().navigate(SignUpFragmentDirections.toSetupProfileFragment())
     }
 
 }

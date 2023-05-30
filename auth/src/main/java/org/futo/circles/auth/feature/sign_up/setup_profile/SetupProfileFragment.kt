@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.AuthNavigator
 import org.futo.circles.auth.databinding.FragmentSetupProfileBinding
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeData
@@ -63,7 +62,7 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadi
     }
 
     private fun navigateToSetupCircles() {
-        AuthNavigator.navigateToSetupCircles(requireContext(), findNavController())
+        findNavController().navigate(SetupProfileFragmentDirections.toSetupCirclesFragment())
     }
 
     private fun setSaveButtonEnabled() {

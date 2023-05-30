@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.AuthNavigator
 import org.futo.circles.auth.databinding.FragmentLogInBinding
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersAdapter
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHolder
@@ -84,7 +83,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
     private fun setupObservers() {
         viewModel.loginResultLiveData.observeResponse(this,
             success = {
-                AuthNavigator.navigateToLoginStages(requireContext(), findNavController())
+                findNavController().navigate(LogInFragmentDirections.toLoginStagesFragment())
             }
         )
         viewModel.switchUsersLiveData.observeData(this) {
@@ -92,14 +91,14 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
             switchUsersAdapter.submitList(it)
         }
         viewModel.navigateToBottomMenuScreenLiveData.observeData(this) {
-            AuthNavigator.navigateToBottomMenu(requireContext(), findNavController())
+            findNavController().navigate(LogInFragmentDirections.toBottomNavigationFragment())
         }
     }
 
     private fun setOnClickActions() {
         with(binding) {
             btnSignUp.setOnClickListener {
-                AuthNavigator.navigateToSignUp(requireContext(), findNavController())
+                findNavController().navigate(LogInFragmentDirections.toSignUpFragment())
             }
             btnLogin.setOnClickListener {
                 val userName = binding.tilUserName.getText()

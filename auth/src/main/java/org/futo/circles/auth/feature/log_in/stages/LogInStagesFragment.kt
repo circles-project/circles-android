@@ -11,7 +11,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.AuthNavigator
 import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
 import org.futo.circles.auth.feature.log_in.EnterPassPhraseDialog
@@ -117,11 +116,11 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
     }
 
     private fun navigateToBottomMenuFragment() {
-        AuthNavigator.navigateToBottomMenu(requireContext(), findNavController())
+        findNavController().navigate(LogInStagesFragmentDirections.toBottomNavigationFragment())
     }
 
     private fun navigateToSetupCircles() {
-        AuthNavigator.navigateToSetupCircles(requireContext(), findNavController())
+        findNavController().navigate(LogInStagesFragmentDirections.toSetupCirclesFragment())
     }
 
     private fun showDiscardDialog() {

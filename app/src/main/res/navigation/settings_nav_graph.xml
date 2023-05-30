@@ -110,7 +110,7 @@
 
     <dialog
         android:id="@+id/reAuthStagesDialogFragment"
-        android:name="org.futo.circles.feature.reauth.ReAuthStagesDialogFragment"
+        android:name="org.futo.circles.auth.feature.reauth.ReAuthStagesDialogFragment"
         tools:layout="@layout/fragment_login_stages" />
 
     <dialog

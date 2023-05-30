@@ -13,43 +13,13 @@
 
         <action
             android:id="@+id/to_logInFragment"
-            app:destination="@id/logInFragment"
+            app:destination="@id/nav_graph_auth"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/to_bottomNavigationFragment"
             app:destination="@id/bottomNavigationFragment"
             app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/logInFragment"
-        android:name="org.futo.circles.feature.log_in.LogInFragment"
-        android:label="Log In"
-        tools:layout="@layout/fragment_log_in">
-        <action
-            android:id="@+id/to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-        <action
-            android:id="@+id/to_loginStagesFragment"
-            app:destination="@id/loginStagesFragment" />
-        <action
-            android:id="@+id/to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
-            app:popUpTo="@id/logInFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/signUpFragment"
-        android:name="org.futo.circles.feature.sign_up.SignUpFragment"
-        android:label="Sign up"
-        tools:layout="@layout/fragment_sign_up">
-        <action
-            android:id="@+id/to_setupProfileFragment"
-            app:destination="@id/setupProfileFragment"
-            app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -57,17 +27,7 @@
         android:id="@+id/bottomNavigationFragment"
         android:name="org.futo.circles.feature.home.HomeFragment"
         tools:layout="@layout/fragment_bottom_navigation" />
-    <fragment
-        android:id="@+id/setupProfileFragment"
-        android:name="org.futo.circles.feature.sign_up.setup_profile.SetupProfileFragment"
-        android:label="SetupProfileFragment"
-        tools:layout="@layout/fragment_setup_profile">
-        <action
-            android:id="@+id/to_setupCirclesFragment"
-            app:destination="@id/setupCirclesFragment"
-            app:popUpTo="@id/setupProfileFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+
     <fragment
         android:id="@+id/setupCirclesFragment"
         android:name="org.futo.circles.feature.circles.setup.SetupCirclesFragment"
@@ -79,21 +39,7 @@
             app:popUpTo="@id/setupCirclesFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/loginStagesFragment"
-        android:name="org.futo.circles.feature.log_in.stages.LogInStagesFragment"
-        tools:layout="@layout/fragment_login_stages">
 
-        <action
-            android:id="@+id/to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
-            app:popUpTo="@id/logInFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/to_setupCirclesFragment"
-            app:destination="@id/setupCirclesFragment"
-            app:popUpTo="@id/logInFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+    <include app:graph="@navigation/nav_graph_auth" />
 
 </navigation>

@@ -95,12 +95,6 @@
     <string name="remove">Remove</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
 
-    <string name="navigate_to_bottom_menu_uri" translatable="false">android-app://%1$s/bottomNavigationFragment</string>
-    <string name="navigate_to_setup_profile_uri" translatable="false">android-app://%1$s/setupProfileFragment</string>
-    <string name="navigate_to_setup_circles_uri" translatable="false">android-app://%1$s/setupCirclesFragment</string>
-    <string name="navigate_to_login_stages_uri" translatable="false">android-app://%1$s/loginStagesFragment</string>
-    <string name="navigate_to_signup_uri" translatable="false">android-app://%1$s/signUpFragment</string>
-
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>
