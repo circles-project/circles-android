@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
+import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.provider.MatrixNotificationSetupListener
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.di.applicationModules
@@ -33,6 +34,13 @@ class App : Application() {
             androidContext(this@App)
             modules(applicationModules)
         }
+        CirclesAppConfig.Initializer()
+            .appId(BuildConfig.APPLICATION_ID)
+            .euDomain(getString(R.string.debug_eu_domain), getString(R.string.release_eu_domain))
+            .usDomain(getString(R.string.debug_us_domain), getString(R.string.release_us_domain))
+            .isSubscriptionEnabled(false)
+            .init()
+
         MatrixSessionProvider.initSession(
             applicationContext,
             object : MatrixNotificationSetupListener {

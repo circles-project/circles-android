@@ -16,7 +16,6 @@ android {
 
         buildConfigField "boolean", "RAGESHAKE_ENABLED", "false"
         buildConfigField "boolean", "MEDIA_BACKUP_ENABLED", "false"
-        buildConfigField "boolean", "IS_SUBSCRIPTIONS_ENABLED", "false"
     }
 
     buildFeatures {
@@ -26,14 +25,10 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
-            buildConfigField "String", "EU_SERVER_DOMAIN", "\"matrix.org\""
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "US_SERVER_DOMAIN", "\"circu.li\""
-            buildConfigField "String", "EU_SERVER_DOMAIN", "\"eu.circu.li\""
         }
     }
 
