@@ -10,7 +10,7 @@
 JNIEXPORT jlong
 
 JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_getClientContext(JNIEnv *env, jobject thiz) {
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_getClientContext(JNIEnv *env, jobject thiz) {
     bsspeke_client_ctx *ctx;
     ctx = malloc(sizeof(*ctx));
     return (jlong)
@@ -20,7 +20,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_getClientContext(JNIEnv *env, jobject
 JNIEXPORT jint
 
 JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_initClient(JNIEnv
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_initClient(JNIEnv
                                                       *env,
                                                       jobject thiz, jlong
                                                       client_context,
@@ -50,7 +50,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_initClient(JNIEnv
 }
 
 JNIEXPORT void JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_clientBlindSalt(JNIEnv
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_clientBlindSalt(JNIEnv
                                                            *env,
                                                            jobject thiz, jbyteArray
                                                            blind_byte_array,
@@ -69,7 +69,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_clientBlindSalt(JNIEnv
 JNIEXPORT jint
 
 JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_generatePandV(JNIEnv *env, jobject thiz,
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_generatePandV(JNIEnv *env, jobject thiz,
                                                          jbyteArray p_byte_array,
                                                          jbyteArray v_byte_array,
                                                          jbyteArray blind_salt_byte_array,
@@ -97,7 +97,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_generatePandV(JNIEnv *env, jobject th
 JNIEXPORT jint
 
 JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_generateA(JNIEnv *env, jobject thiz,
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_generateA(JNIEnv *env, jobject thiz,
                                                      jbyteArray blind_salt_byte_array,
                                                      jint phf_blocks, jint phf_iterations,
                                                      jlong client_context) {
@@ -115,7 +115,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_generateA(JNIEnv *env, jobject thiz,
 }
 
 JNIEXPORT void JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_clientDeriveSharedKey(JNIEnv
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_clientDeriveSharedKey(JNIEnv
                                                                  *env,
                                                                  jobject thiz, jbyteArray
                                                                  b_byte_array,
@@ -132,7 +132,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_clientDeriveSharedKey(JNIEnv
 }
 
 JNIEXPORT void JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_clientGenerateVerifier(JNIEnv
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_clientGenerateVerifier(JNIEnv
                                                                   *env,
                                                                   jobject thiz, jbyteArray
                                                                   client_verifier_byte_array,
@@ -149,7 +149,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_clientGenerateVerifier(JNIEnv
 JNIEXPORT jint
 
 JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_clientVerifyServer(JNIEnv *env, jobject thiz,
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_clientVerifyServer(JNIEnv *env, jobject thiz,
                                                               jbyteArray client_verifier_byte_array,
                                                               jlong client_context) {
 
@@ -162,7 +162,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_clientVerifyServer(JNIEnv *env, jobje
 }
 
 JNIEXPORT void JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_clientGetA(JNIEnv
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_clientGetA(JNIEnv
                                                       *env,
                                                       jobject thiz, jbyteArray
                                                       a_byte_array,
@@ -175,7 +175,7 @@ Java_org_futo_circles_bsspeke_BSSpekeUtils_clientGetA(JNIEnv
 }
 
 JNIEXPORT void JNICALL
-Java_org_futo_circles_bsspeke_BSSpekeUtils_generateHashedKey(JNIEnv *env, jobject thiz,
+Java_org_futo_circles_auth_bsspeke_BSSpekeUtils_generateHashedKey(JNIEnv *env, jobject thiz,
                                                              jbyteArray k_byte_array,
                                                              jbyteArray message_byte_array,
                                                              jlong client_context) {
