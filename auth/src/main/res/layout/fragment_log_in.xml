@@ -43,11 +43,11 @@
             style="@style/title0"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle" />
+            app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle"
+            tools:text="app_name" />
 
         <TextView
             android:id="@+id/tvAt"

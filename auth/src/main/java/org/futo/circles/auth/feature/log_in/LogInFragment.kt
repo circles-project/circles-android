@@ -60,6 +60,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
 
     private fun setupViews() {
         with(binding) {
+            tvCircles.text = CirclesAppConfig.appName
             tvDomain.apply {
                 setAdapter(autocompleteAdapter)
                 onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->

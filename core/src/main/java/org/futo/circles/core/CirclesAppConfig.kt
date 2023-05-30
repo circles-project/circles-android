@@ -5,6 +5,9 @@ object CirclesAppConfig {
     var appId = ""
         private set
 
+    var appName = ""
+        private set
+
     var usServerDomain = ""
         private set
 
@@ -16,6 +19,7 @@ object CirclesAppConfig {
 
     data class Initializer(
         private var appId: String? = null,
+        private var appName: String? = null,
         private var debugUsDomain: String? = null,
         private var releaseUsDomain: String? = null,
         private var debugEuDomain: String? = null,
@@ -24,6 +28,9 @@ object CirclesAppConfig {
     ) {
 
         fun appId(appId: String) = apply { this.appId = appId }
+
+        fun appName(appName: String) = apply { this.appName = appName }
+
         fun usDomain(debugDomain: String, releaseDomain: String) = apply {
             this.debugUsDomain = debugDomain
             this.releaseUsDomain = releaseDomain
@@ -40,6 +47,9 @@ object CirclesAppConfig {
         fun init() {
             CirclesAppConfig.appId = appId?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal appId $appId")
+
+            CirclesAppConfig.appName = appName?.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("appName is empty $appName")
 
             usServerDomain = if (BuildConfig.DEBUG)
                 debugUsDomain?.takeIf { it.isNotEmpty() }
