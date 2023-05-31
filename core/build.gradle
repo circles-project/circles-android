@@ -80,6 +80,10 @@ dependencies {
     //TextDrawable
     api 'com.alvinhkh:TextDrawable:c1c2b5b'
 
+    //Worker
+    def work_version = "2.8.1"
+    api "androidx.work:work-runtime-ktx:$work_version"
+
     //Glide
     def glide_version = '4.15.1'
     implementation "com.github.bumptech.glide:glide:$glide_version"

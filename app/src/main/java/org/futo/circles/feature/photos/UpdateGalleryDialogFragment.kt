@@ -12,7 +12,7 @@ import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.DialogFragmentUpdateGalleryBinding
-import org.futo.circles.feature.room.update.UpdateRoomDialogFragment
+import org.futo.circles.core.room.update.UpdateRoomDialogFragment
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 class UpdateGalleryDialogFragment :

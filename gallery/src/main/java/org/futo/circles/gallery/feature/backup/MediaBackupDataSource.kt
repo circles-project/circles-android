@@ -6,13 +6,11 @@ import android.provider.MediaStore
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.room.CreateRoomDataSource
+import org.futo.circles.core.timeline.SendMessageDataSource
 import org.futo.circles.core.utils.getJoinedRoomIdByTag
-import org.futo.circles.feature.room.RoomAccountDataSource
-import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.gallery.model.MediaFolderListItem
 import org.futo.circles.gallery.model.MediaToBackupItem
 import org.futo.circles.gallery.model.toMediaToBackupItem
-import org.futo.circles.model.Gallery
 import java.io.File
 
 

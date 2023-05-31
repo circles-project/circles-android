@@ -7,13 +7,13 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import org.futo.circles.R
+import org.futo.circles.core.extensions.getText
+import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.picker.MediaPickerHelper
-import org.futo.circles.databinding.DialogFragmentUpdateGalleryBinding
-import org.futo.circles.extensions.getText
-import org.futo.circles.extensions.loadProfileIcon
-import org.futo.circles.feature.room.update.UpdateRoomDialogFragment
+import org.futo.circles.feature.photos.UpdateGalleryDialogFragmentArgs
+import org.futo.circles.core.room.update.UpdateRoomDialogFragment
 import org.futo.circles.gallery.R
+import org.futo.circles.gallery.databinding.DialogFragmentUpdateGalleryBinding
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 class UpdateGalleryDialogFragment :

@@ -12,7 +12,7 @@ import org.futo.circles.core.select_users.SearchUserDataSource
 import org.futo.circles.core.select_users.SelectUsersDataSource
 import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
-import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
+import org.futo.circles.core.timeline.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineBuilder
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource

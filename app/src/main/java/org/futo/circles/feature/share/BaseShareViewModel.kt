@@ -6,7 +6,7 @@ import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
+import org.futo.circles.core.timeline.SendMessageDataSource
 
 class BaseShareViewModel(
     private val sendMessageDataSource: SendMessageDataSource

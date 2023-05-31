@@ -13,7 +13,7 @@ import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.timeline.BaseTimelineViewModel
-import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
+import org.futo.circles.core.timeline.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.model.GalleryContentListItem
 import org.futo.circles.model.MediaContent

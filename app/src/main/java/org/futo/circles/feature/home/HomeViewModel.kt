@@ -13,7 +13,7 @@ import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
-import org.futo.circles.feature.room.RoomAccountDataSource
+import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.RoomType

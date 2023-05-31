@@ -7,7 +7,7 @@ import org.futo.circles.feature.people.PeopleViewModel
 import org.futo.circles.core.room.create.CreateRoomViewModel
 import org.futo.circles.feature.room.select.SelectRoomsViewModel
 import org.futo.circles.core.select_users.SelectUsersViewModel
-import org.futo.circles.feature.room.update.UpdateRoomViewModel
+import org.futo.circles.core.room.update.UpdateRoomViewModel
 import org.futo.circles.feature.timeline.state.RoomStateEventsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf

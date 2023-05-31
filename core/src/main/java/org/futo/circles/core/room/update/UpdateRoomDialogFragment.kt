@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.update
+package org.futo.circles.core.room.update
 
 import android.net.Uri
 import android.os.Bundle

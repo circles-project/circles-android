@@ -7,9 +7,9 @@ import org.futo.circles.feature.circles.CirclesDataSource
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSource
 import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.people.PeopleDataSource
-import org.futo.circles.feature.room.RoomAccountDataSource
+import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
 import org.futo.circles.feature.room.select.SelectRoomsDataSource
-import org.futo.circles.feature.room.update.UpdateRoomDataSource
+import org.futo.circles.core.room.update.UpdateRoomDataSource
 import org.koin.dsl.module
 
 val roomDSModule = module {

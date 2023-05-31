@@ -7,8 +7,8 @@ import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getJoinedRoomIdByTag
-import org.futo.circles.feature.room.RoomAccountDataSource
-import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
+import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
+import org.futo.circles.core.timeline.SendMessageDataSource
 import org.futo.circles.model.MediaFolderListItem
 import org.futo.circles.model.MediaToBackupItem
 import org.futo.circles.model.toMediaToBackupItem

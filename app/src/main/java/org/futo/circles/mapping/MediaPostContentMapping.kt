@@ -1,6 +1,7 @@
 package org.futo.circles.mapping
 
 import com.bumptech.glide.request.target.Target
+import org.futo.circles.core.MediaCaptionFieldKey
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.VideoUtils
@@ -14,8 +15,6 @@ import org.matrix.android.sdk.api.session.room.model.message.MessageVideoContent
 import org.matrix.android.sdk.api.session.room.model.message.getFileName
 import org.matrix.android.sdk.api.session.room.model.message.getFileUrl
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
-
-const val MediaCaptionFieldKey = "caption"
 
 fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
     val messageContentInfo = root.getClearContent().let {

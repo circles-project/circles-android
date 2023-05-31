@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.update
+package org.futo.circles.core.room.update
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.room.update.UpdateRoomDataSource
 
 class UpdateRoomViewModel(
     private val dataSource: UpdateRoomDataSource

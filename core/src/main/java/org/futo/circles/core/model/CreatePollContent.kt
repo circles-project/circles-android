@@ -1,4 +1,4 @@
-package org.futo.circles.model
+package org.futo.circles.core.model
 
 import org.matrix.android.sdk.api.session.room.model.message.PollType
 
