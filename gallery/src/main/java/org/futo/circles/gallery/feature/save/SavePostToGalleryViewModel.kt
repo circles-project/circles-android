@@ -2,12 +2,10 @@ package org.futo.circles.gallery.feature.save
 
 import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.launchBg
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.gallery.feature.preview.MediaPreviewDataSource
-import org.futo.circles.gallery.feature.save.SavePostToGalleryDataSource
 import org.futo.circles.gallery.model.SelectableRoomListItem
-import org.futo.circles.model.SelectableRoomListItem
 
 class SavePostToGalleryViewModel(
     private val mediaPreviewDataSource: MediaPreviewDataSource,

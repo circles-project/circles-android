@@ -1,9 +1,10 @@
 package org.futo.circles.mapping
 
 import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.core.mapping.toRoomInfo
+import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.model.GalleryListItem
 import org.futo.circles.model.InvitedCircleListItem
 import org.futo.circles.model.InvitedGroupListItem
 import org.futo.circles.model.JoinedCircleListItem
@@ -16,12 +17,6 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.SpaceChildInfo
 
-fun RoomSummary.nameOrId() = displayName.takeIf { it.isNotEmpty() } ?: roomId
-
-fun RoomSummary.toRoomInfo() = RoomInfo(
-    title = nameOrId(),
-    avatarUrl = avatarUrl
-)
 
 fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     id = roomId,
@@ -53,11 +48,6 @@ fun RoomSummary.toInviteCircleListItem() = InvitedCircleListItem(
     id = roomId,
     info = toRoomInfo(),
     inviterName = getInviterName()
-)
-
-fun RoomSummary.toGalleryListItem() = GalleryListItem(
-    id = roomId,
-    info = toRoomInfo()
 )
 
 fun RoomSummary.toSelectableRoomListItem(selected: Boolean = false) = SelectableRoomListItem(

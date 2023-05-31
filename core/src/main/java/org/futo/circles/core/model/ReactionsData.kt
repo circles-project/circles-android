@@ -1,4 +1,4 @@
-package org.futo.circles.model
+package org.futo.circles.core.model
 
 data class ReactionsData(
     val key: String,
