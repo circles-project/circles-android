@@ -9,7 +9,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import org.futo.circles.BuildConfig
+import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.gallery.model.MediaBackupSettingsData
 import java.util.concurrent.TimeUnit
 
@@ -31,7 +31,7 @@ class MediaBackupServiceManager {
     }
 
     fun bindMediaServiceIfNeeded(context: Context, backupSettingsData: MediaBackupSettingsData) {
-        if (BuildConfig.MEDIA_BACKUP_ENABLED.not()) return
+        if (CirclesAppConfig.isMediaBackupEnabled.not()) return
         if (savedBackupSettings == backupSettingsData) return
         savedBackupSettings = backupSettingsData
         mediaBackupService?.onBackupSettingsUpdated() ?: run {

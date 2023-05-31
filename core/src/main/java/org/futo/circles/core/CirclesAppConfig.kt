@@ -17,6 +17,9 @@ object CirclesAppConfig {
     var isSubscriptionsEnabled = false
         private set
 
+    var isMediaBackupEnabled = false
+        private set
+
     data class Initializer(
         private var appId: String? = null,
         private var appName: String? = null,
@@ -24,7 +27,8 @@ object CirclesAppConfig {
         private var releaseUsDomain: String? = null,
         private var debugEuDomain: String? = null,
         private var releaseEuDomain: String? = null,
-        private var subscriptionEnabled: Boolean = false
+        private var subscriptionEnabled: Boolean = false,
+        private var mediaBackupEnabled: Boolean = false
     ) {
 
         fun appId(appId: String) = apply { this.appId = appId }
@@ -43,6 +47,8 @@ object CirclesAppConfig {
 
         fun isSubscriptionEnabled(isEnabled: Boolean) =
             apply { this.subscriptionEnabled = isEnabled }
+
+        fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
 
         fun init() {
             CirclesAppConfig.appId = appId?.takeIf { it.isNotEmpty() }
@@ -66,6 +72,7 @@ object CirclesAppConfig {
                     ?: throw IllegalArgumentException("Illegal EU server domain $releaseEuDomain")
 
             isSubscriptionsEnabled = subscriptionEnabled
+            isMediaBackupEnabled = mediaBackupEnabled
         }
     }
 
