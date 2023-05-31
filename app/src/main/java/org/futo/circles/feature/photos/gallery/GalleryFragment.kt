@@ -32,7 +32,6 @@ import org.futo.circles.databinding.FragmentGalleryBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.list.GalleryItemViewHolder
 import org.futo.circles.feature.photos.gallery.list.GalleryItemsAdapter
-import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.DeleteGallery
 import org.futo.circles.model.GalleryContentListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel

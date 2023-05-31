@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.select_users
+package org.futo.circles.core.select_users
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

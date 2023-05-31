@@ -4,7 +4,6 @@ import org.futo.circles.R
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.feature.room.select.SelectRoomsFragment
 import org.futo.circles.feature.share.BaseShareActivity
-import org.futo.circles.model.CircleRoomTypeArg
 
 class ShareWithCircleActivity : BaseShareActivity() {
 

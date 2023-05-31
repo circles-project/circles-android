@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.create
+package org.futo.circles.core.room.create
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
@@ -7,10 +7,10 @@ import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.Group
 import org.futo.circles.core.room.CreateRoomDataSource
-import org.futo.circles.model.CircleRoomTypeArg
 
 class CreateRoomViewModel(
     private val dataSource: CreateRoomDataSource

@@ -8,7 +8,7 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getSharedCircleFor
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
-import org.futo.circles.feature.room.select_users.SearchUserDataSource
+import org.futo.circles.core.select_users.SearchUserDataSource
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleItemType

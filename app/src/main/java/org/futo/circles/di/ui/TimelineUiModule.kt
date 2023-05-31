@@ -7,7 +7,6 @@ import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLeve
 import org.futo.circles.feature.share.BaseShareViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
-import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module

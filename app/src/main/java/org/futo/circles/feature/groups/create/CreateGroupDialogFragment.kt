@@ -10,8 +10,7 @@ import org.futo.circles.R
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.DialogFragmentCreateGroupBinding
-import org.futo.circles.feature.room.create.CreateRoomDialogFragment
-import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.core.room.create.CreateRoomDialogFragment
 
 class CreateGroupDialogFragment :
     CreateRoomDialogFragment(DialogFragmentCreateGroupBinding::inflate) {

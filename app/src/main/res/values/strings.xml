@@ -19,7 +19,6 @@
     <string name="invite_members">Invite members</string>
     <string name="invite_followers">Invite followers</string>
     <string name="invite_to_format">Invite to %s</string>
-    <string name="enter_name_or_id">Enter name or userId</string>
     <string name="follow">Follow</string>
     <string name="fix">Fix</string>
     <string name="following">Following</string>

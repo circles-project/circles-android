@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.create
+package org.futo.circles.core.room.create
 
 import android.net.Uri
 import android.os.Bundle
@@ -11,9 +11,9 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.picker.MediaPickerHelper
-import org.futo.circles.feature.room.select_users.SelectUsersFragment
-import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.core.select_users.SelectUsersFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class CreateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding) :

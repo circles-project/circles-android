@@ -1,18 +1,18 @@
-package org.futo.circles.feature.room.select_users.list.search
+package org.futo.circles.core.select_users.list.search
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.core.databinding.ListItemInviteMemberBinding
+import org.futo.circles.core.databinding.ListItemNoResultsBinding
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.ListItemInviteHeaderBinding
-import org.futo.circles.databinding.ListItemInviteMemberBinding
-import org.futo.circles.databinding.ListItemNoResultsBinding
-import org.futo.circles.model.HeaderItem
-import org.futo.circles.model.InviteMemberListItem
-import org.futo.circles.model.NoResultsItem
-import org.futo.circles.model.UserListItem
+import org.futo.circles.core.model.HeaderItem
+import org.futo.circles.core.model.InviteMemberListItem
+import org.futo.circles.core.model.NoResultsItem
+import org.futo.circles.core.model.UserListItem
 
 abstract class InviteMemberViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: InviteMemberListItem)

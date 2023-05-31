@@ -1,14 +1,14 @@
-package org.futo.circles.view
+package org.futo.circles.core.view
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import org.futo.circles.R
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.ViewUserListItemBinding
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.setSelectableItemBackground
-import org.futo.circles.databinding.ViewUserListItemBinding
-import org.futo.circles.model.CirclesUserSummary
+import org.futo.circles.core.model.CirclesUserSummary
 
 class UserListItemView(
     context: Context,

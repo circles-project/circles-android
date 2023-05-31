@@ -6,7 +6,6 @@ import org.futo.circles.feature.photos.gallery.GalleryViewModel
 import org.futo.circles.feature.photos.preview.MediaPreviewViewModel
 import org.futo.circles.feature.photos.save.SavePostToGalleryViewModel
 import org.futo.circles.feature.photos.select.SelectGalleriesViewModel
-import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module

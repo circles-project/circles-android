@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <org.futo.circles.view.UserListItemView
+    <org.futo.circles.core.view.UserListItemView
         android:id="@+id/vUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

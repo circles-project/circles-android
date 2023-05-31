@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.databinding.ViewPeopleTabUserListItemBinding
-import org.futo.circles.model.CirclesUserSummary
+import org.futo.circles.core.model.CirclesUserSummary
 
 class PeopleTabUserListItemView(
     context: Context,

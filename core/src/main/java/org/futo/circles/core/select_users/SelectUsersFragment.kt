@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.select_users
+package org.futo.circles.core.select_users
 
 import android.content.Context
 import android.os.Bundle
@@ -6,13 +6,13 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import org.futo.circles.R
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.FragmentSelectUsersBinding
+import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.databinding.FragmentSelectUsersBinding
-import org.futo.circles.extensions.getQueryTextChangeStateFlow
-import org.futo.circles.feature.room.select_users.list.search.InviteMembersSearchListAdapter
-import org.futo.circles.feature.room.select_users.list.selected.SelectedUsersListAdapter
+import org.futo.circles.core.select_users.list.search.InviteMembersSearchListAdapter
+import org.futo.circles.core.select_users.list.selected.SelectedUsersListAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

@@ -18,7 +18,6 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.mapping.nameOrId
 import org.futo.circles.mapping.toGroupMemberListItem
 import org.futo.circles.mapping.toNotJoinedUserListItem
-import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.GroupMemberListItem
 import org.futo.circles.model.ManageMembersHeaderListItem
 import org.futo.circles.model.ManageMembersListItem

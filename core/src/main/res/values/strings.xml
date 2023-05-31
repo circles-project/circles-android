@@ -30,4 +30,8 @@
     <string name="shared_circles">Shared Circles</string>
     <string name="photos_space_name">My Photo Galleries</string>
     <string name="groups_space_name">My Groups</string>
+    <string name="known_users">Known users</string>
+    <string name="suggestions">Suggestions</string>
+    <string name="no_results">No results</string>
+    <string name="enter_name_or_id">Enter name or userId</string>
 </resources>

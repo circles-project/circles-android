@@ -1,6 +1,6 @@
 package org.futo.circles.mapping
 
-import org.futo.circles.model.CirclesUserSummary
+import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.model.GroupMemberListItem
 import org.futo.circles.model.NotJoinedUserListItem
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent

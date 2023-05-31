@@ -2,7 +2,7 @@ package org.futo.circles.feature.timeline.post.markdown.mentions
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.feature.room.select_users.list.search.UserViewHolder
+import org.futo.circles.core.select_users.list.search.UserViewHolder
 import org.futo.circles.model.UserListItem
 
 class MentionsAdapter(

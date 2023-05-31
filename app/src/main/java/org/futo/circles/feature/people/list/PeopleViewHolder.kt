@@ -11,7 +11,7 @@ import org.futo.circles.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.databinding.ListItemPeopleDefaultBinding
 import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
 import org.futo.circles.databinding.ListItemPeopleRequestBinding
-import org.futo.circles.model.CirclesUserSummary
+import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
 import org.futo.circles.model.PeopleUserListItem

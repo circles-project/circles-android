@@ -2,6 +2,7 @@ package org.futo.circles.model
 
 import org.futo.circles.R
 import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.model.CirclesUserSummary
 
 enum class PeopleItemType { Header, Friend, Following, Follower, Request, Known, Suggestion, Ignored }
 sealed class PeopleListItem(

@@ -16,7 +16,6 @@ import org.futo.circles.databinding.FragmentSelectRoomsBinding
 import org.futo.circles.feature.photos.select.RoomsPicker
 import org.futo.circles.feature.room.select.list.SelectRoomsAdapter
 import org.futo.circles.feature.room.select.list.SelectedChipsRoomsAdapter
-import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

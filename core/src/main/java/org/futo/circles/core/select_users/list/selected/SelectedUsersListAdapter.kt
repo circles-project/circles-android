@@ -1,9 +1,9 @@
-package org.futo.circles.feature.room.select_users.list.selected
+package org.futo.circles.core.select_users.list.selected
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.base.ChipItemViewHolder
-import org.futo.circles.model.UserListItem
+import org.futo.circles.core.model.UserListItem
+import org.futo.circles.core.select_users.list.ChipItemViewHolder
 
 class SelectedUsersListAdapter(
     private val onUserDeselected: (UserListItem) -> Unit

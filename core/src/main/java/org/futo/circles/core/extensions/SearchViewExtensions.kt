@@ -1,4 +1,4 @@
-package org.futo.circles.extensions
+package org.futo.circles.core.extensions
 
 import androidx.appcompat.widget.SearchView
 import kotlinx.coroutines.flow.MutableStateFlow

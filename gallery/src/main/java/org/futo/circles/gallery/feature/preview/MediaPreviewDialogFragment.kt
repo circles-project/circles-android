@@ -14,13 +14,17 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.visible
+import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.DialogFragmentMediaPreviewBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.gallery.R
+import org.futo.circles.gallery.databinding.DialogFragmentMediaPreviewBinding
 import org.futo.circles.model.ConfirmationType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -105,10 +109,12 @@ class MediaPreviewDialogFragment :
                         viewModel.save()
                         true
                     }
+
                     R.id.share -> {
                         viewModel.share()
                         true
                     }
+
                     R.id.delete -> {
                         withConfirmation(ConfirmationType.REMOVE_IMAGE) {
                             viewModel.removeImage()
@@ -116,6 +122,7 @@ class MediaPreviewDialogFragment :
                         }
                         true
                     }
+
                     else -> false
                 }
             }

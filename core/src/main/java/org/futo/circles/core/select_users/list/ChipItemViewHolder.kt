@@ -1,9 +1,9 @@
-package org.futo.circles.base
+package org.futo.circles.core.select_users.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.databinding.ListItemChipBinding
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.databinding.ListItemChipBinding
 
 class ChipItemViewHolder(
     parent: ViewGroup,

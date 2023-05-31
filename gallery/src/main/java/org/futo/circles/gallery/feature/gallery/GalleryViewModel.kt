@@ -4,20 +4,19 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.map
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.onUI
+import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.picker.PickGalleryMediaListener
 import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
-import org.futo.circles.extensions.Response
 import org.futo.circles.extensions.launchBg
-import org.futo.circles.extensions.onUI
 import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
 import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 import org.futo.circles.gallery.model.GalleryContentListItem
-import org.futo.circles.model.GalleryContentListItem
 import org.futo.circles.model.MediaContent
-import org.futo.circles.model.MediaFileData
 import org.futo.circles.model.PostContentType
 
 class GalleryViewModel(

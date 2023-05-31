@@ -15,7 +15,6 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
 import org.futo.circles.feature.room.select.SelectRoomsFragment
-import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf

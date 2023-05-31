@@ -1,11 +1,11 @@
-package org.futo.circles.feature.room.select_users.list.search
+package org.futo.circles.core.select_users.list.search
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.model.HeaderItem
-import org.futo.circles.model.InviteMemberListItem
-import org.futo.circles.model.NoResultsItem
-import org.futo.circles.model.UserListItem
+import org.futo.circles.core.model.HeaderItem
+import org.futo.circles.core.model.InviteMemberListItem
+import org.futo.circles.core.model.NoResultsItem
+import org.futo.circles.core.model.UserListItem
 
 private enum class InviteListViewType { Header, User, NoResults }
 
@@ -27,6 +27,7 @@ class InviteMembersSearchListAdapter(
             InviteListViewType.User -> UserViewHolder(
                 parent,
                 onUserClicked = { position -> onUserSelected(getItem(position) as UserListItem) })
+
             InviteListViewType.NoResults -> NoResultViewHolder(parent)
         }
     }

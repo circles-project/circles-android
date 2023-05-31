@@ -14,7 +14,6 @@ import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.mapping.toSelectableRoomListItem
-import org.futo.circles.model.CircleRoomTypeArg
 import org.futo.circles.model.SelectableRoomListItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary

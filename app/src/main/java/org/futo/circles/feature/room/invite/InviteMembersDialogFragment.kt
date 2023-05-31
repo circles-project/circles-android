@@ -12,8 +12,8 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentInviteMembersBinding
-import org.futo.circles.feature.room.select_users.SelectUsersFragment
-import org.futo.circles.feature.room.select_users.SelectUsersListener
+import org.futo.circles.core.select_users.SelectUsersFragment
+import org.futo.circles.core.select_users.SelectUsersListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

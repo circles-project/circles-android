@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.select_users
+package org.futo.circles.core.select_users
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.launchUi
-import org.futo.circles.model.InviteMemberListItem
-import org.futo.circles.model.UserListItem
+import org.futo.circles.core.model.InviteMemberListItem
+import org.futo.circles.core.model.UserListItem
 
 class SelectUsersViewModel(
     private val dataSource: SelectUsersDataSource

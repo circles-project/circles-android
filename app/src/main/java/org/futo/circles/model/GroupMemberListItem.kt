@@ -5,6 +5,7 @@ import org.futo.circles.core.extensions.isCurrentUserAbleToBan
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
 import org.futo.circles.core.extensions.isCurrentUserAbleToKick
 import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent

@@ -11,7 +11,6 @@ import org.futo.circles.feature.settings.active_sessions.verify.VerifySessionVie
 import org.futo.circles.feature.settings.change_password.ChangePasswordViewModel
 import org.futo.circles.feature.settings.profile.edit.EditProfileViewModel
 import org.futo.circles.feature.settings.profile.share.ShareProfileViewModel
-import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module

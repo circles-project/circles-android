@@ -16,7 +16,7 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.databinding.FragmentPeopleBinding
-import org.futo.circles.extensions.getQueryTextChangeStateFlow
+import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.feature.people.list.PeopleAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

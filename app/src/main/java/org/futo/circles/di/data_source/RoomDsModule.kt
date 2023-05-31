@@ -10,7 +10,6 @@ import org.futo.circles.feature.people.PeopleDataSource
 import org.futo.circles.feature.room.RoomAccountDataSource
 import org.futo.circles.feature.room.select.SelectRoomsDataSource
 import org.futo.circles.feature.room.update.UpdateRoomDataSource
-import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val roomDSModule = module {

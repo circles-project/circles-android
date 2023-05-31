@@ -1,19 +1,19 @@
-package org.futo.circles.feature.room.select_users
+package org.futo.circles.core.select_users
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
+import org.futo.circles.core.extensions.getUserIdsToExclude
+import org.futo.circles.core.mapping.toUserListItem
+import org.futo.circles.core.model.CirclesUserSummary
+import org.futo.circles.core.model.HeaderItem
+import org.futo.circles.core.model.InviteMemberListItem
+import org.futo.circles.core.model.NoResultsItem
+import org.futo.circles.core.model.UserListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserUtils
-import org.futo.circles.core.extensions.getUserIdsToExclude
-import org.futo.circles.mapping.toUserListItem
-import org.futo.circles.model.CirclesUserSummary
-import org.futo.circles.model.HeaderItem
-import org.futo.circles.model.InviteMemberListItem
-import org.futo.circles.model.NoResultsItem
-import org.futo.circles.model.UserListItem
 import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
