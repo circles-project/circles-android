@@ -2,3 +2,4 @@ rootProject.name = "Circles"
 include ':app'
 include ':auth'
 include ':core'
+include ':gallery'

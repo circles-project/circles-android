@@ -60,6 +60,7 @@ android {
 dependencies {
     implementation project(path: ':core')
     implementation project(path: ':auth')
+    implementation project(path: ':gallery')
 
     //ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
