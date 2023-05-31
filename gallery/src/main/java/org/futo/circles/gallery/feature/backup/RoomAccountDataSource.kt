@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room
+package org.futo.circles.gallery.feature.backup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
@@ -7,8 +7,8 @@ import org.futo.circles.base.ROOM_BACKUP_EVENT_TYPE
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getPhotosSpaceId
-import org.futo.circles.model.MediaBackupSettingsData
-import org.futo.circles.model.toMediaBackupSettingsData
+import org.futo.circles.gallery.model.MediaBackupSettingsData
+import org.futo.circles.gallery.model.toMediaBackupSettingsData
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.accountdata.RoomAccountDataEvent
 import org.matrix.android.sdk.api.util.Optional
