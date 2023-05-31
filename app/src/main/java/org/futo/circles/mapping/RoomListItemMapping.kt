@@ -8,7 +8,6 @@ import org.futo.circles.model.InvitedCircleListItem
 import org.futo.circles.model.InvitedGroupListItem
 import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.JoinedGroupListItem
-import org.futo.circles.model.RoomInfo
 import org.futo.circles.model.SelectableRoomListItem
 import org.futo.circles.model.TimelineRoomListItem
 import org.matrix.android.sdk.api.session.getRoomSummary
