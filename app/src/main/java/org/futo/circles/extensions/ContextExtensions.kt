@@ -58,10 +58,3 @@ fun Context.getApplicationLabel(packageName: String): String {
         packageName
     }
 }
-
-fun Context.isConnectedToWifi(): Boolean {
-    val connectivityManager = getSystemService<ConnectivityManager>() ?: return false
-    return connectivityManager.activeNetwork?.let { connectivityManager.getNetworkCapabilities(it) }
-        ?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        .orFalse()
-}

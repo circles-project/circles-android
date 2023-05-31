@@ -1,7 +1,7 @@
 package org.futo.circles.gallery.model
 
 import android.content.Context
-import org.futo.circles.extensions.isConnectedToWifi
+import org.futo.circles.gallery.extensions.isConnectedToWifi
 import org.matrix.android.sdk.api.session.events.model.Content
 
 data class MediaBackupSettingsData(
