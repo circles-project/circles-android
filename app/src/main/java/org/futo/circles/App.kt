@@ -40,6 +40,8 @@ class App : Application() {
             .euDomain(getString(R.string.debug_eu_domain), getString(R.string.release_eu_domain))
             .usDomain(getString(R.string.debug_us_domain), getString(R.string.release_us_domain))
             .isSubscriptionEnabled(false)
+            .isMediaBackupEnabled(false)
+            .isRageshakeEnabled(false)
             .init()
 
         MatrixSessionProvider.initSession(

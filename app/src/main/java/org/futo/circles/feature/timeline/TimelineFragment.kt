@@ -33,7 +33,7 @@ import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.databinding.FragmentTimelineBinding
 import org.futo.circles.extensions.*
-import org.futo.circles.feature.share.ShareProvider
+import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener

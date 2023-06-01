@@ -15,6 +15,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
@@ -22,12 +23,11 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.extensions.*
+import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.feature.photos.preview.MediaPreviewDialogFragmentArgs
-import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentMediaPreviewBinding
-import org.futo.circles.model.ConfirmationType
+import org.futo.circles.gallery.model.RemoveImage
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -118,7 +118,7 @@ class MediaPreviewDialogFragment :
                     }
 
                     R.id.delete -> {
-                        withConfirmation(ConfirmationType.REMOVE_IMAGE) {
+                        withConfirmation(RemoveImage()) {
                             viewModel.removeImage()
                             onBackPressed()
                         }

@@ -1,7 +1,7 @@
 package org.futo.circles.gallery.feature.select
 
 import androidx.lifecycle.ViewModel
-import org.futo.circles.gallery.model.SelectableRoomListItem
+import org.futo.circles.core.model.SelectableRoomListItem
 
 class SelectGalleriesViewModel(
     private val selectGalleriesDataSource: SelectGalleriesDataSource

@@ -12,10 +12,10 @@ import org.futo.circles.core.select_users.SearchUserDataSource
 import org.futo.circles.core.select_users.SelectUsersDataSource
 import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
-import org.futo.circles.core.timeline.SendMessageDataSource
+import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.core.timeline.TimelineBuilder
 import org.futo.circles.core.timeline.TimelineDataSource
-import org.futo.circles.feature.timeline.post.PostOptionsDataSource
+import org.futo.circles.core.timeline.post.PostOptionsDataSource
 import org.futo.circles.feature.timeline.post.report.ReportDataSource
 import org.koin.dsl.module
 

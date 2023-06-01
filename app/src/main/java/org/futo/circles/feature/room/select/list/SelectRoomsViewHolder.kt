@@ -9,7 +9,7 @@ import org.futo.circles.core.extensions.setSelectableItemBackground
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemSelectRoomBinding
-import org.futo.circles.model.SelectableRoomListItem
+import org.futo.circles.core.model.SelectableRoomListItem
 
 class SelectRoomsViewHolder(
     parent: ViewGroup,

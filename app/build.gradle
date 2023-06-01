@@ -13,9 +13,6 @@ android {
         versionName "1.0.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField "boolean", "RAGESHAKE_ENABLED", "false"
-        buildConfigField "boolean", "MEDIA_BACKUP_ENABLED", "false"
     }
 
     buildFeatures {
@@ -99,9 +96,6 @@ dependencies {
 
     //Mentions autocomplete
     implementation "com.otaliastudios:autocomplete:1.1.0"
-
-    //Shake detection
-    implementation 'com.squareup:seismic:1.0.3'
 
     //Coroutines
     def coroutines_version = "1.6.4"

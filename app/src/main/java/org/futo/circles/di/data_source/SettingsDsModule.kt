@@ -7,8 +7,8 @@ import org.futo.circles.auth.feature.pass_phrase.restore.SSSSDataSource
 import org.futo.circles.auth.feature.sign_up.username.UsernameDataSource
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.feature.photos.backup.service.MediaBackupServiceManager
-import org.futo.circles.feature.rageshake.BugReportDataCollector
-import org.futo.circles.feature.rageshake.BugReportDataSource
+import org.futo.circles.core.rageshake.BugReportDataCollector
+import org.futo.circles.core.rageshake.BugReportDataSource
 import org.futo.circles.feature.settings.SettingsDataSource
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsDataSource
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource

@@ -3,7 +3,7 @@ package org.futo.circles.feature.circles.accept_invite
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.RoomRelationsBuilder
-import org.futo.circles.model.SelectableRoomListItem
+import org.futo.circles.core.model.SelectableRoomListItem
 
 class AcceptCircleInviteDataSource(
     private val roomId: String,

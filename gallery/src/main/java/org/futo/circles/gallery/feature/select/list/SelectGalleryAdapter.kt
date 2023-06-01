@@ -2,7 +2,7 @@ package org.futo.circles.gallery.feature.select.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.gallery.model.SelectableRoomListItem
+import org.futo.circles.core.model.SelectableRoomListItem
 
 class SelectGalleryAdapter(
     private val onGalleryClicked: (SelectableRoomListItem) -> Unit,

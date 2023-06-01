@@ -34,4 +34,5 @@
     <string name="suggestions">Suggestions</string>
     <string name="no_results">No results</string>
     <string name="enter_name_or_id">Enter name or userId</string>
+    <string name="share">Share</string>
 </resources>

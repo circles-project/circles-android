@@ -4,7 +4,7 @@ import org.futo.circles.feature.circles.following.FollowingViewModel
 import org.futo.circles.feature.room.invite.InviteMembersViewModel
 import org.futo.circles.feature.room.manage_members.ManageMembersViewModel
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelViewModel
-import org.futo.circles.feature.share.BaseShareViewModel
+import org.futo.circles.core.share.BaseShareViewModel
 import org.futo.circles.feature.timeline.TimelineViewModel
 import org.futo.circles.feature.timeline.post.report.ReportViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel

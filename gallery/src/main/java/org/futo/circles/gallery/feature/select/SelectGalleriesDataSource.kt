@@ -1,10 +1,10 @@
 package org.futo.circles.gallery.feature.select
 
 import androidx.lifecycle.MutableLiveData
+import org.futo.circles.core.mapping.toSelectableRoomListItem
 import org.futo.circles.core.model.GALLERY_TYPE
+import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.gallery.model.SelectableRoomListItem
-import org.futo.circles.mapping.toSelectableRoomListItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 

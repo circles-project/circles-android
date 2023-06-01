@@ -4,7 +4,7 @@ import org.futo.circles.auth.feature.sign_up.username.UsernameViewModel
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.notices.SystemNoticesTimelineViewModel
 import org.futo.circles.feature.people.user.UserViewModel
-import org.futo.circles.feature.rageshake.BugReportViewModel
+import org.futo.circles.core.rageshake.BugReportViewModel
 import org.futo.circles.feature.settings.SettingsViewModel
 import org.futo.circles.feature.settings.active_sessions.ActiveSessionsViewModel
 import org.futo.circles.feature.settings.active_sessions.verify.VerifySessionViewModel

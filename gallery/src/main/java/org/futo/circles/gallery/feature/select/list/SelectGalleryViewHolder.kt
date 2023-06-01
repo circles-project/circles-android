@@ -3,9 +3,11 @@ package org.futo.circles.gallery.feature.select.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.databinding.ListItemSelectGalleryBinding
-import org.futo.circles.gallery.model.SelectableRoomListItem
+import org.futo.circles.core.model.SelectableRoomListItem
+import org.futo.circles.gallery.R
+import org.futo.circles.gallery.databinding.ListItemSelectGalleryBinding
 
 class SelectGalleryViewHolder(
     parent: ViewGroup,

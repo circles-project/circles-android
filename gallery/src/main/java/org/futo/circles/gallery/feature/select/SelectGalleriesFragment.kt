@@ -1,23 +1,17 @@
-package org.futo.circles.feature.photos.select
+package org.futo.circles.gallery.feature.select
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import org.futo.circles.core.SelectRoomsListener
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.databinding.FragmentSelectGalleriesBinding
+import org.futo.circles.core.model.SelectableRoomListItem
+import org.futo.circles.core.room.select.SelectRoomsListener
 import org.futo.circles.gallery.R
-import org.futo.circles.gallery.feature.select.SelectGalleriesViewModel
+import org.futo.circles.gallery.databinding.FragmentSelectGalleriesBinding
 import org.futo.circles.gallery.feature.select.list.SelectGalleryAdapter
-import org.futo.circles.gallery.model.SelectableRoomListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-interface RoomsPicker {
-    var selectRoomsListener: SelectRoomsListener?
-    fun getSelectedRooms(): List<SelectableRoomListItem>
-}
 
 class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries), RoomsPicker {
 

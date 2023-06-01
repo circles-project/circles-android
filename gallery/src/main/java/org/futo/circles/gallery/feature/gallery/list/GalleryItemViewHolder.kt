@@ -3,6 +3,7 @@ package org.futo.circles.gallery.feature.gallery.list
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder

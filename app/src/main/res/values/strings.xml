@@ -96,9 +96,7 @@
     <string name="saved">Saved</string>
     <string name="you_can_not_post_to_this_room">You can not post to this room</string>
     <string name="remove_post">Remove post</string>
-    <string name="remove_image">Remove image</string>
     <string name="remove_post_message">Are you sure you want to remove this post?</string>
-    <string name="remove_image_message">Are you sure you want to remove this image?</string>
     <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
     <string name="unfollow_user_message">Are you sure you want to unfollow this user?</string>
     <string name="unfollow_user_timeline">Are you sure you want to unfollow this timeline?</string>
@@ -129,12 +127,10 @@
     <string name="configure_gallery">Configure gallery</string>
     <string name="delete_circle">Delete circle</string>
     <string name="delete_group">Delete group</string>
-    <string name="delete_gallery">Delete gallery</string>
     <string name="my_followers">My followers</string>
     <string name="people_i_m_following">People I\'m following</string>
     <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
     <string name="delete_group_message">Are you sure you want to remove this group?</string>
-    <string name="delete_gallery_message">Are you sure you want to remove this gallery?</string>
     <string name="timeline_not_found">Timeline not found</string>
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
     <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
@@ -330,8 +326,6 @@
     <string name="notification_media_backup">Media backup</string>
     <string name="thread_format">%s (thread)</string>
     <string name="unexpected_error">Something went wrong</string>
-    <string name="choose_gallery">Choose gallery</string>
-    <string name="pick_media">Pick media</string>
     <string name="configuring_workspace">Configuring workspace</string>
     <string name="shared_circles">Shared Circles</string>
     <string name="remove_user">Remove user</string>
