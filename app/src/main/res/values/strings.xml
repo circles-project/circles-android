@@ -46,7 +46,6 @@
     <string name="group_topic">Group topic</string>
     <string name="group_updated">Group updated</string>
     <string name="circle_updated">Circle updated</string>
-    <string name="gallery_updated">Gallery updated</string>
     <string name="setup_circles">Setup Circles</string>
     <string name="circle_encryption_warning">NOTE: Circle name and cover image are not encrypted</string>
     <string name="gallery_encryption_warning">NOTE: Gallery name and cover image are not encrypted</string>
