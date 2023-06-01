@@ -1,7 +1,6 @@
-package org.futo.circles.feature.timeline
+package org.futo.circles.core.timeline
 
 import androidx.lifecycle.ViewModel
-import org.futo.circles.feature.timeline.data_source.TimelineDataSource
 
 abstract class BaseTimelineViewModel(
     private val timelineDataSource: TimelineDataSource

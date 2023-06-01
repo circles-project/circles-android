@@ -1,11 +1,11 @@
 package org.futo.circles.feature.notices
 
 import androidx.lifecycle.map
-import org.futo.circles.feature.timeline.BaseTimelineViewModel
-import org.futo.circles.feature.timeline.data_source.TimelineDataSource
-import org.futo.circles.model.PostContentType
+import org.futo.circles.core.timeline.BaseTimelineViewModel
+import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.model.PostContentType
 import org.futo.circles.model.SystemNoticeListItem
-import org.futo.circles.model.TextContent
+import org.futo.circles.core.model.TextContent
 
 class SystemNoticesTimelineViewModel(
     timelineDataSource: TimelineDataSource

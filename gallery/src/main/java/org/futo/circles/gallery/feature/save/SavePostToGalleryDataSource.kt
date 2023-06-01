@@ -2,11 +2,11 @@ package org.futo.circles.gallery.feature.save
 
 import android.content.Context
 import org.futo.circles.core.extensions.onBG
+import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.timeline.SendMessageDataSource
 import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.gallery.model.SelectableRoomListItem
-import org.futo.circles.model.MediaContent
-import org.futo.circles.model.PostContent
 
 class SavePostToGalleryDataSource(
     private val context: Context,

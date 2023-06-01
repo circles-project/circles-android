@@ -3,8 +3,8 @@ package org.futo.circles.feature.timeline.poll
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.mapping.toPollContent
-import org.futo.circles.model.PollContent
+import org.futo.circles.core.mapping.toPollContent
+import org.futo.circles.core.model.PollContent
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 

@@ -27,7 +27,6 @@ import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.gallery.GalleryFragmentArgs
 import org.futo.circles.feature.photos.gallery.GalleryFragmentDirections
 import org.futo.circles.gallery.R
@@ -35,8 +34,8 @@ import org.futo.circles.gallery.databinding.FragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.list.GalleryItemViewHolder
 import org.futo.circles.gallery.feature.gallery.list.GalleryItemsAdapter
 import org.futo.circles.gallery.feature.pick.PickGalleryMediaListener
+import org.futo.circles.gallery.model.DeleteGallery
 import org.futo.circles.gallery.model.GalleryContentListItem
-import org.futo.circles.model.ConfirmationType
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -114,7 +113,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.configureGallery -> navigateToUpdateRoom()
-                    R.id.deleteGallery -> withConfirmation(ConfirmationType.DELETE_GALLERY) { viewModel.deleteGallery() }
+                    R.id.deleteGallery -> withConfirmation(DeleteGallery()) { viewModel.deleteGallery() }
                 }
                 return true
             }

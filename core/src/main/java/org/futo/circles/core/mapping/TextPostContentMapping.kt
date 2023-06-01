@@ -1,6 +1,6 @@
-package org.futo.circles.mapping
+package org.futo.circles.core.mapping
 
-import org.futo.circles.model.TextContent
+import org.futo.circles.core.model.TextContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getTextEditableContent
 

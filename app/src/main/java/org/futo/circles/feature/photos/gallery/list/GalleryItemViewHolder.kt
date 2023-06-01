@@ -9,7 +9,7 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.databinding.ListItemGalleryMediaBinding
 import org.futo.circles.model.GalleryContentListItem
-import org.futo.circles.model.PostContentType
+import org.futo.circles.core.model.PostContentType
 
 class GalleryItemViewHolder(
     parent: ViewGroup,

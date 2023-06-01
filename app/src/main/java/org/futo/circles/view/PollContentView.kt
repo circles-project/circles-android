@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import org.futo.circles.R
 import org.futo.circles.databinding.ViewPollContentBinding
-import org.futo.circles.model.PollContent
-import org.futo.circles.model.PollState
+import org.futo.circles.core.model.PollContent
+import org.futo.circles.core.model.PollState
 
 class PollContentView(
     context: Context,

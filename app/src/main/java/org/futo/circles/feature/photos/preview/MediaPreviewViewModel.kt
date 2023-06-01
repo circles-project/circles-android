@@ -9,8 +9,8 @@ import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.model.MediaContent
-import org.futo.circles.model.PostContentType
+import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.PostContentType
 
 class MediaPreviewViewModel(
     private val roomId: String,

@@ -1,13 +1,13 @@
-package org.futo.circles.mapping
+package org.futo.circles.core.mapping
 
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.core.MediaCaptionFieldKey
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.VideoUtils
-import org.futo.circles.model.MediaContent
-import org.futo.circles.model.MediaContentInfo
-import org.futo.circles.model.PostContentType
+import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.MediaContentInfo
+import org.futo.circles.core.model.PostContentType
 import org.matrix.android.sdk.api.session.crypto.attachments.toElementToDecrypt
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent

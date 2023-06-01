@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room
+package org.futo.circles.core.room.leave
 
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel

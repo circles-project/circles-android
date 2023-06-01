@@ -1,7 +1,6 @@
-package org.futo.circles.model
+package org.futo.circles.core.model
 
 import android.util.Size
-import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.picker.MediaType
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 

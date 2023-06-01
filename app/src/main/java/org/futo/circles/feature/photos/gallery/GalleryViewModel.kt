@@ -11,13 +11,13 @@ import org.futo.circles.core.extensions.onUI
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
-import org.futo.circles.feature.room.LeaveRoomDataSource
-import org.futo.circles.feature.timeline.BaseTimelineViewModel
+import org.futo.circles.core.room.leave.LeaveRoomDataSource
+import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.SendMessageDataSource
-import org.futo.circles.feature.timeline.data_source.TimelineDataSource
+import org.futo.circles.core.timeline.TimelineDataSource
 import org.futo.circles.model.GalleryContentListItem
-import org.futo.circles.model.MediaContent
-import org.futo.circles.model.PostContentType
+import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.PostContentType
 
 class GalleryViewModel(
     private val roomId: String,

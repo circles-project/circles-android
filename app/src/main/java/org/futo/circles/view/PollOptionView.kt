@@ -7,9 +7,9 @@ import android.widget.FrameLayout
 import org.futo.circles.R
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ViewPollOptionBinding
-import org.futo.circles.model.PollOption
-import org.futo.circles.model.PollState
-import org.futo.circles.model.canVote
+import org.futo.circles.core.model.PollOption
+import org.futo.circles.core.model.PollState
+import org.futo.circles.core.model.canVote
 
 class PollOptionView(
     context: Context,

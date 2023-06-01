@@ -1,10 +1,9 @@
-package org.futo.circles.mapping
+package org.futo.circles.core.mapping
 
-import org.futo.circles.model.PollContent
-import org.futo.circles.model.PollOption
-import org.futo.circles.model.PollState
+import org.futo.circles.core.model.PollContent
+import org.futo.circles.core.model.PollOption
+import org.futo.circles.core.model.PollState
 import org.matrix.android.sdk.api.extensions.orFalse
-import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessagePollContent
 import org.matrix.android.sdk.api.session.room.model.message.PollAnswer
 import org.matrix.android.sdk.api.session.room.model.message.PollType

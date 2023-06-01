@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
+import org.futo.circles.core.model.PostContentType
 import org.futo.circles.gallery.databinding.ListItemGalleryMediaBinding
 import org.futo.circles.gallery.model.GalleryContentListItem
-import org.futo.circles.model.PostContentType
 
 class GalleryItemViewHolder(
     parent: ViewGroup,

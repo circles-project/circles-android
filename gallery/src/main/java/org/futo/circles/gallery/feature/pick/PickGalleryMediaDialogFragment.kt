@@ -10,8 +10,8 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.databinding.DialogFragmentPickGalleryImageBinding
 import org.futo.circles.gallery.R
+import org.futo.circles.gallery.databinding.DialogFragmentPickGalleryImageBinding
 import org.futo.circles.gallery.feature.PhotosFragment
 import org.futo.circles.gallery.feature.gallery.GalleryFragment
 

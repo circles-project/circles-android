@@ -13,6 +13,11 @@ import org.futo.circles.core.extensions.getAttributes
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.model.PollContent
+import org.futo.circles.core.model.PollState
+import org.futo.circles.core.model.Post
+import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.canEdit
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.UserUtils

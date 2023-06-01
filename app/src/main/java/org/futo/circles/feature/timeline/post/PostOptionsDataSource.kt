@@ -10,9 +10,9 @@ import org.futo.circles.core.utils.FileUtils.saveMediaFileToDevice
 import org.futo.circles.feature.share.MediaShareable
 import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.feature.share.TextShareable
-import org.futo.circles.model.MediaContent
-import org.futo.circles.model.PostContent
-import org.futo.circles.model.TextContent
+import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.model.TextContent
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 

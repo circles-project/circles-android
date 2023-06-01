@@ -1,9 +1,9 @@
-package org.futo.circles.feature.timeline.data_source
+package org.futo.circles.core.timeline
 
+import org.futo.circles.core.mapping.toPost
+import org.futo.circles.core.model.Post
+import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.mapping.toPost
-import org.futo.circles.model.Post
-import org.futo.circles.model.PostContentType
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
