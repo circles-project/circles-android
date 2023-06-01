@@ -2,8 +2,6 @@ package org.futo.circles.gallery.feature.backup
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import org.futo.circles.base.ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE
-import org.futo.circles.base.ROOM_BACKUP_EVENT_TYPE
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getPhotosSpaceId
@@ -69,6 +67,8 @@ class RoomAccountDataSource {
 
     companion object {
         private const val dateModifiedKey = "date_modified"
+        private const val ROOM_BACKUP_EVENT_TYPE = "m.room.media_backup"
+        private const val ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE = "m.room.media_backup.date_modified"
     }
 
 }

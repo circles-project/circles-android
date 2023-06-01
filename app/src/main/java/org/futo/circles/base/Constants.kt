@@ -5,9 +5,6 @@ import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.provider.MatrixSessionProvider
 
 
-const val ROOM_BACKUP_EVENT_TYPE = "m.room.media_backup"
-const val ROOM_BACKUP_DATE_MODIFIED_EVENT_TYPE = "m.room.media_backup.date_modified"
-
 const val PUSHER_APP_ID = "${BuildConfig.APPLICATION_ID}.android"
 
 const val READ_ONLY_ROLE = -10
