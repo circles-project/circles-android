@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.feature.room.RoomAccountDataSource
 import org.futo.circles.gallery.model.MediaBackupSettingsData
 import org.futo.circles.gallery.model.MediaFolderListItem
 

@@ -2,10 +2,10 @@ package org.futo.circles.gallery.feature.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.databinding.ListItemGalleryBinding
-import org.futo.circles.extensions.loadProfileIcon
+import org.futo.circles.gallery.databinding.ListItemGalleryBinding
 import org.futo.circles.gallery.model.GalleryListItem
 
 class GalleryViewHolder(

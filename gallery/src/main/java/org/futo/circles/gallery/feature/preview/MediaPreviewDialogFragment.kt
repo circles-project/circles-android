@@ -17,11 +17,13 @@ import com.google.android.exoplayer2.Player
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.extensions.*
+import org.futo.circles.feature.photos.preview.MediaPreviewDialogFragmentArgs
 import org.futo.circles.feature.share.ShareProvider
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentMediaPreviewBinding

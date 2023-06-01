@@ -18,7 +18,7 @@
         app:titleCentered="true"
         app:titleMarginEnd="72dp">
 
-        <org.futo.circles.view.LoadingButton
+        <org.futo.circles.core.view.LoadingButton
             android:id="@+id/btnSave"
             android:layout_width="56dp"
             android:layout_height="match_parent"

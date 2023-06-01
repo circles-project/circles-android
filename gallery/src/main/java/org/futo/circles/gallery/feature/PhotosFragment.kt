@@ -17,13 +17,13 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.picker.PickGalleryListener
 import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.FragmentRoomsBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.photos.PhotosFragmentDirections
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.feature.list.PhotosListAdapter
+import org.futo.circles.gallery.feature.pick.PickGalleryListener
 import org.futo.circles.gallery.model.GalleryListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

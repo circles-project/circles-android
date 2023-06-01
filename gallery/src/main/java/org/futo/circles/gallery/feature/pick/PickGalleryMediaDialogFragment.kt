@@ -1,4 +1,4 @@
-package org.futo.circles.base
+package org.futo.circles.gallery.feature.pick
 
 import android.app.Dialog
 import android.net.Uri
@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
-import org.futo.circles.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.DialogFragmentPickGalleryImageBinding
-import org.futo.circles.feature.photos.PhotosFragment
-import org.futo.circles.feature.photos.gallery.GalleryFragment
+import org.futo.circles.gallery.R
+import org.futo.circles.gallery.feature.PhotosFragment
+import org.futo.circles.gallery.feature.gallery.GalleryFragment
 
 interface PickGalleryListener {
     fun onGalleryChosen(id: String)
