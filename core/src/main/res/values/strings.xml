@@ -35,4 +35,10 @@
     <string name="no_results">No results</string>
     <string name="enter_name_or_id">Enter name or userId</string>
     <string name="share">Share</string>
+    <string name="rage_shake_report">Rageshake report</string>
+    <string name="report_sent">Report sent</string>
+    <string name="shake_detected_message">Would you like to open the bug report screen?</string>
+    <string name="shake_detected">Shake detected</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
