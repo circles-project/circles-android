@@ -1,5 +1,6 @@
 package org.futo.circles.di.ui
 
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.feature.circles.CirclesViewModel
 import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteViewModel
 import org.futo.circles.feature.groups.GroupsViewModel
