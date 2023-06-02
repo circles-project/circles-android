@@ -12,6 +12,7 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.futo.circles.core.BuildConfig
+import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.R
 import org.futo.circles.core.extensions.getAllChildFragments
 import org.futo.circles.core.provider.MatrixInstanceProvider
@@ -21,6 +22,7 @@ import java.io.File
 import java.io.IOException
 import java.io.OutputStreamWriter
 import java.util.zip.GZIPOutputStream
+
 
 class BugReportDataCollector(private val context: Context) {
 
@@ -35,12 +37,12 @@ class BugReportDataCollector(private val context: Context) {
     ): Map<String, RequestBody> {
         val session = MatrixSessionProvider.currentSession
         val map = mutableMapOf(
-            "app" to context.getString(R.string.app_name).toTextRequestBody(),
+            "app" to CirclesAppConfig.appName.toTextRequestBody(),
             "label" to context.getString(R.string.rage_shake_report).toTextRequestBody(),
             "user_agent" to MatrixInstanceProvider.matrix.getUserAgent().toTextRequestBody(),
             "platform" to "Android".toTextRequestBody(),
-            "version" to BuildConfig.VERSION_NAME.toTextRequestBody(),
-            "flavour" to BuildConfig.FLAVOR.toTextRequestBody(),
+            "version" to CirclesAppConfig.appVersion.toTextRequestBody(),
+            "flavour" to CirclesAppConfig.buildFlavourName.toTextRequestBody(),
             "build_type" to BuildConfig.BUILD_TYPE.toTextRequestBody(),
             "user_id" to (session?.myUserId ?: "").toTextRequestBody(),
             "device_id" to (session?.sessionParams?.deviceId ?: "").toTextRequestBody(),

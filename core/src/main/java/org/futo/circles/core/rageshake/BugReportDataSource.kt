@@ -3,8 +3,8 @@ package org.futo.circles.core.rageshake
 import okhttp3.ResponseBody
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
-import org.futo.circles.base.getRageShakeUrl
-import org.futo.circles.io.BugreportApiService
+import org.futo.circles.core.getRageShakeUrl
+import org.futo.circles.core.rageshake.io.BugreportApiService
 
 class BugReportDataSource(
     private val bugReportDataCollector: BugReportDataCollector,

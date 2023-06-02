@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.squareup.seismic.ShakeDetector
-import org.futo.circles.R
 import org.futo.circles.core.R
 
 class RageShake(

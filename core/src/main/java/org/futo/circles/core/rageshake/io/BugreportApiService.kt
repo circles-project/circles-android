@@ -1,4 +1,4 @@
-package org.futo.circles.io
+package org.futo.circles.core.rageshake.io
 
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

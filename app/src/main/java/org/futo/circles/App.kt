@@ -35,7 +35,7 @@ class App : Application() {
             modules(applicationModules)
         }
         CirclesAppConfig.Initializer()
-            .appId(BuildConfig.APPLICATION_ID)
+            .buildConfigInfo(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME, BuildConfig.FLAVOR)
             .appName(getString(R.string.app_name))
             .euDomain(getString(R.string.debug_eu_domain), getString(R.string.release_eu_domain))
             .usDomain(getString(R.string.debug_us_domain), getString(R.string.release_us_domain))

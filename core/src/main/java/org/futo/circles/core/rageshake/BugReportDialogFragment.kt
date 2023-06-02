@@ -5,7 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import org.futo.circles.R
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.DialogFragmentBugReportBinding
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.isValidEmail
 import org.futo.circles.core.extensions.observeData
@@ -14,7 +15,6 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.DialogFragmentBugReportBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BugReportDialogFragment :
@@ -53,7 +53,7 @@ class BugReportDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.threePidLiveData.observeData(this) {
+        viewModel.threePidLiveData?.observeData(this) {
             binding.tilContactInfo.editText?.setText(it.firstOrNull()?.value ?: "")
         }
         viewModel.sendReportLiveData.observeResponse(this,

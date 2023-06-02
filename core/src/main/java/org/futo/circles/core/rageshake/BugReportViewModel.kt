@@ -3,18 +3,18 @@ package org.futo.circles.core.rageshake
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import okhttp3.ResponseBody
-import org.futo.circles.auth.feature.sign_up.setup_profile.SetupProfileDataSource
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.provider.MatrixSessionProvider
 
 class BugReportViewModel(
-    profileDataSource: SetupProfileDataSource,
     private val bugReportDataSource: BugReportDataSource
 ) : ViewModel() {
 
     val sendReportLiveData = SingleEventLiveData<Response<ResponseBody>>()
-    val threePidLiveData = profileDataSource.threePidLiveData
+    val threePidLiveData =
+        MatrixSessionProvider.currentSession?.profileService()?.getThreePidsLive(true)
     val screenshotLiveData = MutableLiveData(bugReportDataSource.getScreenShot())
 
     fun sendReport(description: String, email: String, sendLogs: Boolean, sendScreenshot: Boolean) {
