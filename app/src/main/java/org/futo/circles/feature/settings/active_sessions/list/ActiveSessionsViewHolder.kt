@@ -4,10 +4,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
+import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.databinding.ListItemActiveSessionBinding
-import org.futo.circles.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.model.ActiveSession
 import org.futo.circles.model.ActiveSessionListItem
 import org.futo.circles.model.SessionHeader

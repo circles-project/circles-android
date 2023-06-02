@@ -3,6 +3,7 @@ package org.futo.circles.feature.room.select.list
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.core.model.SelectableRoomListItem
+import org.futo.circles.core.select_users.list.ChipItemViewHolder
 
 class SelectedChipsRoomsAdapter(
     private val onCircleDeselected: (SelectableRoomListItem) -> Unit

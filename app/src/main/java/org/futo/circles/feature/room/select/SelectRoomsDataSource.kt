@@ -9,12 +9,13 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOn
+import org.futo.circles.core.mapping.toSelectableRoomListItem
 import org.futo.circles.core.model.CIRCLE_TAG
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
-import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.mapping.toSelectableRoomListItem
 import org.futo.circles.core.model.SelectableRoomListItem
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams

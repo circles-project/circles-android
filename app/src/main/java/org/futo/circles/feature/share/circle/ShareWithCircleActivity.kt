@@ -1,10 +1,11 @@
 package org.futo.circles.feature.share.circle
 
 import org.futo.circles.R
+import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.room.select.RoomsPicker
+import org.futo.circles.core.share.BaseShareActivity
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.feature.room.select.SelectRoomsFragment
-import org.futo.circles.core.share.BaseShareActivity
-import org.futo.circles.gallery.feature.select.RoomsPicker
 
 class ShareWithCircleActivity : BaseShareActivity() {
 

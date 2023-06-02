@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
+import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.extensions.getRoleNameResId
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.isCurrentUserAbleToBan
@@ -13,7 +14,6 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.databinding.ListItemMemberBinding
 import org.futo.circles.databinding.ListItemNotJoinedUserBinding
 import org.futo.circles.feature.room.ManageMembersOptionsListener

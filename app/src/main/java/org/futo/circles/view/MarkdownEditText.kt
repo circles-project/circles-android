@@ -26,6 +26,7 @@ import io.noties.markwon.core.spans.StrongEmphasisSpan
 import io.noties.markwon.ext.tasklist.TaskListDrawable
 import io.noties.markwon.ext.tasklist.TaskListSpan
 import org.futo.circles.R
+import org.futo.circles.core.model.UserListItem
 import org.futo.circles.extensions.getGivenSpansAt
 import org.futo.circles.feature.timeline.post.markdown.EnhancedMovementMethod
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
@@ -33,7 +34,6 @@ import org.futo.circles.feature.timeline.post.markdown.mentions.MentionsPresente
 import org.futo.circles.feature.timeline.post.markdown.span.MentionSpan
 import org.futo.circles.feature.timeline.post.markdown.span.OrderedListItemSpan
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
-import org.futo.circles.model.UserListItem
 
 
 class MarkdownEditText(
@@ -187,6 +187,7 @@ class MarkdownEditText(
                 markwon.configuration().theme(),
                 currentNum
             )
+
             TextStyle.TASKS_LIST -> setTaskSpan(listSpanStart, selectionStart, isDone)
             else -> BulletListItemSpan(markwon.configuration().theme(), 0)
         }

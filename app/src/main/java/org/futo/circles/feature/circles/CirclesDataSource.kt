@@ -2,6 +2,7 @@ package org.futo.circles.feature.circles
 
 import androidx.lifecycle.map
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.mapping.toRoomInfo
 import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -9,7 +10,6 @@ import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.core.utils.isCircleShared
 import org.futo.circles.mapping.toInviteCircleListItem
 import org.futo.circles.mapping.toJoinedCircleListItem
-import org.futo.circles.mapping.toRoomInfo
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CirclesHeaderItem
 import org.futo.circles.model.RequestCircleListItem

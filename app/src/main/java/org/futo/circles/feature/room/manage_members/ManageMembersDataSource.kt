@@ -14,8 +14,9 @@ import kotlinx.coroutines.flow.mapNotNull
 import org.futo.circles.R
 import org.futo.circles.base.ExpandableItemsDataSource
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.mapping.nameOrId
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.mapping.nameOrId
 import org.futo.circles.mapping.toGroupMemberListItem
 import org.futo.circles.mapping.toNotJoinedUserListItem
 import org.futo.circles.model.GroupMemberListItem

@@ -3,9 +3,9 @@ package org.futo.circles.feature.timeline.post.markdown.mentions
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import com.otaliastudios.autocomplete.RecyclerViewPresenter
+import org.futo.circles.core.mapping.toUserListItem
+import org.futo.circles.core.model.UserListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.mapping.toUserListItem
-import org.futo.circles.model.UserListItem
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getUserOrDefault

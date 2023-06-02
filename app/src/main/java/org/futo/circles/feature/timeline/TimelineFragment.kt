@@ -27,13 +27,14 @@ import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.provider.PreferencesProvider
+import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.databinding.FragmentTimelineBinding
 import org.futo.circles.extensions.*
-import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener

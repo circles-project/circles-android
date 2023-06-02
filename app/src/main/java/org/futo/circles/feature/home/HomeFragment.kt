@@ -20,7 +20,7 @@ import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
-import org.futo.circles.feature.photos.backup.service.MediaBackupServiceManager
+import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.matrix.android.sdk.api.session.getRoomSummary
@@ -99,7 +99,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
                 R.id.circlesFragment,
                 R.id.peopleFragment,
                 R.id.groupsFragment,
-                R.id.photosFragment
+                org.futo.circles.gallery.R.id.photosFragment
             )
         )
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)

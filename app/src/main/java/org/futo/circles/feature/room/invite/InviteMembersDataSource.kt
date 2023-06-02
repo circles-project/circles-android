@@ -6,8 +6,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.mapping.nameOrId
 import org.matrix.android.sdk.api.session.getRoom
 
 class InviteMembersDataSource(

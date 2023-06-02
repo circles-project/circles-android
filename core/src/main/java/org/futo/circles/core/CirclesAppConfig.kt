@@ -5,6 +5,12 @@ object CirclesAppConfig {
     var appId = ""
         private set
 
+    var appVersion = ""
+        private set
+
+    var buildFlavourName = ""
+        private set
+
     var appName = ""
         private set
 
@@ -24,6 +30,8 @@ object CirclesAppConfig {
 
     data class Initializer(
         private var appId: String? = null,
+        private var version: String? = null,
+        private var flavour: String? = null,
         private var appName: String? = null,
         private var debugUsDomain: String? = null,
         private var releaseUsDomain: String? = null,
@@ -34,7 +42,12 @@ object CirclesAppConfig {
         private var rageshakeEnabled: Boolean = false
     ) {
 
-        fun appId(appId: String) = apply { this.appId = appId }
+        fun buildConfigInfo(appId: String, version: String, flavour: String) =
+            apply {
+                this.appId = appId
+                this.version = version
+                this.flavour = flavour
+            }
 
         fun appName(appName: String) = apply { this.appName = appName }
 
@@ -58,6 +71,12 @@ object CirclesAppConfig {
         fun init() {
             CirclesAppConfig.appId = appId?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal appId $appId")
+
+            CirclesAppConfig.appVersion = version?.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("Illegal appId $version")
+
+            CirclesAppConfig.buildFlavourName = flavour?.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("Illegal appId $flavour")
 
             CirclesAppConfig.appName = appName?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("appName is empty $appName")

@@ -2,6 +2,7 @@ package org.futo.circles.gallery.feature.select.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
