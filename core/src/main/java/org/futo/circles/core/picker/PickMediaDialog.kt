@@ -11,13 +11,14 @@ import org.futo.circles.core.extensions.setIsVisible
 enum class PickImageMethod { Photo, Video, Gallery, Device }
 
 interface PickMediaDialogListener {
+    val isVideoAvailable: Boolean
+    val isGalleryAvailable: Boolean
     fun onPickMethodSelected(method: PickImageMethod)
 }
 
 class PickMediaDialog(
     context: Context,
-    private val listener: PickMediaDialogListener,
-    private val allMediaTypeAvailable: Boolean
+    private val listener: PickMediaDialogListener
 ) : AppCompatDialog(context) {
 
     private val binding = DialogPickImageBinding.inflate(LayoutInflater.from(context))
@@ -31,7 +32,8 @@ class PickMediaDialog(
             btnClose.setOnClickListener { dismiss() }
             btnCancel.setOnClickListener { dismiss() }
 
-            tvVideo.setIsVisible(allMediaTypeAvailable)
+            tvVideo.setIsVisible(listener.isVideoAvailable)
+            tvGallery.setIsVisible(listener.isGalleryAvailable)
 
             tvPhoto.setOnClickListener { onMethodSelected(PickImageMethod.Photo) }
             tvVideo.setOnClickListener { onMethodSelected(PickImageMethod.Video) }
