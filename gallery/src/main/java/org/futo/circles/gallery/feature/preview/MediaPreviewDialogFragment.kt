@@ -24,7 +24,6 @@ import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.share.ShareProvider
-import org.futo.circles.feature.photos.preview.MediaPreviewDialogFragmentArgs
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentMediaPreviewBinding
 import org.futo.circles.gallery.model.RemoveImage

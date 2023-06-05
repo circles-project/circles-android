@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/photosFragment"
-        android:name="org.futo.circles.feature.photos.PhotosFragment"
+        android:name="org.futo.circles.gallery.feature.PhotosFragment"
         android:label="@string/photo_galleries"
         tools:layout="@layout/fragment_rooms">
 
@@ -32,11 +32,11 @@
 
     <dialog
         android:id="@+id/createGalleryDialogFragment"
-        android:name="org.futo.circles.feature.photos.create.CreateGalleryDialogFragment"
+        android:name="org.futo.circles.gallery.feature.create.CreateGalleryDialogFragment"
         tools:layout="@layout/dialog_fragment_create_gallery" />
     <fragment
         android:id="@+id/galleryFragment"
-        android:name="org.futo.circles.feature.photos.gallery.GalleryFragment"
+        android:name="org.futo.circles.gallery.feature.gallery.GalleryFragment"
         tools:layout="@layout/fragment_gallery">
 
         <argument
@@ -73,7 +73,7 @@
 
     <dialog
         android:id="@+id/updateGalleryDialogFragment"
-        android:name="org.futo.circles.feature.photos.UpdateGalleryDialogFragment"
+        android:name="org.futo.circles.gallery.feature.UpdateGalleryDialogFragment"
         tools:layout="@layout/dialog_fragment_update_gallery">
 
         <argument
@@ -84,7 +84,7 @@
     </dialog>
     <dialog
         android:id="@+id/galleryImageDialogFragment"
-        android:name="org.futo.circles.feature.photos.preview.MediaPreviewDialogFragment"
+        android:name="org.futo.circles.gallery.feature.preview.MediaPreviewDialogFragment"
         tools:layout="@layout/dialog_fragment_media_preview">
 
         <argument
@@ -101,7 +101,7 @@
 
     <dialog
         android:id="@+id/mediaBackupDialogFragment"
-        android:name="org.futo.circles.feature.photos.backup.MediaBackupDialogFragment"
+        android:name="org.futo.circles.gallery.feature.backup.MediaBackupDialogFragment"
         tools:layout="@layout/dialog_fragment_media_backup" />
 
 </navigation>

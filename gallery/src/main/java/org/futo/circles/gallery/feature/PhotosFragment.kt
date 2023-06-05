@@ -20,7 +20,6 @@ import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.picker.RuntimePermissionHelper
-import org.futo.circles.feature.photos.PhotosFragmentDirections
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentRoomsBinding
 import org.futo.circles.gallery.feature.list.PhotosListAdapter

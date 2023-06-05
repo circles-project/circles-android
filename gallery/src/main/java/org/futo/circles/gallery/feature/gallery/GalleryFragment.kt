@@ -27,8 +27,6 @@ import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.feature.photos.gallery.GalleryFragmentArgs
-import org.futo.circles.feature.photos.gallery.GalleryFragmentDirections
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.list.GalleryItemViewHolder

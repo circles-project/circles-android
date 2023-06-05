@@ -10,7 +10,6 @@ import androidx.navigation.fragment.navArgs
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.picker.MediaPickerHelper
-import org.futo.circles.feature.photos.UpdateGalleryDialogFragmentArgs
 import org.futo.circles.core.room.update.UpdateRoomDialogFragment
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentUpdateGalleryBinding
