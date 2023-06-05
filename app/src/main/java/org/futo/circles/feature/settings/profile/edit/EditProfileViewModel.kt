@@ -7,6 +7,8 @@ import org.futo.circles.auth.feature.sign_up.setup_profile.SetupProfileDataSourc
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.matrix.android.sdk.api.session.identity.ThreePid
+import org.matrix.android.sdk.api.session.user.model.User
 
 class EditProfileViewModel(
     private val dataSource: SetupProfileDataSource
@@ -14,8 +16,12 @@ class EditProfileViewModel(
 
     val selectedImageLiveData = MutableLiveData<Uri>()
     val editProfileResponseLiveData = SingleEventLiveData<Response<Unit?>>()
-    val profileLiveData = dataSource.profileLiveData
-    val threePidLiveData = dataSource.threePidLiveData
+    val profileLiveData = SingleEventLiveData<User?>().apply {
+        postValue(dataSource.getUserData())
+    }
+    val threePidLiveData = SingleEventLiveData<List<ThreePid>>().apply {
+        postValue(dataSource.getThreePidData())
+    }
     val isProfileDataChangedLiveData = MutableLiveData(false)
 
     fun setImageUri(uri: Uri) {

@@ -63,7 +63,7 @@ class EditProfileDialogFragment :
             }
         )
         viewModel.profileLiveData.observeData(this) {
-            it.getOrNull()?.let { user -> setInitialUserInfo(user) }
+            it?.let { user -> setInitialUserInfo(user) }
         }
         viewModel.threePidLiveData.observeData(this) {
             binding.tilContactInfo.editText?.setText(it.firstOrNull()?.value ?: "")
