@@ -21,7 +21,7 @@
         android:soundEffectsEnabled="true"
         app:keep_content_on_player_reset="true"
         app:resize_mode="fit"
-        app:shutter_background_color="@color/transparent"
+        app:shutter_background_color="@android:color/transparent"
         app:surface_type="texture_view"
         app:use_controller="true" />
 

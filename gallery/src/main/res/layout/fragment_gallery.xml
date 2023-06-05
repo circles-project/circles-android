@@ -20,7 +20,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:fabSize="normal"
-        app:layout_anchor="@id/rvTimeline"
+        app:layout_anchor="@id/rvGallery"
         app:srcCompat="@drawable/ic_add_photo"
         app:tint="@color/white"
         tools:ignore="ContentDescription" />

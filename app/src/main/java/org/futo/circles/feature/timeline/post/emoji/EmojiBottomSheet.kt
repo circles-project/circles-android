@@ -73,7 +73,7 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
                         secondaryColor = Color.RED,
                         dividerColor = ContextCompat.getColor(
                             requireContext(),
-                            R.color.divider_color
+                            org.futo.circles.core.R.color.divider_color
                         ),
                         textColor = ContextCompat.getColor(
                             requireContext(),

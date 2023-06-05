@@ -96,7 +96,12 @@ class MarkdownEditText(
             .with(CharPolicy('@', true))
             .with(MentionsPresenter(context, roomId))
             .with(
-                ColorDrawable(ContextCompat.getColor(context, R.color.post_card_background_color))
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        context,
+                        org.futo.circles.core.R.color.post_card_background_color
+                    )
+                )
             )
             .with(object : AutocompleteCallback<UserListItem> {
                 override fun onPopupItemClicked(editable: Editable, item: UserListItem): Boolean {

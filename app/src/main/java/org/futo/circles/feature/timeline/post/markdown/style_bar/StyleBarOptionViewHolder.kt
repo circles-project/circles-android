@@ -27,7 +27,8 @@ class StyleBarOptionViewHolder(
         binding.ivIcon.setImageResource(data.iconResId)
         binding.cvOption.setCardBackgroundColor(
             ContextCompat.getColor(
-                context, if (data.isSelected) R.color.blue else R.color.post_card_background_color
+                context, if (data.isSelected) R.color.blue else
+                    org.futo.circles.core.R.color.post_card_background_color
             )
         )
     }
