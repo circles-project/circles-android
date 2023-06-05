@@ -12,7 +12,7 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.picker.MediaPickerHelper
+import org.futo.circles.core.picker.DeviceMediaPickerHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -22,7 +22,7 @@ abstract class UpdateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Bo
 
     abstract val roomId: String
     private val viewModel by viewModel<UpdateRoomViewModel> { parametersOf(roomId) }
-    abstract val mediaPickerHelper: MediaPickerHelper
+    abstract val mediaPickerHelper: DeviceMediaPickerHelper
     abstract val successMessageResId: Int
     abstract fun onCoverImageSelected(uri: Uri)
     abstract fun setInitialGroupData(room: RoomSummary)

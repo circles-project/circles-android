@@ -11,11 +11,11 @@ import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
+import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.PreviewPostListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,7 +34,7 @@ class CreatePostDialogFragment :
         parametersOf(args.roomId, args.eventId, args.isEdit)
     }
 
-    private val mediaPickerHelper = MediaPickerHelper(this, true)
+    private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private var createPostListener: CreatePostListener? = null
 
     override fun onAttach(context: Context) {

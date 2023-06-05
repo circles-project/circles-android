@@ -24,13 +24,13 @@ import org.futo.circles.core.extensions.setToolbarTitle
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.picker.MediaPickerHelper
-import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
+import org.futo.circles.core.picker.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.list.GalleryItemViewHolder
 import org.futo.circles.gallery.feature.gallery.list.GalleryItemsAdapter
+import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.futo.circles.gallery.feature.pick.PickGalleryMediaListener
 import org.futo.circles.gallery.model.DeleteGallery
 import org.futo.circles.gallery.model.GalleryContentListItem
@@ -47,7 +47,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         )
     }
     private val binding by viewBinding(FragmentGalleryBinding::bind)
-    private val mediaPickerHelper = MediaPickerHelper(this, true)
+    private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private val listAdapter by lazy {
         GalleryItemsAdapter(
             onGalleryItemClicked = { item -> onMediaItemSelected(item) },

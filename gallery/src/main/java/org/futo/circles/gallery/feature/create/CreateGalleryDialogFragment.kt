@@ -7,16 +7,16 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.core.room.create.CreateRoomDialogFragment
 import org.futo.circles.gallery.databinding.DialogFragmentCreateGalleryBinding
+import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 
 class CreateGalleryDialogFragment :
     CreateRoomDialogFragment(DialogFragmentCreateGalleryBinding::inflate) {
 
     override val fragment: Fragment = this
     override val inviteContainerId: Int? = null
-    override val mediaPickerHelper: MediaPickerHelper = MediaPickerHelper(this)
+    override val mediaPickerHelper = AllMediaPickerHelper(this)
 
     private val binding by lazy {
         getBinding() as DialogFragmentCreateGalleryBinding

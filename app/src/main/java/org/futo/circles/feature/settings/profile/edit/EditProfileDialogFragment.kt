@@ -14,8 +14,8 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.DialogFragmentEditProfileBinding
+import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -24,7 +24,7 @@ class EditProfileDialogFragment :
 
     override val fragment: Fragment = this
     private val viewModel by viewModel<EditProfileViewModel>()
-    private val mediaPickerHelper = MediaPickerHelper(this)
+    private val mediaPickerHelper = AllMediaPickerHelper(this)
 
     private val binding by lazy {
         getBinding() as DialogFragmentEditProfileBinding

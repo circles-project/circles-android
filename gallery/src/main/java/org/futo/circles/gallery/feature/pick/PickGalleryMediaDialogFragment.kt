@@ -7,8 +7,8 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.picker.MediaPickerHelper
-import org.futo.circles.core.picker.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
+import org.futo.circles.core.picker.DeviceMediaPickerHelper
+import org.futo.circles.core.picker.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentPickGalleryImageBinding
@@ -78,10 +78,10 @@ class PickGalleryMediaDialogFragment :
 
     override fun onMediaSelected(uri: Uri, mediaType: MediaType) {
         setFragmentResult(
-            MediaPickerHelper.pickMediaRequestKey,
+            DeviceMediaPickerHelper.pickMediaRequestKey,
             bundleOf(
-                MediaPickerHelper.uriKey to uri.toString(),
-                MediaPickerHelper.mediaTypeKey to mediaType.ordinal
+                DeviceMediaPickerHelper.uriKey to uri.toString(),
+                DeviceMediaPickerHelper.mediaTypeKey to mediaType.ordinal
             )
         )
         dismiss()
