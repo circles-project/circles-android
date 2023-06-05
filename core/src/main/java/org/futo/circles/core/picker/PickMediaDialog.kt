@@ -18,8 +18,7 @@ class PickMediaDialog(
     context: Context,
     private val listener: PickMediaDialogListener,
     private val allMediaTypeAvailable: Boolean
-) :
-    AppCompatDialog(context) {
+) : AppCompatDialog(context) {
 
     private val binding = DialogPickImageBinding.inflate(LayoutInflater.from(context))
 
