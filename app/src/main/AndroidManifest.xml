@@ -108,7 +108,7 @@
         </provider>
 
         <service
-            android:name=".feature.photos.backup.service.MediaBackupService"
+            android:name=".gallery.feature.backup.service.MediaBackupService"
             android:enabled="true"
             android:exported="false" />
 
