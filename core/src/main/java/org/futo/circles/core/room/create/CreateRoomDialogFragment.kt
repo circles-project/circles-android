@@ -28,7 +28,7 @@ abstract class CreateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Bo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addSelectUsersFragment(inviteContainerId ?: return)
+        inviteContainerId?.let { addSelectUsersFragment(it) }
         setupObservers()
     }
 
