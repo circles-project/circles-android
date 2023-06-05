@@ -18,8 +18,8 @@
 
         <argument
             android:name="threadEventId"
-            app:argType="string"
             android:defaultValue="@null"
+            app:argType="string"
             app:nullable="true" />
 
         <argument
@@ -411,7 +411,7 @@
     </dialog>
     <dialog
         android:id="@+id/mediaPreviewDialogFragment"
-        android:name="org.futo.circles.feature.photos.preview.MediaPreviewDialogFragment"
+        android:name="org.futo.circles.gallery.feature.preview.MediaPreviewDialogFragment"
         tools:layout="@layout/dialog_fragment_media_preview">
 
         <argument
