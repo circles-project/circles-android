@@ -73,7 +73,7 @@ class PushersManager(
         }
         val distributors = getAllDistributors()
         return if (distributors.size == 1) saveAndRegisterApp(distributors.first())
-        else saveAndRegisterApp(context.packageName)
+        else saveAndRegisterApp(context.applicationContext.packageName)
     }
 
     private fun shouldAddHttpPusher(): Boolean {
@@ -121,7 +121,7 @@ class PushersManager(
         endpoint: String,
         onDoneRunnable: Runnable? = null
     ) {
-        if (UnifiedPush.getDistributor(context) == context.packageName) {
+        if (UnifiedPush.getDistributor(context) == context.applicationContext.packageName) {
             preferencesProvider.storePushGateway(getPusherUrl())
             onDoneRunnable?.run()
             return
@@ -156,14 +156,14 @@ class PushersManager(
         )
         val distributors = UnifiedPush.getDistributors(context)
         return distributors.map {
-            if (it == context.packageName) internalDistributorName
+            if (it == context.applicationContext.packageName) internalDistributorName
             else context.getApplicationLabel(it)
         }
     }
 
     fun getExternalDistributors(): List<String> {
         return UnifiedPush.getDistributors(context)
-            .filterNot { it == context.packageName }
+            .filterNot { it == context.applicationContext.packageName }
     }
 
     fun getCurrentDistributorName(): String {
@@ -184,7 +184,7 @@ class PushersManager(
 
     private fun isInternalDistributor(): Boolean {
         return UnifiedPush.getDistributor(context).isEmpty() ||
-                UnifiedPush.getDistributor(context) == context.packageName
+                UnifiedPush.getDistributor(context) == context.applicationContext.packageName
     }
 
     fun getPrivacyFriendlyUpEndpoint(): String? {

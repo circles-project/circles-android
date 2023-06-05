@@ -113,7 +113,7 @@ fun Fragment.withConfirmation(type: ConfirmationType, action: () -> Unit) {
 fun Fragment.openAppSettings() {
     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    val uri = Uri.fromParts("package", requireContext().packageName, null)
+    val uri = Uri.fromParts("package", requireContext().applicationContext.packageName, null)
     intent.data = uri
     requireActivity().startActivity(intent)
 }
@@ -122,7 +122,7 @@ fun Fragment.openNotificationSettings() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val intent = Intent().apply {
             action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-            putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().packageName)
+            putExtra(Settings.EXTRA_APP_PACKAGE, requireContext().applicationContext.packageName)
         }
         requireActivity().startActivity(intent)
     } else openAppSettings()
