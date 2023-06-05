@@ -1,8 +1,8 @@
 package org.futo.circles.notifications
 
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.PushersManager
-import org.futo.circles.provider.MatrixSessionProvider
 
 class FdroidFcmHelper(
     private val backgroundSyncStarter: BackgroundSyncStarter
