@@ -1,23 +1,23 @@
 package org.futo.circles.di.data_source
 
+import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.room.leave.LeaveRoomDataSource
+import org.futo.circles.core.select_users.SearchUserDataSource
+import org.futo.circles.core.select_users.SelectUsersDataSource
+import org.futo.circles.core.timeline.TimelineBuilder
+import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.timeline.post.PostOptionsDataSource
+import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.feature.circles.following.FollowingDataSource
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.feature.people.user.UserDataSource
-import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.RoomNotificationsDataSource
 import org.futo.circles.feature.room.invite.InviteMembersDataSource
 import org.futo.circles.feature.room.manage_members.ManageMembersDataSource
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelDataSource
-import org.futo.circles.feature.room.select_users.SearchUserDataSource
-import org.futo.circles.feature.room.select_users.SelectUsersDataSource
 import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
-import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
-import org.futo.circles.feature.timeline.data_source.TimelineBuilder
-import org.futo.circles.feature.timeline.data_source.TimelineDataSource
-import org.futo.circles.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.feature.timeline.post.report.ReportDataSource
-import org.futo.circles.model.CircleRoomTypeArg
 import org.koin.dsl.module
 
 val timelineDsModule = module {

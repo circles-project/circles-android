@@ -8,7 +8,7 @@ import android.os.Build
 import androidx.core.content.getSystemService
 import androidx.work.*
 import org.futo.circles.R
-import org.futo.circles.provider.MatrixInstanceProvider
+import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.session.sync.job.SyncAndroidService
 
 class CirclesSyncAndroidService : SyncAndroidService() {

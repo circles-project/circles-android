@@ -2,18 +2,23 @@ package org.futo.circles.feature.timeline
 
 import androidx.lifecycle.asLiveData
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.launchBg
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.feature.people.UserOptionsDataSource
-import org.futo.circles.feature.room.LeaveRoomDataSource
+import org.futo.circles.core.room.leave.LeaveRoomDataSource
 import org.futo.circles.feature.room.RoomNotificationsDataSource
-import org.futo.circles.feature.share.ShareableContent
+import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
-import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
-import org.futo.circles.feature.timeline.data_source.TimelineDataSource
-import org.futo.circles.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.model.*
+import org.futo.circles.core.timeline.post.SendMessageDataSource
+import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.timeline.post.PostOptionsDataSource
+import org.futo.circles.core.model.CreatePollContent
+import org.futo.circles.core.timeline.BaseTimelineViewModel
+import org.futo.circles.model.CreatePostContent
+import org.futo.circles.model.MediaPostContent
+import org.futo.circles.core.model.PostContent
+import org.futo.circles.model.TextPostContent
 import org.matrix.android.sdk.api.util.Cancelable
 
 class TimelineViewModel(
@@ -71,6 +76,7 @@ class TimelineViewModel(
                     threadEventId,
                     postContent.mediaType
                 )
+
                 is TextPostContent -> sendMessageDataSource.sendTextMessage(
                     roomId, postContent.text, threadEventId
                 )

@@ -5,14 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import kotlinx.coroutines.flow.collectLatest
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.core.matrix.room.RoomRelationsBuilder
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.launchBg
-import org.futo.circles.extensions.launchUi
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.extensions.launchUi
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.room.RoomRelationsBuilder
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.model.TimelineListItem
-import org.futo.circles.provider.MatrixSessionProvider
 
 class UserViewModel(
     private val userId: String,

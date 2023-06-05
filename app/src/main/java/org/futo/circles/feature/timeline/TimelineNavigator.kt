@@ -1,7 +1,7 @@
 package org.futo.circles.feature.timeline
 
 import androidx.navigation.fragment.findNavController
-import org.futo.circles.model.CircleRoomTypeArg
+import org.futo.circles.core.model.CircleRoomTypeArg
 
 class TimelineNavigator(private val fragment: TimelineFragment) {
 

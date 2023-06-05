@@ -7,9 +7,8 @@ import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.R
+import org.futo.circles.core.extensions.getText
 import org.futo.circles.databinding.ViewCreatePollOptionBinding
-
-import org.futo.circles.extensions.getText
 
 class CreatePollOptionView(
     context: Context,

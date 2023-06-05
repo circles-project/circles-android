@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.share.gallery.UploadToGalleryActivity"
+            android:name=".gallery.feature.share.UploadToGalleryActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

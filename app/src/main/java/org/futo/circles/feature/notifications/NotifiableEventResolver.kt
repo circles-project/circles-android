@@ -3,7 +3,7 @@ package org.futo.circles.feature.notifications
 import android.content.Context
 import android.net.Uri
 import org.futo.circles.R
-import org.futo.circles.mapping.notEmptyDisplayName
+import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.model.InviteNotifiableEvent
 import org.futo.circles.model.NotifiableEvent
 import org.futo.circles.model.NotifiableMessageEvent
@@ -12,7 +12,13 @@ import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.crypto.MXCryptoError
 import org.matrix.android.sdk.api.session.crypto.model.OlmDecryptionResult
-import org.matrix.android.sdk.api.session.events.model.*
+import org.matrix.android.sdk.api.session.events.model.Event
+import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.events.model.getRootThreadEventId
+import org.matrix.android.sdk.api.session.events.model.isEdition
+import org.matrix.android.sdk.api.session.events.model.isImageMessage
+import org.matrix.android.sdk.api.session.events.model.supportsNotification
+import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.getUserOrDefault
@@ -24,7 +30,7 @@ import org.matrix.android.sdk.api.session.room.sender.SenderInfo
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getEditedEventId
 import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
-import java.util.*
+import java.util.UUID
 
 inline fun <reified R> Any?.takeAs(): R? {
     return takeIf { it is R } as R?
@@ -50,6 +56,7 @@ class NotifiableEventResolver(
             EventType.ENCRYPTED -> {
                 resolveMessageEvent(timelineEvent, session, canBeReplaced = false)
             }
+
             else -> null
         }
     }
@@ -185,6 +192,7 @@ class NotifiableEventResolver(
                         soundName = null
                     )
                 }
+
                 else -> null
             }
         }

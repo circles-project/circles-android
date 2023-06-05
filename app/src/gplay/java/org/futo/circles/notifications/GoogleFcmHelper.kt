@@ -6,9 +6,9 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.messaging.FirebaseMessaging
 import org.futo.circles.R
+import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.PushersManager
-import org.futo.circles.provider.PreferencesProvider
 
 class GoogleFcmHelper(
     private val context: Context,

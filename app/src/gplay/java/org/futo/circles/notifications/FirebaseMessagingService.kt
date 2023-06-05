@@ -2,11 +2,11 @@ package org.futo.circles.notifications
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.PushHandler
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.model.PushData
-import org.futo.circles.provider.MatrixSessionProvider
 import org.koin.android.ext.android.inject
 import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.extensions.tryOrNull

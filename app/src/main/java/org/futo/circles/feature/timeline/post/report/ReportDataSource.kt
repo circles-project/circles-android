@@ -3,9 +3,9 @@ package org.futo.circles.feature.timeline.post.report
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.R
-import org.futo.circles.extensions.createResult
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.ReportCategoryListItem
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 
 class ReportDataSource(

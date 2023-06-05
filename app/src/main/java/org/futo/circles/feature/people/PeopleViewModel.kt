@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.launchBg
-import org.futo.circles.extensions.launchUi
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.extensions.launchUi
 import org.futo.circles.model.PeopleListItem
 
 class PeopleViewModel(

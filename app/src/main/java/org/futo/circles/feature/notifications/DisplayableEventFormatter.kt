@@ -2,8 +2,8 @@ package org.futo.circles.feature.notifications
 
 import android.content.Context
 import org.futo.circles.R
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel

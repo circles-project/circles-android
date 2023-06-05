@@ -2,8 +2,8 @@ package org.futo.circles.feature.settings
 
 import androidx.navigation.fragment.findNavController
 import org.futo.circles.R
+import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.utils.getSystemNoticesRoomId
-import org.futo.circles.extensions.showError
 
 class SettingsNavigator(private val fragment: SettingsFragment) {
 

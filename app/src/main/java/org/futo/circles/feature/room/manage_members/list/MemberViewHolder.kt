@@ -4,12 +4,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
+import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.core.extensions.getRoleNameResId
+import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.isCurrentUserAbleToBan
+import org.futo.circles.core.extensions.isCurrentUserAbleToKick
+import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.databinding.ListItemMemberBinding
 import org.futo.circles.databinding.ListItemNotJoinedUserBinding
-import org.futo.circles.extensions.*
 import org.futo.circles.feature.room.ManageMembersOptionsListener
 import org.futo.circles.model.GroupMemberListItem
 import org.futo.circles.model.ManageMembersHeaderListItem
@@ -94,6 +100,7 @@ class NotJoinedUserViewHolder(
                     manageMembersListener.cancelPendingInvitation(data.user.id)
                 }
             }
+
             Membership.BAN -> {
                 binding.tvStatus.text = context.getString(R.string.banned)
                 val isAbleToBan = data.powerLevelsContent.isCurrentUserAbleToBan()
@@ -102,6 +109,7 @@ class NotJoinedUserViewHolder(
                     manageMembersListener.unBanUser(data.user.id)
                 }
             }
+
             else -> return
         }
     }

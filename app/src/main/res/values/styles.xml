@@ -1,62 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AccentButtonStyle" parent="@style/Widget.MaterialComponents.Button">
-        <item name="textAllCaps">false</item>
-        <item name="cornerRadius">8dp</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:textSize">17sp</item>
-    </style>
-
-    <style name="NegativeButtonStyle" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="textAllCaps">false</item>
-        <item name="cornerRadius">8dp</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:textSize">17sp</item>
-        <item name="strokeColor">@color/blue</item>
-    </style>
-
-    <style name="PostButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Icon">
-        <item name="textAllCaps">false</item>
-        <item name="cornerRadius">8dp</item>
-        <item name="android:textSize">15sp</item>
-        <item name="iconPadding">4dp</item>
-        <item name="iconSize">24dp</item>
-        <item name="android:padding">4dp</item>
-        <item name="android:minHeight">0dp</item>
-    </style>
-
-    <style name="headline" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">17sp</item>
-    </style>
-
-    <style name="title0" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">34sp</item>
-    </style>
-
-    <style name="title2" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">22sp</item>
-    </style>
-
-    <style name="body" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">17sp</item>
-    </style>
-
-    <style name="footNote" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">13sp</item>
-    </style>
-
-    <style name="subheadline" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/gray</item>
-        <item name="android:textSize">15sp</item>
-    </style>
-
     <style name="postMessage" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">17sp</item>
@@ -83,13 +27,6 @@
         <item name="android:paddingTop">16dp</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
-        <item name="cornerSize">50%</item>
-    </style>
-
-    <style name="ShapeAppearanceOverlay.App.GroupIconRadius" parent="">
-        <item name="cornerSize">10%</item>
-    </style>
 
     <style name="ShapeAppearanceOverlay.App.Message" parent="">
         <item name="cornerSizeTopRight">10dp</item>

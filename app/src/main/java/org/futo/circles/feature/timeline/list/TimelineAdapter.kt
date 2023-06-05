@@ -3,8 +3,8 @@ package org.futo.circles.feature.timeline.list
 import android.annotation.SuppressLint
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.model.Post
-import org.futo.circles.model.PostContentType
+import org.futo.circles.core.model.Post
+import org.futo.circles.core.model.PostContentType
 import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostOptionsListener
 

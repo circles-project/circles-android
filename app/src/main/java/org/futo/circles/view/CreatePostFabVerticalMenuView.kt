@@ -17,8 +17,8 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.futo.circles.R
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.databinding.ViewCreatePostFabMenuBinding
-import org.futo.circles.extensions.visible
 
 interface CreatePostMenuListener {
     fun onCreatePoll()

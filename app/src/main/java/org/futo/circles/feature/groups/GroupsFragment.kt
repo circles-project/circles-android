@@ -7,10 +7,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.R
+import org.futo.circles.core.extensions.bindToFab
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.databinding.FragmentRoomsBinding
-import org.futo.circles.extensions.bindToFab
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
 import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.feature.home.HomeViewModel
 import org.futo.circles.model.GroupListItem

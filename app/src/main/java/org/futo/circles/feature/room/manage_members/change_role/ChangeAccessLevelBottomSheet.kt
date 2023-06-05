@@ -9,8 +9,8 @@ import android.view.WindowManager
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.databinding.BottomSheetChangeAccessLevelBinding
-import org.futo.circles.extensions.observeData
 import org.futo.circles.feature.room.manage_members.change_role.list.ChangeAccessLevelAdapter
 import org.futo.circles.model.AccessLevelListItem
 import org.koin.androidx.viewmodel.ext.android.viewModel

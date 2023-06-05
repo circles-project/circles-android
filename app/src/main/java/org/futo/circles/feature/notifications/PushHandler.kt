@@ -11,13 +11,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.futo.circles.model.NotifiableMessageEvent
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.PushData
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session
-import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.getTimelineEvent
 
 class PushHandler(
     private val context: Context,

@@ -6,10 +6,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.futo.circles.R
 import org.futo.circles.core.ErrorParser
-import org.futo.circles.extensions.coroutineScope
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.extensions.coroutineScope
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.model.NotificationTestStatus
-import org.futo.circles.provider.MatrixSessionProvider
 
 class NotificationFromPushGatewayTest(
     private val context: Context,

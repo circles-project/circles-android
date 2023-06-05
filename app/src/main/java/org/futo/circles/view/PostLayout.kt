@@ -10,16 +10,16 @@ import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.blure.complexview.Shadow
 import org.futo.circles.R
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.LayoutPostBinding
 import org.futo.circles.extensions.convertDpToPixel
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
-import org.futo.circles.model.MediaContent
-import org.futo.circles.model.PollContent
-import org.futo.circles.model.Post
-import org.futo.circles.model.PostContent
+import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.PollContent
+import org.futo.circles.core.model.Post
+import org.futo.circles.core.model.PostContent
 import org.futo.circles.model.PostItemPayload
-import org.futo.circles.model.TextContent
+import org.futo.circles.core.model.TextContent
 import org.matrix.android.sdk.api.session.room.send.SendState
 
 

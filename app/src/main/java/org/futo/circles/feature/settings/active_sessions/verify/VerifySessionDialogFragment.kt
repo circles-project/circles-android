@@ -7,10 +7,15 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.navArgs
 import org.futo.circles.R
+import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.DialogFragmentVerifySessionBinding
-import org.futo.circles.extensions.*
 import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
 import org.futo.circles.model.QrCanceled
 import org.futo.circles.model.QrLoading
@@ -63,6 +68,7 @@ class VerifySessionDialogFragment :
                     showError(qrState.reason)
                     view?.postDelayed({ onBackPressed() }, CLOSE_DELAY)
                 }
+
                 is QrLoading -> handelQrLoading(qrState.deviceId, qrState.isCurrentSessionVerified)
                 is QrReady -> handelQrReady(qrState.qrText)
                 is QrSuccess -> {

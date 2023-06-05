@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdk rootProject.ext.sdkVersion
@@ -14,15 +13,6 @@ android {
         versionName "1.0.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cFlags += "-std=c11"
-            }
-        }
-
-        buildConfigField "boolean", "RAGESHAKE_ENABLED", "false"
-        buildConfigField "boolean", "MEDIA_BACKUP_ENABLED", "false"
-        buildConfigField "boolean", "IS_SUBSCRIPTIONS_ENABLED", "false"
     }
 
     buildFeatures {
@@ -32,14 +22,10 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            buildConfigField "String", "US_SERVER_DOMAIN", "\"nl.circles-dev.net\""
-            buildConfigField "String", "EU_SERVER_DOMAIN", "\"matrix.org\""
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "US_SERVER_DOMAIN", "\"circu.li\""
-            buildConfigField "String", "EU_SERVER_DOMAIN", "\"eu.circu.li\""
         }
     }
 
@@ -65,54 +51,13 @@ android {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         ]
     }
-    externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version '3.18.1'
-        }
-    }
     namespace 'org.futo.circles'
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "androidx.autofill:autofill:1.1.0"
-
-    //Matrix
-    implementation 'org.matrix.android:matrix-sdk-android:1.5.30.6'
-
-    //Kotlin
-    implementation "androidx.core:core-ktx:1.10.1"
-
-    //androidx lifecycle
-    def lifecycle_version = "2.6.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
-
-    //androidx navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.ext.androidx_nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.ext.androidx_nav_version"
-
-    //Koin
-    implementation "io.insert-koin:koin-core:3.2.2"
-    implementation "io.insert-koin:koin-android:3.3.0"
-
-    //ViewBinding
-    implementation 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6'
-
-    //Glide
-    def glide_version = '4.15.1'
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
-
-    //TextDrawable
-    implementation 'com.alvinhkh:TextDrawable:c1c2b5b'
-
-    //ChromeTabs
-    implementation "androidx.browser:browser:1.5.0"
+    implementation project(path: ':core')
+    implementation project(path: ':auth')
+    implementation project(path: ':gallery')
 
     //ExoPlayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
@@ -129,26 +74,12 @@ dependencies {
     // UnifiedPush
     implementation 'com.github.UnifiedPush:android-connector:2.1.1'
 
-    //Subscriptions
-    gplayImplementation 'com.android.billingclient:billing-ktx:6.0.0'
-
     //Emoji
     implementation "com.vanniktech:emoji-google:0.16.0"
-
-    //Retrofit2
-    def retrofit_version = '2.9.0'
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
-    //Gson
-    implementation 'com.google.code.gson:gson:2.10'
 
     //QR
     implementation 'com.google.zxing:core:3.5.1'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
-
-    //Password strength
-    implementation 'com.nulab-inc:zxcvbn:1.7.0'
 
     //Webp animations
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.24.0'
@@ -166,13 +97,6 @@ dependencies {
     //Mentions autocomplete
     implementation "com.otaliastudios:autocomplete:1.1.0"
 
-    //Shake detection
-    implementation 'com.squareup:seismic:1.0.3'
-
-    //Worker
-    def work_version = "2.8.1"
-    implementation "androidx.work:work-runtime-ktx:$work_version"
-
     //Coroutines
     def coroutines_version = "1.6.4"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
@@ -184,7 +108,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.work:work-testing:$work_version"
+    androidTestImplementation "androidx.work:work-testing:2.8.1"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 }
 

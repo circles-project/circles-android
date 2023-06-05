@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
 import org.futo.circles.R
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.DialogRemoveFollowingBinding
-import org.futo.circles.extensions.setIsVisible
 
 interface RemoveFollowingListener {
     fun onRemove(roomId: String)

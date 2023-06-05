@@ -5,15 +5,16 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentActiveSessionsBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showError
-import org.futo.circles.extensions.withConfirmation
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionsAdapter
-import org.futo.circles.model.ConfirmationType
+import org.futo.circles.model.RemoveSession
+import org.futo.circles.model.ResetKeys
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ActiveSessionsDialogFragment :
@@ -40,11 +41,11 @@ class ActiveSessionsDialogFragment :
             }
 
             override fun onResetKeysClicked() {
-                withConfirmation(ConfirmationType.RESET_KEYS) { viewModel.resetKeysToEnableCrossSigning() }
+                withConfirmation(ResetKeys()) { viewModel.resetKeysToEnableCrossSigning() }
             }
 
             override fun onRemoveSessionClicked(deviceId: String) {
-                withConfirmation(ConfirmationType.REMOVE_SESSION) { viewModel.removeSession(deviceId) }
+                withConfirmation(RemoveSession()) { viewModel.removeSession(deviceId) }
             }
         })
     }

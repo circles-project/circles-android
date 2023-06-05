@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.futo.circles.R
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.*
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.verification.*
 
 

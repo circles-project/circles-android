@@ -3,7 +3,7 @@ package org.futo.circles.feature.timeline.state
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.google.gson.Gson
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.json.JSONObject
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.Event

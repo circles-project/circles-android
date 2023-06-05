@@ -3,13 +3,13 @@ package org.futo.circles.feature.notifications.test.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
+import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemNotificationTestBinding
-import org.futo.circles.extensions.gone
-import org.futo.circles.extensions.onClick
-import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.extensions.visible
 import org.futo.circles.model.NotificationTestListItem
 import org.futo.circles.model.NotificationTestStatus
 
@@ -36,10 +36,12 @@ class NotificationTestViewHolder(
                     ivTestStatus.gone()
                     testProgress.visible()
                 }
+
                 NotificationTestStatus.IDLE -> {
                     ivTestStatus.gone()
                     testProgress.gone()
                 }
+
                 else -> {
                     ivTestStatus.visible()
                     testProgress.gone()

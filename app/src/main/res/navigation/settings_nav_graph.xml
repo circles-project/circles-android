@@ -31,7 +31,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="Group"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -92,7 +92,7 @@
 
         <argument
             android:name="type"
-            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
             app:nullable="false" />
 
     </dialog>
@@ -110,7 +110,7 @@
 
     <dialog
         android:id="@+id/reAuthStagesDialogFragment"
-        android:name="org.futo.circles.feature.reauth.ReAuthStagesDialogFragment"
+        android:name="org.futo.circles.auth.feature.reauth.ReAuthStagesDialogFragment"
         tools:layout="@layout/fragment_login_stages" />
 
     <dialog

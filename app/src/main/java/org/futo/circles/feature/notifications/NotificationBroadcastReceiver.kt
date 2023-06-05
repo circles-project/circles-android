@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import kotlinx.coroutines.launch
-import org.futo.circles.extensions.coroutineScope
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.extensions.coroutineScope
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.matrix.android.sdk.api.extensions.tryOrNull
@@ -24,6 +24,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver(), KoinComponent {
                 intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
                     notificationDrawerManager.updateEvents { it.clearMessagesForRoom(roomId) }
                 }
+
             NotificationActionIds.markRoomRead ->
                 intent.getStringExtra(KEY_ROOM_ID)?.let { roomId ->
                     notificationDrawerManager.updateEvents { it.clearMessagesForRoom(roomId) }

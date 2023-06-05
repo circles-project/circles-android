@@ -9,8 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.futo.circles.core.BaseActivity
-import org.futo.circles.provider.MatrixSessionListenerProvider
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.MatrixSessionListenerProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
 
 
 class MainActivity : BaseActivity(R.layout.activity_main) {

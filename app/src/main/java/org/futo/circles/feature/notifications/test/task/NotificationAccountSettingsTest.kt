@@ -5,9 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.futo.circles.R
-import org.futo.circles.extensions.coroutineScope
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.extensions.coroutineScope
 import org.futo.circles.model.NotificationTestStatus
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.pushrules.RuleIds
 import org.matrix.android.sdk.api.session.pushrules.RuleKind

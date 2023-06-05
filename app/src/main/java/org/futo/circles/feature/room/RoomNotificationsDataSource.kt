@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import org.futo.circles.R
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.extensions.createResult
-import org.futo.circles.model.CircleRoomTypeArg
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.notification.RoomNotificationState
@@ -48,6 +48,7 @@ class RoomNotificationsDataSource(
             ?.roomSummary()?.spaceChildren?.mapNotNull {
                 session.getRoom(it.childRoomId)
             } ?: emptyList()
+
         else -> listOfNotNull(session.getRoom(roomId))
     }
 }
