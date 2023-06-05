@@ -1,4 +1,4 @@
-package org.futo.circles
+package org.futo.circles.gallery
 
 import android.content.Context
 import android.os.Handler
@@ -21,7 +21,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
-import org.futo.circles.feature.photos.backup.service.MediaBackupWorker
+import org.futo.circles.gallery.feature.backup.service.MediaBackupWorker
 import org.junit.Before
 import org.junit.Test
 import java.util.UUID
