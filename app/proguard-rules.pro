@@ -69,8 +69,8 @@ native <methods>;
 -keep class androidx.renderscript.** { *; }
 
 -keep class org.futo.circles.core.model.CircleRoomTypeArg
--keep class org.futo.circles.model.PasswordModeArg
--keep class org.futo.circles.model.TermsModeArg
+-keep class org.futo.circles.auth.model.PasswordModeArg
+-keep class org.futo.circles.auth.model.TermsModeArg
 
 -keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
 -keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.
