@@ -10,10 +10,12 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.core.extensions.observeData
@@ -27,17 +29,16 @@ import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentMediaPreviewBinding
 import org.futo.circles.gallery.model.RemoveImage
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
-
+@AndroidEntryPoint
 class MediaPreviewDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentMediaPreviewBinding::inflate) {
 
     private val args: MediaPreviewDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<MediaPreviewViewModel> {
-        parametersOf(args.roomId, args.eventId)
-    }
+    private val viewModel by viewModels<MediaPreviewViewModel>()
+//    {
+//        parametersOf(args.roomId, args.eventId)
+//    }
 
     private val binding by lazy { getBinding() as DialogFragmentMediaPreviewBinding }
 

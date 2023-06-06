@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentValidateEmailBinding
 import org.futo.circles.core.extensions.getText
@@ -13,14 +15,16 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
 
-class ValidateEmailFragment : org.futo.circles.core.fragment.ParentBackPressOwnerFragment(R.layout.fragment_validate_email),
-    org.futo.circles.core.fragment.HasLoadingState {
+@AndroidEntryPoint
+class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_validate_email),
+    HasLoadingState {
 
     override val fragment: Fragment = this
     private val binding by viewBinding(FragmentValidateEmailBinding::bind)
-    private val viewModel by viewModel<ValidateEmailViewModel>()
+    private val viewModel by viewModels<ValidateEmailViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

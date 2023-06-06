@@ -11,10 +11,12 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -34,18 +36,19 @@ import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.futo.circles.gallery.feature.pick.PickGalleryMediaListener
 import org.futo.circles.gallery.model.DeleteGallery
 import org.futo.circles.gallery.model.GalleryContentListItem
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
+@AndroidEntryPoint
 class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private val args: GalleryFragmentArgs by navArgs()
-    private val viewModel by viewModel<GalleryViewModel> {
-        parametersOf(
-            args.roomId, CircleRoomTypeArg.Photo,
-            arguments?.getBoolean(IS_VIDEO_AVAILABLE, true) ?: true
-        )
-    }
+    private val viewModel by viewModels<GalleryViewModel>()
+
+    //    {
+//        parametersOf(
+//            args.roomId, CircleRoomTypeArg.Photo,
+//            arguments?.getBoolean(IS_VIDEO_AVAILABLE, true) ?: true
+//        )
+//    }
     private val binding by viewBinding(FragmentGalleryBinding::bind)
     private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private val listAdapter by lazy {

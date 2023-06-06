@@ -11,21 +11,23 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.provider.MediaStore
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.futo.circles.gallery.feature.backup.MediaBackupDataSource
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MediaBackupService : Service() {
 
     private val binder = MediaBackupServiceBinder()
     private val job = SupervisorJob()
     private val backupScope = CoroutineScope(Dispatchers.IO + job)
-    private val mediaBackupDataSource: MediaBackupDataSource by inject()
+    @Inject
+    lateinit var mediaBackupDataSource: MediaBackupDataSource
     private var backupJob: Job? = null
 
     private val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {

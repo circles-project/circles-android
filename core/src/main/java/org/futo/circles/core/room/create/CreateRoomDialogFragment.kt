@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.viewbinding.ViewBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -14,14 +15,13 @@ import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.picker.DeviceMediaPickerHelper
 import org.futo.circles.core.select_users.SelectUsersFragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class CreateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding) :
     BaseFullscreenDialogFragment(inflate), HasLoadingState {
 
     abstract val inviteContainerId: Int?
     abstract val mediaPickerHelper: DeviceMediaPickerHelper
-    private val viewModel by viewModel<CreateRoomViewModel>()
+    private val viewModel by viewModels<CreateRoomViewModel>()
     private var selectedUsersFragment: SelectUsersFragment? = null
 
     abstract fun onCoverImageSelected(uri: Uri)

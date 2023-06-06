@@ -6,10 +6,12 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
@@ -22,12 +24,12 @@ import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.view.LoadingDialog
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
     BackPressOwner {
 
-    private val viewModel by viewModel<LoginStagesViewModel>()
+    private val viewModel by viewModels<LoginStagesViewModel>()
     private val binding by viewBinding(FragmentLoginStagesBinding::bind)
 
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }

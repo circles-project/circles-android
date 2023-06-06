@@ -3,19 +3,21 @@ package org.futo.circles.feature.notifications
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.extensions.coroutineScope
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.read.ReadService
+import javax.inject.Inject
 
 
-class NotificationBroadcastReceiver : BroadcastReceiver(), KoinComponent {
+@AndroidEntryPoint
+class NotificationBroadcastReceiver : BroadcastReceiver() {
 
-    private val notificationDrawerManager: NotificationDrawerManager by inject()
+    @Inject
+    lateinit var notificationDrawerManager: NotificationDrawerManager
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent == null || context == null) return

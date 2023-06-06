@@ -19,8 +19,9 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.user.model.User
+import javax.inject.Inject
 
-class SelectUsersDataSource(
+class SelectUsersDataSource @Inject constructor(
     roomId: String?,
     private val searchUserDataSource: SearchUserDataSource
 ) {

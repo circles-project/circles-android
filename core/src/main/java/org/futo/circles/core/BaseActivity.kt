@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import org.futo.circles.core.extensions.disableScreenScale
 import org.futo.circles.core.rageshake.BugReportDataCollector
 import org.futo.circles.core.rageshake.RageShake
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 abstract class BaseActivity(contentLayoutId: Int) : AppCompatActivity(contentLayoutId) {
 
-    private val bugReportDataCollector by inject<BugReportDataCollector>()
+    @Inject
+    lateinit var bugReportDataCollector: BugReportDataCollector
+
     private val rageShake by lazy { RageShake(this, bugReportDataCollector) }
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(ContextWrapper(newBase.disableScreenScale()))

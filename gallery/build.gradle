@@ -60,6 +60,7 @@ dependencies {
     def hilt = "2.45"
     implementation "com.google.dagger:hilt-android:$hilt"
     kapt "com.google.dagger:hilt-compiler:$hilt"
+    implementation "androidx.hilt:hilt-work:1.0.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

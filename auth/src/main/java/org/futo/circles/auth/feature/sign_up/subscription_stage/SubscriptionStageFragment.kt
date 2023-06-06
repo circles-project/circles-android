@@ -2,23 +2,25 @@ package org.futo.circles.auth.feature.sign_up.subscription_stage
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSubscriptionStageBinding
 import org.futo.circles.auth.feature.sign_up.subscription_stage.list.SubscriptionsAdapter
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.auth.subscriptions.ItemPurchasedListener
+import org.futo.circles.auth.subscriptions.SubscriptionManagerProvider
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
-import org.futo.circles.auth.subscriptions.SubscriptionManagerProvider
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class SubscriptionStageFragment :
     ParentBackPressOwnerFragment(R.layout.fragment_subscription_stage) {
 
     private val binding by viewBinding(FragmentSubscriptionStageBinding::bind)
-    private val viewModel by viewModel<SubscriptionStageViewModel>()
+    private val viewModel by viewModels<SubscriptionStageViewModel>()
 
     private val subscriptionManager by lazy {
         SubscriptionManagerProvider.getManager(

@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -22,9 +23,13 @@ import java.io.File
 import java.io.IOException
 import java.io.OutputStreamWriter
 import java.util.zip.GZIPOutputStream
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class BugReportDataCollector(private val context: Context) {
+@Singleton
+class BugReportDataCollector @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
     var screenshot: Bitmap? = null
         private set
