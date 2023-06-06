@@ -11,7 +11,7 @@ import org.futo.circles.notifications.test.NotificationsTestPlayServices
 import org.koin.dsl.module
 
 val flavourModule = module {
-    factory<FcmHelper> { GoogleFcmHelper(get(), get()) }
+    //factory<FcmHelper> { GoogleFcmHelper(get(), get()) }
 
     factory { NotificationsTestFirebaseToken(get(), get()) }
     factory { NotificationsTestPlayServices(get()) }
@@ -34,5 +34,5 @@ val flavourModule = module {
             get()
         )
     }
-    single<GuardServiceStarter> { object : GuardServiceStarter {} }
+    //single<GuardServiceStarter> { object : GuardServiceStarter {} }
 }

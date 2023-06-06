@@ -16,7 +16,7 @@ import org.koin.dsl.module
 
 val roomUiModule = module {
     viewModel { GroupsViewModel(get()) }
-    viewModel { CirclesViewModel(get()) }
+//    viewModel { CirclesViewModel(get()) }
     viewModel { PeopleViewModel(get(), get()) }
     viewModel { (roomId: String?) -> SelectUsersViewModel(get { parametersOf(roomId) }) }
     viewModel { CreateRoomViewModel(get()) }

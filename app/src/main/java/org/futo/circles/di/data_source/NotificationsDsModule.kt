@@ -6,7 +6,7 @@ import org.koin.dsl.module
 
 val notificationsDsModule = module {
     factory { PushersManager(get(), get(), get(), get()) }
-    single { NotificationUtils(get()) }
+    //single { NotificationUtils(get()) }
     factory { NotificationAccountSettingsTest(get()) }
     factory { NotificationAvailableUnifiedDistributorsTest(get(), get(), get()) }
     factory { NotificationCurrentPushDistributorTest(get(), get()) }
@@ -18,15 +18,15 @@ val notificationsDsModule = module {
     factory { NotificationSystemSettingsTest(get()) }
     factory { NotificationTestSend(get(), get()) }
     factory { PushHandler(get(), get(), get()) }
-    single { NotificationDrawerManager(get(), get(), get(), get()) }
-    factory { NotifiableEventResolver(get(), get()) }
-    factory { NotifiableEventProcessor() }
-    factory { NotificationRenderer(get(), get(), get()) }
-    factory { NotificationEventPersistence(get()) }
-    factory { RoomGroupMessageCreator(get(), get(), get()) }
-    factory { NotificationBitmapLoader(get()) }
-    factory { DisplayableEventFormatter(get()) }
-    single { PushRuleTriggerListener(get(), get()) }
+   // single { NotificationDrawerManager(get(), get(), get(), get()) }
+    //factory { NotifiableEventResolver(get(), get()) }
+    //factory { NotifiableEventProcessor() }
+    //factory { NotificationRenderer(get(), get(), get()) }
+    //factory { NotificationEventPersistence(get()) }
+    //factory { RoomGroupMessageCreator(get(), get(), get()) }
+    //factory { NotificationBitmapLoader(get()) }
+    //factory { DisplayableEventFormatter(get()) }
+    //single { PushRuleTriggerListener(get(), get()) }
     factory { ShortcutCreator(get()) }
     factory { ShortcutsHandler(get(), get()) }
 }

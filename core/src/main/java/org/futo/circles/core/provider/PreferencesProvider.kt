@@ -3,9 +3,11 @@ package org.futo.circles.core.provider
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import androidx.core.content.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class PreferencesProvider(
-    private val context: Context
+class PreferencesProvider @Inject constructor(
+    @ApplicationContext private val context: Context
 ) {
 
     private fun getSharedPreferences() =

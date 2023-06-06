@@ -16,7 +16,7 @@ import org.koin.dsl.module
 val roomDSModule = module {
     factory { (roomId: String) -> UpdateRoomDataSource(roomId, get(), get()) }
     factory { GroupsDataSource(get()) }
-    factory { CirclesDataSource() }
+//    factory { CirclesDataSource() }
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
     factory { PeopleDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }

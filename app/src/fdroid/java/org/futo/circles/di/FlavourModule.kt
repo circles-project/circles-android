@@ -11,8 +11,8 @@ import org.futo.circles.notifications.test.NotificationsBackgroundRestrictionsTe
 import org.koin.dsl.module
 
 val flavourModule = module {
-    factory<FcmHelper> { FdroidFcmHelper(get()) }
-    factory { BackgroundSyncStarter(get()) }
+    //factory<FcmHelper> { FdroidFcmHelper(get()) }
+    //factory { BackgroundSyncStarter(get()) }
 
     factory { NotificationsBackgroundRestrictionsTest(get()) }
     factory<NotificationTestsProvider> {
@@ -31,5 +31,5 @@ val flavourModule = module {
             get()
         )
     }
-    single<GuardServiceStarter> { FdroidGuardServiceStarter(get(), get()) }
+    //single<GuardServiceStarter> { FdroidGuardServiceStarter(get(), get()) }
 }

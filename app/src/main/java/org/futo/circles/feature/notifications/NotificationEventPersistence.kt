@@ -15,15 +15,14 @@ class NotificationEventPersistence @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    private val matrix = MatrixInstanceProvider.matrix
-
     fun loadEvents(factory: (List<NotifiableMessageEvent>) -> NotificationEventQueue): NotificationEventQueue {
         try {
             val file = File(context.applicationContext.cacheDir, ROOMS_NOTIFICATIONS_FILE_NAME)
             if (file.exists()) {
                 file.inputStream().use {
                     val events: ArrayList<NotifiableMessageEvent>? =
-                        matrix.secureStorageService().loadSecureSecret(it, KEY_ALIAS_SECRET_STORAGE)
+                        MatrixInstanceProvider.matrix.secureStorageService()
+                            .loadSecureSecret(it, KEY_ALIAS_SECRET_STORAGE)
                     if (events != null) {
                         return factory(events)
                     }
@@ -43,7 +42,7 @@ class NotificationEventPersistence @Inject constructor(
             val file = File(context.applicationContext.cacheDir, ROOMS_NOTIFICATIONS_FILE_NAME)
             if (!file.exists()) file.createNewFile()
             FileOutputStream(file).use {
-                matrix.secureStorageService()
+                MatrixInstanceProvider.matrix.secureStorageService()
                     .securelyStoreObject(queuedEvents.rawEvents(), KEY_ALIAS_SECRET_STORAGE, it)
             }
         } catch (ignore: Throwable) {
