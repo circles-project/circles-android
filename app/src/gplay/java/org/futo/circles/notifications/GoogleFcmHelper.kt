@@ -5,13 +5,15 @@ import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.messaging.FirebaseMessaging
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.PushersManager
+import javax.inject.Inject
 
-class GoogleFcmHelper(
-    private val context: Context,
+class GoogleFcmHelper @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val preferencesProvider: PreferencesProvider
 ) : FcmHelper {
 

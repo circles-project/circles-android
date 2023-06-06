@@ -12,8 +12,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.signature.ObjectKey
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class NotificationBitmapLoader(private val context: Context) {
+class NotificationBitmapLoader @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
     @WorkerThread
     fun getRoomBitmap(roomName: String, path: String?): Bitmap {

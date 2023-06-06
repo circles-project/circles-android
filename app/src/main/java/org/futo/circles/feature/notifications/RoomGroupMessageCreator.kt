@@ -4,14 +4,16 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.app.NotificationCompat
 import androidx.core.app.Person
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.model.RoomEventGroupInfo
 import org.futo.circles.model.RoomNotification
+import javax.inject.Inject
 
 
-class RoomGroupMessageCreator(
-    private val context: Context,
+class RoomGroupMessageCreator @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val bitmapLoader: NotificationBitmapLoader,
     private val notificationUtils: NotificationUtils
 ) {

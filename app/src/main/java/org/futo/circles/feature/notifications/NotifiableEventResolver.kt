@@ -2,6 +2,7 @@ package org.futo.circles.feature.notifications
 
 import android.content.Context
 import android.net.Uri
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.model.InviteNotifiableEvent
@@ -31,13 +32,14 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getEditedEventId
 import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 import java.util.UUID
+import javax.inject.Inject
 
 inline fun <reified R> Any?.takeAs(): R? {
     return takeIf { it is R } as R?
 }
 
-class NotifiableEventResolver(
-    private val context: Context,
+class NotifiableEventResolver @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val displayableEventFormatter: DisplayableEventFormatter
 ) {
 

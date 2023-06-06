@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.observeData
@@ -18,6 +19,7 @@ import org.futo.circles.model.RequestCircleListItem
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class CirclesFragment : Fragment(R.layout.fragment_rooms) {
 
     private val viewModel by viewModel<CirclesViewModel>()

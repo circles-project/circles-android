@@ -1,16 +1,18 @@
 package org.futo.circles.feature.notifications
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.model.NotifiableMessageEvent
 import java.io.File
 import java.io.FileOutputStream
+import javax.inject.Inject
 
 private const val ROOMS_NOTIFICATIONS_FILE_NAME = "org.futo.notifications.cache"
 private const val KEY_ALIAS_SECRET_STORAGE = "notificationMgr"
 
-class NotificationEventPersistence(
-    private val context: Context
+class NotificationEventPersistence @Inject constructor(
+    @ApplicationContext private val context: Context
 ) {
 
     private val matrix = MatrixInstanceProvider.matrix
