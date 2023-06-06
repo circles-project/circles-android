@@ -2,6 +2,7 @@ package org.futo.circles.core.room
 
 import android.content.Context
 import android.net.Uri
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.BuildConfig
 import org.futo.circles.core.model.Circle
 import org.futo.circles.core.model.CirclesRoom
@@ -23,9 +24,10 @@ import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomStateEvent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.space.CreateSpaceParams
+import javax.inject.Inject
 
-class CreateRoomDataSource(
-    private val context: Context,
+class CreateRoomDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 

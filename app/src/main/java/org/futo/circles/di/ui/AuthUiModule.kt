@@ -30,7 +30,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val authUiModule = module {
-    viewModel { HomeViewModel(get(), get(), get(), get()) }
+    //viewModel { HomeViewModel(get(), get(), get(), get()) }
     viewModel { (roomId: String, eventId: String?, isEdit: Boolean) ->
         CreatePostViewModel(roomId, eventId, isEdit)
     }

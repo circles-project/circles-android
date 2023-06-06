@@ -12,9 +12,11 @@ import androidx.work.WorkManager
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.gallery.model.MediaBackupSettingsData
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class MediaBackupServiceManager {
+@Singleton
+class MediaBackupServiceManager @Inject constructor(){
 
     private var mediaBackupService: MediaBackupService? = null
     private var savedBackupSettings: MediaBackupSettingsData? = null

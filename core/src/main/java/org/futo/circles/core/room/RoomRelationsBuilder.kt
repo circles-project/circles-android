@@ -6,8 +6,9 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class RoomRelationsBuilder {
+class RoomRelationsBuilder @Inject constructor() {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 

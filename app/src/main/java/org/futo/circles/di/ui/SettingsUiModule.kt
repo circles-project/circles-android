@@ -29,7 +29,7 @@ val settingsUiModule = module {
             get()
         )
     }
-    viewModel { SystemNoticesCountSharedViewModel() }
+    //viewModel { SystemNoticesCountSharedViewModel() }
     viewModel { (roomId: String, type: CircleRoomTypeArg) ->
         SystemNoticesTimelineViewModel(get { parametersOf(roomId, type, null) })
     }

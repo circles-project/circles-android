@@ -3,6 +3,8 @@ package org.futo.circles.feature.circles
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -17,13 +19,12 @@ import org.futo.circles.feature.home.HomeViewModel
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.RequestCircleListItem
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @AndroidEntryPoint
 class CirclesFragment : Fragment(R.layout.fragment_rooms) {
 
-    private val viewModel by viewModel<CirclesViewModel>()
-    private val homeViewModel by activityViewModel<HomeViewModel>()
+    private val viewModel by viewModels<CirclesViewModel>()
+    private val homeViewModel by activityViewModels<HomeViewModel>()
     private val binding by viewBinding(FragmentRoomsBinding::bind)
     private val listAdapter by lazy {
         CirclesListAdapter(

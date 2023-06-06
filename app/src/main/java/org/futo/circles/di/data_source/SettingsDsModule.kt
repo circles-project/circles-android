@@ -28,7 +28,7 @@ val settingsDSModule = module {
     factory { RestoreBackupDataSource(get(), get(), get()) }
     factory { SSSSDataSource(get()) }
     factory { UsernameDataSource(get()) }
-    single { MediaBackupServiceManager() }
+    //single { MediaBackupServiceManager() }
 
 
 }

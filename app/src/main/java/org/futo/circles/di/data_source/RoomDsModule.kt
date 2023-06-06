@@ -20,10 +20,10 @@ val roomDSModule = module {
     factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
     factory { PeopleDataSource(get()) }
     factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
-    factory { RoomAccountDataSource() }
+    //factory { RoomAccountDataSource() }
 
     ///-----
-    factory { CreateRoomDataSource(get(), get()) }
-    factory { RoomRelationsBuilder() }
+    //factory { CreateRoomDataSource(get(), get()) }
+    //factory { RoomRelationsBuilder() }
     factory { CoreSpacesTreeBuilder(get(), get()) }
 }

@@ -3,6 +3,7 @@ package org.futo.circles.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.CIRCLE_TAG
@@ -18,8 +19,10 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val pushersManager: PushersManager,
     private val createRoomDataSource: CreateRoomDataSource,
     roomAccountDataSource: RoomAccountDataSource,

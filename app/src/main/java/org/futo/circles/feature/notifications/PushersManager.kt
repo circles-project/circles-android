@@ -2,6 +2,7 @@ package org.futo.circles.feature.notifications
 
 import android.content.Context
 import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.base.DEFAULT_PUSH_GATEWAY
 import org.futo.circles.base.PUSHER_APP_ID
@@ -17,10 +18,11 @@ import org.unifiedpush.android.connector.UnifiedPush
 import java.net.URL
 import java.util.Locale
 import java.util.UUID
+import javax.inject.Inject
 import kotlin.math.abs
 
-class PushersManager(
-    private val context: Context,
+class PushersManager @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val fcmHelper: FcmHelper,
     private val preferencesProvider: PreferencesProvider,
     private val guardServiceStarter: GuardServiceStarter

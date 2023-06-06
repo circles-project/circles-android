@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
@@ -21,10 +23,10 @@ import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.matrix.android.sdk.api.session.getRoomSummary
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
     private val binding by viewBinding(FragmentBottomNavigationBinding::bind)
@@ -33,9 +35,11 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
     private val notificationPermissionHelper =
         RuntimePermissionHelper(this, Manifest.permission.POST_NOTIFICATIONS)
 
-    private val viewModel by activityViewModel<HomeViewModel>()
-    private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
-    private val mediaBackupServiceManager: MediaBackupServiceManager by inject()
+    private val viewModel by activityViewModels<HomeViewModel>()
+    private val systemNoticesCountViewModel by activityViewModels<SystemNoticesCountSharedViewModel>()
+
+    @Inject
+    lateinit var mediaBackupServiceManager: MediaBackupServiceManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
