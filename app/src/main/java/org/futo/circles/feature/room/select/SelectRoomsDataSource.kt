@@ -2,6 +2,9 @@ package org.futo.circles.feature.room.select
 
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,14 +19,20 @@ import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
-class SelectRoomsDataSource @Inject constructor(
-    private val roomType: CircleRoomTypeArg
+class SelectRoomsDataSource @AssistedInject constructor(
+    @Assisted private val roomType: CircleRoomTypeArg
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomType: CircleRoomTypeArg): SelectRoomsDataSource
+    }
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 

@@ -19,10 +19,6 @@ import org.futo.circles.core.select_users.list.selected.SelectedUsersListAdapter
 @AndroidEntryPoint
 class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
 
-    private val roomId: String? by lazy {
-        arguments?.getString(ROOM_ID)
-    }
-
     private val viewModel by viewModels<SelectUsersViewModel>()
     private val binding by viewBinding(FragmentSelectUsersBinding::bind)
 

@@ -2,6 +2,9 @@ package org.futo.circles.core.room.update
 
 import android.content.Context
 import android.net.Uri
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getFilename
@@ -11,13 +14,17 @@ import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.utils.isCircleShared
 import org.matrix.android.sdk.api.session.getRoom
 import java.util.UUID
-import javax.inject.Inject
 
-class UpdateRoomDataSource @Inject constructor(
-    roomId: String,
+class UpdateRoomDataSource @AssistedInject constructor(
+    @Assisted roomId: String,
     @ApplicationContext private val context: Context,
     private val createRoomDataSource: CreateRoomDataSource
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomId: String): UpdateRoomDataSource
+    }
 
     private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
 

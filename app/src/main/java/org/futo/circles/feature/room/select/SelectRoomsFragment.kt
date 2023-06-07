@@ -24,13 +24,6 @@ import org.futo.circles.feature.room.select.list.SelectedChipsRoomsAdapter
 class SelectRoomsFragment : Fragment(R.layout.fragment_select_rooms), RoomsPicker {
 
     private val viewModel by viewModels<SelectRoomsViewModel>()
-
-    //    {
-//        parametersOf(
-//            CircleRoomTypeArg.values().firstOrNull { it.ordinal == arguments?.getInt(TYPE_ORDINAL) }
-//                ?: CircleRoomTypeArg.Circle
-//        )
-//    }
     private val binding by viewBinding(FragmentSelectRoomsBinding::bind)
 
     private val selectRoomsAdapter by lazy { SelectRoomsAdapter(viewModel::onRoomSelected) }
@@ -77,7 +70,7 @@ class SelectRoomsFragment : Fragment(R.layout.fragment_select_rooms), RoomsPicke
     }
 
     companion object {
-        private const val TYPE_ORDINAL = "type_ordinal"
+        const val TYPE_ORDINAL = "type_ordinal"
         fun create(roomType: CircleRoomTypeArg) = SelectRoomsFragment().apply {
             arguments = bundleOf(TYPE_ORDINAL to roomType.ordinal)
         }

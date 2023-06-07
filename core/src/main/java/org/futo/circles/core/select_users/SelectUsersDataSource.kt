@@ -1,5 +1,8 @@
 package org.futo.circles.core.select_users
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -19,12 +22,16 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.user.model.User
-import javax.inject.Inject
 
-class SelectUsersDataSource @Inject constructor(
-    roomId: String?,
+class SelectUsersDataSource @AssistedInject constructor(
+    @Assisted roomId: String?,
     private val searchUserDataSource: SearchUserDataSource
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomId: String): SelectUsersDataSource
+    }
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId ?: "")

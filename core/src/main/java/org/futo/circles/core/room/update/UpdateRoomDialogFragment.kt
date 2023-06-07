@@ -21,7 +21,6 @@ abstract class UpdateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Bo
 
     abstract val roomId: String
 
-    //TODO vm param roomID
     private val viewModel by viewModels<UpdateRoomViewModel>()
 
     abstract val mediaPickerHelper: DeviceMediaPickerHelper

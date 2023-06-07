@@ -11,7 +11,6 @@ import org.futo.circles.feature.groups.GroupsDataSource
 import org.futo.circles.feature.people.PeopleDataSource
 import org.futo.circles.feature.room.select.SelectRoomsDataSource
 import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
-import org.koin.dsl.module
 
 //val roomDSModule = module {
    // factory { (roomId: String) -> UpdateRoomDataSource(roomId, get(), get()) }

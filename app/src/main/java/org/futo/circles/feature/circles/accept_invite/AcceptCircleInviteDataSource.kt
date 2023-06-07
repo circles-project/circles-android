@@ -1,15 +1,22 @@
 package org.futo.circles.feature.circles.accept_invite
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.RoomRelationsBuilder
-import org.futo.circles.core.model.SelectableRoomListItem
-import javax.inject.Inject
 
-class AcceptCircleInviteDataSource @Inject constructor(
-    private val roomId: String,
+class AcceptCircleInviteDataSource @AssistedInject constructor(
+    @Assisted private val roomId: String,
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomId: String): AcceptCircleInviteDataSource
+    }
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 
