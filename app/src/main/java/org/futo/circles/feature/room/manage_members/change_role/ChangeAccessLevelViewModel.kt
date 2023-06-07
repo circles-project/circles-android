@@ -2,8 +2,11 @@ package org.futo.circles.feature.room.manage_members.change_role
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ChangeAccessLevelViewModel(
+@HiltViewModel
+class ChangeAccessLevelViewModel @Inject constructor(
     private val dataSource: ChangeAccessLevelDataSource
 ) : ViewModel() {
 

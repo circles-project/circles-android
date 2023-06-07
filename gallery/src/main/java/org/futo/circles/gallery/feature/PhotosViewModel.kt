@@ -1,9 +1,11 @@
 package org.futo.circles.gallery.feature
 
 import androidx.lifecycle.ViewModel
-import org.futo.circles.gallery.feature.PhotosDataSource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class PhotosViewModel(
+@HiltViewModel
+class PhotosViewModel @Inject constructor(
     dataSource: PhotosDataSource
 ) : ViewModel() {
 

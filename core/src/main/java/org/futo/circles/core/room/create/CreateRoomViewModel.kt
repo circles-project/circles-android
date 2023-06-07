@@ -3,6 +3,7 @@ package org.futo.circles.core.room.create
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
@@ -11,8 +12,10 @@ import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.Group
 import org.futo.circles.core.room.CreateRoomDataSource
+import javax.inject.Inject
 
-class CreateRoomViewModel(
+@HiltViewModel
+class CreateRoomViewModel @Inject constructor(
     private val dataSource: CreateRoomDataSource
 ) : ViewModel() {
 

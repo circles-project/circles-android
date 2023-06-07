@@ -2,12 +2,15 @@ package org.futo.circles.auth.feature.sign_up.sign_up_type
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.futo.circles.core.extensions.Response
-import org.futo.circles.core.extensions.launchBg
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.auth.subscriptions.SubscriptionManager
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.launchBg
+import javax.inject.Inject
 
-class SelectSignUpTypeViewModel(
+@HiltViewModel
+class SelectSignUpTypeViewModel @Inject constructor(
     private val dataSource: SelectSignUpTypeDataSource
 ) : ViewModel() {
 

@@ -3,15 +3,18 @@ package org.futo.circles.feature.settings.active_sessions.verify
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.*
 import org.matrix.android.sdk.api.session.crypto.verification.*
+import javax.inject.Inject
 
-
-class VerifySessionViewModel(
+@HiltViewModel
+class VerifySessionViewModel @Inject constructor(
     private val deviceId: String,
-    context: Context
+    @ApplicationContext context: Context
 ) : ViewModel(), VerificationService.Listener {
 
     private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(

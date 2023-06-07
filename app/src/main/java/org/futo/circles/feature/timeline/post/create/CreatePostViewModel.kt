@@ -2,12 +2,15 @@ package org.futo.circles.feature.timeline.post.create
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getTextEditableContent
+import javax.inject.Inject
 
-class CreatePostViewModel(
+@HiltViewModel
+class CreatePostViewModel @Inject constructor(
     private val roomId: String,
     private val eventId: String?,
     isEdit: Boolean

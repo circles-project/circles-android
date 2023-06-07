@@ -3,6 +3,7 @@ package org.futo.circles.feature.people.user
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
@@ -13,8 +14,10 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.RoomRelationsBuilder
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.model.TimelineListItem
+import javax.inject.Inject
 
-class UserViewModel(
+@HiltViewModel
+class UserViewModel @Inject constructor(
     private val userId: String,
     private val userDataSource: UserDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,

@@ -2,11 +2,14 @@ package org.futo.circles.auth.feature.log_in
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.auth.feature.log_in.switch_user.SwitchUserDataSource
+import javax.inject.Inject
 
-class LogInViewModel(
+@HiltViewModel
+class LogInViewModel @Inject constructor(
     private val loginDataSource: LoginDataSource,
     private val switchUserDataSource: SwitchUserDataSource
 ) : ViewModel() {

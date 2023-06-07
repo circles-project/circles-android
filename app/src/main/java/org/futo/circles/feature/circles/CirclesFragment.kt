@@ -18,7 +18,6 @@ import org.futo.circles.feature.circles.list.CirclesListAdapter
 import org.futo.circles.feature.home.HomeViewModel
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.RequestCircleListItem
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 @AndroidEntryPoint
 class CirclesFragment : Fragment(R.layout.fragment_rooms) {

@@ -2,13 +2,16 @@ package org.futo.circles.gallery.feature.backup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.gallery.model.MediaBackupSettingsData
 import org.futo.circles.gallery.model.MediaFolderListItem
+import javax.inject.Inject
 
-class MediaBackupViewModel(
+@HiltViewModel
+class MediaBackupViewModel @Inject constructor(
     private val roomAccountDataSource: RoomAccountDataSource,
     private val mediaBackupDataSource: MediaBackupDataSource
 ) : ViewModel() {

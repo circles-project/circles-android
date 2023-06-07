@@ -2,13 +2,16 @@ package org.futo.circles.feature.timeline.poll
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.futo.circles.core.provider.MatrixSessionProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.mapping.toPollContent
 import org.futo.circles.core.model.PollContent
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
+import javax.inject.Inject
 
-class CreatePollViewModel(
+@HiltViewModel
+class CreatePollViewModel @Inject constructor(
     private val roomId: String,
     private val eventId: String?
 ) : ViewModel() {

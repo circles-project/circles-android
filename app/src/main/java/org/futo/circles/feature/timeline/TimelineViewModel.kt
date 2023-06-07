@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline
 
 import androidx.lifecycle.asLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
@@ -20,8 +21,10 @@ import org.futo.circles.model.MediaPostContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.model.TextPostContent
 import org.matrix.android.sdk.api.util.Cancelable
+import javax.inject.Inject
 
-class TimelineViewModel(
+@HiltViewModel
+class TimelineViewModel @Inject constructor(
     private val roomNotificationsDataSource: RoomNotificationsDataSource,
     private val timelineDataSource: TimelineDataSource,
     private val leaveRoomDataSource: LeaveRoomDataSource,
