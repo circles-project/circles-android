@@ -43,12 +43,6 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
     private val args: GalleryFragmentArgs by navArgs()
     private val viewModel by viewModels<GalleryViewModel>()
 
-    //    {
-//        parametersOf(
-//            args.roomId, CircleRoomTypeArg.Photo,
-//            arguments?.getBoolean(IS_VIDEO_AVAILABLE, true) ?: true
-//        )
-//    }
     private val binding by viewBinding(FragmentGalleryBinding::bind)
     private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private val listAdapter by lazy {

@@ -2,6 +2,9 @@ package org.futo.circles.core.timeline
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.Post
@@ -11,14 +14,22 @@ import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
-import javax.inject.Inject
 
-class TimelineDataSource @Inject constructor(
-    roomId: String,
-    private val type: CircleRoomTypeArg,
-    private val threadEventId: String?,
+class TimelineDataSource @AssistedInject constructor(
+    @Assisted roomId: String,
+    @Assisted private val type: CircleRoomTypeArg,
+    @Assisted private val threadEventId: String?,
     private val timelineBuilder: TimelineBuilder
 ) : Timeline.Listener {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            roomId: String,
+            type: CircleRoomTypeArg,
+            threadEventId: String?
+        ): TimelineDataSource
+    }
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)

@@ -1,5 +1,8 @@
 package org.futo.circles.core.room.leave
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.getRoomOwners
@@ -10,12 +13,16 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
-import javax.inject.Inject
 
-class LeaveRoomDataSource @Inject constructor(
-    private val roomId: String,
+class LeaveRoomDataSource @AssistedInject constructor(
+    @Assisted private val roomId: String,
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomId: String): LeaveRoomDataSource
+    }
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)

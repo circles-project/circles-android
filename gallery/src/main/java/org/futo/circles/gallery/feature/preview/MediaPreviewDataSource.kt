@@ -1,5 +1,8 @@
 package org.futo.circles.gallery.feature.preview
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
@@ -9,12 +12,16 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
-import javax.inject.Inject
 
-class MediaPreviewDataSource @Inject constructor(
-    private val roomId: String,
-    private val eventId: String
+class MediaPreviewDataSource @AssistedInject constructor(
+    @Assisted private val roomId: String,
+    @Assisted private val eventId: String
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomId: String, eventId: String): MediaPreviewDataSource
+    }
 
     private val session = MatrixSessionProvider.currentSession
 

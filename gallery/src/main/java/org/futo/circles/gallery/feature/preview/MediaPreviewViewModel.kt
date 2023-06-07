@@ -3,9 +3,11 @@ package org.futo.circles.gallery.feature.preview
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PostContentType
@@ -16,11 +18,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MediaPreviewViewModel @Inject constructor(
-    private val roomId: String,
-    private val eventId: String,
+    savedStateHandle: SavedStateHandle,
     private val mediaPreviewDataSource: MediaPreviewDataSource,
     private val postOptionsDataSource: PostOptionsDataSource
 ) : ViewModel() {
+
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    private val eventId: String = savedStateHandle.getOrThrow("eventId")
 
     val imageLiveData = MutableLiveData<MediaContent>()
     val videoLiveData = MutableLiveData<Pair<MediaContent, Uri>>()

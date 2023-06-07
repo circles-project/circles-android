@@ -26,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TimelineViewModel @Inject constructor(
     private val roomNotificationsDataSource: RoomNotificationsDataSource,
-    private val timelineDataSource: TimelineDataSource,
+    timelineDataSource: TimelineDataSource,
     private val leaveRoomDataSource: LeaveRoomDataSource,
     accessLevelDataSource: AccessLevelDataSource,
     private val sendMessageDataSource: SendMessageDataSource,

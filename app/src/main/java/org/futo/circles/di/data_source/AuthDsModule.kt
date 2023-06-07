@@ -1,5 +1,11 @@
 package org.futo.circles.di.data_source
 
+import androidx.lifecycle.SavedStateHandle
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.auth.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.auth.feature.log_in.stages.password.LoginBsSpekeDataSource
 import org.futo.circles.auth.feature.log_in.stages.password.LoginPasswordDataSource
