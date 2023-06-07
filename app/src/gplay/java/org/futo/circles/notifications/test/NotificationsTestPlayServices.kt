@@ -3,12 +3,14 @@ package org.futo.circles.notifications.test
 import android.content.Context
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
 import org.futo.circles.model.NotificationTestStatus
+import javax.inject.Inject
 
-class NotificationsTestPlayServices(
-    private val context: Context
+class NotificationsTestPlayServices @Inject constructor(
+    @ApplicationContext private val context: Context
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_play_services_title) {
 
     override fun perform() {

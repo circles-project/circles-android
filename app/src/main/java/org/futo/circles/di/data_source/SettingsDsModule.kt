@@ -25,8 +25,8 @@ val settingsDSModule = module {
     factory { PreferencesProvider(get()) }
     factory { SwitchUserDataSource() }
     factory { CreatePassPhraseDataSource(get(), get(), get()) }
-    factory { RestoreBackupDataSource(get(), get(), get()) }
-    factory { SSSSDataSource(get()) }
+   // factory { RestoreBackupDataSource(get(), get(), get()) }
+    //factory { SSSSDataSource(get()) }
     factory { UsernameDataSource(get()) }
     //single { MediaBackupServiceManager() }
 

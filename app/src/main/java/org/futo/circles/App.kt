@@ -10,13 +10,10 @@ import dagger.hilt.android.HiltAndroidApp
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.provider.MatrixNotificationSetupListener
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.di.applicationModules
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.GuardServiceStarter
 import org.futo.circles.feature.notifications.NotificationUtils
 import org.futo.circles.feature.notifications.PushRuleTriggerListener
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 import org.matrix.android.sdk.api.session.Session
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,17 +21,21 @@ import javax.inject.Inject
 @HiltAndroidApp
 class App : Application() {
 
-    @Inject lateinit var notificationUtils: NotificationUtils
-    @Inject lateinit var fcmHelper: FcmHelper
-    @Inject lateinit var guardServiceStarter: GuardServiceStarter
-    @Inject lateinit var pushRuleTriggerListener: PushRuleTriggerListener
+    @Inject
+    lateinit var notificationUtils: NotificationUtils
+    @Inject
+    lateinit var fcmHelper: FcmHelper
+    @Inject
+    lateinit var guardServiceStarter: GuardServiceStarter
+    @Inject
+    lateinit var pushRuleTriggerListener: PushRuleTriggerListener
 
     override fun onCreate() {
         super.onCreate()
-        startKoin {
-            androidContext(this@App)
-            modules(applicationModules)
-        }
+//        startKoin {
+//            androidContext(this@App)
+//            modules(applicationModules)
+//        }
         CirclesAppConfig.Initializer()
             .buildConfigInfo(
                 BuildConfig.APPLICATION_ID,

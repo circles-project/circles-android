@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.model.KeyData
@@ -15,9 +16,10 @@ import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersionResult
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
 import org.matrix.android.sdk.api.util.awaitCallback
+import javax.inject.Inject
 
-class RestoreBackupDataSource(
-    private val context: Context,
+class RestoreBackupDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val ssssDataSource: SSSSDataSource,
     private val crossSigningDataSource: CrossSigningDataSource
 ) {

@@ -2,21 +2,26 @@ package org.futo.circles.notifications
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.PushHandler
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.model.PushData
-import org.koin.android.ext.android.inject
 import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.extensions.tryOrNull
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class FirebaseMessagingService : FirebaseMessagingService() {
 
-    private val fcmHelper: FcmHelper by inject()
-    private val pushersManager: PushersManager by inject()
-    private val pushHandler: PushHandler by inject()
+    @Inject
+    lateinit var fcmHelper: FcmHelper
+    @Inject
+    lateinit var pushersManager: PushersManager
+    @Inject
+    lateinit var pushHandler: PushHandler
 
     override fun onNewToken(token: String) {
         MatrixSessionProvider.currentSession ?: return

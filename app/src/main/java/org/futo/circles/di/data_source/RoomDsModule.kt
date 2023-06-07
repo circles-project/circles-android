@@ -25,5 +25,5 @@ val roomDSModule = module {
     ///-----
     //factory { CreateRoomDataSource(get(), get()) }
     //factory { RoomRelationsBuilder() }
-    factory { CoreSpacesTreeBuilder(get(), get()) }
+    //factory { CoreSpacesTreeBuilder(get(), get()) }
 }

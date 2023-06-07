@@ -7,11 +7,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.model.NotificationTestStatus
+import javax.inject.Inject
 
-class NotificationSystemSettingsTest(
-    private val context: Context
+class NotificationSystemSettingsTest @Inject constructor(
+    @ApplicationContext private val context: Context
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_system_settings_title) {
 
     override fun perform() {
