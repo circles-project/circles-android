@@ -3,6 +3,7 @@ package org.futo.circles.gallery.feature.backup
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.room.CreateRoomDataSource
@@ -12,10 +13,11 @@ import org.futo.circles.gallery.model.MediaFolderListItem
 import org.futo.circles.gallery.model.MediaToBackupItem
 import org.futo.circles.gallery.model.toMediaToBackupItem
 import java.io.File
+import javax.inject.Inject
 
 
-class MediaBackupDataSource(
-    private val context: Context,
+class MediaBackupDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val sendMessageDataSource: SendMessageDataSource,
     private val createRoomDataSource: CreateRoomDataSource,
     private val roomAccountDataSource: RoomAccountDataSource

@@ -7,8 +7,9 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
+import javax.inject.Inject
 
-class ChangePasswordDataSource(
+class ChangePasswordDataSource @Inject constructor(
     private val createPassPhraseDataSource: CreatePassPhraseDataSource,
     private val restoreBackupDataSource: RestoreBackupDataSource
 ) {

@@ -2,6 +2,7 @@ package org.futo.circles.auth.feature.sign_up
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.sign_up.subscription_stage.SubscriptionStageDataSource
@@ -15,11 +16,14 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
+import javax.inject.Inject
+import javax.inject.Singleton
 
 enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, ValidateEmail, Password, BSspeke, Username }
 
-class SignUpDataSource(
-    private val context: Context,
+@Singleton
+class SignUpDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder,
     private val createPassPhraseDataSource: CreatePassPhraseDataSource
 ) {

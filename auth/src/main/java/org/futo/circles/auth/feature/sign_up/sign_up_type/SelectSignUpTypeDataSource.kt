@@ -1,17 +1,20 @@
 package org.futo.circles.auth.feature.sign_up.sign_up_type
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
+import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_SUBSCRIPTION_TYPE
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.matrix.android.sdk.api.auth.registration.Stage
+import javax.inject.Inject
 
-class SelectSignUpTypeDataSource(
-    private val context: Context,
-    private val signUpDataSource: org.futo.circles.auth.feature.sign_up.SignUpDataSource
+class SelectSignUpTypeDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val signUpDataSource: SignUpDataSource
 ) {
 
     private val authService by lazy { MatrixInstanceProvider.matrix.authenticationService() }

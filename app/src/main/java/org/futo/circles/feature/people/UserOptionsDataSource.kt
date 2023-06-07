@@ -4,8 +4,9 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getSharedCircleFor
+import javax.inject.Inject
 
-class UserOptionsDataSource {
+class UserOptionsDataSource @Inject constructor() {
 
     val ignoredUsersLiveData =
         MatrixSessionProvider.currentSession?.userService()?.getIgnoredUsersLive()

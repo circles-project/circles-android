@@ -3,6 +3,7 @@ package org.futo.circles.feature.people.user
 import android.content.Context
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -21,9 +22,10 @@ import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class UserDataSource(
-    context: Context,
+class UserDataSource @Inject constructor(
+    @ApplicationContext context: Context,
     private val userId: String
 ) {
 

@@ -3,6 +3,7 @@ package org.futo.circles.feature.room.manage_members
 
 import android.content.Context
 import androidx.lifecycle.asFlow
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,11 +34,12 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
+import javax.inject.Inject
 
-class ManageMembersDataSource(
+class ManageMembersDataSource @Inject constructor(
     private val roomId: String,
     private val type: CircleRoomTypeArg,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : ExpandableItemsDataSource {
 
     private val session = MatrixSessionProvider.currentSession

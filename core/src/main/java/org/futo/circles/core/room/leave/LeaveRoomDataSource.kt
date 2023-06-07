@@ -10,8 +10,9 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
+import javax.inject.Inject
 
-class LeaveRoomDataSource(
+class LeaveRoomDataSource @Inject constructor(
     private val roomId: String,
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {

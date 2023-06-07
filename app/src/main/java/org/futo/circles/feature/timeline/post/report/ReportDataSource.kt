@@ -2,16 +2,18 @@ package org.futo.circles.feature.timeline.post.report
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.ReportCategoryListItem
 import org.matrix.android.sdk.api.session.getRoom
+import javax.inject.Inject
 
-class ReportDataSource(
+class ReportDataSource @Inject constructor(
     roomId: String,
     private val eventId: String,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)

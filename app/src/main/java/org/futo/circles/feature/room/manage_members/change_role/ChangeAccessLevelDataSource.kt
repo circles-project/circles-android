@@ -4,8 +4,9 @@ import org.futo.circles.base.READ_ONLY_ROLE
 import org.futo.circles.model.AccessLevel
 import org.futo.circles.model.AccessLevelListItem
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
+import javax.inject.Inject
 
-class ChangeAccessLevelDataSource(
+class ChangeAccessLevelDataSource @Inject constructor(
     private val levelValue: Int,
     private val myUserLevelValue: Int
 ) {

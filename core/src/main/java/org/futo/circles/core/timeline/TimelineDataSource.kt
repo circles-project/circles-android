@@ -11,8 +11,9 @@ import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
+import javax.inject.Inject
 
-class TimelineDataSource(
+class TimelineDataSource @Inject constructor(
     roomId: String,
     private val type: CircleRoomTypeArg,
     private val threadEventId: String?,

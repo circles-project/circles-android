@@ -3,6 +3,7 @@ package org.futo.circles.feature.room
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.model.CircleRoomTypeArg
@@ -11,11 +12,12 @@ import org.futo.circles.core.utils.getTimelineRoomFor
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.notification.RoomNotificationState
+import javax.inject.Inject
 
-class RoomNotificationsDataSource(
+class RoomNotificationsDataSource @Inject constructor(
     private val roomId: String,
     private val type: CircleRoomTypeArg,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     private val session

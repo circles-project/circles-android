@@ -9,8 +9,9 @@ import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
+import javax.inject.Inject
 
-class AccessLevelDataSource(
+class AccessLevelDataSource @Inject constructor(
     roomId: String
 ) {
 

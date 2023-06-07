@@ -4,8 +4,9 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.RoomRelationsBuilder
 import org.futo.circles.core.model.SelectableRoomListItem
+import javax.inject.Inject
 
-class AcceptCircleInviteDataSource(
+class AcceptCircleInviteDataSource @Inject constructor(
     private val roomId: String,
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {

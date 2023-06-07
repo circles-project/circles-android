@@ -1,6 +1,7 @@
 package org.futo.circles.feature.room.invite
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -9,10 +10,11 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
+import javax.inject.Inject
 
-class InviteMembersDataSource(
+class InviteMembersDataSource @Inject constructor(
     private val roomId: String,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)

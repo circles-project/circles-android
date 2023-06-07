@@ -2,6 +2,7 @@ package org.futo.circles.auth.feature.pass_phrase.create
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.SSSSDataSource
@@ -11,9 +12,10 @@ import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
 import org.matrix.android.sdk.api.session.crypto.keysbackup.MegolmBackupCreationInfo
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
 import org.matrix.android.sdk.api.util.awaitCallback
+import javax.inject.Inject
 
-class CreatePassPhraseDataSource(
-    private val context: Context,
+class CreatePassPhraseDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val ssssDataSource: SSSSDataSource,
     private val crossSigningDataSource: CrossSigningDataSource
 ) {

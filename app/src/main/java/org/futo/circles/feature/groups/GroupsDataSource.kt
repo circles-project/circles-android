@@ -1,6 +1,7 @@
 package org.futo.circles.feature.groups
 
 import androidx.lifecycle.map
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -11,9 +12,10 @@ import org.futo.circles.model.GroupListItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class GroupsDataSource(
-    private val roomRelationsBuilder: RoomRelationsBuilder
+class GroupsDataSource @Inject constructor(
+    @ApplicationContext private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 
     fun getGroupsLiveData() = MatrixSessionProvider.currentSession?.roomService()

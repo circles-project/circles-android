@@ -13,17 +13,17 @@ import org.futo.circles.feature.room.select.SelectRoomsDataSource
 import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
 import org.koin.dsl.module
 
-val roomDSModule = module {
-    factory { (roomId: String) -> UpdateRoomDataSource(roomId, get(), get()) }
-    factory { GroupsDataSource(get()) }
+//val roomDSModule = module {
+   // factory { (roomId: String) -> UpdateRoomDataSource(roomId, get(), get()) }
+   // factory { GroupsDataSource(get()) }
 //    factory { CirclesDataSource() }
-    factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
-    factory { PeopleDataSource(get()) }
-    factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
+    //factory { (roomId: String) -> AcceptCircleInviteDataSource(roomId, get()) }
+    //factory { PeopleDataSource(get()) }
+    //factory { (roomType: CircleRoomTypeArg) -> SelectRoomsDataSource(roomType) }
     //factory { RoomAccountDataSource() }
 
     ///-----
     //factory { CreateRoomDataSource(get(), get()) }
     //factory { RoomRelationsBuilder() }
     //factory { CoreSpacesTreeBuilder(get(), get()) }
-}
+//}

@@ -2,6 +2,7 @@ package org.futo.circles.feature.settings.active_sessions
 
 import android.content.Context
 import androidx.lifecycle.asFlow
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,9 +22,10 @@ import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
 import org.matrix.android.sdk.api.util.awaitCallback
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class ActiveSessionsDataSource(
-    private val context: Context,
+class ActiveSessionsDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val authConfirmationProvider: AuthConfirmationProvider
 ) : ExpandableItemsDataSource {
 

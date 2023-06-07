@@ -1,15 +1,17 @@
 package org.futo.circles.auth.feature.sign_up.subscription_stage
 
 import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
+import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_SUBSCRIPTION_TYPE
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
+import javax.inject.Inject
 
-class SubscriptionStageDataSource(
-    private val signUpDataSource: org.futo.circles.auth.feature.sign_up.SignUpDataSource
+class SubscriptionStageDataSource @Inject constructor(
+    private val signUpDataSource: SignUpDataSource
 ) {
 
     suspend fun validateSubscription(
