@@ -7,7 +7,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.BuildConfig
 import org.futo.circles.MainActivity
 import org.futo.circles.R
@@ -27,15 +30,14 @@ import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActi
 import org.futo.circles.model.DeactivateAccount
 import org.futo.circles.model.LogOut
 import org.futo.circles.model.SwitchUser
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.matrix.android.sdk.api.session.user.model.User
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val binding by viewBinding(FragmentSettingsBinding::bind)
-    private val viewModel by viewModel<SettingsViewModel>()
-    private val systemNoticesCountViewModel by activityViewModel<SystemNoticesCountSharedViewModel>()
+    private val viewModel by viewModels<SettingsViewModel>()
+    private val systemNoticesCountViewModel by activityViewModels<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }

@@ -9,8 +9,10 @@ import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
@@ -42,19 +44,19 @@ import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.*
 import org.futo.circles.view.CreatePostMenuListener
 import org.futo.circles.view.PostOptionsListener
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
-
+@AndroidEntryPoint
 class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListener,
     CreatePostListener, CreatePollListener, EmojiPickerListener, MenuProvider {
 
     private val args: TimelineFragmentArgs by navArgs()
-    private val viewModel by viewModel<TimelineViewModel> {
-        parametersOf(args.roomId, args.type, args.threadEventId)
-    }
+    private val viewModel by viewModels<TimelineViewModel>()
+
+    //    {
+//        parametersOf(args.roomId, args.type, args.threadEventId)
+//    }
     private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
     private val isThread by lazy { args.threadEventId != null }
 

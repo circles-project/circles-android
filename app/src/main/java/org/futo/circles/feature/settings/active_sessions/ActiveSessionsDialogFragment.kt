@@ -2,8 +2,10 @@ package org.futo.circles.feature.settings.active_sessions
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -15,12 +17,12 @@ import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClick
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionsAdapter
 import org.futo.circles.model.RemoveSession
 import org.futo.circles.model.ResetKeys
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class ActiveSessionsDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentActiveSessionsBinding::inflate) {
 
-    private val viewModel by viewModel<ActiveSessionsViewModel>()
+    private val viewModel by viewModels<ActiveSessionsViewModel>()
 
     private val binding by lazy {
         getBinding() as DialogFragmentActiveSessionsBinding

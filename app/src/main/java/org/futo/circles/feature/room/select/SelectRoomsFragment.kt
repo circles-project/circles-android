@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.base.RoomsListener
 import org.futo.circles.core.extensions.observeData
@@ -17,19 +19,18 @@ import org.futo.circles.core.room.select.SelectRoomsListener
 import org.futo.circles.databinding.FragmentSelectRoomsBinding
 import org.futo.circles.feature.room.select.list.SelectRoomsAdapter
 import org.futo.circles.feature.room.select.list.SelectedChipsRoomsAdapter
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
-
+@AndroidEntryPoint
 class SelectRoomsFragment : Fragment(R.layout.fragment_select_rooms), RoomsPicker {
 
-    @Suppress("DEPRECATION")
-    private val viewModel by viewModel<SelectRoomsViewModel> {
-        parametersOf(
-            CircleRoomTypeArg.values().firstOrNull { it.ordinal == arguments?.getInt(TYPE_ORDINAL) }
-                ?: CircleRoomTypeArg.Circle
-        )
-    }
+    private val viewModel by viewModels<SelectRoomsViewModel>()
+
+    //    {
+//        parametersOf(
+//            CircleRoomTypeArg.values().firstOrNull { it.ordinal == arguments?.getInt(TYPE_ORDINAL) }
+//                ?: CircleRoomTypeArg.Circle
+//        )
+//    }
     private val binding by viewBinding(FragmentSelectRoomsBinding::bind)
 
     private val selectRoomsAdapter by lazy { SelectRoomsAdapter(viewModel::onRoomSelected) }

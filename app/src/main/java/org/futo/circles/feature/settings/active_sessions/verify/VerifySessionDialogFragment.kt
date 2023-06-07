@@ -5,7 +5,9 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
@@ -21,17 +23,17 @@ import org.futo.circles.model.QrCanceled
 import org.futo.circles.model.QrLoading
 import org.futo.circles.model.QrReady
 import org.futo.circles.model.QrSuccess
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
+@AndroidEntryPoint
 class VerifySessionDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentVerifySessionBinding::inflate) {
 
     private val args: VerifySessionDialogFragmentArgs by navArgs()
 
-    private val viewModel by viewModel<VerifySessionViewModel> {
-        parametersOf(args.deviceId)
-    }
+    private val viewModel by viewModels<VerifySessionViewModel>()
+//    {
+//        parametersOf(args.deviceId)
+//    }
 
     private val binding by lazy {
         getBinding() as DialogFragmentVerifySessionBinding

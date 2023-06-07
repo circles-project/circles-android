@@ -8,22 +8,23 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.databinding.FragmentPeopleBinding
-import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.feature.people.list.PeopleAdapter
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
+@AndroidEntryPoint
 class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
 
-    private val viewModel by viewModel<PeopleViewModel>()
+    private val viewModel by viewModels<PeopleViewModel>()
     private val binding by viewBinding(FragmentPeopleBinding::bind)
 
     private val peopleAdapter by lazy {

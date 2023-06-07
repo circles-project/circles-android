@@ -3,7 +3,9 @@ package org.futo.circles.feature.room.invite
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -11,20 +13,18 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.databinding.DialogFragmentInviteMembersBinding
 import org.futo.circles.core.select_users.SelectUsersFragment
 import org.futo.circles.core.select_users.SelectUsersListener
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import org.futo.circles.databinding.DialogFragmentInviteMembersBinding
 
-
+@AndroidEntryPoint
 class InviteMembersDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentInviteMembersBinding::inflate), SelectUsersListener,
     HasLoadingState {
 
     override val fragment: Fragment = this
     private val args: InviteMembersDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<InviteMembersViewModel> { parametersOf(args.roomId) }
+    private val viewModel by viewModels<InviteMembersViewModel>()
 
     private val binding by lazy {
         getBinding() as DialogFragmentInviteMembersBinding
