@@ -1,7 +1,6 @@
 package org.futo.circles.auth.feature.sign_up.terms
 
 
-import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.base.BaseAcceptTermsDataSource
 import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.extensions.toTermsListItems
@@ -12,7 +11,7 @@ import org.matrix.android.sdk.api.auth.registration.Stage
 import javax.inject.Inject
 
 class SignupAcceptTermsDataSource @Inject constructor(
-    @ApplicationContext private val signUpDataSource: SignUpDataSource
+    private val signUpDataSource: SignUpDataSource
 ) : BaseAcceptTermsDataSource() {
 
     override suspend fun acceptTerms(): Response<Unit> =

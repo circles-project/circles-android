@@ -54,9 +54,6 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     private val args: TimelineFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
 
-    //    {
-//        parametersOf(args.roomId, args.type, args.threadEventId)
-//    }
     private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
     private val isThread by lazy { args.threadEventId != null }
 

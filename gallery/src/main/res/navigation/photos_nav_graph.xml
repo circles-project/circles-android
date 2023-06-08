@@ -44,6 +44,12 @@
             app:argType="string"
             app:nullable="false" />
 
+        <argument
+            android:name="type"
+            android:defaultValue="Photo"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
         <action
             android:id="@+id/to_updateGalleryDialogFragment"
             app:destination="@id/updateGalleryDialogFragment">

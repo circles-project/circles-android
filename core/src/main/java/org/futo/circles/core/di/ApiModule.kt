@@ -1,4 +1,4 @@
-package org.futo.circles.di
+package org.futo.circles.core.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class ApiModule {
+object ApiModule {
 
     @Singleton
     @Provides

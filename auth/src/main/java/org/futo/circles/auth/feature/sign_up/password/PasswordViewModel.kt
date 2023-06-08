@@ -1,11 +1,14 @@
 package org.futo.circles.auth.feature.sign_up.password
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.base.PasswordDataSource
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import javax.inject.Inject
 
-class PasswordViewModel(
+@HiltViewModel
+class PasswordViewModel @Inject constructor(
     private val passwordDataSource: PasswordDataSource
 ) : ViewModel() {
 

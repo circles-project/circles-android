@@ -7,6 +7,7 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.sign_up.subscription_stage.SubscriptionStageDataSource
 import org.futo.circles.auth.model.SubscriptionReceiptData
+import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
@@ -29,8 +30,8 @@ class SignUpDataSource @Inject constructor(
 ) {
 
     val subtitleLiveData = MutableLiveData<String>()
-    val navigationLiveData = org.futo.circles.core.SingleEventLiveData<SignUpNavigationEvents>()
-    val finishRegistrationLiveData = org.futo.circles.core.SingleEventLiveData<Response<Unit>>()
+    val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
+    val finishRegistrationLiveData = SingleEventLiveData<Response<Unit>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
     val spaceTreeLoadingLiveData = coreSpacesTreeBuilder.loadingLiveData
 

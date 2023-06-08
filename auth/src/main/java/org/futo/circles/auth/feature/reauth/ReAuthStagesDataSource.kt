@@ -5,6 +5,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.auth.model.CustomUIAuth
+import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.UIABaseAuth
@@ -24,7 +25,7 @@ class ReAuthStagesDataSource @Inject constructor(
     @ApplicationContext context: Context,
 ) : BaseLoginStagesDataSource(context) {
 
-    val finishReAuthEventLiveData = org.futo.circles.core.SingleEventLiveData<Unit>()
+    val finishReAuthEventLiveData = SingleEventLiveData<Unit>()
     private var authPromise: Continuation<UIABaseAuth>? = null
     private var sessionId: String = ""
     private var stageResultContinuation: Continuation<Response<RegistrationResult>>? =
