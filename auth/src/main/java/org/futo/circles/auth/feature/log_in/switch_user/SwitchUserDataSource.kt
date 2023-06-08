@@ -6,8 +6,9 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.data.sessionId
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.getUserOrDefault
+import javax.inject.Inject
 
-class SwitchUserDataSource {
+class SwitchUserDataSource @Inject constructor() {
 
     private val authService = MatrixInstanceProvider.matrix.authenticationService()
 

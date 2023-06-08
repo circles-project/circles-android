@@ -1,6 +1,7 @@
 package org.futo.circles.core.timeline.post
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.onBG
 import org.futo.circles.core.model.MediaContent
@@ -15,9 +16,10 @@ import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import org.futo.circles.core.utils.FileUtils.saveMediaFileToDevice
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
+import javax.inject.Inject
 
-class PostOptionsDataSource(
-    private val context: Context
+class PostOptionsDataSource @Inject constructor(
+    @ApplicationContext private val context: Context
 ) {
 
     private val session = MatrixSessionProvider.currentSession

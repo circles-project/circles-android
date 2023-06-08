@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.viewbinding.ViewBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -13,15 +14,15 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.picker.DeviceMediaPickerHelper
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 abstract class UpdateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding) :
     BaseFullscreenDialogFragment(inflate), HasLoadingState {
 
     abstract val roomId: String
-    private val viewModel by viewModel<UpdateRoomViewModel> { parametersOf(roomId) }
+
+    private val viewModel by viewModels<UpdateRoomViewModel>()
+
     abstract val mediaPickerHelper: DeviceMediaPickerHelper
     abstract val successMessageResId: Int
     abstract fun onCoverImageSelected(uri: Uri)

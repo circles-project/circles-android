@@ -3,12 +3,14 @@ package org.futo.circles.notifications
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.feature.notifications.GuardServiceStarter
 import org.matrix.android.sdk.api.extensions.tryOrNull
+import javax.inject.Inject
 
-class FdroidGuardServiceStarter(
-    private val context: Context,
+class FdroidGuardServiceStarter @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val preferencesProvider: PreferencesProvider
 ) : GuardServiceStarter {
 

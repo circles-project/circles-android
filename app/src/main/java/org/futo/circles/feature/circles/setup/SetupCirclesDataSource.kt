@@ -3,14 +3,16 @@ package org.futo.circles.feature.circles.setup
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.SetupCircleListItem
 import org.matrix.android.sdk.api.session.getUser
+import javax.inject.Inject
 
-class SetupCirclesDataSource(
-    private val context: Context
+class SetupCirclesDataSource @Inject constructor(
+    @ApplicationContext private val context: Context
 ) {
 
     val circlesLiveData = MutableLiveData(getInitialCirclesList())

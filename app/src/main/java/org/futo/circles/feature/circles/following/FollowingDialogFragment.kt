@@ -2,24 +2,21 @@ package org.futo.circles.feature.circles.following
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentFollowingBinding
 import org.futo.circles.feature.circles.following.list.FollowingAdapter
 import org.futo.circles.model.FollowingListItem
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
+@AndroidEntryPoint
 class FollowingDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentFollowingBinding::inflate) {
 
-    private val args: FollowingDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<FollowingViewModel> {
-        parametersOf(args.roomId)
-    }
+    private val viewModel by viewModels<FollowingViewModel>()
     private val binding by lazy {
         getBinding() as DialogFragmentFollowingBinding
     }

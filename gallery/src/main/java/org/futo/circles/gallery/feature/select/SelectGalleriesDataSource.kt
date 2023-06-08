@@ -7,8 +7,9 @@ import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class SelectGalleriesDataSource {
+class SelectGalleriesDataSource @Inject constructor() {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 

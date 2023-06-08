@@ -11,8 +11,9 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 import org.matrix.android.sdk.api.session.room.timeline.isEdition
 import org.matrix.android.sdk.api.session.room.timeline.isReply
+import javax.inject.Inject
 
-class TimelineBuilder {
+class TimelineBuilder @Inject constructor() {
 
     private var currentList: MutableList<Post> = mutableListOf()
     private var currentSnapshotMap: MutableMap<String, List<TimelineEvent>> = mutableMapOf()

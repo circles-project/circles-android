@@ -6,8 +6,9 @@ import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRA
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
+import javax.inject.Inject
 
-class ValidateEmailDataSource(
+class ValidateEmailDataSource @Inject constructor(
     private val signUpDataSource: SignUpDataSource
 ) {
 

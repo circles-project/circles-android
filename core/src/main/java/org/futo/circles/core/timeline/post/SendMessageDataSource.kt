@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.Observer
 import androidx.work.WorkInfo
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.MediaCaptionFieldKey
 import org.futo.circles.core.extensions.toImageContentAttachmentData
 import org.futo.circles.core.extensions.toVideoContentAttachmentData
@@ -19,10 +20,11 @@ import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.util.Cancelable
 import org.matrix.android.sdk.api.util.CancelableBag
 import org.matrix.android.sdk.internal.util.CancelableWork
+import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class SendMessageDataSource(private val context: Context) {
+class SendMessageDataSource @Inject constructor(@ApplicationContext private val context: Context) {
 
     private val session = MatrixSessionProvider.currentSession
 

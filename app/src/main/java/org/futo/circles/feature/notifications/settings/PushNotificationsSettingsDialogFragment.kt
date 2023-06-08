@@ -3,20 +3,22 @@ package org.futo.circles.feature.notifications.settings
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.NotificationManagerCompat
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.openNotificationSettings
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentPushNotificationsSettingsBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class PushNotificationsSettingsDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentPushNotificationsSettingsBinding::inflate) {
 
     private val binding by lazy { getBinding() as DialogFragmentPushNotificationsSettingsBinding }
-    private val viewModel by viewModel<PushNotificationsSettingsViewModel>()
+    private val viewModel by viewModels<PushNotificationsSettingsViewModel>()
     private var selectedDistributorIndex = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

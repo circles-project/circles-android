@@ -2,6 +2,8 @@ package org.futo.circles.feature.settings.profile.share
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
@@ -9,12 +11,12 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentShareProfileBinding
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class ShareProfileDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentShareProfileBinding::inflate) {
 
-    private val viewModel by viewModel<ShareProfileViewModel>()
+    private val viewModel by viewModels<ShareProfileViewModel>()
 
     private val binding by lazy {
         getBinding() as DialogFragmentShareProfileBinding

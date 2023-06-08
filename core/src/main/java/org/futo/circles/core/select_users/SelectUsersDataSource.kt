@@ -1,5 +1,7 @@
 package org.futo.circles.core.select_users
 
+import androidx.lifecycle.SavedStateHandle
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -19,11 +21,14 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.user.model.User
+import javax.inject.Inject
 
-class SelectUsersDataSource(
-    roomId: String?,
+@ViewModelScoped
+class SelectUsersDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val searchUserDataSource: SearchUserDataSource
 ) {
+    private val roomId: String? = savedStateHandle["roomId"]
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId ?: "")

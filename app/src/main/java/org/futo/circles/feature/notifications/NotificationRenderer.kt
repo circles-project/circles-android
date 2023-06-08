@@ -5,14 +5,16 @@ import android.app.Notification
 import android.content.Context
 import androidx.annotation.WorkerThread
 import androidx.core.app.NotificationManagerCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.feature.notifications.NotificationDrawerManager.Companion.ROOM_INVITATION_NOTIFICATION_ID
 import org.futo.circles.feature.notifications.NotificationDrawerManager.Companion.ROOM_MESSAGES_NOTIFICATION_ID
 import org.futo.circles.model.*
+import javax.inject.Inject
 
 private typealias ProcessedMessageEvents = List<ProcessedEvent<NotifiableMessageEvent>>
 
-class NotificationRenderer(
-    context: Context,
+class NotificationRenderer @Inject constructor(
+    @ApplicationContext context: Context,
     private val roomGroupMessageCreator: RoomGroupMessageCreator,
     private val notificationUtils: NotificationUtils
 ) {

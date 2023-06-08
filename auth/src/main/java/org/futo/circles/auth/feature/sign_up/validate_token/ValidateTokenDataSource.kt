@@ -5,8 +5,9 @@ import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_TOKEN_TYPE
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
+import javax.inject.Inject
 
-class ValidateTokenDataSource(
+class ValidateTokenDataSource @Inject constructor(
     private val signUpDataSource: SignUpDataSource
 ) {
 

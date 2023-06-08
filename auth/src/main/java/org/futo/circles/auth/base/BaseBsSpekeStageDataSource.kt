@@ -7,14 +7,26 @@ import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_BSSP
 import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
 import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.bsspeke.BSSpekeClient
+import org.futo.circles.auth.feature.log_in.stages.password.LoginBsSpekeDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_OPRF_TYPE
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_SAVE_TYPE
+import org.futo.circles.auth.feature.sign_up.password.SignupBsSpekeDataSource
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.util.JsonDict
+import javax.inject.Inject
 
 abstract class BaseBsSpekeStageDataSource(private val context: Context) : PasswordDataSource {
+
+    class Factory @Inject constructor(
+        private val loginBsSpekeDataSourceFactory: LoginBsSpekeDataSource.Factory,
+        private val signupBsSpekeDataSource: SignupBsSpekeDataSource
+    ) {
+        fun create(isSignup: Boolean, isReAuth: Boolean, isChangePasswordEnroll: Boolean) =
+            if (isSignup) signupBsSpekeDataSource
+            else loginBsSpekeDataSourceFactory.create(isReAuth, isChangePasswordEnroll)
+    }
 
     protected abstract val userName: String
     protected abstract val domain: String

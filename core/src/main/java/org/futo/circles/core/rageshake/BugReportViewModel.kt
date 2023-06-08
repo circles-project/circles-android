@@ -2,13 +2,16 @@ package org.futo.circles.core.rageshake
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.ResponseBody
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
+import javax.inject.Inject
 
-class BugReportViewModel(
+@HiltViewModel
+class BugReportViewModel @Inject constructor(
     private val bugReportDataSource: BugReportDataSource
 ) : ViewModel() {
 

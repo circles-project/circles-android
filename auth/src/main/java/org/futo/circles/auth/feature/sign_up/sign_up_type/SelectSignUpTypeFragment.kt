@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.text.Html
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSelectSignUpTypeBinding
 import org.futo.circles.auth.subscriptions.SubscriptionManagerProvider
@@ -13,15 +15,15 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.fragment.HasLoadingState
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type),
     HasLoadingState {
 
     override val fragment: Fragment = this
 
     private val binding by viewBinding(FragmentSelectSignUpTypeBinding::bind)
-    private val viewModel by viewModel<SelectSignUpTypeViewModel>()
+    private val viewModel by viewModels<SelectSignUpTypeViewModel>()
 
     private val subscriptionManager by lazy {
         SubscriptionManagerProvider.getManager(this, null)

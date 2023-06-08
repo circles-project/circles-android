@@ -13,8 +13,10 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.observeData
@@ -25,11 +27,11 @@ import org.futo.circles.gallery.databinding.FragmentRoomsBinding
 import org.futo.circles.gallery.feature.list.PhotosListAdapter
 import org.futo.circles.gallery.feature.pick.PickGalleryListener
 import org.futo.circles.gallery.model.GalleryListItem
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class PhotosFragment : Fragment(R.layout.fragment_rooms), MenuProvider {
 
-    private val viewModel by viewModel<PhotosViewModel>()
+    private val viewModel by viewModels<PhotosViewModel>()
     private val binding by viewBinding(FragmentRoomsBinding::bind)
 
     private var pickGalleryListener: PickGalleryListener? = null

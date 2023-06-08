@@ -3,20 +3,29 @@ package org.futo.circles.auth.base
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.auth.R
+import org.futo.circles.auth.feature.log_in.stages.LoginStagesDataSource
+import org.futo.circles.auth.feature.reauth.ReAuthStagesDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_OPRF_TYPE
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_SAVE_TYPE
+import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.util.JsonDict
+import javax.inject.Inject
 
-abstract class BaseLoginStagesDataSource(
-    private val context: Context
-) {
+abstract class BaseLoginStagesDataSource constructor(private val context: Context) {
+
+    class Factory @Inject constructor(
+        private val loginStagesDataSource: LoginStagesDataSource,
+        private val reAuthStagesDataSource: ReAuthStagesDataSource
+    ) {
+        fun create(isReAuth: Boolean): BaseLoginStagesDataSource = if (isReAuth)
+            reAuthStagesDataSource else loginStagesDataSource
+    }
 
     val subtitleLiveData = MutableLiveData<String>()
-    val loginStageNavigationLiveData =
-        org.futo.circles.core.SingleEventLiveData<LoginStageNavigationEvent>()
+    val loginStageNavigationLiveData = SingleEventLiveData<LoginStageNavigationEvent>()
 
     val stagesToComplete = mutableListOf<Stage>()
     var currentStage: Stage? = null

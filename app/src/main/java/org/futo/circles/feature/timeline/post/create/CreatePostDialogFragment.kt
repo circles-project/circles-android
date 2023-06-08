@@ -5,8 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
@@ -18,10 +20,9 @@ import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
 import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.PreviewPostListener
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import java.util.*
 
+@AndroidEntryPoint
 class CreatePostDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentCreatePostBinding::inflate),
     PostConfigurationOptionListener, EmojiPickerListener {
@@ -30,9 +31,7 @@ class CreatePostDialogFragment :
     private val binding by lazy {
         getBinding() as DialogFragmentCreatePostBinding
     }
-    private val viewModel by viewModel<CreatePostViewModel> {
-        parametersOf(args.roomId, args.eventId, args.isEdit)
-    }
+    private val viewModel by viewModels<CreatePostViewModel>()
 
     private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private var createPostListener: CreatePostListener? = null

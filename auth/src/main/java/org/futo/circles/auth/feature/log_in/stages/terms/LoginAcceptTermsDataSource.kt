@@ -7,8 +7,9 @@ import org.futo.circles.auth.extensions.toTermsListItems
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.data.LoginFlowTypes
 import org.matrix.android.sdk.api.auth.registration.Stage
+import javax.inject.Inject
 
-class LoginAcceptTermsDataSource(
+class LoginAcceptTermsDataSource @Inject constructor(
     private val loginStagesDataSource: BaseLoginStagesDataSource
 ) : BaseAcceptTermsDataSource() {
 

@@ -4,9 +4,11 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
@@ -15,13 +17,12 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
+@AndroidEntryPoint
 class ReAuthStagesDialogFragment :
     BaseFullscreenDialogFragment(FragmentLoginStagesBinding::inflate), BackPressOwner {
 
-    private val viewModel by viewModel<ReAuthStageViewModel>()
+    private val viewModel by viewModels<ReAuthStageViewModel>()
 
     private val binding by lazy {
         getBinding() as FragmentLoginStagesBinding

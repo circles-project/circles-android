@@ -5,8 +5,10 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentLogInBinding
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersAdapter
@@ -20,13 +22,13 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.HasLoadingState
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
+@AndroidEntryPoint
 class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
 
     override val fragment: Fragment = this
-    private val viewModel by viewModel<LogInViewModel>()
+    private val viewModel by viewModels<LogInViewModel>()
     private val binding by viewBinding(FragmentLogInBinding::bind)
 
     private val autocompleteAdapter by lazy {

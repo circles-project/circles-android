@@ -3,9 +3,10 @@ package org.futo.circles.feature.room.manage_members
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.getUserPowerLevel
 import org.futo.circles.core.extensions.observeData
@@ -20,19 +21,14 @@ import org.futo.circles.model.BanUser
 import org.futo.circles.model.CancelInvite
 import org.futo.circles.model.RemoveRoomUser
 import org.futo.circles.model.UnbanUser
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
-
+@AndroidEntryPoint
 class ManageMembersDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentManageMembersBinding::inflate),
     ManageMembersOptionsListener, ChangeAccessLevelListener {
 
-    private val args: ManageMembersDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<ManageMembersViewModel> {
-        parametersOf(args.roomId, args.type)
-    }
+    private val viewModel by viewModels<ManageMembersViewModel>()
 
     private val membersListAdapter by lazy {
         GroupMembersListAdapter(

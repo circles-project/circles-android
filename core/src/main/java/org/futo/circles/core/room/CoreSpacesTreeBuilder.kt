@@ -2,6 +2,7 @@ package org.futo.circles.core.room
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import org.futo.circles.core.CREATE_ROOM_DELAY
 import org.futo.circles.core.R
@@ -15,9 +16,10 @@ import org.futo.circles.core.model.RootSpace
 import org.futo.circles.core.model.SharedCirclesSpace
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class CoreSpacesTreeBuilder(
-    private val context: Context,
+class CoreSpacesTreeBuilder @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val createRoomDataSource: CreateRoomDataSource
 ) {
 

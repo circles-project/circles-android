@@ -1,11 +1,14 @@
 package org.futo.circles.feature.groups
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import javax.inject.Inject
 
-class GroupsViewModel(private val dataSource: GroupsDataSource) : ViewModel() {
+@HiltViewModel
+class GroupsViewModel @Inject constructor(private val dataSource: GroupsDataSource) : ViewModel() {
 
     val roomsLiveData = dataSource.getGroupsLiveData()
     val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()

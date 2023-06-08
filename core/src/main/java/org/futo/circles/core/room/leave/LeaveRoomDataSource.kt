@@ -1,7 +1,10 @@
 package org.futo.circles.core.room.leave
 
+import androidx.lifecycle.SavedStateHandle
+import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.getRoomOwners
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.RoomRelationsBuilder
@@ -10,11 +13,14 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
+import javax.inject.Inject
 
-class LeaveRoomDataSource(
-    private val roomId: String,
+@ViewModelScoped
+class LeaveRoomDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)

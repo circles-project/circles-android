@@ -2,7 +2,11 @@ package org.futo.circles.feature.room.manage_members
 
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
+import dagger.assisted.AssistedFactory
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,6 +18,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import org.futo.circles.R
 import org.futo.circles.base.ExpandableItemsDataSource
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -33,12 +38,16 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
+import javax.inject.Inject
 
-class ManageMembersDataSource(
-    private val roomId: String,
-    private val type: CircleRoomTypeArg,
-    private val context: Context
+@ViewModelScoped
+class ManageMembersDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    @ApplicationContext private val context: Context
 ) : ExpandableItemsDataSource {
+
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    private val type: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)

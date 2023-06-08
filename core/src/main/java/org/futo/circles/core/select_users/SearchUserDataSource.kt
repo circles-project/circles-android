@@ -12,8 +12,9 @@ import org.futo.circles.core.extensions.getServerDomain
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
+import javax.inject.Inject
 
-class SearchUserDataSource {
+class SearchUserDataSource @Inject constructor(){
 
     private val session = MatrixSessionProvider.currentSession
 

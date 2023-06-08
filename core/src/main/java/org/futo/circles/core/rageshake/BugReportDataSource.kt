@@ -5,8 +5,9 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.getRageShakeUrl
 import org.futo.circles.core.rageshake.io.BugreportApiService
+import javax.inject.Inject
 
-class BugReportDataSource(
+class BugReportDataSource @Inject constructor(
     private val bugReportDataCollector: BugReportDataCollector,
     private val bugreportApiService: BugreportApiService
 ) {

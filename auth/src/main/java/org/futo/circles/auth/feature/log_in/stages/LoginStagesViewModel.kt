@@ -2,11 +2,13 @@ package org.futo.circles.auth.feature.log_in.stages
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import javax.inject.Inject
 
-
-class LoginStagesViewModel(
+@HiltViewModel
+class LoginStagesViewModel @Inject constructor(
     private val loginStagesDataSource: LoginStagesDataSource
 ) : ViewModel() {
 

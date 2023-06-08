@@ -2,6 +2,7 @@ package org.futo.circles.feature.circles.setup
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import org.futo.circles.core.CREATE_ROOM_DELAY
 import org.futo.circles.core.SingleEventLiveData
@@ -9,8 +10,10 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.room.CreateRoomDataSource
+import javax.inject.Inject
 
-class SetupCirclesViewModel(
+@HiltViewModel
+class SetupCirclesViewModel @Inject constructor(
     private val setupCirclesDataSource: SetupCirclesDataSource,
     private val createRoomDataSource: CreateRoomDataSource
 ) : ViewModel() {

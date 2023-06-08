@@ -1,17 +1,23 @@
 package org.futo.circles.gallery.feature.backup.service
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.gallery.feature.backup.MediaBackupDataSource
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import javax.inject.Inject
 
-class MediaBackupWorker(context: Context, params: WorkerParameters) :
-    CoroutineWorker(context, params), KoinComponent {
+@HiltWorker
+class MediaBackupWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted params: WorkerParameters
+) : CoroutineWorker(context, params) {
 
-    private val mediaBackupDataSource: MediaBackupDataSource by inject()
+    @Inject
+    lateinit var mediaBackupDataSource: MediaBackupDataSource
 
     override suspend fun doWork(): Result {
         try {

@@ -4,8 +4,9 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.feature.notifications.CirclesSyncAndroidService.Companion.DEFAULT_SYNC_DELAY_SECONDS
 import org.futo.circles.feature.notifications.CirclesSyncAndroidService.Companion.DEFAULT_SYNC_TIMEOUT_SECONDS
+import javax.inject.Inject
 
-class BackgroundSyncStarter(
+class BackgroundSyncStarter @Inject constructor(
     private val preferencesProvider: PreferencesProvider
 ) {
     fun start() {

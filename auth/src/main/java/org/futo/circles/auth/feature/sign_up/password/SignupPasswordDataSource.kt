@@ -2,11 +2,13 @@ package org.futo.circles.auth.feature.sign_up.password
 
 import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.base.PasswordDataSource
+import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_PASSWORD_TYPE
 import org.futo.circles.core.extensions.Response
+import javax.inject.Inject
 
-class SignupPasswordDataSource(
-    private val signUpDataSource: org.futo.circles.auth.feature.sign_up.SignUpDataSource
+class SignupPasswordDataSource @Inject constructor(
+    private val signUpDataSource: SignUpDataSource
 ) : PasswordDataSource {
 
     override suspend fun processPasswordStage(password: String): Response<Unit> =

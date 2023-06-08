@@ -5,9 +5,10 @@ import org.matrix.android.sdk.api.auth.UIABaseAuth
 import org.matrix.android.sdk.api.auth.UserInteractiveAuthInterceptor
 import org.matrix.android.sdk.api.auth.registration.RegistrationFlowResponse
 import org.matrix.android.sdk.internal.auth.toFlowsWithStages
+import javax.inject.Inject
 import kotlin.coroutines.Continuation
 
-class AuthConfirmationProvider(
+class AuthConfirmationProvider @Inject constructor(
     private val reAuthStagesDataSource: ReAuthStagesDataSource
 ) : UserInteractiveAuthInterceptor {
 

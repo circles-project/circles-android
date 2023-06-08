@@ -1,6 +1,7 @@
 package org.futo.circles.auth.feature.cross_signing
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.Session
@@ -12,8 +13,9 @@ import org.matrix.android.sdk.api.session.securestorage.KeyInfoResult
 import org.matrix.android.sdk.api.session.securestorage.KeyRef
 import org.matrix.android.sdk.api.session.securestorage.SsssKeySpec
 import org.matrix.android.sdk.api.util.awaitCallback
+import javax.inject.Inject
 
-class CrossSigningDataSource(private val context: Context) {
+class CrossSigningDataSource @Inject constructor(@ApplicationContext private val context: Context) {
 
     suspend fun initCrossSigningIfNeed(keySpec: SsssKeySpec) {
         val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(

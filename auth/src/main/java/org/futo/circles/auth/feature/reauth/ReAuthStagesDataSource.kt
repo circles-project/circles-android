@@ -1,10 +1,12 @@
 package org.futo.circles.auth.feature.reauth
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.BaseLoginStagesDataSource
-import org.futo.circles.core.extensions.Response
 import org.futo.circles.auth.model.CustomUIAuth
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.UIABaseAuth
 import org.matrix.android.sdk.api.auth.registration.RegistrationFlowResponse
@@ -12,15 +14,18 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.auth.registration.toFlowResult
 import org.matrix.android.sdk.api.util.JsonDict
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class ReAuthStagesDataSource(
-    context: Context,
+@Singleton
+class ReAuthStagesDataSource @Inject constructor(
+    @ApplicationContext context: Context,
 ) : BaseLoginStagesDataSource(context) {
 
-    val finishReAuthEventLiveData = org.futo.circles.core.SingleEventLiveData<Unit>()
+    val finishReAuthEventLiveData = SingleEventLiveData<Unit>()
     private var authPromise: Continuation<UIABaseAuth>? = null
     private var sessionId: String = ""
     private var stageResultContinuation: Continuation<Response<RegistrationResult>>? =

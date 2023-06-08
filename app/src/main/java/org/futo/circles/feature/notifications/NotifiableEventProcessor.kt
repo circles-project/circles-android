@@ -6,10 +6,11 @@ import org.futo.circles.feature.notifications.ProcessedEvent.Type.REMOVE
 import org.futo.circles.model.NotifiableEvent
 import org.futo.circles.model.NotifiableMessageEvent
 import org.matrix.android.sdk.api.session.getRoom
+import javax.inject.Inject
 
 private typealias ProcessedEvents = List<ProcessedEvent<NotifiableEvent>>
 
-class NotifiableEventProcessor {
+class NotifiableEventProcessor @Inject constructor() {
 
     fun process(
         queuedEvents: List<NotifiableEvent>,

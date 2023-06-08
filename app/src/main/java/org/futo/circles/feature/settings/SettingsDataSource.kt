@@ -3,6 +3,7 @@ package org.futo.circles.feature.settings
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.futo.circles.R
@@ -13,9 +14,10 @@ import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
 import java.io.File
+import javax.inject.Inject
 
-class SettingsDataSource(
-    private val context: Context,
+class SettingsDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val changePasswordDataSource: ChangePasswordDataSource,
     private val authConfirmationProvider: AuthConfirmationProvider
 ) {

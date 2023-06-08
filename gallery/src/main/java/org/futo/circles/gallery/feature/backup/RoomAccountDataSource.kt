@@ -10,8 +10,9 @@ import org.futo.circles.gallery.model.toMediaBackupSettingsData
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.accountdata.RoomAccountDataEvent
 import org.matrix.android.sdk.api.util.Optional
+import javax.inject.Inject
 
-class RoomAccountDataSource {
+class RoomAccountDataSource @Inject constructor() {
 
     fun getMediaBackupSettingsLive() =
         getAccountDataEventLive(getPhotosSpaceId() ?: "", ROOM_BACKUP_EVENT_TYPE)?.map {

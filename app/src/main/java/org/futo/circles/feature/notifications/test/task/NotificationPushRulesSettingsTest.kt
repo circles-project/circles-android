@@ -1,16 +1,18 @@
 package org.futo.circles.feature.notifications.test.task
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.NotificationTestStatus
 import org.futo.circles.model.toNotificationAction
 import org.matrix.android.sdk.api.session.pushrules.RuleIds
 import org.matrix.android.sdk.api.session.pushrules.getActions
+import javax.inject.Inject
 
 
-class NotificationPushRulesSettingsTest(
-    private val context: Context
+class NotificationPushRulesSettingsTest @Inject constructor(
+    @ApplicationContext private val context: Context
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_bing_settings_title) {
 
     private val testedRules =

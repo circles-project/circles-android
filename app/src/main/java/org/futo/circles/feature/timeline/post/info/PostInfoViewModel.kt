@@ -1,18 +1,23 @@
 package org.futo.circles.feature.timeline.post.info
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.json.JSONObject
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
+import javax.inject.Inject
 
-class PostInfoViewModel(
-    private val roomId: String,
-    private val eventId: String
-) : ViewModel() {
+@HiltViewModel
+class PostInfoViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
+
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    private val eventId: String = savedStateHandle.getOrThrow("eventId")
 
     val infoLiveData = SingleEventLiveData<String>()
 

@@ -8,8 +8,9 @@ import org.futo.circles.gallery.model.GalleryListItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class PhotosDataSource {
+class PhotosDataSource @Inject constructor() {
 
     fun getGalleriesLiveData() = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummariesLive(roomSummaryQueryParams())

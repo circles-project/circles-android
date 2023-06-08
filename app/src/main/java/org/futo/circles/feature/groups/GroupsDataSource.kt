@@ -11,8 +11,9 @@ import org.futo.circles.model.GroupListItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class GroupsDataSource(
+class GroupsDataSource @Inject constructor(
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 

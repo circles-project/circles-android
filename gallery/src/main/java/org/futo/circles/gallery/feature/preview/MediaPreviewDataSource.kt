@@ -1,5 +1,9 @@
 package org.futo.circles.gallery.feature.preview
 
+import androidx.lifecycle.SavedStateHandle
+import dagger.assisted.AssistedFactory
+import dagger.hilt.android.scopes.ViewModelScoped
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
@@ -9,11 +13,14 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
+import javax.inject.Inject
 
-class MediaPreviewDataSource(
-    private val roomId: String,
-    private val eventId: String
+@ViewModelScoped
+class MediaPreviewDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle
 ) {
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    private val eventId: String = savedStateHandle.getOrThrow("eventId")
 
     private val session = MatrixSessionProvider.currentSession
 

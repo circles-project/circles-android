@@ -1,6 +1,7 @@
 package org.futo.circles.auth.feature.log_in
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.DIRECT_LOGIN_PASSWORD_TYPE
 import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_PASSWORD_TYPE
@@ -13,9 +14,10 @@ import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
 import org.matrix.android.sdk.api.auth.data.HomeServerConnectionConfig
 import org.matrix.android.sdk.api.auth.registration.Stage
+import javax.inject.Inject
 
-class LoginDataSource(
-    private val context: Context,
+class LoginDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val loginStagesDataSource: LoginStagesDataSource
 ) {
 

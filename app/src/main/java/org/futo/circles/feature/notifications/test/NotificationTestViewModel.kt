@@ -2,12 +2,15 @@ package org.futo.circles.feature.notifications.test
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.feature.notifications.test.task.NotificationTestsProvider
 import org.futo.circles.feature.notifications.test.task.TestPushClicker
 import org.futo.circles.feature.notifications.test.task.TestPushDisplayEvenReceiver
 import org.futo.circles.model.NotificationTestListItem
+import javax.inject.Inject
 
-class NotificationTestViewModel(
+@HiltViewModel
+class NotificationTestViewModel @Inject constructor(
     testProvider: NotificationTestsProvider
 ) : ViewModel() {
 

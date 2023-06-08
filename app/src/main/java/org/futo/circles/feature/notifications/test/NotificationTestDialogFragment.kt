@@ -7,21 +7,23 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentNotificationsTestBinding
 import org.futo.circles.feature.notifications.NotificationActionIds
 import org.futo.circles.feature.notifications.test.list.NotificationsTestAdapter
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.matrix.android.sdk.api.extensions.tryOrNull
 
+@AndroidEntryPoint
 class NotificationTestDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentNotificationsTestBinding::inflate) {
 
-    private val viewModel by viewModel<NotificationTestViewModel>()
+    private val viewModel by viewModels<NotificationTestViewModel>()
 
     private val binding by lazy {
         getBinding() as DialogFragmentNotificationsTestBinding

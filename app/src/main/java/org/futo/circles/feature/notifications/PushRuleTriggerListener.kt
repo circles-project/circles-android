@@ -12,9 +12,11 @@ import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.pushrules.PushEvents
 import org.matrix.android.sdk.api.session.pushrules.PushRuleService
 import org.matrix.android.sdk.api.session.pushrules.getActions
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class PushRuleTriggerListener(
+@Singleton
+class PushRuleTriggerListener @Inject constructor(
     private val resolver: NotifiableEventResolver,
     private val notificationDrawerManager: NotificationDrawerManager
 ) : PushRuleService.PushRuleListener {

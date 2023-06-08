@@ -4,8 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
@@ -22,17 +23,12 @@ import org.futo.circles.feature.people.user.list.UsersCirclesAdapter
 import org.futo.circles.model.IgnoreUser
 import org.futo.circles.model.UnfollowTimeline
 import org.futo.circles.model.UnfollowUser
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.user.model.User
 
-
+@AndroidEntryPoint
 class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBinding::inflate) {
 
-    private val args: UserDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<UserViewModel> {
-        parametersOf(args.userId)
-    }
+    private val viewModel by viewModels<UserViewModel>()
     private val binding by lazy {
         getBinding() as DialogFragmentUserBinding
     }

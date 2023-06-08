@@ -5,6 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.DialogFragmentBugReportBinding
 import org.futo.circles.core.extensions.getText
@@ -15,13 +17,13 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class BugReportDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentBugReportBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
-    private val viewModel by viewModel<BugReportViewModel>()
+    private val viewModel by viewModels<BugReportViewModel>()
     private val binding by lazy {
         getBinding() as DialogFragmentBugReportBinding
     }

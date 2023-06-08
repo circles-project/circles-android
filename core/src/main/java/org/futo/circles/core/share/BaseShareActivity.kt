@@ -3,6 +3,7 @@ package org.futo.circles.core.share
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.core.BaseActivity
@@ -14,11 +15,10 @@ import org.futo.circles.core.picker.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.select.RoomsPicker
 import org.futo.circles.core.room.select.SelectRoomsListener
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), SelectRoomsListener {
 
-    private val viewModel by viewModel<BaseShareViewModel>()
+    private val viewModel by viewModels<BaseShareViewModel>()
     protected val binding by viewBinding(ActivityBaseShareBinding::bind, R.id.mainContainer)
     abstract val roomsPicker: RoomsPicker
 

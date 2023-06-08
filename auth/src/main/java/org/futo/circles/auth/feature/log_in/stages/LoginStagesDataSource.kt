@@ -2,23 +2,27 @@ package org.futo.circles.auth.feature.log_in.stages
 
 import android.content.Context
 import android.net.Uri
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.BaseLoginStagesDataSource
+import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.room.CoreSpacesTreeBuilder
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
+import javax.inject.Inject
+import javax.inject.Singleton
 
 enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase }
 
-class LoginStagesDataSource(
-    private val context: Context,
+@Singleton
+class LoginStagesDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val restoreBackupDataSource: RestoreBackupDataSource,
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder
 ) : BaseLoginStagesDataSource(context) {

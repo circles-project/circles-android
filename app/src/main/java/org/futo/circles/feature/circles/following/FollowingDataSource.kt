@@ -1,9 +1,13 @@
 package org.futo.circles.feature.circles.following
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.RoomRelationsBuilder
@@ -11,12 +15,17 @@ import org.futo.circles.mapping.toFollowingListItem
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class FollowingDataSource(
-    private val roomId: String,
-    context: Context,
+@ViewModelScoped
+class FollowingDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    @ApplicationContext context: Context,
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
+
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+
 
     private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
         context.getString(R.string.session_is_not_created)

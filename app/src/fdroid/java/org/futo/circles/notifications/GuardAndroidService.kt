@@ -3,15 +3,16 @@ package org.futo.circles.notifications
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.feature.notifications.NotificationUtils
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import javax.inject.Inject
 
+@AndroidEntryPoint
+class GuardAndroidService : Service() {
 
-class GuardAndroidService : Service(), KoinComponent {
-
-    private val notificationUtils: NotificationUtils by inject()
+    @Inject
+    lateinit var notificationUtils: NotificationUtils
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val notificationSubtitleRes = R.string.notification_listening_for_notifications

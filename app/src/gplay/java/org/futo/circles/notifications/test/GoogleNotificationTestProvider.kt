@@ -2,8 +2,9 @@ package org.futo.circles.notifications.test
 
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.test.task.*
+import javax.inject.Inject
 
-class GoogleNotificationTestProvider(
+class GoogleNotificationTestProvider @Inject constructor(
     private val pushersManager: PushersManager,
     private val testSystemSettings: NotificationSystemSettingsTest,
     private val testAccountSettings: NotificationAccountSettingsTest,
