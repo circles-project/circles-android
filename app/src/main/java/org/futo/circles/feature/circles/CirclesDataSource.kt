@@ -1,6 +1,11 @@
 package org.futo.circles.feature.circles
 
-import androidx.lifecycle.map
+import androidx.lifecycle.asFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.mapping.toRoomInfo
 import org.futo.circles.core.model.CIRCLE_TAG
@@ -22,9 +27,11 @@ import javax.inject.Inject
 
 class CirclesDataSource @Inject constructor() {
 
-    fun getCirclesLiveData() = MatrixSessionProvider.currentSession?.roomService()
-        ?.getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
-        ?.map { list -> buildCirclesList(list) }
+    fun getCirclesFlow() = MatrixSessionProvider.currentSession?.roomService()
+        ?.getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })?.asFlow()
+        ?.flowOn(Dispatchers.IO)
+        ?.distinctUntilChanged()
+        ?.mapLatest { list -> buildCirclesList(list) } ?: flowOf(emptyList())
 
     private fun buildCirclesList(list: List<RoomSummary>): List<CircleListItem> {
         val invites =
