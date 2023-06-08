@@ -18,18 +18,15 @@ abstract class FlavorModule {
 
     companion object {
         @Provides
-        @Singleton
         fun provideGuardServiceStarter(): GuardServiceStarter {
             return object : GuardServiceStarter {}
         }
     }
 
     @Binds
-    @Singleton
     abstract fun bindsFcmHelper(fcmHelper: GoogleFcmHelper): FcmHelper
 
     @Binds
-    @Singleton
     abstract fun bindsNotificationTestProvider(provider: GoogleNotificationTestProvider): NotificationTestsProvider
 
 }
