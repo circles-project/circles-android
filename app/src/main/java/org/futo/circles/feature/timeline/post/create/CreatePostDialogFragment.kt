@@ -32,9 +32,6 @@ class CreatePostDialogFragment :
         getBinding() as DialogFragmentCreatePostBinding
     }
     private val viewModel by viewModels<CreatePostViewModel>()
-//    {
-//        parametersOf(args.roomId, args.eventId, args.isEdit)
-//    }
 
     private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private var createPostListener: CreatePostListener? = null

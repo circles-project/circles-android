@@ -27,9 +27,6 @@ class CreatePollDialogFragment :
     private val isEdit by lazy { args.eventId != null }
 
     private val viewModel by viewModels<CreatePollViewModel>()
-//    {
-//        parametersOf(args.roomId, args.eventId)
-//    }
 
     private var createPollListener: CreatePollListener? = null
 

@@ -30,18 +30,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 val authUiModule = module {
-    //viewModel { HomeViewModel(get(), get(), get(), get()) }
-//    viewModel { (roomId: String, eventId: String?, isEdit: Boolean) ->
-//        CreatePostViewModel(roomId, eventId, isEdit)
-//    }
-   // viewModel { (roomId: String, eventId: String?) -> CreatePollViewModel(roomId, eventId) }
-    //viewModel { (roomId: String, eventId: String) -> PostInfoViewModel(roomId, eventId) }
 
-    //--------
-    //viewModel { LogInViewModel(get(), get()) }
-   // viewModel { SignUpViewModel(get()) }
-    //viewModel { ValidateTokenViewModel(get()) }
-    //viewModel { SelectSignUpTypeViewModel(get()) }
     viewModel { (mode: TermsModeArg) ->
         AcceptTermsViewModel(
             when (mode) {
@@ -51,10 +40,7 @@ val authUiModule = module {
             }
         )
     }
-    //viewModel { ValidateEmailViewModel(get()) }
-    //viewModel { SetupProfileViewModel(get()) }
-    //viewModel { SetupCirclesViewModel(get(), get()) }
-    //viewModel { SubscriptionStageViewModel(get()) }
+
     viewModel { (passwordMode: PasswordModeArg) ->
         PasswordViewModel(
             when (passwordMode) {
@@ -81,6 +67,4 @@ val authUiModule = module {
             }
         )
     }
-    //viewModel { LoginStagesViewModel(get()) }
-    //viewModel { ReAuthStageViewModel(get()) }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_OPRF_TYPE
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_SAVE_TYPE
+import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
@@ -15,8 +16,7 @@ abstract class BaseLoginStagesDataSource(
 ) {
 
     val subtitleLiveData = MutableLiveData<String>()
-    val loginStageNavigationLiveData =
-        org.futo.circles.core.SingleEventLiveData<LoginStageNavigationEvent>()
+    val loginStageNavigationLiveData = SingleEventLiveData<LoginStageNavigationEvent>()
 
     val stagesToComplete = mutableListOf<Stage>()
     var currentStage: Stage? = null

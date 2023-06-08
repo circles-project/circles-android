@@ -19,9 +19,6 @@ class PostInfoDialogFragment :
         getBinding() as DialogFragmentDebugInfoBinding
     }
     private val viewModel by viewModels<PostInfoViewModel>()
-//    {
-//        parametersOf(args.roomId, args.eventId)
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
