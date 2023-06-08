@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.room.update.UpdateRoomDialogFragment
@@ -14,7 +15,7 @@ import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentUpdateGalleryBinding
 import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-
+@AndroidEntryPoint
 class UpdateGalleryDialogFragment :
     UpdateRoomDialogFragment(DialogFragmentUpdateGalleryBinding::inflate) {
 
