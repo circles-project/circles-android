@@ -1,10 +1,10 @@
 package org.futo.circles.core.timeline
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.scopes.ViewModelScoped
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.Post
@@ -14,22 +14,17 @@ import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
+import javax.inject.Inject
 
-class TimelineDataSource @AssistedInject constructor(
-    @Assisted roomId: String,
-    @Assisted private val type: CircleRoomTypeArg,
-    @Assisted private val threadEventId: String?,
+@ViewModelScoped
+class TimelineDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val timelineBuilder: TimelineBuilder
 ) : Timeline.Listener {
 
-    @AssistedFactory
-    interface Factory {
-        fun create(
-            roomId: String,
-            type: CircleRoomTypeArg,
-            threadEventId: String?
-        ): TimelineDataSource
-    }
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    private val type: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
+    private val threadEventId: String? = savedStateHandle["threadEventId"]
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)
