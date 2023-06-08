@@ -1,28 +1,27 @@
 package org.futo.circles.feature.room.invite
 
 import android.content.Context
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
+import javax.inject.Inject
 
-class InviteMembersDataSource @AssistedInject constructor(
-    @Assisted private val roomId: String,
+@ViewModelScoped
+class InviteMembersDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     @ApplicationContext private val context: Context
 ) {
 
-    @AssistedFactory
-    interface Factory {
-        fun create(roomId: String): InviteMembersDataSource
-    }
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
 
     private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
 

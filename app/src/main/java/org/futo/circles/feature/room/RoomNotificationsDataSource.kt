@@ -2,30 +2,30 @@ package org.futo.circles.feature.room
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
-import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.notification.RoomNotificationState
+import javax.inject.Inject
 
-class RoomNotificationsDataSource @AssistedInject constructor(
-    @Assisted private val roomId: String,
-    @Assisted private val type: CircleRoomTypeArg,
+@ViewModelScoped
+class RoomNotificationsDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     @ApplicationContext private val context: Context
 ) {
 
-    @AssistedFactory
-    interface Factory {
-        fun create(roomId: String, type: CircleRoomTypeArg): RoomNotificationsDataSource
-    }
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    private val type: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
 
     private val session
         get() = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(

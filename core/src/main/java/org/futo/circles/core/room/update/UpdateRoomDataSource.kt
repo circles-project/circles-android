@@ -2,29 +2,28 @@ package org.futo.circles.core.room.update
 
 import android.content.Context
 import android.net.Uri
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getFilename
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.utils.isCircleShared
 import org.matrix.android.sdk.api.session.getRoom
 import java.util.UUID
+import javax.inject.Inject
 
-class UpdateRoomDataSource @AssistedInject constructor(
-    @Assisted roomId: String,
+@ViewModelScoped
+class UpdateRoomDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     @ApplicationContext private val context: Context,
     private val createRoomDataSource: CreateRoomDataSource
 ) {
 
-    @AssistedFactory
-    interface Factory {
-        fun create(roomId: String): UpdateRoomDataSource
-    }
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
 
     private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
 

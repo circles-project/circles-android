@@ -1,10 +1,9 @@
 package org.futo.circles.feature.room.select
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +11,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOn
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.toSelectableRoomListItem
 import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.model.CircleRoomTypeArg
@@ -19,20 +19,20 @@ import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
-class SelectRoomsDataSource @AssistedInject constructor(
-    @Assisted private val roomType: CircleRoomTypeArg
+@ViewModelScoped
+class SelectRoomsDataSource @Inject constructor(
+    savedStateHandle: SavedStateHandle
 ) {
 
-    @AssistedFactory
-    interface Factory {
-        fun create(roomType: CircleRoomTypeArg): SelectRoomsDataSource
-    }
+    val ordinal = savedStateHandle.getOrThrow<Int>(SelectRoomsFragment.TYPE_ORDINAL)
+    private val roomType: CircleRoomTypeArg =
+        CircleRoomTypeArg.values().firstOrNull { it.ordinal == ordinal }
+            ?: CircleRoomTypeArg.Circle
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 
