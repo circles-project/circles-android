@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
@@ -29,7 +28,6 @@ class ManageMembersDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentManageMembersBinding::inflate),
     ManageMembersOptionsListener, ChangeAccessLevelListener {
 
-    private val args: ManageMembersDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<ManageMembersViewModel>()
 
     private val membersListAdapter by lazy {

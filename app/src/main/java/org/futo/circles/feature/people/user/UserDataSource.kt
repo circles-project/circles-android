@@ -3,6 +3,9 @@ package org.futo.circles.feature.people.user
 import android.content.Context
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
@@ -22,12 +25,16 @@ import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
-import javax.inject.Inject
 
-class UserDataSource @Inject constructor(
+class UserDataSource @AssistedInject constructor(
     @ApplicationContext context: Context,
-    private val userId: String
+    @Assisted private val userId: String
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(userId: String): UserDataSource
+    }
 
     private val session by lazy {
         MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(

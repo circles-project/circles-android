@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
@@ -21,7 +20,6 @@ class ReportDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentReportBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
-    private val args: ReportDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<ReportViewModel>()
     private val listAdapter by lazy { ReportCategoryAdapter(::onReportCategorySelected) }
 

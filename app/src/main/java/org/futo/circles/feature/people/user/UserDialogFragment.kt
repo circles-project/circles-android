@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
@@ -29,7 +28,6 @@ import org.matrix.android.sdk.api.session.user.model.User
 @AndroidEntryPoint
 class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBinding::inflate) {
 
-    private val args: UserDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<UserViewModel>()
     private val binding by lazy {
         getBinding() as DialogFragmentUserBinding

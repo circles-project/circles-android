@@ -2,6 +2,9 @@ package org.futo.circles.feature.circles.following
 
 import android.content.Context
 import androidx.lifecycle.map
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
@@ -12,13 +15,18 @@ import org.futo.circles.mapping.toFollowingListItem
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
-import javax.inject.Inject
 
-class FollowingDataSource @Inject constructor(
-    private val roomId: String,
+class FollowingDataSource @AssistedInject constructor(
+    @Assisted private val roomId: String,
     @ApplicationContext context: Context,
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomId: String): FollowingDataSource
+    }
+
 
     private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
         context.getString(R.string.session_is_not_created)

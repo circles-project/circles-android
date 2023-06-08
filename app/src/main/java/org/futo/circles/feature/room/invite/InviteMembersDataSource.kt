@@ -1,6 +1,9 @@
 package org.futo.circles.feature.room.invite
 
 import android.content.Context
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
@@ -10,12 +13,16 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
-import javax.inject.Inject
 
-class InviteMembersDataSource @Inject constructor(
-    private val roomId: String,
+class InviteMembersDataSource @AssistedInject constructor(
+    @Assisted private val roomId: String,
     @ApplicationContext private val context: Context
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomId: String): InviteMembersDataSource
+    }
 
     private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
 

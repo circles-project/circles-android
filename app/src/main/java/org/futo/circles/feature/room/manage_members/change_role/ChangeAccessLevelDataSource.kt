@@ -1,15 +1,22 @@
 package org.futo.circles.feature.room.manage_members.change_role
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import org.futo.circles.base.READ_ONLY_ROLE
 import org.futo.circles.model.AccessLevel
 import org.futo.circles.model.AccessLevelListItem
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
-import javax.inject.Inject
 
-class ChangeAccessLevelDataSource @Inject constructor(
-    private val levelValue: Int,
-    private val myUserLevelValue: Int
+class ChangeAccessLevelDataSource @AssistedInject constructor(
+    @Assisted private val levelValue: Int,
+    @Assisted private val myUserLevelValue: Int
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(levelValue: Int, myUserLevelValue: Int): ChangeAccessLevelDataSource
+    }
 
     fun getRolesList() = AccessLevel.values().map {
         AccessLevelListItem(

@@ -2,19 +2,26 @@ package org.futo.circles.feature.timeline.post.report
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.ReportCategoryListItem
 import org.matrix.android.sdk.api.session.getRoom
-import javax.inject.Inject
 
-class ReportDataSource @Inject constructor(
-    roomId: String,
-    private val eventId: String,
+class ReportDataSource @AssistedInject constructor(
+    @Assisted roomId: String,
+    @Assisted private val eventId: String,
     @ApplicationContext private val context: Context
 ) {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomId: String, eventId: String): ReportDataSource
+    }
 
     private val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
     val reportCategoriesLiveData = MutableLiveData(getInitialReportCategories())

@@ -3,7 +3,6 @@ package org.futo.circles.feature.circles.following
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
@@ -17,7 +16,6 @@ import org.futo.circles.model.FollowingListItem
 class FollowingDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentFollowingBinding::inflate) {
 
-    private val args: FollowingDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<FollowingViewModel>()
     private val binding by lazy {
         getBinding() as DialogFragmentFollowingBinding

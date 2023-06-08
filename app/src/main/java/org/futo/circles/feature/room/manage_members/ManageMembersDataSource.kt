@@ -3,6 +3,9 @@ package org.futo.circles.feature.room.manage_members
 
 import android.content.Context
 import androidx.lifecycle.asFlow
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -34,13 +37,17 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
-import javax.inject.Inject
 
-class ManageMembersDataSource @Inject constructor(
-    private val roomId: String,
-    private val type: CircleRoomTypeArg,
+class ManageMembersDataSource @AssistedInject constructor(
+    @Assisted private val roomId: String,
+    @Assisted private val type: CircleRoomTypeArg,
     @ApplicationContext private val context: Context
 ) : ExpandableItemsDataSource {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(roomId: String, type: CircleRoomTypeArg): ManageMembersDataSource
+    }
 
     private val session = MatrixSessionProvider.currentSession
     private val room = session?.getRoom(roomId)
