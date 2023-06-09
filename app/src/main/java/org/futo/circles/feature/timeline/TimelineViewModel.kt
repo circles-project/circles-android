@@ -5,20 +5,20 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.feature.people.UserOptionsDataSource
-import org.futo.circles.core.room.leave.LeaveRoomDataSource
-import org.futo.circles.feature.room.RoomNotificationsDataSource
+import org.futo.circles.core.model.CreatePollContent
+import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
-import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
-import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
-import org.futo.circles.core.timeline.post.SendMessageDataSource
+import org.futo.circles.core.room.leave.LeaveRoomDataSource
+import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.TimelineDataSource
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
-import org.futo.circles.core.model.CreatePollContent
-import org.futo.circles.core.timeline.BaseTimelineViewModel
+import org.futo.circles.core.timeline.post.SendMessageDataSource
+import org.futo.circles.feature.people.UserOptionsDataSource
+import org.futo.circles.feature.room.RoomNotificationsDataSource
+import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
+import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
-import org.futo.circles.core.model.PostContent
 import org.futo.circles.model.TextPostContent
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
@@ -111,15 +111,24 @@ class TimelineViewModel @Inject constructor(
     }
 
     fun leaveGroup() {
-        launchBg { leaveGroupLiveData.postValue(leaveRoomDataSource.leaveGroup()) }
+        launchBg {
+            val result = leaveRoomDataSource.leaveGroup()
+            leaveGroupLiveData.postValue(result)
+        }
     }
 
     fun deleteGroup() {
-        launchBg { deleteCircleLiveData.postValue(leaveRoomDataSource.deleteGroup()) }
+        launchBg {
+            val result = leaveRoomDataSource.deleteGroup()
+            deleteCircleLiveData.postValue(result)
+        }
     }
 
     fun deleteCircle() {
-        launchBg { deleteCircleLiveData.postValue(leaveRoomDataSource.deleteCircle()) }
+        launchBg {
+            val result = leaveRoomDataSource.deleteCircle()
+            deleteCircleLiveData.postValue(result)
+        }
     }
 
     fun canLeaveRoom(): Boolean = leaveRoomDataSource.canLeaveRoom()

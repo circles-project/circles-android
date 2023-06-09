@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import javax.inject.Inject
@@ -14,7 +15,7 @@ class SetupProfileViewModel @Inject constructor(
 ) : ViewModel() {
 
     val profileImageLiveData = MutableLiveData<Uri>()
-    val saveProfileResponseLiveData = org.futo.circles.core.SingleEventLiveData<Response<Unit?>>()
+    val saveProfileResponseLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun setProfileImageUri(uri: Uri) {
         profileImageLiveData.value = uri
@@ -23,9 +24,8 @@ class SetupProfileViewModel @Inject constructor(
 
     fun saveProfileInfo(displayName: String?) {
         launchBg {
-            saveProfileResponseLiveData.postValue(
-                dataSource.saveProfileData(profileImageLiveData.value, displayName)
-            )
+            val result = dataSource.saveProfileData(profileImageLiveData.value, displayName)
+            saveProfileResponseLiveData.postValue(result)
         }
     }
 

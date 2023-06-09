@@ -33,9 +33,8 @@ class EditProfileViewModel @Inject constructor(
 
     fun update(name: String) {
         launchBg {
-            editProfileResponseLiveData.postValue(
-                dataSource.saveProfileData(selectedImageLiveData.value, name)
-            )
+            val result = dataSource.saveProfileData(selectedImageLiveData.value, name)
+            editProfileResponseLiveData.postValue(result)
         }
     }
 
