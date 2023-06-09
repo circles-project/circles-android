@@ -56,7 +56,7 @@ class CirclesFragment : Fragment(R.layout.fragment_rooms) {
         homeViewModel.notificationLiveData.observeData(this) {
             findNavController().navigate(CirclesFragmentDirections.toTimeline(it))
         }
-        viewModel.roomsLiveData?.observeData(this) { listAdapter.submitList(it) }
+        viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
         viewModel.inviteResultLiveData.observeResponse(this)
     }
 

@@ -61,7 +61,7 @@
         </action>
         <action
             android:id="@+id/to_galleryImageDialogFragment"
-            app:destination="@id/galleryImageDialogFragment">
+            app:destination="@id/media_preview_nav_graph">
 
             <argument
                 android:name="roomId"
@@ -88,22 +88,8 @@
             app:nullable="false" />
 
     </dialog>
-    <dialog
-        android:id="@+id/galleryImageDialogFragment"
-        android:name="org.futo.circles.gallery.feature.preview.MediaPreviewDialogFragment"
-        tools:layout="@layout/dialog_fragment_media_preview">
 
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="eventId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
+    <include app:graph="@navigation/media_preview_nav_graph" />
 
     <dialog
         android:id="@+id/mediaBackupDialogFragment"
