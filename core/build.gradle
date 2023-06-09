@@ -56,7 +56,7 @@ dependencies {
     api "androidx.lifecycle:lifecycle-process:$lifecycle_version"
 
     //androidx navigation
-    def androidx_nav_version = "2.5.3"
+    def androidx_nav_version = "2.6.0"
     api "androidx.navigation:navigation-fragment-ktx:$androidx_nav_version"
     api "androidx.navigation:navigation-ui-ktx:$androidx_nav_version"
 
