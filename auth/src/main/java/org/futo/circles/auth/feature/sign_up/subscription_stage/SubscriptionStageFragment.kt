@@ -10,10 +10,11 @@ import org.futo.circles.auth.databinding.FragmentSubscriptionStageBinding
 import org.futo.circles.auth.feature.sign_up.subscription_stage.list.SubscriptionsAdapter
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.auth.subscriptions.ItemPurchasedListener
-import org.futo.circles.auth.subscriptions.SubscriptionManagerProvider
+import org.futo.circles.auth.subscriptions.SubscriptionProvider
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SubscriptionStageFragment :
@@ -22,8 +23,11 @@ class SubscriptionStageFragment :
     private val binding by viewBinding(FragmentSubscriptionStageBinding::bind)
     private val viewModel by viewModels<SubscriptionStageViewModel>()
 
+    @Inject
+    lateinit var subscriptionProvider: SubscriptionProvider
+
     private val subscriptionManager by lazy {
-        SubscriptionManagerProvider.getManager(
+        subscriptionProvider.getManager(
             this, object : ItemPurchasedListener {
                 override fun onItemPurchased(subscriptionReceiptData: SubscriptionReceiptData) {
                     viewModel.validateSubscription(subscriptionReceiptData)

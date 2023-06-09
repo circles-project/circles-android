@@ -40,17 +40,6 @@ android {
         }
     }
 
-    def flavor_dimension_name = "store"
-    flavorDimensions flavor_dimension_name
-    productFlavors {
-        gplay {
-            dimension flavor_dimension_name
-        }
-        fdroid {
-            dimension flavor_dimension_name
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -74,9 +63,6 @@ dependencies {
 
     //Password strength
     implementation 'com.nulab-inc:zxcvbn:1.7.0'
-
-    //Subscriptions
-    gplayImplementation 'com.android.billingclient:billing-ktx:6.0.0'
 
     //Hilt
     def hilt = '2.46.1'

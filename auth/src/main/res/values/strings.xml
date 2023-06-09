@@ -18,7 +18,6 @@
     <string name="choose_a_subscription">Choose a subscription</string>
     <string name="create_a_subscription">Create a subscription</string>
     <string name="sign_up">Sign Up</string>
-    <string name="purchase_failed_format">Purchase failed with code %d</string>
     <string name="not_supported_stage_format">Not supported stage %s</string>
     <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
     <string name="no_backup_message">Keys backup not found</string>
@@ -93,7 +92,7 @@
     <string name="remove_user_message">Are you sure you want to remove this user?</string>
     <string name="remove">Remove</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
-
+    <string name="purchase_failed_format">Purchase failed with code %d</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

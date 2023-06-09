@@ -9,12 +9,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSelectSignUpTypeBinding
-import org.futo.circles.auth.subscriptions.SubscriptionManagerProvider
+import org.futo.circles.auth.subscriptions.SubscriptionProvider
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.fragment.HasLoadingState
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type),
@@ -25,8 +26,11 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
     private val binding by viewBinding(FragmentSelectSignUpTypeBinding::bind)
     private val viewModel by viewModels<SelectSignUpTypeViewModel>()
 
+    @Inject
+    lateinit var subscriptionProvider: SubscriptionProvider
+
     private val subscriptionManager by lazy {
-        SubscriptionManagerProvider.getManager(this, null)
+        subscriptionProvider.getManager(this, null)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

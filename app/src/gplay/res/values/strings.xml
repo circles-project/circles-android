@@ -6,4 +6,5 @@
     <string name="user_canceled">User canceled</string>
     <string name="item_not_owned">Item is not owned</string>
     <string name="developer_error">Developer error</string>
+    <string name="purchase_failed_format">Purchase failed with code %d</string>
 </resources>

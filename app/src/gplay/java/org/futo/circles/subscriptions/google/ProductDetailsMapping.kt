@@ -1,4 +1,4 @@
-package org.futo.circles.auth.subscriptions.google
+package org.futo.circles.subscriptions.google
 
 import android.content.Context
 import com.android.billingclient.api.ProductDetails

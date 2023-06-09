@@ -164,12 +164,6 @@
     <string name="confirm">Confirm</string>
     <string name="reset_keys">Reset keys</string>
     <string name="reset_keys_message">Confirm auth to reset keys and enable cross signing</string>
-    <string name="feature_not_supported">Feature is not supported</string>
-    <string name="service_unavailable">Service unavailable</string>
-    <string name="item_unavailable">Item is unavailable</string>
-    <string name="user_canceled">User canceled</string>
-    <string name="item_not_owned">Item is not owned</string>
-    <string name="developer_error">Developer error</string>
     <string name="upload_to_gallery">Upload to gallery</string>
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>

@@ -67,6 +67,9 @@ dependencies {
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
 
+    //Subscriptions
+    gplayImplementation 'com.android.billingclient:billing-ktx:6.0.0'
+
     // UnifiedPush
     implementation 'com.github.UnifiedPush:android-connector:2.1.1'
 

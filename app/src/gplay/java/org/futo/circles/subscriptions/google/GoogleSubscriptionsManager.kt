@@ -1,4 +1,4 @@
-package org.futo.circles.auth.subscriptions.google
+package org.futo.circles.subscriptions.google
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.*
 import kotlinx.coroutines.suspendCancellableCoroutine
-import org.futo.circles.auth.R
+import org.futo.circles.R
 import org.futo.circles.auth.model.SubscriptionListItem
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.auth.subscriptions.ItemPurchasedListener
