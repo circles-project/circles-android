@@ -61,10 +61,10 @@ dependencies {
     api "androidx.navigation:navigation-ui-ktx:$androidx_nav_version"
 
     //ViewBinding
-    api 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6'
+    api 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9'
 
     //Hilt
-    def hilt = "2.45"
+    def hilt = '2.46.1'
     implementation "com.google.dagger:hilt-android:$hilt"
     kapt "com.google.dagger:hilt-compiler:$hilt"
 
@@ -77,7 +77,7 @@ dependencies {
     api "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     //Gson
-    api 'com.google.code.gson:gson:2.10'
+    api 'com.google.code.gson:gson:2.10.1'
 
     //TextDrawable
     api 'com.alvinhkh:TextDrawable:c1c2b5b'

@@ -75,7 +75,7 @@ dependencies {
     gplayImplementation 'com.android.billingclient:billing-ktx:6.0.0'
 
     //Hilt
-    def hilt = "2.45"
+    def hilt = '2.46.1'
     implementation "com.google.dagger:hilt-android:$hilt"
     kapt "com.google.dagger:hilt-compiler:$hilt"
 
