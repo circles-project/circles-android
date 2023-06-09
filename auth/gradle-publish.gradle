@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
-def groupIdString = "org.futo.circles.auth"
-def artifactIdString = "circles-auth"
+def groupIdString = "org.futo.circles"
+def artifactIdString = "auth"
 def versionName = "1.0.0"
 def artifactPath = "$buildDir/outputs/aar/$artifactIdString-release.aar"
 def publicationName = "release"
@@ -10,7 +10,7 @@ def projectId = "13"
 
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier = "sources"
+    archiveClassifier.set("sources")
 }
 
 publishing {
@@ -43,6 +43,13 @@ publishing {
         maven {
             url "https://gitlab.futo.org/api/v4/projects/$projectId/packages/maven"
             name "GitLab"
+            credentials(HttpHeaderCredentials) {
+                name = "Private-Token"
+                value = PUBLISH_TOKEN
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
         }
     }
 }

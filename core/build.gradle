@@ -4,6 +4,10 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
+buildscript {
+    apply from: 'gradle-publish.gradle'
+}
+
 android {
     namespace 'org.futo.circles.core'
     compileSdk 33
