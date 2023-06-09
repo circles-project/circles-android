@@ -1,0 +1,48 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+def groupIdString = "org.futo.circles.core"
+def artifactIdString = "circles-core"
+def versionName = "1.0.0"
+def artifactPath = "$buildDir/outputs/aar/$artifactIdString-release.aar"
+def publicationName = "release"
+def projectId = "13"
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = "sources"
+}
+
+publishing {
+    publications {
+        "$publicationName"(MavenPublication) {
+            groupId groupIdString
+            artifactId artifactIdString
+            version versionName
+            artifact artifactPath
+            artifact sourceJar
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                ext.addDependency = { Dependency dep, String scope ->
+                    if (dep.group == null || dep.name == null || dep.name == "unspecified")
+                        return
+                    final dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dep.group)
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    if (dep.version != null)
+                        dependencyNode.appendNode('version', dep.version)
+                    dependencyNode.appendNode('scope', scope)
+                }
+                configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
+                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://gitlab.futo.org/api/v4/projects/$projectId/packages/maven"
+            name "GitLab"
+        }
+    }
+}
