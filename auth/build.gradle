@@ -56,7 +56,7 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':core')
+    implementation "org.futo.circles:core:1.0.0"
 
     //ChromeTabs
     implementation "androidx.browser:browser:1.5.0"

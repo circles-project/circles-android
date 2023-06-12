@@ -24,6 +24,7 @@ allprojects {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url 'https://gitlab.futo.org/api/v4/projects/16/packages/maven' }
+        maven { url 'https://gitlab.futo.org/api/v4/projects/13/packages/maven' }
         //Added for mentions dialog popup lib com.otaliastudios:autocomplete:1.1.0
         //noinspection JcenterRepositoryObsolete
         jcenter()
