@@ -23,19 +23,18 @@ class App : Application() {
 
     @Inject
     lateinit var notificationUtils: NotificationUtils
+
     @Inject
     lateinit var fcmHelper: FcmHelper
+
     @Inject
     lateinit var guardServiceStarter: GuardServiceStarter
+
     @Inject
     lateinit var pushRuleTriggerListener: PushRuleTriggerListener
 
     override fun onCreate() {
         super.onCreate()
-//        startKoin {
-//            androidContext(this@App)
-//            modules(applicationModules)
-//        }
         CirclesAppConfig.Initializer()
             .buildConfigInfo(
                 BuildConfig.APPLICATION_ID,
