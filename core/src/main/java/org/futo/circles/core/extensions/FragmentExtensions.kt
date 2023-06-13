@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import org.futo.circles.core.R
+import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.ConfirmationType
 
 private const val SNACK_BAR_DURATION = 3500
@@ -98,7 +99,8 @@ fun Fragment.showDialog(
     }
 }
 
-fun Fragment.onBackPressed() = activity?.onBackPressedDispatcher?.onBackPressed()
+fun Fragment.onBackPressed() = if (this is BaseFullscreenDialogFragment) dismiss() else
+    activity?.onBackPressedDispatcher?.onBackPressed()
 
 fun Fragment.withConfirmation(type: ConfirmationType, action: () -> Unit) {
     showDialog(
