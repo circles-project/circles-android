@@ -33,10 +33,8 @@ object CirclesAppConfig {
         private var version: String? = null,
         private var flavour: String? = null,
         private var appName: String? = null,
-        private var debugUsDomain: String? = null,
-        private var releaseUsDomain: String? = null,
-        private var debugEuDomain: String? = null,
-        private var releaseEuDomain: String? = null,
+        private var usDomain: String? = null,
+        private var euDomain: String? = null,
         private var subscriptionEnabled: Boolean = false,
         private var mediaBackupEnabled: Boolean = false,
         private var rageshakeEnabled: Boolean = false
@@ -51,15 +49,9 @@ object CirclesAppConfig {
 
         fun appName(appName: String) = apply { this.appName = appName }
 
-        fun usDomain(debugDomain: String, releaseDomain: String) = apply {
-            this.debugUsDomain = debugDomain
-            this.releaseUsDomain = releaseDomain
-        }
+        fun usDomain(domain: String) = apply { this.usDomain = domain }
 
-        fun euDomain(debugDomain: String, releaseDomain: String) = apply {
-            this.debugEuDomain = debugDomain
-            this.releaseEuDomain = releaseDomain
-        }
+        fun euDomain(domain: String) = apply { this.euDomain = domain }
 
         fun isSubscriptionEnabled(isEnabled: Boolean) =
             apply { this.subscriptionEnabled = isEnabled }
@@ -72,28 +64,20 @@ object CirclesAppConfig {
             CirclesAppConfig.appId = appId?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal appId $appId")
 
-            CirclesAppConfig.appVersion = version?.takeIf { it.isNotEmpty() }
+            appVersion = version?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal appId $version")
 
-            CirclesAppConfig.buildFlavourName = flavour?.takeIf { it.isNotEmpty() }
+            buildFlavourName = flavour?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal appId $flavour")
 
             CirclesAppConfig.appName = appName?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("appName is empty $appName")
 
-            usServerDomain = if (BuildConfig.DEBUG)
-                debugUsDomain?.takeIf { it.isNotEmpty() }
-                    ?: throw IllegalArgumentException("Illegal US server domain $debugUsDomain")
-            else
-                releaseUsDomain?.takeIf { it.isNotEmpty() }
-                    ?: throw IllegalArgumentException("Illegal US server domain $releaseUsDomain")
+            usServerDomain = usDomain?.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("Illegal US server domain $usDomain")
 
-            euServerDomain = if (BuildConfig.DEBUG)
-                debugEuDomain?.takeIf { it.isNotEmpty() }
-                    ?: throw IllegalArgumentException("Illegal EU server domain $debugEuDomain")
-            else
-                releaseEuDomain?.takeIf { it.isNotEmpty() }
-                    ?: throw IllegalArgumentException("Illegal EU server domain $releaseEuDomain")
+            euServerDomain = euDomain?.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("Illegal EU server domain $euDomain")
 
             isSubscriptionsEnabled = subscriptionEnabled
             isMediaBackupEnabled = mediaBackupEnabled

@@ -42,8 +42,8 @@ class App : Application() {
                 BuildConfig.FLAVOR
             )
             .appName(getString(R.string.app_name))
-            .euDomain(getString(R.string.debug_eu_domain), getString(R.string.release_eu_domain))
-            .usDomain(getString(R.string.debug_us_domain), getString(R.string.release_us_domain))
+            .euDomain(getString(if (BuildConfig.DEBUG) R.string.debug_eu_domain else R.string.release_eu_domain))
+            .usDomain(getString(if (BuildConfig.DEBUG) R.string.debug_us_domain else R.string.release_us_domain))
             .isSubscriptionEnabled(false)
             .isMediaBackupEnabled(false)
             .isRageshakeEnabled(false)
