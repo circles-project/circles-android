@@ -92,6 +92,12 @@
     <string name="remove_user_message">Are you sure you want to remove this user?</string>
     <string name="remove">Remove</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
+    <string name="feature_not_supported">Feature is not supported</string>
+    <string name="service_unavailable">Service unavailable</string>
+    <string name="item_unavailable">Item is unavailable</string>
+    <string name="user_canceled">User canceled</string>
+    <string name="item_not_owned">Item is not owned</string>
+    <string name="developer_error">Developer error</string>
     <string name="purchase_failed_format">Purchase failed with code %d</string>
 
     <plurals name="days">

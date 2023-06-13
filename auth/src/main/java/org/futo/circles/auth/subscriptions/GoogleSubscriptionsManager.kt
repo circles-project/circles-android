@@ -1,16 +1,34 @@
-package org.futo.circles.subscriptions.google
+package org.futo.circles.auth.subscriptions
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.android.billingclient.api.*
-import com.android.billingclient.api.BillingClient.BillingResponseCode.*
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClient.BillingResponseCode.BILLING_UNAVAILABLE
+import com.android.billingclient.api.BillingClient.BillingResponseCode.DEVELOPER_ERROR
+import com.android.billingclient.api.BillingClient.BillingResponseCode.ERROR
+import com.android.billingclient.api.BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED
+import com.android.billingclient.api.BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED
+import com.android.billingclient.api.BillingClient.BillingResponseCode.ITEM_NOT_OWNED
+import com.android.billingclient.api.BillingClient.BillingResponseCode.ITEM_UNAVAILABLE
+import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
+import com.android.billingclient.api.BillingClient.BillingResponseCode.SERVICE_DISCONNECTED
+import com.android.billingclient.api.BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE
+import com.android.billingclient.api.BillingClient.BillingResponseCode.USER_CANCELED
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ProductDetails
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryPurchasesParams
+import com.android.billingclient.api.queryProductDetails
+import com.android.billingclient.api.queryPurchasesAsync
 import kotlinx.coroutines.suspendCancellableCoroutine
-import org.futo.circles.R
+import org.futo.circles.auth.R
 import org.futo.circles.auth.model.SubscriptionListItem
 import org.futo.circles.auth.model.SubscriptionReceiptData
-import org.futo.circles.auth.subscriptions.ItemPurchasedListener
-import org.futo.circles.auth.subscriptions.SubscriptionManager
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.onBG
 import kotlin.coroutines.resume
@@ -189,7 +207,7 @@ class GoogleSubscriptionsManager(
         else -> Response.Error(fragment.getString(R.string.purchase_failed_format, code))
     }
 
-    fun Purchase.toSubscriptionReceiptData(): SubscriptionReceiptData? {
+    private fun Purchase.toSubscriptionReceiptData(): SubscriptionReceiptData? {
         val productId = products.lastOrNull() ?: return null
         return SubscriptionReceiptData(productId, purchaseToken)
     }

@@ -1,9 +1,8 @@
-package org.futo.circles.subscriptions.google
+package org.futo.circles.auth.subscriptions
 
 import android.content.Context
 import com.android.billingclient.api.ProductDetails
 import org.futo.circles.auth.model.SubscriptionListItem
-import org.futo.circles.auth.subscriptions.formatIsoPeriod
 import org.futo.circles.core.extensions.Response
 
 fun ProductDetails.toSubscriptionListItem(context: Context): SubscriptionListItem {

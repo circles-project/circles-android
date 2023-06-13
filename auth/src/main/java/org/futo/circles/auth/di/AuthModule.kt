@@ -20,7 +20,6 @@ import org.futo.circles.core.extensions.getOrThrow
 @InstallIn(ViewModelComponent::class)
 object AuthModule {
 
-
     @Provides
     @ViewModelScoped
     fun providePasswordDataSource(
