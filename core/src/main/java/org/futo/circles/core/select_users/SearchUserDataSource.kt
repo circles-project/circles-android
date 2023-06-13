@@ -6,15 +6,15 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
-import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.extensions.getServerDomain
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
 
-class SearchUserDataSource @Inject constructor(){
+class SearchUserDataSource @Inject constructor() {
 
     private val session = MatrixSessionProvider.currentSession
 
@@ -68,11 +68,9 @@ class SearchUserDataSource @Inject constructor(){
             ?: mutableListOf()
 
     private fun convertQueryToUserId(query: String): String {
-        var userId: String? = null
-        if (!query.startsWith("@")) userId = "@$query"
         val domain = session?.getServerDomain() ?: ""
-        if (!query.contains(":")) userId += ":$domain"
-        return userId ?: query
+        return if (query.contains(":")) query else
+            if (query.startsWith("@")) "$query:$domain" else "@$query:$domain"
     }
 
     private companion object {
