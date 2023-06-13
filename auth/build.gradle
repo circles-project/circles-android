@@ -3,10 +3,7 @@ apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
-
-buildscript {
-    apply from: 'gradle-publish.gradle'
-}
+apply plugin: 'maven-publish'
 
 android {
     namespace 'org.futo.circles.auth'
@@ -56,7 +53,7 @@ android {
 }
 
 dependencies {
-    implementation "org.futo.circles:core:1.0.0"
+    implementation project(path: ':core')
 
     //ChromeTabs
     implementation "androidx.browser:browser:1.5.0"
@@ -76,4 +73,35 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+def groupIdString = "org.futo.circles"
+def artifactIdString = "auth"
+def versionName = "1.0.0"
+def projectId = "13"
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId groupIdString
+                artifactId artifactIdString
+                version versionName
+            }
+        }
+        repositories {
+            maven {
+                url "https://gitlab.futo.org/api/v4/projects/$projectId/packages/maven"
+                name "GitLab"
+                credentials(HttpHeaderCredentials) {
+                    name = "Private-Token"
+                    value = PUBLISH_TOKEN
+                }
+                authentication {
+                    header(HttpHeaderAuthentication)
+                }
+            }
+        }
+    }
 }
