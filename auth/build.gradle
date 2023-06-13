@@ -80,7 +80,7 @@ kapt {
 
 def groupIdString = "org.futo.circles"
 def artifactIdString = "auth"
-def versionName = "1.0.0"
+def versionName = "1.0.1"
 def projectId = "13"
 
 afterEvaluate {
