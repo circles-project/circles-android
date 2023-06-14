@@ -40,7 +40,7 @@ object CirclesAppConfig {
         private var rageshakeEnabled: Boolean = false
     ) {
 
-        fun buildConfigInfo(appId: String, version: String, flavour: String) =
+        fun buildConfigInfo(appId: String, version: String, flavour: String = "empty") =
             apply {
                 this.appId = appId
                 this.version = version
