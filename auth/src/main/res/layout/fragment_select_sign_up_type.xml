@@ -14,8 +14,9 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.3" />
 
-    <org.futo.circles.auth.view.CirclesLogoView
+    <ImageView
         android:id="@+id/ivLogo"
+        style="@style/AuthLogoStyle"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/guidelineLogo"
