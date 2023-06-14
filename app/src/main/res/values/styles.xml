@@ -35,4 +35,8 @@
         <item name="cornerFamilyTopRight">rounded</item>
     </style>
 
+    <style name="AuthLogoStyle">
+        <item name="android:src">@drawable/ic_logo</item>
+    </style>
+
 </resources>
