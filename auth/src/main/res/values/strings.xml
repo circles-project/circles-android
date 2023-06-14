@@ -99,6 +99,11 @@
     <string name="item_not_owned">Item is not owned</string>
     <string name="developer_error">Developer error</string>
     <string name="purchase_failed_format">Purchase failed with code %d</string>
+    <string name="log_out">Log out</string>
+    <string name="log_out_message">Are you sure you want to log out?</string>
+    <string name="switch_user">Switch User</string>
+    <string name="switch_user_message">Are you sure you want to switch user?</string>
+    <string name="switch_str">Switch</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

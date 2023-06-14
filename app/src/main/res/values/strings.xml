@@ -52,7 +52,6 @@
     <string name="private_circles">Private Circles</string>
     <string name="log_out">Log out</string>
     <string name="others">Others</string>
-    <string name="log_out_message">Are you sure you want to log out?</string>
     <string name="session_is_not_created">Session is not created</string>
     <string name="following_format">Following %d</string>
     <string name="followed_by_format">Followed by %d</string>
@@ -206,8 +205,6 @@
     <string name="add_link">Add link</string>
     <string name="state_events">State events</string>
     <string name="switch_user">Switch User</string>
-    <string name="switch_str">Switch</string>
-    <string name="switch_user_message">Are you sure you want to switch user?</string>
     <string name="search_people">Search people</string>
     <string name="circle_type">Circle type</string>
     <string name="public_type">Public</string>

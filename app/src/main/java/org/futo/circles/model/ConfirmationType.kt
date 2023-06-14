@@ -10,18 +10,6 @@ data class DeactivateAccount(
     override val positiveButtonRes: Int = R.string.deactivate
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
-data class SwitchUser(
-    override val titleRes: Int = R.string.switch_user,
-    override val messageRes: Int = R.string.switch_user_message,
-    override val positiveButtonRes: Int = R.string.switch_str
-) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
-
-data class LogOut(
-    override val titleRes: Int = R.string.log_out,
-    override val messageRes: Int = R.string.log_out_message,
-    override val positiveButtonRes: Int = R.string.log_out
-) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
-
 data class IgnoreUser(
     override val titleRes: Int = R.string.ignore,
     override val messageRes: Int = R.string.ignore_user_message,

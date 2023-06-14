@@ -29,20 +29,6 @@ class SettingsDataSource @Inject constructor(
     val startReAuthEventLiveData = authConfirmationProvider.startReAuthEventLiveData
     val profileLiveData = session.userService().getUserLive(session.myUserId)
 
-    val loadingLiveData = MutableLiveData<LoadingData>()
-    private val loadingData = LoadingData(total = 0)
-
-    suspend fun logOut() = createResult {
-        loadingLiveData.postValue(
-            loadingData.apply {
-                messageId = R.string.log_out
-                isLoading = true
-            }
-        )
-        session.signOutService().signOut(true)
-        loadingLiveData.postValue(loadingData.apply { isLoading = false })
-    }
-
     suspend fun deactivateAccount(): Response<Unit> = createResult {
         session.accountService().deactivateAccount(false, authConfirmationProvider)
     }

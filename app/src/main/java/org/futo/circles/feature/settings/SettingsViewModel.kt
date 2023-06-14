@@ -2,19 +2,22 @@ package org.futo.circles.feature.settings
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.futo.circles.auth.feature.log_in.log_out.LogoutDataSource
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import javax.inject.Inject
+
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsDataSource: SettingsDataSource
+    private val settingsDataSource: SettingsDataSource,
+    private val logoutDataSource: LogoutDataSource
 ) : ViewModel() {
 
     val profileLiveData = settingsDataSource.profileLiveData
-    val loadingLiveData = settingsDataSource.loadingLiveData
+    val loadingLiveData = logoutDataSource.loadingLiveData
     val passPhraseLoadingLiveData = settingsDataSource.passPhraseLoadingLiveData
     val startReAuthEventLiveData = settingsDataSource.startReAuthEventLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -25,7 +28,7 @@ class SettingsViewModel @Inject constructor(
     val clearCacheLiveData = SingleEventLiveData<Unit>()
 
     fun logOut() {
-        launchBg { logOutLiveData.postValue(settingsDataSource.logOut()) }
+        launchBg { logOutLiveData.postValue(logoutDataSource.logOut()) }
     }
 
     fun deactivateAccount() {

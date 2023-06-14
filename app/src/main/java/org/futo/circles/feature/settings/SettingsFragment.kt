@@ -14,6 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.BuildConfig
 import org.futo.circles.MainActivity
 import org.futo.circles.R
+import org.futo.circles.auth.model.LogOut
+import org.futo.circles.auth.model.SwitchUser
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
@@ -28,8 +30,6 @@ import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
 import org.futo.circles.model.DeactivateAccount
-import org.futo.circles.model.LogOut
-import org.futo.circles.model.SwitchUser
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
