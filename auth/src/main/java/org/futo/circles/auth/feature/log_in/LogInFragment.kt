@@ -93,7 +93,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
             switchUsersAdapter.submitList(it)
         }
         viewModel.navigateToBottomMenuScreenLiveData.observeData(this) {
-            findNavController().navigate(LogInFragmentDirections.toBottomNavigationFragment())
+            findNavController().navigate(LogInFragmentDirections.toHomeFragment())
         }
     }
 

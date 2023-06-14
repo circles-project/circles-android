@@ -118,7 +118,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
     }
 
     private fun navigateToBottomMenuFragment() {
-        findNavController().navigate(LogInStagesFragmentDirections.toBottomNavigationFragment())
+        findNavController().navigate(LogInStagesFragmentDirections.toHomeFragment())
     }
 
     private fun navigateToSetupCircles() {

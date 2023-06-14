@@ -90,6 +90,6 @@ class SetupCirclesFragment : Fragment(R.layout.fragment_setup_circles), HasLoadi
     }
 
     private fun navigateToBottomMenuScreen() {
-        findNavController().navigate(SetupCirclesFragmentDirections.toBottomNavigationFragment())
+        findNavController().navigate(SetupCirclesFragmentDirections.toHomeFragment())
     }
 }

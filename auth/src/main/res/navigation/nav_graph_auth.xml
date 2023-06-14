@@ -17,8 +17,8 @@
             android:id="@+id/to_loginStagesFragment"
             app:destination="@id/loginStagesFragment" />
         <action
-            android:id="@+id/to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
+            android:id="@+id/to_homeFragment"
+            app:destination="@id/homeFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -28,8 +28,8 @@
         tools:layout="@layout/fragment_login_stages">
 
         <action
-            android:id="@+id/to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
+            android:id="@+id/to_homeFragment"
+            app:destination="@id/homeFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
         <action

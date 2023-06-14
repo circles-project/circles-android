@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="bottomNavigationFragment" type="id" />
+    <item name="homeFragment" type="id" />
     <item name="setupCirclesFragment" type="id" />
 </resources>

@@ -12,7 +12,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val destination = MatrixSessionProvider.currentSession?.let {
-            SplashFragmentDirections.toBottomNavigationFragment()
+            SplashFragmentDirections.toHomeFragment()
         } ?: SplashFragmentDirections.toLogInFragment()
 
         findNavController().navigate(destination)
