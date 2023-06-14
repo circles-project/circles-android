@@ -28,10 +28,10 @@
 
         <TextView
             android:id="@+id/tvCompanyTitle"
+            style="@style/LoginCompanyStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/futo"
             android:textAlignment="center"
             android:textAppearance="@style/headline"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,14 +41,13 @@
 
         <TextView
             android:id="@+id/tvCircles"
-            style="@style/title0"
+            style="@style/LoginTitleStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle"
-            tools:text="app_name" />
+            app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle" />
 
         <TextView
             android:id="@+id/tvAt"

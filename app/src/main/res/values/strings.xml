@@ -3,7 +3,6 @@
     <string name="debug_us_domain" translatable="false">nl.circles-dev.net</string>
     <string name="release_eu_domain" translatable="false">eu.circu.li</string>
     <string name="release_us_domain" translatable="false">circu.li</string>
-
     <string name="app_name">Circles</string>
     <string name="futo">FUTO</string>
     <string name="circles">Circles</string>
