@@ -57,10 +57,9 @@ class PhotosFragment : Fragment(R.layout.fragment_rooms), MenuProvider {
 
     @SuppressLint("RestrictedApi")
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        if (CirclesAppConfig.isMediaBackupEnabled.not()) return
         (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
         inflater.inflate(R.menu.photos_tab_menu, menu)
+        menu.findItem(R.id.backup).isVisible = CirclesAppConfig.isMediaBackupEnabled
     }
 
 
