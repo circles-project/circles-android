@@ -78,7 +78,7 @@ kapt {
 
 def groupIdString = "org.futo.circles"
 def artifactIdString = "gallery"
-def versionName = "1.0.1"
+def versionName = "1.0.2"
 def publicationName = "release"
 def projectId = "13"
 

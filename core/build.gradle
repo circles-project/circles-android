@@ -108,7 +108,7 @@ kapt {
 
 def groupIdString = "org.futo.circles"
 def artifactIdString = "core"
-def versionName = "1.0.1"
+def versionName = "1.0.2"
 def projectId = "13"
 
 afterEvaluate {
