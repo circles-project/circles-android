@@ -59,5 +59,10 @@
             app:destination="@id/setupCirclesFragment"
             app:popUpTo="@id/setupProfileFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/setupProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -17,6 +17,7 @@ import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
 import org.futo.circles.auth.feature.log_in.EnterPassPhraseDialog
 import org.futo.circles.auth.feature.log_in.EnterPassPhraseDialogListener
+import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
@@ -83,7 +84,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
         viewModel.loginNavigationLiveData.observeData(this) { event ->
             when (event) {
                 LoginNavigationEvent.Main -> navigateToBottomMenuFragment()
-                LoginNavigationEvent.SetupCircles -> navigateToSetupCircles()
+                LoginNavigationEvent.SetupCircles -> navigateToSetupCirclesOrHome()
                 LoginNavigationEvent.PassPhrase -> showPassPhraseDialog()
                 else -> navigateToBottomMenuFragment()
             }
@@ -121,8 +122,13 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
         findNavController().navigate(LogInStagesFragmentDirections.toHomeFragment())
     }
 
-    private fun navigateToSetupCircles() {
-        findNavController().navigate(LogInStagesFragmentDirections.toSetupCirclesFragment())
+    private fun navigateToSetupCirclesOrHome() {
+        findNavController().navigate(
+            if (CirclesAppConfig.isSetupCirclesEnabled)
+                LogInStagesFragmentDirections.toSetupCirclesFragment()
+            else
+                LogInStagesFragmentDirections.toHomeFragment()
+        )
     }
 
     private fun showDiscardDialog() {

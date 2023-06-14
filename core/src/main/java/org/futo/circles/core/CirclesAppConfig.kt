@@ -28,6 +28,9 @@ object CirclesAppConfig {
     var isRageshakeEnabled = false
         private set
 
+    var isSetupCirclesEnabled = true
+        private set
+
     data class Initializer(
         private var appId: String? = null,
         private var version: String? = null,
@@ -37,7 +40,8 @@ object CirclesAppConfig {
         private var euDomain: String? = null,
         private var subscriptionEnabled: Boolean = false,
         private var mediaBackupEnabled: Boolean = false,
-        private var rageshakeEnabled: Boolean = false
+        private var rageshakeEnabled: Boolean = false,
+        private var setupCirclesEnabled: Boolean = true
     ) {
 
         fun buildConfigInfo(appId: String, version: String, flavour: String = "empty") =
@@ -59,6 +63,9 @@ object CirclesAppConfig {
         fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
 
         fun isRageshakeEnabled(isEnabled: Boolean) = apply { this.rageshakeEnabled = isEnabled }
+
+        fun isSetupCirclesEnabled(isEnabled: Boolean) =
+            apply { this.setupCirclesEnabled = isEnabled }
 
         fun init() {
             CirclesAppConfig.appId = appId?.takeIf { it.isNotEmpty() }
@@ -82,6 +89,7 @@ object CirclesAppConfig {
             isSubscriptionsEnabled = subscriptionEnabled
             isMediaBackupEnabled = mediaBackupEnabled
             isRageshakeEnabled = rageshakeEnabled
+            isSetupCirclesEnabled = setupCirclesEnabled
         }
     }
 
