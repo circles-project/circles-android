@@ -3,9 +3,9 @@ package org.futo.circles.feature.circles
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.mapping.toRoomInfo
 import org.futo.circles.core.model.CIRCLE_TAG
@@ -31,7 +31,7 @@ class CirclesDataSource @Inject constructor() {
         ?.getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })?.asFlow()
         ?.flowOn(Dispatchers.IO)
         ?.distinctUntilChanged()
-        ?.mapLatest { list -> buildCirclesList(list) } ?: flowOf(emptyList())
+        ?.mapLatest { list -> withContext(Dispatchers.IO) { buildCirclesList(list) } }
 
     private fun buildCirclesList(list: List<RoomSummary>): List<CircleListItem> {
         val invites =

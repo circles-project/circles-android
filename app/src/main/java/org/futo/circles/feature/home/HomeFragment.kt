@@ -60,10 +60,12 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
     private fun handleOpenFromNotification() {
         val roomId = activity?.intent?.getStringExtra(MainActivity.ROOM_ID_PARAM) ?: return
         val summary = MatrixSessionProvider.currentSession?.getRoomSummary(roomId) ?: return
-        binding.bottomNavigationView.selectedItemId =
-            if (summary.roomType == GROUP_TYPE) R.id.groups_nav_graph
-            else R.id.circles_nav_graph
-        viewModel.postNotificationData(summary)
+        binding.bottomNavigationView.post {
+            binding.bottomNavigationView.selectedItemId =
+                if (summary.roomType == GROUP_TYPE) R.id.groups_nav_graph
+                else R.id.circles_nav_graph
+            viewModel.postNotificationData(summary)
+        }
         activity?.intent?.removeExtra(MainActivity.ROOM_ID_PARAM)
     }
 
