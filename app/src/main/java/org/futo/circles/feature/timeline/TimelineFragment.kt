@@ -42,7 +42,7 @@ import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.*
-import org.futo.circles.view.CreatePostMenuListener
+import org.futo.circles.view.CreatePostViewListener
 import org.futo.circles.view.PostOptionsListener
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
@@ -147,7 +147,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             itemAnimator = null
             MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
         }
-        binding.fabMenu.setUp(object : CreatePostMenuListener {
+        binding.lCreatePost.setUp(object : CreatePostViewListener {
             override fun onCreatePoll() {
                 navigator.navigateToCreatePoll(timelineId)
             }
@@ -192,6 +192,9 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.deleteCircleLiveData.observeResponse(this,
             success = { onBackPressed() }
         )
+        viewModel.profileLiveData?.observeData(this) {
+            it.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
+        }
     }
 
     override fun onUserClicked(userId: String) {
@@ -298,14 +301,14 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
-        binding.fabMenu.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
+        binding.lCreatePost.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
         groupPowerLevelsContent = powerLevelsContent
         activity?.invalidateOptionsMenu()
     }
 
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
         val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
-        binding.fabMenu.setIsVisible(isUserAdmin)
+        binding.lCreatePost.setIsVisible(isUserAdmin)
     }
 
     private fun showLeaveGroupDialog() {

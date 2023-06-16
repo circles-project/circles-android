@@ -8,6 +8,7 @@ import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.leave.LeaveRoomDataSource
 import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.TimelineDataSource
@@ -35,6 +36,8 @@ class TimelineViewModel @Inject constructor(
     private val readMessageDataSource: ReadMessageDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
+    val session = MatrixSessionProvider.currentSession
+    val profileLiveData = session?.userService()?.getUserLive(session.myUserId)
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
     val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()

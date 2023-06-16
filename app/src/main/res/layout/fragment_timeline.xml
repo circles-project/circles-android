@@ -12,14 +12,14 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
+        android:paddingBottom="56dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
-    <org.futo.circles.view.CreatePostFabVerticalMenuView
-        android:id="@+id/fabMenu"
-        android:layout_width="wrap_content"
+    <org.futo.circles.view.CreatePostView
+        android:id="@+id/lCreatePost"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        app:layout_anchor="@id/rvTimeline" />
+        android:layout_gravity="bottom" />
+
 </FrameLayout>
