@@ -3,15 +3,10 @@ package org.futo.circles.feature.timeline
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.view.MenuProvider
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
@@ -24,18 +19,18 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.setToolbarSubTitle
-import org.futo.circles.core.extensions.setToolbarTitle
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.databinding.FragmentTimelineBinding
+import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
@@ -48,10 +43,11 @@ import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 @AndroidEntryPoint
-class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListener,
-    CreatePostListener, CreatePollListener, EmojiPickerListener, MenuProvider {
+class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimelineBinding::inflate),
+    PostOptionsListener,
+    CreatePostListener, CreatePollListener, EmojiPickerListener {
 
-    private val args: TimelineFragmentArgs by navArgs()
+    private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
 
     private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
@@ -63,7 +59,9 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
             requireContext().getString(R.string.timeline_not_found)
         )
     }
-    private val binding by viewBinding(FragmentTimelineBinding::bind)
+    private val binding by lazy {
+        getBinding() as DialogFragmentTimelineBinding
+    }
     private val listAdapter by lazy {
         TimelineAdapter(
             getCurrentUserPowerLevel(args.roomId),
@@ -80,24 +78,21 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
-        activity?.addMenuProvider(this, viewLifecycleOwner)
-    }
-
-    override fun onDetach() {
-        setToolbarSubTitle("")
-        super.onDetach()
+        setupMenu()
     }
 
     @SuppressLint("RestrictedApi")
-    override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
-        menu.clear()
-        (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-        if (isThread) return
-        if (isGroupMode) inflateGroupMenu(menu, inflater) else inflateCircleMenu(menu, inflater)
+    private fun setupMenu() {
+        with(binding.toolbar) {
+            (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
+            if (isThread) return
+            if (isGroupMode) inflateGroupMenu(menu) else inflateCircleMenu(menu)
+            setupMenuClickListener()
+        }
     }
 
-    private fun inflateGroupMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.group_timeline_menu, menu)
+    private fun inflateGroupMenu(menu: Menu) {
+        binding.toolbar.inflateMenu(R.menu.group_timeline_menu)
         menu.findItem(R.id.configureGroup).isVisible =
             groupPowerLevelsContent?.isCurrentUserAbleToChangeSettings() ?: false
         menu.findItem(R.id.inviteMembers).isVisible =
@@ -110,35 +105,40 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         menu.findItem(R.id.unMuteNotifications).isVisible = !isNotificationsEnabledForRoom
     }
 
-    private fun inflateCircleMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.circle_timeline_menu, menu)
+    private fun inflateCircleMenu(menu: Menu) {
+        binding.toolbar.inflateMenu(R.menu.circle_timeline_menu)
         menu.findItem(R.id.stateEvents).isVisible = preferencesProvider.isDeveloperModeEnabled()
         menu.findItem(R.id.muteNotifications).isVisible = isNotificationsEnabledForRoom
         menu.findItem(R.id.unMuteNotifications).isVisible = !isNotificationsEnabledForRoom
     }
 
-    override fun onMenuItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.muteNotifications ->
-                viewModel.setNotificationsEnabled(false)
+    private fun setupMenuClickListener() {
+        binding.toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.muteNotifications ->
+                    viewModel.setNotificationsEnabled(false)
 
-            R.id.unMuteNotifications ->
-                viewModel.setNotificationsEnabled(true)
+                R.id.unMuteNotifications ->
+                    viewModel.setNotificationsEnabled(true)
 
-            R.id.configureGroup, R.id.configureCircle ->
-                navigator.navigateToUpdateRoom(args.roomId, args.type)
+                R.id.configureGroup, R.id.configureCircle ->
+                    navigator.navigateToUpdateRoom(args.roomId, args.type)
 
-            R.id.manageMembers, R.id.myFollowers ->
-                navigator.navigateToManageMembers(timelineId, args.type)
+                R.id.manageMembers, R.id.myFollowers ->
+                    navigator.navigateToManageMembers(timelineId, args.type)
 
-            R.id.inviteMembers, R.id.inviteFollowers -> navigator.navigateToInviteMembers(timelineId)
-            R.id.leaveGroup -> showLeaveGroupDialog()
-            R.id.iFollowing -> navigator.navigateToFollowing(args.roomId)
-            R.id.deleteCircle -> withConfirmation(DeleteCircle()) { viewModel.deleteCircle() }
-            R.id.deleteGroup -> withConfirmation(DeleteGroup()) { viewModel.deleteGroup() }
-            R.id.stateEvents -> navigator.navigateToStateEvents(timelineId)
+                R.id.inviteMembers, R.id.inviteFollowers -> navigator.navigateToInviteMembers(
+                    timelineId
+                )
+
+                R.id.leaveGroup -> showLeaveGroupDialog()
+                R.id.iFollowing -> navigator.navigateToFollowing(args.roomId)
+                R.id.deleteCircle -> withConfirmation(DeleteCircle()) { viewModel.deleteCircle() }
+                R.id.deleteGroup -> withConfirmation(DeleteGroup()) { viewModel.deleteGroup() }
+                R.id.stateEvents -> navigator.navigateToStateEvents(timelineId)
+            }
+            return@setOnMenuItemClickListener true
         }
-        return true
     }
 
     private fun setupViews() {
@@ -162,7 +162,7 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline), PostOptionsListen
         viewModel.titleLiveData?.observeData(this) { roomName ->
             val title = if (isThread) getString(R.string.thread_format, roomName ?: "")
             else roomName ?: ""
-            setToolbarTitle(title)
+            binding.toolbar.title = title
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)

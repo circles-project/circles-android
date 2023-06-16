@@ -3,7 +3,7 @@ package org.futo.circles.feature.timeline
 import androidx.navigation.fragment.findNavController
 import org.futo.circles.core.model.CircleRoomTypeArg
 
-class TimelineNavigator(private val fragment: TimelineFragment) {
+class TimelineNavigator(private val fragment: TimelineDialogFragment) {
 
     fun navigateToCreatePost(
         roomId: String,
@@ -11,84 +11,84 @@ class TimelineNavigator(private val fragment: TimelineFragment) {
         isEdit: Boolean = false
     ) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toCreatePostBottomSheet(roomId, eventId, isEdit)
+            TimelineDialogFragmentDirections.toCreatePostBottomSheet(roomId, eventId, isEdit)
         )
     }
 
     fun navigateToCreatePoll(roomId: String, eventId: String? = null) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toCreatePoll(roomId, eventId)
+            TimelineDialogFragmentDirections.toCreatePoll(roomId, eventId)
         )
     }
 
     fun navigateToInviteMembers(timelineId: String) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toInviteMembersDialogFragment(timelineId)
+            TimelineDialogFragmentDirections.toInviteMembersDialogFragment(timelineId)
         )
     }
 
     fun navigateToUpdateRoom(roomId: String, type: CircleRoomTypeArg) {
         val destination = if (type == CircleRoomTypeArg.Circle)
-            TimelineFragmentDirections.toUpdateCircleDialogFragment(roomId)
-        else TimelineFragmentDirections.toUpdateGroupDialogFragment(roomId)
+            TimelineDialogFragmentDirections.toUpdateCircleDialogFragment(roomId)
+        else TimelineDialogFragmentDirections.toUpdateGroupDialogFragment(roomId)
         fragment.findNavController().navigate(destination)
     }
 
     fun navigateToManageMembers(timelineId: String, type: CircleRoomTypeArg) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toManageMembersDialogFragment(timelineId, type)
+            TimelineDialogFragmentDirections.toManageMembersDialogFragment(timelineId, type)
         )
     }
 
     fun navigateToFollowing(roomId: String) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toFollowingDialogFragment(roomId)
+            TimelineDialogFragmentDirections.toFollowingDialogFragment(roomId)
         )
     }
 
     fun navigateToInfo(roomId: String, eventId: String) {
         fragment.findNavController()
-            .navigate(TimelineFragmentDirections.toPostInfo(roomId, eventId))
+            .navigate(TimelineDialogFragmentDirections.toPostInfo(roomId, eventId))
     }
 
     fun navigateToStateEvents(roomId: String) {
         fragment.findNavController()
-            .navigate(TimelineFragmentDirections.toStateEvents(roomId))
+            .navigate(TimelineDialogFragmentDirections.toStateEvents(roomId))
     }
 
     fun navigateToSaveToGallery(roomId: String, eventId: String) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
+            TimelineDialogFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
         )
     }
 
     fun navigateToReport(roomId: String, eventId: String) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toReportDialogFragment(roomId, eventId)
+            TimelineDialogFragmentDirections.toReportDialogFragment(roomId, eventId)
         )
     }
 
     fun navigateToShowMediaPreview(roomId: String, eventId: String) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toMediaPreviewDialogFragment(roomId, eventId)
+            TimelineDialogFragmentDirections.toMediaPreviewDialogFragment(roomId, eventId)
         )
     }
 
     fun navigateToShowEmoji(roomId: String, eventId: String) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toEmojiBottomSheet(roomId, eventId)
+            TimelineDialogFragmentDirections.toEmojiBottomSheet(roomId, eventId)
         )
     }
 
     fun navigateToUserDialogFragment(userId: String) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toUserDialogFragment(userId)
+            TimelineDialogFragmentDirections.toUserDialogFragment(userId)
         )
     }
 
     fun navigateToThread(roomId: String, threadEventId: String) {
         fragment.findNavController().navigate(
-            TimelineFragmentDirections.toThreadTimeline(roomId, threadEventId)
+            TimelineDialogFragmentDirections.toThreadTimeline(roomId, threadEventId)
         )
     }
 }

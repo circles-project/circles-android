@@ -6,10 +6,10 @@
     app:startDestination="@id/timelineFragment">
 
 
-    <fragment
+    <dialog
         android:id="@+id/timelineFragment"
-        android:name="org.futo.circles.feature.timeline.TimelineFragment"
-        tools:layout="@layout/fragment_timeline">
+        android:name="org.futo.circles.feature.timeline.TimelineDialogFragment"
+        tools:layout="@layout/dialog_fragment_timeline">
 
         <argument
             android:name="roomId"
@@ -241,7 +241,7 @@
 
         </action>
 
-    </fragment>
+    </dialog>
 
     <dialog
         android:id="@+id/inviteMembersDialogFragment"
