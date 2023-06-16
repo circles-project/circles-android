@@ -28,7 +28,6 @@ import javax.inject.Inject
 class GalleryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     timelineDataSource: TimelineDataSource,
-    private val leaveRoomDataSource: LeaveRoomDataSource,
     private val sendMessageDataSource: SendMessageDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
@@ -36,8 +35,6 @@ class GalleryViewModel @Inject constructor(
     private val isVideoAvailable: Boolean =
         savedStateHandle[DeviceMediaPickerHelper.IS_VIDEO_AVAILABLE] ?: true
 
-    val scrollToTopLiveData = SingleEventLiveData<Unit>()
-    val deleteGalleryLiveData = SingleEventLiveData<Response<Unit?>>()
     val galleryItemsLiveData = timelineDataSource.timelineEventsLiveData.map { list ->
         list.mapNotNull { post ->
             (post.content as? MediaContent)?.let {
@@ -50,12 +47,7 @@ class GalleryViewModel @Inject constructor(
     fun uploadMedia(uri: Uri, mediaType: MediaType) {
         launchBg {
             sendMessageDataSource.sendMedia(roomId, uri, null, null, mediaType)
-            scrollToTopLiveData.postValue(Unit)
         }
-    }
-
-    fun deleteGallery() {
-        launchBg { deleteGalleryLiveData.postValue(leaveRoomDataSource.deleteGallery()) }
     }
 
     fun selectMediaForPicker(

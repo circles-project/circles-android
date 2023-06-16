@@ -34,20 +34,14 @@
         android:id="@+id/createGalleryDialogFragment"
         android:name="org.futo.circles.gallery.feature.create.CreateGalleryDialogFragment"
         tools:layout="@layout/dialog_fragment_create_gallery" />
-    <fragment
+    <dialog
         android:id="@+id/galleryFragment"
-        android:name="org.futo.circles.gallery.feature.gallery.GalleryFragment"
+        android:name="org.futo.circles.gallery.feature.gallery.GalleryDialogFragment"
         tools:layout="@layout/fragment_gallery">
 
         <argument
             android:name="roomId"
             app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="type"
-            android:defaultValue="Photo"
-            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
             app:nullable="false" />
 
         <action
@@ -75,7 +69,7 @@
 
         </action>
 
-    </fragment>
+    </dialog>
 
     <dialog
         android:id="@+id/updateGalleryDialogFragment"

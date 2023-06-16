@@ -1,29 +1,18 @@
 package org.futo.circles.gallery.feature.gallery
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.os.bundleOf
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.extensions.setToolbarTitle
-import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.picker.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
@@ -34,15 +23,12 @@ import org.futo.circles.gallery.feature.gallery.list.GalleryItemViewHolder
 import org.futo.circles.gallery.feature.gallery.list.GalleryItemsAdapter
 import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.futo.circles.gallery.feature.pick.PickGalleryMediaListener
-import org.futo.circles.gallery.model.DeleteGallery
 import org.futo.circles.gallery.model.GalleryContentListItem
 
 @AndroidEntryPoint
 class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
-    private val args: GalleryFragmentArgs by navArgs()
     private val viewModel by viewModels<GalleryViewModel>()
-
     private val binding by viewBinding(FragmentGalleryBinding::bind)
     private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private val listAdapter by lazy {
@@ -52,17 +38,18 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
     }
 
     private var pickMediaListener: PickGalleryMediaListener? = null
+    private var previewMediaListener: GalleryMediaPreviewListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         pickMediaListener = parentFragment as? PickGalleryMediaListener
+        previewMediaListener = parentFragment as? GalleryMediaPreviewListener
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
-        setupMenu()
     }
 
     private fun setupViews() {
@@ -80,40 +67,11 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
     }
 
     private fun setupObservers() {
-        viewModel.titleLiveData?.observeData(this) { title ->
-            setToolbarTitle(title ?: "")
-        }
         viewModel.galleryItemsLiveData.observeData(this) {
             listAdapter.submitList(it)
         }
-        viewModel.scrollToTopLiveData.observeData(this) {
-            binding.rvGallery.postDelayed(
-                { binding.rvGallery.scrollToPosition(0) }, 500
-            )
-        }
-        viewModel.deleteGalleryLiveData.observeResponse(this,
-            success = { onBackPressed() }
-        )
     }
 
-    private fun setupMenu() {
-        activity?.addMenuProvider(object : MenuProvider {
-            @SuppressLint("RestrictedApi")
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menu.clear()
-                (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-                menuInflater.inflate(R.menu.gallery_timeline_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.configureGallery -> navigateToUpdateRoom()
-                    R.id.deleteGallery -> withConfirmation(DeleteGallery()) { viewModel.deleteGallery() }
-                }
-                return true
-            }
-        }, viewLifecycleOwner)
-    }
 
     private fun showImagePicker() {
         mediaPickerHelper.showMediaPickerDialog(
@@ -126,20 +84,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         )
     }
 
-    private fun navigateToUpdateRoom() {
-        findNavController().navigate(
-            GalleryFragmentDirections.toUpdateGalleryDialogFragment(args.roomId)
-        )
-    }
-
     private fun onMediaItemSelected(item: GalleryContentListItem) {
         pickMediaListener?.let {
             viewModel.selectMediaForPicker(requireContext(), item, it)
-        } ?: kotlin.run {
-            findNavController().navigate(
-                GalleryFragmentDirections.toGalleryImageDialogFragment(args.roomId, item.id)
-            )
-        }
+        } ?: previewMediaListener?.onPreviewMedia(item.id)
     }
 
     companion object {
