@@ -28,7 +28,10 @@ class SettingsViewModel @Inject constructor(
     val clearCacheLiveData = SingleEventLiveData<Unit>()
 
     fun logOut() {
-        launchBg { logOutLiveData.postValue(logoutDataSource.logOut()) }
+        launchBg {
+            val result = logoutDataSource.logOut()
+            logOutLiveData.postValue(result)
+        }
     }
 
     fun deactivateAccount() {
