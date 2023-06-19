@@ -100,3 +100,33 @@ native <methods>;
  # kept. Suspend functions are wrapped in continuations where the type argument
  # is used.
  -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+ #### Gson
+ -keepattributes Signature
+
+ -keepattributes *Annotation*
+
+ -dontwarn sun.misc.**
+ -keep class com.google.gson.stream.** { *; }
+
+ -keep class com.google.gson.examples.android.model.** { <fields>; }
+
+ # Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
+ # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
+ -keep class * extends com.google.gson.TypeAdapter
+ -keep class * implements com.google.gson.TypeAdapterFactory
+ -keep class * implements com.google.gson.JsonSerializer
+ -keep class * implements com.google.gson.JsonDeserializer
+
+ -keep class * {
+   @com.google.gson.annotations.SerializedName <fields>;
+ }
+
+ # Retain generic signatures of TypeToken and its subclasses with R8 version 3.0 and higher.
+ -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
+ -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
+
+ ####Gson
+
+ -dontwarn java.awt.**
+ -dontwarn org.slf4j.**
