@@ -31,7 +31,7 @@ class CreatePostView(
     private var listener: CreatePostViewListener? = null
 
     init {
-        setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+        setBackgroundColor(ContextCompat.getColor(context, org.futo.circles.core.R.color.post_card_background_color))
         setOnClickListener { listener?.onCreatePost() }
         binding.ivCreatePoll.setOnClickListener { listener?.onCreatePoll() }
     }
