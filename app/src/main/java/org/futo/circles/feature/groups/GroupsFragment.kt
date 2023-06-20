@@ -9,17 +9,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.R
+import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.databinding.FragmentRoomsBinding
 import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.feature.home.HomeViewModel
 import org.futo.circles.model.GroupListItem
 
 @AndroidEntryPoint
-class GroupsFragment : Fragment(R.layout.fragment_rooms) {
+class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
 
     private val viewModel by viewModels<GroupsViewModel>()
     private val homeViewModel by activityViewModels<HomeViewModel>()
