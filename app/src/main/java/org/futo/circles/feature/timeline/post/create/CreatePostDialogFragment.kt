@@ -39,7 +39,7 @@ class CreatePostDialogFragment :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         createPostListener =
-            parentFragmentManager.fragments.firstOrNull { it is CreatePostListener } as? CreatePostListener
+            parentFragmentManager.fragments.lastOrNull { it is CreatePostListener } as? CreatePostListener
     }
 
     @Suppress("DEPRECATION")

@@ -144,7 +144,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun setupViews() {
         binding.rvTimeline.apply {
             adapter = listAdapter
-            itemAnimator = null
             MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
         }
         binding.lCreatePost.setUp(object : CreatePostViewListener {
@@ -153,7 +152,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             }
 
             override fun onCreatePost() {
-                navigator.navigateToCreatePost(timelineId)
+                navigator.navigateToCreatePost(timelineId, args.threadEventId)
             }
         }, binding.rvTimeline, isThread)
     }
@@ -273,7 +272,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         postContent: CreatePostContent,
         threadEventId: String?
     ) {
-        viewModel.sendPost(roomId, postContent, args.threadEventId)
+        viewModel.sendPost(roomId, postContent, threadEventId)
     }
 
     override fun onEditTextPost(roomId: String, newMessage: String, eventId: String) {
