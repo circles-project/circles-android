@@ -91,4 +91,9 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
             TimelineDialogFragmentDirections.toThreadTimeline(roomId, threadEventId)
         )
     }
+
+    fun navigateToShareRoom(roomId: String) {
+        fragment.findNavController()
+            .navigate(TimelineDialogFragmentDirections.toShareRoom(roomId))
+    }
 }
