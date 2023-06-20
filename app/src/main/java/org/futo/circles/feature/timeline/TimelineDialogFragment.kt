@@ -136,6 +136,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
                 R.id.deleteCircle -> withConfirmation(DeleteCircle()) { viewModel.deleteCircle() }
                 R.id.deleteGroup -> withConfirmation(DeleteGroup()) { viewModel.deleteGroup() }
                 R.id.stateEvents -> navigator.navigateToStateEvents(timelineId)
+                R.id.share -> navigator.navigateToShareRoom(timelineId)
             }
             return@setOnMenuItemClickListener true
         }
