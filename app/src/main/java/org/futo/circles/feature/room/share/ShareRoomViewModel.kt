@@ -3,6 +3,7 @@ package org.futo.circles.feature.room.share
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.futo.circles.base.CIRCULI_INVITE_URL
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.model.TextShareable
@@ -20,7 +21,7 @@ class ShareRoomViewModel @Inject constructor(
         MatrixSessionProvider.currentSession?.roomService()?.getRoomSummaryLive(roomId)
 
 
-    fun createSharableUrl(): ShareableContent {
-        return TextShareable(roomId)
-    }
+    fun createSharableUrl(): ShareableContent = TextShareable(buildInviteUrl())
+
+    private fun buildInviteUrl(): String = CIRCULI_INVITE_URL + roomId
 }
