@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
+import org.futo.circles.base.CIRCULI_INVITE_URL_SUFFIX
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.model.GROUP_TYPE
@@ -49,7 +51,12 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
         }
         setupObservers()
         registerPushNotifications()
+        handleDeepLinks()
+    }
+
+    private fun handleDeepLinks() {
         handleOpenFromNotification()
+        handleOpenFromShareRoomUrl()
     }
 
     override fun onStop() {
@@ -67,6 +74,14 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
             viewModel.postNotificationData(summary)
         }
         activity?.intent?.removeExtra(MainActivity.ROOM_ID_PARAM)
+    }
+
+    private fun handleOpenFromShareRoomUrl() {
+        val uri = activity?.intent?.data ?: return
+        if (uri.toString().startsWith(CIRCULI_INVITE_URL_SUFFIX).not()) return
+        val roomId = uri.toString().removeSuffix(CIRCULI_INVITE_URL_SUFFIX)
+        findNavController().navigate(HomeFragmentDirections.toRoomWellKnownDialogFragment(roomId))
+        activity?.intent?.data = null
     }
 
     private fun setupObservers() {
