@@ -11,6 +11,7 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.mapping.nameOrId
+import org.futo.circles.core.model.TextShareable
 import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.databinding.DialogFragmentShareRoomBinding
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -33,7 +34,7 @@ class ShareRoomDialogFragment :
 
     private fun setupViews() {
         binding.btnShare.setOnClickListener {
-            ShareProvider.share(requireContext(), viewModel.createSharableUrl())
+            ShareProvider.share(requireContext(), TextShareable(viewModel.buildInviteUrl()))
         }
     }
 
@@ -52,7 +53,7 @@ class ShareRoomDialogFragment :
         with(binding) {
             vLoading.gone()
             ivQr.visible()
-            ivQr.setData(roomSummary.roomId)
+            ivQr.setData(viewModel.buildInviteUrl())
             tvRoomName.text = roomSummary.nameOrId()
             tvRoomId.text = roomSummary.roomId
             btnShare.visible()
