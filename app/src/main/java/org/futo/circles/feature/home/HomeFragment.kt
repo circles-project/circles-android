@@ -17,7 +17,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
-import org.futo.circles.base.CIRCULI_INVITE_URL_SUFFIX
+import org.futo.circles.base.CIRCULI_INVITE_URL_PREFIX
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setSupportActionBar
@@ -29,8 +29,12 @@ import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
 import org.matrix.android.sdk.api.session.getRoomSummary
 import javax.inject.Inject
 
+interface DeepLinkIntentHandler {
+    fun onNewIntent()
+}
+
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
+class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkIntentHandler {
 
     private val binding by viewBinding(FragmentBottomNavigationBinding::bind)
 
@@ -52,6 +56,10 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
         }
         setupObservers()
         registerPushNotifications()
+        handleDeepLinks()
+    }
+
+    override fun onNewIntent() {
         handleDeepLinks()
     }
 
@@ -79,8 +87,8 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
 
     private fun handleOpenFromShareRoomUrl() {
         val uri = activity?.intent?.data ?: return
-        if (uri.toString().startsWith(CIRCULI_INVITE_URL_SUFFIX).not()) return
-        val roomId = uri.toString().removeSuffix(CIRCULI_INVITE_URL_SUFFIX)
+        if (uri.toString().startsWith(CIRCULI_INVITE_URL_PREFIX).not()) return
+        val roomId = uri.toString().removePrefix(CIRCULI_INVITE_URL_PREFIX)
         findNavController().navigateSafe(HomeFragmentDirections.toRoomWellKnownDialogFragment(roomId))
         activity?.intent?.data = null
     }
@@ -126,4 +134,6 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
         )
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
+
+
 }
