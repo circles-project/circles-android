@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.RoomPublicInfo
 import javax.inject.Inject
 
@@ -19,6 +21,7 @@ class RoomWellKnownViewModel @Inject constructor(
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
 
     val roomPublicInfoLiveData = SingleEventLiveData<Response<RoomPublicInfo>>()
+    val knockRequestLiveData = SingleEventLiveData<Response<Unit?>>()
 
     init {
         fetchRoomPublicInfo()
@@ -28,6 +31,13 @@ class RoomWellKnownViewModel @Inject constructor(
         launchBg {
             val result = dataSource.resolveRoomById(roomId)
             roomPublicInfoLiveData.postValue(result)
+        }
+    }
+
+    fun sendKnockRequest() {
+        launchBg {
+            val result = createResult { MatrixSessionProvider.currentSession?.roomService()?.knock(roomId) }
+            knockRequestLiveData.postValue(result)
         }
     }
 

@@ -9,7 +9,9 @@ import org.futo.circles.R
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentRoomWellKnownBinding
 import org.futo.circles.model.RoomPublicInfo
@@ -27,7 +29,15 @@ class RoomWellKnownDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViews()
         setupObservers()
+    }
+
+    private fun setupViews() {
+        binding.btnRequest.setOnClickListener {
+            viewModel.sendKnockRequest()
+            binding.btnRequest.setIsLoading(true)
+        }
     }
 
     private fun setupObservers() {
@@ -36,6 +46,12 @@ class RoomWellKnownDialogFragment :
             onRequestInvoked = { binding.vLoading.gone() },
             error = { bindError(it) }
         )
+        viewModel.knockRequestLiveData.observeResponse(this,
+            success = {
+                showSuccess(getString(R.string.request_sent), true)
+                onBackPressed()
+            },
+            onRequestInvoked = { binding.btnRequest.setIsLoading(false) })
     }
 
     private fun bindError(message: String) {
