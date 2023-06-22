@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
@@ -35,7 +36,7 @@ class ActiveSessionsDialogFragment :
             }
 
             override fun onVerifySessionClicked(deviceId: String) {
-                findNavController().navigate(
+                findNavController().navigateSafe(
                     ActiveSessionsDialogFragmentDirections.toVerifySessionDialogFragment(
                         deviceId
                     )
@@ -78,7 +79,7 @@ class ActiveSessionsDialogFragment :
             error = { showError(getString(R.string.invalid_auth)) }
         )
         viewModel.startReAuthEventLiveData.observeData(this) {
-            findNavController().navigate(ActiveSessionsDialogFragmentDirections.toReAuthStagesDialogFragment())
+            findNavController().navigateSafe(ActiveSessionsDialogFragmentDirections.toReAuthStagesDialogFragment())
         }
     }
 }

@@ -20,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.bindToFab
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.picker.RuntimePermissionHelper
@@ -85,7 +86,7 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
 
     private fun onRoomListItemClicked(room: GalleryListItem) {
         pickGalleryListener?.onGalleryChosen(room.id) ?: run {
-            findNavController().navigate(PhotosFragmentDirections.toGalleryFragment(room.id))
+            findNavController().navigateSafe(PhotosFragmentDirections.toGalleryFragment(room.id))
         }
     }
 
@@ -96,10 +97,10 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     }
 
     private fun navigateToCreateRoom() {
-        findNavController().navigate(PhotosFragmentDirections.toCreateGalleryDialogFragment())
+        findNavController().navigateSafe(PhotosFragmentDirections.toCreateGalleryDialogFragment())
     }
 
     private fun navigateToBackupSettings() {
-        findNavController().navigate(PhotosFragmentDirections.toMediaBackupDialogFragment())
+        findNavController().navigateSafe(PhotosFragmentDirections.toMediaBackupDialogFragment())
     }
 }

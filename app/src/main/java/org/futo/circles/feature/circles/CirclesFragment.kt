@@ -11,6 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.bindToFab
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.feature.circles.list.CirclesListAdapter
@@ -53,7 +54,7 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
 
     private fun setupObservers() {
         homeViewModel.notificationLiveData.observeData(this) {
-            findNavController().navigate(CirclesFragmentDirections.toTimeline(it))
+            findNavController().navigateSafe(CirclesFragmentDirections.toTimeline(it))
         }
         viewModel.roomsLiveData?.observeData(this) { listAdapter.submitList(it) }
         viewModel.inviteResultLiveData.observeResponse(this)
@@ -70,15 +71,15 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
     }
 
     private fun onRoomListItemClicked(room: CircleListItem) {
-        findNavController().navigate(CirclesFragmentDirections.toTimeline(room.id))
+        findNavController().navigateSafe(CirclesFragmentDirections.toTimeline(room.id))
     }
 
     private fun navigateToCreateRoom() {
-        findNavController().navigate(CirclesFragmentDirections.toCreateCircleDialogFragment())
+        findNavController().navigateSafe(CirclesFragmentDirections.toCreateCircleDialogFragment())
     }
 
     private fun onAcceptInviteClicked(room: CircleListItem) {
-        findNavController().navigate(
+        findNavController().navigateSafe(
             CirclesFragmentDirections.toAcceptCircleInviteDialogFragment(room.id)
         )
     }

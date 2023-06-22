@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.openNotificationSettings
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
@@ -37,7 +38,7 @@ class PushNotificationsSettingsDialogFragment :
             lPushNotifications.setOnClickListener { openNotificationSettings() }
             tvNotificationsTest.setOnClickListener {
                 findNavController()
-                    .navigate(PushNotificationsSettingsDialogFragmentDirections.toNotificationTestDialogFragment())
+                    .navigateSafe(PushNotificationsSettingsDialogFragmentDirections.toNotificationTestDialogFragment())
             }
             lNotificationsMethod.setOnClickListener { showSelectDistributorDialog() }
             setCurrentDistributorName()

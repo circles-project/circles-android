@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
@@ -73,13 +74,13 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     }
 
     private fun navigateToUpdateRoom() {
-        findNavController().navigate(
+        findNavController().navigateSafe(
             GalleryDialogFragmentDirections.toUpdateGalleryDialogFragment(args.roomId)
         )
     }
 
     override fun onPreviewMedia(itemId: String) {
-        findNavController().navigate(
+        findNavController().navigateSafe(
             GalleryDialogFragmentDirections.toGalleryImageDialogFragment(args.roomId, itemId)
         )
     }

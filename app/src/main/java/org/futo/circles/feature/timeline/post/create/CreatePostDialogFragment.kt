@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
@@ -114,7 +115,7 @@ class CreatePostDialogFragment :
     }
 
     override fun onEmojiClicked() {
-        findNavController().navigate(
+        findNavController().navigateSafe(
             CreatePostDialogFragmentDirections.toEmojiBottomSheet(null, null)
         )
     }

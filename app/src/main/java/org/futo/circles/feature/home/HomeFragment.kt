@@ -18,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.base.CIRCULI_INVITE_URL_SUFFIX
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.model.GROUP_TYPE
@@ -80,7 +81,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation) {
         val uri = activity?.intent?.data ?: return
         if (uri.toString().startsWith(CIRCULI_INVITE_URL_SUFFIX).not()) return
         val roomId = uri.toString().removeSuffix(CIRCULI_INVITE_URL_SUFFIX)
-        findNavController().navigate(HomeFragmentDirections.toRoomWellKnownDialogFragment(roomId))
+        findNavController().navigateSafe(HomeFragmentDirections.toRoomWellKnownDialogFragment(roomId))
         activity?.intent?.data = null
     }
 

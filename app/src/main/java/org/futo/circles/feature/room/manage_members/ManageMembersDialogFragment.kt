@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.getUserPowerLevel
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.withConfirmation
@@ -70,7 +71,7 @@ class ManageMembersDialogFragment :
 
     override fun onSetAccessLevel(userId: String, powerLevelsContent: PowerLevelsContent) {
         findNavController()
-            .navigate(
+            .navigateSafe(
                 ManageMembersDialogFragmentDirections.toChangeAccessLevelBottomSheet(
                     userId = userId,
                     levelValue = powerLevelsContent.getUserPowerLevel(userId),
