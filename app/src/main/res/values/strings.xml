@@ -129,6 +129,7 @@
     <string name="decline">Decline</string>
     <string name="invited_by_format">Invited by %s</string>
     <string name="requested_to_follow_format">%s requested to follow</string>
+    <string name="requested_to_join">Requested to join</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
     <string name="edit_profile">Edit Profile</string>
@@ -298,6 +299,7 @@
     <string name="share_room">Share room</string>
     <string name="share_url">Share url</string>
     <string name="not_allowed_to_view_room_info">This room is private, no public info available</string>
+    <string name="joined_members_count">Joined members: %d</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
