@@ -297,6 +297,7 @@
     <string name="save">Save</string>
     <string name="share_room">Share room</string>
     <string name="share_url">Share url</string>
+    <string name="not_allowed_to_view_room_info">This room is private, no public info available</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
