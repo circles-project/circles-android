@@ -25,6 +25,6 @@ abstract class BaseActivity(contentLayoutId: Int) : AppCompatActivity(contentLay
 
     override fun onPause() {
         super.onPause()
-        rageShake.stop()
+        if (CirclesAppConfig.isRageshakeEnabled) rageShake.stop()
     }
 }
