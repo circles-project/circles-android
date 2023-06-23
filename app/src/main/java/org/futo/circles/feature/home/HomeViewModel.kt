@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.model.GROUP_TYPE
@@ -30,7 +29,6 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val mediaBackupSettingsLiveData = roomAccountDataSource.getMediaBackupSettingsLive()
-    val notificationLiveData = SingleEventLiveData<String>()
     val inviteIntoSharedSpaceLiveData = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummariesLive(roomSummaryQueryParams {
             excludeType = null
@@ -51,17 +49,14 @@ class HomeViewModel @Inject constructor(
         pushersManager.registerPushNotifications()
     }
 
-    fun postNotificationData(summary: RoomSummary) {
-        if (summary.roomType == GROUP_TYPE) {
-            if (summary.membership == Membership.JOIN) notificationLiveData.postValue(summary.roomId)
-        } else {
-            if (summary.membership == Membership.JOIN) {
-                getParentSpaceForRoom(summary)?.let { notificationLiveData.postValue(it) }
-            }
-        }
+    fun getNotificationGroupOrCircleId(summary: RoomSummary): String? {
+        if (summary.membership != Membership.JOIN) return null
+        return if (summary.roomType == GROUP_TYPE) summary.roomId
+        else getParentSpaceIdForRoom(summary)
     }
 
-    private fun getParentSpaceForRoom(summary: RoomSummary): String? {
+
+    private fun getParentSpaceIdForRoom(summary: RoomSummary): String? {
         val circles = MatrixSessionProvider.currentSession?.roomService()
             ?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
             ?.filter { item -> item.hasTag(CIRCLE_TAG) } ?: emptyList()

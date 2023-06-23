@@ -37,6 +37,21 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_timeline"
+            app:destination="@id/timeline_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
     <fragment
@@ -64,5 +79,7 @@
             app:nullable="false" />
 
     </dialog>
+
+    <include app:graph="@navigation/timeline_nav_graph" />
 
 </navigation>
