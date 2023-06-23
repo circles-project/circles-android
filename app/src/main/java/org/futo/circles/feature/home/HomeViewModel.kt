@@ -44,7 +44,7 @@ class HomeViewModel @Inject constructor(
 
     private fun createSharedCirclesSpaceIfNotExist() {
         if (getSharedCirclesSpaceId() != null) return
-        launchBg { createRoomDataSource.createRoom(SharedCirclesSpace(), allowKnock = true) }
+        launchBg { createRoomDataSource.createRoom(SharedCirclesSpace()) }
     }
 
     fun registerPushNotifications() {

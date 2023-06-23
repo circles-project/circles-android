@@ -41,7 +41,7 @@ class CoreSpacesTreeBuilder @Inject constructor(
             createRoomDataSource.createRoom(it)
             delay(CREATE_ROOM_DELAY)
         }
-        createRoomDataSource.createRoom(SharedCirclesSpace(), allowKnock = true)
+        createRoomDataSource.createRoom(SharedCirclesSpace())
         delay(CREATE_ROOM_DELAY)
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
         loadingLiveData.postValue(LoadingData(isLoading = false))
