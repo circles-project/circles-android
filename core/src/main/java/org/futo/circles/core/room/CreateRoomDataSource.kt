@@ -37,14 +37,14 @@ class CreateRoomDataSource @Inject constructor(
         name: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        isKnockingAllowed: Boolean
+        isPublicCircle: Boolean
     ): String {
         val circleId = createRoom(Circle(), name, null, iconUri)
         val timelineId =
             createRoom(Timeline(), name, null, iconUri, inviteIds, true)
         session?.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
-        if (isKnockingAllowed) addToSharedCircles(timelineId)
+        if (isPublicCircle) addToSharedCircles(timelineId)
         return circleId
     }
 
@@ -90,7 +90,6 @@ class CreateRoomDataSource @Inject constructor(
                 setInviteRules(this, allowKnock)
                 powerLevelContentOverride = PowerLevelsContent(invite = Role.Moderator.value)
                 enableEncryption()
-                overrideEncryptionForTestBuilds(this)
             }
         }.apply {
             circlesRoom.type?.let { this.roomType = it }
@@ -116,20 +115,6 @@ class CreateRoomDataSource @Inject constructor(
         )
     }
 
-    private fun overrideEncryptionForTestBuilds(params: CreateRoomParams) {
-        if (!BuildConfig.DEBUG) return
-        params.initialStates.add(
-            CreateRoomStateEvent(
-                type = EventType.STATE_ROOM_ENCRYPTION,
-                content = EncryptionEventContent(
-                    algorithm = MXCRYPTO_ALGORITHM_MEGOLM,
-                    rotationPeriodMs = DEBUG_ROTATION_PERIOD,
-                    rotationPeriodMsgs = DEBUG_PERIOD_MSG
-                ).toContent()
-            )
-        )
-    }
-
     suspend fun addToSharedCircles(timelineId: String) {
         session?.getRoom(getSharedCirclesSpaceId() ?: "")
             ?.let { sharedCirclesSpace ->
@@ -142,10 +127,5 @@ class CreateRoomDataSource @Inject constructor(
             ?.let { sharedCirclesSpace ->
                 roomRelationsBuilder.removeRelations(timelineId, sharedCirclesSpace.roomId)
             }
-    }
-
-    companion object {
-        private const val DEBUG_ROTATION_PERIOD = 3600000L
-        private const val DEBUG_PERIOD_MSG = 10L
     }
 }
