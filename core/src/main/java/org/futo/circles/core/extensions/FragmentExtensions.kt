@@ -65,13 +65,6 @@ fun Fragment.setSupportActionBar(toolbar: Toolbar) {
     (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
 }
 
-fun Fragment.setToolbarTitle(title: String) {
-    (activity as? AppCompatActivity)?.supportActionBar?.title = title
-}
-
-fun Fragment.setToolbarSubTitle(title: String) {
-    (activity as? AppCompatActivity)?.supportActionBar?.subtitle = title
-}
 
 fun Fragment.showDialog(
     @StringRes titleResIdRes: Int,
