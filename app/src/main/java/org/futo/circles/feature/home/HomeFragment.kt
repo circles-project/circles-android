@@ -8,6 +8,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -21,7 +22,9 @@ import org.futo.circles.base.CIRCULI_INVITE_URL_PREFIX
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setSupportActionBar
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
+import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
@@ -42,7 +45,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     private val notificationPermissionHelper =
         RuntimePermissionHelper(this, Manifest.permission.POST_NOTIFICATIONS)
 
-    private val viewModel by activityViewModels<HomeViewModel>()
+    private val viewModel by viewModels<HomeViewModel>()
     private val systemNoticesCountViewModel by activityViewModels<SystemNoticesCountSharedViewModel>()
 
     @Inject
@@ -76,11 +79,19 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     private fun handleOpenFromNotification() {
         val roomId = activity?.intent?.getStringExtra(MainActivity.ROOM_ID_PARAM) ?: return
         val summary = MatrixSessionProvider.currentSession?.getRoomSummary(roomId) ?: return
+        val type = summary.roomType?.takeIf { it == GROUP_TYPE || it == TIMELINE_TYPE }
+        val timelineId = viewModel.getNotificationGroupOrCircleId(summary) ?: return
+
         binding.bottomNavigationView.post {
             binding.bottomNavigationView.selectedItemId =
                 if (summary.roomType == GROUP_TYPE) R.id.groups_nav_graph
                 else R.id.circles_nav_graph
-            viewModel.postNotificationData(summary)
+            findNavController().navigateSafe(
+                HomeFragmentDirections.toTimeline(
+                    timelineId,
+                    if (type == GROUP_TYPE) CircleRoomTypeArg.Group else CircleRoomTypeArg.Circle
+                )
+            )
         }
         activity?.intent?.removeExtra(MainActivity.ROOM_ID_PARAM)
     }
