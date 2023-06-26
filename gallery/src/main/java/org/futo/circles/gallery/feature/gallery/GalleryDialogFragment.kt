@@ -36,9 +36,16 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViews()
         addGalleryFragment()
         setupMenu()
         setupObservers()
+    }
+
+    private fun setupViews() {
+        binding.toolbar.setOnClickListener {
+            binding.toolbar.showOverflowMenu()
+        }
     }
 
     private fun addGalleryFragment() {
