@@ -62,7 +62,7 @@ dependencies {
     implementation project(path: ':gallery')
 
     //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.1.0')
+    gplayImplementation platform('com.google.firebase:firebase-bom:32.1.1')
     gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
