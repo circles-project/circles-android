@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.nulab-inc:zxcvbn:1.7.0'
 
     //Subscriptions
-    implementation 'com.android.billingclient:billing-ktx:6.0.0'
+    implementation 'com.android.billingclient:billing-ktx:6.0.1'
 
     //Hilt
     def hilt = '2.46.1'
