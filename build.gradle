@@ -3,6 +3,8 @@ buildscript {
         minSdkVersion = 24
         sdkVersion = 33
         androidx_nav_version = "2.5.3"
+        modules_version = "1.0.4"
+        modules_gitlab_projectId = "13"
     }
     repositories {
         google()
@@ -34,4 +36,23 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task cleanBuildPublishModules(type: GradleBuild) {
+    task assembleModulesRelease {
+        dependsOn 'clean'
+        dependsOn ':core:assembleRelease'
+        dependsOn ':auth:assembleRelease'
+        dependsOn ':gallery:assembleRelease'
+    }
+
+    task publishModules {
+        dependsOn 'assembleModulesRelease'
+        dependsOn ':core:publish'
+        dependsOn ':auth:publish'
+        dependsOn ':gallery:publish'
+    }
+
+    dependsOn 'assembleModulesRelease'
+    dependsOn 'publishModules'
 }
