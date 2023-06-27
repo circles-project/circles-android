@@ -50,7 +50,7 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
     }
 
     private fun setupObservers() {
-        viewModel.roomsLiveData?.observeData(this) { listAdapter.submitList(it) }
+        viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
         viewModel.inviteResultLiveData.observeResponse(this)
     }
 

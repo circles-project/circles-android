@@ -2,9 +2,8 @@ package org.futo.circles.feature.circles
 
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.mapping.toRoomInfo
@@ -27,11 +26,18 @@ import javax.inject.Inject
 
 class CirclesDataSource @Inject constructor() {
 
-    fun getCirclesFlow() = MatrixSessionProvider.currentSession?.roomService()
-        ?.getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })?.asFlow()
-        ?.flowOn(Dispatchers.IO)
-        ?.distinctUntilChanged()
-        ?.mapLatest { list -> withContext(Dispatchers.IO) { buildCirclesList(list) } }
+    val session by lazy {
+        MatrixSessionProvider.currentSession
+            ?: throw IllegalArgumentException("session is not created")
+    }
+
+    fun getCirclesFlow() = combine(
+        session.roomService().getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
+            .asFlow(),
+        session.roomService().getChangeMembershipsLive().asFlow()
+    ) { roomSummaries, _ ->
+        withContext(Dispatchers.IO) { buildCirclesList(roomSummaries) }
+    }.distinctUntilChanged()
 
     private fun buildCirclesList(list: List<RoomSummary>): List<CircleListItem> {
         val invites =
