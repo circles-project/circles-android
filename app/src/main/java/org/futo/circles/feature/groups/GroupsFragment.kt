@@ -15,6 +15,7 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.model.GroupListItem
+import org.futo.circles.model.RequestGroupListItem
 
 @AndroidEntryPoint
 class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
@@ -26,6 +27,9 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onInviteClicked = { roomListItem, isAccepted ->
                 onInviteClicked(roomListItem, isAccepted)
+            },
+            onRequestClicked = { roomListItem, isAccepted ->
+                onRequestClicked(roomListItem, isAccepted)
             }
         )
     }
@@ -53,6 +57,11 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
     private fun onInviteClicked(room: GroupListItem, isAccepted: Boolean) {
         if (isAccepted) viewModel.acceptGroupInvite(room.id)
         else viewModel.rejectInvite(room.id)
+    }
+
+    private fun onRequestClicked(room: RequestGroupListItem, isAccepted: Boolean) {
+        if (isAccepted) viewModel.inviteUser(room)
+        else viewModel.kickUser(room)
     }
 
     private fun onRoomListItemClicked(room: GroupListItem) {
