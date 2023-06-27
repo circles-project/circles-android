@@ -12,13 +12,13 @@ import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserUtils
+import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.utils.isCircleShared
 import org.futo.circles.mapping.toInviteCircleListItem
 import org.futo.circles.mapping.toJoinedCircleListItem
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CirclesHeaderItem
 import org.futo.circles.model.RequestCircleListItem
-import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -40,7 +40,7 @@ class CirclesDataSource @Inject constructor() {
         val sharedCircles =
             joinedCircles.filter { joinedCircle -> isCircleShared(joinedCircle.roomId) }
         val privateCircles = joinedCircles - sharedCircles.toSet()
-        val requests = getKnockRequestToSharedTimelines(sharedCircles)
+        val requests = getKnockRequestToSharedTimelines(joinedCircles)
 
         val displayList = mutableListOf<CircleListItem>().apply {
             addSection(CirclesHeaderItem.requestsCirclesHeader, requests)
@@ -61,17 +61,15 @@ class CirclesDataSource @Inject constructor() {
     private fun isInviteToCircleTimeline(summary: RoomSummary) =
         summary.roomType == TIMELINE_TYPE && summary.membership == Membership.INVITE
 
-    private fun getKnockRequestToSharedTimelines(sharedCircles: List<RoomSummary>): List<RequestCircleListItem> {
+    private fun getKnockRequestToSharedTimelines(joinedCircles: List<RoomSummary>): List<RequestCircleListItem> {
         val requests = mutableListOf<RequestCircleListItem>()
 
-        sharedCircles.forEach {
-            val sharedTimeline = MatrixSessionProvider.currentSession?.getRoom(
-                it.spaceChildren?.firstOrNull()?.childRoomId ?: ""
-            ) ?: return@forEach
-            val sharedTimelineSummary = sharedTimeline.roomSummary() ?: return@forEach
+        joinedCircles.forEach {
+            val timeline = getTimelineRoomFor(it.roomId) ?: return@forEach
+            val timelineRoomInfo = timeline.roomSummary()?.toRoomInfo() ?: return@forEach
 
             val knockingMembers =
-                sharedTimeline.membershipService().getRoomMembers(roomMemberQueryParams {
+                timeline.membershipService().getRoomMembers(roomMemberQueryParams {
                     memberships = listOf(Membership.KNOCK)
                 })
 
@@ -79,8 +77,8 @@ class CirclesDataSource @Inject constructor() {
             knockingMembers.forEach { user ->
                 requests.add(
                     RequestCircleListItem(
-                        id = sharedTimeline.roomId,
-                        info = sharedTimelineSummary.toRoomInfo(),
+                        id = timeline.roomId,
+                        info = timelineRoomInfo,
                         requesterName = user.displayName
                             ?: UserUtils.removeDomainSuffix(user.userId),
                         requesterId = user.userId
