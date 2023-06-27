@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.gone
@@ -14,6 +16,7 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentRoomWellKnownBinding
+import org.futo.circles.gallery.feature.UpdateGalleryDialogFragmentArgs
 import org.futo.circles.model.RoomPublicInfo
 import org.matrix.android.sdk.api.session.room.model.Membership
 
@@ -22,6 +25,7 @@ class RoomWellKnownDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentRoomWellKnownBinding::inflate) {
 
     private val viewModel by viewModels<RoomWellKnownViewModel>()
+    private val args: RoomWellKnownDialogFragmentArgs by navArgs()
 
     private val binding by lazy {
         getBinding() as DialogFragmentRoomWellKnownBinding
@@ -34,6 +38,7 @@ class RoomWellKnownDialogFragment :
     }
 
     private fun setupViews() {
+        binding.tvRoomId.text = args.roomId
         binding.btnRequest.setOnClickListener {
             viewModel.sendKnockRequest()
             binding.btnRequest.setIsLoading(true)
@@ -67,7 +72,6 @@ class RoomWellKnownDialogFragment :
             ivCover.loadProfileIcon(roomInfo.avatarUrl, roomInfo.displayName)
             toolbar.title = roomInfo.displayName
             tvRoomName.text = roomInfo.displayName
-            tvRoomId.text = roomInfo.id
             tvMembersCount.text = getString(R.string.joined_members_count, roomInfo.memberCount)
             btnRequest.setIsVisible(roomInfo.membership == Membership.NONE)
             tvTopic.setIsVisible(roomInfo.topic != null)
