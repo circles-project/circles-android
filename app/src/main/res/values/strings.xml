@@ -300,6 +300,10 @@
     <string name="share_url">Share url</string>
     <string name="not_allowed_to_view_room_info">This room is private, no public info available</string>
     <string name="joined_members_count">Joined members: %d</string>
+    <string name="you_have_pending_invitation">You have a pending invitation to this room. Check your invite notifications</string>
+    <string name="you_are_already_member">You are already a member of this room</string>
+    <string name="you_are_banned">You are banned in this room</string>
+    <string name="request_to_become_member">Request to join to become a member of this room</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
