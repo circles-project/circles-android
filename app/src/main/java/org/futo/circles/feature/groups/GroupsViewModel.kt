@@ -8,7 +8,6 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.model.RequestCircleListItem
 import org.futo.circles.model.RequestGroupListItem
 import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
@@ -16,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GroupsViewModel @Inject constructor(private val dataSource: GroupsDataSource) : ViewModel() {
 
-    val roomsLiveData = dataSource.getGroupsLiveData()?.asLiveData()
+    val roomsLiveData = dataSource.getGroupsFlow().asLiveData()
     val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun rejectInvite(roomId: String) {

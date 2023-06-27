@@ -2,9 +2,8 @@ package org.futo.circles.feature.groups
 
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.mapping.toRoomInfo
@@ -27,11 +26,18 @@ class GroupsDataSource @Inject constructor(
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 
-    fun getGroupsLiveData() = MatrixSessionProvider.currentSession?.roomService()
-        ?.getRoomSummariesLive(roomSummaryQueryParams())?.asFlow()
-        ?.flowOn(Dispatchers.IO)
-        ?.distinctUntilChanged()
-        ?.mapLatest { list -> withContext(Dispatchers.IO) { filterGroups(list) } }
+    val session by lazy {
+        MatrixSessionProvider.currentSession
+            ?: throw IllegalArgumentException("session is not created")
+    }
+
+    fun getGroupsFlow() = combine(
+        session.roomService().getRoomSummariesLive(roomSummaryQueryParams()).asFlow(),
+        session.roomService().getChangeMembershipsLive().asFlow()
+    ) { roomSummaries, _ ->
+        withContext(Dispatchers.IO) { filterGroups(roomSummaries) }
+    }.distinctUntilChanged()
+
 
     suspend fun rejectInvite(roomId: String) = createResult {
         MatrixSessionProvider.currentSession?.roomService()?.leaveRoom(roomId)
