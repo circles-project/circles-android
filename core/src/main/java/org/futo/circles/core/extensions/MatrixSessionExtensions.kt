@@ -58,5 +58,5 @@ fun Session.getKnownUsersFlow() =
             knowUsers.toList().filterNot { getUserIdsToExclude().contains(it.userId) }
         }
 
-private suspend fun Session.getOrFetchUser(userId: String): User =
+suspend fun Session.getOrFetchUser(userId: String): User =
     getUser(userId) ?: userService().resolveUser(userId)
