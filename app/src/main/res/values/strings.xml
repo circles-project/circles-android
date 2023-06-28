@@ -301,10 +301,14 @@
     <string name="share_url">Share url</string>
     <string name="not_allowed_to_view_room_info">This room is private, no public info available</string>
     <string name="joined_members_count">Joined members: %d</string>
-    <string name="you_have_pending_invitation">You have a pending invitation to this room. Check your invite notifications</string>
-    <string name="you_are_already_member">You are already a member of this room</string>
-    <string name="you_are_banned">You are banned in this room</string>
-    <string name="request_to_become_member">Request to join to become a member of this room</string>
+    <string name="you_have_pending_invitation_room">You have a pending invitation to this room. Check your invite notifications</string>
+    <string name="you_are_already_member_room">You are already a member of this room</string>
+    <string name="you_are_banned_room">You are banned in this room</string>
+    <string name="request_to_become_member_room">Request to join to become a member of this room</string>
+    <string name="you_have_pending_invitation_user">You have a pending invitation to follow this user. Check your invite notifications</string>
+    <string name="you_are_already_following_user">You are already following this user</string>
+    <string name="you_are_banned_user">You are banned</string>
+    <string name="send_request_to_follow_user">Send request to follow this user</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
