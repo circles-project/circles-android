@@ -53,7 +53,19 @@
 
                 <data
                     android:host="circu.li"
-                    android:pathPrefix="/invite"
+                    android:pathPrefix="/room"
+                    android:scheme="https" />
+
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="circu.li"
+                    android:pathPrefix="/profile"
                     android:scheme="https" />
             </intent-filter>
         </activity>
