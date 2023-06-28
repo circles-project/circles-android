@@ -47,7 +47,7 @@ class ReportDialogFragment :
 
     private fun setupObservers() {
         viewModel.reportLiveData.observeResponse(this) {
-            showSuccess(getString(R.string.report_sent), true)
+            showSuccess(getString(R.string.report_sent))
             onBackPressed()
         }
         viewModel.reportCategoriesLiveData.observeData(this) {

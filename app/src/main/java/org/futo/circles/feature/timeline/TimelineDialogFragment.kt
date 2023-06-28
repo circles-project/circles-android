@@ -183,11 +183,11 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             context?.let { ShareProvider.share(it, content) }
         }
         viewModel.saveToDeviceLiveData.observeData(this) {
-            context?.let { showSuccess(it.getString(R.string.saved), true) }
+            context?.let { showSuccess(it.getString(R.string.saved)) }
         }
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {
-                context?.let { showSuccess(it.getString(R.string.user_ignored), true) }
+                context?.let { showSuccess(it.getString(R.string.user_ignored)) }
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
         viewModel.leaveGroupLiveData.observeResponse(this,

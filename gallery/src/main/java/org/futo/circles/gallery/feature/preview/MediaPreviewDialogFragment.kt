@@ -144,7 +144,7 @@ class MediaPreviewDialogFragment :
             context?.let { ShareProvider.share(it, content) }
         }
         viewModel.downloadLiveData.observeData(this) {
-            context?.let { showSuccess(it.getString(R.string.saved), false) }
+            context?.let { showSuccess(it.getString(R.string.saved)) }
         }
     }
 

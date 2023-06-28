@@ -54,7 +54,7 @@ class InviteMembersDialogFragment :
         }
         viewModel.inviteResultLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.invitation_sent), true)
+                showSuccess(getString(R.string.invitation_sent))
                 onBackPressed()
             }
         )

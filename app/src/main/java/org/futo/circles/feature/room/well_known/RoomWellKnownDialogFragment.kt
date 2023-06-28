@@ -51,7 +51,7 @@ class RoomWellKnownDialogFragment :
         )
         viewModel.knockRequestLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.request_sent), true)
+                showSuccess(getString(R.string.request_sent))
                 onBackPressed()
             },
             onRequestInvoked = { binding.btnRequest.setIsLoading(false) })

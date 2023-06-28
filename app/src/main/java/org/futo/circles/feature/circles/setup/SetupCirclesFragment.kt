@@ -58,7 +58,7 @@ class SetupCirclesFragment : Fragment(R.layout.fragment_setup_circles), HasLoadi
         viewModel.createCirclesResponseLiveData.observeResponse(this,
             success = {
                 loadingDialog.dismiss()
-                showSuccess(getString(R.string.circles_created), true)
+                showSuccess(getString(R.string.circles_created))
                 navigateToBottomMenuScreen()
             },
             error = {

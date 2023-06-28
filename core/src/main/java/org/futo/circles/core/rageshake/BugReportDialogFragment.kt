@@ -60,7 +60,7 @@ class BugReportDialogFragment :
         }
         viewModel.sendReportLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.report_sent), true)
+                showSuccess(getString(R.string.report_sent))
                 dismiss()
             }
         )

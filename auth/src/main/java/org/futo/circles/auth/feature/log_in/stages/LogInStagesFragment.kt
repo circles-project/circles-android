@@ -72,7 +72,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
         viewModel.restoreKeysLiveData.observeResponse(
             this,
             error = {
-                showError(it, true)
+                showError(it)
                 loadingDialog.dismiss()
             }
         )

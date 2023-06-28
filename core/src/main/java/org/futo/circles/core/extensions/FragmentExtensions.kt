@@ -1,60 +1,69 @@
 package org.futo.circles.core.extensions
 
-import android.annotation.SuppressLint
+import android.app.ActionBar.LayoutParams
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.InsetDrawable
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import org.futo.circles.core.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.ConfirmationType
 
-private const val SNACK_BAR_DURATION = 3500
 
-@SuppressLint("InflateParams")
-private fun Fragment.showBar(message: String, isError: Boolean, showOnActivity: Boolean) {
-    val parentView = if (showOnActivity) activity?.findViewById(android.R.id.content) else view
-    parentView ?: return
+private const val MESSAGE_BAR_DURATION = 3500L
 
-    val snack: Snackbar = Snackbar.make(parentView, message, SNACK_BAR_DURATION)
-    snack.view.setBackgroundColor(Color.TRANSPARENT)
-
-    val snackLayout = snack.view as Snackbar.SnackbarLayout
-    snackLayout.setPadding(0, 0, 0, 0)
-
+private fun Fragment.showDialogBar(message: String, isError: Boolean) {
+    val context = (activity as? Context) ?: return
     val customSnackView = layoutInflater.inflate(
         if (isError) R.layout.view_error_snack_bar else R.layout.view_success_snack_bar,
         null
     ).apply {
         findViewById<TextView>(R.id.tvMessage)?.text = message
     }
-    snackLayout.addView(customSnackView, 0)
-
-    val layoutParams = (snack.view.layoutParams as? FrameLayout.LayoutParams)?.also { params ->
-        params.gravity = Gravity.TOP
+    val dialog = AlertDialog.Builder(context)
+        .setView(customSnackView)
+        .create()
+    dialog.window?.apply {
+        setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+        )
+        setBackgroundDrawable(InsetDrawable(ColorDrawable(Color.TRANSPARENT), 20))
+        setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        setGravity(Gravity.TOP)
+        clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
-    snack.view.layoutParams = layoutParams
-    snack.show()
+    dialog.show()
+
+    val handler = Handler(Looper.getMainLooper())
+    val runnable = Runnable { if (dialog.isShowing) dialog.dismiss() }
+    dialog.setOnDismissListener { handler.removeCallbacks(runnable) }
+    handler.postDelayed(runnable, MESSAGE_BAR_DURATION)
 }
 
-fun Fragment.showError(message: String, showOnActivity: Boolean = false) {
-    showBar(message, true, showOnActivity)
+fun Fragment.showError(message: String) {
+    showDialogBar(message, true)
 }
 
-fun Fragment.showSuccess(message: String, showOnActivity: Boolean = false) {
-    showBar(message, false, showOnActivity)
+fun Fragment.showSuccess(message: String) {
+    showDialogBar(message, false)
 }
 
 fun Fragment.setEnabledViews(enabled: Boolean, viewsToExclude: List<View> = emptyList()) {
