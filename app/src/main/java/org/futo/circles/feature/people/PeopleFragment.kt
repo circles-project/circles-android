@@ -15,6 +15,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showSuccess
@@ -72,6 +73,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
     }
 
     private fun navigateToUserPage(userId: String) {
-        findNavController().navigate(PeopleFragmentDirections.toUserFragment(userId))
+        findNavController().navigateSafe(PeopleFragmentDirections.toUserFragment(userId))
     }
 }

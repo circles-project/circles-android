@@ -14,8 +14,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="@string/share_profile"
-        app:titleCentered="true" />
+        app:titleCentered="true"
+        tools:title="@string/share_room" />
 
 
     <View
@@ -50,7 +50,8 @@
         app:layout_constraintVertical_bias="0.25" />
 
     <TextView
-        android:id="@+id/tvMessage"
+        android:id="@+id/tvRoomName"
+        style="@style/body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="36dp"
@@ -60,6 +61,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivQr"
         tools:text="Aasdsadasdsaf" />
+
+    <TextView
+        android:id="@+id/tvRoomId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvRoomName"
+        tools:text="Aasdsadasdsaf" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnShare"
+        style="@style/NegativeButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/share_url"
+        android:visibility="gone"
+        app:icon="@drawable/ic_share"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvRoomId"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

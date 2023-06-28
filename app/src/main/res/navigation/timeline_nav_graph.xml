@@ -220,6 +220,22 @@
         </action>
 
         <action
+            android:id="@+id/to_shareRoom"
+            app:destination="@id/shareRoomDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="isProfile"
+                app:argType="boolean"
+                app:nullable="false" />
+
+        </action>
+
+        <action
             android:id="@+id/to_thread_timeline"
             app:destination="@id/timelineFragment">
 
@@ -467,5 +483,21 @@
     <include app:graph="@navigation/save_to_gallery_nav_graph" />
 
     <include app:graph="@navigation/media_preview_nav_graph" />
+    <dialog
+        android:id="@+id/shareRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.share.ShareRoomDialogFragment"
+        tools:layout="@layout/dialog_fragment_share_room">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="isProfile"
+            app:argType="boolean"
+            app:nullable="false" />
+
+    </dialog>
 
 </navigation>

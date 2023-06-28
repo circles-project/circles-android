@@ -62,7 +62,7 @@ abstract class UpdateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Bo
         }
         viewModel.updateGroupResponseLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(successMessageResId), true)
+                showSuccess(getString(successMessageResId))
                 onBackPressed()
             }
         )

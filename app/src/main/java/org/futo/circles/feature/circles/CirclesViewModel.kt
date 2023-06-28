@@ -17,7 +17,7 @@ class CirclesViewModel @Inject constructor(
     private val dataSource: CirclesDataSource
 ) : ViewModel() {
 
-    val roomsLiveData = dataSource.getCirclesFlow()?.asLiveData()
+    val roomsLiveData = dataSource.getCirclesFlow().asLiveData()
     val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun rejectInvite(roomId: String) {

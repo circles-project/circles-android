@@ -18,6 +18,7 @@ import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
 import org.futo.circles.auth.feature.log_in.EnterPassPhraseDialog
 import org.futo.circles.auth.feature.log_in.EnterPassPhraseDialogListener
 import org.futo.circles.core.CirclesAppConfig
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
@@ -63,7 +64,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
                 LoginStageNavigationEvent.BSspekeLogin -> R.id.to_bsspeke
                 else -> throw IllegalArgumentException(getString(R.string.not_supported_navigation_event))
             }
-            binding.navHostFragment.findNavController().navigate(id)
+            binding.navHostFragment.findNavController().navigateSafe(id)
         }
         viewModel.subtitleLiveData.observeData(this) {
             binding.toolbar.subtitle = it
@@ -71,7 +72,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
         viewModel.restoreKeysLiveData.observeResponse(
             this,
             error = {
-                showError(it, true)
+                showError(it)
                 loadingDialog.dismiss()
             }
         )
@@ -119,11 +120,11 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
     }
 
     private fun navigateToBottomMenuFragment() {
-        findNavController().navigate(LogInStagesFragmentDirections.toHomeFragment())
+        findNavController().navigateSafe(LogInStagesFragmentDirections.toHomeFragment())
     }
 
     private fun navigateToSetupCirclesOrHome() {
-        findNavController().navigate(
+        findNavController().navigateSafe(
             if (CirclesAppConfig.isSetupCirclesEnabled)
                 LogInStagesFragmentDirections.toSetupCirclesFragment()
             else

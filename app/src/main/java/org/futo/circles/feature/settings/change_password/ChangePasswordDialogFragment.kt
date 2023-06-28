@@ -58,7 +58,7 @@ class ChangePasswordDialogFragment :
     private fun setupObservers() {
         viewModel.responseLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.password_changed), true)
+                showSuccess(getString(R.string.password_changed))
                 onBackPressed()
             },
             error = { message ->

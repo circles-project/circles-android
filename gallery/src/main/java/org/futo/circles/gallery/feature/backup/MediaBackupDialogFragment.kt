@@ -86,7 +86,7 @@ class MediaBackupDialogFragment :
         }
         viewModel.saveBackupSettingsResultLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.saved), true)
+                showSuccess(getString(R.string.saved))
                 onBackPressed()
             })
         viewModel.initialBackupSettingsLiveData.observeData(this) {

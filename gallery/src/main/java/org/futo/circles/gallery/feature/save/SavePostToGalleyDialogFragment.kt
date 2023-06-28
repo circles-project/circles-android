@@ -60,7 +60,7 @@ class SavePostToGalleyDialogFragment :
     private fun setupObservers() {
         viewModel.saveResultLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.saved), true)
+                showSuccess(getString(R.string.saved))
                 onBackPressed()
             }
         )

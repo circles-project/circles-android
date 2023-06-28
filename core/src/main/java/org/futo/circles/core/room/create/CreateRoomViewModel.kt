@@ -31,12 +31,12 @@ class CreateRoomViewModel @Inject constructor(
         topic: String,
         inviteIds: List<String>?,
         roomType: CircleRoomTypeArg,
-        isKnockingAllowed: Boolean
+        isPublicCircle: Boolean
     ) {
         launchBg {
             val result = createResult {
                 when (roomType) {
-                    CircleRoomTypeArg.Circle -> createCircle(name, inviteIds, isKnockingAllowed)
+                    CircleRoomTypeArg.Circle -> createCircle(name, inviteIds, isPublicCircle)
                     CircleRoomTypeArg.Group -> createGroup(name, topic, inviteIds)
                     CircleRoomTypeArg.Photo -> createGallery(name)
                 }
@@ -57,13 +57,13 @@ class CreateRoomViewModel @Inject constructor(
     private suspend fun createCircle(
         name: String,
         inviteIds: List<String>?,
-        isKnockingAllowed: Boolean
+        isPublicCircle: Boolean
     ) =
         dataSource.createCircleWithTimeline(
             name = name,
             iconUri = selectedImageLiveData.value,
             inviteIds = inviteIds,
-            isKnockingAllowed
+            isPublicCircle
         )
 
     private suspend fun createGallery(name: String) = dataSource.createRoom(

@@ -100,7 +100,7 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             success = { showSuccess(getString(R.string.request_sent)) })
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {
-                context?.let { showSuccess(it.getString(R.string.user_ignored), true) }
+                context?.let { showSuccess(it.getString(R.string.user_ignored)) }
                 onBackPressed()
             })
         viewModel.unIgnoreUserLiveData.observeResponse(this,

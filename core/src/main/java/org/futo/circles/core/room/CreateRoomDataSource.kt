@@ -3,15 +3,12 @@ package org.futo.circles.core.room
 import android.content.Context
 import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.core.BuildConfig
 import org.futo.circles.core.model.Circle
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.model.Timeline
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
-import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM
 import org.matrix.android.sdk.api.session.events.model.EventType
-import org.matrix.android.sdk.api.session.events.model.content.EncryptionEventContent
 import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.GuestAccess
@@ -37,14 +34,13 @@ class CreateRoomDataSource @Inject constructor(
         name: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        isKnockingAllowed: Boolean
+        isPublicCircle: Boolean
     ): String {
         val circleId = createRoom(Circle(), name, null, iconUri)
-        val timelineId =
-            createRoom(Timeline(), name, null, iconUri, inviteIds, true)
+        val timelineId = createRoom(Timeline(), name, null, iconUri, inviteIds)
         session?.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
-        if (isKnockingAllowed) addToSharedCircles(timelineId)
+        if (isPublicCircle) addToSharedCircles(timelineId)
         return circleId
     }
 
@@ -53,11 +49,10 @@ class CreateRoomDataSource @Inject constructor(
         name: String? = null,
         topic: String? = null,
         iconUri: Uri? = null,
-        inviteIds: List<String>? = null,
-        allowKnock: Boolean = false
+        inviteIds: List<String>? = null
     ): String {
         val id = session?.roomService()?.createRoom(
-            getParams(circlesRoom, name, topic, iconUri, inviteIds, allowKnock)
+            getParams(circlesRoom, name, topic, iconUri, inviteIds)
         ) ?: throw Exception("Can not create room")
         circlesRoom.tag?.let { session?.getRoom(id)?.tagsService()?.addTag(it, null) }
         circlesRoom.parentTag?.let { tag ->
@@ -72,28 +67,20 @@ class CreateRoomDataSource @Inject constructor(
         name: String? = null,
         topic: String? = null,
         iconUri: Uri? = null,
-        inviteIds: List<String>? = null,
-        allowKnock: Boolean = false
+        inviteIds: List<String>? = null
     ): CreateRoomParams {
         val params = if (circlesRoom.isSpace()) {
-            CreateSpaceParams().apply {
-                if (allowKnock) {
-                    guestAccess = GuestAccess.CanJoin
-                    setInviteRules(this, true)
-                }
-            }
+            CreateSpaceParams()
         } else {
             CreateRoomParams().apply {
                 visibility = RoomDirectoryVisibility.PRIVATE
-                guestAccess = GuestAccess.CanJoin
                 historyVisibility = RoomHistoryVisibility.SHARED
-                setInviteRules(this, allowKnock)
                 powerLevelContentOverride = PowerLevelsContent(invite = Role.Moderator.value)
                 enableEncryption()
-                overrideEncryptionForTestBuilds(this)
             }
         }.apply {
             circlesRoom.type?.let { this.roomType = it }
+            setInviteRules(this, circlesRoom)
         }
 
         return params.apply {
@@ -104,27 +91,14 @@ class CreateRoomDataSource @Inject constructor(
         }
     }
 
-    private fun setInviteRules(params: CreateRoomParams, allowKnock: Boolean) {
+    private fun setInviteRules(params: CreateRoomParams, circlesRoom: CirclesRoom) {
+        circlesRoom.joinRules?.let { params.guestAccess = GuestAccess.CanJoin }
+
         params.initialStates.add(
             CreateRoomStateEvent(
                 EventType.STATE_ROOM_JOIN_RULES,
                 RoomJoinRulesContent(
-                    if (allowKnock) RoomJoinRules.KNOCK.value
-                    else RoomJoinRules.INVITE.value
-                ).toContent()
-            )
-        )
-    }
-
-    private fun overrideEncryptionForTestBuilds(params: CreateRoomParams) {
-        if (!BuildConfig.DEBUG) return
-        params.initialStates.add(
-            CreateRoomStateEvent(
-                type = EventType.STATE_ROOM_ENCRYPTION,
-                content = EncryptionEventContent(
-                    algorithm = MXCRYPTO_ALGORITHM_MEGOLM,
-                    rotationPeriodMs = DEBUG_ROTATION_PERIOD,
-                    rotationPeriodMsgs = DEBUG_PERIOD_MSG
+                    circlesRoom.joinRules?.value ?: RoomJoinRules.INVITE.value
                 ).toContent()
             )
         )
@@ -142,10 +116,5 @@ class CreateRoomDataSource @Inject constructor(
             ?.let { sharedCirclesSpace ->
                 roomRelationsBuilder.removeRelations(timelineId, sharedCirclesSpace.roomId)
             }
-    }
-
-    companion object {
-        private const val DEBUG_ROTATION_PERIOD = 3600000L
-        private const val DEBUG_PERIOD_MSG = 10L
     }
 }

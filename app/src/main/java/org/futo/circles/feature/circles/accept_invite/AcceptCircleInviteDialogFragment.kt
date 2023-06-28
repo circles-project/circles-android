@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.base.RoomsListener
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
@@ -64,7 +65,7 @@ class AcceptCircleInviteDialogFragment :
 
     private fun navigateToCreateCircle() {
         findNavController()
-            .navigate(AcceptCircleInviteDialogFragmentDirections.toCreateCircleDialogFragment())
+            .navigateSafe(AcceptCircleInviteDialogFragmentDirections.toCreateCircleDialogFragment())
     }
 
     override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {

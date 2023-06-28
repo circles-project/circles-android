@@ -12,6 +12,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSignUpBinding
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
@@ -71,7 +72,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
             SignUpNavigationEvents.BSspeke -> R.id.to_bsspeke
             SignUpNavigationEvents.Username -> R.id.to_username
         }
-        binding.navHostFragment.findNavController().navigate(directionId)
+        binding.navHostFragment.findNavController().navigateSafe(directionId)
     }
 
     private fun showDiscardDialog() {
@@ -96,7 +97,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
     }
 
     private fun navigateToSetupProfile() {
-        findNavController().navigate(SignUpFragmentDirections.toSetupProfileFragment())
+        findNavController().navigateSafe(SignUpFragmentDirections.toSetupProfileFragment())
     }
 
 }

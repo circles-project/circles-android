@@ -24,7 +24,6 @@ class SettingsViewModel @Inject constructor(
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToMatrixChangePasswordEvent = SingleEventLiveData<Unit>()
     val changePasswordResponseLiveData = SingleEventLiveData<Response<Unit?>>()
-    val scanProfileQrResultLiveData = SingleEventLiveData<Response<Unit?>>()
     val clearCacheLiveData = SingleEventLiveData<Unit>()
 
     fun logOut() {
@@ -58,14 +57,5 @@ class SettingsViewModel @Inject constructor(
     fun clearCash() {
         launchBg { settingsDataSource.clearCache() }
         clearCacheLiveData.postValue(Unit)
-    }
-
-    fun onProfileQrScanned(sharedCirclesSpaceId: String) {
-        launchBg {
-            val result = createResult {
-                MatrixSessionProvider.currentSession?.roomService()?.knock(sharedCirclesSpaceId)
-            }
-            scanProfileQrResultLiveData.postValue(result)
-        }
     }
 }

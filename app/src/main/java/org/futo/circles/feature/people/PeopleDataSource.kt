@@ -3,12 +3,16 @@ package org.futo.circles.feature.people
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.select_users.SearchUserDataSource
 import org.futo.circles.core.utils.getSharedCircleFor
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
-import org.futo.circles.core.select_users.SearchUserDataSource
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleItemType
@@ -44,8 +48,8 @@ class PeopleDataSource @Inject constructor(
         getIgnoredUserFlow(),
         getProfileRoomMembersKnockFlow()
     ) { knowUsers, suggestions, ignoredUsers, requests ->
-        buildList(knowUsers, suggestions, ignoredUsers, requests)
-    }.flowOn(Dispatchers.IO).distinctUntilChanged()
+        withContext(Dispatchers.IO) { buildList(knowUsers, suggestions, ignoredUsers, requests) }
+    }.distinctUntilChanged()
 
     suspend fun refreshRoomMembers() {
         searchUserDataSource.loadAllRoomMembersIfNeeded()

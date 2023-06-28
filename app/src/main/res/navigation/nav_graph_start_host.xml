@@ -26,7 +26,38 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="org.futo.circles.feature.home.HomeFragment"
-        tools:layout="@layout/fragment_bottom_navigation" />
+        tools:layout="@layout/fragment_bottom_navigation">
+        <action
+            android:id="@+id/to_roomWellKnownDialogFragment"
+            app:destination="@id/roomWellKnownDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+        <action
+            android:id="@+id/to_timeline"
+            app:destination="@id/timeline_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/setupCirclesFragment"
@@ -41,5 +72,24 @@
     </fragment>
 
     <include app:graph="@navigation/nav_graph_auth" />
+
+    <dialog
+        android:id="@+id/roomWellKnownDialogFragment"
+        android:name="org.futo.circles.feature.room.well_known.RoomWellKnownDialogFragment"
+        tools:layout="@layout/dialog_fragment_room_well_known">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true" />
+
+    </dialog>
+
+    <include app:graph="@navigation/timeline_nav_graph" />
 
 </navigation>

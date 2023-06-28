@@ -12,6 +12,7 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSetupProfileBinding
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.getText
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showDialog
@@ -66,7 +67,7 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadi
     }
 
     private fun navigateToSetupCirclesOrHome() {
-        findNavController().navigate(
+        findNavController().navigateSafe(
             if (CirclesAppConfig.isSetupCirclesEnabled)
                 SetupProfileFragmentDirections.toSetupCirclesFragment()
             else

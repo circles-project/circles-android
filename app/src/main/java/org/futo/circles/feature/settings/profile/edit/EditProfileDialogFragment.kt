@@ -60,7 +60,7 @@ class EditProfileDialogFragment :
         }
         viewModel.editProfileResponseLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.profile_updated), true)
+                showSuccess(getString(R.string.profile_updated))
                 onBackPressed()
             }
         )

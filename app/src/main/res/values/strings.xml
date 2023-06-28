@@ -129,6 +129,8 @@
     <string name="decline">Decline</string>
     <string name="invited_by_format">Invited by %s</string>
     <string name="requested_to_follow_format">%s requested to follow</string>
+    <string name="requested_to_join_format">%s requested to join</string>
+    <string name="requested_to_join">Requested to join</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
     <string name="edit_profile">Edit Profile</string>
@@ -285,6 +287,7 @@
     <string name="unmute_notifications">Unmute notifications</string>
     <string name="shortcut_disabled">Shortcut disabled</string>
     <string name="shared_circles_space_not_found">Shared Circles space not found</string>
+    <string name="room_not_found">Room not found</string>
     <string name="notification_method">Notification method</string>
     <string name="unifiedpush_distributors_dialog_title">Choose how to receive notifications</string>
     <string name="thread_format">%s (thread)</string>
@@ -294,6 +297,18 @@
     <string name="remove_user">Remove user</string>
     <string name="remove">Remove</string>
     <string name="save">Save</string>
+    <string name="share_room">Share room</string>
+    <string name="share_url">Share url</string>
+    <string name="not_allowed_to_view_room_info">This room is private, no public info available</string>
+    <string name="joined_members_count">Joined members: %d</string>
+    <string name="you_have_pending_invitation_room">You have a pending invitation to this room. Check your invite notifications</string>
+    <string name="you_are_already_member_room">You are already a member of this room</string>
+    <string name="you_are_banned_room">You are banned in this room</string>
+    <string name="request_to_become_member_room">Request to join to become a member of this room</string>
+    <string name="you_have_pending_invitation_user">You have a pending invitation to follow this user. Check your invite notifications</string>
+    <string name="you_are_already_following_user">You are already following this user</string>
+    <string name="you_are_banned_user">You are banned</string>
+    <string name="send_request_to_follow_user">Send request to follow this user</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

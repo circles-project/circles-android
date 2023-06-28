@@ -8,10 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.extensions.setToolbarTitle
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.gallery.R
@@ -36,9 +36,16 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViews()
         addGalleryFragment()
         setupMenu()
         setupObservers()
+    }
+
+    private fun setupViews() {
+        binding.toolbar.setOnClickListener {
+            binding.toolbar.showOverflowMenu()
+        }
     }
 
     private fun addGalleryFragment() {
@@ -73,13 +80,13 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     }
 
     private fun navigateToUpdateRoom() {
-        findNavController().navigate(
+        findNavController().navigateSafe(
             GalleryDialogFragmentDirections.toUpdateGalleryDialogFragment(args.roomId)
         )
     }
 
     override fun onPreviewMedia(itemId: String) {
-        findNavController().navigate(
+        findNavController().navigateSafe(
             GalleryDialogFragmentDirections.toGalleryImageDialogFragment(args.roomId, itemId)
         )
     }

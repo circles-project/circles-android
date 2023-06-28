@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
@@ -57,7 +58,7 @@ class SetupCirclesFragment : Fragment(R.layout.fragment_setup_circles), HasLoadi
         viewModel.createCirclesResponseLiveData.observeResponse(this,
             success = {
                 loadingDialog.dismiss()
-                showSuccess(getString(R.string.circles_created), true)
+                showSuccess(getString(R.string.circles_created))
                 navigateToBottomMenuScreen()
             },
             error = {
@@ -90,6 +91,6 @@ class SetupCirclesFragment : Fragment(R.layout.fragment_setup_circles), HasLoadi
     }
 
     private fun navigateToBottomMenuScreen() {
-        findNavController().navigate(SetupCirclesFragmentDirections.toHomeFragment())
+        findNavController().navigateSafe(SetupCirclesFragmentDirections.toHomeFragment())
     }
 }

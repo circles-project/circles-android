@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showDialog
@@ -56,7 +57,7 @@ class ReAuthStagesDialogFragment :
                 LoginStageNavigationEvent.BSspekeSignup -> R.id.to_reAuthBsSpekeSignup
                 else -> throw IllegalArgumentException(getString(R.string.not_supported_navigation_event))
             }
-            binding.navHostFragment.findNavController().navigate(id)
+            binding.navHostFragment.findNavController().navigateSafe(id)
         }
         viewModel.subtitleLiveData.observeData(this) {
             binding.toolbar.subtitle = it

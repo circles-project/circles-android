@@ -14,11 +14,13 @@ import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.databinding.ListItemInvitedGroupBinding
 import org.futo.circles.databinding.ListItemJoinedGroupBinding
+import org.futo.circles.databinding.ListItemRequestGroupBinding
 import org.futo.circles.extensions.setIsEncryptedIcon
 import org.futo.circles.model.GroupListItem
 import org.futo.circles.model.GroupListItemPayload
 import org.futo.circles.model.InvitedGroupListItem
 import org.futo.circles.model.JoinedGroupListItem
+import org.futo.circles.model.RequestGroupListItem
 
 
 abstract class GroupViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -117,5 +119,31 @@ class InvitedGroupViewHolder(
         setTitle(binding.tvGroupTitle, data.info.title)
         binding.tvInviterName.text = context.getString(R.string.invited_by_format, data.inviterName)
     }
+}
 
+class RequestGroupViewHolder(
+    parent: ViewGroup,
+    onRequestClicked: (Int, Boolean) -> Unit
+) : GroupViewHolder(inflate(parent, ListItemRequestGroupBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemRequestGroupBinding
+
+    init {
+        onClick(binding.btnInvite) { position -> onRequestClicked(position, true) }
+        onClick(binding.btnDecline) { position -> onRequestClicked(position, false) }
+    }
+
+    override fun bind(data: GroupListItem) {
+        if (data !is RequestGroupListItem) return
+
+        with(binding) {
+            setIcon(ivGroup, data.info.avatarUrl, data.info.title)
+            binding.tvRequestUserId.text = context.getString(
+                R.string.requested_to_join_format, data.requesterName
+            )
+            binding.tvRoomName.text = data.info.title
+        }
+    }
 }

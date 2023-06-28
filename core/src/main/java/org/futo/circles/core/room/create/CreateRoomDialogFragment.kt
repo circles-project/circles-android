@@ -42,14 +42,14 @@ abstract class CreateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Bo
         type: CircleRoomTypeArg,
         name: String,
         topic: String? = null,
-        isKnockingAllowed: Boolean = false
+        isPublicCircle: Boolean = false
     ) {
         viewModel.createRoom(
             name,
             topic ?: "",
             selectedUsersFragment?.getSelectedUsersIds(),
             type,
-            isKnockingAllowed
+            isPublicCircle
         )
     }
 

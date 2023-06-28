@@ -16,6 +16,7 @@ import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHold
 import org.futo.circles.auth.model.RemoveUser
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.getText
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
@@ -85,7 +86,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
     private fun setupObservers() {
         viewModel.loginResultLiveData.observeResponse(this,
             success = {
-                findNavController().navigate(LogInFragmentDirections.toLoginStagesFragment())
+                findNavController().navigateSafe(LogInFragmentDirections.toLoginStagesFragment())
             }
         )
         viewModel.switchUsersLiveData.observeData(this) {
@@ -93,14 +94,14 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
             switchUsersAdapter.submitList(it)
         }
         viewModel.navigateToBottomMenuScreenLiveData.observeData(this) {
-            findNavController().navigate(LogInFragmentDirections.toHomeFragment())
+            findNavController().navigateSafe(LogInFragmentDirections.toHomeFragment())
         }
     }
 
     private fun setOnClickActions() {
         with(binding) {
             btnSignUp.setOnClickListener {
-                findNavController().navigate(LogInFragmentDirections.toSignUpFragment())
+                findNavController().navigateSafe(LogInFragmentDirections.toSignUpFragment())
             }
             btnLogin.setOnClickListener {
                 val userName = binding.tilUserName.getText()

@@ -18,7 +18,6 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.extensions.setToolbarSubTitle
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
@@ -91,6 +90,11 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
     }
 
+    private fun invalidateMenu(){
+        binding.toolbar.menu.clear()
+        setupMenu()
+    }
+
     private fun inflateGroupMenu(menu: Menu) {
         binding.toolbar.inflateMenu(R.menu.group_timeline_menu)
         menu.findItem(R.id.configureGroup).isVisible =
@@ -136,6 +140,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
                 R.id.deleteCircle -> withConfirmation(DeleteCircle()) { viewModel.deleteCircle() }
                 R.id.deleteGroup -> withConfirmation(DeleteGroup()) { viewModel.deleteGroup() }
                 R.id.stateEvents -> navigator.navigateToStateEvents(timelineId)
+                R.id.share -> navigator.navigateToShareRoom(timelineId)
             }
             return@setOnMenuItemClickListener true
         }
@@ -168,8 +173,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             isNotificationsEnabledForRoom = it
-            setToolbarSubTitle(if (it) "" else getString(R.string.notifications_disabled))
-            activity?.invalidateOptionsMenu()
+            binding.toolbar.subtitle = if (it) "" else getString(R.string.notifications_disabled)
+            invalidateMenu()
         }
         viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
             onUserAccessLevelChanged(powerLevelsContent)
@@ -178,11 +183,11 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             context?.let { ShareProvider.share(it, content) }
         }
         viewModel.saveToDeviceLiveData.observeData(this) {
-            context?.let { showSuccess(it.getString(R.string.saved), true) }
+            context?.let { showSuccess(it.getString(R.string.saved)) }
         }
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {
-                context?.let { showSuccess(it.getString(R.string.user_ignored), true) }
+                context?.let { showSuccess(it.getString(R.string.user_ignored)) }
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
         viewModel.leaveGroupLiveData.observeResponse(this,
@@ -302,7 +307,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         binding.lCreatePost.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
         groupPowerLevelsContent = powerLevelsContent
-        activity?.invalidateOptionsMenu()
+        invalidateMenu()
     }
 
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
