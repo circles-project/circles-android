@@ -36,6 +36,11 @@
                 app:argType="string"
                 app:nullable="false" />
 
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="true" />
+
         </action>
         <action
             android:id="@+id/to_timeline"
@@ -77,6 +82,11 @@
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="true" />
 
     </dialog>
 

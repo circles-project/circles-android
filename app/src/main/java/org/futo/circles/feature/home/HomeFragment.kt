@@ -18,6 +18,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
+import org.futo.circles.base.SHARE_PROFILE_URL_PREFIX
 import org.futo.circles.base.SHARE_ROOM_URL_PREFIX
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -98,9 +99,22 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
 
     private fun handleOpenFromShareRoomUrl() {
         val uri = activity?.intent?.data ?: return
-        if (uri.toString().startsWith(SHARE_ROOM_URL_PREFIX).not()) return
-        val roomId = uri.toString().removePrefix(SHARE_ROOM_URL_PREFIX)
-        findNavController().navigateSafe(HomeFragmentDirections.toRoomWellKnownDialogFragment(roomId))
+        val uriString = uri.toString()
+        if (uriString.startsWith(SHARE_ROOM_URL_PREFIX)) {
+            val roomId = uriString.removePrefix(SHARE_ROOM_URL_PREFIX)
+            findNavController().navigateSafe(
+                HomeFragmentDirections.toRoomWellKnownDialogFragment(roomId, null)
+            )
+        } else if (uriString.startsWith(SHARE_PROFILE_URL_PREFIX)) {
+            val data = uriString.removePrefix(SHARE_PROFILE_URL_PREFIX).split("/")
+            if (data.size < 2) return
+            val userId = data.first()
+            val sharedSpaceId = data[1]
+            findNavController().navigateSafe(
+                HomeFragmentDirections.toRoomWellKnownDialogFragment(sharedSpaceId, userId)
+            )
+
+        } else return
         activity?.intent?.data = null
     }
 
