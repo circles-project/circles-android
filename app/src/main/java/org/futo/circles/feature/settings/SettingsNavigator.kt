@@ -4,6 +4,7 @@ import androidx.navigation.fragment.findNavController
 import org.futo.circles.R
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.core.utils.getSystemNoticesRoomId
 
 class SettingsNavigator(private val fragment: SettingsFragment) {
@@ -44,8 +45,16 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
     }
 
     fun navigateToShareProfile() {
+        val sharedSpaceId = getSharedCirclesSpaceId() ?: kotlin.run {
+            fragment.showError(
+                fragment.requireContext().getString(R.string.shared_circles_space_not_found)
+            )
+            return
+        }
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toShareProfileDialogFragment())
+            .navigateSafe(
+                SettingsFragmentDirections.toShareProfileDialogFragment(sharedSpaceId, true)
+            )
     }
 
 }

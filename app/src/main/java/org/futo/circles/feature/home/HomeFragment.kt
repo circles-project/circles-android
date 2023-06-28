@@ -18,7 +18,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
-import org.futo.circles.base.CIRCULI_INVITE_URL_PREFIX
+import org.futo.circles.base.SHARE_ROOM_URL_PREFIX
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setSupportActionBar
@@ -98,8 +98,8 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
 
     private fun handleOpenFromShareRoomUrl() {
         val uri = activity?.intent?.data ?: return
-        if (uri.toString().startsWith(CIRCULI_INVITE_URL_PREFIX).not()) return
-        val roomId = uri.toString().removePrefix(CIRCULI_INVITE_URL_PREFIX)
+        if (uri.toString().startsWith(SHARE_ROOM_URL_PREFIX).not()) return
+        val roomId = uri.toString().removePrefix(SHARE_ROOM_URL_PREFIX)
         findNavController().navigateSafe(HomeFragmentDirections.toRoomWellKnownDialogFragment(roomId))
         activity?.intent?.data = null
     }

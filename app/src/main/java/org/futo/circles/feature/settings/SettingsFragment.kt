@@ -1,11 +1,8 @@
 package org.futo.circles.feature.settings
 
-import android.Manifest
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -23,12 +20,10 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
-import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
 import org.futo.circles.model.DeactivateAccount
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -41,14 +36,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }
-    private val cameraPermissionHelper = RuntimePermissionHelper(this, Manifest.permission.CAMERA)
-    private val scanActivityResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
-            if (activityResult.resultCode == Activity.RESULT_OK) {
-                val scannedQrCode = QrScannerActivity.getResultText(activityResult.data)
-                viewModel.onProfileQrScanned(scannedQrCode)
-            }
-        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,11 +55,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvClearCache.setOnClickListener { viewModel.clearCash() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
-            ivScanProfile.setOnClickListener {
-                cameraPermissionHelper.runWithPermission {
-                    QrScannerActivity.startForResult(requireActivity(), scanActivityResultLauncher)
-                }
-            }
             ivShareProfile.setOnClickListener { navigator.navigateToShareProfile() }
         }
         setVersion()
@@ -114,8 +96,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         viewModel.clearCacheLiveData.observeData(this) {
             (activity as? MainActivity)?.restartForClearCache()
         }
-        viewModel.scanProfileQrResultLiveData.observeResponse(this,
-            success = { showSuccess(getString(R.string.request_sent)) })
     }
 
     private fun bindProfile(user: User) {

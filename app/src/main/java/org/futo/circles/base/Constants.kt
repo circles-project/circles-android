@@ -12,5 +12,6 @@ fun getPusherUrl(): String = "https://sygnal.${getCirclesDomain()}/_matrix/push/
 
 const val DEFAULT_PUSH_GATEWAY = "https://matrix.gateway.unifiedpush.org/_matrix/push/v1/notify"
 
-const val CIRCULI_INVITE_URL_PREFIX = "https://circu.li/invite/"
+const val SHARE_ROOM_URL_PREFIX = "https://circu.li/room/"
+const val SHARE_PROFILE_URL_PREFIX = "https://circu.li/profile/"
 

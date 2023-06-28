@@ -228,6 +228,11 @@
                 app:argType="string"
                 app:nullable="false" />
 
+            <argument
+                android:name="isProfile"
+                app:argType="boolean"
+                app:nullable="false" />
+
         </action>
 
         <action
@@ -486,6 +491,11 @@
         <argument
             android:name="roomId"
             app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="isProfile"
+            app:argType="boolean"
             app:nullable="false" />
 
     </dialog>
