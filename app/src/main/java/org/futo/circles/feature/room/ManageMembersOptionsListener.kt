@@ -8,4 +8,5 @@ interface ManageMembersOptionsListener {
     fun onBanUser(userId: String)
     fun unBanUser(userId: String)
     fun cancelPendingInvitation(userId: String)
+    fun resendInvitation(userId: String)
 }

@@ -21,6 +21,7 @@ import org.futo.circles.feature.room.manage_members.list.GroupMembersListAdapter
 import org.futo.circles.model.BanUser
 import org.futo.circles.model.CancelInvite
 import org.futo.circles.model.RemoveRoomUser
+import org.futo.circles.model.ResendInvite
 import org.futo.circles.model.UnbanUser
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
@@ -63,9 +64,7 @@ class ManageMembersDialogFragment :
         viewModel.groupMembersLiveData.observeData(this) {
             membersListAdapter.submitList(it)
         }
-        viewModel.removeUserResultLiveData.observeResponse(this)
-        viewModel.banUserResultLiveData.observeResponse(this)
-        viewModel.changeAccessLevelLiveData.observeResponse(this)
+        viewModel.responseLiveData.observeResponse(this)
     }
 
 
@@ -98,6 +97,10 @@ class ManageMembersDialogFragment :
 
     override fun cancelPendingInvitation(userId: String) {
         withConfirmation(CancelInvite()) { viewModel.removeUser(userId) }
+    }
+
+    override fun resendInvitation(userId: String) {
+        withConfirmation(ResendInvite()) { viewModel.resendInvitation(userId) }
     }
 
 }
