@@ -1,8 +1,9 @@
 package org.futo.circles.mapping
 
 import org.futo.circles.core.model.CirclesUserSummary
+import org.futo.circles.model.BannedMemberListItem
 import org.futo.circles.model.GroupMemberListItem
-import org.futo.circles.model.NotJoinedUserListItem
+import org.futo.circles.model.InvitedMemberListItem
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
@@ -24,9 +25,14 @@ fun RoomMemberSummary.toGroupMemberListItem(
     powerLevelsContent = powerLevelsContent
 )
 
-fun RoomMemberSummary.toNotJoinedUserListItem(powerLevelsContent: PowerLevelsContent) =
-    NotJoinedUserListItem(
-        user = toCircleUserSummary(),
-        powerLevelsContent = powerLevelsContent,
-        membership = membership
-    )
+fun RoomMemberSummary.toInvitedMemberListItem(
+    isOptionsVisible: Boolean,
+    powerLevelsContent: PowerLevelsContent
+) = InvitedMemberListItem(
+    user = toCircleUserSummary(),
+    isOptionsOpened = isOptionsVisible,
+    powerLevelsContent = powerLevelsContent
+)
+
+fun RoomMemberSummary.toBannedUserListItem(powerLevelsContent: PowerLevelsContent) =
+    BannedMemberListItem(user = toCircleUserSummary(), powerLevelsContent = powerLevelsContent)
