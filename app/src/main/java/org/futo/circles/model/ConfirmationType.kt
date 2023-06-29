@@ -89,6 +89,12 @@ data class CancelInvite(
     override val positiveButtonRes: Int = android.R.string.ok
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
+data class ResendInvite(
+    override val titleRes: Int = R.string.resend_invite,
+    override val messageRes: Int = R.string.resend_invite_message,
+    override val positiveButtonRes: Int = android.R.string.ok
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
 data class RemoveSession(
     override val titleRes: Int = R.string.remove_session,
     override val messageRes: Int = R.string.remove_session_message,

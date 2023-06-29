@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="4dp">
@@ -21,11 +20,11 @@
         android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:lines="1"
+        android:text="@string/banned"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/lUser"
         app:layout_constraintEnd_toStartOf="@id/ivRemove"
-        app:layout_constraintTop_toTopOf="@id/lUser"
-        tools:text="@string/invited" />
+        app:layout_constraintTop_toTopOf="@id/lUser" />
 
     <ImageView
         android:id="@+id/ivRemove"

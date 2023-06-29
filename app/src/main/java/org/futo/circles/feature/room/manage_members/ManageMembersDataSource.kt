@@ -4,7 +4,6 @@ package org.futo.circles.feature.room.manage_members
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
-import dagger.assisted.AssistedFactory
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
@@ -22,12 +21,14 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.mapping.toBannedUserListItem
 import org.futo.circles.mapping.toGroupMemberListItem
-import org.futo.circles.mapping.toNotJoinedUserListItem
+import org.futo.circles.mapping.toInvitedMemberListItem
+import org.futo.circles.model.BannedMemberListItem
 import org.futo.circles.model.GroupMemberListItem
+import org.futo.circles.model.InvitedMemberListItem
 import org.futo.circles.model.ManageMembersHeaderListItem
 import org.futo.circles.model.ManageMembersListItem
-import org.futo.circles.model.NotJoinedUserListItem
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toContent
@@ -90,17 +91,20 @@ class ManageMembersDataSource @Inject constructor(
         val roleHelper = PowerLevelsHelper(powerLevelsContent)
         val fullList = mutableListOf<ManageMembersListItem>()
         val currentMembers = mutableListOf<GroupMemberListItem>()
-        val invitedUsers = mutableListOf<NotJoinedUserListItem>()
-        val bannedUsers = mutableListOf<NotJoinedUserListItem>()
+        val invitedUsers = mutableListOf<InvitedMemberListItem>()
+        val bannedUsers = mutableListOf<BannedMemberListItem>()
 
         members.forEach { member ->
             when (member.membership) {
                 Membership.INVITE -> invitedUsers.add(
-                    member.toNotJoinedUserListItem(powerLevelsContent)
+                    member.toInvitedMemberListItem(
+                        usersWithVisibleOptions.contains(member.userId),
+                        powerLevelsContent
+                    )
                 )
 
                 Membership.BAN -> bannedUsers.add(
-                    member.toNotJoinedUserListItem(powerLevelsContent)
+                    member.toBannedUserListItem(powerLevelsContent)
                 )
 
                 Membership.JOIN -> currentMembers.add(
@@ -132,6 +136,12 @@ class ManageMembersDataSource @Inject constructor(
     suspend fun removeUser(userId: String) =
         createResult { room?.membershipService()?.remove(userId) }
 
+    suspend fun reInviteUser(userId: String) =
+        createResult {
+            room?.membershipService()?.remove(userId)
+            room?.membershipService()?.invite(userId)
+        }
+
     suspend fun banUser(userId: String) = createResult { room?.membershipService()?.ban(userId) }
 
     suspend fun unBanUser(userId: String) =
@@ -141,5 +151,6 @@ class ManageMembersDataSource @Inject constructor(
         val content = powerLevelsContent?.setUserPowerLevel(userId, levelValue).toContent()
         room?.stateService()
             ?.sendStateEvent(EventType.STATE_ROOM_POWER_LEVELS, stateKey = "", content)
+        Unit
     }
 }
