@@ -66,7 +66,9 @@
     <string name="banned">Banned</string>
     <string name="invited">Invited</string>
     <string name="cancel_invite">Cancel invite</string>
+    <string name="resend_invite">Resend invite</string>
     <string name="cancel_invite_message">Are you sure you want to cancel the invite for this user?</string>
+    <string name="resend_invite_message">Are you sure you want to cancel and resend the invite for this user?</string>
     <string name="remove_user_in_room_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
     <string name="ban_user">Ban user</string>
     <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
@@ -309,6 +311,7 @@
     <string name="you_are_already_following_user">You are already following this user</string>
     <string name="you_are_banned_user">You are banned</string>
     <string name="send_request_to_follow_user">Send request to follow this user</string>
+    <string name="resend">Resend</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
