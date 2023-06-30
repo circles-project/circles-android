@@ -5,124 +5,95 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    tools:parentTag="android.widget.FrameLayout">
 
 
-    <com.blure.complexview.ComplexView
-        android:id="@+id/lShadow"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:radius="4dp"
-        app:shadow="true"
-        app:shadowColor="#0E7AFE"
-        app:shadowSpread="1">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <com.blure.complexview.ComplexView
-            android:layout_width="match_parent"
+        <org.futo.circles.view.PostHeaderView
+            android:id="@+id/postHeader"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:color="@color/post_card_background_color"
-            app:radius="4dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/lCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelineStart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="8dp" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelineEnd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="8dp" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelineTop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_begin="8dp" />
-
-                <org.futo.circles.view.PostHeaderView
-                    android:id="@+id/postHeader"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toTopOf="@id/guidelineTop" />
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-                <FrameLayout
-                    android:id="@+id/lvContent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/postHeader" />
+        <FrameLayout
+            android:id="@+id/lvContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/postHeader" />
 
-                <LinearLayout
-                    android:id="@+id/lReadInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintTop_toBottomOf="@id/lvContent">
+        <LinearLayout
+            android:id="@+id/lReadInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lvContent">
 
-                    <ImageView
-                        android:id="@+id/ivSendStatus"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:layout_gravity="bottom"
-                        android:layout_marginEnd="2dp"
-                        android:src="@drawable/ic_sending" />
+            <ImageView
+                android:id="@+id/ivSendStatus"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="2dp"
+                android:src="@drawable/ic_sending" />
 
-                    <TextView
-                        android:id="@+id/tvReadByCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:lines="1"
-                        android:textSize="12sp"
-                        app:layout_goneMarginEnd="0dp"
-                        tools:text="12" />
+            <TextView
+                android:id="@+id/tvReadByCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:lines="1"
+                android:textSize="12sp"
+                app:layout_goneMarginEnd="0dp"
+                tools:text="12" />
 
-                    <TextView
-                        android:id="@+id/tvEditedLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:lines="1"
-                        android:text="@string/edited_label"
-                        android:textSize="12sp"
-                        android:visibility="gone"
-                        tools:visibility="visible" />
+            <TextView
+                android:id="@+id/tvEditedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="@string/edited_label"
+                android:textSize="12sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-                </LinearLayout>
+        </LinearLayout>
 
-                <org.futo.circles.view.PostFooterView
-                    android:id="@+id/postFooter"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                    app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                    app:layout_constraintTop_toBottomOf="@id/lReadInfo"
-                    app:layout_goneMarginTop="8dp" />
+        <org.futo.circles.view.PostFooterView
+            android:id="@+id/postFooter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lReadInfo"
+            app:layout_goneMarginTop="8dp" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/divider_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        </com.blure.complexview.ComplexView>
-    </com.blure.complexview.ComplexView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>
