@@ -76,6 +76,7 @@ class PostFooterView(
     }
 
     private fun bindReactionsList(reactions: List<ReactionsData>) {
+        binding.chipsScrollView.setIsVisible(reactions.isNotEmpty())
         with(binding.lReactions) {
             removeAllViews()
             val layoutParams = LinearLayout.LayoutParams(
