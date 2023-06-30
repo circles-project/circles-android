@@ -1,12 +1,14 @@
 package org.futo.circles.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.view.GestureDetector
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.MediaContent
@@ -39,6 +41,7 @@ interface PostOptionsListener {
     fun onInfoClicked(roomId: String, eventId: String)
 }
 
+@SuppressLint("ClickableViewAccessibility")
 class PostLayout(
     context: Context,
     attrs: AttributeSet? = null,
@@ -50,11 +53,38 @@ class PostLayout(
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
 
+    private val gestureDetector =
+        GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onDoubleTap(e: MotionEvent): Boolean {
+                post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
+                return true
+            }
+
+            override fun onLongPress(e: MotionEvent) {
+                binding.postHeader.showMenu()
+            }
+
+            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
+                return true
+            }
+
+            override fun onDoubleTapEvent(e: MotionEvent) = true
+            override fun onDown(e: MotionEvent) = true
+
+        }).apply {
+            setIsLongpressEnabled(true)
+        }
+
     init {
         binding.lvContent.setOnClickListener {
             post?.let {
                 if (it.content.isMedia()) optionsListener?.onShowPreview(it.postInfo.roomId, it.id)
             }
+        }
+        binding.lCard.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            false
         }
     }
 
@@ -71,7 +101,6 @@ class PostLayout(
     }
 
     fun setPayload(payload: PostItemPayload) {
-        setShadow(payload.readInfo.shouldIndicateAsNew)
         setSendStatus(payload.sendState, payload.readInfo.readByCount)
         binding.postFooter.setRepliesCount(payload.repliesCount)
     }
@@ -81,8 +110,11 @@ class PostLayout(
         binding.postFooter.setData(data, userPowerLevel, isThread)
         setMentionBorder(data.content)
         setIsEdited(data.postInfo.isEdited)
-        setShadow(data.readInfo.shouldIndicateAsNew)
         setSendStatus(data.sendState, data.readInfo.readByCount)
+    }
+
+    private fun setIsEdited(isEdited: Boolean) {
+        binding.tvEditedLabel.setIsVisible(isEdited)
     }
 
     private fun setMentionBorder(content: PostContent) {
@@ -94,23 +126,8 @@ class PostLayout(
             is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
             is PollContent -> false
         }
-//        if (hasMention)
-//            binding.lCard.setBackgroundResource(R.drawable.bg_mention_highlight)
-//        else binding.lCard.background = null
-    }
-
-    private fun setIsEdited(isEdited: Boolean) {
-        binding.tvEditedLabel.setIsVisible(isEdited)
-    }
-
-    private fun setShadow(isNew: Boolean) {
-//        val color = if (isNew) "#0E7AFE" else "#8E8E93"
-//        binding.lShadow.shadow =
-//            Shadow(
-//                1, 255, color, GradientDrawable.RECTANGLE,
-//                FloatArray(8) { context.convertDpToPixel(4f) },
-//                Shadow.Position.CENTER
-//            )
+        if (hasMention) binding.lCard.setBackgroundResource(R.drawable.bg_mention_highlight)
+        else binding.lCard.background = null
     }
 
     private fun setSendStatus(sendState: SendState, readByCount: Int) {
