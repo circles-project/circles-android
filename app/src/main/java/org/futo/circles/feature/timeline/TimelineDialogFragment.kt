@@ -90,7 +90,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
     }
 
-    private fun invalidateMenu(){
+    private fun invalidateMenu() {
         binding.toolbar.menu.clear()
         setupMenu()
     }
