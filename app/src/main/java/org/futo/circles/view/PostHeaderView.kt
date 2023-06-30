@@ -91,7 +91,7 @@ class PostHeaderView(
     }
 
     @SuppressLint("RestrictedApi")
-    private fun showMenu() {
+    fun showMenu() {
         val unwrappedPost = post ?: return
         PopupMenu(context, binding.btnMore).apply {
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)

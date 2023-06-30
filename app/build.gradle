@@ -80,8 +80,6 @@ dependencies {
     //Webp animations
     implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.25.0'
 
-    // Custom shadow
-    implementation 'com.github.BluRe-CN:ComplexView:1.1'
 
     //Markdown
     def markwon_version = "4.6.2"
