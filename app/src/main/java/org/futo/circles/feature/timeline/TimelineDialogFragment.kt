@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
@@ -149,6 +150,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun setupViews() {
         binding.rvTimeline.apply {
             adapter = listAdapter
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
         }
         binding.lCreatePost.setUp(object : CreatePostViewListener {
