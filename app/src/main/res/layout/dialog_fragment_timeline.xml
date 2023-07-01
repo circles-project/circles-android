@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
+    <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvTimeline"
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -41,6 +41,8 @@ class LoadingRecyclerView(
         binding.rvList.addItemDecoration(decoration)
     }
 
+    fun getRecyclerView() = binding.rvList
+
     fun bindToFab(fab: FloatingActionButton) = binding.rvList.bindToFab(fab)
 
     private fun setupDataObserver() {
