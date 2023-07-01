@@ -7,23 +7,17 @@
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
 
-    <HorizontalScrollView
-        android:id="@+id/chipsScrollView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEmojis"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/btnLike"
         app:layout_constraintEnd_toStartOf="@id/btnLike"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnLike">
+        app:layout_constraintTop_toTopOf="@id/btnLike" />
 
-        <LinearLayout
-            android:id="@+id/lReactions"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingVertical="2dp" />
-
-    </HorizontalScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLike"
@@ -43,7 +37,7 @@
         app:iconTint="@color/button_src_state_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnReply"
-        app:layout_constraintStart_toEndOf="@id/chipsScrollView"
+        app:layout_constraintStart_toEndOf="@id/rvEmojis"
         app:layout_constraintTop_toBottomOf="@id/divider"
         app:tint="@color/button_src_state_color" />
 
@@ -60,9 +54,9 @@
         android:textAlignment="gravity"
         android:textColor="@color/button_src_state_color"
         android:textSize="14sp"
-        app:iconPadding="2dp"
         app:icon="@drawable/ic_reply"
         app:iconGravity="textStart"
+        app:iconPadding="2dp"
         app:iconSize="20dp"
         app:iconTint="@color/button_src_state_color"
         app:layout_constraintBottom_toBottomOf="@id/btnLike"

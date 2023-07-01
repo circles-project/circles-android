@@ -27,7 +27,6 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
     private var binding: BottomSheetEmojiBinding? = null
     private var emojiPickerListener: EmojiPickerListener? = null
     private val args: EmojiBottomSheetArgs by navArgs()
-    private val recentEmojiManager by lazy { RecentEmojiManager(requireContext()) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
