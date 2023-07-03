@@ -12,10 +12,9 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.vanniktech.emoji.Emoji
 import com.vanniktech.emoji.EmojiTheming
-import com.vanniktech.emoji.recent.NoRecentEmoji
-import com.vanniktech.emoji.search.SearchEmojiManager
-import com.vanniktech.emoji.variant.NoVariantEmoji
+import com.vanniktech.emoji.recent.RecentEmojiManager
 import org.futo.circles.R
 import org.futo.circles.databinding.BottomSheetEmojiBinding
 
@@ -59,7 +58,7 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
                     requireView(),
                     { emoji ->
                         emojiView
-                        onEmojiSelected(emoji.unicode)
+                        onEmojiSelected(emoji)
                     }, null, null,
                     EmojiTheming(
                         backgroundColor = ContextCompat.getColor(
@@ -83,16 +82,16 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
                             requireContext(),
                             R.color.gray
                         )
-                    ),
-                    NoRecentEmoji, SearchEmojiManager(), NoVariantEmoji
+                    ), RecentEmojisProvider.get(requireContext())
                 )
                 tearDown()
             }
         }
     }
 
-    private fun onEmojiSelected(unicode: String) {
-        emojiPickerListener?.onEmojiSelected(args.roomId, args.eventId, unicode)
+    private fun onEmojiSelected(emoji: Emoji) {
+        emojiPickerListener?.onEmojiSelected(args.roomId, args.eventId, emoji.unicode)
+        RecentEmojisProvider.addNewEmoji(requireContext(), emoji)
         dismiss()
     }
 

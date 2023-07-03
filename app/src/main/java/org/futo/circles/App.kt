@@ -14,6 +14,7 @@ import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.GuardServiceStarter
 import org.futo.circles.feature.notifications.NotificationUtils
 import org.futo.circles.feature.notifications.PushRuleTriggerListener
+import org.futo.circles.feature.timeline.post.emoji.RecentEmojisProvider
 import org.matrix.android.sdk.api.session.Session
 import timber.log.Timber
 import javax.inject.Inject
@@ -63,6 +64,7 @@ class App : Application() {
         notificationUtils.createNotificationChannels()
         setupLifecycleObserver()
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+        RecentEmojisProvider.saveDefaultRecentEmojis(applicationContext)
     }
 
     private fun setupLifecycleObserver() {

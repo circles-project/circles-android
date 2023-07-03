@@ -38,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@id/rvSelectedUsers"
         tools:visibility="visible" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvUsers"
         android:layout_width="0dp"
         android:layout_height="0dp"

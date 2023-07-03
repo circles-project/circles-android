@@ -151,7 +151,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         binding.rvTimeline.apply {
             adapter = listAdapter
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            MarkAsReadBuffer(this) { viewModel.markEventAsRead(it) }
+            MarkAsReadBuffer(this.getRecyclerView()) { viewModel.markEventAsRead(it) }
         }
         binding.lCreatePost.setUp(object : CreatePostViewListener {
             override fun onCreatePoll() {
@@ -161,7 +161,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             override fun onCreatePost() {
                 navigator.navigateToCreatePost(timelineId, args.threadEventId)
             }
-        }, binding.rvTimeline, isThread)
+        }, binding.rvTimeline.getRecyclerView(), isThread)
     }
 
     private fun setupObservers() {
