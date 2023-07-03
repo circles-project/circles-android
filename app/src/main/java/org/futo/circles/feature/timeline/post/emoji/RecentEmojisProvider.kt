@@ -14,7 +14,7 @@ object RecentEmojisProvider {
     fun saveDefaultRecentEmojis(context: Context) {
         val recentManager = get(context)
         val recent = recentManager.getRecentEmojis()
-        if (recent.isEmpty()) return
+        if (recent.isNotEmpty()) return
         recentManager.apply {
             SearchEmojiManager().apply {
                 search("100").firstOrNull()?.emoji?.let { emoji -> addEmoji(emoji) }
