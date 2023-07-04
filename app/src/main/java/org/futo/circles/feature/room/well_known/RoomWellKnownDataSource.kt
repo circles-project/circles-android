@@ -9,7 +9,9 @@ import org.futo.circles.core.extensions.getOrFetchUser
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.RoomPublicInfo
+import org.futo.circles.model.RoomUrlData
 import org.futo.circles.model.UserPublicInfo
+import org.futo.circles.model.UserUrlData
 import org.futo.circles.model.toRoomPublicInfo
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.getRoom
@@ -26,28 +28,31 @@ class RoomWellKnownDataSource @Inject constructor(
             ?: throw IllegalArgumentException(context.getString(R.string.session_is_not_created))
     }
 
-    suspend fun resolveRoomById(roomId: String): Response<RoomPublicInfo> = createResult {
-        session.getRoom(roomId)?.roomSummary()?.toRoomPublicInfo()?.let { return@createResult it }
-        when (val peekResult = session.roomService().peekRoom(roomId)) {
+    suspend fun resolveRoom(roomUrlData: RoomUrlData): Response<RoomPublicInfo> = createResult {
+        session.getRoom(roomUrlData.roomId)?.roomSummary()?.toRoomPublicInfo()
+            ?.let { return@createResult it }
+        when (val peekResult = session.roomService().peekRoom(roomUrlData.roomId)) {
             is PeekResult.Success -> peekResult.toRoomPublicInfo()
-            is PeekResult.PeekingNotAllowed -> throw IllegalArgumentException(context.getString(R.string.not_allowed_to_view_room_info))
+            is PeekResult.PeekingNotAllowed -> roomUrlData.toRoomPublicInfo()
             PeekResult.UnknownAlias -> throw IllegalArgumentException(context.getString(R.string.room_not_found))
         }
     }
 
-    suspend fun resolveUserById(userId: String, roomId: String): Response<UserPublicInfo> =
+    suspend fun resolveUser(userUrlData: UserUrlData): Response<UserPublicInfo> =
         createResult {
-            val roomInfo = tryOrNull { (resolveRoomById(roomId) as? Response.Success)?.data }
-            val user = session.getOrFetchUser(userId)
+            val roomInfo = tryOrNull {
+                (resolveRoom(
+                    RoomUrlData(userUrlData.sharedSpaceId, userUrlData.sharedSpaceId, null)
+                ) as? Response.Success)?.data
+            }
+            val user = session.getOrFetchUser(userUrlData.userId)
             UserPublicInfo(
-                id = userId,
+                id = userUrlData.userId,
                 displayName = user.notEmptyDisplayName(),
                 avatarUrl = user.avatarUrl,
-                sharedSpaceId = roomId,
+                sharedSpaceId = userUrlData.sharedSpaceId,
                 memberCount = roomInfo?.memberCount ?: 0,
                 membership = roomInfo?.membership ?: Membership.NONE
             )
         }
-
-
 }
