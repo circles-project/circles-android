@@ -8,20 +8,24 @@ import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.WorkerThread
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.MainActivity
+import org.futo.circles.core.glide.GlideApp
+import org.futo.circles.core.glide.GlideShortcutUtils.adaptiveShortcutDrawable
+import org.futo.circles.core.glide.GlideShortcutUtils.shortcutDrawable
 import org.futo.circles.extensions.dpToPx
-import org.futo.circles.glide.GlideApp
-import org.futo.circles.glide.GlideShortcutUtils.adaptiveShortcutDrawable
-import org.futo.circles.glide.GlideShortcutUtils.shortcutDrawable
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.util.toMatrixItem
+import javax.inject.Inject
 
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
 private val useAdaptiveIcon = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 private const val adaptiveIconSizeDp = 108
 private const val adaptiveIconOuterSidesDp = 18
 
-class ShortcutCreator(private val context: Context) {
+class ShortcutCreator @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
     private val adaptiveIconSize = context.dpToPx(adaptiveIconSizeDp)
     private val adaptiveIconOuterSides = context.dpToPx(adaptiveIconOuterSidesDp)
@@ -47,6 +51,7 @@ class ShortcutCreator(private val context: Context) {
                     adaptiveIconSize,
                     adaptiveIconOuterSides.toFloat()
                 )
+
                 false -> shortcutDrawable(glideRequests, matrixItem, iconSize)
             }
         } catch (failure: Throwable) {

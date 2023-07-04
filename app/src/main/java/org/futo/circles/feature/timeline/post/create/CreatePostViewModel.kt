@@ -1,18 +1,22 @@
 package org.futo.circles.feature.timeline.post.create
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
+import dagger.hilt.android.lifecycle.HiltViewModel
+import org.futo.circles.core.extensions.getOrThrow
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getTextEditableContent
+import javax.inject.Inject
 
-class CreatePostViewModel(
-    private val roomId: String,
-    private val eventId: String?,
-    isEdit: Boolean
-) : ViewModel() {
+@HiltViewModel
+class CreatePostViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
+
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    private val eventId: String? = savedStateHandle["eventId"]
+    private val isEdit: Boolean = savedStateHandle.getOrThrow("isEdit")
 
     val textToEditLiveData = MutableLiveData<String>()
 

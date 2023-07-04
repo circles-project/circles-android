@@ -2,6 +2,7 @@ package org.futo.circles.model
 
 import org.futo.circles.R
 import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.model.RoomInfo
 
 sealed class TimelineListItem : IdEntity<String>
 

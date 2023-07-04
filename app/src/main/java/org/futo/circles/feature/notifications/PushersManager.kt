@@ -2,24 +2,27 @@ package org.futo.circles.feature.notifications
 
 import android.content.Context
 import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
-import org.futo.circles.core.DEFAULT_PUSH_GATEWAY
-import org.futo.circles.core.PUSHER_APP_ID
-import org.futo.circles.core.getPusherUrl
+import org.futo.circles.base.DEFAULT_PUSH_GATEWAY
+import org.futo.circles.base.PUSHER_APP_ID
+import org.futo.circles.base.getPusherUrl
+import org.futo.circles.core.provider.MatrixInstanceProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.extensions.getApplicationLabel
 import org.futo.circles.model.DiscoveryResponse
-import org.futo.circles.provider.MatrixInstanceProvider
-import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.provider.PreferencesProvider
 import org.matrix.android.sdk.api.cache.CacheStrategy
 import org.matrix.android.sdk.api.session.pushers.HttpPusher
 import org.unifiedpush.android.connector.UnifiedPush
 import java.net.URL
-import java.util.*
+import java.util.Locale
+import java.util.UUID
+import javax.inject.Inject
 import kotlin.math.abs
 
-class PushersManager(
-    private val context: Context,
+class PushersManager @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val fcmHelper: FcmHelper,
     private val preferencesProvider: PreferencesProvider,
     private val guardServiceStarter: GuardServiceStarter
@@ -72,7 +75,7 @@ class PushersManager(
         }
         val distributors = getAllDistributors()
         return if (distributors.size == 1) saveAndRegisterApp(distributors.first())
-        else saveAndRegisterApp(context.packageName)
+        else saveAndRegisterApp(context.applicationContext.packageName)
     }
 
     private fun shouldAddHttpPusher(): Boolean {
@@ -120,7 +123,7 @@ class PushersManager(
         endpoint: String,
         onDoneRunnable: Runnable? = null
     ) {
-        if (UnifiedPush.getDistributor(context) == context.packageName) {
+        if (UnifiedPush.getDistributor(context) == context.applicationContext.packageName) {
             preferencesProvider.storePushGateway(getPusherUrl())
             onDoneRunnable?.run()
             return
@@ -155,14 +158,14 @@ class PushersManager(
         )
         val distributors = UnifiedPush.getDistributors(context)
         return distributors.map {
-            if (it == context.packageName) internalDistributorName
+            if (it == context.applicationContext.packageName) internalDistributorName
             else context.getApplicationLabel(it)
         }
     }
 
     fun getExternalDistributors(): List<String> {
         return UnifiedPush.getDistributors(context)
-            .filterNot { it == context.packageName }
+            .filterNot { it == context.applicationContext.packageName }
     }
 
     fun getCurrentDistributorName(): String {
@@ -183,7 +186,7 @@ class PushersManager(
 
     private fun isInternalDistributor(): Boolean {
         return UnifiedPush.getDistributor(context).isEmpty() ||
-                UnifiedPush.getDistributor(context) == context.packageName
+                UnifiedPush.getDistributor(context) == context.applicationContext.packageName
     }
 
     fun getPrivacyFriendlyUpEndpoint(): String? {

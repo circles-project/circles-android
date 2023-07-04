@@ -35,16 +35,33 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <data android:scheme="http" />
+                <data android:host="circu.li" />
+                <data android:pathPrefix="/room" />
+                <data android:pathPrefix="/profile" />
+
+            </intent-filter>
+
         </activity>
         <activity
-            android:name=".feature.share.gallery.UploadToGalleryActivity"
+            android:name=".gallery.feature.share.UploadToGalleryActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -108,7 +125,7 @@
         </provider>
 
         <service
-            android:name=".feature.photos.backup.service.MediaBackupService"
+            android:name=".gallery.feature.backup.service.MediaBackupService"
             android:enabled="true"
             android:exported="false" />
 

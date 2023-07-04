@@ -6,23 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.databinding.BottomSheetChangeAccessLevelBinding
-import org.futo.circles.extensions.observeData
 import org.futo.circles.feature.room.manage_members.change_role.list.ChangeAccessLevelAdapter
 import org.futo.circles.model.AccessLevelListItem
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
+@AndroidEntryPoint
 class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
 
     private var binding: BottomSheetChangeAccessLevelBinding? = null
     private val args: ChangeAccessLevelBottomSheetArgs by navArgs()
-    private val viewModel by viewModel<ChangeAccessLevelViewModel> {
-        parametersOf(args.levelValue, args.myUserLevelValue)
-    }
+    private val viewModel by viewModels<ChangeAccessLevelViewModel>()
     private val listAdapter by lazy { ChangeAccessLevelAdapter(::onLevelListItemClicked) }
     private var changeAccessLevelListener: ChangeAccessLevelListener? = null
 

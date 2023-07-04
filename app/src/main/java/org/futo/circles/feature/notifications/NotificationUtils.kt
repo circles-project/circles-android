@@ -16,15 +16,19 @@ import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.extensions.getBitmap
 import org.futo.circles.feature.notifications.test.task.TestNotificationReceiver
 import org.futo.circles.model.InviteNotifiableEvent
 import org.futo.circles.model.RoomEventGroupInfo
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class NotificationUtils(
-    private val context: Context
+@Singleton
+class NotificationUtils @Inject constructor(
+    @ApplicationContext private val context: Context
 ) {
 
     companion object {

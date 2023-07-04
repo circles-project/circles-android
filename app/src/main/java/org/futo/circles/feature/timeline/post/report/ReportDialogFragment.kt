@@ -3,25 +3,24 @@ package org.futo.circles.feature.timeline.post.report
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentReportBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.extensions.showSuccess
 import org.futo.circles.feature.timeline.post.report.list.ReportCategoryAdapter
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
+@AndroidEntryPoint
 class ReportDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentReportBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
-    private val args: ReportDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<ReportViewModel> { parametersOf(args.roomId, args.eventId) }
+    private val viewModel by viewModels<ReportViewModel>()
     private val listAdapter by lazy { ReportCategoryAdapter(::onReportCategorySelected) }
 
     private val binding by lazy {
@@ -48,7 +47,7 @@ class ReportDialogFragment :
 
     private fun setupObservers() {
         viewModel.reportLiveData.observeResponse(this) {
-            showSuccess(getString(R.string.report_sent), true)
+            showSuccess(getString(R.string.report_sent))
             onBackPressed()
         }
         viewModel.reportCategoriesLiveData.observeData(this) {

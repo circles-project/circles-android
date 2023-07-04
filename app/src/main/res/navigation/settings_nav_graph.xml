@@ -31,7 +31,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="Group"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -43,7 +43,19 @@
             app:destination="@id/reAuthStagesDialogFragment" />
         <action
             android:id="@+id/to_shareProfileDialogFragment"
-            app:destination="@id/shareProfileDialogFragment" />
+            app:destination="@id/shareRoomDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="isProfile"
+                app:argType="boolean"
+                app:nullable="false" />
+
+        </action>
         <action
             android:id="@+id/to_pushNotificationsSettingsDialogFragment"
             app:destination="@id/pushNotificationsSettingsDialogFragment" />
@@ -92,7 +104,7 @@
 
         <argument
             android:name="type"
-            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
             app:nullable="false" />
 
     </dialog>
@@ -110,13 +122,26 @@
 
     <dialog
         android:id="@+id/reAuthStagesDialogFragment"
-        android:name="org.futo.circles.feature.reauth.ReAuthStagesDialogFragment"
+        android:name="org.futo.circles.auth.feature.reauth.ReAuthStagesDialogFragment"
         tools:layout="@layout/fragment_login_stages" />
 
     <dialog
-        android:id="@+id/shareProfileDialogFragment"
-        android:name="org.futo.circles.feature.settings.profile.share.ShareProfileDialogFragment"
-        tools:layout="@layout/dialog_fragment_share_profile" />
+        android:id="@+id/shareRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.share.ShareRoomDialogFragment"
+        tools:layout="@layout/dialog_fragment_share_room">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="isProfile"
+            app:argType="boolean"
+            app:nullable="false" />
+
+    </dialog>
+
     <dialog
         android:id="@+id/pushNotificationsSettingsDialogFragment"
         android:name="org.futo.circles.feature.notifications.settings.PushNotificationsSettingsDialogFragment"

@@ -3,29 +3,34 @@ package org.futo.circles.feature.room.manage_members
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.extensions.getCurrentUserPowerLevel
+import org.futo.circles.core.extensions.getUserPowerLevel
+import org.futo.circles.core.extensions.navigateSafe
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentManageMembersBinding
-import org.futo.circles.extensions.*
 import org.futo.circles.feature.room.ManageMembersOptionsListener
 import org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelListener
 import org.futo.circles.feature.room.manage_members.list.GroupMembersListAdapter
-import org.futo.circles.model.ConfirmationType
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import org.futo.circles.model.BanUser
+import org.futo.circles.model.CancelInvite
+import org.futo.circles.model.RemoveRoomUser
+import org.futo.circles.model.ResendInvite
+import org.futo.circles.model.UnbanUser
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
-
+@AndroidEntryPoint
 class ManageMembersDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentManageMembersBinding::inflate),
     ManageMembersOptionsListener, ChangeAccessLevelListener {
 
-    private val args: ManageMembersDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<ManageMembersViewModel> {
-        parametersOf(args.roomId, args.type)
-    }
+    private val viewModel by viewModels<ManageMembersViewModel>()
 
     private val membersListAdapter by lazy {
         GroupMembersListAdapter(
@@ -59,15 +64,13 @@ class ManageMembersDialogFragment :
         viewModel.groupMembersLiveData.observeData(this) {
             membersListAdapter.submitList(it)
         }
-        viewModel.removeUserResultLiveData.observeResponse(this)
-        viewModel.banUserResultLiveData.observeResponse(this)
-        viewModel.changeAccessLevelLiveData.observeResponse(this)
+        viewModel.responseLiveData.observeResponse(this)
     }
 
 
     override fun onSetAccessLevel(userId: String, powerLevelsContent: PowerLevelsContent) {
         findNavController()
-            .navigate(
+            .navigateSafe(
                 ManageMembersDialogFragmentDirections.toChangeAccessLevelBottomSheet(
                     userId = userId,
                     levelValue = powerLevelsContent.getUserPowerLevel(userId),
@@ -77,11 +80,11 @@ class ManageMembersDialogFragment :
     }
 
     override fun onRemoveUser(userId: String) {
-        withConfirmation(ConfirmationType.REMOVE_ROOM_USER) { viewModel.removeUser(userId) }
+        withConfirmation(RemoveRoomUser()) { viewModel.removeUser(userId) }
     }
 
     override fun onBanUser(userId: String) {
-        withConfirmation(ConfirmationType.BAN_USER) { viewModel.banUser(userId) }
+        withConfirmation(BanUser()) { viewModel.banUser(userId) }
     }
 
     override fun onChangeAccessLevel(userId: String, levelValue: Int) {
@@ -89,11 +92,15 @@ class ManageMembersDialogFragment :
     }
 
     override fun unBanUser(userId: String) {
-        withConfirmation(ConfirmationType.UNBAN_USER) { viewModel.unBanUser(userId) }
+        withConfirmation(UnbanUser()) { viewModel.unBanUser(userId) }
     }
 
     override fun cancelPendingInvitation(userId: String) {
-        withConfirmation(ConfirmationType.CANCEL_INVITE) { viewModel.removeUser(userId) }
+        withConfirmation(CancelInvite()) { viewModel.removeUser(userId) }
+    }
+
+    override fun resendInvitation(userId: String) {
+        withConfirmation(ResendInvite()) { viewModel.resendInvitation(userId) }
     }
 
 }

@@ -2,24 +2,28 @@ package org.futo.circles.feature.settings.active_sessions
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.navigateSafe
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentActiveSessionsBinding
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.showError
-import org.futo.circles.extensions.withConfirmation
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionsAdapter
-import org.futo.circles.model.ConfirmationType
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.futo.circles.model.RemoveSession
+import org.futo.circles.model.ResetKeys
 
+@AndroidEntryPoint
 class ActiveSessionsDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentActiveSessionsBinding::inflate) {
 
-    private val viewModel by viewModel<ActiveSessionsViewModel>()
+    private val viewModel by viewModels<ActiveSessionsViewModel>()
 
     private val binding by lazy {
         getBinding() as DialogFragmentActiveSessionsBinding
@@ -32,7 +36,7 @@ class ActiveSessionsDialogFragment :
             }
 
             override fun onVerifySessionClicked(deviceId: String) {
-                findNavController().navigate(
+                findNavController().navigateSafe(
                     ActiveSessionsDialogFragmentDirections.toVerifySessionDialogFragment(
                         deviceId
                     )
@@ -40,11 +44,11 @@ class ActiveSessionsDialogFragment :
             }
 
             override fun onResetKeysClicked() {
-                withConfirmation(ConfirmationType.RESET_KEYS) { viewModel.resetKeysToEnableCrossSigning() }
+                withConfirmation(ResetKeys()) { viewModel.resetKeysToEnableCrossSigning() }
             }
 
             override fun onRemoveSessionClicked(deviceId: String) {
-                withConfirmation(ConfirmationType.REMOVE_SESSION) { viewModel.removeSession(deviceId) }
+                withConfirmation(RemoveSession()) { viewModel.removeSession(deviceId) }
             }
         })
     }
@@ -75,7 +79,7 @@ class ActiveSessionsDialogFragment :
             error = { showError(getString(R.string.invalid_auth)) }
         )
         viewModel.startReAuthEventLiveData.observeData(this) {
-            findNavController().navigate(ActiveSessionsDialogFragmentDirections.toReAuthStagesDialogFragment())
+            findNavController().navigateSafe(ActiveSessionsDialogFragmentDirections.toReAuthStagesDialogFragment())
         }
     }
 }

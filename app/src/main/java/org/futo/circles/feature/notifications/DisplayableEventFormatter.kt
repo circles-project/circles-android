@@ -1,9 +1,10 @@
 package org.futo.circles.feature.notifications
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
@@ -14,9 +15,10 @@ import org.matrix.android.sdk.api.session.room.model.relation.ReactionContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 import org.matrix.android.sdk.api.session.room.timeline.getTextEditableContent
+import javax.inject.Inject
 
-class DisplayableEventFormatter(
-    private val context: Context
+class DisplayableEventFormatter @Inject constructor(
+    @ApplicationContext private val context: Context
 ) {
 
     private val markwon = MarkdownParser.markwonNotificationBuilder(context)
@@ -42,42 +44,51 @@ class DisplayableEventFormatter(
                                 appendAuthor
                             )
                         }
+
                         MessageType.MSGTYPE_IMAGE -> {
                             simpleFormat(
                                 senderName, context.getString(R.string.sent_an_image), appendAuthor
                             )
                         }
+
                         MessageType.MSGTYPE_VIDEO -> {
                             simpleFormat(
                                 senderName, context.getString(R.string.sent_a_video), appendAuthor
                             )
                         }
+
                         else -> {
                             simpleFormat(senderName, messageContent.body, appendAuthor)
                         }
                     }
                 } ?: ""
             }
+
             EventType.REACTION -> {
                 timelineEvent.root.getClearContent().toModel<ReactionContent>()?.relatesTo?.let {
                     val emojiSpanned = context.getString(R.string.sent_a_reaction, it.key)
                     simpleFormat(senderName, emojiSpanned, appendAuthor)
                 } ?: ""
             }
+
             in EventType.POLL_START.values -> {
                 (timelineEvent.getLastMessageContent() as? MessagePollContent)?.getBestPollCreationInfo()?.question?.getBestQuestion()
                     ?: context.getString(R.string.sent_a_poll)
             }
+
             in EventType.POLL_RESPONSE.values -> {
                 context.getString(R.string.poll_response_room_list_preview)
             }
+
             in EventType.POLL_END.values -> {
                 context.getString(R.string.poll_end_room_list_preview)
             }
+
             EventType.STATE_ROOM_THIRD_PARTY_INVITE -> formatRoomThirdPartyInvite(
                 timelineEvent.root,
                 senderName
             ) ?: context.getString(R.string.notification_new_invitation)
+
             else -> simpleFormat(
                 senderName,
                 context.getString(R.string.notifications),

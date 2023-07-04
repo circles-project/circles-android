@@ -2,19 +2,21 @@ package org.futo.circles.feature.settings
 
 import androidx.navigation.fragment.findNavController
 import org.futo.circles.R
+import org.futo.circles.core.extensions.navigateSafe
+import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.core.utils.getSystemNoticesRoomId
-import org.futo.circles.extensions.showError
 
 class SettingsNavigator(private val fragment: SettingsFragment) {
 
     fun navigateToPushSettings() {
         fragment.findNavController()
-            .navigate(SettingsFragmentDirections.toPushNotificationsSettingsDialogFragment())
+            .navigateSafe(SettingsFragmentDirections.toPushNotificationsSettingsDialogFragment())
     }
 
     fun navigateToActiveSessions() {
         fragment.findNavController()
-            .navigate(SettingsFragmentDirections.toActiveSessionsDialogFragment())
+            .navigateSafe(SettingsFragmentDirections.toActiveSessionsDialogFragment())
     }
 
     fun navigateToSystemNotices() {
@@ -22,29 +24,37 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             fragment.showError(fragment.getString(R.string.system_notices_room_not_found))
             return
         }
-        fragment.findNavController().navigate(
+        fragment.findNavController().navigateSafe(
             SettingsFragmentDirections.toSystemNoticesDialogFragment(systemNoticesRoomId)
         )
     }
 
     fun navigateToMatrixChangePassword() {
         fragment.findNavController()
-            .navigate(SettingsFragmentDirections.toChangePasswordDialogFragment())
+            .navigateSafe(SettingsFragmentDirections.toChangePasswordDialogFragment())
     }
 
     fun navigateToProfile() {
         fragment.findNavController()
-            .navigate(SettingsFragmentDirections.toEditProfileDialogFragment())
+            .navigateSafe(SettingsFragmentDirections.toEditProfileDialogFragment())
     }
 
     fun navigateToReAuthStages() {
         fragment.findNavController()
-            .navigate(SettingsFragmentDirections.toReAuthStagesDialogFragment())
+            .navigateSafe(SettingsFragmentDirections.toReAuthStagesDialogFragment())
     }
 
     fun navigateToShareProfile() {
+        val sharedSpaceId = getSharedCirclesSpaceId() ?: kotlin.run {
+            fragment.showError(
+                fragment.requireContext().getString(R.string.shared_circles_space_not_found)
+            )
+            return
+        }
         fragment.findNavController()
-            .navigate(SettingsFragmentDirections.toShareProfileDialogFragment())
+            .navigateSafe(
+                SettingsFragmentDirections.toShareProfileDialogFragment(sharedSpaceId, true)
+            )
     }
 
 }

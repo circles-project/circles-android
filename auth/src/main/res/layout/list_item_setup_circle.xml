@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="4dp">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivCircleCover"
+        android:layout_width="@dimen/group_icon_size"
+        android:layout_height="@dimen/group_icon_size"
+        android:scaleType="centerCrop"
+        android:src="@drawable/add_image_placeholder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
+
+    <TextView
+        android:id="@+id/tvCircleName"
+        style="@style/title2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        app:layout_constraintBottom_toTopOf="@id/tvUserName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivCircleCover"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="texsdt" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        style="@style/subheadline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvCircleName"
+        app:layout_constraintTop_toBottomOf="@id/tvCircleName"
+        tools:text="texsdt" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

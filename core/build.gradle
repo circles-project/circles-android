@@ -1,0 +1,136 @@
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'maven-publish'
+
+
+android {
+    namespace 'org.futo.circles.core'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+        freeCompilerArgs += [
+                "-opt-in=kotlinx.coroutines.FlowPreview",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+        ]
+    }
+}
+
+dependencies {
+    api 'androidx.appcompat:appcompat:1.6.1'
+    api 'com.google.android.material:material:1.9.0'
+    api "androidx.recyclerview:recyclerview:1.3.0"
+    api "androidx.autofill:autofill:1.1.0"
+
+    //Kotlin
+    api "androidx.core:core-ktx:1.10.1"
+
+    //androidx lifecycle
+    def lifecycle_version = "2.6.1"
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    api "androidx.lifecycle:lifecycle-process:$lifecycle_version"
+
+    //androidx navigation
+    def androidx_nav_version = "2.6.0"
+    api "androidx.navigation:navigation-fragment-ktx:$androidx_nav_version"
+    api "androidx.navigation:navigation-ui-ktx:$androidx_nav_version"
+
+    //ViewBinding
+    api 'com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9'
+
+    //Hilt
+    def hilt = '2.46.1'
+    implementation "com.google.dagger:hilt-android:$hilt"
+    kapt "com.google.dagger:hilt-compiler:$hilt"
+
+    //Matrix
+    api 'org.matrix.android:matrix-sdk-android:1.5.30.6'
+
+    //Retrofit2
+    def retrofit_version = '2.9.0'
+    api "com.squareup.retrofit2:retrofit:$retrofit_version"
+    api "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    //Gson
+    api 'com.google.code.gson:gson:2.10.1'
+
+    //TextDrawable
+    api 'com.alvinhkh:TextDrawable:c1c2b5b'
+
+    //Worker
+    def work_version = "2.8.1"
+    api "androidx.work:work-runtime-ktx:$work_version"
+
+    //Glide
+    def glide_version = '4.15.1'
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    //Shake detection
+    implementation 'com.squareup:seismic:1.0.3'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+
+def groupIdString = "org.futo.circles"
+def artifactIdString = "core"
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId groupIdString
+                artifactId artifactIdString
+                version rootProject.ext.modules_version
+            }
+        }
+        repositories {
+            maven {
+                url "https://gitlab.futo.org/api/v4/projects/$rootProject.ext.modules_gitlab_projectId/packages/maven"
+                name "GitLab"
+                credentials(HttpHeaderCredentials) {
+                    name = "Private-Token"
+                    value = PUBLISH_TOKEN
+                }
+                authentication {
+                    header(HttpHeaderAuthentication)
+                }
+            }
+        }
+    }
+}

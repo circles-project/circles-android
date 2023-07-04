@@ -4,22 +4,29 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.getText
+import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.picker.MediaPickerHelper
 import org.futo.circles.databinding.DialogFragmentEditProfileBinding
-import org.futo.circles.extensions.*
-import org.futo.circles.mapping.notEmptyDisplayName
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.matrix.android.sdk.api.session.user.model.User
 
+@AndroidEntryPoint
 class EditProfileDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentEditProfileBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
-    private val viewModel by viewModel<EditProfileViewModel>()
-    private val mediaPickerHelper = MediaPickerHelper(this)
+    private val viewModel by viewModels<EditProfileViewModel>()
+    private val mediaPickerHelper = AllMediaPickerHelper(this)
 
     private val binding by lazy {
         getBinding() as DialogFragmentEditProfileBinding
@@ -53,12 +60,12 @@ class EditProfileDialogFragment :
         }
         viewModel.editProfileResponseLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.profile_updated), true)
+                showSuccess(getString(R.string.profile_updated))
                 onBackPressed()
             }
         )
         viewModel.profileLiveData.observeData(this) {
-            it.getOrNull()?.let { user -> setInitialUserInfo(user) }
+            it?.let { user -> setInitialUserInfo(user) }
         }
         viewModel.threePidLiveData.observeData(this) {
             binding.tilContactInfo.editText?.setText(it.firstOrNull()?.value ?: "")

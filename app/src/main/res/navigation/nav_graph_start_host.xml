@@ -13,87 +13,73 @@
 
         <action
             android:id="@+id/to_logInFragment"
-            app:destination="@id/logInFragment"
+            app:destination="@id/nav_graph_auth"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
+            android:id="@+id/to_homeFragment"
+            app:destination="@id/homeFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
-        android:id="@+id/logInFragment"
-        android:name="org.futo.circles.feature.log_in.LogInFragment"
-        android:label="Log In"
-        tools:layout="@layout/fragment_log_in">
-        <action
-            android:id="@+id/to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-        <action
-            android:id="@+id/to_loginStagesFragment"
-            app:destination="@id/loginStagesFragment" />
-        <action
-            android:id="@+id/to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
-            app:popUpTo="@id/logInFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/signUpFragment"
-        android:name="org.futo.circles.feature.sign_up.SignUpFragment"
-        android:label="Sign up"
-        tools:layout="@layout/fragment_sign_up">
-        <action
-            android:id="@+id/to_setupProfileFragment"
-            app:destination="@id/setupProfileFragment"
-            app:popUpTo="@id/logInFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/bottomNavigationFragment"
+        android:id="@+id/homeFragment"
         android:name="org.futo.circles.feature.home.HomeFragment"
-        tools:layout="@layout/fragment_bottom_navigation" />
-    <fragment
-        android:id="@+id/setupProfileFragment"
-        android:name="org.futo.circles.feature.sign_up.setup_profile.SetupProfileFragment"
-        android:label="SetupProfileFragment"
-        tools:layout="@layout/fragment_setup_profile">
+        tools:layout="@layout/fragment_bottom_navigation">
         <action
-            android:id="@+id/to_setupCirclesFragment"
-            app:destination="@id/setupCirclesFragment"
-            app:popUpTo="@id/setupProfileFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/to_roomWellKnownDialogFragment"
+            app:destination="@id/roomWellKnownDialogFragment">
+
+            <argument
+                android:name="url"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_timeline"
+            app:destination="@id/timeline_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
     </fragment>
+
     <fragment
         android:id="@+id/setupCirclesFragment"
-        android:name="org.futo.circles.feature.sign_up.setup_circles.SetupCirclesFragment"
+        android:name="org.futo.circles.feature.circles.setup.SetupCirclesFragment"
         android:label="SetupCirclesFragment"
         tools:layout="@layout/fragment_setup_circles">
         <action
-            android:id="@+id/to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
+            android:id="@+id/to_homeFragment"
+            app:destination="@id/homeFragment"
             app:popUpTo="@id/setupCirclesFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/loginStagesFragment"
-        android:name="org.futo.circles.feature.log_in.stages.LogInStagesFragment"
-        tools:layout="@layout/fragment_login_stages">
 
-        <action
-            android:id="@+id/to_bottomNavigationFragment"
-            app:destination="@id/bottomNavigationFragment"
-            app:popUpTo="@id/logInFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/to_setupCirclesFragment"
-            app:destination="@id/setupCirclesFragment"
-            app:popUpTo="@id/logInFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+    <include app:graph="@navigation/nav_graph_auth" />
+
+    <dialog
+        android:id="@+id/roomWellKnownDialogFragment"
+        android:name="org.futo.circles.feature.room.well_known.RoomWellKnownDialogFragment"
+        tools:layout="@layout/dialog_fragment_room_well_known">
+
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
+    <include app:graph="@navigation/timeline_nav_graph" />
 
 </navigation>

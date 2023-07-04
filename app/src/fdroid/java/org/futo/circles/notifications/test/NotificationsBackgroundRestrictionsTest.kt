@@ -4,12 +4,14 @@ import android.content.Context
 import android.net.ConnectivityManager
 import androidx.core.content.getSystemService
 import androidx.core.net.ConnectivityManagerCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
 import org.futo.circles.model.NotificationTestStatus
+import javax.inject.Inject
 
-class NotificationsBackgroundRestrictionsTest(
-    private val context: Context
+class NotificationsBackgroundRestrictionsTest @Inject constructor(
+    @ApplicationContext private val context: Context
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_bg_restricted_title) {
 
     override fun perform() {
@@ -24,6 +26,7 @@ class NotificationsBackgroundRestrictionsTest(
                         status = NotificationTestStatus.FAILED
                         quickFix = null
                     }
+
                     ConnectivityManagerCompat.RESTRICT_BACKGROUND_STATUS_WHITELISTED -> {
                         description = context.getString(
                             R.string.settings_troubleshoot_test_bg_restricted_success,
@@ -32,6 +35,7 @@ class NotificationsBackgroundRestrictionsTest(
                         status = NotificationTestStatus.SUCCESS
                         quickFix = null
                     }
+
                     ConnectivityManagerCompat.RESTRICT_BACKGROUND_STATUS_DISABLED -> {
                         description = context.getString(
                             R.string.settings_troubleshoot_test_bg_restricted_success,

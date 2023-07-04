@@ -5,28 +5,29 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.fragment.navArgs
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.databinding.DialogFragmentVerifySessionBinding
-import org.futo.circles.extensions.*
 import org.futo.circles.feature.settings.active_sessions.verify.qr.QrScannerActivity
 import org.futo.circles.model.QrCanceled
 import org.futo.circles.model.QrLoading
 import org.futo.circles.model.QrReady
 import org.futo.circles.model.QrSuccess
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
+@AndroidEntryPoint
 class VerifySessionDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentVerifySessionBinding::inflate) {
 
-    private val args: VerifySessionDialogFragmentArgs by navArgs()
-
-    private val viewModel by viewModel<VerifySessionViewModel> {
-        parametersOf(args.deviceId)
-    }
+    private val viewModel by viewModels<VerifySessionViewModel>()
 
     private val binding by lazy {
         getBinding() as DialogFragmentVerifySessionBinding
@@ -63,6 +64,7 @@ class VerifySessionDialogFragment :
                     showError(qrState.reason)
                     view?.postDelayed({ onBackPressed() }, CLOSE_DELAY)
                 }
+
                 is QrLoading -> handelQrLoading(qrState.deviceId, qrState.isCurrentSessionVerified)
                 is QrReady -> handelQrReady(qrState.qrText)
                 is QrSuccess -> {

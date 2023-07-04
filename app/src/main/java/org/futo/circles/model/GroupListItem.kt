@@ -1,6 +1,7 @@
 package org.futo.circles.model
 
 import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.model.RoomInfo
 import org.matrix.android.sdk.api.session.room.model.Membership
 
 sealed class GroupListItem(
@@ -25,3 +26,10 @@ data class InvitedGroupListItem(
     val isEncrypted: Boolean,
     val inviterName: String,
 ) : GroupListItem(id, info, Membership.INVITE)
+
+data class RequestGroupListItem(
+    override val id: String,
+    override val info: RoomInfo,
+    val requesterName: String,
+    val requesterId: String,
+) : GroupListItem(id, info, Membership.KNOCK)

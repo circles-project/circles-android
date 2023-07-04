@@ -9,16 +9,21 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
+import org.futo.circles.core.extensions.getAttributes
+import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.model.PollContent
+import org.futo.circles.core.model.PollState
+import org.futo.circles.core.model.Post
+import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.canEdit
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.databinding.ViewPostHeaderBinding
-import org.futo.circles.extensions.getAttributes
-import org.futo.circles.extensions.loadProfileIcon
 import org.futo.circles.extensions.setIsEncryptedIcon
-import org.futo.circles.extensions.setIsVisible
-import org.futo.circles.mapping.notEmptyDisplayName
 import org.futo.circles.model.*
-import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import java.util.*
 
@@ -86,7 +91,7 @@ class PostHeaderView(
     }
 
     @SuppressLint("RestrictedApi")
-    private fun showMenu() {
+    fun showMenu() {
         val unwrappedPost = post ?: return
         PopupMenu(context, binding.btnMore).apply {
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
@@ -95,9 +100,11 @@ class PostHeaderView(
                     R.id.delete -> optionsListener?.onRemove(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
+
                     R.id.edit -> optionsListener?.onEditPostClicked(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
+
                     R.id.ignore -> optionsListener?.onIgnore(unwrappedPost.postInfo.sender.userId)
                     R.id.save_to_device -> optionsListener?.onSaveToDevice(unwrappedPost.content)
                     R.id.save_to_gallery -> optionsListener?.onSaveToGallery(
@@ -107,12 +114,15 @@ class PostHeaderView(
                     R.id.report -> optionsListener?.onReport(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
+
                     R.id.edit_poll -> optionsListener?.onEditPollClicked(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
+
                     R.id.end_poll -> optionsListener?.endPoll(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )
+
                     R.id.info -> optionsListener?.onInfoClicked(
                         unwrappedPost.postInfo.roomId, unwrappedPost.id
                     )

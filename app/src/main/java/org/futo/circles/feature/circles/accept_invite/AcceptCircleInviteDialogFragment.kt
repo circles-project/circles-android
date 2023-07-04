@@ -3,32 +3,30 @@ package org.futo.circles.feature.circles.accept_invite
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.core.RoomsListener
-import org.futo.circles.core.SelectRoomsListener
+import org.futo.circles.base.RoomsListener
+import org.futo.circles.core.extensions.navigateSafe
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.SelectableRoomListItem
+import org.futo.circles.core.room.select.SelectRoomsListener
 import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
-import org.futo.circles.extensions.observeResponse
-import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.room.select.SelectRoomsFragment
-import org.futo.circles.model.CircleRoomTypeArg
-import org.futo.circles.model.SelectableRoomListItem
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
+@AndroidEntryPoint
 class AcceptCircleInviteDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentAcceptCircleInviteBinding::inflate),
     HasLoadingState, SelectRoomsListener, RoomsListener {
 
     override val fragment: Fragment = this
-    private val args: AcceptCircleInviteDialogFragmentArgs by navArgs()
-    private val viewModel by viewModel<AcceptCircleInviteViewModel> {
-        parametersOf(args.roomId)
-    }
+    private val viewModel by viewModels<AcceptCircleInviteViewModel>()
     private val binding by lazy {
         getBinding() as DialogFragmentAcceptCircleInviteBinding
     }
@@ -67,7 +65,7 @@ class AcceptCircleInviteDialogFragment :
 
     private fun navigateToCreateCircle() {
         findNavController()
-            .navigate(AcceptCircleInviteDialogFragmentDirections.toCreateCircleDialogFragment())
+            .navigateSafe(AcceptCircleInviteDialogFragmentDirections.toCreateCircleDialogFragment())
     }
 
     override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {

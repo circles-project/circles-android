@@ -88,6 +88,6 @@
         android:src="@drawable/ic_more"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/blue" />
+        app:tint="@color/menu_icon_color" />
 
 </merge>

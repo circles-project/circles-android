@@ -2,13 +2,15 @@ package org.futo.circles.notifications.test
 
 import android.content.Context
 import com.google.firebase.messaging.FirebaseMessaging
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
 import org.futo.circles.model.NotificationTestStatus
+import javax.inject.Inject
 
-class NotificationsTestFirebaseToken(
-    private val context: Context,
+class NotificationsTestFirebaseToken @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val fcmHelper: FcmHelper
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_fcm_title) {
 

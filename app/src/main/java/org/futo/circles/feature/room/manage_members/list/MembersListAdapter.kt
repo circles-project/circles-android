@@ -3,12 +3,13 @@ package org.futo.circles.feature.room.manage_members.list
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.feature.room.ManageMembersOptionsListener
+import org.futo.circles.model.BannedMemberListItem
 import org.futo.circles.model.GroupMemberListItem
+import org.futo.circles.model.InvitedMemberListItem
 import org.futo.circles.model.ManageMembersHeaderListItem
 import org.futo.circles.model.ManageMembersListItem
-import org.futo.circles.model.NotJoinedUserListItem
 
-private enum class ManageGroupMembersViewTypes { Header, Member, NotJoined }
+private enum class ManageGroupMembersViewTypes { Header, Member, Invited, Banned }
 
 class GroupMembersListAdapter(
     private val manageMembersListener: ManageMembersOptionsListener,
@@ -20,7 +21,8 @@ class GroupMembersListAdapter(
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is ManageMembersHeaderListItem -> ManageGroupMembersViewTypes.Header.ordinal
         is GroupMemberListItem -> ManageGroupMembersViewTypes.Member.ordinal
-        is NotJoinedUserListItem -> ManageGroupMembersViewTypes.NotJoined.ordinal
+        is InvitedMemberListItem -> ManageGroupMembersViewTypes.Invited.ordinal
+        is BannedMemberListItem -> ManageGroupMembersViewTypes.Banned.ordinal
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManageMembersViewHolder {
@@ -31,7 +33,14 @@ class GroupMembersListAdapter(
                 onUserClicked = { position -> onToggleOptions(getItem(position).id) },
                 manageMembersListener = manageMembersListener
             )
-            ManageGroupMembersViewTypes.NotJoined -> NotJoinedUserViewHolder(
+
+            ManageGroupMembersViewTypes.Invited -> InvitedMemberViewHolder(
+                parent = parent,
+                onUserClicked = { position -> onToggleOptions(getItem(position).id) },
+                manageMembersListener = manageMembersListener
+            )
+
+            ManageGroupMembersViewTypes.Banned -> BannedMemberViewHolder(
                 parent, manageMembersListener,
             )
         }

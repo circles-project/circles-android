@@ -1,14 +1,15 @@
 package org.futo.circles.feature.settings.change_password
 
-import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
-import org.futo.circles.core.matrix.pass_phrase.create.CreatePassPhraseDataSource
-import org.futo.circles.core.matrix.pass_phrase.restore.RestoreBackupDataSource
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
+import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
+import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
+import javax.inject.Inject
 
-class ChangePasswordDataSource(
+class ChangePasswordDataSource @Inject constructor(
     private val createPassPhraseDataSource: CreatePassPhraseDataSource,
     private val restoreBackupDataSource: RestoreBackupDataSource
 ) {

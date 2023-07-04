@@ -7,20 +7,19 @@ import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.futo.circles.model.NotifiableMessageEvent
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.PushData
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session
-import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.getTimelineEvent
+import javax.inject.Inject
 
-class PushHandler(
-    private val context: Context,
+class PushHandler @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val notificationDrawerManager: NotificationDrawerManager,
     private val notifiableEventResolver: NotifiableEventResolver
 ) {

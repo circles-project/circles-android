@@ -1,0 +1,37 @@
+package org.futo.circles.auth.feature.log_in.switch_user.list
+
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.auth.databinding.ListItemSwitchUserBinding
+import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.auth.model.SwitchUserListItem
+import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.onClick
+
+class SwitchUsersViewHolder(
+    parent: ViewGroup,
+    onUserClicked: (Int) -> Unit,
+    private val onRemoveClicked: (Int) -> Unit
+) : RecyclerView.ViewHolder(inflate(parent, ListItemSwitchUserBinding::inflate)) {
+
+    private companion object : org.futo.circles.core.list.ViewBindingHolder
+
+    private val binding = baseBinding as ListItemSwitchUserBinding
+
+    init {
+        onClick(itemView) { position -> onUserClicked(position) }
+        onClick(binding.ivRemove) { position -> onRemoveClicked(position) }
+    }
+
+    fun bind(data: SwitchUserListItem) {
+        with(binding) {
+            ivUserImage.loadProfileIcon(
+                data.user.avatarUrl,
+                data.user.notEmptyDisplayName(),
+                session = data.session
+            )
+            tvUserName.text = data.user.notEmptyDisplayName()
+            tvUserId.text = data.user.userId
+        }
+    }
+}

@@ -1,18 +1,20 @@
 package org.futo.circles.feature.notifications.test.task
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.futo.circles.R
 import org.futo.circles.core.ErrorParser
-import org.futo.circles.extensions.coroutineScope
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.extensions.coroutineScope
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.model.NotificationTestStatus
-import org.futo.circles.provider.MatrixSessionProvider
+import javax.inject.Inject
 
-class NotificationFromPushGatewayTest(
-    private val context: Context,
+class NotificationFromPushGatewayTest @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val pushersManager: PushersManager
 ) : BaseNotificationTest(R.string.settings_troubleshoot_test_push_loop_title),
     TestPushDisplayEvenReceiver {

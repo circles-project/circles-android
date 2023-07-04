@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ViewActiveSessionInfoBinding
-import org.futo.circles.extensions.setIsVisible
 import org.futo.circles.feature.settings.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.model.ActiveSession
 

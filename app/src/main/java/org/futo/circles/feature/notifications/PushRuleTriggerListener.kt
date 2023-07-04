@@ -1,17 +1,22 @@
 package org.futo.circles.feature.notifications
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.NotifiableEvent
-import org.futo.circles.model.NotifiableMessageEvent
 import org.futo.circles.model.toNotificationAction
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.pushrules.PushEvents
 import org.matrix.android.sdk.api.session.pushrules.PushRuleService
 import org.matrix.android.sdk.api.session.pushrules.getActions
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class PushRuleTriggerListener(
+@Singleton
+class PushRuleTriggerListener @Inject constructor(
     private val resolver: NotifiableEventResolver,
     private val notificationDrawerManager: NotificationDrawerManager
 ) : PushRuleService.PushRuleListener {

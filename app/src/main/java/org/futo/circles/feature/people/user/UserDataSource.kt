@@ -1,31 +1,39 @@
 package org.futo.circles.feature.people.user
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.map
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import org.futo.circles.R
+import org.futo.circles.core.extensions.getOrThrow
+import org.futo.circles.core.extensions.getRoomOwners
+import org.futo.circles.core.model.TIMELINE_TYPE
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getSharedCircleFor
-import org.futo.circles.extensions.getRoomOwners
 import org.futo.circles.mapping.toTimelineRoomListItem
-import org.futo.circles.model.TIMELINE_TYPE
 import org.futo.circles.model.TimelineHeaderItem
 import org.futo.circles.model.TimelineListItem
 import org.futo.circles.model.TimelineRoomListItem
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class UserDataSource(
-    context: Context,
-    private val userId: String
+@ViewModelScoped
+class UserDataSource @Inject constructor(
+    @ApplicationContext context: Context,
+    savedStateHandle: SavedStateHandle
 ) {
+
+    private val userId: String = savedStateHandle.getOrThrow("userId")
 
     private val session by lazy {
         MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(

@@ -2,27 +2,31 @@ package org.futo.circles.feature.notifications
 
 import android.content.Context
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.model.PushData
 import org.futo.circles.model.PushDataUnifiedPush
 import org.futo.circles.model.toPushData
-import org.futo.circles.provider.MatrixSessionProvider
-import org.futo.circles.provider.PreferencesProvider
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.unifiedpush.android.connector.MessagingReceiver
+import javax.inject.Inject
 
+@AndroidEntryPoint
+class UnifiedPushMessagingReceiver : MessagingReceiver() {
 
-class UnifiedPushMessagingReceiver : MessagingReceiver(), KoinComponent {
-
-    private val preferencesProvider: PreferencesProvider by inject()
-    private val pushHandler: PushHandler by inject()
-    private val pushersManager: PushersManager by inject()
-    private val guardServiceStarter: GuardServiceStarter by inject()
+    @Inject
+    lateinit var preferencesProvider: PreferencesProvider
+    @Inject
+    lateinit var pushHandler: PushHandler
+    @Inject
+    lateinit var pushersManager: PushersManager
+    @Inject
+    lateinit var guardServiceStarter: GuardServiceStarter
     private val coroutineScope = CoroutineScope(SupervisorJob())
 
     override fun onMessage(context: Context, message: ByteArray, instance: String) {

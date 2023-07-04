@@ -1,11 +1,14 @@
 package org.futo.circles.feature.circles.following
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.launchBg
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.launchBg
+import javax.inject.Inject
 
-class FollowingViewModel(
+@HiltViewModel
+class FollowingViewModel @Inject constructor(
     private val dataSource: FollowingDataSource
 ) : ViewModel() {
 

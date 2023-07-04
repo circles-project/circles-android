@@ -36,7 +36,7 @@
             app:layout_goneMarginTop="0dp" />
 
 
-        <org.futo.circles.view.LoadingView
+        <org.futo.circles.core.view.LoadingView
             android:id="@+id/vLoadingView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

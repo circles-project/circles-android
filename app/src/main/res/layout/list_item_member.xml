@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <org.futo.circles.view.UserListItemView
+        <org.futo.circles.core.view.UserListItemView
             android:id="@+id/vUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

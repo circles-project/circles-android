@@ -15,16 +15,13 @@
     <color name="orange">#FF9500</color>
     <color name="red">#FF3B30</color>
     <color name="pink">#FF2D55</color>
-    <color name="divider_color">#ddd</color>
     <color name="gray">#8E8E93</color>
     <color name="close_background">#80000000</color>
-    <color name="menu_icon_color">#99000000</color>
     <color name="list_item_icon_color">@color/black</color>
-    <color name="highlight_color">#330E7AFE</color>
+    <color name="highlight_color">#4D0E7AFE</color>
     <color name="chip_selected_color">#800E7AFE</color>
     <color name="launcher_background_color">#00008b</color>
     <color name="transparent">#00000000</color>
-    <color name="post_card_background_color">@color/white</color>
     <color name="qr_color">@color/black</color>
     <color name="qr_background">@color/white</color>
 </resources>

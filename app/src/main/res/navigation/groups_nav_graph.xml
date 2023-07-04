@@ -23,7 +23,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="Group"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>

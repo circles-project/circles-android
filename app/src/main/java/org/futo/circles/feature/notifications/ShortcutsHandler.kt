@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.lifecycle.asFlow
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -11,14 +12,15 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.futo.circles.R
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.RoomSortOrder
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class ShortcutsHandler(
-    private val context: Context,
+class ShortcutsHandler @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val shortcutCreator: ShortcutCreator
 ) {
 

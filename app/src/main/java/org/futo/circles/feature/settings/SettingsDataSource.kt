@@ -3,19 +3,21 @@ package org.futo.circles.feature.settings
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.futo.circles.R
-import org.futo.circles.core.matrix.auth.AuthConfirmationProvider
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
+import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.settings.change_password.ChangePasswordDataSource
-import org.futo.circles.model.LoadingData
-import org.futo.circles.provider.MatrixSessionProvider
 import java.io.File
+import javax.inject.Inject
 
-class SettingsDataSource(
-    private val context: Context,
+class SettingsDataSource @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val changePasswordDataSource: ChangePasswordDataSource,
     private val authConfirmationProvider: AuthConfirmationProvider
 ) {
@@ -26,20 +28,6 @@ class SettingsDataSource(
     val passPhraseLoadingLiveData = changePasswordDataSource.passPhraseLoadingLiveData
     val startReAuthEventLiveData = authConfirmationProvider.startReAuthEventLiveData
     val profileLiveData = session.userService().getUserLive(session.myUserId)
-
-    val loadingLiveData = MutableLiveData<LoadingData>()
-    private val loadingData = LoadingData(total = 0)
-
-    suspend fun logOut() = createResult {
-        loadingLiveData.postValue(
-            loadingData.apply {
-                messageId = R.string.log_out
-                isLoading = true
-            }
-        )
-        session.signOutService().signOut(true)
-        loadingLiveData.postValue(loadingData.apply { isLoading = false })
-    }
 
     suspend fun deactivateAccount(): Response<Unit> = createResult {
         session.accountService().deactivateAccount(false, authConfirmationProvider)

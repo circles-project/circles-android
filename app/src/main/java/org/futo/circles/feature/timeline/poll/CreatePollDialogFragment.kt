@@ -4,18 +4,19 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.getText
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.databinding.DialogFragmentCreatePollBinding
-import org.futo.circles.extensions.getText
-import org.futo.circles.extensions.observeData
-import org.futo.circles.extensions.onBackPressed
-import org.futo.circles.model.CreatePollContent
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.matrix.android.sdk.api.session.room.model.message.PollType
 
+@AndroidEntryPoint
 class CreatePollDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentCreatePollBinding::inflate) {
 
@@ -25,9 +26,7 @@ class CreatePollDialogFragment :
     }
     private val isEdit by lazy { args.eventId != null }
 
-    private val viewModel by viewModel<CreatePollViewModel> {
-        parametersOf(args.roomId, args.eventId)
-    }
+    private val viewModel by viewModels<CreatePollViewModel>()
 
     private var createPollListener: CreatePollListener? = null
 

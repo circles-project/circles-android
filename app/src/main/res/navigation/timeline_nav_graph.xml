@@ -6,10 +6,10 @@
     app:startDestination="@id/timelineFragment">
 
 
-    <fragment
+    <dialog
         android:id="@+id/timelineFragment"
-        android:name="org.futo.circles.feature.timeline.TimelineFragment"
-        tools:layout="@layout/fragment_timeline">
+        android:name="org.futo.circles.feature.timeline.TimelineDialogFragment"
+        tools:layout="@layout/dialog_fragment_timeline">
 
         <argument
             android:name="roomId"
@@ -18,13 +18,13 @@
 
         <argument
             android:name="threadEventId"
-            app:argType="string"
             android:defaultValue="@null"
+            app:argType="string"
             app:nullable="true" />
 
         <argument
             android:name="type"
-            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
             app:nullable="false" />
 
         <action
@@ -48,7 +48,7 @@
 
             <argument
                 android:name="type"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -153,7 +153,7 @@
         </action>
         <action
             android:id="@+id/to_saveToGalleyDialogFragment"
-            app:destination="@id/saveToGalleyDialogFragment">
+            app:destination="@id/save_to_gallery_nav_graph">
 
             <argument
                 android:name="roomId"
@@ -168,7 +168,7 @@
         </action>
         <action
             android:id="@+id/to_mediaPreviewDialogFragment"
-            app:destination="@id/mediaPreviewDialogFragment">
+            app:destination="@id/media_preview_nav_graph">
 
             <argument
                 android:name="roomId"
@@ -220,6 +220,22 @@
         </action>
 
         <action
+            android:id="@+id/to_shareRoom"
+            app:destination="@id/shareRoomDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="isProfile"
+                app:argType="boolean"
+                app:nullable="false" />
+
+        </action>
+
+        <action
             android:id="@+id/to_thread_timeline"
             app:destination="@id/timelineFragment">
 
@@ -236,12 +252,12 @@
             <argument
                 android:name="type"
                 android:defaultValue="Group"
-                app:argType="org.futo.circles.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
 
-    </fragment>
+    </dialog>
 
     <dialog
         android:id="@+id/inviteMembersDialogFragment"
@@ -267,7 +283,7 @@
 
         <argument
             android:name="type"
-            app:argType="org.futo.circles.model.CircleRoomTypeArg"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
             app:nullable="false" />
 
         <action
@@ -410,38 +426,6 @@
 
     </dialog>
     <dialog
-        android:id="@+id/saveToGalleyDialogFragment"
-        android:name="org.futo.circles.feature.photos.save.SavePostToGalleyDialogFragment"
-        tools:layout="@layout/dialog_fragment_save_post_to_gallery">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="eventId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
-    <dialog
-        android:id="@+id/mediaPreviewDialogFragment"
-        android:name="org.futo.circles.feature.photos.preview.MediaPreviewDialogFragment"
-        tools:layout="@layout/dialog_fragment_media_preview">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="eventId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
-    <dialog
         android:id="@+id/createPollDialogFragment"
         android:name="org.futo.circles.feature.timeline.poll.CreatePollDialogFragment"
         tools:layout="@layout/dialog_fragment_create_poll">
@@ -492,6 +476,26 @@
         <argument
             android:name="userId"
             app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
+    <include app:graph="@navigation/save_to_gallery_nav_graph" />
+
+    <include app:graph="@navigation/media_preview_nav_graph" />
+    <dialog
+        android:id="@+id/shareRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.share.ShareRoomDialogFragment"
+        tools:layout="@layout/dialog_fragment_share_room">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="isProfile"
+            app:argType="boolean"
             app:nullable="false" />
 
     </dialog>

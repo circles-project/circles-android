@@ -1,6 +1,6 @@
 package org.futo.circles.feature.timeline.poll
 
-import org.futo.circles.model.CreatePollContent
+import org.futo.circles.core.model.CreatePollContent
 
 interface CreatePollListener {
     fun onCreatePoll(roomId: String, pollContent: CreatePollContent)

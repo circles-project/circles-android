@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="phf_blocks_error_format">Phf blocks must be bigger than %d</string>
+    <string name="phf_iterations_error_format">Phf iterations must be bigger than %d</string>
+    <string name="blind_salt_is_missing">Blind salt is missing</string>
+    <string name="b_param_is_missing">B param is missing</string>
+    <string name="initial_device_name">FUTO Circles (Android)</string>
+    <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
+    <string name="unsupported_login_method">Unsupported login method</string>
+    <string name="session_is_not_created">Session is not created</string>
+    <string name="discard_current_login_progress">Discard current login progress?</string>
+    <string name="set_password">Set password</string>
+    <string name="log_in">Log In</string>
+    <string name="wrong_signup_config">Wrong signup config!</string>
+    <string name="us_server_format"><![CDATA[<b>US</b> - (%s)]]></string>
+    <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>
+    <string name="sign_up_using_active_subscription">Sign Up using your active subscription</string>
+    <string name="choose_a_subscription">Choose a subscription</string>
+    <string name="create_a_subscription">Create a subscription</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="not_supported_stage_format">Not supported stage %s</string>
+    <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
+    <string name="no_backup_message">Keys backup not found</string>
+    <string name="username_can_not_be_empty">Username can not be empty.</string>
+    <string name="confirm_auth">Confirm auth</string>
+    <string name="email">Email</string>
+    <string name="email_usage_explanation">Must be a currently valid and active address.\n\nDon\'t worry - we will only use this address for security and other alerts about your account. We don\'t send spam, and we don\'t sell your address.</string>
+    <string name="validation_code">Validation code</string>
+    <string name="validation_code_explanation">We sent a 6-digit code to your email address to validate your account.\n\nEnter the code here to verify that this address belongs to you.</string>
+    <string name="validation_code_sent_to_format">Validation code sent to %s</string>
+    <string name="sign_up_token">SignUp token</string>
+    <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
+    <string name="name_for_room_invite">Room invite</string>
+    <string name="name_for_empty_room">Empty room</string>
+    <string name="and">and</string>
+    <string name="other">Other</string>
+    <string name="display_name">Display name</string>
+    <string name="display_name_explanation">Your display name is how other users on the service will identify you.\n\nThe display name must consist of at least 8 characters, including at least two letters [a–z].\n\nIf you like, you can also use the numeric digits [0–9] and/or a few special characters like the dash, underscore, and period or \"dot\".</string>
+    <string name="weak_password">Weak password</string>
+    <string name="fair_password">Fair password</string>
+    <string name="good_password">Good password</string>
+    <string name="strong_password">Strong password</string>
+    <string name="very_strong_password">Very strong password</string>
+    <string name="backup_could_not_be_decrypted_with_passphrase">Backup could not be decrypted with this passphrase.</string>
+    <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
+    <string name="backup_could_not_be_decrypted_with_key">Backup could not be decrypted with this recovery key.</string>
+    <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
+    <string name="key_is_missing">The key is missing</string>
+    <string name="generating_recovery_key">Generating recovery key from passphrase.</string>
+    <string name="creating_backup">Creating backup</string>
+    <string name="backup_already_exist">Backup already exist</string>
+    <string name="removing_backup">Removing previous backup</string>
+    <string name="computing_recovery_key">Computing recovery key.</string>
+    <string name="downloading_keys">Downloading keys.</string>
+    <string name="importing_keys">Importing keys.</string>
+    <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
+    <string name="discard_current_registration_progress">Discard current registration progress?</string>
+    <string name="domain">Domain</string>
+    <string name="accept_terms_to_continue">Accept terms to continue</string>
+    <string name="accept">Accept</string>
+    <string name="username">Username</string>
+    <string name="at_symbol">\@</string>
+    <string name="user_id_separator">:</string>
+    <string name="not_a_member">Not a member?</string>
+    <string name="resume_session">Resume session:</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="server_location">Server Location</string>
+    <string name="sign_up_for_free_account">Sign up for a free account</string>
+    <string name="or">Or</string>
+    <string name="setup_profile">Setup profile</string>
+    <string name="upload_a_profile_photo">Upload a profile photo</string>
+    <string name="save">Save</string>
+    <string name="skip">Skip</string>
+    <string name="subscriptions">Subscriptions</string>
+    <string name="enter_your_username">Enter your username</string>
+    <string name="set_username">Set username</string>
+    <string name="send_validation_code">Send validation code</string>
+    <string name="validate_email">Validate email</string>
+    <string name="validate_your_token">Validate your token</string>
+    <string name="sign_up_token_format">abcd–efgh–1234–5678</string>
+    <string name="validate_token">Validate token</string>
+    <string name="enter_passphrase">Enter Passphrase</string>
+    <string name="use_your_recovery_message">Use your Recovery Passphrase or Recovery Key to continue.</string>
+    <string name="passphrase">Passphrase</string>
+    <string name="upload_recovery_key">Upload Recovery Key</string>
+    <string name="restore">Restore</string>
+    <string name="validate_your_email">Validate your email</string>
+    <string name="remove_user">Remove user</string>
+    <string name="remove_user_message">Are you sure you want to remove this user?</string>
+    <string name="remove">Remove</string>
+    <string name="not_supported_navigation_event">Not supported navigation event</string>
+    <string name="feature_not_supported">Feature is not supported</string>
+    <string name="service_unavailable">Service unavailable</string>
+    <string name="item_unavailable">Item is unavailable</string>
+    <string name="user_canceled">User canceled</string>
+    <string name="item_not_owned">Item is not owned</string>
+    <string name="developer_error">Developer error</string>
+    <string name="purchase_failed_format">Purchase failed with code %d</string>
+    <string name="log_out">Log out</string>
+    <string name="log_out_message">Are you sure you want to log out?</string>
+    <string name="switch_user">Switch User</string>
+    <string name="switch_user_message">Are you sure you want to switch user?</string>
+    <string name="switch_str">Switch</string>
+
+    <plurals name="days">
+        <item quantity="one">%1$d day</item>
+        <item quantity="many">%1$d days</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+
+    <plurals name="weeks">
+        <item quantity="one">%1$d week</item>
+        <item quantity="many">%1$d weeks</item>
+        <item quantity="other">%1$d weeks</item>
+    </plurals>
+
+    <plurals name="months">
+        <item quantity="one">%1$d month</item>
+        <item quantity="many">%1$d months</item>
+        <item quantity="other">%1$d months</item>
+    </plurals>
+
+    <plurals name="years">
+        <item quantity="one">%1$d year</item>
+        <item quantity="many">%1$d years</item>
+        <item quantity="other">%1$d years</item>
+    </plurals>
+
+</resources>

@@ -2,16 +2,19 @@ package org.futo.circles.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.DEFAULT_USER_PREFIX
 import org.futo.circles.core.SYSTEM_NOTICES_TAG
+import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserUtils
-import org.futo.circles.extensions.launchBg
-import org.futo.circles.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+import javax.inject.Inject
 
-class SystemNoticesCountSharedViewModel : ViewModel() {
+@HiltViewModel
+class SystemNoticesCountSharedViewModel @Inject constructor() : ViewModel() {
 
     val systemNoticesCountLiveData = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummariesLive(roomSummaryQueryParams())

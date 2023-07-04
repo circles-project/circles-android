@@ -1,24 +1,33 @@
 package org.futo.circles.feature.timeline
 
 import androidx.lifecycle.asLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.launchBg
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.model.CreatePollContent
+import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.model.ShareableContent
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.room.leave.LeaveRoomDataSource
+import org.futo.circles.core.timeline.BaseTimelineViewModel
+import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.timeline.post.PostOptionsDataSource
+import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.feature.people.UserOptionsDataSource
-import org.futo.circles.feature.room.LeaveRoomDataSource
 import org.futo.circles.feature.room.RoomNotificationsDataSource
-import org.futo.circles.feature.share.ShareableContent
 import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
-import org.futo.circles.feature.timeline.data_source.SendMessageDataSource
-import org.futo.circles.feature.timeline.data_source.TimelineDataSource
-import org.futo.circles.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.model.*
+import org.futo.circles.model.CreatePostContent
+import org.futo.circles.model.MediaPostContent
+import org.futo.circles.model.TextPostContent
 import org.matrix.android.sdk.api.util.Cancelable
+import javax.inject.Inject
 
-class TimelineViewModel(
+@HiltViewModel
+class TimelineViewModel @Inject constructor(
     private val roomNotificationsDataSource: RoomNotificationsDataSource,
-    private val timelineDataSource: TimelineDataSource,
+    timelineDataSource: TimelineDataSource,
     private val leaveRoomDataSource: LeaveRoomDataSource,
     accessLevelDataSource: AccessLevelDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
@@ -27,6 +36,8 @@ class TimelineViewModel(
     private val readMessageDataSource: ReadMessageDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
+    val session = MatrixSessionProvider.currentSession
+    val profileLiveData = session?.userService()?.getUserLive(session.myUserId)
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
     val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
@@ -71,6 +82,7 @@ class TimelineViewModel(
                     threadEventId,
                     postContent.mediaType
                 )
+
                 is TextPostContent -> sendMessageDataSource.sendTextMessage(
                     roomId, postContent.text, threadEventId
                 )
@@ -102,15 +114,24 @@ class TimelineViewModel(
     }
 
     fun leaveGroup() {
-        launchBg { leaveGroupLiveData.postValue(leaveRoomDataSource.leaveGroup()) }
+        launchBg {
+            val result = leaveRoomDataSource.leaveGroup()
+            leaveGroupLiveData.postValue(result)
+        }
     }
 
     fun deleteGroup() {
-        launchBg { deleteCircleLiveData.postValue(leaveRoomDataSource.deleteGroup()) }
+        launchBg {
+            val result = leaveRoomDataSource.deleteGroup()
+            deleteCircleLiveData.postValue(result)
+        }
     }
 
     fun deleteCircle() {
-        launchBg { deleteCircleLiveData.postValue(leaveRoomDataSource.deleteCircle()) }
+        launchBg {
+            val result = leaveRoomDataSource.deleteCircle()
+            deleteCircleLiveData.postValue(result)
+        }
     }
 
     fun canLeaveRoom(): Boolean = leaveRoomDataSource.canLeaveRoom()

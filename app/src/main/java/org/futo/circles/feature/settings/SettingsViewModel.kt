@@ -1,29 +1,36 @@
 package org.futo.circles.feature.settings
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import org.futo.circles.auth.feature.log_in.log_out.LogoutDataSource
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.extensions.Response
-import org.futo.circles.extensions.createResult
-import org.futo.circles.extensions.launchBg
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.provider.MatrixSessionProvider
+import javax.inject.Inject
 
-class SettingsViewModel(
-    private val settingsDataSource: SettingsDataSource
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val settingsDataSource: SettingsDataSource,
+    private val logoutDataSource: LogoutDataSource
 ) : ViewModel() {
 
     val profileLiveData = settingsDataSource.profileLiveData
-    val loadingLiveData = settingsDataSource.loadingLiveData
+    val loadingLiveData = logoutDataSource.loadingLiveData
     val passPhraseLoadingLiveData = settingsDataSource.passPhraseLoadingLiveData
     val startReAuthEventLiveData = settingsDataSource.startReAuthEventLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToMatrixChangePasswordEvent = SingleEventLiveData<Unit>()
     val changePasswordResponseLiveData = SingleEventLiveData<Response<Unit?>>()
-    val scanProfileQrResultLiveData = SingleEventLiveData<Response<Unit?>>()
     val clearCacheLiveData = SingleEventLiveData<Unit>()
 
     fun logOut() {
-        launchBg { logOutLiveData.postValue(settingsDataSource.logOut()) }
+        launchBg {
+            val result = logoutDataSource.logOut()
+            logOutLiveData.postValue(result)
+        }
     }
 
     fun deactivateAccount() {
@@ -50,14 +57,5 @@ class SettingsViewModel(
     fun clearCash() {
         launchBg { settingsDataSource.clearCache() }
         clearCacheLiveData.postValue(Unit)
-    }
-
-    fun onProfileQrScanned(sharedCirclesSpaceId: String) {
-        launchBg {
-            val result = createResult {
-                MatrixSessionProvider.currentSession?.roomService()?.knock(sharedCirclesSpaceId)
-            }
-            scanProfileQrResultLiveData.postValue(result)
-        }
     }
 }

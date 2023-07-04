@@ -1,111 +1,108 @@
 package org.futo.circles.model
 
 import org.futo.circles.R
+import org.futo.circles.core.model.ConfirmationType
 
-enum class ConfirmationType(val titleRes: Int, val messageRes: Int, val positiveButtonRes: Int) {
-    DEACTIVATE_ACCOUNT(
-        R.string.deactivate_my_account,
-        R.string.deactivate_message,
-        R.string.deactivate
-    ),
-    SWITCH_USER(
-        R.string.switch_user,
-        R.string.switch_user_message,
-        R.string.switch_str
-    ),
-    LOG_OUT(
-        R.string.log_out,
-        R.string.log_out_message,
-        R.string.log_out
-    ),
-    REMOVE_USER(
-        R.string.remove_user,
-        R.string.remove_user_message,
-        R.string.remove
-    ),
-    IGNORE_USER(
-        R.string.ignore,
-        R.string.ignore_user_message,
-        R.string.ignore
-    ),
-    UNFOLLOW_USER(
-        R.string.unfollow,
-        R.string.unfollow_user_message,
-        R.string.unfollow
-    ),
-    UNFOLLOW_TIMELINE(
-        R.string.unfollow,
-        R.string.unfollow_user_timeline,
-        R.string.unfollow
-    ),
-    DELETE_GALLERY(
-        R.string.delete_gallery,
-        R.string.delete_gallery_message,
-        R.string.delete
-    ),
-    REMOVE_IMAGE(
-        R.string.remove_image,
-        R.string.remove_image_message,
-        R.string.remove
-    ),
-    REMOVE_POST(
-        R.string.remove_post,
-        R.string.remove_post_message,
-        R.string.remove
-    ),
-    IGNORE_SENDER(
-        R.string.ignore_sender,
-        R.string.ignore_user_message,
-        R.string.ignore
-    ),
-    END_POLL(
-        R.string.end_poll,
-        R.string.end_poll_message,
-        R.string.end_poll
-    ),
-    LEAVE_GROUP(
-        R.string.leave_group,
-        R.string.leave_group_message,
-        R.string.leave
-    ),
-    DELETE_GROUP(
-        R.string.delete_group,
-        R.string.delete_group_message,
-        R.string.delete
-    ),
-    DELETE_CIRCLE(
-        R.string.delete_circle,
-        R.string.delete_circle_message,
-        R.string.delete
-    ),
-    REMOVE_ROOM_USER(
-        R.string.remove_user,
-        R.string.remove_user_in_room_message,
-        R.string.remove
-    ),
-    BAN_USER(
-        R.string.ban_user,
-        R.string.ban_user_message,
-        R.string.ban
-    ),
-    UNBAN_USER(
-        R.string.unban_user,
-        R.string.unban_user_message,
-        R.string.unban
-    ),
-    CANCEL_INVITE(
-        R.string.cancel_invite,
-        R.string.cancel_invite_message,
-        android.R.string.ok
-    ),
-    REMOVE_SESSION(
-        R.string.remove_session,
-        R.string.remove_session_message,
-        R.string.remove
-    ),
-    RESET_KEYS(
-        R.string.reset_keys,
-        R.string.reset_keys_message,
-        R.string.confirm
-    )
-}
+
+data class DeactivateAccount(
+    override val titleRes: Int = R.string.deactivate_my_account,
+    override val messageRes: Int = R.string.deactivate_message,
+    override val positiveButtonRes: Int = R.string.deactivate
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class IgnoreUser(
+    override val titleRes: Int = R.string.ignore,
+    override val messageRes: Int = R.string.ignore_user_message,
+    override val positiveButtonRes: Int = R.string.ignore
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class UnfollowUser(
+    override val titleRes: Int = R.string.unfollow,
+    override val messageRes: Int = R.string.unfollow_user_message,
+    override val positiveButtonRes: Int = R.string.unfollow
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class UnfollowTimeline(
+    override val titleRes: Int = R.string.unfollow,
+    override val messageRes: Int = R.string.unfollow_user_timeline,
+    override val positiveButtonRes: Int = R.string.unfollow
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+
+data class RemovePost(
+    override val titleRes: Int = R.string.remove_post,
+    override val messageRes: Int = R.string.remove_post_message,
+    override val positiveButtonRes: Int = R.string.remove
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class IgnoreSender(
+    override val titleRes: Int = R.string.ignore_sender,
+    override val messageRes: Int = R.string.ignore_user_message,
+    override val positiveButtonRes: Int = R.string.ignore
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class EndPoll(
+    override val titleRes: Int = R.string.end_poll,
+    override val messageRes: Int = R.string.end_poll_message,
+    override val positiveButtonRes: Int = R.string.end_poll
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class LeaveGroup(
+    override val titleRes: Int = R.string.leave_group,
+    override val messageRes: Int = R.string.leave_group_message,
+    override val positiveButtonRes: Int = R.string.leave
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class DeleteGroup(
+    override val titleRes: Int = R.string.delete_group,
+    override val messageRes: Int = R.string.delete_group_message,
+    override val positiveButtonRes: Int = R.string.delete
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class DeleteCircle(
+    override val titleRes: Int = R.string.delete_circle,
+    override val messageRes: Int = R.string.delete_circle_message,
+    override val positiveButtonRes: Int = R.string.delete
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class RemoveRoomUser(
+    override val titleRes: Int = R.string.remove_user,
+    override val messageRes: Int = R.string.remove_user_in_room_message,
+    override val positiveButtonRes: Int = R.string.remove
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class BanUser(
+    override val titleRes: Int = R.string.ban_user,
+    override val messageRes: Int = R.string.ban_user_message,
+    override val positiveButtonRes: Int = R.string.ban
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class UnbanUser(
+    override val titleRes: Int = R.string.unban_user,
+    override val messageRes: Int = R.string.unban_user_message,
+    override val positiveButtonRes: Int = R.string.unban
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class CancelInvite(
+    override val titleRes: Int = R.string.cancel_invite,
+    override val messageRes: Int = R.string.cancel_invite_message,
+    override val positiveButtonRes: Int = android.R.string.ok
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class ResendInvite(
+    override val titleRes: Int = R.string.resend_invite,
+    override val messageRes: Int = R.string.resend_invite_message,
+    override val positiveButtonRes: Int = android.R.string.ok
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class RemoveSession(
+    override val titleRes: Int = R.string.remove_session,
+    override val messageRes: Int = R.string.remove_session_message,
+    override val positiveButtonRes: Int = R.string.remove
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class ResetKeys(
+    override val titleRes: Int = R.string.reset_keys,
+    override val messageRes: Int = R.string.reset_keys_message,
+    override val positiveButtonRes: Int = R.string.confirm
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

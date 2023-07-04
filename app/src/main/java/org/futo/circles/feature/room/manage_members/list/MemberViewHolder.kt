@@ -4,18 +4,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
+import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.core.extensions.getRoleNameResId
+import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.isCurrentUserAbleToBan
+import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.databinding.ListItemBannedMemberBinding
+import org.futo.circles.databinding.ListItemInvitedMemberBinding
 import org.futo.circles.databinding.ListItemMemberBinding
-import org.futo.circles.databinding.ListItemNotJoinedUserBinding
-import org.futo.circles.extensions.*
 import org.futo.circles.feature.room.ManageMembersOptionsListener
+import org.futo.circles.model.BannedMemberListItem
 import org.futo.circles.model.GroupMemberListItem
+import org.futo.circles.model.InvitedMemberListItem
 import org.futo.circles.model.ManageMembersHeaderListItem
 import org.futo.circles.model.ManageMembersListItem
-import org.futo.circles.model.NotJoinedUserListItem
-import org.matrix.android.sdk.api.session.room.model.Membership
 
 abstract class ManageMembersViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: ManageMembersListItem)
@@ -71,38 +77,62 @@ class ManageMembersHeaderViewHolder(
     }
 }
 
-class NotJoinedUserViewHolder(
+class InvitedMemberViewHolder(
     parent: ViewGroup,
-    private val manageMembersListener: ManageMembersOptionsListener,
-) : ManageMembersViewHolder(inflate(parent, ListItemNotJoinedUserBinding::inflate)) {
+    private val onUserClicked: (Int) -> Unit,
+    private val manageMembersListener: ManageMembersOptionsListener
+) : ManageMembersViewHolder(inflate(parent, ListItemInvitedMemberBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemNotJoinedUserBinding
+    private val binding = baseBinding as ListItemInvitedMemberBinding
 
     override fun bind(data: ManageMembersListItem) {
-        if (data !is NotJoinedUserListItem) return
+        if (data !is InvitedMemberListItem) return
+
+        with(binding) {
+            vUser.bind(data.user)
+            if (data.isOptionsAvailable) {
+                ivOptionsArrow.visible()
+                ivOptionsArrow.setImageResource(
+                    if (data.isOptionsOpened) R.drawable.ic_keyboard_arrow_up
+                    else R.drawable.ic_keyboard_arrow_down
+                )
+                onClick(binding.contentLayout) { position -> onUserClicked(position) }
+                binding.optionsLayout.setIsVisible(data.isOptionsOpened)
+                binding.btnRemove.setOnClickListener {
+                    manageMembersListener.cancelPendingInvitation(data.user.id)
+                }
+                binding.btnResend.setOnClickListener {
+                    manageMembersListener.resendInvitation(data.user.id)
+                }
+            } else {
+                ivOptionsArrow.gone()
+                binding.contentLayout.setOnClickListener(null)
+            }
+        }
+    }
+}
+
+
+class BannedMemberViewHolder(
+    parent: ViewGroup,
+    private val manageMembersListener: ManageMembersOptionsListener,
+) : ManageMembersViewHolder(inflate(parent, ListItemBannedMemberBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemBannedMemberBinding
+
+    override fun bind(data: ManageMembersListItem) {
+        if (data !is BannedMemberListItem) return
 
         binding.lUser.bind(data.user)
 
-        when (data.membership) {
-            Membership.INVITE -> {
-                binding.tvStatus.text = context.getString(R.string.invited)
-                val isAbleToKick = data.powerLevelsContent.isCurrentUserAbleToKick()
-                binding.ivRemove.setIsVisible(isAbleToKick)
-                if (isAbleToKick) binding.ivRemove.setOnClickListener {
-                    manageMembersListener.cancelPendingInvitation(data.user.id)
-                }
-            }
-            Membership.BAN -> {
-                binding.tvStatus.text = context.getString(R.string.banned)
-                val isAbleToBan = data.powerLevelsContent.isCurrentUserAbleToBan()
-                binding.ivRemove.setIsVisible(isAbleToBan)
-                if (isAbleToBan) binding.ivRemove.setOnClickListener {
-                    manageMembersListener.unBanUser(data.user.id)
-                }
-            }
-            else -> return
+        val isAbleToBan = data.powerLevelsContent.isCurrentUserAbleToBan()
+        binding.ivRemove.setIsVisible(isAbleToBan)
+        if (isAbleToBan) binding.ivRemove.setOnClickListener {
+            manageMembersListener.unBanUser(data.user.id)
         }
     }
 }

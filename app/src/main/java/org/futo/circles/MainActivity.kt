@@ -5,20 +5,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.futo.circles.core.BaseActivity
-import org.futo.circles.provider.MatrixSessionListenerProvider
-import org.futo.circles.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.MatrixSessionListenerProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.feature.home.DeepLinkIntentHandler
 
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setInvalidTokenListener()
         syncSessionIfCashWasCleared()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleOpenFromIntent()
+    }
+
+    private fun handleOpenFromIntent() {
+        supportFragmentManager.fragments.firstOrNull()?.childFragmentManager?.fragments?.firstOrNull { it is DeepLinkIntentHandler }
+            ?.let { (it as DeepLinkIntentHandler).onNewIntent() }
     }
 
     fun clearSessionAndRestart() {
