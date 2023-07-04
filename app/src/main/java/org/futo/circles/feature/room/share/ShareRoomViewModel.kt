@@ -3,10 +3,12 @@ package org.futo.circles.feature.room.share
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.base.SHARE_PROFILE_URL_PREFIX
-import org.futo.circles.base.SHARE_ROOM_URL_PREFIX
+import org.futo.circles.base.buildShareProfileUrl
+import org.futo.circles.base.buildShareRoomUrl
 import org.futo.circles.core.extensions.getOrThrow
+import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +22,11 @@ class ShareRoomViewModel @Inject constructor(
     val roomLiveData =
         MatrixSessionProvider.currentSession?.roomService()?.getRoomSummaryLive(roomId)
 
-    fun buildInviteUrl(): String = if (isProfile)
-        SHARE_PROFILE_URL_PREFIX + MatrixSessionProvider.currentSession?.myUserId + "/" + roomId
-    else SHARE_ROOM_URL_PREFIX + roomId
+    fun buildInviteUrl(): String =
+        if (isProfile) buildShareProfileUrl(roomId)
+        else {
+            val summary =
+                MatrixSessionProvider.currentSession?.getRoom(roomId)?.roomSummary()
+            summary?.let { buildShareRoomUrl(roomId, summary.nameOrId(), summary.topic) } ?: ""
+        }
 }
