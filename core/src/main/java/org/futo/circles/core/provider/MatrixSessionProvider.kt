@@ -14,11 +14,14 @@ object MatrixSessionProvider {
         private set
 
     private var notificationSetupListener: MatrixNotificationSetupListener? = null
+    private var onNewAuthLister: (() -> Unit)? = null
 
     fun initSession(
         context: Context,
-        notificationListener: MatrixNotificationSetupListener? = null
+        notificationListener: MatrixNotificationSetupListener? = null,
+        newAuthListener: (() -> Unit)? = null
     ) {
+        onNewAuthLister = newAuthListener
         notificationSetupListener = notificationListener
         Matrix(
             context = context, matrixConfiguration = MatrixConfiguration(
@@ -73,6 +76,7 @@ object MatrixSessionProvider {
                 override fun onSessionStarted(session: Session) {
                     super.onSessionStarted(session)
                     it.resume(session) { session.removeListener(this) }
+                    onNewAuthLister?.invoke()
                 }
             })
         }
@@ -82,8 +86,10 @@ object MatrixSessionProvider {
             startSession(session, object : Session.Listener {
                 override fun onStatisticsEvent(session: Session, statisticEvent: StatisticEvent) {
                     super.onStatisticsEvent(session, statisticEvent)
-                    if (statisticEvent is StatisticEvent.InitialSyncRequest)
+                    if (statisticEvent is StatisticEvent.InitialSyncRequest) {
                         it.resume(session) { session.removeListener(this) }
+                        onNewAuthLister?.invoke()
+                    }
                 }
             })
         }

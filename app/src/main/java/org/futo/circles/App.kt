@@ -59,12 +59,13 @@ class App : Application() {
                     pushRuleTriggerListener.stop()
                     guardServiceStarter.stop()
                 }
-            })
+            }
+        ) { RecentEmojisProvider.initWithDefaultRecentEmojis(applicationContext) }
         EmojiManager.install(GoogleEmojiProvider())
         notificationUtils.createNotificationChannels()
         setupLifecycleObserver()
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
-        RecentEmojisProvider.saveDefaultRecentEmojis(applicationContext)
+
     }
 
     private fun setupLifecycleObserver() {
