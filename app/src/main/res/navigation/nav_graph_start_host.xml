@@ -32,14 +32,9 @@
             app:destination="@id/roomWellKnownDialogFragment">
 
             <argument
-                android:name="roomId"
+                android:name="url"
                 app:argType="string"
                 app:nullable="false" />
-
-            <argument
-                android:name="userId"
-                app:argType="string"
-                app:nullable="true" />
 
         </action>
         <action
@@ -79,14 +74,9 @@
         tools:layout="@layout/dialog_fragment_room_well_known">
 
         <argument
-            android:name="roomId"
+            android:name="url"
             app:argType="string"
             app:nullable="false" />
-
-        <argument
-            android:name="userId"
-            app:argType="string"
-            app:nullable="true" />
 
     </dialog>
 
