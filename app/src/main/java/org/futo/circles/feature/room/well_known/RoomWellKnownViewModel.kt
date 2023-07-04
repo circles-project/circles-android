@@ -10,7 +10,11 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.RoomPublicInfo
+import org.futo.circles.model.RoomUrlData
+import org.futo.circles.model.UrlData
 import org.futo.circles.model.UserPublicInfo
+import org.futo.circles.model.UserUrlData
+import org.futo.circles.model.parseUrlData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,32 +23,38 @@ class RoomWellKnownViewModel @Inject constructor(
     private val dataSource: RoomWellKnownDataSource
 ) : ViewModel() {
 
-    private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val userId: String? = savedStateHandle["userId"]
+    private val url: String = savedStateHandle.getOrThrow("url")
 
     val roomPublicInfoLiveData = SingleEventLiveData<Response<RoomPublicInfo>>()
     val userPublicInfoLiveData = SingleEventLiveData<Response<UserPublicInfo>>()
     val knockRequestLiveData = SingleEventLiveData<Response<Unit?>>()
+    val parseErrorEventLiveData = SingleEventLiveData<Unit>()
+    private var urlData: UrlData? = parseUrlData(url)
 
     init {
-        userId?.let { fetchUserPublicInfo(it) } ?: kotlin.run { fetchRoomPublicInfo() }
+        when (val data = urlData) {
+            is RoomUrlData -> fetchRoomPublicInfo(data)
+            is UserUrlData -> fetchUserPublicInfo(data)
+            null -> parseErrorEventLiveData.postValue(Unit)
+        }
     }
 
-    private fun fetchRoomPublicInfo() {
+    private fun fetchRoomPublicInfo(data: RoomUrlData) {
         launchBg {
-            val result = dataSource.resolveRoomById(roomId)
+            val result = dataSource.resolveRoom(data)
             roomPublicInfoLiveData.postValue(result)
         }
     }
 
-    private fun fetchUserPublicInfo(userId: String) {
+    private fun fetchUserPublicInfo(data: UserUrlData) {
         launchBg {
-            val result = dataSource.resolveUserById(userId, roomId)
+            val result = dataSource.resolveUser(data)
             userPublicInfoLiveData.postValue(result)
         }
     }
 
     fun sendKnockRequest() {
+        val roomId = urlData?.knockRoomId ?: return
         launchBg {
             val result =
                 createResult { MatrixSessionProvider.currentSession?.roomService()?.knock(roomId) }

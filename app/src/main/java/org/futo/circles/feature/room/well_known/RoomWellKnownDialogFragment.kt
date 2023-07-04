@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
@@ -24,7 +24,6 @@ class RoomWellKnownDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentRoomWellKnownBinding::inflate) {
 
     private val viewModel by viewModels<RoomWellKnownViewModel>()
-    private val args: RoomWellKnownDialogFragmentArgs by navArgs()
 
     private val binding by lazy {
         getBinding() as DialogFragmentRoomWellKnownBinding
@@ -37,7 +36,6 @@ class RoomWellKnownDialogFragment :
     }
 
     private fun setupViews() {
-        binding.tvRoomId.text = args.userId ?: args.roomId
         binding.btnRequest.setOnClickListener {
             viewModel.sendKnockRequest()
             binding.btnRequest.setIsLoading(true)
@@ -61,6 +59,11 @@ class RoomWellKnownDialogFragment :
                 onBackPressed()
             },
             onRequestInvoked = { binding.btnRequest.setIsLoading(false) })
+
+        viewModel.parseErrorEventLiveData.observeData(this) {
+            binding.vLoading.gone()
+            bindError(getString(R.string.unable_to_parse_url))
+        }
     }
 
     private fun bindError(message: String) {
@@ -91,7 +94,11 @@ class RoomWellKnownDialogFragment :
                 roomInfo.displayName,
                 roomInfo.membership
             )
-            tvMembersCount.text = getString(R.string.joined_members_count, roomInfo.memberCount)
+            binding.tvRoomId.text = roomInfo.id
+            tvMembersCount.apply {
+                setIsVisible(roomInfo.memberCount > 0)
+                text = getString(R.string.joined_members_count, roomInfo.memberCount)
+            }
             btnRequest.setText(getString(R.string.requested_to_join))
             tvTopic.setIsVisible(roomInfo.topic?.isNotEmpty() == true)
             tvTopic.text = roomInfo.topic ?: ""
@@ -116,7 +123,11 @@ class RoomWellKnownDialogFragment :
                 userInfo.displayName,
                 userInfo.membership
             )
-            tvMembersCount.text = getString(R.string.following_format, userInfo.memberCount)
+            binding.tvRoomId.text = userInfo.id
+            tvMembersCount.apply {
+                setIsVisible(userInfo.memberCount > 0)
+                text = getString(R.string.following_format, userInfo.memberCount)
+            }
             btnRequest.setText(getString(R.string.follow))
             tvTopic.gone()
             tvMembersip.text = getString(

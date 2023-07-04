@@ -100,22 +100,14 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     private fun handleOpenFromShareRoomUrl() {
         val uri = activity?.intent?.data ?: return
         val uriString = uri.toString()
-        if (uriString.startsWith(SHARE_ROOM_URL_PREFIX)) {
-            val roomId = uriString.removePrefix(SHARE_ROOM_URL_PREFIX)
+        if (uriString.startsWith(SHARE_ROOM_URL_PREFIX)
+            || uriString.startsWith(SHARE_PROFILE_URL_PREFIX)
+        ) {
             findNavController().navigateSafe(
-                HomeFragmentDirections.toRoomWellKnownDialogFragment(roomId, null)
+                HomeFragmentDirections.toRoomWellKnownDialogFragment(uriString)
             )
-        } else if (uriString.startsWith(SHARE_PROFILE_URL_PREFIX)) {
-            val data = uriString.removePrefix(SHARE_PROFILE_URL_PREFIX).split("/")
-            if (data.size < 2) return
-            val userId = data.first()
-            val sharedSpaceId = data[1]
-            findNavController().navigateSafe(
-                HomeFragmentDirections.toRoomWellKnownDialogFragment(sharedSpaceId, userId)
-            )
-
-        } else return
-        activity?.intent?.data = null
+            activity?.intent?.data = null
+        }
     }
 
     private fun setupObservers() {
