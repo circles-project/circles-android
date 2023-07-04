@@ -31,3 +31,12 @@ fun PeekResult.Success.toRoomPublicInfo() = RoomPublicInfo(
     memberCount = numJoinedMembers ?: 0,
     membership = Membership.NONE
 )
+
+fun RoomUrlData.toRoomPublicInfo() = RoomPublicInfo(
+    id = roomId,
+    displayName = roomName,
+    avatarUrl = null,
+    topic = topic,
+    memberCount = 0,
+    membership = Membership.NONE
+)
