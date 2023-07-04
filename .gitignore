@@ -88,5 +88,3 @@ lint/tmp/
 .idea/codeStyles/
 
 .idea/
-
-gradle.properties

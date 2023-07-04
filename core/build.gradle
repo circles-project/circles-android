@@ -110,6 +110,10 @@ def groupIdString = "org.futo.circles"
 def artifactIdString = "core"
 
 afterEvaluate {
+    Properties properties = new Properties()
+    if (rootProject.file("local.properties").exists()) {
+        properties.load(rootProject.file("local.properties").newDataInputStream())
+    }
     publishing {
         publications {
             release(MavenPublication) {
@@ -125,7 +129,7 @@ afterEvaluate {
                 name "GitLab"
                 credentials(HttpHeaderCredentials) {
                     name = "Private-Token"
-                    value = PUBLISH_TOKEN
+                    value = properties.getProperty("PUBLISH_TOKEN")
                 }
                 authentication {
                     header(HttpHeaderAuthentication)
