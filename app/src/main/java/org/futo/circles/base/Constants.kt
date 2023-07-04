@@ -20,5 +20,7 @@ fun buildShareRoomUrl(roomId: String, roomName: String, topic: String?) =
     SHARE_ROOM_URL_PREFIX + roomId + "/$roomName" + if (topic.isNullOrEmpty()) "" else "/$topic"
 
 fun buildShareProfileUrl(sharedSpaceId: String) =
-    SHARE_PROFILE_URL_PREFIX + MatrixSessionProvider.currentSession?.myUserId + "/" + sharedSpaceId
+    MatrixSessionProvider.currentSession?.myUserId?.let { userId ->
+        "$SHARE_PROFILE_URL_PREFIX$userId/$sharedSpaceId"
+    } ?: ""
 
