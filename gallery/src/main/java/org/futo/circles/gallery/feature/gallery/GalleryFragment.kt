@@ -54,7 +54,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private fun setupViews() {
         binding.rvGallery.apply {
-            layoutManager =
+            getRecyclerView().layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
                     gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                 }

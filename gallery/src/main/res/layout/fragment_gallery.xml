@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvGallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
