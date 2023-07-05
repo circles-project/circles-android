@@ -90,8 +90,10 @@ dependencies {
 
     //Glide
     def glide_version = '4.15.1'
-    implementation "com.github.bumptech.glide:glide:$glide_version"
+    api "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
+    //Webp animations
+    api 'com.github.penfeizhou.android.animation:glide-plugin:2.25.0'
 
     //Shake detection
     implementation 'com.squareup:seismic:1.0.3'

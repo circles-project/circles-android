@@ -77,10 +77,6 @@ dependencies {
     implementation 'com.google.zxing:core:3.5.1'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
-    //Webp animations
-    implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.25.0'
-
-
     //Markdown
     def markwon_version = "4.6.2"
     implementation "io.noties.markwon:core:$markwon_version"
