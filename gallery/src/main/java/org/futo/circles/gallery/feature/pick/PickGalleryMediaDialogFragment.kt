@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.DeviceMediaPickerHelper
@@ -13,7 +14,7 @@ import org.futo.circles.core.picker.MediaType
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentPickGalleryImageBinding
 import org.futo.circles.gallery.feature.PhotosFragment
-import org.futo.circles.gallery.feature.gallery.GalleryFragment
+import org.futo.circles.gallery.feature.gallery.grid.GalleryFragment
 
 interface PickGalleryListener {
     fun onGalleryChosen(id: String)
@@ -59,17 +60,12 @@ class PickGalleryMediaDialogFragment :
 
     private fun addGalleriesFragment() {
         binding.toolbar.title = getString(R.string.choose_gallery)
-        childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, photosRoomsFragment)
-            .commitAllowingStateLoss()
+        replaceFragment(photosRoomsFragment)
     }
 
     private fun addPhotosFragment(roomId: String) {
         binding.toolbar.title = getString(R.string.pick_media)
-        val fragment = GalleryFragment.create(roomId, isVideoAvailable)
-        childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, fragment)
-            .commitAllowingStateLoss()
+        replaceFragment(GalleryFragment.create(roomId, isVideoAvailable))
     }
 
     override fun onGalleryChosen(id: String) {
@@ -85,6 +81,12 @@ class PickGalleryMediaDialogFragment :
             )
         )
         dismiss()
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.lContainer, fragment)
+            .commitAllowingStateLoss()
     }
 
     companion object {
