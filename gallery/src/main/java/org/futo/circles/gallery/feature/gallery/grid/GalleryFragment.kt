@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.feature.gallery
+package org.futo.circles.gallery.feature.gallery.grid
 
 import android.content.Context
 import android.os.Bundle
@@ -6,21 +6,19 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.BaseRvDecoration
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.picker.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryBinding
-import org.futo.circles.gallery.feature.gallery.list.GalleryItemViewHolder
-import org.futo.circles.gallery.feature.gallery.list.GalleryItemsAdapter
+import org.futo.circles.gallery.feature.gallery.GalleryMediaPreviewListener
+import org.futo.circles.gallery.feature.gallery.grid.list.GalleryItemViewHolder
+import org.futo.circles.gallery.feature.gallery.grid.list.GalleryItemsAdapter
 import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.futo.circles.gallery.feature.pick.PickGalleryMediaListener
 import org.futo.circles.gallery.model.GalleryContentListItem
@@ -28,7 +26,7 @@ import org.futo.circles.gallery.model.GalleryContentListItem
 @AndroidEntryPoint
 class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
-    private val viewModel by viewModels<GalleryViewModel>()
+    private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
     private val binding by viewBinding(FragmentGalleryBinding::bind)
     private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private val listAdapter by lazy {
@@ -54,7 +52,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     private fun setupViews() {
         binding.rvGallery.apply {
-            getRecyclerView().layoutManager =
+            layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
                     gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                 }
@@ -92,11 +90,9 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
 
     companion object {
         private const val ROOM_ID = "roomId"
-        private const val TYPE = "type"
         fun create(roomId: String, isVideoAvailable: Boolean) = GalleryFragment().apply {
             arguments = bundleOf(
                 ROOM_ID to roomId,
-                TYPE to CircleRoomTypeArg.Photo,
                 IS_VIDEO_AVAILABLE to isVideoAvailable
             )
         }
