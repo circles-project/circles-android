@@ -1,12 +1,10 @@
-package org.futo.circles.gallery.feature.gallery
+package org.futo.circles.gallery.feature.gallery.grid
 
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.onUI
@@ -15,7 +13,6 @@ import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.picker.DeviceMediaPickerHelper
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.core.room.leave.LeaveRoomDataSource
 import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.TimelineDataSource
 import org.futo.circles.core.timeline.post.SendMessageDataSource

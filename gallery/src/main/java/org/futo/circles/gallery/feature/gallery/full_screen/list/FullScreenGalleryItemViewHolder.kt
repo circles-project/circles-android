@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.feature.gallery.list
+package org.futo.circles.gallery.feature.gallery.full_screen.list
 
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
@@ -11,18 +11,15 @@ import org.futo.circles.core.model.PostContentType
 import org.futo.circles.gallery.databinding.ListItemGalleryMediaBinding
 import org.futo.circles.gallery.model.GalleryContentListItem
 
-class GalleryItemViewHolder(
-    parent: ViewGroup,
-    onItemClicked: (Int) -> Unit
+
+class FullScreenGalleryItemViewHolder(
+    parent: ViewGroup
 ) : RecyclerView.ViewHolder((inflate(parent, ListItemGalleryMediaBinding::inflate))) {
 
     private companion object : ViewBindingHolder
 
     private val binding = baseBinding as ListItemGalleryMediaBinding
 
-    init {
-        onClick(itemView) { position -> onItemClicked(position) }
-    }
 
     fun bind(data: GalleryContentListItem) {
         binding.ivCover.post {
