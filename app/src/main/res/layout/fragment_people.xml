@@ -7,7 +7,6 @@
     <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvUsers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>
