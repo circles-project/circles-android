@@ -1,9 +1,11 @@
 package org.futo.circles.gallery.feature.gallery
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,6 +18,8 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
+import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenListPreviewFragment
+import org.futo.circles.gallery.feature.gallery.grid.GalleryFragment
 import org.futo.circles.gallery.model.DeleteGallery
 
 interface GalleryMediaPreviewListener {
@@ -34,6 +38,21 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     private val viewModel by viewModels<GalleryDialogFragmentViewModel>()
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return object : Dialog(requireActivity(), theme) {
+            @Deprecated("Deprecated in Java")
+            override fun onBackPressed() {
+                handleBackPress()
+            }
+        }
+    }
+
+    private fun handleBackPress() {
+        val addedFragment = childFragmentManager.fragments.first { it.isAdded }
+        if (addedFragment is GalleryFragment) dismiss()
+        else addGalleryFragment()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
@@ -43,16 +62,14 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     }
 
     private fun setupViews() {
-        binding.toolbar.setOnClickListener {
-            binding.toolbar.showOverflowMenu()
+        binding.toolbar.apply {
+            setNavigationOnClickListener { handleBackPress() }
+            setOnClickListener { binding.toolbar.showOverflowMenu() }
         }
     }
 
     private fun addGalleryFragment() {
-        val fragment = GalleryFragment.create(args.roomId, true)
-        childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, fragment)
-            .commitAllowingStateLoss()
+        replaceFragment(GalleryFragment.create(args.roomId, true))
     }
 
     private fun setupObservers() {
@@ -62,6 +79,12 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         viewModel.deleteGalleryLiveData.observeResponse(this,
             success = { onBackPressed() }
         )
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.lContainer, fragment)
+            .commitAllowingStateLoss()
     }
 
     @SuppressLint("RestrictedApi")
@@ -86,9 +109,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     }
 
     override fun onPreviewMedia(itemId: String) {
-        findNavController().navigateSafe(
-            GalleryDialogFragmentDirections.toGalleryImageDialogFragment(args.roomId, itemId)
-        )
+        replaceFragment(FullScreenListPreviewFragment())
     }
 
 }
