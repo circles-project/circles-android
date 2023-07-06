@@ -23,7 +23,7 @@ class TimelineDataSource @Inject constructor(
 ) : Timeline.Listener {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val type: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
+    private val type: CircleRoomTypeArg = savedStateHandle["type"] ?: CircleRoomTypeArg.Photo
     private val threadEventId: String? = savedStateHandle["threadEventId"]
 
     private val session = MatrixSessionProvider.currentSession
