@@ -109,7 +109,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     }
 
     override fun onPreviewMedia(itemId: String) {
-        replaceFragment(FullScreenListPreviewFragment())
+        replaceFragment(FullScreenListPreviewFragment.create(args.roomId))
     }
 
 }
