@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.feature.preview
+package org.futo.circles.feature.timeline.preview
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -25,16 +25,16 @@ import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.share.ShareProvider
+import org.futo.circles.databinding.DialogFragmentTimelineMediaPreviewBinding
 import org.futo.circles.gallery.R
-import org.futo.circles.gallery.databinding.DialogFragmentMediaPreviewBinding
 import org.futo.circles.gallery.model.RemoveImage
 
 @AndroidEntryPoint
-class MediaPreviewDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentMediaPreviewBinding::inflate) {
+class TimelineMediaPreviewDialogFragment :
+    BaseFullscreenDialogFragment(DialogFragmentTimelineMediaPreviewBinding::inflate) {
 
-    private val viewModel by viewModels<MediaPreviewViewModel>()
-    private val binding by lazy { getBinding() as DialogFragmentMediaPreviewBinding }
+    private val viewModel by viewModels<TimelineMediaPreviewViewModel>()
+    private val binding by lazy { getBinding() as DialogFragmentTimelineMediaPreviewBinding }
 
     private val hideHandler = Handler(Looper.getMainLooper())
     private val hideRunnable = Runnable { hide() }

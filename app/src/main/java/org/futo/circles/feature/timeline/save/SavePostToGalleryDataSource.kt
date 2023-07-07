@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.feature.save
+package org.futo.circles.feature.timeline.save
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

@@ -1,7 +1,6 @@
-package org.futo.circles.gallery.feature.preview
+package org.futo.circles.feature.timeline.preview
 
 import androidx.lifecycle.SavedStateHandle
-import dagger.assisted.AssistedFactory
 import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.toPost
@@ -16,7 +15,7 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import javax.inject.Inject
 
 @ViewModelScoped
-class MediaPreviewDataSource @Inject constructor(
+class TimelineMediaPreviewDataSource @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) {
     private val roomId: String = savedStateHandle.getOrThrow("roomId")

@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.feature.preview
+package org.futo.circles.feature.timeline.preview
 
 import android.content.Context
 import android.net.Uri
@@ -17,9 +17,9 @@ import org.futo.circles.core.utils.FileUtils
 import javax.inject.Inject
 
 @HiltViewModel
-class MediaPreviewViewModel @Inject constructor(
+class TimelineMediaPreviewViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val mediaPreviewDataSource: MediaPreviewDataSource,
+    private val timelineMediaPreviewDataSource: TimelineMediaPreviewDataSource,
     private val postOptionsDataSource: PostOptionsDataSource
 ) : ViewModel() {
 
@@ -33,7 +33,7 @@ class MediaPreviewViewModel @Inject constructor(
 
 
     fun loadData(context: Context) {
-        val content = (mediaPreviewDataSource.getPostContent() as? MediaContent) ?: return
+        val content = (timelineMediaPreviewDataSource.getPostContent() as? MediaContent) ?: return
         when (content.type) {
             PostContentType.IMAGE_CONTENT -> imageLiveData.postValue(content)
             PostContentType.VIDEO_CONTENT -> launchBg {
@@ -46,7 +46,7 @@ class MediaPreviewViewModel @Inject constructor(
     }
 
     fun share() {
-        val content = mediaPreviewDataSource.getPostContent() ?: return
+        val content = timelineMediaPreviewDataSource.getPostContent() ?: return
         launchBg {
             shareLiveData.postValue(postOptionsDataSource.getShareableContent(content))
         }
@@ -57,7 +57,7 @@ class MediaPreviewViewModel @Inject constructor(
     }
 
     fun save() {
-        val content = mediaPreviewDataSource.getPostContent() ?: return
+        val content = timelineMediaPreviewDataSource.getPostContent() ?: return
         launchBg {
             postOptionsDataSource.saveMediaToDevice(content)
             downloadLiveData.postValue(Unit)

@@ -1,10 +1,9 @@
-package org.futo.circles.gallery.feature.save
+package org.futo.circles.feature.timeline.save
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
@@ -13,8 +12,8 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.room.select.SelectRoomsListener
+import org.futo.circles.databinding.DialogFragmentSavePostToGalleryBinding
 import org.futo.circles.gallery.R
-import org.futo.circles.gallery.databinding.DialogFragmentSavePostToGalleryBinding
 import org.futo.circles.gallery.feature.select.SelectGalleriesFragment
 
 @AndroidEntryPoint
@@ -23,12 +22,8 @@ class SavePostToGalleyDialogFragment :
     HasLoadingState, SelectRoomsListener {
 
     override val fragment: Fragment = this
-    private val args: SavePostToGalleyDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<SavePostToGalleryViewModel>()
 
-    //    {
-//        parametersOf(args.roomId, args.eventId)
-//    }
     private val binding by lazy {
         getBinding() as DialogFragmentSavePostToGalleryBinding
     }
