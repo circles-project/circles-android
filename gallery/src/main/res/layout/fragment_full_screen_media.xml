@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
+    <com.jsibbold.zoomage.ZoomageView
+        android:id="@+id/ivImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:zoomage_restrictBounds="true" />
 
     <com.google.android.exoplayer2.ui.StyledPlayerView
         android:id="@+id/videoView"
@@ -17,5 +23,12 @@
         app:shutter_background_color="@android:color/transparent"
         app:surface_type="texture_view"
         app:use_controller="true" />
+
+    <ProgressBar
+        android:id="@+id/vLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </FrameLayout>
