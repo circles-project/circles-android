@@ -113,7 +113,6 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     override fun onPreviewMedia(itemId: String, view: View, position: Int) {
         val fragment = FullScreenPagerFragment.create(args.roomId, position)
-        Log.d("MyLog", "ee " + view.transitionName)
         childFragmentManager
             .beginTransaction()
             .setReorderingAllowed(true)
