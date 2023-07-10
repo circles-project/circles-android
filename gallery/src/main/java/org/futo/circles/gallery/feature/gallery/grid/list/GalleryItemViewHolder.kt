@@ -1,5 +1,7 @@
 package org.futo.circles.gallery.feature.gallery.grid.list
 
+import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
@@ -9,11 +11,12 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.gallery.databinding.ListItemGalleryMediaBinding
+import org.futo.circles.gallery.feature.gallery.grid.GalleryGridFragment
 import org.futo.circles.gallery.model.GalleryContentListItem
 
 class GalleryItemViewHolder(
     parent: ViewGroup,
-    onItemClicked: (Int) -> Unit
+    onItemClicked: (Int, View) -> Unit
 ) : RecyclerView.ViewHolder((inflate(parent, ListItemGalleryMediaBinding::inflate))) {
 
     private companion object : ViewBindingHolder
@@ -21,11 +24,16 @@ class GalleryItemViewHolder(
     private val binding = baseBinding as ListItemGalleryMediaBinding
 
     init {
-        onClick(itemView) { position -> onItemClicked(position) }
+        onClick(itemView) { position -> onItemClicked(position, binding.ivCover) }
     }
 
     fun bind(data: GalleryContentListItem) {
-        binding.ivCover.transitionName = data.id
+        binding.ivCover.transitionName =
+            GalleryGridFragment.createTransitionName(data.id, bindingAdapterPosition)
+        Log.d(
+            "MyLog",
+            "grid " + GalleryGridFragment.createTransitionName(data.id, bindingAdapterPosition)
+        )
         binding.ivCover.post {
             val size = data.mediaContent.calculateSize(binding.ivCover.width)
             binding.ivCover.updateLayoutParams {

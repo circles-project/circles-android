@@ -3,10 +3,8 @@ package org.futo.circles.gallery.feature.gallery
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -26,7 +24,7 @@ import org.futo.circles.gallery.model.DeleteGallery
 
 
 interface GalleryMediaPreviewListener {
-    fun onPreviewMedia(itemId: String, position: Int)
+    fun onPreviewMedia(itemId: String, view: View, position: Int)
 }
 
 @AndroidEntryPoint
@@ -55,12 +53,16 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     private fun handleBackPress() {
         val addedFragment = childFragmentManager.fragments.first { it.isAdded }
         if (addedFragment is GalleryGridFragment) dismiss()
-        else addGalleryFragment()
+        else childFragmentManager.popBackStack()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        addGalleryFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addGalleryFragment()
         setupViews()
         setupMenu()
         setupObservers()
@@ -75,10 +77,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     private fun addGalleryFragment() {
         childFragmentManager.beginTransaction()
-            .replace(
-                R.id.lContainer,
-                galleryFragment
-            )
+            .replace(R.id.lContainer, galleryFragment)
             .commitAllowingStateLoss()
     }
 
@@ -112,13 +111,15 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         )
     }
 
-    override fun onPreviewMedia(itemId: String, position: Int) {
-        val transitioningView = view?.findViewById<ImageView>(R.id.ivCover) ?: return
+    override fun onPreviewMedia(itemId: String, view: View, position: Int) {
+        val fragment = FullScreenPagerFragment.create(args.roomId, position)
+        Log.d("MyLog", "ee " + view.transitionName)
         childFragmentManager
             .beginTransaction()
             .setReorderingAllowed(true)
-            .addSharedElement(transitioningView, transitioningView.transitionName)
-            .replace(R.id.lContainer, FullScreenPagerFragment.create(args.roomId, position))
+            .addSharedElement(view, view.transitionName)
+            .replace(R.id.lContainer, fragment, fragment.javaClass.name)
+            .addToBackStack(fragment.javaClass.name)
             .commitAllowingStateLoss()
     }
 

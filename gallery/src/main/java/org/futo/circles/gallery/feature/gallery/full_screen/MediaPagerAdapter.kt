@@ -15,10 +15,9 @@ class MediaPagerAdapter(fragment: Fragment, private val roomId: String) :
     override fun getItemCount(): Int = itemsList.size
 
     override fun createFragment(position: Int): Fragment =
-        FullScreenMediaFragment.create(roomId, itemsList[position].id)
+        FullScreenMediaFragment.create(roomId, itemsList[position].id, position)
 
     fun submitList(list: List<GalleryContentListItem>) {
         itemsList = list
-        notifyItemRangeChanged(0, list.size)
     }
 }
