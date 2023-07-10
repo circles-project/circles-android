@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.transition.AutoTransition
+import androidx.transition.TransitionInflater
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
@@ -57,7 +57,8 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     }
 
     private fun prepareTransitions() {
-        exitTransition = AutoTransition()
+        exitTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(R.transition.grid_exit_transition)
         postponeEnterTransition()
     }
 

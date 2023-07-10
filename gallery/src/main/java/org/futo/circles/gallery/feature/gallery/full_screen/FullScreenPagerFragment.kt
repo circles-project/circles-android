@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.transition.AutoTransition
+import androidx.transition.TransitionInflater
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
@@ -36,7 +36,8 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
     }
 
     private fun prepareSharedElementTransition() {
-        sharedElementEnterTransition = AutoTransition()
+        sharedElementEnterTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(R.transition.image_shared_element_transition)
         postponeEnterTransition()
     }
 
