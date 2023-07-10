@@ -14,7 +14,7 @@ import org.futo.circles.core.picker.MediaType
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentPickGalleryImageBinding
 import org.futo.circles.gallery.feature.PhotosFragment
-import org.futo.circles.gallery.feature.gallery.grid.GalleryFragment
+import org.futo.circles.gallery.feature.gallery.grid.GalleryGridFragment
 
 interface PickGalleryListener {
     fun onGalleryChosen(id: String)
@@ -65,7 +65,7 @@ class PickGalleryMediaDialogFragment :
 
     private fun addPhotosFragment(roomId: String) {
         binding.toolbar.title = getString(R.string.pick_media)
-        replaceFragment(GalleryFragment.create(roomId, isVideoAvailable))
+        replaceFragment(GalleryGridFragment.create(roomId, isVideoAvailable))
     }
 
     override fun onGalleryChosen(id: String) {

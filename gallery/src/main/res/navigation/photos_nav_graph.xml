@@ -37,7 +37,7 @@
     <dialog
         android:id="@+id/galleryFragment"
         android:name="org.futo.circles.gallery.feature.gallery.GalleryDialogFragment"
-        tools:layout="@layout/fragment_gallery">
+        tools:layout="@layout/fragment_gallery_grid">
 
         <argument
             android:name="roomId"

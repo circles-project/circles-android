@@ -3,7 +3,9 @@ package org.futo.circles.gallery.feature.gallery
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
@@ -19,7 +21,7 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment
-import org.futo.circles.gallery.feature.gallery.grid.GalleryFragment
+import org.futo.circles.gallery.feature.gallery.grid.GalleryGridFragment
 import org.futo.circles.gallery.model.DeleteGallery
 
 
@@ -37,6 +39,8 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         getBinding() as DialogFragmentGalleryBinding
     }
 
+    private val galleryFragment by lazy { GalleryGridFragment.create(args.roomId, true) }
+
     private val viewModel by viewModels<GalleryDialogFragmentViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -50,14 +54,14 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     private fun handleBackPress() {
         val addedFragment = childFragmentManager.fragments.first { it.isAdded }
-        if (addedFragment is GalleryFragment) dismiss()
+        if (addedFragment is GalleryGridFragment) dismiss()
         else addGalleryFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViews()
         addGalleryFragment()
+        setupViews()
         setupMenu()
         setupObservers()
     }
@@ -73,7 +77,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         childFragmentManager.beginTransaction()
             .replace(
                 R.id.lContainer,
-                GalleryFragment.create(args.roomId, true)
+                galleryFragment
             )
             .commitAllowingStateLoss()
     }

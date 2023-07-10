@@ -29,6 +29,11 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        prepareSharedElementTransition()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewsWithTransition(savedInstanceState)
@@ -36,17 +41,17 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
     }
 
     private fun prepareSharedElementTransition() {
-        val transition =
+        sharedElementEnterTransition
             TransitionInflater.from(requireContext())
-                .inflateTransition(R.transition.image_shared_element_transition);
-        sharedElementEnterTransition = transition
+                .inflateTransition(R.transition.image_shared_element_transition)
+
         setEnterSharedElementCallback(
             object : SharedElementCallback() {
                 override fun onMapSharedElements(
                     names: List<String?>,
                     sharedElements: MutableMap<String?, View?>
                 ) {
-                    val view = pagerAdapter.createFragment(0).view ?: return
+                    val view = pagerAdapter.createFragment(arguments?.getInt(POSITION) ?: 0).view ?: return
                     sharedElements[names[0]] = view.findViewById(R.id.ivImage)
                     sharedElements[names[1]] = view.findViewById(R.id.videoView)
                 }
