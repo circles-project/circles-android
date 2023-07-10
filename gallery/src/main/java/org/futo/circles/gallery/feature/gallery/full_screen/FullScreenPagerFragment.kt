@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.transition.TransitionInflater
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
@@ -42,7 +44,15 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
     }
 
     private fun setupViewsWithTransition() {
-        binding.vpMediaPager.adapter = pagerAdapter
+        binding.vpMediaPager.apply {
+            adapter = pagerAdapter
+            registerOnPageChangeCallback(object : OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    setResult(position)
+                }
+            })
+        }
         binding.vpMediaPager.post {
             binding.vpMediaPager.setCurrentItem(arguments?.getInt(POSITION) ?: 0, false)
         }
@@ -53,6 +63,10 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
         viewModel.galleryItemsLiveData.observeData(this) {
             pagerAdapter.submitList(it)
         }
+    }
+
+    private fun setResult(position: Int) {
+        setFragmentResult(POSITION, bundleOf(POSITION to position))
     }
 
     companion object {

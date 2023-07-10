@@ -7,18 +7,20 @@ import android.view.View.OnLayoutChangeListener
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.transition.TransitionInflater
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.picker.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryGridBinding
 import org.futo.circles.gallery.feature.gallery.GalleryMediaPreviewListener
+import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment.Companion.POSITION
+import org.futo.circles.gallery.feature.gallery.grid.list.GalleryItemViewHolder
 import org.futo.circles.gallery.feature.gallery.grid.list.GalleryItemsAdapter
 import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
 import org.futo.circles.gallery.feature.pick.PickGalleryMediaListener
@@ -52,8 +54,10 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         prepareTransitions()
-        scrollToPosition()
         setupObservers()
+        parentFragmentManager.setFragmentResultListener(POSITION, this) { _, bundle ->
+            scrollToPosition(bundle.getInt(POSITION))
+        }
     }
 
     private fun prepareTransitions() {
@@ -65,11 +69,9 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     private fun setupViews() {
         binding.rvGallery.apply {
             layoutManager =
-                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
-                    gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
-                }
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = listAdapter
-            //addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryItemViewHolder>(2))
+            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryItemViewHolder>(2))
             bindToFab(binding.fbUploadImage)
         }
         binding.fbUploadImage.setOnClickListener { showImagePicker() }
@@ -82,29 +84,23 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
         }
     }
 
-    private fun scrollToPosition() {
+    private fun scrollToPosition(position: Int) {
         val recyclerView = binding.rvGallery.getRecyclerView()
         recyclerView.addOnLayoutChangeListener(object : OnLayoutChangeListener {
             override fun onLayoutChange(
-                v: View,
-                left: Int,
-                top: Int,
-                right: Int,
-                bottom: Int,
-                oldLeft: Int,
-                oldTop: Int,
-                oldRight: Int,
-                oldBottom: Int
+                v: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int,
+                oldTop: Int, oldRight: Int, oldBottom: Int
             ) {
                 recyclerView.removeOnLayoutChangeListener(this)
-                val layoutManager: RecyclerView.LayoutManager = recyclerView.layoutManager ?: return
-                val viewAtPosition = layoutManager.findViewByPosition(0)
+                val layoutManager =
+                    (recyclerView.layoutManager as? StaggeredGridLayoutManager) ?: return
+                val viewAtPosition = layoutManager.findViewByPosition(position)
 
                 if (viewAtPosition == null || layoutManager
                         .isViewPartiallyVisible(viewAtPosition, false, true)
                 ) {
                     recyclerView.post {
-                        layoutManager.scrollToPosition(0)
+                        layoutManager.scrollToPositionWithOffset(position, 5)
                         startPostponedEnterTransition()
                     }
                 } else {
