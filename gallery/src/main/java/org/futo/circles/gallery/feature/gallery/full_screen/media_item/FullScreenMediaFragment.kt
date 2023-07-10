@@ -64,6 +64,8 @@ class FullScreenMediaFragment : Fragment(R.layout.fragment_full_screen_media) {
     }
 
     private fun setupViews() {
+        binding.ivImage.transitionName = arguments?.getString(EVENT_ID) ?: ""
+        binding.videoView.transitionName = arguments?.getString(EVENT_ID) ?: ""
         binding.videoView.apply {
             player = videoPlayer
             controllerShowTimeoutMs = AUTO_HIDE_DELAY_MILLIS
@@ -72,6 +74,7 @@ class FullScreenMediaFragment : Fragment(R.layout.fragment_full_screen_media) {
 
     private fun setupObservers() {
         viewModel.imageLiveData.observeData(this) {
+            parentFragment?.startPostponedEnterTransition()
             binding.videoView.gone()
             it.mediaFileData.loadEncryptedIntoWithAspect(
                 binding.ivImage,
@@ -80,6 +83,7 @@ class FullScreenMediaFragment : Fragment(R.layout.fragment_full_screen_media) {
             )
         }
         viewModel.videoLiveData.observeData(this) {
+            parentFragment?.startPostponedEnterTransition()
             binding.ivImage.gone()
             videoPlayer.setMediaItem(MediaItem.fromUri(it.second))
             videoPlayer.prepare()

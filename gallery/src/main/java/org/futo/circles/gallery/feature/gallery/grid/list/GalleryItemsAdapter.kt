@@ -5,13 +5,13 @@ import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.gallery.model.GalleryContentListItem
 
 class GalleryItemsAdapter(
-    private val onGalleryItemClicked: (item: GalleryContentListItem) -> Unit,
+    private val onGalleryItemClicked: (item: GalleryContentListItem, position: Int) -> Unit,
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<GalleryContentListItem, GalleryItemViewHolder>(DefaultIdEntityCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryItemViewHolder(
         parent,
-        onItemClicked = { position -> onGalleryItemClicked(getItem(position)) }
+        onItemClicked = { position -> onGalleryItemClicked(getItem(position), position) }
     )
 
     override fun onBindViewHolder(holder: GalleryItemViewHolder, position: Int) {

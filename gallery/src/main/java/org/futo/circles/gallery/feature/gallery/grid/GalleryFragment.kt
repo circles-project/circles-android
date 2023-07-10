@@ -2,11 +2,14 @@ package org.futo.circles.gallery.feature.gallery.grid
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.transition.TransitionInflater
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
@@ -31,7 +34,7 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
     private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private val listAdapter by lazy {
         GalleryItemsAdapter(
-            onGalleryItemClicked = { item -> onMediaItemSelected(item) },
+            onGalleryItemClicked = { item, position -> onMediaItemSelected(item, position) },
             onLoadMore = { viewModel.loadMore() })
     }
 
@@ -44,10 +47,24 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         previewMediaListener = parentFragment as? GalleryMediaPreviewListener
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        prepareTransitions()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
+    }
+
+    private fun prepareTransitions() {
+        exitTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(R.transition.grid_exit_transition)
     }
 
     private fun setupViews() {
@@ -82,10 +99,10 @@ class GalleryFragment : Fragment(R.layout.fragment_gallery) {
         )
     }
 
-    private fun onMediaItemSelected(item: GalleryContentListItem) {
+    private fun onMediaItemSelected(item: GalleryContentListItem, position: Int) {
         pickMediaListener?.let {
             viewModel.selectMediaForPicker(requireContext(), item, it)
-        } ?: previewMediaListener?.onPreviewMedia(item.id)
+        } ?: previewMediaListener?.onPreviewMedia(item.id, position)
     }
 
     companion object {

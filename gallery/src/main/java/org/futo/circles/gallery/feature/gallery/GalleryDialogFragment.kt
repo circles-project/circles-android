@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,12 +18,13 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
-import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenListPreviewFragment
+import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment
 import org.futo.circles.gallery.feature.gallery.grid.GalleryFragment
 import org.futo.circles.gallery.model.DeleteGallery
 
+
 interface GalleryMediaPreviewListener {
-    fun onPreviewMedia(itemId: String)
+    fun onPreviewMedia(itemId: String, position: Int)
 }
 
 @AndroidEntryPoint
@@ -69,7 +70,12 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     }
 
     private fun addGalleryFragment() {
-        replaceFragment(GalleryFragment.create(args.roomId, true))
+        childFragmentManager.beginTransaction()
+            .replace(
+                R.id.lContainer,
+                GalleryFragment.create(args.roomId, true)
+            )
+            .commitAllowingStateLoss()
     }
 
     private fun setupObservers() {
@@ -79,12 +85,6 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         viewModel.deleteGalleryLiveData.observeResponse(this,
             success = { onBackPressed() }
         )
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, fragment)
-            .commitAllowingStateLoss()
     }
 
     @SuppressLint("RestrictedApi")
@@ -108,8 +108,14 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         )
     }
 
-    override fun onPreviewMedia(itemId: String) {
-        replaceFragment(FullScreenListPreviewFragment.create(args.roomId))
+    override fun onPreviewMedia(itemId: String, position: Int) {
+        val transitioningView = view?.findViewById<ImageView>(R.id.ivCover) ?: return
+        childFragmentManager
+            .beginTransaction()
+            .setReorderingAllowed(true)
+            .addSharedElement(transitioningView, transitioningView.transitionName)
+            .replace(R.id.lContainer, FullScreenPagerFragment.create(args.roomId, position))
+            .commitAllowingStateLoss()
     }
 
 }

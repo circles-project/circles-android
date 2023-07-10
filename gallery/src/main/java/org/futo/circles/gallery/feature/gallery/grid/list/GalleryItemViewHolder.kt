@@ -25,6 +25,7 @@ class GalleryItemViewHolder(
     }
 
     fun bind(data: GalleryContentListItem) {
+        binding.ivCover.transitionName = data.id
         binding.ivCover.post {
             val size = data.mediaContent.calculateSize(binding.ivCover.width)
             binding.ivCover.updateLayoutParams {
