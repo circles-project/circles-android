@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.picker.DeviceMediaPickerHelper
 import org.futo.circles.core.picker.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
@@ -23,7 +24,7 @@ interface PickGalleryListener {
 interface PickGalleryMediaListener {
     fun onMediaSelected(uri: Uri, mediaType: MediaType)
 }
-
+@AndroidEntryPoint
 class PickGalleryMediaDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentPickGalleryImageBinding::inflate),
     PickGalleryListener, PickGalleryMediaListener {

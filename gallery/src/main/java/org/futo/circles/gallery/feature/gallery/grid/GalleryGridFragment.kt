@@ -20,6 +20,7 @@ import org.futo.circles.core.picker.DeviceMediaPickerHelper.Companion.IS_VIDEO_A
 import org.futo.circles.core.picker.MediaType
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryGridBinding
+import org.futo.circles.gallery.feature.gallery.GalleryDialogFragment
 import org.futo.circles.gallery.feature.gallery.GalleryMediaPreviewListener
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment.Companion.POSITION
 import org.futo.circles.gallery.feature.gallery.grid.list.GalleryItemViewHolder
@@ -32,7 +33,10 @@ import org.futo.circles.gallery.model.GalleryContentListItem
 @AndroidEntryPoint
 class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
 
-    private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
+    private val isOpenFromTab by lazy { (parentFragment as? GalleryDialogFragment) != null }
+    private val viewModel by viewModels<GalleryViewModel>({
+        if (isOpenFromTab) requireParentFragment() else this
+    })
     private val binding by viewBinding(FragmentGalleryGridBinding::bind)
     private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private val listAdapter by lazy {
@@ -65,6 +69,7 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     }
 
     private fun prepareTransitions() {
+        if (!isOpenFromTab) return
         exitTransition = TransitionInflater.from(requireContext())
             .inflateTransition(R.transition.grid_exit_transition)
         setExitSharedElementCallback(
@@ -86,6 +91,12 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     }
 
     private fun setupViews() {
+        if (isOpenFromTab) binding.lParent.setPadding(
+            0,
+            resources.getDimensionPixelSize(R.dimen.gallery_grid_toolbar_offset),
+            0,
+            0
+        )
         binding.rvGallery.apply {
             layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -115,8 +126,8 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
                     (recyclerView.layoutManager as? StaggeredGridLayoutManager) ?: return
                 val viewAtPosition = layoutManager.findViewByPosition(returnViewPosition)
                 val isItemVisible =
-                    viewAtPosition==null ||
-                    layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)
+                    viewAtPosition == null ||
+                            layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)
 
                 recyclerView.post {
                     if (isItemVisible) layoutManager.scrollToPositionWithOffset(
