@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
@@ -30,7 +32,7 @@ interface GalleryMediaPreviewListener {
 
 @AndroidEntryPoint
 class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGalleryBinding::inflate),
-    GalleryMediaPreviewListener {
+    GalleryMediaPreviewListener, BackPressOwner {
 
     private val args: GalleryDialogFragmentArgs by navArgs()
 
@@ -134,6 +136,10 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
             .replace(R.id.lContainer, fragment, fragment.javaClass.name)
             .addToBackStack(fragment.javaClass.name)
             .commitAllowingStateLoss()
+    }
+
+    override fun onChildBackPress(callback: OnBackPressedCallback) {
+        handleBackPress()
     }
 
 }

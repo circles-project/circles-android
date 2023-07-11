@@ -15,8 +15,10 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentFullScreenPagerBinding
@@ -25,7 +27,7 @@ import org.futo.circles.gallery.model.RemoveImage
 
 
 @AndroidEntryPoint
-class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
+class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_full_screen_pager) {
 
     private val binding by viewBinding(FragmentFullScreenPagerBinding::bind)
 
@@ -95,7 +97,7 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
     @SuppressLint("RestrictedApi")
     private fun setupToolbar() {
         with(binding.toolbar) {
-            setNavigationOnClickListener { parentFragmentManager.popBackStack() }
+            setNavigationOnClickListener { onBackPressed() }
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
             setOnMenuItemClickListener { item ->
                 return@setOnMenuItemClickListener when (item.itemId) {
@@ -112,7 +114,7 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
                     R.id.delete -> {
                         withConfirmation(RemoveImage()) {
                             viewModel.removeImage(binding.vpMediaPager.currentItem)
-                            parentFragmentManager.popBackStack()
+                            onBackPressed()
                         }
                         true
                     }
