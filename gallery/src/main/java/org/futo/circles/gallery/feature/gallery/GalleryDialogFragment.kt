@@ -24,6 +24,7 @@ import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment
 import org.futo.circles.gallery.feature.gallery.grid.GalleryGridFragment
 import org.futo.circles.gallery.model.DeleteGallery
+import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
 interface GalleryMediaPreviewListener {
@@ -62,13 +63,9 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addGalleryFragment()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addGalleryFragment()
         setupViews()
         setupMenu()
         setupObservers()
