@@ -77,7 +77,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     private fun addGalleryFragment() {
         childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, galleryFragment)
+            .replace(R.id.lContainer, galleryFragment )
             .commitAllowingStateLoss()
     }
 

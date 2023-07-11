@@ -37,7 +37,7 @@ class TimelineMediaPreviewDialogFragment :
     private val hideHandler = Handler(Looper.getMainLooper())
     private val hideRunnable = Runnable { hide() }
 
-    private val mediaFragment by lazy { FullScreenMediaFragment.create(args.roomId, args.eventId,0) }
+    private val mediaFragment by lazy { FullScreenMediaFragment.create(args.roomId, args.eventId) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

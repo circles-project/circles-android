@@ -10,7 +10,6 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.gallery.databinding.ListItemGalleryMediaBinding
-import org.futo.circles.gallery.feature.gallery.grid.GalleryGridFragment
 import org.futo.circles.gallery.model.GalleryContentListItem
 
 class GalleryItemViewHolder(
@@ -27,8 +26,7 @@ class GalleryItemViewHolder(
     }
 
     fun bind(data: GalleryContentListItem) {
-        binding.ivCover.transitionName =
-            GalleryGridFragment.createTransitionName(data.id, bindingAdapterPosition)
+        binding.ivCover.transitionName = data.id
         binding.ivCover.post {
             val size = data.mediaContent.calculateSize(binding.ivCover.width)
             binding.ivCover.updateLayoutParams {

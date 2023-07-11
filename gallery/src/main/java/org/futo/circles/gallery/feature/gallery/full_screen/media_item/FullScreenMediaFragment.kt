@@ -1,7 +1,6 @@
 package org.futo.circles.gallery.feature.gallery.full_screen.media_item
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -17,8 +16,6 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentFullScreenMediaBinding
-import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment.Companion.POSITION
-import org.futo.circles.gallery.feature.gallery.grid.GalleryGridFragment
 
 @AndroidEntryPoint
 class FullScreenMediaFragment : Fragment(R.layout.fragment_full_screen_media) {
@@ -90,9 +87,7 @@ class FullScreenMediaFragment : Fragment(R.layout.fragment_full_screen_media) {
     }
 
     private fun setTransitionNameAndRunAnimation(view: View) {
-        val eventId = arguments?.getString(EVENT_ID) ?: ""
-        val position = arguments?.getInt(POSITION) ?: 0
-        val transitionName = GalleryGridFragment.createTransitionName(eventId, position)
+        val transitionName = arguments?.getString(EVENT_ID) ?: ""
         view.transitionName = transitionName
         parentFragment?.startPostponedEnterTransition()
     }
@@ -102,9 +97,9 @@ class FullScreenMediaFragment : Fragment(R.layout.fragment_full_screen_media) {
         private const val ROOM_ID = "roomId"
         private const val EVENT_ID = "eventId"
 
-        fun create(roomId: String, eventId: String, position: Int) =
+        fun create(roomId: String, eventId: String) =
             FullScreenMediaFragment().apply {
-                arguments = bundleOf(ROOM_ID to roomId, EVENT_ID to eventId, POSITION to position)
+                arguments = bundleOf(ROOM_ID to roomId, EVENT_ID to eventId)
             }
     }
 }

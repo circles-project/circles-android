@@ -7,7 +7,7 @@ import org.futo.circles.gallery.feature.gallery.full_screen.media_item.FullScree
 import org.futo.circles.gallery.model.GalleryContentListItem
 
 
-class MediaPagerAdapter(fragment: Fragment, private val roomId: String) :
+class MediaPagerAdapter(private val fragment: Fragment, private val roomId: String) :
     FragmentStateAdapter(fragment.childFragmentManager, fragment.lifecycle) {
 
     private var itemsList = listOf<GalleryContentListItem>()
@@ -15,7 +15,7 @@ class MediaPagerAdapter(fragment: Fragment, private val roomId: String) :
     override fun getItemCount(): Int = itemsList.size
 
     override fun createFragment(position: Int): Fragment =
-        FullScreenMediaFragment.create(roomId, itemsList[position].id, position)
+        FullScreenMediaFragment.create(roomId, itemsList[position].id)
 
     fun submitList(list: List<GalleryContentListItem>) {
         itemsList = list

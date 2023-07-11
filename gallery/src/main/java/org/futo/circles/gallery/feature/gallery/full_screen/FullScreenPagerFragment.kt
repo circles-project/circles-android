@@ -2,7 +2,9 @@ package org.futo.circles.gallery.feature.gallery.full_screen
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.SharedElementCallback
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
@@ -40,6 +42,18 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
     private fun prepareSharedElementTransition() {
         sharedElementEnterTransition = TransitionInflater.from(requireContext())
             .inflateTransition(R.transition.image_shared_element_transition)
+        setEnterSharedElementCallback(
+            object : SharedElementCallback() {
+                override fun onMapSharedElements(
+                    names: List<String?>,
+                    sharedElements: MutableMap<String?, View?>
+                ) {
+                    val view = getCurrentSelectedFragment()?.view ?: return
+                    val image = view.findViewById<View>(R.id.ivImage)
+                    val video = view.findViewById<View>(R.id.videoView)
+                    sharedElements[names[0]] = if (image.isVisible) image else video
+                }
+            })
         postponeEnterTransition()
     }
 
@@ -64,6 +78,9 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
             pagerAdapter.submitList(it)
         }
     }
+
+    private fun getCurrentSelectedFragment() =
+        childFragmentManager.findFragmentByTag("f${binding.vpMediaPager.currentItem}")
 
     private fun setResult(position: Int) {
         setFragmentResult(POSITION, bundleOf(POSITION to position))

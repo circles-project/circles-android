@@ -4,9 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnLayoutChangeListener
+import androidx.core.app.SharedElementCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.transition.TransitionInflater
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -43,6 +45,7 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
 
     private var pickMediaListener: PickGalleryMediaListener? = null
     private var previewMediaListener: GalleryMediaPreviewListener? = null
+    private var returnViewPosition = -1
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -56,13 +59,29 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
         prepareTransitions()
         setupObservers()
         parentFragmentManager.setFragmentResultListener(POSITION, this) { _, bundle ->
-            scrollToPosition(bundle.getInt(POSITION))
+            returnViewPosition = bundle.getInt(POSITION)
+            scrollToReturnPosition()
         }
     }
 
     private fun prepareTransitions() {
         exitTransition = TransitionInflater.from(requireContext())
             .inflateTransition(R.transition.grid_exit_transition)
+        setExitSharedElementCallback(
+            object : SharedElementCallback() {
+                override fun onMapSharedElements(
+                    names: List<String?>,
+                    sharedElements: MutableMap<String?, View?>
+                ) {
+                    val selectedViewHolder: RecyclerView.ViewHolder =
+                        binding.rvGallery.getRecyclerView()
+                            .findViewHolderForAdapterPosition(returnViewPosition) ?: return
+
+                    val t = selectedViewHolder.itemView.findViewById<View>(R.id.ivCover)
+                    sharedElements[names[0]] = t
+                    returnViewPosition = -1
+                }
+            })
         postponeEnterTransition()
     }
 
@@ -84,7 +103,7 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
         }
     }
 
-    private fun scrollToPosition(position: Int) {
+    private fun scrollToReturnPosition() {
         val recyclerView = binding.rvGallery.getRecyclerView()
         recyclerView.addOnLayoutChangeListener(object : OnLayoutChangeListener {
             override fun onLayoutChange(
@@ -94,16 +113,15 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
                 recyclerView.removeOnLayoutChangeListener(this)
                 val layoutManager =
                     (recyclerView.layoutManager as? StaggeredGridLayoutManager) ?: return
-                val viewAtPosition = layoutManager.findViewByPosition(position)
+                val viewAtPosition = layoutManager.findViewByPosition(returnViewPosition)
+                val isItemVisible =
+                    viewAtPosition==null ||
+                    layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)
 
-                if (viewAtPosition == null || layoutManager
-                        .isViewPartiallyVisible(viewAtPosition, false, true)
-                ) {
-                    recyclerView.post {
-                        layoutManager.scrollToPositionWithOffset(position, 5)
-                        startPostponedEnterTransition()
-                    }
-                } else {
+                recyclerView.post {
+                    if (isItemVisible) layoutManager.scrollToPositionWithOffset(
+                        returnViewPosition, 5
+                    )
                     startPostponedEnterTransition()
                 }
             }
@@ -135,7 +153,5 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
                 IS_VIDEO_AVAILABLE to isVideoAvailable
             )
         }
-
-        fun createTransitionName(eventId: String, position: Int): String = eventId + "_" + position
     }
 }
