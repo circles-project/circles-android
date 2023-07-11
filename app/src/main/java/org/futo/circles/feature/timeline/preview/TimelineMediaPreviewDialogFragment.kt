@@ -3,6 +3,8 @@ package org.futo.circles.feature.timeline.preview
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.text.method.MovementMethod
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.view.menu.MenuBuilder
@@ -44,11 +46,11 @@ class TimelineMediaPreviewDialogFragment :
         setupObservers()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupViews() {
         replaceFragment(mediaFragment)
-        binding.lParent.setOnClickListener { toggle() }
+        binding.lContainer.setOnClickListener { binding.toolbar.setIsVisible(binding.toolbar.isVisible.not()) }
     }
-
     private fun replaceFragment(fragment: Fragment) {
         childFragmentManager.beginTransaction()
             .replace(R.id.lContainer, fragment)
@@ -93,9 +95,5 @@ class TimelineMediaPreviewDialogFragment :
         viewModel.downloadLiveData.observeData(this) {
             context?.let { showSuccess(it.getString(R.string.saved)) }
         }
-    }
-
-    private fun toggle() {
-        binding.toolbar.setIsVisible(binding.toolbar.isVisible.not())
     }
 }

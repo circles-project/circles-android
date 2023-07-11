@@ -16,6 +16,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
@@ -67,6 +68,7 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
     }
 
     private fun setupViewsWithTransition() {
+        binding.lParent.setOnClickListener {  binding.toolbar.setIsVisible(binding.toolbar.isVisible.not()) }
         binding.vpMediaPager.apply {
             adapter = pagerAdapter
             registerOnPageChangeCallback(object : OnPageChangeCallback() {

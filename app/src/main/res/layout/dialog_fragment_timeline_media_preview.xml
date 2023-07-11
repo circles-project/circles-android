@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <FrameLayout
+    <org.futo.circles.core.view.FrameInterceptableLayout
         android:id="@+id/lContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
