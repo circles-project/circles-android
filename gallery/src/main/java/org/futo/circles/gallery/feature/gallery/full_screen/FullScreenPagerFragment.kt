@@ -1,7 +1,9 @@
 package org.futo.circles.gallery.feature.gallery.full_screen
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.app.SharedElementCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -13,9 +15,13 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentFullScreenPagerBinding
 import org.futo.circles.gallery.feature.gallery.grid.GalleryViewModel
+import org.futo.circles.gallery.model.RemoveImage
 
 
 @AndroidEntryPoint
@@ -36,6 +42,7 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewsWithTransition()
+        setupToolbar()
         setupObservers()
     }
 
@@ -77,7 +84,45 @@ class FullScreenPagerFragment : Fragment(R.layout.fragment_full_screen_pager) {
         viewModel.galleryItemsLiveData.observeData(this) {
             pagerAdapter.submitList(it)
         }
+        viewModel.shareLiveData.observeData(this) { content ->
+            context?.let { ShareProvider.share(it, content) }
+        }
+        viewModel.downloadLiveData.observeData(this) {
+            context?.let { showSuccess(it.getString(R.string.saved)) }
+        }
     }
+
+    @SuppressLint("RestrictedApi")
+    private fun setupToolbar() {
+        with(binding.toolbar) {
+            setNavigationOnClickListener { parentFragmentManager.popBackStack() }
+            (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
+            setOnMenuItemClickListener { item ->
+                return@setOnMenuItemClickListener when (item.itemId) {
+                    R.id.save -> {
+                        viewModel.save(binding.vpMediaPager.currentItem)
+                        true
+                    }
+
+                    R.id.share -> {
+                        viewModel.share(binding.vpMediaPager.currentItem)
+                        true
+                    }
+
+                    R.id.delete -> {
+                        withConfirmation(RemoveImage()) {
+                            viewModel.removeImage(binding.vpMediaPager.currentItem)
+                            parentFragmentManager.popBackStack()
+                        }
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }
+    }
+
 
     private fun getCurrentSelectedFragment() =
         childFragmentManager.findFragmentByTag("f${binding.vpMediaPager.currentItem}")

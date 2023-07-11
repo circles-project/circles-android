@@ -1,8 +1,6 @@
 package org.futo.circles.gallery.feature.gallery.full_screen.media_item
 
-import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.scopes.ViewModelScoped
-import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
@@ -16,15 +14,11 @@ import javax.inject.Inject
 
 
 @ViewModelScoped
-class FullScreenMediaDataSource @Inject constructor(
-    savedStateHandle: SavedStateHandle
-) {
-    private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val eventId: String = savedStateHandle.getOrThrow("eventId")
+class FullScreenMediaDataSource @Inject constructor() {
 
     private val session = MatrixSessionProvider.currentSession
 
-    fun getPostContent(): PostContent? {
+    fun getPostContent(roomId: String, eventId: String): PostContent? {
         val roomForMessage = session?.getRoom(roomId)
         val timelineEvent = roomForMessage?.getTimelineEvent(eventId) ?: return null
         val post = getPostContentTypeFor(timelineEvent)?.let { timelineEvent.toPost(it) }

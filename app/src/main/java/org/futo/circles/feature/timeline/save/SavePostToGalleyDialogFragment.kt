@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
@@ -23,6 +24,7 @@ class SavePostToGalleyDialogFragment :
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<SavePostToGalleryViewModel>()
+    private val args: SavePostToGalleyDialogFragmentArgs by navArgs()
 
     private val binding by lazy {
         getBinding() as DialogFragmentSavePostToGalleryBinding
@@ -46,7 +48,10 @@ class SavePostToGalleyDialogFragment :
     private fun setupViews() {
         with(binding) {
             btnSave.setOnClickListener {
-                viewModel.saveToGallery(selectedGalleriesFragment.getSelectedRooms())
+                viewModel.saveToGallery(
+                    selectedGalleriesFragment.getSelectedRooms(), args.roomId,
+                    args.eventId
+                )
                 startLoading(btnSave)
             }
         }

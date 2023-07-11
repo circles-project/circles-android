@@ -18,9 +18,13 @@ class SavePostToGalleryViewModel @Inject constructor(
 
     val saveResultLiveData = SingleEventLiveData<Response<Unit>>()
 
-    fun saveToGallery(selectedGalleries: List<SelectableRoomListItem>) {
+    fun saveToGallery(
+        selectedGalleries: List<SelectableRoomListItem>,
+        roomId: String,
+        eventId: String
+    ) {
         launchBg {
-            mediaPreviewDataSource.getPostContent()?.let { content ->
+            mediaPreviewDataSource.getPostContent(roomId, eventId)?.let { content ->
                 savePostToGalleryDataSource.saveMediaToGalleries(content, selectedGalleries)
             }
             saveResultLiveData.postValue(Response.Success(Unit))

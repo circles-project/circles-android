@@ -2,10 +2,11 @@ package org.futo.circles.gallery.feature.gallery
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -53,7 +54,10 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     private fun handleBackPress() {
         val addedFragment = childFragmentManager.fragments.first { it.isAdded }
         if (addedFragment is GalleryGridFragment) dismiss()
-        else childFragmentManager.popBackStack()
+        else {
+            setFullScreenMode(false)
+            childFragmentManager.popBackStack()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +81,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     private fun addGalleryFragment() {
         childFragmentManager.beginTransaction()
-            .replace(R.id.lContainer, galleryFragment )
+            .replace(R.id.lContainer, galleryFragment)
             .commitAllowingStateLoss()
     }
 
@@ -111,7 +115,17 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         )
     }
 
+    private fun setFullScreenMode(isFullScreen: Boolean) {
+        dialog?.window?.let {
+            it.statusBarColor = if (isFullScreen) Color.BLACK else ContextCompat.getColor(
+                requireContext(),
+                org.futo.circles.core.R.color.status_bar_color
+            )
+        }
+    }
+
     override fun onPreviewMedia(itemId: String, view: View, position: Int) {
+        setFullScreenMode(true)
         val fragment = FullScreenPagerFragment.create(args.roomId, position)
         childFragmentManager
             .beginTransaction()

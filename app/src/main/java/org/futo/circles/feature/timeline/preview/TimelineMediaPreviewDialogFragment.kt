@@ -3,8 +3,6 @@ package org.futo.circles.feature.timeline.preview
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.view.menu.MenuBuilder
@@ -13,11 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.share.ShareProvider
@@ -33,9 +30,6 @@ class TimelineMediaPreviewDialogFragment :
     private val viewModel by viewModels<TimelineMediaPreviewViewModel>()
     private val binding by lazy { getBinding() as DialogFragmentTimelineMediaPreviewBinding }
     private val args: TimelineMediaPreviewDialogFragmentArgs by navArgs()
-
-    private val hideHandler = Handler(Looper.getMainLooper())
-    private val hideRunnable = Runnable { hide() }
 
     private val mediaFragment by lazy { FullScreenMediaFragment.create(args.roomId, args.eventId) }
 
@@ -53,7 +47,6 @@ class TimelineMediaPreviewDialogFragment :
     private fun setupViews() {
         replaceFragment(mediaFragment)
         binding.lParent.setOnClickListener { toggle() }
-        delayedHide()
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -103,24 +96,6 @@ class TimelineMediaPreviewDialogFragment :
     }
 
     private fun toggle() {
-        if (binding.toolbar.isVisible) hide() else show()
-    }
-
-    private fun hide() {
-        binding.toolbar.gone()
-    }
-
-    private fun show() {
-        binding.toolbar.visible()
-        delayedHide()
-    }
-
-    private fun delayedHide() {
-        hideHandler.removeCallbacks(hideRunnable)
-        hideHandler.postDelayed(hideRunnable, AUTO_HIDE_DELAY_MILLIS)
-    }
-
-    companion object {
-        private const val AUTO_HIDE_DELAY_MILLIS = 3000L
+        binding.toolbar.setIsVisible(binding.toolbar.isVisible.not())
     }
 }
