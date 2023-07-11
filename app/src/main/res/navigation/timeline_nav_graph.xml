@@ -153,7 +153,7 @@
         </action>
         <action
             android:id="@+id/to_saveToGalleyDialogFragment"
-            app:destination="@id/save_to_gallery_nav_graph">
+            app:destination="@id/saveToGalleyDialogFragment">
 
             <argument
                 android:name="roomId"
@@ -168,7 +168,7 @@
         </action>
         <action
             android:id="@+id/to_mediaPreviewDialogFragment"
-            app:destination="@id/media_preview_nav_graph">
+            app:destination="@id/mediaPreviewDialogFragment">
 
             <argument
                 android:name="roomId"
@@ -480,9 +480,40 @@
 
     </dialog>
 
-    <include app:graph="@navigation/save_to_gallery_nav_graph" />
+    <dialog
+        android:id="@+id/saveToGalleyDialogFragment"
+        android:name="org.futo.circles.feature.timeline.save.SavePostToGalleyDialogFragment"
+        tools:layout="@layout/dialog_fragment_save_post_to_gallery">
 
-    <include app:graph="@navigation/media_preview_nav_graph" />
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/mediaPreviewDialogFragment"
+        android:name="org.futo.circles.feature.timeline.preview.TimelineMediaPreviewDialogFragment"
+        tools:layout="@layout/dialog_fragment_timeline_media_preview">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
     <dialog
         android:id="@+id/shareRoomDialogFragment"
         android:name="org.futo.circles.feature.room.share.ShareRoomDialogFragment"

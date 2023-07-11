@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.feature.gallery
+package org.futo.circles.gallery.feature.gallery.grid
 
 import android.content.Context
 import android.net.Uri
@@ -6,20 +6,21 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
-import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.onUI
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.picker.DeviceMediaPickerHelper
 import org.futo.circles.core.picker.MediaType
-import org.futo.circles.core.room.leave.LeaveRoomDataSource
 import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
+import org.futo.circles.gallery.feature.gallery.full_screen.media_item.FullScreenMediaDataSource
 import org.futo.circles.gallery.feature.pick.PickGalleryMediaListener
 import org.futo.circles.gallery.model.GalleryContentListItem
 import javax.inject.Inject
@@ -28,7 +29,9 @@ import javax.inject.Inject
 class GalleryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     timelineDataSource: TimelineDataSource,
-    private val sendMessageDataSource: SendMessageDataSource
+    private val sendMessageDataSource: SendMessageDataSource,
+    private val mediaDataSource: FullScreenMediaDataSource,
+    private val postOptionsDataSource: PostOptionsDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
@@ -43,6 +46,9 @@ class GalleryViewModel @Inject constructor(
             }
         }
     }
+
+    val shareLiveData = SingleEventLiveData<ShareableContent>()
+    val downloadLiveData = SingleEventLiveData<Unit>()
 
     fun uploadMedia(uri: Uri, mediaType: MediaType) {
         launchBg {
@@ -69,5 +75,27 @@ class GalleryViewModel @Inject constructor(
         val content = mediaFileData ?: return
         val uri = downloadEncryptedFileToContentUri(context, content) ?: return
         onUI { listener.onMediaSelected(uri, mediaType) }
+    }
+
+    fun share(position: Int) {
+        val eventId = galleryItemsLiveData.value?.getOrNull(position)?.id ?: return
+        val content = mediaDataSource.getPostContent(roomId, eventId) ?: return
+        launchBg {
+            shareLiveData.postValue(postOptionsDataSource.getShareableContent(content))
+        }
+    }
+
+    fun removeImage(position: Int) {
+        val eventId = galleryItemsLiveData.value?.getOrNull(position)?.id ?: return
+        postOptionsDataSource.removeMessage(roomId, eventId)
+    }
+
+    fun save(position: Int) {
+        val eventId = galleryItemsLiveData.value?.getOrNull(position)?.id ?: return
+        val content = mediaDataSource.getPostContent(roomId, eventId) ?: return
+        launchBg {
+            postOptionsDataSource.saveMediaToDevice(content)
+            downloadLiveData.postValue(Unit)
+        }
     }
 }

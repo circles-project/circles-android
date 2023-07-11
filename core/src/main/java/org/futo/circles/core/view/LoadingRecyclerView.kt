@@ -36,6 +36,13 @@ class LoadingRecyclerView(
             setupDataObserver()
         }
 
+    var layoutManager: RecyclerView.LayoutManager? = null
+        get() = binding.rvList.layoutManager
+        set(value) {
+            binding.rvList.layoutManager = value
+            field = value
+        }
+
 
     fun addItemDecoration(decoration: ItemDecoration) {
         binding.rvList.addItemDecoration(decoration)

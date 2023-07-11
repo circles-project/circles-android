@@ -1,9 +1,6 @@
-package org.futo.circles.gallery.feature.preview
+package org.futo.circles.gallery.feature.gallery.full_screen.media_item
 
-import androidx.lifecycle.SavedStateHandle
-import dagger.assisted.AssistedFactory
 import dagger.hilt.android.scopes.ViewModelScoped
-import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
@@ -15,16 +12,13 @@ import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import javax.inject.Inject
 
+
 @ViewModelScoped
-class MediaPreviewDataSource @Inject constructor(
-    savedStateHandle: SavedStateHandle
-) {
-    private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val eventId: String = savedStateHandle.getOrThrow("eventId")
+class FullScreenMediaDataSource @Inject constructor() {
 
     private val session = MatrixSessionProvider.currentSession
 
-    fun getPostContent(): PostContent? {
+    fun getPostContent(roomId: String, eventId: String): PostContent? {
         val roomForMessage = session?.getRoom(roomId)
         val timelineEvent = roomForMessage?.getTimelineEvent(eventId) ?: return null
         val post = getPostContentTypeFor(timelineEvent)?.let { timelineEvent.toPost(it) }
@@ -36,6 +30,5 @@ class MediaPreviewDataSource @Inject constructor(
         val messageType = event.root.getClearContent()?.toModel<MessageContent>()?.msgType
         return PostContentType.values().firstOrNull { it.typeKey == messageType }
     }
-
 
 }

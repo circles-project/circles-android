@@ -37,7 +37,7 @@
     <dialog
         android:id="@+id/galleryFragment"
         android:name="org.futo.circles.gallery.feature.gallery.GalleryDialogFragment"
-        tools:layout="@layout/fragment_gallery">
+        tools:layout="@layout/fragment_gallery_grid">
 
         <argument
             android:name="roomId"
@@ -53,21 +53,6 @@
                 app:argType="string"
                 app:nullable="false" />
         </action>
-        <action
-            android:id="@+id/to_galleryImageDialogFragment"
-            app:destination="@id/media_preview_nav_graph">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="eventId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
 
     </dialog>
 
@@ -82,8 +67,6 @@
             app:nullable="false" />
 
     </dialog>
-
-    <include app:graph="@navigation/media_preview_nav_graph" />
 
     <dialog
         android:id="@+id/mediaBackupDialogFragment"

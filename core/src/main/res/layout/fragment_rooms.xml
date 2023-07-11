@@ -8,8 +8,7 @@
     <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvRooms"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fbAddRoom"

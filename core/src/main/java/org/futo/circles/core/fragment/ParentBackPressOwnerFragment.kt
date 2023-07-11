@@ -14,7 +14,8 @@ abstract class ParentBackPressOwnerFragment(@LayoutRes contentLayoutId: Int) :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val parent = (parentFragment?.parentFragment as? BackPressOwner) ?: return
+        val parent = (parentFragment?.parentFragment as? BackPressOwner)
+            ?: (parentFragment as? BackPressOwner) ?: return
 
         activity?.onBackPressedDispatcher?.addCallback(this,
             object : OnBackPressedCallback(true) {
