@@ -28,7 +28,9 @@ class TimelineMediaPreviewViewModel @Inject constructor(
     fun share() {
         val content = mediaDataSource.getPostContent(roomId, eventId) ?: return
         launchBg {
-            shareLiveData.postValue(postOptionsDataSource.getShareableContent(content))
+            postOptionsDataSource.getShareableContent(content)?.let {
+                shareLiveData.postValue(it)
+            }
         }
     }
 
