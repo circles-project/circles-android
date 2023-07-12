@@ -1,7 +1,9 @@
-plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'maven-publish'
 
 android {
     namespace 'org.futo.circles.settings'
@@ -13,29 +15,84 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        externalNativeBuild {
+            cmake {
+                cFlags += "-std=c11"
+            }
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 }
 
 dependencies {
+    implementation project(path: ':core')
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
+
+    //Hilt
+    def hilt = '2.46.1'
+    implementation "com.google.dagger:hilt-android:$hilt"
+    kapt "com.google.dagger:hilt-compiler:$hilt"
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+def groupIdString = "org.futo.circles"
+def artifactIdString = "settings"
+
+afterEvaluate {
+    Properties properties = new Properties()
+    if (rootProject.file("local.properties").exists()) {
+        properties.load(rootProject.file("local.properties").newDataInputStream())
+    }
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId groupIdString
+                artifactId artifactIdString
+                version rootProject.ext.modules_version
+            }
+        }
+        repositories {
+            maven {
+                url "https://gitlab.futo.org/api/v4/projects/$rootProject.ext.modules_gitlab_projectId/packages/maven"
+                name "GitLab"
+                credentials(HttpHeaderCredentials) {
+                    name = "Private-Token"
+                    value = properties.getProperty("PUBLISH_TOKEN")
+                }
+                authentication {
+                    header(HttpHeaderAuthentication)
+                }
+            }
+        }
+    }
 }
