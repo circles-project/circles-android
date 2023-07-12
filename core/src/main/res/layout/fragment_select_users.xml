@@ -32,7 +32,7 @@
         style="@style/subheadline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/select_users_from_list_below"
+        android:text="@string/select_items_from_list_below"
         app:layout_constraintBottom_toBottomOf="@id/rvSelectedUsers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/searchView"

@@ -9,19 +9,30 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSelectedCircles"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvSelectedRoomsPlaceholder"
+        style="@style/subheadline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/select_items_from_list_below"
+        app:layout_constraintBottom_toBottomOf="@id/rvSelectedCircles"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rvSelectedCircles" />
+
     <View
         android:id="@+id/selectedCircleDivider"
         android:layout_width="0dp"
         android:layout_height="@dimen/divider_height"
         android:background="@color/divider_color"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rvSelectedCircles"

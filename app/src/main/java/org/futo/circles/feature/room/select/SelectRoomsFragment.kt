@@ -64,7 +64,7 @@ class SelectRoomsFragment : Fragment(R.layout.fragment_select_rooms), RoomsPicke
             roomsChangedListener?.onRoomsListChanged(items)
             val selectedRooms = viewModel.getSelectedRooms()
             selectedRoomsAdapter.submitList(selectedRooms)
-            binding.selectedCircleDivider.setIsVisible(selectedRooms.isNotEmpty())
+            binding.tvSelectedRoomsPlaceholder.setIsVisible(selectedRooms.isEmpty())
             selectRoomsListener?.onRoomsSelected(selectedRooms)
         }
     }
