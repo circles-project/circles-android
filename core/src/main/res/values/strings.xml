@@ -50,5 +50,6 @@
     <string name="logs_from_this_client_will_be_sent_with_bug_report">Logs from this client will be sent with bug report</string>
     <string name="send_screenshot">Send screenshot</string>
     <string name="save">Save</string>
+    <string name="select_users_from_list_below">Select users from list below</string>
 
 </resources>

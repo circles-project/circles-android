@@ -53,7 +53,7 @@ class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
         }
         viewModel.selectedUsersLiveData.observeData(this) { items ->
             selectedUsersListAdapter.submitList(items)
-            binding.selectedUserDivider.setIsVisible(items.isNotEmpty())
+            binding.tvSelectedUsersPlaceholder.setIsVisible(items.isEmpty())
             selectUsersListener?.onUserSelected(items.map { it.id })
         }
     }
