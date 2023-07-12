@@ -23,6 +23,7 @@ class PostFooterView(
 
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
+    private var isThreadPost = false
     private var userPowerLevel: Int = Role.Default.value
     private val emojisTimelineAdapter = EmojisTimelineAdapter { reaction ->
         post?.let {
@@ -63,7 +64,8 @@ class PostFooterView(
     fun setData(data: Post, powerLevel: Int, isThread: Boolean) {
         post = data
         userPowerLevel = powerLevel
-        bindViewData(data.repliesCount, data.canShare(), isThread)
+        isThreadPost = isThread
+        bindViewData(data.repliesCount, data.canShare())
         bindReactionsList(data.postInfo.reactionsData)
     }
 
@@ -71,12 +73,12 @@ class PostFooterView(
         binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
     }
 
-    private fun bindViewData(repliesCount: Int, canShare: Boolean, isThread: Boolean) {
+    private fun bindViewData(repliesCount: Int, canShare: Boolean) {
         with(binding) {
             btnShare.setIsVisible(canShare)
             btnLike.isEnabled = areUserAbleToPost()
             btnReply.apply {
-                isVisible = !isThread
+                isVisible = !isThreadPost
                 isEnabled = areUserAbleToPost()
                 setRepliesCount(repliesCount)
             }
@@ -88,6 +90,8 @@ class PostFooterView(
         emojisTimelineAdapter.submitList(reactions)
     }
 
-    private fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
+    fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
+
+    fun areUserAbleToReply() = !isThreadPost && areUserAbleToPost()
 
 }

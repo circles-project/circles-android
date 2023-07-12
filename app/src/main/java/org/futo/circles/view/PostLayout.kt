@@ -56,7 +56,8 @@ class PostLayout(
     private val gestureDetector =
         GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
-                post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
+                if (binding.postFooter.areUserAbleToPost())
+                    post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
                 return true
             }
 
@@ -65,7 +66,8 @@ class PostLayout(
             }
 
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
+                if (binding.postFooter.areUserAbleToReply())
+                    post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
                 return true
             }
 
