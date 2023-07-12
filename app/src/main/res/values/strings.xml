@@ -166,9 +166,11 @@
     <string name="confirm">Confirm</string>
     <string name="reset_keys">Reset keys</string>
     <string name="reset_keys_message">Confirm auth to reset keys and enable cross signing</string>
-    <string name="upload_to_gallery">Upload to gallery</string>
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
+    <string name="group">Group</string>
+    <string name="gallery">Gallery</string>
+    <string name="circle">Circle</string>
     <string name="poll_type">Poll type</string>
     <string name="open_poll">Open poll</string>
     <string name="open_poll_hint">Voter see results as soon as they have voted</string>
