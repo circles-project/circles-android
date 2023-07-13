@@ -81,7 +81,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     private fun addGalleryFragment() {
         childFragmentManager.beginTransaction()
             .replace(R.id.lContainer, galleryFragment)
-            .commitAllowingStateLoss()
+            .commit()
     }
 
     private fun setupObservers() {
@@ -132,7 +132,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
             .addSharedElement(view, view.transitionName)
             .replace(R.id.lContainer, fragment, fragment.javaClass.name)
             .addToBackStack(fragment.javaClass.name)
-            .commitAllowingStateLoss()
+            .commit()
     }
 
     override fun onChildBackPress(callback: OnBackPressedCallback) {
