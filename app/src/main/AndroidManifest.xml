@@ -28,7 +28,7 @@
         tools:ignore="DataExtractionRules"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".feature.settings.active_sessions.verify.qr.QrScannerActivity"
+            android:name=".settings.active_sessions.verify.qr.QrScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

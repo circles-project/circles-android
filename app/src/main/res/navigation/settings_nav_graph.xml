@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="org.futo.circles.feature.settings.SettingsFragment"
+        android:name="org.futo.circles.settings.feature.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -63,17 +63,17 @@
 
     <dialog
         android:id="@+id/editProfileDialogFragment"
-        android:name="org.futo.circles.feature.settings.profile.edit.EditProfileDialogFragment"
+        android:name="org.futo.circles.settings.edit_profile.EditProfileDialogFragment"
         android:label="ProfileDialogFragment"
         tools:layout="@layout/dialog_fragment_edit_profile" />
     <dialog
         android:id="@+id/changePasswordDialogFragment"
-        android:name="org.futo.circles.feature.settings.change_password.ChangePasswordDialogFragment"
+        android:name="org.futo.circles.settings.change_password.ChangePasswordDialogFragment"
         android:label="ChangePasswordDialogFragment"
         tools:layout="@layout/dialog_fragment_change_password" />
     <dialog
         android:id="@+id/activeSessionsDialogFragment"
-        android:name="org.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragment"
+        android:name="org.futo.circles.settings.active_sessions.ActiveSessionsDialogFragment"
         android:label="ActiveSessionsDialogFragment"
         tools:layout="@layout/dialog_fragment_active_sessions">
         <action
@@ -110,7 +110,7 @@
     </dialog>
     <dialog
         android:id="@+id/verifySessionDialogFragment"
-        android:name="org.futo.circles.feature.settings.active_sessions.verify.VerifySessionDialogFragment"
+        android:name="org.futo.circles.settings.active_sessions.verify.VerifySessionDialogFragment"
         tools:layout="@layout/dialog_fragment_verify_session">
 
         <argument
