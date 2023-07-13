@@ -4,7 +4,7 @@
     android:id="@+id/mainContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature.settings.active_sessions.verify.qr.QrScannerActivity">
+    tools:context=".settings.active_sessions.verify.qr.QrScannerActivity">
 
     <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/qrScannerView"

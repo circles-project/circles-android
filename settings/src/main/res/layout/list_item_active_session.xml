@@ -73,7 +73,7 @@
         app:layout_constraintTop_toTopOf="@id/ivIcon"
         app:tint="@color/blue" />
 
-    <org.futo.circles.view.ActiveSessionInfoView
+    <org.futo.circles.settings.view.ActiveSessionInfoView
         android:id="@+id/vInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
