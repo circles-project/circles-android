@@ -7,7 +7,6 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.app.SharedElementCallback
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.transition.TransitionInflater
@@ -68,19 +67,22 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
     }
 
     private fun setupViewsWithTransition() {
-        binding.lParent.setOnClickListener {  binding.toolbar.setIsVisible(binding.toolbar.isVisible.not()) }
+        binding.lParent.setOnClickListener { binding.toolbar.setIsVisible(binding.toolbar.isVisible.not()) }
         binding.vpMediaPager.apply {
             adapter = pagerAdapter
             registerOnPageChangeCallback(object : OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     setResult(position)
+                    setToolbarTitle(position)
                 }
             })
         }
+        val initialPosition = arguments?.getInt(POSITION) ?: 0
         binding.vpMediaPager.post {
-            binding.vpMediaPager.setCurrentItem(arguments?.getInt(POSITION) ?: 0, false)
+            binding.vpMediaPager.setCurrentItem(initialPosition, false)
         }
+        setToolbarTitle(initialPosition)
         prepareSharedElementTransition()
     }
 
@@ -125,6 +127,10 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
                 }
             }
         }
+    }
+
+    private fun setToolbarTitle(position: Int) {
+        binding.toolbar.title = "${position + 1}/${pagerAdapter.itemCount}"
     }
 
 
