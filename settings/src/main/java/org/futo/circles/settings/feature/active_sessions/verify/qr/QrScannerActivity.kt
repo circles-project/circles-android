@@ -10,6 +10,7 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.Result
 import com.google.zxing.ResultMetadataType
 import org.futo.circles.core.BaseActivity
 import org.futo.circles.settings.R
