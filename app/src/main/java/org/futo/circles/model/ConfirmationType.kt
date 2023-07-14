@@ -4,12 +4,6 @@ import org.futo.circles.R
 import org.futo.circles.core.model.ConfirmationType
 
 
-data class DeactivateAccount(
-    override val titleRes: Int = R.string.deactivate_my_account,
-    override val messageRes: Int = R.string.deactivate_message,
-    override val positiveButtonRes: Int = R.string.deactivate
-) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
-
 data class IgnoreUser(
     override val titleRes: Int = R.string.ignore,
     override val messageRes: Int = R.string.ignore_user_message,
