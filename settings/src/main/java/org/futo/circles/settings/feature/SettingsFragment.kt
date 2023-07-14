@@ -12,6 +12,7 @@ import org.futo.circles.BuildConfig
 import org.futo.circles.MainActivity
 import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
+import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
@@ -111,7 +112,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun setVersion() {
-        binding.tvVersion.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
+        binding.tvVersion.text = getString(R.string.version_format, CirclesAppConfig.appVersion)
     }
 
     private fun toggleDeveloperMode() {
