@@ -7,7 +7,6 @@
     <string name="initial_device_name">FUTO Circles (Android)</string>
     <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
     <string name="unsupported_login_method">Unsupported login method</string>
-    <string name="session_is_not_created">Session is not created</string>
     <string name="discard_current_login_progress">Discard current login progress?</string>
     <string name="set_password">Set password</string>
     <string name="log_in">Log In</string>
