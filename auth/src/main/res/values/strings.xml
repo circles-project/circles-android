@@ -87,7 +87,6 @@
     <string name="validate_your_email">Validate your email</string>
     <string name="remove_user">Remove user</string>
     <string name="remove_user_message">Are you sure you want to remove this user?</string>
-    <string name="remove">Remove</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
     <string name="feature_not_supported">Feature is not supported</string>
     <string name="service_unavailable">Service unavailable</string>

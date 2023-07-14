@@ -18,6 +18,8 @@ import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.DialogFragmentActiveSessionsBinding
 import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionsAdapter
+import org.futo.circles.settings.model.RemoveSession
+import org.futo.circles.settings.model.ResetKeys
 
 @AndroidEntryPoint
 class ActiveSessionsDialogFragment :

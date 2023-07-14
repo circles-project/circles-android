@@ -52,5 +52,6 @@
     <string name="save">Save</string>
     <string name="select_items_from_list_below">Select items from list below</string>
     <string name="password_changed">Password changed</string>
+    <string name="remove">Remove</string>
 
 </resources>
