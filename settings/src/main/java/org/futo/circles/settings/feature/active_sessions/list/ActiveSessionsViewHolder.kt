@@ -42,8 +42,8 @@ class SessionItemViewHolder(
             )
 
             ivOptionsArrow.setImageResource(
-                if (data.isOptionsVisible) R.drawable.ic_keyboard_arrow_up
-                else R.drawable.ic_keyboard_arrow_down
+                if (data.isOptionsVisible) org.futo.circles.core.R.drawable.ic_keyboard_arrow_up
+                else org.futo.circles.core.R.drawable.ic_keyboard_arrow_down
             )
         }
     }

@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class SettingsDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val changePasswordDataSource: org.futo.circles.auth.feature.change_password.ChangePasswordDataSource,
+    private val changePasswordDataSource: ChangePasswordDataSource,
     private val authConfirmationProvider: AuthConfirmationProvider
 ) {
 

@@ -143,10 +143,7 @@
     <string name="profile_updated">Profile updated</string>
     <string name="deactivate_message">This will make your account permanently unusable. You will not be able to log in, and no one will be able to re-register the same user lD. This will cause your account to leave all rooms it is participating in, and it will remove your account details from your identity server. This action is irreversible.</string>
     <string name="deactivate">Deactivate</string>
-    <string name="invalid_auth">Invalid auth</string>
     <string name="active_login_sessions">Active login sessions</string>
-    <string name="current_session">Current session</string>
-    <string name="other_sessions">Other sessions</string>
     <string name="verify">Verify</string>
     <string name="remove_session">Remove session</string>
     <string name="remove_session_message">In order to sign out from this session you should confirm your auth.</string>
@@ -183,11 +180,6 @@
     <string name="you_are_signed_out">You’re signed out</string>
     <string name="verify_session">Verify session</string>
     <string name="scan_qr_code">Scan QR code</string>
-    <string name="waiting_for_verification_format">Waiting for %s to start verification</string>
-    <string name="cross_signed">cross signed</string>
-    <string name="session_verified">Session verified</string>
-    <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
-    <string name="failed_to_read_qr_code">Failed to read QR code</string>
     <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
     <string name="show_more">Show more</string>
     <string name="edit">Edit</string>

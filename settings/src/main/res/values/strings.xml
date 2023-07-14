@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="failed_to_read_qr_code">Failed to read QR code</string>
+    <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
+    <string name="cross_signed">cross signed</string>
+    <string name="waiting_for_verification_format">Waiting for %s to start verification</string>
+    <string name="session_verified">Session verified</string>
+    <string name="current_session">Current session</string>
+    <string name="other_sessions">Other sessions</string>
+    <string name="invalid_auth">Invalid auth</string>
+
 </resources>

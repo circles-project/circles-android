@@ -16,6 +16,7 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
+import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.DialogFragmentEditProfileBinding
 import org.matrix.android.sdk.api.session.user.model.User
 

@@ -46,8 +46,8 @@ class MemberViewHolder(
             if (data.isOptionsAvailable) {
                 ivOptionsArrow.visible()
                 ivOptionsArrow.setImageResource(
-                    if (data.isOptionsOpened) R.drawable.ic_keyboard_arrow_up
-                    else R.drawable.ic_keyboard_arrow_down
+                    if (data.isOptionsOpened) org.futo.circles.core.R.drawable.ic_keyboard_arrow_up
+                    else org.futo.circles.core.R.drawable.ic_keyboard_arrow_down
                 )
                 onClick(binding.contentLayout) { position -> onUserClicked(position) }
                 with(optionsView) {
@@ -95,8 +95,8 @@ class InvitedMemberViewHolder(
             if (data.isOptionsAvailable) {
                 ivOptionsArrow.visible()
                 ivOptionsArrow.setImageResource(
-                    if (data.isOptionsOpened) R.drawable.ic_keyboard_arrow_up
-                    else R.drawable.ic_keyboard_arrow_down
+                    if (data.isOptionsOpened) org.futo.circles.core.R.drawable.ic_keyboard_arrow_up
+                    else org.futo.circles.core.R.drawable.ic_keyboard_arrow_down
                 )
                 onClick(binding.contentLayout) { position -> onUserClicked(position) }
                 binding.optionsLayout.setIsVisible(data.isOptionsOpened)
