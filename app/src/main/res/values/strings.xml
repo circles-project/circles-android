@@ -123,7 +123,6 @@
     <string name="people_i_m_following">People I\'m following</string>
     <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
     <string name="delete_group_message">Are you sure you want to remove this group?</string>
-    <string name="timeline_not_found">Timeline not found</string>
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
     <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
     <string name="unfollow">Unfollow</string>
@@ -277,7 +276,6 @@
     <string name="unmute_notifications">Unmute notifications</string>
     <string name="shortcut_disabled">Shortcut disabled</string>
     <string name="shared_circles_space_not_found">Shared Circles space not found</string>
-    <string name="room_not_found">Room not found</string>
     <string name="notification_method">Notification method</string>
     <string name="unifiedpush_distributors_dialog_title">Choose how to receive notifications</string>
     <string name="thread_format">%s (thread)</string>

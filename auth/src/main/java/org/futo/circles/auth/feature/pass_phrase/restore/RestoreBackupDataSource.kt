@@ -8,7 +8,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.model.KeyData
-import org.futo.circles.core.SessionIsNotCreatedException
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.StepProgressListener
@@ -135,8 +134,7 @@ class RestoreBackupDataSource @Inject constructor(
     }
 
     private fun getKeysBackupService() =
-        MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
-            ?: throw SessionIsNotCreatedException(context)
+        MatrixSessionProvider.getSessionOrThrow().cryptoService().keysBackupService()
 
     private suspend fun getKeysVersion(keysBackupService: KeysBackupService) =
         awaitCallback<KeysBackupLastVersionResult> {

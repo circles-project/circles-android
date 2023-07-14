@@ -1,10 +1,8 @@
 package org.futo.circles.auth.feature.pass_phrase.restore
 
 import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.model.KeyData
-import org.futo.circles.core.SessionIsNotCreatedException
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.ProgressListener
 import org.matrix.android.sdk.api.listeners.StepProgressListener
@@ -23,7 +21,7 @@ import org.matrix.android.sdk.api.util.toBase64NoPadding
 import java.util.UUID
 import javax.inject.Inject
 
-class SSSSDataSource @Inject constructor(@ApplicationContext private val context: Context) {
+class SSSSDataSource @Inject constructor() {
 
     fun isBackupKeyInQuadS(): Boolean {
         val session = MatrixSessionProvider.currentSession ?: return false
@@ -36,8 +34,7 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
     }
 
     suspend fun storeIntoSSSSWithKey(recoveryKey: String): KeyData {
-        val session =
-            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
+        val session = MatrixSessionProvider.getSessionOrThrow()
         val quadS = session.sharedSecretStorageService()
         val keyInfo = quadS.generateKey(
             UUID.randomUUID().toString(),
@@ -55,7 +52,7 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
         isBsSpeke: Boolean
     ): KeyData {
         val session =
-            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
+            MatrixSessionProvider.getSessionOrThrow()
         val quadS = session.sharedSecretStorageService()
         val keyInfo = quadS.generateKeyWithPassphrase(
             UUID.randomUUID().toString(),
@@ -75,8 +72,7 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
         progressObserver: StepProgressListener,
         isBsSpeke: Boolean
     ): KeyData {
-        val session =
-            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
+        val session = MatrixSessionProvider.getSessionOrThrow()
 
         val keyInfo = getKeyInfo(session, context)
 
@@ -108,7 +104,7 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
         recoveryKey: String,
         progressObserver: StepProgressListener
     ): KeyData {
-        val session = MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
+        val session = MatrixSessionProvider.getSessionOrThrow()
 
         val keyInfo = getKeyInfo(session, context)
 

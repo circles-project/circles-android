@@ -51,6 +51,5 @@
     <string name="send_screenshot">Send screenshot</string>
     <string name="save">Save</string>
     <string name="select_items_from_list_below">Select items from list below</string>
-    <string name="session_is_not_created">Session is not created</string>
 
 </resources>

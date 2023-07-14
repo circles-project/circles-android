@@ -1,9 +1,5 @@
 package org.futo.circles.auth.feature.cross_signing
 
-import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.auth.R
-import org.futo.circles.core.SessionIsNotCreatedException
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.crypto.crosssigning.MASTER_KEY_SSSS_NAME
@@ -16,11 +12,10 @@ import org.matrix.android.sdk.api.session.securestorage.SsssKeySpec
 import org.matrix.android.sdk.api.util.awaitCallback
 import javax.inject.Inject
 
-class CrossSigningDataSource @Inject constructor(@ApplicationContext private val context: Context) {
+class CrossSigningDataSource @Inject constructor() {
 
     suspend fun initCrossSigningIfNeed(keySpec: SsssKeySpec) {
-        val session =
-            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
+        val session = MatrixSessionProvider.getSessionOrThrow()
         val crossSigningService = session.cryptoService().crossSigningService()
         try {
             session.sharedSecretStorageService().getSecret(MASTER_KEY_SSSS_NAME, null, keySpec)
@@ -31,8 +26,7 @@ class CrossSigningDataSource @Inject constructor(@ApplicationContext private val
     }
 
     suspend fun configureCrossSigning(keySpec: SsssKeySpec) {
-        val session =
-            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
+        val session = MatrixSessionProvider.getSessionOrThrow()
         val keyId = (session.sharedSecretStorageService()
             .getDefaultKey() as? KeyInfoResult.Success)?.keyInfo?.id
 
@@ -62,11 +56,11 @@ class CrossSigningDataSource @Inject constructor(@ApplicationContext private val
     private suspend fun storeKeys(session: Session, keySpec: SsssKeySpec) {
         val xKeys = session.cryptoService().crossSigningService().getCrossSigningPrivateKeys()
         val mskPrivateKey = xKeys?.master
-            ?: throw IllegalArgumentException(context.getString(R.string.key_is_missing))
+            ?: throw IllegalArgumentException("The key is missing")
         val sskPrivateKey = xKeys.selfSigned
-            ?: throw IllegalArgumentException(context.getString(R.string.key_is_missing))
+            ?: throw IllegalArgumentException("The key is missing")
         val uskPrivateKey = xKeys.user
-            ?: throw IllegalArgumentException(context.getString(R.string.key_is_missing))
+            ?: throw IllegalArgumentException("The key is missing")
 
         val keyId = (session.sharedSecretStorageService()
             .getDefaultKey() as? KeyInfoResult.Success)?.keyInfo?.id

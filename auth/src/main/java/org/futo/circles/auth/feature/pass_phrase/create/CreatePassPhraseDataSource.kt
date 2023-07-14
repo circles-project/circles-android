@@ -6,7 +6,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.SSSSDataSource
-import org.futo.circles.core.SessionIsNotCreatedException
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
@@ -22,8 +21,7 @@ class CreatePassPhraseDataSource @Inject constructor(
 ) {
 
     private val keysBackupService by lazy {
-        MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
-            ?: throw SessionIsNotCreatedException(context)
+        MatrixSessionProvider.getSessionOrThrow().cryptoService().keysBackupService()
     }
     val loadingLiveData = MutableLiveData<LoadingData>()
     private val passPhraseLoadingData = LoadingData()

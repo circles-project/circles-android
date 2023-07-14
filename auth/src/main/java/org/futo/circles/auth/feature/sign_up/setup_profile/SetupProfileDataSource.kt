@@ -3,7 +3,6 @@ package org.futo.circles.auth.feature.sign_up.setup_profile
 import android.content.Context
 import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.core.SessionIsNotCreatedException
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getFilename
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -14,9 +13,7 @@ class SetupProfileDataSource @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    private val session by lazy {
-        MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
-    }
+    private val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
 
     fun getUserData() = session.userService().getUser(session.myUserId)
 

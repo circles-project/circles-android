@@ -29,9 +29,7 @@ class ActiveSessionsDataSource @Inject constructor(
     private val authConfirmationProvider: AuthConfirmationProvider
 ) : ExpandableItemsDataSource {
 
-    private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
-        context.getString(R.string.session_is_not_created)
-    )
+    private val session = MatrixSessionProvider.getSessionOrThrow()
 
     val startReAuthEventLiveData = authConfirmationProvider.startReAuthEventLiveData
 

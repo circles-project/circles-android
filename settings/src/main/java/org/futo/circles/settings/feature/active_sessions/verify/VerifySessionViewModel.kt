@@ -1,33 +1,32 @@
 package org.futo.circles.settings.feature.active_sessions.verify
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.settings.R
 import org.futo.circles.settings.model.QrCanceled
 import org.futo.circles.settings.model.QrLoading
 import org.futo.circles.settings.model.QrReady
 import org.futo.circles.settings.model.QrState
 import org.futo.circles.settings.model.QrSuccess
-import org.matrix.android.sdk.api.session.crypto.verification.*
+import org.matrix.android.sdk.api.session.crypto.verification.PendingVerificationRequest
+import org.matrix.android.sdk.api.session.crypto.verification.QrCodeVerificationTransaction
+import org.matrix.android.sdk.api.session.crypto.verification.VerificationMethod
+import org.matrix.android.sdk.api.session.crypto.verification.VerificationService
+import org.matrix.android.sdk.api.session.crypto.verification.VerificationTransaction
+import org.matrix.android.sdk.api.session.crypto.verification.VerificationTxState
 import javax.inject.Inject
 
 @HiltViewModel
 class VerifySessionViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    @ApplicationContext context: Context
+    savedStateHandle: SavedStateHandle
 ) : ViewModel(), VerificationService.Listener {
 
     private val deviceId: String = savedStateHandle.getOrThrow("deviceId")
 
-    private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
-        context.getString(R.string.session_is_not_created)
-    )
+    private val session = MatrixSessionProvider.getSessionOrThrow()
 
     private val verificationMethods = listOf(
         VerificationMethod.QR_CODE_SHOW,
