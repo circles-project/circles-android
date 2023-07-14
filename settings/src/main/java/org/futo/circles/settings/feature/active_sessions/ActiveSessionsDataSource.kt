@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
-import org.futo.circles.base.ExpandableItemsDataSource
+import org.futo.circles.core.ExpandableItemsDataSource
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
