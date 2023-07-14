@@ -30,6 +30,7 @@ import org.futo.circles.core.picker.RuntimePermissionHelper
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
+import org.futo.circles.settings.feature.system_notices.SystemNoticesCountSharedViewModel
 import org.matrix.android.sdk.api.session.getRoomSummary
 import javax.inject.Inject
 

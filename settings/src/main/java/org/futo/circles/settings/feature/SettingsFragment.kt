@@ -21,10 +21,11 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
-import org.futo.circles.feature.home.SystemNoticesCountSharedViewModel
 import org.futo.circles.model.DeactivateAccount
 import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.FragmentSettingsBinding
+import org.futo.circles.settings.feature.system_notices.SystemNoticesCountSharedViewModel
+import org.futo.circles.settings.model.LogOut
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
