@@ -3,6 +3,7 @@ package org.futo.circles.auth.feature.cross_signing
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
+import org.futo.circles.core.SessionIsNotCreatedException
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.crypto.crosssigning.MASTER_KEY_SSSS_NAME
@@ -18,9 +19,8 @@ import javax.inject.Inject
 class CrossSigningDataSource @Inject constructor(@ApplicationContext private val context: Context) {
 
     suspend fun initCrossSigningIfNeed(keySpec: SsssKeySpec) {
-        val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
-            context.getString(R.string.session_is_not_created)
-        )
+        val session =
+            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
         val crossSigningService = session.cryptoService().crossSigningService()
         try {
             session.sharedSecretStorageService().getSecret(MASTER_KEY_SSSS_NAME, null, keySpec)
@@ -31,9 +31,8 @@ class CrossSigningDataSource @Inject constructor(@ApplicationContext private val
     }
 
     suspend fun configureCrossSigning(keySpec: SsssKeySpec) {
-        val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
-            context.getString(R.string.session_is_not_created)
-        )
+        val session =
+            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
         val keyId = (session.sharedSecretStorageService()
             .getDefaultKey() as? KeyInfoResult.Success)?.keyInfo?.id
 

@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.model.KeyData
+import org.futo.circles.core.SessionIsNotCreatedException
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.ProgressListener
 import org.matrix.android.sdk.api.listeners.StepProgressListener
@@ -35,8 +36,8 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
     }
 
     suspend fun storeIntoSSSSWithKey(recoveryKey: String): KeyData {
-        val session = MatrixSessionProvider.currentSession
-            ?: throw Exception(context.getString(R.string.session_is_not_created))
+        val session =
+            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
         val quadS = session.sharedSecretStorageService()
         val keyInfo = quadS.generateKey(
             UUID.randomUUID().toString(),
@@ -53,8 +54,8 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
         userName: String,
         isBsSpeke: Boolean
     ): KeyData {
-        val session = MatrixSessionProvider.currentSession
-            ?: throw Exception(context.getString(R.string.session_is_not_created))
+        val session =
+            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
         val quadS = session.sharedSecretStorageService()
         val keyInfo = quadS.generateKeyWithPassphrase(
             UUID.randomUUID().toString(),
@@ -74,8 +75,8 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
         progressObserver: StepProgressListener,
         isBsSpeke: Boolean
     ): KeyData {
-        val session = MatrixSessionProvider.currentSession
-            ?: throw Exception(context.getString(R.string.session_is_not_created))
+        val session =
+            MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
 
         val keyInfo = getKeyInfo(session, context)
 
@@ -107,8 +108,7 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
         recoveryKey: String,
         progressObserver: StepProgressListener
     ): KeyData {
-        val session = MatrixSessionProvider.currentSession
-            ?: throw Exception(context.getString(R.string.session_is_not_created))
+        val session = MatrixSessionProvider.currentSession ?: throw SessionIsNotCreatedException(context)
 
         val keyInfo = getKeyInfo(session, context)
 
