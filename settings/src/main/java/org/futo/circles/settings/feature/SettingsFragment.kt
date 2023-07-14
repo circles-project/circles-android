@@ -8,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.BuildConfig
 import org.futo.circles.MainActivity
 import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
@@ -85,7 +84,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             navigator.navigateToMatrixChangePassword()
         }
         viewModel.changePasswordResponseLiveData.observeResponse(this,
-            success = { showSuccess(getString(R.string.password_changed)) },
+            success = { showSuccess(getString(org.futo.circles.core.R.string.password_changed)) },
             error = { message ->
                 showError(message)
                 loadingDialog.dismiss()

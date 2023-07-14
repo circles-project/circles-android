@@ -105,7 +105,6 @@
     <string name="new_password">New password</string>
     <string name="old_password">Old Password</string>
     <string name="repeat_new_password">Repeat new password</string>
-    <string name="password_changed">Password changed</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

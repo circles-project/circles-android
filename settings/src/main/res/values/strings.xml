@@ -8,5 +8,8 @@
     <string name="current_session">Current session</string>
     <string name="other_sessions">Other sessions</string>
     <string name="invalid_auth">Invalid auth</string>
-
+    <string name="profile_updated">Profile updated</string>
+    <string name="version_format">Version %s</string>
+    <string name="developer_mode_enabled">Developer mode is enabled</string>
+    <string name="developer_mode_disabled">Developer mode is disabled</string>
 </resources>

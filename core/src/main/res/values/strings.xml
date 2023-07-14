@@ -51,5 +51,6 @@
     <string name="send_screenshot">Send screenshot</string>
     <string name="save">Save</string>
     <string name="select_items_from_list_below">Select items from list below</string>
+    <string name="password_changed">Password changed</string>
 
 </resources>
