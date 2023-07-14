@@ -103,6 +103,11 @@
     <string name="switch_user">Switch User</string>
     <string name="switch_user_message">Are you sure you want to switch user?</string>
     <string name="switch_str">Switch</string>
+    <string name="change_password">Change password</string>
+    <string name="new_password">New password</string>
+    <string name="old_password">Old Password</string>
+    <string name="repeat_new_password">Repeat new password</string>
+    <string name="password_changed">Password changed</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

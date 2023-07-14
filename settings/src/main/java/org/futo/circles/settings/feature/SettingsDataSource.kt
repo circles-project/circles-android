@@ -10,13 +10,13 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.settings.R
-import org.futo.circles.settings.feature.change_password.ChangePasswordDataSource
+import org.futo.circles.auth.feature.change_password.ChangePasswordDataSource
 import java.io.File
 import javax.inject.Inject
 
 class SettingsDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val changePasswordDataSource: ChangePasswordDataSource,
+    private val changePasswordDataSource: org.futo.circles.auth.feature.change_password.ChangePasswordDataSource,
     private val authConfirmationProvider: AuthConfirmationProvider
 ) {
 

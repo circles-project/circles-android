@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature.change_password
+package org.futo.circles.auth.feature.change_password
 
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource

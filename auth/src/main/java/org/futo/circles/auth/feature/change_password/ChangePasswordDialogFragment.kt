@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature.change_password
+package org.futo.circles.auth.feature.change_password
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.auth.R
+import org.futo.circles.auth.databinding.DialogFragmentChangePasswordBinding
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -15,8 +17,6 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.view.LoadingDialog
-import org.futo.circles.settings.R
-import org.futo.circles.settings.databinding.DialogFragmentChangePasswordBinding
 
 @AndroidEntryPoint
 class ChangePasswordDialogFragment :

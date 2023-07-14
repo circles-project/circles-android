@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature.change_password
+package org.futo.circles.auth.feature.change_password
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
