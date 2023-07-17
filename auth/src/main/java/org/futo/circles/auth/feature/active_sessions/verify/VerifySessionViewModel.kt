@@ -1,16 +1,16 @@
-package org.futo.circles.settings.feature.active_sessions.verify
+package org.futo.circles.auth.feature.active_sessions.verify
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.futo.circles.auth.model.QrCanceled
+import org.futo.circles.auth.model.QrLoading
+import org.futo.circles.auth.model.QrReady
+import org.futo.circles.auth.model.QrState
+import org.futo.circles.auth.model.QrSuccess
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.settings.model.QrCanceled
-import org.futo.circles.settings.model.QrLoading
-import org.futo.circles.settings.model.QrReady
-import org.futo.circles.settings.model.QrState
-import org.futo.circles.settings.model.QrSuccess
 import org.matrix.android.sdk.api.session.crypto.verification.PendingVerificationRequest
 import org.matrix.android.sdk.api.session.crypto.verification.QrCodeVerificationTransaction
 import org.matrix.android.sdk.api.session.crypto.verification.VerificationMethod

@@ -1,4 +1,4 @@
-package org.futo.circles.settings.model
+package org.futo.circles.auth.model
 
 sealed class QrState
 

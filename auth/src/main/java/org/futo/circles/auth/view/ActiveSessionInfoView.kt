@@ -1,13 +1,12 @@
-package org.futo.circles.settings.view
+package org.futo.circles.auth.view
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import org.futo.circles.auth.databinding.ViewActiveSessionInfoBinding
+import org.futo.circles.auth.feature.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.settings.databinding.ViewActiveSessionInfoBinding
-import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionClickListener
-import org.futo.circles.settings.model.ActiveSession
 
 class ActiveSessionInfoView(
     context: Context,
@@ -33,7 +32,7 @@ class ActiveSessionInfoView(
     }
 
     fun setData(
-        activeSession: ActiveSession,
+        activeSession: org.futo.circles.auth.model.ActiveSession,
         listener: ActiveSessionClickListener
     ) {
         deviceId = activeSession.id

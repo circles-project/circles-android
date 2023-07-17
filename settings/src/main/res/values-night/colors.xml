@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="qr_color">@color/white</color>
-    <color name="qr_background">#121212</color>
+
 </resources>

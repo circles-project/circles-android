@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature.active_sessions
+package org.futo.circles.auth.feature.active_sessions
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData

@@ -1,10 +1,10 @@
-package org.futo.circles.settings.feature.active_sessions.list
+package org.futo.circles.auth.feature.active_sessions.list
 
 import android.view.ViewGroup
+import org.futo.circles.auth.model.ActiveSession
+import org.futo.circles.auth.model.ActiveSessionListItem
+import org.futo.circles.auth.model.SessionHeader
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.settings.model.ActiveSession
-import org.futo.circles.settings.model.ActiveSessionListItem
-import org.futo.circles.settings.model.SessionHeader
 
 interface ActiveSessionClickListener {
     fun onItemClicked(deviceId: String)

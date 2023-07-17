@@ -1,16 +1,16 @@
-package org.futo.circles.settings.feature.active_sessions.list
+package org.futo.circles.auth.feature.active_sessions.list
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.auth.R
+import org.futo.circles.auth.databinding.ListItemActiveSessionBinding
+import org.futo.circles.auth.model.ActiveSession
+import org.futo.circles.auth.model.ActiveSessionListItem
+import org.futo.circles.auth.model.SessionHeader
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.settings.R
-import org.futo.circles.settings.databinding.ListItemActiveSessionBinding
-import org.futo.circles.settings.model.ActiveSession
-import org.futo.circles.settings.model.ActiveSessionListItem
-import org.futo.circles.settings.model.SessionHeader
 
 abstract class ActiveSessionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: ActiveSessionListItem)

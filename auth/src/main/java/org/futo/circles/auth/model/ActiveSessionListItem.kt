@@ -1,4 +1,4 @@
-package org.futo.circles.settings.model
+package org.futo.circles.auth.model
 
 import org.futo.circles.core.list.IdEntity
 import org.futo.circles.core.provider.MatrixSessionProvider

@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature.active_sessions
+package org.futo.circles.auth.feature.active_sessions
 
 import android.content.Context
 import androidx.lifecycle.asFlow
@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
+import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
+import org.futo.circles.auth.model.ActiveSession
+import org.futo.circles.auth.model.ActiveSessionListItem
+import org.futo.circles.auth.model.SessionHeader
 import org.futo.circles.core.ExpandableItemsDataSource
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.settings.R
-import org.futo.circles.settings.model.ActiveSession
-import org.futo.circles.settings.model.ActiveSessionListItem
-import org.futo.circles.settings.model.SessionHeader
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
 import org.matrix.android.sdk.api.util.awaitCallback

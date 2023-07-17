@@ -1,4 +1,4 @@
-package org.futo.circles.settings.view
+package org.futo.circles.auth.view
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
-import org.futo.circles.settings.R
+import org.futo.circles.auth.R
 
 class QrCodeImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

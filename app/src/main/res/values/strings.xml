@@ -137,7 +137,6 @@
     <string name="login_sessions">Login sessions</string>
     <string name="settings">Settings</string>
     <string name="user_id">User ID</string>
-    <string name="active_login_sessions">Active login sessions</string>
     <string name="verify">Verify</string>
     <string name="save_to_device">Save to device</string>
     <string name="save_to_gallery">Save to gallery</string>
