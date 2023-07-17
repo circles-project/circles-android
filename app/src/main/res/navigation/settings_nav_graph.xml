@@ -18,7 +18,7 @@
             app:destination="@id/changePasswordDialogFragment" />
         <action
             android:id="@+id/to_activeSessionsDialogFragment"
-            app:destination="@id/activeSessionsDialogFragment" />
+            app:destination="@id/log_in_sessions_nav_graph" />
         <action
             android:id="@+id/to_systemNoticesDialogFragment"
             app:destination="@id/systemNoticesDialogFragment">
@@ -35,9 +35,6 @@
                 app:nullable="false" />
 
         </action>
-        <action
-            android:id="@+id/action_settingsFragment_to_activeSessionsDialogFragment"
-            app:destination="@id/activeSessionsDialogFragment" />
         <action
             android:id="@+id/to_reAuthStagesDialogFragment"
             app:destination="@id/reAuthStagesDialogFragment" />
@@ -63,35 +60,14 @@
 
     <dialog
         android:id="@+id/editProfileDialogFragment"
-        android:name="org.futo.circles.feature.settings.profile.edit.EditProfileDialogFragment"
+        android:name="org.futo.circles.auth.feature.profile.edit.EditProfileDialogFragment"
         android:label="ProfileDialogFragment"
         tools:layout="@layout/dialog_fragment_edit_profile" />
     <dialog
         android:id="@+id/changePasswordDialogFragment"
-        android:name="org.futo.circles.feature.settings.change_password.ChangePasswordDialogFragment"
+        android:name="org.futo.circles.auth.feature.change_password.ChangePasswordDialogFragment"
         android:label="ChangePasswordDialogFragment"
         tools:layout="@layout/dialog_fragment_change_password" />
-    <dialog
-        android:id="@+id/activeSessionsDialogFragment"
-        android:name="org.futo.circles.feature.settings.active_sessions.ActiveSessionsDialogFragment"
-        android:label="ActiveSessionsDialogFragment"
-        tools:layout="@layout/dialog_fragment_active_sessions">
-        <action
-            android:id="@+id/to_reAuthStagesDialogFragment"
-            app:destination="@id/reAuthStagesDialogFragment" />
-
-        <action
-            android:id="@+id/to_verifySessionDialogFragment"
-            app:destination="@id/verifySessionDialogFragment">
-
-            <argument
-                android:name="deviceId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
-
-    </dialog>
     <dialog
         android:id="@+id/systemNoticesDialogFragment"
         android:name="org.futo.circles.feature.notices.SystemNoticesDialogFragment"
@@ -108,22 +84,6 @@
             app:nullable="false" />
 
     </dialog>
-    <dialog
-        android:id="@+id/verifySessionDialogFragment"
-        android:name="org.futo.circles.feature.settings.active_sessions.verify.VerifySessionDialogFragment"
-        tools:layout="@layout/dialog_fragment_verify_session">
-
-        <argument
-            android:name="deviceId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
-
-    <dialog
-        android:id="@+id/reAuthStagesDialogFragment"
-        android:name="org.futo.circles.auth.feature.reauth.ReAuthStagesDialogFragment"
-        tools:layout="@layout/fragment_login_stages" />
 
     <dialog
         android:id="@+id/shareRoomDialogFragment"
@@ -154,5 +114,12 @@
         android:id="@+id/notificationTestDialogFragment"
         android:name="org.futo.circles.feature.notifications.test.NotificationTestDialogFragment"
         tools:layout="@layout/dialog_fragment_notifications_test" />
+
+    <include app:graph="@navigation/log_in_sessions_nav_graph" />
+
+    <dialog
+        android:id="@+id/reAuthStagesDialogFragment"
+        android:name="org.futo.circles.auth.feature.reauth.ReAuthStagesDialogFragment"
+        tools:layout="@layout/fragment_login_stages" />
 
 </navigation>

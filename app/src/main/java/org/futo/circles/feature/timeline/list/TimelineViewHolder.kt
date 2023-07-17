@@ -18,7 +18,7 @@ import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PollContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.TextContent
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.databinding.ViewPollPostBinding
 import org.futo.circles.databinding.ViewTextMediaPostBinding
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser

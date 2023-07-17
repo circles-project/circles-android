@@ -26,10 +26,11 @@ import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.TIMELINE_TYPE
-import org.futo.circles.core.picker.RuntimePermissionHelper
+import org.futo.circles.core.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
+import org.futo.circles.core.notices.SystemNoticesCountSharedViewModel
 import org.matrix.android.sdk.api.session.getRoomSummary
 import javax.inject.Inject
 

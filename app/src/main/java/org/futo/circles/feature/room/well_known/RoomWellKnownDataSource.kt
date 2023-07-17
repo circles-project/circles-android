@@ -1,8 +1,5 @@
 package org.futo.circles.feature.room.well_known
 
-import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.R
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrFetchUser
@@ -19,14 +16,9 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.peeking.PeekResult
 import javax.inject.Inject
 
-class RoomWellKnownDataSource @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
+class RoomWellKnownDataSource @Inject constructor() {
 
-    val session by lazy {
-        MatrixSessionProvider.currentSession
-            ?: throw IllegalArgumentException(context.getString(R.string.session_is_not_created))
-    }
+    val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
 
     suspend fun resolveRoom(roomUrlData: RoomUrlData): Response<RoomPublicInfo> = createResult {
         session.getRoom(roomUrlData.roomId)?.roomSummary()?.toRoomPublicInfo()
@@ -34,7 +26,7 @@ class RoomWellKnownDataSource @Inject constructor(
         when (val peekResult = session.roomService().peekRoom(roomUrlData.roomId)) {
             is PeekResult.Success -> peekResult.toRoomPublicInfo()
             is PeekResult.PeekingNotAllowed -> roomUrlData.toRoomPublicInfo()
-            PeekResult.UnknownAlias -> throw IllegalArgumentException(context.getString(R.string.room_not_found))
+            PeekResult.UnknownAlias -> throw IllegalArgumentException("Room not found")
         }
     }
 

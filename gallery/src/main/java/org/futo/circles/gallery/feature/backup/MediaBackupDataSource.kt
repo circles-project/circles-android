@@ -5,7 +5,7 @@ import android.database.Cursor
 import android.provider.MediaStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.model.Gallery
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.core.utils.getJoinedRoomIdByTag

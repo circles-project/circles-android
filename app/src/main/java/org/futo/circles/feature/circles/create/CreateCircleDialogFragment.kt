@@ -11,7 +11,7 @@ import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.room.create.CreateRoomDialogFragment
 import org.futo.circles.databinding.DialogFragmentCreateCircleBinding
-import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
+import org.futo.circles.core.picker.helper.AllMediaPickerHelper
 @AndroidEntryPoint
 class CreateCircleDialogFragment :
     CreateRoomDialogFragment(DialogFragmentCreateCircleBinding::inflate) {

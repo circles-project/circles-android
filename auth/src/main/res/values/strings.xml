@@ -7,7 +7,6 @@
     <string name="initial_device_name">FUTO Circles (Android)</string>
     <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
     <string name="unsupported_login_method">Unsupported login method</string>
-    <string name="session_is_not_created">Session is not created</string>
     <string name="discard_current_login_progress">Discard current login progress?</string>
     <string name="set_password">Set password</string>
     <string name="log_in">Log In</string>
@@ -45,7 +44,6 @@
     <string name="invalid_recovery_key">"It's not a valid recovery key"</string>
     <string name="backup_could_not_be_decrypted_with_key">Backup could not be decrypted with this recovery key.</string>
     <string name="failed_to_access_secure_storage">Failed to access secure storage</string>
-    <string name="key_is_missing">The key is missing</string>
     <string name="generating_recovery_key">Generating recovery key from passphrase.</string>
     <string name="creating_backup">Creating backup</string>
     <string name="backup_already_exist">Backup already exist</string>
@@ -89,7 +87,6 @@
     <string name="validate_your_email">Validate your email</string>
     <string name="remove_user">Remove user</string>
     <string name="remove_user_message">Are you sure you want to remove this user?</string>
-    <string name="remove">Remove</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
     <string name="feature_not_supported">Feature is not supported</string>
     <string name="service_unavailable">Service unavailable</string>
@@ -103,6 +100,27 @@
     <string name="switch_user">Switch User</string>
     <string name="switch_user_message">Are you sure you want to switch user?</string>
     <string name="switch_str">Switch</string>
+    <string name="change_password">Change password</string>
+    <string name="new_password">New password</string>
+    <string name="old_password">Old Password</string>
+    <string name="repeat_new_password">Repeat new password</string>
+    <string name="remove_session">Remove session</string>
+    <string name="remove_session_message">In order to sign out from this session you should confirm your auth.</string>
+    <string name="reset_keys">Reset keys</string>
+    <string name="reset_keys_message">Confirm auth to reset keys and enable cross signing</string>
+    <string name="confirm">Confirm</string>
+    <string name="failed_to_read_qr_code">Failed to read QR code</string>
+    <string name="current_session">Current session</string>
+    <string name="other_sessions">Other sessions</string>
+    <string name="invalid_auth">Invalid auth</string>
+    <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
+    <string name="cross_signed">cross signed</string>
+    <string name="waiting_for_verification_format">Waiting for %s to start verification</string>
+    <string name="session_verified">Session verified</string>
+    <string name="active_login_sessions">Active login sessions</string>
+    <string name="verify_session">Verify session</string>
+    <string name="scan_qr_code">Scan QR code</string>
+    <string name="profile_updated">Profile updated</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

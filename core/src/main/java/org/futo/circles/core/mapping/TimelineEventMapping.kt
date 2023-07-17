@@ -7,7 +7,7 @@ import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.model.PostInfo
 import org.futo.circles.core.model.PostReadInfo
 import org.futo.circles.core.model.ReactionsData
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent

@@ -11,7 +11,7 @@ import org.futo.circles.core.MediaCaptionFieldKey
 import org.futo.circles.core.extensions.toImageContentAttachmentData
 import org.futo.circles.core.extensions.toVideoContentAttachmentData
 import org.futo.circles.core.model.CreatePollContent
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room

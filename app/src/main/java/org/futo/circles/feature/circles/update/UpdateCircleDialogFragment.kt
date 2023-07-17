@@ -13,7 +13,7 @@ import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.room.update.UpdateRoomDialogFragment
 import org.futo.circles.core.utils.isCircleShared
 import org.futo.circles.databinding.DialogFragmentUpdateCircleBinding
-import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
+import org.futo.circles.core.picker.helper.AllMediaPickerHelper
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 @AndroidEntryPoint

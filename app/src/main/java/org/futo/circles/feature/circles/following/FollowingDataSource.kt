@@ -1,11 +1,8 @@
 package org.futo.circles.feature.circles.following
 
-import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
-import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.CIRCLE_TAG
@@ -20,20 +17,13 @@ import javax.inject.Inject
 @ViewModelScoped
 class FollowingDataSource @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    @ApplicationContext context: Context,
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
 
-
-    private val session = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
-        context.getString(R.string.session_is_not_created)
-    )
-
-    private val room = session.getRoom(roomId) ?: throw IllegalArgumentException(
-        context.getString(R.string.session_is_not_created)
-    )
+    private val session = MatrixSessionProvider.getSessionOrThrow()
+    private val room = session.getRoom(roomId) ?: throw IllegalArgumentException("room not found")
 
     val roomsLiveData = room.getRoomSummaryLive().map {
         val children = it.getOrNull()?.spaceChildren ?: emptyList()

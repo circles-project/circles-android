@@ -10,7 +10,7 @@ import okio.sink
 import okio.source
 import org.futo.circles.core.extensions.getUri
 import org.futo.circles.core.model.MediaFileData
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import java.io.File
 import java.io.IOException

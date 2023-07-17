@@ -1,13 +1,9 @@
 package org.futo.circles.feature.room
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
-import dagger.assisted.AssistedFactory
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
-import org.futo.circles.R
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.CircleRoomTypeArg
@@ -20,23 +16,19 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class RoomNotificationsDataSource @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    @ApplicationContext private val context: Context
+    savedStateHandle: SavedStateHandle
 ) {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
     private val type: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
 
     private val session
-        get() = MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
-            context.getString(R.string.session_is_not_created)
-        )
+        get() = MatrixSessionProvider.getSessionOrThrow()
 
     private val timelineId by lazy {
         if (type == CircleRoomTypeArg.Group) roomId
-        else getTimelineRoomFor(roomId)?.roomId ?: throw IllegalArgumentException(
-            context.getString(R.string.timeline_not_found)
-        )
+        else getTimelineRoomFor(roomId)?.roomId
+            ?: throw IllegalArgumentException("Timeline not found")
     }
 
     val notificationsStateLiveData =

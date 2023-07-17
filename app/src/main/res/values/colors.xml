@@ -22,6 +22,5 @@
     <color name="chip_selected_color">#800E7AFE</color>
     <color name="launcher_background_color">#00008b</color>
     <color name="transparent">#00000000</color>
-    <color name="qr_color">@color/black</color>
-    <color name="qr_background">@color/white</color>
+
 </resources>

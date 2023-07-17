@@ -21,6 +21,8 @@
         android:background="@color/status_bar_color"
         android:theme="@style/WhiteMenuToolbar"
         app:menu="@menu/gallery_image_menu"
-        app:navigationIcon="?attr/homeAsUpIndicator" />
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:titleCentered="true"
+        app:titleTextColor="@color/white" />
 
 </org.futo.circles.core.view.FrameInterceptableLayout>

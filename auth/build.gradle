@@ -64,6 +64,10 @@ dependencies {
     //Subscriptions
     implementation 'com.android.billingclient:billing-ktx:6.0.1'
 
+    //QR
+    implementation 'com.google.zxing:core:3.5.1'
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
+
     //Hilt
     def hilt = '2.46.1'
     implementation "com.google.dagger:hilt-android:$hilt"

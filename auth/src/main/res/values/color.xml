@@ -9,5 +9,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="purple">#AF52DE</color>
     <color name="pink">#FF2D55</color>
+    <color name="qr_color">@color/black</color>
+    <color name="qr_background">@color/white</color>
 
 </resources>

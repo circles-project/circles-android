@@ -1,7 +1,7 @@
 package org.futo.circles.model
 
 import android.net.Uri
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
 
 sealed class CreatePostContent
 

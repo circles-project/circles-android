@@ -134,8 +134,7 @@ class RestoreBackupDataSource @Inject constructor(
     }
 
     private fun getKeysBackupService() =
-        MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
-            ?: throw Exception(context.getString(R.string.session_is_not_created))
+        MatrixSessionProvider.getSessionOrThrow().cryptoService().keysBackupService()
 
     private suspend fun getKeysVersion(keysBackupService: KeysBackupService) =
         awaitCallback<KeysBackupLastVersionResult> {

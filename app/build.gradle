@@ -73,10 +73,6 @@ dependencies {
     //Emoji
     implementation "com.vanniktech:emoji-google:0.16.0"
 
-    //QR
-    implementation 'com.google.zxing:core:3.5.1'
-    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
-
     //Markdown
     def markwon_version = "4.6.2"
     implementation "io.noties.markwon:core:$markwon_version"

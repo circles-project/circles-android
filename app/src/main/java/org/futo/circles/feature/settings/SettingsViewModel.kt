@@ -5,9 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.log_in.log_out.LogoutDataSource
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
-import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.provider.MatrixSessionProvider
 import javax.inject.Inject
 
 @HiltViewModel

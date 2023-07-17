@@ -13,7 +13,7 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.picker.DeviceMediaPickerHelper
+import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 abstract class UpdateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding) :
