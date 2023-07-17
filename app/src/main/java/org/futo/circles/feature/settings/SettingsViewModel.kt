@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature
+package org.futo.circles.feature.settings
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

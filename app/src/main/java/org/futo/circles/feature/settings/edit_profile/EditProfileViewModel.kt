@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature.edit_profile
+package org.futo.circles.feature.settings.edit_profile
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData

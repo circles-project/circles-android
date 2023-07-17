@@ -166,8 +166,6 @@
     <string name="end_poll_message">This will stop people from being able to vote and will display the final results of the poll.</string>
     <string name="system_notices_room_not_found">System notices room not found.</string>
     <string name="you_are_signed_out">You’re signed out</string>
-    <string name="verify_session">Verify session</string>
-    <string name="scan_qr_code">Scan QR code</string>
     <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
     <string name="show_more">Show more</string>
     <string name="edit">Edit</string>
@@ -284,6 +282,14 @@
     <string name="send_request_to_follow_user">Send request to follow this user</string>
     <string name="resend">Resend</string>
     <string name="unable_to_parse_url">Unable to parse url</string>
+    <string name="profile_updated">Profile updated</string>
+    <string name="version_format">Version %s</string>
+    <string name="developer_mode_enabled">Developer mode is enabled</string>
+    <string name="developer_mode_disabled">Developer mode is disabled</string>
+    <string name="deactivate_my_account">Deactivate my account</string>
+    <string name="deactivate_message">This will make your account permanently unusable. You will not be able to log in, and no one will be able to re-register the same user lD. This will cause your account to leave all rooms it is participating in, and it will remove your account details from your identity server. This action is irreversible.</string>
+    <string name="deactivate">Deactivate</string>
+    <string name="room_not_found">Room is not found</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

@@ -117,6 +117,9 @@
     <string name="cross_signed">cross signed</string>
     <string name="waiting_for_verification_format">Waiting for %s to start verification</string>
     <string name="session_verified">Session verified</string>
+    <string name="active_login_sessions">Active login sessions</string>
+    <string name="verify_session">Verify session</string>
+    <string name="scan_qr_code">Scan QR code</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

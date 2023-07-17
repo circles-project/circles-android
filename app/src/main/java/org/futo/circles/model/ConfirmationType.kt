@@ -26,7 +26,7 @@ data class UnfollowTimeline(
 data class RemovePost(
     override val titleRes: Int = R.string.remove_post,
     override val messageRes: Int = R.string.remove_post_message,
-    override val positiveButtonRes: Int = R.string.remove
+    override val positiveButtonRes: Int = org.futo.circles.core.R.string.remove
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
 data class IgnoreSender(
@@ -62,7 +62,7 @@ data class DeleteCircle(
 data class RemoveRoomUser(
     override val titleRes: Int = R.string.remove_user,
     override val messageRes: Int = R.string.remove_user_in_room_message,
-    override val positiveButtonRes: Int = R.string.remove
+    override val positiveButtonRes: Int = org.futo.circles.core.R.string.remove
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
 data class BanUser(
@@ -87,4 +87,10 @@ data class ResendInvite(
     override val titleRes: Int = R.string.resend_invite,
     override val messageRes: Int = R.string.resend_invite_message,
     override val positiveButtonRes: Int = android.R.string.ok
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class DeactivateAccount(
+    override val titleRes: Int = R.string.deactivate_my_account,
+    override val messageRes: Int = R.string.deactivate_message,
+    override val positiveButtonRes: Int = R.string.deactivate
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature
+package org.futo.circles.feature.settings
 
 import android.content.Context
 import com.bumptech.glide.Glide

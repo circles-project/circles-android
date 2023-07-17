@@ -56,7 +56,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val timelineId by lazy {
         if (isGroupMode) args.roomId
         else getTimelineRoomFor(args.roomId)?.roomId ?: throw IllegalArgumentException(
-            requireContext().getString(R.string.timeline_not_found)
+            "Timeline not found"
         )
     }
     private val binding by lazy {

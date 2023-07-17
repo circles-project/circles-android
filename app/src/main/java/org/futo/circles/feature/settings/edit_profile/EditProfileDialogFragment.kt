@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature.edit_profile
+package org.futo.circles.feature.settings.edit_profile
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.R
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
@@ -15,9 +16,8 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.databinding.DialogFragmentEditProfileBinding
 import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
-import org.futo.circles.settings.R
-import org.futo.circles.settings.databinding.DialogFragmentEditProfileBinding
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint

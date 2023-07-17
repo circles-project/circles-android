@@ -1,11 +1,11 @@
-package org.futo.circles.settings.feature
+package org.futo.circles.feature.settings
 
 import androidx.navigation.fragment.findNavController
+import org.futo.circles.R
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.core.utils.getSystemNoticesRoomId
-import org.futo.circles.settings.R
 
 class SettingsNavigator(private val fragment: SettingsFragment) {
 

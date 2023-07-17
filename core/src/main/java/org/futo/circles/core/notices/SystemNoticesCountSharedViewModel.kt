@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature.system_notices
+package org.futo.circles.core.notices
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map

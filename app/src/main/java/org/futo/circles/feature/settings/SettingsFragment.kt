@@ -1,4 +1,4 @@
-package org.futo.circles.settings.feature
+package org.futo.circles.feature.settings
 
 import android.os.Bundle
 import android.view.View
@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
+import org.futo.circles.R
 import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
 import org.futo.circles.core.CirclesAppConfig
@@ -19,13 +20,11 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.notices.SystemNoticesCountSharedViewModel
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
-import org.futo.circles.settings.R
-import org.futo.circles.settings.databinding.FragmentSettingsBinding
-import org.futo.circles.settings.feature.system_notices.SystemNoticesCountSharedViewModel
-import org.futo.circles.settings.model.DeactivateAccount
-import org.futo.circles.settings.model.LogOut
+import org.futo.circles.databinding.FragmentSettingsBinding
+import org.futo.circles.model.DeactivateAccount
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
@@ -73,7 +72,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         viewModel.deactivateLiveData.observeResponse(this,
             success = { clearSessionAndRestart() },
-            error = { showError(getString(R.string.invalid_auth)) }
+            error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) }
         )
         systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
             binding.ivNoticesCount.setCount(it ?: 0)

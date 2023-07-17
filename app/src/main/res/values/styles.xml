@@ -15,6 +15,26 @@
         <item name="cornerFamilyTopRight">rounded</item>
     </style>
 
+    <style name="settingMenuItem" parent="body">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:drawableTint">@color/list_item_icon_color</item>
+    </style>
+
+    <style name="settingMenuHeader" parent="subheadline">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+    </style>
+
     <style name="AuthLogoStyle">
         <item name="android:src">@drawable/ic_logo</item>
     </style>
