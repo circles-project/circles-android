@@ -2,8 +2,6 @@
 <resources>
     <string name="gallery_updated">Gallery updated</string>
     <string name="saved">Saved</string>
-    <string name="choose_gallery">Choose gallery</string>
-    <string name="pick_media">Pick media</string>
     <string name="delete_gallery">Delete gallery</string>
     <string name="delete_gallery_message">Are you sure you want to remove this gallery?</string>
     <string name="delete">Delete</string>

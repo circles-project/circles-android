@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.model
+package org.futo.circles.core.model
 
 import org.futo.circles.core.list.IdEntity
 import org.futo.circles.core.model.MediaContent

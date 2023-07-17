@@ -24,7 +24,6 @@ import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment
 import org.futo.circles.gallery.feature.gallery.grid.GalleryGridFragment
 import org.futo.circles.gallery.model.DeleteGallery
-import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
 interface GalleryMediaPreviewListener {
@@ -41,7 +40,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         getBinding() as DialogFragmentGalleryBinding
     }
 
-    private val galleryFragment by lazy { GalleryGridFragment.create(args.roomId, true) }
+    private val galleryFragment by lazy { GalleryGridFragment.create(args.roomId) }
 
     private val viewModel by viewModels<GalleryDialogFragmentViewModel>()
 

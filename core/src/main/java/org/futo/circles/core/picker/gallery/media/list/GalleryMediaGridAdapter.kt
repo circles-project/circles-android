@@ -1,21 +1,17 @@
-package org.futo.circles.gallery.feature.gallery.grid.list
+package org.futo.circles.core.picker.gallery.media.list
 
-import android.view.View
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
 import org.futo.circles.core.model.GalleryContentListItem
-import org.futo.circles.core.picker.gallery.media.list.GalleryMediaItemViewHolder
 
-class GalleryItemsAdapter(
-    private val onGalleryItemClicked: (item: GalleryContentListItem, transitionView: View, position: Int) -> Unit,
+class GalleryMediaGridAdapter(
+    private val onMediaItemClicked: (item: GalleryContentListItem) -> Unit,
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<GalleryContentListItem, GalleryMediaItemViewHolder>(DefaultIdEntityCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = GalleryMediaItemViewHolder(
         parent,
-        onItemClicked = { position, view ->
-            onGalleryItemClicked(getItem(position), view, position)
-        }
+        onItemClicked = { position, _ -> onMediaItemClicked(getItem(position)) }
     )
 
     override fun onBindViewHolder(holder: GalleryMediaItemViewHolder, position: Int) {

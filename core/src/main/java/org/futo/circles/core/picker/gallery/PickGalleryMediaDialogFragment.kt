@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.feature.pick
+package org.futo.circles.core.picker.gallery
 
 import android.app.Dialog
 import android.net.Uri
@@ -8,14 +8,14 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.DialogFragmentPickGalleryImageBinding
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.picker.DeviceMediaPickerHelper
-import org.futo.circles.core.picker.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
-import org.futo.circles.core.picker.MediaType
-import org.futo.circles.gallery.R
-import org.futo.circles.gallery.databinding.DialogFragmentPickGalleryImageBinding
-import org.futo.circles.gallery.feature.PhotosFragment
-import org.futo.circles.gallery.feature.gallery.grid.GalleryGridFragment
+import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.picker.gallery.media.PickMediaItemFragment
+import org.futo.circles.core.picker.gallery.rooms.PickGalleryFragment
+import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper
+import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 
 interface PickGalleryListener {
     fun onGalleryChosen(id: String)
@@ -24,12 +24,13 @@ interface PickGalleryListener {
 interface PickGalleryMediaListener {
     fun onMediaSelected(uri: Uri, mediaType: MediaType)
 }
+
 @AndroidEntryPoint
 class PickGalleryMediaDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentPickGalleryImageBinding::inflate),
     PickGalleryListener, PickGalleryMediaListener {
 
-    private val photosRoomsFragment by lazy { PhotosFragment() }
+    private val photosRoomsFragment by lazy { PickGalleryFragment() }
 
     private val binding by lazy {
         getBinding() as DialogFragmentPickGalleryImageBinding
@@ -66,7 +67,7 @@ class PickGalleryMediaDialogFragment :
 
     private fun addPhotosFragment(roomId: String) {
         binding.toolbar.title = getString(R.string.pick_media)
-        replaceFragment(GalleryGridFragment.create(roomId, isVideoAvailable))
+        replaceFragment(PickMediaItemFragment.create(roomId, isVideoAvailable))
     }
 
     override fun onGalleryChosen(id: String) {

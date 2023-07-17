@@ -1,4 +1,4 @@
-package org.futo.circles.core.picker
+package org.futo.circles.core.picker.helper
 
 import android.Manifest
 import android.content.Context

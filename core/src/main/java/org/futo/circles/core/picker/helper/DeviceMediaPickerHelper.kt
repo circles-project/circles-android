@@ -1,4 +1,4 @@
-package org.futo.circles.core.picker
+package org.futo.circles.core.picker.helper
 
 import android.Manifest
 import android.content.ActivityNotFoundException
@@ -8,6 +8,11 @@ import androidx.fragment.app.Fragment
 import org.futo.circles.core.R
 import org.futo.circles.core.extensions.getUri
 import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.picker.GetContentWithMultiFilter
+import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.picker.PickImageMethod
+import org.futo.circles.core.picker.PickMediaDialog
+import org.futo.circles.core.picker.PickMediaDialogListener
 import org.futo.circles.core.utils.FileUtils.createImageFile
 import org.futo.circles.core.utils.FileUtils.createVideoFile
 import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage

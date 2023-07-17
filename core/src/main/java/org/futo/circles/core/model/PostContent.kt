@@ -1,7 +1,6 @@
 package org.futo.circles.core.model
 
 import android.util.Size
-import org.futo.circles.core.picker.MediaType
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
 enum class PostContentType(val typeKey: String) {

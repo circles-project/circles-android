@@ -1,6 +1,8 @@
-package org.futo.circles.gallery.feature
+package org.futo.circles.core.picker.gallery.rooms
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.mapping.toGalleryListItem
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GalleryListItem
@@ -10,9 +12,10 @@ import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
-class PhotosDataSource @Inject constructor() {
+@HiltViewModel
+class PickGalleryViewModel @Inject constructor() : ViewModel() {
 
-    fun getGalleriesLiveData() = MatrixSessionProvider.currentSession?.roomService()
+    val galleriesLiveData = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummariesLive(roomSummaryQueryParams())
         ?.map { list -> filterGalleries(list) }
 

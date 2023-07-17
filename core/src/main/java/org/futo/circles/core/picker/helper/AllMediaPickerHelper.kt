@@ -1,10 +1,10 @@
-package org.futo.circles.gallery.feature.pick
+package org.futo.circles.core.picker.helper
 
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import org.futo.circles.core.picker.DeviceMediaPickerHelper
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment
 
 class AllMediaPickerHelper(
     private val fragment: Fragment,

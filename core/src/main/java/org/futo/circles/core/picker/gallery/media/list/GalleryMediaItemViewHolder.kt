@@ -1,18 +1,18 @@
-package org.futo.circles.gallery.feature.gallery.grid.list
+package org.futo.circles.core.picker.gallery.media.list
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.databinding.ListItemGalleryMediaBinding
 import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
+import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.PostContentType
-import org.futo.circles.gallery.databinding.ListItemGalleryMediaBinding
-import org.futo.circles.gallery.model.GalleryContentListItem
 
-class GalleryItemViewHolder(
+class GalleryMediaItemViewHolder(
     parent: ViewGroup,
     onItemClicked: (Int, View) -> Unit
 ) : RecyclerView.ViewHolder((inflate(parent, ListItemGalleryMediaBinding::inflate))) {

@@ -1,8 +1,8 @@
-package org.futo.circles.gallery.feature.list
+package org.futo.circles.core.picker.gallery.rooms.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.gallery.model.GalleryListItem
+import org.futo.circles.core.model.GalleryListItem
 
 class PhotosListAdapter(
     private val onRoomClicked: (GalleryListItem) -> Unit

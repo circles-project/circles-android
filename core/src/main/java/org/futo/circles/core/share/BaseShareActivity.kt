@@ -11,7 +11,7 @@ import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ActivityBaseShareBinding
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.select.RoomsPicker
 import org.futo.circles.core.room.select.SelectRoomsListener

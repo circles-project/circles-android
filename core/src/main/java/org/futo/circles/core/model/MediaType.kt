@@ -1,3 +1,3 @@
-package org.futo.circles.core.picker
+package org.futo.circles.core.model
 
 enum class MediaType { Image, Video }

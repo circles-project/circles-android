@@ -14,29 +14,22 @@ import androidx.transition.TransitionInflater
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.BaseRvDecoration
-import org.futo.circles.core.picker.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.picker.helper.AllMediaPickerHelper
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryGridBinding
-import org.futo.circles.gallery.feature.gallery.GalleryDialogFragment
 import org.futo.circles.gallery.feature.gallery.GalleryMediaPreviewListener
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment.Companion.POSITION
-import org.futo.circles.gallery.feature.gallery.grid.list.GalleryItemViewHolder
+import org.futo.circles.core.picker.gallery.media.list.GalleryMediaItemViewHolder
 import org.futo.circles.gallery.feature.gallery.grid.list.GalleryItemsAdapter
-import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
-import org.futo.circles.gallery.feature.pick.PickGalleryMediaListener
-import org.futo.circles.gallery.model.GalleryContentListItem
+import org.futo.circles.core.model.GalleryContentListItem
 
 
 @AndroidEntryPoint
 class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
 
-    private val isOpenFromTab by lazy { (parentFragment as? GalleryDialogFragment) != null }
-    private val viewModel by viewModels<GalleryViewModel>({
-        if (isOpenFromTab) requireParentFragment() else this
-    })
+    private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
     private val binding by viewBinding(FragmentGalleryGridBinding::bind)
     private val mediaPickerHelper = AllMediaPickerHelper(this, true)
     private val listAdapter by lazy {
@@ -47,13 +40,11 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
             onLoadMore = { viewModel.loadMore() })
     }
 
-    private var pickMediaListener: PickGalleryMediaListener? = null
     private var previewMediaListener: GalleryMediaPreviewListener? = null
     private var returnViewPosition = -1
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        pickMediaListener = parentFragment as? PickGalleryMediaListener
         previewMediaListener = parentFragment as? GalleryMediaPreviewListener
     }
 
@@ -69,7 +60,6 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     }
 
     private fun prepareTransitions() {
-        if (!isOpenFromTab) return
         exitTransition = TransitionInflater.from(requireContext())
             .inflateTransition(R.transition.grid_exit_transition)
         setExitSharedElementCallback(
@@ -91,21 +81,14 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     }
 
     private fun setupViews() {
-        if (isOpenFromTab) binding.lParent.setPadding(
-            0,
-            resources.getDimensionPixelSize(R.dimen.gallery_grid_toolbar_offset),
-            0,
-            0
-        )
         binding.rvGallery.apply {
             layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = listAdapter
-            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryItemViewHolder>(2))
+            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
             bindToFab(binding.fbUploadImage)
         }
         binding.fbUploadImage.setOnClickListener { showImagePicker() }
-        binding.fbUploadImage.setIsVisible(pickMediaListener == null)
     }
 
     private fun setupObservers() {
@@ -151,18 +134,13 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     }
 
     private fun onMediaItemSelected(item: GalleryContentListItem, view: View, position: Int) {
-        pickMediaListener?.let {
-            viewModel.selectMediaForPicker(requireContext(), item, it)
-        } ?: previewMediaListener?.onPreviewMedia(item.id, view, position)
+        previewMediaListener?.onPreviewMedia(item.id, view, position)
     }
 
     companion object {
         private const val ROOM_ID = "roomId"
-        fun create(roomId: String, isVideoAvailable: Boolean) = GalleryGridFragment().apply {
-            arguments = bundleOf(
-                ROOM_ID to roomId,
-                IS_VIDEO_AVAILABLE to isVideoAvailable
-            )
+        fun create(roomId: String) = GalleryGridFragment().apply {
+            arguments = bundleOf(ROOM_ID to roomId)
         }
     }
 }

@@ -16,7 +16,7 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.model.LoadingData
-import org.futo.circles.core.picker.DeviceMediaPickerHelper
+import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSetupCirclesBinding
 import org.futo.circles.feature.circles.setup.list.SetupCirclesAdapter

@@ -14,11 +14,11 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
-import org.futo.circles.gallery.feature.pick.AllMediaPickerHelper
+import org.futo.circles.core.picker.helper.AllMediaPickerHelper
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.PreviewPostListener
 import java.util.*

@@ -13,7 +13,7 @@ import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.core.extensions.loadImage
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.picker.MediaType
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.ImageUtils
 import org.futo.circles.core.utils.VideoUtils
