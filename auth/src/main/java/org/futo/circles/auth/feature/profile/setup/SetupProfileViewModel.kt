@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.sign_up.setup_profile
+package org.futo.circles.auth.feature.profile.setup
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData

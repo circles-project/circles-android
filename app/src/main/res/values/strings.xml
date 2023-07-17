@@ -282,7 +282,6 @@
     <string name="send_request_to_follow_user">Send request to follow this user</string>
     <string name="resend">Resend</string>
     <string name="unable_to_parse_url">Unable to parse url</string>
-    <string name="profile_updated">Profile updated</string>
     <string name="version_format">Version %s</string>
     <string name="developer_mode_enabled">Developer mode is enabled</string>
     <string name="developer_mode_disabled">Developer mode is disabled</string>

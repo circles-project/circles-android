@@ -1,10 +1,10 @@
-package org.futo.circles.feature.settings.edit_profile
+package org.futo.circles.auth.feature.profile.edit
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.auth.feature.sign_up.setup_profile.SetupProfileDataSource
+import org.futo.circles.auth.feature.profile.setup.SetupProfileDataSource
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg

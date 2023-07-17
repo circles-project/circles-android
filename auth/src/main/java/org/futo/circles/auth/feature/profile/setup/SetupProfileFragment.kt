@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.sign_up.setup_profile
+package org.futo.circles.auth.feature.profile.setup
 
 import android.os.Bundle
 import android.view.View
@@ -10,6 +10,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSetupProfileBinding
+import org.futo.circles.auth.feature.sign_up.setup_profile.SetupProfileFragmentDirections
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
