@@ -20,11 +20,11 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.notices.SystemNoticesCountSharedViewModel
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
-import org.futo.circles.model.DeactivateAccount
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
@@ -111,7 +111,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun setVersion() {
-        binding.tvVersion.text = getString(R.string.version_format, CirclesAppConfig.appVersion)
+        binding.tvVersion.text =
+            getString(org.futo.circles.core.R.string.version_format, CirclesAppConfig.appVersion)
     }
 
     private fun toggleDeveloperMode() {

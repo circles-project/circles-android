@@ -88,9 +88,3 @@ data class ResendInvite(
     override val messageRes: Int = R.string.resend_invite_message,
     override val positiveButtonRes: Int = android.R.string.ok
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
-
-data class DeactivateAccount(
-    override val titleRes: Int = org.futo.circles.core.R.string.deactivate_my_account,
-    override val messageRes: Int = R.string.deactivate_message,
-    override val positiveButtonRes: Int = R.string.deactivate
-) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

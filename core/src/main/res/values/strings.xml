@@ -61,5 +61,9 @@
     <string name="account">Account</string>
     <string name="clear_cache_and_reload">Clear cache and reload</string>
     <string name="deactivate_my_account">Deactivate my account</string>
+    <string name="settings">Settings</string>
+    <string name="version_format">Version %s</string>
+    <string name="deactivate_message">This will make your account permanently unusable. You will not be able to log in, and no one will be able to re-register the same user lD. This will cause your account to leave all rooms it is participating in, and it will remove your account details from your identity server. This action is irreversible.</string>
+    <string name="deactivate">Deactivate</string>
 
 </resources>
