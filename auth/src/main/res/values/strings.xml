@@ -121,6 +121,9 @@
     <string name="verify_session">Verify session</string>
     <string name="scan_qr_code">Scan QR code</string>
     <string name="profile_updated">Profile updated</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="user_id">User ID</string>
+    <string name="verify">Verify</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

@@ -55,5 +55,6 @@
     <string name="remove">Remove</string>
     <string name="choose_gallery">Choose gallery</string>
     <string name="pick_media">Pick media</string>
+    <string name="change_icon">Change icon</string>
 
 </resources>

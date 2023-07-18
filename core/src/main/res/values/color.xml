@@ -13,5 +13,6 @@
     <color name="menu_icon_color">#99000000</color>
     <color name="post_card_background_color">@color/white</color>
     <color name="gray">#8E8E93</color>
+    <color name="list_item_icon_color">@color/black</color>
 
 </resources>

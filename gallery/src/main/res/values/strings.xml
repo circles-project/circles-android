@@ -18,7 +18,6 @@
     <string name="backup_device_folders">Backup device folders</string>
     <string name="backup_folders_hint">Choose folders to backup and view in your Gallery:</string>
     <string name="configure_gallery">Configure gallery</string>
-    <string name="change_icon">Change icon</string>
     <string name="gallery_name">Gallery name</string>
     <string name="gallery_encryption_warning">NOTE: Gallery name and cover image are not encrypted</string>
     <string name="create_new_gallery">Create new gallery</string>
