@@ -57,5 +57,6 @@
     <string name="pick_media">Pick media</string>
     <string name="change_icon">Change icon</string>
     <string name="system_notices">System notices</string>
+    <string name="system_notices_room_not_found">System notices room not found.</string>
 
 </resources>

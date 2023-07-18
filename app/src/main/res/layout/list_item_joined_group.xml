@@ -89,7 +89,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvTopic"
         tools:text="texsdt" />
 
-    <org.futo.circles.view.NotificationCounterView
+    <org.futo.circles.core.view.NotificationCounterView
         android:id="@+id/vNotificationsCount"
         android:layout_width="24dp"
         android:layout_height="wrap_content"

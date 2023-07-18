@@ -153,7 +153,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="RtlSymmetry" />
 
-                <org.futo.circles.view.NotificationCounterView
+                <org.futo.circles.core.view.NotificationCounterView
                     android:id="@+id/ivNoticesCount"
                     android:layout_width="18dp"
                     android:layout_height="0dp"
