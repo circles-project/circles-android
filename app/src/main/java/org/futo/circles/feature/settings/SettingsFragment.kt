@@ -52,7 +52,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvDeactivate.setOnClickListener { withConfirmation(DeactivateAccount()) { viewModel.deactivateAccount() } }
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigator.navigateToSystemNotices() }
-            tvClearCache.setOnClickListener { viewModel.clearCash() }
+            tvClearCache.setOnClickListener { viewModel.clearCash(requireContext()) }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             ivShareProfile.setOnClickListener { navigator.navigateToShareProfile() }
