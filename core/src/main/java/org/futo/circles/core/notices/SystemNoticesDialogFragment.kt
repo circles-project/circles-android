@@ -1,13 +1,13 @@
-package org.futo.circles.feature.notices
+package org.futo.circles.core.notices
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.databinding.DialogFragmentSystemNoticesBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.DialogFragmentSystemNoticesBinding
-import org.futo.circles.feature.notices.list.SystemNoticesTimelineAdapter
+import org.futo.circles.core.notices.list.SystemNoticesTimelineAdapter
 
 @AndroidEntryPoint
 class SystemNoticesDialogFragment :

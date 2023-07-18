@@ -1,12 +1,12 @@
-package org.futo.circles.feature.notices
+package org.futo.circles.core.notices
 
 import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.SystemNoticeListItem
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.TimelineDataSource
-import org.futo.circles.model.SystemNoticeListItem
 import javax.inject.Inject
 
 @HiltViewModel

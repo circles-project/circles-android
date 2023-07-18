@@ -140,7 +140,6 @@
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="notifications">Notifications</string>
-    <string name="system_notices">System notices</string>
     <string name="push_notifications">Push notifications</string>
     <string name="push_notifications_test">Push notifications test</string>
     <string name="share_with_group">Share with a group</string>

@@ -1,9 +1,9 @@
-package org.futo.circles.feature.notices.list
+package org.futo.circles.core.notices.list
 
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.model.SystemNoticeListItem
+import org.futo.circles.core.model.SystemNoticeListItem
 
 class SystemNoticesTimelineAdapter(
     private val onLoadMore: () -> Unit

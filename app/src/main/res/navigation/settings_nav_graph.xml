@@ -70,7 +70,7 @@
         tools:layout="@layout/dialog_fragment_change_password" />
     <dialog
         android:id="@+id/systemNoticesDialogFragment"
-        android:name="org.futo.circles.feature.notices.SystemNoticesDialogFragment"
+        android:name="org.futo.circles.core.notices.SystemNoticesDialogFragment"
         tools:layout="@layout/dialog_fragment_system_notices">
 
         <argument

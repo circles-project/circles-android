@@ -1,12 +1,12 @@
-package org.futo.circles.feature.notices.list
+package org.futo.circles.core.notices.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.databinding.ListItemSystemNoticesBinding
 import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.databinding.ListItemSystemNoticesBinding
-import org.futo.circles.model.SystemNoticeListItem
+import org.futo.circles.core.model.SystemNoticeListItem
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
 
 class SystemNoticesViewHolder(
     parent: ViewGroup
