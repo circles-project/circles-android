@@ -15,15 +15,15 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.list.BaseRvDecoration
+import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.picker.gallery.media.list.GalleryMediaItemViewHolder
 import org.futo.circles.core.picker.helper.AllMediaPickerHelper
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryGridBinding
 import org.futo.circles.gallery.feature.gallery.GalleryMediaPreviewListener
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment.Companion.POSITION
-import org.futo.circles.core.picker.gallery.media.list.GalleryMediaItemViewHolder
 import org.futo.circles.gallery.feature.gallery.grid.list.GalleryItemsAdapter
-import org.futo.circles.core.model.GalleryContentListItem
 
 
 @AndroidEntryPoint

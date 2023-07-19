@@ -65,33 +65,35 @@ class FullScreenMediaFragment : Fragment(R.layout.fragment_full_screen_media) {
 
     private fun setupViews() {
         binding.videoView.player = videoPlayer
+        val transitionName = arguments?.getString(EVENT_ID) ?: ""
+        binding.ivImage.transitionName = transitionName
+        binding.videoView.transitionName = transitionName
     }
 
     private fun setupObservers() {
         viewModel.imageLiveData.observeData(this) {
-            binding.videoView.gone()
+            binding.videoView.apply {
+                transitionName = null
+                gone()
+            }
             it.mediaFileData.loadEncryptedIntoWithAspect(
                 binding.ivImage,
                 it.aspectRatio,
                 it.mediaContentInfo.thumbHash
             )
-            binding.ivImage.post { setTransitionNameAndRunAnimation(binding.ivImage) }
+            binding.ivImage.post { parentFragment?.startPostponedEnterTransition() }
         }
         viewModel.videoLiveData.observeData(this) {
-            binding.ivImage.gone()
+            binding.ivImage.apply {
+                transitionName = null
+                gone()
+            }
             videoPlayer.setMediaItem(MediaItem.fromUri(it.second))
             videoPlayer.prepare()
             videoPlayer.play()
-            binding.videoView.post { setTransitionNameAndRunAnimation(binding.videoView) }
+            binding.videoView.post { parentFragment?.startPostponedEnterTransition() }
         }
     }
-
-    private fun setTransitionNameAndRunAnimation(view: View) {
-        val transitionName = arguments?.getString(EVENT_ID) ?: ""
-        view.transitionName = transitionName
-        parentFragment?.startPostponedEnterTransition()
-    }
-
 
     companion object {
         private const val ROOM_ID = "roomId"

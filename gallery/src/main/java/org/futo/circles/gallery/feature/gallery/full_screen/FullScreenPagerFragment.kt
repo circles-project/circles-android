@@ -74,7 +74,7 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
                     setResult(position)
-                    setToolbarTitle(position)
+                    setToolbarTitle()
                 }
             })
         }
@@ -82,13 +82,13 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
         binding.vpMediaPager.post {
             binding.vpMediaPager.setCurrentItem(initialPosition, false)
         }
-        setToolbarTitle(initialPosition)
         prepareSharedElementTransition()
     }
 
     private fun setupObservers() {
         viewModel.galleryItemsLiveData.observeData(this) {
             pagerAdapter.submitList(it)
+            setToolbarTitle()
         }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
@@ -129,8 +129,8 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
         }
     }
 
-    private fun setToolbarTitle(position: Int) {
-        binding.toolbar.title = "${position + 1}/${pagerAdapter.itemCount}"
+    private fun setToolbarTitle() {
+        binding.toolbar.title = "${binding.vpMediaPager.currentItem + 1}/${pagerAdapter.itemCount}"
     }
 
 

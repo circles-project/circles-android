@@ -11,8 +11,7 @@
         android:id="@+id/vpMediaPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:orientation="horizontal" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
