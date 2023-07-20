@@ -23,8 +23,7 @@ class LoadingRecyclerView(
     private val dataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
-            binding.vLoading.gone()
-            tryOrNull { binding.rvList.adapter?.unregisterAdapterDataObserver(this) }
+            notifyItemsChanged()
         }
     }
 
@@ -63,5 +62,10 @@ class LoadingRecyclerView(
                 vLoading.gone()
             }
         }
+    }
+
+    fun notifyItemsChanged() {
+        binding.vLoading.gone()
+        tryOrNull { binding.rvList.adapter?.unregisterAdapterDataObserver(dataObserver) }
     }
 }
