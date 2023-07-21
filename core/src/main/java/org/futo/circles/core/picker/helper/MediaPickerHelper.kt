@@ -23,19 +23,18 @@ import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage
 open class MediaPickerHelper(
     private val fragment: Fragment,
     private val isMultiSelect: Boolean = false,
-    includeVideo: Boolean = false,
-    includeGallery: Boolean = true
+    private val isVideoAvailable: Boolean = false,
+    isGalleryAvailable: Boolean = true
 ) : PickMediaDialogListener {
 
-    override val isVideoAvailable: Boolean = includeVideo
-    override val isGalleryAvailable: Boolean = includeGallery
 
     private val pickMediaDialog by lazy {
-        PickMediaDialog(fragment.requireContext(), this)
+        PickMediaDialog(fragment.requireContext(), isVideoAvailable, isGalleryAvailable, this)
     }
 
     private val cameraPermissionHelper =
         RuntimePermissionHelper(fragment, Manifest.permission.CAMERA)
+
     private var cameraUri: Uri? = null
 
     private val photoIntentLauncher =
@@ -56,19 +55,21 @@ open class MediaPickerHelper(
             } ?: fragment.showError(fragment.getString(R.string.unexpected_error))
         }
 
-    private val deviceIntentLauncher = fragment.registerForActivityResult(
+    private val deviceMultiselectIntentLauncher = fragment.registerForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia()
     ) { uriList ->
-        uriList.forEach { uri ->
-            val mimeType = fragment.context?.contentResolver?.getType(uri)
-            if (mimeType.isMimeTypeImage()) onImageSelected?.invoke(itemId, uri)
-            else onVideoSelected?.invoke(uri)
-        }
+        uriList.forEach { uri -> onMediaFromDeviceSelected(uri) }
     }
 
-    protected var onImageSelected: ((Int?, Uri) -> Unit)? = null
-    protected var onVideoSelected: ((Uri) -> Unit)? = null
-    protected var itemId: Int? = null
+    private val deviceIntentLauncher = fragment.registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let { onMediaFromDeviceSelected(uri) }
+    }
+
+    private var onImageSelected: ((Int?, Uri) -> Unit)? = null
+    private var onVideoSelected: ((Uri) -> Unit)? = null
+    private var itemId: Int? = null
 
     fun showMediaPickerDialog(
         onImageSelected: (Int?, Uri) -> Unit,
@@ -96,7 +97,7 @@ open class MediaPickerHelper(
         }
     }
 
-    protected open fun onGalleryMethodSelected() {
+    private fun onGalleryMethodSelected() {
         fragment.childFragmentManager.setFragmentResultListener(
             pickMediaRequestKey,
             fragment
@@ -117,11 +118,20 @@ open class MediaPickerHelper(
         }
     }
 
+    private fun onMediaFromDeviceSelected(uri: Uri) {
+        val mimeType = fragment.context?.contentResolver?.getType(uri)
+        if (mimeType.isMimeTypeImage()) onImageSelected?.invoke(itemId, uri)
+        else onVideoSelected?.invoke(uri)
+    }
+
     private fun dispatchDevicePickerIntent() {
-        val mimeTypes = mutableListOf("image/*")
-        if (isVideoAvailable) mimeTypes.add("video/*")
+        val request = PickVisualMediaRequest(
+            if (isVideoAvailable) ActivityResultContracts.PickVisualMedia.ImageAndVideo
+            else ActivityResultContracts.PickVisualMedia.ImageOnly
+        )
         try {
-            deviceIntentLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            if (isMultiSelect) deviceMultiselectIntentLauncher.launch(request)
+            else deviceIntentLauncher.launch(request)
         } catch (e: Exception) {
             handleException(e)
         }
