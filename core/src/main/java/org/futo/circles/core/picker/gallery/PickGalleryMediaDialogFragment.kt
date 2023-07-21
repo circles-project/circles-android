@@ -14,8 +14,8 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.picker.gallery.media.PickMediaItemFragment
 import org.futo.circles.core.picker.gallery.rooms.PickGalleryFragment
-import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper
-import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
+import org.futo.circles.core.picker.helper.MediaPickerHelper
+import org.futo.circles.core.picker.helper.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 
 interface PickGalleryListener {
     fun onGalleryChosen(id: String)
@@ -76,10 +76,10 @@ class PickGalleryMediaDialogFragment :
 
     override fun onMediaSelected(uri: Uri, mediaType: MediaType) {
         setFragmentResult(
-            DeviceMediaPickerHelper.pickMediaRequestKey,
+            MediaPickerHelper.pickMediaRequestKey,
             bundleOf(
-                DeviceMediaPickerHelper.uriKey to uri.toString(),
-                DeviceMediaPickerHelper.mediaTypeKey to mediaType.ordinal
+                MediaPickerHelper.uriKey to uri.toString(),
+                MediaPickerHelper.mediaTypeKey to mediaType.ordinal
             )
         )
         dismiss()

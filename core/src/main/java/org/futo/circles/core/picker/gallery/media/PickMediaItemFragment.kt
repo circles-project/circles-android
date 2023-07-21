@@ -17,7 +17,7 @@ import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.picker.gallery.PickGalleryMediaListener
 import org.futo.circles.core.picker.gallery.media.list.GalleryMediaGridAdapter
 import org.futo.circles.core.picker.gallery.media.list.GalleryMediaItemViewHolder
-import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
+import org.futo.circles.core.picker.helper.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 
 
 @AndroidEntryPoint
