@@ -32,7 +32,7 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
     private val binding by viewBinding(FragmentGalleryGridBinding::bind)
     private val mediaPickerHelper = MediaPickerHelper(
-        this, isMultiSelect = true, includeVideo = true
+        this, isMultiSelect = true, isVideoAvailable = true
     )
     private val listAdapter by lazy {
         GalleryItemsAdapter(onGalleryItemClicked = { item, view, position ->

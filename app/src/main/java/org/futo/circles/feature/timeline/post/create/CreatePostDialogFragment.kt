@@ -34,7 +34,7 @@ class CreatePostDialogFragment :
     }
     private val viewModel by viewModels<CreatePostViewModel>()
 
-    private val mediaPickerHelper = MediaPickerHelper(this, includeVideo = true)
+    private val mediaPickerHelper = MediaPickerHelper(this, isVideoAvailable = true)
     private var createPostListener: CreatePostListener? = null
 
     override fun onAttach(context: Context) {
