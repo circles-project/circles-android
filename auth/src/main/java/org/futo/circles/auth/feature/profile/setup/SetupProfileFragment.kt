@@ -25,7 +25,7 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadi
     override val fragment: Fragment = this
     private val binding by viewBinding(FragmentSetupProfileBinding::bind)
     private val viewModel by viewModels<SetupProfileViewModel>()
-    private val mediaPickerHelper = MediaPickerHelper(this, includeGallery = false)
+    private val mediaPickerHelper = MediaPickerHelper(this, isGalleryAvailable = false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

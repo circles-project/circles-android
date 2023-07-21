@@ -29,7 +29,7 @@ class SetupCirclesFragment : Fragment(R.layout.fragment_setup_circles), HasLoadi
     private val viewModel by viewModels<SetupCirclesViewModel>()
     private val binding by viewBinding(FragmentSetupCirclesBinding::bind)
     private val listAdapter by lazy { SetupCirclesAdapter(::onCircleListItemClicked) }
-    private val mediaPickerHelper = MediaPickerHelper(this, includeGallery = false)
+    private val mediaPickerHelper = MediaPickerHelper(this, isGalleryAvailable = false)
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 
 
