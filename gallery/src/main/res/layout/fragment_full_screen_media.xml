@@ -2,10 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lParent"
-    android:clipChildren="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:clipChildren="false">
 
     <com.jsibbold.zoomage.ZoomageView
         android:id="@+id/ivImage"
@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         app:zoomage_restrictBounds="true" />
 
-    <com.google.android.exoplayer2.ui.StyledPlayerView
+    <androidx.media3.ui.PlayerView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
