@@ -7,16 +7,19 @@ import android.os.Bundle
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
 import org.futo.circles.core.R
 import org.futo.circles.core.extensions.getUri
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.model.PickGalleryMediaResultItem
 import org.futo.circles.core.picker.PickImageMethod
 import org.futo.circles.core.picker.PickMediaDialog
 import org.futo.circles.core.picker.PickMediaDialogListener
 import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment
 import org.futo.circles.core.utils.FileUtils.createImageFile
 import org.futo.circles.core.utils.FileUtils.createVideoFile
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage
 
 
@@ -108,14 +111,20 @@ open class MediaPickerHelper(
     }
 
     private fun handlePickerFragmentResult(key: String, bundle: Bundle) {
-        if (key == pickMediaRequestKey) {
-            val uri = Uri.parse(bundle.getString(uriKey))
-            val typeOrdinal = bundle.getInt(mediaTypeKey)
-            when (MediaType.values()[typeOrdinal]) {
-                MediaType.Image -> onImageSelected?.invoke(itemId, uri)
-                MediaType.Video -> onVideoSelected?.invoke(uri)
+        if (key != pickMediaRequestKey) return
+        tryOrNull {
+            Gson().fromJson(
+                bundle.getString(pickMediaResultDataKey),
+                Array<PickGalleryMediaResultItem>::class.java
+            )
+        }?.forEach {
+            when (MediaType.values()[it.mediaTypeOrdinal]) {
+                MediaType.Image -> onImageSelected?.invoke(itemId, Uri.parse(it.uriString))
+                MediaType.Video -> onVideoSelected?.invoke(Uri.parse(it.uriString))
             }
         }
+
+
     }
 
     private fun onMediaFromDeviceSelected(uri: Uri) {
@@ -169,7 +178,6 @@ open class MediaPickerHelper(
 
     companion object {
         const val pickMediaRequestKey = "pickMediaRequestKey"
-        const val uriKey = "uri"
-        const val mediaTypeKey = "mediaType"
+        const val pickMediaResultDataKey = "pickMediaResultDataKey"
     }
 }
