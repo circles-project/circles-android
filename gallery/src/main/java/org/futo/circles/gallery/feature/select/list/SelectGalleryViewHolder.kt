@@ -7,7 +7,6 @@ import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.ListItemSelectGalleryBinding
 
 class SelectGalleryViewHolder(
@@ -27,7 +26,10 @@ class SelectGalleryViewHolder(
         with(binding) {
             baseGalleryItem.ivGalleryImage.loadProfileIcon(data.info.avatarUrl, "")
             baseGalleryItem.tvGalleryName.text = data.info.title
-            ivSelect.setImageResource(if (data.isSelected) R.drawable.ic_check_circle else R.drawable.ic_unselected)
+            ivSelect.setImageResource(
+                if (data.isSelected) org.futo.circles.core.R.drawable.ic_check_circle
+                else org.futo.circles.core.R.drawable.ic_unselected
+            )
             vSelectBackground.setIsVisible(data.isSelected)
         }
     }
