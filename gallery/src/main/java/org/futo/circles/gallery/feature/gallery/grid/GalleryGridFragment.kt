@@ -82,6 +82,7 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
         binding.rvGallery.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = listAdapter
+            getRecyclerView().itemAnimator = null
             addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
             bindToFab(binding.fbUploadImage)
         }

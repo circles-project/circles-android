@@ -51,6 +51,7 @@ class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
             layoutManager =
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = listAdapter
+            getRecyclerView().itemAnimator = null
             addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
         }
     }
