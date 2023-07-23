@@ -11,6 +11,7 @@ import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.picker.gallery.PickGalleryMediaListener
 import org.futo.circles.core.picker.helper.MediaPickerHelper
 import org.futo.circles.core.timeline.BaseTimelineViewModel
@@ -24,8 +25,7 @@ class PickMediaItemViewModel @Inject constructor(
     timelineDataSource: TimelineDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
-    private val isVideoAvailable: Boolean =
-        savedStateHandle[MediaPickerHelper.IS_VIDEO_AVAILABLE] ?: true
+    private val isVideoAvailable: Boolean = savedStateHandle[IS_VIDEO_AVAILABLE] ?: true
 
     val galleryItemsLiveData = timelineDataSource.timelineEventsLiveData.map { list ->
         list.mapNotNull { post ->

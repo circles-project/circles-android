@@ -15,7 +15,6 @@ import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.picker.gallery.media.PickMediaItemFragment
 import org.futo.circles.core.picker.gallery.rooms.PickGalleryFragment
 import org.futo.circles.core.picker.helper.MediaPickerHelper
-import org.futo.circles.core.picker.helper.MediaPickerHelper.Companion.IS_VIDEO_AVAILABLE
 
 interface PickGalleryListener {
     fun onGalleryChosen(id: String)
@@ -38,6 +37,10 @@ class PickGalleryMediaDialogFragment :
 
     private val isVideoAvailable by lazy {
         arguments?.getBoolean(IS_VIDEO_AVAILABLE) ?: false
+    }
+
+    private val isMultiselect by lazy {
+        arguments?.getBoolean(IS_MULTI_SELECT) ?: false
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -65,13 +68,9 @@ class PickGalleryMediaDialogFragment :
         replaceFragment(photosRoomsFragment)
     }
 
-    private fun addPhotosFragment(roomId: String) {
-        binding.toolbar.title = getString(R.string.pick_media)
-        replaceFragment(PickMediaItemFragment.create(roomId, isVideoAvailable))
-    }
-
     override fun onGalleryChosen(id: String) {
-        addPhotosFragment(id)
+        binding.toolbar.title = getString(R.string.pick_media)
+        replaceFragment(PickMediaItemFragment.create(id, isVideoAvailable, isMultiselect))
     }
 
     override fun onMediaSelected(uri: Uri, mediaType: MediaType) {
@@ -92,9 +91,15 @@ class PickGalleryMediaDialogFragment :
     }
 
     companion object {
-        fun create(isVideoAvailable: Boolean) = PickGalleryMediaDialogFragment().apply {
-            arguments = bundleOf(IS_VIDEO_AVAILABLE to isVideoAvailable)
-        }
+        const val IS_VIDEO_AVAILABLE = "IsVideoAvailable"
+        const val IS_MULTI_SELECT = "IsMultiSelect"
+        fun create(isVideoAvailable: Boolean, isMultiSelect: Boolean) =
+            PickGalleryMediaDialogFragment().apply {
+                arguments = bundleOf(
+                    IS_VIDEO_AVAILABLE to isVideoAvailable,
+                    IS_MULTI_SELECT to isMultiSelect
+                )
+            }
     }
 
 }

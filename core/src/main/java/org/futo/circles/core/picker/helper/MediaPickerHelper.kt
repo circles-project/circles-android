@@ -103,7 +103,7 @@ open class MediaPickerHelper(
             fragment
         ) { key, bundle -> handlePickerFragmentResult(key, bundle) }
 
-        PickGalleryMediaDialogFragment.create(isVideoAvailable)
+        PickGalleryMediaDialogFragment.create(isVideoAvailable, isMultiSelect)
             .show(fragment.childFragmentManager, "PickGalleryMediaDialogFragment")
     }
 
@@ -168,7 +168,6 @@ open class MediaPickerHelper(
 
 
     companion object {
-        const val IS_VIDEO_AVAILABLE = "IsVideoAvailable"
         const val pickMediaRequestKey = "pickMediaRequestKey"
         const val uriKey = "uri"
         const val mediaTypeKey = "mediaType"
