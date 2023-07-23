@@ -1,6 +1,5 @@
 package org.futo.circles.core.picker.gallery.media
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -16,7 +15,7 @@ import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_MULTI_SELECT
 import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
-import org.futo.circles.core.picker.gallery.PickGalleryMediaListener
+import org.futo.circles.core.picker.gallery.PickGalleryMediaViewModel
 import org.futo.circles.core.picker.gallery.media.list.GalleryMediaGridAdapter
 import org.futo.circles.core.picker.gallery.media.list.GalleryMediaItemViewHolder
 
@@ -25,19 +24,20 @@ import org.futo.circles.core.picker.gallery.media.list.GalleryMediaItemViewHolde
 class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
 
     private val viewModel by viewModels<PickMediaItemViewModel>()
+    private val parentViewModel by viewModels<PickGalleryMediaViewModel>({ requireParentFragment() })
     private val binding by viewBinding(FragmentPickGalleryBinding::bind)
+
+    private val isMultiSelect by lazy {
+        arguments?.getBoolean(IS_MULTI_SELECT) ?: false
+    }
+
     private val listAdapter by lazy {
         GalleryMediaGridAdapter(
+            isMultiSelect = isMultiSelect,
             onMediaItemClicked = { item -> onMediaItemSelected(item) },
             onLoadMore = { viewModel.loadMore() })
     }
 
-    private var pickMediaListener: PickGalleryMediaListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        pickMediaListener = parentFragment as? PickGalleryMediaListener
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,7 +64,8 @@ class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
 
 
     private fun onMediaItemSelected(item: GalleryContentListItem) {
-        pickMediaListener?.let { viewModel.selectMediaForPicker(requireContext(), item, it) }
+        if (isMultiSelect) viewModel.toggleItemSelected(item)
+        parentViewModel.onMediaItemClicked(requireContext(), item)
     }
 
     companion object {
