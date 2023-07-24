@@ -3,7 +3,7 @@ buildscript {
         minSdkVersion = 24
         sdkVersion = 33
         androidx_nav_version = "2.5.3"
-        modules_version = "1.0.8"
+        modules_version = "1.0.9"
         modules_gitlab_projectId = "13"
     }
     repositories {
