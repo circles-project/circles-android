@@ -5,10 +5,10 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect

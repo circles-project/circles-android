@@ -15,10 +15,10 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.picker.helper.MediaPickerHelper
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
-import org.futo.circles.core.picker.helper.AllMediaPickerHelper
 import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.PreviewPostListener
 import java.util.*
@@ -34,7 +34,7 @@ class CreatePostDialogFragment :
     }
     private val viewModel by viewModels<CreatePostViewModel>()
 
-    private val mediaPickerHelper = AllMediaPickerHelper(this, true)
+    private val mediaPickerHelper = MediaPickerHelper(this, isVideoAvailable = true)
     private var createPostListener: CreatePostListener? = null
 
     override fun onAttach(context: Context) {

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -14,7 +13,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="@string/choose_gallery"
-        app:titleCentered="true" />
+        app:titleCentered="true"
+        app:titleMarginEnd="72dp">
+
+        <org.futo.circles.core.view.LoadingButton
+            android:id="@+id/btnAdd"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginVertical="8dp"
+            android:layout_marginEnd="8dp"
+            android:enabled="false"
+            android:text="@string/add"
+            android:textSize="13sp"
+            android:visibility="gone"
+            app:textPadding="1dp" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
 
     <View
         android:id="@+id/toolbarDivider"

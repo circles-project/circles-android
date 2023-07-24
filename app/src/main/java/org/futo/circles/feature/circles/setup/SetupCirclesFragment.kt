@@ -16,7 +16,7 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.model.LoadingData
-import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper
+import org.futo.circles.core.picker.helper.MediaPickerHelper
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSetupCirclesBinding
 import org.futo.circles.feature.circles.setup.list.SetupCirclesAdapter
@@ -29,7 +29,7 @@ class SetupCirclesFragment : Fragment(R.layout.fragment_setup_circles), HasLoadi
     private val viewModel by viewModels<SetupCirclesViewModel>()
     private val binding by viewBinding(FragmentSetupCirclesBinding::bind)
     private val listAdapter by lazy { SetupCirclesAdapter(::onCircleListItemClicked) }
-    private val deviceMediaPickerHelper = DeviceMediaPickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this, isGalleryAvailable = false)
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 
 
@@ -73,7 +73,7 @@ class SetupCirclesFragment : Fragment(R.layout.fragment_setup_circles), HasLoadi
     }
 
     private fun onCircleListItemClicked(circle: SetupCircleListItem) {
-        deviceMediaPickerHelper.showMediaPickerDialog(
+        mediaPickerHelper.showMediaPickerDialog(
             onImageSelected = { id, uri -> viewModel.addImageForCircle(id, uri) },
             id = circle.id
         )

@@ -10,10 +10,10 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.picker.helper.MediaPickerHelper
 import org.futo.circles.core.room.update.UpdateRoomDialogFragment
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentUpdateGalleryBinding
-import org.futo.circles.core.picker.helper.AllMediaPickerHelper
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 @AndroidEntryPoint
 class UpdateGalleryDialogFragment :
@@ -22,7 +22,7 @@ class UpdateGalleryDialogFragment :
     private val args: UpdateGalleryDialogFragmentArgs by navArgs()
     override val roomId: String get() = args.roomId
     override val fragment: Fragment = this
-    override val mediaPickerHelper = AllMediaPickerHelper(this)
+    override val mediaPickerHelper = MediaPickerHelper(this)
     override val successMessageResId: Int = R.string.gallery_updated
 
     private val binding by lazy {

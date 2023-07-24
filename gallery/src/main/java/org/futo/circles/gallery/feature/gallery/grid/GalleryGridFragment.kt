@@ -18,7 +18,7 @@ import org.futo.circles.core.list.BaseRvDecoration
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.picker.gallery.media.list.GalleryMediaItemViewHolder
-import org.futo.circles.core.picker.helper.AllMediaPickerHelper
+import org.futo.circles.core.picker.helper.MediaPickerHelper
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryGridBinding
 import org.futo.circles.gallery.feature.gallery.GalleryMediaPreviewListener
@@ -31,13 +31,13 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
 
     private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
     private val binding by viewBinding(FragmentGalleryGridBinding::bind)
-    private val mediaPickerHelper = AllMediaPickerHelper(this, true)
+    private val mediaPickerHelper = MediaPickerHelper(
+        this, isMultiSelect = true, isVideoAvailable = true
+    )
     private val listAdapter by lazy {
-        GalleryItemsAdapter(
-            onGalleryItemClicked = { item, view, position ->
-                onMediaItemSelected(item, view, position)
-            },
-            onLoadMore = { viewModel.loadMore() })
+        GalleryItemsAdapter(onGalleryItemClicked = { item, view, position ->
+            onMediaItemSelected(item, view, position)
+        }, onLoadMore = { viewModel.loadMore() })
     }
 
     private var previewMediaListener: GalleryMediaPreviewListener? = null
@@ -62,29 +62,27 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     private fun prepareTransitions() {
         exitTransition = TransitionInflater.from(requireContext())
             .inflateTransition(R.transition.grid_exit_transition)
-        setExitSharedElementCallback(
-            object : SharedElementCallback() {
-                override fun onMapSharedElements(
-                    names: List<String?>,
-                    sharedElements: MutableMap<String?, View?>
-                ) {
-                    val selectedViewHolder: RecyclerView.ViewHolder =
-                        binding.rvGallery.getRecyclerView()
-                            .findViewHolderForAdapterPosition(returnViewPosition) ?: return
+        setExitSharedElementCallback(object : SharedElementCallback() {
+            override fun onMapSharedElements(
+                names: List<String?>, sharedElements: MutableMap<String?, View?>
+            ) {
+                val selectedViewHolder: RecyclerView.ViewHolder =
+                    binding.rvGallery.getRecyclerView()
+                        .findViewHolderForAdapterPosition(returnViewPosition) ?: return
 
-                    val t = selectedViewHolder.itemView.findViewById<View>(R.id.ivCover)
-                    sharedElements[names[0]] = t
-                    returnViewPosition = -1
-                }
-            })
+                val t = selectedViewHolder.itemView.findViewById<View>(R.id.ivCover)
+                sharedElements[names[0]] = t
+                returnViewPosition = -1
+            }
+        })
         postponeEnterTransition()
     }
 
     private fun setupViews() {
         binding.rvGallery.apply {
-            layoutManager =
-                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = listAdapter
+            getRecyclerView().itemAnimator = null
             addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
             bindToFab(binding.fbUploadImage)
         }
@@ -101,16 +99,25 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
         val recyclerView = binding.rvGallery.getRecyclerView()
         recyclerView.addOnLayoutChangeListener(object : OnLayoutChangeListener {
             override fun onLayoutChange(
-                v: View, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int,
-                oldTop: Int, oldRight: Int, oldBottom: Int
+                v: View,
+                left: Int,
+                top: Int,
+                right: Int,
+                bottom: Int,
+                oldLeft: Int,
+                oldTop: Int,
+                oldRight: Int,
+                oldBottom: Int
             ) {
                 recyclerView.removeOnLayoutChangeListener(this)
                 val layoutManager =
                     (recyclerView.layoutManager as? StaggeredGridLayoutManager) ?: return
                 val viewAtPosition = layoutManager.findViewByPosition(returnViewPosition)
-                val isItemVisible =
-                    viewAtPosition == null ||
-                            layoutManager.isViewPartiallyVisible(viewAtPosition, false, true)
+                val isItemVisible = viewAtPosition == null || layoutManager.isViewPartiallyVisible(
+                    viewAtPosition,
+                    false,
+                    true
+                )
 
                 recyclerView.post {
                     if (isItemVisible) layoutManager.scrollToPositionWithOffset(
@@ -123,14 +130,11 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     }
 
     private fun showImagePicker() {
-        mediaPickerHelper.showMediaPickerDialog(
-            onImageSelected = { _, uri ->
-                viewModel.uploadMedia(uri, MediaType.Image)
-            },
-            onVideoSelected = { uri ->
-                viewModel.uploadMedia(uri, MediaType.Video)
-            }
-        )
+        mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
+            viewModel.uploadMedia(uri, MediaType.Image)
+        }, onVideoSelected = { uri ->
+            viewModel.uploadMedia(uri, MediaType.Video)
+        })
     }
 
     private fun onMediaItemSelected(item: GalleryContentListItem, view: View, position: Int) {

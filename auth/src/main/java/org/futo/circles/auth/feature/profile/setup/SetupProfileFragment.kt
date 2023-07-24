@@ -17,7 +17,7 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper
+import org.futo.circles.core.picker.helper.MediaPickerHelper
 
 @AndroidEntryPoint
 class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadingState {
@@ -25,7 +25,7 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadi
     override val fragment: Fragment = this
     private val binding by viewBinding(FragmentSetupProfileBinding::bind)
     private val viewModel by viewModels<SetupProfileViewModel>()
-    private val deviceMediaPickerHelper = DeviceMediaPickerHelper(this)
+    private val mediaPickerHelper = MediaPickerHelper(this, isGalleryAvailable = false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +41,7 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadi
                 viewModel.saveProfileInfo(tilDisplayName.getText())
             }
             ivProfile.setOnClickListener {
-                deviceMediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
+                mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
                     viewModel.setProfileImageUri(uri)
                 })
             }

@@ -1,21 +1,19 @@
 package org.futo.circles.core.picker.gallery.media
 
-import android.content.Context
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.map
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.extensions.onUI
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.MediaContent
-import org.futo.circles.core.model.MediaFileData
-import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContentType
-import org.futo.circles.core.picker.gallery.PickGalleryMediaListener
-import org.futo.circles.core.picker.helper.DeviceMediaPickerHelper
+import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_MULTI_SELECT
+import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.TimelineDataSource
-import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,37 +22,29 @@ class PickMediaItemViewModel @Inject constructor(
     timelineDataSource: TimelineDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
-    private val isVideoAvailable: Boolean =
-        savedStateHandle[DeviceMediaPickerHelper.IS_VIDEO_AVAILABLE] ?: true
+    private val isVideoAvailable: Boolean = savedStateHandle[IS_VIDEO_AVAILABLE] ?: true
 
-    val galleryItemsLiveData = timelineDataSource.timelineEventsLiveData.map { list ->
-        list.mapNotNull { post ->
+    private val selectedItemsFlow = MutableStateFlow<List<GalleryContentListItem>>(emptyList())
+
+    val galleryItemsLiveData = combine(
+        timelineDataSource.timelineEventsLiveData.asFlow(),
+        selectedItemsFlow
+    ) { items, selectedIds ->
+        items.mapNotNull { post ->
             (post.content as? MediaContent)?.let {
                 if (it.type == PostContentType.VIDEO_CONTENT && !isVideoAvailable) null
-                else GalleryContentListItem(post.id, post.postInfo, it)
+                else GalleryContentListItem(
+                    post.id, post.postInfo, it, selectedIds.firstOrNull { it.id == post.id } != null
+                )
             }
         }
-    }
+    }.distinctUntilChanged().asLiveData()
 
 
-    fun selectMediaForPicker(
-        context: Context,
-        item: GalleryContentListItem,
-        listener: PickGalleryMediaListener
-    ) = launchBg {
-        onMediaSelected(
-            context, item.mediaContent.mediaFileData, listener, item.mediaContent.getMediaType()
-        )
-    }
-
-    private suspend fun onMediaSelected(
-        context: Context,
-        mediaFileData: MediaFileData?,
-        listener: PickGalleryMediaListener,
-        mediaType: MediaType
-    ) {
-        val content = mediaFileData ?: return
-        val uri = downloadEncryptedFileToContentUri(context, content) ?: return
-        onUI { listener.onMediaSelected(uri, mediaType) }
+    fun toggleItemSelected(item: GalleryContentListItem) {
+        val list = selectedItemsFlow.value.toMutableList()
+        if (item.isSelected) list.removeIf { it.id == item.id }
+        else list.add(item)
+        selectedItemsFlow.value = list
     }
 }
