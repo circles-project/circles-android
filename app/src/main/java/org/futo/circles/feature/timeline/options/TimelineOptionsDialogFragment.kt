@@ -9,6 +9,7 @@ import org.futo.circles.R
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
+import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
@@ -104,6 +105,12 @@ class TimelineOptionsDialogFragment :
                 tvConfigure.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToChangeSettings())
                 tvInviteMembers.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
                 tvDelete.setIsVisible(groupPowerLevelsContent.isCurrentUserOnlyAdmin(args.roomId))
+            }
+        }
+        viewModel.roomSummaryLiveData?.observeData(this) {
+            it.getOrNull()?.let { room ->
+                binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
+                binding.toolbar.title = room.displayName
             }
         }
     }
