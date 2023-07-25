@@ -16,46 +16,24 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         )
     }
 
+    fun navigateToTimelineOptions(roomId: String, type: CircleRoomTypeArg) {
+        fragment.findNavController().navigateSafe(
+            TimelineDialogFragmentDirections.toTimelineOptions(roomId, type)
+        )
+    }
+
     fun navigateToCreatePoll(roomId: String, eventId: String? = null) {
         fragment.findNavController().navigateSafe(
             TimelineDialogFragmentDirections.toCreatePoll(roomId, eventId)
         )
     }
 
-    fun navigateToInviteMembers(timelineId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toInviteMembersDialogFragment(timelineId)
-        )
-    }
-
-    fun navigateToUpdateRoom(roomId: String, type: CircleRoomTypeArg) {
-        val destination = if (type == CircleRoomTypeArg.Circle)
-            TimelineDialogFragmentDirections.toUpdateCircleDialogFragment(roomId)
-        else TimelineDialogFragmentDirections.toUpdateGroupDialogFragment(roomId)
-        fragment.findNavController().navigateSafe(destination)
-    }
-
-    fun navigateToManageMembers(timelineId: String, type: CircleRoomTypeArg) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toManageMembersDialogFragment(timelineId, type)
-        )
-    }
-
-    fun navigateToFollowing(roomId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toFollowingDialogFragment(roomId)
-        )
-    }
 
     fun navigateToInfo(roomId: String, eventId: String) {
         fragment.findNavController()
             .navigateSafe(TimelineDialogFragmentDirections.toPostInfo(roomId, eventId))
     }
 
-    fun navigateToStateEvents(roomId: String) {
-        fragment.findNavController()
-            .navigateSafe(TimelineDialogFragmentDirections.toStateEvents(roomId))
-    }
 
     fun navigateToSaveToGallery(roomId: String, eventId: String) {
         fragment.findNavController().navigateSafe(
@@ -91,10 +69,5 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         fragment.findNavController().navigateSafe(
             TimelineDialogFragmentDirections.toThreadTimeline(roomId, threadEventId)
         )
-    }
-
-    fun navigateToShareRoom(roomId: String) {
-        fragment.findNavController()
-            .navigateSafe(TimelineDialogFragmentDirections.toShareRoom(roomId, false))
     }
 }
