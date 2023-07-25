@@ -3,6 +3,7 @@ package org.futo.circles.feature.timeline.options
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
@@ -12,7 +13,6 @@ import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.withConfirmation
@@ -101,7 +101,9 @@ class TimelineOptionsDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.leaveDeleteEventLiveData.observeResponse(this, success = { onBackPressed() })
+        viewModel.leaveDeleteEventLiveData.observeResponse(this,
+            success = { findNavController().popBackStack(R.id.timelineFragment, true) }
+        )
         viewModel.accessLevelLiveData.observeData(this) { groupPowerLevelsContent ->
             if (!isGroupMode) return@observeData
             with(binding) {
