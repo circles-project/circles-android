@@ -121,13 +121,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/notifications" />
 
-            <TextView
+            <org.futo.circles.view.SettingsMenuItemView
                 android:id="@+id/tvPushNotifications"
-                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/push_notifications"
-                app:drawableStartCompat="@drawable/ic_notifications" />
+                app:optionIcon="@drawable/ic_notifications"
+                app:optionName="@string/push_notifications" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -173,75 +172,43 @@
                 android:layout_height="wrap_content"
                 android:text="@string/account" />
 
-            <TextView
+            <org.futo.circles.view.SettingsMenuItemView
                 android:id="@+id/tvChangePassword"
-                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/change_password"
-                app:drawableStartCompat="@drawable/ic_lock" />
+                app:optionIcon="@drawable/ic_lock"
+                app:optionName="@string/change_password" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
-                android:layout_marginHorizontal="8dp"
-                android:background="@color/divider_color" />
 
-            <TextView
+            <org.futo.circles.view.SettingsMenuItemView
                 android:id="@+id/tvLoginSessions"
-                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login_sessions"
-                app:drawableStartCompat="@drawable/ic_phone" />
+                app:optionIcon="@drawable/ic_phone"
+                app:optionName="@string/login_sessions" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
-                android:layout_marginHorizontal="8dp"
-                android:background="@color/divider_color" />
 
-            <TextView
+            <org.futo.circles.view.SettingsMenuItemView
                 android:id="@+id/tvClearCache"
-                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/clear_cache_and_reload"
-                app:drawableStartCompat="@drawable/ic_reload" />
+                app:optionIcon="@drawable/ic_reload"
+                app:optionName="@string/clear_cache_and_reload" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
-                android:layout_marginHorizontal="8dp"
-                android:background="@color/divider_color" />
 
-            <TextView
+            <org.futo.circles.view.SettingsMenuItemView
                 android:id="@+id/tvSwitchUser"
-                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/switch_user"
-                app:drawableStartCompat="@drawable/ic_switch_user" />
+                app:optionIcon="@drawable/ic_switch_user"
+                app:optionName="@string/switch_user" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
-                android:layout_marginHorizontal="8dp"
-                android:background="@color/divider_color" />
-
-            <TextView
+            <org.futo.circles.view.SettingsMenuItemView
                 android:id="@+id/tvLogout"
-                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/log_out"
-                app:drawableStartCompat="@drawable/ic_logout" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
-                android:layout_marginHorizontal="8dp"
-                android:background="@color/divider_color" />
+                app:optionIcon="@drawable/ic_logout"
+                app:optionName="@string/log_out" />
 
             <TextView
                 android:id="@+id/tvDeactivate"

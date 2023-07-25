@@ -1,25 +1,17 @@
 package org.futo.circles.feature.timeline
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
-import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
-import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
-import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
@@ -27,16 +19,17 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
-import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
-import org.futo.circles.extensions.*
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
-import org.futo.circles.model.*
+import org.futo.circles.model.CreatePostContent
+import org.futo.circles.model.EndPoll
+import org.futo.circles.model.IgnoreSender
+import org.futo.circles.model.RemovePost
 import org.futo.circles.view.CreatePostViewListener
 import org.futo.circles.view.PostOptionsListener
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -70,81 +63,12 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         ) { viewModel.loadMore() }
     }
     private val navigator by lazy { TimelineNavigator(this) }
-    private var groupPowerLevelsContent: PowerLevelsContent? = null
-    private var isNotificationsEnabledForRoom: Boolean = true
-    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
         setupMenu()
-    }
-
-    @SuppressLint("RestrictedApi")
-    private fun setupMenu() {
-        with(binding.toolbar) {
-            (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-            if (isThread) return
-            if (isGroupMode) inflateGroupMenu(menu) else inflateCircleMenu(menu)
-            setupMenuClickListener()
-        }
-    }
-
-    private fun invalidateMenu() {
-        binding.toolbar.menu.clear()
-        setupMenu()
-    }
-
-    private fun inflateGroupMenu(menu: Menu) {
-        binding.toolbar.inflateMenu(R.menu.group_timeline_menu)
-        menu.findItem(R.id.configureGroup).isVisible =
-            groupPowerLevelsContent?.isCurrentUserAbleToChangeSettings() ?: false
-        menu.findItem(R.id.inviteMembers).isVisible =
-            groupPowerLevelsContent?.isCurrentUserAbleToInvite() ?: false
-        menu.findItem(R.id.deleteGroup).isVisible =
-            groupPowerLevelsContent?.isCurrentUserOnlyAdmin(args.roomId) ?: false
-        menu.findItem(R.id.stateEvents).isVisible =
-            preferencesProvider.isDeveloperModeEnabled()
-        menu.findItem(R.id.muteNotifications).isVisible = isNotificationsEnabledForRoom
-        menu.findItem(R.id.unMuteNotifications).isVisible = !isNotificationsEnabledForRoom
-    }
-
-    private fun inflateCircleMenu(menu: Menu) {
-        binding.toolbar.inflateMenu(R.menu.circle_timeline_menu)
-        menu.findItem(R.id.stateEvents).isVisible = preferencesProvider.isDeveloperModeEnabled()
-        menu.findItem(R.id.muteNotifications).isVisible = isNotificationsEnabledForRoom
-        menu.findItem(R.id.unMuteNotifications).isVisible = !isNotificationsEnabledForRoom
-    }
-
-    private fun setupMenuClickListener() {
-        binding.toolbar.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.muteNotifications ->
-                    viewModel.setNotificationsEnabled(false)
-
-                R.id.unMuteNotifications ->
-                    viewModel.setNotificationsEnabled(true)
-
-                R.id.configureGroup, R.id.configureCircle ->
-                    navigator.navigateToUpdateRoom(args.roomId, args.type)
-
-                R.id.manageMembers, R.id.myFollowers ->
-                    navigator.navigateToManageMembers(timelineId, args.type)
-
-                R.id.inviteMembers, R.id.inviteFollowers -> navigator.navigateToInviteMembers(
-                    timelineId
-                )
-
-                R.id.leaveGroup -> showLeaveGroupDialog()
-                R.id.iFollowing -> navigator.navigateToFollowing(args.roomId)
-                R.id.deleteCircle -> withConfirmation(DeleteCircle()) { viewModel.deleteCircle() }
-                R.id.deleteGroup -> withConfirmation(DeleteGroup()) { viewModel.deleteGroup() }
-                R.id.stateEvents -> navigator.navigateToStateEvents(timelineId)
-                R.id.share -> navigator.navigateToShareRoom(timelineId)
-            }
-            return@setOnMenuItemClickListener true
-        }
     }
 
     private fun setupViews() {
@@ -164,6 +88,28 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }, binding.rvTimeline.getRecyclerView(), isThread)
     }
 
+
+    private fun setupMenu() {
+        with(binding.toolbar) {
+            if (isThread) return
+            inflateMenu(R.menu.timeline_menu)
+            setupMenuClickListener()
+        }
+    }
+
+    private fun setupMenuClickListener() {
+        binding.toolbar.apply {
+            setOnClickListener { navigator.navigateToTimelineOptions(args.roomId, args.type) }
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.settings -> navigator.navigateToTimelineOptions(args.roomId, args.type)
+                }
+                return@setOnMenuItemClickListener true
+            }
+        }
+    }
+
+
     private fun setupObservers() {
         viewModel.titleLiveData?.observeData(this) { roomName ->
             val title = if (isThread) getString(R.string.thread_format, roomName ?: "")
@@ -174,9 +120,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             listAdapter.submitList(it)
         }
         viewModel.notificationsStateLiveData.observeData(this) {
-            isNotificationsEnabledForRoom = it
-            binding.toolbar.subtitle = if (it) "" else getString(R.string.notifications_disabled)
-            invalidateMenu()
+            binding.toolbar.subtitle =
+                if (it) "" else getString(R.string.notifications_disabled)
         }
         viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
             onUserAccessLevelChanged(powerLevelsContent)
@@ -192,12 +137,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
                 context?.let { showSuccess(it.getString(R.string.user_ignored)) }
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
-        viewModel.leaveGroupLiveData.observeResponse(this,
-            success = { onBackPressed() }
-        )
-        viewModel.deleteCircleLiveData.observeResponse(this,
-            success = { onBackPressed() }
-        )
+
         viewModel.profileLiveData?.observeData(this) {
             it.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
         }
@@ -308,8 +248,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         binding.lCreatePost.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
-        groupPowerLevelsContent = powerLevelsContent
-        invalidateMenu()
     }
 
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
@@ -317,14 +255,4 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         binding.lCreatePost.setIsVisible(isUserAdmin)
     }
 
-    private fun showLeaveGroupDialog() {
-        if (viewModel.canLeaveRoom()) {
-            withConfirmation(LeaveGroup()) { viewModel.leaveGroup() }
-        } else {
-            showDialog(
-                titleResIdRes = R.string.leave_group,
-                messageResId = R.string.select_another_admin_message
-            )
-        }
-    }
 }

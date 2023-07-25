@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/timeline_options_nav_graph"
+    app:startDestination="@id/timelineOptionsDialogFragment">
+    <dialog
+        android:id="@+id/timelineOptionsDialogFragment"
+        android:name="org.futo.circles.feature.timeline.options.TimelineOptionsDialogFragment"
+        tools:layout="@layout/dialog_fragment_timeline_options">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_shareRoom"
+            app:destination="@id/shareRoomDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="isProfile"
+                app:argType="boolean"
+                app:nullable="false" />
+        </action>
+
+        <action
+            android:id="@+id/to_stateEvents"
+            app:destination="@id/stateEventsDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_updateCircleDialogFragment"
+            app:destination="@id/updateCircleDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_updateGroupDialogFragment"
+            app:destination="@id/updateGroupDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_inviteMembersDialogFragment"
+            app:destination="@id/inviteMembersDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_manageMembersDialogFragment"
+            app:destination="@id/manageMembersDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_followingDialogFragment"
+            app:destination="@id/followingDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+
+    </dialog>
+    <dialog
+        android:id="@+id/stateEventsDialogFragment"
+        android:name="org.futo.circles.feature.timeline.state.RoomStateEventsDialogFragment"
+        tools:layout="@layout/dialog_fragment_debug_info">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/updateCircleDialogFragment"
+        android:name="org.futo.circles.feature.circles.update.UpdateCircleDialogFragment"
+        tools:layout="@layout/dialog_fragment_update_circle">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/shareRoomDialogFragment"
+        android:name="org.futo.circles.feature.room.share.ShareRoomDialogFragment"
+        tools:layout="@layout/dialog_fragment_share_room">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="isProfile"
+            app:argType="boolean"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/updateGroupDialogFragment"
+        android:name="org.futo.circles.feature.groups.update.UpdateGroupDialogFragment"
+        tools:layout="@layout/dialog_fragment_update_group">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/inviteMembersDialogFragment"
+        android:name="org.futo.circles.feature.room.invite.InviteMembersDialogFragment"
+        tools:layout="@layout/dialog_fragment_invite_members">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/followingDialogFragment"
+        android:name="org.futo.circles.feature.circles.following.FollowingDialogFragment"
+        android:label="FollowingDialogFragment"
+        tools:layout="@layout/dialog_fragment_following">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+    <dialog
+        android:id="@+id/manageMembersDialogFragment"
+        android:name="org.futo.circles.feature.room.manage_members.ManageMembersDialogFragment"
+        tools:layout="@layout/dialog_fragment_manage_members">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_changeAccessLevelBottomSheet"
+            app:destination="@id/changeAccessLevelBottomSheet">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="myUserLevelValue"
+                app:argType="integer"
+                app:nullable="false" />
+
+            <argument
+                android:name="levelValue"
+                app:argType="integer"
+                app:nullable="false" />
+
+        </action>
+
+    </dialog>
+    <dialog
+        android:id="@+id/changeAccessLevelBottomSheet"
+        android:name="org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelBottomSheet"
+        android:label="ChangeAccessLevelBottomSheet"
+        tools:layout="@layout/bottom_sheet_change_access_level">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="myUserLevelValue"
+            app:argType="integer"
+            app:nullable="false" />
+
+        <argument
+            android:name="levelValue"
+            app:argType="integer"
+            app:nullable="false" />
+
+    </dialog>
+</navigation>
