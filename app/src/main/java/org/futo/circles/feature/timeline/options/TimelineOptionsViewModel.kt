@@ -23,10 +23,12 @@ class TimelineOptionsViewModel @Inject constructor(
     accessLevelDataSource: AccessLevelDataSource,
 ) : ViewModel() {
 
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+
+
     val leaveDeleteEventLiveData = SingleEventLiveData<Response<Unit?>>()
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
-
-    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
 
     val roomSummaryLiveData =
         MatrixSessionProvider.getSessionOrThrow().getRoom(roomId)?.getRoomSummaryLive()

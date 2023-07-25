@@ -54,6 +54,9 @@ class TimelineOptionsDialogFragment :
 
     private fun setupViews() {
         with(binding) {
+            lPushNotifications.setOnClickListener {
+                viewModel.setNotificationsEnabled(!svPushNotifications.isChecked)
+            }
             tvConfigure.apply {
                 setText(
                     getString(if (isGroupMode) R.string.configure_group else R.string.configure_circle)
@@ -112,6 +115,9 @@ class TimelineOptionsDialogFragment :
                 binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
                 binding.toolbar.title = room.displayName
             }
+        }
+        viewModel.notificationsStateLiveData.observeData(this) {
+            binding.svPushNotifications.isChecked = it
         }
     }
 
