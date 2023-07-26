@@ -37,7 +37,6 @@ class ChangeAccessLevelBottomSheet : TransparentBackgroundBottomSheetDialogFragm
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = BottomSheetChangeAccessLevelBinding.inflate(inflater, container, false)
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         return binding?.root
     }
 
