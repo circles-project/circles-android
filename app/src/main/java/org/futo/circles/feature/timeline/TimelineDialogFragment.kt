@@ -26,6 +26,7 @@ import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
+import org.futo.circles.feature.timeline.post.menu.PostMenuListener
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
@@ -37,7 +38,7 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 @AndroidEntryPoint
 class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimelineBinding::inflate),
-    PostOptionsListener,
+    PostOptionsListener, PostMenuListener,
     CreatePostListener, CreatePollListener, EmojiPickerListener {
 
     private val args: TimelineDialogFragmentArgs by navArgs()
@@ -141,6 +142,10 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         viewModel.profileLiveData?.observeData(this) {
             it.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
         }
+    }
+
+    override fun onShowMenuClicked(roomId: String, eventId: String) {
+        navigator.navigatePostMenu(roomId, eventId)
     }
 
     override fun onUserClicked(userId: String) {
