@@ -11,6 +11,7 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
+import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 import javax.inject.Inject
 
 
@@ -30,7 +31,7 @@ class PostContentDataSource @Inject constructor() {
 
 
     private fun getPostContentTypeFor(event: TimelineEvent): PostContentType? {
-        val messageType = event.root.getClearContent()?.toModel<MessageContent>()?.msgType
+        val messageType = event.getLastMessageContent()?.msgType
         return PostContentType.values().firstOrNull { it.typeKey == messageType }
     }
 
