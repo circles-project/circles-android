@@ -65,21 +65,7 @@
                 app:nullable="true" />
 
         </action>
-        <action
-            android:id="@+id/to_reportDialogFragment"
-            app:destination="@id/reportDialogFragment">
 
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="eventId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
         <action
             android:id="@+id/to_emojiBottomSheet"
             app:destination="@id/emojiBottomSheet">
@@ -96,21 +82,7 @@
 
         </action>
 
-        <action
-            android:id="@+id/to_saveToGalleyDialogFragment"
-            app:destination="@id/saveToGalleyDialogFragment">
 
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="eventId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
         <action
             android:id="@+id/to_mediaPreviewDialogFragment"
             app:destination="@id/mediaPreviewDialogFragment">
@@ -124,22 +96,6 @@
                 android:name="eventId"
                 app:argType="string"
                 app:nullable="false" />
-
-        </action>
-
-        <action
-            android:id="@+id/to_postInfo"
-            app:destination="@id/postInfoDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="eventId"
-                app:argType="string"
-                app:nullable="true" />
 
         </action>
 
@@ -193,7 +149,7 @@
         </action>
         <action
             android:id="@+id/to_postMenuBottomSheet"
-            app:destination="@id/postMenuBottomSheet" >
+            app:destination="@id/postMenuBottomSheet">
 
             <argument
                 android:name="roomId"
@@ -361,6 +317,103 @@
             android:name="eventId"
             app:argType="string"
             app:nullable="false" />
+
+        <action
+            android:id="@+id/to_saveToGalleyDialogFragment"
+            app:destination="@id/saveToGalleyDialogFragment"
+            app:popUpTo="@+id/postMenuBottomSheet"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_postInfo"
+            app:destination="@id/postInfoDialogFragment"
+            app:popUpTo="@+id/postMenuBottomSheet"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_reportDialogFragment"
+            app:destination="@id/reportDialogFragment"
+            app:popUpTo="@+id/postMenuBottomSheet"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_createPostBottomSheet"
+            app:destination="@id/createPostBottomSheet"
+            app:popUpTo="@+id/postMenuBottomSheet"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+            <argument
+                android:name="isEdit"
+                android:defaultValue="false"
+                app:argType="boolean"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_createPoll"
+            app:destination="@id/createPollDialogFragment"
+            app:popUpTo="@+id/postMenuBottomSheet"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+
 
     </dialog>
 </navigation>

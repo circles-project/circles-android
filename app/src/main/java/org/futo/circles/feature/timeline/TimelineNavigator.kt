@@ -8,11 +8,10 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
 
     fun navigateToCreatePost(
         roomId: String,
-        eventId: String? = null,
-        isEdit: Boolean = false
+        eventId: String? = null
     ) {
         fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toCreatePostBottomSheet(roomId, eventId, isEdit)
+            TimelineDialogFragmentDirections.toCreatePostBottomSheet(roomId, eventId, false)
         )
     }
 
@@ -22,28 +21,9 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         )
     }
 
-    fun navigateToCreatePoll(roomId: String, eventId: String? = null) {
+    fun navigateToCreatePoll(roomId: String) {
         fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toCreatePoll(roomId, eventId)
-        )
-    }
-
-
-    fun navigateToInfo(roomId: String, eventId: String) {
-        fragment.findNavController()
-            .navigateSafe(TimelineDialogFragmentDirections.toPostInfo(roomId, eventId))
-    }
-
-
-    fun navigateToSaveToGallery(roomId: String, eventId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
-        )
-    }
-
-    fun navigateToReport(roomId: String, eventId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toReportDialogFragment(roomId, eventId)
+            TimelineDialogFragmentDirections.toCreatePoll(roomId, null)
         )
     }
 

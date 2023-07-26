@@ -180,18 +180,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         viewModel.saveToDevice(content)
     }
 
-    override fun onEditPostClicked(roomId: String, eventId: String) {
-        navigator.navigateToCreatePost(roomId, eventId = eventId, isEdit = true)
-    }
-
-    override fun onSaveToGallery(roomId: String, eventId: String) {
-        navigator.navigateToSaveToGallery(roomId, eventId)
-    }
-
-    override fun onReport(roomId: String, eventId: String) {
-        navigator.navigateToReport(roomId, eventId)
-    }
-
     override fun onEmojiChipClicked(
         roomId: String, eventId: String, emoji: String, isUnSend: Boolean
     ) {
@@ -209,14 +197,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     override fun endPoll(roomId: String, eventId: String) {
         withConfirmation(EndPoll()) { viewModel.endPoll(roomId, eventId) }
-    }
-
-    override fun onEditPollClicked(roomId: String, eventId: String) {
-        navigator.navigateToCreatePoll(roomId, eventId)
-    }
-
-    override fun onInfoClicked(roomId: String, eventId: String) {
-        navigator.navigateToInfo(roomId, eventId)
     }
 
     override fun onSendPost(

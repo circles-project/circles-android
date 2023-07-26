@@ -20,6 +20,7 @@ class PostMenuBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
     private val args: PostMenuBottomSheetArgs by navArgs()
     private val viewModel by viewModels<PostMenuViewModel>()
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
+    private val navigator by lazy { PostMenuBottomSheetNavigator(this) }
 
     private var menuListener: PostMenuListener? = null
 
@@ -47,59 +48,65 @@ class PostMenuBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
             with(it) {
                 tvDelete.apply {
                     setIsVisible(viewModel.canDeletePost())
-                    setOnOptionClickListener(this) { menuListener?.onRemove(args.roomId, args.eventId) }
+                    setOnClickListener {
+                        menuListener?.onRemove(args.roomId, args.eventId)
+                        dismiss()
+                    }
                 }
                 tvEdit.apply {
                     setIsVisible(viewModel.canEditPost())
-                    setOnOptionClickListener(this) {
-                        menuListener?.onEditPostClicked(args.roomId, args.eventId)
+                    setOnClickListener {
+                        navigator.navigateToEditPost(args.roomId, args.eventId)
                     }
                 }
                 tvSaveToDevice.apply {
                     setIsVisible(viewModel.isMediaPost())
-                    setOnOptionClickListener(this) {
+                    setOnClickListener {
                         viewModel.getPostContent()?.let { menuListener?.onSaveToDevice(it) }
+                        dismiss()
                     }
                 }
                 tvSaveToGallery.apply {
                     setIsVisible(viewModel.isMediaPost())
-                    setOnOptionClickListener(this) { menuListener?.onSaveToGallery(args.roomId, args.eventId) }
+                    setOnClickListener {
+                        navigator.navigateToSaveToGallery(args.roomId, args.eventId)
+                    }
                 }
                 tvReport.apply {
                     setIsVisible(viewModel.isMyPost().not())
-                    setOnOptionClickListener(this) { menuListener?.onReport(args.roomId, args.eventId) }
+                    setOnClickListener {
+                        navigator.navigateToReport(args.roomId, args.eventId)
+                    }
                 }
                 tvIgnore.apply {
                     setIsVisible(viewModel.isMyPost().not())
-                    setOnOptionClickListener(this) {
+                    setOnClickListener {
                         viewModel.getSenderId()?.let { menuListener?.onIgnore(it) }
+                        dismiss()
                     }
                 }
                 tvEditPoll.apply {
                     setIsVisible(viewModel.canEditPoll())
-                    setOnOptionClickListener(this) {
-                        menuListener?.onEditPollClicked(args.roomId, args.eventId)
+                    setOnClickListener {
+                        navigator.navigateToEditPoll(args.roomId, args.eventId)
                     }
                 }
                 tvEndPoll.apply {
                     setIsVisible(viewModel.canEndPoll())
-                    setOnOptionClickListener(this) { menuListener?.endPoll(args.roomId, args.eventId) }
+                    setOnClickListener {
+                        menuListener?.endPoll(args.roomId, args.eventId)
+                        dismiss()
+                    }
                 }
                 tvInfo.apply {
                     setIsVisible(preferencesProvider.isDeveloperModeEnabled())
-                    setOnOptionClickListener(this) { menuListener?.onInfoClicked(args.roomId, args.eventId) }
+                    setOnClickListener {
+                        navigator.navigateToInfo(args.roomId, args.eventId)
+                    }
                 }
             }
         }
     }
-
-    private fun setOnOptionClickListener(view: View, lister: () -> Unit) {
-        view.setOnClickListener {
-            lister.invoke()
-            dismiss()
-        }
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
