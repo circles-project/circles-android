@@ -70,4 +70,10 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
             TimelineDialogFragmentDirections.toThreadTimeline(roomId, threadEventId)
         )
     }
+
+    fun navigatePostMenu(roomId: String, eventId: String) {
+        fragment.findNavController().navigateSafe(
+            TimelineDialogFragmentDirections.toPostMenuBottomSheet(roomId, eventId)
+        )
+    }
 }

@@ -191,6 +191,21 @@
                 app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
         </action>
+        <action
+            android:id="@+id/to_postMenuBottomSheet"
+            app:destination="@id/postMenuBottomSheet" >
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
     </dialog>
 
@@ -332,4 +347,20 @@
     </dialog>
 
     <include app:graph="@navigation/timeline_options_nav_graph" />
+    <dialog
+        android:id="@+id/postMenuBottomSheet"
+        android:name="org.futo.circles.feature.timeline.post.menu.PostMenuBottomSheet"
+        tools:layout="@layout/bottom_sheet_post_menu">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
 </navigation>
