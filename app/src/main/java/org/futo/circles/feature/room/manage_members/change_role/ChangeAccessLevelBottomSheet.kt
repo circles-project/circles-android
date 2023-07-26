@@ -9,15 +9,16 @@ import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.fragment.TransparentBackgroundBottomSheetDialogFragment
 import org.futo.circles.databinding.BottomSheetChangeAccessLevelBinding
 import org.futo.circles.feature.room.manage_members.change_role.list.ChangeAccessLevelAdapter
 import org.futo.circles.model.AccessLevelListItem
 
+
 @AndroidEntryPoint
-class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
+class ChangeAccessLevelBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
 
     private var binding: BottomSheetChangeAccessLevelBinding? = null
     private val args: ChangeAccessLevelBottomSheetArgs by navArgs()
@@ -30,6 +31,7 @@ class ChangeAccessLevelBottomSheet : BottomSheetDialogFragment() {
         changeAccessLevelListener =
             parentFragmentManager.fragments.firstOrNull { it is ChangeAccessLevelListener } as? ChangeAccessLevelListener
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
