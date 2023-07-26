@@ -10,13 +10,14 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.timeline.post.PostContentDataSource
 import org.futo.circles.core.utils.FileUtils
 import javax.inject.Inject
 
 @HiltViewModel
 class FullScreenMediaViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val fullScreenMediaDataSource: FullScreenMediaDataSource
+    private val postContentDataSource: PostContentDataSource
 ) : ViewModel() {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
@@ -27,7 +28,7 @@ class FullScreenMediaViewModel @Inject constructor(
 
     fun loadData(context: Context) {
         val content =
-            (fullScreenMediaDataSource.getPostContent(roomId, eventId) as? MediaContent) ?: return
+            (postContentDataSource.getPostContent(roomId, eventId) as? MediaContent) ?: return
         when (content.type) {
             PostContentType.IMAGE_CONTENT -> imageLiveData.postValue(content)
             PostContentType.VIDEO_CONTENT -> launchBg {

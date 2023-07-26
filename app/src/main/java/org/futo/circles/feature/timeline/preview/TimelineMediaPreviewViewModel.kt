@@ -8,13 +8,13 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
-import org.futo.circles.gallery.feature.gallery.full_screen.media_item.FullScreenMediaDataSource
+import org.futo.circles.core.timeline.post.PostContentDataSource
 import javax.inject.Inject
 
 @HiltViewModel
 class TimelineMediaPreviewViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val mediaDataSource: FullScreenMediaDataSource,
+    private val mediaDataSource: PostContentDataSource,
     private val postOptionsDataSource: PostOptionsDataSource
 ) : ViewModel() {
 

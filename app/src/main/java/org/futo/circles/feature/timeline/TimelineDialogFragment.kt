@@ -26,6 +26,7 @@ import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
+import org.futo.circles.feature.timeline.post.menu.PostMenuListener
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
@@ -37,7 +38,7 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 @AndroidEntryPoint
 class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimelineBinding::inflate),
-    PostOptionsListener,
+    PostOptionsListener, PostMenuListener,
     CreatePostListener, CreatePollListener, EmojiPickerListener {
 
     private val args: TimelineDialogFragmentArgs by navArgs()
@@ -143,6 +144,10 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
     }
 
+    override fun onShowMenuClicked(roomId: String, eventId: String) {
+        navigator.navigatePostMenu(roomId, eventId)
+    }
+
     override fun onUserClicked(userId: String) {
         navigator.navigateToUserDialogFragment(userId)
     }
@@ -175,18 +180,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         viewModel.saveToDevice(content)
     }
 
-    override fun onEditPostClicked(roomId: String, eventId: String) {
-        navigator.navigateToCreatePost(roomId, eventId = eventId, isEdit = true)
-    }
-
-    override fun onSaveToGallery(roomId: String, eventId: String) {
-        navigator.navigateToSaveToGallery(roomId, eventId)
-    }
-
-    override fun onReport(roomId: String, eventId: String) {
-        navigator.navigateToReport(roomId, eventId)
-    }
-
     override fun onEmojiChipClicked(
         roomId: String, eventId: String, emoji: String, isUnSend: Boolean
     ) {
@@ -204,14 +197,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     override fun endPoll(roomId: String, eventId: String) {
         withConfirmation(EndPoll()) { viewModel.endPoll(roomId, eventId) }
-    }
-
-    override fun onEditPollClicked(roomId: String, eventId: String) {
-        navigator.navigateToCreatePoll(roomId, eventId)
-    }
-
-    override fun onInfoClicked(roomId: String, eventId: String) {
-        navigator.navigateToInfo(roomId, eventId)
     }
 
     override fun onSendPost(
