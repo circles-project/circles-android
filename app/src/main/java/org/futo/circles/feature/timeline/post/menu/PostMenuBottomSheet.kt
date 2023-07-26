@@ -25,7 +25,8 @@ class PostMenuBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        menuListener = parentFragment as? PostMenuListener
+        menuListener =
+            parentFragmentManager.fragments.firstOrNull { it is PostMenuListener } as? PostMenuListener
     }
 
 
@@ -46,49 +47,56 @@ class PostMenuBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
             with(it) {
                 tvDelete.apply {
                     setIsVisible(viewModel.canDeletePost())
-                    setOnClickListener { menuListener?.onRemove(args.roomId, args.eventId) }
+                    setOnOptionClickListener(this) { menuListener?.onRemove(args.roomId, args.eventId) }
                 }
                 tvEdit.apply {
                     setIsVisible(viewModel.canEditPost())
-                    setOnClickListener {
+                    setOnOptionClickListener(this) {
                         menuListener?.onEditPostClicked(args.roomId, args.eventId)
                     }
                 }
                 tvSaveToDevice.apply {
                     setIsVisible(viewModel.isMediaPost())
-                    setOnClickListener {
+                    setOnOptionClickListener(this) {
                         viewModel.getPostContent()?.let { menuListener?.onSaveToDevice(it) }
                     }
                 }
                 tvSaveToGallery.apply {
                     setIsVisible(viewModel.isMediaPost())
-                    setOnClickListener { menuListener?.onSaveToGallery(args.roomId, args.eventId) }
+                    setOnOptionClickListener(this) { menuListener?.onSaveToGallery(args.roomId, args.eventId) }
                 }
                 tvReport.apply {
                     setIsVisible(viewModel.isMyPost().not())
-                    setOnClickListener { menuListener?.onReport(args.roomId, args.eventId) }
+                    setOnOptionClickListener(this) { menuListener?.onReport(args.roomId, args.eventId) }
                 }
                 tvIgnore.apply {
                     setIsVisible(viewModel.isMyPost().not())
-                    setOnClickListener {
+                    setOnOptionClickListener(this) {
                         viewModel.getSenderId()?.let { menuListener?.onIgnore(it) }
                     }
                 }
                 tvEditPoll.apply {
                     setIsVisible(viewModel.canEditPoll())
-                    setOnClickListener {
+                    setOnOptionClickListener(this) {
                         menuListener?.onEditPollClicked(args.roomId, args.eventId)
                     }
                 }
                 tvEndPoll.apply {
                     setIsVisible(viewModel.canEndPoll())
-                    setOnClickListener { menuListener?.endPoll(args.roomId, args.eventId) }
+                    setOnOptionClickListener(this) { menuListener?.endPoll(args.roomId, args.eventId) }
                 }
                 tvInfo.apply {
                     setIsVisible(preferencesProvider.isDeveloperModeEnabled())
-                    setOnClickListener { menuListener?.onInfoClicked(args.roomId, args.eventId) }
+                    setOnOptionClickListener(this) { menuListener?.onInfoClicked(args.roomId, args.eventId) }
                 }
             }
+        }
+    }
+
+    private fun setOnOptionClickListener(view: View, lister: () -> Unit) {
+        view.setOnClickListener {
+            lister.invoke()
+            dismiss()
         }
     }
 
