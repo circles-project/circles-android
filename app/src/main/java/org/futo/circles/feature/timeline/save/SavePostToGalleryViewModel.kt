@@ -6,12 +6,12 @@ import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.gallery.feature.gallery.full_screen.media_item.FullScreenMediaDataSource
+import org.futo.circles.core.timeline.post.PostContentDataSource
 import javax.inject.Inject
 
 @HiltViewModel
 class SavePostToGalleryViewModel @Inject constructor(
-    private val mediaPreviewDataSource: FullScreenMediaDataSource,
+    private val mediaPreviewDataSource: PostContentDataSource,
     private val savePostToGalleryDataSource: SavePostToGalleryDataSource
 ) : ViewModel() {
 

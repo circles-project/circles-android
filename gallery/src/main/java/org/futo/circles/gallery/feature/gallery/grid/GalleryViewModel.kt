@@ -14,7 +14,7 @@ import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.TimelineDataSource
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.timeline.post.SendMessageDataSource
-import org.futo.circles.gallery.feature.gallery.full_screen.media_item.FullScreenMediaDataSource
+import org.futo.circles.core.timeline.post.PostContentDataSource
 import org.futo.circles.core.model.GalleryContentListItem
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class GalleryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     timelineDataSource: TimelineDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
-    private val mediaDataSource: FullScreenMediaDataSource,
+    private val mediaDataSource: PostContentDataSource,
     private val postOptionsDataSource: PostOptionsDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
