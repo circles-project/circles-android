@@ -9,7 +9,6 @@ import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.room.leave.LeaveRoomDataSource
 import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.TimelineDataSource
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
@@ -87,8 +86,16 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
-    fun editTextPost(eventId: String, roomId: String, newMessage: String) {
-        sendMessageDataSource.editTextMessage(eventId, roomId, newMessage)
+    fun editPost(eventId: String, roomId: String, postContent: CreatePostContent) {
+        when (postContent) {
+            is MediaPostContent -> postContent.caption?.let {
+                sendMessageDataSource.editMediaCaption(eventId, roomId, postContent.caption)
+            }
+
+            is TextPostContent -> sendMessageDataSource.editTextMessage(
+                eventId, roomId, postContent.text
+            )
+        }
     }
 
     fun createPoll(roomId: String, pollContent: CreatePollContent) {
