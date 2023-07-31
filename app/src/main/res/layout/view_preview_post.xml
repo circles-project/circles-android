@@ -91,13 +91,7 @@
                 app:layout_constraintEnd_toEndOf="@id/lMediaContent"
                 app:layout_constraintTop_toTopOf="@id/lMediaContent"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/mediaContentGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="ivRemoveImage, lMediaContent" />
-
+            
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
