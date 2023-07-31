@@ -13,18 +13,14 @@ import org.futo.circles.core.extensions.toVideoContentAttachmentData
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.EventType
-import org.matrix.android.sdk.api.session.events.model.LocalEcho
 import org.matrix.android.sdk.api.session.events.model.RelationType
-import org.matrix.android.sdk.api.session.events.model.UnsignedData
 import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent
-import org.matrix.android.sdk.api.session.room.model.message.MessageTextContent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.session.room.model.relation.RelationDefaultContent
 import org.matrix.android.sdk.api.util.Cancelable
@@ -68,7 +64,7 @@ class SendMessageDataSource @Inject constructor(@ApplicationContext private val 
         val roomForMessage = session?.getRoom(roomId) ?: return
         val event = roomForMessage.getTimelineEvent(eventId)?.root ?: return
         val additionalContent = mutableMapOf<String, Any>().apply {
-            this[MediaCaptionFieldKey] = "edited caption"
+            this[MediaCaptionFieldKey] = message
         }
         val editedEventContent = event.getClearContent().toModel<MessageImageContent>()?.copy(
             relatesTo = RelationDefaultContent(RelationType.REPLACE, eventId),
