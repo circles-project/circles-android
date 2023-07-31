@@ -207,8 +207,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         viewModel.sendPost(roomId, postContent, threadEventId)
     }
 
-    override fun onEditTextPost(roomId: String, newMessage: String, eventId: String) {
-        viewModel.editTextPost(eventId, roomId, newMessage)
+    override fun onEditPost(roomId: String, postContent: CreatePostContent, eventId: String) {
+        viewModel.editPost(eventId, roomId, postContent)
     }
 
     override fun onCreatePoll(roomId: String, pollContent: CreatePollContent) {

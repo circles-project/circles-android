@@ -33,7 +33,7 @@ class PostMenuViewModel @Inject constructor(
         (areUserAbleToPost() && isMyPost()) || userPowerLevel >= Role.Moderator.value
 
     fun canEditPost() = areUserAbleToPost() && isMyPost()
-            && getPostContent()?.type == PostContentType.TEXT_CONTENT
+            && getPostContent()?.type != PostContentType.POLL_CONTENT
 
     fun canEndPoll() = isPoll() && getPollState() != PollState.Ended && canDeletePost()
 

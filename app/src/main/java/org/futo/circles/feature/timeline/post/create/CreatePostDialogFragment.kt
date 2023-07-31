@@ -14,12 +14,14 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.TextContent
 import org.futo.circles.core.picker.helper.MediaPickerHelper
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
-import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.PreviewPostListener
 import java.util.*
 
@@ -78,8 +80,13 @@ class CreatePostDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.textToEditLiveData.observeData(this) {
-            binding.vPostPreview.setText(it)
+        viewModel.postToEditContentLiveData.observeData(this) {
+            when (it.type) {
+                PostContentType.IMAGE_CONTENT, PostContentType.VIDEO_CONTENT ->
+                    binding.vPostPreview.setMediaFromExistingPost(it as MediaContent)
+
+                else -> binding.vPostPreview.setText((it as TextContent).message)
+            }
         }
     }
 
@@ -102,9 +109,8 @@ class CreatePostDialogFragment :
     }
 
     private fun onEditPost() {
-        val newMessage = (binding.vPostPreview.getPostContent() as? TextPostContent)?.text ?: return
         val eventId = args.eventId ?: return
-        createPostListener?.onEditTextPost(args.roomId, newMessage, eventId)
+        createPostListener?.onEditPost(args.roomId, binding.vPostPreview.getPostContent(), eventId)
     }
 
     override fun onUploadMediaClicked() {

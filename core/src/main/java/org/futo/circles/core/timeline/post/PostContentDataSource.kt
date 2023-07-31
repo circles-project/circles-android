@@ -6,10 +6,8 @@ import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
-import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.getLastMessageContent
 import javax.inject.Inject

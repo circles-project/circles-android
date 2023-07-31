@@ -13,10 +13,16 @@ import org.futo.circles.core.extensions.toVideoContentAttachmentData
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.events.model.RelationType
+import org.matrix.android.sdk.api.session.events.model.toContent
+import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
+import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
+import org.matrix.android.sdk.api.session.room.model.relation.RelationDefaultContent
 import org.matrix.android.sdk.api.util.Cancelable
 import org.matrix.android.sdk.api.util.CancelableBag
 import org.matrix.android.sdk.internal.util.CancelableWork
@@ -52,6 +58,18 @@ class SendMessageDataSource @Inject constructor(@ApplicationContext private val 
         val event = roomForMessage.getTimelineEvent(eventId) ?: return
         roomForMessage.relationService()
             .editTextMessage(event, MessageType.MSGTYPE_TEXT, message, null, false)
+    }
+
+    fun editMediaCaption(eventId: String, roomId: String, message: String) {
+        val roomForMessage = session?.getRoom(roomId) ?: return
+        val event = roomForMessage.getTimelineEvent(eventId)?.root ?: return
+        val additionalContent = mutableMapOf<String, Any>().apply {
+            this[MediaCaptionFieldKey] = message
+        }
+        val editedEventContent = event.getClearContent().toModel<MessageImageContent>()?.copy(
+            relatesTo = RelationDefaultContent(RelationType.REPLACE, eventId),
+        ).toContent().plus(additionalContent)
+        roomForMessage.sendService().sendEvent(EventType.MESSAGE, editedEventContent)
     }
 
     suspend fun sendMedia(

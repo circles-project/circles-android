@@ -4,5 +4,5 @@ import org.futo.circles.model.CreatePostContent
 
 interface CreatePostListener {
     fun onSendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?)
-    fun onEditTextPost(roomId: String, newMessage: String, eventId: String)
+    fun onEditPost(roomId: String, postContent: CreatePostContent, eventId: String)
 }

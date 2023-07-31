@@ -10,9 +10,11 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
+import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.core.extensions.loadImage
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.ImageUtils
@@ -43,6 +45,7 @@ class PreviewPostView(
 
     private var listener: PreviewPostListener? = null
     private var postContent: CreatePostContent? = null
+    private var canEditMedia: Boolean = true
 
     init {
         getMyUser()?.let {
@@ -98,6 +101,24 @@ class PreviewPostView(
         binding.etTextPost.addLinkSpan(title, link)
     }
 
+    fun setMediaFromExistingPost(mediaContent: MediaContent) {
+        canEditMedia = false
+        val caption = mediaContent.mediaContentInfo.caption ?: ""
+        setText(caption)
+        val uri = Uri.parse(mediaContent.mediaFileData.fileUrl)
+        val mediaType = mediaContent.getMediaType()
+        postContent = MediaPostContent(caption, uri, mediaType)
+        updateContentView()
+        loadMediaCover(mediaContent)
+        val isVideo = mediaType == MediaType.Video
+        binding.lMediaContent.videoGroup.setIsVisible(isVideo)
+        if (isVideo)
+            binding.lMediaContent.tvDuration.text = mediaContent.mediaContentInfo.duration
+
+        listener?.onPostContentAvailable(true)
+    }
+
+
     fun setMedia(contentUri: Uri, mediaType: MediaType) {
         val caption = binding.etTextPost.text.toString().trim()
         postContent = MediaPostContent(caption, contentUri, mediaType)
@@ -118,7 +139,8 @@ class PreviewPostView(
 
     private fun updateContentView() {
         val isTextContent = postContent is TextPostContent || postContent == null
-        binding.mediaContentGroup.setIsVisible(!isTextContent)
+        binding.lMediaContent.lMedia.setIsVisible(!isTextContent)
+        binding.ivRemoveImage.setIsVisible(!isTextContent && canEditMedia)
         if (isTextContent) requestFocusOnText()
         binding.etTextPost.setPadding(
             context.convertDpToPixel(12f).toInt(),
@@ -146,6 +168,22 @@ class PreviewPostView(
             }
         }
         binding.lMediaContent.ivCover.loadImage(uri.toString())
+    }
+
+    private fun loadMediaCover(mediaContent: MediaContent) {
+        val image = binding.lMediaContent.ivCover
+        image.post {
+            val size = mediaContent.calculateSize(image.width)
+            image.updateLayoutParams {
+                width = size.width
+                height = size.height
+            }
+        }
+        mediaContent.mediaFileData.loadEncryptedIntoWithAspect(
+            image,
+            mediaContent.aspectRatio,
+            mediaContent.mediaContentInfo.thumbHash
+        )
     }
 
     private fun requestFocusOnText() {
