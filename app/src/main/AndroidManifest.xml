@@ -28,7 +28,7 @@
         tools:ignore="DataExtractionRules"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".feature.settings.active_sessions.verify.qr.QrScannerActivity"
+            android:name=".auth.feature.active_sessions.verify.qr.QrScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
@@ -66,7 +66,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
-            <intent-filter android:label="@string/upload_to_gallery">
+            <intent-filter android:label="@string/gallery">
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -81,7 +81,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
-            <intent-filter android:label="@string/share_with_circle">
+            <intent-filter android:label="@string/circle">
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -93,7 +93,7 @@
         <activity
             android:name=".feature.share.group.ShareWithGroupActivity"
             android:exported="true">
-            <intent-filter android:label="@string/share_with_group">
+            <intent-filter android:label="@string/group">
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -135,6 +135,15 @@
             android:foregroundServiceType="dataSync"
             tools:ignore="Instantiatable" />
 
+        <service android:name="com.google.android.gms.metadata.ModuleDependencies"
+            android:enabled="false"
+            android:exported="false"
+            tools:ignore="MissingClass">
+            <intent-filter>
+                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+            </intent-filter>
+            <meta-data android:name="photopicker_activity:0:required" android:value="" />
+        </service>
 
         <receiver
             android:name=".feature.notifications.test.task.TestNotificationReceiver"
@@ -148,7 +157,8 @@
         <receiver
             android:name=".feature.notifications.UnifiedPushMessagingReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
             <intent-filter>
                 <action android:name="org.unifiedpush.android.connector.MESSAGE" />
                 <action android:name="org.unifiedpush.android.connector.UNREGISTERED" />

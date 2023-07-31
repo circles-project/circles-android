@@ -2,7 +2,6 @@ package org.futo.circles.auth.feature.reauth
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.auth.R
 import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.auth.model.CustomUIAuth
 import org.futo.circles.core.SingleEventLiveData
@@ -30,11 +29,7 @@ class ReAuthStagesDataSource @Inject constructor(
     private var sessionId: String = ""
     private var stageResultContinuation: Continuation<Response<RegistrationResult>>? =
         null
-    private val session by lazy {
-        MatrixSessionProvider.currentSession ?: throw IllegalArgumentException(
-            context.getString(R.string.session_is_not_created)
-        )
-    }
+    private val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
 
     fun startReAuthStages(
         session: String,

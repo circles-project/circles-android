@@ -21,7 +21,7 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
 
     fun navigateToSystemNotices() {
         val systemNoticesRoomId = getSystemNoticesRoomId() ?: run {
-            fragment.showError(fragment.getString(R.string.system_notices_room_not_found))
+            fragment.showError(fragment.getString(org.futo.circles.core.R.string.system_notices_room_not_found))
             return
         }
         fragment.findNavController().navigateSafe(

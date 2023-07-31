@@ -2,7 +2,6 @@ package org.futo.circles.gallery.feature
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -19,15 +18,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.databinding.FragmentRoomsBinding
-import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.picker.RuntimePermissionHelper
+import org.futo.circles.core.picker.helper.RuntimePermissionHelper
 import org.futo.circles.gallery.R
-import org.futo.circles.gallery.feature.list.PhotosListAdapter
-import org.futo.circles.gallery.feature.pick.PickGalleryListener
-import org.futo.circles.gallery.model.GalleryListItem
+import org.futo.circles.core.picker.gallery.rooms.list.PhotosListAdapter
+import org.futo.circles.core.model.GalleryListItem
 
 @AndroidEntryPoint
 class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), MenuProvider {
@@ -35,7 +31,6 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private val viewModel by viewModels<PhotosViewModel>()
     private val binding by viewBinding(FragmentRoomsBinding::bind)
 
-    private var pickGalleryListener: PickGalleryListener? = null
     private val listAdapter by lazy {
         PhotosListAdapter(onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) })
     }
@@ -44,10 +39,6 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private val readMediaPermissionHelper =
         RuntimePermissionHelper(this, Manifest.permission.READ_MEDIA_IMAGES)
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        pickGalleryListener = parentFragment as? PickGalleryListener
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,7 +63,6 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     }
 
     private fun setupViews() {
-        binding.fbAddRoom.setIsVisible(pickGalleryListener == null)
         binding.rvRooms.apply {
             adapter = listAdapter
             bindToFab(binding.fbAddRoom)
@@ -85,9 +75,7 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     }
 
     private fun onRoomListItemClicked(room: GalleryListItem) {
-        pickGalleryListener?.onGalleryChosen(room.id) ?: run {
-            findNavController().navigateSafe(PhotosFragmentDirections.toGalleryFragment(room.id))
-        }
+        findNavController().navigateSafe(PhotosFragmentDirections.toGalleryFragment(room.id))
     }
 
     private fun openBackupSettingsWithNecessaryPermissions() {

@@ -13,14 +13,14 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.picker.DeviceMediaPickerHelper
+import org.futo.circles.core.picker.helper.MediaPickerHelper
 import org.futo.circles.core.select_users.SelectUsersFragment
 
 abstract class CreateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding) :
     BaseFullscreenDialogFragment(inflate), HasLoadingState {
 
     abstract val inviteContainerId: Int?
-    abstract val mediaPickerHelper: DeviceMediaPickerHelper
+    abstract val mediaPickerHelper: MediaPickerHelper
     private val viewModel by viewModels<CreateRoomViewModel>()
     private var selectedUsersFragment: SelectUsersFragment? = null
 

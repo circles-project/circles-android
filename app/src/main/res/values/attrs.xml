@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="LoadingButton">
-        <attr name="android:text" />
-        <attr name="android:textSize" />
-        <attr name="textPadding" format="dimension" />
-        <attr name="android:enabled" />
-    </declare-styleable>
-
     <declare-styleable name="GroupPostHeaderView">
         <attr name="optionsVisible" format="boolean" />
     </declare-styleable>
@@ -17,9 +10,12 @@
         <attr name="readMoreText" format="string" />
         <attr name="readMoreTextColor" format="reference|color" />
     </declare-styleable>
+
     <attr name="readMoreTextViewStyle" format="reference" />
 
-    <declare-styleable name="NotificationCounterView">
-        <attr name="notificationCircleBackground" format="reference|color" />
+    <declare-styleable name="SettingsMenuItemView">
+        <attr name="optionName" format="string" />
+        <attr name="optionIcon" format="reference" />
     </declare-styleable>
+
 </resources>

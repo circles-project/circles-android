@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/setupProfileFragment"
-        android:name="org.futo.circles.auth.feature.sign_up.setup_profile.SetupProfileFragment"
+        android:name="org.futo.circles.auth.feature.profile.setup.SetupProfileFragment"
         android:label="SetupProfileFragment"
         tools:layout="@layout/fragment_setup_profile">
         <action

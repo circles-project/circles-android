@@ -23,8 +23,7 @@ class LoadingRecyclerView(
     private val dataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
-            binding.vLoading.gone()
-            tryOrNull { binding.rvList.adapter?.unregisterAdapterDataObserver(this) }
+            notifyItemsChanged()
         }
     }
 
@@ -34,6 +33,13 @@ class LoadingRecyclerView(
             binding.rvList.adapter = value
             field = value
             setupDataObserver()
+        }
+
+    var layoutManager: RecyclerView.LayoutManager? = null
+        get() = binding.rvList.layoutManager
+        set(value) {
+            binding.rvList.layoutManager = value
+            field = value
         }
 
 
@@ -56,5 +62,10 @@ class LoadingRecyclerView(
                 vLoading.gone()
             }
         }
+    }
+
+    fun notifyItemsChanged() {
+        binding.vLoading.gone()
+        tryOrNull { binding.rvList.adapter?.unregisterAdapterDataObserver(dataObserver) }
     }
 }

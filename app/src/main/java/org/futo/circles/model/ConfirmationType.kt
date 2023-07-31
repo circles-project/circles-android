@@ -4,12 +4,6 @@ import org.futo.circles.R
 import org.futo.circles.core.model.ConfirmationType
 
 
-data class DeactivateAccount(
-    override val titleRes: Int = R.string.deactivate_my_account,
-    override val messageRes: Int = R.string.deactivate_message,
-    override val positiveButtonRes: Int = R.string.deactivate
-) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
-
 data class IgnoreUser(
     override val titleRes: Int = R.string.ignore,
     override val messageRes: Int = R.string.ignore_user_message,
@@ -32,7 +26,7 @@ data class UnfollowTimeline(
 data class RemovePost(
     override val titleRes: Int = R.string.remove_post,
     override val messageRes: Int = R.string.remove_post_message,
-    override val positiveButtonRes: Int = R.string.remove
+    override val positiveButtonRes: Int = org.futo.circles.core.R.string.remove
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
 data class IgnoreSender(
@@ -68,7 +62,7 @@ data class DeleteCircle(
 data class RemoveRoomUser(
     override val titleRes: Int = R.string.remove_user,
     override val messageRes: Int = R.string.remove_user_in_room_message,
-    override val positiveButtonRes: Int = R.string.remove
+    override val positiveButtonRes: Int = org.futo.circles.core.R.string.remove
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
 data class BanUser(
@@ -93,16 +87,4 @@ data class ResendInvite(
     override val titleRes: Int = R.string.resend_invite,
     override val messageRes: Int = R.string.resend_invite_message,
     override val positiveButtonRes: Int = android.R.string.ok
-) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
-
-data class RemoveSession(
-    override val titleRes: Int = R.string.remove_session,
-    override val messageRes: Int = R.string.remove_session_message,
-    override val positiveButtonRes: Int = R.string.remove
-) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
-
-data class ResetKeys(
-    override val titleRes: Int = R.string.reset_keys,
-    override val messageRes: Int = R.string.reset_keys_message,
-    override val positiveButtonRes: Int = R.string.confirm
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

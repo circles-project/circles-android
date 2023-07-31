@@ -1,5 +1,6 @@
 package org.futo.circles.core.mapping
 
+import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -15,4 +16,9 @@ fun RoomSummary.toSelectableRoomListItem(selected: Boolean = false) = Selectable
     id = roomId,
     info = toRoomInfo(),
     isSelected = selected
+)
+
+fun RoomSummary.toGalleryListItem() = GalleryListItem(
+    id = roomId,
+    info = toRoomInfo()
 )

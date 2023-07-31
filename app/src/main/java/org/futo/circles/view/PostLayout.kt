@@ -23,22 +23,14 @@ import org.matrix.android.sdk.api.session.room.send.SendState
 
 
 interface PostOptionsListener {
+    fun onShowMenuClicked(roomId: String, eventId: String)
     fun onUserClicked(userId: String)
     fun onShare(content: PostContent)
-    fun onIgnore(senderId: String)
-    fun onSaveToDevice(content: PostContent)
-    fun onEditPostClicked(roomId: String, eventId: String)
-    fun onSaveToGallery(roomId: String, eventId: String)
     fun onReply(roomId: String, eventId: String)
     fun onShowPreview(roomId: String, eventId: String)
     fun onShowEmoji(roomId: String, eventId: String)
-    fun onReport(roomId: String, eventId: String)
-    fun onRemove(roomId: String, eventId: String)
     fun onEmojiChipClicked(roomId: String, eventId: String, emoji: String, isUnSend: Boolean)
     fun onPollOptionSelected(roomId: String, eventId: String, optionId: String)
-    fun endPoll(roomId: String, eventId: String)
-    fun onEditPollClicked(roomId: String, eventId: String)
-    fun onInfoClicked(roomId: String, eventId: String)
 }
 
 @SuppressLint("ClickableViewAccessibility")
@@ -56,7 +48,8 @@ class PostLayout(
     private val gestureDetector =
         GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
-                post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
+                if (binding.postFooter.areUserAbleToPost())
+                    post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
                 return true
             }
 
@@ -65,7 +58,8 @@ class PostLayout(
             }
 
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
+                if (binding.postFooter.areUserAbleToReply())
+                    post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
                 return true
             }
 
@@ -106,7 +100,7 @@ class PostLayout(
     }
 
     private fun setGeneralMessageData(data: Post, userPowerLevel: Int, isThread: Boolean) {
-        binding.postHeader.setData(data, userPowerLevel)
+        binding.postHeader.setData(data)
         binding.postFooter.setData(data, userPowerLevel, isThread)
         setMentionBorder(data.content)
         setIsEdited(data.postInfo.isEdited)

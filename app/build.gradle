@@ -11,8 +11,8 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.sdkVersion
-        versionCode 18
-        versionName "1.0.12"
+        versionCode 20
+        versionName "1.0.13"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -72,14 +72,6 @@ dependencies {
 
     //Emoji
     implementation "com.vanniktech:emoji-google:0.16.0"
-
-    //QR
-    implementation 'com.google.zxing:core:3.5.1'
-    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
-
-    //Webp animations
-    implementation 'com.github.penfeizhou.android.animation:glide-plugin:2.25.0'
-
 
     //Markdown
     def markwon_version = "4.6.2"

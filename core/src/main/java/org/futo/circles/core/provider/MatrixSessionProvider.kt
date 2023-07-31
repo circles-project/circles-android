@@ -16,6 +16,8 @@ object MatrixSessionProvider {
     private var notificationSetupListener: MatrixNotificationSetupListener? = null
     private var onNewAuthLister: (() -> Unit)? = null
 
+    fun getSessionOrThrow() = currentSession ?: throw IllegalArgumentException("Session is not created")
+
     fun initSession(
         context: Context,
         notificationListener: MatrixNotificationSetupListener? = null,

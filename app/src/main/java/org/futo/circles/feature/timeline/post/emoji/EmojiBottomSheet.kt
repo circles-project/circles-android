@@ -6,23 +6,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vanniktech.emoji.Emoji
 import com.vanniktech.emoji.EmojiTheming
-import com.vanniktech.emoji.recent.RecentEmojiManager
 import org.futo.circles.R
+import org.futo.circles.core.fragment.TransparentBackgroundBottomSheetDialogFragment
 import org.futo.circles.databinding.BottomSheetEmojiBinding
 
 interface EmojiPickerListener {
     fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String)
 }
 
-class EmojiBottomSheet : BottomSheetDialogFragment() {
+class EmojiBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
 
     private var binding: BottomSheetEmojiBinding? = null
     private var emojiPickerListener: EmojiPickerListener? = null
@@ -38,21 +34,16 @@ class EmojiBottomSheet : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = BottomSheetEmojiBinding.inflate(inflater, container, false)
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (dialog as? BottomSheetDialog)?.let {
-            it.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
         setupViews()
     }
 
     private fun setupViews() {
         binding?.apply {
-            ivClose.setOnClickListener { dismiss() }
             emojiView.apply {
                 setUp(
                     requireView(),

@@ -21,8 +21,7 @@ class CreatePassPhraseDataSource @Inject constructor(
 ) {
 
     private val keysBackupService by lazy {
-        MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
-            ?: throw Exception(context.getString(R.string.session_is_not_created))
+        MatrixSessionProvider.getSessionOrThrow().cryptoService().keysBackupService()
     }
     val loadingLiveData = MutableLiveData<LoadingData>()
     private val passPhraseLoadingData = LoadingData()

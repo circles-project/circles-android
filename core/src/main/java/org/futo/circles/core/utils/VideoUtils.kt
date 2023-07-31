@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.util.Size
+import org.futo.circles.core.utils.MediaUtils.getSizeBasedOnOrientation
 import java.util.concurrent.TimeUnit
 
 
@@ -25,7 +26,11 @@ object VideoUtils {
         val height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
         val width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
         retriever.release()
-        Size(width?.toInt() ?: 0, height?.toInt() ?: 0)
+        getSizeBasedOnOrientation(
+            context, uri,
+            width?.toInt() ?: 0,
+            height?.toInt() ?: 0
+        )
     } catch (e: Exception) {
         Size(0, 0)
     }

@@ -8,64 +8,22 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
 
     fun navigateToCreatePost(
         roomId: String,
-        eventId: String? = null,
-        isEdit: Boolean = false
+        eventId: String? = null
     ) {
         fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toCreatePostBottomSheet(roomId, eventId, isEdit)
+            TimelineDialogFragmentDirections.toCreatePostBottomSheet(roomId, eventId, false)
         )
     }
 
-    fun navigateToCreatePoll(roomId: String, eventId: String? = null) {
+    fun navigateToTimelineOptions(roomId: String, type: CircleRoomTypeArg) {
         fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toCreatePoll(roomId, eventId)
+            TimelineDialogFragmentDirections.toTimelineOptions(roomId, type)
         )
     }
 
-    fun navigateToInviteMembers(timelineId: String) {
+    fun navigateToCreatePoll(roomId: String) {
         fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toInviteMembersDialogFragment(timelineId)
-        )
-    }
-
-    fun navigateToUpdateRoom(roomId: String, type: CircleRoomTypeArg) {
-        val destination = if (type == CircleRoomTypeArg.Circle)
-            TimelineDialogFragmentDirections.toUpdateCircleDialogFragment(roomId)
-        else TimelineDialogFragmentDirections.toUpdateGroupDialogFragment(roomId)
-        fragment.findNavController().navigateSafe(destination)
-    }
-
-    fun navigateToManageMembers(timelineId: String, type: CircleRoomTypeArg) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toManageMembersDialogFragment(timelineId, type)
-        )
-    }
-
-    fun navigateToFollowing(roomId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toFollowingDialogFragment(roomId)
-        )
-    }
-
-    fun navigateToInfo(roomId: String, eventId: String) {
-        fragment.findNavController()
-            .navigateSafe(TimelineDialogFragmentDirections.toPostInfo(roomId, eventId))
-    }
-
-    fun navigateToStateEvents(roomId: String) {
-        fragment.findNavController()
-            .navigateSafe(TimelineDialogFragmentDirections.toStateEvents(roomId))
-    }
-
-    fun navigateToSaveToGallery(roomId: String, eventId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toSaveToGalleyDialogFragment(roomId, eventId)
-        )
-    }
-
-    fun navigateToReport(roomId: String, eventId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toReportDialogFragment(roomId, eventId)
+            TimelineDialogFragmentDirections.toCreatePoll(roomId, null)
         )
     }
 
@@ -93,8 +51,9 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         )
     }
 
-    fun navigateToShareRoom(roomId: String) {
-        fragment.findNavController()
-            .navigateSafe(TimelineDialogFragmentDirections.toShareRoom(roomId, false))
+    fun navigatePostMenu(roomId: String, eventId: String) {
+        fragment.findNavController().navigateSafe(
+            TimelineDialogFragmentDirections.toPostMenuBottomSheet(roomId, eventId)
+        )
     }
 }

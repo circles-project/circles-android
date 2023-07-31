@@ -2,12 +2,12 @@ package org.futo.circles.core.mapping
 
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.core.MediaCaptionFieldKey
-import org.futo.circles.core.model.MediaFileData
-import org.futo.circles.core.picker.MediaType
-import org.futo.circles.core.utils.VideoUtils
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaContentInfo
+import org.futo.circles.core.model.MediaFileData
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.utils.VideoUtils
 import org.matrix.android.sdk.api.session.crypto.attachments.toElementToDecrypt
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent
@@ -33,8 +33,11 @@ fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
     )
 }
 
-private fun TimelineEvent.getCaption() =
-    root.getClearContent()?.get(MediaCaptionFieldKey)?.toString()
+private fun TimelineEvent.getCaption(): String? {
+    val lastContent =
+        annotations?.editSummary?.latestEdit?.getClearContent() ?: root.getClearContent()
+    return lastContent?.get(MediaCaptionFieldKey)?.toString()
+}
 
 private fun MessageImageContent?.toMediaContentInfo(caption: String?): MediaContentInfo =
     MediaContentInfo(

@@ -9,6 +9,7 @@ import androidx.core.database.getStringOrNull
 import org.futo.circles.core.blurhash.ThumbHash
 import org.futo.circles.core.model.MediaAttachmentInfo
 import org.futo.circles.core.utils.ImageUtils
+import org.futo.circles.core.utils.MediaUtils.getOrientation
 import org.futo.circles.core.utils.VideoUtils
 import org.matrix.android.sdk.api.session.content.ContentAttachmentData
 
@@ -35,7 +36,7 @@ fun Uri.getFilename(context: Context): String? {
 suspend fun Uri.toImageContentAttachmentData(context: Context): ContentAttachmentData? {
     val attachmentInfo = getMediaAttachmentInfo(context) ?: return null
     val resolution = ImageUtils.getImageResolution(context, this)
-    val orientation = ImageUtils.getOrientation(context, this)
+    val orientation = getOrientation(context, this)
     return ContentAttachmentData(
         mimeType = attachmentInfo.mimeType,
         type = ContentAttachmentData.Type.IMAGE,

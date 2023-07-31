@@ -45,9 +45,7 @@ class PushersManager @Inject constructor(
         pushKey: String,
         gateway: String
     ): UUID {
-        val currentSession =
-            MatrixSessionProvider.currentSession
-                ?: throw IllegalArgumentException(context.getString(R.string.session_is_not_created))
+        val currentSession = MatrixSessionProvider.getSessionOrThrow()
         val pusher = createHttpPusher(pushKey, gateway)
         return currentSession.pushersService().enqueueAddHttpPusher(pusher)
     }

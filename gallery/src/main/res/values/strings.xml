@@ -2,14 +2,11 @@
 <resources>
     <string name="gallery_updated">Gallery updated</string>
     <string name="saved">Saved</string>
-    <string name="choose_gallery">Choose gallery</string>
-    <string name="pick_media">Pick media</string>
     <string name="delete_gallery">Delete gallery</string>
     <string name="delete_gallery_message">Are you sure you want to remove this gallery?</string>
     <string name="delete">Delete</string>
     <string name="remove_image">Remove image</string>
     <string name="remove_image_message">Are you sure you want to remove this image?</string>
-    <string name="remove">Remove</string>
     <string name="upload_to_gallery">Upload to gallery</string>
     <string name="save_to_gallery">Save to gallery</string>
     <string name="all_galleries">All Galleries</string>
@@ -21,7 +18,6 @@
     <string name="backup_device_folders">Backup device folders</string>
     <string name="backup_folders_hint">Choose folders to backup and view in your Gallery:</string>
     <string name="configure_gallery">Configure gallery</string>
-    <string name="change_icon">Change icon</string>
     <string name="gallery_name">Gallery name</string>
     <string name="gallery_encryption_warning">NOTE: Gallery name and cover image are not encrypted</string>
     <string name="create_new_gallery">Create new gallery</string>

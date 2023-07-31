@@ -8,4 +8,8 @@
         <attr name="android:enabled" />
     </declare-styleable>
 
+    <declare-styleable name="NotificationCounterView">
+        <attr name="notificationCircleBackground" format="reference|color" />
+    </declare-styleable>
+
 </resources>

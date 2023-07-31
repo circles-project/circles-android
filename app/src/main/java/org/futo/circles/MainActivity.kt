@@ -3,15 +3,9 @@ package org.futo.circles
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.futo.circles.core.BaseActivity
-import org.futo.circles.core.provider.MatrixSessionListenerProvider
-import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.feature.home.DeepLinkIntentHandler
 
 
@@ -20,8 +14,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setInvalidTokenListener()
-        syncSessionIfCashWasCleared()
+        LauncherActivityUtils.setInvalidTokenListener(this, getSelfIntent(this))
+        LauncherActivityUtils.syncSessionIfCashWasCleared(this)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -36,51 +30,23 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     fun clearSessionAndRestart() {
-        MatrixSessionProvider.clearSession()
-        this.startActivity(createRestartIntent())
-    }
-
-    fun stopSyncAndRestart() {
-        MatrixSessionProvider.removeListenersAndStopSync()
-        this.startActivity(createRestartIntent())
+        LauncherActivityUtils.clearSessionAndRestart(this, getSelfIntent(this))
     }
 
     fun restartForClearCache() {
-        this.startActivity(createRestartIntent().apply { putExtra(IS_CLEAR_CACHE, true) })
+        LauncherActivityUtils.restartForClearCache(this, getSelfIntent(this))
     }
 
-    private fun syncSessionIfCashWasCleared() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            val isClearCashReload = intent?.getBooleanExtra(IS_CLEAR_CACHE, false) ?: false
-            if (isClearCashReload) {
-                delay(500L)
-                MatrixSessionProvider.currentSession?.syncService()?.startSync(true)
-                intent?.removeExtra(IS_CLEAR_CACHE)
-            }
-        }
+    fun stopSyncAndRestart() {
+        LauncherActivityUtils.stopSyncAndRestart(this, getSelfIntent(this))
     }
 
-    private fun createRestartIntent(): Intent {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        return intent
-    }
-
-    private fun setInvalidTokenListener() {
-        MatrixSessionListenerProvider.setOnInvalidTokenListener {
-            runOnUiThread {
-                Toast.makeText(this, getString(R.string.you_are_signed_out), Toast.LENGTH_LONG)
-                    .show()
-                clearSessionAndRestart()
-            }
-        }
-    }
 
     companion object {
-        private const val IS_CLEAR_CACHE = "is_clear_cache"
         const val ROOM_ID_PARAM = "roomId"
+        fun getSelfIntent(context: Context) = Intent(context, MainActivity::class.java)
         fun getOpenRoomIntent(context: Context, roomId: String): Intent =
-            Intent(context, MainActivity::class.java).apply {
+            getSelfIntent(context).apply {
                 action = "OPEN_ROOM"
                 putExtra(ROOM_ID_PARAM, roomId)
             }

@@ -9,7 +9,6 @@ import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.room.leave.LeaveRoomDataSource
 import org.futo.circles.core.timeline.BaseTimelineViewModel
 import org.futo.circles.core.timeline.TimelineDataSource
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
@@ -26,9 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TimelineViewModel @Inject constructor(
-    private val roomNotificationsDataSource: RoomNotificationsDataSource,
+    roomNotificationsDataSource: RoomNotificationsDataSource,
     timelineDataSource: TimelineDataSource,
-    private val leaveRoomDataSource: LeaveRoomDataSource,
     accessLevelDataSource: AccessLevelDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
@@ -45,8 +43,6 @@ class TimelineViewModel @Inject constructor(
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
-    val leaveGroupLiveData = SingleEventLiveData<Response<Unit?>>()
-    val deleteCircleLiveData = SingleEventLiveData<Response<Unit?>>()
 
 
     fun sharePostContent(content: PostContent) {
@@ -90,8 +86,16 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
-    fun editTextPost(eventId: String, roomId: String, newMessage: String) {
-        sendMessageDataSource.editTextMessage(eventId, roomId, newMessage)
+    fun editPost(eventId: String, roomId: String, postContent: CreatePostContent) {
+        when (postContent) {
+            is MediaPostContent -> postContent.caption?.let {
+                sendMessageDataSource.editMediaCaption(eventId, roomId, postContent.caption)
+            }
+
+            is TextPostContent -> sendMessageDataSource.editTextMessage(
+                eventId, roomId, postContent.text
+            )
+        }
     }
 
     fun createPoll(roomId: String, pollContent: CreatePollContent) {
@@ -113,28 +117,6 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
-    fun leaveGroup() {
-        launchBg {
-            val result = leaveRoomDataSource.leaveGroup()
-            leaveGroupLiveData.postValue(result)
-        }
-    }
-
-    fun deleteGroup() {
-        launchBg {
-            val result = leaveRoomDataSource.deleteGroup()
-            deleteCircleLiveData.postValue(result)
-        }
-    }
-
-    fun deleteCircle() {
-        launchBg {
-            val result = leaveRoomDataSource.deleteCircle()
-            deleteCircleLiveData.postValue(result)
-        }
-    }
-
-    fun canLeaveRoom(): Boolean = leaveRoomDataSource.canLeaveRoom()
 
     fun pollVote(roomId: String, eventId: String, optionId: String) {
         postOptionsDataSource.pollVote(roomId, eventId, optionId)
@@ -157,10 +139,6 @@ class TimelineViewModel @Inject constructor(
     override fun onCleared() {
         readMessageDataSource.setReadMarker()
         super.onCleared()
-    }
-
-    fun setNotificationsEnabled(enabled: Boolean) {
-        launchBg { roomNotificationsDataSource.setNotificationsEnabled(enabled) }
     }
 
 }
