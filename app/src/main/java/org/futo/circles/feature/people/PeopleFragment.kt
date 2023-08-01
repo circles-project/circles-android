@@ -19,6 +19,7 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.databinding.FragmentPeopleBinding
 import org.futo.circles.feature.people.list.PeopleAdapter
 
@@ -57,6 +58,10 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
 
     private fun setupViews() {
         binding.rvUsers.apply {
+            setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
+                setText(getString(R.string.people_empty_message))
+                setArrowVisible(false)
+            })
             adapter = peopleAdapter
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
