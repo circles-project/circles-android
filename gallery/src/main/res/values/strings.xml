@@ -22,5 +22,6 @@
     <string name="gallery_encryption_warning">NOTE: Gallery name and cover image are not encrypted</string>
     <string name="create_new_gallery">Create new gallery</string>
     <string name="create">Create</string>
+    <string name="photos_empty_message">Create your first Gallery</string>
 
 </resources>
