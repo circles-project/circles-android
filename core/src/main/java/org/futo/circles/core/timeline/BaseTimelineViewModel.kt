@@ -1,23 +1,27 @@
 package org.futo.circles.core.timeline
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
+import org.futo.circles.core.mapping.nameOrId
+import org.futo.circles.core.timeline.data_source.BaseTimelineDataSource
 
 abstract class BaseTimelineViewModel(
-    private val timelineDataSource: TimelineDataSource
+    private val baseTimelineDataSource: BaseTimelineDataSource
 ) : ViewModel() {
 
-    val titleLiveData = timelineDataSource.roomTitleLiveData
+    val titleLiveData =
+        baseTimelineDataSource.room.getRoomSummaryLive().map { it.getOrNull()?.nameOrId() ?: "" }
 
     init {
-        timelineDataSource.startTimeline()
+        baseTimelineDataSource.startTimeline()
     }
 
     override fun onCleared() {
-        timelineDataSource.clearTimeline()
+        baseTimelineDataSource.clearTimeline()
         super.onCleared()
     }
 
     fun loadMore() {
-        timelineDataSource.loadMore()
+        baseTimelineDataSource.loadMore()
     }
 }

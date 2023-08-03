@@ -112,9 +112,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
 
     private fun setupObservers() {
-        viewModel.titleLiveData?.observeData(this) { roomName ->
-            val title = if (isThread) getString(R.string.thread_format, roomName ?: "")
-            else roomName ?: ""
+        viewModel.titleLiveData.observeData(this) { roomName ->
+            val title = if (isThread) getString(R.string.thread_format, roomName) else roomName
             binding.toolbar.title = title
         }
         viewModel.timelineEventsLiveData.observeData(this) {
