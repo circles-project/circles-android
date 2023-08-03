@@ -12,13 +12,13 @@ import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.timeline.BaseTimelineViewModel
-import org.futo.circles.core.timeline.data_source.BaseTimelineDataSource
+import org.futo.circles.core.timeline.data_source.SingleTimelineDataSource
 import javax.inject.Inject
 
 @HiltViewModel
 class PickMediaItemViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    timelineDataSource: BaseTimelineDataSource
+    timelineDataSource: SingleTimelineDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
     private val isVideoAvailable: Boolean = savedStateHandle[IS_VIDEO_AVAILABLE] ?: true

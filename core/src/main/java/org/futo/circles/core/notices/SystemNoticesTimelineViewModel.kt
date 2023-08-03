@@ -6,24 +6,25 @@ import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.model.SystemNoticeListItem
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.core.timeline.BaseTimelineViewModel
-import org.futo.circles.core.timeline.data_source.BaseTimelineDataSource
+import org.futo.circles.core.timeline.data_source.SingleTimelineDataSource
 import javax.inject.Inject
 
 @HiltViewModel
 class SystemNoticesTimelineViewModel @Inject constructor(
-    timelineDataSource: BaseTimelineDataSource
+    timelineDataSource: SingleTimelineDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
-    val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData.map { list ->
-        list.mapNotNull {
-            if (it.content.type == PostContentType.TEXT_CONTENT)
-                SystemNoticeListItem(
-                    it.id,
-                    (it.content as? TextContent)?.message ?: "",
-                    it.postInfo.timestamp
-                )
-            else null
+    val systemNoticesTimelineEventsLiveData =
+        timelineDataSource.timelineEventsLiveData.map { list ->
+            list.mapNotNull {
+                if (it.content.type == PostContentType.TEXT_CONTENT)
+                    SystemNoticeListItem(
+                        it.id,
+                        (it.content as? TextContent)?.message ?: "",
+                        it.postInfo.timestamp
+                    )
+                else null
+            }
         }
-    }
 
 }

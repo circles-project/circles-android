@@ -12,6 +12,8 @@ abstract class BaseTimelineViewModel(
     val titleLiveData =
         baseTimelineDataSource.room.getRoomSummaryLive().map { it.getOrNull()?.nameOrId() ?: "" }
 
+    val timelineEventsLiveData = baseTimelineDataSource.timelineEventsLiveData
+
     init {
         baseTimelineDataSource.startTimeline()
     }

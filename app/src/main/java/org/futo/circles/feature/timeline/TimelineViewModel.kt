@@ -1,10 +1,12 @@
 package org.futo.circles.feature.timeline
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
@@ -25,19 +27,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TimelineViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     roomNotificationsDataSource: RoomNotificationsDataSource,
-    timelineDataSource: BaseTimelineDataSource,
+    timelineDataSourceFactory: BaseTimelineDataSource.Factory,
     accessLevelDataSource: AccessLevelDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
     private val readMessageDataSource: ReadMessageDataSource
-) : BaseTimelineViewModel(timelineDataSource) {
+) : BaseTimelineViewModel(timelineDataSourceFactory.create(savedStateHandle.get<CircleRoomTypeArg>("type") == CircleRoomTypeArg.Circle)) {
 
     val session = MatrixSessionProvider.currentSession
     val profileLiveData = session?.userService()?.getUserLive(session.myUserId)
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
-    val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()

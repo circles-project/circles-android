@@ -34,7 +34,7 @@ class SystemNoticesDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.timelineEventsLiveData.observeData(this) {
+        viewModel.systemNoticesTimelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
         }
     }

@@ -2,7 +2,6 @@ package org.futo.circles.core.timeline.data_source
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -14,11 +13,20 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 import javax.inject.Inject
 
-@ViewModelScoped
-abstract class BaseTimelineDataSource @Inject constructor(
+
+abstract class BaseTimelineDataSource(
     savedStateHandle: SavedStateHandle,
     private val timelineBuilder: TimelineBuilder
 ) : Timeline.Listener {
+
+    class Factory @Inject constructor(
+        private val savedStateHandle: SavedStateHandle,
+        private val timelineBuilder: TimelineBuilder
+    ) {
+        fun create(isMultiTimelines: Boolean): BaseTimelineDataSource =
+            if (isMultiTimelines) MultiTimelinesDataSource(savedStateHandle, timelineBuilder)
+            else SingleTimelineDataSource(savedStateHandle, timelineBuilder)
+    }
 
     protected open val listDirection = Timeline.Direction.BACKWARDS
 
