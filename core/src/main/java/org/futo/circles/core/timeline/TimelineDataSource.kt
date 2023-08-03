@@ -74,7 +74,9 @@ class TimelineDataSource @Inject constructor(
     }
 
     override fun onTimelineFailure(throwable: Throwable) {
-        timelines.forEach { it.restartWithEventId(null) }
+        timelines.forEach {
+            if (it.getPaginationState(listDirection).inError) it.restartWithEventId(null)
+        }
     }
 
     private fun getTimelineRooms(): List<Room> = when (type) {
