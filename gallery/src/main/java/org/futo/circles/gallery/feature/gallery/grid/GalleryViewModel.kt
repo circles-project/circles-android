@@ -11,7 +11,7 @@ import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.timeline.BaseTimelineViewModel
-import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.core.timeline.post.PostContentDataSource
@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GalleryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    timelineDataSource: TimelineDataSource,
+    timelineDataSource: BaseTimelineDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val mediaDataSource: PostContentDataSource,
     private val postOptionsDataSource: PostOptionsDataSource

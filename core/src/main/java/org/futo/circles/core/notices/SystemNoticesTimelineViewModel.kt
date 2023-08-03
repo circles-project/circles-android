@@ -6,12 +6,12 @@ import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.model.SystemNoticeListItem
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.core.timeline.BaseTimelineViewModel
-import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.timeline.data_source.BaseTimelineDataSource
 import javax.inject.Inject
 
 @HiltViewModel
 class SystemNoticesTimelineViewModel @Inject constructor(
-    timelineDataSource: TimelineDataSource
+    timelineDataSource: BaseTimelineDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
     val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData.map { list ->

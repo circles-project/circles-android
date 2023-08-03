@@ -10,7 +10,7 @@ import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.timeline.BaseTimelineViewModel
-import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.feature.people.UserOptionsDataSource
@@ -26,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TimelineViewModel @Inject constructor(
     roomNotificationsDataSource: RoomNotificationsDataSource,
-    timelineDataSource: TimelineDataSource,
+    timelineDataSource: BaseTimelineDataSource,
     accessLevelDataSource: AccessLevelDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
