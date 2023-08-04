@@ -1,7 +1,6 @@
 package org.futo.circles.core.timeline.post
 
 import dagger.hilt.android.scopes.ViewModelScoped
-import org.futo.circles.core.extensions.getPostContentType
 import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
@@ -19,7 +18,7 @@ class PostContentDataSource @Inject constructor() {
     fun getPost(roomId: String, eventId: String): Post? {
         val roomForMessage = session?.getRoom(roomId)
         val timelineEvent = roomForMessage?.getTimelineEvent(eventId) ?: return null
-        return timelineEvent.getPostContentType()?.let { timelineEvent.toPost(it) }
+        return timelineEvent.toPost()
     }
 
     fun getPostContent(roomId: String, eventId: String): PostContent? =

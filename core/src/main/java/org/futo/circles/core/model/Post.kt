@@ -8,7 +8,7 @@ data class Post(
     val postInfo: PostInfo,
     val content: PostContent,
     val sendState: SendState,
-    val readInfo: PostReadInfo,
+    val readByCount: Int,
     val repliesCount: Int
 ) : IdEntity<String> {
     override val id: String get() = postInfo.id
