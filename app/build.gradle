@@ -11,8 +11,8 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.minSdkVersion
         targetSdk rootProject.ext.sdkVersion
-        versionCode 20
-        versionName "1.0.13"
+        versionCode 21
+        versionName "1.0.13.10"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
