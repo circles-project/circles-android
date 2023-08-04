@@ -56,7 +56,7 @@ abstract class BaseTimelineDataSource(
             )
             .apply {
                 addListener(this@BaseTimelineDataSource)
-                start()
+                start(threadEventId)
             }
 
     protected fun closeTimeline(timeline: Timeline) {
