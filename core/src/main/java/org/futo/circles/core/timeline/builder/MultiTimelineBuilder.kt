@@ -8,6 +8,7 @@ import javax.inject.Inject
 class MultiTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
 
     private var currentSnapshotMap: MutableMap<String, List<Post>> = mutableMapOf()
+
     override fun List<TimelineEvent>.processSnapshot(isThread: Boolean): List<Post> {
         val roomId = firstOrNull()?.roomId ?: return emptyList()
         currentSnapshotMap[roomId] = this.map { it.toPost() }
