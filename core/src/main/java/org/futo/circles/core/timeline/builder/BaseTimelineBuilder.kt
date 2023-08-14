@@ -29,7 +29,7 @@ abstract class BaseTimelineBuilder {
         MatrixSessionProvider.currentSession?.getRoomSummary(room.roomId)?.otherMemberIds?.map {
             val eventId = room.readService().getUserReadReceipt(it)
                 ?: return@map System.currentTimeMillis()
-            room.getTimelineEvent(eventId)?.root?.originServerTs ?: System.currentTimeMillis()
+            room.getTimelineEvent(eventId)?.root?.originServerTs ?: 0
         } ?: emptyList()
 
     private fun List<TimelineEvent>.filterTimelineEvents(isThread: Boolean): List<TimelineEvent> =

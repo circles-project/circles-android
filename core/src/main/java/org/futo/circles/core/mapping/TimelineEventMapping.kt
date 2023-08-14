@@ -39,7 +39,7 @@ private fun TimelineEvent.toPostContent(): PostContent = when (getPostContentTyp
 }
 
 private fun TimelineEvent.getReadByCount(receipts: List<Long>): Int {
-    val eventTime = root.originServerTs ?: System.currentTimeMillis()
+    val eventTime = root.originServerTs ?: 0
     var count = 0
     receipts.forEach { receiptTime -> if (receiptTime >= eventTime) count++ }
     return count
