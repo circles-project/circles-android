@@ -76,7 +76,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         binding.rvTimeline.apply {
             adapter = listAdapter
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            MarkAsReadBuffer(this.getRecyclerView()) { viewModel.markEventAsRead(it) }
         }
         binding.lCreatePost.setUp(object : CreatePostViewListener {
             override fun onCreatePoll() {
@@ -118,6 +117,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
+            viewModel.markTimelineAsRead(args.roomId, isGroupMode)
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =
