@@ -32,7 +32,7 @@ android {
     }
 
     def flavor_dimension_name = "store"
-    flavorDimensions [flavor_dimension_name]
+    flavorDimensions.add(flavor_dimension_name)
     productFlavors {
         gplay {
             dimension flavor_dimension_name
