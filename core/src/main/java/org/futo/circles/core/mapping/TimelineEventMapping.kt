@@ -10,11 +10,11 @@ import org.futo.circles.core.model.ReactionsData
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited
 
-fun TimelineEvent.toPost(): Post = Post(
+fun TimelineEvent.toPost(readReceipts: List<Long> = emptyList()): Post = Post(
     postInfo = toPostInfo(),
     content = toPostContent(),
     sendState = root.sendState,
-    readByCount = readReceipts.size,
+    readByCount = getReadByCount(readReceipts),
     repliesCount = root.threadDetails?.numberOfThreads ?: 0
 )
 
@@ -36,4 +36,11 @@ private fun TimelineEvent.toPostContent(): PostContent = when (getPostContentTyp
     PostContentType.VIDEO_CONTENT -> toMediaContent(MediaType.Video)
     PostContentType.POLL_CONTENT -> toPollContent()
     else -> toTextContent()
+}
+
+private fun TimelineEvent.getReadByCount(receipts: List<Long>): Int {
+    val eventTime = root.originServerTs ?: System.currentTimeMillis()
+    var count = 0
+    receipts.forEach { receiptTime -> if (receiptTime >= eventTime) count++ }
+    return count
 }
