@@ -26,6 +26,7 @@ class PostFooterView(
     private var isThreadPost = false
     private var userPowerLevel: Int = Role.Default.value
     private val emojisTimelineAdapter = EmojisTimelineAdapter { reaction ->
+        locallyUpdateEmojisList(reaction)
         post?.let {
             optionsListener?.onEmojiChipClicked(
                 it.postInfo.roomId,
@@ -73,6 +74,10 @@ class PostFooterView(
         binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
     }
 
+    fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
+
+    fun areUserAbleToReply() = !isThreadPost && areUserAbleToPost()
+
     private fun bindViewData(repliesCount: Int, canShare: Boolean) {
         with(binding) {
             btnShare.setIsVisible(canShare)
@@ -90,8 +95,22 @@ class PostFooterView(
         emojisTimelineAdapter.submitList(reactions)
     }
 
-    fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
+    private fun locallyUpdateEmojisList(reaction: ReactionsData) {
+        if (areUserAbleToPost().not()) return
+        val emojisList = post?.postInfo?.reactionsData?.toMutableList() ?: return
+        val newItem = if (reaction.addedByMe) {
+            if (reaction.count == 1) {
+                emojisList.remove(reaction)
+                null
+            } else reaction.copy(count = reaction.count -1)
+        } else reaction.copy(count = reaction.count + 1)
 
-    fun areUserAbleToReply() = !isThreadPost && areUserAbleToPost()
+        newItem?.let {
+            val index = emojisList.indexOf(reaction)
+            emojisList.add(index, it)
+            emojisList.remove(reaction)
+        }
+        bindReactionsList(emojisList)
+    }
 
 }
