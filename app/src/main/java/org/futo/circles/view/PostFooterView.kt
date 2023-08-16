@@ -71,6 +71,7 @@ class PostFooterView(
     }
 
     fun bindPayload(repliesCount: Int, reactions: List<ReactionsData>) {
+        post = post?.copy(repliesCount = repliesCount, reactionsData = reactions)
         setRepliesCount(repliesCount)
         bindReactionsList(reactions)
     }
@@ -107,8 +108,8 @@ class PostFooterView(
             if (reaction.count == 1) {
                 emojisList.remove(reaction)
                 null
-            } else reaction.copy(count = reaction.count - 1)
-        } else reaction.copy(count = reaction.count + 1)
+            } else reaction.copy(addedByMe = false, count = reaction.count - 1)
+        } else reaction.copy(addedByMe = true, count = reaction.count + 1)
 
         newItem?.let {
             val index = emojisList.indexOf(reaction)
@@ -116,6 +117,7 @@ class PostFooterView(
             emojisList.remove(reaction)
         }
         bindReactionsList(emojisList)
+        post = post?.copy(reactionsData = emojisList)
     }
 
 }
