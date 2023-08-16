@@ -15,7 +15,10 @@ fun TimelineEvent.toPost(readReceipts: List<Long> = emptyList()): Post = Post(
     content = toPostContent(),
     sendState = root.sendState,
     readByCount = getReadByCount(readReceipts),
-    repliesCount = root.threadDetails?.numberOfThreads ?: 0
+    repliesCount = root.threadDetails?.numberOfThreads ?: 0,
+    reactionsData = annotations?.reactionsSummary?.map {
+        ReactionsData(it.key, it.count, it.addedByMe)
+    } ?: emptyList()
 )
 
 private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
@@ -24,9 +27,6 @@ private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     isEncrypted = isEncrypted(),
     timestamp = root.originServerTs ?: System.currentTimeMillis(),
     sender = senderInfo,
-    reactionsData = annotations?.reactionsSummary?.map {
-        ReactionsData(it.key, it.count, it.addedByMe)
-    } ?: emptyList(),
     isEdited = hasBeenEdited()
 )
 

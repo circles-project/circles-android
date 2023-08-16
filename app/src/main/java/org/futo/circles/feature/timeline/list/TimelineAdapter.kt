@@ -18,6 +18,7 @@ class TimelineAdapter(
         sendState = new.sendState,
         readByCount = new.readByCount,
         repliesCount = new.repliesCount,
+        reactions = new.reactionsData,
         needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
     )
 }) {
@@ -26,8 +27,6 @@ class TimelineAdapter(
         userPowerLevel = level
         notifyDataSetChanged()
     }
-
-    override fun getItemId(position: Int): Long = getItem(position).hashCode().toLong()
 
     override fun getItemViewType(position: Int): Int = getItem(position).content.type.ordinal
 

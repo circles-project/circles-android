@@ -96,7 +96,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     private fun setupViews() {
         binding.rvTimeline.apply {
-            adapter = listAdapter.apply { setHasStableIds(true) }
+            adapter = listAdapter
             getRecyclerView().apply {
                 isNestedScrollingEnabled = false
                 setHasFixedSize(true)

@@ -96,7 +96,7 @@ class PostLayout(
 
     fun setPayload(payload: PostItemPayload) {
         setSendStatus(payload.sendState, payload.readByCount)
-        binding.postFooter.setRepliesCount(payload.repliesCount)
+        binding.postFooter.bindPayload(payload.repliesCount, payload.reactions)
     }
 
     private fun setGeneralMessageData(data: Post, userPowerLevel: Int, isThread: Boolean) {

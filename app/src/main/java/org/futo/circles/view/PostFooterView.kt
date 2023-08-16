@@ -67,11 +67,12 @@ class PostFooterView(
         userPowerLevel = powerLevel
         isThreadPost = isThread
         bindViewData(data.repliesCount, data.canShare())
-        bindReactionsList(data.postInfo.reactionsData)
+        bindReactionsList(data.reactionsData)
     }
 
-    fun setRepliesCount(repliesCount: Int) {
-        binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
+    fun bindPayload(repliesCount: Int, reactions: List<ReactionsData>) {
+        setRepliesCount(repliesCount)
+        bindReactionsList(reactions)
     }
 
     fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
@@ -90,6 +91,10 @@ class PostFooterView(
         }
     }
 
+    private fun setRepliesCount(repliesCount: Int) {
+        binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
+    }
+
     private fun bindReactionsList(reactions: List<ReactionsData>) {
         binding.rvEmojis.setIsVisible(reactions.isNotEmpty())
         emojisTimelineAdapter.submitList(reactions)
@@ -97,12 +102,12 @@ class PostFooterView(
 
     private fun locallyUpdateEmojisList(reaction: ReactionsData) {
         if (areUserAbleToPost().not()) return
-        val emojisList = post?.postInfo?.reactionsData?.toMutableList() ?: return
+        val emojisList = post?.reactionsData?.toMutableList() ?: return
         val newItem = if (reaction.addedByMe) {
             if (reaction.count == 1) {
                 emojisList.remove(reaction)
                 null
-            } else reaction.copy(count = reaction.count -1)
+            } else reaction.copy(count = reaction.count - 1)
         } else reaction.copy(count = reaction.count + 1)
 
         newItem?.let {
