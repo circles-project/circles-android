@@ -45,7 +45,7 @@ abstract class BaseTimelineDataSource(
 
     override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
         if (snapshot.isNotEmpty())
-            timelineEventsLiveData.postValue(timelineBuilder.build(snapshot, isThread))
+            timelineEventsLiveData.value = timelineBuilder.build(snapshot, isThread)
     }
 
     protected fun createAndStartNewTimeline(room: Room) =
