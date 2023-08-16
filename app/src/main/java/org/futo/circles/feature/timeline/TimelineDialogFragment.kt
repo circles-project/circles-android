@@ -19,6 +19,7 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
@@ -74,8 +75,13 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     private fun setupViews() {
         binding.rvTimeline.apply {
-            adapter = listAdapter
-            getRecyclerView().setHasFixedSize(true)
+            adapter = listAdapter.apply { setHasStableIds(true) }
+            getRecyclerView().apply {
+                isNestedScrollingEnabled = false
+                setHasFixedSize(true)
+                setItemViewCacheSize(20)
+                recycledViewPool.setMaxRecycledViews(PostContentType.TEXT_CONTENT.ordinal, 20)
+            }
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
         binding.lCreatePost.setUp(object : CreatePostViewListener {

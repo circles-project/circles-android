@@ -27,9 +27,9 @@ class TimelineAdapter(
         notifyDataSetChanged()
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return getItem(position).content.type.ordinal
-    }
+    override fun getItemId(position: Int): Long = getItem(position).hashCode().toLong()
+
+    override fun getItemViewType(position: Int): Int = getItem(position).content.type.ordinal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return when (PostContentType.values()[viewType]) {
