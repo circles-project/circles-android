@@ -3,6 +3,7 @@ package org.futo.circles.feature.timeline
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,9 +19,11 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
+import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.share.ShareProvider
+import org.futo.circles.core.utils.debounce
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.TimelineAdapter
@@ -57,12 +60,30 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val binding by lazy {
         getBinding() as DialogFragmentTimelineBinding
     }
+
+    private val loadMoreDebounce by lazy {
+        debounce<Unit>(
+            scope = lifecycleScope,
+            destinationFunction = { viewModel.loadMore() }
+        )
+    }
+
+    private val submitDataDebounce by lazy {
+        debounce<List<Post>>(
+            scope = lifecycleScope,
+            destinationFunction = {
+                listAdapter.submitList(it)
+                viewModel.markTimelineAsRead(args.roomId, isGroupMode)
+            }
+        )
+    }
+
     private val listAdapter by lazy {
         TimelineAdapter(
             getCurrentUserPowerLevel(args.roomId),
             this,
             isThread
-        ) { viewModel.loadMore() }
+        ) { loadMoreDebounce(Unit) }
     }
     private val navigator by lazy { TimelineNavigator(this) }
 
@@ -123,8 +144,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             binding.toolbar.title = title
         }
         viewModel.timelineEventsLiveData.observeData(this) {
-            listAdapter.submitList(it)
-            viewModel.markTimelineAsRead(args.roomId, isGroupMode)
+            submitDataDebounce(it)
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =
