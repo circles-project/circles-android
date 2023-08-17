@@ -28,13 +28,12 @@
 
     <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvTimeline"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
         android:orientation="vertical"
-        android:paddingBottom="78dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarDivider" />
 
 
