@@ -23,7 +23,5 @@ abstract class BaseTimelineViewModel(
         super.onCleared()
     }
 
-    fun loadMore() {
-        baseTimelineDataSource.loadMore()
-    }
+    fun loadMore(): Boolean = baseTimelineDataSource.loadMore()
 }

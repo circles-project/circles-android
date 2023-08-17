@@ -2,10 +2,8 @@ package org.futo.circles.core.timeline.data_source
 
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.scopes.ViewModelScoped
-import org.futo.circles.core.timeline.builder.BaseTimelineBuilder
 import org.futo.circles.core.timeline.builder.SingleTimelineBuilder
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
-import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -25,9 +23,7 @@ class SingleTimelineDataSource @Inject constructor(
         timeline = null
     }
 
-    override fun loadMore() {
-        timeline?.let { loadNextPage(it) }
-    }
+    override fun loadMore() = timeline?.let { loadNextPage(it) } ?: false
 
     override fun onTimelineFailure(throwable: Throwable) {
         timeline?.let { restartTimelineOnFailure(it) }

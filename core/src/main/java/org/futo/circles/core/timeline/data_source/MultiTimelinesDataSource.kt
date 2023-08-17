@@ -28,8 +28,12 @@ class MultiTimelinesDataSource @Inject constructor(
         timelines.clear()
     }
 
-    override fun loadMore() {
-        timelines.forEach { timeline -> loadNextPage(timeline) }
+    override fun loadMore(): Boolean {
+        var hasMore = false
+        timelines.forEach { timeline ->
+            if (loadNextPage(timeline)) hasMore = true
+        }
+        return hasMore
     }
 
     override fun onTimelineFailure(throwable: Throwable) {

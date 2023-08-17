@@ -41,7 +41,7 @@ abstract class BaseTimelineDataSource(
 
     abstract fun startTimeline()
     abstract fun clearTimeline()
-    abstract fun loadMore()
+    abstract fun loadMore(): Boolean
 
     override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
         if (snapshot.isNotEmpty())
@@ -64,9 +64,10 @@ abstract class BaseTimelineDataSource(
         timeline.dispose()
     }
 
-    protected fun loadNextPage(timeline: Timeline) {
-        if (timeline.hasMoreToLoad(listDirection))
-            timeline.paginate(listDirection, MESSAGES_PER_PAGE)
+    protected fun loadNextPage(timeline: Timeline): Boolean {
+        val hasMore = timeline.hasMoreToLoad(listDirection)
+        if (hasMore) timeline.paginate(listDirection, MESSAGES_PER_PAGE)
+        return hasMore
     }
 
     protected fun restartTimelineOnFailure(timeline: Timeline) {
