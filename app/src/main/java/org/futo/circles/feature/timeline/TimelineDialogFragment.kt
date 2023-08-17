@@ -64,7 +64,9 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val loadMoreDebounce by lazy {
         debounce<Unit>(
             scope = lifecycleScope,
-            destinationFunction = { viewModel.loadMore() }
+            destinationFunction = {
+                if (viewModel.loadMore()) binding.rvTimeline.setIsPageLoading(true)
+            }
         )
     }
 
@@ -73,6 +75,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             scope = lifecycleScope,
             destinationFunction = {
                 listAdapter.submitList(it)
+                binding.rvTimeline.setIsPageLoading(false)
                 viewModel.markTimelineAsRead(args.roomId, isGroupMode)
             }
         )
@@ -100,6 +103,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             getRecyclerView().apply {
                 isNestedScrollingEnabled = false
                 setHasFixedSize(true)
+                itemAnimator = null
                 setItemViewCacheSize(20)
                 recycledViewPool.setMaxRecycledViews(PostContentType.TEXT_CONTENT.ordinal, 20)
             }
