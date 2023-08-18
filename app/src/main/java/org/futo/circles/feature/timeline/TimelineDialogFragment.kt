@@ -12,7 +12,6 @@ import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
@@ -262,12 +261,12 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
-        binding.lCreatePost.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
+        binding.lCreatePost.setUserAbleToPost(powerLevelsContent.isCurrentUserAbleToPost())
     }
 
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
         val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
-        binding.lCreatePost.setIsVisible(isUserAdmin)
+        binding.lCreatePost.setUserAbleToPost(isUserAdmin)
     }
 
 }

@@ -28,6 +28,7 @@ class CreatePostView(
     private val binding = ViewCreatePostBinding.inflate(LayoutInflater.from(context), this)
 
     private var listener: CreatePostViewListener? = null
+    private var isUserAbleToPost = true
 
     init {
         setBackgroundColor(
@@ -46,6 +47,11 @@ class CreatePostView(
         setupButtons(isThread)
     }
 
+    fun setUserAbleToPost(isAbleToPost: Boolean) {
+        isUserAbleToPost = isAbleToPost
+        setIsVisible(isUserAbleToPost)
+    }
+
     fun setUserInfo(user: User) {
         binding.ivProfile.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
     }
@@ -58,7 +64,8 @@ class CreatePostView(
         recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) gone() else if (dy < 0) visible()
+                if (isUserAbleToPost)
+                    if (dy > 0) gone() else if (dy < 0) visible()
             }
         })
     }
