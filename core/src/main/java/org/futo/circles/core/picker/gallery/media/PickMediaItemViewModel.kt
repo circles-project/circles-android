@@ -10,16 +10,15 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PostContentType
-import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_MULTI_SELECT
 import org.futo.circles.core.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.timeline.BaseTimelineViewModel
-import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.timeline.data_source.SingleTimelineDataSource
 import javax.inject.Inject
 
 @HiltViewModel
 class PickMediaItemViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    timelineDataSource: TimelineDataSource
+    timelineDataSource: SingleTimelineDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
     private val isVideoAvailable: Boolean = savedStateHandle[IS_VIDEO_AVAILABLE] ?: true

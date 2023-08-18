@@ -22,6 +22,7 @@
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:hardwareAccelerated="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Circles"
@@ -30,13 +31,11 @@
         <activity
             android:name=".auth.feature.active_sessions.verify.qr.QrScannerActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
 
             <intent-filter>
@@ -64,7 +63,6 @@
             android:name=".gallery.feature.share.UploadToGalleryActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter android:label="@string/gallery">
                 <action android:name="android.intent.action.SEND" />
@@ -79,7 +77,6 @@
             android:name=".feature.share.circle.ShareWithCircleActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter android:label="@string/circle">
                 <action android:name="android.intent.action.SEND" />

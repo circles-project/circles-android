@@ -56,12 +56,11 @@ class CreatePostDialogFragment :
     private fun setupViews() {
         setToolbarTitle()
         with(binding) {
-            btnPost.apply {
+            btnSend.apply {
                 setOnClickListener {
                     sendPost()
                     onBackPressed()
                 }
-                setText(getString(if (args.isEdit) R.string.edit else R.string.send))
             }
             binding.vPostOptions.apply {
                 setOptionsListener(this@CreatePostDialogFragment)
@@ -70,7 +69,7 @@ class CreatePostDialogFragment :
             vPostPreview.setup(
                 object : PreviewPostListener {
                     override fun onPostContentAvailable(isAvailable: Boolean) {
-                        binding.btnPost.isEnabled = isAvailable
+                        binding.btnSend.isEnabled = isAvailable
                     }
                 },
                 onHighlightTextStyle = { textStyle -> binding.vPostOptions.highlightStyle(textStyle) },

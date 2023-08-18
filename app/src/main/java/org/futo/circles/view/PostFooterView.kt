@@ -26,6 +26,7 @@ class PostFooterView(
     private var isThreadPost = false
     private var userPowerLevel: Int = Role.Default.value
     private val emojisTimelineAdapter = EmojisTimelineAdapter { reaction ->
+        locallyUpdateEmojisList(reaction)
         post?.let {
             optionsListener?.onEmojiChipClicked(
                 it.postInfo.roomId,
@@ -66,12 +67,18 @@ class PostFooterView(
         userPowerLevel = powerLevel
         isThreadPost = isThread
         bindViewData(data.repliesCount, data.canShare())
-        bindReactionsList(data.postInfo.reactionsData)
+        bindReactionsList(data.reactionsData)
     }
 
-    fun setRepliesCount(repliesCount: Int) {
-        binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
+    fun bindPayload(repliesCount: Int, reactions: List<ReactionsData>) {
+        post = post?.copy(repliesCount = repliesCount, reactionsData = reactions)
+        setRepliesCount(repliesCount)
+        bindReactionsList(reactions)
     }
+
+    fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
+
+    fun areUserAbleToReply() = !isThreadPost && areUserAbleToPost()
 
     private fun bindViewData(repliesCount: Int, canShare: Boolean) {
         with(binding) {
@@ -85,13 +92,32 @@ class PostFooterView(
         }
     }
 
+    private fun setRepliesCount(repliesCount: Int) {
+        binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
+    }
+
     private fun bindReactionsList(reactions: List<ReactionsData>) {
         binding.rvEmojis.setIsVisible(reactions.isNotEmpty())
         emojisTimelineAdapter.submitList(reactions)
     }
 
-    fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
+    private fun locallyUpdateEmojisList(reaction: ReactionsData) {
+        if (areUserAbleToPost().not()) return
+        val emojisList = post?.reactionsData?.toMutableList() ?: return
+        val newItem = if (reaction.addedByMe) {
+            if (reaction.count == 1) {
+                emojisList.remove(reaction)
+                null
+            } else reaction.copy(addedByMe = false, count = reaction.count - 1)
+        } else reaction.copy(addedByMe = true, count = reaction.count + 1)
 
-    fun areUserAbleToReply() = !isThreadPost && areUserAbleToPost()
+        newItem?.let {
+            val index = emojisList.indexOf(reaction)
+            emojisList.add(index, it)
+            emojisList.remove(reaction)
+        }
+        bindReactionsList(emojisList)
+        post = post?.copy(reactionsData = emojisList)
+    }
 
 }

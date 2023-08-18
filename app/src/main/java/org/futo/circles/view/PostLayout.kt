@@ -95,8 +95,8 @@ class PostLayout(
     }
 
     fun setPayload(payload: PostItemPayload) {
-        setSendStatus(payload.sendState, payload.readInfo.readByCount)
-        binding.postFooter.setRepliesCount(payload.repliesCount)
+        setSendStatus(payload.sendState, payload.readByCount)
+        binding.postFooter.bindPayload(payload.repliesCount, payload.reactions)
     }
 
     private fun setGeneralMessageData(data: Post, userPowerLevel: Int, isThread: Boolean) {
@@ -104,7 +104,7 @@ class PostLayout(
         binding.postFooter.setData(data, userPowerLevel, isThread)
         setMentionBorder(data.content)
         setIsEdited(data.postInfo.isEdited)
-        setSendStatus(data.sendState, data.readInfo.readByCount)
+        setSendStatus(data.sendState, data.readByCount)
     }
 
     private fun setIsEdited(isEdited: Boolean) {

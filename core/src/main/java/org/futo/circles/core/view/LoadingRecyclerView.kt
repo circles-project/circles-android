@@ -62,6 +62,8 @@ class LoadingRecyclerView(
 
     fun bindToFab(fab: FloatingActionButton) = binding.rvList.bindToFab(fab)
 
+    fun setIsPageLoading(isLoading:Boolean) = binding.pageLoading.setIsVisible(isLoading)
+
     private fun setupDataObserver() {
         with(binding) {
             val initialCount = rvList.adapter?.itemCount ?: 0
