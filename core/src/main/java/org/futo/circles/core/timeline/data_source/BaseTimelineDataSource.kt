@@ -75,6 +75,6 @@ abstract class BaseTimelineDataSource(
     }
 
     companion object {
-        private const val MESSAGES_PER_PAGE = 30
+        private const val MESSAGES_PER_PAGE = 50
     }
 }
