@@ -67,7 +67,7 @@ class TimelineAdapter(
     }
 
     companion object {
-        private const val LOAD_MORE_THRESHOLD = 10
+        private const val LOAD_MORE_THRESHOLD = 15
     }
 
 }
