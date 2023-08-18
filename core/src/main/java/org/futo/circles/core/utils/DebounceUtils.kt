@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 fun <T> debounce(
-    waitMs: Long = 300L,
+    waitMs: Long = 150L,
     scope: CoroutineScope,
     destinationFunction: (T) -> Unit
 ): (T) -> Unit {
