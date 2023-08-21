@@ -7,11 +7,11 @@ apply plugin: 'maven-publish'
 
 android {
     namespace 'org.futo.circles.auth'
-    compileSdk 33
+    compileSdk rootProject.ext.sdk_version
 
     defaultConfig {
-        minSdk 24
-        targetSdk 33
+        minSdk rootProject.ext.min_sdk_version
+        targetSdk rootProject.ext.sdk_version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -59,19 +59,18 @@ dependencies {
     implementation "androidx.browser:browser:1.5.0"
 
     //Password strength
-    implementation 'com.nulab-inc:zxcvbn:1.7.0'
+    implementation 'com.nulab-inc:zxcvbn:1.8.1'
 
     //Subscriptions
     implementation 'com.android.billingclient:billing-ktx:6.0.1'
 
     //QR
-    implementation 'com.google.zxing:core:3.5.1'
+    implementation 'com.google.zxing:core:3.5.2'
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
     //Hilt
-    def hilt = '2.46.1'
-    implementation "com.google.dagger:hilt-android:$hilt"
-    kapt "com.google.dagger:hilt-compiler:$hilt"
+    implementation "com.google.dagger:hilt-android:$rootProject.ext.hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

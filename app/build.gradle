@@ -5,12 +5,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    compileSdk 33
+    compileSdk rootProject.ext.sdk_version
 
     defaultConfig {
         applicationId "org.futo.circles"
-        minSdk 24
-        targetSdk 33
+        minSdk rootProject.ext.min_sdk_version
+        targetSdk rootProject.ext.sdk_version
         versionCode 22
         versionName "1.0.13.22"
 
@@ -62,7 +62,7 @@ dependencies {
     implementation project(path: ':gallery')
 
     //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.1.1')
+    gplayImplementation platform('com.google.firebase:firebase-bom:32.2.2')
     gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.github.UnifiedPush:android-connector:2.1.1'
 
     //Emoji
-    implementation "com.vanniktech:emoji-google:0.16.0"
+    implementation 'com.vanniktech:emoji-google:0.17.0'
 
     //Markdown
     def markwon_version = "4.6.2"
@@ -87,9 +87,8 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
     //Hilt
-    def hilt = '2.46.1'
-    implementation "com.google.dagger:hilt-android:$hilt"
-    kapt "com.google.dagger:hilt-compiler:$hilt"
+    implementation "com.google.dagger:hilt-android:$rootProject.ext.hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
 
     //test
     testImplementation 'junit:junit:4.13.2'
