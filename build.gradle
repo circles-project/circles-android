@@ -1,6 +1,9 @@
 buildscript {
     ext {
-        androidx_nav_version = "2.5.3"
+        sdk_version = 33
+        min_sdk_version = 24
+        androidx_nav_version = "2.6.0"
+        hilt_version = "2.47"
         modules_version = "1.0.9"
         modules_gitlab_projectId = "13"
     }
@@ -32,19 +35,19 @@ allprojects {
 }
 
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
 
-task cleanBuildPublishModules(type: GradleBuild) {
-    task assembleModulesRelease {
+tasks.register('cleanBuildPublishModules', GradleBuild) {
+    tasks.register('assembleModulesRelease') {
         dependsOn 'clean'
         dependsOn ':core:assembleRelease'
         dependsOn ':auth:assembleRelease'
         dependsOn ':gallery:assembleRelease'
     }
 
-    task publishModules {
+    tasks.register('publishModules') {
         dependsOn 'assembleModulesRelease'
         dependsOn ':core:publish'
         dependsOn ':auth:publish'
