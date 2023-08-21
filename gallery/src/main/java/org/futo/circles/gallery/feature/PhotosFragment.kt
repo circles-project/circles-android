@@ -24,6 +24,7 @@ import org.futo.circles.core.picker.helper.RuntimePermissionHelper
 import org.futo.circles.gallery.R
 import org.futo.circles.core.picker.gallery.rooms.list.PhotosListAdapter
 import org.futo.circles.core.model.GalleryListItem
+import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
 class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), MenuProvider {
@@ -64,6 +65,9 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
 
     private fun setupViews() {
         binding.rvRooms.apply {
+            setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
+                setText(getString(R.string.photos_empty_message))
+            })
             adapter = listAdapter
             bindToFab(binding.fbAddRoom)
         }

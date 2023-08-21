@@ -1,16 +1,20 @@
 package org.futo.circles.feature.timeline
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.timeline.BaseTimelineViewModel
-import org.futo.circles.core.timeline.TimelineDataSource
+import org.futo.circles.core.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.feature.people.UserOptionsDataSource
@@ -20,24 +24,25 @@ import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
 
 @HiltViewModel
 class TimelineViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     roomNotificationsDataSource: RoomNotificationsDataSource,
-    timelineDataSource: TimelineDataSource,
+    timelineDataSourceFactory: BaseTimelineDataSource.Factory,
     accessLevelDataSource: AccessLevelDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
     private val readMessageDataSource: ReadMessageDataSource
-) : BaseTimelineViewModel(timelineDataSource) {
+) : BaseTimelineViewModel(timelineDataSourceFactory.create(savedStateHandle.get<CircleRoomTypeArg>("type") == CircleRoomTypeArg.Circle)) {
 
     val session = MatrixSessionProvider.currentSession
     val profileLiveData = session?.userService()?.getUserLive(session.myUserId)
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
-    val timelineEventsLiveData = timelineDataSource.timelineEventsLiveData
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
@@ -126,19 +131,12 @@ class TimelineViewModel @Inject constructor(
         postOptionsDataSource.endPoll(roomId, eventId)
     }
 
-    fun markEventAsRead(positions: List<Int>) {
-        val list = timelineEventsLiveData.value ?: return
+    fun markTimelineAsRead(roomId: String, isGroup: Boolean) {
         launchBg {
-            positions.forEach { position ->
-                list.getOrNull(position)
-                    ?.let { readMessageDataSource.markAsRead(it.postInfo.roomId, it.id) }
-            }
+            if (isGroup) readMessageDataSource.markRoomAsRead(roomId)
+            else session?.getRoom(roomId)?.roomSummary()?.spaceChildren?.map {
+                async { readMessageDataSource.markRoomAsRead(roomId) }
+            }?.awaitAll()
         }
     }
-
-    override fun onCleared() {
-        readMessageDataSource.setReadMarker()
-        super.onCleared()
-    }
-
 }

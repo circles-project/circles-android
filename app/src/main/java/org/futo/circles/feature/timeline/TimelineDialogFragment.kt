@@ -3,6 +3,7 @@ package org.futo.circles.feature.timeline
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -11,15 +12,17 @@ import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
+import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.share.ShareProvider
+import org.futo.circles.core.utils.debounce
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.TimelineAdapter
@@ -56,12 +59,33 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val binding by lazy {
         getBinding() as DialogFragmentTimelineBinding
     }
+
+    private val loadMoreDebounce by lazy {
+        debounce<Unit>(
+            scope = lifecycleScope,
+            destinationFunction = {
+                if (viewModel.loadMore()) binding.rvTimeline.setIsPageLoading(true)
+            }
+        )
+    }
+
+    private val submitDataDebounce by lazy {
+        debounce<List<Post>>(
+            scope = lifecycleScope,
+            destinationFunction = {
+                listAdapter.submitList(it)
+                binding.rvTimeline.setIsPageLoading(false)
+                viewModel.markTimelineAsRead(args.roomId, isGroupMode)
+            }
+        )
+    }
+
     private val listAdapter by lazy {
         TimelineAdapter(
             getCurrentUserPowerLevel(args.roomId),
             this,
             isThread
-        ) { viewModel.loadMore() }
+        ) { loadMoreDebounce(Unit) }
     }
     private val navigator by lazy { TimelineNavigator(this) }
 
@@ -75,8 +99,14 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun setupViews() {
         binding.rvTimeline.apply {
             adapter = listAdapter
+            getRecyclerView().apply {
+                isNestedScrollingEnabled = false
+                setHasFixedSize(true)
+                itemAnimator = null
+                setItemViewCacheSize(20)
+                recycledViewPool.setMaxRecycledViews(PostContentType.TEXT_CONTENT.ordinal, 20)
+            }
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            MarkAsReadBuffer(this.getRecyclerView()) { viewModel.markEventAsRead(it) }
         }
         binding.lCreatePost.setUp(object : CreatePostViewListener {
             override fun onCreatePoll() {
@@ -112,13 +142,12 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
 
     private fun setupObservers() {
-        viewModel.titleLiveData?.observeData(this) { roomName ->
-            val title = if (isThread) getString(R.string.thread_format, roomName ?: "")
-            else roomName ?: ""
+        viewModel.titleLiveData.observeData(this) { roomName ->
+            val title = if (isThread) getString(R.string.thread_format, roomName) else roomName
             binding.toolbar.title = title
         }
         viewModel.timelineEventsLiveData.observeData(this) {
-            listAdapter.submitList(it)
+            submitDataDebounce(it)
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =
@@ -232,12 +261,12 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
-        binding.lCreatePost.setIsVisible(powerLevelsContent.isCurrentUserAbleToPost())
+        binding.lCreatePost.setUserAbleToPost(powerLevelsContent.isCurrentUserAbleToPost())
     }
 
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
         val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
-        binding.lCreatePost.setIsVisible(isUserAdmin)
+        binding.lCreatePost.setUserAbleToPost(isUserAdmin)
     }
 
 }

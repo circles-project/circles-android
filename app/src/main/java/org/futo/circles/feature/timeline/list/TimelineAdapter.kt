@@ -16,8 +16,9 @@ class TimelineAdapter(
 ) : BaseRvAdapter<Post, PostViewHolder>(PayloadIdEntityCallback { old, new ->
     PostItemPayload(
         sendState = new.sendState,
-        readInfo = new.readInfo,
+        readByCount = new.readByCount,
         repliesCount = new.repliesCount,
+        reactions = new.reactionsData,
         needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
     )
 }) {
@@ -27,9 +28,7 @@ class TimelineAdapter(
         notifyDataSetChanged()
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return getItem(position).content.type.ordinal
-    }
+    override fun getItemViewType(position: Int): Int = getItem(position).content.type.ordinal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return when (PostContentType.values()[viewType]) {
@@ -68,7 +67,7 @@ class TimelineAdapter(
     }
 
     companion object {
-        private const val LOAD_MORE_THRESHOLD = 10
+        private const val LOAD_MORE_THRESHOLD = 15
     }
 
 }

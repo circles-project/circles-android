@@ -275,6 +275,9 @@
     <string name="developer_mode_enabled">Developer mode is enabled</string>
     <string name="developer_mode_disabled">Developer mode is disabled</string>
     <string name="room_not_found">Room is not found</string>
+    <string name="groups_empty_message">Create your first Group</string>
+    <string name="circles_empty_message">Create your first Circle</string>
+    <string name="people_empty_message">Members of Circles and Groups you are joined will be shown here</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

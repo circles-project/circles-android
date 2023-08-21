@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import org.futo.circles.R
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
@@ -29,9 +28,15 @@ class CreatePostView(
     private val binding = ViewCreatePostBinding.inflate(LayoutInflater.from(context), this)
 
     private var listener: CreatePostViewListener? = null
+    private var isUserAbleToPost = true
 
     init {
-        setBackgroundColor(ContextCompat.getColor(context, org.futo.circles.core.R.color.post_card_background_color))
+        setBackgroundColor(
+            ContextCompat.getColor(
+                context,
+                org.futo.circles.core.R.color.post_card_background_color
+            )
+        )
         setOnClickListener { listener?.onCreatePost() }
         binding.ivCreatePoll.setOnClickListener { listener?.onCreatePoll() }
     }
@@ -40,6 +45,11 @@ class CreatePostView(
         listener = callback
         bindToRecyclerView(recycler)
         setupButtons(isThread)
+    }
+
+    fun setUserAbleToPost(isAbleToPost: Boolean) {
+        isUserAbleToPost = isAbleToPost
+        setIsVisible(isUserAbleToPost)
     }
 
     fun setUserInfo(user: User) {
@@ -54,11 +64,8 @@ class CreatePostView(
         recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!recyclerView.canScrollVertically(1)) {
-                    visible()
-                    return
-                }
-                if (dy > 0) gone() else if (dy < 0) visible()
+                if (isUserAbleToPost)
+                    if (dy > 0) gone() else if (dy < 0) visible()
             }
         })
     }

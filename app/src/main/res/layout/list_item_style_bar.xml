@@ -4,13 +4,12 @@
     android:id="@+id/cvOption"
     android:layout_width="48dp"
     android:layout_height="48dp"
-    app:cardCornerRadius="8dp"
-    android:elevation="4dp"
-    android:layout_marginHorizontal="4dp"
-    android:foreground="?selectableItemBackground"
     android:clickable="true"
-    android:clipToPadding="false"
-    android:focusable="true">
+    android:elevation="4dp"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
+    app:cardCornerRadius="8dp"
+    app:cardUseCompatPadding="true">
 
     <ImageView
         android:id="@+id/ivIcon"

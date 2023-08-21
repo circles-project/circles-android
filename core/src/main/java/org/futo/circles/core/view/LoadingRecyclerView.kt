@@ -3,6 +3,7 @@ package org.futo.circles.core.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
@@ -10,6 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.futo.circles.core.databinding.ViewLoadingRecyclerBinding
 import org.futo.circles.core.extensions.bindToFab
 import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.visible
 import org.matrix.android.sdk.api.extensions.tryOrNull
 
@@ -23,6 +25,11 @@ class LoadingRecyclerView(
     private val dataObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
+            notifyItemsChanged()
+        }
+
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            super.onItemRangeRemoved(positionStart, itemCount)
             notifyItemsChanged()
         }
     }
@@ -43,6 +50,10 @@ class LoadingRecyclerView(
         }
 
 
+    fun setEmptyView(view: View) {
+        binding.lEmptyViewContainer.addView(view)
+    }
+
     fun addItemDecoration(decoration: ItemDecoration) {
         binding.rvList.addItemDecoration(decoration)
     }
@@ -50,6 +61,8 @@ class LoadingRecyclerView(
     fun getRecyclerView() = binding.rvList
 
     fun bindToFab(fab: FloatingActionButton) = binding.rvList.bindToFab(fab)
+
+    fun setIsPageLoading(isLoading:Boolean) = binding.pageLoading.setIsVisible(isLoading)
 
     private fun setupDataObserver() {
         with(binding) {
@@ -66,6 +79,7 @@ class LoadingRecyclerView(
 
     fun notifyItemsChanged() {
         binding.vLoading.gone()
-        tryOrNull { binding.rvList.adapter?.unregisterAdapterDataObserver(dataObserver) }
+        val itemsCount = binding.rvList.adapter?.itemCount ?: 0
+        binding.lEmptyViewContainer.setIsVisible(itemsCount == 0)
     }
 }

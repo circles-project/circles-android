@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.R
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -15,6 +16,7 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.model.GroupListItem
 import org.futo.circles.model.RequestGroupListItem
+import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
 class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
@@ -41,6 +43,9 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
 
     private fun setupViews() {
         binding.rvRooms.apply {
+            setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
+                setText(getString(R.string.groups_empty_message))
+            })
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = listAdapter
             bindToFab(binding.fbAddRoom)
