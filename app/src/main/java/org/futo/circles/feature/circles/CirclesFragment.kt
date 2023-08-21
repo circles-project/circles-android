@@ -13,32 +13,27 @@ import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.feature.circles.list.CirclesListAdapter
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.RequestCircleListItem
-import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
 class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
 
     private val viewModel by viewModels<CirclesViewModel>()
     private val binding by viewBinding(FragmentRoomsBinding::bind)
-    private val listAdapter by lazy {
-        CirclesListAdapter(
-            onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
-            onInviteClicked = { roomListItem, isAccepted ->
-                onInviteClicked(roomListItem, isAccepted)
-            },
-            onRequestClicked = { roomListItem, isAccepted ->
-                onRequestClicked(roomListItem, isAccepted)
-            }
-        )
-    }
+    private var listAdapter: CirclesListAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        listAdapter = null
     }
 
     private fun setupViews() {
@@ -47,7 +42,15 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
                 setText(getString(R.string.circles_empty_message))
             })
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            adapter = listAdapter
+            adapter = CirclesListAdapter(
+                onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
+                onInviteClicked = { roomListItem, isAccepted ->
+                    onInviteClicked(roomListItem, isAccepted)
+                },
+                onRequestClicked = { roomListItem, isAccepted ->
+                    onRequestClicked(roomListItem, isAccepted)
+                }
+            ).also { listAdapter = it }
             bindToFab(binding.fbAddRoom)
         }
         binding.fbAddRoom.setOnClickListener { navigateToCreateRoom() }
@@ -55,7 +58,7 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
 
     private fun setupObservers() {
         viewModel.roomsLiveData.observeData(this) {
-            listAdapter.submitList(it)
+            listAdapter?.submitList(it)
             binding.rvRooms.notifyItemsChanged()
         }
         viewModel.inviteResultLiveData.observeResponse(this)
