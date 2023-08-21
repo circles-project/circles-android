@@ -63,12 +63,6 @@ class BSSpekeClient(
         return Base64.encodeToString(verifier, Base64.NO_WRAP)
     }
 
-    fun verifyServer(verifier: ByteArray): Boolean {
-        assert(verifier.size == 32)
-        val rc = BSSpekeUtils.clientVerifyServer(verifier, clientContext)
-        return rc == 0
-    }
-
     fun generateHashKey(message: String): ByteArray {
         val k = ByteArray(32) { 0 }
         val messageByteArray = message.toByteArray()
