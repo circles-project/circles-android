@@ -5,12 +5,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    compileSdk rootProject.ext.sdkVersion
+    compileSdk 33
 
     defaultConfig {
         applicationId "org.futo.circles"
-        minSdk rootProject.ext.minSdkVersion
-        targetSdk rootProject.ext.sdkVersion
+        minSdk 24
+        targetSdk 33
         versionCode 22
         versionName "1.0.13.22"
 
