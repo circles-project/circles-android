@@ -116,7 +116,7 @@ class SignUpDataSource @Inject constructor(
     private suspend fun finishRegistration(session: Session) = createResult {
         MatrixInstanceProvider.matrix.authenticationService().reset()
         MatrixSessionProvider.awaitForSessionStart(session)
-        createPassPhraseDataSource.createPassPhraseBackup(userName, passphrase)
+        createPassPhraseDataSource.createPassPhraseBackup(userName, domain, passphrase)
         coreSpacesTreeBuilder.createCoreSpacesTree()
     }
 

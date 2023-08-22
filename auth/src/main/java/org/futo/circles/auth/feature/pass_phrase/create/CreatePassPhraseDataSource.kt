@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
+import org.futo.circles.auth.bsspeke.BSSpekeClient
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.SSSSDataSource
 import org.futo.circles.core.model.LoadingData
@@ -26,13 +27,16 @@ class CreatePassPhraseDataSource @Inject constructor(
     val loadingLiveData = MutableLiveData<LoadingData>()
     private val passPhraseLoadingData = LoadingData()
 
-    suspend fun createPassPhraseBackup(userName: String, passphrase: String) {
+    suspend fun createPassPhraseBackup(userName: String, domain: String, passphrase: String) {
         loadingLiveData.postValue(passPhraseLoadingData.apply {
             this.total = 0
             messageId = R.string.generating_recovery_key
         })
+        val hashedKey =
+            BSSpekeClient("@$userName:$domain", domain, passphrase).generateHashKey(passphrase)
+
         val backupCreationInfo = awaitCallback {
-            keysBackupService.prepareBcryptKeysBackupVersion(userName, passphrase, it)
+            keysBackupService.prepareBsSpekeKeysBackupVersion(hashedKey, it)
         }
         createKeyBackup(backupCreationInfo)
         val keyData = ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, true)
@@ -41,9 +45,11 @@ class CreatePassPhraseDataSource @Inject constructor(
     }
 
     suspend fun replacePassPhraseBackup(userId: String, passphrase: String) {
-        val userName = userId.replace("@", "").substringBefore(":")
+        val nameAndDomain = userId.replace("@", "").split(":")
+        val name = nameAndDomain.getOrNull(0) ?: ""
+        val domain = nameAndDomain.getOrNull(1) ?: ""
         removeCurrentBackupIfExist()
-        createPassPhraseBackup(userName, passphrase)
+        createPassPhraseBackup(name, domain, passphrase)
     }
 
     private suspend fun createKeyBackup(
