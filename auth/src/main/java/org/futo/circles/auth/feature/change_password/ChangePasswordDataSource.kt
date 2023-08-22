@@ -6,7 +6,7 @@ import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
+import org.matrix.android.sdk.api.crypto.BSSPEKE_ALGORITHM_BACKUP
 import javax.inject.Inject
 
 class ChangePasswordDataSource @Inject constructor(
@@ -29,7 +29,7 @@ class ChangePasswordDataSource @Inject constructor(
 
     suspend fun createNewBackupInNeeded(newPassword: String): Response<Unit> {
         val algorithm = restoreBackupDataSource.getEncryptionAlgorithm()
-        val createBackupResult = if (algorithm == BCRYPT_ALGORITHM_BACKUP) {
+        val createBackupResult = if (algorithm == BSSPEKE_ALGORITHM_BACKUP) {
             createResult {
                 createPassPhraseDataSource.replacePassPhraseBackup(
                     MatrixSessionProvider.currentSession?.myUserId ?: "", newPassword
