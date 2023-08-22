@@ -63,10 +63,10 @@ class BSSpekeClient(
         return Base64.encodeToString(verifier, Base64.NO_WRAP)
     }
 
-    fun generateHashKey(message: String): ByteArray {
+    fun generateHashKey(password: String): ByteArray {
         val k = ByteArray(32) { 0 }
-        val messageByteArray = message.toByteArray()
-        BSSpekeUtils.generateHashedKey(k, messageByteArray, clientContext)
+        val passwordByteArray = password.toByteArray()
+        BSSpekeUtils.generateHashedKey(k, passwordByteArray, clientContext)
         return k
     }
 }
