@@ -5,6 +5,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.model.KeyData
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
+import org.matrix.android.sdk.api.crypto.BSSPEKE_ALGORITHM_BACKUP
+import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import org.matrix.android.sdk.api.listeners.ProgressListener
 import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.Session
@@ -50,7 +53,7 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
     suspend fun storeIntoSSSSWithPassphrase(
         passphrase: String,
         userName: String,
-        isBsSpeke: Boolean
+        algo: String
     ): KeyData {
         val session =
             MatrixSessionProvider.getSessionOrThrow()
@@ -70,7 +73,7 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
     suspend fun getRecoveryKeyFromPassphrase(
         passphrase: String,
         progressObserver: StepProgressListener,
-        isBsSpeke: Boolean
+        algo: String
     ): KeyData {
         val session = MatrixSessionProvider.getSessionOrThrow()
 
@@ -79,20 +82,29 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
         progressObserver.onStepProgress(
             StepProgressListener.Step.ComputingKey(0, 0)
         )
+        val salt = keyInfo.content.passphrase?.salt ?: ""
+        val iterations = keyInfo.content.passphrase?.iterations ?: 0
 
-        val keySpec = RawBytesKeySpec.fromPassphrase(
-            passphrase,
-            keyInfo.content.passphrase?.salt ?: "",
-            keyInfo.content.passphrase?.iterations ?: 0,
-            object : ProgressListener {
-                override fun onProgress(progress: Int, total: Int) {
-                    progressObserver.onStepProgress(
-                        StepProgressListener.Step.ComputingKey(progress, total)
-                    )
-                }
-            },
-            isBsSpeke
-        )
+        val keySpec = when (algo) {
+            MXCRYPTO_ALGORITHM_MEGOLM_BACKUP ->
+                RawBytesKeySpec.fromPassphrase(
+                    passphrase, salt, iterations,
+                    object : ProgressListener {
+                        override fun onProgress(progress: Int, total: Int) {
+                            progressObserver.onStepProgress(
+                                StepProgressListener.Step.ComputingKey(progress, total)
+                            )
+                        }
+                    })
+
+            BCRYPT_ALGORITHM_BACKUP -> RawBytesKeySpec.fromBCryptPassphrase(
+                passphrase, salt, iterations
+            )
+
+            BSSPEKE_ALGORITHM_BACKUP -> RawBytesKeySpec()
+            else -> throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_passphrase))
+        }
+
         val secret = getSecret(session, keyInfo, keySpec)
             ?: throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_passphrase))
 
