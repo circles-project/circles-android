@@ -1,6 +1,7 @@
 package org.futo.circles.auth.feature.pass_phrase.restore
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.model.KeyData
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -21,7 +22,7 @@ import org.matrix.android.sdk.api.util.toBase64NoPadding
 import java.util.UUID
 import javax.inject.Inject
 
-class SSSSDataSource @Inject constructor() {
+class SSSSDataSource @Inject constructor(@ApplicationContext private val context: Context) {
 
     fun isBackupKeyInQuadS(): Boolean {
         val session = MatrixSessionProvider.currentSession ?: return false
@@ -67,7 +68,6 @@ class SSSSDataSource @Inject constructor() {
     }
 
     suspend fun getRecoveryKeyFromPassphrase(
-        context: Context,
         passphrase: String,
         progressObserver: StepProgressListener,
         isBsSpeke: Boolean
@@ -100,7 +100,6 @@ class SSSSDataSource @Inject constructor() {
     }
 
     suspend fun getRecoveryKeyFromFileKey(
-        context: Context,
         recoveryKey: String,
         progressObserver: StepProgressListener
     ): KeyData {
