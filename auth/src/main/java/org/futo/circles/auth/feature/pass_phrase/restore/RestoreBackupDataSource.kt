@@ -67,18 +67,13 @@ class RestoreBackupDataSource @Inject constructor(
         return keyVersion?.algorithm
     }
 
-    suspend fun restoreKeysWithPassPhase(
-        passphrase: String,
-        userName: String,
-        isBsSpeke: Boolean = false
-    ) {
+    suspend fun restoreKeysWithPassPhase(passphrase: String, userName: String, algo: String) {
         val keyData =
-            if (!ssssDataSource.isBackupKeyInQuadS())
-                ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, isBsSpeke)
+            if (ssssDataSource.isBackupKeyInQuadS())
+                ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver, algo)
             else
-                ssssDataSource.getRecoveryKeyFromPassphrase(
-                    context, passphrase, progressObserver, isBsSpeke
-                )
+                ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, algo)
+
         restoreKeysWithRecoveryKey(keyData)
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
@@ -108,8 +103,11 @@ class RestoreBackupDataSource @Inject constructor(
     suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
         val key = readRecoveryKeyFile(uri)
         val keyData =
-            if (!ssssDataSource.isBackupKeyInQuadS()) ssssDataSource.storeIntoSSSSWithKey(key)
-            else ssssDataSource.getRecoveryKeyFromFileKey(context, key, progressObserver)
+            if (ssssDataSource.isBackupKeyInQuadS())
+                ssssDataSource.getRecoveryKeyFromFileKey(key, progressObserver)
+            else
+                ssssDataSource.storeIntoSSSSWithKey(key)
+
         restoreKeysWithRecoveryKey(keyData)
     }
 
