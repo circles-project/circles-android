@@ -7,6 +7,7 @@ import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_BSSP
 import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
 import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.bsspeke.BSSpekeClient
+import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.log_in.stages.password.LoginBsSpekeDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_OPRF_TYPE
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_SAVE_TYPE
@@ -39,7 +40,8 @@ abstract class BaseBsSpekeStageDataSource(private val context: Context) : Passwo
 
 
     override suspend fun processPasswordStage(password: String): Response<Unit> {
-        val bsSpekeClient = BSSpekeClient("@$userName:$domain", domain, password)
+        BSSpekeClientProvider.initClient(userName, domain, password)
+        val bsSpekeClient = BSSpekeClientProvider.getClientOrThrow()
         return when (val oprfResult = performOprfStage(bsSpekeClient)) {
             is Response.Success -> processOprfSuccessResponse(
                 oprfResult.data, bsSpekeClient, password,
