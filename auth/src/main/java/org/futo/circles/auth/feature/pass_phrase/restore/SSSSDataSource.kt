@@ -1,5 +1,6 @@
 package org.futo.circles.auth.feature.pass_phrase.restore
 
+import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.model.KeyData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
@@ -55,14 +56,25 @@ class SSSSDataSource @Inject constructor() {
         val session =
             MatrixSessionProvider.getSessionOrThrow()
         val quadS = session.sharedSecretStorageService()
-        val keyInfo = quadS.generateKeyWithPassphrase(
-            UUID.randomUUID().toString(),
-            "ssss_key",
-            passphrase,
-            EmptyKeySigner(),
-            null,
-            userName, isBsSpeke
-        )
+        val keyInfo = when (algo) {
+            MXCRYPTO_ALGORITHM_MEGOLM_BACKUP -> quadS.generateKeyWithPassphrase(
+                UUID.randomUUID().toString(), "", passphrase, EmptyKeySigner(), null
+            )
+
+            BCRYPT_ALGORITHM_BACKUP -> quadS.generateBCryptKeyWithPassphrase(
+                UUID.randomUUID().toString(), passphrase, EmptyKeySigner(), null, userName
+            )
+
+            BSSPEKE_ALGORITHM_BACKUP -> {
+                val client = BSSpekeClientProvider.getClientOrThrow()
+                val key = client.generateHashKey(passphrase)
+                val keyId = client.getIdFromKey(key)
+                quadS.generateBsSpekeWithPassphrase(keyId, key, EmptyKeySigner(), null)
+            }
+
+            else -> throw Exception("Unsupported algorithm $algo")
+        }
+
         storeSecret(session, keyInfo)
         return KeyData(keyInfo.recoveryKey, keyInfo.keySpec)
     }
@@ -98,7 +110,10 @@ class SSSSDataSource @Inject constructor() {
                 passphrase, salt, iterations
             )
 
-            BSSPEKE_ALGORITHM_BACKUP -> RawBytesKeySpec()
+            BSSPEKE_ALGORITHM_BACKUP -> RawBytesKeySpec(
+                BSSpekeClientProvider.getClientOrThrow().generateHashKey(passphrase)
+            )
+
             else -> throw Exception("Unsupported algorithm $algo")
         }
 
