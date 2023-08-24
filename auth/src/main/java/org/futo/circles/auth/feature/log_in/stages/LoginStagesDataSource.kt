@@ -5,6 +5,7 @@ import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.BaseLoginStagesDataSource
+import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
@@ -61,6 +62,7 @@ class LoginStagesDataSource @Inject constructor(
     private suspend fun finishLogin(session: Session) {
         MatrixSessionProvider.awaitForSessionSync(session)
         handleKeysBackup()
+        BSSpekeClientProvider.clear()
     }
 
     private suspend fun handleKeysBackup() {
