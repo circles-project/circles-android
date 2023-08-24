@@ -1,8 +1,5 @@
 package org.futo.circles.auth.feature.pass_phrase.restore
 
-import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.auth.R
 import org.futo.circles.auth.model.KeyData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
@@ -25,7 +22,7 @@ import org.matrix.android.sdk.api.util.toBase64NoPadding
 import java.util.UUID
 import javax.inject.Inject
 
-class SSSSDataSource @Inject constructor(@ApplicationContext private val context: Context) {
+class SSSSDataSource @Inject constructor() {
 
     fun isBackupKeyInQuadS(): Boolean {
         val session = MatrixSessionProvider.currentSession ?: return false
@@ -77,7 +74,7 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
     ): KeyData {
         val session = MatrixSessionProvider.getSessionOrThrow()
 
-        val keyInfo = getKeyInfo(session, context)
+        val keyInfo = getKeyInfo(session)
 
         progressObserver.onStepProgress(
             StepProgressListener.Step.ComputingKey(0, 0)
@@ -102,11 +99,11 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
             )
 
             BSSPEKE_ALGORITHM_BACKUP -> RawBytesKeySpec()
-            else -> throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_passphrase))
+            else -> throw Exception("Unsupported algorithm $algo")
         }
 
         val secret = getSecret(session, keyInfo, keySpec)
-            ?: throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_passphrase))
+            ?: throw Exception("Backup could not be decrypted with this passphrase")
 
         return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
     }
@@ -117,16 +114,16 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
     ): KeyData {
         val session = MatrixSessionProvider.getSessionOrThrow()
 
-        val keyInfo = getKeyInfo(session, context)
+        val keyInfo = getKeyInfo(session)
 
         progressObserver.onStepProgress(
             StepProgressListener.Step.ComputingKey(0, 0)
         )
         val keySpec = RawBytesKeySpec.fromRecoveryKey(recoveryKey)
-            ?: throw Exception(context.getString(R.string.invalid_recovery_key))
+            ?: throw Exception("It's not a valid recovery key")
 
         val secret = getSecret(session, keyInfo, keySpec)
-            ?: throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_key))
+            ?: throw Exception("Backup could not be decrypted with this recovery key")
 
         return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
     }
@@ -145,10 +142,10 @@ class SSSSDataSource @Inject constructor(@ApplicationContext private val context
         session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
     }
 
-    private fun getKeyInfo(session: Session, context: Context): KeyInfo {
+    private fun getKeyInfo(session: Session): KeyInfo {
         val keyInfoResult = session.sharedSecretStorageService().getDefaultKey()
         if (!keyInfoResult.isSuccess())
-            throw Exception(context.getString(R.string.failed_to_access_secure_storage))
+            throw Exception("Failed to access secure storage")
 
         return (keyInfoResult as KeyInfoResult.Success).keyInfo
     }
