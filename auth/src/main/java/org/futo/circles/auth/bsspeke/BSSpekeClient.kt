@@ -69,4 +69,8 @@ class BSSpekeClient(
         BSSpekeUtils.generateHashedKey(k, passwordByteArray, clientContext)
         return k
     }
+
+    fun getIdFromKey(key: ByteArray): String = key.take(16).toHex()
+
+    private fun List<Byte>.toHex(): String = joinToString("") { byte -> "%02x".format(byte) }
 }
