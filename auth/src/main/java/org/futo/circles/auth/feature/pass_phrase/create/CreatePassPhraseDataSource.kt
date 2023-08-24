@@ -4,11 +4,12 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
-import org.futo.circles.auth.bsspeke.BSSpekeClient
+import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.SSSSDataSource
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.crypto.BSSPEKE_ALGORITHM_BACKUP
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
 import org.matrix.android.sdk.api.session.crypto.keysbackup.MegolmBackupCreationInfo
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
@@ -32,14 +33,17 @@ class CreatePassPhraseDataSource @Inject constructor(
             this.total = 0
             messageId = R.string.generating_recovery_key
         })
-        val hashedKey =
-            BSSpekeClient("@$userName:$domain", domain, passphrase).generateHashKey(passphrase)
+        val hashedKey = BSSpekeClientProvider.getClientOrThrow().generateHashKey(passphrase)
 
         val backupCreationInfo = awaitCallback {
             keysBackupService.prepareBsSpekeKeysBackupVersion(hashedKey, it)
         }
         createKeyBackup(backupCreationInfo)
-        val keyData = ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, true)
+        val keyData = ssssDataSource.storeIntoSSSSWithPassphrase(
+            passphrase,
+            userName,
+            BSSPEKE_ALGORITHM_BACKUP
+        )
         crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
