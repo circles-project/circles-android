@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
+import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.sign_up.subscription_stage.SubscriptionStageDataSource
 import org.futo.circles.auth.model.SubscriptionReceiptData
@@ -118,6 +119,7 @@ class SignUpDataSource @Inject constructor(
         MatrixSessionProvider.awaitForSessionStart(session)
         createPassPhraseDataSource.createPassPhraseBackup(userName, domain, passphrase)
         coreSpacesTreeBuilder.createCoreSpacesTree()
+        BSSpekeClientProvider.clear()
     }
 
     private fun getCurrentStageIndex() =
