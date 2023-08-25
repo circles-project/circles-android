@@ -56,7 +56,7 @@ dependencies {
     implementation project(path: ':core')
 
     //ChromeTabs
-    implementation "androidx.browser:browser:1.5.0"
+    implementation "androidx.browser:browser:1.6.0"
 
     //Password strength
     implementation 'com.nulab-inc:zxcvbn:1.8.1'
