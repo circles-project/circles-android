@@ -24,35 +24,40 @@ class RestoreBackupDataSource @Inject constructor(
     private val crossSigningDataSource: CrossSigningDataSource
 ) {
 
-    val loadingLiveData = MutableLiveData<LoadingData>()
-    private val passPhraseLoadingData = LoadingData()
+    val loadingLiveData = MutableLiveData(LoadingData(isLoading = false))
 
     private val progressObserver = object : StepProgressListener {
         override fun onStepProgress(step: StepProgressListener.Step) {
             when (step) {
                 is StepProgressListener.Step.ComputingKey -> {
-                    loadingLiveData.postValue(passPhraseLoadingData.apply {
-                        this.progress = step.progress
-                        this.total = step.total
-                        messageId = R.string.computing_recovery_key
-                        isLoading = true
-                    })
+                    loadingLiveData.postValue(
+                        LoadingData(
+                            R.string.computing_recovery_key,
+                            step.progress,
+                            step.total,
+                            true
+                        )
+                    )
                 }
 
                 is StepProgressListener.Step.DownloadingKey -> {
-                    loadingLiveData.postValue(passPhraseLoadingData.apply {
-                        messageId = R.string.downloading_keys
-                        isLoading = true
-                    })
+                    loadingLiveData.postValue(
+                        LoadingData(
+                            messageId = R.string.downloading_keys,
+                            isLoading = true
+                        )
+                    )
                 }
 
                 is StepProgressListener.Step.ImportingKey -> {
-                    loadingLiveData.postValue(passPhraseLoadingData.apply {
-                        this.progress = step.progress
-                        this.total = step.total
-                        messageId = R.string.importing_keys
-                        isLoading = true
-                    })
+                    loadingLiveData.postValue(
+                        LoadingData(
+                            R.string.importing_keys,
+                            step.progress,
+                            step.total,
+                            true
+                        )
+                    )
                 }
             }
         }
@@ -68,20 +73,25 @@ class RestoreBackupDataSource @Inject constructor(
     }
 
     suspend fun restoreKeysWithPassPhase(passphrase: String, userName: String, algo: String) {
-        val keyData =
-            if (ssssDataSource.isBackupKeyInQuadS())
-                ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver, algo)
-            else
-                ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, algo)
+        try {
+            val keyData =
+                if (ssssDataSource.isBackupKeyInQuadS())
+                    ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver, algo)
+                else
+                    ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, algo)
 
-        restoreKeysWithRecoveryKey(keyData)
-        loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
+            restoreKeysWithRecoveryKey(keyData)
+        } catch (e: Throwable) {
+            loadingLiveData.postValue(LoadingData(isLoading = false))
+            throw e
+        }
+        loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
     private suspend fun restoreKeysWithRecoveryKey(keyData: KeyData) {
         val keysBackupService = getKeysBackupService()
-        val keyVersion = getKeysVersion(keysBackupService)
         try {
+            val keyVersion = getKeysVersion(keysBackupService)
             awaitCallback {
                 keysBackupService.restoreKeysWithRecoveryKey(
                     keyVersion,
@@ -94,21 +104,28 @@ class RestoreBackupDataSource @Inject constructor(
             }
             crossSigningDataSource.configureCrossSigning(keyData.keySpec)
             trustOnDecrypt(keysBackupService, keyVersion)
-        } catch (e: Exception) {
-            throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_key))
+        } catch (e: Throwable) {
+            loadingLiveData.postValue(LoadingData(isLoading = false))
+            throw e
         }
-        loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
+        loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
     suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
-        val key = readRecoveryKeyFile(uri)
-        val keyData =
-            if (ssssDataSource.isBackupKeyInQuadS())
-                ssssDataSource.getRecoveryKeyFromFileKey(key, progressObserver)
-            else
-                ssssDataSource.storeIntoSSSSWithKey(key)
+        try {
+            val key = readRecoveryKeyFile(uri)
+            val keyData =
+                if (ssssDataSource.isBackupKeyInQuadS())
+                    ssssDataSource.getRecoveryKeyFromFileKey(key, progressObserver)
+                else
+                    ssssDataSource.storeIntoSSSSWithKey(key)
 
-        restoreKeysWithRecoveryKey(keyData)
+            restoreKeysWithRecoveryKey(keyData)
+        } catch (e: Throwable) {
+            loadingLiveData.postValue(LoadingData(isLoading = false))
+            throw e
+        }
+        loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
     @SuppressLint("Recycle")

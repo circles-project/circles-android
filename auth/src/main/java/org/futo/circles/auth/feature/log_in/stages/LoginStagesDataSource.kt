@@ -7,6 +7,7 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
+import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
@@ -30,10 +31,10 @@ class LoginStagesDataSource @Inject constructor(
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder
 ) : BaseLoginStagesDataSource(context) {
 
-    val loginNavigationLiveData = org.futo.circles.core.SingleEventLiveData<LoginNavigationEvent>()
+    val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
     val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
     val spacesTreeLoadingLiveData = coreSpacesTreeBuilder.loadingLiveData
-    val messageEventLiveData = org.futo.circles.core.SingleEventLiveData<Int>()
+    val messageEventLiveData = SingleEventLiveData<Int>()
 
     override suspend fun performLoginStage(
         authParams: JsonDict,
