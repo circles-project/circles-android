@@ -6,6 +6,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
+import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
@@ -14,9 +15,6 @@ import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.CoreSpacesTreeBuilder
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
-import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
-import org.matrix.android.sdk.api.crypto.BSSPEKE_ALGORITHM_BACKUP
-import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
@@ -28,7 +26,8 @@ enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase }
 class LoginStagesDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val restoreBackupDataSource: RestoreBackupDataSource,
-    private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder
+    private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder,
+    private val createPassPhraseDataSource: CreatePassPhraseDataSource
 ) : BaseLoginStagesDataSource(context) {
 
     val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
@@ -67,16 +66,11 @@ class LoginStagesDataSource @Inject constructor(
     }
 
     private suspend fun handleKeysBackup() {
-        when (val algo = restoreBackupDataSource.getEncryptionAlgorithm()) {
-            MXCRYPTO_ALGORITHM_MEGOLM_BACKUP ->
-                loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
-
-            BCRYPT_ALGORITHM_BACKUP, BSSPEKE_ALGORITHM_BACKUP -> restoreBackup(userPassword, algo)
-
-            else -> {
-                messageEventLiveData.postValue(R.string.no_backup_message)
-                createSpacesTreeIfNotExist()
-            }
+        createPassPhraseDataSource.migrateBcryptKeysIfNeed(userPassword)
+        try {
+            restoreBackupDataSource.restoreWithBsSpekeKey(userPassword)
+        } catch (e: Exception) {
+            loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
         }
     }
 
@@ -91,7 +85,7 @@ class LoginStagesDataSource @Inject constructor(
 
     suspend fun restoreBackup(password: String, algo: String): Response<Unit> {
         val restoreResult = createResult {
-            restoreBackupDataSource.restoreKeysWithPassPhase(password, userName, algo)
+            restoreBackupDataSource.restoreKeysWithPassPhase(password, algo)
         }
         return handleRestoreResult(restoreResult)
     }
