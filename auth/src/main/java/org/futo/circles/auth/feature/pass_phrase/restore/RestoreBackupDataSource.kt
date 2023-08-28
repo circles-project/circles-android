@@ -10,6 +10,7 @@ import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.model.KeyData
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
 import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupLastVersionResult
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
@@ -63,23 +64,21 @@ class RestoreBackupDataSource @Inject constructor(
         }
     }
 
-    suspend fun getEncryptionAlgorithm(): String? {
-        val keyVersion = awaitCallback {
-            MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
-                ?.getCurrentVersion(it)
-        }.toKeysVersionResult()
-
-        return keyVersion?.algorithm
+    suspend fun restoreWithBsSpekeKey(passphrase: String) {
+        try {
+            val keyData = ssssDataSource.getBsSpekeRecoveryKey(passphrase, progressObserver)
+            restoreKeysWithRecoveryKey(keyData)
+        } catch (e: Throwable) {
+            loadingLiveData.postValue(LoadingData(isLoading = false))
+            throw e
+        }
+        loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
-    suspend fun restoreKeysWithPassPhase(passphrase: String, userName: String, algo: String) {
+    suspend fun restoreKeysWithPassPhase(passphrase: String, algo: String) {
         try {
             val keyData =
-                if (ssssDataSource.isBackupKeyInQuadS())
-                    ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver, algo)
-                else
-                    ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, algo)
-
+                ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver, algo)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))
@@ -114,12 +113,7 @@ class RestoreBackupDataSource @Inject constructor(
     suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
         try {
             val key = readRecoveryKeyFile(uri)
-            val keyData =
-                if (ssssDataSource.isBackupKeyInQuadS())
-                    ssssDataSource.getRecoveryKeyFromFileKey(key, progressObserver)
-                else
-                    ssssDataSource.storeIntoSSSSWithKey(key)
-
+            val keyData = ssssDataSource.getRecoveryKeyFromFileKey(key, progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))

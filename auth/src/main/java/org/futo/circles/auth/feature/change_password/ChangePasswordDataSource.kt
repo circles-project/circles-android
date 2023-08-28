@@ -28,15 +28,14 @@ class ChangePasswordDataSource @Inject constructor(
         }
 
     suspend fun createNewBackupInNeeded(newPassword: String): Response<Unit> {
-        val algorithm = restoreBackupDataSource.getEncryptionAlgorithm()
-        val createBackupResult = if (algorithm == BSSPEKE_ALGORITHM_BACKUP) {
-            createResult {
-                createPassPhraseDataSource.replacePassPhraseBackup(
-                    MatrixSessionProvider.currentSession?.myUserId ?: "", newPassword
-                )
-            }
-        } else Response.Success(Unit)
-
-        return createBackupResult
+//        val algorithm = restoreBackupDataSource.getEncryptionAlgorithm()
+//        val createBackupResult = if (algorithm == BSSPEKE_ALGORITHM_BACKUP) {
+//            createResult {
+//                createPassPhraseDataSource.replacePassPhraseBackup(newPassword)
+//            }
+//        } else Response.Success(Unit)
+//
+//        return createBackupResult
+        return Response.Success(Unit)
     }
 }
