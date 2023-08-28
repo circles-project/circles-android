@@ -4,16 +4,15 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
-import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.SSSSDataSource
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.crypto.BSSPEKE_ALGORITHM_BACKUP
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
 import org.matrix.android.sdk.api.session.crypto.keysbackup.MegolmBackupCreationInfo
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
 import org.matrix.android.sdk.api.util.awaitCallback
+import java.security.SecureRandom
 import javax.inject.Inject
 
 class CreatePassPhraseDataSource @Inject constructor(
@@ -33,17 +32,12 @@ class CreatePassPhraseDataSource @Inject constructor(
             this.total = 0
             messageId = R.string.generating_recovery_key
         })
-        val hashedKey = BSSpekeClientProvider.getClientOrThrow().generateHashKey(passphrase)
-
+        val privateKey = generateRandomPrivateKey()
         val backupCreationInfo = awaitCallback {
-            keysBackupService.prepareBsSpekeKeysBackupVersion(hashedKey, it)
+            keysBackupService.prepareKeysBackupVersion(privateKey, it)
         }
         createKeyBackup(backupCreationInfo)
-        val keyData = ssssDataSource.storeIntoSSSSWithPassphrase(
-            passphrase,
-            userName,
-            BSSPEKE_ALGORITHM_BACKUP
-        )
+        val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS(passphrase, privateKey)
         crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
@@ -54,6 +48,12 @@ class CreatePassPhraseDataSource @Inject constructor(
         val domain = nameAndDomain.getOrNull(1) ?: ""
         removeCurrentBackupIfExist()
         createPassPhraseBackup(name, domain, passphrase)
+    }
+
+    private fun generateRandomPrivateKey(): ByteArray {
+        val privateKey = ByteArray(32) { 0 }
+        SecureRandom().nextBytes(privateKey)
+        return privateKey
     }
 
     private suspend fun createKeyBackup(
