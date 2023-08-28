@@ -8,6 +8,7 @@ import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.SSSSDataSource
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
 import org.matrix.android.sdk.api.session.crypto.keysbackup.MegolmBackupCreationInfo
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
@@ -27,7 +28,7 @@ class CreatePassPhraseDataSource @Inject constructor(
     val loadingLiveData = MutableLiveData<LoadingData>()
     private val passPhraseLoadingData = LoadingData()
 
-    suspend fun createPassPhraseBackup(userName: String, domain: String, passphrase: String) {
+    suspend fun createPassPhraseBackup(passphrase: String) {
         loadingLiveData.postValue(passPhraseLoadingData.apply {
             this.total = 0
             messageId = R.string.generating_recovery_key
@@ -42,12 +43,20 @@ class CreatePassPhraseDataSource @Inject constructor(
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
-    suspend fun replacePassPhraseBackup(userId: String, passphrase: String) {
-        val nameAndDomain = userId.replace("@", "").split(":")
-        val name = nameAndDomain.getOrNull(0) ?: ""
-        val domain = nameAndDomain.getOrNull(1) ?: ""
-        removeCurrentBackupIfExist()
-        createPassPhraseBackup(name, domain, passphrase)
+    suspend fun migrateBcryptKeysIfNeed(passphrase: String) {
+        if (getEncryptionAlgorithm() == BCRYPT_ALGORITHM_BACKUP) {
+            removeCurrentBackupIfExist()
+            createPassPhraseBackup(passphrase)
+        }
+    }
+
+    private suspend fun getEncryptionAlgorithm(): String? {
+        val keyVersion = awaitCallback {
+            MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
+                ?.getCurrentVersion(it)
+        }.toKeysVersionResult()
+
+        return keyVersion?.algorithm
     }
 
     private fun generateRandomPrivateKey(): ByteArray {
