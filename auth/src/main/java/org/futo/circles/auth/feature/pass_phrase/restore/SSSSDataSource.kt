@@ -48,6 +48,15 @@ class SSSSDataSource @Inject constructor() {
         return KeyData(keyInfo.recoveryKey, keyInfo.keySpec)
     }
 
+    suspend fun storeBsSpekeKeyIntoSSSS(passphrase: String, key: ByteArray):KeyData {
+        val session = MatrixSessionProvider.getSessionOrThrow()
+        val keyId = BSSpekeClientProvider.getClientOrThrow().generateKeyId(passphrase)
+        val keyInfo = session.sharedSecretStorageService()
+            .generateBsSpekeKeyInfo(keyId, key, EmptyKeySigner())
+        storeSecret(session, keyInfo)
+        return KeyData(keyInfo.recoveryKey, keyInfo.keySpec)
+    }
+
     suspend fun storeIntoSSSSWithPassphrase(
         passphrase: String,
         userName: String,
@@ -64,13 +73,6 @@ class SSSSDataSource @Inject constructor() {
             BCRYPT_ALGORITHM_BACKUP -> quadS.generateBCryptKeyWithPassphrase(
                 UUID.randomUUID().toString(), passphrase, EmptyKeySigner(), null, userName
             )
-
-            BSSPEKE_ALGORITHM_BACKUP -> {
-                val client = BSSpekeClientProvider.getClientOrThrow()
-                val key = client.generateHashKey(passphrase)
-                val keyId = client.getIdFromKey(key)
-                quadS.generateBsSpekeWithPassphrase(keyId, key, EmptyKeySigner(), null)
-            }
 
             else -> throw Exception("Unsupported algorithm $algo")
         }
