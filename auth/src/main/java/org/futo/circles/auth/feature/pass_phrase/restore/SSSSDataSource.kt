@@ -21,13 +21,27 @@ import javax.inject.Inject
 
 class SSSSDataSource @Inject constructor() {
 
-    suspend fun storeBsSpekeKeyIntoSSSS(passphrase: String, key: ByteArray): KeyData {
+    suspend fun storeBsSpekeKeyIntoSSSS(): KeyData {
         val session = MatrixSessionProvider.getSessionOrThrow()
-        val keyId = BSSpekeClientProvider.getClientOrThrow().generateKeyId(passphrase)
+        val bsSpekeClient = BSSpekeClientProvider.getClientOrThrow()
+        val keyId = bsSpekeClient.generateKeyId()
+        val key = bsSpekeClient.generateHashKey()
         val keyInfo = session.sharedSecretStorageService()
             .generateBsSpekeKeyInfo(keyId, key, EmptyKeySigner())
         storeSecret(session, keyInfo)
         return KeyData(keyInfo.recoveryKey, keyInfo.keySpec)
+    }
+
+    suspend fun getBsSpekeRecoveryKey(): KeyData {
+        val session = MatrixSessionProvider.getSessionOrThrow()
+        val keyInfo = getKeyInfo(session)
+        val keySpec = RawBytesKeySpec(
+            BSSpekeClientProvider.getClientOrThrow().generateHashKey()
+        )
+        val secret = getSecret(session, keyInfo, keySpec)
+            ?: throw Exception("Backup could not be decrypted with this passphrase")
+
+        return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
     }
 
     suspend fun getRecoveryKeyFromPassphrase(
@@ -35,7 +49,6 @@ class SSSSDataSource @Inject constructor() {
         progressObserver: StepProgressListener
     ): KeyData {
         val session = MatrixSessionProvider.getSessionOrThrow()
-
         val keyInfo = getKeyInfo(session)
 
         progressObserver.onStepProgress(
@@ -114,8 +127,4 @@ class SSSSDataSource @Inject constructor() {
                 secretKey = keySpec
             )
         }
-
-//    fun getBsSpekeRecoveryKey(passphrase: String, progressObserver: StepProgressListener): KeyData {
-//
-//    }
 }

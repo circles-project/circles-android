@@ -10,7 +10,6 @@ import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.model.KeyData
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
 import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupLastVersionResult
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
@@ -64,11 +63,9 @@ class RestoreBackupDataSource @Inject constructor(
         }
     }
 
-    suspend fun restoreWithBsSpekeKey(passphrase: String) {
+    suspend fun restoreWithBsSpekeKey() {
         try {
-            //val keyData = ssssDataSource.getBsSpekeRecoveryKey(passphrase, progressObserver)
-            val keyData =
-                ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver)
+            val keyData = ssssDataSource.getBsSpekeRecoveryKey()
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))

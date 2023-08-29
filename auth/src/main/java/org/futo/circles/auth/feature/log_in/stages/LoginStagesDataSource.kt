@@ -68,7 +68,7 @@ class LoginStagesDataSource @Inject constructor(
     private suspend fun handleKeysBackup() {
         createPassPhraseDataSource.migrateBcryptKeysIfNeed(userPassword)
         try {
-            restoreBackupDataSource.restoreWithBsSpekeKey(userPassword)
+            restoreBackupDataSource.restoreWithBsSpekeKey()
         } catch (e: Exception) {
             loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
         }

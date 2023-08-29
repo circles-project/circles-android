@@ -33,12 +33,11 @@ class CreatePassPhraseDataSource @Inject constructor(
             this.total = 0
             messageId = R.string.generating_recovery_key
         })
-        val privateKey = generateRandomPrivateKey()
         val backupCreationInfo = awaitCallback {
-            keysBackupService.prepareKeysBackupVersion(privateKey, it)
+            keysBackupService.prepareKeysBackupVersion(generateRandomPrivateKey(), it)
         }
         createKeyBackup(backupCreationInfo)
-        val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS(passphrase, privateKey)
+        val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS()
         crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
