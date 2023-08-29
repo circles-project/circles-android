@@ -66,7 +66,9 @@ class RestoreBackupDataSource @Inject constructor(
 
     suspend fun restoreWithBsSpekeKey(passphrase: String) {
         try {
-            val keyData = ssssDataSource.getBsSpekeRecoveryKey(passphrase, progressObserver)
+            //val keyData = ssssDataSource.getBsSpekeRecoveryKey(passphrase, progressObserver)
+            val keyData =
+                ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))
@@ -75,10 +77,10 @@ class RestoreBackupDataSource @Inject constructor(
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
-    suspend fun restoreKeysWithPassPhase(passphrase: String, algo: String) {
+    suspend fun restoreKeysWithPassPhase(passphrase: String) {
         try {
             val keyData =
-                ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver, algo)
+                ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))

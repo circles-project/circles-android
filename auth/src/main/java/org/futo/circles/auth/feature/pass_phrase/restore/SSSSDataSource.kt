@@ -115,7 +115,7 @@ class SSSSDataSource @Inject constructor() {
             )
         }
 
-    fun getBsSpekeRecoveryKey(passphrase: String, progressObserver: StepProgressListener): KeyData {
-
-    }
+//    fun getBsSpekeRecoveryKey(passphrase: String, progressObserver: StepProgressListener): KeyData {
+//
+//    }
 }

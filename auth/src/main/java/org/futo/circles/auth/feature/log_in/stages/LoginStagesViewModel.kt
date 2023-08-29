@@ -23,9 +23,7 @@ class LoginStagesViewModel @Inject constructor(
 
     fun restoreBackup(passphrase: String) {
         launchBg {
-            restoreKeysLiveData.postValue(
-                loginStagesDataSource.restoreBackup(passphrase, MXCRYPTO_ALGORITHM_MEGOLM_BACKUP)
-            )
+            restoreKeysLiveData.postValue(loginStagesDataSource.restoreBackup(passphrase))
         }
     }
 

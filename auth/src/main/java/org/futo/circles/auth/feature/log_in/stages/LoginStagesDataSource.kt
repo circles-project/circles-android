@@ -83,9 +83,9 @@ class LoginStagesDataSource @Inject constructor(
         )
     }
 
-    suspend fun restoreBackup(password: String, algo: String): Response<Unit> {
+    suspend fun restoreBackup(password: String): Response<Unit> {
         val restoreResult = createResult {
-            restoreBackupDataSource.restoreKeysWithPassPhase(password, algo)
+            restoreBackupDataSource.restoreKeysWithPassPhase(password)
         }
         return handleRestoreResult(restoreResult)
     }
