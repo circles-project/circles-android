@@ -68,10 +68,10 @@ class BSSpekeClient(
         return key.take(16).toHex()
     }
 
-    fun generateHashKey(label: String= "matrix_ssss"): ByteArray {
+    fun generateHashKey(label: String = "matrix_ssss"): ByteArray {
         val k = ByteArray(32) { 0 }
-        val passwordByteArray = label.toByteArray()
-        BSSpekeUtils.generateHashedKey(k, passwordByteArray, clientContext)
+        val labelByteArray = label.toByteArray()
+        BSSpekeUtils.generateHashedKey(k, labelByteArray, clientContext)
         return k
     }
 
