@@ -23,8 +23,5 @@ class SignupBsSpekeDataSource @Inject constructor(
     override suspend fun performAuthStage(
         authParams: JsonDict,
         password: String?
-    ): Response<RegistrationResult> = signUpDataSource.performRegistrationStage(
-        authParams = authParams,
-        password = password
-    )
+    ): Response<RegistrationResult> = signUpDataSource.performRegistrationStage(authParams = authParams)
 }

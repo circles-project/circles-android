@@ -46,7 +46,6 @@ class SignUpDataSource @Inject constructor(
     var domain: String = ""
         private set
 
-    private var passphrase: String = ""
     private val subscriptionStageDataSource = SubscriptionStageDataSource(this)
 
     suspend fun startSignUpStages(
@@ -56,7 +55,6 @@ class SignUpDataSource @Inject constructor(
     ) {
         currentStage = null
         stagesToComplete.clear()
-        passphrase = ""
         domain = serverDomain
         stagesToComplete.addAll(stages)
         subscriptionReceiptData?.let { skipSubscriptionStageIfValid(it) } ?: navigateToNextStage()
@@ -81,8 +79,7 @@ class SignUpDataSource @Inject constructor(
 
     suspend fun performRegistrationStage(
         authParams: JsonDict,
-        name: String? = null,
-        password: String? = null
+        name: String? = null
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
         val result = createResult {
@@ -91,7 +88,6 @@ class SignUpDataSource @Inject constructor(
 
         (result as? Response.Success)?.let {
             name?.let { userName = it }
-            password?.let { passphrase = it }
             stageCompleted(result.data)
         }
         return result
@@ -117,7 +113,7 @@ class SignUpDataSource @Inject constructor(
     private suspend fun finishRegistration(session: Session) = createResult {
         MatrixInstanceProvider.matrix.authenticationService().reset()
         MatrixSessionProvider.awaitForSessionStart(session)
-        createPassPhraseDataSource.createPassPhraseBackup(passphrase)
+        createPassPhraseDataSource.createPassPhraseBackup()
         coreSpacesTreeBuilder.createCoreSpacesTree()
         BSSpekeClientProvider.clear()
     }
