@@ -65,7 +65,7 @@ class RestoreBackupDataSource @Inject constructor(
 
     suspend fun restoreWithBsSpekeKey() {
         try {
-            val keyData = ssssDataSource.getBsSpekeRecoveryKey()
+            val keyData = ssssDataSource.getBsSpekeRecoveryKey(progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))

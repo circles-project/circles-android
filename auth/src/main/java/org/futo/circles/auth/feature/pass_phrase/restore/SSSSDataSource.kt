@@ -31,7 +31,10 @@ class SSSSDataSource @Inject constructor() {
         return KeyData(keyInfo.recoveryKey, keyInfo.keySpec)
     }
 
-    suspend fun getBsSpekeRecoveryKey(): KeyData {
+    suspend fun getBsSpekeRecoveryKey(progressObserver: StepProgressListener): KeyData {
+        progressObserver.onStepProgress(
+            StepProgressListener.Step.ComputingKey(0, 0)
+        )
         val keyInfo = getKeyInfo()
         val keySpec = RawBytesKeySpec(
             BSSpekeClientProvider.getClientOrThrow().generateHashKey()
