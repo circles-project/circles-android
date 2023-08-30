@@ -8,7 +8,6 @@ import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.crypto.crosssigning.KEYBACKUP_SECRET_SSSS_NAME
 import org.matrix.android.sdk.api.session.crypto.keysbackup.computeRecoveryKey
-import org.matrix.android.sdk.api.session.crypto.keysbackup.extractCurveKeyFromRecoveryKey
 import org.matrix.android.sdk.api.session.securestorage.EmptyKeySigner
 import org.matrix.android.sdk.api.session.securestorage.KeyInfo
 import org.matrix.android.sdk.api.session.securestorage.KeyInfoResult
@@ -33,12 +32,11 @@ class SSSSDataSource @Inject constructor() {
     }
 
     suspend fun getBsSpekeRecoveryKey(): KeyData {
-        val session = MatrixSessionProvider.getSessionOrThrow()
-        val keyInfo = getKeyInfo(session)
+        val keyInfo = getKeyInfo()
         val keySpec = RawBytesKeySpec(
             BSSpekeClientProvider.getClientOrThrow().generateHashKey()
         )
-        val secret = getSecret(session, keyInfo, keySpec)
+        val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this passphrase")
 
         return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
@@ -48,8 +46,7 @@ class SSSSDataSource @Inject constructor() {
         passphrase: String,
         progressObserver: StepProgressListener
     ): KeyData {
-        val session = MatrixSessionProvider.getSessionOrThrow()
-        val keyInfo = getKeyInfo(session)
+        val keyInfo = getKeyInfo()
 
         progressObserver.onStepProgress(
             StepProgressListener.Step.ComputingKey(0, 0)
@@ -67,7 +64,7 @@ class SSSSDataSource @Inject constructor() {
                 }
             })
 
-        val secret = getSecret(session, keyInfo, keySpec)
+        val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this passphrase")
 
         return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
@@ -77,9 +74,7 @@ class SSSSDataSource @Inject constructor() {
         recoveryKey: String,
         progressObserver: StepProgressListener
     ): KeyData {
-        val session = MatrixSessionProvider.getSessionOrThrow()
-
-        val keyInfo = getKeyInfo(session)
+        val keyInfo = getKeyInfo()
 
         progressObserver.onStepProgress(
             StepProgressListener.Step.ComputingKey(0, 0)
@@ -87,7 +82,7 @@ class SSSSDataSource @Inject constructor() {
         val keySpec = RawBytesKeySpec.fromRecoveryKey(recoveryKey)
             ?: throw Exception("It's not a valid recovery key")
 
-        val secret = getSecret(session, keyInfo, keySpec)
+        val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this recovery key")
 
         return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
@@ -106,8 +101,9 @@ class SSSSDataSource @Inject constructor() {
         session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
     }
 
-    private fun getKeyInfo(session: Session): KeyInfo {
-        val keyInfoResult = session.sharedSecretStorageService().getDefaultKey()
+    private fun getKeyInfo(): KeyInfo {
+        val keyInfoResult = MatrixSessionProvider.getSessionOrThrow()
+            .sharedSecretStorageService().getDefaultKey()
         if (!keyInfoResult.isSuccess())
             throw Exception("Failed to access secure storage")
 
@@ -115,15 +111,11 @@ class SSSSDataSource @Inject constructor() {
     }
 
     private suspend fun getSecret(
-        session: Session,
         keyInfo: KeyInfo,
         keySpec: RawBytesKeySpec
-    ): String? = session.accountDataService()
-        .getUserAccountDataEvent(KEYBACKUP_SECRET_SSSS_NAME)?.let {
-            session.sharedSecretStorageService().getSecret(
-                name = KEYBACKUP_SECRET_SSSS_NAME,
-                keyId = keyInfo.id,
-                secretKey = keySpec
-            )
-        }
+    ): String? = MatrixSessionProvider.currentSession?.sharedSecretStorageService()?.getSecret(
+        name = KEYBACKUP_SECRET_SSSS_NAME,
+        keyId = keyInfo.id,
+        secretKey = keySpec
+    )
 }
