@@ -21,14 +21,14 @@ import javax.inject.Inject
 
 class SSSSDataSource @Inject constructor() {
 
-    suspend fun storeBsSpekeKeyIntoSSSS(): KeyData {
+    suspend fun storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey: ByteArray): KeyData {
         val session = MatrixSessionProvider.getSessionOrThrow()
         val bsSpekeClient = BSSpekeClientProvider.getClientOrThrow()
         val keyId = bsSpekeClient.generateKeyId()
         val key = bsSpekeClient.generateHashKey()
         val keyInfo = session.sharedSecretStorageService()
             .generateBsSpekeKeyInfo(keyId, key, EmptyKeySigner())
-        storeSecret(session, keyInfo)
+        storeSecret(session, keyBackupPrivateKey, keyInfo)
         return KeyData(keyInfo.recoveryKey, keyInfo.keySpec)
     }
 
@@ -95,13 +95,12 @@ class SSSSDataSource @Inject constructor() {
 
     private suspend fun storeSecret(
         session: Session,
+        keyBackupPrivateKey: ByteArray,
         keyInfo: SsssKeyCreationInfo
     ) {
-        val secret =
-            extractCurveKeyFromRecoveryKey(keyInfo.recoveryKey)?.toBase64NoPadding() ?: return
         session.sharedSecretStorageService().storeSecret(
             name = KEYBACKUP_SECRET_SSSS_NAME,
-            secretBase64 = secret,
+            secretBase64 = keyBackupPrivateKey.toBase64NoPadding(),
             keys = listOf(KeyRef(keyInfo.keyId, keyInfo.keySpec))
         )
         session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)

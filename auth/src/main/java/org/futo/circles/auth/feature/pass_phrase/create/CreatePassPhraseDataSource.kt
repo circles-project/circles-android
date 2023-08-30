@@ -28,24 +28,25 @@ class CreatePassPhraseDataSource @Inject constructor(
     val loadingLiveData = MutableLiveData<LoadingData>()
     private val passPhraseLoadingData = LoadingData()
 
-    suspend fun createPassPhraseBackup(passphrase: String) {
+    suspend fun createPassPhraseBackup() {
         loadingLiveData.postValue(passPhraseLoadingData.apply {
             this.total = 0
             messageId = R.string.generating_recovery_key
         })
+        val keyBackupPrivateKey = generateRandomPrivateKey()
         val backupCreationInfo = awaitCallback {
-            keysBackupService.prepareKeysBackupVersion(generateRandomPrivateKey(), it)
+            keysBackupService.prepareKeysBackupVersion(keyBackupPrivateKey, it)
         }
         createKeyBackup(backupCreationInfo)
-        val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS()
+        val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey)
         crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
-    suspend fun migrateBcryptKeysIfNeed(passphrase: String) {
+    suspend fun migrateBcryptKeysIfNeed() {
         if (getEncryptionAlgorithm() == BCRYPT_ALGORITHM_BACKUP) {
             removeCurrentBackupIfExist()
-            createPassPhraseBackup(passphrase)
+            createPassPhraseBackup()
         }
     }
 
