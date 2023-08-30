@@ -73,6 +73,26 @@ class SSSSDataSource @Inject constructor() {
         return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
     }
 
+    suspend fun getBcryptRecoveryKeyFromPassphrase(
+        passphrase: String,
+        progressObserver: StepProgressListener
+    ): KeyData {
+        val keyInfo = getKeyInfo()
+
+        progressObserver.onStepProgress(
+            StepProgressListener.Step.ComputingKey(0, 0)
+        )
+        val salt = keyInfo.content.passphrase?.salt ?: ""
+        val iterations = keyInfo.content.passphrase?.iterations ?: 0
+
+        val keySpec = RawBytesKeySpec.fromBCryptPassphrase(passphrase, salt, iterations,)
+
+        val secret = getSecret(keyInfo, keySpec)
+            ?: throw Exception("Backup could not be decrypted with this passphrase")
+
+        return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
+    }
+
     suspend fun getRecoveryKeyFromFileKey(
         recoveryKey: String,
         progressObserver: StepProgressListener

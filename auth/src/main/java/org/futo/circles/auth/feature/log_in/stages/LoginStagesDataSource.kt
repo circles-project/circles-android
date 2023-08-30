@@ -6,6 +6,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
+import org.futo.circles.auth.feature.pass_phrase.EncryptionAlgorithmHelper
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.core.SingleEventLiveData
@@ -15,7 +16,6 @@ import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.CoreSpacesTreeBuilder
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
-import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
@@ -28,6 +28,7 @@ class LoginStagesDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val restoreBackupDataSource: RestoreBackupDataSource,
     private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder,
+    private val encryptionAlgorithmHelper: EncryptionAlgorithmHelper,
     private val createPassPhraseDataSource: CreatePassPhraseDataSource
 ) : BaseLoginStagesDataSource(context) {
 
@@ -67,8 +68,11 @@ class LoginStagesDataSource @Inject constructor(
     }
 
     private suspend fun handleKeysBackup() {
-        tryOrNull { createPassPhraseDataSource.migrateBcryptKeysIfNeed() }
-        restoreBsSpekeBackup()
+        if (encryptionAlgorithmHelper.isBcryptAlgorithm()) restoreAndMigrateBCrypt(userPassword)
+        else {
+            if (encryptionAlgorithmHelper.isBsSpekePassPhrase()) restoreBsSpekeBackup()
+            else loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
+        }
     }
 
     private suspend fun restoreBsSpekeBackup(): Response<Unit> {
@@ -76,14 +80,14 @@ class LoginStagesDataSource @Inject constructor(
         return handleRestoreResult(restoreResult)
     }
 
-    suspend fun createSpacesTreeIfNotExist() {
-        val isCirclesCreated = coreSpacesTreeBuilder.isCirclesHierarchyCreated()
-        if (!isCirclesCreated) createResult { coreSpacesTreeBuilder.createCoreSpacesTree() }
-        loginNavigationLiveData.postValue(
-            if (isCirclesCreated) LoginNavigationEvent.Main
-            else LoginNavigationEvent.SetupCircles
-        )
+    private suspend fun restoreAndMigrateBCrypt(passphrase: String): Response<Unit> {
+        val restoreResult = createResult {
+            restoreBackupDataSource.restoreBcryptWithPassPhase(passphrase)
+            createPassPhraseDataSource.replaceToNewKeyBackup()
+        }
+        return handleRestoreResult(restoreResult)
     }
+
 
     suspend fun restoreBackup(password: String): Response<Unit> {
         val restoreResult = createResult {
@@ -105,5 +109,14 @@ class LoginStagesDataSource @Inject constructor(
             is Response.Success -> createSpacesTreeIfNotExist()
         }
         return restoreResult
+    }
+
+    suspend fun createSpacesTreeIfNotExist() {
+        val isCirclesCreated = coreSpacesTreeBuilder.isCirclesHierarchyCreated()
+        if (!isCirclesCreated) createResult { coreSpacesTreeBuilder.createCoreSpacesTree() }
+        loginNavigationLiveData.postValue(
+            if (isCirclesCreated) LoginNavigationEvent.Main
+            else LoginNavigationEvent.SetupCircles
+        )
     }
 }

@@ -74,6 +74,18 @@ class RestoreBackupDataSource @Inject constructor(
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
+    suspend fun restoreBcryptWithPassPhase(passphrase: String) {
+        try {
+            val keyData =
+                ssssDataSource.getBcryptRecoveryKeyFromPassphrase(passphrase, progressObserver)
+            restoreKeysWithRecoveryKey(keyData)
+        } catch (e: Throwable) {
+            loadingLiveData.postValue(LoadingData(isLoading = false))
+            throw e
+        }
+        loadingLiveData.postValue(LoadingData(isLoading = false))
+    }
+
     suspend fun restoreKeysWithPassPhase(passphrase: String) {
         try {
             val keyData =

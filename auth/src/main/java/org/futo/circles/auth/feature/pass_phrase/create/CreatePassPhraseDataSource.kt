@@ -8,7 +8,6 @@ import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.SSSSDataSource
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
 import org.matrix.android.sdk.api.session.crypto.keysbackup.MegolmBackupCreationInfo
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
@@ -43,21 +42,11 @@ class CreatePassPhraseDataSource @Inject constructor(
         loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
     }
 
-    suspend fun migrateBcryptKeysIfNeed() {
-        if (getEncryptionAlgorithm() == BCRYPT_ALGORITHM_BACKUP) {
-            removeCurrentBackupIfExist()
-            createPassPhraseBackup()
-        }
+    suspend fun replaceToNewKeyBackup() {
+        removeCurrentBackupIfExist()
+        createPassPhraseBackup()
     }
 
-    private suspend fun getEncryptionAlgorithm(): String? {
-        val keyVersion = awaitCallback {
-            MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
-                ?.getCurrentVersion(it)
-        }.toKeysVersionResult()
-
-        return keyVersion?.algorithm
-    }
 
     private fun generateRandomPrivateKey(): ByteArray {
         val privateKey = ByteArray(32) { 0 }
