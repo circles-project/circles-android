@@ -45,10 +45,16 @@ class SSSSDataSource @Inject constructor() {
         return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
     }
 
-    suspend fun replaceBsSpeke4SKey() {
+    suspend fun replaceBsSpeke4SKey(oldPassword: String, newPassword: String) {
+        BSSpekeClientProvider.initClient(
+            MatrixSessionProvider.getSessionOrThrow().myUserId, oldPassword
+        )
         val keyInfo = getKeyInfo()
         val keySpec = RawBytesKeySpec(BSSpekeClientProvider.getClientOrThrow().generateHashKey())
-        val secret = getSecret(keyInfo, keySpec)?.fromBase64()?: return
+        val secret = getSecret(keyInfo, keySpec)?.fromBase64() ?: return
+        BSSpekeClientProvider.initClient(
+            MatrixSessionProvider.getSessionOrThrow().myUserId, newPassword
+        )
         storeBsSpekeKeyIntoSSSS(secret)
     }
 
