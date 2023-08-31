@@ -24,6 +24,8 @@ class SettingsDataSource @Inject constructor(
     suspend fun changePasswordUIA() =
         changePasswordDataSource.changePasswordUIA(authConfirmationProvider)
 
-    suspend fun createNewBackupIfNeeded() =
-        changePasswordDataSource.createNewBackupInNeeded(authConfirmationProvider.getNewChangedPassword())
+    suspend fun createNewBackupIfNeeded() = changePasswordDataSource.createNewBackupInNeeded(
+        authConfirmationProvider.getOldPassword(),
+        authConfirmationProvider.getNewChangedPassword()
+    )
 }
