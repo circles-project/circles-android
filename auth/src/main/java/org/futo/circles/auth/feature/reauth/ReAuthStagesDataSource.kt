@@ -30,6 +30,7 @@ class ReAuthStagesDataSource @Inject constructor(
     private var stageResultContinuation: Continuation<Response<RegistrationResult>>? =
         null
     private val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
+    private var oldPassword = ""
 
     fun startReAuthStages(
         session: String,
@@ -39,6 +40,7 @@ class ReAuthStagesDataSource @Inject constructor(
         sessionId = session
         authPromise = promise
         stageResultContinuation = null
+        oldPassword = ""
         val userId = MatrixSessionProvider.currentSession?.myUserId ?: ""
         val domain = userId.substringAfter(":")
         val name = userId.substringAfter("@").substringBefore(":")
@@ -54,7 +56,11 @@ class ReAuthStagesDataSource @Inject constructor(
         val result = if (isLastStage()) Response.Success(RegistrationResult.Success(session))
         else awaitForStageResult()
 
-        (result as? Response.Success)?.let { stageCompleted(it.data, password) }
+        (result as? Response.Success)?.let {
+            if (isLoginBsSpekeStage()) oldPassword = password ?: ""
+            else password?.let { userPassword = it }
+            stageCompleted(it.data)
+        }
         return result
     }
 
@@ -70,9 +76,8 @@ class ReAuthStagesDataSource @Inject constructor(
         stageResultContinuation?.resume(result)
     }
 
-    private fun stageCompleted(result: RegistrationResult, password: String?) {
+    private fun stageCompleted(result: RegistrationResult) {
         if (isStageRetry(result)) return
-        password?.let { userPassword = it }
         (result as? RegistrationResult.Success)?.let {
             finishReAuthEventLiveData.postValue(Unit)
         } ?: navigateToNextStage()
@@ -82,5 +87,8 @@ class ReAuthStagesDataSource @Inject constructor(
 
     private fun isLastStage() = stagesToComplete.last() == currentStage
 
-    fun getPasswordFormLastAuth() = userPassword
+    fun getNewPassword() = userPassword
+    fun getOldPassword() = oldPassword
+
+    private fun isLoginBsSpekeStage() = (currentStage as? Stage.Other)?.type == LOGIN_BSSPEKE_VERIFY_TYPE
 }

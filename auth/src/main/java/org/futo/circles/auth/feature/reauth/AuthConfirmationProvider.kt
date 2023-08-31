@@ -14,7 +14,8 @@ class AuthConfirmationProvider @Inject constructor(
 
     val startReAuthEventLiveData = SingleEventLiveData<Unit>()
 
-    fun getNewChangedPassword() = reAuthStagesDataSource.getPasswordFormLastAuth()
+    fun getNewChangedPassword() = reAuthStagesDataSource.getNewPassword()
+    fun getOldPassword() = reAuthStagesDataSource.getOldPassword()
 
     override fun performStage(
         flowResponse: RegistrationFlowResponse,
