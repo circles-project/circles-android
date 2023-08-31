@@ -11,6 +11,11 @@ object BSSpekeClientProvider {
         clientInstance = BSSpekeClient("@$userPart:$domain", domain, password)
     }
 
+    fun initClient(userId: String, password: String) {
+        val serverId = userId.substringAfter(":")
+        clientInstance = BSSpekeClient(userId, serverId, password)
+    }
+
     fun clear() {
         clientInstance = null
     }

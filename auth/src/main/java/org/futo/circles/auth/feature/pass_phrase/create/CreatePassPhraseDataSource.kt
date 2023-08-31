@@ -47,7 +47,6 @@ class CreatePassPhraseDataSource @Inject constructor(
         createPassPhraseBackup()
     }
 
-
     private fun generateRandomPrivateKey(): ByteArray {
         val privateKey = ByteArray(32) { 0 }
         SecureRandom().nextBytes(privateKey)
