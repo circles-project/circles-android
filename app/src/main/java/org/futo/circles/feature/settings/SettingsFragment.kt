@@ -21,6 +21,7 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
+import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.notices.SystemNoticesCountSharedViewModel
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
@@ -49,7 +50,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
             ivProfile.setOnClickListener { navigator.navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
-            tvDeactivate.setOnClickListener { withConfirmation(DeactivateAccount()) { viewModel.deactivateAccount() } }
+            tvDeactivate.setOnClickListener {
+                withConfirmation(DeactivateAccount()) {
+                    loadingDialog.handleLoading(LoadingData(total = 0))
+                    viewModel.deactivateAccount()
+                }
+            }
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigator.navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash(requireContext()) }
