@@ -21,6 +21,7 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
+import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.notices.SystemNoticesCountSharedViewModel
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
@@ -49,7 +50,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
             ivProfile.setOnClickListener { navigator.navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
-            tvDeactivate.setOnClickListener { withConfirmation(DeactivateAccount()) { viewModel.deactivateAccount() } }
+            tvDeactivate.setOnClickListener {
+                withConfirmation(DeactivateAccount()) {
+                    loadingDialog.handleLoading(LoadingData(total = 0))
+                    viewModel.deactivateAccount()
+                }
+            }
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
             lSystemNotices.setOnClickListener { navigator.navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash(requireContext()) }
@@ -72,7 +78,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         viewModel.deactivateLiveData.observeResponse(this,
             success = { clearSessionAndRestart() },
-            error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) }
+            error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) },
+            onRequestInvoked = { loadingDialog.dismiss() }
         )
         systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
             binding.ivNoticesCount.setCount(it ?: 0)
@@ -85,10 +92,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         viewModel.changePasswordResponseLiveData.observeResponse(this,
             success = { showSuccess(getString(org.futo.circles.core.R.string.password_changed)) },
-            error = { message ->
-                showError(message)
-                loadingDialog.dismiss()
-            }
+            error = { message -> showError(message) },
+            onRequestInvoked = { loadingDialog.dismiss() }
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)

@@ -69,7 +69,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
 
     //Matrix
-    api 'org.matrix.android:matrix-sdk-android:1.5.30.6'
+    api 'org.matrix.android:matrix-sdk-android:1.5.30.11'
 
     //Retrofit2
     def retrofit_version = '2.9.0'
@@ -87,7 +87,7 @@ dependencies {
     api "androidx.work:work-runtime-ktx:$work_version"
 
     //Glide
-    def glide_version = '4.15.1'
+    def glide_version = '4.16.0'
     api "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 

@@ -27,9 +27,7 @@ class ReAuthStagesDataSource @Inject constructor(
     val finishReAuthEventLiveData = SingleEventLiveData<Unit>()
     private var authPromise: Continuation<UIABaseAuth>? = null
     private var sessionId: String = ""
-    private var stageResultContinuation: Continuation<Response<RegistrationResult>>? =
-        null
-    private val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
+    private var stageResultContinuation: Continuation<Response<RegistrationResult>>? = null
 
     fun startReAuthStages(
         session: String,
@@ -39,7 +37,7 @@ class ReAuthStagesDataSource @Inject constructor(
         sessionId = session
         authPromise = promise
         stageResultContinuation = null
-        val userId = MatrixSessionProvider.currentSession?.myUserId ?: ""
+        val userId = MatrixSessionProvider.getSessionOrThrow().myUserId
         val domain = userId.substringAfter(":")
         val name = userId.substringAfter("@").substringBefore(":")
         super.startLoginStages(loginStages, name, domain)
@@ -51,10 +49,14 @@ class ReAuthStagesDataSource @Inject constructor(
     ): Response<RegistrationResult> {
         authPromise?.resume(CustomUIAuth(sessionId, authParams))
 
-        val result = if (isLastStage()) Response.Success(RegistrationResult.Success(session))
+        val result = if (isLastStage())
+            Response.Success(RegistrationResult.Success(MatrixSessionProvider.getSessionOrThrow()))
         else awaitForStageResult()
 
-        (result as? Response.Success)?.let { stageCompleted(it.data, password) }
+        (result as? Response.Success)?.let {
+            password?.let { userPassword = it }
+            stageCompleted(it.data)
+        }
         return result
     }
 
@@ -70,9 +72,8 @@ class ReAuthStagesDataSource @Inject constructor(
         stageResultContinuation?.resume(result)
     }
 
-    private fun stageCompleted(result: RegistrationResult, password: String?) {
+    private fun stageCompleted(result: RegistrationResult) {
         if (isStageRetry(result)) return
-        password?.let { userPassword = it }
         (result as? RegistrationResult.Success)?.let {
             finishReAuthEventLiveData.postValue(Unit)
         } ?: navigateToNextStage()
@@ -81,6 +82,4 @@ class ReAuthStagesDataSource @Inject constructor(
     private suspend fun awaitForStageResult() = suspendCoroutine { stageResultContinuation = it }
 
     private fun isLastStage() = stagesToComplete.last() == currentStage
-
-    fun getPasswordFormLastAuth() = userPassword
 }

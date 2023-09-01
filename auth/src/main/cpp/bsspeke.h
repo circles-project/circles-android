@@ -95,10 +95,16 @@ int
 bsspeke_server_init(bsspeke_server_ctx *ctx,
                     const char* server_id, const size_t server_id_len,
                     const char* client_id, const size_t client_id_len);
-
-void
-bsspeke_client_generate_blind(uint8_t blind[32],
-                              bsspeke_client_ctx *client);
+                    
+#ifdef EMSCRIPTEN
+uint8_t*
+#else
+void 
+#endif
+bsspeke_client_generate_blind(
+    uint8_t blind[32],
+    bsspeke_client_ctx *client
+);
 
 void
 bsspeke_server_blind_salt(uint8_t blind_salt[32],
@@ -119,10 +125,16 @@ bsspeke_client_generate_hashed_key(uint8_t k[32],
                                    bsspeke_client_ctx *client);
 
 int
-bsspeke_client_generate_P_and_V(uint8_t P[32], uint8_t V[32],
-                                const uint8_t blind_salt[32],
-                                uint32_t phf_blocks, uint32_t phf_iterations,
-                                bsspeke_client_ctx *client);
+bsspeke_client_generate_P_and_V(
+    #ifdef EMSCRIPTEN
+    uint8_t* P, uint8_t* V,
+    #else
+    uint8_t P[32], uint8_t V[32],
+    #endif
+    const uint8_t blind_salt[32],
+    uint32_t phf_blocks, uint32_t phf_iterations,
+    bsspeke_client_ctx *client
+);
 
 int
 bsspeke_client_generate_A(const uint8_t blind_salt[32],

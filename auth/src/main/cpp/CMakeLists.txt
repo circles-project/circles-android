@@ -4,7 +4,7 @@
 
 # Sets the minimum version of CMake required to build the native library.
 
-cmake_minimum_required(VERSION 3.18.1)
+cmake_minimum_required(VERSION 3.22.1)
 
 # Declares and names the project.
 
@@ -24,7 +24,7 @@ add_library( # Sets the name of the library.
         # Provides a relative path to your source file(s).
         bsspeke-jni.c
         bsspeke.c
-        minimonocypher.c)
+        monocypher.c)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
