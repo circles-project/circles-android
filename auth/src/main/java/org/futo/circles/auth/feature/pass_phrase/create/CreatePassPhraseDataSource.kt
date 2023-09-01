@@ -51,6 +51,7 @@ class CreatePassPhraseDataSource @Inject constructor(
     suspend fun changeBsSpekePassword4SKey() {
         loadingLiveData.postValue(LoadingData(total = 0, messageId = R.string.creating_backup))
         ssssDataSource.replaceBsSpeke4SKey()
+        loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
     private fun generateRandomPrivateKey(): ByteArray {

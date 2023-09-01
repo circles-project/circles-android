@@ -78,7 +78,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         viewModel.deactivateLiveData.observeResponse(this,
             success = { clearSessionAndRestart() },
-            error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) }
+            error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) },
+            onRequestInvoked = { loadingDialog.dismiss() }
         )
         systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
             binding.ivNoticesCount.setCount(it ?: 0)
