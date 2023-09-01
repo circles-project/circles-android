@@ -91,10 +91,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
         viewModel.changePasswordResponseLiveData.observeResponse(this,
             success = { showSuccess(getString(org.futo.circles.core.R.string.password_changed)) },
-            error = { message ->
-                showError(message)
-                loadingDialog.dismiss()
-            }
+            error = { message -> showError(message) },
+            onRequestInvoked = { loadingDialog.dismiss() }
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
