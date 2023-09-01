@@ -8,6 +8,7 @@ import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.crypto.crosssigning.KEYBACKUP_SECRET_SSSS_NAME
 import org.matrix.android.sdk.api.session.crypto.keysbackup.computeRecoveryKey
+import org.matrix.android.sdk.api.session.crypto.keysbackup.extractCurveKeyFromRecoveryKey
 import org.matrix.android.sdk.api.session.securestorage.EmptyKeySigner
 import org.matrix.android.sdk.api.session.securestorage.KeyInfo
 import org.matrix.android.sdk.api.session.securestorage.KeyInfoResult
@@ -45,16 +46,12 @@ class SSSSDataSource @Inject constructor() {
         return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
     }
 
-    suspend fun replaceBsSpeke4SKey(oldPassword: String, newPassword: String) {
-        BSSpekeClientProvider.initClient(
-            MatrixSessionProvider.getSessionOrThrow().myUserId, oldPassword
-        )
-        val keyInfo = getKeyInfo()
-        val keySpec = RawBytesKeySpec(BSSpekeClientProvider.getClientOrThrow().generateHashKey())
-        val secret = getSecret(keyInfo, keySpec)?.fromBase64() ?: return
-        BSSpekeClientProvider.initClient(
-            MatrixSessionProvider.getSessionOrThrow().myUserId, newPassword
-        )
+    suspend fun replaceBsSpeke4SKey() {
+        val recoveryKey = MatrixSessionProvider.getSessionOrThrow()
+            .cryptoService().keysBackupService().getKeyBackupRecoveryKeyInfo()?.recoveryKey
+            ?: throw Exception("Recovery Key not found")
+        val secret = extractCurveKeyFromRecoveryKey(recoveryKey)
+            ?: throw Exception("Can not get secret from recovery key")
         storeBsSpekeKeyIntoSSSS(secret)
     }
 
