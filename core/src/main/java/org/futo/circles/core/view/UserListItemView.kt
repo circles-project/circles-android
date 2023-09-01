@@ -35,10 +35,10 @@ class UserListItemView(
     private fun setIcon(user: CirclesUserSummary, isSelected: Boolean) {
         if (isSelected) {
             binding.ivUserImage.setImageResource(R.drawable.ic_check_circle)
-            rootView.setBackgroundColor(context.getColor(R.color.highlight_color))
+            setBackgroundColor(context.getColor(R.color.highlight_color))
         } else {
             binding.ivUserImage.loadProfileIcon(user.avatarUrl, user.name)
-            rootView.setSelectableItemBackground()
+            setSelectableItemBackground()
         }
     }
 }
