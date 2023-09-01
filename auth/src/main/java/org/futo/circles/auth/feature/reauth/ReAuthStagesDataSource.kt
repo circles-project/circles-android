@@ -27,10 +27,7 @@ class ReAuthStagesDataSource @Inject constructor(
     val finishReAuthEventLiveData = SingleEventLiveData<Unit>()
     private var authPromise: Continuation<UIABaseAuth>? = null
     private var sessionId: String = ""
-    private var stageResultContinuation: Continuation<Response<RegistrationResult>>? =
-        null
-    private val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
-    private var oldPassword = ""
+    private var stageResultContinuation: Continuation<Response<RegistrationResult>>? = null
 
     fun startReAuthStages(
         session: String,
@@ -40,8 +37,7 @@ class ReAuthStagesDataSource @Inject constructor(
         sessionId = session
         authPromise = promise
         stageResultContinuation = null
-        oldPassword = ""
-        val userId = MatrixSessionProvider.currentSession?.myUserId ?: ""
+        val userId = MatrixSessionProvider.getSessionOrThrow().myUserId
         val domain = userId.substringAfter(":")
         val name = userId.substringAfter("@").substringBefore(":")
         super.startLoginStages(loginStages, name, domain)
@@ -53,12 +49,12 @@ class ReAuthStagesDataSource @Inject constructor(
     ): Response<RegistrationResult> {
         authPromise?.resume(CustomUIAuth(sessionId, authParams))
 
-        val result = if (isLastStage()) Response.Success(RegistrationResult.Success(session))
+        val result = if (isLastStage())
+            Response.Success(RegistrationResult.Success(MatrixSessionProvider.getSessionOrThrow()))
         else awaitForStageResult()
 
         (result as? Response.Success)?.let {
-            if (isLoginBsSpekeStage()) oldPassword = password ?: ""
-            else password?.let { userPassword = it }
+            password?.let { userPassword = it }
             stageCompleted(it.data)
         }
         return result
@@ -86,9 +82,4 @@ class ReAuthStagesDataSource @Inject constructor(
     private suspend fun awaitForStageResult() = suspendCoroutine { stageResultContinuation = it }
 
     private fun isLastStage() = stagesToComplete.last() == currentStage
-
-    fun getNewPassword() = userPassword
-    fun getOldPassword() = oldPassword
-
-    private fun isLoginBsSpekeStage() = (currentStage as? Stage.Other)?.type == LOGIN_BSSPEKE_VERIFY_TYPE
 }
