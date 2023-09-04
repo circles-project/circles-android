@@ -46,7 +46,7 @@ suspend fun Uri.toImageContentAttachmentData(context: Context): ContentAttachmen
         width = resolution.width.toLong(),
         exifOrientation = orientation,
         queryUri = this,
-        blurHash = ThumbHash.getThumbHash(context, this)
+        thumbHash = ThumbHash.getThumbHash(context, this)
     )
 }
 
@@ -63,7 +63,7 @@ suspend fun Uri.toVideoContentAttachmentData(context: Context): ContentAttachmen
         duration = duration,
         name = attachmentInfo.name,
         queryUri = this,
-        blurHash = ThumbHash.getThumbHash(context, this)
+        thumbHash = ThumbHash.getThumbHash(context, this)
     )
 }
 
