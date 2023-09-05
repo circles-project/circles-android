@@ -6,5 +6,8 @@ data class MediaFileData(
     val fileName: String,
     val mimeType: String,
     val fileUrl: String,
-    val elementToDecrypt: ElementToDecrypt?
+    val elementToDecrypt: ElementToDecrypt?,
+    val width: Int,
+    val height: Int,
+    val duration: String
 )
