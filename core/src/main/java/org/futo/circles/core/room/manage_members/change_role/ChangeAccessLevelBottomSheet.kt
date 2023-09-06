@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.manage_members.change_role
+package org.futo.circles.core.room.manage_members.change_role
 
 import android.content.Context
 import android.os.Bundle
@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.fragment.TransparentBackgroundBottomSheetDialogFragment
 import org.futo.circles.databinding.BottomSheetChangeAccessLevelBinding
-import org.futo.circles.feature.room.manage_members.change_role.list.ChangeAccessLevelAdapter
+import org.futo.circles.core.room.manage_members.change_role.list.ChangeAccessLevelAdapter
 import org.futo.circles.model.AccessLevelListItem
 
 

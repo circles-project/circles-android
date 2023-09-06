@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.manage_members.change_role
+package org.futo.circles.core.room.manage_members.change_role
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

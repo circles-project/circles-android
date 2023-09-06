@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.manage_members.list
+package org.futo.circles.core.room.manage_members.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter

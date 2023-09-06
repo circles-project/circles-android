@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.invite
+package org.futo.circles.core.room.invite
 
 import android.os.Bundle
 import android.view.View

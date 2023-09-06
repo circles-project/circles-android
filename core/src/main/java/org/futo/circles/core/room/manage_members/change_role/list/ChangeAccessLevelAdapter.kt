@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.manage_members.change_role.list
+package org.futo.circles.core.room.manage_members.change_role.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter

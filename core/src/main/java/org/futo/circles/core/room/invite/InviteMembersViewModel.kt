@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.invite
+package org.futo.circles.core.room.invite
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

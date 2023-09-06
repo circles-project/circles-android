@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.options
+package org.futo.circles.core.timeline.options
 
 import androidx.navigation.fragment.findNavController
 import org.futo.circles.core.extensions.navigateSafe

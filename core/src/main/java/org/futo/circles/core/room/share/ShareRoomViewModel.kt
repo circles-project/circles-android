@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.share
+package org.futo.circles.core.room.share
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

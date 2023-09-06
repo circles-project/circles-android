@@ -6,7 +6,7 @@
     app:startDestination="@id/timelineOptionsDialogFragment">
     <dialog
         android:id="@+id/timelineOptionsDialogFragment"
-        android:name="org.futo.circles.feature.timeline.options.TimelineOptionsDialogFragment"
+        android:name="org.futo.circles.core.timeline.options.TimelineOptionsDialogFragment"
         tools:layout="@layout/dialog_fragment_timeline_options">
 
         <argument
@@ -108,7 +108,7 @@
     </dialog>
     <dialog
         android:id="@+id/stateEventsDialogFragment"
-        android:name="org.futo.circles.feature.timeline.state.RoomStateEventsDialogFragment"
+        android:name="org.futo.circles.core.timeline.state.RoomStateEventsDialogFragment"
         tools:layout="@layout/dialog_fragment_debug_info">
 
         <argument
@@ -130,7 +130,7 @@
     </dialog>
     <dialog
         android:id="@+id/shareRoomDialogFragment"
-        android:name="org.futo.circles.feature.room.share.ShareRoomDialogFragment"
+        android:name="org.futo.circles.core.room.share.ShareRoomDialogFragment"
         tools:layout="@layout/dialog_fragment_share_room">
 
         <argument
@@ -157,7 +157,7 @@
     </dialog>
     <dialog
         android:id="@+id/inviteMembersDialogFragment"
-        android:name="org.futo.circles.feature.room.invite.InviteMembersDialogFragment"
+        android:name="org.futo.circles.core.room.invite.InviteMembersDialogFragment"
         tools:layout="@layout/dialog_fragment_invite_members">
 
         <argument
@@ -180,7 +180,7 @@
     </dialog>
     <dialog
         android:id="@+id/manageMembersDialogFragment"
-        android:name="org.futo.circles.feature.room.manage_members.ManageMembersDialogFragment"
+        android:name="org.futo.circles.core.room.manage_members.ManageMembersDialogFragment"
         tools:layout="@layout/dialog_fragment_manage_members">
 
         <argument
@@ -217,7 +217,7 @@
     </dialog>
     <dialog
         android:id="@+id/changeAccessLevelBottomSheet"
-        android:name="org.futo.circles.feature.room.manage_members.change_role.ChangeAccessLevelBottomSheet"
+        android:name="org.futo.circles.core.room.manage_members.change_role.ChangeAccessLevelBottomSheet"
         android:label="ChangeAccessLevelBottomSheet"
         tools:layout="@layout/bottom_sheet_change_access_level">
 

@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.share
+package org.futo.circles.core.room.share
 
 import android.os.Bundle
 import android.view.View
