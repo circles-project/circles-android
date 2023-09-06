@@ -1,5 +1,6 @@
 package org.futo.circles.core.model
 
+import android.util.Size
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
 enum class PostContentType(val typeKey: String) {
@@ -27,6 +28,12 @@ data class MediaContent(
     val thumbnailFileData: MediaFileData?,
     val thumbHash: String?
 ) : PostContent(type) {
+
+    fun thumbnailOrFullSize(width: Int) = thumbnailFileData?.let {
+        Size(width, (width / it.aspectRatio).toInt())
+    } ?: Size(width, (width / mediaFileData.aspectRatio).toInt())
+
+
     fun getMediaType(): MediaType =
         if (type == PostContentType.VIDEO_CONTENT) MediaType.Video else MediaType.Image
 }

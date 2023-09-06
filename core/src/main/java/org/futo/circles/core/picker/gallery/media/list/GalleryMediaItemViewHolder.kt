@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ListItemGalleryMediaBinding
 import org.futo.circles.core.databinding.ListItemGalleryMediaMultiselectBinding
-import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
+import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
@@ -32,24 +32,20 @@ abstract class GridMediaItemViewHolder(view: View) : RecyclerView.ViewHolder(vie
     private fun bindCover(id: String, mediaContent: MediaContent) {
         ivCover.transitionName = id
         ivCover.post {
-            val size = mediaContent.calculateSize(ivCover.width)
+            val size = mediaContent.thumbnailOrFullSize(ivCover.width)
             ivCover.updateLayoutParams {
                 width = size.width
                 height = size.height
             }
         }
-        mediaContent.mediaFileData.loadEncryptedIntoWithAspect(
-            ivCover,
-            mediaContent.aspectRatio,
-            mediaContent.mediaContentInfo.thumbHash
-        )
+        mediaContent.loadEncryptedThumbOrFullIntoWithAspect(ivCover)
     }
 
     private fun bindVideoParams(
         mediaContent: MediaContent
     ) {
         videoGroup.setIsVisible(mediaContent.type == PostContentType.VIDEO_CONTENT)
-        tvDuration.text = mediaContent.mediaContentInfo.duration
+        tvDuration.text = mediaContent.mediaFileData.duration
     }
 
 }

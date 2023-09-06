@@ -71,13 +71,13 @@ private fun MessageVideoContent?.toMediaFileData() = MediaFileData(
 
 private fun MessageImageContent.toThumbnailFileData(): MediaFileData? {
     val imageInfo = info ?: return null
-    val url = imageInfo.thumbnailUrl ?: return null
     val file = imageInfo.thumbnailFile?.toElementToDecrypt() ?: return null
+    val url = imageInfo.thumbnailFile?.url ?: imageInfo.thumbnailUrl
     val mimeType = imageInfo.thumbnailInfo?.mimeType ?: ""
     return MediaFileData(
         fileName = getFileName(),
         mimeType = mimeType,
-        fileUrl = url,
+        fileUrl = url ?: "",
         elementToDecrypt = file,
         width = imageInfo.thumbnailInfo?.width ?: Target.SIZE_ORIGINAL,
         height = imageInfo.thumbnailInfo?.height ?: Target.SIZE_ORIGINAL,
@@ -87,13 +87,13 @@ private fun MessageImageContent.toThumbnailFileData(): MediaFileData? {
 
 private fun MessageVideoContent.toThumbnailFileData(): MediaFileData? {
     val videoInfo = videoInfo ?: return null
-    val url = videoInfo.thumbnailUrl ?: return null
     val file = videoInfo.thumbnailFile?.toElementToDecrypt() ?: return null
+    val url = videoInfo.thumbnailFile?.url ?: videoInfo.thumbnailUrl
     val mimeType = videoInfo.thumbnailInfo?.mimeType ?: ""
     return MediaFileData(
         fileName = getFileName(),
         mimeType = mimeType,
-        fileUrl = url,
+        fileUrl = url ?: "",
         elementToDecrypt = file,
         width = videoInfo.thumbnailInfo?.width ?: Target.SIZE_ORIGINAL,
         height = videoInfo.thumbnailInfo?.height ?: Target.SIZE_ORIGINAL,

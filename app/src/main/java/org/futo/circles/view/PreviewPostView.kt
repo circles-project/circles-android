@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
+import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.loadImage
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.setIsVisible
@@ -103,7 +104,7 @@ class PreviewPostView(
 
     fun setMediaFromExistingPost(mediaContent: MediaContent) {
         canEditMedia = false
-        val caption = mediaContent.mediaContentInfo.caption ?: ""
+        val caption = mediaContent.caption ?: ""
         setText(caption)
         val uri = Uri.parse(mediaContent.mediaFileData.fileUrl)
         val mediaType = mediaContent.getMediaType()
@@ -113,7 +114,7 @@ class PreviewPostView(
         val isVideo = mediaType == MediaType.Video
         binding.lMediaContent.videoGroup.setIsVisible(isVideo)
         if (isVideo)
-            binding.lMediaContent.tvDuration.text = mediaContent.mediaContentInfo.duration
+            binding.lMediaContent.tvDuration.text = mediaContent.mediaFileData.duration
 
         listener?.onPostContentAvailable(true)
     }
@@ -173,17 +174,13 @@ class PreviewPostView(
     private fun loadMediaCover(mediaContent: MediaContent) {
         val image = binding.lMediaContent.ivCover
         image.post {
-            val size = mediaContent.calculateSize(image.width)
+            val size = mediaContent.thumbnailOrFullSize(image.width)
             image.updateLayoutParams {
                 width = size.width
                 height = size.height
             }
         }
-        mediaContent.mediaFileData.loadEncryptedIntoWithAspect(
-            image,
-            mediaContent.aspectRatio,
-            mediaContent.mediaContentInfo.thumbHash
-        )
+        mediaContent.loadEncryptedThumbOrFullIntoWithAspect(image)
     }
 
     private fun requestFocusOnText() {
