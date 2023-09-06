@@ -23,23 +23,20 @@ data class TextContent(
 
 data class MediaContent(
     override val type: PostContentType,
+    val caption: String?,
     val mediaFileData: MediaFileData,
-    val mediaContentInfo: MediaContentInfo,
+    val thumbnailFileData: MediaFileData?,
+    val thumbHash: String?
 ) : PostContent(type) {
-    val aspectRatio = mediaContentInfo.width.toFloat() / mediaContentInfo.height.toFloat()
-    fun calculateSize(width: Int) = Size(width, (width / aspectRatio).toInt())
+
+    fun thumbnailOrFullSize(width: Int) = thumbnailFileData?.let {
+        Size(width, (width / it.aspectRatio).toInt())
+    } ?: Size(width, (width / mediaFileData.aspectRatio).toInt())
+
+
     fun getMediaType(): MediaType =
         if (type == PostContentType.VIDEO_CONTENT) MediaType.Video else MediaType.Image
 }
-
-data class MediaContentInfo(
-    val caption: String?,
-    val thumbnailUrl: String,
-    val width: Int,
-    val height: Int,
-    val duration: String,
-    val thumbHash: String?
-)
 
 data class PollContent(
     val question: String,

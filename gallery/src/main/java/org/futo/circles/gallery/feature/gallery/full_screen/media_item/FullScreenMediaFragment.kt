@@ -76,11 +76,7 @@ class FullScreenMediaFragment : Fragment(R.layout.fragment_full_screen_media) {
                 transitionName = null
                 gone()
             }
-            it.mediaFileData.loadEncryptedIntoWithAspect(
-                binding.ivImage,
-                it.aspectRatio,
-                it.mediaContentInfo.thumbHash
-            )
+            it.mediaFileData.loadEncryptedIntoWithAspect(binding.ivImage, it.thumbHash)
             binding.ivImage.post { parentFragment?.startPostponedEnterTransition() }
         }
         viewModel.videoLiveData.observeData(this) {

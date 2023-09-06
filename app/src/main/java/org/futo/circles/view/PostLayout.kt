@@ -113,7 +113,7 @@ class PostLayout(
 
     private fun setMentionBorder(content: PostContent) {
         val hasMention = when (content) {
-            is MediaContent -> content.mediaContentInfo.caption?.let {
+            is MediaContent -> content.caption?.let {
                 MarkdownParser.hasCurrentUserMention(it)
             } ?: false
 

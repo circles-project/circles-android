@@ -9,16 +9,16 @@ import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.extensions.gone
-import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
+import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
 import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PollContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.TextContent
-import org.futo.circles.core.model.MediaType
 import org.futo.circles.databinding.ViewPollPostBinding
 import org.futo.circles.databinding.ViewTextMediaPostBinding
 import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
@@ -97,12 +97,12 @@ class TextMediaPostViewHolder(
         bindMediaCaption(content)
         bindMediaCover(content)
         binding.vMediaContent.videoGroup.setIsVisible(content.getMediaType() == MediaType.Video)
-        binding.vMediaContent.tvDuration.text = content.mediaContentInfo.duration
+        binding.vMediaContent.tvDuration.text = content.mediaFileData.duration
     }
 
     private fun bindMediaCaption(content: MediaContent) {
         binding.tvTextContent.apply {
-            val caption = content.mediaContentInfo.caption
+            val caption = content.caption
             setIsVisible(caption != null)
             caption?.let { setText(markwon.toMarkdown(it), TextView.BufferType.SPANNABLE) }
         }
@@ -111,17 +111,13 @@ class TextMediaPostViewHolder(
     private fun bindMediaCover(content: MediaContent) {
         val image = binding.vMediaContent.ivCover
         image.post {
-            val size = content.calculateSize(image.width)
+            val size = content.thumbnailOrFullSize(image.width)
             image.updateLayoutParams {
                 width = size.width
                 height = size.height
             }
         }
-        content.mediaFileData.loadEncryptedIntoWithAspect(
-            image,
-            content.aspectRatio,
-            content.mediaContentInfo.thumbHash
-        )
+        content.loadEncryptedThumbOrFullIntoWithAspect(image)
     }
 }
 
