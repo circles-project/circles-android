@@ -1,29 +1,23 @@
 package org.futo.circles.gallery.feature.gallery
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment
 import org.futo.circles.gallery.feature.gallery.grid.GalleryGridFragment
-import org.futo.circles.gallery.model.DeleteGallery
 
 
 interface GalleryMediaPreviewListener {
@@ -92,25 +86,23 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         )
     }
 
-    @SuppressLint("RestrictedApi")
     private fun setupMenu() {
         with(binding.toolbar) {
-            (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-            inflateMenu(R.menu.gallery_timeline_menu)
+            inflateMenu(org.futo.circles.core.R.menu.timeline_menu)
+            setupMenuClickListener()
+        }
+    }
+
+    private fun setupMenuClickListener() {
+        binding.toolbar.apply {
+            setOnClickListener {  }
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.configureGallery -> navigateToUpdateRoom()
-                    R.id.deleteGallery -> withConfirmation(DeleteGallery()) { viewModel.deleteGallery() }
+                    org.futo.circles.core.R.id.settings -> {}
                 }
                 return@setOnMenuItemClickListener true
             }
         }
-    }
-
-    private fun navigateToUpdateRoom() {
-        findNavController().navigateSafe(
-            GalleryDialogFragmentDirections.toUpdateGalleryDialogFragment(args.roomId)
-        )
     }
 
     private fun setFullScreenMode(isFullScreen: Boolean) {
