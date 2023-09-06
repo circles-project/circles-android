@@ -123,7 +123,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun setupMenu() {
         with(binding.toolbar) {
             if (isThread) return
-            inflateMenu(R.menu.timeline_menu)
+            inflateMenu(org.futo.circles.core.R.menu.timeline_menu)
             setupMenuClickListener()
         }
     }
@@ -133,7 +133,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             setOnClickListener { navigator.navigateToTimelineOptions(args.roomId, args.type) }
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.settings -> navigator.navigateToTimelineOptions(args.roomId, args.type)
+                    org.futo.circles.core.R.id.settings -> navigator.navigateToTimelineOptions(args.roomId, args.type)
                 }
                 return@setOnMenuItemClickListener true
             }
