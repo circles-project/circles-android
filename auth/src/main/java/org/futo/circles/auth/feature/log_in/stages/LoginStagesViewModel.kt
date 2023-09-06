@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import javax.inject.Inject
 
 @HiltViewModel

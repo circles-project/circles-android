@@ -85,14 +85,12 @@ class SendMessageDataSource @Inject constructor(@ApplicationContext private val 
             MediaType.Image -> uri.toImageContentAttachmentData(context)
             MediaType.Video -> uri.toVideoContentAttachmentData(context)
         } ?: return null
-        val shouldCompress =
-            if (compressBeforeSending) content.mimeType != WEBP_MIME_TYPE else false
         val additionalContent = mutableMapOf<String, Any>()
         caption?.let { additionalContent[MediaCaptionFieldKey] = it }
 
         return roomForMessage.sendService().sendMedia(
             content,
-            shouldCompress,
+            compressBeforeSending,
             emptySet(),
             rootThreadEventId = threadEventId,
             additionalContent = additionalContent
@@ -127,9 +125,5 @@ class SendMessageDataSource @Inject constructor(@ApplicationContext private val 
         val event = roomForMessage.getTimelineEvent(eventId) ?: return
         roomForMessage.relationService()
             .editPoll(event, pollContent.pollType, pollContent.question, pollContent.options)
-    }
-
-    companion object {
-        private const val WEBP_MIME_TYPE = "image/webp"
     }
 }

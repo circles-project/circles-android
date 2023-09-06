@@ -12,6 +12,7 @@ import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
 import org.matrix.android.sdk.api.session.crypto.keysbackup.MegolmBackupCreationInfo
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
 import org.matrix.android.sdk.api.util.awaitCallback
+import java.security.SecureRandom
 import javax.inject.Inject
 
 class CreatePassPhraseDataSource @Inject constructor(
@@ -24,34 +25,45 @@ class CreatePassPhraseDataSource @Inject constructor(
         MatrixSessionProvider.getSessionOrThrow().cryptoService().keysBackupService()
     }
     val loadingLiveData = MutableLiveData<LoadingData>()
-    private val passPhraseLoadingData = LoadingData()
 
-    suspend fun createPassPhraseBackup(userName: String, passphrase: String) {
-        loadingLiveData.postValue(passPhraseLoadingData.apply {
-            this.total = 0
-            messageId = R.string.generating_recovery_key
-        })
+    suspend fun createPassPhraseBackup() {
+        loadingLiveData.postValue(
+            LoadingData(
+                total = 0,
+                messageId = R.string.generating_recovery_key
+            )
+        )
+        val keyBackupPrivateKey = generateRandomPrivateKey()
         val backupCreationInfo = awaitCallback {
-            keysBackupService.prepareBcryptKeysBackupVersion(userName, passphrase, it)
+            keysBackupService.prepareKeysBackupVersion(keyBackupPrivateKey, it)
         }
         createKeyBackup(backupCreationInfo)
-        val keyData = ssssDataSource.storeIntoSSSSWithPassphrase(passphrase, userName, true)
+        val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey)
         crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
-        loadingLiveData.postValue(passPhraseLoadingData.apply { isLoading = false })
+        loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
-    suspend fun replacePassPhraseBackup(userId: String, passphrase: String) {
-        val userName = userId.replace("@", "").substringBefore(":")
+    suspend fun replaceToNewKeyBackup() {
         removeCurrentBackupIfExist()
-        createPassPhraseBackup(userName, passphrase)
+        createPassPhraseBackup()
+    }
+
+    suspend fun changeBsSpekePassword4SKey() {
+        loadingLiveData.postValue(LoadingData(total = 0, messageId = R.string.creating_backup))
+        ssssDataSource.replaceBsSpeke4SKey()
+        loadingLiveData.postValue(LoadingData(isLoading = false))
+    }
+
+    private fun generateRandomPrivateKey(): ByteArray {
+        val privateKey = ByteArray(32) { 0 }
+        SecureRandom().nextBytes(privateKey)
+        return privateKey
     }
 
     private suspend fun createKeyBackup(
         backupCreationInfo: MegolmBackupCreationInfo
     ) {
-        loadingLiveData.postValue(passPhraseLoadingData.apply {
-            messageId = R.string.creating_backup
-        })
+        loadingLiveData.postValue(LoadingData(messageId = R.string.creating_backup))
         val versionData = getCurrentBackupVersion()
 
         if (versionData?.version.isNullOrBlank()) {
@@ -62,9 +74,7 @@ class CreatePassPhraseDataSource @Inject constructor(
     }
 
     private suspend fun removeCurrentBackupIfExist() {
-        loadingLiveData.postValue(passPhraseLoadingData.apply {
-            messageId = R.string.removing_backup
-        })
+        loadingLiveData.postValue(LoadingData(messageId = R.string.removing_backup))
         getCurrentBackupVersion()?.version?.let { version ->
             awaitCallback { keysBackupService.deleteBackup(version, it) }
         }

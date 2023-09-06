@@ -20,13 +20,13 @@ class ChangePasswordViewModel @Inject constructor(
             when (val changePasswordResult =
                 changePasswordDataSource.changePassword(oldPassword, newPassword)) {
                 is Response.Error -> responseLiveData.postValue(changePasswordResult)
-                is Response.Success -> createNewBackupInNeeded(newPassword)
+                is Response.Success -> createNewBackupInNeeded()
             }
         }
     }
 
-    private suspend fun createNewBackupInNeeded(newPassword: String) {
-        val createBackupResult = changePasswordDataSource.createNewBackupInNeeded(newPassword)
+    private suspend fun createNewBackupInNeeded() {
+        val createBackupResult = changePasswordDataSource.createNewBackupInNeeded()
         responseLiveData.postValue(createBackupResult)
     }
 }

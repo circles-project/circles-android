@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.auth.subscriptions.SubscriptionManager
+import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import javax.inject.Inject
@@ -14,7 +15,7 @@ class SelectSignUpTypeViewModel @Inject constructor(
     private val dataSource: SelectSignUpTypeDataSource
 ) : ViewModel() {
 
-    val startSignUpEventLiveData = org.futo.circles.core.SingleEventLiveData<Response<Unit?>>()
+    val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
     val isSubscribedLiveData = MutableLiveData(false)
     var subscriptionReceiptData: SubscriptionReceiptData? = null
 

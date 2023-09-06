@@ -1,20 +1,23 @@
 package org.futo.circles.core.extensions
 
-import android.util.Size
 import android.widget.ImageView
+import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
+
+fun MediaContent.loadEncryptedThumbOrFullIntoWithAspect(imageView: ImageView) {
+    val fileContent = thumbnailFileData ?: mediaFileData
+    fileContent.loadEncryptedIntoWithAspect(imageView, thumbHash)
+}
 
 fun MediaFileData.loadEncryptedIntoWithAspect(
     imageView: ImageView,
-    aspectRatio: Float,
     thumbHash: String? = null
 ) {
     imageView.post {
         if (fileUrl.startsWith(UriContentScheme)) {
             imageView.loadImage(fileUrl)
         } else {
-            val imageWith = imageView.width
-            val size = Size(imageWith, (imageWith / aspectRatio).toInt())
+            val size = calculateSize(imageView.width)
             imageView.loadEncryptedImage(this, size, thumbHash = thumbHash)
         }
     }

@@ -16,7 +16,7 @@ class SignupPasswordDataSource @Inject constructor(
             mapOf(
                 TYPE_PARAM_KEY to REGISTRATION_PASSWORD_TYPE,
                 PASSWORD_PARAM_KEY to password
-            ), password = password
+            )
         )) {
             is Response.Success -> Response.Success(Unit)
             is Response.Error -> result

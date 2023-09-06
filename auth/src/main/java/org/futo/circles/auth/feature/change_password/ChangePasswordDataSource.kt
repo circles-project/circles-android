@@ -1,17 +1,17 @@
 package org.futo.circles.auth.feature.change_password
 
+import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
+import org.futo.circles.auth.feature.pass_phrase.EncryptionAlgorithmHelper
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
-import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
 import javax.inject.Inject
 
 class ChangePasswordDataSource @Inject constructor(
     private val createPassPhraseDataSource: CreatePassPhraseDataSource,
-    private val restoreBackupDataSource: RestoreBackupDataSource
+    private val encryptionAlgorithmHelper: EncryptionAlgorithmHelper
 ) {
 
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
@@ -27,16 +27,12 @@ class ChangePasswordDataSource @Inject constructor(
                 ?.changePasswordStages(authConfirmationProvider)
         }
 
-    suspend fun createNewBackupInNeeded(newPassword: String): Response<Unit> {
-        val algorithm = restoreBackupDataSource.getEncryptionAlgorithm()
-        val createBackupResult = if (algorithm == BCRYPT_ALGORITHM_BACKUP) {
-            createResult {
-                createPassPhraseDataSource.replacePassPhraseBackup(
-                    MatrixSessionProvider.currentSession?.myUserId ?: "", newPassword
-                )
-            }
-        } else Response.Success(Unit)
+    suspend fun createNewBackupInNeeded(): Response<Unit> =
+        createResult {
+            if (encryptionAlgorithmHelper.isBcryptAlgorithm()) createPassPhraseDataSource.replaceToNewKeyBackup()
+            else if (encryptionAlgorithmHelper.isBsSpekePassPhrase())
+                createPassPhraseDataSource.changeBsSpekePassword4SKey()
 
-        return createBackupResult
-    }
+            BSSpekeClientProvider.clear()
+        }
 }
