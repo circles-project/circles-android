@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.databinding.DialogFragmentManageMembersBinding
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.getUserPowerLevel
 import org.futo.circles.core.extensions.navigateSafe
@@ -14,8 +15,6 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.DialogFragmentManageMembersBinding
-import org.futo.circles.feature.room.ManageMembersOptionsListener
 import org.futo.circles.core.room.manage_members.change_role.ChangeAccessLevelListener
 import org.futo.circles.core.room.manage_members.list.GroupMembersListAdapter
 import org.futo.circles.model.BanUser

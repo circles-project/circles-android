@@ -67,5 +67,10 @@
     <string name="deactivate">Deactivate</string>
     <string name="you_are_signed_out">You’re signed out</string>
     <string name="add">Add</string>
+    <string name="access_level">Access level</string>
+    <string name="set_access_level">Set access level</string>
+    <string name="invite">Invite</string>
+    <string name="share_room">Share room</string>
+    <string name="share_url">Share url</string>
 
 </resources>

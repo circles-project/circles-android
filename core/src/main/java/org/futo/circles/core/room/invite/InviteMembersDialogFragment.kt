@@ -6,7 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.R
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.DialogFragmentInviteMembersBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
@@ -15,7 +16,6 @@ import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 import org.futo.circles.core.select_users.SelectUsersFragment
 import org.futo.circles.core.select_users.SelectUsersListener
-import org.futo.circles.databinding.DialogFragmentInviteMembersBinding
 
 @AndroidEntryPoint
 class InviteMembersDialogFragment :

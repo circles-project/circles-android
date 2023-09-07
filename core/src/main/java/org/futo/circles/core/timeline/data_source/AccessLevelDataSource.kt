@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.data_source
+package org.futo.circles.core.timeline.data_source
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow

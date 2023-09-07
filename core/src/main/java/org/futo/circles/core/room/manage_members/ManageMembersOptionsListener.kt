@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room
+package org.futo.circles.core.room.manage_members
 
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 

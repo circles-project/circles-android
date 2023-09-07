@@ -9,9 +9,9 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.room.RoomNotificationsDataSource
 import org.futo.circles.core.room.leave.LeaveRoomDataSource
-import org.futo.circles.feature.room.RoomNotificationsDataSource
-import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
+import org.futo.circles.core.timeline.data_source.AccessLevelDataSource
 import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
 

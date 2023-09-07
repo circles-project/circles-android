@@ -9,9 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.databinding.BottomSheetChangeAccessLevelBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.fragment.TransparentBackgroundBottomSheetDialogFragment
-import org.futo.circles.databinding.BottomSheetChangeAccessLevelBinding
 import org.futo.circles.core.room.manage_members.change_role.list.ChangeAccessLevelAdapter
 import org.futo.circles.model.AccessLevelListItem
 

@@ -5,7 +5,8 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.R
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.DialogFragmentShareRoomBinding
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.showError
@@ -15,7 +16,6 @@ import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.model.TextShareable
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.share.ShareProvider
-import org.futo.circles.databinding.DialogFragmentShareRoomBinding
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 @AndroidEntryPoint

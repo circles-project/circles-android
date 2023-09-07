@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="postMessage" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">17sp</item>
-        <item name="android:letterSpacing">0.0125</item>
-    </style>
-
     <style name="AuthLogoStyle">
         <item name="android:src">@drawable/ic_logo</item>
     </style>

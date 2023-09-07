@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room
+package org.futo.circles.core.room
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
