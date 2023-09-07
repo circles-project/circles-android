@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.R
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin

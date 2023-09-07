@@ -2,12 +2,12 @@ package org.futo.circles.core.room.manage_members.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.feature.room.ManageMembersOptionsListener
-import org.futo.circles.model.BannedMemberListItem
-import org.futo.circles.model.GroupMemberListItem
-import org.futo.circles.model.InvitedMemberListItem
-import org.futo.circles.model.ManageMembersHeaderListItem
-import org.futo.circles.model.ManageMembersListItem
+import org.futo.circles.core.model.BannedMemberListItem
+import org.futo.circles.core.model.GroupMemberListItem
+import org.futo.circles.core.model.InvitedMemberListItem
+import org.futo.circles.core.model.ManageMembersHeaderListItem
+import org.futo.circles.core.model.ManageMembersListItem
+import org.futo.circles.core.room.manage_members.ManageMembersOptionsListener
 
 private enum class ManageGroupMembersViewTypes { Header, Member, Invited, Banned }
 

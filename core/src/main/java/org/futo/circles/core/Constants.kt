@@ -9,6 +9,8 @@ const val DEFAULT_USER_PREFIX = "@notices:"
 
 const val MediaCaptionFieldKey = "caption"
 
+const val READ_ONLY_ROLE = -10
+
 fun getRageShakeUrl(): String = "https://rageshake.${getCirclesDomain()}/bugreports/submit/"
 
 fun getCirclesDomain(): String {

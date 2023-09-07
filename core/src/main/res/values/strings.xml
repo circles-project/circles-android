@@ -72,5 +72,12 @@
     <string name="invite">Invite</string>
     <string name="share_room">Share room</string>
     <string name="share_url">Share url</string>
+    <string name="invite_to_format">Invite to %s</string>
+    <string name="invitation_sent">Invitation sent</string>
+    <string name="group_members_format">%s members</string>
+    <string name="followers_for_format">Followers for %s</string>
+    <string name="current_members">Current members</string>
+    <string name="invited_users">Invited users</string>
+    <string name="banned_users">Banned users</string>
 
 </resources>

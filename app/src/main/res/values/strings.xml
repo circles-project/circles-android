@@ -16,7 +16,6 @@
     <string name="share">Share</string>
     <string name="invite_members">Invite members</string>
     <string name="invite_followers">Invite followers</string>
-    <string name="invite_to_format">Invite to %s</string>
     <string name="follow">Follow</string>
     <string name="fix">Fix</string>
     <string name="following">Following</string>
@@ -27,10 +26,7 @@
     <string name="requests">Requests</string>
     <string name="no_results">No results</string>
     <string name="invites">Invites</string>
-    <string name="invitation_sent">Invitation sent</string>
     <string name="manage_members">Manage members</string>
-    <string name="group_members_format">%s members</string>
-    <string name="followers_for_format">Followers for %s</string>
     <string name="leave_group">Leave group</string>
     <string name="create_new_group">Create new group</string>
     <string name="create_new_circle">Create new circle</string>
@@ -57,9 +53,6 @@
     <string name="select_another_admin_message">You must select another member as an \"Admin\" to be able to leave this group.</string>
     <string name="ban">Ban</string>
     <string name="unban">Unban</string>
-    <string name="current_members">Current members</string>
-    <string name="invited_users">Invited users</string>
-    <string name="banned_users">Banned users</string>
     <string name="banned">Banned</string>
     <string name="invited">Invited</string>
     <string name="cancel_invite">Cancel invite</string>

@@ -1,9 +1,9 @@
-package org.futo.circles.mapping
+package org.futo.circles.core.mapping
 
 import org.futo.circles.core.model.CirclesUserSummary
-import org.futo.circles.model.BannedMemberListItem
-import org.futo.circles.model.GroupMemberListItem
-import org.futo.circles.model.InvitedMemberListItem
+import org.futo.circles.core.model.BannedMemberListItem
+import org.futo.circles.core.model.GroupMemberListItem
+import org.futo.circles.core.model.InvitedMemberListItem
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.powerlevels.Role

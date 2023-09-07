@@ -2,7 +2,7 @@ package org.futo.circles.core.room.manage_members.change_role.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.model.AccessLevelListItem
+import org.futo.circles.core.model.AccessLevelListItem
 
 class ChangeAccessLevelAdapter(
     private val onLevelClicked: (AccessLevelListItem) -> Unit

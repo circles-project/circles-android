@@ -1,12 +1,11 @@
 package org.futo.circles.core.room.manage_members.change_role
 
 import androidx.lifecycle.SavedStateHandle
-import dagger.assisted.AssistedFactory
 import dagger.hilt.android.scopes.ViewModelScoped
-import org.futo.circles.base.READ_ONLY_ROLE
+import org.futo.circles.core.READ_ONLY_ROLE
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.model.AccessLevel
-import org.futo.circles.model.AccessLevelListItem
+import org.futo.circles.core.model.AccessLevel
+import org.futo.circles.core.model.AccessLevelListItem
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import javax.inject.Inject
 
