@@ -1,4 +1,4 @@
-package org.futo.circles.feature.circles.following
+package org.futo.circles.core.room.circles.following
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

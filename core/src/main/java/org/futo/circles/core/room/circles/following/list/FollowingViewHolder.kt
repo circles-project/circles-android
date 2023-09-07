@@ -1,16 +1,16 @@
-package org.futo.circles.feature.circles.following.list
+package org.futo.circles.core.room.circles.following.list
 
 import android.text.format.DateUtils
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.futo.circles.R
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.ListItemFollowingBinding
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.databinding.ListItemFollowingBinding
-import org.futo.circles.model.FollowingListItem
+import org.futo.circles.core.model.FollowingListItem
 
 class FollowingViewHolder(
     parent: ViewGroup,

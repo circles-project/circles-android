@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="gallery_updated">Gallery updated</string>
     <string name="saved">Saved</string>
     <string name="delete_gallery">Delete gallery</string>
     <string name="delete_gallery_message">Are you sure you want to remove this gallery?</string>

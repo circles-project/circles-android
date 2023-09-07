@@ -1,12 +1,11 @@
-package org.futo.circles.feature.circles.following
+package org.futo.circles.core.room.circles.following
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
-import org.futo.circles.R
+import org.futo.circles.core.databinding.DialogRemoveFollowingBinding
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.databinding.DialogRemoveFollowingBinding
 
 interface RemoveFollowingListener {
     fun onRemove(roomId: String)

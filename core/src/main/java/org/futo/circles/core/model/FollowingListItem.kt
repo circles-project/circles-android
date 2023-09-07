@@ -1,10 +1,20 @@
-package org.futo.circles.mapping
+package org.futo.circles.core.model
 
 import org.futo.circles.core.extensions.getRoomOwners
+import org.futo.circles.core.list.IdEntity
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.model.FollowingListItem
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
+
+data class FollowingListItem(
+    override val id: String,
+    val name: String,
+    val ownerName: String,
+    val avatarUrl: String,
+    val updatedTime: Long,
+    val isMyTimeline: Boolean,
+    val followInCirclesCount: Int
+) : IdEntity<String>
 
 fun RoomSummary.toFollowingListItem(circleId: String, followInCirclesCount: Int) =
     FollowingListItem(

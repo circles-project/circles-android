@@ -1,4 +1,4 @@
-package org.futo.circles.feature.circles.following
+package org.futo.circles.core.room.circles.following
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
@@ -6,9 +6,9 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.CIRCLE_TAG
+import org.futo.circles.core.model.toFollowingListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.RoomRelationsBuilder
-import org.futo.circles.mapping.toFollowingListItem
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams

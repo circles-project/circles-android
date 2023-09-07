@@ -9,7 +9,6 @@
     <string name="groups">Groups</string>
     <string name="people">People</string>
     <string name="topic_formatter">Topic: %s</string>
-    <string name="last_updated_formatter">Last updated %s</string>
     <string name="my_groups">My Groups</string>
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
@@ -31,8 +30,6 @@
     <string name="circle_name">Circle name</string>
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="group_topic">Group topic</string>
-    <string name="group_updated">Group updated</string>
-    <string name="circle_updated">Circle updated</string>
     <string name="setup_circles">Setup Circles</string>
     <string name="circle_encryption_warning">NOTE: Circle name and cover image are not encrypted</string>
     <string name="friends">Friends</string>

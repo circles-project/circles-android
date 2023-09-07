@@ -86,7 +86,8 @@ class JoinedGroupViewHolder(
 
     private fun setUpdateTime(timestamp: Long) {
         binding.tvUpdateTime.text = context.getString(
-            R.string.last_updated_formatter, DateUtils.getRelativeTimeSpanString(
+            org.futo.circles.core.R.string.last_updated_formatter,
+            DateUtils.getRelativeTimeSpanString(
                 timestamp, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS
             )
         )

@@ -44,29 +44,8 @@
             app:argType="string"
             app:nullable="false" />
 
-        <action
-            android:id="@+id/to_updateGalleryDialogFragment"
-            app:destination="@id/updateGalleryDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-        </action>
-
     </dialog>
 
-    <dialog
-        android:id="@+id/updateGalleryDialogFragment"
-        android:name="org.futo.circles.gallery.feature.UpdateGalleryDialogFragment"
-        tools:layout="@layout/dialog_fragment_update_gallery">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
 
     <dialog
         android:id="@+id/mediaBackupDialogFragment"

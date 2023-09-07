@@ -68,6 +68,17 @@
         </action>
 
         <action
+            android:id="@+id/to_updateGalleryDialogFragment"
+            app:destination="@id/updateGalleryDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
             android:id="@+id/to_inviteMembersDialogFragment"
             app:destination="@id/inviteMembersDialogFragment">
 
@@ -119,7 +130,7 @@
     </dialog>
     <dialog
         android:id="@+id/updateCircleDialogFragment"
-        android:name="org.futo.circles.feature.circles.update.UpdateCircleDialogFragment"
+        android:name="org.futo.circles.core.room.update.circle.UpdateCircleDialogFragment"
         tools:layout="@layout/dialog_fragment_update_circle">
 
         <argument
@@ -128,6 +139,19 @@
             app:nullable="false" />
 
     </dialog>
+
+    <dialog
+        android:id="@+id/updateGalleryDialogFragment"
+        android:name="org.futo.circles.core.room.update.gallery.UpdateGalleryDialogFragment"
+        tools:layout="@layout/dialog_fragment_update_gallery">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
     <dialog
         android:id="@+id/shareRoomDialogFragment"
         android:name="org.futo.circles.core.room.share.ShareRoomDialogFragment"
@@ -146,7 +170,7 @@
     </dialog>
     <dialog
         android:id="@+id/updateGroupDialogFragment"
-        android:name="org.futo.circles.feature.groups.update.UpdateGroupDialogFragment"
+        android:name="org.futo.circles.core.room.update.group.UpdateGroupDialogFragment"
         tools:layout="@layout/dialog_fragment_update_group">
 
         <argument

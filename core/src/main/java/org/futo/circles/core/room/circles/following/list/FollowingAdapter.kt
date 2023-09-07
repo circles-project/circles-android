@@ -1,8 +1,8 @@
-package org.futo.circles.feature.circles.following.list
+package org.futo.circles.core.room.circles.following.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.model.FollowingListItem
+import org.futo.circles.core.model.FollowingListItem
 
 class FollowingAdapter(
     private val onRemoveClicked: (FollowingListItem) -> Unit

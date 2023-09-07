@@ -1,16 +1,16 @@
-package org.futo.circles.feature.circles.following
+package org.futo.circles.core.room.circles.following
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.databinding.DialogFragmentFollowingBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.DialogFragmentFollowingBinding
-import org.futo.circles.feature.circles.following.list.FollowingAdapter
-import org.futo.circles.model.FollowingListItem
+import org.futo.circles.core.model.FollowingListItem
+import org.futo.circles.core.room.circles.following.list.FollowingAdapter
 
 @AndroidEntryPoint
 class FollowingDialogFragment :

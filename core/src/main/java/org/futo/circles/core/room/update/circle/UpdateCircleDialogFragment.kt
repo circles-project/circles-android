@@ -1,5 +1,4 @@
-package org.futo.circles.gallery.feature
-
+package org.futo.circles.core.room.update.circle
 
 import android.net.Uri
 import android.os.Bundle
@@ -8,25 +7,27 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.DialogFragmentUpdateCircleBinding
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.picker.helper.MediaPickerHelper
 import org.futo.circles.core.room.update.UpdateRoomDialogFragment
-import org.futo.circles.gallery.R
-import org.futo.circles.gallery.databinding.DialogFragmentUpdateGalleryBinding
+import org.futo.circles.core.utils.isCircleShared
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-@AndroidEntryPoint
-class UpdateGalleryDialogFragment :
-    UpdateRoomDialogFragment(DialogFragmentUpdateGalleryBinding::inflate) {
 
-    private val args: UpdateGalleryDialogFragmentArgs by navArgs()
+@AndroidEntryPoint
+class UpdateCircleDialogFragment :
+    UpdateRoomDialogFragment(DialogFragmentUpdateCircleBinding::inflate) {
+
+    private val args: UpdateCircleDialogFragmentArgs by navArgs()
     override val roomId: String get() = args.roomId
     override val fragment: Fragment = this
     override val mediaPickerHelper = MediaPickerHelper(this)
-    override val successMessageResId: Int = R.string.gallery_updated
+    override val successMessageResId: Int = R.string.circle_updated
 
     private val binding by lazy {
-        getBinding() as DialogFragmentUpdateGalleryBinding
+        getBinding() as DialogFragmentUpdateCircleBinding
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +43,9 @@ class UpdateGalleryDialogFragment :
     override fun setInitialGroupData(room: RoomSummary) {
         binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
         binding.tilName.editText?.setText(room.displayName)
+        val isCircleShared = isCircleShared(roomId)
+        binding.btnPrivate.isChecked = !isCircleShared
+        binding.btnPublic.isChecked = isCircleShared
     }
 
     override fun setUpdateButtonEnabled(isEnabled: Boolean) {
@@ -55,14 +59,23 @@ class UpdateGalleryDialogFragment :
             tilName.editText?.doAfterTextChanged {
                 it?.let { onInputDataChanged() }
             }
+            binding.circleTypeGroup.setOnCheckedChangeListener { _, _ ->
+                onInputDataChanged()
+            }
             btnSave.setOnClickListener {
-                updateRoom(tilName.getText())
+                updateRoom(tilName.getText(), null, isPublicRulesSelected())
                 startLoading(btnSave)
             }
         }
     }
 
+    private fun isPublicRulesSelected(): Boolean {
+        val checkedId = binding.circleTypeGroup.checkedRadioButtonId
+        return checkedId == binding.btnPublic.id
+
+    }
+
     private fun onInputDataChanged() {
-        onInputRoomDataChanged(binding.tilName.getText())
+        onInputRoomDataChanged(binding.tilName.getText(), null, isPublicRulesSelected())
     }
 }

@@ -6,9 +6,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.databinding.DialogFragmentDebugInfoBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.DialogFragmentDebugInfoBinding
 
 @AndroidEntryPoint
 class PostInfoDialogFragment :
