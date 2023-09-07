@@ -14,7 +14,6 @@
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
     <string name="share">Share</string>
-    <string name="invite_members">Invite members</string>
     <string name="invite_followers">Invite followers</string>
     <string name="follow">Follow</string>
     <string name="fix">Fix</string>
@@ -26,8 +25,6 @@
     <string name="requests">Requests</string>
     <string name="no_results">No results</string>
     <string name="invites">Invites</string>
-    <string name="manage_members">Manage members</string>
-    <string name="leave_group">Leave group</string>
     <string name="create_new_group">Create new group</string>
     <string name="create_new_circle">Create new circle</string>
     <string name="create">Create</string>
@@ -48,23 +45,7 @@
     <string name="others">Others</string>
     <string name="following_format">Following %d</string>
     <string name="followed_by_format">Followed by %d</string>
-    <string name="leave">Leave</string>
-    <string name="leave_group_message">Are you sure you want to leave this group?\n\nThis group is not public. You will not be able to rejoin without an invite.</string>
     <string name="select_another_admin_message">You must select another member as an \"Admin\" to be able to leave this group.</string>
-    <string name="ban">Ban</string>
-    <string name="unban">Unban</string>
-    <string name="banned">Banned</string>
-    <string name="invited">Invited</string>
-    <string name="cancel_invite">Cancel invite</string>
-    <string name="resend_invite">Resend invite</string>
-    <string name="cancel_invite_message">Are you sure you want to cancel the invite for this user?</string>
-    <string name="resend_invite_message">Are you sure you want to cancel and resend the invite for this user?</string>
-    <string name="remove_user_in_room_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
-    <string name="ban_user">Ban user</string>
-    <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
-    <string name="unban_user">Unban user</string>
-    <string name="unban_user_message">Are you sure you want to unban this user?\n\nUser will be able to join again.</string>
-    <string name="configure_group">Configure group</string>
     <string name="group_encryption_warning">NOTE: Group name, topic and cover image are not encrypted</string>
     <string name="create_post">Create post</string>
     <string name="create_poll">Create poll</string>
@@ -73,7 +54,6 @@
     <string name="compressing">Compressing</string>
     <string name="encrypting">Encrypting</string>
     <string name="uploading">Uploading</string>
-    <string name="delete">Delete</string>
     <string name="ignore_sender">Ignore sender</string>
     <string name="ignore">Ignore</string>
     <string name="saved">Saved</string>
@@ -107,12 +87,6 @@
     <string name="severity_formatter">Severity: %d</string>
     <string name="add_reaction">Add reaction</string>
     <string name="configure_circle">Configure circle</string>
-    <string name="delete_circle">Delete circle</string>
-    <string name="delete_group">Delete group</string>
-    <string name="my_followers">My followers</string>
-    <string name="people_i_m_following">People I\'m following</string>
-    <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
-    <string name="delete_group_message">Are you sure you want to remove this group?</string>
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
     <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
     <string name="unfollow">Unfollow</string>
@@ -128,7 +102,6 @@
     <string name="unignore">Unignore</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="notifications">Notifications</string>
-    <string name="push_notifications">Push notifications</string>
     <string name="push_notifications_test">Push notifications test</string>
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
@@ -245,7 +218,6 @@
     <string name="unexpected_error">Something went wrong</string>
     <string name="configuring_workspace">Configuring workspace</string>
     <string name="shared_circles">Shared Circles</string>
-    <string name="remove_user">Remove user</string>
     <string name="save">Save</string>
     <string name="joined_members_count">Joined members: %d</string>
     <string name="you_have_pending_invitation_room">You have a pending invitation to this room. Check your invite notifications</string>
@@ -256,7 +228,6 @@
     <string name="you_are_already_following_user">You are already following this user</string>
     <string name="you_are_banned_user">You are banned</string>
     <string name="send_request_to_follow_user">Send request to follow this user</string>
-    <string name="resend">Resend</string>
     <string name="unable_to_parse_url">Unable to parse url</string>
     <string name="developer_mode_enabled">Developer mode is enabled</string>
     <string name="developer_mode_disabled">Developer mode is disabled</string>

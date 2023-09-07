@@ -82,5 +82,35 @@
     <string name="banned_users">Banned users</string>
     <string name="room_not_found">Room is not found</string>
     <string name="state_events">State events</string>
+    <string name="push_notifications">Push notifications</string>
+    <string name="configure_group">Configure group</string>
+    <string name="manage_members">Manage members</string>
+    <string name="my_followers">My followers</string>
+    <string name="people_i_m_following">People I\'m following</string>
+    <string name="invite_members">Invite members</string>
+    <string name="leave_group">Leave group</string>
+    <string name="delete">Delete</string>
+    <string name="banned">Banned</string>
+    <string name="invited">Invited</string>
+    <string name="resend">Resend</string>
+    <string name="ban">Ban</string>
+    <string name="ban_user">Ban user</string>
+    <string name="ban_user_message">Are you sure you want to ban this user?\n\nUser will not be able to join again.</string>
+    <string name="unban_user">Unban user</string>
+    <string name="unban_user_message">Are you sure you want to unban this user?\n\nUser will be able to join again.</string>
+    <string name="unban">Unban</string>
+    <string name="cancel_invite">Cancel invite</string>
+    <string name="cancel_invite_message">Are you sure you want to cancel the invite for this user?</string>
+    <string name="resend_invite">Resend invite</string>
+    <string name="resend_invite_message">Are you sure you want to cancel and resend the invite for this user?</string>
+    <string name="remove_user">Remove user</string>
+    <string name="remove_user_message">Are you sure you want to remove this user?</string>
+    <string name="remove_user_in_room_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
+    <string name="leave">Leave</string>
+    <string name="leave_group_message">Are you sure you want to leave this group?\n\nThis group is not public. You will not be able to rejoin without an invite.</string>
+    <string name="delete_circle">Delete circle</string>
+    <string name="delete_group">Delete group</string>
+    <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
+    <string name="delete_group_message">Are you sure you want to remove this group?</string>
 
 </resources>
