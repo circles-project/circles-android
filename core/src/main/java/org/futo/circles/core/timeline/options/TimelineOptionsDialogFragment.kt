@@ -102,7 +102,12 @@ class TimelineOptionsDialogFragment :
 
     private fun setupObservers() {
         viewModel.leaveDeleteEventLiveData.observeResponse(this,
-            success = { findNavController().popBackStack(R.id.homeFragment, false) }
+            success = {
+                val controller = findNavController()
+                controller.previousBackStackEntry?.destination?.id?.let {
+                    controller.popBackStack(it, true)
+                } ?: controller.popBackStack()
+            }
         )
         viewModel.accessLevelLiveData.observeData(this) { groupPowerLevelsContent ->
             if (!isGroupMode) return@observeData
