@@ -47,6 +47,12 @@ data class RemoveRoomUser(
 
 data class LeaveGroup(
     override val titleRes: Int = R.string.leave_group,
+    override val messageRes: Int = R.string.leave_gallery_message,
+    override val positiveButtonRes: Int = R.string.leave
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class LeaveGallery(
+    override val titleRes: Int = R.string.leave_gallery,
     override val messageRes: Int = R.string.leave_group_message,
     override val positiveButtonRes: Int = R.string.leave
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
@@ -60,5 +66,11 @@ data class DeleteGroup(
 data class DeleteCircle(
     override val titleRes: Int = R.string.delete_circle,
     override val messageRes: Int = R.string.delete_circle_message,
+    override val positiveButtonRes: Int = R.string.delete
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class DeleteGallery(
+    override val titleRes: Int = R.string.delete_gallery,
+    override val messageRes: Int = R.string.delete_gallery_message,
     override val positiveButtonRes: Int = R.string.delete
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

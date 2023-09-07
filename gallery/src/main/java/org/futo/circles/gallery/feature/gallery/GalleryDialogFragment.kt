@@ -7,13 +7,16 @@ import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment
@@ -95,14 +98,20 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     private fun setupMenuClickListener() {
         binding.toolbar.apply {
-            setOnClickListener {  }
+            setOnClickListener { navigateToOptions() }
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    org.futo.circles.core.R.id.settings -> {}
+                    org.futo.circles.core.R.id.settings -> navigateToOptions()
                 }
                 return@setOnMenuItemClickListener true
             }
         }
+    }
+
+    private fun navigateToOptions() {
+        findNavController().navigateSafe(
+            GalleryDialogFragmentDirections.toTimelineOptions(args.roomId, CircleRoomTypeArg.Photo)
+        )
     }
 
     private fun setFullScreenMode(isFullScreen: Boolean) {

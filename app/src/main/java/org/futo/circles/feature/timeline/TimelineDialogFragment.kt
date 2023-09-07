@@ -51,10 +51,9 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val isThread by lazy { args.threadEventId != null }
 
     private val timelineId by lazy {
-        if (isGroupMode) args.roomId
-        else getTimelineRoomFor(args.roomId)?.roomId ?: throw IllegalArgumentException(
-            "Timeline not found"
-        )
+        if (args.type == CircleRoomTypeArg.Circle) getTimelineRoomFor(args.roomId)?.roomId
+            ?: throw IllegalArgumentException("Timeline not found")
+        else args.roomId
     }
     private val binding by lazy {
         getBinding() as DialogFragmentTimelineBinding
@@ -133,7 +132,10 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             setOnClickListener { navigator.navigateToTimelineOptions(args.roomId, args.type) }
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    org.futo.circles.core.R.id.settings -> navigator.navigateToTimelineOptions(args.roomId, args.type)
+                    org.futo.circles.core.R.id.settings -> navigator.navigateToTimelineOptions(
+                        args.roomId,
+                        args.type
+                    )
                 }
                 return@setOnMenuItemClickListener true
             }

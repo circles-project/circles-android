@@ -14,9 +14,19 @@ class TimelineOptionsNavigator(private val fragment: TimelineOptionsDialogFragme
     }
 
     fun navigateToUpdateRoom(roomId: String, type: CircleRoomTypeArg) {
-        val destination = if (type == CircleRoomTypeArg.Circle)
-            TimelineOptionsDialogFragmentDirections.toUpdateCircleDialogFragment(roomId)
-        else TimelineOptionsDialogFragmentDirections.toUpdateGroupDialogFragment(roomId)
+        val destination = when (type) {
+            CircleRoomTypeArg.Circle -> TimelineOptionsDialogFragmentDirections.toUpdateCircleDialogFragment(
+                roomId
+            )
+
+            CircleRoomTypeArg.Group -> TimelineOptionsDialogFragmentDirections.toUpdateGroupDialogFragment(
+                roomId
+            )
+
+            CircleRoomTypeArg.Photo -> TimelineOptionsDialogFragmentDirections.toUpdateGalleryDialogFragment(
+                roomId
+            )
+        }
         fragment.findNavController().navigateSafe(destination)
     }
 

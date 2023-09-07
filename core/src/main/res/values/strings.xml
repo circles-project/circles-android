@@ -84,11 +84,14 @@
     <string name="state_events">State events</string>
     <string name="push_notifications">Push notifications</string>
     <string name="configure_group">Configure group</string>
+    <string name="configure_gallery">Configure gallery</string>
     <string name="manage_members">Manage members</string>
     <string name="my_followers">My followers</string>
     <string name="people_i_m_following">People I\'m following</string>
     <string name="invite_members">Invite members</string>
     <string name="leave_group">Leave group</string>
+    <string name="leave_gallery">Leave gallery</string>
+    <string name="leave_room">Leave room</string>
     <string name="delete">Delete</string>
     <string name="banned">Banned</string>
     <string name="invited">Invited</string>
@@ -108,16 +111,19 @@
     <string name="remove_user_in_room_message">Are you sure you want to remove this user?\n\nUser still be able to join by invite.</string>
     <string name="leave">Leave</string>
     <string name="leave_group_message">Are you sure you want to leave this group?\n\nThis group is not public. You will not be able to rejoin without an invite.</string>
+    <string name="leave_gallery_message">Are you sure you want to leave this gallery?\n\nThis gallery is not public. You will not be able to rejoin without an invite.</string>
     <string name="delete_circle">Delete circle</string>
     <string name="delete_group">Delete group</string>
+    <string name="delete_gallery">Delete gallery</string>
     <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
     <string name="delete_group_message">Are you sure you want to remove this group?</string>
     <string name="configure_circle">Configure circle</string>
     <string name="invite_followers">Invite followers</string>
-    <string name="select_another_admin_message">You must select another member as an \"Admin\" to be able to leave this group.</string>
+    <string name="select_another_admin_message">You must select another member as an \"Admin\" to be able to leave this room.</string>
     <string name="group_updated">Group updated</string>
     <string name="circle_updated">Circle updated</string>
     <string name="gallery_updated">Gallery updated</string>
     <string name="last_updated_formatter">Last updated %s</string>
+    <string name="delete_gallery_message">Are you sure you want to remove this gallery?</string>
 
 </resources>

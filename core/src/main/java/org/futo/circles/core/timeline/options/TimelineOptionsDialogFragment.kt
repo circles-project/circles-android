@@ -20,7 +20,9 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.DeleteCircle
+import org.futo.circles.core.model.DeleteGallery
 import org.futo.circles.core.model.DeleteGroup
+import org.futo.circles.core.model.LeaveGallery
 import org.futo.circles.core.model.LeaveGroup
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
@@ -34,12 +36,11 @@ class TimelineOptionsDialogFragment :
     }
 
     private val args: TimelineOptionsDialogFragmentArgs by navArgs()
-    private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
+
     private val timelineId by lazy {
-        if (isGroupMode) args.roomId
-        else getTimelineRoomFor(args.roomId)?.roomId ?: throw IllegalArgumentException(
-            "Timeline not found"
-        )
+        if (args.type == CircleRoomTypeArg.Circle) getTimelineRoomFor(args.roomId)?.roomId
+            ?: throw IllegalArgumentException("Timeline not found")
+        else args.roomId
     }
 
     private val viewModel by viewModels<TimelineOptionsViewModel>()
@@ -54,20 +55,39 @@ class TimelineOptionsDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            lPushNotifications.setOnClickListener {
-                viewModel.setNotificationsEnabled(!svPushNotifications.isChecked)
+            lPushNotifications.apply {
+                setIsVisible(args.type != CircleRoomTypeArg.Photo)
+                setOnClickListener { viewModel.setNotificationsEnabled(!svPushNotifications.isChecked) }
             }
             tvConfigure.apply {
                 setText(
-                    getString(if (isGroupMode) R.string.configure_group else R.string.configure_circle)
+                    getString(
+                        when (args.type) {
+                            CircleRoomTypeArg.Circle -> R.string.configure_circle
+                            CircleRoomTypeArg.Group -> R.string.configure_group
+                            CircleRoomTypeArg.Photo -> R.string.configure_gallery
+                        }
+                    )
                 )
                 setOnClickListener { navigator.navigateToUpdateRoom(args.roomId, args.type) }
             }
             tvDelete.apply {
-                text = getString(if (isGroupMode) R.string.delete_group else R.string.delete_circle)
+                text = getString(
+                    when (args.type) {
+                        CircleRoomTypeArg.Circle -> R.string.delete_circle
+                        CircleRoomTypeArg.Group -> R.string.delete_group
+                        CircleRoomTypeArg.Photo -> R.string.delete_gallery
+                    }
+                )
                 setOnClickListener {
-                    withConfirmation(if (isGroupMode) DeleteGroup() else DeleteCircle()) {
-                        viewModel.delete(isGroupMode)
+                    withConfirmation(
+                        when (args.type) {
+                            CircleRoomTypeArg.Circle -> DeleteCircle()
+                            CircleRoomTypeArg.Group -> DeleteGroup()
+                            CircleRoomTypeArg.Photo -> DeleteGallery()
+                        }
+                    ) {
+                        viewModel.delete(args.type)
                     }
                 }
             }
@@ -76,24 +96,35 @@ class TimelineOptionsDialogFragment :
                 setOnClickListener { navigator.navigateToStateEvents(timelineId) }
             }
             tvInviteMembers.apply {
-                setText(getString(if (isGroupMode) R.string.invite_members else R.string.invite_followers))
+                setText(
+                    getString(
+                        if (args.type == CircleRoomTypeArg.Circle) R.string.invite_followers
+                        else R.string.invite_members
+                    )
+                )
                 setOnClickListener { navigator.navigateToInviteMembers(timelineId) }
             }
             tvLeave.apply {
-                setIsVisible(isGroupMode)
-                setOnClickListener { showLeaveGroupDialog() }
+                setIsVisible(args.type != CircleRoomTypeArg.Circle)
+                setText(
+                    getString(
+                        if (args.type == CircleRoomTypeArg.Group) R.string.leave_group
+                        else R.string.leave_gallery
+                    )
+                )
+                setOnClickListener { showLeaveRoomDialog() }
             }
             tvShare.setOnClickListener { navigator.navigateToShareRoom(timelineId) }
             tvManageMembers.apply {
-                setIsVisible(isGroupMode)
+                setIsVisible(args.type != CircleRoomTypeArg.Circle)
                 setOnClickListener { navigator.navigateToManageMembers(timelineId, args.type) }
             }
             tvMyFollowers.apply {
-                setIsVisible(isGroupMode.not())
+                setIsVisible(args.type == CircleRoomTypeArg.Circle)
                 setOnClickListener { navigator.navigateToManageMembers(timelineId, args.type) }
             }
             tvPeopleImFollowing.apply {
-                setIsVisible(isGroupMode.not())
+                setIsVisible(args.type == CircleRoomTypeArg.Circle)
                 setOnClickListener { navigator.navigateToFollowing(args.roomId) }
             }
         }
@@ -110,7 +141,7 @@ class TimelineOptionsDialogFragment :
             }
         )
         viewModel.accessLevelLiveData.observeData(this) { groupPowerLevelsContent ->
-            if (!isGroupMode) return@observeData
+            if (args.type == CircleRoomTypeArg.Circle) return@observeData
             with(binding) {
                 tvConfigure.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToChangeSettings())
                 tvInviteMembers.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
@@ -129,12 +160,14 @@ class TimelineOptionsDialogFragment :
     }
 
 
-    private fun showLeaveGroupDialog() {
+    private fun showLeaveRoomDialog() {
         if (viewModel.canLeaveRoom()) {
-            withConfirmation(LeaveGroup()) { viewModel.leaveGroup() }
+            withConfirmation(
+                if (args.type == CircleRoomTypeArg.Group) LeaveGroup() else LeaveGallery()
+            ) { viewModel.leaveRoom() }
         } else {
             showDialog(
-                titleResIdRes = R.string.leave_group,
+                titleResIdRes = R.string.leave_room,
                 messageResId = R.string.select_another_admin_message
             )
         }

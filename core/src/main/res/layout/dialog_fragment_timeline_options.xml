@@ -45,6 +45,7 @@
                 android:layout_height="@dimen/group_icon_size"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:scaleType="centerCrop"
@@ -55,7 +56,6 @@
                 android:id="@+id/lPushNotifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
@@ -88,14 +88,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/divider_height"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@color/divider_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
-                android:layout_marginHorizontal="8dp"
-                android:background="@color/divider_color" />
 
             <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvShare"

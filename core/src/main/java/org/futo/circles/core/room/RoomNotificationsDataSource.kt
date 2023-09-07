@@ -26,9 +26,9 @@ class RoomNotificationsDataSource @Inject constructor(
         get() = MatrixSessionProvider.getSessionOrThrow()
 
     private val timelineId by lazy {
-        if (type == CircleRoomTypeArg.Group) roomId
-        else getTimelineRoomFor(roomId)?.roomId
+        if (type == CircleRoomTypeArg.Circle) getTimelineRoomFor(roomId)?.roomId
             ?: throw IllegalArgumentException("Timeline not found")
+        else roomId
     }
 
     val notificationsStateLiveData =
