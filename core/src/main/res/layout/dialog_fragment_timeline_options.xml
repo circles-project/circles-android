@@ -97,14 +97,14 @@
                 android:layout_marginHorizontal="8dp"
                 android:background="@color/divider_color" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvShare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_share"
                 app:optionName="@string/share" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvStateEvents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 app:optionName="@string/state_events" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvConfigure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
                 app:optionName="@string/configure_group" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvManageMembers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                 app:optionName="@string/manage_members" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvMyFollowers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                 app:optionName="@string/my_followers" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvPeopleImFollowing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                 app:optionName="@string/people_i_m_following" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvInviteMembers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                 app:optionName="@string/invite_members" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvLeave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

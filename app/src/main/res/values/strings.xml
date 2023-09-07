@@ -159,7 +159,6 @@
     <string name="link">Link</string>
     <string name="add">Add</string>
     <string name="add_link">Add link</string>
-    <string name="state_events">State events</string>
     <string name="switch_user">Switch User</string>
     <string name="search_people">Search people</string>
     <string name="circle_type">Circle type</string>
@@ -235,7 +234,6 @@
     <string name="unifiedpush_distributor_background_sync">Background synchronization</string>
     <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
     <string name="unable_to_register_receiver">Unable to register the receiver</string>
-    <string name="share_profile">Share profile</string>
     <string name="scan_profile">Scan profile</string>
     <string name="mute_notifications">Mute notifications</string>
     <string name="unmute_notifications">Unmute notifications</string>
@@ -262,7 +260,6 @@
     <string name="unable_to_parse_url">Unable to parse url</string>
     <string name="developer_mode_enabled">Developer mode is enabled</string>
     <string name="developer_mode_disabled">Developer mode is disabled</string>
-    <string name="room_not_found">Room is not found</string>
     <string name="groups_empty_message">Create your first Group</string>
     <string name="circles_empty_message">Create your first Circle</string>
     <string name="people_empty_message">Members of Circles and Groups you are joined will be shown here</string>

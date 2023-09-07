@@ -1,14 +1,14 @@
-package org.futo.circles.view
+package org.futo.circles.core.view
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import org.futo.circles.core.databinding.ViewManageMembersOptionsBinding
 import org.futo.circles.core.extensions.isCurrentUserAbleToBan
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeLevelFor
 import org.futo.circles.core.extensions.isCurrentUserAbleToKick
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.databinding.ViewManageMembersOptionsBinding
 import org.futo.circles.core.room.manage_members.ManageMembersOptionsListener
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 

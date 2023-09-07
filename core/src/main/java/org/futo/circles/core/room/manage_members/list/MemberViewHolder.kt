@@ -3,8 +3,10 @@ package org.futo.circles.core.room.manage_members.list
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.futo.circles.R
+import org.futo.circles.core.databinding.ListItemBannedMemberBinding
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.core.databinding.ListItemInvitedMemberBinding
+import org.futo.circles.core.databinding.ListItemMemberBinding
 import org.futo.circles.core.extensions.getRoleNameResId
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.isCurrentUserAbleToBan
@@ -19,15 +21,6 @@ import org.futo.circles.core.model.InvitedMemberListItem
 import org.futo.circles.core.model.ManageMembersHeaderListItem
 import org.futo.circles.core.model.ManageMembersListItem
 import org.futo.circles.core.room.manage_members.ManageMembersOptionsListener
-import org.futo.circles.databinding.ListItemBannedMemberBinding
-import org.futo.circles.databinding.ListItemInvitedMemberBinding
-import org.futo.circles.databinding.ListItemMemberBinding
-import org.futo.circles.feature.room.ManageMembersOptionsListener
-import org.futo.circles.model.BannedMemberListItem
-import org.futo.circles.model.GroupMemberListItem
-import org.futo.circles.model.InvitedMemberListItem
-import org.futo.circles.model.ManageMembersHeaderListItem
-import org.futo.circles.model.ManageMembersListItem
 
 abstract class ManageMembersViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: ManageMembersListItem)

@@ -6,8 +6,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.R
 import org.futo.circles.core.R
+import org.futo.circles.core.databinding.DialogFragmentTimelineOptionsBinding
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
@@ -19,12 +19,11 @@ import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.DeleteCircle
+import org.futo.circles.core.model.DeleteGroup
+import org.futo.circles.core.model.LeaveGroup
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.databinding.DialogFragmentTimelineOptionsBinding
-import org.futo.circles.model.DeleteCircle
-import org.futo.circles.model.DeleteGroup
-import org.futo.circles.model.LeaveGroup
 
 @AndroidEntryPoint
 class TimelineOptionsDialogFragment :

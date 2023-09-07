@@ -15,5 +15,7 @@
     <color name="gray">#8E8E93</color>
     <color name="list_item_icon_color">@color/black</color>
     <color name="chip_selected_color">#800E7AFE</color>
+    <color name="qr_color">@color/black</color>
+    <color name="qr_background">@color/white</color>
 
 </resources>

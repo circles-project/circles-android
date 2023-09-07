@@ -1,12 +1,12 @@
-package org.futo.circles.view
+package org.futo.circles.core.view
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import org.futo.circles.R
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.ViewSettingsMenuItemBinding
 import org.futo.circles.core.extensions.getAttributes
-import org.futo.circles.databinding.ViewSettingsMenuItemBinding
 
 
 class SettingsMenuItemView(

@@ -3,8 +3,8 @@ package org.futo.circles.core.room.share
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.base.buildShareProfileUrl
-import org.futo.circles.base.buildShareRoomUrl
+import org.futo.circles.core.buildShareProfileUrl
+import org.futo.circles.core.buildShareRoomUrl
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.provider.MatrixSessionProvider

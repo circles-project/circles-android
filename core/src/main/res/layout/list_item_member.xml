@@ -52,7 +52,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <org.futo.circles.view.ManageMembersOptionsView
+    <org.futo.circles.core.view.ManageMembersOptionsView
         android:id="@+id/optionsView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

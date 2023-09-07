@@ -71,6 +71,7 @@
     <string name="set_access_level">Set access level</string>
     <string name="invite">Invite</string>
     <string name="share_room">Share room</string>
+    <string name="share_profile">Share profile</string>
     <string name="share_url">Share url</string>
     <string name="invite_to_format">Invite to %s</string>
     <string name="invitation_sent">Invitation sent</string>
@@ -79,5 +80,7 @@
     <string name="current_members">Current members</string>
     <string name="invited_users">Invited users</string>
     <string name="banned_users">Banned users</string>
+    <string name="room_not_found">Room is not found</string>
+    <string name="state_events">State events</string>
 
 </resources>

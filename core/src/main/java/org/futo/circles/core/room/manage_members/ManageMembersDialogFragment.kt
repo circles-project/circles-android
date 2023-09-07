@@ -15,13 +15,13 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.model.BanUser
+import org.futo.circles.core.model.CancelInvite
+import org.futo.circles.core.model.RemoveRoomUser
+import org.futo.circles.core.model.ResendInvite
+import org.futo.circles.core.model.UnbanUser
 import org.futo.circles.core.room.manage_members.change_role.ChangeAccessLevelListener
 import org.futo.circles.core.room.manage_members.list.GroupMembersListAdapter
-import org.futo.circles.model.BanUser
-import org.futo.circles.model.CancelInvite
-import org.futo.circles.model.RemoveRoomUser
-import org.futo.circles.model.ResendInvite
-import org.futo.circles.model.UnbanUser
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 @AndroidEntryPoint

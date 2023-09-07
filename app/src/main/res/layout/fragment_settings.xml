@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/notifications" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvPushNotifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/account" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvChangePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -180,7 +180,7 @@
                 app:optionName="@string/change_password" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvLoginSessions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -188,7 +188,7 @@
                 app:optionName="@string/login_sessions" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvClearCache"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -196,14 +196,14 @@
                 app:optionName="@string/clear_cache_and_reload" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvSwitchUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_switch_user"
                 app:optionName="@string/switch_user" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
