@@ -125,5 +125,9 @@
     <string name="gallery_updated">Gallery updated</string>
     <string name="last_updated_formatter">Last updated %s</string>
     <string name="delete_gallery_message">Are you sure you want to remove this gallery?</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="requested_to_join_format">%s requested to join</string>
+    <string name="invited_by_format">Invited by %s</string>
 
 </resources>

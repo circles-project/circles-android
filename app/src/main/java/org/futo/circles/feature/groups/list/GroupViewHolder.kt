@@ -118,7 +118,8 @@ class InvitedGroupViewHolder(
         setIcon(binding.ivGroup, data.info.avatarUrl, data.info.title)
         setIsEncrypted(binding.ivLock, data.isEncrypted)
         setTitle(binding.tvGroupTitle, data.info.title)
-        binding.tvInviterName.text = context.getString(R.string.invited_by_format, data.inviterName)
+        binding.tvInviterName.text =
+            context.getString(org.futo.circles.core.R.string.invited_by_format, data.inviterName)
     }
 }
 
@@ -142,7 +143,7 @@ class RequestGroupViewHolder(
         with(binding) {
             setIcon(ivGroup, data.info.avatarUrl, data.info.title)
             binding.tvRequestUserId.text = context.getString(
-                R.string.requested_to_join_format, data.requesterName
+                org.futo.circles.core.R.string.requested_to_join_format, data.requesterName
             )
             binding.tvRoomName.text = data.info.title
         }

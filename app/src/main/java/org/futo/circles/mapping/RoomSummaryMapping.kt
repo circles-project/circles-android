@@ -1,6 +1,6 @@
 package org.futo.circles.mapping
 
-import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.core.mapping.getInviterName
 import org.futo.circles.core.mapping.toRoomInfo
 import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -11,7 +11,6 @@ import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.JoinedGroupListItem
 import org.futo.circles.model.TimelineRoomListItem
 import org.matrix.android.sdk.api.session.getRoomSummary
-import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.SpaceChildInfo
@@ -52,9 +51,6 @@ fun RoomSummary.toInviteCircleListItem() = InvitedCircleListItem(
 private fun RoomSummary.getFollowersCount(): Int =
     getTimelineRoomFor(roomId)?.roomSummary()?.otherMemberIds?.size ?: 0
 
-private fun RoomSummary.getInviterName() =
-    MatrixSessionProvider.currentSession?.getUserOrDefault(inviterId ?: "")?.notEmptyDisplayName()
-        ?: ""
 
 private fun RoomSummary.getCircleUnreadMessagesCount(): Int {
     var unreadInCircle = 0

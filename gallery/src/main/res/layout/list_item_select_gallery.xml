@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/baseGalleryItem"
-        layout="@layout/list_item_gallery"
+        layout="@layout/list_item_joined_gallery"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

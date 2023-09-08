@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CirclesViewModel @Inject constructor(
-    private val dataSource: CirclesDataSource,
+    dataSource: CirclesDataSource,
     private val inviteRequestsDataSource: InviteRequestsDataSource
 ) : ViewModel() {
 

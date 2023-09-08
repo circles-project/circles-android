@@ -84,10 +84,7 @@
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
     <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
     <string name="unfollow">Unfollow</string>
-    <string name="decline">Decline</string>
-    <string name="invited_by_format">Invited by %s</string>
     <string name="requested_to_follow_format">%s requested to follow</string>
-    <string name="requested_to_join_format">%s requested to join</string>
     <string name="requested_to_join">Requested to join</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
