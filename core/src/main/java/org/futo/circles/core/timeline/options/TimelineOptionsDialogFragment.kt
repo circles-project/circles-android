@@ -25,7 +25,7 @@ import org.futo.circles.core.model.DeleteGroup
 import org.futo.circles.core.model.LeaveGallery
 import org.futo.circles.core.model.LeaveGroup
 import org.futo.circles.core.provider.PreferencesProvider
-import org.futo.circles.core.utils.getTimelineRoomFor
+import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
 
 @AndroidEntryPoint
 class TimelineOptionsDialogFragment :
@@ -38,8 +38,7 @@ class TimelineOptionsDialogFragment :
     private val args: TimelineOptionsDialogFragmentArgs by navArgs()
 
     private val timelineId by lazy {
-        if (args.type == CircleRoomTypeArg.Circle) getTimelineRoomFor(args.roomId)?.roomId
-            ?: throw IllegalArgumentException("Timeline not found")
+        if (args.type == CircleRoomTypeArg.Circle) getTimelineRoomIdOrThrow(args.roomId)
         else args.roomId
     }
 

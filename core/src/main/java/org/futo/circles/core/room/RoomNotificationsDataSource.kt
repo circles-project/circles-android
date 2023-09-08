@@ -9,6 +9,7 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
+import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.notification.RoomNotificationState
@@ -26,8 +27,7 @@ class RoomNotificationsDataSource @Inject constructor(
         get() = MatrixSessionProvider.getSessionOrThrow()
 
     private val timelineId by lazy {
-        if (type == CircleRoomTypeArg.Circle) getTimelineRoomFor(roomId)?.roomId
-            ?: throw IllegalArgumentException("Timeline not found")
+        if (type == CircleRoomTypeArg.Circle) getTimelineRoomIdOrThrow(roomId)
         else roomId
     }
 

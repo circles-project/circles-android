@@ -24,6 +24,7 @@ import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.core.utils.debounce
 import org.futo.circles.core.utils.getTimelineRoomFor
+import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
@@ -51,8 +52,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val isThread by lazy { args.threadEventId != null }
 
     private val timelineId by lazy {
-        if (args.type == CircleRoomTypeArg.Circle) getTimelineRoomFor(args.roomId)?.roomId
-            ?: throw IllegalArgumentException("Timeline not found")
+        if (args.type == CircleRoomTypeArg.Circle) getTimelineRoomIdOrThrow(args.roomId)
         else args.roomId
     }
     private val binding by lazy {
