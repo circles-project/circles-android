@@ -1,6 +1,8 @@
 package org.futo.circles.core.room
 
 import org.futo.circles.core.extensions.getRoomOwners
+import org.futo.circles.core.model.CirclesRoom
+import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.Group
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
@@ -33,8 +35,13 @@ class RoomRelationsBuilder @Inject constructor() {
         }
     }
 
-    suspend fun setInvitedGroupRelations(roomId: String) {
-        val circlesRoom = Group()
+    suspend fun setInvitedGroupRelations(roomId: String) =
+        setInvitedRoomRelations(roomId, Group())
+
+    suspend fun setInvitedGalleryRelations(roomId: String) =
+        setInvitedRoomRelations(roomId, Gallery())
+
+    private suspend fun setInvitedRoomRelations(roomId: String, circlesRoom: CirclesRoom) {
         circlesRoom.tag?.let { session?.getRoom(roomId)?.tagsService()?.addTag(it, null) }
         circlesRoom.parentTag?.let { tag ->
             findRoomByTag(tag)

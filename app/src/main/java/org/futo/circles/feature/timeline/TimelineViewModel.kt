@@ -18,8 +18,8 @@ import org.futo.circles.core.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.feature.people.UserOptionsDataSource
-import org.futo.circles.feature.room.RoomNotificationsDataSource
-import org.futo.circles.feature.timeline.data_source.AccessLevelDataSource
+import org.futo.circles.core.room.RoomNotificationsDataSource
+import org.futo.circles.core.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent

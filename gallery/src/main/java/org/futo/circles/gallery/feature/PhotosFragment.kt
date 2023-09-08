@@ -20,11 +20,12 @@ import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.picker.helper.RuntimePermissionHelper
-import org.futo.circles.gallery.R
-import org.futo.circles.core.picker.gallery.rooms.list.PhotosListAdapter
+import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.model.GalleryListItem
+import org.futo.circles.core.model.RequestGalleryListItem
+import org.futo.circles.core.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.view.EmptyTabPlaceholderView
+import org.futo.circles.gallery.R
 
 @AndroidEntryPoint
 class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), MenuProvider {
@@ -33,7 +34,14 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private val binding by viewBinding(FragmentRoomsBinding::bind)
 
     private val listAdapter by lazy {
-        PhotosListAdapter(onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) })
+        PhotosListAdapter(
+            onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
+            onInviteClicked = { roomListItem, isAccepted ->
+                onInviteClicked(roomListItem, isAccepted)
+            },
+            onRequestClicked = { roomListItem, isAccepted ->
+                onRequestClicked(roomListItem, isAccepted)
+            })
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -75,7 +83,8 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     }
 
     private fun setupObservers() {
-        viewModel.roomsLiveData?.observeData(this) { listAdapter.submitList(it) }
+        viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
+        viewModel.inviteResultLiveData.observeResponse(this)
     }
 
     private fun onRoomListItemClicked(room: GalleryListItem) {
@@ -86,6 +95,16 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             readMediaPermissionHelper.runWithPermission { navigateToBackupSettings() }
         else navigateToBackupSettings()
+    }
+
+    private fun onInviteClicked(room: GalleryListItem, isAccepted: Boolean) {
+        if (isAccepted) viewModel.acceptPhotosInvite(room.id)
+        else viewModel.rejectInvite(room.id)
+    }
+
+    private fun onRequestClicked(room: RequestGalleryListItem, isAccepted: Boolean) {
+        if (isAccepted) viewModel.inviteUser(room)
+        else viewModel.kickUser(room)
     }
 
     private fun navigateToCreateRoom() {

@@ -18,6 +18,9 @@ fun getTimelineRoomFor(circleId: String): Room? {
     return session.getRoom(circleId)?.getTimelineRoom()
 }
 
+fun getTimelineRoomIdOrThrow(circleId: String) = getTimelineRoomFor(circleId)?.roomId
+    ?: throw IllegalArgumentException("Timeline not found")
+
 fun getSystemNoticesRoomId(): String? = getJoinedRoomIdByTag(SYSTEM_NOTICES_TAG)
 
 fun getJoinedRoomIdByTag(tag: String): String? {

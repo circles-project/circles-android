@@ -52,7 +52,6 @@
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="domain">Domain</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
-    <string name="accept">Accept</string>
     <string name="username">Username</string>
     <string name="at_symbol">\@</string>
     <string name="user_id_separator">:</string>
@@ -82,8 +81,6 @@
     <string name="upload_recovery_key">Upload Recovery Key</string>
     <string name="restore">Restore</string>
     <string name="validate_your_email">Validate your email</string>
-    <string name="remove_user">Remove user</string>
-    <string name="remove_user_message">Are you sure you want to remove this user?</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
     <string name="feature_not_supported">Feature is not supported</string>
     <string name="service_unavailable">Service unavailable</string>

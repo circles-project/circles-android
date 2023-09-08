@@ -12,4 +12,9 @@
         <attr name="notificationCircleBackground" format="reference|color" />
     </declare-styleable>
 
+    <declare-styleable name="SettingsMenuItemView">
+        <attr name="optionName" format="string" />
+        <attr name="optionIcon" format="reference" />
+    </declare-styleable>
+
 </resources>

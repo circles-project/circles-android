@@ -5,11 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
-import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.mapping.toRoomInfo
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.room.RoomRelationsBuilder
 import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.mapping.toInviteGroupListItem
 import org.futo.circles.mapping.toJoinedGroupListItem
@@ -22,26 +20,16 @@ import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
-class GroupsDataSource @Inject constructor(
-    private val roomRelationsBuilder: RoomRelationsBuilder
-) {
-
-    val session by lazy {
-        MatrixSessionProvider.currentSession
-            ?: throw IllegalArgumentException("session is not created")
-    }
+class GroupsDataSource @Inject constructor() {
 
     fun getGroupsFlow() = combine(
-        session.roomService().getRoomSummariesLive(roomSummaryQueryParams()).asFlow(),
-        session.roomService().getChangeMembershipsLive().asFlow()
+        MatrixSessionProvider.getSessionOrThrow().roomService()
+            .getRoomSummariesLive(roomSummaryQueryParams()).asFlow(),
+        MatrixSessionProvider.getSessionOrThrow().roomService().getChangeMembershipsLive().asFlow()
     ) { roomSummaries, _ ->
         withContext(Dispatchers.IO) { filterGroups(roomSummaries) }
     }.distinctUntilChanged()
 
-
-    suspend fun rejectInvite(roomId: String) = createResult {
-        MatrixSessionProvider.currentSession?.roomService()?.leaveRoom(roomId)
-    }
 
     private fun filterGroups(list: List<RoomSummary>): List<GroupListItem> {
         val groups = list.filter { it.roomType == GROUP_TYPE }
@@ -81,11 +69,5 @@ class GroupsDataSource @Inject constructor(
             }
         }
         return requests
-    }
-
-
-    suspend fun acceptInvite(roomId: String) = createResult {
-        MatrixSessionProvider.currentSession?.roomService()?.joinRoom(roomId)
-        roomRelationsBuilder.setInvitedGroupRelations(roomId)
     }
 }

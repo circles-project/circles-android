@@ -10,7 +10,7 @@ import org.futo.circles.core.R
 import org.futo.circles.core.databinding.FragmentPickGalleryBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.picker.gallery.PickGalleryMediaViewModel
-import org.futo.circles.core.picker.gallery.rooms.list.PhotosListAdapter
+import org.futo.circles.core.picker.gallery.rooms.list.PickGalleryListAdapter
 
 @AndroidEntryPoint
 class PickGalleryFragment : Fragment(R.layout.fragment_pick_gallery) {
@@ -20,7 +20,9 @@ class PickGalleryFragment : Fragment(R.layout.fragment_pick_gallery) {
     private val binding by viewBinding(FragmentPickGalleryBinding::bind)
 
     private val listAdapter by lazy {
-        PhotosListAdapter(onRoomClicked = { gallery -> parentViewModel.onGalleryChosen(gallery.id) })
+        PickGalleryListAdapter(onRoomClicked = { gallery ->
+            parentViewModel.onGalleryChosen(gallery.id)
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

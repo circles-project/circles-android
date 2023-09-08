@@ -99,7 +99,7 @@ class InvitedCircleViewHolder(
             setIcon(ivCircle, data.info.avatarUrl, data.info.title)
             setTitle(tvCircleTitle, data.info.title)
             binding.tvInvitedBy.text =
-                context.getString(R.string.invited_by_format, data.inviterName)
+                context.getString(org.futo.circles.core.R.string.invited_by_format, data.inviterName)
         }
     }
 }
