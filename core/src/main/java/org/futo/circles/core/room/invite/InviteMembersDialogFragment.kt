@@ -50,7 +50,8 @@ class InviteMembersDialogFragment :
 
     private fun setupObservers() {
         viewModel.titleLiveData.observeData(this) {
-            binding.toolbar.title = it
+            binding.toolbar.title = requireContext().getString(
+                R.string.invite_to_format, it)
         }
         viewModel.inviteResultLiveData.observeResponse(this,
             success = {

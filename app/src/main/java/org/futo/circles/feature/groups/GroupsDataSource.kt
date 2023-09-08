@@ -39,10 +39,6 @@ class GroupsDataSource @Inject constructor(
     }.distinctUntilChanged()
 
 
-    suspend fun rejectInvite(roomId: String) = createResult {
-        MatrixSessionProvider.currentSession?.roomService()?.leaveRoom(roomId)
-    }
-
     private fun filterGroups(list: List<RoomSummary>): List<GroupListItem> {
         val groups = list.filter { it.roomType == GROUP_TYPE }
         val joinedGroups = groups.mapNotNull { it.takeIf { it.membership == Membership.JOIN } }

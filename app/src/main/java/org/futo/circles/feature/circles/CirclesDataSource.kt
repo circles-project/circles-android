@@ -26,15 +26,11 @@ import javax.inject.Inject
 
 class CirclesDataSource @Inject constructor() {
 
-    val session by lazy {
-        MatrixSessionProvider.currentSession
-            ?: throw IllegalArgumentException("session is not created")
-    }
-
     fun getCirclesFlow() = combine(
-        session.roomService().getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
+        MatrixSessionProvider.getSessionOrThrow().roomService()
+            .getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
             .asFlow(),
-        session.roomService().getChangeMembershipsLive().asFlow()
+        MatrixSessionProvider.getSessionOrThrow().roomService().getChangeMembershipsLive().asFlow()
     ) { roomSummaries, _ ->
         withContext(Dispatchers.IO) { buildCirclesList(roomSummaries) }
     }.distinctUntilChanged()
@@ -93,11 +89,6 @@ class CirclesDataSource @Inject constructor() {
             }
         }
         return requests
-    }
-
-
-    suspend fun rejectInvite(roomId: String) = createResult {
-        MatrixSessionProvider.currentSession?.roomService()?.leaveRoom(roomId)
     }
 
     private fun MutableList<CircleListItem>.addSection(
