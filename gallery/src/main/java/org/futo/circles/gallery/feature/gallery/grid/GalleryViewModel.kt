@@ -2,6 +2,7 @@ package org.futo.circles.gallery.feature.gallery.grid
 
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
@@ -12,6 +13,7 @@ import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.timeline.BaseTimelineViewModel
+import org.futo.circles.core.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.timeline.data_source.SingleTimelineDataSource
 import org.futo.circles.core.timeline.post.PostContentDataSource
 import org.futo.circles.core.timeline.post.PostOptionsDataSource
@@ -24,10 +26,13 @@ class GalleryViewModel @Inject constructor(
     timelineDataSource: SingleTimelineDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val mediaDataSource: PostContentDataSource,
-    private val postOptionsDataSource: PostOptionsDataSource
+    private val postOptionsDataSource: PostOptionsDataSource,
+    private val accessLevelDataSource: AccessLevelDataSource
 ) : BaseTimelineViewModel(timelineDataSource) {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
+
+    val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
 
     val galleryItemsLiveData = timelineDataSource.timelineEventsLiveData.map { list ->
         list.mapNotNull { post ->
