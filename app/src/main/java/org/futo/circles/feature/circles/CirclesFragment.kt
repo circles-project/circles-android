@@ -14,6 +14,7 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.view.EmptyTabPlaceholderView
+import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.feature.circles.list.CirclesListAdapter
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.RequestCircleListItem
@@ -23,6 +24,7 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
 
     private val viewModel by viewModels<CirclesViewModel>()
     private val binding by viewBinding(FragmentRoomsBinding::bind)
+    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private var listAdapter: CirclesListAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,6 +64,13 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
             binding.rvRooms.notifyItemsChanged()
         }
         viewModel.inviteResultLiveData.observeResponse(this)
+        viewModel.createTimelineLoadingLiveData.observeData(this) {
+            loadingDialog.handleLoading(it)
+        }
+        viewModel.navigateToCircleLiveData.observeResponse(this,
+            success = {
+                findNavController().navigateSafe(CirclesFragmentDirections.toTimeline(it))
+            })
     }
 
     private fun onInviteClicked(room: CircleListItem, isAccepted: Boolean) {
@@ -75,7 +84,7 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
     }
 
     private fun onRoomListItemClicked(room: CircleListItem) {
-        findNavController().navigateSafe(CirclesFragmentDirections.toTimeline(room.id))
+        viewModel.createTimeLineIfNotExist(room.id)
     }
 
     private fun navigateToCreateRoom() {

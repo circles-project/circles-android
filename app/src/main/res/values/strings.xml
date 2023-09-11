@@ -225,6 +225,7 @@
     <string name="groups_empty_message">Create your first Group</string>
     <string name="circles_empty_message">Create your first Circle</string>
     <string name="people_empty_message">Members of Circles and Groups you are joined will be shown here</string>
+    <string name="creating_timeline">Creating timeline</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
