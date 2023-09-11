@@ -1,6 +1,7 @@
 package org.futo.circles.core.select_users
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -43,7 +44,7 @@ class SearchUserDataSource @Inject constructor() {
         val userById = searchUserById(query)
         val list = userFromDirectory.toMutableList().apply { userById?.let { add(it) } }
         emit(list.distinctBy { it.userId })
-    }
+    }.catch { emit(emptyList()) }
 
     private suspend fun searchUserById(query: String) = (createResult {
         session?.userService()?.resolveUser(convertQueryToUserId(query))
