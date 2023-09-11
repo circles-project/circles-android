@@ -59,7 +59,7 @@ class CirclesViewModel @Inject constructor(
                     val name =
                         MatrixSessionProvider.getSessionOrThrow().getRoomSummary(circleId)?.name
                     createRoomDataSource.createCircleTimeline(circleId, name)
-                    delay(500L)
+                    delay(1000L)
                 }
                 circleId
             }
