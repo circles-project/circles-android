@@ -37,11 +37,20 @@ class CreateRoomDataSource @Inject constructor(
         isPublicCircle: Boolean
     ): String {
         val circleId = createRoom(Circle(), name, null, iconUri)
+        val timelineId = createCircleTimeline(circleId, name, iconUri, inviteIds)
+        if (isPublicCircle) addToSharedCircles(timelineId)
+        return circleId
+    }
+
+    suspend fun createCircleTimeline(
+        circleId: String, name: String? = null,
+        iconUri: Uri? = null,
+        inviteIds: List<String>? = null
+    ): String {
         val timelineId = createRoom(Timeline(), name, null, iconUri, inviteIds)
         session?.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
-        if (isPublicCircle) addToSharedCircles(timelineId)
-        return circleId
+        return timelineId
     }
 
     suspend fun createRoom(
