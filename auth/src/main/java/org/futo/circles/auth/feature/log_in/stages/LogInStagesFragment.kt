@@ -15,8 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
-import org.futo.circles.auth.feature.log_in.EnterPassPhraseDialog
-import org.futo.circles.auth.feature.log_in.EnterPassPhraseDialogListener
+import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialog
+import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialogListener
 import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -98,8 +98,12 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
     private fun showPassPhraseDialog() {
         enterPassPhraseDialog =
             EnterPassPhraseDialog(requireContext(), object : EnterPassPhraseDialogListener {
-                override fun onRestoreBackup(passphrase: String) {
-                    viewModel.restoreBackup(passphrase)
+                override fun onRestoreBackupWithPassphrase(passphrase: String) {
+                    viewModel.restoreBackupWithPassPhrase(passphrase)
+                }
+
+                override fun onRestoreBackupWithRawKey(key: String) {
+                    viewModel.restoreBackupWithRawKey(key)
                 }
 
                 override fun onRestoreBackup(uri: Uri) {

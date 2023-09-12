@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
-import org.matrix.android.sdk.api.crypto.MXCRYPTO_ALGORITHM_MEGOLM_BACKUP
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,9 +20,17 @@ class LoginStagesViewModel @Inject constructor(
     val spacesTreeLoadingLiveData = loginStagesDataSource.spacesTreeLoadingLiveData
     val messageEventLiveData = loginStagesDataSource.messageEventLiveData
 
-    fun restoreBackup(passphrase: String) {
+    fun restoreBackupWithPassPhrase(passphrase: String) {
         launchBg {
-            restoreKeysLiveData.postValue(loginStagesDataSource.restoreBackup(passphrase))
+            val result = loginStagesDataSource.restoreBackupWithPassphrase(passphrase)
+            restoreKeysLiveData.postValue(result)
+        }
+    }
+
+    fun restoreBackupWithRawKey(rawKey: String) {
+        launchBg {
+            val result = loginStagesDataSource.restoreBackupWithRawKey(rawKey)
+            restoreKeysLiveData.postValue(result)
         }
     }
 
