@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.doAfterTextChanged
 import org.futo.circles.auth.databinding.ViewEnterRecoveryKeyBinding
 import org.futo.circles.core.extensions.getFilename
 import org.futo.circles.core.extensions.gone
@@ -22,14 +23,17 @@ class EnterRecoveryKeyView(
     private var onInputChangedListener: (() -> Unit)? = null
 
     init {
-        binding.ivRemoveFile.setOnClickListener {
-            selectedFileUri = null
-            binding.passPhraseGroup.visible()
-            binding.fileNameGroup.gone()
-            handleOnInputChanged()
-        }
-        binding.btnUploadFile.setOnClickListener {
-            onFileUploadListener?.invoke()
+        with(binding) {
+            ivRemoveFile.setOnClickListener {
+                selectedFileUri = null
+                passPhraseGroup.visible()
+                fileNameGroup.gone()
+                handleOnInputChanged()
+            }
+            btnUploadFile.setOnClickListener {
+                onFileUploadListener?.invoke()
+            }
+            tilRecoveryKey.editText?.doAfterTextChanged { handleOnInputChanged() }
         }
     }
 
