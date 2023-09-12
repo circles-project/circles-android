@@ -75,10 +75,11 @@
     <string name="validate_your_token">Validate your token</string>
     <string name="sign_up_token_format">abcd–efgh–1234–5678</string>
     <string name="validate_token">Validate token</string>
-    <string name="enter_passphrase">Enter Passphrase</string>
+    <string name="recovery">Recovery</string>
+    <string name="recovery_key">Recovery Key</string>
     <string name="use_your_recovery_message">Use your Recovery Passphrase or Recovery Key to continue.</string>
     <string name="passphrase">Passphrase</string>
-    <string name="upload_recovery_key">Upload Recovery Key</string>
+    <string name="upload_recovery_key_file">Upload Recovery Key file</string>
     <string name="restore">Restore</string>
     <string name="validate_your_email">Validate your email</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>

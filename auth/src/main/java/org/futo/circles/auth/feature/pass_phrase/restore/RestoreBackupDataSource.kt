@@ -121,6 +121,17 @@ class RestoreBackupDataSource @Inject constructor(
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
+    suspend fun restoreKeysWithRawKey(rawKey: String) {
+        try {
+            val keyData = ssssDataSource.getRecoveryKeyFromFileKey(rawKey, progressObserver)
+            restoreKeysWithRecoveryKey(keyData)
+        } catch (e: Throwable) {
+            loadingLiveData.postValue(LoadingData(isLoading = false))
+            throw e
+        }
+        loadingLiveData.postValue(LoadingData(isLoading = false))
+    }
+
     suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
         try {
             val key = readRecoveryKeyFile(uri)
