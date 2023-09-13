@@ -1,0 +1,4 @@
+v1.0.15
+- new encryption algorithm
+- timeline thumbnails
+- thumbhash for timeline placeholders
