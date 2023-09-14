@@ -9,10 +9,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.auth.explanation.CirclesExplanationDialog
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.feature.circles.list.CirclesListAdapter
@@ -25,12 +28,19 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
     private val viewModel by viewModels<CirclesViewModel>()
     private val binding by viewBinding(FragmentRoomsBinding::bind)
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
+    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private var listAdapter: CirclesListAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (preferencesProvider.shouldShowExplanation(CircleRoomTypeArg.Circle))
+            CirclesExplanationDialog(requireContext(), CircleRoomTypeArg.Circle).show()
     }
 
     override fun onDestroyView() {
