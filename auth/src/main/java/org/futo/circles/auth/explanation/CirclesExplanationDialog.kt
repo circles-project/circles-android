@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import android.text.Html
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -16,12 +17,14 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.DialogCirclesExplanationBinding
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CircleRoomTypeArg.Group
+import org.futo.circles.core.provider.PreferencesProvider
 
 
 class CirclesExplanationDialog(context: Context, private val roomType: CircleRoomTypeArg) :
     AppCompatDialog(context) {
 
     private val binding = DialogCirclesExplanationBinding.inflate(LayoutInflater.from(context))
+    private val preferencesProvider by lazy { PreferencesProvider(context) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +35,16 @@ class CirclesExplanationDialog(context: Context, private val roomType: CircleRoo
             setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
         }
         setupViews()
+        preferencesProvider.setShouldShowExplanation(false, roomType)
     }
 
     private fun setupViews() {
         with(binding) {
             btnDone.setOnClickListener { this@CirclesExplanationDialog.dismiss() }
+            tvDescription.movementMethod = ScrollingMovementMethod()
             when (roomType) {
                 Group -> {
-                    tvTitle.setText(R.string.group)
+                    tvTitle.setText(R.string.groups)
                     tvDescription.text = Html.fromHtml(
                         context.getString(R.string.group_explanation),
                         Html.FROM_HTML_MODE_COMPACT
@@ -48,7 +53,7 @@ class CirclesExplanationDialog(context: Context, private val roomType: CircleRoo
                 }
 
                 else -> {
-                    tvTitle.setText(R.string.circle)
+                    tvTitle.setText(R.string.circles)
                     tvDescription.text = Html.fromHtml(
                         context.getString(R.string.circle_explanation),
                         Html.FROM_HTML_MODE_COMPACT
