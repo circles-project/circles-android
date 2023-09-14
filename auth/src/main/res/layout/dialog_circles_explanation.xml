@@ -38,11 +38,13 @@
 
             <TextView
                 android:id="@id/tvDescription"
-                style="@style/body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:scrollbars="vertical"
+                style="@style/footNote"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@id/btnDone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
