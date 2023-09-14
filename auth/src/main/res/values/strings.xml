@@ -121,6 +121,8 @@
     <string name="user_id">User ID</string>
     <string name="verify">Verify</string>
     <string name="got_it">Got it</string>
+    <string name="group">Group</string>
+    <string name="circle">Circle</string>
     <string name="circle_explanation"><![CDATA[
 Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
 <br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
