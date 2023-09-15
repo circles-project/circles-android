@@ -59,7 +59,7 @@ dependencies {
     implementation "androidx.browser:browser:1.6.0"
 
     //Password strength
-    implementation 'com.nulab-inc:zxcvbn:1.8.1'
+    implementation 'com.nulab-inc:zxcvbn:1.8.2'
 
     //Subscriptions
     implementation 'com.android.billingclient:billing-ktx:6.0.1'

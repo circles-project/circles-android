@@ -2,8 +2,8 @@ buildscript {
     ext {
         sdk_version = 34
         min_sdk_version = 24
-        androidx_nav_version = "2.7.1"
-        hilt_version = "2.47"
+        androidx_nav_version = "2.7.2"
+        hilt_version = '2.48'
         modules_version = "1.0.9"
         modules_gitlab_projectId = "13"
     }
@@ -15,7 +15,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:8.1.1'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.21'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$androidx_nav_version"
-        classpath 'com.google.gms:google-services:4.3.15'
+        classpath 'com.google.gms:google-services:4.4.0'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.46.1'
     }

@@ -49,10 +49,10 @@ dependencies {
     api "androidx.autofill:autofill:1.1.0"
 
     //Kotlin
-    api "androidx.core:core-ktx:1.10.1"
+    api "androidx.core:core-ktx:1.12.0"
 
     //androidx lifecycle
-    def lifecycle_version = "2.6.1"
+    def lifecycle_version = "2.6.2"
     api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     api "androidx.lifecycle:lifecycle-process:$lifecycle_version"
