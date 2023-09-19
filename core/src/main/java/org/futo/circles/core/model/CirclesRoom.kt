@@ -24,7 +24,8 @@ sealed class CirclesRoom(
     open val tag: String?,
     open val parentTag: String?,
     open val type: String?,
-    open val joinRules: RoomJoinRules?
+    open val joinRules: RoomJoinRules?,
+    open val accountDataKey: String?
 ) {
     fun isSpace(): Boolean = type == RoomType.SPACE
 }
@@ -34,48 +35,54 @@ data class RootSpace(
     override val tag: String? = ROOT_SPACE_TAG,
     override val parentTag: String? = null,
     override val type: String? = RoomType.SPACE,
-    override val joinRules: RoomJoinRules? = null
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+    override val joinRules: RoomJoinRules? = null,
+    override val accountDataKey: String? = "root"
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class CirclesSpace(
     override val nameId: Int? = R.string.circles_space_name,
     override val tag: String? = CIRCLES_SPACE_TAG,
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
-    override val joinRules: RoomJoinRules? = null
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+    override val joinRules: RoomJoinRules? = null,
+    override val accountDataKey: String? = "circles"
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class SharedCirclesSpace(
     override val nameId: Int? = R.string.shared_circles,
     override val tag: String? = SHARED_CIRCLES_SPACE_TAG,
     override val parentTag: String? = CIRCLES_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
-    override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+    override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK,
+    override val accountDataKey: String? = "profile"
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class PhotosSpace(
     override val nameId: Int? = R.string.photos_space_name,
     override val tag: String? = PHOTOS_SPACE_TAG,
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
-    override val joinRules: RoomJoinRules? = null
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+    override val joinRules: RoomJoinRules? = null,
+    override val accountDataKey: String? = "galleries"
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class PeopleSpace(
     override val nameId: Int? = R.string.peopel_space_name,
     override val tag: String? = PEOPLE_SPACE_TAG,
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
-    override val joinRules: RoomJoinRules? = null
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+    override val joinRules: RoomJoinRules? = null,
+    override val accountDataKey: String? = "people"
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class GroupsSpace(
     override val nameId: Int? = R.string.groups_space_name,
     override val tag: String? = GROUPS_SPACE_TAG,
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
-    override val joinRules: RoomJoinRules? = null
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+    override val joinRules: RoomJoinRules? = null,
+    override val accountDataKey: String? = "groups"
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class Circle(
     override val nameId: Int? = null,
@@ -83,7 +90,7 @@ data class Circle(
     override val parentTag: String? = CIRCLES_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, null)
 
 data class Group(
     override val nameId: Int? = null,
@@ -91,7 +98,7 @@ data class Group(
     override val parentTag: String? = GROUPS_SPACE_TAG,
     override val type: String? = GROUP_TYPE,
     override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, null)
 
 data class Gallery(
     override val nameId: Int? = null,
@@ -99,7 +106,7 @@ data class Gallery(
     override val parentTag: String? = PHOTOS_SPACE_TAG,
     override val type: String? = GALLERY_TYPE,
     override val joinRules: RoomJoinRules? = RoomJoinRules.INVITE
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, null)
 
 data class Timeline(
     override val nameId: Int? = null,
@@ -107,4 +114,4 @@ data class Timeline(
     override val parentTag: String? = null,
     override val type: String? = TIMELINE_TYPE,
     override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK
-) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules, null)
