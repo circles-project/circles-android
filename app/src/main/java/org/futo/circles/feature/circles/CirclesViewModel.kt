@@ -53,9 +53,7 @@ class CirclesViewModel @Inject constructor(
         launchBg {
             val result = createResult {
                 if (getTimelineRoomFor(circleId) == null) {
-                    createTimelineLoadingLiveData.postValue(
-                        LoadingData(R.string.creating_timeline, total = 0)
-                    )
+                    createTimelineLoadingLiveData.postValue(LoadingData(R.string.creating_timeline))
                     val name =
                         MatrixSessionProvider.getSessionOrThrow().getRoomSummary(circleId)?.name
                     createRoomDataSource.createCircleTimeline(circleId, name)

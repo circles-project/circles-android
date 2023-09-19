@@ -81,13 +81,7 @@ class SetupCirclesFragment : Fragment(R.layout.fragment_setup_circles), HasLoadi
 
     private fun showLoading() {
         startLoading(binding.btnSave)
-        loadingDialog.handleLoading(
-            LoadingData(
-                total = 0,
-                messageId = R.string.configuring_workspace,
-                isLoading = true
-            )
-        )
+        loadingDialog.handleLoading(LoadingData(messageId = R.string.configuring_workspace))
     }
 
     private fun navigateToBottomMenuScreen() {

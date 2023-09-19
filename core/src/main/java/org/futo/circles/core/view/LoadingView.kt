@@ -3,7 +3,6 @@ package org.futo.circles.core.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.core.databinding.ViewLoadingBinding
 import org.futo.circles.core.extensions.setIsVisible
@@ -18,16 +17,14 @@ class LoadingView(
         ViewLoadingBinding.inflate(LayoutInflater.from(context), this)
 
 
-    fun setMessage(@StringRes messageId: Int) {
-        binding.tvLoadingMessage.setText(messageId)
-    }
-
     fun setProgress(data: LoadingData) {
         with(binding) {
-            setMessage(data.messageId)
-            horizontalProgress.max = data.total
-            horizontalProgress.progress = data.progress
-            horizontalProgress.setIsVisible(data.total != data.progress)
+            tvLoadingMessage.setText(data.messageId)
+            horizontalProgress.apply {
+                setIsVisible(data.total != data.progress)
+                max = data.total
+                progress = data.progress
+            }
         }
     }
 }

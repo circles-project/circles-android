@@ -36,13 +36,7 @@ class CoreSpacesTreeBuilder @Inject constructor(
     )
 
     suspend fun createCoreSpacesTree() {
-        loadingLiveData.postValue(
-            LoadingData(
-                total = 0,
-                messageId = R.string.configuring_workspace,
-                isLoading = true
-            )
-        )
+        loadingLiveData.postValue(LoadingData(messageId = R.string.configuring_workspace))
         coreSpaces.forEach {
             createRoomDataSource.createRoom(it)
             delay(CREATE_ROOM_DELAY)

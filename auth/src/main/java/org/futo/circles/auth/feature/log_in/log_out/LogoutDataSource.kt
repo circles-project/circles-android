@@ -12,19 +12,11 @@ class LogoutDataSource @Inject constructor() {
     private val session = MatrixSessionProvider.getSessionOrThrow()
 
     val loadingLiveData = MutableLiveData<LoadingData>()
-    private val loadingData = LoadingData(total = 0)
-
 
     suspend fun logOut() = createResult {
-        loadingLiveData.postValue(
-            loadingData.apply {
-                messageId = R.string.log_out
-                isLoading = true
-            }
-        )
+        loadingLiveData.postValue(LoadingData(messageId = R.string.log_out))
         session.signOutService().signOut(true)
-        loadingLiveData.postValue(loadingData.apply { isLoading = false })
+        loadingLiveData.postValue(LoadingData(isLoading = false))
     }
-
 
 }

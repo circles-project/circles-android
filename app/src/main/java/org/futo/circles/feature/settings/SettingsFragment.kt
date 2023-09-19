@@ -52,7 +52,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
             tvDeactivate.setOnClickListener {
                 withConfirmation(DeactivateAccount()) {
-                    loadingDialog.handleLoading(LoadingData(total = 0))
+                    loadingDialog.handleLoading(LoadingData())
                     viewModel.deactivateAccount()
                 }
             }
