@@ -21,7 +21,8 @@ import javax.inject.Inject
 
 class CoreSpacesTreeBuilder @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val createRoomDataSource: CreateRoomDataSource
+    private val createRoomDataSource: CreateRoomDataSource,
+    private val userAccountDataDataSource: UserAccountDataDataSource
 ) {
 
     val loadingLiveData = MutableLiveData<LoadingData>()
@@ -37,10 +38,13 @@ class CoreSpacesTreeBuilder @Inject constructor(
 
     suspend fun createCoreSpacesTree() {
         loadingLiveData.postValue(LoadingData(messageId = R.string.configuring_workspace))
-        coreSpaces.forEach {
-            createRoomDataSource.createRoom(it)
+        val configMap = mutableMapOf<String, String>()
+        coreSpaces.forEach { room ->
+            val roomId = createRoomDataSource.createRoom(room)
+            room.accountDataKey?.let { configMap.put(it, roomId) }
             delay(CREATE_ROOM_DELAY)
         }
+        userAccountDataDataSource.saveSpacesTreeConfig(configMap)
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
