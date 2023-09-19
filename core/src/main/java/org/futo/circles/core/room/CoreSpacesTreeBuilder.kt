@@ -10,6 +10,7 @@ import org.futo.circles.core.model.CirclesSpace
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.GroupsSpace
 import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.model.PeopleSpace
 import org.futo.circles.core.model.PhotosSpace
 import org.futo.circles.core.model.ROOT_SPACE_TAG
 import org.futo.circles.core.model.RootSpace
@@ -26,7 +27,12 @@ class CoreSpacesTreeBuilder @Inject constructor(
     val loadingLiveData = MutableLiveData<LoadingData>()
 
     private val coreSpaces = listOf(
-        RootSpace(), CirclesSpace(), GroupsSpace(), PhotosSpace()
+        RootSpace(),
+        CirclesSpace(),
+        GroupsSpace(),
+        PhotosSpace(),
+        PeopleSpace(),
+        SharedCirclesSpace()
     )
 
     suspend fun createCoreSpacesTree() {
@@ -41,8 +47,6 @@ class CoreSpacesTreeBuilder @Inject constructor(
             createRoomDataSource.createRoom(it)
             delay(CREATE_ROOM_DELAY)
         }
-        createRoomDataSource.createRoom(SharedCirclesSpace())
-        delay(CREATE_ROOM_DELAY)
         createRoomDataSource.createRoom(Gallery(), context.getString(R.string.photos))
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }

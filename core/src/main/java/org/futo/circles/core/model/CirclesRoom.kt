@@ -10,6 +10,7 @@ private const val CIRCLES_SPACE_TAG = "$orgPrefix.space.circles"
 const val SHARED_CIRCLES_SPACE_TAG = "$orgPrefix.space.circles.shared"
 private const val GROUPS_SPACE_TAG = "$orgPrefix.space.groups"
 const val PHOTOS_SPACE_TAG = "$orgPrefix.space.photos"
+const val PEOPLE_SPACE_TAG = "$orgPrefix.space.people"
 const val ROOT_SPACE_TAG = "$orgPrefix.space.root"
 const val CIRCLE_TAG = "$orgPrefix.social.circle"
 
@@ -55,6 +56,14 @@ data class SharedCirclesSpace(
 data class PhotosSpace(
     override val nameId: Int? = R.string.photos_space_name,
     override val tag: String? = PHOTOS_SPACE_TAG,
+    override val parentTag: String? = ROOT_SPACE_TAG,
+    override val type: String? = RoomType.SPACE,
+    override val joinRules: RoomJoinRules? = null
+) : CirclesRoom(nameId, tag, parentTag, type, joinRules)
+
+data class PeopleSpace(
+    override val nameId: Int? = R.string.peopel_space_name,
+    override val tag: String? = PEOPLE_SPACE_TAG,
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null
