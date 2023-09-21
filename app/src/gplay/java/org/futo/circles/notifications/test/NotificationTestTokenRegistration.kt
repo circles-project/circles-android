@@ -3,10 +3,10 @@ package org.futo.circles.notifications.test
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
+import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
-import org.futo.circles.model.NotificationTestStatus
 import org.matrix.android.sdk.api.session.pushers.PusherState
 import javax.inject.Inject
 
@@ -17,11 +17,11 @@ class NotificationTestTokenRegistration @Inject constructor(
 
     override fun perform() {
         val fcmToken = fcmHelper.getFcmToken() ?: run {
-            status = NotificationTestStatus.FAILED
+            status = TaskStatus.FAILED
             return
         }
         val session = MatrixSessionProvider.currentSession ?: run {
-            status = NotificationTestStatus.FAILED
+            status = TaskStatus.FAILED
             return
         }
         val pushers = session.pushersService().getPushers().filter {
@@ -32,11 +32,11 @@ class NotificationTestTokenRegistration @Inject constructor(
                 R.string.settings_troubleshoot_test_token_registration_failed,
                 context.getString(R.string.unexpected_error)
             )
-            status = NotificationTestStatus.FAILED
+            status = TaskStatus.FAILED
         } else {
             description =
                 context.getString(R.string.settings_troubleshoot_test_token_registration_success)
-            status = NotificationTestStatus.SUCCESS
+            status = TaskStatus.SUCCESS
         }
     }
 }

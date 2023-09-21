@@ -9,7 +9,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
-import org.futo.circles.model.NotificationTestStatus
+import org.futo.circles.core.model.TaskStatus
 import javax.inject.Inject
 
 class NotificationSystemSettingsTest @Inject constructor(
@@ -21,7 +21,7 @@ class NotificationSystemSettingsTest @Inject constructor(
             description =
                 context.getString(R.string.settings_troubleshoot_test_system_settings_success)
             quickFix = null
-            status = NotificationTestStatus.SUCCESS
+            status = TaskStatus.SUCCESS
         } else {
             description =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && isNotificationsPermissionGranted(
@@ -32,7 +32,7 @@ class NotificationSystemSettingsTest @Inject constructor(
                 } else {
                     context.getString(R.string.settings_troubleshoot_test_system_settings_failed)
                 }
-            status = NotificationTestStatus.FAILED
+            status = TaskStatus.FAILED
         }
     }
 
