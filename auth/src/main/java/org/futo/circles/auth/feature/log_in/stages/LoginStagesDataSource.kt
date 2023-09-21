@@ -20,20 +20,18 @@ import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
 import javax.inject.Singleton
 
-enum class LoginNavigationEvent { Main, SetupCircles, PassPhrase }
+enum class LoginNavigationEvent { Main, PassPhrase }
 
 @Singleton
 class LoginStagesDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val restoreBackupDataSource: RestoreBackupDataSource,
-    private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder,
     private val encryptionAlgorithmHelper: EncryptionAlgorithmHelper,
     private val createPassPhraseDataSource: CreatePassPhraseDataSource
 ) : BaseLoginStagesDataSource(context) {
 
     val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
     val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
-    val spacesTreeLoadingLiveData = coreSpacesTreeBuilder.loadingLiveData
     val messageEventLiveData = SingleEventLiveData<Int>()
 
     override suspend fun performLoginStage(
@@ -112,17 +110,12 @@ class LoginStagesDataSource @Inject constructor(
     private suspend fun handleRestoreResult(restoreResult: Response<Unit>): Response<Unit> {
         when (restoreResult) {
             is Response.Error -> loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
-            is Response.Success -> createSpacesTreeIfNotExist()
+            is Response.Success -> navigateToMain()
         }
         return restoreResult
     }
 
-    suspend fun createSpacesTreeIfNotExist() {
-        val isCirclesCreated = coreSpacesTreeBuilder.isCirclesHierarchyCreated()
-        if (!isCirclesCreated) createResult { coreSpacesTreeBuilder.createCoreSpacesTree() }
-        loginNavigationLiveData.postValue(
-            if (isCirclesCreated) LoginNavigationEvent.Main
-            else LoginNavigationEvent.SetupCircles
-        )
+    fun navigateToMain() {
+        loginNavigationLiveData.postValue(LoginNavigationEvent.Main)
     }
 }

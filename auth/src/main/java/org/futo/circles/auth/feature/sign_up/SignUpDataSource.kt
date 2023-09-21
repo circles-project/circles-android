@@ -26,7 +26,6 @@ enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, V
 @Singleton
 class SignUpDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder,
     private val createPassPhraseDataSource: CreatePassPhraseDataSource,
     private val preferencesProvider: PreferencesProvider
 ) {
@@ -35,7 +34,6 @@ class SignUpDataSource @Inject constructor(
     val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
     val finishRegistrationLiveData = SingleEventLiveData<Response<Unit>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
-    val spaceTreeLoadingLiveData = coreSpacesTreeBuilder.loadingLiveData
 
     val stagesToComplete = mutableListOf<Stage>()
 
@@ -116,7 +114,6 @@ class SignUpDataSource @Inject constructor(
         MatrixSessionProvider.awaitForSessionStart(session)
         preferencesProvider.setShouldShowAllExplanations()
         createPassPhraseDataSource.createPassPhraseBackup()
-        coreSpacesTreeBuilder.createCoreSpacesTree()
         BSSpekeClientProvider.clear()
     }
 

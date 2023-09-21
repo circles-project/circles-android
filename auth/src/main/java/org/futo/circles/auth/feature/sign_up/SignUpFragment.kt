@@ -56,9 +56,6 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
-        viewModel.spaceTreeLoadingLiveData.observeData(this) {
-            loadingDialog.handleLoading(it)
-        }
     }
 
 

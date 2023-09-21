@@ -17,7 +17,6 @@ import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
 import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialog
 import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialogListener
-import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -79,15 +78,11 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
-        viewModel.spacesTreeLoadingLiveData.observeData(this) {
-            loadingDialog.handleLoading(it)
-        }
         viewModel.loginNavigationLiveData.observeData(this) { event ->
             when (event) {
-                LoginNavigationEvent.Main -> navigateToBottomMenuFragment()
-                LoginNavigationEvent.SetupCircles -> navigateToSetupCirclesOrHome()
+                LoginNavigationEvent.Main -> navigateToHome()
                 LoginNavigationEvent.PassPhrase -> showPassPhraseDialog()
-                else -> navigateToBottomMenuFragment()
+                else -> navigateToHome()
             }
         }
         viewModel.messageEventLiveData.observeData(this) { messageId ->
@@ -123,17 +118,8 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
             }
     }
 
-    private fun navigateToBottomMenuFragment() {
+    private fun navigateToHome() {
         findNavController().navigateSafe(LogInStagesFragmentDirections.toHomeFragment())
-    }
-
-    private fun navigateToSetupCirclesOrHome() {
-        findNavController().navigateSafe(
-            if (CirclesAppConfig.isSetupCirclesEnabled)
-                LogInStagesFragmentDirections.toSetupCirclesFragment()
-            else
-                LogInStagesFragmentDirections.toHomeFragment()
-        )
     }
 
     private fun showDiscardDialog() {

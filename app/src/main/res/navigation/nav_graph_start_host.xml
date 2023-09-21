@@ -54,18 +54,6 @@
         </action>
     </fragment>
 
-    <fragment
-        android:id="@+id/setupCirclesFragment"
-        android:name="org.futo.circles.feature.circles.setup.SetupCirclesFragment"
-        android:label="SetupCirclesFragment"
-        tools:layout="@layout/fragment_setup_circles">
-        <action
-            android:id="@+id/to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/setupCirclesFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
     <include app:graph="@navigation/nav_graph_auth" />
 
     <dialog
