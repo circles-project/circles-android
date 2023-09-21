@@ -14,7 +14,6 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
-import org.futo.circles.core.room.CoreSpacesTreeBuilder
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session

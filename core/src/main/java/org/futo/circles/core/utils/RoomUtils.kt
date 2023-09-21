@@ -10,6 +10,7 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.Membership
+import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
@@ -23,10 +24,17 @@ fun getTimelineRoomIdOrThrow(circleId: String) = getTimelineRoomFor(circleId)?.r
 
 fun getSystemNoticesRoomId(): String? = getJoinedRoomIdByTag(SYSTEM_NOTICES_TAG)
 
-fun getJoinedRoomIdByTag(tag: String): String? {
+fun getJoinedRoomIdByTag(tag: String, includeSpace: Boolean = false): String? {
     val session = MatrixSessionProvider.currentSession ?: return null
-    return session.roomService().getRoomSummaries(roomSummaryQueryParams())
-        .firstOrNull { it.membership == Membership.JOIN && it.hasTag(tag) }?.roomId
+    return session.roomService().getRoomSummaries(roomSummaryQueryParams {
+        excludeType = if (includeSpace) null else listOf(RoomType.SPACE)
+        memberships = listOf(Membership.JOIN)
+    }).firstOrNull { it.hasTag(tag) }?.roomId
+}
+
+fun getJoinedRoomById(roomId: String): RoomSummary? {
+    val session = MatrixSessionProvider.currentSession ?: return null
+    return session.roomService().getRoomSummary(roomId)?.takeIf { it.membership == Membership.JOIN }
 }
 
 fun getPhotosSpaceId(): String? = getSpaceIdByTag(PHOTOS_SPACE_TAG)

@@ -207,7 +207,6 @@
     <string name="unifiedpush_distributors_dialog_title">Choose how to receive notifications</string>
     <string name="thread_format">%s (thread)</string>
     <string name="unexpected_error">Something went wrong</string>
-    <string name="configuring_workspace">Configuring workspace</string>
     <string name="shared_circles">Shared Circles</string>
     <string name="save">Save</string>
     <string name="joined_members_count">Joined members: %d</string>
