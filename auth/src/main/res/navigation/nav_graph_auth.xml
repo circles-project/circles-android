@@ -39,8 +39,8 @@
         android:label="Sign up"
         tools:layout="@layout/fragment_sign_up">
         <action
-            android:id="@+id/to_setupProfileFragment"
-            app:destination="@id/setupProfileFragment"
+            android:id="@+id/to_ConfigureWorkspace"
+            app:destination="@id/configureWorkspaceDialogFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -56,4 +56,14 @@
             app:popUpTo="@id/setupProfileFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <dialog
+        android:id="@+id/configureWorkspaceDialogFragment"
+        android:name="org.futo.circles.auth.feature.workspace.ConfigureWorkspaceDialogFragment"
+        tools:layout="@layout/dialog_fragment_configure_workspace">
+        <action
+            android:id="@+id/to_setupProfileFragment"
+            app:destination="@id/setupProfileFragment"
+            app:popUpTo="@id/configureWorkspaceDialogFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
 </navigation>
