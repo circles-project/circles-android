@@ -47,9 +47,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWorkspaceTasks"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/btbCreate"
+        app:layout_constraintBottom_toTopOf="@id/buttonDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/messageDivider" />
@@ -66,12 +66,14 @@
 
     <org.futo.circles.core.view.LoadingButton
         android:id="@+id/btbCreate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="36dp"
         android:layout_marginBottom="16dp"
         android:text="@string/create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
