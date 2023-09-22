@@ -66,7 +66,7 @@ class MandatoryWorkspaceTaskViewHolder(
 
     override fun bind(data: WorkspaceTask) {
         with(binding) {
-            tvName.text = context.getString(data.titleResId)
+            data.room.nameId?.let { tvName.text = context.getString(it) }
             tvMessage.text = context.getString(data.descriptionResId)
             bindStatus(data.status, ivTaskStatus, taskProgress)
         }
@@ -88,7 +88,7 @@ class OptionalWorkspaceTaskViewHolder(
 
     override fun bind(data: WorkspaceTask) {
         with(binding.lTask) {
-            tvName.text = context.getString(data.titleResId)
+            data.room.nameId?.let { tvName.text = context.getString(it) }
             tvMessage.text = context.getString(data.descriptionResId)
             bindStatus(data.status, ivTaskStatus, taskProgress)
         }
