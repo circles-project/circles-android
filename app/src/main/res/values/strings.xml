@@ -26,17 +26,12 @@
     <string name="create_new_group">Create new group</string>
     <string name="create_new_circle">Create new circle</string>
     <string name="create">Create</string>
-    <string name="group_name">Group name</string>
-    <string name="circle_name">Circle name</string>
-    <string name="group_topic_optional">Group topic (optional)</string>
-    <string name="group_topic">Group topic</string>
     <string name="circles_created">Circles created</string>
     <string name="private_circles">Private Circles</string>
     <string name="log_out">Log out</string>
     <string name="others">Others</string>
     <string name="following_format">Following %d</string>
     <string name="followed_by_format">Followed by %d</string>
-    <string name="group_encryption_warning">NOTE: Group name, topic and cover image are not encrypted</string>
     <string name="create_post">Create post</string>
     <string name="create_poll">Create poll</string>
     <string name="send">Send</string>
@@ -76,8 +71,6 @@
     <string name="hundred">100</string>
     <string name="severity_formatter">Severity: %d</string>
     <string name="add_reaction">Add reaction</string>
-    <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
-    <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
     <string name="unfollow">Unfollow</string>
     <string name="requested_to_follow_format">%s requested to follow</string>
     <string name="requested_to_join">Requested to join</string>
@@ -120,11 +113,6 @@
     <string name="add_link">Add link</string>
     <string name="switch_user">Switch User</string>
     <string name="search_people">Search people</string>
-    <string name="circle_type">Circle type</string>
-    <string name="public_type">Public</string>
-    <string name="private_type">Private</string>
-    <string name="public_circle_explanation">Other users can ask to join</string>
-    <string name="private_circle_explanation">Accessible only by your invitation</string>
     <string name="request_sent">Request sent</string>
     <string name="wants_to_follow_you">wants to follow you</string>
     <string name="notification_unknown_room_name">Room</string>
@@ -220,6 +208,7 @@
     <string name="circles_empty_message">Create your first Circle</string>
     <string name="people_empty_message">Members of Circles and Groups you are joined will be shown here</string>
     <string name="creating_timeline">Creating timeline</string>
+    <string name="group_topic_optional">Group topic (optional)</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
