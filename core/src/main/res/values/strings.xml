@@ -132,10 +132,4 @@
     <string name="requested_to_join_format">%s requested to join</string>
     <string name="invited_by_format">Invited by %s</string>
     <string name="circle_encryption_warning">NOTE: Circle name and cover image are not encrypted</string>
-    <string name="create">Create</string>
-    <string name="friends">Friends</string>
-    <string name="family">Family</string>
-    <string name="community">Community</string>
-    <string name="retry">Retry</string>
-
 </resources>

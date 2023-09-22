@@ -1,4 +1,4 @@
-package org.futo.circles.core.workspace.data_source
+package org.futo.circles.auth.feature.workspace.data_source
 
 import org.futo.circles.core.provider.MatrixSessionProvider
 import javax.inject.Inject

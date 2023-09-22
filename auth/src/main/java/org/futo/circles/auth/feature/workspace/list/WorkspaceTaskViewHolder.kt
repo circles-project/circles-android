@@ -1,4 +1,4 @@
-package org.futo.circles.core.workspace.list
+package org.futo.circles.auth.feature.workspace.list
 
 import android.view.View
 import android.view.ViewGroup
@@ -6,17 +6,17 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import org.futo.circles.core.R
-import org.futo.circles.core.databinding.ListItemMandatoryWorkspaceTaskBinding
-import org.futo.circles.core.databinding.ListItemOptionalWorkspaceTaskBinding
+import org.futo.circles.auth.R
+import org.futo.circles.auth.databinding.ListItemMandatoryWorkspaceTaskBinding
+import org.futo.circles.auth.databinding.ListItemOptionalWorkspaceTaskBinding
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
-import org.futo.circles.core.model.OptionalWorkspaceTask
+import org.futo.circles.auth.model.OptionalWorkspaceTask
 import org.futo.circles.core.model.TaskStatus
-import org.futo.circles.core.model.WorkspaceTask
+import org.futo.circles.auth.model.WorkspaceTask
 
 
 abstract class WorkspaceTaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -39,8 +39,8 @@ abstract class WorkspaceTaskViewHolder(view: View) : RecyclerView.ViewHolder(vie
                 ivStatus.apply {
                     visible()
                     setImageResource(
-                        if (status == TaskStatus.FAILED) R.drawable.ic_error
-                        else R.drawable.ic_check_circle
+                        if (status == TaskStatus.FAILED) org.futo.circles.core.R.drawable.ic_error
+                        else org.futo.circles.core.R.drawable.ic_check_circle
                     )
                     setColorFilter(
                         ContextCompat.getColor(

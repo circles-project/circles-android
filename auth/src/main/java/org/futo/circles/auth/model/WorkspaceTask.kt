@@ -1,6 +1,8 @@
-package org.futo.circles.core.model
+package org.futo.circles.auth.model
 
 import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.model.CirclesRoom
+import org.futo.circles.core.model.TaskStatus
 
 sealed class WorkspaceTask(
     open val room: CirclesRoom,

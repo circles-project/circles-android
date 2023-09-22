@@ -1,19 +1,21 @@
-package org.futo.circles.core.workspace
+package org.futo.circles.auth.feature.workspace
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.R
-import org.futo.circles.core.databinding.DialogFragmentConfigureWorkspaceBinding
+import org.futo.circles.auth.R
+import org.futo.circles.auth.databinding.DialogFragmentConfigureWorkspaceBinding
+import org.futo.circles.auth.feature.workspace.list.WorkspaceTasksListAdapter
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.workspace.list.WorkspaceTasksListAdapter
 
 @AndroidEntryPoint
 class ConfigureWorkspaceDialogFragment :
@@ -56,7 +58,8 @@ class ConfigureWorkspaceDialogFragment :
         }
         viewModel.workspaceResultLiveData.observeResponse(this,
             success = {
-
+                findNavController()
+                    .navigateSafe(ConfigureWorkspaceDialogFragmentDirections.toSetupProfileFragment())
             },
             error = {
                 showError(it)
