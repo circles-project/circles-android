@@ -3,43 +3,25 @@ package org.futo.circles.auth.feature.workspace
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.auth.R
+import org.futo.circles.auth.feature.workspace.data_source.ConfigureWorkspaceDataSource
+import org.futo.circles.auth.feature.workspace.data_source.WorkspaceTasksProvider
+import org.futo.circles.auth.model.MandatoryWorkspaceTask
+import org.futo.circles.auth.model.OptionalWorkspaceTask
+import org.futo.circles.auth.model.WorkspaceTask
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.model.Circle
-import org.futo.circles.core.model.Gallery
-import org.futo.circles.core.model.GroupsSpace
-import org.futo.circles.auth.model.MandatoryWorkspaceTask
-import org.futo.circles.auth.model.OptionalWorkspaceTask
-import org.futo.circles.core.model.PeopleSpace
-import org.futo.circles.core.model.PhotosSpace
-import org.futo.circles.core.model.RootSpace
-import org.futo.circles.core.model.SharedCirclesSpace
 import org.futo.circles.core.model.TaskStatus
-import org.futo.circles.auth.model.WorkspaceTask
-import org.futo.circles.auth.feature.workspace.data_source.ConfigureWorkspaceDataSource
 import javax.inject.Inject
 
 @HiltViewModel
 class ConfigureWorkspaceViewModel @Inject constructor(
-    private val workspaceDataSource: ConfigureWorkspaceDataSource
+    private val workspaceDataSource: ConfigureWorkspaceDataSource,
+    private val workspaceTasksProvider: WorkspaceTasksProvider
 ) : ViewModel() {
 
-    val tasksLiveData = MutableLiveData(
-        listOf(
-            MandatoryWorkspaceTask(RootSpace(), R.string.passphrase),
-            MandatoryWorkspaceTask(GroupsSpace(), R.string.passphrase),
-            MandatoryWorkspaceTask(PhotosSpace(), R.string.passphrase),
-            MandatoryWorkspaceTask(PeopleSpace(), R.string.passphrase),
-            MandatoryWorkspaceTask(SharedCirclesSpace(), R.string.passphrase),
-            OptionalWorkspaceTask(Gallery(nameId = R.string.passphrase), R.string.passphrase),
-            OptionalWorkspaceTask(Circle(nameId = R.string.friends), R.string.passphrase),
-            OptionalWorkspaceTask(Circle(nameId = R.string.family), R.string.passphrase),
-            OptionalWorkspaceTask(Circle(nameId = R.string.community), R.string.passphrase)
-        )
-    )
+    val tasksLiveData = MutableLiveData(workspaceTasksProvider.getFullTasksList())
     val workspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
 
     fun createWorkspace() = launchBg {
