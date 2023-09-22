@@ -2,8 +2,6 @@ package org.futo.circles.core.workspace.data_source
 
 import kotlinx.coroutines.delay
 import org.futo.circles.core.model.CirclesRoom
-import org.futo.circles.core.model.OptionalWorkspaceTask
-import org.futo.circles.core.model.WorkspaceTask
 import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getJoinedRoomIdByTag
@@ -14,9 +12,7 @@ class ConfigureWorkspaceDataSource @Inject constructor(
     private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource
 ) {
 
-    suspend fun perform(task: WorkspaceTask) {
-        if ((task as? OptionalWorkspaceTask)?.isSelected != true) return
-        val room = task.room
+    suspend fun perform(room: CirclesRoom) {
         val roomId = createRoomDataSource.createRoom(room)
         room.accountDataKey?.let { key ->
             spacesTreeAccountDataSource.updateSpacesConfigAccountData(key, roomId)
@@ -24,9 +20,7 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         delay(CREATE_ROOM_DELAY)
     }
 
-    suspend fun validate(task: WorkspaceTask): Boolean {
-        if (task is OptionalWorkspaceTask) return true
-        val room = task.room
+    suspend fun validate(room: CirclesRoom): Boolean {
         val accountDataKey = room.accountDataKey ?: return false
         if (spacesTreeAccountDataSource.getRoomIdByKey(accountDataKey) == null) {
             addRecordToAccountDataIfRoomExist(room)
