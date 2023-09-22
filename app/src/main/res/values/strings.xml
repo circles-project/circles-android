@@ -30,9 +30,6 @@
     <string name="circle_name">Circle name</string>
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="group_topic">Group topic</string>
-    <string name="friends">Friends</string>
-    <string name="family">Family</string>
-    <string name="community">Community</string>
     <string name="circles_created">Circles created</string>
     <string name="private_circles">Private Circles</string>
     <string name="log_out">Log out</string>
