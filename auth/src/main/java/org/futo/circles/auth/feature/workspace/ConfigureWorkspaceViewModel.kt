@@ -3,11 +3,12 @@ package org.futo.circles.auth.feature.workspace
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.futo.circles.auth.feature.workspace.data_source.ConfigureWorkspaceDataSource
 import org.futo.circles.auth.feature.workspace.data_source.WorkspaceTasksProvider
 import org.futo.circles.auth.model.MandatoryWorkspaceTask
 import org.futo.circles.auth.model.OptionalWorkspaceTask
-import org.futo.circles.auth.model.WorkspaceTask
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
@@ -18,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ConfigureWorkspaceViewModel @Inject constructor(
     private val workspaceDataSource: ConfigureWorkspaceDataSource,
-    private val workspaceTasksProvider: WorkspaceTasksProvider
+    workspaceTasksProvider: WorkspaceTasksProvider
 ) : ViewModel() {
 
     val tasksLiveData = MutableLiveData(workspaceTasksProvider.getFullTasksList())
@@ -30,15 +31,15 @@ class ConfigureWorkspaceViewModel @Inject constructor(
             (item as? OptionalWorkspaceTask)?.let { if (!it.isSelected) return@forEachIndexed }
             if (item.status == TaskStatus.SUCCESS) return@forEachIndexed
 
-            updateTaskStatus(tasks, i, TaskStatus.RUNNING)
+            updateTaskStatus(i, TaskStatus.RUNNING)
             when (val result = createResult { workspaceDataSource.perform(item.room) }) {
                 is Response.Error -> {
-                    updateTaskStatus(tasks, i, TaskStatus.FAILED)
+                    updateTaskStatus(i, TaskStatus.FAILED)
                     workspaceResultLiveData.postValue(result)
                     return@launchBg
                 }
 
-                is Response.Success -> updateTaskStatus(tasks, i, TaskStatus.SUCCESS)
+                is Response.Success -> updateTaskStatus(i, TaskStatus.SUCCESS)
             }
         }
         workspaceResultLiveData.postValue(Response.Success(Unit))
@@ -50,10 +51,11 @@ class ConfigureWorkspaceViewModel @Inject constructor(
             add(index, optionalWorkspaceTask.copy(isSelected = !optionalWorkspaceTask.isSelected))
             remove(optionalWorkspaceTask)
         }
-        tasksLiveData.postValue(newList)
+        tasksLiveData.value = newList
     }
 
-    private fun updateTaskStatus(tasks: List<WorkspaceTask>, index: Int, status: TaskStatus) {
+    private suspend fun updateTaskStatus(index: Int, status: TaskStatus) {
+        val tasks = tasksLiveData.value?.toMutableList() ?: mutableListOf()
         val task = tasks.getOrNull(index) ?: return
         val newList = tasks.toMutableList().apply {
             add(
@@ -64,7 +66,7 @@ class ConfigureWorkspaceViewModel @Inject constructor(
             )
             remove(task)
         }
-        tasksLiveData.postValue(newList)
+        withContext(Dispatchers.Main) { tasksLiveData.value = newList }
     }
 
 }
