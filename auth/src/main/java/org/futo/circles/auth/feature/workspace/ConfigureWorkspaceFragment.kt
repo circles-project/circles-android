@@ -6,28 +6,25 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
-import org.futo.circles.auth.databinding.DialogFragmentConfigureWorkspaceBinding
+import org.futo.circles.auth.databinding.FragmentConfigureWorkspaceBinding
 import org.futo.circles.auth.feature.workspace.list.WorkspaceTasksListAdapter
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.fragment.HasLoadingState
 
 @AndroidEntryPoint
-class ConfigureWorkspaceDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentConfigureWorkspaceBinding::inflate),
+class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspace),
     HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<ConfigureWorkspaceViewModel>()
 
-    private val binding by lazy {
-        getBinding() as DialogFragmentConfigureWorkspaceBinding
-    }
+    private val binding by viewBinding(FragmentConfigureWorkspaceBinding::bind)
 
     private val tasksAdapter by lazy {
         WorkspaceTasksListAdapter { viewModel.onOptionalTaskSelectionChanged(it) }
@@ -59,7 +56,7 @@ class ConfigureWorkspaceDialogFragment :
         viewModel.workspaceResultLiveData.observeResponse(this,
             success = {
                 findNavController()
-                    .navigateSafe(ConfigureWorkspaceDialogFragmentDirections.toSetupProfileFragment())
+                    .navigateSafe(ConfigureWorkspaceFragmentDirections.toSetupProfileFragment())
             },
             error = {
                 showError(it)
