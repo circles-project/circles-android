@@ -1,6 +1,7 @@
 package org.futo.circles.auth.feature.workspace
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,12 +19,50 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConfigureWorkspaceViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val workspaceDataSource: ConfigureWorkspaceDataSource,
     workspaceTasksProvider: WorkspaceTasksProvider
 ) : ViewModel() {
 
-    val tasksLiveData = MutableLiveData(workspaceTasksProvider.getFullTasksList())
+    private val shouldValidate =
+        savedStateHandle.get<Boolean>(ConfigureWorkspaceFragment.SHOULD_VALIDATE) ?: false
+    val tasksLiveData = MutableLiveData(
+        if (shouldValidate) workspaceTasksProvider.getMandatoryTasks()
+        else workspaceTasksProvider.getFullTasksList()
+    )
     val workspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
+    val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
+
+    init {
+        if (shouldValidate) validateWorkspace()
+    }
+
+    private fun validateWorkspace() = launchBg {
+        val tasks = tasksLiveData.value?.toMutableList() ?: mutableListOf()
+        var hasError = false
+        tasks.forEachIndexed { i, item ->
+            updateTaskStatus(i, TaskStatus.RUNNING)
+            when (val validationResponse =
+                createResult { workspaceDataSource.validate(item.room) }) {
+                is Response.Error -> {
+                    hasError = true
+                    updateTaskStatus(i, TaskStatus.FAILED)
+                }
+
+                is Response.Success -> {
+                    if (validationResponse.data)
+                        updateTaskStatus(i, TaskStatus.SUCCESS)
+                    else {
+                        hasError = true
+                        updateTaskStatus(i, TaskStatus.FAILED)
+                    }
+                }
+            }
+        }
+        validateWorkspaceResultLiveData.postValue(
+            if (hasError) Response.Error("") else Response.Success(Unit)
+        )
+    }
 
     fun createWorkspace() = launchBg {
         val tasks = tasksLiveData.value?.toMutableList() ?: mutableListOf()

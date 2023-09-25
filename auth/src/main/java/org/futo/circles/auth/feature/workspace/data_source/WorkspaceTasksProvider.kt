@@ -21,7 +21,7 @@ class WorkspaceTasksProvider @Inject constructor() {
         addAll(getOptionalTasks())
     }
 
-    private fun getMandatoryTasks() = listOf(
+    fun getMandatoryTasks() = listOf(
         MandatoryWorkspaceTask(RootSpace(), R.string.root_space_description),
         MandatoryWorkspaceTask(CirclesSpace(), R.string.circles_space_description),
         MandatoryWorkspaceTask(GroupsSpace(), R.string.groups_space_description),
