@@ -128,6 +128,9 @@
     <string name="family">Family</string>
     <string name="community">Community</string>
     <string name="retry">Retry</string>
+    <string name="workspace_configured">Workspace configured</string>
+    <string name="validating_workspace">Validating workspace</string>
+    <string name="configure_workspace">Configure workspace</string>
     <string name="setup_workspace_message">In order to use app we needs to configure your workspace. \nWe will create root spaces listed below and setup all the necessary relations between them.</string>
     <string name="root_space_description">Root space of workspace hierarchy</string>
     <string name="groups_space_description">Space which will contain all the Groups</string>
