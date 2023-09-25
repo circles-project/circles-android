@@ -59,14 +59,13 @@ class CreateRoomViewModel @Inject constructor(
         name: String,
         inviteIds: List<String>?,
         isPublicCircle: Boolean
-    ) =
-        dataSource.createRoom(
-            circlesRoom = Circle(),
-            name = name,
-            iconUri = selectedImageLiveData.value,
-            inviteIds = inviteIds,
-            isPublicCircle = isPublicCircle
-        )
+    ) = dataSource.createRoom(
+        circlesRoom = Circle(),
+        name = name,
+        iconUri = selectedImageLiveData.value,
+        inviteIds = inviteIds,
+        isPublicCircle = isPublicCircle
+    )
 
     private suspend fun createGallery(name: String) = dataSource.createRoom(
         circlesRoom = Gallery(),

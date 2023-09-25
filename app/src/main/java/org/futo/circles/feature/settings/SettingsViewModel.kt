@@ -17,7 +17,6 @@ class SettingsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val profileLiveData = settingsDataSource.profileLiveData
-    val loadingLiveData = logoutDataSource.loadingLiveData
     val passPhraseLoadingLiveData = settingsDataSource.passPhraseLoadingLiveData
     val startReAuthEventLiveData = settingsDataSource.startReAuthEventLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()

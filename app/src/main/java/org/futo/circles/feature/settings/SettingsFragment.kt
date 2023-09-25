@@ -46,7 +46,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun setupViews() {
         with(binding) {
-            tvLogout.setOnClickListener { withConfirmation(LogOut()) { viewModel.logOut() } }
+            tvLogout.setOnClickListener {
+                withConfirmation(LogOut()) {
+                    loadingDialog.handleLoading(LoadingData(R.string.log_out))
+                    viewModel.logOut()
+                }
+            }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
             ivProfile.setOnClickListener { navigator.navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
@@ -68,13 +73,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun setupObservers() {
         viewModel.logOutLiveData.observeResponse(this,
-            success = { clearSessionAndRestart() }
+            success = { clearSessionAndRestart() },
+            onRequestInvoked = { loadingDialog.dismiss() }
         )
         viewModel.profileLiveData.observeData(this) {
             it.getOrNull()?.let { bindProfile(it) }
-        }
-        viewModel.loadingLiveData.observeData(this) {
-            loadingDialog.handleLoading(it)
         }
         viewModel.deactivateLiveData.observeResponse(this,
             success = { clearSessionAndRestart() },
