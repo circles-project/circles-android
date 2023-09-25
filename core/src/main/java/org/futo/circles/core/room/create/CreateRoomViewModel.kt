@@ -8,6 +8,7 @@ import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.model.Circle
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.Group
@@ -59,11 +60,12 @@ class CreateRoomViewModel @Inject constructor(
         inviteIds: List<String>?,
         isPublicCircle: Boolean
     ) =
-        dataSource.createCircleWithTimeline(
+        dataSource.createRoom(
+            circlesRoom = Circle(),
             name = name,
             iconUri = selectedImageLiveData.value,
             inviteIds = inviteIds,
-            isPublicCircle
+            isPublicCircle = isPublicCircle
         )
 
     private suspend fun createGallery(name: String) = dataSource.createRoom(

@@ -28,18 +28,29 @@ class CreateRoomDataSource @Inject constructor(
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 
-    private val session by lazy { MatrixSessionProvider.currentSession }
+    private val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
 
-    suspend fun createCircleWithTimeline(
+    suspend fun createRoom(
+        circlesRoom: CirclesRoom,
         name: String? = null,
+        topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        isPublicCircle: Boolean
+        isPublicCircle: Boolean = false
     ): String {
-        val circleId = createRoom(Circle(), name, null, iconUri)
-        val timelineId = createCircleTimeline(circleId, name, iconUri, inviteIds)
-        if (isPublicCircle) addToSharedCircles(timelineId)
-        return circleId
+        val id = session.roomService().createRoom(
+            getParams(circlesRoom, name, topic, iconUri, inviteIds)
+        )
+        circlesRoom.tag?.let { session.getRoom(id)?.tagsService()?.addTag(it, null) }
+        circlesRoom.parentTag?.let { tag ->
+            roomRelationsBuilder.findRoomByTag(tag)
+                ?.let { room -> roomRelationsBuilder.setRelations(id, room) }
+        }
+        if (circlesRoom is Circle) {
+            val timelineId = createCircleTimeline(id, name, iconUri, inviteIds)
+            if (isPublicCircle) addToSharedCircles(timelineId)
+        }
+        return id
     }
 
     suspend fun createCircleTimeline(
@@ -48,27 +59,9 @@ class CreateRoomDataSource @Inject constructor(
         inviteIds: List<String>? = null
     ): String {
         val timelineId = createRoom(Timeline(), name, null, iconUri, inviteIds)
-        session?.getRoom(circleId)
+        session.getRoom(circleId)
             ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
         return timelineId
-    }
-
-    suspend fun createRoom(
-        circlesRoom: CirclesRoom,
-        name: String? = null,
-        topic: String? = null,
-        iconUri: Uri? = null,
-        inviteIds: List<String>? = null
-    ): String {
-        val id = session?.roomService()?.createRoom(
-            getParams(circlesRoom, name, topic, iconUri, inviteIds)
-        ) ?: throw Exception("Can not create room")
-        circlesRoom.tag?.let { session?.getRoom(id)?.tagsService()?.addTag(it, null) }
-        circlesRoom.parentTag?.let { tag ->
-            roomRelationsBuilder.findRoomByTag(tag)
-                ?.let { room -> roomRelationsBuilder.setRelations(id, room) }
-        }
-        return id
     }
 
     private fun getParams(
@@ -114,14 +107,14 @@ class CreateRoomDataSource @Inject constructor(
     }
 
     suspend fun addToSharedCircles(timelineId: String) {
-        session?.getRoom(getSharedCirclesSpaceId() ?: "")
+        session.getRoom(getSharedCirclesSpaceId() ?: "")
             ?.let { sharedCirclesSpace ->
                 roomRelationsBuilder.setRelations(timelineId, sharedCirclesSpace)
             }
     }
 
     suspend fun removeFromSharedCircles(timelineId: String) {
-        session?.getRoom(getSharedCirclesSpaceId() ?: "")
+        session.getRoom(getSharedCirclesSpaceId() ?: "")
             ?.let { sharedCirclesSpace ->
                 roomRelationsBuilder.removeRelations(timelineId, sharedCirclesSpace.roomId)
             }
