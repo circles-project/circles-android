@@ -18,6 +18,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
+import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
 import org.futo.circles.core.SHARE_PROFILE_URL_PREFIX
 import org.futo.circles.core.SHARE_ROOM_URL_PREFIX
 import org.futo.circles.core.extensions.navigateSafe
@@ -59,6 +60,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
             binding.bottomNavigationView.setupWithNavController(controller)
             setupToolBar(controller)
         }
+        WorkspaceDialogFragment().show(childFragmentManager,"workspace")
         setupObservers()
         registerPushNotifications()
         handleDeepLinks()
