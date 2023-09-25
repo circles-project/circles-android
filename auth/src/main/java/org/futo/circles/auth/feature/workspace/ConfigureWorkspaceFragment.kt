@@ -1,7 +1,9 @@
 package org.futo.circles.auth.feature.workspace
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -30,6 +32,13 @@ class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspac
         WorkspaceTasksListAdapter { viewModel.onOptionalTaskSelectionChanged(it) }
     }
 
+    private var configureWorkspaceListener: ConfigureWorkspaceListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        configureWorkspaceListener = (parentFragment as? ConfigureWorkspaceListener)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
@@ -38,6 +47,12 @@ class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspac
 
     private fun setupViews() {
         with(binding) {
+            val shouldValidate = arguments?.getBoolean(SHOULD_VALIDATE) ?: false
+            toolbar.title =
+                getString(if (shouldValidate) R.string.validating_workspace else R.string.configure_workspace)
+
+            if (shouldValidate) startLoading(btbCreate)
+
             rvWorkspaceTasks.apply {
                 adapter = tasksAdapter
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -55,12 +70,27 @@ class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspac
         }
         viewModel.workspaceResultLiveData.observeResponse(this,
             success = {
-                findNavController()
-                    .navigateSafe(ConfigureWorkspaceFragmentDirections.toSetupProfileFragment())
+                configureWorkspaceListener?.onWorkspaceConfigured() ?: kotlin.run {
+                    findNavController()
+                        .navigateSafe(ConfigureWorkspaceFragmentDirections.toSetupProfileFragment())
+                }
             },
             error = {
                 showError(it)
                 binding.btbCreate.setText(getString(R.string.retry))
             })
+        viewModel.validateWorkspaceResultLiveData.observeResponse(this,
+            success = { configureWorkspaceListener?.onWorkspaceConfigured() },
+            error = {
+                binding.toolbar.title = getString(R.string.configure_workspace)
+            }
+        )
+    }
+
+    companion object {
+        const val SHOULD_VALIDATE = "should_validate"
+        fun create(shouldValidate: Boolean) = ConfigureWorkspaceFragment().apply {
+            arguments = bundleOf(SHOULD_VALIDATE to shouldValidate)
+        }
     }
 }
