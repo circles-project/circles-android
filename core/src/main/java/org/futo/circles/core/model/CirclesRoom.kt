@@ -18,6 +18,13 @@ const val GROUP_TYPE = "$orgPrefix.social.group"
 const val GALLERY_TYPE = "$orgPrefix.social.gallery"
 const val TIMELINE_TYPE = "$orgPrefix.social.timeline"
 
+const val ROOT_SPACE_ACCOUNT_DATA_KEY = "root"
+const val CIRCLES_SPACE_ACCOUNT_DATA_KEY = "circles"
+const val PROFILE_SPACE_ACCOUNT_DATA_KEY = "profile"
+const val PHOTOS_SPACE_ACCOUNT_DATA_KEY = "galleries"
+const val PEOPLE_SPACE_ACCOUNT_DATA_KEY = "people"
+const val GROUPS_SPACE_ACCOUNT_DATA_KEY = "groups"
+
 
 sealed class CirclesRoom(
     @StringRes open val nameId: Int?,
@@ -36,7 +43,7 @@ data class RootSpace(
     override val parentTag: String? = null,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null,
-    override val accountDataKey: String? = "root"
+    override val accountDataKey: String? = ROOT_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class CirclesSpace(
@@ -45,7 +52,7 @@ data class CirclesSpace(
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null,
-    override val accountDataKey: String? = "circles"
+    override val accountDataKey: String? = CIRCLES_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class SharedCirclesSpace(
@@ -54,7 +61,7 @@ data class SharedCirclesSpace(
     override val parentTag: String? = CIRCLES_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK,
-    override val accountDataKey: String? = "profile"
+    override val accountDataKey: String? = PROFILE_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class PhotosSpace(
@@ -63,7 +70,7 @@ data class PhotosSpace(
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null,
-    override val accountDataKey: String? = "galleries"
+    override val accountDataKey: String? = PHOTOS_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class PeopleSpace(
@@ -72,7 +79,7 @@ data class PeopleSpace(
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null,
-    override val accountDataKey: String? = "people"
+    override val accountDataKey: String? = PEOPLE_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class GroupsSpace(
@@ -81,7 +88,7 @@ data class GroupsSpace(
     override val parentTag: String? = ROOT_SPACE_TAG,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null,
-    override val accountDataKey: String? = "groups"
+    override val accountDataKey: String? = GROUPS_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, tag, parentTag, type, joinRules, accountDataKey)
 
 data class Circle(
