@@ -1,11 +1,11 @@
-package org.futo.circles.auth.feature.workspace.data_source
+package org.futo.circles.core.workspace
 
 import org.futo.circles.core.provider.MatrixSessionProvider
 import javax.inject.Inject
 
 class SpacesTreeAccountDataSource @Inject constructor() {
 
-    fun getSpacesTreeConfig() =
+    private fun getSpacesTreeConfig() =
         MatrixSessionProvider.currentSession?.accountDataService()
             ?.getUserAccountDataEvent(SPACES_CONFIG_KEY)?.content ?: emptyMap()
 

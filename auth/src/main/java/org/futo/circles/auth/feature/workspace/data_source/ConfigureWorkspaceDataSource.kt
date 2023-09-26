@@ -5,6 +5,7 @@ import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getJoinedRoomIdByTag
+import org.futo.circles.core.workspace.SpacesTreeAccountDataSource
 import javax.inject.Inject
 
 class ConfigureWorkspaceDataSource @Inject constructor(
@@ -31,7 +32,7 @@ class ConfigureWorkspaceDataSource @Inject constructor(
     }
 
     private suspend fun addRecordToAccountDataIfRoomExist(room: CirclesRoom) {
-        val tag = room.tag ?: return
+        val tag = room.getTag() ?: return
         val key = room.accountDataKey ?: return
         val roomId = getJoinedRoomIdByTag(tag, true) ?: return
         spacesTreeAccountDataSource.updateSpacesConfigAccountData(key, roomId)

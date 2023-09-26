@@ -13,12 +13,13 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOn
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.toSelectableRoomListItem
-import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.workspace.SharedCircleDataSource
+import org.futo.circles.feature.circles.CirclesDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
@@ -26,7 +27,8 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class SelectRoomsDataSource @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val circleDataSource: CirclesDataSource
 ) {
 
     val ordinal = savedStateHandle.getOrThrow<Int>(SelectRoomsFragment.TYPE_ORDINAL)
@@ -45,7 +47,7 @@ class SelectRoomsDataSource @Inject constructor(
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
     private fun getRoomsFlowWithType(): Flow<List<RoomSummary>> = when (roomType) {
-        CircleRoomTypeArg.Circle -> getFilteredRoomsFlow { it.hasTag(CIRCLE_TAG) && it.membership == Membership.JOIN }
+        CircleRoomTypeArg.Circle -> getFilteredRoomsFlow { circleDataSource.isJoinedCircle(it) }
         CircleRoomTypeArg.Group -> getFilteredRoomsFlow { (it.roomType == GROUP_TYPE && it.membership == Membership.JOIN) }
         CircleRoomTypeArg.Photo -> getFilteredRoomsFlow { (it.roomType == GALLERY_TYPE && it.membership == Membership.JOIN) }
     }

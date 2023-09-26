@@ -21,12 +21,12 @@ abstract class UpdateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Bo
 
     abstract val roomId: String
 
-    private val viewModel by viewModels<UpdateRoomViewModel>()
+    protected val viewModel by viewModels<UpdateRoomViewModel>()
 
     abstract val mediaPickerHelper: MediaPickerHelper
     abstract val successMessageResId: Int
     abstract fun onCoverImageSelected(uri: Uri)
-    abstract fun setInitialGroupData(room: RoomSummary)
+    abstract fun setInitialRoomData(room: RoomSummary)
     abstract fun setUpdateButtonEnabled(isEnabled: Boolean)
 
     protected fun changeCoverImage() {
@@ -67,7 +67,7 @@ abstract class UpdateRoomDialogFragment(inflate: (LayoutInflater, ViewGroup?, Bo
             }
         )
         viewModel.groupSummaryLiveData.observeData(this) {
-            it?.let { setInitialGroupData(it) }
+            it?.let { setInitialRoomData(it) }
         }
         viewModel.isRoomDataChangedLiveData.observeData(this) {
             setUpdateButtonEnabled(it)

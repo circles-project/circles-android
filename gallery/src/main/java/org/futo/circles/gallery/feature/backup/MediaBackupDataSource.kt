@@ -6,12 +6,14 @@ import android.provider.MediaStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.timeline.post.SendMessageDataSource
 import org.futo.circles.core.utils.getJoinedRoomIdByTag
 import org.futo.circles.gallery.model.MediaFolderListItem
 import org.futo.circles.gallery.model.MediaToBackupItem
 import org.futo.circles.gallery.model.toMediaToBackupItem
+import org.matrix.android.sdk.api.session.getRoom
 import java.io.File
 import javax.inject.Inject
 
@@ -79,9 +81,11 @@ class MediaBackupDataSource @Inject constructor(
         var roomId = getJoinedRoomIdByTag(bucketId)
         if (roomId == null) {
             roomId = createRoomDataSource.createRoom(
-                circlesRoom = Gallery(tag = bucketId),
+                circlesRoom = Gallery(),
                 name = getFolderNameBy(bucketId)
             )
+            MatrixSessionProvider.currentSession?.getRoom(roomId)?.tagsService()
+                ?.addTag(bucketId, null)
         }
         return roomId
     }

@@ -11,8 +11,7 @@ import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.select_users.SearchUserDataSource
-import org.futo.circles.core.utils.getSharedCircleFor
-import org.futo.circles.core.utils.getSharedCirclesSpaceId
+import org.futo.circles.core.workspace.SharedCircleDataSource
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleItemType
@@ -24,11 +23,12 @@ import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
 
 class PeopleDataSource @Inject constructor(
-    private val searchUserDataSource: SearchUserDataSource
+    private val searchUserDataSource: SearchUserDataSource,
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) {
 
     private val session = MatrixSessionProvider.currentSession
-    private val profileRoomId = getSharedCirclesSpaceId() ?: ""
+    private val profileRoomId = sharedCircleDataSource.getSharedCirclesSpaceId() ?: ""
 
     suspend fun acceptFollowRequest(userId: String) = createResult {
         session?.roomService()?.getRoom(profileRoomId)?.membershipService()?.invite(userId)
@@ -127,12 +127,12 @@ class PeopleDataSource @Inject constructor(
     }
 
     private fun isMyFollower(userId: String): Boolean {
-        val mySharedCircleMembers = getSharedCirclesSpaceId()?.let {
-            session?.getRoom(it)?.roomSummary()?.otherMemberIds
-        } ?: emptyList()
+        val mySharedCircleMembers =
+            session?.getRoom(profileRoomId)?.roomSummary()?.otherMemberIds ?: emptyList()
         return mySharedCircleMembers.contains(userId)
     }
 
-    private fun amIFollowing(userId: String) = getSharedCircleFor(userId) != null
+    private fun amIFollowing(userId: String) =
+        sharedCircleDataSource.getSharedCircleFor(userId) != null
 
 }

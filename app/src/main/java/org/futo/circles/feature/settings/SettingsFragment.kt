@@ -66,7 +66,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvClearCache.setOnClickListener { viewModel.clearCash(requireContext()) }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
-            ivShareProfile.setOnClickListener { navigator.navigateToShareProfile() }
+            ivShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
         }
         setVersion()
     }

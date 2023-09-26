@@ -7,7 +7,8 @@ import org.futo.circles.core.model.Circle
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.model.Timeline
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getSharedCirclesSpaceId
+import org.futo.circles.core.workspace.SharedCircleDataSource
+import org.futo.circles.core.workspace.SpacesTreeAccountDataSource
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toContent
 import org.matrix.android.sdk.api.session.getRoom
@@ -25,7 +26,9 @@ import javax.inject.Inject
 
 class CreateRoomDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val roomRelationsBuilder: RoomRelationsBuilder
+    private val roomRelationsBuilder: RoomRelationsBuilder,
+    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource,
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) {
 
     private val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
@@ -41,14 +44,13 @@ class CreateRoomDataSource @Inject constructor(
         val id = session.roomService().createRoom(
             getParams(circlesRoom, name, topic, iconUri, inviteIds)
         )
-        circlesRoom.tag?.let { session.getRoom(id)?.tagsService()?.addTag(it, null) }
-        circlesRoom.parentTag?.let { tag ->
-            roomRelationsBuilder.findRoomByTag(tag)
-                ?.let { room -> roomRelationsBuilder.setRelations(id, room) }
+        circlesRoom.parentAccountDataKey?.let { key ->
+            val parentId = spacesTreeAccountDataSource.getRoomIdByKey(key)
+            parentId?.let { roomRelationsBuilder.setRelations(id, it) }
         }
         if (circlesRoom is Circle) {
             val timelineId = createCircleTimeline(id, name, iconUri, inviteIds)
-            if (isPublicCircle) addToSharedCircles(timelineId)
+            if (isPublicCircle) sharedCircleDataSource.addToSharedCircles(timelineId)
         }
         return id
     }
@@ -59,8 +61,7 @@ class CreateRoomDataSource @Inject constructor(
         inviteIds: List<String>? = null
     ): String {
         val timelineId = createRoom(Timeline(), name, null, iconUri, inviteIds)
-        session.getRoom(circleId)
-            ?.let { circle -> roomRelationsBuilder.setRelations(timelineId, circle) }
+        roomRelationsBuilder.setRelations(timelineId, circleId)
         return timelineId
     }
 
@@ -104,19 +105,5 @@ class CreateRoomDataSource @Inject constructor(
                 ).toContent()
             )
         )
-    }
-
-    suspend fun addToSharedCircles(timelineId: String) {
-        session.getRoom(getSharedCirclesSpaceId() ?: "")
-            ?.let { sharedCirclesSpace ->
-                roomRelationsBuilder.setRelations(timelineId, sharedCirclesSpace)
-            }
-    }
-
-    suspend fun removeFromSharedCircles(timelineId: String) {
-        session.getRoom(getSharedCirclesSpaceId() ?: "")
-            ?.let { sharedCirclesSpace ->
-                roomRelationsBuilder.removeRelations(timelineId, sharedCirclesSpace.roomId)
-            }
     }
 }

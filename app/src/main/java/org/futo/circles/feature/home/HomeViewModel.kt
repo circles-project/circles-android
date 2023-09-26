@@ -10,7 +10,6 @@ import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.notifications.PushersManager
@@ -46,7 +45,7 @@ class HomeViewModel @Inject constructor(
 
     private fun validateWorkspace() = launchBg {
         val tasks = workspaceTasksProvider.getMandatoryTasks()
-        tasks.forEachIndexed { i, item ->
+        tasks.forEach { item ->
             when (val validationResponse =
                 createResult { workspaceDataSource.validate(item.room) }) {
                 is Response.Error -> {
@@ -77,16 +76,10 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    private fun getParentSpaceIdForRoom(summary: RoomSummary): String? {
-        val circles = MatrixSessionProvider.currentSession?.roomService()
-            ?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
-            ?.filter { item -> item.hasTag(CIRCLE_TAG) } ?: emptyList()
+    private fun getParentSpaceIdForRoom(summary: RoomSummary): String? =
+        summary.spaceParents?.firstOrNull { it.roomSummary?.membership == Membership.JOIN }
+            ?.roomSummary?.roomId
 
-        val parentCircle =
-            circles.firstOrNull { it.spaceChildren?.firstOrNull { it.childRoomId == summary.roomId } != null }
-
-        return parentCircle?.roomId
-    }
 
     fun autoAcceptInviteOnKnock(roomIds: List<String>) {
         MatrixSessionProvider.currentSession?.let { session ->

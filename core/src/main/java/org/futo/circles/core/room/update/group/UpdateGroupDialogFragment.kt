@@ -39,7 +39,7 @@ class UpdateGroupDialogFragment :
         onInputDataChanged()
     }
 
-    override fun setInitialGroupData(room: RoomSummary) {
+    override fun setInitialRoomData(room: RoomSummary) {
         binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
         binding.tilName.editText?.setText(room.displayName)
         binding.tilTopic.editText?.setText(room.topic)
