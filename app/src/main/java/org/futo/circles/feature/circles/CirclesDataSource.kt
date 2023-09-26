@@ -66,10 +66,10 @@ class CirclesDataSource @Inject constructor(
     }
 
     fun isJoinedCircle(summary: RoomSummary): Boolean {
+        if(summary.roomId == sharedCircleDataSource.getSharedCirclesSpaceId()) return false
         val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(
             CIRCLES_SPACE_ACCOUNT_DATA_KEY
         ) ?: return false
-
         return getJoinedRoomById(circlesSpaceId)?.roomSummary()?.spaceChildren?.map { it.childRoomId }
             ?.contains(summary.roomId) == true
     }
