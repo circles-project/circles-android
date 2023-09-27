@@ -47,15 +47,5 @@ fun Session.getUserIdsToExclude() = mutableListOf(
 
 fun Session.getServerDomain() = myUserId.substringAfter(":")
 
-fun Session.getKnownUsersFlow() =
-    roomService().getRoomSummariesLive(roomSummaryQueryParams { excludeType = null }).asFlow()
-        .mapLatest { roomSummaries ->
-            val knowUsers = mutableSetOf<User>()
-            roomSummaries.forEach { summary ->
-                summary.otherMemberIds.forEach { knowUsers.add(getOrFetchUser(it)) }
-            }
-            knowUsers.toList().filterNot { getUserIdsToExclude().contains(it.userId) }
-        }
-
 suspend fun Session.getOrFetchUser(userId: String): User =
     getUser(userId) ?: userService().resolveUser(userId)

@@ -1,15 +1,19 @@
 package org.futo.circles.core.select_users
 
+import androidx.lifecycle.asFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
-import org.futo.circles.core.extensions.getKnownUsersFlow
+import org.futo.circles.core.extensions.getOrFetchUser
 import org.futo.circles.core.extensions.getServerDomain
+import org.futo.circles.core.extensions.getUserIdsToExclude
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
@@ -35,6 +39,16 @@ class SearchUserDataSource @Inject constructor() {
                     (containsInName || containsInId) && notInExistingMembers
                 }
             } ?: flowOf()
+
+    private fun Session.getKnownUsersFlow() =
+        roomService().getRoomSummariesLive(roomSummaryQueryParams { excludeType = null }).asFlow()
+            .mapLatest { roomSummaries ->
+                val knowUsers = mutableSetOf<User>()
+                roomSummaries.forEach { summary ->
+                    summary.otherMemberIds.forEach { knowUsers.add(getOrFetchUser(it)) }
+                }
+                knowUsers.toList().filterNot { getUserIdsToExclude().contains(it.userId) }
+            }
 
     suspend fun searchSuggestions(
         query: String,
