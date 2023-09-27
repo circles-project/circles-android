@@ -121,50 +121,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/notifications" />
 
-            <org.futo.circles.core.view.SettingsMenuItemView
+            <TextView
                 android:id="@+id/tvPushNotifications"
+                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_notifications"
-                app:optionName="@string/push_notifications" />
+                android:text="@string/push_notifications"
+                app:drawableStartCompat="@drawable/ic_notifications" />
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/lSystemNotices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:id="@+id/tvSystemNotices"
-                    style="@style/settingMenuItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:paddingEnd="8dp"
-                    android:text="@string/system_notices"
-                    app:drawableStartCompat="@drawable/ic_error"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="RtlSymmetry" />
-
-                <org.futo.circles.core.view.NotificationCounterView
-                    android:id="@+id/ivNoticesCount"
-                    android:layout_width="18dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/holo_red_dark"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toEndOf="@id/tvSystemNotices"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="visible" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 style="@style/settingMenuHeader"

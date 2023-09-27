@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
-import org.futo.circles.core.extensions.getUserIdsToExclude
 import org.futo.circles.core.mapping.toUserListItem
 import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.core.model.HeaderItem
@@ -34,7 +33,7 @@ class SelectUsersDataSource @Inject constructor(
     private val room = session?.getRoom(roomId ?: "")
 
     private val existingMembersIds = mutableListOf<String>().apply {
-        addAll(session?.getUserIdsToExclude() ?: emptySet())
+        session?.myUserId?.let { add(it)}
         addAll(room?.membershipService()?.getRoomMembers(
             roomMemberQueryParams {
                 memberships = listOf(Membership.JOIN, Membership.INVITE, Membership.BAN)

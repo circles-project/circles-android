@@ -29,7 +29,6 @@ import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.model.TIMELINE_TYPE
-import org.futo.circles.core.notices.SystemNoticesCountSharedViewModel
 import org.futo.circles.core.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.view.LoadingDialog
@@ -52,7 +51,6 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
         RuntimePermissionHelper(this, Manifest.permission.POST_NOTIFICATIONS)
 
     private val viewModel by viewModels<HomeViewModel>()
-    private val systemNoticesCountViewModel by activityViewModels<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 
     @Inject
@@ -118,13 +116,6 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     }
 
     private fun setupObservers() {
-        systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
-            val count = it ?: 0
-            binding.bottomNavigationView.getOrCreateBadge(R.id.settings_nav_graph).apply {
-                isVisible = count > 0
-                number = count
-            }
-        }
         viewModel.inviteIntoSharedSpaceLiveData?.observeData(this) {
             viewModel.autoAcceptInviteOnKnock(it)
         }

@@ -1,6 +1,5 @@
 package org.futo.circles.core.utils
 
-import org.futo.circles.core.SYSTEM_NOTICES_TAG
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
@@ -25,8 +24,6 @@ fun getTimelineRoomFor(circleId: String): Room? {
 
 fun getTimelineRoomIdOrThrow(circleId: String) = getTimelineRoomFor(circleId)?.roomId
     ?: throw IllegalArgumentException("Timeline not found")
-
-fun getSystemNoticesRoomId(): String? = getJoinedRoomIdByTag(SYSTEM_NOTICES_TAG)
 
 fun getJoinedRoomIdByTag(tag: String, includeSpace: Boolean = false): String? {
     val session = MatrixSessionProvider.currentSession ?: return null

@@ -56,8 +56,6 @@
     <string name="choose_gallery">Choose gallery</string>
     <string name="pick_media">Pick media</string>
     <string name="change_icon">Change icon</string>
-    <string name="system_notices">System notices</string>
-    <string name="system_notices_room_not_found">System notices room not found.</string>
     <string name="account">Account</string>
     <string name="clear_cache_and_reload">Clear cache and reload</string>
     <string name="deactivate_my_account">Deactivate my account</string>

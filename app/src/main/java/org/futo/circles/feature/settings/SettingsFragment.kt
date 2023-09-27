@@ -22,7 +22,6 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.LoadingData
-import org.futo.circles.core.notices.SystemNoticesCountSharedViewModel
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
@@ -33,7 +32,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val binding by viewBinding(FragmentSettingsBinding::bind)
     private val viewModel by viewModels<SettingsViewModel>()
-    private val systemNoticesCountViewModel by activityViewModels<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }
@@ -62,7 +60,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 }
             }
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
-            lSystemNotices.setOnClickListener { navigator.navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash(requireContext()) }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
@@ -84,9 +81,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) },
             onRequestInvoked = { loadingDialog.dismiss() }
         )
-        systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
-            binding.ivNoticesCount.setCount(it ?: 0)
-        }
         viewModel.startReAuthEventLiveData.observeData(this) {
             navigator.navigateToReAuthStages()
         }
