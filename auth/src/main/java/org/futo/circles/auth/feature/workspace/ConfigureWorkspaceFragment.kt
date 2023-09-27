@@ -51,14 +51,14 @@ class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspac
             toolbar.title =
                 getString(if (shouldValidate) R.string.validating_workspace else R.string.configure_workspace)
 
-            if (shouldValidate) startLoading(btbCreate)
+            if (shouldValidate) startLoading(btbConfigure)
 
             rvWorkspaceTasks.apply {
                 adapter = tasksAdapter
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
-            btbCreate.setOnClickListener {
-                startLoading(btbCreate)
+            btbConfigure.setOnClickListener {
+                startLoading(btbConfigure)
                 viewModel.createWorkspace()
             }
         }
@@ -77,7 +77,7 @@ class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspac
             },
             error = {
                 showError(it)
-                binding.btbCreate.setText(getString(R.string.retry))
+                binding.btbConfigure.setText(getString(R.string.retry))
             })
         viewModel.validateWorkspaceResultLiveData.observeResponse(this,
             success = { configureWorkspaceListener?.onWorkspaceConfigured() },

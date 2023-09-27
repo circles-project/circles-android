@@ -65,13 +65,13 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <org.futo.circles.core.view.LoadingButton
-        android:id="@+id/btbCreate"
+        android:id="@+id/btbConfigure"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="36dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/create"
+        android:text="@string/configure"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
