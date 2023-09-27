@@ -5,6 +5,7 @@ import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.workspace.SpacesTreeAccountDataSource
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
 
@@ -16,7 +17,9 @@ class RoomRelationsBuilder @Inject constructor(
 
     suspend fun setRelations(childId: String, parentRoomId: String) {
         val via = listOf(getHomeServerDomain())
-        session?.spaceService()?.setSpaceParent(childId, parentRoomId, false, via)
+        tryOrNull {
+            session?.spaceService()?.setSpaceParent(childId, parentRoomId, false, via)
+        }
         getJoinedRoomById(parentRoomId)?.asSpace()?.addChildren(childId, via, null)
     }
 
