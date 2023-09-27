@@ -129,6 +129,27 @@
                 android:text="@string/push_notifications"
                 app:drawableStartCompat="@drawable/ic_notifications" />
 
+            <TextView
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/session" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvLoginSessions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_phone"
+                app:optionName="@string/login_sessions" />
+
+
+            <TextView
+                android:id="@+id/tvClearCache"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_cache_and_reload"
+                app:drawableStartCompat="@drawable/ic_reload" />
 
             <TextView
                 style="@style/settingMenuHeader"
@@ -142,22 +163,6 @@
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_lock"
                 app:optionName="@string/change_password" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvLoginSessions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_phone"
-                app:optionName="@string/login_sessions" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvClearCache"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_reload"
-                app:optionName="@string/clear_cache_and_reload" />
 
 
             <org.futo.circles.core.view.SettingsMenuItemView

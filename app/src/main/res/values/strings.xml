@@ -209,6 +209,7 @@
     <string name="people_empty_message">Members of Circles and Groups you are joined will be shown here</string>
     <string name="creating_timeline">Creating timeline</string>
     <string name="group_topic_optional">Group topic (optional)</string>
+    <string name="session">Session</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
