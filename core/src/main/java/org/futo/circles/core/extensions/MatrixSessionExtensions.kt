@@ -40,6 +40,11 @@ fun Session.resolveUrl(
     }
 }
 
+fun Session.getUserIdsToExclude() = mutableListOf(
+    myUserId,
+    "@notices:" + getServerDomain()
+).toSet()
+
 fun Session.getServerDomain() = myUserId.substringAfter(":")
 
 fun Session.getKnownUsersFlow() =
@@ -49,7 +54,7 @@ fun Session.getKnownUsersFlow() =
             roomSummaries.forEach { summary ->
                 summary.otherMemberIds.forEach { knowUsers.add(getOrFetchUser(it)) }
             }
-            knowUsers.toList().filterNot { it.userId == myUserId }
+            knowUsers.toList().filterNot { getUserIdsToExclude().contains(it.userId) }
         }
 
 suspend fun Session.getOrFetchUser(userId: String): User =
