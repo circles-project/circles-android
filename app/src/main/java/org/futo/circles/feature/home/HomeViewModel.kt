@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(
         val tasks = workspaceTasksProvider.getMandatoryTasks()
         tasks.forEach { item ->
             when (val validationResponse =
-                createResult { workspaceDataSource.validate(item.room) }) {
+                createResult { workspaceDataSource.validateAndFixIfExist(item.room) }) {
                 is Response.Error -> {
                     validateWorkspaceResultLiveData.postValue(Response.Error(""))
                     return@launchBg

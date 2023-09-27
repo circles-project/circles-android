@@ -43,7 +43,7 @@ class ConfigureWorkspaceViewModel @Inject constructor(
         tasks.forEachIndexed { i, item ->
             updateTaskStatus(i, TaskStatus.RUNNING)
             when (val validationResponse =
-                createResult { workspaceDataSource.validate(item.room) }) {
+                createResult { workspaceDataSource.validateAndFixIfExist(item.room) }) {
                 is Response.Error -> {
                     hasError = true
                     updateTaskStatus(i, TaskStatus.FAILED)
@@ -71,7 +71,7 @@ class ConfigureWorkspaceViewModel @Inject constructor(
             if (item.status == TaskStatus.SUCCESS) return@forEachIndexed
 
             updateTaskStatus(i, TaskStatus.RUNNING)
-            when (val result = createResult { workspaceDataSource.perform(item.room) }) {
+            when (val result = createResult { workspaceDataSource.performCreate(item.room) }) {
                 is Response.Error -> {
                     updateTaskStatus(i, TaskStatus.FAILED)
                     workspaceResultLiveData.postValue(result)

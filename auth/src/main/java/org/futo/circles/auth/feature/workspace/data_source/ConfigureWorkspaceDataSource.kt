@@ -4,19 +4,21 @@ import kotlinx.coroutines.delay
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.CreateRoomDataSource
+import org.futo.circles.core.room.RoomRelationsBuilder
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.workspace.SpacesTreeAccountDataSource
+import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 class ConfigureWorkspaceDataSource @Inject constructor(
     private val createRoomDataSource: CreateRoomDataSource,
-    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource
+    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource,
+    private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 
-    suspend fun perform(room: CirclesRoom) {
+    suspend fun performCreate(room: CirclesRoom) {
         val roomId = createRoomDataSource.createRoom(room)
         room.accountDataKey?.let { key ->
             spacesTreeAccountDataSource.updateSpacesConfigAccountData(key, roomId)
@@ -24,21 +26,30 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         delay(CREATE_ROOM_DELAY)
     }
 
-    suspend fun validate(room: CirclesRoom): Boolean {
+    suspend fun validateAndFixIfExist(room: CirclesRoom): Boolean {
         val accountDataKey = room.accountDataKey ?: return false
-        if (spacesTreeAccountDataSource.getRoomIdByKey(accountDataKey) == null) {
-            addRecordToAccountDataIfRoomExist(room)
-        }
-        return getJoinedRoomById(
-            spacesTreeAccountDataSource.getRoomIdByKey(accountDataKey) ?: ""
-        ) != null
+        var roomId = spacesTreeAccountDataSource.getRoomIdByKey(accountDataKey)
+        if (roomId == null) roomId = addIdToAccountDataIfRoomExistWithTag(room)
+        val joinedRoom = roomId?.let { getJoinedRoomById(roomId) } ?: return false
+        validateOrSetupRelations(room.parentAccountDataKey, joinedRoom)
+        return true
     }
 
-    private suspend fun addRecordToAccountDataIfRoomExist(room: CirclesRoom) {
-        val tag = room.getTag() ?: return
-        val key = room.accountDataKey ?: return
-        val roomId = getJoinedRoomIdByTag(tag) ?: return
+    private suspend fun validateOrSetupRelations(parentAccountDataKey: String?, joinedRoom: Room) {
+        val parentKey = parentAccountDataKey ?: return
+        val parentRoomId = spacesTreeAccountDataSource.getRoomIdByKey(parentKey) ?: return
+        val hasRelations = joinedRoom.asSpace()
+            ?.spaceSummary()?.spaceParents?.mapNotNull { it.roomSummary?.roomId }
+            ?.contains(parentRoomId) == true
+        if (!hasRelations) roomRelationsBuilder.setRelations(joinedRoom.roomId, parentRoomId)
+    }
+
+    private suspend fun addIdToAccountDataIfRoomExistWithTag(room: CirclesRoom): String? {
+        val tag = room.getTag() ?: return null
+        val key = room.accountDataKey ?: return null
+        val roomId = getJoinedRoomIdByTag(tag) ?: return null
         spacesTreeAccountDataSource.updateSpacesConfigAccountData(key, roomId)
+        return roomId
     }
 
     private fun getJoinedRoomIdByTag(tag: String): String? {
