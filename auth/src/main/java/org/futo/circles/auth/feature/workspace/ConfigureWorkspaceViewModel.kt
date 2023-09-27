@@ -20,8 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ConfigureWorkspaceViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val workspaceDataSource: ConfigureWorkspaceDataSource,
-    workspaceTasksProvider: WorkspaceTasksProvider
+    workspaceTasksProvider: WorkspaceTasksProvider,
+    private val workspaceDataSource: ConfigureWorkspaceDataSource
 ) : ViewModel() {
 
     private val shouldValidate =

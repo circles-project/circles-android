@@ -60,7 +60,7 @@
         android:layout_height="@dimen/divider_height"
         android:layout_marginBottom="8dp"
         android:background="@color/divider_color"
-        app:layout_constraintBottom_toTopOf="@id/btbCreate"
+        app:layout_constraintBottom_toTopOf="@id/btbConfigure"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
