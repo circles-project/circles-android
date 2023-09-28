@@ -52,7 +52,6 @@ class HomeViewModel @Inject constructor(
                 return@launchBg
             }
         }
-        workspaceDataSource.check()
         validateWorkspaceResultLiveData.postValue(Response.Success(Unit))
     }
 

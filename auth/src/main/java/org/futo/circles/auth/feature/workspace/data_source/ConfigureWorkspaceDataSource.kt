@@ -1,14 +1,7 @@
 package org.futo.circles.auth.feature.workspace.data_source
 
-import android.util.Log
 import kotlinx.coroutines.delay
-import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.CirclesRoom
-import org.futo.circles.core.model.GROUPS_SPACE_ACCOUNT_DATA_KEY
-import org.futo.circles.core.model.PEOPLE_SPACE_ACCOUNT_DATA_KEY
-import org.futo.circles.core.model.PHOTOS_SPACE_ACCOUNT_DATA_KEY
-import org.futo.circles.core.model.PROFILE_SPACE_ACCOUNT_DATA_KEY
-import org.futo.circles.core.model.ROOT_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.room.RoomRelationsBuilder
@@ -103,101 +96,6 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         }
         delay(CREATE_ROOM_DELAY)
         return roomId
-    }
-
-    fun check() {
-        val rootId =
-            spacesTreeAccountDataSource.getRoomIdByKey(ROOT_SPACE_ACCOUNT_DATA_KEY) ?: ""
-        val rootRoom = getJoinedRoomById(rootId)?.roomSummary()
-        Log.d("MyLog", "1 - ${rootRoom?.name} - ${rootRoom?.membership} - ${rootRoom?.roomId}")
-        Log.d(
-            "MyLog",
-            "parent - ${rootRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
-        )
-        Log.d(
-            "MyLog",
-            "children - ${rootRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
-        )
-
-        val circlesId =
-            spacesTreeAccountDataSource.getRoomIdByKey(CIRCLES_SPACE_ACCOUNT_DATA_KEY) ?: ""
-        val circlesRoom = getJoinedRoomById(circlesId)?.roomSummary()
-        Log.d(
-            "MyLog",
-            "2 - ${circlesRoom?.name} - ${circlesRoom?.membership} - ${circlesRoom?.roomId}"
-        )
-        Log.d(
-            "MyLog",
-            "parent - ${circlesRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
-        )
-        Log.d(
-            "MyLog",
-            "children - ${circlesRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
-        )
-
-        val groupId =
-            spacesTreeAccountDataSource.getRoomIdByKey(GROUPS_SPACE_ACCOUNT_DATA_KEY) ?: ""
-        val groupRoom = getJoinedRoomById(groupId)?.roomSummary()
-        Log.d(
-            "MyLog",
-            "2 - ${groupRoom?.name} - ${groupRoom?.membership} - ${groupRoom?.roomId}"
-        )
-        Log.d(
-            "MyLog",
-            "parent - ${groupRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
-        )
-        Log.d(
-            "MyLog",
-            "children - ${groupRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
-        )
-
-        val photosId =
-            spacesTreeAccountDataSource.getRoomIdByKey(PHOTOS_SPACE_ACCOUNT_DATA_KEY) ?: ""
-        val photosRoom = getJoinedRoomById(photosId)?.roomSummary()
-        Log.d(
-            "MyLog",
-            "2 - ${photosRoom?.name} - ${photosRoom?.membership} - ${photosRoom?.roomId}"
-        )
-        Log.d(
-            "MyLog",
-            "parent - ${photosRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
-        )
-        Log.d(
-            "MyLog",
-            "children - ${photosRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
-        )
-
-        val peopleId =
-            spacesTreeAccountDataSource.getRoomIdByKey(PEOPLE_SPACE_ACCOUNT_DATA_KEY) ?: ""
-        val peopleRoom = getJoinedRoomById(peopleId)?.roomSummary()
-        Log.d(
-            "MyLog",
-            "2 - ${peopleRoom?.name} - ${peopleRoom?.membership} - ${peopleRoom?.roomId}"
-        )
-        Log.d(
-            "MyLog",
-            "parent - ${peopleRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
-        )
-        Log.d(
-            "MyLog",
-            "children - ${peopleRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
-        )
-
-        val profileId =
-            spacesTreeAccountDataSource.getRoomIdByKey(PROFILE_SPACE_ACCOUNT_DATA_KEY) ?: ""
-        val profileRoom = getJoinedRoomById(profileId)?.roomSummary()
-        Log.d(
-            "MyLog",
-            "3 - ${profileRoom?.name} - ${profileRoom?.membership} - ${profileRoom?.roomId}"
-        )
-        Log.d(
-            "MyLog",
-            "parent - ${profileRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
-        )
-        Log.d(
-            "MyLog",
-            "children - ${profileRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
-        )
     }
 
     private companion object {

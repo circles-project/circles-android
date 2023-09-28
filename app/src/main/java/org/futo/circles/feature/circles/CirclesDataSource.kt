@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.mapping.toRoomInfo
+import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserUtils
+import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.workspace.SharedCircleDataSource
 import org.futo.circles.core.workspace.SpacesTreeAccountDataSource
@@ -20,7 +22,6 @@ import org.futo.circles.model.RequestCircleListItem
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
@@ -62,15 +63,14 @@ class CirclesDataSource @Inject constructor(
         return displayList
     }
 
-    fun isJoinedCircle(summary: RoomSummary): Boolean =
-        summary.roomType == RoomType.SPACE && summary.membership == Membership.JOIN
-//        if(summary.roomId == sharedCircleDataSource.getSharedCirclesSpaceId()) return false
-//        val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(
-//            CIRCLES_SPACE_ACCOUNT_DATA_KEY
-//        ) ?: return false
-//        return getJoinedRoomById(circlesSpaceId)?.roomSummary()?.spaceChildren?.map { it.childRoomId }
-//            ?.contains(summary.roomId) == true
-//    }
+    fun isJoinedCircle(summary: RoomSummary): Boolean {
+        if (summary.roomId == sharedCircleDataSource.getSharedCirclesSpaceId()) return false
+        val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(
+            CIRCLES_SPACE_ACCOUNT_DATA_KEY
+        ) ?: return false
+        return getJoinedRoomById(circlesSpaceId)?.roomSummary()?.spaceChildren?.map { it.childRoomId }
+            ?.contains(summary.roomId) == true
+    }
 
     private fun isInviteToCircleTimeline(summary: RoomSummary) =
         summary.roomType == TIMELINE_TYPE && summary.membership == Membership.INVITE

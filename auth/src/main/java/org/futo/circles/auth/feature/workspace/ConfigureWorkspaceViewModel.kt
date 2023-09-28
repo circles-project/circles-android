@@ -51,7 +51,6 @@ class ConfigureWorkspaceViewModel @Inject constructor(
                 is Response.Success -> updateTaskStatus(i, TaskStatus.SUCCESS)
             }
         }
-        workspaceDataSource.check()
         validateWorkspaceResultLiveData.postValue(
             if (hasError) Response.Error("") else Response.Success(Unit)
         )
@@ -74,7 +73,6 @@ class ConfigureWorkspaceViewModel @Inject constructor(
                 is Response.Success -> updateTaskStatus(i, TaskStatus.SUCCESS)
             }
         }
-        workspaceDataSource.check()
         workspaceResultLiveData.postValue(Response.Success(Unit))
     }
 
