@@ -42,23 +42,16 @@ class ConfigureWorkspaceViewModel @Inject constructor(
         var hasError = false
         tasks.forEachIndexed { i, item ->
             updateTaskStatus(i, TaskStatus.RUNNING)
-            when (val validationResponse =
-                createResult { workspaceDataSource.validateAndFixIfExist(item.room) }) {
+            when (createResult { workspaceDataSource.validate(item.room) }) {
                 is Response.Error -> {
                     hasError = true
                     updateTaskStatus(i, TaskStatus.FAILED)
                 }
 
-                is Response.Success -> {
-                    if (validationResponse.data)
-                        updateTaskStatus(i, TaskStatus.SUCCESS)
-                    else {
-                        hasError = true
-                        updateTaskStatus(i, TaskStatus.FAILED)
-                    }
-                }
+                is Response.Success -> updateTaskStatus(i, TaskStatus.SUCCESS)
             }
         }
+        workspaceDataSource.check()
         validateWorkspaceResultLiveData.postValue(
             if (hasError) Response.Error("") else Response.Success(Unit)
         )
@@ -71,7 +64,7 @@ class ConfigureWorkspaceViewModel @Inject constructor(
             if (item.status == TaskStatus.SUCCESS) return@forEachIndexed
 
             updateTaskStatus(i, TaskStatus.RUNNING)
-            when (val result = createResult { workspaceDataSource.performCreate(item.room) }) {
+            when (val result = createResult { workspaceDataSource.performCreateOrFix(item.room) }) {
                 is Response.Error -> {
                     updateTaskStatus(i, TaskStatus.FAILED)
                     workspaceResultLiveData.postValue(result)
@@ -81,6 +74,7 @@ class ConfigureWorkspaceViewModel @Inject constructor(
                 is Response.Success -> updateTaskStatus(i, TaskStatus.SUCCESS)
             }
         }
+        workspaceDataSource.check()
         workspaceResultLiveData.postValue(Response.Success(Unit))
     }
 

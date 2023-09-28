@@ -1,7 +1,14 @@
 package org.futo.circles.auth.feature.workspace.data_source
 
+import android.util.Log
 import kotlinx.coroutines.delay
+import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.CirclesRoom
+import org.futo.circles.core.model.GROUPS_SPACE_ACCOUNT_DATA_KEY
+import org.futo.circles.core.model.PEOPLE_SPACE_ACCOUNT_DATA_KEY
+import org.futo.circles.core.model.PHOTOS_SPACE_ACCOUNT_DATA_KEY
+import org.futo.circles.core.model.PROFILE_SPACE_ACCOUNT_DATA_KEY
+import org.futo.circles.core.model.ROOT_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.room.RoomRelationsBuilder
@@ -18,30 +25,52 @@ class ConfigureWorkspaceDataSource @Inject constructor(
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 
-    suspend fun performCreate(room: CirclesRoom) {
-        val roomId = createRoomDataSource.createRoom(room)
-        room.accountDataKey?.let { key ->
-            spacesTreeAccountDataSource.updateSpacesConfigAccountData(key, roomId)
+    suspend fun performCreateOrFix(room: CirclesRoom) {
+        var roomId = addIdToAccountDataIfRoomExistWithTag(room)
+        if (roomId == null) roomId = getJoinedRoomIdFromAccountData(room)
+        if (roomId == null) createRoomWithAccountDataRecordIfNeed(room)
+        else {
+            try {
+                getJoinedRoomById(roomId)?.let { validateRelations(room.parentAccountDataKey, it) }
+            } catch (_: Exception) {
+                val parentRoomId =
+                    room.parentAccountDataKey?.let { spacesTreeAccountDataSource.getRoomIdByKey(it) }
+                parentRoomId?.let { roomRelationsBuilder.setRelations(roomId, parentRoomId) }
+            }
         }
-        delay(CREATE_ROOM_DELAY)
     }
 
-    suspend fun validateAndFixIfExist(room: CirclesRoom): Boolean {
-        val accountDataKey = room.accountDataKey ?: return false
-        var roomId = spacesTreeAccountDataSource.getRoomIdByKey(accountDataKey)
-        if (roomId == null) roomId = addIdToAccountDataIfRoomExistWithTag(room)
-        val joinedRoom = roomId?.let { getJoinedRoomById(roomId) } ?: return false
-        validateOrSetupRelations(room.parentAccountDataKey, joinedRoom)
-        return true
+    fun validate(room: CirclesRoom) {
+        val accountDataKey = room.accountDataKey ?: return
+        val roomId = spacesTreeAccountDataSource.getRoomIdByKey(accountDataKey)
+            ?: throw IllegalArgumentException("No account data record for key $accountDataKey")
+        val joinedRoom = getJoinedRoomById(roomId)
+            ?: throw IllegalArgumentException("No joined room for id $roomId found")
+        validateRelations(room.parentAccountDataKey, joinedRoom)
     }
 
-    private suspend fun validateOrSetupRelations(parentAccountDataKey: String?, joinedRoom: Room) {
+    private fun validateRelations(parentAccountDataKey: String?, joinedRoom: Room) {
         val parentKey = parentAccountDataKey ?: return
-        val parentRoomId = spacesTreeAccountDataSource.getRoomIdByKey(parentKey) ?: return
-        val hasRelations = joinedRoom.asSpace()
-            ?.spaceSummary()?.spaceParents?.mapNotNull { it.roomSummary?.roomId }
+        val parentRoomId =
+            spacesTreeAccountDataSource.getRoomIdByKey(parentKey) ?: throw IllegalArgumentException(
+                "No account data record for parent with key $parentKey"
+            )
+        val joinedParentRoom = getJoinedRoomById(parentRoomId)
+            ?: throw IllegalArgumentException("No joined parent room for id $parentKey found")
+
+        val childHasRelationToParent = joinedRoom.asSpace()
+            ?.spaceSummary()?.spaceParents?.mapNotNull { it.parentId }
             ?.contains(parentRoomId) == true
-        if (!hasRelations) roomRelationsBuilder.setRelations(joinedRoom.roomId, parentRoomId)
+
+        if (!childHasRelationToParent)
+            throw IllegalArgumentException("Missing child to parent relations")
+
+        val parentHasRelationToChild = joinedParentRoom.asSpace()
+            ?.spaceSummary()?.spaceChildren?.map { it.childRoomId }
+            ?.contains(joinedRoom.roomId) == true
+
+        if (!parentHasRelationToChild)
+            throw IllegalArgumentException("Missing parent to child relations")
     }
 
     private suspend fun addIdToAccountDataIfRoomExistWithTag(room: CirclesRoom): String? {
@@ -58,6 +87,117 @@ class ConfigureWorkspaceDataSource @Inject constructor(
             excludeType = null
             memberships = listOf(Membership.JOIN)
         }).firstOrNull { it.hasTag(tag) }?.roomId
+    }
+
+    private fun getJoinedRoomIdFromAccountData(room: CirclesRoom): String? {
+        val key = room.accountDataKey ?: return null
+        val roomId = spacesTreeAccountDataSource.getRoomIdByKey(key) ?: return null
+        getJoinedRoomById(roomId) ?: return null
+        return roomId
+    }
+
+    private suspend fun createRoomWithAccountDataRecordIfNeed(room: CirclesRoom): String {
+        val roomId = createRoomDataSource.createRoom(room)
+        room.accountDataKey?.let { key ->
+            spacesTreeAccountDataSource.updateSpacesConfigAccountData(key, roomId)
+        }
+        delay(CREATE_ROOM_DELAY)
+        return roomId
+    }
+
+    fun check() {
+        val rootId =
+            spacesTreeAccountDataSource.getRoomIdByKey(ROOT_SPACE_ACCOUNT_DATA_KEY) ?: ""
+        val rootRoom = getJoinedRoomById(rootId)?.roomSummary()
+        Log.d("MyLog", "1 - ${rootRoom?.name} - ${rootRoom?.membership} - ${rootRoom?.roomId}")
+        Log.d(
+            "MyLog",
+            "parent - ${rootRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
+        )
+        Log.d(
+            "MyLog",
+            "children - ${rootRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
+        )
+
+        val circlesId =
+            spacesTreeAccountDataSource.getRoomIdByKey(CIRCLES_SPACE_ACCOUNT_DATA_KEY) ?: ""
+        val circlesRoom = getJoinedRoomById(circlesId)?.roomSummary()
+        Log.d(
+            "MyLog",
+            "2 - ${circlesRoom?.name} - ${circlesRoom?.membership} - ${circlesRoom?.roomId}"
+        )
+        Log.d(
+            "MyLog",
+            "parent - ${circlesRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
+        )
+        Log.d(
+            "MyLog",
+            "children - ${circlesRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
+        )
+
+        val groupId =
+            spacesTreeAccountDataSource.getRoomIdByKey(GROUPS_SPACE_ACCOUNT_DATA_KEY) ?: ""
+        val groupRoom = getJoinedRoomById(groupId)?.roomSummary()
+        Log.d(
+            "MyLog",
+            "2 - ${groupRoom?.name} - ${groupRoom?.membership} - ${groupRoom?.roomId}"
+        )
+        Log.d(
+            "MyLog",
+            "parent - ${groupRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
+        )
+        Log.d(
+            "MyLog",
+            "children - ${groupRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
+        )
+
+        val photosId =
+            spacesTreeAccountDataSource.getRoomIdByKey(PHOTOS_SPACE_ACCOUNT_DATA_KEY) ?: ""
+        val photosRoom = getJoinedRoomById(photosId)?.roomSummary()
+        Log.d(
+            "MyLog",
+            "2 - ${photosRoom?.name} - ${photosRoom?.membership} - ${photosRoom?.roomId}"
+        )
+        Log.d(
+            "MyLog",
+            "parent - ${photosRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
+        )
+        Log.d(
+            "MyLog",
+            "children - ${photosRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
+        )
+
+        val peopleId =
+            spacesTreeAccountDataSource.getRoomIdByKey(PEOPLE_SPACE_ACCOUNT_DATA_KEY) ?: ""
+        val peopleRoom = getJoinedRoomById(peopleId)?.roomSummary()
+        Log.d(
+            "MyLog",
+            "2 - ${peopleRoom?.name} - ${peopleRoom?.membership} - ${peopleRoom?.roomId}"
+        )
+        Log.d(
+            "MyLog",
+            "parent - ${peopleRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
+        )
+        Log.d(
+            "MyLog",
+            "children - ${peopleRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
+        )
+
+        val profileId =
+            spacesTreeAccountDataSource.getRoomIdByKey(PROFILE_SPACE_ACCOUNT_DATA_KEY) ?: ""
+        val profileRoom = getJoinedRoomById(profileId)?.roomSummary()
+        Log.d(
+            "MyLog",
+            "3 - ${profileRoom?.name} - ${profileRoom?.membership} - ${profileRoom?.roomId}"
+        )
+        Log.d(
+            "MyLog",
+            "parent - ${profileRoom?.spaceParents?.map { "${it.roomSummary?.name} - ${it.parentId}\n" }}"
+        )
+        Log.d(
+            "MyLog",
+            "children - ${profileRoom?.spaceChildren?.map { "${it.name} - ${it.childRoomId}\n" }}"
+        )
     }
 
     private companion object {
