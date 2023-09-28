@@ -1,17 +1,19 @@
 package org.futo.circles.core.utils
 
-import org.futo.circles.core.SYSTEM_NOTICES_TAG
-import org.futo.circles.core.extensions.getRoomOwners
-import org.futo.circles.core.extensions.getTimelineRoom
-import org.futo.circles.core.model.PHOTOS_SPACE_TAG
-import org.futo.circles.core.model.SHARED_CIRCLES_SPACE_TAG
+import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.model.RoomType
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
+
+fun Room.getTimelineRoom(): Room? {
+    val session = MatrixSessionProvider.currentSession ?: return null
+    val childId = roomSummary()?.spaceChildren?.firstOrNull {
+        val room = session.getRoom(it.childRoomId)?.roomSummary()
+        room?.inviterId == null && room?.roomType == TIMELINE_TYPE
+    }?.childRoomId
+    return childId?.let { session.getRoom(it) }
+}
 
 fun getTimelineRoomFor(circleId: String): Room? {
     val session = MatrixSessionProvider.currentSession ?: return null
@@ -21,33 +23,9 @@ fun getTimelineRoomFor(circleId: String): Room? {
 fun getTimelineRoomIdOrThrow(circleId: String) = getTimelineRoomFor(circleId)?.roomId
     ?: throw IllegalArgumentException("Timeline not found")
 
-fun getSystemNoticesRoomId(): String? = getJoinedRoomIdByTag(SYSTEM_NOTICES_TAG)
 
-fun getJoinedRoomIdByTag(tag: String): String? {
+fun getJoinedRoomById(roomId: String): Room? {
     val session = MatrixSessionProvider.currentSession ?: return null
-    return session.roomService().getRoomSummaries(roomSummaryQueryParams())
-        .firstOrNull { it.membership == Membership.JOIN && it.hasTag(tag) }?.roomId
-}
-
-fun getPhotosSpaceId(): String? = getSpaceIdByTag(PHOTOS_SPACE_TAG)
-fun getSharedCirclesSpaceId(): String? = getSpaceIdByTag(SHARED_CIRCLES_SPACE_TAG)
-
-fun getSharedCircleFor(userId: String) = MatrixSessionProvider.currentSession?.roomService()
-    ?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })?.firstOrNull { summary ->
-        summary.roomType == RoomType.SPACE && summary.membership == Membership.JOIN &&
-                getRoomOwners(summary.roomId).map { it.userId }.contains(userId)
-    }
-
-fun getSpaceIdByTag(tag: String): String? {
-    val session = MatrixSessionProvider.currentSession ?: return null
-    return session.roomService().getRoomSummaries(roomSummaryQueryParams { excludeType = null })
-        .firstOrNull { it.hasTag(tag) && it.roomType == RoomType.SPACE }?.roomId
-}
-
-fun isCircleShared(circleId: String): Boolean {
-    val timelineId = getTimelineRoomFor(circleId)?.roomId
-    val sharedCirclesTimelinesIds = getSharedCirclesSpaceId()?.let {
-        MatrixSessionProvider.currentSession?.getRoomSummary(it)?.spaceChildren?.map { it.childRoomId }
-    } ?: emptyList()
-    return sharedCirclesTimelinesIds.contains(timelineId)
+    return session.roomService().getRoom(roomId)
+        ?.takeIf { it.roomSummary()?.membership == Membership.JOIN }
 }

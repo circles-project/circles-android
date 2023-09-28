@@ -27,12 +27,7 @@ class CreatePassPhraseDataSource @Inject constructor(
     val loadingLiveData = MutableLiveData<LoadingData>()
 
     suspend fun createPassPhraseBackup() {
-        loadingLiveData.postValue(
-            LoadingData(
-                total = 0,
-                messageId = R.string.generating_recovery_key
-            )
-        )
+        loadingLiveData.postValue(LoadingData(messageId = R.string.generating_recovery_key))
         val keyBackupPrivateKey = generateRandomPrivateKey()
         val backupCreationInfo = awaitCallback {
             keysBackupService.prepareKeysBackupVersion(keyBackupPrivateKey, it)
@@ -49,7 +44,7 @@ class CreatePassPhraseDataSource @Inject constructor(
     }
 
     suspend fun changeBsSpekePassword4SKey() {
-        loadingLiveData.postValue(LoadingData(total = 0, messageId = R.string.creating_backup))
+        loadingLiveData.postValue(LoadingData(messageId = R.string.creating_backup))
         ssssDataSource.replaceBsSpeke4SKey()
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }

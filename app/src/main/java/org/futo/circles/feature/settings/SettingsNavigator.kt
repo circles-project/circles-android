@@ -4,8 +4,6 @@ import androidx.navigation.fragment.findNavController
 import org.futo.circles.R
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.showError
-import org.futo.circles.core.utils.getSharedCirclesSpaceId
-import org.futo.circles.core.utils.getSystemNoticesRoomId
 
 class SettingsNavigator(private val fragment: SettingsFragment) {
 
@@ -17,16 +15,6 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
     fun navigateToActiveSessions() {
         fragment.findNavController()
             .navigateSafe(SettingsFragmentDirections.toActiveSessionsDialogFragment())
-    }
-
-    fun navigateToSystemNotices() {
-        val systemNoticesRoomId = getSystemNoticesRoomId() ?: run {
-            fragment.showError(fragment.getString(org.futo.circles.core.R.string.system_notices_room_not_found))
-            return
-        }
-        fragment.findNavController().navigateSafe(
-            SettingsFragmentDirections.toSystemNoticesDialogFragment(systemNoticesRoomId)
-        )
     }
 
     fun navigateToMatrixChangePassword() {
@@ -44,8 +32,8 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             .navigateSafe(SettingsFragmentDirections.toReAuthStagesDialogFragment())
     }
 
-    fun navigateToShareProfile() {
-        val sharedSpaceId = getSharedCirclesSpaceId() ?: kotlin.run {
+    fun navigateToShareProfile(sharedSpaceId: String?) {
+        sharedSpaceId ?: kotlin.run {
             fragment.showError(
                 fragment.requireContext().getString(R.string.shared_circles_space_not_found)
             )

@@ -121,50 +121,35 @@
                 android:layout_height="wrap_content"
                 android:text="@string/notifications" />
 
-            <org.futo.circles.core.view.SettingsMenuItemView
+            <TextView
                 android:id="@+id/tvPushNotifications"
+                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_notifications"
-                app:optionName="@string/push_notifications" />
+                android:text="@string/push_notifications"
+                app:drawableStartCompat="@drawable/ic_notifications" />
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/lSystemNotices"
+            <TextView
+                style="@style/settingMenuHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
+                android:text="@string/session" />
 
-                <TextView
-                    android:id="@+id/tvSystemNotices"
-                    style="@style/settingMenuItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:paddingEnd="8dp"
-                    android:text="@string/system_notices"
-                    app:drawableStartCompat="@drawable/ic_error"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="RtlSymmetry" />
-
-                <org.futo.circles.core.view.NotificationCounterView
-                    android:id="@+id/ivNoticesCount"
-                    android:layout_width="18dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/holo_red_dark"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toEndOf="@id/tvSystemNotices"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="visible" />
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvLoginSessions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_phone"
+                app:optionName="@string/login_sessions" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvClearCache"
+                style="@style/settingMenuItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_cache_and_reload"
+                app:drawableStartCompat="@drawable/ic_reload" />
 
             <TextView
                 style="@style/settingMenuHeader"
@@ -178,22 +163,6 @@
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_lock"
                 app:optionName="@string/change_password" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvLoginSessions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_phone"
-                app:optionName="@string/login_sessions" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvClearCache"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_reload"
-                app:optionName="@string/clear_cache_and_reload" />
 
 
             <org.futo.circles.core.view.SettingsMenuItemView

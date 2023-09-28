@@ -10,7 +10,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSetupProfileBinding
-import org.futo.circles.core.CirclesAppConfig
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -35,7 +34,7 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadi
 
     private fun setupViews() {
         with(binding) {
-            btnSkip.setOnClickListener { navigateToSetupCirclesOrHome() }
+            btnSkip.setOnClickListener { navigateToHome() }
             btnSave.setOnClickListener {
                 startLoading(btnSave)
                 viewModel.saveProfileInfo(tilDisplayName.getText())
@@ -62,17 +61,12 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadi
         }
         viewModel.saveProfileResponseLiveData.observeResponse(
             this,
-            success = { navigateToSetupCirclesOrHome() }
+            success = { navigateToHome() }
         )
     }
 
-    private fun navigateToSetupCirclesOrHome() {
-        findNavController().navigateSafe(
-            if (CirclesAppConfig.isSetupCirclesEnabled)
-                SetupProfileFragmentDirections.toSetupCirclesFragment()
-            else
-                SetupProfileFragmentDirections.toHomeFragment()
-        )
+    private fun navigateToHome() {
+        findNavController().navigateSafe(SetupProfileFragmentDirections.toHomeFragment())
     }
 
     private fun setSaveButtonEnabled() {

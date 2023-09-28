@@ -39,4 +39,5 @@ class UpdateRoomViewModel @Inject constructor(
         isRoomDataChangedLiveData.postValue(isDataUpdated)
     }
 
+    fun isCircleShared(circleId: String) = dataSource.isCircleShared(circleId)
 }

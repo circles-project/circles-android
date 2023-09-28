@@ -14,10 +14,7 @@
     <string name="compress_before_sending">Compress before sending</string>
     <string name="backup_device_folders">Backup device folders</string>
     <string name="backup_folders_hint">Choose folders to backup and view in your Gallery:</string>
-    <string name="gallery_name">Gallery name</string>
-    <string name="gallery_encryption_warning">NOTE: Gallery name and cover image are not encrypted</string>
     <string name="create_new_gallery">Create new gallery</string>
-    <string name="create">Create</string>
     <string name="photos_empty_message">Create your first Gallery</string>
 
 </resources>

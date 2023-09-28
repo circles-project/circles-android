@@ -17,7 +17,6 @@ class LoginStagesViewModel @Inject constructor(
     val restoreKeysLiveData = org.futo.circles.core.SingleEventLiveData<Response<Unit>>()
     val loginNavigationLiveData = loginStagesDataSource.loginNavigationLiveData
     val passPhraseLoadingLiveData = loginStagesDataSource.passPhraseLoadingLiveData
-    val spacesTreeLoadingLiveData = loginStagesDataSource.spacesTreeLoadingLiveData
     val messageEventLiveData = loginStagesDataSource.messageEventLiveData
 
     fun restoreBackupWithPassPhrase(passphrase: String) {
@@ -41,7 +40,7 @@ class LoginStagesViewModel @Inject constructor(
     }
 
     fun onDoNotRestoreBackup() {
-        launchBg { loginStagesDataSource.createSpacesTreeIfNotExist() }
+        loginStagesDataSource.navigateToMain()
     }
 
 }

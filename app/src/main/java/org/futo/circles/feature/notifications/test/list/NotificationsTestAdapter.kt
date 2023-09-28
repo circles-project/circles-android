@@ -6,8 +6,7 @@ import org.futo.circles.model.NotificationTestListItem
 
 class NotificationsTestAdapter(
     private val onFixClicked: (Int) -> Unit,
-) :
-    BaseRvAdapter<NotificationTestListItem, NotificationTestViewHolder>(DefaultIdEntityCallback()) {
+) : BaseRvAdapter<NotificationTestListItem, NotificationTestViewHolder>(DefaultIdEntityCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

@@ -15,7 +15,7 @@ object UploadMediaProgressHelper {
                 when (state) {
                     ContentUploadStateTracker.State.CompressingImage -> {
                         loadingView.visible()
-                        loadingView.setMessage(R.string.compressing)
+                        loadingView.setProgress(LoadingData(R.string.compressing))
                     }
 
                     is ContentUploadStateTracker.State.CompressingVideo -> {

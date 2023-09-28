@@ -4,9 +4,9 @@ import android.content.Context
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
+import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
-import org.futo.circles.model.NotificationTestStatus
 import javax.inject.Inject
 
 class NotificationsTestFirebaseToken @Inject constructor(
@@ -19,7 +19,7 @@ class NotificationsTestFirebaseToken @Inject constructor(
             FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
                     description = task.exception?.localizedMessage ?: "Unknown"
-                    status = NotificationTestStatus.FAILED
+                    status = TaskStatus.FAILED
                 } else {
                     task.result?.let { token ->
                         val tok = token.take(8) + "********************"
@@ -29,7 +29,7 @@ class NotificationsTestFirebaseToken @Inject constructor(
                         )
                         fcmHelper.storeFcmToken(token)
                     }
-                    status = NotificationTestStatus.SUCCESS
+                    status = TaskStatus.SUCCESS
                 }
                 updateTestInfo()
             }
@@ -38,7 +38,7 @@ class NotificationsTestFirebaseToken @Inject constructor(
                 R.string.settings_troubleshoot_test_fcm_failed,
                 e.localizedMessage
             )
-            status = NotificationTestStatus.FAILED
+            status = TaskStatus.FAILED
             updateTestInfo()
         }
     }

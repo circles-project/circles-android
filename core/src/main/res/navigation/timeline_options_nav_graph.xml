@@ -192,7 +192,7 @@
     </dialog>
     <dialog
         android:id="@+id/followingDialogFragment"
-        android:name="org.futo.circles.feature.circles.following.FollowingDialogFragment"
+        android:name="org.futo.circles.core.room.circles.following.FollowingDialogFragment"
         android:label="FollowingDialogFragment"
         tools:layout="@layout/dialog_fragment_following">
 

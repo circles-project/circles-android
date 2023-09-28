@@ -5,13 +5,11 @@ import androidx.lifecycle.map
 import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.model.toFollowingListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.RoomRelationsBuilder
+import org.futo.circles.core.utils.getJoinedRoomById
 import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -42,16 +40,7 @@ class FollowingDataSource @Inject constructor(
         session.roomService().leaveRoom(childRoomId)
     }
 
-    private fun getFollowingInCircleCount(roomId: String): Int {
-        var followingCount = 0
-        session.roomService().getRoomSummaries(roomSummaryQueryParams { excludeType = null })
-            .filter { summary ->
-                summary.hasTag(CIRCLE_TAG) && summary.membership == Membership.JOIN
-            }.forEach { circle ->
-                circle.spaceChildren?.firstOrNull { it.childRoomId == roomId }?.let {
-                    followingCount++
-                }
-            }
-        return followingCount
-    }
+    private fun getFollowingInCircleCount(roomId: String): Int =
+        getJoinedRoomById(roomId)?.roomSummary()?.spaceParents?.size ?: 0
+
 }

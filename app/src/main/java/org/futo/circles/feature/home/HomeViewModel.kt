@@ -4,13 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.futo.circles.auth.feature.workspace.data_source.ConfigureWorkspaceDataSource
+import org.futo.circles.auth.feature.workspace.data_source.WorkspaceTasksProvider
+import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.model.CIRCLE_TAG
 import org.futo.circles.core.model.GROUP_TYPE
-import org.futo.circles.core.model.SharedCirclesSpace
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.room.CreateRoomDataSource
-import org.futo.circles.core.utils.getSharedCirclesSpaceId
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
 import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
@@ -23,11 +24,13 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val pushersManager: PushersManager,
-    private val createRoomDataSource: CreateRoomDataSource,
+    private val workspaceTasksProvider: WorkspaceTasksProvider,
+    private val workspaceDataSource: ConfigureWorkspaceDataSource,
     roomAccountDataSource: RoomAccountDataSource,
     shortcutsHandler: ShortcutsHandler
 ) : ViewModel() {
 
+    val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
     val mediaBackupSettingsLiveData = roomAccountDataSource.getMediaBackupSettingsLive()
     val inviteIntoSharedSpaceLiveData = MatrixSessionProvider.currentSession?.roomService()
         ?.getRoomSummariesLive(roomSummaryQueryParams {
@@ -37,13 +40,21 @@ class HomeViewModel @Inject constructor(
 
     init {
         shortcutsHandler.observeRoomsAndBuildShortcuts(viewModelScope)
-        createSharedCirclesSpaceIfNotExist()
+        validateWorkspace()
     }
 
-    private fun createSharedCirclesSpaceIfNotExist() {
-        if (getSharedCirclesSpaceId() != null) return
-        launchBg { createRoomDataSource.createRoom(SharedCirclesSpace()) }
+    private fun validateWorkspace() = launchBg {
+        val tasks = workspaceTasksProvider.getMandatoryTasks()
+        tasks.forEach { item ->
+            val validationResponse = createResult { workspaceDataSource.validate(item.room) }
+            (validationResponse as? Response.Error)?.let {
+                validateWorkspaceResultLiveData.postValue(Response.Error(""))
+                return@launchBg
+            }
+        }
+        validateWorkspaceResultLiveData.postValue(Response.Success(Unit))
     }
+
 
     fun registerPushNotifications() {
         pushersManager.registerPushNotifications()
@@ -56,16 +67,10 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    private fun getParentSpaceIdForRoom(summary: RoomSummary): String? {
-        val circles = MatrixSessionProvider.currentSession?.roomService()
-            ?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
-            ?.filter { item -> item.hasTag(CIRCLE_TAG) } ?: emptyList()
+    private fun getParentSpaceIdForRoom(summary: RoomSummary): String? =
+        summary.spaceParents?.firstOrNull { it.roomSummary?.membership == Membership.JOIN }
+            ?.roomSummary?.roomId
 
-        val parentCircle =
-            circles.firstOrNull { it.spaceChildren?.firstOrNull { it.childRoomId == summary.roomId } != null }
-
-        return parentCircle?.roomId
-    }
 
     fun autoAcceptInviteOnKnock(roomIds: List<String>) {
         MatrixSessionProvider.currentSession?.let { session ->

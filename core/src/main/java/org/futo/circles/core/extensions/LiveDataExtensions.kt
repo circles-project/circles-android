@@ -3,6 +3,7 @@ package org.futo.circles.core.extensions
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import org.futo.circles.core.ErrorParser
+import org.futo.circles.core.fragment.HasLoadingState
 
 fun <T> LiveData<Response<T>>.observeResponse(
     fragment: Fragment,
@@ -13,7 +14,7 @@ fun <T> LiveData<Response<T>>.observeResponse(
     observe(fragment.viewLifecycleOwner) {
         it ?: return@observe
         onRequestInvoked?.invoke()
-            ?: run { (fragment as? org.futo.circles.core.fragment.HasLoadingState)?.stopLoading() }
+            ?: run { (fragment as? HasLoadingState)?.stopLoading() }
         when (it) {
             is Response.Success -> success(it.data)
             is Response.Error -> error?.invoke(it.message)

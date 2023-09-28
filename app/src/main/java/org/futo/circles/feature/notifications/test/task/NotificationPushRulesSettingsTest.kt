@@ -3,8 +3,8 @@ package org.futo.circles.feature.notifications.test.task
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
+import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.model.NotificationTestStatus
 import org.futo.circles.model.toNotificationAction
 import org.matrix.android.sdk.api.session.pushrules.RuleIds
 import org.matrix.android.sdk.api.session.pushrules.getActions
@@ -43,12 +43,12 @@ class NotificationPushRulesSettingsTest @Inject constructor(
         if (oneOrMoreRuleIsOff) {
             description =
                 context.getString(R.string.settings_troubleshoot_test_bing_settings_failed)
-            status = NotificationTestStatus.FAILED
+            status = TaskStatus.FAILED
         } else {
             description = if (oneOrMoreRuleAreSilent) {
                 context.getString(R.string.settings_troubleshoot_test_bing_settings_success_with_warn)
             } else ""
-            status = NotificationTestStatus.SUCCESS
+            status = TaskStatus.SUCCESS
         }
     }
 }

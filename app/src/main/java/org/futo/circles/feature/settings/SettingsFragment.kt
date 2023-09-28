@@ -22,7 +22,6 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.LoadingData
-import org.futo.circles.core.notices.SystemNoticesCountSharedViewModel
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
@@ -33,7 +32,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val binding by viewBinding(FragmentSettingsBinding::bind)
     private val viewModel by viewModels<SettingsViewModel>()
-    private val systemNoticesCountViewModel by activityViewModels<SystemNoticesCountSharedViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }
@@ -46,44 +44,43 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun setupViews() {
         with(binding) {
-            tvLogout.setOnClickListener { withConfirmation(LogOut()) { viewModel.logOut() } }
+            tvLogout.setOnClickListener {
+                withConfirmation(LogOut()) {
+                    loadingDialog.handleLoading(LoadingData(R.string.log_out))
+                    viewModel.logOut()
+                }
+            }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
             ivProfile.setOnClickListener { navigator.navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
             tvDeactivate.setOnClickListener {
                 withConfirmation(DeactivateAccount()) {
-                    loadingDialog.handleLoading(LoadingData(total = 0))
+                    loadingDialog.handleLoading(LoadingData())
                     viewModel.deactivateAccount()
                 }
             }
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
-            lSystemNotices.setOnClickListener { navigator.navigateToSystemNotices() }
             tvClearCache.setOnClickListener { viewModel.clearCash(requireContext()) }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
-            ivShareProfile.setOnClickListener { navigator.navigateToShareProfile() }
+            ivShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
         }
         setVersion()
     }
 
     private fun setupObservers() {
         viewModel.logOutLiveData.observeResponse(this,
-            success = { clearSessionAndRestart() }
+            success = { clearSessionAndRestart() },
+            onRequestInvoked = { loadingDialog.dismiss() }
         )
         viewModel.profileLiveData.observeData(this) {
             it.getOrNull()?.let { bindProfile(it) }
-        }
-        viewModel.loadingLiveData.observeData(this) {
-            loadingDialog.handleLoading(it)
         }
         viewModel.deactivateLiveData.observeResponse(this,
             success = { clearSessionAndRestart() },
             error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) },
             onRequestInvoked = { loadingDialog.dismiss() }
         )
-        systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
-            binding.ivNoticesCount.setCount(it ?: 0)
-        }
         viewModel.startReAuthEventLiveData.observeData(this) {
             navigator.navigateToReAuthStages()
         }

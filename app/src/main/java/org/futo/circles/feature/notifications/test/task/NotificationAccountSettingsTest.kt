@@ -7,8 +7,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.futo.circles.R
 import org.futo.circles.core.extensions.coroutineScope
+import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.model.NotificationTestStatus
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.pushrules.RuleIds
 import org.matrix.android.sdk.api.session.pushrules.RuleKind
@@ -27,7 +27,7 @@ class NotificationAccountSettingsTest @Inject constructor(@ApplicationContext pr
                 description =
                     context.getString(R.string.settings_troubleshoot_test_account_settings_success)
                 quickFix = null
-                status = NotificationTestStatus.SUCCESS
+                status = TaskStatus.SUCCESS
             } else {
                 description =
                     context.getString(R.string.settings_troubleshoot_test_account_settings_failed)
@@ -45,10 +45,10 @@ class NotificationAccountSettingsTest @Inject constructor(@ApplicationContext pr
                         }
                     }
                 }
-                status = NotificationTestStatus.SUCCESS
+                status = TaskStatus.SUCCESS
             }
         } else {
-            status = NotificationTestStatus.FAILED
+            status = TaskStatus.FAILED
         }
     }
 }

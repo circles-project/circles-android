@@ -13,7 +13,6 @@ import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.picker.helper.MediaPickerHelper
 import org.futo.circles.core.room.update.UpdateRoomDialogFragment
-import org.futo.circles.core.utils.isCircleShared
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 @AndroidEntryPoint
@@ -40,10 +39,10 @@ class UpdateCircleDialogFragment :
         onInputDataChanged()
     }
 
-    override fun setInitialGroupData(room: RoomSummary) {
+    override fun setInitialRoomData(room: RoomSummary) {
         binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
         binding.tilName.editText?.setText(room.displayName)
-        val isCircleShared = isCircleShared(roomId)
+        val isCircleShared = viewModel.isCircleShared(roomId)
         binding.btnPrivate.isChecked = !isCircleShared
         binding.btnPublic.isChecked = isCircleShared
     }

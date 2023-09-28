@@ -3,8 +3,8 @@ package org.futo.circles.feature.notifications.test.task
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
+import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.feature.notifications.PushersManager
-import org.futo.circles.model.NotificationTestStatus
 import javax.inject.Inject
 
 class NotificationsUnifiedPushEndpointTest @Inject constructor(
@@ -19,11 +19,11 @@ class NotificationsUnifiedPushEndpointTest @Inject constructor(
                 R.string.settings_troubleshoot_test_current_endpoint_success,
                 endpoint
             )
-            status = NotificationTestStatus.SUCCESS
+            status = TaskStatus.SUCCESS
         } else {
             description =
                 context.getString(R.string.settings_troubleshoot_test_current_endpoint_failed)
-            status = NotificationTestStatus.FAILED
+            status = TaskStatus.FAILED
         }
     }
 }

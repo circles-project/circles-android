@@ -13,7 +13,7 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.getRoomOwners
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getSharedCircleFor
+import org.futo.circles.core.workspace.SharedCircleDataSource
 import org.futo.circles.mapping.toTimelineRoomListItem
 import org.futo.circles.model.TimelineHeaderItem
 import org.futo.circles.model.TimelineListItem
@@ -26,7 +26,8 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class UserDataSource @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) {
 
     private val userId: String = savedStateHandle.getOrThrow("userId")
@@ -70,7 +71,7 @@ class UserDataSource @Inject constructor(
         .map { list -> filterUsersTimelines(list) }.asFlow()
 
     private suspend fun getAllSharedTimelinesFlow() = session.roomService().getRoomSummaryLive(
-        getSharedCircleFor(userId)?.roomId ?: ""
+        sharedCircleDataSource.getSharedCircleFor(userId)?.roomId ?: ""
     ).asFlow().map { sharedSummary ->
         sharedSummary.getOrNull()?.let { mapSharedTimelines(it) } ?: emptyList()
     }

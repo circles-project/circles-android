@@ -6,6 +6,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.Gallery
+import org.futo.circles.core.model.Group
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.room.RoomRelationsBuilder
 import org.matrix.android.sdk.api.session.getRoom
@@ -27,11 +29,10 @@ class InviteRequestsDataSource @Inject constructor(
     suspend fun acceptInvite(roomId: String, roomType: CircleRoomTypeArg) = createResult {
         MatrixSessionProvider.currentSession?.roomService()?.joinRoom(roomId)
         when (roomType) {
-            CircleRoomTypeArg.Group -> roomRelationsBuilder.setInvitedGroupRelations(roomId)
-            CircleRoomTypeArg.Photo -> roomRelationsBuilder.setInvitedGroupRelations(roomId)
+            CircleRoomTypeArg.Group -> roomRelationsBuilder.setInvitedRoomRelations(roomId, Group())
+            CircleRoomTypeArg.Photo -> roomRelationsBuilder.setInvitedRoomRelations(roomId, Gallery())
             CircleRoomTypeArg.Circle -> throw IllegalArgumentException("Circle has different relations")
         }
-
     }
 
     suspend fun rejectInvite(roomId: String) = createResult {

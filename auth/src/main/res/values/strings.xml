@@ -123,6 +123,27 @@
     <string name="got_it">Got it</string>
     <string name="groups">Groups</string>
     <string name="circles">Circles</string>
+    <string name="create">Create</string>
+    <string name="friends">Friends</string>
+    <string name="family">Family</string>
+    <string name="community">Community</string>
+    <string name="retry">Retry</string>
+    <string name="workspace_configured">Workspace configured</string>
+    <string name="validating_workspace">Validating workspace</string>
+    <string name="configure_workspace">Configure workspace</string>
+    <string name="setup_workspace_message">In order to use app we needs to configure your workspace. \nWe will create root spaces listed below and setup all the necessary relations between them.</string>
+    <string name="root_space_description">Root space of workspace hierarchy</string>
+    <string name="groups_space_description">Space which will contain all the Groups</string>
+    <string name="circles_space_description">Space which will contain all the Circles</string>
+    <string name="galleries_space_description">Space which will contain all the Galleries</string>
+    <string name="people_space_description">Space which will contain all the connected users</string>
+    <string name="profile_space_description">Space which will contain all your public Circles. Other users will be able to ask to join this space to follow you</string>
+    <string name="photos_room_description">Optional: Photos gallery room for your media. You will be able to create it anytime</string>
+    <string name="friends_circle_description">Optional: Circle to follow your friends timelines. You will be able to create it anytime</string>
+    <string name="family_circle_description">Optional: Circle to follow your family members timelines. You will be able to create it anytime</string>
+    <string name="community_circle_description">Optional: Circle to follow other people timelines. You will be able to create it anytime</string>
+
+
     <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
 <br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
 <br/><br/>For example, think about all the aunts and uncles and cousins from the different sides of your family.
@@ -132,6 +153,7 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>Everyone in the group posts to the same timeline, and everyone in the group can see every post.
 <br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
 <br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
+    <string name="configure">Configure</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

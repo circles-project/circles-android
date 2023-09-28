@@ -22,7 +22,7 @@ class AcceptCircleInviteDataSource @Inject constructor(
     suspend fun acceptCircleInvite(selectedCircles: List<SelectableRoomListItem>) = createResult {
         session?.roomService()?.joinRoom(roomId)
         selectedCircles.forEach { circle ->
-            roomRelationsBuilder.setInvitedCircleRelations(roomId, circle.id)
+            roomRelationsBuilder.setInvitedRoomRelations(roomId, circle.id)
         }
     }
 

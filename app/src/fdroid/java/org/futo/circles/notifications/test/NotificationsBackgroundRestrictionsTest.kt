@@ -6,8 +6,8 @@ import androidx.core.content.getSystemService
 import androidx.core.net.ConnectivityManagerCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
+import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
-import org.futo.circles.model.NotificationTestStatus
 import javax.inject.Inject
 
 class NotificationsBackgroundRestrictionsTest @Inject constructor(
@@ -23,7 +23,7 @@ class NotificationsBackgroundRestrictionsTest @Inject constructor(
                             R.string.settings_troubleshoot_test_bg_restricted_failed,
                             "RESTRICT_BACKGROUND_STATUS_ENABLED"
                         )
-                        status = NotificationTestStatus.FAILED
+                        status = TaskStatus.FAILED
                         quickFix = null
                     }
 
@@ -32,7 +32,7 @@ class NotificationsBackgroundRestrictionsTest @Inject constructor(
                             R.string.settings_troubleshoot_test_bg_restricted_success,
                             "RESTRICT_BACKGROUND_STATUS_WHITELISTED"
                         )
-                        status = NotificationTestStatus.SUCCESS
+                        status = TaskStatus.SUCCESS
                         quickFix = null
                     }
 
@@ -41,7 +41,7 @@ class NotificationsBackgroundRestrictionsTest @Inject constructor(
                             R.string.settings_troubleshoot_test_bg_restricted_success,
                             "RESTRICT_BACKGROUND_STATUS_DISABLED"
                         )
-                        status = NotificationTestStatus.SUCCESS
+                        status = TaskStatus.SUCCESS
                         quickFix = null
                     }
                 }
@@ -50,7 +50,7 @@ class NotificationsBackgroundRestrictionsTest @Inject constructor(
                     R.string.settings_troubleshoot_test_bg_restricted_success,
                     ""
                 )
-                status = NotificationTestStatus.SUCCESS
+                status = TaskStatus.SUCCESS
                 quickFix = null
             }
         }
