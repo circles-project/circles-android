@@ -42,7 +42,10 @@ class CirclesDataSource @Inject constructor(
     private fun buildCirclesList(list: List<RoomSummary>): List<CircleListItem> {
         val invites =
             list.filter { isInviteToCircleTimeline(it) }.map { it.toInviteCircleListItem() }
-        val joinedCircles = list.filter { isJoinedCircle(it) }
+
+        val joinedCirclesSpaceIds = getJoinedCirclesIds()
+        val joinedCircles = list.filter { isJoinedCircle(it, joinedCirclesSpaceIds) }
+
         val sharedCircles =
             joinedCircles.filter { joinedCircle ->
                 sharedCircleDataSource.isCircleShared(joinedCircle.roomId)
@@ -63,13 +66,18 @@ class CirclesDataSource @Inject constructor(
         return displayList
     }
 
-    fun isJoinedCircle(summary: RoomSummary): Boolean {
-        if (summary.roomId == sharedCircleDataSource.getSharedCirclesSpaceId()) return false
+    fun isJoinedCircle(summary: RoomSummary, joinedCirclesIds: List<String>): Boolean =
+        joinedCirclesIds.contains(summary.roomId)
+
+    fun getJoinedCirclesIds(): List<String> {
         val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(
             CIRCLES_SPACE_ACCOUNT_DATA_KEY
-        ) ?: return false
-        return getJoinedRoomById(circlesSpaceId)?.roomSummary()?.spaceChildren?.map { it.childRoomId }
-            ?.contains(summary.roomId) == true
+        ) ?: return emptyList()
+        val sharedCircleSpaceId = sharedCircleDataSource.getSharedCirclesSpaceId()
+        val ids = getJoinedRoomById(circlesSpaceId)?.roomSummary()?.spaceChildren
+            ?.map { it.childRoomId }
+            ?.filter { it != sharedCircleSpaceId }
+        return ids ?: emptyList()
     }
 
     private fun isInviteToCircleTimeline(summary: RoomSummary) =
