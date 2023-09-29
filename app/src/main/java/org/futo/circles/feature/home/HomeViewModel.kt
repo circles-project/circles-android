@@ -1,7 +1,6 @@
 package org.futo.circles.feature.home
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.workspace.data_source.ConfigureWorkspaceDataSource
@@ -11,14 +10,12 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.GROUP_TYPE
-import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.workspace.SharedCircleDataSource
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
 import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.model.RoomType
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,19 +24,16 @@ class HomeViewModel @Inject constructor(
     private val workspaceTasksProvider: WorkspaceTasksProvider,
     private val workspaceDataSource: ConfigureWorkspaceDataSource,
     roomAccountDataSource: RoomAccountDataSource,
-    shortcutsHandler: ShortcutsHandler
+    shortcutsHandler: ShortcutsHandler,
+    sharedCircleDataSource: SharedCircleDataSource
 ) : ViewModel() {
 
     val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
     val mediaBackupSettingsLiveData = roomAccountDataSource.getMediaBackupSettingsLive()
-    val inviteIntoSharedSpaceLiveData = MatrixSessionProvider.currentSession?.roomService()
-        ?.getRoomSummariesLive(roomSummaryQueryParams {
-            excludeType = null
-            memberships = listOf(Membership.INVITE)
-        })?.map { it.filter { it.roomType == RoomType.SPACE }.map { it.roomId } }
 
     init {
         shortcutsHandler.observeRoomsAndBuildShortcuts(viewModelScope)
+        sharedCircleDataSource.observeAndAutoAcceptSharedSpaceInvites(viewModelScope)
         validateWorkspace()
     }
 
@@ -71,10 +65,4 @@ class HomeViewModel @Inject constructor(
         summary.spaceParents?.firstOrNull { it.roomSummary?.membership == Membership.JOIN }
             ?.roomSummary?.roomId
 
-
-    fun autoAcceptInviteOnKnock(roomIds: List<String>) {
-        MatrixSessionProvider.currentSession?.let { session ->
-            roomIds.forEach { launchBg { session.roomService().joinRoom(it) } }
-        }
-    }
 }

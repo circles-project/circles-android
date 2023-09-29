@@ -25,7 +25,6 @@ class UserOptionsDataSource @Inject constructor(
         sharedCircleDataSource.getSharedCircleFor(userId) != null
 
     suspend fun unFollowUser(userId: String): Response<Unit?> = createResult {
-        MatrixSessionProvider.currentSession?.roomService()
-            ?.leaveRoom(sharedCircleDataSource.getSharedCircleFor(userId)?.roomId ?: "")
+        sharedCircleDataSource.unfollowUsersSharedCircle(userId)
     }
 }

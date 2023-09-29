@@ -29,6 +29,7 @@ class LeaveRoomDataSource @Inject constructor(
         createResult { session?.roomService()?.leaveRoom(roomId) }
 
     suspend fun deleteCircle() = createResult {
+        roomRelationsBuilder.removeFromAllParents(roomId)
         room?.roomSummary()?.spaceChildren?.forEach {
             roomRelationsBuilder.removeRelations(it.childRoomId, roomId)
         }

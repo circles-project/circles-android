@@ -116,9 +116,6 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     }
 
     private fun setupObservers() {
-        viewModel.inviteIntoSharedSpaceLiveData?.observeData(this) {
-            viewModel.autoAcceptInviteOnKnock(it)
-        }
         viewModel.mediaBackupSettingsLiveData?.observeData(this) {
             mediaBackupServiceManager.bindMediaServiceIfNeeded(requireContext(), it)
         }
