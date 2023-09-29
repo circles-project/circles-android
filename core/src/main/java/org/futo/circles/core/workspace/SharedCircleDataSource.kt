@@ -33,11 +33,12 @@ class SharedCircleDataSource @Inject constructor(
                     getRoomOwners(summary.roomId).map { it.userId }.contains(userId)
         }
 
-    fun isCircleShared(circleId: String): Boolean {
+    fun getSharedCirclesTimelinesIds() = getSharedCirclesSpaceId()?.let {
+        MatrixSessionProvider.currentSession?.getRoomSummary(it)?.spaceChildren?.map { it.childRoomId }
+    } ?: emptyList()
+
+    fun isCircleShared(circleId: String, sharedCirclesTimelineIds: List<String>): Boolean {
         val timelineId = getTimelineRoomFor(circleId)?.roomId
-        val sharedCirclesTimelinesIds = getSharedCirclesSpaceId()?.let {
-            MatrixSessionProvider.currentSession?.getRoomSummary(it)?.spaceChildren?.map { it.childRoomId }
-        } ?: emptyList()
-        return sharedCirclesTimelinesIds.contains(timelineId)
+        return sharedCirclesTimelineIds.contains(timelineId)
     }
 }

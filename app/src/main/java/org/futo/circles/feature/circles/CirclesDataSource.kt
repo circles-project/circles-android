@@ -46,10 +46,13 @@ class CirclesDataSource @Inject constructor(
         val joinedCirclesSpaceIds = getJoinedCirclesIds()
         val joinedCircles = list.filter { isJoinedCircle(it, joinedCirclesSpaceIds) }
 
-        val sharedCircles =
-            joinedCircles.filter { joinedCircle ->
-                sharedCircleDataSource.isCircleShared(joinedCircle.roomId)
-            }
+        val sharedCirclesTimelinesIds = sharedCircleDataSource.getSharedCirclesTimelinesIds()
+        val sharedCircles = joinedCircles.filter { joinedCircle ->
+            sharedCircleDataSource.isCircleShared(
+                joinedCircle.roomId,
+                sharedCirclesTimelinesIds
+            )
+        }
         val privateCircles = joinedCircles - sharedCircles.toSet()
         val requests = getKnockRequestToSharedTimelines(joinedCircles)
 

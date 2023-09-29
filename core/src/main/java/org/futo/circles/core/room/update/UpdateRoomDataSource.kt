@@ -50,9 +50,12 @@ class UpdateRoomDataSource @Inject constructor(
     fun isTopicChanged(newTopic: String) = room?.roomSummary()?.topic != newTopic
 
     fun isPrivateSharedChanged(isPublic: Boolean) = room?.roomId?.let {
-        sharedCircleDataSource.isCircleShared(it) != isPublic
+        isCircleShared(it) != isPublic
     } ?: false
 
-    fun isCircleShared(circleId: String) = sharedCircleDataSource.isCircleShared(circleId)
+    fun isCircleShared(circleId: String) = sharedCircleDataSource.isCircleShared(
+        circleId,
+        sharedCircleDataSource.getSharedCirclesTimelinesIds()
+    )
 
 }
