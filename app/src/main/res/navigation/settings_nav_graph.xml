@@ -24,7 +24,7 @@
             app:destination="@id/reAuthStagesDialogFragment" />
         <action
             android:id="@+id/to_shareProfileDialogFragment"
-            app:destination="@id/shareRoomDialogFragment">
+            app:destination="@id/share_room_nav_graph">
 
             <argument
                 android:name="roomId"
@@ -53,22 +53,7 @@
         android:label="ChangePasswordDialogFragment"
         tools:layout="@layout/dialog_fragment_change_password" />
 
-    <dialog
-        android:id="@+id/shareRoomDialogFragment"
-        android:name="org.futo.circles.core.room.share.ShareRoomDialogFragment"
-        tools:layout="@layout/dialog_fragment_share_room">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="isProfile"
-            app:argType="boolean"
-            app:nullable="false" />
-
-    </dialog>
+    <include app:graph="@navigation/share_room_nav_graph" />
 
     <dialog
         android:id="@+id/pushNotificationsSettingsDialogFragment"

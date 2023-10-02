@@ -27,7 +27,7 @@ body:
         Expected result, screenshots, screen recording, logs
     validations:
       required: true
- - type: input
+  - type: input
     id: version
     attributes:
       label: Application version

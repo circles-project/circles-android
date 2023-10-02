@@ -21,7 +21,7 @@
 
         <action
             android:id="@+id/to_shareRoom"
-            app:destination="@id/shareRoomDialogFragment">
+            app:destination="@id/share_room_nav_graph">
 
             <argument
                 android:name="roomId"
@@ -153,22 +153,6 @@
     </dialog>
 
     <dialog
-        android:id="@+id/shareRoomDialogFragment"
-        android:name="org.futo.circles.core.room.share.ShareRoomDialogFragment"
-        tools:layout="@layout/dialog_fragment_share_room">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="isProfile"
-            app:argType="boolean"
-            app:nullable="false" />
-
-    </dialog>
-    <dialog
         android:id="@+id/updateGroupDialogFragment"
         android:name="org.futo.circles.core.room.update.group.UpdateGroupDialogFragment"
         tools:layout="@layout/dialog_fragment_update_group">
@@ -261,4 +245,7 @@
             app:nullable="false" />
 
     </dialog>
+
+    <include app:graph="@navigation/share_room_nav_graph" />
+
 </navigation>
