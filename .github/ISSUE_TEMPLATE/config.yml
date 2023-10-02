@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Circles web
+    url: https://circu.li/contact.html
+    about: You can find our contact info here.
+  - name: Circles Matrix room
+    url: https://matrix.to/#/!gcbIHWAYBBmvITkQIn:matrix.org?via=matrix.org&via=envs.net&via=tchncs.de
+    about: Circle's news and discussions here.
