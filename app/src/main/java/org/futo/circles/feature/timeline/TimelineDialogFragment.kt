@@ -24,6 +24,7 @@ import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.core.utils.debounce
 import org.futo.circles.core.utils.getTimelineRoomFor
+import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
@@ -51,10 +52,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val isThread by lazy { args.threadEventId != null }
 
     private val timelineId by lazy {
-        if (isGroupMode) args.roomId
-        else getTimelineRoomFor(args.roomId)?.roomId ?: throw IllegalArgumentException(
-            "Timeline not found"
-        )
+        if (args.type == CircleRoomTypeArg.Circle) getTimelineRoomIdOrThrow(args.roomId)
+        else args.roomId
     }
     private val binding by lazy {
         getBinding() as DialogFragmentTimelineBinding
@@ -123,7 +122,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun setupMenu() {
         with(binding.toolbar) {
             if (isThread) return
-            inflateMenu(R.menu.timeline_menu)
+            inflateMenu(org.futo.circles.core.R.menu.timeline_menu)
             setupMenuClickListener()
         }
     }
@@ -133,7 +132,10 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             setOnClickListener { navigator.navigateToTimelineOptions(args.roomId, args.type) }
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.settings -> navigator.navigateToTimelineOptions(args.roomId, args.type)
+                    org.futo.circles.core.R.id.settings -> navigator.navigateToTimelineOptions(
+                        args.roomId,
+                        args.type
+                    )
                 }
                 return@setOnMenuItemClickListener true
             }

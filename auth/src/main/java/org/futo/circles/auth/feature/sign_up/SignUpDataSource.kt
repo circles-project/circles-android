@@ -13,7 +13,7 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.room.CoreSpacesTreeBuilder
+import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
@@ -26,15 +26,14 @@ enum class SignUpNavigationEvents { TokenValidation, Subscription, AcceptTerm, V
 @Singleton
 class SignUpDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val coreSpacesTreeBuilder: CoreSpacesTreeBuilder,
-    private val createPassPhraseDataSource: CreatePassPhraseDataSource
+    private val createPassPhraseDataSource: CreatePassPhraseDataSource,
+    private val preferencesProvider: PreferencesProvider
 ) {
 
     val subtitleLiveData = MutableLiveData<String>()
     val navigationLiveData = SingleEventLiveData<SignUpNavigationEvents>()
     val finishRegistrationLiveData = SingleEventLiveData<Response<Unit>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
-    val spaceTreeLoadingLiveData = coreSpacesTreeBuilder.loadingLiveData
 
     val stagesToComplete = mutableListOf<Stage>()
 
@@ -113,8 +112,8 @@ class SignUpDataSource @Inject constructor(
     private suspend fun finishRegistration(session: Session) = createResult {
         MatrixInstanceProvider.matrix.authenticationService().reset()
         MatrixSessionProvider.awaitForSessionStart(session)
+        preferencesProvider.setShouldShowAllExplanations()
         createPassPhraseDataSource.createPassPhraseBackup()
-        coreSpacesTreeBuilder.createCoreSpacesTree()
         BSSpekeClientProvider.clear()
     }
 

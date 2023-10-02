@@ -20,22 +20,6 @@
             android:id="@+id/to_activeSessionsDialogFragment"
             app:destination="@id/log_in_sessions_nav_graph" />
         <action
-            android:id="@+id/to_systemNoticesDialogFragment"
-            app:destination="@id/systemNoticesDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="type"
-                android:defaultValue="Group"
-                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
-                app:nullable="false" />
-
-        </action>
-        <action
             android:id="@+id/to_reAuthStagesDialogFragment"
             app:destination="@id/reAuthStagesDialogFragment" />
         <action
@@ -68,26 +52,10 @@
         android:name="org.futo.circles.auth.feature.change_password.ChangePasswordDialogFragment"
         android:label="ChangePasswordDialogFragment"
         tools:layout="@layout/dialog_fragment_change_password" />
-    <dialog
-        android:id="@+id/systemNoticesDialogFragment"
-        android:name="org.futo.circles.core.notices.SystemNoticesDialogFragment"
-        tools:layout="@layout/dialog_fragment_system_notices">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="type"
-            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
-            app:nullable="false" />
-
-    </dialog>
 
     <dialog
         android:id="@+id/shareRoomDialogFragment"
-        android:name="org.futo.circles.feature.room.share.ShareRoomDialogFragment"
+        android:name="org.futo.circles.core.room.share.ShareRoomDialogFragment"
         tools:layout="@layout/dialog_fragment_share_room">
 
         <argument

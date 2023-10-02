@@ -5,8 +5,8 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
+import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.feature.notifications.test.task.BaseNotificationTest
-import org.futo.circles.model.NotificationTestStatus
 import javax.inject.Inject
 
 class NotificationsTestPlayServices @Inject constructor(
@@ -20,13 +20,13 @@ class NotificationsTestPlayServices @Inject constructor(
             quickFix = null
             description =
                 context.getString(R.string.settings_troubleshoot_test_play_services_success)
-            status = NotificationTestStatus.SUCCESS
+            status = TaskStatus.SUCCESS
         } else {
             description = context.getString(
                 R.string.settings_troubleshoot_test_play_services_failed,
                 apiAvailability.getErrorString(resultCode)
             )
-            status = NotificationTestStatus.FAILED
+            status = TaskStatus.FAILED
         }
     }
 }

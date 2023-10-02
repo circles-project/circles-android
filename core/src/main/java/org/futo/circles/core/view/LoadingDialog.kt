@@ -25,7 +25,6 @@ class LoadingDialog(context: Context) : AppCompatDialog(context) {
 
     fun handleLoading(data: LoadingData) {
         if (data.isLoading) {
-            binding.vLoading.setMessage(data.messageId)
             binding.vLoading.setProgress(data)
             if (isShowing.not()) show()
         } else {

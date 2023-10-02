@@ -5,41 +5,43 @@ import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
-import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.room.invite.InviteRequestsDataSource
 import org.futo.circles.model.RequestGroupListItem
-import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupsViewModel @Inject constructor(private val dataSource: GroupsDataSource) : ViewModel() {
+class GroupsViewModel @Inject constructor(
+    dataSource: GroupsDataSource,
+    private val inviteRequestsDataSource: InviteRequestsDataSource
+) : ViewModel() {
 
     val roomsLiveData = dataSource.getGroupsFlow().asLiveData()
     val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
 
     fun rejectInvite(roomId: String) {
-        launchBg { inviteResultLiveData.postValue(dataSource.rejectInvite(roomId)) }
+        launchBg {
+            val result = inviteRequestsDataSource.rejectInvite(roomId)
+            inviteResultLiveData.postValue(result)
+        }
     }
 
     fun acceptGroupInvite(roomId: String) {
-        launchBg { inviteResultLiveData.postValue(dataSource.acceptInvite(roomId)) }
+        launchBg {
+            val result = inviteRequestsDataSource.acceptInvite(roomId, CircleRoomTypeArg.Group)
+            inviteResultLiveData.postValue(result)
+        }
     }
 
     fun inviteUser(room: RequestGroupListItem) {
         launchBg {
-            val result = createResult {
-                MatrixSessionProvider.currentSession?.getRoom(room.id)?.membershipService()
-                    ?.invite(room.requesterId)
-            }
+            val result = inviteRequestsDataSource.inviteUser(room.id, room.requesterId)
             inviteResultLiveData.postValue(result)
         }
     }
 
     fun kickUser(room: RequestGroupListItem) {
-        launchBg {
-            MatrixSessionProvider.currentSession?.getRoom(room.id)?.membershipService()
-                ?.remove(room.requesterId)
-        }
+        launchBg { inviteRequestsDataSource.kickUser(room.id, room.requesterId) }
     }
 }

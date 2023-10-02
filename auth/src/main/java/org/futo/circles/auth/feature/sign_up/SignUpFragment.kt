@@ -47,16 +47,13 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
             handleNavigation(it)
         }
         viewModel.finishRegistrationLiveData.observeResponse(this,
-            success = { navigateToSetupProfile() },
+            success = { navigateToConfigureWorspace() },
             error = { message ->
                 showError(message)
                 loadingDialog.dismiss()
             }
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
-            loadingDialog.handleLoading(it)
-        }
-        viewModel.spaceTreeLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
     }
@@ -96,8 +93,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
         }
     }
 
-    private fun navigateToSetupProfile() {
-        findNavController().navigateSafe(SignUpFragmentDirections.toSetupProfileFragment())
+    private fun navigateToConfigureWorspace() {
+        findNavController().navigateSafe(SignUpFragmentDirections.toConfigureWorkspace())
     }
 
 }

@@ -9,9 +9,8 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getFilename
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.room.CreateRoomDataSource
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.core.utils.isCircleShared
+import org.futo.circles.core.workspace.SharedCircleDataSource
 import org.matrix.android.sdk.api.session.getRoom
 import java.util.UUID
 import javax.inject.Inject
@@ -20,7 +19,7 @@ import javax.inject.Inject
 class UpdateRoomDataSource @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @ApplicationContext private val context: Context,
-    private val createRoomDataSource: CreateRoomDataSource
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
@@ -42,8 +41,8 @@ class UpdateRoomDataSource @Inject constructor(
 
     private suspend fun handelPrivateSharedVisibilityUpdate(isPublic: Boolean) {
         val timelineId = room?.roomId?.let { getTimelineRoomFor(it)?.roomId } ?: return
-        if (isPublic) createRoomDataSource.addToSharedCircles(timelineId)
-        else createRoomDataSource.removeFromSharedCircles(timelineId)
+        if (isPublic) sharedCircleDataSource.addToSharedCircles(timelineId)
+        else sharedCircleDataSource.removeFromSharedCircles(timelineId)
     }
 
     fun isNameChanged(newName: String) = room?.roomSummary()?.displayName != newName
@@ -53,5 +52,10 @@ class UpdateRoomDataSource @Inject constructor(
     fun isPrivateSharedChanged(isPublic: Boolean) = room?.roomId?.let {
         isCircleShared(it) != isPublic
     } ?: false
+
+    fun isCircleShared(circleId: String) = sharedCircleDataSource.isCircleShared(
+        circleId,
+        sharedCircleDataSource.getSharedCirclesTimelinesIds()
+    )
 
 }

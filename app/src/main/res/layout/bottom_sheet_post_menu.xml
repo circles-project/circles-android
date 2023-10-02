@@ -24,63 +24,63 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@color/divider_color" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_info"
                 app:optionName="@string/info" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_edit"
                 app:optionName="@string/edit" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvSaveToDevice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_download"
                 app:optionName="@string/save_to_device" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvSaveToGallery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_cloud_download"
                 app:optionName="@string/save_to_gallery" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvEditPoll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_edit"
                 app:optionName="@string/edit_poll" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvEndPoll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_check"
                 app:optionName="@string/end_poll" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvDelete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_delete"
                 app:optionName="@string/delete" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvIgnore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_notifications_off"
                 app:optionName="@string/ignore_sender" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvReport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -9,8 +9,8 @@ import org.futo.circles.R
 import org.futo.circles.core.ErrorParser
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.extensions.coroutineScope
+import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.feature.notifications.PushersManager
-import org.futo.circles.model.NotificationTestStatus
 import javax.inject.Inject
 
 class NotificationFromPushGatewayTest @Inject constructor(
@@ -32,17 +32,17 @@ class NotificationFromPushGatewayTest @Inject constructor(
                         if (pushReceived) {
                             description =
                                 context.getString(R.string.settings_troubleshoot_test_push_loop_success)
-                            status = NotificationTestStatus.SUCCESS
+                            status = TaskStatus.SUCCESS
                         } else {
                             description =
                                 context.getString(R.string.settings_troubleshoot_test_push_loop_waiting_for_push)
-                            status = NotificationTestStatus.RUNNING
+                            status = TaskStatus.RUNNING
                         }
                         updateTestInfo()
                     },
                     {
                         description = ErrorParser.getErrorMessage(it)
-                        status = NotificationTestStatus.FAILED
+                        status = TaskStatus.FAILED
                         updateTestInfo()
                     }
                 )
@@ -54,7 +54,7 @@ class NotificationFromPushGatewayTest @Inject constructor(
         pushReceived = true
         description =
             context.getString(R.string.settings_troubleshoot_test_push_loop_success)
-        status = NotificationTestStatus.SUCCESS
+        status = TaskStatus.SUCCESS
         updateTestInfo()
     }
 }

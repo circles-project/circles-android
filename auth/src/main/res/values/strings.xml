@@ -52,7 +52,6 @@
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="domain">Domain</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
-    <string name="accept">Accept</string>
     <string name="username">Username</string>
     <string name="at_symbol">\@</string>
     <string name="user_id_separator">:</string>
@@ -76,14 +75,13 @@
     <string name="validate_your_token">Validate your token</string>
     <string name="sign_up_token_format">abcd–efgh–1234–5678</string>
     <string name="validate_token">Validate token</string>
-    <string name="enter_passphrase">Enter Passphrase</string>
+    <string name="recovery">Recovery</string>
+    <string name="recovery_key">Recovery Key</string>
     <string name="use_your_recovery_message">Use your Recovery Passphrase or Recovery Key to continue.</string>
     <string name="passphrase">Passphrase</string>
-    <string name="upload_recovery_key">Upload Recovery Key</string>
+    <string name="upload_recovery_key_file">Upload Recovery Key file</string>
     <string name="restore">Restore</string>
     <string name="validate_your_email">Validate your email</string>
-    <string name="remove_user">Remove user</string>
-    <string name="remove_user_message">Are you sure you want to remove this user?</string>
     <string name="not_supported_navigation_event">Not supported navigation event</string>
     <string name="feature_not_supported">Feature is not supported</string>
     <string name="service_unavailable">Service unavailable</string>
@@ -122,6 +120,40 @@
     <string name="edit_profile">Edit Profile</string>
     <string name="user_id">User ID</string>
     <string name="verify">Verify</string>
+    <string name="got_it">Got it</string>
+    <string name="groups">Groups</string>
+    <string name="circles">Circles</string>
+    <string name="create">Create</string>
+    <string name="friends">Friends</string>
+    <string name="family">Family</string>
+    <string name="community">Community</string>
+    <string name="retry">Retry</string>
+    <string name="workspace_configured">Workspace configured</string>
+    <string name="validating_workspace">Validating workspace</string>
+    <string name="configure_workspace">Configure workspace</string>
+    <string name="setup_workspace_message">In order to use app we needs to configure your workspace. \nWe will create root spaces listed below and setup all the necessary relations between them.</string>
+    <string name="root_space_description">Root space of workspace hierarchy</string>
+    <string name="groups_space_description">Space which will contain all the Groups</string>
+    <string name="circles_space_description">Space which will contain all the Circles</string>
+    <string name="galleries_space_description">Space which will contain all the Galleries</string>
+    <string name="people_space_description">Space which will contain all the connected users</string>
+    <string name="profile_space_description">Space which will contain all your public Circles. Other users will be able to ask to join this space to follow you</string>
+    <string name="photos_room_description">Optional: Photos gallery room for your media. You will be able to create it anytime</string>
+    <string name="friends_circle_description">Optional: Circle to follow your friends timelines. You will be able to create it anytime</string>
+    <string name="family_circle_description">Optional: Circle to follow your family members timelines. You will be able to create it anytime</string>
+    <string name="community_circle_description">Optional: Circle to follow other people timelines. You will be able to create it anytime</string>
+
+
+    <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
+<br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
+<br/><br/>For example, think about all the aunts and uncles and cousins from the different sides of your family.
+Or, think about all of your friends across all of the places you\'ve ever lived.
+<br/><br/>If you want to connect a bunch of people who <i>do</i> all know each other, then it\'s better to create a <b>Group</b> instead.]]></string>
+    <string name="group_explanation"><![CDATA[Tip: A <b>group</b> is the best way to connect a bunch of people where everyone is connected to everyone else.
+<br/><br/>Everyone in the group posts to the same timeline, and everyone in the group can see every post.
+<br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
+<br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
+    <string name="configure">Configure</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

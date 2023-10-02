@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -23,7 +22,7 @@
                 android:gravity="center"
                 android:lines="1"
                 android:paddingVertical="8dp"
-                android:text="@string/enter_passphrase"
+                android:text="@string/recovery"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,6 +50,40 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleDivider" />
 
+            <RadioGroup
+                android:id="@+id/recoveryTypeGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingVertical="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/btnPassphrase"
+                    style="@style/body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:checked="true"
+                    android:padding="8dp"
+                    android:text="@string/passphrase" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/btnRecoveryKey"
+                    style="@style/body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:padding="8dp"
+                    android:text="@string/recovery_key" />
+
+            </RadioGroup>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPassphrase"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -62,7 +95,7 @@
                 android:hint="@string/passphrase"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
+                app:layout_constraintTop_toBottomOf="@id/recoveryTypeGroup"
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -74,60 +107,24 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/tvOr"
-                style="@style/body"
-                android:layout_width="wrap_content"
+            <org.futo.circles.auth.view.EnterRecoveryKeyView
+                android:id="@+id/vRecoveryKey"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/or"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilPassphrase" />
-
-            <TextView
-                android:id="@+id/tvFileName"
-                style="@style/body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="26dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:ellipsize="end"
-                android:lines="1"
-                app:layout_constrainedWidth="true"
-                app:layout_constraintEnd_toStartOf="@id/ivRemoveFile"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvOr"
-                tools:text="File name.txt" />
-
-            <ImageView
-                android:id="@+id/ivRemoveFile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:background="?android:selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_close"
-                app:layout_constraintBottom_toBottomOf="@id/tvFileName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tvFileName"
-                app:layout_constraintTop_toTopOf="@id/tvFileName"
-                app:tint="@color/blue" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnUploadFile"
-                style="@style/PostButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/upload_recovery_key"
-                app:icon="@drawable/ic_file"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvFileName" />
+                app:layout_constraintTop_toBottomOf="@id/recoveryTypeGroup" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tilPassphrase,vRecoveryKey" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRestore"
@@ -153,27 +150,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/cancel"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btnRestore"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnUploadFile" />
+                app:layout_constraintTop_toBottomOf="@id/barrier" />
 
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/passPhraseGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tvOr,tvSubtitle,tilPassphrase" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/fileNameGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tvFileName,ivRemoveFile" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

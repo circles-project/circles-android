@@ -1,23 +1,26 @@
 package org.futo.circles.core.room
 
 import org.futo.circles.core.extensions.getRoomOwners
-import org.futo.circles.core.model.Group
+import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getJoinedRoomById
+import org.futo.circles.core.workspace.SpacesTreeAccountDataSource
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.Room
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
-class RoomRelationsBuilder @Inject constructor() {
+class RoomRelationsBuilder @Inject constructor(
+    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource
+) {
 
     private val session by lazy { MatrixSessionProvider.currentSession }
 
-    suspend fun setRelations(childId: String, parentRoom: Room, isRoomCreatedByMe: Boolean = true) {
+    suspend fun setRelations(childId: String, parentRoomId: String) {
         val via = listOf(getHomeServerDomain())
-        if (isRoomCreatedByMe) {
-            session?.spaceService()?.setSpaceParent(childId, parentRoom.roomId, true, via)
+        tryOrNull {
+            session?.spaceService()?.setSpaceParent(childId, parentRoomId, false, via)
         }
-        parentRoom.asSpace()?.addChildren(childId, via, null)
+        getJoinedRoomById(parentRoomId)?.asSpace()?.addChildren(childId, via, null)
     }
 
     suspend fun removeRelations(childId: String, parentId: String) {
@@ -33,27 +36,14 @@ class RoomRelationsBuilder @Inject constructor() {
         }
     }
 
-    suspend fun setInvitedGroupRelations(roomId: String) {
-        val circlesRoom = Group()
-        circlesRoom.tag?.let { session?.getRoom(roomId)?.tagsService()?.addTag(it, null) }
-        circlesRoom.parentTag?.let { tag ->
-            findRoomByTag(tag)
-                ?.let { room -> setRelations(roomId, room, false) }
-        }
+    suspend fun setInvitedRoomRelations(roomId: String, circlesRoom: CirclesRoom) {
+        val key = circlesRoom.parentAccountDataKey ?: return
+        val parentId = spacesTreeAccountDataSource.getRoomIdByKey(key) ?: return
+        setRelations(roomId, parentId)
     }
 
-    suspend fun setInvitedCircleRelations(roomId: String, parentCircleId: String) {
-        session?.getRoom(parentCircleId)?.let { parentCircle ->
-            setRelations(roomId, parentCircle, false)
-        }
-    }
-
-    fun findRoomByTag(tag: String): Room? {
-        val roomWithTagId =
-            session?.roomService()?.getRoomSummaries(roomSummaryQueryParams { excludeType = null })
-                ?.firstOrNull { summary -> summary.tags.firstOrNull { it.name == tag } != null }
-                ?.roomId
-        return roomWithTagId?.let { session?.getRoom(it) }
+    suspend fun setInvitedRoomRelations(roomId: String, parentCircleId: String) {
+        setRelations(roomId, parentCircleId)
     }
 
     private fun getHomeServerDomain() = session?.sessionParams?.homeServerHost ?: ""

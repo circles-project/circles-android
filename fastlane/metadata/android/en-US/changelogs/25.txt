@@ -1,0 +1,7 @@
+v1.0.16
+- People space
+- Configure Workspace
+- Removed System notices
+- Circle/Group explanation dialogs
+- Offline browsing of People tab
+- Raw recovery key support

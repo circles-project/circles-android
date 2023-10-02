@@ -24,12 +24,12 @@ data class InvitedGroupListItem(
     override val id: String,
     override val info: RoomInfo,
     val isEncrypted: Boolean,
-    val inviterName: String,
+    val inviterName: String
 ) : GroupListItem(id, info, Membership.INVITE)
 
 data class RequestGroupListItem(
     override val id: String,
     override val info: RoomInfo,
     val requesterName: String,
-    val requesterId: String,
+    val requesterId: String
 ) : GroupListItem(id, info, Membership.KNOCK)

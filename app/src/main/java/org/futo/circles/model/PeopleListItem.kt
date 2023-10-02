@@ -15,7 +15,7 @@ data class PeopleHeaderItem(
     override val id: String = titleRes.toString()
 
     companion object {
-        val friends = PeopleHeaderItem(R.string.friends)
+        val friends = PeopleHeaderItem(org.futo.circles.auth.R.string.friends)
         val followersUsersHeader = PeopleHeaderItem(R.string.followers)
         val followingUsersHeader = PeopleHeaderItem(R.string.following)
         val knownUsersHeader = PeopleHeaderItem(R.string.known_users)

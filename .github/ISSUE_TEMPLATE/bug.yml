@@ -1,0 +1,80 @@
+name: Bug report for the Circles Android app
+description: Report any issues that you have found with the Circles app. Please check open issues first, in case it has already been reported.
+labels: [Reported issue]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to reproduce
+      description: Step by step instruction to reproduce this issue.
+      placeholder: |
+        1. Opened App
+        2. Click "Create Circle" button
+        3. Fill Circle info and click "Create"
+        4. Circle failed to create with error "Error name"
+    validations:
+      required: true
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional info
+      description: Please attach screenshots, videos or logs if you can.
+      placeholder: |
+        Expected result, screenshots, screen recording, logs
+    validations:
+      required: true
+ - type: input
+    id: version
+    attributes:
+      label: Application version
+      description: Navigate to the very bottom of App Info to find the version name
+      placeholder: e.g. v 1.0.15
+    validations:
+      required: true
+  - type: dropdown
+    id: store
+    attributes:
+      label: App Store name
+      description:  |
+        Tell us from which store you downloaded Circles app
+      options:
+        - 'Google Play Store'
+        - 'F-Droid'
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Phone model
+      placeholder: e.g. Pixel 7
+    validations:
+      required: false
+  - type: input
+    id: os
+    attributes:
+      label: Operating system version
+      placeholder: e.g. Android 10.0
+    validations:
+      required: false
+  - type: input
+    id: homeserver
+    attributes:
+      label: Homeserver
+      description: |
+        Which server is your account registered on?
+      placeholder: e.g. matrix.org or circu.li
+    validations:
+      required: false
+  - type: input
+    id: contact-info
+    attributes:
+      label: Contact info
+      description: |
+        Your email or Matrix user id
+      placeholder: e.g. example@gmail.com or @username:matrix.org
+    validations:
+      required: false

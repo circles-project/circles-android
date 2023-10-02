@@ -121,66 +121,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/notifications" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <TextView
                 android:id="@+id/tvPushNotifications"
+                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_notifications"
-                app:optionName="@string/push_notifications" />
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/lSystemNotices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:id="@+id/tvSystemNotices"
-                    style="@style/settingMenuItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:paddingEnd="8dp"
-                    android:text="@string/system_notices"
-                    app:drawableStartCompat="@drawable/ic_error"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="RtlSymmetry" />
-
-                <org.futo.circles.core.view.NotificationCounterView
-                    android:id="@+id/ivNoticesCount"
-                    android:layout_width="18dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/holo_red_dark"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toEndOf="@id/tvSystemNotices"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="visible" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:text="@string/push_notifications"
+                app:drawableStartCompat="@drawable/ic_notifications" />
 
             <TextView
                 style="@style/settingMenuHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/account" />
+                android:text="@string/session" />
 
-            <org.futo.circles.view.SettingsMenuItemView
-                android:id="@+id/tvChangePassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_lock"
-                app:optionName="@string/change_password" />
-
-
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvLoginSessions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -188,22 +143,36 @@
                 app:optionName="@string/login_sessions" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <TextView
                 android:id="@+id/tvClearCache"
+                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_reload"
-                app:optionName="@string/clear_cache_and_reload" />
+                android:text="@string/clear_cache_and_reload"
+                app:drawableStartCompat="@drawable/ic_reload" />
+
+            <TextView
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/account" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_lock"
+                app:optionName="@string/change_password" />
 
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvSwitchUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_switch_user"
                 app:optionName="@string/switch_user" />
 
-            <org.futo.circles.view.SettingsMenuItemView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

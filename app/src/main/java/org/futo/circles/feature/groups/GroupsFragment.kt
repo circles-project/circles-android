@@ -9,20 +9,24 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.auth.explanation.CirclesExplanationDialog
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.provider.PreferencesProvider
+import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.model.GroupListItem
 import org.futo.circles.model.RequestGroupListItem
-import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
 class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
 
     private val viewModel by viewModels<GroupsViewModel>()
     private val binding by viewBinding(FragmentRoomsBinding::bind)
+    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val listAdapter by lazy {
         GroupsListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
@@ -39,6 +43,12 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (preferencesProvider.shouldShowExplanation(CircleRoomTypeArg.Group))
+            CirclesExplanationDialog(requireContext(), CircleRoomTypeArg.Group).show()
     }
 
     private fun setupViews() {

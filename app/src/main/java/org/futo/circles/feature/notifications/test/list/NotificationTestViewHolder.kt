@@ -9,9 +9,9 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.list.ViewBindingHolder
 import org.futo.circles.core.list.context
+import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.databinding.ListItemNotificationTestBinding
 import org.futo.circles.model.NotificationTestListItem
-import org.futo.circles.model.NotificationTestStatus
 
 class NotificationTestViewHolder(
     parent: ViewGroup,
@@ -32,12 +32,12 @@ class NotificationTestViewHolder(
             tvMessage.text = data.message
             btnFix.setIsVisible(data.hasFix)
             when (data.status) {
-                NotificationTestStatus.RUNNING -> {
+                TaskStatus.RUNNING -> {
                     ivTestStatus.gone()
                     testProgress.visible()
                 }
 
-                NotificationTestStatus.IDLE -> {
+                TaskStatus.IDLE -> {
                     ivTestStatus.gone()
                     testProgress.gone()
                 }
@@ -46,7 +46,7 @@ class NotificationTestViewHolder(
                     ivTestStatus.visible()
                     testProgress.gone()
                     ivTestStatus.setImageResource(
-                        if (data.status == NotificationTestStatus.FAILED) R.drawable.ic_error
+                        if (data.status == TaskStatus.FAILED) R.drawable.ic_error
                         else R.drawable.ic_check_circle
                     )
                 }

@@ -18,19 +18,22 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
-import org.futo.circles.base.SHARE_PROFILE_URL_PREFIX
-import org.futo.circles.base.SHARE_ROOM_URL_PREFIX
+import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
+import org.futo.circles.core.SHARE_PROFILE_URL_PREFIX
+import org.futo.circles.core.SHARE_ROOM_URL_PREFIX
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
+import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
-import org.futo.circles.core.notices.SystemNoticesCountSharedViewModel
 import org.matrix.android.sdk.api.session.getRoomSummary
 import javax.inject.Inject
 
@@ -48,7 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
         RuntimePermissionHelper(this, Manifest.permission.POST_NOTIFICATIONS)
 
     private val viewModel by viewModels<HomeViewModel>()
-    private val systemNoticesCountViewModel by activityViewModels<SystemNoticesCountSharedViewModel>()
+    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 
     @Inject
     lateinit var mediaBackupServiceManager: MediaBackupServiceManager
@@ -59,6 +62,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
             binding.bottomNavigationView.setupWithNavController(controller)
             setupToolBar(controller)
         }
+        loadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.validating_workspace))
         setupObservers()
         registerPushNotifications()
         handleDeepLinks()
@@ -112,19 +116,12 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     }
 
     private fun setupObservers() {
-        systemNoticesCountViewModel.systemNoticesCountLiveData?.observeData(this) {
-            val count = it ?: 0
-            binding.bottomNavigationView.getOrCreateBadge(R.id.settings_nav_graph).apply {
-                isVisible = count > 0
-                number = count
-            }
-        }
-        viewModel.inviteIntoSharedSpaceLiveData?.observeData(this) {
-            viewModel.autoAcceptInviteOnKnock(it)
-        }
         viewModel.mediaBackupSettingsLiveData?.observeData(this) {
             mediaBackupServiceManager.bindMediaServiceIfNeeded(requireContext(), it)
         }
+        viewModel.validateWorkspaceResultLiveData.observeResponse(this,
+            error = { WorkspaceDialogFragment().show(childFragmentManager, "workspace") },
+            onRequestInvoked = { loadingDialog.dismiss() })
     }
 
     private fun registerPushNotifications() {

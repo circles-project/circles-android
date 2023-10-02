@@ -17,36 +17,43 @@
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="@string/enter_name_or_id" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSelectedUsers"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchView" />
-
-    <TextView
-        android:id="@+id/tvSelectedUsersPlaceholder"
-        style="@style/subheadline"
+    <FrameLayout
+        android:id="@+id/lSelectedItems"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/select_items_from_list_below"
-        app:layout_constraintBottom_toBottomOf="@id/rvSelectedUsers"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/searchView"
-        app:layout_constraintTop_toTopOf="@id/rvSelectedUsers" />
-
-    <View
-        android:id="@+id/selectedUserDivider"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/gray"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvSelectedUsers"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        tools:visibility="visible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSelectedUsers"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <TextView
+            android:id="@+id/tvSelectedUsersPlaceholder"
+            style="@style/subheadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:text="@string/select_items_from_list_below" />
+
+        <View
+            android:id="@+id/selectedUserDivider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_gravity="bottom"
+            android:background="@color/gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvSelectedUsers" />
+
+    </FrameLayout>
 
     <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvUsers"
@@ -55,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectedUserDivider" />
+        app:layout_constraintTop_toBottomOf="@id/lSelectedItems" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

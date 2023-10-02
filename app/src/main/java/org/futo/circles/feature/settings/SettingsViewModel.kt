@@ -8,16 +8,17 @@ import org.futo.circles.core.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.utils.LauncherActivityUtils
+import org.futo.circles.core.workspace.SharedCircleDataSource
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDataSource: SettingsDataSource,
-    private val logoutDataSource: LogoutDataSource
+    private val logoutDataSource: LogoutDataSource,
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) : ViewModel() {
 
     val profileLiveData = settingsDataSource.profileLiveData
-    val loadingLiveData = logoutDataSource.loadingLiveData
     val passPhraseLoadingLiveData = settingsDataSource.passPhraseLoadingLiveData
     val startReAuthEventLiveData = settingsDataSource.startReAuthEventLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -58,4 +59,6 @@ class SettingsViewModel @Inject constructor(
         launchBg { LauncherActivityUtils.clearCache(context) }
         clearCacheLiveData.postValue(Unit)
     }
+
+    fun getSharedCircleSpaceId(): String? = sharedCircleDataSource.getSharedCirclesSpaceId()
 }
