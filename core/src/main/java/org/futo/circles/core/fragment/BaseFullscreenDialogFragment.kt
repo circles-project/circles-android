@@ -9,6 +9,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.appbar.MaterialToolbar
+import org.futo.circles.core.NoInternetConnectionViewPresenter
 import org.futo.circles.core.R
 import org.futo.circles.core.extensions.onBackPressed
 
@@ -19,6 +20,7 @@ abstract class BaseFullscreenDialogFragment(
 
     private var _binding: ViewBinding? = null
     protected open val toolbarId = R.id.toolbar
+    private val noInternetConnectionPresenter = NoInternetConnectionViewPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +38,7 @@ abstract class BaseFullscreenDialogFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+        noInternetConnectionPresenter.register(requireActivity(), _binding?.root as? ViewGroup)
     }
 
     protected fun getBinding() = _binding
@@ -43,6 +46,7 @@ abstract class BaseFullscreenDialogFragment(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        noInternetConnectionPresenter.unregister(requireActivity())
     }
 
     private fun setupToolbar() {
