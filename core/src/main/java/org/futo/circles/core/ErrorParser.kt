@@ -23,7 +23,7 @@ object ErrorParser {
         }
 
     private fun handleOtherException(t: Throwable): String? = when (t) {
-        is Failure.NetworkConnection -> "Network connection error"
+        is Failure.NetworkConnection -> "No network. Please check your Internet connection"
         is Failure.ServerError -> t.error.message
         is MXCryptoError.Base -> t.technicalMessage
         else -> t.message
