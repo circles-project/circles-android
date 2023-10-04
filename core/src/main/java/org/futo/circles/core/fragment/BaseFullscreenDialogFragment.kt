@@ -46,7 +46,7 @@ abstract class BaseFullscreenDialogFragment(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        noInternetConnectionPresenter.unregister(requireActivity())
+        noInternetConnectionPresenter.unregister()
     }
 
     private fun setupToolbar() {

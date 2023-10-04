@@ -34,6 +34,6 @@ abstract class BaseActivity(contentLayoutId: Int) : AppCompatActivity(contentLay
 
     override fun onDestroy() {
         super.onDestroy()
-        noInternetConnectionPresenter.unregister(this)
+        noInternetConnectionPresenter.unregister()
     }
 }
