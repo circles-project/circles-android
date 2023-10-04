@@ -22,7 +22,7 @@ fun Context.isConnectedToInternet(): Boolean {
         connectivityManager.activeNetwork?.let { connectivityManager.getNetworkCapabilities(it) }
     val hasWifi = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI).orFalse()
     val hasMobileData = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR).orFalse()
-    return hasWifi && hasMobileData
+    return hasWifi || hasMobileData
 }
 
 fun Context.setInternetConnectionObserver(onConnectionChanged: (Boolean) -> Unit): ConnectivityManager.NetworkCallback {
