@@ -10,7 +10,7 @@ object ErrorParser {
     private const val AUTH_EXCEPTION_REASON_KEY = "reason"
 
     fun getErrorMessage(t: Throwable): String =
-        handleErrorBodyException(t) ?: handleOtherException(t) ?: "Unexpected error"
+        handleErrorBodyException(t) ?: handleOtherException(t)
 
 
     private fun handleErrorBodyException(t: Throwable): String? =
@@ -22,11 +22,11 @@ object ErrorParser {
             }
         }
 
-    private fun handleOtherException(t: Throwable): String? = when (t) {
+    private fun handleOtherException(t: Throwable): String = when (t) {
         is Failure.NetworkConnection -> "No network. Please check your Internet connection"
         is Failure.ServerError -> t.error.message
         is MXCryptoError.Base -> t.technicalMessage
-        else -> t.message
+        else -> t.message ?: "Unexpected error"
     }
 
 }
