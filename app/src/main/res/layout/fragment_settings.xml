@@ -121,13 +121,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/notifications" />
 
-            <TextView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvPushNotifications"
-                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/push_notifications"
-                app:drawableStartCompat="@drawable/ic_notifications" />
+                app:hasDivider="false"
+                app:optionIcon="@drawable/ic_notifications"
+                app:optionName="@string/push_notifications" />
 
             <TextView
                 style="@style/settingMenuHeader"
@@ -143,13 +143,13 @@
                 app:optionName="@string/login_sessions" />
 
 
-            <TextView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvClearCache"
-                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/clear_cache_and_reload"
-                app:drawableStartCompat="@drawable/ic_reload" />
+                app:hasDivider="false"
+                app:optionIcon="@drawable/ic_reload"
+                app:optionName="@string/clear_cache_and_reload" />
 
             <TextView
                 style="@style/settingMenuHeader"
@@ -195,13 +195,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/other" />
 
-            <TextView
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvVersion"
-                style="@style/settingMenuItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:drawableStartCompat="@drawable/ic_app_version"
-                tools:text="Version" />
+                app:optionIcon="@drawable/ic_app_version"
+                tools:optionName="Version" />
 
         </LinearLayout>
 
