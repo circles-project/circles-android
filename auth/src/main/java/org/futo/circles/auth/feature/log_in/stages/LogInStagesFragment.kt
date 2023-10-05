@@ -17,10 +17,12 @@ import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
 import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialog
 import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialogListener
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.BackPressOwner
@@ -55,6 +57,7 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.loginStageNavigationLiveData.observeData(this) { event ->
             val id = when (event) {
                 LoginStageNavigationEvent.DirectPassword -> R.id.to_direct_login

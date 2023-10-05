@@ -13,9 +13,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentConfigureWorkspaceBinding
 import org.futo.circles.auth.feature.workspace.list.WorkspaceTasksListAdapter
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.HasLoadingState
 
@@ -65,6 +67,7 @@ class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspac
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this){ setEnabledViews(it) }
         viewModel.tasksLiveData.observeData(this) {
             tasksAdapter.submitList(it)
         }

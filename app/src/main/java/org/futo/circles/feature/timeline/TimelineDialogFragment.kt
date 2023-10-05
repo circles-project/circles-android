@@ -8,11 +8,14 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
@@ -23,7 +26,6 @@ import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.core.utils.debounce
-import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.TimelineAdapter
@@ -144,6 +146,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.titleLiveData.observeData(this) { roomName ->
             val title = if (isThread) getString(R.string.thread_format, roomName) else roomName
             binding.toolbar.title = title
@@ -176,6 +179,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     override fun onShowMenuClicked(roomId: String, eventId: String) {
+        if (!showNoInternetConnection()) return
         navigator.navigatePostMenu(roomId, eventId)
     }
 
@@ -188,14 +192,17 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     override fun onShowEmoji(roomId: String, eventId: String) {
+        if (showNoInternetConnection()) return
         navigator.navigateToShowEmoji(roomId, eventId)
     }
 
     override fun onReply(roomId: String, eventId: String) {
+        if (showNoInternetConnection()) return
         navigator.navigateToThread(roomId, eventId)
     }
 
     override fun onShare(content: PostContent) {
+        if (showNoInternetConnection()) return
         viewModel.sharePostContent(content)
     }
 
@@ -214,6 +221,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     override fun onEmojiChipClicked(
         roomId: String, eventId: String, emoji: String, isUnSend: Boolean
     ) {
+        if (showNoInternetConnection()) return
         if (viewModel.accessLevelLiveData.value?.isCurrentUserAbleToPost() != true) {
             showError(getString(R.string.you_can_not_post_to_this_room))
             return
@@ -223,6 +231,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     override fun onPollOptionSelected(roomId: String, eventId: String, optionId: String) {
+        if (showNoInternetConnection()) return
         viewModel.pollVote(roomId, eventId, optionId)
     }
 

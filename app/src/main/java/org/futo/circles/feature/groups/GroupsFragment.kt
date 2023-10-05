@@ -10,10 +10,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.auth.explanation.CirclesExplanationDialog
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setEnabledViews
+import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
@@ -64,16 +67,19 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) { setEnabledViews(it, listOf(binding.rvRooms)) }
         viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
         viewModel.inviteResultLiveData.observeResponse(this)
     }
 
     private fun onInviteClicked(room: GroupListItem, isAccepted: Boolean) {
+        if (showNoInternetConnection()) return
         if (isAccepted) viewModel.acceptGroupInvite(room.id)
         else viewModel.rejectInvite(room.id)
     }
 
     private fun onRequestClicked(room: RequestGroupListItem, isAccepted: Boolean) {
+        if (showNoInternetConnection()) return
         if (isAccepted) viewModel.inviteUser(room)
         else viewModel.kickUser(room)
     }

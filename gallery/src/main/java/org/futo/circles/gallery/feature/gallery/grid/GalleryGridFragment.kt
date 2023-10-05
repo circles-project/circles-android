@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.transition.TransitionInflater
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
@@ -92,6 +93,9 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) {
+            binding.fbUploadImage.isEnabled = it
+        }
         viewModel.galleryItemsLiveData.observeData(this) {
             listAdapter.submitList(it)
         }

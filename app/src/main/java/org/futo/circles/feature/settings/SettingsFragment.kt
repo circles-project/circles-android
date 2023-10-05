@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,10 +12,12 @@ import org.futo.circles.R
 import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
 import org.futo.circles.core.CirclesAppConfig
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
@@ -69,6 +70,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.logOutLiveData.observeResponse(this,
             success = { clearSessionAndRestart() },
             onRequestInvoked = { loadingDialog.dismiss() }
@@ -113,8 +115,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun setVersion() {
-        binding.tvVersion.text =
-            getString(org.futo.circles.core.R.string.version_format, CirclesAppConfig.appVersion)
+        binding.tvVersion.setText(
+            getString(
+                org.futo.circles.core.R.string.version_format,
+                CirclesAppConfig.appVersion
+            )
+        )
     }
 
     private fun toggleDeveloperMode() {

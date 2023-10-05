@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ViewSettingsMenuItemBinding
 import org.futo.circles.core.extensions.getAttributes
+import org.futo.circles.core.extensions.setIsVisible
 
 
 class SettingsMenuItemView(
@@ -24,6 +25,9 @@ class SettingsMenuItemView(
 
     init {
         getAttributes(attrs, R.styleable.SettingsMenuItemView) {
+            val isDividerVisible = getBoolean(R.styleable.SettingsMenuItemView_hasDivider, true)
+            binding.vBottomDivider.setIsVisible(isDividerVisible)
+
             binding.tvOptionName.apply {
                 text = getString(R.styleable.SettingsMenuItemView_optionName)
                     ?.replace(' ', Typography.nbsp)
