@@ -67,7 +67,7 @@ fun Fragment.showSuccess(message: String) {
 }
 
 fun Fragment.setEnabledViews(enabled: Boolean, viewsToExclude: List<View> = emptyList()) {
-    (view?.rootView as? ViewGroup)?.setEnabledChildren(enabled, viewsToExclude)
+    (view as? ViewGroup)?.setEnabledChildren(enabled, viewsToExclude)
 }
 
 fun Fragment.setSupportActionBar(toolbar: Toolbar) {
