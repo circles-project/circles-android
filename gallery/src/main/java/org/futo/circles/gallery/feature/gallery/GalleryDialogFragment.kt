@@ -10,10 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.fragment.BackPressOwner
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
@@ -81,6 +83,12 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) {
+            binding.toolbar.apply {
+                isEnabled = it
+                setEnabledChildren(it)
+            }
+        }
         viewModel.titleLiveData?.observeData(this) { title ->
             binding.toolbar.title = title
         }
