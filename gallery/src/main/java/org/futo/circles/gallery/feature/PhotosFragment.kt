@@ -17,10 +17,12 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.CirclesAppConfig
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.model.RequestGalleryListItem
 import org.futo.circles.core.picker.helper.RuntimePermissionHelper
@@ -83,6 +85,7 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
         viewModel.inviteResultLiveData.observeResponse(this)
     }

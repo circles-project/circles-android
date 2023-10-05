@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.databinding.FragmentPeopleBinding
@@ -68,6 +70,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.peopleLiveData.observeData(this) { items ->
             peopleAdapter.submitList(items)
         }
