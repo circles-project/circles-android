@@ -3,8 +3,6 @@ package org.futo.circles.feature.timeline.preview
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.text.method.MovementMethod
-import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.view.menu.MenuBuilder
@@ -13,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
@@ -51,6 +51,7 @@ class TimelineMediaPreviewDialogFragment :
         replaceFragment(mediaFragment)
         binding.lContainer.setOnClickListener { binding.toolbar.setIsVisible(binding.toolbar.isVisible.not()) }
     }
+
     private fun replaceFragment(fragment: Fragment) {
         childFragmentManager.beginTransaction()
             .replace(R.id.lContainer, fragment)
@@ -89,6 +90,12 @@ class TimelineMediaPreviewDialogFragment :
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) {
+            binding.toolbar.apply {
+                isEnabled = it
+                setEnabledChildren(it)
+            }
+        }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
         }
