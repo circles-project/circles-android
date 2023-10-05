@@ -70,7 +70,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) { setEnabledViews(it) }
+        NetworkObserver.observe(this) { setEnabledViews(it, listOf(binding.rvUsers)) }
         viewModel.peopleLiveData.observeData(this) { items ->
             peopleAdapter.submitList(items)
         }
