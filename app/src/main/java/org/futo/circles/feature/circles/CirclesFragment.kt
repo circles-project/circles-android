@@ -16,6 +16,7 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
+import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
@@ -87,11 +88,13 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
     }
 
     private fun onInviteClicked(room: CircleListItem, isAccepted: Boolean) {
+        if (showNoInternetConnection()) return
         if (isAccepted) onAcceptInviteClicked(room)
         else viewModel.rejectInvite(room.id)
     }
 
     private fun onRequestClicked(room: RequestCircleListItem, isAccepted: Boolean) {
+        if (showNoInternetConnection()) return
         if (isAccepted) viewModel.inviteUser(room)
         else viewModel.kickUser(room)
     }

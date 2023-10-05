@@ -20,6 +20,7 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
+import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.databinding.FragmentPeopleBinding
@@ -35,6 +36,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         PeopleAdapter(
             onUserClicked = { userId -> navigateToUserPage(userId) },
             onRequestClicked = { userId, isAccepted ->
+                if (showNoInternetConnection()) return@PeopleAdapter
                 viewModel.onFollowRequestAnswered(userId, isAccepted)
             },
             onUnIgnore = { userId -> viewModel.unIgnoreUser(userId) }

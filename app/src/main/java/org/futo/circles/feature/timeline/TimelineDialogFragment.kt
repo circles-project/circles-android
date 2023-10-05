@@ -15,6 +15,7 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
@@ -177,14 +178,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
     }
 
-    private fun handleInternetConnection(): Boolean {
-        val isConnected = NetworkObserver.isConnected()
-        if (!isConnected) showError(getString(org.futo.circles.core.R.string.no_internet_connection))
-        return isConnected
-    }
-
     override fun onShowMenuClicked(roomId: String, eventId: String) {
-        if (!handleInternetConnection()) return
+        if (!showNoInternetConnection()) return
         navigator.navigatePostMenu(roomId, eventId)
     }
 
@@ -197,17 +192,17 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     override fun onShowEmoji(roomId: String, eventId: String) {
-        if (!handleInternetConnection()) return
+        if (showNoInternetConnection()) return
         navigator.navigateToShowEmoji(roomId, eventId)
     }
 
     override fun onReply(roomId: String, eventId: String) {
-        if (!handleInternetConnection()) return
+        if (showNoInternetConnection()) return
         navigator.navigateToThread(roomId, eventId)
     }
 
     override fun onShare(content: PostContent) {
-        if (!handleInternetConnection()) return
+        if (showNoInternetConnection()) return
         viewModel.sharePostContent(content)
     }
 
@@ -226,7 +221,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     override fun onEmojiChipClicked(
         roomId: String, eventId: String, emoji: String, isUnSend: Boolean
     ) {
-        if (!handleInternetConnection()) return
+        if (showNoInternetConnection()) return
         if (viewModel.accessLevelLiveData.value?.isCurrentUserAbleToPost() != true) {
             showError(getString(R.string.you_can_not_post_to_this_room))
             return
@@ -236,7 +231,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     override fun onPollOptionSelected(roomId: String, eventId: String, optionId: String) {
-        if (!handleInternetConnection()) return
+        if (showNoInternetConnection()) return
         viewModel.pollVote(roomId, eventId, optionId)
     }
 
