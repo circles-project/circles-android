@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.R
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.ConfirmationType
@@ -64,6 +65,12 @@ fun Fragment.showError(message: String) {
 
 fun Fragment.showSuccess(message: String) {
     showDialogBar(message, false)
+}
+
+fun Fragment.showNoInternetConnection(): Boolean {
+    val isConnected = NetworkObserver.isConnected()
+    if (!isConnected) showError(getString(org.futo.circles.core.R.string.no_internet_connection))
+    return !isConnected
 }
 
 fun Fragment.setEnabledViews(enabled: Boolean, viewsToExclude: List<View> = emptyList()) {
