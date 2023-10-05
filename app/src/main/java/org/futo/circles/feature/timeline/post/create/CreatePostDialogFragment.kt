@@ -10,9 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
@@ -58,6 +60,10 @@ class CreatePostDialogFragment :
         with(binding) {
             btnSend.apply {
                 setOnClickListener {
+                    if (!NetworkObserver.isConnected()) {
+                        showError(getString(org.futo.circles.core.R.string.no_internet_connection))
+                        return@setOnClickListener
+                    }
                     sendPost()
                     onBackPressed()
                 }
