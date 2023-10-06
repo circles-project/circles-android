@@ -1,0 +1,26 @@
+image: jangrewe/gitlab-ci-android
+
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+    - .gradle/
+
+before_script:
+  - chmod +x ./gradlew
+  - echo "$ENV_PROP" > local.properties
+
+stages:
+  - deploy
+
+
+uploadPlayStoreProduction:
+  stage: deploy
+  script:
+    - echo "$SERVICE_JSON" > service_account.json
+    - aliasName=$(cat local.properties | awk -F= '{print $2}' | awk NF | awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }' | awk NR==1)
+    - storePass=$(cat local.properties | awk -F= '{print $2}' | awk NF | awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }' | awk NR==2)
+    - keyPass=$(cat local.properties | awk -F= '{print $2}' | awk NF | awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }' | awk NR==3)
+    - ksPath=$(cd "$(dirname "app/justvers.jks")" && pwd)/$(basename "app/justvers.jks")
+    - bundle exec fastlane deploy pathKS:$ksPath variant:release alias:$aliasName storePassword:$storePass keyPassword:$keyPass
+  only:
+    - master
