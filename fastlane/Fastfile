@@ -16,24 +16,25 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
 
   desc "Deploy to the Google Play Beta"
-  lane :deploy do
+  lane :deployGoogle do
     gradle(task: "clean")
     gradle(
         task: "bundle",
-        build_type: options[:variant],
+        build_type: "release",
         properties: {
-                 "android.injected.signing.store.file" => options[:pathKS],
-                 "android.injected.signing.store.password" => options[:storePassword],
+                 "android.injected.signing.store.file" => options[:path],
+                 "android.injected.signing.store.password" => options[:password],
                  "android.injected.signing.key.alias" => options[:alias],
-                 "android.injected.signing.key.password" => options[:keyPassword],
+                 "android.injected.signing.key.password" => options[:password],
                }
             )
-    upload_to_play_store
+    upload_to_play_store(
+        track: "beta",
+        skip_upload_metadata: true,
+        skip_upload_images: true,
+        skip_upload_screenshots: true
+    )
   end
 end
