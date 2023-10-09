@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.extensions
+package org.futo.circles.core.extensions
 
 import android.content.Context
 import android.net.ConnectivityManager

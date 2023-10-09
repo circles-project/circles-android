@@ -12,10 +12,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSignUpBinding
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.fragment.BackPressOwner
@@ -40,6 +42,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this){ setEnabledViews(it) }
         viewModel.subtitleLiveData.observeData(this) {
             binding.toolbar.subtitle = it
         }

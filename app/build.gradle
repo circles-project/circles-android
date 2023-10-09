@@ -13,6 +13,7 @@ android {
         targetSdk rootProject.ext.sdk_version
         versionCode 25
         versionName "1.0.16"
+        archivesBaseName = "circles-v${versionName}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -21,11 +22,25 @@ android {
         viewBinding true
     }
 
+    signingConfigs{
+        release {
+            Properties properties = new Properties()
+            if (rootProject.file("local.properties").exists()) {
+                properties.load(rootProject.file("local.properties").newDataInputStream())
+            }
+            storeFile file("circuli_key.jks")
+            storePassword properties.getProperty("KEY_PASSWORD")
+            keyAlias properties.getProperty("ALIAS_NAME")
+            keyPassword properties.getProperty("KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         debug {
             minifyEnabled false
         }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -62,7 +77,7 @@ dependencies {
     implementation project(path: ':gallery')
 
     //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.3.0')
+    gplayImplementation platform('com.google.firebase:firebase-bom:32.3.1')
     gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'

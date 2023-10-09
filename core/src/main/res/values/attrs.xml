@@ -15,6 +15,7 @@
     <declare-styleable name="SettingsMenuItemView">
         <attr name="optionName" format="string" />
         <attr name="optionIcon" format="reference" />
+        <attr name="hasDivider" format="boolean" />
     </declare-styleable>
 
 </resources>

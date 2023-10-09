@@ -8,12 +8,15 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
@@ -35,8 +38,12 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
 
     private val usersCirclesAdapter by lazy {
         UsersCirclesAdapter(
-            onRequestFollow = { timelineId -> viewModel.requestFollowTimeline(timelineId) },
+            onRequestFollow = { timelineId ->
+                if (showNoInternetConnection()) return@UsersCirclesAdapter
+                viewModel.requestFollowTimeline(timelineId)
+            },
             onUnFollow = { timelineId ->
+                if (showNoInternetConnection()) return@UsersCirclesAdapter
                 withConfirmation(UnfollowTimeline()) {
                     viewModel.unFollowTimeline(timelineId)
                 }
@@ -91,6 +98,12 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) {
+            binding.toolbar.apply {
+                isEnabled = it
+                setEnabledChildren(it)
+            }
+        }
         viewModel.userLiveData.observeData(this) { setupUserInfo(it) }
         viewModel.timelineLiveDataLiveData.observeData(this) {
             usersCirclesAdapter.submitList(it)

@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.NetworkObserver
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.DialogFragmentTimelineOptionsBinding
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
@@ -14,6 +15,7 @@ import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.withConfirmation
@@ -131,6 +133,7 @@ class TimelineOptionsDialogFragment :
     }
 
     private fun setupObservers() {
+        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.leaveDeleteEventLiveData.observeResponse(this,
             success = {
                 val controller = findNavController()
