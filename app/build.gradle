@@ -13,6 +13,7 @@ android {
         targetSdk rootProject.ext.sdk_version
         versionCode 25
         versionName "1.0.16"
+        archivesBaseName = "circles-v${versionName}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
