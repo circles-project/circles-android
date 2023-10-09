@@ -25,10 +25,10 @@ android {
     signingConfigs{
         release {
             Properties properties = new Properties()
-            if (rootProject.file("local.properties").exists()) {
-                properties.load(rootProject.file("local.properties").newDataInputStream())
+            if (rootProject.file("signing.properties").exists()) {
+                properties.load(rootProject.file("signing.properties").newDataInputStream())
             }
-            storeFile file("circuli_key.jks")
+            storeFile file(properties.getProperty("KEY_PATH"))
             storePassword properties.getProperty("KEY_PASSWORD")
             keyAlias properties.getProperty("ALIAS_NAME")
             keyPassword properties.getProperty("KEY_PASSWORD")
