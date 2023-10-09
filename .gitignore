@@ -88,3 +88,5 @@ lint/tmp/
 .idea/codeStyles/
 
 .idea/
+
+app/circuli_key.jks
