@@ -43,4 +43,4 @@ uploadPlayStoreBeta:
     - echo "$SERVICE_JSON" > google_play_api_key.json
     - bundle exec fastlane deployGoogle
   only:
-    - master
+    - main
