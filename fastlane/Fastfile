@@ -18,18 +18,23 @@ default_platform(:android)
 platform :android do
 
   desc "Deploy to the Google Play Beta"
+  lane :buildFdroid do
+    gradle(task: "clean")
+    gradle(
+        task: "assemble",
+        flavor: "Gplay",
+        build_type: "Release"
+          )
+  end
+
+  desc "Deploy to the Google Play Beta"
   lane :deployGoogle do
     gradle(task: "clean")
     gradle(
         task: "bundle",
-        build_type: "release",
-        properties: {
-                 "android.injected.signing.store.file" => options[:path],
-                 "android.injected.signing.store.password" => options[:password],
-                 "android.injected.signing.key.alias" => options[:alias],
-                 "android.injected.signing.key.password" => options[:password],
-               }
-            )
+        flavor: "Gplay",
+        build_type: "Release"
+          )
     upload_to_play_store(
         track: "beta",
         skip_upload_metadata: true,
@@ -37,4 +42,6 @@ platform :android do
         skip_upload_screenshots: true
     )
   end
+
+
 end
