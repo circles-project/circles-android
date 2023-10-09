@@ -7,20 +7,40 @@ cache:
 
 before_script:
   - chmod +x ./gradlew
-  - echo "$ENV_PROP" > local.properties
+  - echo "$SIGNING_CONFIG" > local.properties
+  - echo "$SIGNING_KEY_BASE64" | base64 -d > android/app/circuli_key.jks
 
 stages:
+  - release
   - deploy
 
+createGitlabRelease:
+  stage: release
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - echo "Running the release job"
+    - bundle exec fastlane buildFdroid
+  artifacts:
+    name: "${CI_BUILD_NAME}_${CI_BUILD_REF_NAME}"
+    paths:
+      - app/build/outputs/apk/*.apk
+  release:
+    tag_name: $CI_COMMIT_TAG
+    name: 'Version $CI_COMMIT_TAG'
+    description: 'Release created using the release-cli.'
+    assets:
+      links:
+        - name: 'fdroid release apk $CI_COMMIT_TAG'
+          url: 'https://gitlab.com/api/v4/projects/13/jobs/artifacts/main/download?job=createGitlabRelease'
 
-uploadPlayStoreProduction:
+
+
+uploadPlayStoreBeta:
   stage: deploy
   script:
-    - echo "$SERVICE_JSON" > service_account.json
-    - aliasName=$(cat local.properties | awk -F= '{print $2}' | awk NF | awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }' | awk NR==1)
-    - storePass=$(cat local.properties | awk -F= '{print $2}' | awk NF | awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }' | awk NR==2)
-    - keyPass=$(cat local.properties | awk -F= '{print $2}' | awk NF | awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }' | awk NR==3)
-    - ksPath=$(cd "$(dirname "app/justvers.jks")" && pwd)/$(basename "app/justvers.jks")
-    - bundle exec fastlane deploy pathKS:$ksPath variant:release alias:$aliasName storePassword:$storePass keyPassword:$keyPass
+    - echo "Running the uploadPlayStoreBeta job"
+    - echo "$SERVICE_JSON" > google_play_api_key.json
+    - bundle exec fastlane deployGoogle
   only:
     - master
