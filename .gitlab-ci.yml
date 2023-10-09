@@ -7,8 +7,10 @@ cache:
 
 before_script:
   - chmod +x ./gradlew
-  - echo "$SIGNING_CONFIG" > local.properties
-  - echo "$SIGNING_KEY_BASE64" | base64 -d > android/app/circuli_key.jks
+  - echo $SIGNING_KEY_BASE64 | base64 -d > circuli_key.jks
+  - echo "KEY_PATH=circuli_key.jks" > signing.properties
+  - echo "KEY_PASSWORD=$KEY_PASSWORD" >> signing.properties
+  - echo "ALIAS_NAME=$ALIAS_NAME" >> signing.properties
 
 stages:
   - release
