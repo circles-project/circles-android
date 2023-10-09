@@ -22,7 +22,7 @@ platform :android do
     gradle(task: "clean")
     gradle(
         task: "assemble",
-        flavor: "Gplay",
+        flavor: "Fdroid",
         build_type: "Release"
           )
   end

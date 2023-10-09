@@ -6,6 +6,7 @@ cache:
     - .gradle/
 
 before_script:
+  - bundle install
   - chmod +x ./gradlew
   - echo $SIGNING_KEY_BASE64 | base64 -d > circuli_key.jks
   - echo "KEY_PATH=circuli_key.jks" > signing.properties
