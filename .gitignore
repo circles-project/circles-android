@@ -89,4 +89,6 @@ lint/tmp/
 
 .idea/
 
-app/circuli_key.jks
+circuli_key.jks
+
+signing.properties
