@@ -43,7 +43,7 @@ uploadPlayStoreBeta:
   stage: deploy
   script:
     - echo "Running the uploadPlayStoreBeta job"
-    - echo "$SERVICE_JSON" > google_play_api_key.json
+    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
     - bundle exec fastlane deployGoogle
   only:
     - main
