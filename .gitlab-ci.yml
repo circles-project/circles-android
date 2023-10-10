@@ -1,18 +1,8 @@
-default:
-  image: softartdev/android-fastlane
 
 cache:
   key: ${CI_PROJECT_ID}
   paths:
     - .gradle/
-
-before_script:
-  - bundle install
-  - chmod +x ./gradlew
-  - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
-  - echo "KEY_PATH=../circuli_key.jks" > signing.properties
-  - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
-  - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
 
 stages:
   - build
@@ -21,15 +11,22 @@ stages:
 
 buildFdroid:
   stage: build
+  image: softartdev/android-fastlane
   rules:
     - if: $CI_COMMIT_TAG
   script:
+    - bundle install
+    - chmod +x ./gradlew
+    - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
+    - echo "KEY_PATH=../circuli_key.jks" > signing.properties
+    - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
+    - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
     - echo "Building F-Droid apk"
     - bundle exec fastlane buildFdroid
   artifacts:
     name: "${CI_BUILD_NAME}_${CI_BUILD_REF_NAME}"
     paths:
-      - app/build/outputs/apk/*.apk
+      - app/build/outputs/apk/fdroid/release/*.apk
 
 createGitlabRelease:
   stage: release
@@ -52,8 +49,15 @@ createGitlabRelease:
 
 uploadPlayStoreBeta:
   stage: deploy
+  image: softartdev/android-fastlane
   script:
     - echo "Running the uploadPlayStoreBeta job"
+    - bundle install
+    - chmod +x ./gradlew
+    - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
+    - echo "KEY_PATH=../circuli_key.jks" > signing.properties
+    - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
+    - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
     - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
     - bundle exec fastlane deployGoogle
   only:
