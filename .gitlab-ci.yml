@@ -43,7 +43,7 @@ createGitlabRelease:
     assets:
       links:
         - name: 'fdroid release apk $CI_COMMIT_TAG'
-          url: 'https://gitlab.com/api/v4/projects/13/jobs/artifacts/main/download?job=createGitlabRelease'
+          url: 'https://gitlab.com/api/v4/projects/13/jobs/artifacts/$CI_COMMIT_TAG/download?job=createGitlabRelease'
 
 
 
