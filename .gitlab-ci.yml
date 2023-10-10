@@ -8,7 +8,7 @@ cache:
 before_script:
   - bundle install
   - chmod +x ./gradlew
-  - echo -n ${$SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
+  - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
   - echo "KEY_PATH=../circuli_key.jks" > signing.properties
   - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
   - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
