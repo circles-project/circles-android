@@ -1,4 +1,5 @@
-image: softartdev/android-fastlane
+default:
+  image: softartdev/android-fastlane
 
 cache:
   key: ${CI_PROJECT_ID}
