@@ -20,8 +20,8 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.picker.helper.RuntimePermissionHelper
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 
 @AndroidEntryPoint
 class VerifySessionDialogFragment :

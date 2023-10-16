@@ -1,7 +1,7 @@
 package org.futo.circles.core.mapping
 
 import com.bumptech.glide.request.target.Target
-import org.futo.circles.core.MediaCaptionFieldKey
+import org.futo.circles.core.base.MediaCaptionFieldKey
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.model.MediaType

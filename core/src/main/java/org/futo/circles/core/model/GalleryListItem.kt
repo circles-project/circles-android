@@ -1,6 +1,6 @@
 package org.futo.circles.core.model
 
-import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.base.list.IdEntity
 import org.matrix.android.sdk.api.session.room.model.Membership
 
 sealed class GalleryListItem(
@@ -19,10 +19,3 @@ data class InvitedGalleryListItem(
     override val info: RoomInfo,
     val inviterName: String,
 ) : GalleryListItem(id, info, Membership.INVITE)
-
-data class RequestGalleryListItem(
-    override val id: String,
-    override val info: RoomInfo,
-    val requesterName: String,
-    val requesterId: String
-) : GalleryListItem(id, info, Membership.KNOCK)

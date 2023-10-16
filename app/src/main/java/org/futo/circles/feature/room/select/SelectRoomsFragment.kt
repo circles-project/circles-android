@@ -13,9 +13,9 @@ import org.futo.circles.R
 import org.futo.circles.base.RoomsListener
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.feature.room.select.RoomsPicker
+import org.futo.circles.core.feature.room.select.SelectRoomsListener
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.room.select.RoomsPicker
-import org.futo.circles.core.room.select.SelectRoomsListener
 import org.futo.circles.databinding.FragmentSelectRoomsBinding
 import org.futo.circles.feature.room.select.list.SelectRoomsAdapter
 import org.futo.circles.feature.room.select.list.SelectedChipsRoomsAdapter

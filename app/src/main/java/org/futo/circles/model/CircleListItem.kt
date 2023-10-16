@@ -1,7 +1,7 @@
 package org.futo.circles.model
 
 import org.futo.circles.R
-import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.model.RoomInfo
 import org.matrix.android.sdk.api.session.room.model.Membership
 
@@ -12,7 +12,6 @@ data class CirclesHeaderItem(
     override val id: String = titleRes.toString()
 
     companion object {
-        val requestsCirclesHeader = CirclesHeaderItem(R.string.requests)
         val invitesCirclesHeader = CirclesHeaderItem(R.string.invites)
         val sharedCirclesHeader = CirclesHeaderItem(R.string.shared_circles)
         val privateCirclesHeader = CirclesHeaderItem(R.string.private_circles)
@@ -31,7 +30,8 @@ data class JoinedCircleListItem(
     val isShared: Boolean,
     val followingCount: Int,
     val followedByCount: Int,
-    val unreadCount: Int
+    val unreadCount: Int,
+    val knockRequestsCount: Int
 ) : CircleRoomListItem(id, info, Membership.JOIN)
 
 data class InvitedCircleListItem(
@@ -39,11 +39,4 @@ data class InvitedCircleListItem(
     override val info: RoomInfo,
     val inviterName: String,
 ) : CircleRoomListItem(id, info, Membership.INVITE)
-
-data class RequestCircleListItem(
-    override val id: String,
-    override val info: RoomInfo,
-    val requesterName: String,
-    val requesterId: String,
-) : CircleRoomListItem(id, info, Membership.KNOCK)
 

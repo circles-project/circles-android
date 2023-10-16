@@ -92,3 +92,5 @@ lint/tmp/
 circuli_key.jks
 
 signing.properties
+
+google_play_api_key.json

@@ -17,7 +17,7 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 
 @AndroidEntryPoint
 class ActiveSessionsDialogFragment :

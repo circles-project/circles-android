@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.workspace.data_source.ConfigureWorkspaceDataSource
 import org.futo.circles.auth.feature.workspace.data_source.WorkspaceTasksProvider
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.GROUP_TYPE
-import org.futo.circles.core.workspace.SharedCircleDataSource
+import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
 import org.futo.circles.gallery.feature.backup.RoomAccountDataSource

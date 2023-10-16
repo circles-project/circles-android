@@ -8,7 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.databinding.DialogFragmentDebugInfoBinding
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 
 @AndroidEntryPoint
 class PostInfoDialogFragment :

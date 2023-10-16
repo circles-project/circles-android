@@ -14,7 +14,7 @@ import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
 import org.futo.circles.auth.model.ActiveSession
 import org.futo.circles.auth.model.ActiveSessionListItem
 import org.futo.circles.auth.model.SessionHeader
-import org.futo.circles.core.ExpandableItemsDataSource
+import org.futo.circles.core.base.ExpandableItemsDataSource
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider

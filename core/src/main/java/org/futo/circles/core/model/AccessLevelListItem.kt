@@ -1,6 +1,6 @@
 package org.futo.circles.core.model
 
-import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.base.list.IdEntity
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 data class AccessLevelListItem(

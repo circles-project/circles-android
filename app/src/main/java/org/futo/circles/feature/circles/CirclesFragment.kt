@@ -10,7 +10,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.auth.explanation.CirclesExplanationDialog
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -23,7 +23,6 @@ import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.feature.circles.list.CirclesListAdapter
 import org.futo.circles.model.CircleListItem
-import org.futo.circles.model.RequestCircleListItem
 
 @AndroidEntryPoint
 class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
@@ -61,9 +60,6 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
                 onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
                 onInviteClicked = { roomListItem, isAccepted ->
                     onInviteClicked(roomListItem, isAccepted)
-                },
-                onRequestClicked = { roomListItem, isAccepted ->
-                    onRequestClicked(roomListItem, isAccepted)
                 }
             ).also { listAdapter = it }
             bindToFab(binding.fbAddRoom)
@@ -91,12 +87,6 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
         if (showNoInternetConnection()) return
         if (isAccepted) onAcceptInviteClicked(room)
         else viewModel.rejectInvite(room.id)
-    }
-
-    private fun onRequestClicked(room: RequestCircleListItem, isAccepted: Boolean) {
-        if (showNoInternetConnection()) return
-        if (isAccepted) viewModel.inviteUser(room)
-        else viewModel.kickUser(room)
     }
 
     private fun onRoomListItemClicked(room: CircleListItem) {

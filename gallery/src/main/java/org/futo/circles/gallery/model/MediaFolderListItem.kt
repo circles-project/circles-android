@@ -1,6 +1,6 @@
 package org.futo.circles.gallery.model
 
-import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.base.list.IdEntity
 
 data class MediaFolderListItem(
     override val id: String,

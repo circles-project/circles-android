@@ -6,5 +6,6 @@ data class GroupListItemPayload(
     val membersCount: Int?,
     val timestamp: Long?,
     val unreadCount: Int?,
+    val knocksCount: Int?,
     val needUpdateFullItem: Boolean
 )

@@ -3,12 +3,11 @@ package org.futo.circles.feature.groups
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.room.invite.InviteRequestsDataSource
-import org.futo.circles.model.RequestGroupListItem
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,16 +31,5 @@ class GroupsViewModel @Inject constructor(
             val result = inviteRequestsDataSource.acceptInvite(roomId, CircleRoomTypeArg.Group)
             inviteResultLiveData.postValue(result)
         }
-    }
-
-    fun inviteUser(room: RequestGroupListItem) {
-        launchBg {
-            val result = inviteRequestsDataSource.inviteUser(room.id, room.requesterId)
-            inviteResultLiveData.postValue(result)
-        }
-    }
-
-    fun kickUser(room: RequestGroupListItem) {
-        launchBg { inviteRequestsDataSource.kickUser(room.id, room.requesterId) }
     }
 }

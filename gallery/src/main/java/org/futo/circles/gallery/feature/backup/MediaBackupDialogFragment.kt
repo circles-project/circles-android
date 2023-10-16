@@ -11,8 +11,8 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentMediaBackupBinding
 import org.futo.circles.gallery.feature.backup.list.MediaFoldersListAdapter

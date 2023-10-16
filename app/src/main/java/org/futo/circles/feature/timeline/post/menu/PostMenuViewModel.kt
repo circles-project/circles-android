@@ -9,7 +9,7 @@ import org.futo.circles.core.model.PollContent
 import org.futo.circles.core.model.PollState
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.model.canEdit
-import org.futo.circles.core.timeline.post.PostContentDataSource
+import org.futo.circles.core.feature.timeline.post.PostContentDataSource
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import javax.inject.Inject
 

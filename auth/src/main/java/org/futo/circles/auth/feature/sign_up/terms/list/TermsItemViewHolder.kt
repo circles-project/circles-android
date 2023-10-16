@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.auth.databinding.ListItemTermsBinding
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.auth.model.TermsListItem
+import org.futo.circles.core.base.list.ViewBindingHolder
 
 class TermsItemViewHolder(
     parent: ViewGroup,
@@ -12,7 +13,7 @@ class TermsItemViewHolder(
     onCheckChanged: (Int) -> Unit
 ) : RecyclerView.ViewHolder(inflate(parent, ListItemTermsBinding::inflate)) {
 
-    private companion object : org.futo.circles.core.list.ViewBindingHolder
+    private companion object : ViewBindingHolder
 
     private val binding = baseBinding as ListItemTermsBinding
 

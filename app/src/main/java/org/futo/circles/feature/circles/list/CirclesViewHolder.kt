@@ -6,20 +6,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
+import org.futo.circles.core.base.list.ViewBindingHolder
+import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.onClick
-import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.core.list.context
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ListItemInvitedCircleBinding
 import org.futo.circles.databinding.ListItemJoinedCircleBinding
-import org.futo.circles.databinding.ListItemRequestCircleBinding
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CircleListItemPayload
 import org.futo.circles.model.CirclesHeaderItem
 import org.futo.circles.model.InvitedCircleListItem
 import org.futo.circles.model.JoinedCircleListItem
-import org.futo.circles.model.RequestCircleListItem
 
 abstract class CirclesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: CircleListItem)
@@ -55,6 +54,7 @@ class JoinedCircleViewHolder(
             setTitle(tvCircleTitle, data.info.title)
             setFollowingCount(data.followingCount)
             setFollowedByCount(data.followedByCount)
+            setRequestsCount(data.knockRequestsCount)
             setUnreadCount(data.unreadCount)
         }
     }
@@ -63,6 +63,7 @@ class JoinedCircleViewHolder(
         data.followersCount?.let { setFollowingCount(it) }
         data.followedByCount?.let { setFollowedByCount(it) }
         data.unreadCount?.let { setUnreadCount(it) }
+        data.knocksCount?.let { setRequestsCount(it) }
     }
 
     private fun setFollowingCount(followersCount: Int) {
@@ -71,6 +72,14 @@ class JoinedCircleViewHolder(
 
     private fun setFollowedByCount(followedByCount: Int) {
         binding.tvFollowedBy.text = context.getString(R.string.followed_by_format, followedByCount)
+    }
+
+    private fun setRequestsCount(knockRequestsCount: Int) {
+        binding.tvKnockRequests.apply {
+            setIsVisible(knockRequestsCount > 0)
+            text =
+                context.getString(R.string.requests_format, knockRequestsCount)
+        }
     }
 
     private fun setUnreadCount(count: Int) {
@@ -99,34 +108,10 @@ class InvitedCircleViewHolder(
             setIcon(ivCircle, data.info.avatarUrl, data.info.title)
             setTitle(tvCircleTitle, data.info.title)
             binding.tvInvitedBy.text =
-                context.getString(org.futo.circles.core.R.string.invited_by_format, data.inviterName)
-        }
-    }
-}
-
-class RequestedCircleViewHolder(
-    parent: ViewGroup,
-    onRequestClicked: (Int, Boolean) -> Unit
-) : CirclesViewHolder(inflate(parent, ListItemRequestCircleBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemRequestCircleBinding
-
-    init {
-        onClick(binding.btnInvite) { position -> onRequestClicked(position, true) }
-        onClick(binding.btnDecline) { position -> onRequestClicked(position, false) }
-    }
-
-    override fun bind(data: CircleListItem) {
-        if (data !is RequestCircleListItem) return
-
-        with(binding) {
-            setIcon(ivCircle, data.info.avatarUrl, data.info.title)
-            binding.tvRequestUserId.text = context.getString(
-                R.string.requested_to_follow_format, data.requesterName
-            )
-            binding.tvTimelineTitle.text = data.info.title
+                context.getString(
+                    org.futo.circles.core.R.string.invited_by_format,
+                    data.inviterName
+                )
         }
     }
 }

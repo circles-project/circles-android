@@ -16,8 +16,8 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showDialog
-import org.futo.circles.core.fragment.BackPressOwner
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.BackPressOwner
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 
 @AndroidEntryPoint
 class ReAuthStagesDialogFragment :

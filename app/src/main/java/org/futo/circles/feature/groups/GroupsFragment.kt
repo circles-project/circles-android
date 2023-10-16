@@ -10,7 +10,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.auth.explanation.CirclesExplanationDialog
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -22,7 +22,6 @@ import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.model.GroupListItem
-import org.futo.circles.model.RequestGroupListItem
 
 @AndroidEntryPoint
 class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
@@ -35,9 +34,6 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onInviteClicked = { roomListItem, isAccepted ->
                 onInviteClicked(roomListItem, isAccepted)
-            },
-            onRequestClicked = { roomListItem, isAccepted ->
-                onRequestClicked(roomListItem, isAccepted)
             }
         )
     }
@@ -78,11 +74,6 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
         else viewModel.rejectInvite(room.id)
     }
 
-    private fun onRequestClicked(room: RequestGroupListItem, isAccepted: Boolean) {
-        if (showNoInternetConnection()) return
-        if (isAccepted) viewModel.inviteUser(room)
-        else viewModel.kickUser(room)
-    }
 
     private fun onRoomListItemClicked(room: GroupListItem) {
         findNavController().navigateSafe(GroupsFragmentDirections.toTimeline(room.id))

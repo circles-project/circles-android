@@ -10,15 +10,15 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSetupProfileBinding
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showDialog
-import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.picker.helper.MediaPickerHelper
+import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 
 @AndroidEntryPoint
 class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadingState {

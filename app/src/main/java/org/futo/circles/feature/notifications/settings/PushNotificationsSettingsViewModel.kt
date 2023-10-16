@@ -2,7 +2,7 @@ package org.futo.circles.feature.notifications.settings
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.feature.notifications.PushersManager
 import javax.inject.Inject

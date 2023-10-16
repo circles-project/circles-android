@@ -13,7 +13,7 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.getRoomOwners
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.workspace.SharedCircleDataSource
+import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.mapping.toTimelineRoomListItem
 import org.futo.circles.model.TimelineHeaderItem
 import org.futo.circles.model.TimelineListItem

@@ -10,7 +10,7 @@ import org.futo.circles.auth.model.ActiveSessionListItem
 import org.futo.circles.auth.model.SessionHeader
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.list.ViewBindingHolder
+import org.futo.circles.core.base.list.ViewBindingHolder
 
 abstract class ActiveSessionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: ActiveSessionListItem)

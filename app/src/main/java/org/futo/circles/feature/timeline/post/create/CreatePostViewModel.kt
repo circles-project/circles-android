@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.PostContent
-import org.futo.circles.core.timeline.post.PostContentDataSource
+import org.futo.circles.core.feature.timeline.post.PostContentDataSource
 import javax.inject.Inject
 
 @HiltViewModel

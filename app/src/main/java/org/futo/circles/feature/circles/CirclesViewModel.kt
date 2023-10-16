@@ -6,16 +6,15 @@ import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import org.futo.circles.R
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.feature.room.CreateRoomDataSource
+import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.room.CreateRoomDataSource
-import org.futo.circles.core.room.invite.InviteRequestsDataSource
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.model.RequestCircleListItem
 import org.matrix.android.sdk.api.session.getRoomSummary
 import javax.inject.Inject
 
@@ -38,16 +37,6 @@ class CirclesViewModel @Inject constructor(
         }
     }
 
-    fun inviteUser(room: RequestCircleListItem) {
-        launchBg {
-            val result = inviteRequestsDataSource.inviteUser(room.id, room.requesterId)
-            inviteResultLiveData.postValue(result)
-        }
-    }
-
-    fun kickUser(room: RequestCircleListItem) {
-        launchBg { inviteRequestsDataSource.kickUser(room.id, room.requesterId) }
-    }
 
     fun createTimeLineIfNotExist(circleId: String) {
         launchBg {

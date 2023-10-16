@@ -5,8 +5,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.extensions.onClick
-import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.core.list.context
+import org.futo.circles.core.base.list.ViewBindingHolder
+import org.futo.circles.core.base.list.context
 import org.futo.circles.databinding.ListItemStyleBarBinding
 import org.futo.circles.model.StyleBarListItem
 

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentNotificationsTestBinding
 import org.futo.circles.feature.notifications.NotificationActionIds
 import org.futo.circles.feature.notifications.test.list.NotificationsTestAdapter

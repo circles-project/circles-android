@@ -10,7 +10,7 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PostContentType
-import org.futo.circles.core.timeline.post.PostContentDataSource
+import org.futo.circles.core.feature.timeline.post.PostContentDataSource
 import org.futo.circles.core.utils.FileUtils
 import javax.inject.Inject
 

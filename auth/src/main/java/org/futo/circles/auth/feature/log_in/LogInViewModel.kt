@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.auth.feature.log_in.switch_user.SwitchUserDataSource
+import org.futo.circles.core.base.SingleEventLiveData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,9 +15,9 @@ class LogInViewModel @Inject constructor(
     private val switchUserDataSource: SwitchUserDataSource
 ) : ViewModel() {
 
-    val loginResultLiveData = org.futo.circles.core.SingleEventLiveData<Response<Unit>>()
+    val loginResultLiveData = SingleEventLiveData<Response<Unit>>()
     val switchUsersLiveData = MutableLiveData(switchUserDataSource.getSwitchUsersList())
-    val navigateToBottomMenuScreenLiveData = org.futo.circles.core.SingleEventLiveData<Unit>()
+    val navigateToBottomMenuScreenLiveData = SingleEventLiveData<Unit>()
 
     fun startLogInFlow(userName: String, domain: String) {
         switchUserDataSource.getSessionCredentialsIdByUserInfo(userName, domain)

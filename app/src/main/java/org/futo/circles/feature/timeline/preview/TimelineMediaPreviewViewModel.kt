@@ -3,12 +3,12 @@ package org.futo.circles.feature.timeline.preview
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.ShareableContent
-import org.futo.circles.core.timeline.post.PostOptionsDataSource
-import org.futo.circles.core.timeline.post.PostContentDataSource
+import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
+import org.futo.circles.core.feature.timeline.post.PostContentDataSource
 import javax.inject.Inject
 
 @HiltViewModel

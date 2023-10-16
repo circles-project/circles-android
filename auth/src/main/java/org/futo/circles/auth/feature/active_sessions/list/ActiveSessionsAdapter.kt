@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import org.futo.circles.auth.model.ActiveSession
 import org.futo.circles.auth.model.ActiveSessionListItem
 import org.futo.circles.auth.model.SessionHeader
-import org.futo.circles.core.list.BaseRvAdapter
+import org.futo.circles.core.base.list.BaseRvAdapter
 
 interface ActiveSessionClickListener {
     fun onItemClicked(deviceId: String)

@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.vanniktech.emoji.Emoji
 import com.vanniktech.emoji.EmojiTheming
 import org.futo.circles.R
-import org.futo.circles.core.fragment.TransparentBackgroundBottomSheetDialogFragment
+import org.futo.circles.core.base.fragment.TransparentBackgroundBottomSheetDialogFragment
 import org.futo.circles.databinding.BottomSheetEmojiBinding
 
 interface EmojiPickerListener {

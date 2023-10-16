@@ -15,8 +15,8 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
-import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 
 @AndroidEntryPoint
 class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_validate_email),

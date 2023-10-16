@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData

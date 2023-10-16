@@ -16,16 +16,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.CirclesAppConfig
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
+import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.model.GalleryListItem
-import org.futo.circles.core.model.RequestGalleryListItem
-import org.futo.circles.core.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.gallery.R
 
@@ -40,9 +39,6 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onInviteClicked = { roomListItem, isAccepted ->
                 onInviteClicked(roomListItem, isAccepted)
-            },
-            onRequestClicked = { roomListItem, isAccepted ->
-                onRequestClicked(roomListItem, isAccepted)
             })
     }
 
@@ -103,11 +99,6 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private fun onInviteClicked(room: GalleryListItem, isAccepted: Boolean) {
         if (isAccepted) viewModel.acceptPhotosInvite(room.id)
         else viewModel.rejectInvite(room.id)
-    }
-
-    private fun onRequestClicked(room: RequestGalleryListItem, isAccepted: Boolean) {
-        if (isAccepted) viewModel.inviteUser(room)
-        else viewModel.kickUser(room)
     }
 
     private fun navigateToCreateRoom() {

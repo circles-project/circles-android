@@ -6,7 +6,7 @@
     app:startDestination="@id/timelineOptionsDialogFragment">
     <dialog
         android:id="@+id/timelineOptionsDialogFragment"
-        android:name="org.futo.circles.core.timeline.options.TimelineOptionsDialogFragment"
+        android:name="org.futo.circles.core.feature.timeline.options.TimelineOptionsDialogFragment"
         tools:layout="@layout/dialog_fragment_timeline_options">
 
         <argument
@@ -114,12 +114,22 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_knockRequestsDialogFragment"
+            app:destination="@id/knockRequestsDialogFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
 
     </dialog>
     <dialog
         android:id="@+id/stateEventsDialogFragment"
-        android:name="org.futo.circles.core.timeline.state.RoomStateEventsDialogFragment"
+        android:name="org.futo.circles.core.feature.timeline.state.RoomStateEventsDialogFragment"
         tools:layout="@layout/dialog_fragment_debug_info">
 
         <argument
@@ -130,7 +140,7 @@
     </dialog>
     <dialog
         android:id="@+id/updateCircleDialogFragment"
-        android:name="org.futo.circles.core.room.update.circle.UpdateCircleDialogFragment"
+        android:name="org.futo.circles.core.feature.room.update.circle.UpdateCircleDialogFragment"
         tools:layout="@layout/dialog_fragment_update_circle">
 
         <argument
@@ -142,7 +152,7 @@
 
     <dialog
         android:id="@+id/updateGalleryDialogFragment"
-        android:name="org.futo.circles.core.room.update.gallery.UpdateGalleryDialogFragment"
+        android:name="org.futo.circles.core.feature.room.update.gallery.UpdateGalleryDialogFragment"
         tools:layout="@layout/dialog_fragment_update_gallery">
 
         <argument
@@ -154,7 +164,7 @@
 
     <dialog
         android:id="@+id/updateGroupDialogFragment"
-        android:name="org.futo.circles.core.room.update.group.UpdateGroupDialogFragment"
+        android:name="org.futo.circles.core.feature.room.update.group.UpdateGroupDialogFragment"
         tools:layout="@layout/dialog_fragment_update_group">
 
         <argument
@@ -165,7 +175,7 @@
     </dialog>
     <dialog
         android:id="@+id/inviteMembersDialogFragment"
-        android:name="org.futo.circles.core.room.invite.InviteMembersDialogFragment"
+        android:name="org.futo.circles.core.feature.room.invite.InviteMembersDialogFragment"
         tools:layout="@layout/dialog_fragment_invite_members">
 
         <argument
@@ -176,7 +186,7 @@
     </dialog>
     <dialog
         android:id="@+id/followingDialogFragment"
-        android:name="org.futo.circles.core.room.circles.following.FollowingDialogFragment"
+        android:name="org.futo.circles.core.feature.room.circles.following.FollowingDialogFragment"
         android:label="FollowingDialogFragment"
         tools:layout="@layout/dialog_fragment_following">
 
@@ -188,7 +198,7 @@
     </dialog>
     <dialog
         android:id="@+id/manageMembersDialogFragment"
-        android:name="org.futo.circles.core.room.manage_members.ManageMembersDialogFragment"
+        android:name="org.futo.circles.core.feature.room.manage_members.ManageMembersDialogFragment"
         tools:layout="@layout/dialog_fragment_manage_members">
 
         <argument
@@ -225,7 +235,7 @@
     </dialog>
     <dialog
         android:id="@+id/changeAccessLevelBottomSheet"
-        android:name="org.futo.circles.core.room.manage_members.change_role.ChangeAccessLevelBottomSheet"
+        android:name="org.futo.circles.core.feature.room.manage_members.change_role.ChangeAccessLevelBottomSheet"
         android:label="ChangeAccessLevelBottomSheet"
         tools:layout="@layout/bottom_sheet_change_access_level">
 
@@ -247,5 +257,14 @@
     </dialog>
 
     <include app:graph="@navigation/share_room_nav_graph" />
+    <dialog
+        android:id="@+id/knockRequestsDialogFragment"
+        android:name="org.futo.circles.core.feature.room.knoks.KnockRequestsDialogFragment"
+        tools:layout="@layout/dialog_fragment_knock_requests">
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+    </dialog>
 
 </navigation>

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.auth.databinding.ListItemSubscriptionBinding
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.auth.model.SubscriptionListItem
+import org.futo.circles.core.base.list.ViewBindingHolder
 
 
 class SubscriptionViewHolder(
@@ -12,7 +13,7 @@ class SubscriptionViewHolder(
     private val onSubscriptionClicked: (Int) -> Unit
 ) : RecyclerView.ViewHolder(inflate(parent, ListItemSubscriptionBinding::inflate)) {
 
-    private companion object : org.futo.circles.core.list.ViewBindingHolder
+    private companion object : ViewBindingHolder
 
     private val binding = baseBinding as ListItemSubscriptionBinding
 

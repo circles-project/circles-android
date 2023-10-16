@@ -6,7 +6,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.DialogFragmentWorkspaceBinding
 import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 
 @AndroidEntryPoint
 class WorkspaceDialogFragment :

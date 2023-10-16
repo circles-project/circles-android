@@ -9,7 +9,7 @@ import org.futo.circles.core.extensions.isCurrentUserAbleToBan
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeLevelFor
 import org.futo.circles.core.extensions.isCurrentUserAbleToKick
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.room.manage_members.ManageMembersOptionsListener
+import org.futo.circles.core.feature.room.manage_members.ManageMembersOptionsListener
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 class ManageMembersOptionsView(

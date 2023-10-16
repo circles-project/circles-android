@@ -12,8 +12,8 @@ import org.futo.circles.auth.databinding.FragmentUsernameBinding
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 
 @AndroidEntryPoint
 class UsernameFragment : ParentBackPressOwnerFragment(R.layout.fragment_username),

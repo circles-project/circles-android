@@ -6,8 +6,6 @@ import android.view.View.OnFocusChangeListener
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,8 +14,9 @@ import org.futo.circles.auth.databinding.FragmentLogInBinding
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersAdapter
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHolder
 import org.futo.circles.auth.model.RemoveUser
-import org.futo.circles.core.CirclesAppConfig
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.list.BaseRvDecoration
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -26,7 +25,7 @@ import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.HasLoadingState
 
 
 @AndroidEntryPoint
@@ -79,7 +78,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
             binding.rvSwitchUsers.apply {
                 adapter = switchUsersAdapter
                 addItemDecoration(
-                    org.futo.circles.core.list.BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(
+                    BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(
                         16
                     )
                 )

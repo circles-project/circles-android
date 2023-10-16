@@ -8,15 +8,15 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.base.RoomsListener
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.feature.room.select.SelectRoomsListener
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.core.room.select.SelectRoomsListener
 import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
 import org.futo.circles.feature.room.select.SelectRoomsFragment
 

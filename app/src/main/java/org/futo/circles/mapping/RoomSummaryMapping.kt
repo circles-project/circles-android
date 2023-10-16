@@ -10,7 +10,9 @@ import org.futo.circles.model.InvitedGroupListItem
 import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.JoinedGroupListItem
 import org.futo.circles.model.TimelineRoomListItem
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getRoomSummary
+import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.SpaceChildInfo
@@ -23,7 +25,8 @@ fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     isEncrypted = isEncrypted,
     membersCount = joinedMembersCount ?: 0,
     timestamp = latestPreviewableEvent?.root?.originServerTs ?: System.currentTimeMillis(),
-    unreadCount = notificationCount
+    unreadCount = notificationCount,
+    knockRequestsCount = getKnocksCount(roomId)
 )
 
 fun RoomSummary.toInviteGroupListItem() = InvitedGroupListItem(
@@ -39,7 +42,8 @@ fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) = JoinedCircle
     isShared = isShared,
     followingCount = spaceChildren?.size?.takeIf { it != 0 }?.minus(1) ?: 0,
     followedByCount = getFollowersCount(),
-    unreadCount = getCircleUnreadMessagesCount()
+    unreadCount = getCircleUnreadMessagesCount(),
+    knockRequestsCount = getKnocksCount(getTimelineRoomFor(roomId)?.roomId ?: "")
 )
 
 fun RoomSummary.toInviteCircleListItem() = InvitedCircleListItem(
@@ -68,6 +72,15 @@ fun RoomSummary.toTimelineRoomListItem() = TimelineRoomListItem(
     info = toRoomInfo(),
     isJoined = membership == Membership.JOIN
 )
+
+fun getKnocksCount(roomId: String) =
+    MatrixSessionProvider.currentSession?.getRoom(roomId)?.membershipService()
+        ?.getRoomMembers(
+            roomMemberQueryParams {
+                excludeSelf = true
+                memberships = listOf(Membership.KNOCK)
+            }
+        )?.size ?: 0
 
 fun SpaceChildInfo.toTimelineRoomListItem() = TimelineRoomListItem(
     id = childRoomId,
