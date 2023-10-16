@@ -1,6 +1,6 @@
 package org.futo.circles.auth.model
 
-import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.base.list.IdEntity
 
 data class SubscriptionListItem(
     override val id: String,

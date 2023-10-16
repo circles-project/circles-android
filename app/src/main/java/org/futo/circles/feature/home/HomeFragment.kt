@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -19,8 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
-import org.futo.circles.core.SHARE_PROFILE_URL_PREFIX
-import org.futo.circles.core.SHARE_ROOM_URL_PREFIX
+import org.futo.circles.core.base.SHARE_PROFILE_URL_PREFIX
+import org.futo.circles.core.base.SHARE_ROOM_URL_PREFIX
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -29,7 +28,7 @@ import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.model.TIMELINE_TYPE
-import org.futo.circles.core.picker.helper.RuntimePermissionHelper
+import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentBottomNavigationBinding

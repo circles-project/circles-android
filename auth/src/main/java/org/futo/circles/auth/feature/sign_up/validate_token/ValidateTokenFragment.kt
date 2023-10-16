@@ -12,8 +12,8 @@ import org.futo.circles.auth.databinding.FragmentValidateTokenBinding
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showDialog
-import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 
 @AndroidEntryPoint
 class ValidateTokenFragment : ParentBackPressOwnerFragment(R.layout.fragment_validate_token),

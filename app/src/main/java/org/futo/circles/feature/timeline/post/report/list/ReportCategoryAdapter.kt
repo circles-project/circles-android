@@ -1,7 +1,7 @@
 package org.futo.circles.feature.timeline.post.report.list
 
 import android.view.ViewGroup
-import org.futo.circles.core.list.BaseRvAdapter
+import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.model.ReportCategoryListItem
 
 class ReportCategoryAdapter(

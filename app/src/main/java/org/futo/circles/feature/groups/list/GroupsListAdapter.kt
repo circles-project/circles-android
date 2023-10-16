@@ -1,26 +1,24 @@
 package org.futo.circles.feature.groups.list
 
 import android.view.ViewGroup
-import org.futo.circles.core.list.BaseRvAdapter
-import org.futo.circles.feature.circles.list.RequestedCircleViewHolder
+import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.model.GroupListItem
 import org.futo.circles.model.GroupListItemPayload
 import org.futo.circles.model.InvitedGroupListItem
 import org.futo.circles.model.JoinedGroupListItem
-import org.futo.circles.model.RequestGroupListItem
 
-enum class GroupListItemViewType { JoinedGroup, InvitedGroup, KnockRequest }
+enum class GroupListItemViewType { JoinedGroup, InvitedGroup }
 
 class GroupsListAdapter(
     private val onRoomClicked: (GroupListItem) -> Unit,
-    private val onInviteClicked: (GroupListItem, Boolean) -> Unit,
-    private val onRequestClicked: (RequestGroupListItem, Boolean) -> Unit
+    private val onInviteClicked: (GroupListItem, Boolean) -> Unit
 ) : BaseRvAdapter<GroupListItem, GroupViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedGroupListItem && old is JoinedGroupListItem) {
         GroupListItemPayload(
             topic = new.topic.takeIf { it != old.topic },
             isEncrypted = new.isEncrypted.takeIf { it != old.isEncrypted },
-            membersCount = new.membersCount.takeIf { it != old.membersCount },
+            membersCount = new.membersCount.takeIf { it != old.membersCount || new.knockRequestsCount != old.knockRequestsCount },
+            knocksCount = new.knockRequestsCount.takeIf { it != old.knockRequestsCount || new.membersCount != old.membersCount },
             timestamp = new.timestamp.takeIf { it != old.timestamp },
             unreadCount = new.unreadCount.takeIf { it != old.unreadCount },
             needUpdateFullItem = new.info.title != old.info.title || new.info.avatarUrl != old.info.avatarUrl
@@ -31,7 +29,6 @@ class GroupsListAdapter(
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is JoinedGroupListItem -> GroupListItemViewType.JoinedGroup.ordinal
         is InvitedGroupListItem -> GroupListItemViewType.InvitedGroup.ordinal
-        is RequestGroupListItem -> GroupListItemViewType.KnockRequest.ordinal
     }
 
     override fun onCreateViewHolder(
@@ -47,15 +44,6 @@ class GroupsListAdapter(
             parent = parent,
             onInviteClicked = { position, isAccepted ->
                 onInviteClicked(getItem(position), isAccepted)
-            }
-        )
-
-        GroupListItemViewType.KnockRequest -> RequestGroupViewHolder(
-            parent = parent,
-            onRequestClicked = { position, isAccepted ->
-                (getItem(position) as? RequestGroupListItem)?.let {
-                    onRequestClicked(it, isAccepted)
-                }
             }
         )
     }

@@ -2,13 +2,13 @@ package org.futo.circles.auth.feature.sign_up.terms.list
 
 
 import android.view.ViewGroup
-import org.futo.circles.core.list.BaseRvAdapter
+import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.auth.model.TermsListItem
 
 class TermsListAdapter(
     private val onViewTerms: (TermsListItem) -> Unit,
     private val onCheckChanged: (TermsListItem) -> Unit
-) : org.futo.circles.core.list.BaseRvAdapter<TermsListItem, TermsItemViewHolder>(DefaultIdEntityCallback()) {
+) : BaseRvAdapter<TermsListItem, TermsItemViewHolder>(DefaultIdEntityCallback()) {
 
 
     override fun onCreateViewHolder(

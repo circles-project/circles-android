@@ -3,7 +3,7 @@ package org.futo.circles.feature.timeline.post.report.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.extensions.onClick
-import org.futo.circles.core.list.ViewBindingHolder
+import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.databinding.ListItemReportCategoryBinding
 import org.futo.circles.model.ReportCategoryListItem
 

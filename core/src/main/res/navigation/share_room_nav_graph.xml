@@ -6,7 +6,7 @@
     app:startDestination="@id/shareRoomDialogFragment">
     <dialog
         android:id="@+id/shareRoomDialogFragment"
-        android:name="org.futo.circles.core.room.share.ShareRoomDialogFragment"
+        android:name="org.futo.circles.core.feature.room.share.ShareRoomDialogFragment"
         tools:layout="@layout/dialog_fragment_share_room">
 
         <argument

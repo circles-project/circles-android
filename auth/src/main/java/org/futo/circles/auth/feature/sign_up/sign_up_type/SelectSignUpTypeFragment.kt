@@ -10,11 +10,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSelectSignUpTypeBinding
 import org.futo.circles.auth.subscriptions.SubscriptionProvider
-import org.futo.circles.core.CirclesAppConfig
+import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.HasLoadingState
 import javax.inject.Inject
 
 @AndroidEntryPoint

@@ -1,7 +1,7 @@
 package org.futo.circles.core.model
 
 import org.futo.circles.core.extensions.getRoomOwners
-import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.matrix.android.sdk.api.session.room.model.RoomSummary

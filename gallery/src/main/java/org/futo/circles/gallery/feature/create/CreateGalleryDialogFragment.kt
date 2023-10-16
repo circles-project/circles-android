@@ -7,9 +7,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.getText
+import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
+import org.futo.circles.core.feature.room.create.CreateRoomDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.picker.helper.MediaPickerHelper
-import org.futo.circles.core.room.create.CreateRoomDialogFragment
 import org.futo.circles.gallery.databinding.DialogFragmentCreateGalleryBinding
 
 @AndroidEntryPoint

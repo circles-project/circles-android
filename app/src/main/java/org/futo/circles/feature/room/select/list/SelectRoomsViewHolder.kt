@@ -6,8 +6,8 @@ import org.futo.circles.R
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setSelectableItemBackground
-import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.core.list.context
+import org.futo.circles.core.base.list.ViewBindingHolder
+import org.futo.circles.core.base.list.context
 import org.futo.circles.databinding.ListItemSelectRoomBinding
 import org.futo.circles.core.model.SelectableRoomListItem
 

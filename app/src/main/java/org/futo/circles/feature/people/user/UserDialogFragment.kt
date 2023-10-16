@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
@@ -19,7 +19,7 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentUserBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.people.user.list.UsersCirclesAdapter

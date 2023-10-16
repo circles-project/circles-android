@@ -1,7 +1,7 @@
 package org.futo.circles.gallery.feature.select.list
 
 import android.view.ViewGroup
-import org.futo.circles.core.list.BaseRvAdapter
+import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.core.model.SelectableRoomListItem
 
 class SelectGalleryAdapter(

@@ -6,7 +6,7 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
-import org.futo.circles.core.blurhash.ThumbHash
+import org.futo.circles.core.feature.blurhash.ThumbHash
 import org.futo.circles.core.model.MediaAttachmentInfo
 import org.futo.circles.core.utils.ImageUtils
 import org.futo.circles.core.utils.MediaUtils.getOrientation

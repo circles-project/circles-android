@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flatMapLatest
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.launchUi

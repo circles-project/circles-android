@@ -1,3 +1,10 @@
+default:
+  image: softartdev/android-fastlane
+
+workflow:
+  name: 'Circles release workflow'
+  rules:
+    - if: $CI_COMMIT_TAG
 
 cache:
   key: ${CI_PROJECT_ID}
@@ -9,56 +16,48 @@ stages:
   - release
   - deploy
 
+before_script:
+  - chmod +x ./gradlew
+  - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
+  - echo "KEY_PATH=../circuli_key.jks" > signing.properties
+  - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
+  - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
+
 buildFdroid:
   stage: build
-  image: softartdev/android-fastlane
-  rules:
-    - if: $CI_COMMIT_TAG
   script:
-    - bundle install
-    - chmod +x ./gradlew
-    - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
-    - echo "KEY_PATH=../circuli_key.jks" > signing.properties
-    - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
-    - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
     - echo "Building F-Droid apk"
-    - bundle exec fastlane buildFdroid
-  artifacts:
-    name: "${CI_BUILD_NAME}_${CI_BUILD_REF_NAME}"
-    paths:
-      - app/build/outputs/apk/fdroid/release/*.apk
+    - ./gradlew clean
+    - ./gradlew assembleFdroidRelease
+    - apt-get update -qy && apt-get upgrade -qy
+    - apt-get install -y git
+    - git config user.email "taras@futo.org"
+    - git config user.name "ci-bot"
+    - git remote set-url origin https://gitlab-ci-token:${GITLAB_ACCESS_TOKEN}@gitlab.futo.org/circles/circles-android.git
+    - git add -f app/build/outputs/apk/fdroid/release/*.apk
+    - git commit -m "Add F-Droid release apk $CI_COMMIT_TAG"
+    - git push origin HEAD:main -o ci.skip
 
 createGitlabRelease:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
-  rules:
-    - if: $CI_COMMIT_TAG
   script:
     - echo "Running the release job"
-  needs: ["buildFdroid"]
   release:
     tag_name: $CI_COMMIT_TAG
     name: 'Version $CI_COMMIT_TAG'
     description: 'Release created using the release-cli.'
     assets:
       links:
-        - name: 'fdroid release apk $CI_COMMIT_TAG'
-          url: 'https://gitlab.com/api/v4/projects/13/jobs/artifacts/$CI_COMMIT_TAG/download?job=createGitlabRelease'
+        - name: 'F-Droid release apk $CI_COMMIT_TAG'
+          url: 'https://gitlab.futo.org/circles/circles-android/-/raw/main/app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-release.apk?ref_type=heads'
 
 
 
 uploadPlayStoreBeta:
   stage: deploy
-  image: softartdev/android-fastlane
   script:
     - echo "Running the uploadPlayStoreBeta job"
     - bundle install
-    - chmod +x ./gradlew
-    - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
-    - echo "KEY_PATH=../circuli_key.jks" > signing.properties
-    - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
-    - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
     - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
     - bundle exec fastlane deployGoogle
-  only:
-    - main

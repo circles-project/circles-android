@@ -10,7 +10,7 @@ import org.futo.circles.auth.feature.workspace.data_source.ConfigureWorkspaceDat
 import org.futo.circles.auth.feature.workspace.data_source.WorkspaceTasksProvider
 import org.futo.circles.auth.model.MandatoryWorkspaceTask
 import org.futo.circles.auth.model.OptionalWorkspaceTask
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg

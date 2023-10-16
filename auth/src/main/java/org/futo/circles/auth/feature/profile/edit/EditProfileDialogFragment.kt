@@ -15,9 +15,9 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.picker.helper.MediaPickerHelper
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint

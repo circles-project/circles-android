@@ -11,8 +11,8 @@ import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
-import org.futo.circles.core.CirclesAppConfig
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData

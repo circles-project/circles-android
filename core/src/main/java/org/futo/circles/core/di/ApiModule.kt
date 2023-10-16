@@ -7,8 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import org.futo.circles.core.getRageShakeUrl
-import org.futo.circles.core.rageshake.io.BugreportApiService
+import org.futo.circles.core.base.getRageShakeUrl
+import org.futo.circles.core.feature.rageshake.io.BugreportApiService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton

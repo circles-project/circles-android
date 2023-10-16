@@ -2,7 +2,7 @@ package org.futo.circles.feature.timeline.post.emoji
 
 
 import android.view.ViewGroup
-import org.futo.circles.core.list.BaseRvAdapter
+import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.core.model.ReactionsData
 
 

@@ -3,7 +3,7 @@ package org.futo.circles.feature.room.well_known
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow

@@ -6,7 +6,7 @@ import org.futo.circles.core.extensions.onBG
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.core.timeline.post.SendMessageDataSource
+import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.utils.FileUtils
 import javax.inject.Inject
 

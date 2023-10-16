@@ -7,8 +7,8 @@ import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.visible
-import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.core.list.context
+import org.futo.circles.core.base.list.ViewBindingHolder
+import org.futo.circles.core.base.list.context
 import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.databinding.ListItemNotificationTestBinding
 import org.futo.circles.model.NotificationTestListItem

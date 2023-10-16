@@ -1,7 +1,7 @@
 package org.futo.circles.model
 
-import org.futo.circles.core.SHARE_PROFILE_URL_PREFIX
-import org.futo.circles.core.SHARE_ROOM_URL_PREFIX
+import org.futo.circles.core.base.SHARE_PROFILE_URL_PREFIX
+import org.futo.circles.core.base.SHARE_ROOM_URL_PREFIX
 
 
 sealed class UrlData(val knockRoomId: String)

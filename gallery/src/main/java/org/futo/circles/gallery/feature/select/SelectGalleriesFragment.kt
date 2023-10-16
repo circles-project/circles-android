@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.feature.room.select.RoomsPicker
+import org.futo.circles.core.feature.room.select.SelectRoomsListener
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.core.room.select.RoomsPicker
-import org.futo.circles.core.room.select.SelectRoomsListener
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentSelectGalleriesBinding
 import org.futo.circles.gallery.feature.select.list.SelectGalleryAdapter

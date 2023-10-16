@@ -15,8 +15,8 @@ import org.futo.circles.auth.model.PasswordModeArg
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 
 @AndroidEntryPoint
 class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password),

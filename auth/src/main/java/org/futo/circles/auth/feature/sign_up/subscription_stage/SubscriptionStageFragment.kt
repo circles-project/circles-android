@@ -13,7 +13,7 @@ import org.futo.circles.auth.subscriptions.ItemPurchasedListener
 import org.futo.circles.auth.subscriptions.SubscriptionProvider
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
-import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import javax.inject.Inject
 
 @AndroidEntryPoint

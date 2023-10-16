@@ -1,6 +1,6 @@
 package org.futo.circles.model
 
-import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.model.RoomInfo
 import org.matrix.android.sdk.api.session.room.model.Membership
 
@@ -15,6 +15,7 @@ data class JoinedGroupListItem(
     override val info: RoomInfo,
     val topic: String,
     val membersCount: Int,
+    val knockRequestsCount: Int,
     val isEncrypted: Boolean,
     val timestamp: Long,
     val unreadCount: Int
@@ -26,10 +27,3 @@ data class InvitedGroupListItem(
     val isEncrypted: Boolean,
     val inviterName: String
 ) : GroupListItem(id, info, Membership.INVITE)
-
-data class RequestGroupListItem(
-    override val id: String,
-    override val info: RoomInfo,
-    val requesterName: String,
-    val requesterId: String
-) : GroupListItem(id, info, Membership.KNOCK)

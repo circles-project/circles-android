@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.auth.subscriptions.SubscriptionManager
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import javax.inject.Inject

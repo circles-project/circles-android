@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.futo.circles.R
-import org.futo.circles.core.ErrorParser
+import org.futo.circles.core.base.ErrorParser
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.extensions.coroutineScope
 import org.futo.circles.core.model.TaskStatus

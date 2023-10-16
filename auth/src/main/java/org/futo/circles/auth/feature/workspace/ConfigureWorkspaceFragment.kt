@@ -13,13 +13,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentConfigureWorkspaceBinding
 import org.futo.circles.auth.feature.workspace.list.WorkspaceTasksListAdapter
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showError
-import org.futo.circles.core.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.HasLoadingState
 
 @AndroidEntryPoint
 class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspace),

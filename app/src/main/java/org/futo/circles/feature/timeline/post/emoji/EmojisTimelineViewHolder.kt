@@ -3,7 +3,7 @@ package org.futo.circles.feature.timeline.post.emoji
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.extensions.onClick
-import org.futo.circles.core.list.ViewBindingHolder
+import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.ReactionsData
 import org.futo.circles.databinding.ListItemTimelineReactionBinding
 

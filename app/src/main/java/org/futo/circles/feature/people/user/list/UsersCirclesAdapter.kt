@@ -1,7 +1,7 @@
 package org.futo.circles.feature.people.user.list
 
 import android.view.ViewGroup
-import org.futo.circles.core.list.BaseRvAdapter
+import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.feature.people.user.list.TimelineViewType.*
 import org.futo.circles.model.TimelineHeaderItem
 import org.futo.circles.model.TimelineListItem

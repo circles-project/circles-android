@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.BaseActivity
+import org.futo.circles.core.base.BaseActivity
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.feature.home.DeepLinkIntentHandler
 

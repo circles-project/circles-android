@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.select_users.SearchUserDataSource
-import org.futo.circles.core.workspace.SharedCircleDataSource
+import org.futo.circles.core.feature.select_users.SearchUserDataSource
+import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleItemType

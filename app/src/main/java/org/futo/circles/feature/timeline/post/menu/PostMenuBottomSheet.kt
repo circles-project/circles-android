@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.fragment.TransparentBackgroundBottomSheetDialogFragment
+import org.futo.circles.core.base.fragment.TransparentBackgroundBottomSheetDialogFragment
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.databinding.BottomSheetPostMenuBinding
 

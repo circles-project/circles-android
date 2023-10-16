@@ -5,7 +5,7 @@ import androidx.lifecycle.map
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.model.PHOTOS_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.workspace.SpacesTreeAccountDataSource
+import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.gallery.model.MediaBackupSettingsData
 import org.futo.circles.gallery.model.toMediaBackupSettingsData
 import org.matrix.android.sdk.api.session.getRoom

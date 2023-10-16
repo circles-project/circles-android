@@ -1,6 +1,6 @@
 package org.futo.circles.auth.model
 
-import org.futo.circles.core.list.IdEntity
+import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.model.TaskStatus
 

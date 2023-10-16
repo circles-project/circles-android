@@ -131,6 +131,54 @@
                 app:optionName="@string/manage_members" />
 
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tvKnockRequests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/tvKnocksTitle"
+                    style="@style/settingMenuItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:clickable="false"
+                    android:paddingEnd="8dp"
+                    android:text="@string/knock_requests"
+                    app:drawableStartCompat="@drawable/ic_knock_requests"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry" />
+
+                <org.futo.circles.core.view.NotificationCounterView
+                    android:id="@+id/ivKnocksCount"
+                    android:layout_width="18dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="2dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@id/tvKnocksTitle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:notificationCircleBackground="@android:color/holo_red_dark"
+                    tools:visibility="visible" />
+
+                <View
+                    android:id="@+id/vBottomDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/divider_height"
+                    android:layout_marginHorizontal="8dp"
+                    android:background="@color/divider_color"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvKnocksTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvMyFollowers"
                 android:layout_width="match_parent"

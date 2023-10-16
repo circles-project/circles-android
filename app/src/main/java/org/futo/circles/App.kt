@@ -7,8 +7,8 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
 import dagger.hilt.android.HiltAndroidApp
-import org.futo.circles.core.CirclesAppConfig
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.provider.MatrixNotificationSetupListener
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.notifications.FcmHelper

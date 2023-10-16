@@ -15,8 +15,8 @@ import org.futo.circles.auth.feature.sign_up.terms.list.TermsListAdapter
 import org.futo.circles.auth.model.TermsListItem
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.fragment.HasLoadingState
-import org.futo.circles.core.fragment.ParentBackPressOwnerFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 
 @AndroidEntryPoint
 class AcceptTermsFragment : ParentBackPressOwnerFragment(R.layout.fragment_accept_terms),

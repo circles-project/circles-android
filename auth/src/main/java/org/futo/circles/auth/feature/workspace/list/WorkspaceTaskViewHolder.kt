@@ -12,8 +12,8 @@ import org.futo.circles.auth.databinding.ListItemOptionalWorkspaceTaskBinding
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.visible
-import org.futo.circles.core.list.ViewBindingHolder
-import org.futo.circles.core.list.context
+import org.futo.circles.core.base.list.ViewBindingHolder
+import org.futo.circles.core.base.list.context
 import org.futo.circles.auth.model.OptionalWorkspaceTask
 import org.futo.circles.core.model.TaskStatus
 import org.futo.circles.auth.model.WorkspaceTask

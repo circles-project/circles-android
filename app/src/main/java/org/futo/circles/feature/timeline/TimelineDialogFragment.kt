@@ -2,13 +2,18 @@ package org.futo.circles.feature.timeline
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
+import com.google.android.material.badge.ExperimentalBadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.core.NetworkObserver
+import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
@@ -18,15 +23,13 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
-import org.futo.circles.core.share.ShareProvider
 import org.futo.circles.core.utils.debounce
-import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
@@ -42,6 +45,7 @@ import org.futo.circles.view.PostOptionsListener
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
+@ExperimentalBadgeUtils
 @AndroidEntryPoint
 class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimelineBinding::inflate),
     PostOptionsListener, PostMenuListener,
@@ -53,10 +57,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
     private val isThread by lazy { args.threadEventId != null }
 
-    private val timelineId by lazy {
-        if (args.type == CircleRoomTypeArg.Circle) getTimelineRoomIdOrThrow(args.roomId)
-        else args.roomId
-    }
+    private val timelineId by lazy { viewModel.getRoomOrTimelineId() }
     private val binding by lazy {
         getBinding() as DialogFragmentTimelineBinding
     }
@@ -89,6 +90,13 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         ) { loadMoreDebounce(Unit) }
     }
     private val navigator by lazy { TimelineNavigator(this) }
+    private val knocksCountBadgeDrawable by lazy {
+        BadgeDrawable.create(requireContext()).apply {
+            isVisible = false
+            backgroundColor =
+                ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -118,6 +126,13 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
                 navigator.navigateToCreatePost(timelineId, args.threadEventId)
             }
         }, binding.rvTimeline.getRecyclerView(), isThread)
+
+        if (!isThread) {
+            BadgeUtils.attachBadgeDrawable(
+                knocksCountBadgeDrawable, binding.toolbar,
+                org.futo.circles.core.R.id.settings
+            )
+        }
     }
 
 
@@ -175,6 +190,12 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
         viewModel.profileLiveData?.observeData(this) {
             it.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
+        }
+        viewModel.knockRequestCountLiveData?.observeData(this) {
+            knocksCountBadgeDrawable.apply {
+                number = it
+                isVisible = it > 0
+            }
         }
     }
 

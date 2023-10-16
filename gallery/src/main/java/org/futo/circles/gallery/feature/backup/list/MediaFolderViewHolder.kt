@@ -3,7 +3,7 @@ package org.futo.circles.gallery.feature.backup.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.extensions.onClick
-import org.futo.circles.core.list.ViewBindingHolder
+import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.gallery.databinding.ListItemMediaFolderBinding
 import org.futo.circles.gallery.model.MediaFolderListItem
 import kotlin.math.log10

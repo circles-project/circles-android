@@ -4,9 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow
+import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.room.RoomRelationsBuilder
 import javax.inject.Inject
 
 @ViewModelScoped

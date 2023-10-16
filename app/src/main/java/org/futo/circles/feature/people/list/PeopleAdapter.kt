@@ -1,7 +1,7 @@
 package org.futo.circles.feature.people.list
 
 import android.view.ViewGroup
-import org.futo.circles.core.list.BaseRvAdapter
+import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleListItem
 import org.futo.circles.model.PeopleUserListItem

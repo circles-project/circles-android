@@ -7,7 +7,7 @@ import org.futo.circles.auth.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.auth.feature.reauth.ReAuthStagesDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_OPRF_TYPE
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_BSSPEKE_SAVE_TYPE
-import org.futo.circles.core.SingleEventLiveData
+import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage

@@ -1,7 +1,7 @@
 package org.futo.circles.auth.feature.workspace.list
 
 import android.view.ViewGroup
-import org.futo.circles.core.list.BaseRvAdapter
+import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.auth.model.MandatoryWorkspaceTask
 import org.futo.circles.auth.model.OptionalWorkspaceTask
 import org.futo.circles.auth.model.WorkspaceTask

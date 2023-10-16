@@ -9,7 +9,7 @@ import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
-import org.futo.circles.core.blurhash.ThumbHash
+import org.futo.circles.core.feature.blurhash.ThumbHash
 import org.futo.circles.core.glide.GlideApp
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.provider.MatrixSessionProvider
