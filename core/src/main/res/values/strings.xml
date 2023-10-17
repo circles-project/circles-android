@@ -144,4 +144,5 @@
     <string name="no_internet_connection">No Internet connection</string>
     <string name="knock_requests">Knock Requests</string>
     <string name="knock_requests_empty_message">You don\'t have any knock request</string>
+    <string name="create">Create</string>
 </resources>

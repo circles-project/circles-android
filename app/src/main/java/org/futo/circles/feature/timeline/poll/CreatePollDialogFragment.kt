@@ -46,7 +46,7 @@ class CreatePollDialogFragment :
         with(binding) {
             toolbar.title = getString(if (isEdit) R.string.edit_poll else R.string.create_poll)
             btnCreate.apply {
-                setText(getString(if (isEdit) R.string.edit else R.string.create))
+                setText(getString(if (isEdit) R.string.edit else org.futo.circles.core.R.string.create))
                 setOnClickListener {
                     createPoll()
                     onBackPressed()
