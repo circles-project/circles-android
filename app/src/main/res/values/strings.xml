@@ -25,7 +25,6 @@
     <string name="invites">Invites</string>
     <string name="create_new_group">Create new group</string>
     <string name="create_new_circle">Create new circle</string>
-    <string name="create">Create</string>
     <string name="circles_created">Circles created</string>
     <string name="private_circles">Private Circles</string>
     <string name="log_out">Log out</string>
