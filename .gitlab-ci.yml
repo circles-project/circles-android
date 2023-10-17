@@ -42,7 +42,7 @@ buildAndPushFdroid:
     - git clone https://gitlab-ci-token:${FDROID_REPO_GITLAB_ACCESS_TOKEN}@gitlab.futo.org/circles/circles-fdroid-repo.git
     - cp circles-android/circles-$CI_COMMIT_TAG-fdroid-release.apk circles-fdroid-repo/fdroid/repo
     - cd circles-fdroid-repo
-    - git add -f circles-$CI_COMMIT_TAG-fdroid-release.apk
+    - git add -f fdroid/repo/circles-$CI_COMMIT_TAG-fdroid-release.apk
     - git commit -m "Add F-Droid release apk $CI_COMMIT_TAG"
     - git push origin HEAD:main
 
