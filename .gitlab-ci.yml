@@ -9,69 +9,69 @@ cache:
     - .gradle/
 
 stages:
-#  - build
-#  - release
-#  - deploy
+  - build
+  - release
+  - deploy
   - message
 
-#before_script:
-#  - chmod +x ./gradlew
-#  - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
-#  - echo "KEY_PATH=../circuli_key.jks" > signing.properties
-#  - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
-#  - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
-#
-#buildAndPushFdroid:
-#  image: softartdev/android-fastlane
-#  stage: build
-#  script:
-#    - echo "Building F-Droid apk"
-#    - ./gradlew clean
-#    - ./gradlew assembleFdroidRelease
-#    - apt-get update -qy && apt-get upgrade -qy
-#    - apt-get install -y git
-#    - git config --global user.email "taras@futo.org"
-#    - git config --global user.name "ci-bot"
-#    - echo "Push build to master"
-#    - git remote set-url origin https://gitlab-ci-token:${GITLAB_ACCESS_TOKEN}@gitlab.futo.org/circles/circles-android.git
-#    - git add -f app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-release.apk
-#    - git mv app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-release.apk .
-#    - git commit -m "Add F-Droid release apk $CI_COMMIT_TAG"
-#    - git push origin HEAD:main -o ci.skip
-#    - echo "Push build to fdroid repo"
-#    - cd ..
-#    - rm -rf circles-fdroid-repo
-#    - git clone https://gitlab-ci-token:${FDROID_REPO_GITLAB_ACCESS_TOKEN}@gitlab.futo.org/circles/circles-fdroid-repo.git
-#    - cp circles-android/circles-$CI_COMMIT_TAG-fdroid-release.apk circles-fdroid-repo/fdroid/repo
-#    - cd circles-fdroid-repo
-#    - git add -f fdroid/repo/circles-$CI_COMMIT_TAG-fdroid-release.apk
-#    - git commit -m "Add F-Droid release apk $CI_COMMIT_TAG"
-#    - git push origin HEAD:main
+before_script:
+  - chmod +x ./gradlew
+  - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
+  - echo "KEY_PATH=../circuli_key.jks" > signing.properties
+  - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
+  - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
 
-#createGitlabRelease:
-#  stage: release
-#  image: registry.gitlab.com/gitlab-org/release-cli:latest
-#  script:
-#    - echo "Running the release job"
-#  release:
-#    tag_name: $CI_COMMIT_TAG
-#    name: 'Version $CI_COMMIT_TAG'
-#    description: 'Release created using the release-cli.'
-#    assets:
-#      links:
-#        - name: 'F-Droid release apk $CI_COMMIT_TAG'
-#          url: 'https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-$CI_COMMIT_TAG-fdroid-release.apk?ref_type=heads'
+buildAndPushFdroid:
+  image: softartdev/android-fastlane
+  stage: build
+  script:
+    - echo "Building F-Droid apk"
+    - ./gradlew clean
+    - ./gradlew assembleFdroidRelease
+    - apt-get update -qy && apt-get upgrade -qy
+    - apt-get install -y git
+    - git config --global user.email "taras@futo.org"
+    - git config --global user.name "ci-bot"
+    - echo "Push build to master"
+    - git remote set-url origin https://gitlab-ci-token:${GITLAB_ACCESS_TOKEN}@gitlab.futo.org/circles/circles-android.git
+    - git add -f app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-release.apk
+    - git mv app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-release.apk .
+    - git commit -m "Add F-Droid release apk $CI_COMMIT_TAG"
+    - git push origin HEAD:main -o ci.skip
+    - echo "Push build to fdroid repo"
+    - cd ..
+    - rm -rf circles-fdroid-repo
+    - git clone https://gitlab-ci-token:${FDROID_REPO_GITLAB_ACCESS_TOKEN}@gitlab.futo.org/circles/circles-fdroid-repo.git
+    - cp circles-android/circles-$CI_COMMIT_TAG-fdroid-release.apk circles-fdroid-repo/fdroid/repo
+    - cd circles-fdroid-repo
+    - git add -f fdroid/repo/circles-$CI_COMMIT_TAG-fdroid-release.apk
+    - git commit -m "Add F-Droid release apk $CI_COMMIT_TAG"
+    - git push origin HEAD:main
+
+createGitlabRelease:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo "Running the release job"
+  release:
+    tag_name: $CI_COMMIT_TAG
+    name: 'Version $CI_COMMIT_TAG'
+    description: 'Release created using the release-cli.'
+    assets:
+      links:
+        - name: 'F-Droid release apk $CI_COMMIT_TAG'
+          url: 'https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-$CI_COMMIT_TAG-fdroid-release.apk?ref_type=heads'
 
 
 
-#uploadPlayStoreBeta:
-#  image: softartdev/android-fastlane
-#  stage: deploy
-#  script:
-#    - echo "Running the uploadPlayStoreBeta job"
-#    - bundle install
-#    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
-#    - bundle exec fastlane deployGoogle
+uploadPlayStoreBeta:
+  image: softartdev/android-fastlane
+  stage: deploy
+  script:
+    - echo "Running the uploadPlayStoreBeta job"
+    - bundle install
+    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
+    - bundle exec fastlane deployGoogle
 
 sendZulipMessage:
   stage: message
