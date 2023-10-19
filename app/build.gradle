@@ -11,7 +11,7 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.min_sdk_version
         targetSdk rootProject.ext.sdk_version
-        versionCode 26
+        versionCode 27
         versionName "1.0.17"
         archivesBaseName = "circles-v${versionName}"
 
