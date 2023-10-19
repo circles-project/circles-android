@@ -83,6 +83,6 @@ sendZulipMessage:
       --data-urlencode type=stream \
       --data-urlencode 'to="circles"' \
       --data-urlencode topic=Weekly \
-      --data-urlencode 'content=Circles Android $CI_COMMIT_TAG
+      --data-urlencode 'content="Circles Android $CI_COMMIT_TAG
       Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/CI_COMMIT_TAG
-      Direct apk link - https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-$CI_COMMIT_TAG-fdroid-release.apk?ref_type=heads'
+      Direct apk link - https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-$CI_COMMIT_TAG-fdroid-release.apk?ref_type=heads"'
