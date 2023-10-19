@@ -76,8 +76,8 @@ uploadPlayStoreBeta:
 sendZulipMessage:
   stage: message
   script:
-    - apt-get update -qy && apt-get upgrade -qy
-    - apt-get install -y curl
+    - apk update
+    - apk add curl
     - curl -X POST https://zulip.futo.org/api/v1/messages \
       -u circles-bot@zulip.futo.org:${ZULIP_BOT_KEY} \
       --data-urlencode type=stream \
