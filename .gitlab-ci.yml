@@ -10,8 +10,9 @@ cache:
 
 stages:
   - build
-#  - release
-#  - deploy
+  - release
+  - deploy
+  - message
 
 before_script:
   - chmod +x ./gradlew
@@ -47,27 +48,41 @@ buildAndPushFdroid:
     - git commit -m "Add F-Droid release apk $CI_COMMIT_TAG"
     - git push origin HEAD:main
 
-#createGitlabRelease:
-#  stage: release
-#  image: registry.gitlab.com/gitlab-org/release-cli:latest
-#  script:
-#    - echo "Running the release job"
-#  release:
-#    tag_name: $CI_COMMIT_TAG
-#    name: 'Version $CI_COMMIT_TAG'
-#    description: 'Release created using the release-cli.'
-#    assets:
-#      links:
-#        - name: 'F-Droid release apk $CI_COMMIT_TAG'
-#          url: 'https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-$CI_COMMIT_TAG-fdroid-release.apk?ref_type=heads'
-#
-#
-#
-#uploadPlayStoreBeta:
-#  image: softartdev/android-fastlane
-#  stage: deploy
-#  script:
-#    - echo "Running the uploadPlayStoreBeta job"
-#    - bundle install
-#    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
-#    - bundle exec fastlane deployGoogle
+createGitlabRelease:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo "Running the release job"
+  release:
+    tag_name: $CI_COMMIT_TAG
+    name: 'Version $CI_COMMIT_TAG'
+    description: 'Release created using the release-cli.'
+    assets:
+      links:
+        - name: 'F-Droid release apk $CI_COMMIT_TAG'
+          url: 'https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-$CI_COMMIT_TAG-fdroid-release.apk?ref_type=heads'
+
+
+
+uploadPlayStoreBeta:
+  image: softartdev/android-fastlane
+  stage: deploy
+  script:
+    - echo "Running the uploadPlayStoreBeta job"
+    - bundle install
+    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
+    - bundle exec fastlane deployGoogle
+
+sendZulipMessage:
+  stage: message
+  script:
+    - apt-get update -qy && apt-get upgrade -qy
+    - apt-get install -y curl
+    - curl -X POST https://zulip.futo.org/api/v1/messages \
+      -u circles-bot@zulip.futo.org:${ZULIP_BOT_KEY} \
+      --data-urlencode type=stream \
+      --data-urlencode 'to="circles"' \
+      --data-urlencode topic=Releases \
+      --data-urlencode 'content=Circles Android ${CI_COMMIT_TAG}
+      Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
+      Direct apk link - https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-$CI_COMMIT_TAG-fdroid-release.apk?ref_type=heads'
