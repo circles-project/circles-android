@@ -1,7 +1,13 @@
 package org.futo.circles.feature.circles
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,7 +31,7 @@ import org.futo.circles.feature.circles.list.CirclesListAdapter
 import org.futo.circles.model.CircleListItem
 
 @AndroidEntryPoint
-class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) {
+class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), MenuProvider {
 
     private val viewModel by viewModels<CirclesViewModel>()
     private val binding by viewBinding(FragmentRoomsBinding::bind)
@@ -37,6 +43,7 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
+        activity?.addMenuProvider(this, viewLifecycleOwner)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +55,20 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms) 
     override fun onDestroyView() {
         super.onDestroyView()
         listAdapter = null
+    }
+
+    @SuppressLint("RestrictedApi")
+    override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
+        (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
+        menu.clear()
+        inflater.inflate(R.menu.circles_tab_menu, menu)
+    }
+
+    override fun onMenuItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.help -> CirclesExplanationDialog(requireContext(), CircleRoomTypeArg.Circle).show()
+        }
+        return true
     }
 
     private fun setupViews() {
