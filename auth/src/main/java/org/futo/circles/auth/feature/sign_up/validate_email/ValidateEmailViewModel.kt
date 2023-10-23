@@ -19,9 +19,9 @@ class ValidateEmailViewModel @Inject constructor(
         SingleEventLiveData<Response<RegistrationResult>>()
 
 
-    fun sendCode(email: String) {
+    fun sendCode(email: String, subscribeToUpdates: Boolean) {
         launchBg {
-            sendCodeLiveData.postValue(dataSource.sendValidationCode(email))
+            sendCodeLiveData.postValue(dataSource.sendValidationCode(email, subscribeToUpdates))
         }
     }
 
