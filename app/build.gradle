@@ -95,9 +95,6 @@ dependencies {
     implementation "io.noties.markwon:ext-strikethrough:$markwon_version"
     implementation "io.noties.markwon:ext-tasklist:$markwon_version"
 
-    //Mentions autocomplete
-    implementation "com.otaliastudios:autocomplete:1.1.0"
-
     //Log
     implementation 'com.jakewharton.timber:timber:5.0.1'
 
