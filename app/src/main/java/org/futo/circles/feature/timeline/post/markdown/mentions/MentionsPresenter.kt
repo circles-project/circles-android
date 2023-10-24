@@ -2,7 +2,7 @@ package org.futo.circles.feature.timeline.post.markdown.mentions
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
-import com.otaliastudios.autocomplete.RecyclerViewPresenter
+import org.futo.circles.core.feature.autocomplete.RecyclerViewPresenter
 import org.futo.circles.core.mapping.toUserListItem
 import org.futo.circles.core.model.UserListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
