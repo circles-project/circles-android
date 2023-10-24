@@ -79,9 +79,6 @@ dependencies {
     //Gson
     api 'com.google.code.gson:gson:2.10.1'
 
-    //TextDrawable
-    api 'com.alvinhkh:TextDrawable:c1c2b5b'
-
     //Worker
     def work_version = "2.8.1"
     api "androidx.work:work-runtime-ktx:$work_version"
