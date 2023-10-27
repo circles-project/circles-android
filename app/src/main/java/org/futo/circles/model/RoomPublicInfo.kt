@@ -1,6 +1,5 @@
 package org.futo.circles.model
 
-import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.model.ShareUrlTypeArg
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -20,8 +19,8 @@ fun RoomPublicInfo.isProfile() = type == ShareUrlTypeArg.PROFILE
 
 fun RoomSummary.toRoomPublicInfo(urlType: ShareUrlTypeArg) = RoomPublicInfo(
     id = roomId,
-    name = name,
-    avatarUrl = avatarUrl,
+    name = name.takeIf { it.isNotEmpty() },
+    avatarUrl = avatarUrl.takeIf { it.isNotEmpty() },
     topic = topic,
     memberCount = joinedMembersCount ?: 0,
     membership = membership,
@@ -30,8 +29,8 @@ fun RoomSummary.toRoomPublicInfo(urlType: ShareUrlTypeArg) = RoomPublicInfo(
 
 fun PeekResult.Success.toRoomPublicInfo(urlType: ShareUrlTypeArg) = RoomPublicInfo(
     id = roomId,
-    name = name,
-    avatarUrl = avatarUrl,
+    name = name?.takeIf { it.isNotEmpty() },
+    avatarUrl = avatarUrl?.takeIf { it.isNotEmpty() },
     topic = topic,
     memberCount = numJoinedMembers ?: 0,
     membership = Membership.NONE,

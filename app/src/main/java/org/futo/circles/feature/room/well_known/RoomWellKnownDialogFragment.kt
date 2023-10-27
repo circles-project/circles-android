@@ -74,8 +74,9 @@ class RoomWellKnownDialogFragment :
     private fun bindRoomData(roomInfo: RoomPublicInfo) {
         with(binding) {
             ivCover.apply {
-                setIsVisible(roomInfo.avatarUrl != null || roomInfo.name != null)
-                loadProfileIcon(roomInfo.avatarUrl, roomInfo.name ?: "")
+                if (roomInfo.avatarUrl != null || roomInfo.name != null)
+                    loadProfileIcon(roomInfo.avatarUrl, roomInfo.name ?: "")
+                else setImageResource(R.drawable.ic_logo)
             }
             tvRoomName.apply {
                 setIsVisible(roomInfo.name != null)

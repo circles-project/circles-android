@@ -76,7 +76,7 @@
     <string name="unfollow">Unfollow</string>
     <string name="requested_to_follow_format">%s requested to follow</string>
     <string name="request_to_join">Request to join</string>
-    <string name="request_to_follow">Requested to follow</string>
+    <string name="request_to_follow">Request to follow</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
     <string name="save_to_device">Save to device</string>
