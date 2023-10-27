@@ -38,11 +38,13 @@ class RoomWellKnownViewModel @Inject constructor(
         }
     }
 
-    fun sendKnockRequest() {
+    fun sendKnockRequest(message: String?) {
         val roomId = urlData?.roomId ?: return
         launchBg {
             val result =
-                createResult { MatrixSessionProvider.currentSession?.roomService()?.knock(roomId) }
+                createResult {
+                    MatrixSessionProvider.currentSession?.roomService()?.knock(roomId, message)
+                }
             knockRequestLiveData.postValue(result)
         }
     }

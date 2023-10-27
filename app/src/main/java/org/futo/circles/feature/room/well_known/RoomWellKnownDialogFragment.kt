@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.observeData
@@ -38,7 +39,7 @@ class RoomWellKnownDialogFragment :
 
     private fun setupViews() {
         binding.btnRequest.setOnClickListener {
-            viewModel.sendKnockRequest()
+            viewModel.sendKnockRequest(binding.tilRequestMessage.getText().takeIf { it.isNotEmpty() })
             binding.btnRequest.setIsLoading(true)
         }
     }
@@ -83,6 +84,7 @@ class RoomWellKnownDialogFragment :
                 text = roomInfo.name
             }
             btnRequest.setIsVisible(shouldShowKnockButton(roomInfo.membership))
+            tilRequestMessage.setIsVisible(shouldShowKnockButton(roomInfo.membership))
             binding.tvRoomId.text = roomInfo.id
             tvMembersCount.apply {
                 setIsVisible(roomInfo.memberCount > 0)
