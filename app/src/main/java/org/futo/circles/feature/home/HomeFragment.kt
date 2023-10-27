@@ -18,17 +18,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
-import org.futo.circles.core.base.SHARE_PROFILE_URL_PREFIX
-import org.futo.circles.core.base.SHARE_ROOM_URL_PREFIX
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setSupportActionBar
+import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.model.TIMELINE_TYPE
-import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
@@ -36,9 +34,6 @@ import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
 import org.matrix.android.sdk.api.session.getRoomSummary
 import javax.inject.Inject
 
-interface DeepLinkIntentHandler {
-    fun onNewIntent()
-}
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkIntentHandler {
@@ -104,14 +99,10 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     private fun handleOpenFromShareRoomUrl() {
         val uri = activity?.intent?.data ?: return
         val uriString = uri.toString()
-        if (uriString.startsWith(SHARE_ROOM_URL_PREFIX)
-            || uriString.startsWith(SHARE_PROFILE_URL_PREFIX)
-        ) {
-            findNavController().navigateSafe(
-                HomeFragmentDirections.toRoomWellKnownDialogFragment(uriString)
-            )
-            activity?.intent?.data = null
-        }
+        findNavController().navigateSafe(
+            HomeFragmentDirections.toRoomWellKnownDialogFragment(uriString)
+        )
+        activity?.intent?.data = null
     }
 
     private fun setupObservers() {
