@@ -6,11 +6,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.amulyakhare.textdrawable.TextDrawable
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ViewNotificationCounterBinding
 import org.futo.circles.core.extensions.getAttributes
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.feature.textDrawable.TextDrawable
 
 class NotificationCounterView(
     context: Context,

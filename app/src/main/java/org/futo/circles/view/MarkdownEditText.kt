@@ -14,9 +14,6 @@ import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
-import com.otaliastudios.autocomplete.Autocomplete
-import com.otaliastudios.autocomplete.AutocompleteCallback
-import com.otaliastudios.autocomplete.CharPolicy
 import io.noties.markwon.LinkResolverDef
 import io.noties.markwon.Markwon
 import io.noties.markwon.core.spans.BulletListItemSpan
@@ -26,6 +23,9 @@ import io.noties.markwon.core.spans.StrongEmphasisSpan
 import io.noties.markwon.ext.tasklist.TaskListDrawable
 import io.noties.markwon.ext.tasklist.TaskListSpan
 import org.futo.circles.R
+import org.futo.circles.core.feature.autocomplete.Autocomplete
+import org.futo.circles.core.feature.autocomplete.AutocompleteCallback
+import org.futo.circles.core.feature.autocomplete.CharPolicy
 import org.futo.circles.core.model.UserListItem
 import org.futo.circles.extensions.getGivenSpansAt
 import org.futo.circles.feature.timeline.post.markdown.EnhancedMovementMethod

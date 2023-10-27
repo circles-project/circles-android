@@ -3,13 +3,13 @@ package org.futo.circles.core.glide
 import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.annotation.AnyThread
-import com.amulyakhare.textdrawable.TextDrawable
-import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.signature.ObjectKey
 import org.futo.circles.core.extensions.resolveUrl
+import org.futo.circles.core.feature.textDrawable.ColorGenerator
+import org.futo.circles.core.feature.textDrawable.TextDrawable
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.util.MatrixItem
 
@@ -63,12 +63,12 @@ object GlideShortcutUtils {
                 it.load(
                     TextDrawable.Builder()
                         .setShape(TextDrawable.SHAPE_RECT)
-                        .setColor(ColorGenerator.DEFAULT.getColor(matrixItem))
+                        .setColor(ColorGenerator().getColor(matrixItem))
                         .setTextColor(Color.WHITE)
                         .setWidth(iconSize)
                         .setHeight(iconSize)
                         .setText(matrixItem.firstLetterOfDisplayName())
-                        .build().bitmap
+                        .build().getBitmap()
                 )
             }
         }
