@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:titleCentered="true"
-        tools:title="Room name" />
+        app:title="URL info" />
 
 
     <View
@@ -110,7 +110,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvMembersCount"
-        tools:text="@string/you_have_pending_invitation" />
+        tools:text="@string/you_have_pending_invitation_room" />
 
 
     <org.futo.circles.core.view.LoadingButton
@@ -119,7 +119,7 @@
         android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/requested_to_join"
+        android:text="@string/request_to_join"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

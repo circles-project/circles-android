@@ -7,3 +7,9 @@ enum class ShareUrlTypeArg(val typeKey: String) {
     GROUP("group"),
     TIMELINE("timeline")
 }
+
+fun shareUrlTypeArgFromType(type: String): ShareUrlTypeArg? {
+    val urlType: ShareUrlTypeArg? = null
+    ShareUrlTypeArg.values().forEach { if (type == it.typeKey) return it }
+    return urlType
+}

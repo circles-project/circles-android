@@ -4,6 +4,7 @@ import androidx.navigation.fragment.findNavController
 import org.futo.circles.R
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.model.ShareUrlTypeArg
 
 class SettingsNavigator(private val fragment: SettingsFragment) {
 
@@ -41,7 +42,7 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
         }
         fragment.findNavController()
             .navigateSafe(
-                SettingsFragmentDirections.toShareProfileDialogFragment(sharedSpaceId, true)
+                SettingsFragmentDirections.toShareProfileDialogFragment(sharedSpaceId, ShareUrlTypeArg.PROFILE)
             )
     }
 

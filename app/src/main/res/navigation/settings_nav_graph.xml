@@ -32,8 +32,8 @@
                 app:nullable="false" />
 
             <argument
-                android:name="isProfile"
-                app:argType="boolean"
+                android:name="urlType"
+                app:argType="org.futo.circles.core.model.ShareUrlTypeArg"
                 app:nullable="false" />
 
         </action>
