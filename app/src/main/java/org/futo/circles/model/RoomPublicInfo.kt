@@ -8,7 +8,7 @@ import org.matrix.android.sdk.api.session.room.peeking.PeekResult
 
 data class RoomPublicInfo(
     val id: String,
-    val displayName: String,
+    val name: String?,
     val avatarUrl: String?,
     val topic: String?,
     val memberCount: Int,
@@ -20,7 +20,7 @@ fun RoomPublicInfo.isProfile() = type == ShareUrlTypeArg.PROFILE
 
 fun RoomSummary.toRoomPublicInfo(urlType: ShareUrlTypeArg) = RoomPublicInfo(
     id = roomId,
-    displayName = nameOrId(),
+    name = name,
     avatarUrl = avatarUrl,
     topic = topic,
     memberCount = joinedMembersCount ?: 0,
@@ -30,7 +30,7 @@ fun RoomSummary.toRoomPublicInfo(urlType: ShareUrlTypeArg) = RoomPublicInfo(
 
 fun PeekResult.Success.toRoomPublicInfo(urlType: ShareUrlTypeArg) = RoomPublicInfo(
     id = roomId,
-    displayName = name?.takeIf { it.isNotEmpty() } ?: roomId,
+    name = name,
     avatarUrl = avatarUrl,
     topic = topic,
     memberCount = numJoinedMembers ?: 0,
@@ -40,7 +40,7 @@ fun PeekResult.Success.toRoomPublicInfo(urlType: ShareUrlTypeArg) = RoomPublicIn
 
 fun RoomUrlData.toRoomPublicInfo() = RoomPublicInfo(
     id = roomId,
-    displayName = type.typeKey,
+    name = null,
     avatarUrl = null,
     topic = null,
     memberCount = 0,

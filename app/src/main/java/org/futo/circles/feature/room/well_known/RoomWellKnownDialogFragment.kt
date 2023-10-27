@@ -14,6 +14,7 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.model.ShareUrlTypeArg
 import org.futo.circles.databinding.DialogFragmentRoomWellKnownBinding
 import org.futo.circles.model.RoomPublicInfo
 import org.futo.circles.model.isProfile
@@ -69,26 +70,18 @@ class RoomWellKnownDialogFragment :
         binding.tvRoomName.text = message
     }
 
-    private fun bindGeneralData(
-        url: String?,
-        name: String,
-        membership: Membership
-    ) {
-        with(binding) {
-            ivCover.setIsVisible(!url.isNullOrBlank())
-            url?.let { ivCover.loadProfileIcon(url, name) }
-            tvRoomName.text = name
-            btnRequest.setIsVisible(shouldShowKnockButton(membership))
-        }
-    }
 
     private fun bindRoomData(roomInfo: RoomPublicInfo) {
         with(binding) {
-            bindGeneralData(
-                roomInfo.avatarUrl,
-                roomInfo.displayName,
-                roomInfo.membership
-            )
+            ivCover.apply {
+                setIsVisible(roomInfo.avatarUrl != null || roomInfo.name != null)
+                loadProfileIcon(roomInfo.avatarUrl, roomInfo.name ?: "")
+            }
+            tvRoomName.apply {
+                setIsVisible(roomInfo.name != null)
+                text = roomInfo.name
+            }
+            btnRequest.setIsVisible(shouldShowKnockButton(roomInfo.membership))
             binding.tvRoomId.text = roomInfo.id
             tvMembersCount.apply {
                 setIsVisible(roomInfo.memberCount > 0)
@@ -98,8 +91,14 @@ class RoomWellKnownDialogFragment :
                 )
             }
             btnRequest.setText(getString(if (roomInfo.isProfile()) R.string.request_to_follow else R.string.request_to_join))
-            tvTopic.setIsVisible(roomInfo.topic?.isNotEmpty() == true)
-            tvTopic.text = roomInfo.topic ?: ""
+            tvTopic.apply {
+                setIsVisible(roomInfo.topic?.isNotEmpty() == true)
+                text = getString(R.string.topic_format, roomInfo.topic ?: "")
+            }
+            tvType.apply {
+                setIsVisible(roomInfo.type != ShareUrlTypeArg.ROOM)
+                text = getString(R.string.room_type_format, roomInfo.type.typeKey)
+            }
             tvMembersip.text = getString(
                 when (roomInfo.membership) {
                     Membership.NONE,
