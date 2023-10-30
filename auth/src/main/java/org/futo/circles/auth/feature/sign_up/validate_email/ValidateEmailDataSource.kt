@@ -12,13 +12,16 @@ class ValidateEmailDataSource @Inject constructor(
     private val signUpDataSource: SignUpDataSource
 ) {
 
-    suspend fun sendValidationCode(email: String): Response<RegistrationResult> =
-        signUpDataSource.performRegistrationStage(
-            mapOf(
-                TYPE_PARAM_KEY to REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE,
-                EMAIL_PARAM_KEY to email
-            )
+    suspend fun sendValidationCode(
+        email: String,
+        subscribeToUpdates: Boolean
+    ): Response<RegistrationResult> = signUpDataSource.performRegistrationStage(
+        mapOf(
+            TYPE_PARAM_KEY to REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE,
+            EMAIL_PARAM_KEY to email,
+            //SUBSCRIBE_TO_LIST to subscribeToUpdates
         )
+    )
 
     suspend fun validateEmail(code: String): Response<RegistrationResult> =
         signUpDataSource.performRegistrationStage(
@@ -31,5 +34,6 @@ class ValidateEmailDataSource @Inject constructor(
     companion object {
         private const val EMAIL_PARAM_KEY = "email"
         private const val TOKEN_PARAM_KEY = "token"
+        private const val SUBSCRIBE_TO_LIST = "subscribe_to_list"
     }
 }

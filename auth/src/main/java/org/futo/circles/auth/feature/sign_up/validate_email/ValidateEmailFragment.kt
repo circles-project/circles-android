@@ -9,14 +9,14 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentValidateEmailBinding
+import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.isValidEmail
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
-import org.futo.circles.core.base.fragment.HasLoadingState
-import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 
 @AndroidEntryPoint
 class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_validate_email),
@@ -54,7 +54,7 @@ class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_val
             }
             btnSendCode.setOnClickListener {
                 startLoading(btnSendCode)
-                viewModel.sendCode(getEmailInput())
+                viewModel.sendCode(getEmailInput(), cbEmailUpdates.isChecked)
             }
             btnValidate.setOnClickListener {
                 startLoading(btnValidate)

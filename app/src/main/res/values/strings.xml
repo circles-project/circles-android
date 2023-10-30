@@ -30,6 +30,8 @@
     <string name="log_out">Log out</string>
     <string name="others">Others</string>
     <string name="following_format">Following %d</string>
+    <string name="room_type_format">Room type: %s</string>
+    <string name="topic_format">Topic: %s</string>
     <string name="followed_by_format">Followed by %d</string>
     <string name="requests_format">Requests %d</string>
     <string name="create_post">Create post</string>
@@ -73,7 +75,8 @@
     <string name="add_reaction">Add reaction</string>
     <string name="unfollow">Unfollow</string>
     <string name="requested_to_follow_format">%s requested to follow</string>
-    <string name="requested_to_join">Requested to join</string>
+    <string name="request_to_join">Request to join</string>
+    <string name="request_to_follow">Request to follow</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
     <string name="save_to_device">Save to device</string>
@@ -210,6 +213,8 @@
     <string name="creating_timeline">Creating timeline</string>
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="session">Session</string>
+    <string name="help">Help</string>
+    <string name="optional_request_message">Optional: Request message</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

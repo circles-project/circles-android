@@ -6,13 +6,13 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.WorkerThread
 import androidx.core.graphics.drawable.IconCompat
-import com.amulyakhare.textdrawable.TextDrawable
-import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.signature.ObjectKey
 import dagger.hilt.android.qualifiers.ApplicationContext
+import org.futo.circles.core.feature.textDrawable.ColorGenerator
+import org.futo.circles.core.feature.textDrawable.TextDrawable
 import javax.inject.Inject
 
 class NotificationBitmapLoader @Inject constructor(
@@ -23,7 +23,7 @@ class NotificationBitmapLoader @Inject constructor(
     fun getRoomBitmap(roomName: String, path: String?): Bitmap {
         val placeholder = TextDrawable.Builder()
             .setShape(TextDrawable.SHAPE_RECT)
-            .setColor(ColorGenerator.DEFAULT.getColor(roomName))
+            .setColor(ColorGenerator().getColor(roomName))
             .setTextColor(Color.WHITE)
             .setWidth(64)
             .setHeight(64)
@@ -40,7 +40,7 @@ class NotificationBitmapLoader @Inject constructor(
                 .submit()
                 .get()
         } catch (e: Exception) {
-            placeholder.bitmap
+            placeholder.getBitmap()
         }
     }
 

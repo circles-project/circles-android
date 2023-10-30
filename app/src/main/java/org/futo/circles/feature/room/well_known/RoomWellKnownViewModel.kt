@@ -11,9 +11,6 @@ import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.RoomPublicInfo
 import org.futo.circles.model.RoomUrlData
-import org.futo.circles.model.UrlData
-import org.futo.circles.model.UserPublicInfo
-import org.futo.circles.model.UserUrlData
 import org.futo.circles.model.parseUrlData
 import javax.inject.Inject
 
@@ -26,17 +23,12 @@ class RoomWellKnownViewModel @Inject constructor(
     private val url: String = savedStateHandle.getOrThrow("url")
 
     val roomPublicInfoLiveData = SingleEventLiveData<Response<RoomPublicInfo>>()
-    val userPublicInfoLiveData = SingleEventLiveData<Response<UserPublicInfo>>()
     val knockRequestLiveData = SingleEventLiveData<Response<Unit?>>()
     val parseErrorEventLiveData = SingleEventLiveData<Unit>()
-    private var urlData: UrlData? = parseUrlData(url)
+    private var urlData: RoomUrlData? = parseUrlData(url)
 
     init {
-        when (val data = urlData) {
-            is RoomUrlData -> fetchRoomPublicInfo(data)
-            is UserUrlData -> fetchUserPublicInfo(data)
-            null -> parseErrorEventLiveData.postValue(Unit)
-        }
+        urlData?.let { fetchRoomPublicInfo(it) } ?: parseErrorEventLiveData.postValue(Unit)
     }
 
     private fun fetchRoomPublicInfo(data: RoomUrlData) {
@@ -46,18 +38,13 @@ class RoomWellKnownViewModel @Inject constructor(
         }
     }
 
-    private fun fetchUserPublicInfo(data: UserUrlData) {
-        launchBg {
-            val result = dataSource.resolveUser(data)
-            userPublicInfoLiveData.postValue(result)
-        }
-    }
-
-    fun sendKnockRequest() {
-        val roomId = urlData?.knockRoomId ?: return
+    fun sendKnockRequest(message: String?) {
+        val roomId = urlData?.roomId ?: return
         launchBg {
             val result =
-                createResult { MatrixSessionProvider.currentSession?.roomService()?.knock(roomId) }
+                createResult {
+                    MatrixSessionProvider.currentSession?.roomService()?.knock(roomId, message)
+                }
             knockRequestLiveData.postValue(result)
         }
     }

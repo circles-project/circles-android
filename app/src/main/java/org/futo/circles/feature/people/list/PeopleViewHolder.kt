@@ -3,17 +3,19 @@ package org.futo.circles.feature.people.list
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.base.list.ViewBindingHolder
+import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.onClick
-import org.futo.circles.core.base.list.ViewBindingHolder
-import org.futo.circles.core.base.list.context
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.databinding.ListItemPeopleDefaultBinding
 import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
 import org.futo.circles.databinding.ListItemPeopleRequestBinding
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
+import org.futo.circles.model.PeopleRequestListItem
 import org.futo.circles.model.PeopleUserListItem
 import org.futo.circles.model.PeopleUserListItemPayload
 
@@ -81,8 +83,12 @@ class PeopleRequestUserViewHolder(
     }
 
     override fun bind(data: PeopleListItem) {
-        val user = (data as? PeopleUserListItem)?.user ?: return
+        val user = (data as? PeopleRequestListItem)?.user ?: return
         bindUser(user)
+        binding.tvReasonMessage.apply {
+            setIsVisible(data.reasonMessage != null)
+            text = data.reasonMessage
+        }
     }
 
     override fun bindPayload(data: PeopleUserListItemPayload) {

@@ -21,9 +21,9 @@
         android:name=".App"
         android:allowBackup="false"
         android:enableOnBackInvokedCallback="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:hardwareAccelerated="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Circles"
@@ -31,13 +31,11 @@
         tools:targetApi="tiramisu">
         <activity
             android:name=".auth.feature.active_sessions.verify.qr.QrScannerActivity"
-            android:exported="false"
-            tools:ignore="LockedOrientationActivity" />
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            tools:ignore="LockedOrientationActivity">
+            android:launchMode="singleTask">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,6 +54,9 @@
                 <data android:host="circu.li" />
                 <data android:pathPrefix="/room" />
                 <data android:pathPrefix="/profile" />
+                <data android:pathPrefix="/group" />
+                <data android:pathPrefix="/gallery" />
+                <data android:pathPrefix="/timeline" />
 
             </intent-filter>
 
@@ -63,8 +64,7 @@
         <activity
             android:name=".gallery.feature.share.UploadToGalleryActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            tools:ignore="LockedOrientationActivity">
+            android:launchMode="singleTask">
             <intent-filter android:label="@string/gallery">
                 <action android:name="android.intent.action.SEND" />
 
@@ -77,8 +77,7 @@
         <activity
             android:name=".feature.share.circle.ShareWithCircleActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            tools:ignore="LockedOrientationActivity">
+            android:launchMode="singleTask">
             <intent-filter android:label="@string/circle">
                 <action android:name="android.intent.action.SEND" />
 
@@ -133,14 +132,17 @@
             android:foregroundServiceType="dataSync"
             tools:ignore="Instantiatable" />
 
-        <service android:name="com.google.android.gms.metadata.ModuleDependencies"
+        <service
+            android:name="com.google.android.gms.metadata.ModuleDependencies"
             android:enabled="false"
             android:exported="false"
             tools:ignore="MissingClass">
             <intent-filter>
                 <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
             </intent-filter>
-            <meta-data android:name="photopicker_activity:0:required" android:value="" />
+            <meta-data
+                android:name="photopicker_activity:0:required"
+                android:value="" />
         </service>
 
         <receiver

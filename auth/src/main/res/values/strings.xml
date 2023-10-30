@@ -153,6 +153,7 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
 <br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
     <string name="configure">Configure</string>
+    <string name="receive_email_updates">Receive email updates</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

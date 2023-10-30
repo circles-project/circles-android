@@ -15,7 +15,7 @@ import javax.inject.Inject
 class KnockRequestViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val inviteRequestsDataSource: InviteRequestsDataSource,
-    private val knockRequestsDataSource: KnockRequestsDataSource
+    knockRequestsDataSource: KnockRequestsDataSource
 ) : ViewModel() {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
