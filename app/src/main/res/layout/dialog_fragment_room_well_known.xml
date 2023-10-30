@@ -159,13 +159,16 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
             android:gravity="top"
             android:hint="@string/optional_request_message"
             android:imeOptions="actionDone"
             android:inputType="textMultiLine"
-            android:lines="3"
             android:maxLines="3"
-            android:padding="12dp" />
+            android:minLines="3"
+            android:padding="12dp"
+            tools:text="sddsdsdsddsdsdsddsdsdvsdsdsdsfdwefsegegddsfjsdkjnsadknksndkn dn dfmnsdfnkm
+            sdfnmnasd,fmn,sdfn,dmnf,dsn,mnd,fmn,mdfskdnlsdmlsddsdsdsddsdsdsd11" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
