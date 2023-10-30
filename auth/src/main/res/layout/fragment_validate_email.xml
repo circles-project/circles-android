@@ -117,6 +117,7 @@
         android:checked="true"
         android:text="@string/receive_email_updates"
         android:textAppearance="@style/body"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnSendCode" />

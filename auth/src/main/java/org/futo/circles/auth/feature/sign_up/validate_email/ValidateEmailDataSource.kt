@@ -19,7 +19,7 @@ class ValidateEmailDataSource @Inject constructor(
         mapOf(
             TYPE_PARAM_KEY to REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE,
             EMAIL_PARAM_KEY to email,
-            SUBSCRIBE_TO_LIST to subscribeToUpdates
+            //SUBSCRIBE_TO_LIST to subscribeToUpdates
         )
     )
 
