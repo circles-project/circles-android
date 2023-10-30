@@ -3,6 +3,8 @@ package org.futo.circles.model
 import org.futo.circles.R
 import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.model.CirclesUserSummary
+import org.futo.circles.core.model.KnockRequestListItem
+import org.futo.circles.core.model.toCircleUser
 
 enum class PeopleItemType { Header, Friend, Following, Follower, Request, Known, Suggestion, Ignored }
 sealed class PeopleListItem(
@@ -31,3 +33,12 @@ class PeopleUserListItem(
 ) : PeopleListItem(type) {
     override val id: String = user.id
 }
+
+class PeopleRequestListItem(
+    val user: CirclesUserSummary,
+    val reasonMessage: String?
+) : PeopleListItem(PeopleItemType.Request) {
+    override val id: String = user.id
+}
+
+fun KnockRequestListItem.toPeopleRequestListItem() = PeopleRequestListItem(toCircleUser(), message)
