@@ -3,7 +3,6 @@ package org.futo.circles.core.feature.rageshake
 import okhttp3.ResponseBody
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
-import org.futo.circles.core.base.getRageShakeUrl
 import org.futo.circles.core.feature.rageshake.io.BugreportApiService
 import javax.inject.Inject
 

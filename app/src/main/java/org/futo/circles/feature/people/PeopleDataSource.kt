@@ -1,7 +1,6 @@
 package org.futo.circles.feature.people
 
 import androidx.lifecycle.asFlow
-import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -9,22 +8,24 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.createResult
-import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
 import org.futo.circles.core.feature.select_users.SearchUserDataSource
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
+import org.futo.circles.core.model.KnockRequestListItem
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleListItem
+import org.futo.circles.model.toPeopleRequestListItem
 import org.matrix.android.sdk.api.session.getRoom
-import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
-import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
 
 class PeopleDataSource @Inject constructor(
     private val searchUserDataSource: SearchUserDataSource,
-    private val sharedCircleDataSource: SharedCircleDataSource
+    private val sharedCircleDataSource: SharedCircleDataSource,
+    private val knockRequestsDataSource: KnockRequestsDataSource
 ) {
 
     private val session = MatrixSessionProvider.currentSession
@@ -37,10 +38,9 @@ class PeopleDataSource @Inject constructor(
     suspend fun declineFollowRequest(userId: String) =
         createResult { session?.getRoom(profileRoomId)?.membershipService()?.remove(userId) }
 
-    private fun getProfileRoomMembersKnockFlow(): Flow<List<User>> =
-        session?.getRoom(profileRoomId)?.membershipService()
-            ?.getRoomMembersLive(roomMemberQueryParams { memberships = listOf(Membership.KNOCK) })
-            ?.map { it.map { User(it.userId, it.displayName, it.avatarUrl) } }?.asFlow() ?: flowOf()
+    private fun getProfileRoomMembersKnockFlow(): Flow<List<KnockRequestListItem>> =
+        knockRequestsDataSource.getKnockRequestsListItemsLiveData(profileRoomId)?.asFlow()
+            ?: flowOf()
 
     suspend fun getPeopleList(query: String) = combine(
         searchUserDataSource.searchKnownUsers(query),
@@ -62,11 +62,11 @@ class PeopleDataSource @Inject constructor(
         knowUsers: List<User>,
         suggestions: List<User>,
         ignoredUsers: List<User>,
-        requests: List<User>
+        requests: List<KnockRequestListItem>
     ): List<PeopleListItem> {
         val uniqueItemsList = mutableListOf<PeopleListItem>().apply {
             addAll(ignoredUsers.map { it.toPeopleUserListItem(PeopleItemType.Ignored) })
-            addAll(requests.map { it.toPeopleUserListItem(PeopleItemType.Request) })
+            addAll(requests.map { it.toPeopleRequestListItem() })
             addAll(knowUsers.map { it.toPeopleUserListItem(getKnownUserItemType(it.userId)) })
             addAll(suggestions.map { it.toPeopleUserListItem(PeopleItemType.Suggestion) })
         }.distinctBy { it.id }.filterNot { it.id == session?.myUserId }

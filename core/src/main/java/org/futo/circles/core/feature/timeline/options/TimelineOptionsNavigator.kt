@@ -3,6 +3,7 @@ package org.futo.circles.core.feature.timeline.options
 import androidx.navigation.fragment.findNavController
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.toShareUrlType
 
 class TimelineOptionsNavigator(private val fragment: TimelineOptionsDialogFragment) {
 
@@ -49,9 +50,13 @@ class TimelineOptionsNavigator(private val fragment: TimelineOptionsDialogFragme
     }
 
 
-    fun navigateToShareRoom(roomId: String) {
+    fun navigateToShareRoom(roomId: String, type: CircleRoomTypeArg) {
         fragment.findNavController()
-            .navigateSafe(TimelineOptionsDialogFragmentDirections.toShareRoom(roomId, false))
+            .navigateSafe(
+                TimelineOptionsDialogFragmentDirections.toShareRoom(
+                    roomId, type.toShareUrlType()
+                )
+            )
     }
 
     fun navigateToKnockRequests(timelineId: String) {

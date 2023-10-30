@@ -114,7 +114,7 @@ class TimelineOptionsDialogFragment :
                 )
                 setOnClickListener { showLeaveRoomDialog() }
             }
-            tvShare.setOnClickListener { navigator.navigateToShareRoom(timelineId) }
+            tvShare.setOnClickListener { navigator.navigateToShareRoom(timelineId, args.type) }
             tvManageMembers.apply {
                 setIsVisible(args.type != CircleRoomTypeArg.Circle)
                 setOnClickListener { navigator.navigateToManageMembers(timelineId, args.type) }

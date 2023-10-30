@@ -6,6 +6,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.observeData
@@ -13,10 +15,10 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.model.ShareUrlTypeArg
 import org.futo.circles.databinding.DialogFragmentRoomWellKnownBinding
 import org.futo.circles.model.RoomPublicInfo
-import org.futo.circles.model.UserPublicInfo
+import org.futo.circles.model.isProfile
 import org.matrix.android.sdk.api.session.room.model.Membership
 
 @AndroidEntryPoint
@@ -37,7 +39,7 @@ class RoomWellKnownDialogFragment :
 
     private fun setupViews() {
         binding.btnRequest.setOnClickListener {
-            viewModel.sendKnockRequest()
+            viewModel.sendKnockRequest(binding.tilRequestMessage.getText().takeIf { it.isNotEmpty() })
             binding.btnRequest.setIsLoading(true)
         }
     }
@@ -45,11 +47,6 @@ class RoomWellKnownDialogFragment :
     private fun setupObservers() {
         viewModel.roomPublicInfoLiveData.observeResponse(this,
             success = { roomInfo -> bindRoomData(roomInfo) },
-            onRequestInvoked = { binding.vLoading.gone() },
-            error = { bindError(it) }
-        )
-        viewModel.userPublicInfoLiveData.observeResponse(this,
-            success = { userInfo -> bindUserData(userInfo) },
             onRequestInvoked = { binding.vLoading.gone() },
             error = { bindError(it) }
         )
@@ -74,71 +71,51 @@ class RoomWellKnownDialogFragment :
         binding.tvRoomName.text = message
     }
 
-    private fun bindGeneralData(
-        url: String?,
-        name: String,
-        membership: Membership
-    ) {
-        with(binding) {
-            ivCover.loadProfileIcon(url, name)
-            toolbar.title = name
-            tvRoomName.text = name
-            btnRequest.setIsVisible(shouldShowKnockButton(membership))
-        }
-    }
 
     private fun bindRoomData(roomInfo: RoomPublicInfo) {
         with(binding) {
-            bindGeneralData(
-                roomInfo.avatarUrl,
-                roomInfo.displayName,
-                roomInfo.membership
-            )
+            ivCover.apply {
+                if (roomInfo.avatarUrl != null || roomInfo.name != null)
+                    loadProfileIcon(roomInfo.avatarUrl, roomInfo.name ?: "")
+                else setImageResource(R.drawable.ic_logo)
+            }
+            tvRoomName.apply {
+                setIsVisible(roomInfo.name != null)
+                text = roomInfo.name
+            }
+            btnRequest.setIsVisible(shouldShowKnockButton(roomInfo.membership))
+            tilRequestMessage.setIsVisible(shouldShowKnockButton(roomInfo.membership))
             binding.tvRoomId.text = roomInfo.id
             tvMembersCount.apply {
                 setIsVisible(roomInfo.memberCount > 0)
-                text = getString(R.string.joined_members_count, roomInfo.memberCount)
+                text = getString(
+                    if (roomInfo.isProfile()) R.string.following_format
+                    else R.string.joined_members_count, roomInfo.memberCount
+                )
             }
-            btnRequest.setText(getString(R.string.requested_to_join))
-            tvTopic.setIsVisible(roomInfo.topic?.isNotEmpty() == true)
-            tvTopic.text = roomInfo.topic ?: ""
+            btnRequest.setText(getString(if (roomInfo.isProfile()) R.string.request_to_follow else R.string.request_to_join))
+            tvTopic.apply {
+                setIsVisible(roomInfo.topic?.isNotEmpty() == true)
+                text = getString(R.string.topic_format, roomInfo.topic ?: "")
+            }
+            tvType.apply {
+                setIsVisible(roomInfo.type != ShareUrlTypeArg.ROOM)
+                text = getString(R.string.room_type_format, roomInfo.type.typeKey)
+            }
             tvMembersip.text = getString(
                 when (roomInfo.membership) {
                     Membership.NONE,
                     Membership.KNOCK,
-                    Membership.LEAVE -> R.string.request_to_become_member_room
+                    Membership.LEAVE -> if (roomInfo.isProfile()) R.string.send_request_to_follow_user
+                    else R.string.request_to_become_member_room
 
-                    Membership.INVITE -> R.string.you_have_pending_invitation_room
-                    Membership.JOIN -> R.string.you_are_already_member_room
+                    Membership.INVITE -> if (roomInfo.isProfile()) R.string.you_have_pending_invitation_user
+                    else R.string.you_have_pending_invitation_room
+
+                    Membership.JOIN -> if (roomInfo.isProfile()) R.string.you_are_already_following_user
+                    else R.string.you_are_already_member_room
+
                     Membership.BAN -> R.string.you_are_banned_room
-                }
-            )
-        }
-    }
-
-    private fun bindUserData(userInfo: UserPublicInfo) {
-        with(binding) {
-            bindGeneralData(
-                userInfo.avatarUrl,
-                userInfo.displayName,
-                userInfo.membership
-            )
-            binding.tvRoomId.text = userInfo.id
-            tvMembersCount.apply {
-                setIsVisible(userInfo.memberCount > 0)
-                text = getString(R.string.following_format, userInfo.memberCount)
-            }
-            btnRequest.setText(getString(R.string.follow))
-            tvTopic.gone()
-            tvMembersip.text = getString(
-                when (userInfo.membership) {
-                    Membership.NONE,
-                    Membership.KNOCK,
-                    Membership.LEAVE -> R.string.send_request_to_follow_user
-
-                    Membership.INVITE -> R.string.you_have_pending_invitation_user
-                    Membership.JOIN -> R.string.you_are_already_following_user
-                    Membership.BAN -> R.string.you_are_banned_user
                 }
             )
         }
