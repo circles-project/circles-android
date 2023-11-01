@@ -3,6 +3,7 @@ package org.futo.circles.auth.feature.pass_phrase
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.crypto.BCRYPT_ALGORITHM_BACKUP
 import org.matrix.android.sdk.api.crypto.BSSPEKE_ALGORITHM_BACKUP
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
 import org.matrix.android.sdk.api.session.securestorage.KeyInfoResult
 import org.matrix.android.sdk.api.util.awaitCallback
@@ -21,10 +22,10 @@ class EncryptionAlgorithmHelper @Inject constructor() {
     }
 
     private suspend fun getEncryptionAlgorithm(): String? {
-        val keyVersion = awaitCallback {
+        val keyVersion = tryOrNull {
             MatrixSessionProvider.currentSession?.cryptoService()?.keysBackupService()
-                ?.getCurrentVersion(it)
-        }.toKeysVersionResult()
+                ?.getCurrentVersion()
+        }?.toKeysVersionResult()
 
         return keyVersion?.algorithm
     }
