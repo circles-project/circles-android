@@ -48,6 +48,7 @@
     <string name="computing_recovery_key">Computing recovery key.</string>
     <string name="downloading_keys">Downloading keys.</string>
     <string name="importing_keys">Importing keys.</string>
+    <string name="decrypting_key">Decrypting key.</string>
     <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="domain">Domain</string>

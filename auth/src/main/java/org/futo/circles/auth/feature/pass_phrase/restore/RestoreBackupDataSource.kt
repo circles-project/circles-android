@@ -10,12 +10,11 @@ import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.model.KeyData
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.listeners.StepProgressListener
-import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupLastVersionResult
+import org.matrix.android.sdk.api.session.crypto.keysbackup.BackupRecoveryKey
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
-import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersionResult
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
-import org.matrix.android.sdk.api.util.awaitCallback
 import javax.inject.Inject
 
 class RestoreBackupDataSource @Inject constructor(
@@ -53,6 +52,17 @@ class RestoreBackupDataSource @Inject constructor(
                     loadingLiveData.postValue(
                         LoadingData(
                             R.string.importing_keys,
+                            step.progress,
+                            step.total,
+                            true
+                        )
+                    )
+                }
+
+                is StepProgressListener.Step.DecryptingKey -> {
+                    loadingLiveData.postValue(
+                        LoadingData(
+                            R.string.decrypting_key,
                             step.progress,
                             step.total,
                             true
@@ -102,18 +112,15 @@ class RestoreBackupDataSource @Inject constructor(
         val keysBackupService = getKeysBackupService()
         try {
             val keyVersion = getKeysVersion(keysBackupService)
-            awaitCallback {
-                keysBackupService.restoreKeysWithRecoveryKey(
-                    keyVersion,
-                    keyData.recoveryKey,
-                    null,
-                    MatrixSessionProvider.currentSession?.myUserId,
-                    progressObserver,
-                    it
-                )
-            }
+            keysBackupService.restoreKeysWithRecoveryKey(
+                keyVersion,
+                BackupRecoveryKey.fromBase64(keyData.recoveryKey),
+                null,
+                MatrixSessionProvider.currentSession?.myUserId,
+                progressObserver
+            )
             crossSigningDataSource.configureCrossSigning(keyData.keySpec)
-            trustOnDecrypt(keysBackupService, keyVersion)
+            keysBackupService.trustKeysBackupVersion(keyVersion, true)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))
             throw e
@@ -155,21 +162,10 @@ class RestoreBackupDataSource @Inject constructor(
             ?: throw Exception(context.getString(R.string.backup_could_not_be_decrypted_with_key))
     }
 
-    private suspend fun trustOnDecrypt(
-        keysBackup: KeysBackupService,
-        keysVersionResult: KeysVersionResult
-    ) {
-        awaitCallback {
-            keysBackup.trustKeysBackupVersion(keysVersionResult, true, it)
-        }
-    }
-
     private fun getKeysBackupService() =
         MatrixSessionProvider.getSessionOrThrow().cryptoService().keysBackupService()
 
     private suspend fun getKeysVersion(keysBackupService: KeysBackupService) =
-        awaitCallback<KeysBackupLastVersionResult> {
-            keysBackupService.getCurrentVersion(it)
-        }.toKeysVersionResult()
+        tryOrNull { keysBackupService.getCurrentVersion() }?.toKeysVersionResult()
             ?: throw Exception(context.getString(R.string.failed_to_get_restore_keys_version))
 }
