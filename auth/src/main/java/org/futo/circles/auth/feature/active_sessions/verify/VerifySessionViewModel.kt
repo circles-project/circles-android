@@ -5,10 +5,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.futo.circles.auth.model.QrCanceled
 import org.futo.circles.auth.model.QrLoading
 import org.futo.circles.auth.model.QrReady
 import org.futo.circles.auth.model.QrState
@@ -16,6 +17,7 @@ import org.futo.circles.auth.model.QrSuccess
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.session.crypto.verification.EVerificationState
 import org.matrix.android.sdk.api.session.crypto.verification.PendingVerificationRequest
 import org.matrix.android.sdk.api.session.crypto.verification.QRCodeVerificationState
 import org.matrix.android.sdk.api.session.crypto.verification.QrCodeVerificationTransaction
@@ -42,31 +44,37 @@ class VerifySessionViewModel @Inject constructor(
     private var qrTransactionId: String = ""
 
     init {
+        observeVerificationState()
+        initVerification()
+    }
+
+    private fun observeVerificationState() {
         session.cryptoService().verificationService().requestEventFlow()
             .cancellable()
             .onEach {
                 when (it) {
                     is VerificationEvent.RequestAdded -> confirmIncomingRequest(it.request)
+
                     is VerificationEvent.RequestUpdated -> {
-                        qrTransactionId = it.transactionId
-                        it.request.qrCodeText?.let { qrStateLiveData.postValue(QrReady(it)) }
+                        if (it.request.state == EVerificationState.Done) {
+                            qrStateLiveData.postValue(QrSuccess)
+                        } else {
+                            qrTransactionId = it.transactionId
+                            it.request.qrCodeText?.let { qrStateLiveData.postValue(QrReady(it)) }
+                        }
                     }
+
                     is VerificationEvent.TransactionAdded -> transactionUpdated(it.transaction)
                     is VerificationEvent.TransactionUpdated -> transactionUpdated(it.transaction)
                 }
-            }.launchIn(viewModelScope)
-
-        initVerification()
+            }.flowOn(Dispatchers.IO).launchIn(viewModelScope)
     }
 
 
     private fun transactionUpdated(tx: VerificationTransaction) {
         val transaction = (tx as? QrCodeVerificationTransaction) ?: return
-        when (transaction.state()) {
-            QRCodeVerificationState.Done -> qrStateLiveData.postValue(QrSuccess)
-            QRCodeVerificationState.Cancelled -> qrStateLiveData.postValue(QrCanceled)
-            else -> launchBg { transaction.otherUserScannedMyQrCode() }
-        }
+        if (transaction.state() == QRCodeVerificationState.WaitingForScanConfirmation)
+            launchBg { transaction.otherUserScannedMyQrCode() }
     }
 
     fun onQrScanned(data: String) {
