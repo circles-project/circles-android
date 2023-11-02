@@ -114,7 +114,7 @@ class RestoreBackupDataSource @Inject constructor(
             val keyVersion = getKeysVersion(keysBackupService)
             keysBackupService.restoreKeysWithRecoveryKey(
                 keyVersion,
-                BackupRecoveryKey.fromBase64(keyData.recoveryKey),
+                BackupRecoveryKey.fromBase58(keyData.recoveryKey),
                 null,
                 MatrixSessionProvider.currentSession?.myUserId,
                 progressObserver
