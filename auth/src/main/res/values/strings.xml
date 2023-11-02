@@ -113,6 +113,7 @@
     <string name="cross_signed">cross signed</string>
     <string name="waiting_for_verification_format">Waiting for %s to start verification</string>
     <string name="session_verified">Session verified</string>
+    <string name="verification_canceled">Verification canceled</string>
     <string name="active_login_sessions">Active login sessions</string>
     <string name="login_sessions">Login sessions</string>
     <string name="verify_session">Verify session</string>

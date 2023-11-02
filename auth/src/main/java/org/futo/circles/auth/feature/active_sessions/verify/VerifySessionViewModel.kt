@@ -3,26 +3,31 @@ package org.futo.circles.auth.feature.active_sessions.verify
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.futo.circles.auth.model.QrCanceled
 import org.futo.circles.auth.model.QrLoading
 import org.futo.circles.auth.model.QrReady
 import org.futo.circles.auth.model.QrState
 import org.futo.circles.auth.model.QrSuccess
 import org.futo.circles.core.extensions.getOrThrow
+import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.verification.PendingVerificationRequest
+import org.matrix.android.sdk.api.session.crypto.verification.QRCodeVerificationState
 import org.matrix.android.sdk.api.session.crypto.verification.QrCodeVerificationTransaction
+import org.matrix.android.sdk.api.session.crypto.verification.VerificationEvent
 import org.matrix.android.sdk.api.session.crypto.verification.VerificationMethod
-import org.matrix.android.sdk.api.session.crypto.verification.VerificationService
 import org.matrix.android.sdk.api.session.crypto.verification.VerificationTransaction
-import org.matrix.android.sdk.api.session.crypto.verification.VerificationTxState
 import javax.inject.Inject
 
 @HiltViewModel
 class VerifySessionViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
-) : ViewModel(), VerificationService.Listener {
+) : ViewModel() {
 
     private val deviceId: String = savedStateHandle.getOrThrow("deviceId")
 
@@ -33,78 +38,73 @@ class VerifySessionViewModel @Inject constructor(
         VerificationMethod.QR_CODE_SCAN
     )
 
-    val qrStateLiveData: MutableLiveData<QrState> = MutableLiveData(
-        QrLoading(
-            deviceId,
-            session.cryptoService().crossSigningService().isCrossSigningVerified()
-        )
-    )
+    val qrStateLiveData: MutableLiveData<QrState> = MutableLiveData(QrLoading(deviceId))
 
     private var qrTransaction: QrCodeVerificationTransaction? = null
 
     init {
-        session.cryptoService().verificationService().addListener(this)
+        session.cryptoService().verificationService().requestEventFlow()
+            .cancellable()
+            .onEach {
+                when (it) {
+                    is VerificationEvent.RequestAdded -> confirmIncomingRequest(it.request)
+                    is VerificationEvent.RequestUpdated -> confirmIncomingRequest(it.request)
+
+                    is VerificationEvent.TransactionAdded -> transactionUpdated(it.transaction)
+                    is VerificationEvent.TransactionUpdated -> transactionUpdated(it.transaction)
+                }
+            }.launchIn(viewModelScope)
+
         initVerification()
     }
 
-    override fun verificationRequestCreated(pr: PendingVerificationRequest) {
-        verificationRequestUpdated(pr)
-    }
 
-    override fun verificationRequestUpdated(pr: PendingVerificationRequest) {
-        confirmIncomingRequest()
-    }
-
-    override fun transactionCreated(tx: VerificationTransaction) {
-        transactionUpdated(tx)
-    }
-
-    override fun transactionUpdated(tx: VerificationTransaction) {
-        when (val state = tx.state) {
-            is VerificationTxState.Cancelled -> qrStateLiveData.postValue(QrCanceled(state.cancelCode.humanReadable))
-            VerificationTxState.Verified -> qrStateLiveData.postValue(QrSuccess)
-            VerificationTxState.QrScannedByOther -> qrTransaction?.otherUserScannedMyQrCode()
+    private fun transactionUpdated(tx: VerificationTransaction) {
+        val transaction = (tx as? QrCodeVerificationTransaction) ?: return
+        when (transaction.state()) {
+            QRCodeVerificationState.Reciprocated -> launchBg { qrTransaction?.otherUserScannedMyQrCode() }
+            QRCodeVerificationState.Done -> qrStateLiveData.postValue(QrSuccess)
+            QRCodeVerificationState.Cancelled -> qrStateLiveData.postValue(QrCanceled)
             else -> {
-                qrTransaction = tx as? QrCodeVerificationTransaction
+                qrTransaction = transaction
                 qrTransaction?.qrCodeText?.let { qrStateLiveData.postValue(QrReady(it)) }
             }
         }
     }
 
     override fun onCleared() {
-        qrTransaction?.cancel()
-        session.cryptoService().verificationService().removeListener(this)
+        qrTransaction = null
         super.onCleared()
     }
 
     fun onQrScanned(data: String) {
-        qrTransaction?.userHasScannedOtherQrCode(data)
+        launchBg {
+            session.cryptoService().verificationService().reciprocateQRVerification(
+                qrTransaction?.otherUserId ?: "",
+                qrTransaction?.transactionId ?: "",
+                data
+            )
+        }
     }
 
     private fun initVerification() {
-        if (session.cryptoService().crossSigningService().isCrossSigningVerified())
-            requestKeyVerification()
-        else confirmIncomingRequest()
+        launchBg {
+            if (session.cryptoService().crossSigningService().isCrossSigningVerified())
+                requestKeyVerification()
+        }
     }
 
-    private fun confirmIncomingRequest() {
-        session.cryptoService().verificationService()
-            .getExistingVerificationRequests(session.myUserId)
-            .lastOrNull { it.isIncoming && !it.isReady }?.let {
-                session.cryptoService().verificationService()
-                    .readyPendingVerification(
-                        verificationMethods,
-                        it.otherUserId,
-                        it.transactionId ?: ""
-                    )
-            }
-    }
-
-    private fun requestKeyVerification() {
-        session.cryptoService().verificationService().requestKeyVerification(
+    private fun confirmIncomingRequest(request: PendingVerificationRequest) = launchBg {
+        session.cryptoService().verificationService().readyPendingVerification(
             verificationMethods,
-            session.myUserId,
-            listOf(deviceId)
+            request.otherUserId,
+            request.transactionId
+        )
+    }
+
+    private suspend fun requestKeyVerification() {
+        session.cryptoService().verificationService().requestDeviceVerification(
+            verificationMethods, session.myUserId, deviceId
         )
     }
 }
