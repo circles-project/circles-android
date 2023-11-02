@@ -38,9 +38,8 @@ class VerifySessionViewModel @Inject constructor(
         VerificationMethod.QR_CODE_SCAN
     )
 
-    val qrStateLiveData: MutableLiveData<QrState> = MutableLiveData(QrLoading(deviceId))
-
-    private var qrTransaction: QrCodeVerificationTransaction? = null
+    val qrStateLiveData: MutableLiveData<QrState> = MutableLiveData(QrLoading)
+    private var qrTransactionId: String = ""
 
     init {
         session.cryptoService().verificationService().requestEventFlow()
@@ -48,8 +47,10 @@ class VerifySessionViewModel @Inject constructor(
             .onEach {
                 when (it) {
                     is VerificationEvent.RequestAdded -> confirmIncomingRequest(it.request)
-                    is VerificationEvent.RequestUpdated -> confirmIncomingRequest(it.request)
-
+                    is VerificationEvent.RequestUpdated -> {
+                        qrTransactionId = it.transactionId
+                        it.request.qrCodeText?.let { qrStateLiveData.postValue(QrReady(it)) }
+                    }
                     is VerificationEvent.TransactionAdded -> transactionUpdated(it.transaction)
                     is VerificationEvent.TransactionUpdated -> transactionUpdated(it.transaction)
                 }
@@ -62,35 +63,29 @@ class VerifySessionViewModel @Inject constructor(
     private fun transactionUpdated(tx: VerificationTransaction) {
         val transaction = (tx as? QrCodeVerificationTransaction) ?: return
         when (transaction.state()) {
-            QRCodeVerificationState.Reciprocated -> launchBg { qrTransaction?.otherUserScannedMyQrCode() }
             QRCodeVerificationState.Done -> qrStateLiveData.postValue(QrSuccess)
             QRCodeVerificationState.Cancelled -> qrStateLiveData.postValue(QrCanceled)
-            else -> {
-                qrTransaction = transaction
-                qrTransaction?.qrCodeText?.let { qrStateLiveData.postValue(QrReady(it)) }
-            }
+            else -> launchBg { transaction.otherUserScannedMyQrCode() }
         }
-    }
-
-    override fun onCleared() {
-        qrTransaction = null
-        super.onCleared()
     }
 
     fun onQrScanned(data: String) {
         launchBg {
             session.cryptoService().verificationService().reciprocateQRVerification(
-                qrTransaction?.otherUserId ?: "",
-                qrTransaction?.transactionId ?: "",
-                data
+                session.myUserId, qrTransactionId, data
             )
         }
     }
 
     private fun initVerification() {
         launchBg {
-            if (session.cryptoService().crossSigningService().isCrossSigningVerified())
+            if (session.cryptoService().crossSigningService().isCrossSigningVerified()) {
                 requestKeyVerification()
+            } else {
+                val request = session.cryptoService().verificationService()
+                    .getExistingVerificationRequests(session.myUserId).lastOrNull { it.isIncoming }
+                request?.let { confirmIncomingRequest(it) }
+            }
         }
     }
 

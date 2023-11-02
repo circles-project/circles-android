@@ -65,7 +65,7 @@ class VerifySessionDialogFragment :
                     view?.postDelayed({ onBackPressed() }, CLOSE_DELAY)
                 }
 
-                is QrLoading -> handelQrLoading(qrState.deviceId)
+                is QrLoading -> handelQrLoading()
                 is QrReady -> handelQrReady(qrState.qrText)
                 is QrSuccess -> {
                     showSuccess(getString(R.string.session_verified))
@@ -85,12 +85,12 @@ class VerifySessionDialogFragment :
         }
     }
 
-    private fun handelQrLoading(deviceId: String) {
+    private fun handelQrLoading() {
         with(binding) {
             vLoading.visible()
             ivQr.visibility = View.INVISIBLE
             btnVerify.isEnabled = false
-            tvMessage.text = getString(R.string.waiting_for_verification_format, deviceId)
+            tvMessage.text = getString(R.string.waiting_for_other_device_verification)
         }
     }
 

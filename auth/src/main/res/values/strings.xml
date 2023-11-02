@@ -111,7 +111,7 @@
     <string name="invalid_auth">Invalid auth</string>
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="cross_signed">cross signed</string>
-    <string name="waiting_for_verification_format">Waiting for %s to start verification</string>
+    <string name="waiting_for_other_device_verification">Waiting for other device to start verification</string>
     <string name="session_verified">Session verified</string>
     <string name="verification_canceled">Verification canceled</string>
     <string name="active_login_sessions">Active login sessions</string>
