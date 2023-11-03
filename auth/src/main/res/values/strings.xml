@@ -48,6 +48,7 @@
     <string name="computing_recovery_key">Computing recovery key.</string>
     <string name="downloading_keys">Downloading keys.</string>
     <string name="importing_keys">Importing keys.</string>
+    <string name="decrypting_key">Decrypting key.</string>
     <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="domain">Domain</string>
@@ -110,8 +111,9 @@
     <string name="invalid_auth">Invalid auth</string>
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="cross_signed">cross signed</string>
-    <string name="waiting_for_verification_format">Waiting for %s to start verification</string>
+    <string name="waiting_for_other_device_verification">Waiting for other device to start verification</string>
     <string name="session_verified">Session verified</string>
+    <string name="verification_canceled">Verification canceled</string>
     <string name="active_login_sessions">Active login sessions</string>
     <string name="login_sessions">Login sessions</string>
     <string name="verify_session">Verify session</string>

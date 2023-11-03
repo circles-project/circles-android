@@ -3,9 +3,9 @@ package org.futo.circles.model
 import org.matrix.android.sdk.api.session.pushrules.Action
 
 data class NotificationAction(
-        val shouldNotify: Boolean,
-        val highlight: Boolean,
-        val soundName: String?
+    val shouldNotify: Boolean,
+    val highlight: Boolean,
+    val soundName: String?
 )
 
 fun List<Action>.toNotificationAction(): NotificationAction {
@@ -15,7 +15,6 @@ fun List<Action>.toNotificationAction(): NotificationAction {
     forEach { action ->
         when (action) {
             is Action.Notify -> shouldNotify = true
-            is Action.DoNotNotify -> shouldNotify = false
             is Action.Highlight -> highlight = action.highlight
             is Action.Sound -> sound = action.sound
         }

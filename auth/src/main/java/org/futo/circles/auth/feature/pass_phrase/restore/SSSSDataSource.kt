@@ -48,7 +48,7 @@ class SSSSDataSource @Inject constructor() {
 
     suspend fun replaceBsSpeke4SKey() {
         val recoveryKey = MatrixSessionProvider.getSessionOrThrow()
-            .cryptoService().keysBackupService().getKeyBackupRecoveryKeyInfo()?.recoveryKey
+            .cryptoService().keysBackupService().getKeyBackupRecoveryKeyInfo()?.recoveryKey?.toBase64()
             ?: throw Exception("Recovery Key not found")
         val secret = extractCurveKeyFromRecoveryKey(recoveryKey)
             ?: throw Exception("Can not get secret from recovery key")

@@ -20,7 +20,6 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
-import org.matrix.android.sdk.api.util.awaitCallback
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -94,16 +93,12 @@ class ActiveSessionsDataSource @Inject constructor(
     }
 
     suspend fun removeSession(deviceId: String): Response<Unit> = createResult {
-        awaitCallback {
-            session.cryptoService().deleteDevice(deviceId, authConfirmationProvider, it)
-        }
+        session.cryptoService().deleteDevice(deviceId, authConfirmationProvider)
     }
 
     suspend fun resetKeysToEnableCrossSigning(): Response<Unit> = createResult {
-        awaitCallback {
-            session.cryptoService().crossSigningService()
-                .initializeCrossSigning(authConfirmationProvider, it)
-        }
+        session.cryptoService().crossSigningService()
+            .initializeCrossSigning(authConfirmationProvider)
     }
 
     private fun isSessionInactive(lastSeenTsMillis: Long?): Boolean =

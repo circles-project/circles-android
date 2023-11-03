@@ -8,10 +8,9 @@ import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.SSSSDataSource
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysVersion
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.crypto.keysbackup.MegolmBackupCreationInfo
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
-import org.matrix.android.sdk.api.util.awaitCallback
 import java.security.SecureRandom
 import javax.inject.Inject
 
@@ -29,9 +28,8 @@ class CreatePassPhraseDataSource @Inject constructor(
     suspend fun createPassPhraseBackup() {
         loadingLiveData.postValue(LoadingData(messageId = R.string.generating_recovery_key))
         val keyBackupPrivateKey = generateRandomPrivateKey()
-        val backupCreationInfo = awaitCallback {
-            keysBackupService.prepareKeysBackupVersion(keyBackupPrivateKey, it)
-        }
+        val backupCreationInfo =
+            keysBackupService.prepareKeysBackupVersion(keyBackupPrivateKey, null)
         createKeyBackup(backupCreationInfo)
         val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey)
         crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
@@ -61,21 +59,19 @@ class CreatePassPhraseDataSource @Inject constructor(
         loadingLiveData.postValue(LoadingData(messageId = R.string.creating_backup))
         val versionData = getCurrentBackupVersion()
 
-        if (versionData?.version.isNullOrBlank()) {
-            awaitCallback<KeysVersion> {
-                keysBackupService.createKeysBackupVersion(backupCreationInfo, it)
-            }
-        } else throw Exception(context.getString(R.string.backup_already_exist))
+        if (versionData?.version.isNullOrBlank())
+            keysBackupService.createKeysBackupVersion(backupCreationInfo)
+        else throw Exception(context.getString(R.string.backup_already_exist))
     }
 
     private suspend fun removeCurrentBackupIfExist() {
         loadingLiveData.postValue(LoadingData(messageId = R.string.removing_backup))
         getCurrentBackupVersion()?.version?.let { version ->
-            awaitCallback { keysBackupService.deleteBackup(version, it) }
+            keysBackupService.deleteBackup(version)
         }
     }
 
     private suspend fun getCurrentBackupVersion() =
-        awaitCallback { keysBackupService.getCurrentVersion(it) }.toKeysVersionResult()
+        tryOrNull { keysBackupService.getCurrentVersion() }?.toKeysVersionResult()
 }
 
