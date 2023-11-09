@@ -64,7 +64,6 @@ object MatrixSessionProvider {
         listener: Session.Listener? = null
     ) {
         listener?.let { session.addListener(it) }
-        enableInviteKeysSharing(session)
         currentSession = session.apply {
             tryOrNull { open() }
             syncService().startSync(true)
@@ -96,12 +95,4 @@ object MatrixSessionProvider {
                 }
             })
         }
-
-    //For Room history share
-    private fun enableInviteKeysSharing(session: Session) {
-        tryOrNull {
-            val isEnabled = session.cryptoService().isShareKeysOnInviteEnabled()
-            if (!isEnabled) session.cryptoService().enableShareKeyOnInvite(true)
-        }
-    }
 }
