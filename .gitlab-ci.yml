@@ -20,8 +20,6 @@ before_script:
   - echo "KEY_PATH=../circuli_key.jks" > signing.properties
   - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
   - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
-  - export CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
-  - export CHANGELOG_TEXT=$(cat $CHANGELOG_FILE_PATH)
 
 #buildAndPushFdroid:
 #  image: softartdev/android-fastlane
@@ -55,6 +53,7 @@ createGitlabRelease:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
     - echo "Running the release job"
+    - CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
   release:
     tag_name: $CI_COMMIT_TAG
     name: 'Version $CI_COMMIT_TAG'
@@ -80,6 +79,8 @@ sendZulipMessage:
   script:
     - apk update
     - apk add curl
+    - CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
+    - CHANGELOG_TEXT=$(cat $CHANGELOG_FILE_PATH)
     - |
       MESSAGE="Circles Android ${CI_COMMIT_TAG}
       $CHANGELOG_TEXT
