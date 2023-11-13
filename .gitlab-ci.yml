@@ -57,7 +57,7 @@ createGitlabRelease:
   release:
     tag_name: $CI_COMMIT_TAG
     name: 'Version $CI_COMMIT_TAG'
-    description: $CHANGELOG_TEXT
+    description: "$CHANGELOG_TEXT"
     assets:
       links:
         - name: 'F-Droid release apk $CI_COMMIT_TAG'
@@ -82,6 +82,7 @@ sendZulipMessage:
     - |
       MESSAGE="Circles Android ${CI_COMMIT_TAG}
       $CHANGELOG_TEXT
+      
       Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
       Direct apk link - https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-${CI_COMMIT_TAG}-fdroid-release.apk?ref_type=heads"
     - curl -X POST https://zulip.futo.org/api/v1/messages -u circles-bot@zulip.futo.org:$ZULIP_BOT_KEY --data-urlencode type=stream --data-urlencode 'to="circles"' --data-urlencode topic=Weekly -G --data-urlencode "content=$MESSAGE"

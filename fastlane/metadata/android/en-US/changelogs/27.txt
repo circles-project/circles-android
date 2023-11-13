@@ -1,4 +1,3 @@
-v1.0.17
 - App No Internet behavior
 - Knock requests managing
 - Android 14 support
