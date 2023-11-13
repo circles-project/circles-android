@@ -20,7 +20,8 @@ before_script:
   - echo "KEY_PATH=../circuli_key.jks" > signing.properties
   - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
   - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
-  - export CHANGELOG_TEXT=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}' | xargs cat)
+  - export CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
+  - export CHANGELOG_TEXT=$(cat $CHANGELOG_FILE_PATH)
 
 #buildAndPushFdroid:
 #  image: softartdev/android-fastlane
@@ -57,7 +58,7 @@ createGitlabRelease:
   release:
     tag_name: $CI_COMMIT_TAG
     name: 'Version $CI_COMMIT_TAG'
-    description: ${CHANGELOG_TEXT}
+    description: $CHANGELOG_FILE_PATH
     assets:
       links:
         - name: 'F-Droid release apk $CI_COMMIT_TAG'
@@ -74,15 +75,15 @@ createGitlabRelease:
 #    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
 #    - bundle exec fastlane deployGoogle
 
-#sendZulipMessage:
-#  stage: message
-#  script:
-#    - apk update
-#    - apk add curl
-#    - |
-#      MESSAGE="Circles Android ${CI_COMMIT_TAG}
-#      $CHANGELOG_TEXT
-#
-#      Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
-#      Direct apk link - https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-${CI_COMMIT_TAG}-fdroid-release.apk?ref_type=heads"
-#    - curl -X POST https://zulip.futo.org/api/v1/messages -u circles-bot@zulip.futo.org:$ZULIP_BOT_KEY --data-urlencode type=stream --data-urlencode 'to="circles"' --data-urlencode topic=Weekly -G --data-urlencode "content=$MESSAGE"
+sendZulipMessage:
+  stage: message
+  script:
+    - apk update
+    - apk add curl
+    - |
+      MESSAGE="Circles Android ${CI_COMMIT_TAG}
+      $CHANGELOG_TEXT
+
+      Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
+      Direct apk link - https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-${CI_COMMIT_TAG}-fdroid-release.apk?ref_type=heads"
+    - curl -X POST https://zulip.futo.org/api/v1/messages -u circles-bot@zulip.futo.org:$ZULIP_BOT_KEY --data-urlencode type=stream --data-urlencode 'to="circles"' --data-urlencode topic=Weekly -G --data-urlencode "content=$MESSAGE"
