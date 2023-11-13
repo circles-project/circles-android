@@ -1,4 +1,0 @@
-sv1.0.18
-- "Help" menu item for Groups and Circles
-- New share room url formatting
-- Knock requests "reason" message

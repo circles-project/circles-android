@@ -20,7 +20,7 @@ before_script:
   - echo "KEY_PATH=../circuli_key.jks" > signing.properties
   - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
   - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
-  - export CHANGELOG_TEXT=$(ls -t fastlane/metadata/android/en-US/changelogs/*.txt | head -n 1 | xargs cat)
+  - export CHANGELOG_TEXT=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}' | xargs cat)
 
 #buildAndPushFdroid:
 #  image: softartdev/android-fastlane
@@ -57,7 +57,7 @@ createGitlabRelease:
   release:
     tag_name: $CI_COMMIT_TAG
     name: 'Version $CI_COMMIT_TAG'
-    description: "$CHANGELOG_TEXT"
+    description: '$CHANGELOG_TEXT'
     assets:
       links:
         - name: 'F-Droid release apk $CI_COMMIT_TAG'
