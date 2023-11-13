@@ -57,7 +57,7 @@ createGitlabRelease:
   release:
     tag_name: $CI_COMMIT_TAG
     name: 'Version $CI_COMMIT_TAG'
-    description: '$CHANGELOG_TEXT'
+    description: 'Chagelog: $CHANGELOG_TEXT'
     assets:
       links:
         - name: 'F-Droid release apk $CI_COMMIT_TAG'
