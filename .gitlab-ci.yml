@@ -20,7 +20,7 @@ before_script:
   - echo "KEY_PATH=../circuli_key.jks" > signing.properties
   - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
   - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
-  - CHANGELOG_FILE_PATH=$(find /fastlane/metadata/android/en-US/changelogs -type f -name "*.txt" -exec stat -f "%m %N" {} \; | sort -n | tail -n 1 | cut -d ' ' -f 2-)
+  - CHANGELOG_FILE_PATH=$(find fastlane/metadata/android/en-US/changelogs -type f -name "*.txt" -exec stat -f "%m %N" {} \; | sort -n | tail -n 1 | cut -d ' ' -f 2-)
   - export CHANGELOG_TEXT=$(cat "CHANGELOG_FILE_PATH")
 
 #buildAndPushFdroid:
