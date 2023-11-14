@@ -13,7 +13,8 @@ private enum class GalleryListItemViewType { JoinedGallery, InvitedGallery }
 
 class PhotosListAdapter(
     private val onRoomClicked: (GalleryListItem) -> Unit,
-    private val onInviteClicked: (GalleryListItem, Boolean) -> Unit
+    private val onInviteClicked: (GalleryListItem, Boolean) -> Unit,
+    private val onUnblurProfileIconClicked: (GalleryListItem) -> Unit
 ) : BaseRvAdapter<GalleryListItem, GalleryViewHolder>(DefaultIdEntityCallback()) {
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
@@ -34,6 +35,9 @@ class PhotosListAdapter(
             parent = parent,
             onInviteClicked = { position, isAccepted ->
                 onInviteClicked(getItem(position), isAccepted)
+            },
+            onShowProfileIconClicked = { position ->
+                onUnblurProfileIconClicked(getItem(position))
             }
         )
     }

@@ -18,4 +18,5 @@ data class InvitedGalleryListItem(
     override val id: String,
     override val info: RoomInfo,
     val inviterName: String,
+    val shouldBlurIcon: Boolean
 ) : GalleryListItem(id, info, Membership.INVITE)

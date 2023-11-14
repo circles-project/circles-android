@@ -8,11 +8,12 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.GalleryListItem
 import javax.inject.Inject
 
 @HiltViewModel
 class PhotosViewModel @Inject constructor(
-    dataSource: PhotosDataSource,
+    private val dataSource: PhotosDataSource,
     private val inviteRequestsDataSource: InviteRequestsDataSource
 ) : ViewModel() {
 
@@ -31,5 +32,9 @@ class PhotosViewModel @Inject constructor(
             val result = inviteRequestsDataSource.acceptInvite(roomId, CircleRoomTypeArg.Photo)
             inviteResultLiveData.postValue(result)
         }
+    }
+
+    fun unblurProfileIcon(roomListItem: GalleryListItem) {
+        dataSource.unblurProfileImageFor(roomListItem.id)
     }
 }

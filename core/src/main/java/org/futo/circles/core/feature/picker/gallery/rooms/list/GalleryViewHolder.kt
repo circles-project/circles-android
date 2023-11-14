@@ -10,6 +10,7 @@ import org.futo.circles.core.databinding.ListItemInvitedGalleryBinding
 import org.futo.circles.core.databinding.ListItemJoinedGalleryBinding
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.model.InvitedGalleryListItem
 import org.futo.circles.core.model.JoinedGalleryListItem
@@ -44,7 +45,8 @@ class JoinedGalleryViewHolder(
 
 class InvitedGalleryViewHolder(
     parent: ViewGroup,
-    onInviteClicked: (Int, Boolean) -> Unit
+    onInviteClicked: (Int, Boolean) -> Unit,
+    onShowProfileIconClicked: (Int) -> Unit
 ) : GalleryViewHolder(inflate(parent, ListItemInvitedGalleryBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -54,6 +56,7 @@ class InvitedGalleryViewHolder(
     init {
         onClick(binding.btnAccept) { position -> onInviteClicked(position, true) }
         onClick(binding.btnDecline) { position -> onInviteClicked(position, false) }
+        onClick(binding.ivGallery) { position -> onShowProfileIconClicked(position) }
     }
 
     override fun bind(data: GalleryListItem) {
@@ -61,7 +64,12 @@ class InvitedGalleryViewHolder(
 
         with(binding) {
             tvGalleryTitle.text = data.info.title
-            ivGallery.loadProfileIcon(data.info.avatarUrl, data.info.title)
+            ivGallery.loadProfileIcon(
+                data.info.avatarUrl,
+                data.info.title,
+                applyBlur = data.shouldBlurIcon
+            )
+            tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
             tvInviterName.text = context.getString(R.string.invited_by_format, data.inviterName)
         }
     }
