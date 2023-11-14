@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
     android:padding="4dp">
 
 
@@ -20,6 +17,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius"
         tools:src="@color/blue" />
+
+    <TextView
+        android:id="@+id/tvShowProfileImage"
+        style="@style/body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="-4dp"
+        android:text="@string/show"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:drawableTint="@color/white"
+        app:drawableTopCompat="@drawable/ic_seen"
+        app:layout_constraintBottom_toBottomOf="@id/ivGallery"
+        app:layout_constraintEnd_toEndOf="@id/ivGallery"
+        app:layout_constraintStart_toStartOf="@id/ivGallery"
+        app:layout_constraintTop_toTopOf="@id/ivGallery"
+        tools:visibility="visible" />
 
 
     <TextView

@@ -27,10 +27,11 @@ fun RoomSummary.toJoinedGalleryListItem() = JoinedGalleryListItem(
     info = toRoomInfo()
 )
 
-fun RoomSummary.toInvitedGalleryListItem() = InvitedGalleryListItem(
+fun RoomSummary.toInvitedGalleryListItem(shouldBlurIcon: Boolean) = InvitedGalleryListItem(
     id = roomId,
     info = toRoomInfo(),
-    inviterName = getInviterName()
+    inviterName = getInviterName(),
+    shouldBlurIcon = shouldBlurIcon
 )
 
 fun RoomSummary.getInviterName() =

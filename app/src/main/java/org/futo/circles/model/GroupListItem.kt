@@ -25,5 +25,6 @@ data class InvitedGroupListItem(
     override val id: String,
     override val info: RoomInfo,
     val isEncrypted: Boolean,
-    val inviterName: String
+    val inviterName: String,
+    val shouldBlurIcon: Boolean
 ) : GroupListItem(id, info, Membership.INVITE)

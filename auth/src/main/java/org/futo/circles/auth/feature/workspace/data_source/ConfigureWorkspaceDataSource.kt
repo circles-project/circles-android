@@ -1,7 +1,7 @@
 package org.futo.circles.auth.feature.workspace.data_source
 
 import kotlinx.coroutines.delay
-import org.futo.circles.core.feature.room.CreateRoomDataSource
+import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.CirclesRoom

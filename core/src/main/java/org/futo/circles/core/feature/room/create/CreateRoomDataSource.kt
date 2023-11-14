@@ -1,9 +1,9 @@
-package org.futo.circles.core.feature.room
+package org.futo.circles.core.feature.room.create
 
 import android.content.Context
 import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.core.base.DEFAULT_ROOM_VERSION
+import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.Circle
@@ -85,7 +85,6 @@ class CreateRoomDataSource @Inject constructor(
         return params.apply {
             circlesRoom.type?.let { this.roomType = it }
             setInviteRules(this, circlesRoom)
-            roomVersion = DEFAULT_ROOM_VERSION
             this.name = circlesRoom.nameId?.let { context.getString(it) } ?: name
             this.topic = topic
             avatarUri = iconUri

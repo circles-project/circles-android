@@ -12,7 +12,8 @@ enum class CirclesListItemViewType { JoinedCircle, InvitedCircle, Header }
 
 class CirclesListAdapter(
     private val onRoomClicked: (CircleListItem) -> Unit,
-    private val onInviteClicked: (CircleListItem, Boolean) -> Unit
+    private val onInviteClicked: (CircleListItem, Boolean) -> Unit,
+    private val onUnblurProfileIconClicked: (CircleListItem) -> Unit
 ) : BaseRvAdapter<CircleListItem, CirclesViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedCircleListItem && old is JoinedCircleListItem) {
         CircleListItemPayload(
@@ -44,6 +45,9 @@ class CirclesListAdapter(
             parent = parent,
             onInviteClicked = { position, isAccepted ->
                 onInviteClicked(getItem(position), isAccepted)
+            },
+            onShowProfileIconClicked = { position ->
+                onUnblurProfileIconClicked(getItem(position))
             }
         )
 

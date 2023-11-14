@@ -38,5 +38,6 @@ data class InvitedCircleListItem(
     override val id: String,
     override val info: RoomInfo,
     val inviterName: String,
+    val shouldBlurIcon: Boolean
 ) : CircleRoomListItem(id, info, Membership.INVITE)
 
