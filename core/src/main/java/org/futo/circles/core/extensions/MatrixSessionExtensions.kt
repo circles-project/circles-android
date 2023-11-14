@@ -8,7 +8,10 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.mapLatest
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getUser
+import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -49,3 +52,18 @@ fun Session.getServerDomain() = myUserId.substringAfter(":")
 
 suspend fun Session.getOrFetchUser(userId: String): User =
     getUser(userId) ?: userService().resolveUser(userId)
+
+fun Session.getKnownUsersFlow() = roomService().getRoomSummariesLive(roomSummaryQueryParams {
+        memberships = listOf(Membership.JOIN)
+    }).asFlow()
+        .mapLatest { roomSummaries ->
+            val knowUsers = mutableSetOf<User>()
+            roomSummaries.forEach { summary ->
+                val joinedMembersIds = getRoom(summary.roomId)?.membershipService()
+                    ?.getRoomMembers(roomMemberQueryParams {
+                        memberships = listOf(Membership.JOIN)
+                    })?.map { it.userId } ?: emptyList()
+                joinedMembersIds.forEach { knowUsers.add(getOrFetchUser(it)) }
+            }
+            knowUsers.toList().filterNot { getUserIdsToExclude().contains(it.userId) }
+        }
