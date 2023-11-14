@@ -29,11 +29,12 @@ fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     knockRequestsCount = getKnocksCount(roomId)
 )
 
-fun RoomSummary.toInviteGroupListItem() = InvitedGroupListItem(
+fun RoomSummary.toInviteGroupListItem(shouldBlurIcon: Boolean) = InvitedGroupListItem(
     id = roomId,
     info = toRoomInfo(),
     isEncrypted = isEncrypted,
-    inviterName = getInviterName()
+    inviterName = getInviterName(),
+    shouldBlurIcon = shouldBlurIcon
 )
 
 fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) = JoinedCircleListItem(

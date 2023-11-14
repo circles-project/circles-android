@@ -11,7 +11,8 @@ enum class GroupListItemViewType { JoinedGroup, InvitedGroup }
 
 class GroupsListAdapter(
     private val onRoomClicked: (GroupListItem) -> Unit,
-    private val onInviteClicked: (GroupListItem, Boolean) -> Unit
+    private val onInviteClicked: (GroupListItem, Boolean) -> Unit,
+    private val onUnblurProfileIconClicked: (GroupListItem) -> Unit
 ) : BaseRvAdapter<GroupListItem, GroupViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedGroupListItem && old is JoinedGroupListItem) {
         GroupListItemPayload(
@@ -44,6 +45,9 @@ class GroupsListAdapter(
             parent = parent,
             onInviteClicked = { position, isAccepted ->
                 onInviteClicked(getItem(position), isAccepted)
+            },
+            onShowProfileIconClicked = { position ->
+                onUnblurProfileIconClicked(getItem(position))
             }
         )
     }
