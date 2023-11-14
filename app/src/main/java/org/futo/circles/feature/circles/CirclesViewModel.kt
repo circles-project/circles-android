@@ -10,13 +10,12 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.feature.room.CreateRoomDataSource
+import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.model.CircleListItem
-import org.futo.circles.model.GroupListItem
 import org.matrix.android.sdk.api.session.getRoomSummary
 import javax.inject.Inject
 
