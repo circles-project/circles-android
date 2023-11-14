@@ -2,7 +2,6 @@ package org.futo.circles.feature.circles.list
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
@@ -22,10 +21,6 @@ import org.futo.circles.model.JoinedCircleListItem
 
 abstract class CirclesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: CircleListItem)
-
-    protected fun setIcon(groupIcon: ImageView, avatarUrl: String?, title: String) {
-        groupIcon.loadProfileIcon(avatarUrl, title)
-    }
 
     protected fun setTitle(titleView: TextView, title: String) {
         titleView.text = title
@@ -50,7 +45,7 @@ class JoinedCircleViewHolder(
         if (data !is JoinedCircleListItem) return
 
         with(binding) {
-            setIcon(ivCircle, data.info.avatarUrl, data.info.title)
+            ivCircle.loadProfileIcon(data.info.avatarUrl, data.info.title)
             setTitle(tvCircleTitle, data.info.title)
             setFollowingCount(data.followingCount)
             setFollowedByCount(data.followedByCount)
@@ -89,7 +84,8 @@ class JoinedCircleViewHolder(
 
 class InvitedCircleViewHolder(
     parent: ViewGroup,
-    onInviteClicked: (Int, Boolean) -> Unit
+    onInviteClicked: (Int, Boolean) -> Unit,
+    onShowProfileIconClicked: (Int) -> Unit
 ) : CirclesViewHolder(inflate(parent, ListItemInvitedCircleBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -99,13 +95,19 @@ class InvitedCircleViewHolder(
     init {
         onClick(binding.btnAccept) { position -> onInviteClicked(position, true) }
         onClick(binding.btnDecline) { position -> onInviteClicked(position, false) }
+        onClick(binding.ivCircle) { position -> onShowProfileIconClicked(position) }
     }
 
     override fun bind(data: CircleListItem) {
         if (data !is InvitedCircleListItem) return
 
         with(binding) {
-            setIcon(ivCircle, data.info.avatarUrl, data.info.title)
+            tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
+            ivCircle.loadProfileIcon(
+                data.info.avatarUrl,
+                data.info.title,
+                applyBlur = data.shouldBlurIcon
+            )
             setTitle(tvCircleTitle, data.info.title)
             binding.tvInvitedBy.text =
                 context.getString(

@@ -47,10 +47,11 @@ fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) = JoinedCircle
     knockRequestsCount = getKnocksCount(getTimelineRoomFor(roomId)?.roomId ?: "")
 )
 
-fun RoomSummary.toInviteCircleListItem() = InvitedCircleListItem(
+fun RoomSummary.toInviteCircleListItem(shouldBlurIcon: Boolean) = InvitedCircleListItem(
     id = roomId,
     info = toRoomInfo(),
-    inviterName = getInviterName()
+    inviterName = getInviterName(),
+    shouldBlurIcon = shouldBlurIcon
 )
 
 private fun RoomSummary.getFollowersCount(): Int =
