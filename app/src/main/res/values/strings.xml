@@ -215,6 +215,7 @@
     <string name="session">Session</string>
     <string name="help">Help</string>
     <string name="optional_request_message">Optional: Request message</string>
+    <string name="show">Show</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
