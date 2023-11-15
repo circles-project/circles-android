@@ -200,7 +200,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     override fun onShowMenuClicked(roomId: String, eventId: String) {
-        if (!showNoInternetConnection()) return
+        if (showNoInternetConnection()) return
         navigator.navigatePostMenu(roomId, eventId)
     }
 

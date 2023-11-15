@@ -1,6 +1,7 @@
 package org.futo.circles.auth.feature.cross_signing
 
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.crypto.crosssigning.MASTER_KEY_SSSS_NAME
 import org.matrix.android.sdk.api.session.crypto.crosssigning.SELF_SIGNING_KEY_SSSS_NAME
@@ -9,7 +10,6 @@ import org.matrix.android.sdk.api.session.crypto.crosssigning.isVerified
 import org.matrix.android.sdk.api.session.securestorage.KeyInfoResult
 import org.matrix.android.sdk.api.session.securestorage.KeyRef
 import org.matrix.android.sdk.api.session.securestorage.SsssKeySpec
-import org.matrix.android.sdk.api.util.awaitCallback
 import javax.inject.Inject
 
 class CrossSigningDataSource @Inject constructor() {
@@ -20,7 +20,7 @@ class CrossSigningDataSource @Inject constructor() {
         try {
             session.sharedSecretStorageService().getSecret(MASTER_KEY_SSSS_NAME, null, keySpec)
         } catch (ignore: Throwable) {
-            awaitCallback { crossSigningService.initializeCrossSigning(null, it) }
+            tryOrNull { crossSigningService.initializeCrossSigning(null) }
             storeKeys(session, keySpec)
         }
     }
@@ -45,10 +45,9 @@ class CrossSigningDataSource @Inject constructor() {
                 mskPrivateKey, uskPrivateKey, sskPrivateKey
             )
         if (trustResult.isVerified()) {
-            awaitCallback {
-                session.sessionParams.deviceId?.let { deviceId ->
-                    session.cryptoService().crossSigningService().trustDevice(deviceId, it)
-                }
+            tryOrNull {
+                session.cryptoService().crossSigningService()
+                    .trustDevice(session.sessionParams.deviceId)
             }
         }
     }

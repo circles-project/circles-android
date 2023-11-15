@@ -2,17 +2,10 @@ package org.futo.circles.auth.model
 
 sealed class QrState
 
-data class QrLoading(
-    val deviceId: String,
-    val isCurrentSessionVerified: Boolean
-) : QrState()
+data object QrLoading : QrState()
 
-data class QrReady(
-    val qrText: String
-) : QrState()
+data class QrReady(val qrText: String) : QrState()
 
-object QrSuccess : QrState()
+data object QrSuccess : QrState()
 
-data class QrCanceled(
-    val reason: String
-) : QrState()
+data object QrCanceled : QrState()

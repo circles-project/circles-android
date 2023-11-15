@@ -1,5 +1,6 @@
 package org.futo.circles.core.extensions
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -7,6 +8,7 @@ import android.util.Size
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
+import jp.wasabeef.glide.transformations.BlurTransformation
 import org.futo.circles.core.feature.blurhash.ThumbHash
 import org.futo.circles.core.feature.textDrawable.ColorGenerator
 import org.futo.circles.core.feature.textDrawable.TextDrawable
@@ -55,7 +57,8 @@ fun ImageView.loadProfileIcon(
     userId: String,
     loadOriginalSize: Boolean = false,
     preferredSize: Size? = null,
-    session: Session? = null
+    session: Session? = null,
+    applyBlur: Boolean = false
 ) {
     val backgroundColor = ColorGenerator().getColor(userId)
     var text = userId.firstOrNull()?.toString()?.uppercase() ?: ""
@@ -67,16 +70,18 @@ fun ImageView.loadProfileIcon(
         .setText(text)
         .build()
 
-    loadMatrixImage(url, loadOriginalSize, placeholder, preferredSize, session)
+    loadMatrixImage(url, loadOriginalSize, placeholder, preferredSize, session, applyBlur)
 }
 
 
+@SuppressLint("CheckResult")
 private fun ImageView.loadMatrixImage(
     url: String?,
     loadOriginalSize: Boolean = false,
     placeholder: Drawable? = null,
     preferredSize: Size? = null,
-    session: Session? = null
+    session: Session? = null,
+    applyBlur: Boolean = false
 ) {
     val currentSession = session ?: MatrixSessionProvider.currentSession
     val size = if (loadOriginalSize) null else preferredSize ?: Size(width, height)
@@ -85,5 +90,6 @@ private fun ImageView.loadMatrixImage(
         .load(resolvedUrl)
         .fitCenter()
         .error(placeholder)
+        .apply { if (applyBlur) transform(BlurTransformation(30)) }
         .into(this)
 }

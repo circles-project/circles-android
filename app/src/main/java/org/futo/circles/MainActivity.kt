@@ -15,7 +15,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LauncherActivityUtils.setInvalidTokenListener(this, getSelfIntent(this))
-        LauncherActivityUtils.syncSessionIfCashWasCleared(this)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -31,10 +30,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     fun clearSessionAndRestart() {
         LauncherActivityUtils.clearSessionAndRestart(this, getSelfIntent(this))
-    }
-
-    fun restartForClearCache() {
-        LauncherActivityUtils.restartForClearCache(this, getSelfIntent(this))
     }
 
     fun stopSyncAndRestart() {

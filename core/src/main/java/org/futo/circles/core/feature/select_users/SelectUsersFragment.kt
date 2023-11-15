@@ -13,9 +13,9 @@ import org.futo.circles.core.databinding.FragmentSelectUsersBinding
 import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.model.NoResultsItem
 import org.futo.circles.core.feature.select_users.list.search.InviteMembersSearchListAdapter
 import org.futo.circles.core.feature.select_users.list.selected.SelectedUsersListAdapter
+import org.futo.circles.core.model.NoResultsItem
 
 @AndroidEntryPoint
 class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
@@ -50,14 +50,24 @@ class SelectUsersFragment : Fragment(R.layout.fragment_select_users) {
 
     private fun setupObservers() {
         viewModel.searchUsersLiveData.observeData(this) { items ->
-            binding.lSelectedItems.setIsVisible(items.firstOrNull { it is NoResultsItem } == null)
             searchListAdapter.submitList(items)
+            handleSelectUsersMessageVisibility()
         }
         viewModel.selectedUsersLiveData.observeData(this) { items ->
             selectedUsersListAdapter.submitList(items)
-            binding.tvSelectedUsersPlaceholder.setIsVisible(items.isEmpty())
             selectUsersListener?.onUserSelected(items.map { it.id })
+            handleSelectUsersMessageVisibility()
         }
+    }
+
+    private fun handleSelectUsersMessageVisibility() {
+        binding.lSelectedItems.setIsVisible(
+            viewModel.searchUsersLiveData.value?.firstOrNull { it is NoResultsItem } == null ||
+                    viewModel.selectedUsersLiveData.value?.isNotEmpty() == true
+        )
+        binding.tvSelectedUsersPlaceholder.setIsVisible(
+            viewModel.selectedUsersLiveData.value?.isEmpty() == true
+        )
     }
 
     companion object {

@@ -61,7 +61,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 }
             }
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
-            tvClearCache.setOnClickListener { viewModel.clearCash(requireContext()) }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             ivShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
@@ -96,9 +95,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
-        }
-        viewModel.clearCacheLiveData.observeData(this) {
-            (activity as? MainActivity)?.restartForClearCache()
         }
     }
 

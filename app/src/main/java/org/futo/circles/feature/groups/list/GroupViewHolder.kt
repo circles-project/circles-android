@@ -24,10 +24,6 @@ import org.futo.circles.model.JoinedGroupListItem
 abstract class GroupViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: GroupListItem)
 
-    protected fun setIcon(groupIcon: ImageView, avatarUrl: String?, title: String) {
-        groupIcon.loadProfileIcon(avatarUrl, title)
-    }
-
     protected fun setIsEncrypted(lockIcon: ImageView, isEncrypted: Boolean) {
         lockIcon.setIsEncryptedIcon(isEncrypted)
     }
@@ -53,7 +49,7 @@ class JoinedGroupViewHolder(
     override fun bind(data: GroupListItem) {
         if (data !is JoinedGroupListItem) return
 
-        setIcon(binding.ivGroup, data.info.avatarUrl, data.info.title)
+        binding.ivGroup.loadProfileIcon(data.info.avatarUrl, data.info.title)
         setIsEncrypted(binding.ivLock, data.isEncrypted)
         setTitle(binding.tvGroupTitle, data.info.title)
         setTopic(data.topic)
@@ -66,7 +62,7 @@ class JoinedGroupViewHolder(
         data.isEncrypted?.let { setIsEncrypted(binding.ivLock, it) }
         data.topic?.let { setTopic(it) }
         data.membersCount?.let { setMembersCount(it, data.knocksCount ?: 0) }
-        data.knocksCount?.let { setMembersCount(data.membersCount?:0, it) }
+        data.knocksCount?.let { setMembersCount(data.membersCount ?: 0, it) }
         data.timestamp?.let { setUpdateTime(it) }
         data.unreadCount?.let { setUnreadCount(it) }
     }
@@ -108,7 +104,8 @@ class JoinedGroupViewHolder(
 
 class InvitedGroupViewHolder(
     parent: ViewGroup,
-    onInviteClicked: (Int, Boolean) -> Unit
+    onInviteClicked: (Int, Boolean) -> Unit,
+    onShowProfileIconClicked: (Int) -> Unit
 ) : GroupViewHolder(inflate(parent, ListItemInvitedGroupBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -118,15 +115,25 @@ class InvitedGroupViewHolder(
     init {
         onClick(binding.btnAccept) { position -> onInviteClicked(position, true) }
         onClick(binding.btnDecline) { position -> onInviteClicked(position, false) }
+        onClick(binding.ivGroup) { position -> onShowProfileIconClicked(position) }
     }
 
     override fun bind(data: GroupListItem) {
         if (data !is InvitedGroupListItem) return
 
-        setIcon(binding.ivGroup, data.info.avatarUrl, data.info.title)
-        setIsEncrypted(binding.ivLock, data.isEncrypted)
-        setTitle(binding.tvGroupTitle, data.info.title)
-        binding.tvInviterName.text =
-            context.getString(org.futo.circles.core.R.string.invited_by_format, data.inviterName)
+        with(binding) {
+            ivGroup.loadProfileIcon(
+                data.info.avatarUrl,
+                data.info.title,
+                applyBlur = data.shouldBlurIcon
+            )
+            tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
+            setIsEncrypted(ivLock, data.isEncrypted)
+            setTitle(tvGroupTitle, data.info.title)
+            tvInviterName.text = context.getString(
+                org.futo.circles.core.R.string.invited_by_format,
+                data.inviterName
+            )
+        }
     }
 }

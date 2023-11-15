@@ -14,13 +14,13 @@ import org.futo.circles.auth.model.QrCanceled
 import org.futo.circles.auth.model.QrLoading
 import org.futo.circles.auth.model.QrReady
 import org.futo.circles.auth.model.QrSuccess
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 
 @AndroidEntryPoint
@@ -61,11 +61,11 @@ class VerifySessionDialogFragment :
         viewModel.qrStateLiveData.observeData(this) { qrState ->
             when (qrState) {
                 is QrCanceled -> {
-                    showError(qrState.reason)
+                    showError(getString(R.string.verification_canceled))
                     view?.postDelayed({ onBackPressed() }, CLOSE_DELAY)
                 }
 
-                is QrLoading -> handelQrLoading(qrState.deviceId, qrState.isCurrentSessionVerified)
+                is QrLoading -> handelQrLoading()
                 is QrReady -> handelQrReady(qrState.qrText)
                 is QrSuccess -> {
                     showSuccess(getString(R.string.session_verified))
@@ -85,13 +85,12 @@ class VerifySessionDialogFragment :
         }
     }
 
-    private fun handelQrLoading(deviceId: String, isSessionVerified: Boolean) {
+    private fun handelQrLoading() {
         with(binding) {
             vLoading.visible()
             ivQr.visibility = View.INVISIBLE
             btnVerify.isEnabled = false
-            val sessionName = if (isSessionVerified) deviceId else getString(R.string.cross_signed)
-            tvMessage.text = getString(R.string.waiting_for_verification_format, sessionName)
+            tvMessage.text = getString(R.string.waiting_for_other_device_verification)
         }
     }
 

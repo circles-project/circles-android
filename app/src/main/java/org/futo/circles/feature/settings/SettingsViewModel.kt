@@ -1,13 +1,11 @@
 package org.futo.circles.feature.settings
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.log_in.log_out.LogoutDataSource
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import javax.inject.Inject
 
@@ -25,7 +23,6 @@ class SettingsViewModel @Inject constructor(
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToMatrixChangePasswordEvent = SingleEventLiveData<Unit>()
     val changePasswordResponseLiveData = SingleEventLiveData<Response<Unit?>>()
-    val clearCacheLiveData = SingleEventLiveData<Unit>()
 
     fun logOut() {
         launchBg {
@@ -53,11 +50,6 @@ class SettingsViewModel @Inject constructor(
     private suspend fun createNewBackupInNeeded() {
         val createBackupResult = settingsDataSource.createNewBackupIfNeeded()
         changePasswordResponseLiveData.postValue(createBackupResult)
-    }
-
-    fun clearCash(context: Context) {
-        launchBg { LauncherActivityUtils.clearCache(context) }
-        clearCacheLiveData.postValue(Unit)
     }
 
     fun getSharedCircleSpaceId(): String? = sharedCircleDataSource.getSharedCirclesSpaceId()

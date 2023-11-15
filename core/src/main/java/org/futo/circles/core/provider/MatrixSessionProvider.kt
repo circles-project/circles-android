@@ -16,7 +16,8 @@ object MatrixSessionProvider {
     private var notificationSetupListener: MatrixNotificationSetupListener? = null
     private var onNewAuthLister: (() -> Unit)? = null
 
-    fun getSessionOrThrow() = currentSession ?: throw IllegalArgumentException("Session is not created")
+    fun getSessionOrThrow() =
+        currentSession ?: throw IllegalArgumentException("Session is not created")
 
     fun initSession(
         context: Context,
@@ -63,7 +64,6 @@ object MatrixSessionProvider {
         listener: Session.Listener? = null
     ) {
         listener?.let { session.addListener(it) }
-        enableInviteKeysSharing(session)
         currentSession = session.apply {
             tryOrNull { open() }
             syncService().startSync(true)
@@ -95,10 +95,4 @@ object MatrixSessionProvider {
                 }
             })
         }
-
-    //For Room history share
-    private fun enableInviteKeysSharing(session: Session) {
-        val isEnabled = session.cryptoService().isShareKeysOnInviteEnabled()
-        if (!isEnabled) session.cryptoService().enableShareKeyOnInvite(true)
-    }
 }

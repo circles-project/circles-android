@@ -1,17 +1,17 @@
-package org.futo.circles.core.feature.room
+package org.futo.circles.core.feature.room.create
 
 import android.content.Context
 import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
+import org.futo.circles.core.feature.room.RoomRelationsBuilder
+import org.futo.circles.core.feature.workspace.SharedCircleDataSource
+import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.Circle
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.model.Timeline
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
-import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toContent
-import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.GuestAccess
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomDirectoryVisibility
@@ -81,12 +81,10 @@ class CreateRoomDataSource @Inject constructor(
                 powerLevelContentOverride = PowerLevelsContent(invite = Role.Moderator.value)
                 enableEncryption()
             }
-        }.apply {
+        }
+        return params.apply {
             circlesRoom.type?.let { this.roomType = it }
             setInviteRules(this, circlesRoom)
-        }
-
-        return params.apply {
             this.name = circlesRoom.nameId?.let { context.getString(it) } ?: name
             this.topic = topic
             avatarUri = iconUri

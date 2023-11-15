@@ -40,6 +40,9 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onInviteClicked = { roomListItem, isAccepted ->
                 onInviteClicked(roomListItem, isAccepted)
+            },
+            onUnblurProfileIconClicked = { roomListItem ->
+                viewModel.unblurProfileIcon(roomListItem)
             }
         )
     }

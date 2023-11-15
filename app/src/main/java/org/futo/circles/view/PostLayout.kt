@@ -138,7 +138,7 @@ class PostLayout(
 
             sendState.isSent() -> {
                 if (readByCount > 0) {
-                    binding.ivSendStatus.setImageResource(R.drawable.ic_seen)
+                    binding.ivSendStatus.setImageResource(org.futo.circles.core.R.drawable.ic_seen)
                     binding.tvReadByCount.text = readByCount.toString()
                 } else {
                     binding.ivSendStatus.setImageResource(R.drawable.ic_sent)
