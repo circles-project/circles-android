@@ -131,3 +131,7 @@ native <methods>;
 
  -dontwarn java.awt.**
  -dontwarn org.slf4j.**
+
+ ###JNA
+ -keep class com.sun.jna.** { *; }
+ -keep class * implements com.sun.jna.** { *; }
