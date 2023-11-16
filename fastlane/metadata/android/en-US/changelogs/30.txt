@@ -1,0 +1,4 @@
+- Rust crypto SDK  
+- New Circles logo  
+- Blur images in invitations from unknown users  
+- Fix Kotlin to Rust migration
