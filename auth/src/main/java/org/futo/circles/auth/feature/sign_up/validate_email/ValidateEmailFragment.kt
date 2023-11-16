@@ -13,7 +13,9 @@ import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.isValidEmail
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
@@ -67,6 +69,9 @@ class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_val
         viewModel.sendCodeLiveData.observeResponse(this,
             success = { validationCodeSentState() })
         viewModel.validateEmailLiveData.observeResponse(this)
+        viewModel.showSubscribeCheckLiveData.observeData(this) {
+            binding.cbEmailUpdates.setIsVisible(it)
+        }
     }
 
     private fun getEmailInput(): String = binding.tilEmail.getText()
