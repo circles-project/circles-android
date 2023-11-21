@@ -1,15 +1,19 @@
-package org.futo.circles.gallery
+package org.futo.circles
+
 
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.Observer
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.work.Configuration
 import androidx.work.Constraints
+import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
@@ -21,14 +25,16 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
-import org.futo.circles.gallery.feature.backup.service.MediaBackupWorker
+import org.futo.circles.auth.feature.token.RefreshTokenWorker
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
+import kotlin.math.max
 
-class WorkerTest {
+class RefreshTokenWorkerTest {
 
     lateinit var context: Context
 
@@ -36,6 +42,8 @@ class WorkerTest {
     private val testDispatcher = StandardTestDispatcher()
     private val testScope = TestScope(job + testDispatcher)
 
+    @get:Rule
+    val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
     fun setup() {
@@ -49,27 +57,38 @@ class WorkerTest {
 
     @Test
     fun testPeriodicWork() = testScope.runTest {
-        val request =
-            PeriodicWorkRequestBuilder<MediaBackupWorker>(6, TimeUnit.HOURS, 30, TimeUnit.MINUTES)
-                .setConstraints(
-                    Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .build()
-                ).build()
-
         val workManager = WorkManager.getInstance(context)
         val testDriver = WorkManagerTestInitHelper.getTestDriver(context)
             ?: throw IllegalArgumentException("test driver is null")
 
-        workManager.enqueueUniquePeriodicWork(
-            "test_work",
+
+        val expireTime = 3600000L
+
+        val sessionIdData = Data.Builder()
+            .putString(RefreshTokenWorker.SESSION_ID_PARAM_KEY, "test")
+            .build()
+
+        val flex = max(expireTime / 3, PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS)
+
+        val refreshRequest = PeriodicWorkRequestBuilder<RefreshTokenWorker>(
+            expireTime, TimeUnit.MILLISECONDS,
+            flex, TimeUnit.MILLISECONDS
+        )
+            .setConstraints(
+                Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+            )
+            .setInputData(sessionIdData)
+            .build()
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            "test",
             ExistingPeriodicWorkPolicy.UPDATE,
-            request
+            refreshRequest
         ).result.get()
 
-        testDriver.setPeriodDelayMet(request.id)
-        testDriver.setAllConstraintsMet(request.id)
-        val isSucceeded = awaitForWork(workManager, request.id)
+        testDriver.setPeriodDelayMet(refreshRequest.id)
+        testDriver.setAllConstraintsMet(refreshRequest.id)
+        val isSucceeded = awaitForWork(workManager, refreshRequest.id)
         assertTrue(isSucceeded)
     }
 
