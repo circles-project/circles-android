@@ -8,7 +8,8 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import org.futo.circles.core.extensions.Response
-import javax.inject.Inject
+import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.provider.MatrixInstanceProvider
 
 @HiltWorker
 class RefreshTokenWorker @AssistedInject constructor(
@@ -16,20 +17,21 @@ class RefreshTokenWorker @AssistedInject constructor(
     @Assisted val params: WorkerParameters
 ) : CoroutineWorker(context, params) {
 
-    @Inject
-    lateinit var refreshTokenDataSource: RefreshTokenDataSource
-
     override suspend fun doWork(): Result {
         val sessionId = params.inputData.getString(SESSION_ID_PARAM_KEY) ?: run {
             WorkManager.getInstance(context).cancelWorkById(this.id)
             return Result.failure()
         }
-        val result = refreshTokenDataSource.refreshToken(sessionId)
+        val result = refreshToken(sessionId)
         return if (result is Response.Success) Result.success()
         else {
             WorkManager.getInstance(context).cancelWorkById(this.id)
             Result.failure()
         }
+    }
+
+    private suspend fun refreshToken(sessionId: String) = createResult {
+        MatrixInstanceProvider.matrix.authenticationService().refreshToken(sessionId)
     }
 
     companion object {

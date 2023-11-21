@@ -49,7 +49,7 @@ class RefreshTokenManager @Inject constructor(
         )
     }
 
-    fun cancelTokenRefreshing(session:Session) {
+    fun cancelTokenRefreshing(session: Session) {
         val credentials = session.sessionParams.credentials
         WorkManager.getInstance(context).cancelUniqueWork(credentials.sessionId())
     }
