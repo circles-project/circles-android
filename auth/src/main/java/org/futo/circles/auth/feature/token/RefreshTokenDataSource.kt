@@ -6,6 +6,7 @@ import javax.inject.Inject
 
 class RefreshTokenDataSource @Inject constructor() {
 
+    // Local sessionId from Session.Params.Credentials.sessionId()
     suspend fun refreshToken(sessionId: String) = createResult {
         MatrixInstanceProvider.matrix.authenticationService().refreshToken(sessionId)
     }
