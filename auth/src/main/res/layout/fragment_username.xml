@@ -7,7 +7,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
         android:fillViewport="true"
         android:orientation="vertical"
@@ -29,8 +29,8 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toTopOf="@id/tvPasswordTitle"
-                app:layout_constraintDimensionRatio="h,1:0.75"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.35"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,7 +49,7 @@
 
             <TextView
                 android:id="@+id/tvAt"
-                style="@style/footNote"
+                style="@style/body"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:gravity="center"
@@ -66,7 +66,7 @@
                 android:layout_marginTop="16dp"
                 android:hint="@string/username"
                 app:layout_constraintEnd_toStartOf="@id/tvDomainSeparator"
-                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintHorizontal_weight="0.55"
                 app:layout_constraintStart_toEndOf="@id/tvAt"
                 app:layout_constraintTop_toBottomOf="@id/tvPasswordTitle">
 
@@ -76,13 +76,14 @@
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:padding="12dp" />
+                    android:padding="12dp"
+                    android:textAppearance="@style/body" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tvDomainSeparator"
-                style="@style/footNote"
+                style="@style/body"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:gravity="center"
@@ -94,14 +95,14 @@
 
             <TextView
                 android:id="@+id/tvServerDomain"
-                style="@style/footNote"
+                style="@style/body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
                 app:layout_constraintBottom_toBottomOf="@id/tilUserName"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintHorizontal_weight="0.45"
                 app:layout_constraintStart_toEndOf="@id/tvDomainSeparator"
                 app:layout_constraintTop_toTopOf="@id/tilUserName"
                 tools:text="eu.kombucha.social" />
