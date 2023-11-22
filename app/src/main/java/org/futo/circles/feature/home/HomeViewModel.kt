@@ -11,6 +11,7 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
+import org.futo.circles.core.model.LoadingData
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
 import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
@@ -28,6 +29,7 @@ class HomeViewModel @Inject constructor(
     sharedCircleDataSource: SharedCircleDataSource
 ) : ViewModel() {
 
+    val validateWorkspaceLoadingLiveData = SingleEventLiveData<LoadingData>()
     val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
     val mediaBackupSettingsLiveData = roomAccountDataSource.getMediaBackupSettingsLive()
 
@@ -38,14 +40,17 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun validateWorkspace() = launchBg {
+        validateWorkspaceLoadingLiveData.postValue(LoadingData(org.futo.circles.auth.R.string.validating_workspace))
         val tasks = workspaceTasksProvider.getMandatoryTasks()
         tasks.forEach { item ->
             val validationResponse = createResult { workspaceDataSource.validate(item.room) }
             (validationResponse as? Response.Error)?.let {
+                validateWorkspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
                 validateWorkspaceResultLiveData.postValue(Response.Error(""))
                 return@launchBg
             }
         }
+        validateWorkspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
         validateWorkspaceResultLiveData.postValue(Response.Success(Unit))
     }
 

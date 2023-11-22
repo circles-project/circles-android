@@ -29,7 +29,7 @@ class MediaBackupWorker @AssistedInject constructor(
             mediaBackupDataSource.startMediaBackup()
             syncService?.stopAnyBackgroundSync()
         } catch (t: Throwable) {
-            Result.failure()
+            return Result.failure()
         }
         return Result.success()
     }

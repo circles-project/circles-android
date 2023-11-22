@@ -56,7 +56,6 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
             binding.bottomNavigationView.setupWithNavController(controller)
             setupToolBar(controller)
         }
-        loadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.validating_workspace))
         setupObservers()
         registerPushNotifications()
         handleDeepLinks()
@@ -112,6 +111,9 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
         viewModel.validateWorkspaceResultLiveData.observeResponse(this,
             error = { WorkspaceDialogFragment().show(childFragmentManager, "workspace") },
             onRequestInvoked = { loadingDialog.dismiss() })
+        viewModel.validateWorkspaceLoadingLiveData.observeData(this) {
+            loadingDialog.handleLoading(it)
+        }
     }
 
     private fun registerPushNotifications() {
