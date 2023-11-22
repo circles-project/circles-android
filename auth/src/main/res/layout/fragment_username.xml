@@ -77,7 +77,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:padding="12dp"
-                    android:textAppearance="@style/body" />
+                    android:textSize="17sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
