@@ -59,9 +59,9 @@ class PreviewPostView(
             )
         }
         setOnClickListener { requestFocusOnText() }
-        binding.etTextPost.doAfterTextChanged {
-            listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)
-        }
+//        binding.etTextPost.doAfterTextChanged {
+//            listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)
+//        }
         binding.ivRemoveImage.setOnClickListener {
             setTextContent()
         }
@@ -74,32 +74,32 @@ class PreviewPostView(
         roomId: String
     ) {
         listener = previewPostListener
-        binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
-        binding.etTextPost.initMentionsAutocomplete(roomId)
+       // binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
+        //binding.etTextPost.initMentionsAutocomplete(roomId)
     }
 
     fun setText(message: String) {
-        binding.etTextPost.setText(
-            MarkdownParser.markwonBuilder(context).toMarkdown(message),
-            TextView.BufferType.SPANNABLE
-        )
+//        binding.etTextPost.setText(
+//            MarkdownParser.markwonBuilder(context).toMarkdown(message),
+//            TextView.BufferType.SPANNABLE
+//        )
         setTextContent()
     }
 
     fun setTextStyle(style: TextStyle, isSelected: Boolean) {
-        binding.etTextPost.triggerStyle(style, isSelected)
+       // binding.etTextPost.triggerStyle(style, isSelected)
     }
 
     fun insertEmoji(unicode: String) {
-        binding.etTextPost.insertText(unicode)
+       // binding.etTextPost.insertText(unicode)
     }
 
     fun insertMention() {
-        binding.etTextPost.insertMentionMark()
+        //binding.etTextPost.insertMentionMark()
     }
 
     fun insertLink(title: String?, link: String) {
-        binding.etTextPost.addLinkSpan(title, link)
+       // binding.etTextPost.addLinkSpan(title, link)
     }
 
     fun setMediaFromExistingPost(mediaContent: MediaContent) {
@@ -121,8 +121,8 @@ class PreviewPostView(
 
 
     fun setMedia(contentUri: Uri, mediaType: MediaType) {
-        val caption = binding.etTextPost.text.toString().trim()
-        postContent = MediaPostContent(caption, contentUri, mediaType)
+       // val caption = binding.etTextPost.text.toString().trim()
+       // postContent = MediaPostContent(caption, contentUri, mediaType)
         updateContentView()
         loadMediaCover(contentUri, mediaType)
         val isVideo = mediaType == MediaType.Video
@@ -134,26 +134,28 @@ class PreviewPostView(
         listener?.onPostContentAvailable(true)
     }
 
-    fun getPostContent() = (postContent as? MediaPostContent)?.copy(
-        caption = binding.etTextPost.getTextWithMarkdown().trim().takeIf { it.isNotEmpty() }
-    ) ?: TextPostContent(binding.etTextPost.getTextWithMarkdown().trim())
+    fun getPostContent() = TextPostContent("binding.etTextPost.getMarkdown().trim()")
+
+//        ?.copy(
+//        caption = binding.etTextPost.getTextWithMarkdown().trim().takeIf { it.isNotEmpty() }
+//    ) ?: TextPostContent(binding.etTextPost.getTextWithMarkdown().trim())
 
     private fun updateContentView() {
         val isTextContent = postContent is TextPostContent || postContent == null
         binding.lMediaContent.lMedia.setIsVisible(!isTextContent)
         binding.ivRemoveImage.setIsVisible(!isTextContent && canEditMedia)
         if (isTextContent) requestFocusOnText()
-        binding.etTextPost.setPadding(
-            context.convertDpToPixel(12f).toInt(),
-            0, context.convertDpToPixel(12f).toInt(),
-            if (isTextContent) context.convertDpToPixel(64f).toInt() else 0
-        )
+//        binding.etTextPost.setPadding(
+//            context.convertDpToPixel(12f).toInt(),
+//            0, context.convertDpToPixel(12f).toInt(),
+//            if (isTextContent) context.convertDpToPixel(64f).toInt() else 0
+//        )
     }
 
     private fun setTextContent() {
         postContent = null
         updateContentView()
-        listener?.onPostContentAvailable(binding.etTextPost.text.toString().isNotBlank())
+        listener?.onPostContentAvailable(false)
     }
 
     private fun loadMediaCover(uri: Uri, mediaType: MediaType) {
@@ -184,17 +186,17 @@ class PreviewPostView(
     }
 
     private fun requestFocusOnText() {
-        binding.etTextPost.post {
-            requestFocus()
-            binding.etTextPost.setSelection(binding.etTextPost.text.length)
-            showKeyboard()
-        }
+//        binding.etTextPost.post {
+//            requestFocus()
+//           // binding.etTextPost.setSelection(binding.etTextPost.text.length)
+//            showKeyboard()
+//        }
     }
 
     private fun showKeyboard() {
         val inputMethodManager: InputMethodManager =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(binding.etTextPost, 0)
+       // inputMethodManager.showSoftInput(binding.etTextPost, 0)
     }
 
     private fun getMyUser(): User? {

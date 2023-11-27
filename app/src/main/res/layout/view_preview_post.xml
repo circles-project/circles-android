@@ -51,20 +51,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <org.futo.circles.view.MarkdownEditText
-                android:id="@+id/etTextPost"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:gravity="top"
-                android:hint="@string/enter_your_message_here"
-                android:inputType="textCapSentences|textMultiLine"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                app:layout_constraintBottom_toTopOf="@id/lMediaContent"
+            <org.futo.circles.view.RichTextComposerLayout
+                android:id="@+id/richTextComposerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="56dp"
+                android:transitionName="composer"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_default="wrap"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <!--            <io.element.android.wysiwyg.EditorEditText-->
+            <!--                android:id="@+id/etTextPost"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:gravity="top"-->
+            <!--                android:hint="Hint"-->
+            <!--                app:bulletGap="8sp"-->
+            <!--                app:bulletRadius="4sp"-->
+            <!--                app:codeBlockBackgroundDrawable="@drawable/ic_text"-->
+            <!--                app:inlineCodeMultiLineBgLeft="@drawable/ic_text"-->
+            <!--                app:inlineCodeMultiLineBgMid="@drawable/ic_text"-->
+            <!--                app:inlineCodeMultiLineBgRight="@drawable/ic_text"-->
+            <!--                app:inlineCodeSingleLineBg="@drawable/ic_text"-->
+            <!--                app:layout_constraintBottom_toTopOf="@id/lMediaContent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHeight_default="wrap"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                tools:text="@tools:sample/lorem/random" />-->
 
 
             <include
@@ -75,8 +92,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etTextPost" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivRemoveImage"
@@ -91,7 +107,7 @@
                 app:layout_constraintEnd_toEndOf="@id/lMediaContent"
                 app:layout_constraintTop_toTopOf="@id/lMediaContent"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
-            
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
