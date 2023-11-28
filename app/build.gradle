@@ -94,7 +94,7 @@ dependencies {
     implementation "io.noties.markwon:linkify:$markwon_version"
     implementation "io.noties.markwon:ext-strikethrough:$markwon_version"
     implementation "io.noties.markwon:ext-tasklist:$markwon_version"
-    implementation "io.element.android:wysiwyg:2.2.2"
+    implementation "io.element.android:wysiwyg:2.18.0"
 
     //Log
     implementation 'com.jakewharton.timber:timber:5.0.1'
