@@ -221,7 +221,6 @@
     <string name="rich_text_editor_indent">Indent</string>
     <string name="rich_text_editor_unindent">Unindent</string>
     <string name="rich_text_editor_quote">Toggle quote</string>
-    <string name="rich_text_editor_inline_code">Apply inline code format</string>
     <string name="rich_text_editor_code_block">Toggle code block</string>
 
     <string-array name="report_categories">
