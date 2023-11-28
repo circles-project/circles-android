@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/rich_text_composer_menu_item_size"
-    android:layout_height="@dimen/rich_text_composer_menu_item_size"
-    android:layout_marginHorizontal="2dp"
-    android:background="@drawable/bg_rich_text_menu_button"
-    app:tint="@color/selector_rich_text_menu_icon"
-    tools:src="@drawable/ic_composer_bold"
-    tools:ignore="ContentDescription" />
+    android:id="@+id/cvOption"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:clickable="true"
+    android:elevation="4dp"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
+    app:cardBackgroundColor="@drawable/bg_rich_text_menu_button"
+    app:cardCornerRadius="8dp"
+    app:cardUseCompatPadding="true">
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_mention" />
+
+</androidx.cardview.widget.CardView>
+

@@ -62,26 +62,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!--            <io.element.android.wysiwyg.EditorEditText-->
-            <!--                android:id="@+id/etTextPost"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="0dp"-->
-            <!--                android:gravity="top"-->
-            <!--                android:hint="Hint"-->
-            <!--                app:bulletGap="8sp"-->
-            <!--                app:bulletRadius="4sp"-->
-            <!--                app:codeBlockBackgroundDrawable="@drawable/ic_text"-->
-            <!--                app:inlineCodeMultiLineBgLeft="@drawable/ic_text"-->
-            <!--                app:inlineCodeMultiLineBgMid="@drawable/ic_text"-->
-            <!--                app:inlineCodeMultiLineBgRight="@drawable/ic_text"-->
-            <!--                app:inlineCodeSingleLineBg="@drawable/ic_text"-->
-            <!--                app:layout_constraintBottom_toTopOf="@id/lMediaContent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHeight_default="wrap"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                tools:text="@tools:sample/lorem/random" />-->
-
 
             <include
                 android:id="@+id/lMediaContent"
