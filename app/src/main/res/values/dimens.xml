@@ -6,7 +6,6 @@
     <dimen name="circle_icon_size">100dp</dimen>
     <dimen name="profile_avatar_size">50dp</dimen>
 
-    <dimen name="rich_text_composer_corner_radius_single_line">28dp</dimen>
     <dimen name="rich_text_composer_corner_radius_expanded">14dp</dimen>
     <dimen name="rich_text_composer_menu_item_size">44dp</dimen>
 </resources>

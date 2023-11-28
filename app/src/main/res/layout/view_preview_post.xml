@@ -60,8 +60,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_default="wrap"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!--            <io.element.android.wysiwyg.EditorEditText-->
             <!--                android:id="@+id/etTextPost"-->

@@ -22,20 +22,13 @@ import android.widget.ImageButton
 
 interface MessageComposerView {
 
-    companion object {
-        const val MAX_LINES_WHEN_COLLAPSED = 10
-    }
-
     val text: Editable?
     val formattedText: String?
     val editText: EditText
     val emojiButton: ImageButton?
-    val sendButton: ImageButton
-    val attachmentButton: ImageButton
 
     var callback: Callback?
 
     fun setTextIfDifferent(text: CharSequence?): Boolean
-    fun renderComposerMode(mode: MessageComposerMode)
 }
 
