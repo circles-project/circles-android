@@ -17,7 +17,7 @@ import org.matrix.android.sdk.api.extensions.orFalse
 
 object NetworkObserver {
 
-    private val internetConnectionFlow = MutableStateFlow(false)
+    private val internetConnectionFlow = MutableStateFlow(true)
 
     fun isConnected() = internetConnectionFlow.value
 
