@@ -3,7 +3,9 @@ package org.futo.circles.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.text.Editable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -12,6 +14,7 @@ import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
@@ -22,8 +25,12 @@ import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.loadImage
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.feature.autocomplete.Autocomplete
+import org.futo.circles.core.feature.autocomplete.AutocompleteCallback
+import org.futo.circles.core.feature.autocomplete.CharPolicy
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.model.UserListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.ImageUtils
 import org.futo.circles.core.utils.VideoUtils
@@ -34,6 +41,7 @@ import org.futo.circles.databinding.ViewRichTextMenuButtonBinding
 import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.showKeyboard
 import org.futo.circles.feature.timeline.post.create.PreviewPostListener
+import org.futo.circles.feature.timeline.post.markdown.mentions.MentionsPresenter
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
@@ -103,7 +111,7 @@ class PreviewPostView(
         setTextEditorMode(false)
         listener = previewPostListener
         setupMainMenu(isMediaAvailable)
-        //binding.etTextPost.initMentionsAutocomplete(roomId)
+        initMentionsAutocomplete(roomId)
     }
 
     fun setText(message: String) {
@@ -198,6 +206,32 @@ class PreviewPostView(
             }
         }
         mediaContent.loadEncryptedThumbOrFullIntoWithAspect(image)
+    }
+
+    private fun initMentionsAutocomplete(roomId: String) {
+        Autocomplete.on<UserListItem>(binding.etTextPost)
+            .with(CharPolicy('@', true))
+            .with(MentionsPresenter(context, roomId))
+            .with(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        context,
+                        org.futo.circles.core.R.color.post_card_background_color
+                    )
+                )
+            )
+            .with(object : AutocompleteCallback<UserListItem> {
+                override fun onPopupItemClicked(editable: Editable, item: UserListItem): Boolean {
+                    val range = CharPolicy.getQueryRange(editable) ?: return false
+                    //insertMentionSpan(editable, item.user.name, range[0])
+                    return true
+                }
+
+                override fun onPopupVisibilityChanged(shown: Boolean) {
+                }
+            })
+            .with(6f)
+            .build()
     }
 
     private fun requestFocusOnText() {
