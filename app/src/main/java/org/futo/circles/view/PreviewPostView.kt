@@ -120,7 +120,7 @@ class PreviewPostView(
     }
 
     fun insertEmoji(unicode: String) {
-        binding.etTextPost.setMarkdown(binding.etTextPost.getMarkdown() + unicode)
+        binding.etTextPost.append(unicode)
     }
 
     fun insertLink(title: String?, link: String) {
@@ -258,7 +258,7 @@ class PreviewPostView(
             listener?.onEmojiClicked()
         }
         addMenuItem(binding.lMainMenu, R.drawable.ic_mention) {
-            binding.etTextPost.setMarkdown(binding.etTextPost.getMarkdown() + "@")
+            binding.etTextPost.append("@")
         }
         addMenuItem(binding.lMainMenu, R.drawable.ic_link) {
             listener?.onAddLinkClicked()
@@ -316,20 +316,6 @@ class PreviewPostView(
             ComposerAction.ORDERED_LIST
         ) {
             binding.etTextPost.toggleList(ordered = true)
-        }
-        addMenuItem(
-            binding.lTextMenu,
-            R.drawable.ic_composer_indent,
-            ComposerAction.INDENT
-        ) {
-            binding.etTextPost.indent()
-        }
-        addMenuItem(
-            binding.lTextMenu,
-            R.drawable.ic_composer_unindent,
-            ComposerAction.UNINDENT
-        ) {
-            binding.etTextPost.unindent()
         }
         addMenuItem(
             binding.lTextMenu,
