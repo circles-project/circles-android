@@ -8,9 +8,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.widget.TextView
+import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -34,8 +33,7 @@ import org.futo.circles.databinding.ViewPreviewPostBinding
 import org.futo.circles.databinding.ViewRichTextMenuButtonBinding
 import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.extensions.showKeyboard
-import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
-import org.futo.circles.feature.timeline.post.markdown.span.TextStyle
+import org.futo.circles.feature.timeline.post.create.PreviewPostListener
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
@@ -43,10 +41,6 @@ import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.user.model.User
 import uniffi.wysiwyg_composer.ActionState
 import uniffi.wysiwyg_composer.ComposerAction
-
-interface PreviewPostListener {
-    fun onPostContentAvailable(isAvailable: Boolean)
-}
 
 class PreviewPostView(
     context: Context,
@@ -75,17 +69,18 @@ class PreviewPostView(
         binding.ivRemoveImage.setOnClickListener {
             setTextContent()
         }
+
         updateContentView()
+
+        binding.btnSend.setOnClickListener { listener?.onSendClicked(getPostContent()) }
+        binding.ivCancel.setOnClickListener { setTextEditorMode(false) }
 
         with(binding.etTextPost) {
             doAfterTextChanged {
-                listener?.onPostContentAvailable(it?.toString()?.isNotBlank() == true)
+                binding.btnSend.isEnabled = it?.toString()?.isNotBlank() == true
             }
             setShadowLayer(paddingBottom.toFloat(), 0f, 0f, 0)
             disallowParentInterceptTouchEvent(this)
-//            linkDisplayHandler = LinkDisplayHandler { text, url ->
-//                //pillDisplayHandler?.resolveLinkDisplay(text, url) ?: TextDisplay.Plain
-//            }
         }
         setupRichTextMenu()
     }
@@ -102,32 +97,22 @@ class PreviewPostView(
 
     fun setup(
         previewPostListener: PreviewPostListener,
-        onHighlightTextStyle: (List<TextStyle>) -> Unit,
-        roomId: String
+        roomId: String,
+        isMediaAvailable: Boolean
     ) {
+        setTextEditorMode(false)
         listener = previewPostListener
-        // binding.etTextPost.setHighlightSelectedSpanListener(onHighlightTextStyle)
+        setupMainMenu(isMediaAvailable)
         //binding.etTextPost.initMentionsAutocomplete(roomId)
     }
 
     fun setText(message: String) {
-        binding.etTextPost.setText(
-            MarkdownParser.markwonBuilder(context).toMarkdown(message),
-            TextView.BufferType.SPANNABLE
-        )
+        binding.etTextPost.setMarkdown(message)
         setTextContent()
     }
 
-    fun setTextStyle(style: TextStyle, isSelected: Boolean) {
-        // binding.etTextPost.triggerStyle(style, isSelected)
-    }
-
     fun insertEmoji(unicode: String) {
-        binding.etTextPost.text?.insert(binding.etTextPost.selectionStart, unicode)
-    }
-
-    fun insertMention() {
-        binding.etTextPost.text?.insert(binding.etTextPost.selectionStart, "@")
+        binding.etTextPost.setMarkdown(binding.etTextPost.getMarkdown() + unicode)
     }
 
     fun insertLink(title: String?, link: String) {
@@ -148,7 +133,7 @@ class PreviewPostView(
         if (isVideo)
             binding.lMediaContent.tvDuration.text = mediaContent.mediaFileData.duration
 
-        listener?.onPostContentAvailable(true)
+        binding.btnSend.isEnabled = true
     }
 
 
@@ -163,10 +148,10 @@ class PreviewPostView(
             binding.lMediaContent.tvDuration.text =
                 getVideoDurationString(getVideoDuration(context, contentUri))
 
-        listener?.onPostContentAvailable(true)
+        binding.btnSend.isEnabled = true
     }
 
-    fun getPostContent() = (postContent as? MediaPostContent)?.copy(
+    private fun getPostContent() = (postContent as? MediaPostContent)?.copy(
         caption = binding.etTextPost.getMarkdown().trim().takeIf { it.isNotEmpty() }
     ) ?: TextPostContent(binding.etTextPost.getMarkdown().trim())
 
@@ -185,7 +170,7 @@ class PreviewPostView(
     private fun setTextContent() {
         postContent = null
         updateContentView()
-        listener?.onPostContentAvailable(false)
+        binding.btnSend.isEnabled = false
     }
 
     private fun loadMediaCover(uri: Uri, mediaType: MediaType) {
@@ -229,73 +214,99 @@ class PreviewPostView(
         return session?.myUserId?.let { session.getUser(it) }
     }
 
+    private fun setupMainMenu(isMediaAvailable: Boolean) {
+        if (isMediaAvailable) {
+            addMenuItem(binding.lMainMenu, R.drawable.ic_image) {
+                listener?.onUploadMediaClicked()
+            }
+        }
+        addMenuItem(binding.lMainMenu, R.drawable.ic_emoji) {
+            listener?.onEmojiClicked()
+        }
+        addMenuItem(binding.lMainMenu, R.drawable.ic_mention) {
+            binding.etTextPost.setMarkdown(binding.etTextPost.getMarkdown() + "@")
+        }
+        addMenuItem(binding.lMainMenu, R.drawable.ic_link) {
+            listener?.onAddLinkClicked()
+        }
+        addMenuItem(binding.lMainMenu, R.drawable.ic_text) {
+            setTextEditorMode(true)
+        }
+    }
+
+    private fun setTextEditorMode(isEnabled: Boolean) {
+        binding.ivCancel.setIsVisible(isEnabled)
+        binding.lTextMenu.setIsVisible(isEnabled)
+        binding.lMainMenu.setIsVisible(!isEnabled)
+    }
+
     private fun setupRichTextMenu() {
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_bold,
-            R.string.rich_text_editor_format_bold,
             ComposerAction.BOLD
         ) {
             binding.etTextPost.toggleInlineFormat(InlineFormat.Bold)
         }
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_italic,
-            R.string.rich_text_editor_format_italic,
             ComposerAction.ITALIC
         ) {
             binding.etTextPost.toggleInlineFormat(InlineFormat.Italic)
         }
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_composer_underlined,
-            R.string.rich_text_editor_format_underline,
             ComposerAction.UNDERLINE
         ) {
             binding.etTextPost.toggleInlineFormat(InlineFormat.Underline)
         }
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_strikethrough,
-            R.string.rich_text_editor_format_strikethrough,
             ComposerAction.STRIKE_THROUGH
         ) {
             binding.etTextPost.toggleInlineFormat(InlineFormat.StrikeThrough)
         }
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_bullet_list,
-            R.string.rich_text_editor_bullet_list,
             ComposerAction.UNORDERED_LIST
         ) {
             binding.etTextPost.toggleList(ordered = false)
         }
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_number_list,
-            R.string.rich_text_editor_numbered_list,
             ComposerAction.ORDERED_LIST
         ) {
             binding.etTextPost.toggleList(ordered = true)
         }
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_composer_indent,
-            R.string.rich_text_editor_indent,
             ComposerAction.INDENT
         ) {
             binding.etTextPost.indent()
         }
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_composer_unindent,
-            R.string.rich_text_editor_unindent,
             ComposerAction.UNINDENT
         ) {
             binding.etTextPost.unindent()
         }
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_composer_quote,
-            R.string.rich_text_editor_quote,
             ComposerAction.QUOTE
         ) {
             binding.etTextPost.toggleQuote()
         }
-        addRichTextMenuItem(
+        addMenuItem(
+            binding.lTextMenu,
             R.drawable.ic_composer_code_block,
-            R.string.rich_text_editor_code_block,
             ComposerAction.CODE_BLOCK
         ) {
             binding.etTextPost.toggleCodeBlock()
@@ -317,17 +328,18 @@ class PreviewPostView(
         }
     }
 
-    private fun addRichTextMenuItem(
+    private fun addMenuItem(
+        container: LinearLayout,
         @DrawableRes iconId: Int,
-        @StringRes description: Int,
-        action: ComposerAction,
+        action: ComposerAction? = null,
         onClick: () -> Unit
     ) {
         val inflater = LayoutInflater.from(context)
-        val item = ViewRichTextMenuButtonBinding.inflate(inflater, binding.textMenu, true)
-        item.root.tag = action
+        val item = ViewRichTextMenuButtonBinding.inflate(inflater, container, true)
+        action?.let {
+            item.root.tag = it
+        }
         with(item.root) {
-            contentDescription = resources.getString(description)
             item.ivIcon.setImageResource(iconId)
             setOnClickListener { onClick() }
         }

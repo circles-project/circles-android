@@ -56,7 +56,6 @@
                 android:id="@+id/etTextPost"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="12dp"
                 android:background="@null"
                 android:gravity="top"
                 android:hint="@string/enter_your_message_here"
@@ -78,7 +77,8 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etTextPost" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivRemoveImage"
@@ -123,7 +123,6 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
 
         <HorizontalScrollView
-            android:id="@+id/lMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fadingEdgeLength="28dp"
@@ -136,11 +135,24 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/textMenu"
+                android:id="@+id/lMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingVertical="4dp" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/lMainMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/lTextMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+
+            </LinearLayout>
 
         </HorizontalScrollView>
 
