@@ -106,11 +106,11 @@ class PreviewPostView(
     fun setup(
         previewPostListener: PreviewPostListener,
         roomId: String,
-        isMediaAvailable: Boolean
+        isEdit: Boolean
     ) {
         setTextEditorMode(false)
         listener = previewPostListener
-        setupMainMenu(isMediaAvailable)
+        setupMainMenu(!isEdit)
         initMentionsAutocomplete(roomId)
     }
 

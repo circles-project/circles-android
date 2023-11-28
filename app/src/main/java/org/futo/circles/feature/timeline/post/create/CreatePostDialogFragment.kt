@@ -56,11 +56,7 @@ class CreatePostDialogFragment :
     private fun setupViews() {
         setToolbarTitle()
         with(binding) {
-            vPostPreview.setup(
-                this@CreatePostDialogFragment,
-                args.roomId,
-                !args.isEdit
-            )
+            vPostPreview.setup(this@CreatePostDialogFragment, args.roomId, args.isEdit)
         }
     }
 

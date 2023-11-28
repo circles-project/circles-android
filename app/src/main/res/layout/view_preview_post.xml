@@ -55,7 +55,7 @@
             <io.element.android.wysiwyg.EditorEditText
                 android:id="@+id/etTextPost"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:background="@null"
                 android:gravity="top"
                 android:hint="@string/enter_your_message_here"
@@ -63,7 +63,6 @@
                 app:bulletRadius="4sp"
                 app:codeBlockBackgroundDrawable="@drawable/bg_code_block"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_default="wrap"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="some text" />
