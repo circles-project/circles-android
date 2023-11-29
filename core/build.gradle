@@ -95,6 +95,14 @@ dependencies {
     //QR
     api 'com.google.zxing:core:3.5.2'
 
+    //Markdown
+    def markwon_version = "4.6.2"
+    api "io.noties.markwon:core:$markwon_version"
+    api "io.noties.markwon:linkify:$markwon_version"
+    api "io.noties.markwon:ext-strikethrough:$markwon_version"
+    api "io.noties.markwon:ext-tasklist:$markwon_version"
+    api "io.element.android:wysiwyg:2.18.0"
+
     //Shake detection
     implementation 'com.squareup:seismic:1.0.3'
 

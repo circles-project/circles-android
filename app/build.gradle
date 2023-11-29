@@ -88,14 +88,6 @@ dependencies {
     //Emoji
     implementation 'com.vanniktech:emoji-google:0.17.0'
 
-    //Markdown
-    def markwon_version = "4.6.2"
-    implementation "io.noties.markwon:core:$markwon_version"
-    implementation "io.noties.markwon:linkify:$markwon_version"
-    implementation "io.noties.markwon:ext-strikethrough:$markwon_version"
-    implementation "io.noties.markwon:ext-tasklist:$markwon_version"
-    implementation "io.element.android:wysiwyg:2.18.0"
-
     //Log
     implementation 'com.jakewharton.timber:timber:5.0.1'
 

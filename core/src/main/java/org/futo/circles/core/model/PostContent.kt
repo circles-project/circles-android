@@ -18,12 +18,12 @@ sealed class PostContent(open val type: PostContentType) {
 }
 
 data class TextContent(
-    val message: String
+    val message: CharSequence
 ) : PostContent(PostContentType.TEXT_CONTENT)
 
 data class MediaContent(
     override val type: PostContentType,
-    val caption: String?,
+    val caption: CharSequence?,
     val mediaFileData: MediaFileData,
     val thumbnailFileData: MediaFileData?,
     val thumbHash: String?

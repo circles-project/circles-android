@@ -1,5 +1,6 @@
 package org.futo.circles.core.mapping
 
+import io.noties.markwon.Markwon
 import org.futo.circles.core.extensions.getPostContentType
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.Post
@@ -10,9 +11,9 @@ import org.futo.circles.core.model.ReactionsData
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited
 
-fun TimelineEvent.toPost(readReceipts: List<Long> = emptyList()): Post = Post(
+fun TimelineEvent.toPost(markwon: Markwon, readReceipts: List<Long> = emptyList()): Post = Post(
     postInfo = toPostInfo(),
-    content = toPostContent(),
+    content = toPostContent(markwon),
     sendState = root.sendState,
     readByCount = getReadByCount(readReceipts),
     repliesCount = root.threadDetails?.numberOfThreads ?: 0,
@@ -30,13 +31,14 @@ private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     isEdited = hasBeenEdited()
 )
 
-private fun TimelineEvent.toPostContent(): PostContent = when (getPostContentType()) {
-    PostContentType.TEXT_CONTENT -> toTextContent()
-    PostContentType.IMAGE_CONTENT -> toMediaContent(MediaType.Image)
-    PostContentType.VIDEO_CONTENT -> toMediaContent(MediaType.Video)
-    PostContentType.POLL_CONTENT -> toPollContent()
-    else -> toTextContent()
-}
+private fun TimelineEvent.toPostContent(markwon: Markwon): PostContent =
+    when (getPostContentType()) {
+        PostContentType.TEXT_CONTENT -> toTextContent(markwon)
+        PostContentType.IMAGE_CONTENT -> toMediaContent(MediaType.Image, markwon)
+        PostContentType.VIDEO_CONTENT -> toMediaContent(MediaType.Video, markwon)
+        PostContentType.POLL_CONTENT -> toPollContent()
+        else -> toTextContent(markwon)
+    }
 
 private fun TimelineEvent.getReadByCount(receipts: List<Long>): Int {
     val eventTime = root.originServerTs ?: 0

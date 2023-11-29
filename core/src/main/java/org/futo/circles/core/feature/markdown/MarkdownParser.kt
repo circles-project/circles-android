@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.post.markdown
+package org.futo.circles.core.feature.markdown
 
 import android.content.Context
 import android.graphics.Typeface
@@ -13,7 +13,7 @@ import org.commonmark.node.Emphasis
 import org.commonmark.node.StrongEmphasis
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.feature.timeline.post.markdown.mentions.plugin.MentionPlugin
+import org.futo.circles.core.feature.markdown.mentions.plugin.MentionPlugin
 import org.matrix.android.sdk.api.session.getUserOrDefault
 
 

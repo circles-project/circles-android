@@ -21,7 +21,7 @@ import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.databinding.ViewPollPostBinding
 import org.futo.circles.databinding.ViewTextMediaPostBinding
-import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
+import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.model.*
 import org.futo.circles.view.PostLayout
 import org.futo.circles.view.PostOptionsListener
@@ -31,7 +31,6 @@ sealed class PostViewHolder(view: View, private val isThread: Boolean) :
     RecyclerView.ViewHolder(view) {
 
     abstract val postLayout: PostLayout
-    protected val markwon = MarkdownParser.markwonBuilder(context)
 
     open fun bind(post: Post, userPowerLevel: Int) {
         postLayout.setData(post, userPowerLevel, isThread)
@@ -87,7 +86,7 @@ class TextMediaPostViewHolder(
 
     private fun bindTextPost(content: TextContent) {
         binding.tvTextContent.apply {
-            setText(markwon.toMarkdown(content.message), TextView.BufferType.SPANNABLE)
+            setText(content.message, TextView.BufferType.SPANNABLE)
             visible()
         }
         binding.vMediaContent.lMedia.gone()
@@ -104,7 +103,7 @@ class TextMediaPostViewHolder(
         binding.tvTextContent.apply {
             val caption = content.caption
             setIsVisible(caption != null)
-            caption?.let { setText(markwon.toMarkdown(it), TextView.BufferType.SPANNABLE) }
+            caption?.let { setText(it, TextView.BufferType.SPANNABLE) }
         }
     }
 

@@ -1,11 +1,11 @@
-package org.futo.circles.feature.timeline.post.markdown.span
+package org.futo.circles.core.feature.markdown.span
 
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.style.DynamicDrawableSpan
 import androidx.core.content.ContextCompat
 import com.google.android.material.chip.ChipDrawable
-import org.futo.circles.R
+import org.futo.circles.core.R
 
 class MentionSpan(
     private val context: Context,

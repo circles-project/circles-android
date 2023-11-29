@@ -6,10 +6,12 @@ import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
+import android.text.Spanned
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.cardview.widget.CardView
@@ -39,9 +41,9 @@ import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
 import org.futo.circles.databinding.ViewPreviewPostBinding
 import org.futo.circles.databinding.ViewRichTextMenuButtonBinding
 import org.futo.circles.extensions.convertDpToPixel
-import org.futo.circles.extensions.showKeyboard
 import org.futo.circles.feature.timeline.post.create.PreviewPostListener
-import org.futo.circles.feature.timeline.post.markdown.mentions.MentionsPresenter
+import org.futo.circles.core.feature.markdown.mentions.MentionsPresenter
+import org.futo.circles.core.feature.markdown.span.MentionSpan
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
@@ -87,8 +89,6 @@ class PreviewPostView(
             doAfterTextChanged {
                 binding.btnSend.isEnabled = it?.toString()?.isNotBlank() == true
             }
-            setShadowLayer(paddingBottom.toFloat(), 0f, 0f, 0)
-            disallowParentInterceptTouchEvent(this)
         }
         setupRichTextMenu()
     }
@@ -130,10 +130,10 @@ class PreviewPostView(
     fun setMediaFromExistingPost(mediaContent: MediaContent) {
         canEditMedia = false
         val caption = mediaContent.caption ?: ""
-        setText(caption)
+        setText(caption.toString())
         val uri = Uri.parse(mediaContent.mediaFileData.fileUrl)
         val mediaType = mediaContent.getMediaType()
-        postContent = MediaPostContent(caption, uri, mediaType)
+        postContent = MediaPostContent(caption.toString(), uri, mediaType)
         updateContentView()
         loadMediaCover(mediaContent)
         val isVideo = mediaType == MediaType.Video
@@ -235,12 +235,17 @@ class PreviewPostView(
     }
 
     private fun requestFocusOnText() {
-        with(binding.etTextPost) {
-            this.post {
-                showKeyboard(true)
-                text?.length?.let { setSelection(it) }
-            }
+        binding.etTextPost.post {
+            requestFocus()
+            binding.etTextPost.text?.let { binding.etTextPost.setSelection(it.length) }
+            showKeyboard()
         }
+    }
+
+    private fun showKeyboard() {
+        val inputMethodManager: InputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(binding.etTextPost, 0)
     }
 
     private fun getMyUser(): User? {
@@ -257,7 +262,7 @@ class PreviewPostView(
         addMenuItem(binding.lMainMenu, R.drawable.ic_emoji) {
             listener?.onEmojiClicked()
         }
-        addMenuItem(binding.lMainMenu, R.drawable.ic_mention) {
+        addMenuItem(binding.lMainMenu, org.futo.circles.core.R.drawable.ic_mention) {
             binding.etTextPost.append("@")
         }
         addMenuItem(binding.lMainMenu, R.drawable.ic_link) {

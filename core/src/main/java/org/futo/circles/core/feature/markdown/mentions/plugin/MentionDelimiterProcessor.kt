@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.post.markdown.mentions.plugin
+package org.futo.circles.core.feature.markdown.mentions.plugin
 
 import org.commonmark.node.Node
 import org.commonmark.node.Text
