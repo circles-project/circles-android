@@ -160,8 +160,8 @@ class PreviewPostView(
     }
 
     private fun getPostContent() = (postContent as? MediaPostContent)?.copy(
-        caption = binding.etTextPost.getMarkdown().trim().takeIf { it.isNotEmpty() }
-    ) ?: TextPostContent(binding.etTextPost.getMarkdown().trim())
+        caption = binding.etTextPost.getMarkdown().takeIf { it.isNotEmpty() }
+    ) ?: TextPostContent(binding.etTextPost.getMarkdown())
 
     private fun updateContentView() {
         val isTextContent = postContent is TextPostContent || postContent == null
@@ -291,13 +291,6 @@ class PreviewPostView(
         }
         addMenuItem(
             binding.lTextMenu,
-            R.drawable.ic_composer_underlined,
-            ComposerAction.UNDERLINE
-        ) {
-            binding.etTextPost.toggleInlineFormat(InlineFormat.Underline)
-        }
-        addMenuItem(
-            binding.lTextMenu,
             R.drawable.ic_strikethrough,
             ComposerAction.STRIKE_THROUGH
         ) {
@@ -323,13 +316,6 @@ class PreviewPostView(
             ComposerAction.QUOTE
         ) {
             binding.etTextPost.toggleQuote()
-        }
-        addMenuItem(
-            binding.lTextMenu,
-            R.drawable.ic_composer_code_block,
-            ComposerAction.CODE_BLOCK
-        ) {
-            binding.etTextPost.toggleCodeBlock()
         }
     }
 
