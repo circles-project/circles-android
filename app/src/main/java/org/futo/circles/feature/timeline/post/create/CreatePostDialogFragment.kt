@@ -66,7 +66,7 @@ class CreatePostDialogFragment :
                 PostContentType.IMAGE_CONTENT, PostContentType.VIDEO_CONTENT ->
                     binding.vPostPreview.setMediaFromExistingPost(it as MediaContent)
 
-                else -> binding.vPostPreview.setText((it as TextContent).message.toString())
+                else -> binding.vPostPreview.setText((it as TextContent).message)
             }
         }
     }

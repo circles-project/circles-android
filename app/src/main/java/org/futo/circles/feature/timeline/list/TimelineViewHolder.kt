@@ -86,7 +86,7 @@ class TextMediaPostViewHolder(
 
     private fun bindTextPost(content: TextContent) {
         binding.tvTextContent.apply {
-            setText(content.message, TextView.BufferType.SPANNABLE)
+            setText(content.messageSpanned, TextView.BufferType.SPANNABLE)
             visible()
         }
         binding.vMediaContent.lMedia.gone()
@@ -101,7 +101,7 @@ class TextMediaPostViewHolder(
 
     private fun bindMediaCaption(content: MediaContent) {
         binding.tvTextContent.apply {
-            val caption = content.caption
+            val caption = content.captionSpanned
             setIsVisible(caption != null)
             caption?.let { setText(it, TextView.BufferType.SPANNABLE) }
         }
