@@ -17,7 +17,6 @@
         android:adjustViewBounds="true"
         android:alpha="0.9"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_gallery"
         app:layout_constraintDimensionRatio="w,1:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
