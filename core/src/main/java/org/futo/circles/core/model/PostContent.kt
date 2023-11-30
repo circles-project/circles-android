@@ -1,6 +1,5 @@
 package org.futo.circles.core.model
 
-import android.text.Spanned
 import android.util.Size
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
@@ -19,14 +18,12 @@ sealed class PostContent(open val type: PostContentType) {
 }
 
 data class TextContent(
-    val message: String,
-    val messageSpanned: Spanned
+    val message: String
 ) : PostContent(PostContentType.TEXT_CONTENT)
 
 data class MediaContent(
     override val type: PostContentType,
     val caption: String?,
-    val captionSpanned: Spanned?,
     val mediaFileData: MediaFileData,
     val thumbnailFileData: MediaFileData?,
     val thumbHash: String?

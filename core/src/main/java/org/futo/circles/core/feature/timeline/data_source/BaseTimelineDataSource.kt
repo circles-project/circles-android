@@ -1,13 +1,7 @@
 package org.futo.circles.core.feature.timeline.data_source
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.runBlocking
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.feature.timeline.builder.BaseTimelineBuilder
 import org.futo.circles.core.feature.timeline.builder.MultiTimelineBuilder
@@ -27,16 +21,10 @@ abstract class BaseTimelineDataSource(
     private val timelineBuilder: BaseTimelineBuilder
 ) : Timeline.Listener {
 
-    class Factory @Inject constructor(
-        private val savedStateHandle: SavedStateHandle,
-        @ApplicationContext private val context: Context
-    ) {
+    class Factory @Inject constructor(private val savedStateHandle: SavedStateHandle) {
         fun create(isMultiTimelines: Boolean): BaseTimelineDataSource =
-            if (isMultiTimelines) MultiTimelinesDataSource(
-                savedStateHandle,
-                MultiTimelineBuilder(context)
-            )
-            else SingleTimelineDataSource(savedStateHandle, SingleTimelineBuilder(context))
+            if (isMultiTimelines) MultiTimelinesDataSource(savedStateHandle, MultiTimelineBuilder())
+            else SingleTimelineDataSource(savedStateHandle, SingleTimelineBuilder())
     }
 
     protected val roomId: String = savedStateHandle.getOrThrow("roomId")
