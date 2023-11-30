@@ -6,7 +6,6 @@ import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
-import android.text.Spanned
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -30,6 +29,7 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.autocomplete.Autocomplete
 import org.futo.circles.core.feature.autocomplete.AutocompleteCallback
 import org.futo.circles.core.feature.autocomplete.CharPolicy
+import org.futo.circles.core.feature.markdown.mentions.MentionsPresenter
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.UserListItem
@@ -42,8 +42,6 @@ import org.futo.circles.databinding.ViewPreviewPostBinding
 import org.futo.circles.databinding.ViewRichTextMenuButtonBinding
 import org.futo.circles.extensions.convertDpToPixel
 import org.futo.circles.feature.timeline.post.create.PreviewPostListener
-import org.futo.circles.core.feature.markdown.mentions.MentionsPresenter
-import org.futo.circles.core.feature.markdown.span.MentionSpan
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
@@ -101,6 +99,11 @@ class PreviewPostView(
                     updateMenuStateFor(action, state)
                 }
             }
+    }
+
+    override fun onDetachedFromWindow() {
+        binding.etTextPost.setMarkdown("")
+        super.onDetachedFromWindow()
     }
 
     fun setup(
