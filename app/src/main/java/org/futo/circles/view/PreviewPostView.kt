@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -118,7 +119,7 @@ class PreviewPostView(
     }
 
     fun setText(message: String) {
-        binding.etTextPost.setMarkdown(message)
+        binding.etTextPost.setFormattedMarkdown(message)
         setTextContent()
     }
 
@@ -163,8 +164,8 @@ class PreviewPostView(
     }
 
     private fun getPostContent() = (postContent as? MediaPostContent)?.copy(
-        caption = binding.etTextPost.getMarkdown().takeIf { it.isNotEmpty() }
-    ) ?: TextPostContent(binding.etTextPost.getMarkdown())
+        caption = binding.etTextPost.getFormattedMarkdown().takeIf { it.isNotEmpty() }
+    ) ?: TextPostContent(binding.etTextPost.getFormattedMarkdown())
 
     private fun updateContentView() {
         val isTextContent = postContent is TextPostContent || postContent == null
@@ -375,4 +376,14 @@ class PreviewPostView(
             button.isVisible = indentationButtonIsVisible
         }
     }
+
+    private fun EditorEditText.getFormattedMarkdown(): String = getMarkdown()
+        .replace("<br><br>", "")
+        .replace("\\", "")
+
+    private fun EditorEditText.setFormattedMarkdown(message: String) {
+        val formattedMessage = message.replace("\\r\\r|\\n\\n".toRegex(), "<br><br>")
+        setMarkdown(formattedMessage)
+    }
+
 }
