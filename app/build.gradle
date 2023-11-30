@@ -22,7 +22,7 @@ android {
         viewBinding true
     }
 
-    signingConfigs{
+    signingConfigs {
         release {
             Properties properties = new Properties()
             if (rootProject.file("signing.properties").exists()) {
@@ -77,7 +77,7 @@ dependencies {
     implementation project(path: ':gallery')
 
     //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.5.0')
+    gplayImplementation platform('com.google.firebase:firebase-bom:32.6.0')
     gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
@@ -87,13 +87,6 @@ dependencies {
 
     //Emoji
     implementation 'com.vanniktech:emoji-google:0.17.0'
-
-    //Markdown
-    def markwon_version = "4.6.2"
-    implementation "io.noties.markwon:core:$markwon_version"
-    implementation "io.noties.markwon:linkify:$markwon_version"
-    implementation "io.noties.markwon:ext-strikethrough:$markwon_version"
-    implementation "io.noties.markwon:ext-tasklist:$markwon_version"
 
     //Log
     implementation 'com.jakewharton.timber:timber:5.0.1'

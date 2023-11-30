@@ -1,11 +1,11 @@
-package org.futo.circles.feature.timeline.post.markdown.mentions.plugin
+package org.futo.circles.core.feature.markdown.mentions.plugin
 
 import android.content.Context
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.MarkwonVisitor
 import io.noties.markwon.SpannableBuilder
 import org.commonmark.parser.Parser
-import org.futo.circles.feature.timeline.post.markdown.span.MentionSpan
+import org.futo.circles.core.feature.markdown.span.MentionSpan
 
 
 class MentionPlugin(private val context: Context) : AbstractMarkwonPlugin() {

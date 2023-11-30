@@ -15,6 +15,7 @@ class PostContentDataSource @Inject constructor() {
 
     private val session = MatrixSessionProvider.currentSession
 
+
     fun getPost(roomId: String, eventId: String): Post? {
         val roomForMessage = session?.getRoom(roomId)
         val timelineEvent = roomForMessage?.getTimelineEvent(eventId) ?: return null

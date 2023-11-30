@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.post.markdown.mentions
+package org.futo.circles.core.feature.markdown.mentions
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView

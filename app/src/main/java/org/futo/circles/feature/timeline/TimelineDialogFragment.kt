@@ -84,6 +84,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     private val listAdapter by lazy {
         TimelineAdapter(
+            requireContext(),
             getCurrentUserPowerLevel(args.roomId),
             this,
             isThread

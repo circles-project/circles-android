@@ -17,7 +17,7 @@ import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.databinding.LayoutPostBinding
-import org.futo.circles.feature.timeline.post.markdown.MarkdownParser
+import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.model.PostItemPayload
 import org.matrix.android.sdk.api.session.room.send.SendState
 
@@ -114,10 +114,10 @@ class PostLayout(
     private fun setMentionBorder(content: PostContent) {
         val hasMention = when (content) {
             is MediaContent -> content.caption?.let {
-                MarkdownParser.hasCurrentUserMention(it)
+                MarkdownParser.hasCurrentUserMention(it.toString())
             } ?: false
 
-            is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
+            is TextContent -> MarkdownParser.hasCurrentUserMention(content.message.toString())
             is PollContent -> false
         }
         if (hasMention) binding.lCard.setBackgroundResource(R.drawable.bg_mention_highlight)

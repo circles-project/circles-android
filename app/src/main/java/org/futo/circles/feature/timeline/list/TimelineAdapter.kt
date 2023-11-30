@@ -1,14 +1,17 @@
 package org.futo.circles.feature.timeline.list
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
+import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostOptionsListener
 
 class TimelineAdapter(
+    context: Context,
     private var userPowerLevel: Int,
     private val postOptionsListener: PostOptionsListener,
     private val isThread: Boolean,
@@ -22,6 +25,9 @@ class TimelineAdapter(
         needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
     )
 }) {
+
+    private val markwon = MarkdownParser.markwonBuilder(context)
+
     @SuppressLint("NotifyDataSetChanged")
     fun updateUserPowerLevel(level: Int) {
         userPowerLevel = level
@@ -36,7 +42,7 @@ class TimelineAdapter(
                 parent, postOptionsListener, isThread
             )
 
-            else -> TextMediaPostViewHolder(parent, postOptionsListener, isThread)
+            else -> TextMediaPostViewHolder(parent, markwon, postOptionsListener, isThread)
         }
     }
 

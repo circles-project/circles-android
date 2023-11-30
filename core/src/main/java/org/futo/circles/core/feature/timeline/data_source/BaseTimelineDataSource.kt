@@ -3,11 +3,11 @@ package org.futo.circles.core.feature.timeline.data_source
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.model.Post
-import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.feature.timeline.builder.BaseTimelineBuilder
 import org.futo.circles.core.feature.timeline.builder.MultiTimelineBuilder
 import org.futo.circles.core.feature.timeline.builder.SingleTimelineBuilder
+import org.futo.circles.core.model.Post
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.timeline.Timeline

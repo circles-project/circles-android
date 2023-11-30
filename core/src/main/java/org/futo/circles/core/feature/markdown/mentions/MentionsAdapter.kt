@@ -1,4 +1,4 @@
-package org.futo.circles.feature.timeline.post.markdown.mentions
+package org.futo.circles.core.feature.markdown.mentions
 
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
