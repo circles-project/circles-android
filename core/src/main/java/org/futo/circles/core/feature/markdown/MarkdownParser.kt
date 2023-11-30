@@ -20,7 +20,7 @@ import org.matrix.android.sdk.api.session.getUserOrDefault
 
 object MarkdownParser {
 
-    const val mentionMark = "@"
+    private const val mentionMark = "@"
 
     fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
         .usePlugin(SoftBreakAddsNewLinePlugin.create())
@@ -56,10 +56,4 @@ object MarkdownParser {
         return text.contains(mentionString)
     }
 
-    private fun calculateLastIndexToInsert(textCopy: Editable, spanEnd: Int, mark: String): Int {
-        var endIndex = spanEnd + mark.length
-        val lastChar = textCopy.getOrNull(spanEnd - 1).toString()
-        if (lastChar == " " || lastChar == "\n") endIndex -= 1
-        return endIndex
-    }
 }
