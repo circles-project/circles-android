@@ -1,16 +1,12 @@
 package org.futo.circles.view
 
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
@@ -21,6 +17,8 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import io.element.android.wysiwyg.EditorEditText
+import io.element.android.wysiwyg.display.LinkDisplayHandler
+import io.element.android.wysiwyg.display.TextDisplay
 import io.element.android.wysiwyg.view.models.InlineFormat
 import org.futo.circles.R
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
@@ -30,7 +28,9 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.autocomplete.Autocomplete
 import org.futo.circles.core.feature.autocomplete.AutocompleteCallback
 import org.futo.circles.core.feature.autocomplete.CharPolicy
+import org.futo.circles.core.feature.markdown.mentions.MentionsLinkDisplayHandler
 import org.futo.circles.core.feature.markdown.mentions.MentionsPresenter
+import org.futo.circles.core.feature.markdown.span.MentionSpan
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.UserListItem
@@ -46,7 +46,9 @@ import org.futo.circles.feature.timeline.post.create.PreviewPostListener
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
+import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.session.getUser
+import org.matrix.android.sdk.api.session.permalinks.PermalinkService.Companion.MATRIX_TO_URL_BASE
 import org.matrix.android.sdk.api.session.user.model.User
 import uniffi.wysiwyg_composer.ActionState
 import uniffi.wysiwyg_composer.ComposerAction
@@ -88,6 +90,7 @@ class PreviewPostView(
             doAfterTextChanged {
                 binding.btnSend.isEnabled = it?.toString()?.isNotBlank() == true
             }
+            linkDisplayHandler = MentionsLinkDisplayHandler(context)
         }
         setupRichTextMenu()
     }
@@ -226,8 +229,10 @@ class PreviewPostView(
             )
             .with(object : AutocompleteCallback<UserListItem> {
                 override fun onPopupItemClicked(editable: Editable, item: UserListItem): Boolean {
-                    val range = CharPolicy.getQueryRange(editable) ?: return false
-                    //insertMentionSpan(editable, item.user.name, range[0])
+                    binding.etTextPost.setLinkSuggestion(
+                        MATRIX_TO_URL_BASE + item.id,
+                        "@${item.user.name}@"
+                    )
                     return true
                 }
 
@@ -325,21 +330,6 @@ class PreviewPostView(
             ComposerAction.QUOTE
         ) {
             binding.etTextPost.toggleQuote()
-        }
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun disallowParentInterceptTouchEvent(view: View) {
-        view.setOnTouchListener { v, event ->
-            if (v.hasFocus()) {
-                v.parent?.requestDisallowInterceptTouchEvent(true)
-                val action = event.actionMasked
-                if (action == MotionEvent.ACTION_SCROLL) {
-                    v.parent?.requestDisallowInterceptTouchEvent(false)
-                    return@setOnTouchListener true
-                }
-            }
-            false
         }
     }
 
