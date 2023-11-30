@@ -7,6 +7,7 @@ import android.text.style.StyleSpan
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
 import io.noties.markwon.MarkwonSpansFactory
+import io.noties.markwon.SoftBreakAddsNewLinePlugin
 import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
 import org.commonmark.node.Emphasis
@@ -22,12 +23,14 @@ object MarkdownParser {
     const val mentionMark = "@"
 
     fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
+        .usePlugin(SoftBreakAddsNewLinePlugin.create())
         .usePlugin(StrikethroughPlugin.create())
         .usePlugin(LinkifyPlugin.create())
         .usePlugin(MentionPlugin(context))
         .build()
 
     fun markwonNotificationBuilder(context: Context): Markwon = Markwon.builder(context)
+        .usePlugin(SoftBreakAddsNewLinePlugin.create())
         .usePlugin(object : AbstractMarkwonPlugin() {
             override fun configureSpansFactory(builder: MarkwonSpansFactory.Builder) {
                 builder.setFactory(
