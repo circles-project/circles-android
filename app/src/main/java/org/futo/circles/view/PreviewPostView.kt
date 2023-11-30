@@ -133,10 +133,10 @@ class PreviewPostView(
     fun setMediaFromExistingPost(mediaContent: MediaContent) {
         canEditMedia = false
         val caption = mediaContent.caption ?: ""
-        setText(caption.toString())
+        setText(caption)
         val uri = Uri.parse(mediaContent.mediaFileData.fileUrl)
         val mediaType = mediaContent.getMediaType()
-        postContent = MediaPostContent(caption.toString(), uri, mediaType)
+        postContent = MediaPostContent(caption, uri, mediaType)
         updateContentView()
         loadMediaCover(mediaContent)
         val isVideo = mediaType == MediaType.Video
