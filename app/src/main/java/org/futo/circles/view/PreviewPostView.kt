@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
@@ -17,8 +18,6 @@ import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 import io.element.android.wysiwyg.EditorEditText
-import io.element.android.wysiwyg.display.LinkDisplayHandler
-import io.element.android.wysiwyg.display.TextDisplay
 import io.element.android.wysiwyg.view.models.InlineFormat
 import org.futo.circles.R
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
@@ -30,7 +29,6 @@ import org.futo.circles.core.feature.autocomplete.AutocompleteCallback
 import org.futo.circles.core.feature.autocomplete.CharPolicy
 import org.futo.circles.core.feature.markdown.mentions.MentionsLinkDisplayHandler
 import org.futo.circles.core.feature.markdown.mentions.MentionsPresenter
-import org.futo.circles.core.feature.markdown.span.MentionSpan
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.UserListItem
@@ -46,7 +44,6 @@ import org.futo.circles.feature.timeline.post.create.PreviewPostListener
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
-import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.permalinks.PermalinkService.Companion.MATRIX_TO_URL_BASE
 import org.matrix.android.sdk.api.session.user.model.User
@@ -128,6 +125,14 @@ class PreviewPostView(
 
     fun insertEmoji(unicode: String) {
         binding.etTextPost.append(unicode)
+    }
+
+    private fun insertMentionMark() {
+        with(binding.etTextPost) {
+            val previousChar = text?.getOrNull(selectionStart - 1)
+            val noNeedToAddSpace = previousChar?.isWhitespace() == true || previousChar == null
+            append(if (noNeedToAddSpace) "@" else " @")
+        }
     }
 
     fun insertLink(title: String?, link: String) {
@@ -272,7 +277,7 @@ class PreviewPostView(
             listener?.onEmojiClicked()
         }
         addMenuItem(binding.lMainMenu, org.futo.circles.core.R.drawable.ic_mention) {
-            binding.etTextPost.append("@")
+            insertMentionMark()
         }
         addMenuItem(binding.lMainMenu, R.drawable.ic_link) {
             listener?.onAddLinkClicked()
@@ -367,12 +372,20 @@ class PreviewPostView(
         }
     }
 
-    private fun EditorEditText.getFormattedMarkdown(): String = getMarkdown()
-        .replace("<br><br>", "")
-        .replace("\\", "")
+    private fun EditorEditText.getFormattedMarkdown(): String {
+        val a = getMarkdown()
+            .replace("<br><br>", "")
+            .replace("\\", "")
+            .replace("__", "**")
+        Log.d("MyLog", "get $a")
+        return a
+    }
 
     private fun EditorEditText.setFormattedMarkdown(message: String) {
-        val formattedMessage = message.replace("\\r\\r|\\n\\n".toRegex(), "<br><br>")
+        val formattedMessage = message
+            .replace("\\r\\r|\\n\\n".toRegex(), "<br><br>")
+            .replace("__", "**")
+        Log.d("MyLog", "set $formattedMessage")
         setMarkdown(formattedMessage)
     }
 
