@@ -124,19 +124,27 @@ class PreviewPostView(
     }
 
     fun insertEmoji(unicode: String) {
+        val selection = binding.etTextPost.selectionStart
         binding.etTextPost.append(unicode)
+        binding.etTextPost.setSelection(selection + unicode.length)
     }
 
     private fun insertMentionMark() {
         with(binding.etTextPost) {
-            val previousChar = text?.getOrNull(selectionStart - 1)
+            val selection = selectionStart
+            val previousChar = text?.getOrNull(selection - 1)
             val noNeedToAddSpace = previousChar?.isWhitespace() == true || previousChar == null
-            append(if (noNeedToAddSpace) "@" else " @")
+            val textToInsert = if (noNeedToAddSpace) "@" else " @"
+            append(textToInsert)
+            setSelection(selection + textToInsert.length)
         }
     }
 
     fun insertLink(title: String?, link: String) {
-        binding.etTextPost.insertLink(link, title ?: link)
+        val selection = binding.etTextPost.selectionStart
+        val text = title ?: link
+        binding.etTextPost.insertLink(link, text)
+        binding.etTextPost.setSelection(selection + text.length)
     }
 
     fun setMediaFromExistingPost(mediaContent: MediaContent) {
