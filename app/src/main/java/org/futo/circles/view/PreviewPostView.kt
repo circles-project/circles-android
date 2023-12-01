@@ -72,11 +72,7 @@ class PreviewPostView(
             )
         }
         setOnClickListener { requestFocusOnText() }
-
-        binding.ivRemoveImage.setOnClickListener {
-            setTextContent()
-        }
-
+        binding.ivRemoveImage.setOnClickListener { setTextContent() }
         updateContentView()
 
         binding.btnSend.setOnClickListener { listener?.onSendClicked(getPostContent()) }
