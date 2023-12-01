@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
@@ -380,20 +379,16 @@ class PreviewPostView(
         }
     }
 
-    private fun EditorEditText.getFormattedMarkdown(): String {
-        val a = getMarkdown()
-            .replace("<br><br>", "")
-            .replace("\\", "")
-            .replace("__", "**")
-        Log.d("MyLog", "get $a")
-        return a
-    }
+    private fun EditorEditText.getFormattedMarkdown(): String = getMarkdown()
+        .replace("<br><br>", "")
+        .replace("\\", "")
+        .replace("__", "**")
+
 
     private fun EditorEditText.setFormattedMarkdown(message: String) {
         val formattedMessage = message
             .replace("\\r\\r|\\n\\n".toRegex(), "<br><br>")
             .replace("__", "**")
-        Log.d("MyLog", "set $formattedMessage")
         setMarkdown(formattedMessage)
     }
 
