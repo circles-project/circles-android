@@ -18,7 +18,7 @@ class SingleTimelineDataSource @Inject constructor(
         timeline = createAndStartNewTimeline(room, listener)
     }
 
-    override fun onTimelineFailure(timelineId: String, throwable: Throwable) {
+    override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
         timeline?.restartWithEventId(null)
     }
 

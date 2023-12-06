@@ -23,7 +23,7 @@ class MultiTimelinesDataSource @Inject constructor(
         }
     }
 
-    override fun onTimelineFailure(timelineId: String, throwable: Throwable) {
+    override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
         timelines.firstOrNull { it.timelineID == timelineId }?.restartWithEventId(null)
     }
 

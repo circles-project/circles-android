@@ -51,7 +51,7 @@ abstract class BaseTimelineDataSource(
             }
 
             override fun onTimelineFailure(timelineId: String, throwable: Throwable) {
-                onTimelineFailure(timelineId, throwable)
+                onRestartTimeline(timelineId, throwable)
             }
         }
         startTimeline(listener)
@@ -64,7 +64,7 @@ abstract class BaseTimelineDataSource(
 
     protected abstract fun startTimeline(listener: Timeline.Listener)
 
-    protected abstract fun onTimelineFailure(timelineId: String, throwable: Throwable)
+    protected abstract fun onRestartTimeline(timelineId: String, throwable: Throwable)
     abstract fun clearTimeline()
     abstract fun loadMore(): Boolean
 
