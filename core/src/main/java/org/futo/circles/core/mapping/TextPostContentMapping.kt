@@ -7,7 +7,7 @@ import org.matrix.android.sdk.api.session.room.timeline.getTextEditableContent
 
 fun TimelineEvent.toTextContent(): TextContent {
     val text = getTextEditableContent(false)
-    val spanned = MarkdownParser.getInstance().toMarkdown(text)
+    val spanned = MarkdownParser.parse(text)
     return TextContent(text, spanned)
 }
 

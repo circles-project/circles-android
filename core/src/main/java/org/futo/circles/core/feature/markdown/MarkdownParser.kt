@@ -2,6 +2,8 @@ package org.futo.circles.core.feature.markdown
 
 import android.content.Context
 import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.Spanned
 import android.text.style.StyleSpan
 import io.noties.markwon.AbstractMarkwonPlugin
 import io.noties.markwon.Markwon
@@ -21,7 +23,7 @@ object MarkdownParser {
 
     private var markwonBulder: Markwon? = null
 
-    fun getInstance() = markwonBulder ?: throw IllegalArgumentException("Not initialized")
+    fun parse(text: String): Spanned = markwonBulder?.toMarkdown(text) ?: SpannableString(text)
 
     fun clearInstance() {
         markwonBulder = null

@@ -18,9 +18,7 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
 fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
     val caption = getCaption()
-    val captionSpanned = caption?.let {
-        MarkdownParser.getInstance().toMarkdown(it)
-    }
+    val captionSpanned = caption?.let { MarkdownParser.parse(it) }
     return MediaContent(
         type = if (mediaType == MediaType.Image) PostContentType.IMAGE_CONTENT else PostContentType.VIDEO_CONTENT,
         caption = getCaption(),
