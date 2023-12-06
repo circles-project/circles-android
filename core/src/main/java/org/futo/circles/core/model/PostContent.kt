@@ -53,8 +53,7 @@ enum class PollState { Sending, Ready, Voted, Ended }
 
 fun PollState.canEdit() = this == PollState.Sending || this == PollState.Ready
 
-fun PollState.canVote() =
-    this != PollState.Sending && this != PollState.Ended && this != PollState.Voted
+fun PollState.canVote() = this != PollState.Sending && this != PollState.Ended
 
 data class PollOption(
     val optionId: String,
