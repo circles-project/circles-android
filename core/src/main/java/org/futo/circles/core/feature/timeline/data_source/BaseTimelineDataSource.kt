@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
@@ -58,7 +57,6 @@ abstract class BaseTimelineDataSource(
         startTimeline(listener)
         awaitClose()
     }.flowOn(Dispatchers.IO)
-        .debounce(150)
         .mapLatest {
             timelineBuilder.build(it, isThread)
         }
