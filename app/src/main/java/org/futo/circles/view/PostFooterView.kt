@@ -96,7 +96,10 @@ class PostFooterView(
     }
 
     private fun bindReactionsList(reactions: List<ReactionsData>) {
-        emojisTimelineAdapter.submitList(reactions)
+        binding.rvEmojis.setIsVisible(reactions.isNotEmpty())
+        binding.rvEmojis.post {
+            emojisTimelineAdapter.submitList(reactions)
+        }
     }
 
 }
