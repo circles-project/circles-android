@@ -19,8 +19,18 @@ import org.matrix.android.sdk.api.session.getUserOrDefault
 
 object MarkdownParser {
 
+    private var markwonBulder: Markwon? = null
 
-    fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
+    fun getInstance() = markwonBulder ?: throw IllegalArgumentException("Not initialized")
+
+    fun clearInstance() {
+        markwonBulder = null
+    }
+
+    //require UI context for Mentions span
+    fun initBuilder(context: Context) = markwonBuilder(context).also { markwonBulder = it }
+
+    private fun markwonBuilder(context: Context): Markwon = Markwon.builder(context)
         .usePlugin(SoftBreakAddsNewLinePlugin.create())
         .usePlugin(StrikethroughPlugin.create())
         .usePlugin(LinkifyPlugin.create())

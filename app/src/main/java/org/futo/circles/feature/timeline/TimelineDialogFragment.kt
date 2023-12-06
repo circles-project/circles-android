@@ -23,6 +23,7 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
@@ -72,7 +73,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     private val listAdapter by lazy {
         TimelineAdapter(
-            requireContext(),
             getCurrentUserPowerLevel(args.roomId),
             this,
             isThread
@@ -87,11 +87,21 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        MarkdownParser.initBuilder(requireContext())
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
         setupMenu()
+    }
+
+    override fun onDestroy() {
+        MarkdownParser.clearInstance()
+        super.onDestroy()
     }
 
     private fun setupViews() {

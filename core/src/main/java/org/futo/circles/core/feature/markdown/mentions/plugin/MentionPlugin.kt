@@ -7,6 +7,7 @@ import io.noties.markwon.SpannableBuilder
 import org.commonmark.node.Text
 import org.commonmark.parser.Parser
 import org.futo.circles.core.feature.markdown.span.MentionSpan
+import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
 class MentionPlugin(private val context: Context) : AbstractMarkwonPlugin() {
@@ -26,12 +27,14 @@ class MentionPlugin(private val context: Context) : AbstractMarkwonPlugin() {
             val name = (simpleExtNode.firstChild as Text).literal
             val end = start + name.length
             visitor.builder().spannableStringBuilder().replace(start, end, "@")
-            SpannableBuilder.setSpans(
-                visitor.builder(),
-                MentionSpan(context, name),
-                start,
-                visitor.length()
-            )
+            tryOrNull {
+                SpannableBuilder.setSpans(
+                    visitor.builder(),
+                    MentionSpan(context, name),
+                    start,
+                    visitor.length()
+                )
+            }
         }
     }
 }

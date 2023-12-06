@@ -21,7 +21,7 @@ fun TimelineEvent.toPost(readReceipts: List<Long> = emptyList()): Post = Post(
     } ?: emptyList()
 )
 
-private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
+fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     id = eventId,
     roomId = roomId,
     isEncrypted = isEncrypted(),

@@ -11,7 +11,6 @@ import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostOptionsListener
 
 class TimelineAdapter(
-    context: Context,
     private var userPowerLevel: Int,
     private val postOptionsListener: PostOptionsListener,
     private val isThread: Boolean,
@@ -25,8 +24,6 @@ class TimelineAdapter(
         needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
     )
 }) {
-
-    private val markwon = MarkdownParser.markwonBuilder(context)
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateUserPowerLevel(level: Int) {
@@ -44,7 +41,7 @@ class TimelineAdapter(
                 parent, postOptionsListener, isThread
             )
 
-            else -> TextMediaPostViewHolder(parent, markwon, postOptionsListener, isThread)
+            else -> TextMediaPostViewHolder(parent, postOptionsListener, isThread)
         }
     }
 

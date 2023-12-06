@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
-import io.noties.markwon.Markwon
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
@@ -42,7 +41,6 @@ sealed class PostViewHolder(view: View, private val isThread: Boolean) :
 
 class TextMediaPostViewHolder(
     parent: ViewGroup,
-    private val markwon: Markwon,
     postOptionsListener: PostOptionsListener,
     isThread: Boolean
 ) : PostViewHolder(inflate(parent, ViewTextMediaPostBinding::inflate), isThread),
@@ -86,7 +84,7 @@ class TextMediaPostViewHolder(
 
     private fun bindTextPost(content: TextContent) {
         binding.tvTextContent.apply {
-            setText(markwon.toMarkdown(content.message), TextView.BufferType.SPANNABLE)
+            setText(content.messageSpanned, TextView.BufferType.SPANNABLE)
             visible()
         }
         binding.vMediaContent.lMedia.gone()
@@ -101,9 +99,9 @@ class TextMediaPostViewHolder(
 
     private fun bindMediaCaption(content: MediaContent) {
         binding.tvTextContent.apply {
-            val caption = content.caption
+            val caption = content.captionSpanned
             setIsVisible(caption != null)
-            caption?.let { setText(markwon.toMarkdown(it), TextView.BufferType.SPANNABLE) }
+            caption?.let { setText(it, TextView.BufferType.SPANNABLE) }
         }
     }
 
