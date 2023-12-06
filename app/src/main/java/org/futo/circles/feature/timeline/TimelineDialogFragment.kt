@@ -88,7 +88,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             getCurrentUserPowerLevel(args.roomId),
             this,
             isThread
-        ) { loadMoreDebounce(Unit) }
+        ) { loadMoreDebounce(Unit) }.apply { setHasStableIds(true) }
     }
     private val navigator by lazy { TimelineNavigator(this) }
     private val knocksCountBadgeDrawable by lazy {
