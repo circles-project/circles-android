@@ -89,15 +89,9 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        MarkdownParser.initBuilder(requireContext())
         setupViews()
         setupObservers()
         setupMenu()
-    }
-
-    override fun onDestroy() {
-        MarkdownParser.clearInstance()
-        super.onDestroy()
     }
 
     private fun setupViews() {
