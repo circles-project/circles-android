@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.ReactionsData
@@ -27,7 +26,6 @@ class PostFooterView(
     private var isThreadPost = false
     private var userPowerLevel: Int = Role.Default.value
     private val emojisTimelineAdapter = EmojisTimelineAdapter { reaction ->
-        locallyUpdateEmojisList(reaction)
         post?.let {
             optionsListener?.onEmojiChipClicked(
                 it.postInfo.roomId,
@@ -98,28 +96,7 @@ class PostFooterView(
     }
 
     private fun bindReactionsList(reactions: List<ReactionsData>) {
-        binding.rvEmojis.setIsVisible(reactions.isNotEmpty())
         emojisTimelineAdapter.submitList(reactions)
-    }
-
-    private fun locallyUpdateEmojisList(reaction: ReactionsData) {
-        if (!NetworkObserver.isConnected()) return
-        if (areUserAbleToPost().not()) return
-        val emojisList = post?.reactionsData?.toMutableList() ?: return
-        val newItem = if (reaction.addedByMe) {
-            if (reaction.count == 1) {
-                emojisList.remove(reaction)
-                null
-            } else reaction.copy(addedByMe = false, count = reaction.count - 1)
-        } else reaction.copy(addedByMe = true, count = reaction.count + 1)
-
-        newItem?.let {
-            val index = emojisList.indexOf(reaction)
-            emojisList.add(index, it)
-            emojisList.remove(reaction)
-        }
-        bindReactionsList(emojisList)
-        post = post?.copy(reactionsData = emojisList)
     }
 
 }
