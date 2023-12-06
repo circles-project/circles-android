@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/emojiChip"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="1dp"
-    android:paddingVertical="2dp">
-
-    <com.google.android.material.chip.Chip
-        android:id="@+id/emojiChip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checkable="true"
-        app:checkedIconVisible="false"
-        app:chipBackgroundColor="@color/emoji_chip_background"
-        app:ensureMinTouchTargetSize="false" />
-</FrameLayout>
+    android:layout_marginHorizontal="1dp"
+    android:layout_marginVertical="2dp"
+    android:checkable="true"
+    app:checkedIconVisible="false"
+    app:chipBackgroundColor="@color/emoji_chip_background"
+    app:ensureMinTouchTargetSize="false" />
