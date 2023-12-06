@@ -8,16 +8,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.model.GalleryContentListItem
-import org.futo.circles.core.model.MediaContent
-import org.futo.circles.core.model.MediaType
-import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.feature.timeline.data_source.SingleTimelineDataSource
 import org.futo.circles.core.feature.timeline.post.PostContentDataSource
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
+import org.futo.circles.core.model.GalleryContentListItem
+import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.model.ShareableContent
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +34,7 @@ class GalleryViewModel @Inject constructor(
 
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
 
-    val galleryItemsLiveData = timelineDataSource.timelineEventsLiveData.map { list ->
+    val galleryItemsLiveData = timelineDataSource.getTimelineEventFlow().asLiveData().map { list ->
         list.mapNotNull { post ->
             (post.content as? MediaContent)?.let {
                 GalleryContentListItem(post.id, post.postInfo, it)

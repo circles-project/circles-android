@@ -1,7 +1,14 @@
 package org.futo.circles.core.feature.timeline.data_source
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.feature.timeline.builder.BaseTimelineBuilder
 import org.futo.circles.core.feature.timeline.builder.MultiTimelineBuilder
@@ -19,7 +26,7 @@ import javax.inject.Inject
 abstract class BaseTimelineDataSource(
     savedStateHandle: SavedStateHandle,
     private val timelineBuilder: BaseTimelineBuilder
-) : Timeline.Listener {
+) {
 
     class Factory @Inject constructor(private val savedStateHandle: SavedStateHandle) {
         fun create(isMultiTimelines: Boolean): BaseTimelineDataSource =
@@ -32,30 +39,45 @@ abstract class BaseTimelineDataSource(
     protected val session = MatrixSessionProvider.getSessionOrThrow()
 
     val room = session.getRoom(roomId) ?: throw IllegalArgumentException("room is not found")
-    val timelineEventsLiveData = MutableLiveData<List<Post>>()
 
     private val isThread: Boolean = threadEventId != null
     private val listDirection =
         if (isThread) Timeline.Direction.FORWARDS else Timeline.Direction.BACKWARDS
 
 
-    abstract fun startTimeline()
+    fun getTimelineEventFlow(): Flow<List<Post>> = callbackFlow {
+        val listener = object : Timeline.Listener {
+            override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
+                if (snapshot.isNotEmpty()) trySend(snapshot)
+            }
+
+            override fun onTimelineFailure(timelineId: String, throwable: Throwable) {
+                onTimelineFailure(timelineId, throwable)
+            }
+        }
+        startTimeline(listener)
+        awaitClose()
+    }.flowOn(Dispatchers.IO)
+        .debounce(150)
+        .mapLatest {
+            timelineBuilder.build(it, isThread)
+        }
+        .distinctUntilChanged()
+
+    protected abstract fun startTimeline(listener: Timeline.Listener)
+
+    protected abstract fun onTimelineFailure(timelineId: String, throwable: Throwable)
     abstract fun clearTimeline()
     abstract fun loadMore(): Boolean
 
-    override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
-        if (snapshot.isNotEmpty())
-            timelineEventsLiveData.value = timelineBuilder.build(snapshot, isThread)
-    }
-
-    protected fun createAndStartNewTimeline(room: Room) =
+    protected fun createAndStartNewTimeline(room: Room, listener: Timeline.Listener) =
         room.timelineService()
             .createTimeline(
                 null,
                 TimelineSettings(initialSize = MESSAGES_PER_PAGE, rootThreadEventId = threadEventId)
             )
             .apply {
-                addListener(this@BaseTimelineDataSource)
+                addListener(listener)
                 start(threadEventId)
             }
 
@@ -68,10 +90,6 @@ abstract class BaseTimelineDataSource(
         val hasMore = timeline.hasMoreToLoad(listDirection)
         if (hasMore) timeline.paginate(listDirection, MESSAGES_PER_PAGE)
         return hasMore
-    }
-
-    protected fun restartTimelineOnFailure(timeline: Timeline) {
-        if (timeline.getPaginationState(listDirection).inError) timeline.restartWithEventId(null)
     }
 
     companion object {

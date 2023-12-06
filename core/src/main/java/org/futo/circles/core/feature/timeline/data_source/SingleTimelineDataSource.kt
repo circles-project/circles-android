@@ -14,8 +14,12 @@ class SingleTimelineDataSource @Inject constructor(
 
     private var timeline: Timeline? = null
 
-    override fun startTimeline() {
-        timeline = createAndStartNewTimeline(room)
+    override fun startTimeline(listener: Timeline.Listener) {
+        timeline = createAndStartNewTimeline(room, listener)
+    }
+
+    override fun onTimelineFailure(timelineId: String, throwable: Throwable) {
+        timeline?.restartWithEventId(null)
     }
 
     override fun clearTimeline() {
@@ -24,9 +28,5 @@ class SingleTimelineDataSource @Inject constructor(
     }
 
     override fun loadMore() = timeline?.let { loadNextPage(it) } ?: false
-
-    override fun onTimelineFailure(throwable: Throwable) {
-        timeline?.let { restartTimelineOnFailure(it) }
-    }
 
 }

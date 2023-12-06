@@ -17,7 +17,7 @@ abstract class BaseTimelineBuilder {
 
     abstract fun List<TimelineEvent>.processSnapshot(isThread: Boolean): List<Post>
 
-    fun build(snapshot: List<TimelineEvent>, isThread: Boolean): List<Post> = snapshot
+    suspend fun build(snapshot: List<TimelineEvent>, isThread: Boolean): List<Post> = snapshot
         .filterTimelineEvents(isThread)
         .processSnapshot(isThread)
 
