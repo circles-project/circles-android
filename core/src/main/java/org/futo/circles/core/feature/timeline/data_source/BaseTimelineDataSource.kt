@@ -58,7 +58,9 @@ abstract class BaseTimelineDataSource(
         awaitClose()
     }.flowOn(Dispatchers.IO)
         .mapLatest {
-            timelineBuilder.build(it, isThread)
+            val items = timelineBuilder.build(it, isThread)
+            if (it.isNotEmpty() && items.isEmpty()) loadMore()
+            items
         }
         .distinctUntilChanged()
 
