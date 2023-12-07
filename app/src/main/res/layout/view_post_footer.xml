@@ -7,16 +7,26 @@
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
 
-    <androidx.recyclerview.widget.RecyclerView
+    <HorizontalScrollView
         android:id="@+id/rvEmojis"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/btnLike"
         app:layout_constraintEnd_toStartOf="@id/btnLike"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnLike" />
+        app:layout_constraintTop_toTopOf="@id/btnLike"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/lEmojisContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+
+    </HorizontalScrollView>
 
 
     <com.google.android.material.button.MaterialButton

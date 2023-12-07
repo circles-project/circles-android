@@ -5,11 +5,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.ReactionsData
 import org.futo.circles.databinding.ViewPostFooterBinding
-import org.futo.circles.feature.timeline.post.emoji.EmojisTimelineAdapter
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 
@@ -25,16 +25,6 @@ class PostFooterView(
     private var post: Post? = null
     private var isThreadPost = false
     private var userPowerLevel: Int = Role.Default.value
-    private val emojisTimelineAdapter = EmojisTimelineAdapter { reaction ->
-        post?.let {
-            optionsListener?.onEmojiChipClicked(
-                it.postInfo.roomId,
-                it.id,
-                reaction.key,
-                reaction.addedByMe
-            )
-        }
-    }
 
     init {
         setupViews()
@@ -53,7 +43,6 @@ class PostFooterView(
             btnLike.setOnClickListener {
                 post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
             }
-            rvEmojis.adapter = emojisTimelineAdapter
         }
     }
 
@@ -97,9 +86,34 @@ class PostFooterView(
 
     private fun bindReactionsList(reactions: List<ReactionsData>) {
         binding.rvEmojis.setIsVisible(reactions.isNotEmpty())
-        binding.rvEmojis.post {
-            emojisTimelineAdapter.submitList(reactions)
+        binding.lEmojisContainer.removeAllViews()
+        reactions.forEach {
+            binding.lEmojisContainer.addView(ReactionItemView(context).apply {
+                setup(it) { reaction ->
+                    locallyUpdateEmojisList(this, reaction)
+                    post?.let {
+                        optionsListener?.onEmojiChipClicked(
+                            it.postInfo.roomId,
+                            it.id,
+                            reaction.key,
+                            reaction.addedByMe
+                        )
+                    }
+                }
+            })
         }
     }
+
+    private fun locallyUpdateEmojisList(view: ReactionItemView, reaction: ReactionsData) {
+        if (!NetworkObserver.isConnected()) return
+        if (areUserAbleToPost().not()) return
+        if (reaction.addedByMe) {
+            if (reaction.count == 1) binding.lEmojisContainer.removeView(view)
+            else view.bindReactionData(reaction.copy(addedByMe = false, count = reaction.count - 1))
+        } else {
+            view.bindReactionData(reaction.copy(addedByMe = true, count = reaction.count + 1))
+        }
+    }
+
 
 }
