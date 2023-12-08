@@ -23,7 +23,6 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
@@ -86,6 +85,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
                 ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
         }
     }
+
+    private var onLocalAddEmojiCallback: ((String) -> Unit)? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -203,8 +204,9 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         navigator.navigateToShowMediaPreview(roomId, eventId)
     }
 
-    override fun onShowEmoji(roomId: String, eventId: String) {
+    override fun onShowEmoji(roomId: String, eventId: String, onAddEmoji: (String) -> Unit) {
         if (showNoInternetConnection()) return
+        onLocalAddEmojiCallback = onAddEmoji
         navigator.navigateToShowEmoji(roomId, eventId)
     }
 
@@ -274,6 +276,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
         roomId ?: return
         eventId ?: return
+        onLocalAddEmojiCallback?.invoke(emoji)
+        onLocalAddEmojiCallback = null
         viewModel.sendReaction(roomId, eventId, emoji)
     }
 

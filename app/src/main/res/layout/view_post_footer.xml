@@ -8,7 +8,7 @@
 
 
     <HorizontalScrollView
-        android:id="@+id/rvEmojis"
+        android:id="@+id/hsEmojis"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
@@ -47,7 +47,7 @@
         app:iconTint="@color/button_src_state_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnReply"
-        app:layout_constraintStart_toEndOf="@id/rvEmojis"
+        app:layout_constraintStart_toEndOf="@id/hsEmojis"
         app:layout_constraintTop_toBottomOf="@id/divider"
         app:tint="@color/button_src_state_color" />
 

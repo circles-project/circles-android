@@ -11,13 +11,13 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import org.futo.circles.R
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PollContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.databinding.LayoutPostBinding
-import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.model.PostItemPayload
 import org.matrix.android.sdk.api.session.room.send.SendState
 
@@ -28,7 +28,7 @@ interface PostOptionsListener {
     fun onShare(content: PostContent)
     fun onReply(roomId: String, eventId: String)
     fun onShowPreview(roomId: String, eventId: String)
-    fun onShowEmoji(roomId: String, eventId: String)
+    fun onShowEmoji(roomId: String, eventId: String, onAddEmoji: (String) -> Unit)
     fun onEmojiChipClicked(roomId: String, eventId: String, emoji: String, isUnSend: Boolean)
     fun onPollOptionSelected(roomId: String, eventId: String, optionId: String)
 }
@@ -49,7 +49,11 @@ class PostLayout(
         GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
                 if (binding.postFooter.areUserAbleToPost())
-                    post?.let { optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) }
+                    post?.let {
+                        optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) { emoji ->
+                            binding.postFooter.addEmojiFromPickerLocalUpdate(emoji)
+                        }
+                    }
                 return true
             }
 

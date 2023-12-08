@@ -15,14 +15,19 @@ class ReactionItemView(
     private val binding =
         ListItemTimelineReactionBinding.inflate(LayoutInflater.from(context), this)
 
+    var reactionsData: ReactionsData? = null
+        private set
+
     fun setup(data: ReactionsData, onClick: (ReactionsData) -> Unit) {
         binding.emojiChip.setOnClickListener { onClick(data) }
         bindReactionData(data)
     }
 
     fun bindReactionData(data: ReactionsData) {
+        reactionsData = data
         binding.emojiChip.apply {
             val title = "${data.key} ${data.count}"
+            tag = data.key
             text = title
             isChecked = data.addedByMe
         }
