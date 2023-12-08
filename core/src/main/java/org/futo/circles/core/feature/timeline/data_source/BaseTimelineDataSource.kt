@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
@@ -57,6 +58,7 @@ abstract class BaseTimelineDataSource(
         startTimeline(listener)
         awaitClose()
     }.flowOn(Dispatchers.IO)
+        .debounce(150)
         .mapLatest {
             val items = timelineBuilder.build(it, isThread)
             if (it.isNotEmpty() && items.size <= LOAD_MORE_THRESHOLD) loadMore()
