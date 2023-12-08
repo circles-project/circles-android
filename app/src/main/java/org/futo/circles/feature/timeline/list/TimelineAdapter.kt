@@ -1,10 +1,9 @@
 package org.futo.circles.feature.timeline.list
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
-import org.futo.circles.core.feature.markdown.MarkdownParser
+import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.model.PostItemPayload
@@ -47,7 +46,7 @@ class TimelineAdapter(
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         holder.bind(getItem(position), userPowerLevel)
-        if (position >= itemCount - LOAD_MORE_THRESHOLD) onLoadMore()
+        if (position >= itemCount - BaseTimelineDataSource.LOAD_MORE_THRESHOLD) onLoadMore()
     }
 
     override fun onBindViewHolder(
@@ -69,10 +68,6 @@ class TimelineAdapter(
     override fun onViewDetachedFromWindow(holder: PostViewHolder) {
         super.onViewDetachedFromWindow(holder)
         (holder as? UploadMediaViewHolder)?.uploadMediaTracker?.unTrack()
-    }
-
-    companion object {
-        private const val LOAD_MORE_THRESHOLD = 15
     }
 
 }

@@ -59,7 +59,7 @@ abstract class BaseTimelineDataSource(
     }.flowOn(Dispatchers.IO)
         .mapLatest {
             val items = timelineBuilder.build(it, isThread)
-            if (it.isNotEmpty() && items.isEmpty()) loadMore()
+            if (it.isNotEmpty() && items.size <= LOAD_MORE_THRESHOLD) loadMore()
             items
         }
         .distinctUntilChanged()
@@ -94,5 +94,6 @@ abstract class BaseTimelineDataSource(
 
     companion object {
         private const val MESSAGES_PER_PAGE = 50
+        const val LOAD_MORE_THRESHOLD = 15
     }
 }
