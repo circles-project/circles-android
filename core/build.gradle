@@ -69,7 +69,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
 
     //Matrix
-    api 'org.matrix.android:matrix-sdk-android-rustCrypto:1.5.30.27'
+    api 'org.matrix.android:matrix-sdk-android-rustCrypto:1.5.30.37'
 
     //Retrofit2
     def retrofit_version = '2.9.0'
@@ -80,7 +80,7 @@ dependencies {
     api 'com.google.code.gson:gson:2.10.1'
 
     //Worker
-    def work_version = "2.8.1"
+    def work_version = "2.9.0"
     api "androidx.work:work-runtime-ktx:$work_version"
 
     //Glide
@@ -94,6 +94,15 @@ dependencies {
 
     //QR
     api 'com.google.zxing:core:3.5.2'
+
+    //Markdown
+    def markwon_version = "4.6.2"
+    api "io.noties.markwon:core:$markwon_version"
+    api "io.noties.markwon:linkify:$markwon_version"
+    api "io.noties.markwon:ext-strikethrough:$markwon_version"
+    api "io.noties.markwon:ext-tasklist:$markwon_version"
+    //noinspection GradleDependency
+    api "io.element.android:wysiwyg:2.2.2"
 
     //Shake detection
     implementation 'com.squareup:seismic:1.0.3'

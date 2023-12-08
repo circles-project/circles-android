@@ -17,7 +17,7 @@ import org.matrix.android.sdk.api.extensions.orFalse
 
 object NetworkObserver {
 
-    private val internetConnectionFlow = MutableStateFlow(false)
+    private val internetConnectionFlow = MutableStateFlow(true)
 
     fun isConnected() = internetConnectionFlow.value
 
@@ -59,7 +59,7 @@ object NetworkObserver {
     }
 
     private fun isConnectedToInternet(context: Context): Boolean {
-        val connectivityManager = context.getSystemService<ConnectivityManager>() ?: return false
+        val connectivityManager = context.getSystemService<ConnectivityManager>() ?: return true
         val capabilities =
             connectivityManager.activeNetwork?.let { connectivityManager.getNetworkCapabilities(it) }
         val hasWifi = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI).orFalse()

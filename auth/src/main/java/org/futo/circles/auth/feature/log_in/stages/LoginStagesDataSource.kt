@@ -9,6 +9,7 @@ import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.EncryptionAlgorithmHelper
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
+import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
@@ -27,7 +28,8 @@ class LoginStagesDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val restoreBackupDataSource: RestoreBackupDataSource,
     private val encryptionAlgorithmHelper: EncryptionAlgorithmHelper,
-    private val createPassPhraseDataSource: CreatePassPhraseDataSource
+    private val createPassPhraseDataSource: CreatePassPhraseDataSource,
+    private val refreshTokenManager: RefreshTokenManager
 ) : BaseLoginStagesDataSource(context) {
 
     val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
@@ -43,7 +45,8 @@ class LoginStagesDataSource @Inject constructor(
             wizard.loginStageCustom(
                 authParams,
                 getIdentifier(),
-                context.getString(R.string.initial_device_name)
+                context.getString(R.string.initial_device_name),
+                true
             )
         }
         (result as? Response.Success)?.let { stageCompleted(result.data, password) }
@@ -60,6 +63,7 @@ class LoginStagesDataSource @Inject constructor(
 
     private suspend fun finishLogin(session: Session) {
         MatrixSessionProvider.awaitForSessionSync(session)
+        refreshTokenManager.scheduleTokenRefreshIfNeeded(session)
         handleKeysBackup()
         BSSpekeClientProvider.clear()
     }

@@ -1,9 +1,10 @@
 package org.futo.circles.core.feature.timeline
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
-import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
+import org.futo.circles.core.mapping.nameOrId
 
 abstract class BaseTimelineViewModel(
     private val baseTimelineDataSource: BaseTimelineDataSource
@@ -12,11 +13,7 @@ abstract class BaseTimelineViewModel(
     val titleLiveData =
         baseTimelineDataSource.room.getRoomSummaryLive().map { it.getOrNull()?.nameOrId() ?: "" }
 
-    val timelineEventsLiveData = baseTimelineDataSource.timelineEventsLiveData
-
-    init {
-        baseTimelineDataSource.startTimeline()
-    }
+    val timelineEventsLiveData = baseTimelineDataSource.getTimelineEventFlow().asLiveData()
 
     override fun onCleared() {
         baseTimelineDataSource.clearTimeline()

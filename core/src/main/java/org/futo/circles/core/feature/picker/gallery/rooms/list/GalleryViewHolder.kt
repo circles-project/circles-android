@@ -8,9 +8,12 @@ import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInvitedGalleryBinding
 import org.futo.circles.core.databinding.ListItemJoinedGalleryBinding
+import org.futo.circles.core.extensions.loadMatrixImage
 import org.futo.circles.core.extensions.loadProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.feature.textDrawable.ColorGenerator
+import org.futo.circles.core.feature.textDrawable.TextDrawable
 import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.model.InvitedGalleryListItem
 import org.futo.circles.core.model.JoinedGalleryListItem
@@ -37,7 +40,11 @@ class JoinedGalleryViewHolder(
         if (data !is JoinedGalleryListItem) return
 
         with(binding) {
-            ivGalleryImage.loadProfileIcon(data.info.avatarUrl, "")
+            val placeholder = TextDrawable.Builder()
+                .setShape(TextDrawable.SHAPE_ROUND_RECT)
+                .setColor(ColorGenerator().getColor(data.id))
+                .build()
+            ivGalleryImage.loadMatrixImage(url = data.info.avatarUrl, placeholder = placeholder)
             tvGalleryName.text = data.info.title
         }
     }

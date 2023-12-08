@@ -75,7 +75,7 @@ fun ImageView.loadProfileIcon(
 
 
 @SuppressLint("CheckResult")
-private fun ImageView.loadMatrixImage(
+fun ImageView.loadMatrixImage(
     url: String?,
     loadOriginalSize: Boolean = false,
     placeholder: Drawable? = null,

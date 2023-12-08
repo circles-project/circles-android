@@ -144,7 +144,7 @@ class TimelineViewModel @Inject constructor(
         launchBg {
             if (isGroup) readMessageDataSource.markRoomAsRead(roomId)
             else session?.getRoom(roomId)?.roomSummary()?.spaceChildren?.map {
-                async { readMessageDataSource.markRoomAsRead(roomId) }
+                async { readMessageDataSource.markRoomAsRead(it.childRoomId) }
             }?.awaitAll()
         }
     }

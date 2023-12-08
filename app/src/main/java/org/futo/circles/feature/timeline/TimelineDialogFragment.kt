@@ -26,7 +26,6 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
-import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.utils.debounce
@@ -66,18 +65,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         debounce<Unit>(
             scope = lifecycleScope,
             destinationFunction = {
-                if (viewModel.loadMore()) binding.rvTimeline.setIsPageLoading(true)
-            }
-        )
-    }
-
-    private val submitDataDebounce by lazy {
-        debounce<List<Post>>(
-            scope = lifecycleScope,
-            destinationFunction = {
-                listAdapter.submitList(it)
-                binding.rvTimeline.setIsPageLoading(false)
-                viewModel.markTimelineAsRead(args.roomId, isGroupMode)
+                binding.rvTimeline.setIsPageLoading(viewModel.loadMore())
             }
         )
     }
@@ -87,7 +75,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             getCurrentUserPowerLevel(args.roomId),
             this,
             isThread
-        ) { loadMoreDebounce(Unit) }
+        ) { loadMoreDebounce(Unit) }.apply { setHasStableIds(true) }
     }
     private val navigator by lazy { TimelineNavigator(this) }
     private val knocksCountBadgeDrawable by lazy {
@@ -97,6 +85,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
                 ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
         }
     }
+
+    private var onLocalAddEmojiCallback: ((String) -> Unit)? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -167,7 +157,9 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             binding.toolbar.title = title
         }
         viewModel.timelineEventsLiveData.observeData(this) {
-            submitDataDebounce(it)
+            listAdapter.submitList(it)
+            binding.rvTimeline.setIsPageLoading(false)
+            viewModel.markTimelineAsRead(args.roomId, isGroupMode)
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =
@@ -212,8 +204,9 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         navigator.navigateToShowMediaPreview(roomId, eventId)
     }
 
-    override fun onShowEmoji(roomId: String, eventId: String) {
+    override fun onShowEmoji(roomId: String, eventId: String, onAddEmoji: (String) -> Unit) {
         if (showNoInternetConnection()) return
+        onLocalAddEmojiCallback = onAddEmoji
         navigator.navigateToShowEmoji(roomId, eventId)
     }
 
@@ -283,6 +276,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
         roomId ?: return
         eventId ?: return
+        onLocalAddEmojiCallback?.invoke(emoji)
+        onLocalAddEmojiCallback = null
         viewModel.sendReaction(roomId, eventId, emoji)
     }
 

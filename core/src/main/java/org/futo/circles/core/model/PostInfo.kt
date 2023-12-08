@@ -1,5 +1,6 @@
 package org.futo.circles.core.model
 
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.sender.SenderInfo
 
 data class PostInfo(
@@ -9,4 +10,7 @@ data class PostInfo(
     val isEncrypted: Boolean,
     val timestamp: Long,
     val isEdited: Boolean
-)
+) {
+    fun isMyPost(): Boolean =
+        sender.userId == MatrixSessionProvider.currentSession?.myUserId
+}

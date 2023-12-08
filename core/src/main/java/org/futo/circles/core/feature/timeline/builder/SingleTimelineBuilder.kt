@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class SingleTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
 
-    override fun List<TimelineEvent>.processSnapshot(isThread: Boolean): List<Post> {
+    override suspend fun List<TimelineEvent>.processSnapshot(isThread: Boolean): List<Post> {
         val room = MatrixSessionProvider.currentSession?.getRoom(firstOrNull()?.roomId ?: "")
             ?: return emptyList()
         val receipts = getReadReceipts(room)

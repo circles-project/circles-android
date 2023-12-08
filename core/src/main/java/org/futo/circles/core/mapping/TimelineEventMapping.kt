@@ -21,7 +21,7 @@ fun TimelineEvent.toPost(readReceipts: List<Long> = emptyList()): Post = Post(
     } ?: emptyList()
 )
 
-private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
+fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     id = eventId,
     roomId = roomId,
     isEncrypted = isEncrypted(),
@@ -30,13 +30,14 @@ private fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     isEdited = hasBeenEdited()
 )
 
-private fun TimelineEvent.toPostContent(): PostContent = when (getPostContentType()) {
-    PostContentType.TEXT_CONTENT -> toTextContent()
-    PostContentType.IMAGE_CONTENT -> toMediaContent(MediaType.Image)
-    PostContentType.VIDEO_CONTENT -> toMediaContent(MediaType.Video)
-    PostContentType.POLL_CONTENT -> toPollContent()
-    else -> toTextContent()
-}
+private fun TimelineEvent.toPostContent(): PostContent =
+    when (getPostContentType()) {
+        PostContentType.TEXT_CONTENT -> toTextContent()
+        PostContentType.IMAGE_CONTENT -> toMediaContent(MediaType.Image)
+        PostContentType.VIDEO_CONTENT -> toMediaContent(MediaType.Video)
+        PostContentType.POLL_CONTENT -> toPollContent()
+        else -> toTextContent()
+    }
 
 private fun TimelineEvent.getReadByCount(receipts: List<Long>): Int {
     val eventTime = root.originServerTs ?: 0

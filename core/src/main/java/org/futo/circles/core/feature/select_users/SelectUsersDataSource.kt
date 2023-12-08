@@ -1,15 +1,12 @@
 package org.futo.circles.core.feature.select_users
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.asFlow
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.mapLatest
-import org.futo.circles.core.extensions.getOrFetchUser
 import org.futo.circles.core.extensions.getUserIdsToExclude
 import org.futo.circles.core.mapping.toUserListItem
 import org.futo.circles.core.model.CirclesUserSummary
@@ -20,11 +17,9 @@ import org.futo.circles.core.model.UserListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserUtils
 import org.matrix.android.sdk.api.MatrixPatterns
-import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
 

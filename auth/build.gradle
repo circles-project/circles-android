@@ -56,13 +56,13 @@ dependencies {
     implementation project(path: ':core')
 
     //ChromeTabs
-    implementation "androidx.browser:browser:1.6.0"
+    implementation "androidx.browser:browser:1.7.0"
 
     //Password strength
     implementation 'com.nulab-inc:zxcvbn:1.8.2'
 
     //Subscriptions
-    implementation 'com.android.billingclient:billing-ktx:6.0.1'
+    implementation 'com.android.billingclient:billing-ktx:6.1.0'
 
     //QR
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
@@ -70,6 +70,7 @@ dependencies {
     //Hilt
     implementation "com.google.dagger:hilt-android:$rootProject.ext.hilt_version"
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
+    implementation "androidx.hilt:hilt-work:1.1.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

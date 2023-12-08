@@ -2,6 +2,7 @@ package org.futo.circles.core.mapping
 
 import com.bumptech.glide.request.target.Target
 import org.futo.circles.core.base.MediaCaptionFieldKey
+import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.model.MediaType
@@ -15,13 +16,18 @@ import org.matrix.android.sdk.api.session.room.model.message.getFileName
 import org.matrix.android.sdk.api.session.room.model.message.getFileUrl
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
-fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent = MediaContent(
-    type = if (mediaType == MediaType.Image) PostContentType.IMAGE_CONTENT else PostContentType.VIDEO_CONTENT,
-    caption = getCaption(),
-    mediaFileData = toMediaFileData(mediaType),
-    thumbnailFileData = toThumbnailFileData(mediaType),
-    thumbHash = getThumbHash(mediaType)
-)
+fun TimelineEvent.toMediaContent(mediaType: MediaType): MediaContent {
+    val caption = getCaption()
+    val captionSpanned = caption?.let { MarkdownParser.parse(it) }
+    return MediaContent(
+        type = if (mediaType == MediaType.Image) PostContentType.IMAGE_CONTENT else PostContentType.VIDEO_CONTENT,
+        caption = getCaption(),
+        captionSpanned = captionSpanned,
+        mediaFileData = toMediaFileData(mediaType),
+        thumbnailFileData = toThumbnailFileData(mediaType),
+        thumbHash = getThumbHash(mediaType)
+    )
+}
 
 private fun TimelineEvent.getCaption(): String? {
     val lastContent =

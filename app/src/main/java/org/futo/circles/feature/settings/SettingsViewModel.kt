@@ -3,17 +3,20 @@ package org.futo.circles.feature.settings
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.log_in.log_out.LogoutDataSource
+import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
+import org.futo.circles.core.provider.MatrixSessionProvider
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDataSource: SettingsDataSource,
     private val logoutDataSource: LogoutDataSource,
-    private val sharedCircleDataSource: SharedCircleDataSource
+    private val sharedCircleDataSource: SharedCircleDataSource,
+    private val refreshTokenManager: RefreshTokenManager
 ) : ViewModel() {
 
     val profileLiveData = settingsDataSource.profileLiveData
@@ -26,6 +29,7 @@ class SettingsViewModel @Inject constructor(
 
     fun logOut() {
         launchBg {
+            MatrixSessionProvider.currentSession?.let { refreshTokenManager.cancelTokenRefreshing(it) }
             val result = logoutDataSource.logOut()
             logOutLiveData.postValue(result)
         }
@@ -33,6 +37,7 @@ class SettingsViewModel @Inject constructor(
 
     fun deactivateAccount() {
         launchBg {
+            MatrixSessionProvider.currentSession?.let { refreshTokenManager.cancelTokenRefreshing(it) }
             val deactivateResult = settingsDataSource.deactivateAccount()
             deactivateLiveData.postValue(deactivateResult)
         }

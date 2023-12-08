@@ -17,7 +17,24 @@ object ImageUtils {
             null,
             options
         )
-        return getSizeBasedOnOrientation(context, uri, options.outWidth, options.outHeight)
+        return getSizeBasedOnOrientation(
+            getImageOrientation(context, uri),
+            options.outWidth,
+            options.outHeight
+        )
+    }
+
+    fun getImageOrientation(context: Context, uri: Uri): Int {
+        var orientation = 0
+        context.contentResolver.openInputStream(uri)?.use { inputStream ->
+            try {
+                ExifInterface(inputStream).let {
+                    orientation = it.rotationDegrees
+                }
+            } catch (ignore: Exception) {
+            }
+        }
+        return orientation
     }
 
 }

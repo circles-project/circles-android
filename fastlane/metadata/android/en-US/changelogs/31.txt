@@ -1,0 +1,5 @@
+- Support for refresh tokens
+- Fixed markdown editor
+- Ability to change poll vote
+- Fixed Bcrypt backup restoration
+- Bug fixes and performance improvements

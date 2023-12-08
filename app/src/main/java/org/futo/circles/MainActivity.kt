@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.BaseActivity
+import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.feature.home.DeepLinkIntentHandler
 
@@ -15,6 +16,12 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LauncherActivityUtils.setInvalidTokenListener(this, getSelfIntent(this))
+        MarkdownParser.initBuilder(this)
+    }
+
+    override fun onDestroy() {
+        MarkdownParser.clearInstance()
+        super.onDestroy()
     }
 
     override fun onNewIntent(intent: Intent) {

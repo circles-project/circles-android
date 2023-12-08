@@ -1,5 +1,6 @@
 package org.futo.circles.core.model
 
+import android.text.Spanned
 import android.util.Size
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
@@ -18,12 +19,14 @@ sealed class PostContent(open val type: PostContentType) {
 }
 
 data class TextContent(
-    val message: String
+    val message: String,
+    val messageSpanned: Spanned
 ) : PostContent(PostContentType.TEXT_CONTENT)
 
 data class MediaContent(
     override val type: PostContentType,
     val caption: String?,
+    val captionSpanned: Spanned?,
     val mediaFileData: MediaFileData,
     val thumbnailFileData: MediaFileData?,
     val thumbHash: String?
@@ -50,8 +53,7 @@ enum class PollState { Sending, Ready, Voted, Ended }
 
 fun PollState.canEdit() = this == PollState.Sending || this == PollState.Ready
 
-fun PollState.canVote() =
-    this != PollState.Sending && this != PollState.Ended && this != PollState.Voted
+fun PollState.canVote() = this != PollState.Sending && this != PollState.Ended
 
 data class PollOption(
     val optionId: String,

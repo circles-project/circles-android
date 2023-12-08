@@ -26,7 +26,7 @@ class PickMediaItemViewModel @Inject constructor(
     private val selectedItemsFlow = MutableStateFlow<List<GalleryContentListItem>>(emptyList())
 
     val galleryItemsLiveData = combine(
-        timelineDataSource.timelineEventsLiveData.asFlow(),
+        timelineDataSource.getTimelineEventFlow(),
         selectedItemsFlow
     ) { items, selectedIds ->
         items.mapNotNull { post ->

@@ -19,6 +19,5 @@
     <color name="close_background">#80000000</color>
     <color name="highlight_color">#4D0E7AFE</color>
     <color name="launcher_background_color">#00008b</color>
-    <color name="transparent">#00000000</color>
 
 </resources>

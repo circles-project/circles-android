@@ -16,11 +16,15 @@ class MultiTimelinesDataSource @Inject constructor(
 
     private var timelines: MutableList<Timeline> = mutableListOf()
 
-    override fun startTimeline() {
+    override fun startTimeline(listener: Timeline.Listener) {
         getTimelineRooms().forEach { room ->
-            val timeline = createAndStartNewTimeline(room)
+            val timeline = createAndStartNewTimeline(room, listener)
             timelines.add(timeline)
         }
+    }
+
+    override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
+        timelines.firstOrNull { it.timelineID == timelineId }?.restartWithEventId(null)
     }
 
     override fun clearTimeline() {
@@ -34,10 +38,6 @@ class MultiTimelinesDataSource @Inject constructor(
             if (loadNextPage(timeline)) hasMore = true
         }
         return hasMore
-    }
-
-    override fun onTimelineFailure(throwable: Throwable) {
-        timelines.forEach { restartTimelineOnFailure(it) }
     }
 
     private fun getTimelineRooms(): List<Room> = room.roomSummary()?.spaceChildren?.mapNotNull {

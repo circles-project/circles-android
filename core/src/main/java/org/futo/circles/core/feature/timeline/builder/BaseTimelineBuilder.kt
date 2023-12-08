@@ -1,5 +1,7 @@
 package org.futo.circles.core.feature.timeline.builder
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.EventType
@@ -15,11 +17,14 @@ abstract class BaseTimelineBuilder {
     private val supportedTimelineEvens: List<String> =
         listOf(EventType.MESSAGE, EventType.POLL_START.stable, EventType.POLL_START.unstable)
 
-    abstract fun List<TimelineEvent>.processSnapshot(isThread: Boolean): List<Post>
+    abstract suspend fun List<TimelineEvent>.processSnapshot(isThread: Boolean): List<Post>
 
-    fun build(snapshot: List<TimelineEvent>, isThread: Boolean): List<Post> = snapshot
-        .filterTimelineEvents(isThread)
-        .processSnapshot(isThread)
+    suspend fun build(snapshot: List<TimelineEvent>, isThread: Boolean): List<Post> =
+        withContext(Dispatchers.IO) {
+            snapshot
+                .filterTimelineEvents(isThread)
+                .processSnapshot(isThread)
+        }
 
     protected fun sortList(list: List<Post>, isThread: Boolean) =
         if (isThread) list.sortedBy { it.postInfo.timestamp }
