@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClient.BillingResponseCode.BILLING_UNAVAILABLE
 import com.android.billingclient.api.BillingClient.BillingResponseCode.DEVELOPER_ERROR
@@ -42,14 +43,28 @@ class GoogleSubscriptionsManager(
 
     private val purchasesUpdatedListener =
         PurchasesUpdatedListener { billingResult, purchases ->
-            purchases?.let {
-                if (billingResult.responseCode == OK) {
-                    purchases.lastOrNull()?.toSubscriptionReceiptData()?.let {
-                        itemPurchasedListener?.onItemPurchased(it)
-                    } ?: itemPurchasedListener?.onPurchaseFailed(ERROR)
-                } else itemPurchasedListener?.onPurchaseFailed(billingResult.responseCode)
+            if (billingResult.responseCode == OK && purchases != null) {
+                purchases.lastOrNull()?.let {
+                    acknowledgePurchase(it)
+                } ?: kotlin.run { itemPurchasedListener?.onPurchaseFailed(ERROR) }
+            } else itemPurchasedListener?.onPurchaseFailed(billingResult.responseCode)
+        }
+
+    private fun acknowledgePurchase(purchase: Purchase) {
+        if (purchase.purchaseState != Purchase.PurchaseState.PURCHASED) return
+        if (purchase.isAcknowledged) {
+            itemPurchasedListener?.onItemPurchased(purchase.toSubscriptionReceiptData())
+            return
+        }
+        val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+            .setPurchaseToken(purchase.purchaseToken)
+        client.acknowledgePurchase(acknowledgePurchaseParams.build()) { result ->
+            when (val code = result.responseCode) {
+                OK -> itemPurchasedListener?.onItemPurchased(purchase.toSubscriptionReceiptData())
+                else -> itemPurchasedListener?.onPurchaseFailed(code)
             }
         }
+    }
 
     private val client = BillingClient.newBuilder(fragment.requireContext())
         .setListener(purchasesUpdatedListener)
@@ -208,9 +223,9 @@ class GoogleSubscriptionsManager(
         else -> Response.Error(fragment.getString(R.string.purchase_failed_format, code))
     }
 
-    private fun Purchase.toSubscriptionReceiptData(): SubscriptionReceiptData? {
+    private fun Purchase.toSubscriptionReceiptData(): SubscriptionReceiptData {
         Log.d("MyLog", "Full purchase response ${this}")
-        val productId = products.lastOrNull() ?: return null
+        val productId = products.lastOrNull() ?: ""
         return SubscriptionReceiptData(productId, purchaseToken)
     }
 }
