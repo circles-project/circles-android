@@ -49,31 +49,13 @@ class SignUpDataSource @Inject constructor(
 
     suspend fun startSignUpStages(
         stages: List<Stage>,
-        serverDomain: String,
-        subscriptionReceiptData: SubscriptionReceiptData?
+        serverDomain: String
     ) {
         currentStage = null
         stagesToComplete.clear()
         domain = serverDomain
         stagesToComplete.addAll(stages)
-        subscriptionReceiptData?.let { skipSubscriptionStageIfValid(it) } ?: navigateToNextStage()
-    }
-
-    private suspend fun skipSubscriptionStageIfValid(subscriptionReceiptData: SubscriptionReceiptData) {
-        setNextStage()
-        (currentStage as? Stage.Other)?.takeIf {
-            it.type == REGISTRATION_SUBSCRIPTION_TYPE
-        } ?: run {
-            currentStage = null
-            navigateToNextStage()
-            return
-        }
-        val response = subscriptionStageDataSource.validateSubscription(subscriptionReceiptData)
-
-        if (response is Response.Error) {
-            currentStage = null
-            navigateToNextStage()
-        }
+        navigateToNextStage()
     }
 
     suspend fun performRegistrationStage(
