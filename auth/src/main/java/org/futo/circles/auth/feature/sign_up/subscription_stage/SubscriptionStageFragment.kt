@@ -1,6 +1,7 @@
 package org.futo.circles.auth.feature.sign_up.subscription_stage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -11,9 +12,9 @@ import org.futo.circles.auth.feature.sign_up.subscription_stage.list.Subscriptio
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.auth.subscriptions.ItemPurchasedListener
 import org.futo.circles.auth.subscriptions.SubscriptionProvider
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
-import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,6 +31,7 @@ class SubscriptionStageFragment :
         subscriptionProvider.getManager(
             this, object : ItemPurchasedListener {
                 override fun onItemPurchased(subscriptionReceiptData: SubscriptionReceiptData) {
+                    Log.d("Mylog", subscriptionReceiptData.toString())
                     viewModel.validateSubscription(subscriptionReceiptData)
                 }
 

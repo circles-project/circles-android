@@ -1,5 +1,6 @@
 package org.futo.circles.auth.subscriptions
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -208,6 +209,7 @@ class GoogleSubscriptionsManager(
     }
 
     private fun Purchase.toSubscriptionReceiptData(): SubscriptionReceiptData? {
+        Log.d("MyLog", "Full purchase response ${this}")
         val productId = products.lastOrNull() ?: return null
         return SubscriptionReceiptData(productId, purchaseToken)
     }
