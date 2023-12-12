@@ -36,6 +36,6 @@ class SubscriptionStageDataSource @Inject constructor(
         private const val PACKAGE_KEY = "package"
         private const val SUBSCRIPTION_ID_KEY = "subscription_id"
         private const val TOKEN_KEY = "token"
-        private const val SUBSCRIPTION_IDS_PARAMS_KEY = "subscription_ids"
+        private const val SUBSCRIPTION_IDS_PARAMS_KEY = "product_ids"
     }
 }
