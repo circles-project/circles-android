@@ -1,7 +1,6 @@
 package org.futo.circles.auth.feature.sign_up.subscription_stage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -31,7 +30,6 @@ class SubscriptionStageFragment :
         subscriptionProvider.getManager(
             this, object : ItemPurchasedListener {
                 override fun onItemPurchased(subscriptionReceiptData: SubscriptionReceiptData) {
-                    Log.d("Mylog", subscriptionReceiptData.toString())
                     viewModel.validateSubscription(subscriptionReceiptData)
                 }
 

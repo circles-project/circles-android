@@ -6,8 +6,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
-import org.futo.circles.auth.feature.sign_up.subscription_stage.SubscriptionStageDataSource
-import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
@@ -45,9 +43,7 @@ class SignUpDataSource @Inject constructor(
     var domain: String = ""
         private set
 
-    private val subscriptionStageDataSource = SubscriptionStageDataSource(this)
-
-    suspend fun startSignUpStages(
+    fun startSignUpStages(
         stages: List<Stage>,
         serverDomain: String
     ) {
@@ -64,7 +60,11 @@ class SignUpDataSource @Inject constructor(
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
         val result = createResult {
-            wizard.registrationCustom(authParams, context.getString(R.string.initial_device_name), true)
+            wizard.registrationCustom(
+                authParams,
+                context.getString(R.string.initial_device_name),
+                true
+            )
         }
 
         (result as? Response.Success)?.let {
