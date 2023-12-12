@@ -4,5 +4,7 @@ data class SubscriptionReceiptData(
     val productId: String,
     val purchaseToken: String,
     val orderId: String,
-    val packageName: String
+    val packageName: String,
+    val purchaseTime: Long,
+    val isAutoRenewing: Boolean
 )

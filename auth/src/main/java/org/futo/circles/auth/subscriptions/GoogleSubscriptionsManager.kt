@@ -225,6 +225,13 @@ class GoogleSubscriptionsManager(
     private fun Purchase.toSubscriptionReceiptData(): SubscriptionReceiptData {
         val orderId = orderId ?: ""
         val productId = products.lastOrNull() ?: ""
-        return SubscriptionReceiptData(productId, purchaseToken, orderId, packageName)
+        return SubscriptionReceiptData(
+            productId,
+            purchaseToken,
+            orderId,
+            packageName,
+            purchaseTime,
+            isAutoRenewing
+        )
     }
 }

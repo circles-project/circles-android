@@ -70,6 +70,7 @@
     <string name="skip">Skip</string>
     <string name="subscriptions">Subscriptions</string>
     <string name="subscription">Subscription</string>
+    <string name="manage_subscription">Manage subscription</string>
     <string name="enter_your_username">Enter your username</string>
     <string name="set_username">Set username</string>
     <string name="send_validation_code">Send validation code</string>
@@ -157,6 +158,7 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
     <string name="configure">Configure</string>
     <string name="receive_email_updates">Receive email updates</string>
+    <string name="you_don_t_have_any_active_subscriptions">You don\'t have any active subscriptions</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>
