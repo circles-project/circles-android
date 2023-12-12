@@ -18,6 +18,7 @@ import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
@@ -45,6 +46,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun setupViews() {
         with(binding) {
+            tvSubscriptionTitle.setIsVisible(CirclesAppConfig.isGplayFlavor())
+            tvManageSubscription.apply {
+                setIsVisible(CirclesAppConfig.isGplayFlavor())
+                navigator.navigateToSubscriptionInfo()
+            }
             tvLogout.setOnClickListener {
                 withConfirmation(LogOut()) {
                     loadingDialog.handleLoading(LoadingData(R.string.log_out))

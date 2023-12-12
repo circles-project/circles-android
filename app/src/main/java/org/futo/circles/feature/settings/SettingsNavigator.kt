@@ -46,4 +46,8 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             )
     }
 
+    fun navigateToSubscriptionInfo() {
+
+    }
+
 }

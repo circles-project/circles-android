@@ -69,6 +69,7 @@
     <string name="save">Save</string>
     <string name="skip">Skip</string>
     <string name="subscriptions">Subscriptions</string>
+    <string name="subscription">Subscription</string>
     <string name="enter_your_username">Enter your username</string>
     <string name="set_username">Set username</string>
     <string name="send_validation_code">Send validation code</string>

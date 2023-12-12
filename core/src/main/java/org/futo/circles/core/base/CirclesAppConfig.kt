@@ -25,7 +25,7 @@ object CirclesAppConfig {
     var isRageshakeEnabled = false
         private set
 
-    fun isSignupEnabled(): Boolean = buildFlavourName.contains("gplay", true)
+    fun isGplayFlavor(): Boolean = buildFlavourName.contains("gplay", true)
 
     data class Initializer(
         private var appId: String? = null,

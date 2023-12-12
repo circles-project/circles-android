@@ -145,6 +145,22 @@
 
 
             <TextView
+                android:id="@+id/tvSubscriptionTitle"
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/subscription" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvManageSubscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hasDivider="false"
+                app:optionIcon="@drawable/ic_payment"
+                app:optionName="@string/manage_subscription" />
+
+
+            <TextView
                 style="@style/settingMenuHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
