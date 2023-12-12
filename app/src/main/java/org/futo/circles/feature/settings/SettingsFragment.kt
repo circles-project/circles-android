@@ -49,7 +49,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvSubscriptionTitle.setIsVisible(CirclesAppConfig.isGplayFlavor())
             tvManageSubscription.apply {
                 setIsVisible(CirclesAppConfig.isGplayFlavor())
-                navigator.navigateToSubscriptionInfo()
+                setOnClickListener { navigator.navigateToSubscriptionInfo() }
             }
             tvLogout.setOnClickListener {
                 withConfirmation(LogOut()) {

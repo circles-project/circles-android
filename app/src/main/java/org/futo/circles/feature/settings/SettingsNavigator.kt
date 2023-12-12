@@ -42,12 +42,16 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
         }
         fragment.findNavController()
             .navigateSafe(
-                SettingsFragmentDirections.toShareProfileDialogFragment(sharedSpaceId, ShareUrlTypeArg.PROFILE)
+                SettingsFragmentDirections.toShareProfileDialogFragment(
+                    sharedSpaceId,
+                    ShareUrlTypeArg.PROFILE
+                )
             )
     }
 
     fun navigateToSubscriptionInfo() {
-
+        fragment.findNavController()
+            .navigateSafe(SettingsFragmentDirections.toManageSubscriptionDialogFragment())
     }
 
 }
