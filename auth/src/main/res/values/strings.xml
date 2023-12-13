@@ -62,13 +62,15 @@
     <string name="password">Password</string>
     <string name="repeat_password">Repeat password</string>
     <string name="server_location">Server Location</string>
-    <string name="sign_up_for_free_account">Sign up for a free account</string>
+    <string name="sign_up_with_subscription">Sign up with subscription</string>
     <string name="or">Or</string>
     <string name="setup_profile">Setup profile</string>
     <string name="upload_a_profile_photo">Upload a profile photo</string>
     <string name="save">Save</string>
     <string name="skip">Skip</string>
     <string name="subscriptions">Subscriptions</string>
+    <string name="subscription">Subscription</string>
+    <string name="manage_subscription">Manage subscription</string>
     <string name="enter_your_username">Enter your username</string>
     <string name="set_username">Set username</string>
     <string name="send_validation_code">Send validation code</string>
@@ -156,6 +158,17 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
     <string name="configure">Configure</string>
     <string name="receive_email_updates">Receive email updates</string>
+    <string name="you_don_t_have_any_active_subscriptions">You don\'t have any active subscriptions</string>
+    <string name="manage_on_google_play">Manage on Google Play</string>
+    <string name="status_active">Status: Active</string>
+    <string name="price_format">Price: %s</string>
+    <string name="duration_format">Duration: %s</string>
+    <string name="purchase_time_format">Purchase time: %s</string>
+    <string name="product_id_format">Product id: %s</string>
+    <string name="is_auto_renew_message">Subscription will renew automatically</string>
+    <string name="is_not_auto_renew_message">Subscription will not renew automatically</string>
+    <string name="can_not_open_google_play">Can not open Google Play</string>
+
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

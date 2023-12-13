@@ -1,7 +1,6 @@
 package org.futo.circles.feature.timeline.post.emoji
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,7 @@ import com.vanniktech.emoji.EmojiTheming
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.TransparentBackgroundBottomSheetDialogFragment
 import org.futo.circles.databinding.BottomSheetEmojiBinding
+import org.futo.circles.extensions.isNightMode
 
 interface EmojiPickerListener {
     fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String)
@@ -58,16 +58,19 @@ class EmojiBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                         ),
                         primaryColor = ContextCompat.getColor(
                             requireContext(),
+                            R.color.gray
+                        ),
+                        secondaryColor = ContextCompat.getColor(
+                            requireContext(),
                             R.color.blue
                         ),
-                        secondaryColor = Color.RED,
                         dividerColor = ContextCompat.getColor(
                             requireContext(),
                             org.futo.circles.core.R.color.divider_color
                         ),
                         textColor = ContextCompat.getColor(
                             requireContext(),
-                            R.color.black
+                            if (context.isNightMode()) R.color.white else R.color.black
                         ),
                         textSecondaryColor = ContextCompat.getColor(
                             requireContext(),

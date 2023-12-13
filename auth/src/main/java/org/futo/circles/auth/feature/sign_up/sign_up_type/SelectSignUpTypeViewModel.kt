@@ -1,10 +1,7 @@
 package org.futo.circles.auth.feature.sign_up.sign_up_type
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.auth.model.SubscriptionReceiptData
-import org.futo.circles.auth.subscriptions.SubscriptionManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
@@ -16,21 +13,10 @@ class SelectSignUpTypeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
-    val isSubscribedLiveData = MutableLiveData(false)
-    var subscriptionReceiptData: SubscriptionReceiptData? = null
 
-    fun startSignUp(
-        serverDomain: String,
-        isSubscription: Boolean = false
-    ) {
+    fun startSignUp(serverDomain: String) {
         launchBg {
-            startSignUpEventLiveData.postValue(
-                dataSource.startNewRegistration(
-                    serverDomain,
-                    isSubscription,
-                    subscriptionReceiptData
-                )
-            )
+            startSignUpEventLiveData.postValue(dataSource.startNewRegistration(serverDomain))
         }
     }
 
@@ -38,16 +24,4 @@ class SelectSignUpTypeViewModel @Inject constructor(
         dataSource.clearSubtitle()
     }
 
-    fun getLastActiveSubscriptionReceipt(subscriptionManager: SubscriptionManager) {
-        launchBg {
-            when (val result = subscriptionManager.getActiveSubscriptionReceipt()) {
-                is Response.Success -> {
-                    subscriptionReceiptData = result.data
-                    isSubscribedLiveData.postValue(true)
-                }
-
-                is Response.Error -> isSubscribedLiveData.postValue(false)
-            }
-        }
-    }
 }

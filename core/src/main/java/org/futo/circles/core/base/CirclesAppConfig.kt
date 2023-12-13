@@ -20,13 +20,12 @@ object CirclesAppConfig {
     var euServerDomain = ""
         private set
 
-    var isSubscriptionsEnabled = false
-        private set
-
     var isMediaBackupEnabled = false
         private set
     var isRageshakeEnabled = false
         private set
+
+    fun isGplayFlavor(): Boolean = buildFlavourName.contains("gplay", true)
 
     data class Initializer(
         private var appId: String? = null,
@@ -53,9 +52,6 @@ object CirclesAppConfig {
 
         fun euDomain(domain: String) = apply { this.euDomain = domain }
 
-        fun isSubscriptionEnabled(isEnabled: Boolean) =
-            apply { this.subscriptionEnabled = isEnabled }
-
         fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
 
         fun isRageshakeEnabled(isEnabled: Boolean) = apply { this.rageshakeEnabled = isEnabled }
@@ -80,7 +76,6 @@ object CirclesAppConfig {
             euServerDomain = euDomain?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal EU server domain $euDomain")
 
-            isSubscriptionsEnabled = subscriptionEnabled
             isMediaBackupEnabled = mediaBackupEnabled
             isRageshakeEnabled = rageshakeEnabled
         }

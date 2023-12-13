@@ -4,12 +4,9 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource
-import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_SUBSCRIPTION_TYPE
-import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
-import org.matrix.android.sdk.api.auth.registration.Stage
 import javax.inject.Inject
 
 class SelectSignUpTypeDataSource @Inject constructor(
@@ -17,35 +14,19 @@ class SelectSignUpTypeDataSource @Inject constructor(
     private val signUpDataSource: SignUpDataSource
 ) {
 
-    private val authService by lazy { MatrixInstanceProvider.matrix.authenticationService() }
-
     fun clearSubtitle() {
         signUpDataSource.clearSubtitle()
     }
 
-    suspend fun startNewRegistration(
-        domain: String,
-        isSubscription: Boolean,
-        subscriptionReceiptData: SubscriptionReceiptData?
-    ) = createResult {
-        authService.cancelPendingLoginOrRegistration()
-        authService.initiateAuth(buildHomeServerConfigFromDomain(domain))
-        val flows = authService.getRegistrationWizard().getAllRegistrationFlows()
-        signUpDataSource.startSignUpStages(
-            prepareStagesList(isSubscription, flows),
-            domain,
-            subscriptionReceiptData
-        )
+    suspend fun startNewRegistration(domain: String) = createResult {
+        val authService = MatrixInstanceProvider.matrix.authenticationService().apply {
+            cancelPendingLoginOrRegistration()
+            initiateAuth(buildHomeServerConfigFromDomain(domain))
+        }
+        val stages = authService.getRegistrationWizard().getAllRegistrationFlows().firstOrNull()
+            ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
+
+        signUpDataSource.startSignUpStages(stages, domain)
     }
 
-    private fun prepareStagesList(isSubscription: Boolean, flows: List<List<Stage>>): List<Stage> =
-        if (isSubscription) {
-            flows.firstOrNull {
-                (it.firstOrNull() as? Stage.Other)?.type == REGISTRATION_SUBSCRIPTION_TYPE
-            }
-        } else {
-            flows.firstOrNull {
-                it.firstOrNull { (it as? Stage.Other)?.type == REGISTRATION_SUBSCRIPTION_TYPE } == null
-            }
-        } ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
 }

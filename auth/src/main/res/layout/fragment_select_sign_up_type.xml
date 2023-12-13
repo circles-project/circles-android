@@ -66,53 +66,13 @@
 
 
     <org.futo.circles.core.view.LoadingButton
-        android:id="@+id/btnToken"
+        android:id="@+id/btnSignup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/sign_up_for_free_account"
+        android:text="@string/sign_up_with_subscription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/serverLocationGroup" />
 
-    <TextView
-        android:id="@+id/tvOr"
-        style="@style/headline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="@string/or"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnToken" />
-
-    <TextView
-        android:id="@+id/tvSubscriptionTitle"
-        style="@style/headline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="@string/create_a_subscription"
-        app:layout_constraintBottom_toTopOf="@id/btnSubscription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvOr" />
-
-    <org.futo.circles.core.view.LoadingButton
-        android:id="@+id/btnSubscription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/choose_a_subscription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSubscriptionTitle" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/groupSubscription"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:constraint_referenced_ids="tvOr,tvSubscriptionTitle,btnSubscription" />
 </androidx.constraintlayout.widget.ConstraintLayout>
