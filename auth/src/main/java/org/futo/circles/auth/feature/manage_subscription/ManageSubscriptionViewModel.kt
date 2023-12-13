@@ -36,6 +36,7 @@ class ManageSubscriptionViewModel @Inject constructor(
             subscriptionInfoLiveData.postValue(
                 Response.Success(
                     ActiveSubscriptionInfo(
+                        packageName = activeReceipt.packageName,
                         productId = activeReceipt.productId,
                         purchaseTime = activeReceipt.purchaseTime,
                         isAutoRenewing = activeReceipt.isAutoRenewing,

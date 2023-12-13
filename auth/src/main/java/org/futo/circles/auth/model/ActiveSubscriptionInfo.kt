@@ -1,6 +1,7 @@
 package org.futo.circles.auth.model
 
 data class ActiveSubscriptionInfo(
+    val packageName: String,
     val productId: String,
     val purchaseTime: Long,
     val isAutoRenewing: Boolean,
