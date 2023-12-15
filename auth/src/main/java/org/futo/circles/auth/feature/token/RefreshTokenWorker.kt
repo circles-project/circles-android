@@ -9,6 +9,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.feature.ErrorLogger
 import org.futo.circles.core.provider.MatrixInstanceProvider
 
 @HiltWorker
@@ -18,13 +19,18 @@ class RefreshTokenWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
+        ErrorLogger.appendLog("worker start")
         val sessionId = params.inputData.getString(SESSION_ID_PARAM_KEY) ?: run {
             WorkManager.getInstance(context).cancelWorkById(this.id)
             return Result.failure()
         }
+        ErrorLogger.appendLog("sessionId $sessionId")
         val result = refreshToken(sessionId)
-        return if (result is Response.Success) Result.success()
-        else {
+        return if (result is Response.Success) {
+            ErrorLogger.appendLog("worker success")
+            Result.success()
+        } else {
+            ErrorLogger.appendLog("worker failure")
             WorkManager.getInstance(context).cancelWorkById(this.id)
             Result.failure()
         }

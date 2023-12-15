@@ -5,16 +5,16 @@ import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequest.Companion.MIN_PERIODIC_FLEX_MILLIS
 import androidx.work.PeriodicWorkRequest.Companion.MIN_PERIODIC_INTERVAL_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import org.futo.circles.core.feature.ErrorLogger
 import org.matrix.android.sdk.api.auth.data.sessionId
 import org.matrix.android.sdk.api.session.Session
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.math.max
+import kotlin.math.roundToLong
 
 class RefreshTokenManager @Inject constructor(
     @ApplicationContext val context: Context
@@ -22,7 +22,7 @@ class RefreshTokenManager @Inject constructor(
 
     fun scheduleTokenRefreshIfNeeded(session: Session) {
         val credentials = session.sessionParams.credentials
-        val expireTime = credentials.expiresInMs ?: return
+        val expireTime = ((credentials.expiresInMs ?: 0) * 0.7).roundToLong()
         if (credentials.refreshToken.isNullOrEmpty()) return
         if (expireTime < MIN_PERIODIC_INTERVAL_MILLIS) return
 
@@ -30,22 +30,21 @@ class RefreshTokenManager @Inject constructor(
             .putString(RefreshTokenWorker.SESSION_ID_PARAM_KEY, credentials.sessionId())
             .build()
 
-        val flex = max(expireTime / 3, MIN_PERIODIC_FLEX_MILLIS)
-
-        val refreshRequest = PeriodicWorkRequestBuilder<RefreshTokenWorker>(
-            expireTime, TimeUnit.MILLISECONDS,
-            flex, TimeUnit.MILLISECONDS
-        )
-            .setConstraints(
-                Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-            )
-            .setInputData(sessionIdData)
-            .build()
+        val refreshRequest =
+            PeriodicWorkRequestBuilder<RefreshTokenWorker>(expireTime, TimeUnit.MILLISECONDS)
+                .setConstraints(
+                    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+                )
+                .setInputData(sessionIdData)
+                .build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             credentials.sessionId(),
-            ExistingPeriodicWorkPolicy.UPDATE,
+            ExistingPeriodicWorkPolicy.KEEP,
             refreshRequest
+        )
+        ErrorLogger.appendLog(
+            "scheduled sessionId ${credentials.sessionId()}, expireTime $expireTime"
         )
     }
 
@@ -55,6 +54,7 @@ class RefreshTokenManager @Inject constructor(
     }
 
     fun cancelTokenRefreshingById(credentialsSessionId: String) {
+        ErrorLogger.appendLog("$credentialsSessionId canceled")
         WorkManager.getInstance(context).cancelUniqueWork(credentialsSessionId)
     }
 

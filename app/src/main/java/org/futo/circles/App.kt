@@ -9,6 +9,7 @@ import com.vanniktech.emoji.google.GoogleEmojiProvider
 import dagger.hilt.android.HiltAndroidApp
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.feature.ErrorLogger
 import org.futo.circles.core.provider.MatrixNotificationSetupListener
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.notifications.FcmHelper
@@ -19,6 +20,7 @@ import org.futo.circles.feature.timeline.post.emoji.RecentEmojisProvider
 import org.matrix.android.sdk.api.session.Session
 import timber.log.Timber
 import javax.inject.Inject
+
 
 @HiltAndroidApp
 class App : Application() {
@@ -37,6 +39,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        ErrorLogger.appendLog("App start")
         NetworkObserver.register(applicationContext)
         CirclesAppConfig.Initializer()
             .buildConfigInfo(
@@ -67,7 +70,6 @@ class App : Application() {
         notificationUtils.createNotificationChannels()
         setupLifecycleObserver()
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
-
     }
 
     private fun setupLifecycleObserver() {
