@@ -113,7 +113,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:background="@color/divider_color" />
 
     <ScrollView
@@ -126,6 +126,45 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/lMediaStorage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    style="@style/settingMenuHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/media_storage" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/mediaStorageProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    app:trackCornerRadius="6dp"
+                    tools:progress="15" />
+
+                <TextView
+                    android:id="@+id/tvMediaStorageInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+                    app:layout_constraintEnd_toEndOf="@id/ivEditProfile"
+                    app:layout_constraintStart_toStartOf="@id/ivEditProfile"
+                    app:layout_constraintTop_toBottomOf="@id/ivEditProfile"
+                    tools:text="7 GB of 15 GB used" />
+
+            </LinearLayout>
 
             <TextView
                 style="@style/settingMenuHeader"
