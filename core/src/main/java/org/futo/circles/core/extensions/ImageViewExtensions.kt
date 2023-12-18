@@ -83,13 +83,19 @@ fun ImageView.loadMatrixImage(
     session: Session? = null,
     applyBlur: Boolean = false
 ) {
-    val currentSession = session ?: MatrixSessionProvider.currentSession
-    val size = if (loadOriginalSize) null else preferredSize ?: Size(width, height)
-    val resolvedUrl = currentSession?.resolveUrl(url, size)
-    Glide.with(this)
-        .load(resolvedUrl)
-        .fitCenter()
-        .error(placeholder)
-        .apply { if (applyBlur) transform(BlurTransformation(30)) }
-        .into(this)
+    post {
+        val currentSession = session ?: MatrixSessionProvider.currentSession
+        val size = if (loadOriginalSize) null
+        else preferredSize ?: Size(
+            measuredWidth,
+            measuredHeight
+        ).takeIf { measuredWidth > 0 && measuredHeight > 0 }
+        val resolvedUrl = currentSession?.resolveUrl(url, size)
+        Glide.with(this)
+            .load(resolvedUrl)
+            .fitCenter()
+            .error(placeholder)
+            .apply { if (applyBlur) transform(BlurTransformation(30)) }
+            .into(this)
+    }
 }
