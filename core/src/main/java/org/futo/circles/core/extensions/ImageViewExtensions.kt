@@ -94,6 +94,7 @@ fun ImageView.loadMatrixImage(
         Glide.with(this)
             .load(resolvedUrl)
             .fitCenter()
+            .placeholder(placeholder)
             .error(placeholder)
             .apply { if (applyBlur) transform(BlurTransformation(30)) }
             .into(this)
