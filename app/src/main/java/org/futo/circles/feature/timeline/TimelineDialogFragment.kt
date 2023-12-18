@@ -27,7 +27,6 @@ import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
-import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.utils.debounce
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.TimelineAdapter
@@ -103,7 +102,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
                 setHasFixedSize(true)
                 itemAnimator = null
                 setItemViewCacheSize(20)
-                recycledViewPool.setMaxRecycledViews(PostContentType.TEXT_CONTENT.ordinal, 20)
             }
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
