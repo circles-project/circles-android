@@ -9,7 +9,6 @@ import androidx.work.PeriodicWorkRequest.Companion.MIN_PERIODIC_INTERVAL_MILLIS
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.core.feature.ErrorLogger
 import org.matrix.android.sdk.api.auth.data.sessionId
 import org.matrix.android.sdk.api.session.Session
 import java.util.concurrent.TimeUnit
@@ -43,9 +42,6 @@ class RefreshTokenManager @Inject constructor(
             ExistingPeriodicWorkPolicy.KEEP,
             refreshRequest
         )
-        ErrorLogger.appendLog(
-            "scheduled sessionId ${credentials.sessionId()}, expireTime $expireTime"
-        )
     }
 
     fun cancelTokenRefreshing(session: Session) {
@@ -54,7 +50,6 @@ class RefreshTokenManager @Inject constructor(
     }
 
     fun cancelTokenRefreshingById(credentialsSessionId: String) {
-        ErrorLogger.appendLog("$credentialsSessionId canceled")
         WorkManager.getInstance(context).cancelUniqueWork(credentialsSessionId)
     }
 

@@ -9,7 +9,6 @@ import com.vanniktech.emoji.google.GoogleEmojiProvider
 import dagger.hilt.android.HiltAndroidApp
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
-import org.futo.circles.core.feature.ErrorLogger
 import org.futo.circles.core.provider.MatrixNotificationSetupListener
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.notifications.FcmHelper
@@ -39,7 +38,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ErrorLogger.appendLog("App start")
         NetworkObserver.register(applicationContext)
         CirclesAppConfig.Initializer()
             .buildConfigInfo(
