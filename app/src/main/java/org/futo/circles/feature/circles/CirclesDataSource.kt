@@ -64,10 +64,9 @@ class CirclesDataSource @Inject constructor(
         val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(
             CIRCLES_SPACE_ACCOUNT_DATA_KEY
         ) ?: return emptyList()
-        val sharedCircleSpaceId = sharedCircleDataSource.getSharedCirclesSpaceId()
         val ids = getJoinedRoomById(circlesSpaceId)?.roomSummary()?.spaceChildren
             ?.map { it.childRoomId }
-            ?.filter { it != sharedCircleSpaceId && getJoinedRoomById(it) != null }
+            ?.filter { getJoinedRoomById(it) != null }
         return ids ?: emptyList()
     }
 
