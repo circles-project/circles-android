@@ -1,6 +1,7 @@
 package org.futo.circles.feature.settings
 
 import android.os.Bundle
+import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.matrix.android.sdk.api.session.user.model.User
+import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -44,9 +46,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateMediaUsageInfo()
+    }
+
     private fun setupViews() {
         with(binding) {
-            tvSubscriptionTitle.setIsVisible(CirclesAppConfig.isGplayFlavor())
             tvManageSubscription.apply {
                 setIsVisible(CirclesAppConfig.isGplayFlavor())
                 setOnClickListener { navigator.navigateToSubscriptionInfo() }
@@ -58,7 +64,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 }
             }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
-            ivProfile.setOnClickListener { navigator.navigateToProfile() }
+            ivEditProfile.setOnClickListener { navigator.navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
             tvDeactivate.setOnClickListener {
                 withConfirmation(DeactivateAccount()) {
@@ -102,6 +108,23 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
+        viewModel.mediaUsageInfoLiveData.observeData(this) { mediaUsage ->
+            bindMediaUsageProgress(mediaUsage)
+        }
+    }
+
+    private fun bindMediaUsageProgress(mediaUsage: MediaUsageInfo?) {
+        binding.lMediaStorage.setIsVisible(mediaUsage != null)
+        mediaUsage ?: return
+        binding.mediaStorageProgress.apply {
+            max = mediaUsage.storageSize.toInt()
+            progress = mediaUsage.usedSize.toInt()
+        }
+        binding.tvMediaStorageInfo.text = getString(
+            R.string.media_usage_format,
+            Formatter.formatFileSize(requireContext(), mediaUsage.usedSize),
+            Formatter.formatFileSize(requireContext(), mediaUsage.storageSize),
+        )
     }
 
     private fun bindProfile(user: User) {

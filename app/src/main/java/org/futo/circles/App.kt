@@ -20,6 +20,7 @@ import org.matrix.android.sdk.api.session.Session
 import timber.log.Timber
 import javax.inject.Inject
 
+
 @HiltAndroidApp
 class App : Application() {
 
@@ -67,7 +68,6 @@ class App : Application() {
         notificationUtils.createNotificationChannels()
         setupLifecycleObserver()
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
-
     }
 
     private fun setupLifecycleObserver() {

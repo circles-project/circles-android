@@ -51,10 +51,8 @@ object NetworkObserver {
                 onConnectionChanged(false)
             }
         }
-        val request = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build()
         context.getSystemService<ConnectivityManager>()
-            ?.registerNetworkCallback(request, networkCallback)
+            ?.registerDefaultNetworkCallback(networkCallback)
         return networkCallback
     }
 

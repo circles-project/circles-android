@@ -209,6 +209,8 @@
     <string name="session">Session</string>
     <string name="help">Help</string>
     <string name="optional_request_message">Optional: Request message</string>
+    <string name="media_storage">Media storage</string>
+    <string name="media_usage_format">%s of %s used</string>
 
     <!-- Rich text editor -->
     <string name="rich_text_editor_format_bold">Apply bold format</string>

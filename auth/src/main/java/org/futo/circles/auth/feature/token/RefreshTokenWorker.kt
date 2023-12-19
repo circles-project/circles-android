@@ -24,10 +24,7 @@ class RefreshTokenWorker @AssistedInject constructor(
         }
         val result = refreshToken(sessionId)
         return if (result is Response.Success) Result.success()
-        else {
-            WorkManager.getInstance(context).cancelWorkById(this.id)
-            Result.failure()
-        }
+        else Result.retry()
     }
 
     private suspend fun refreshToken(sessionId: String) = createResult {
