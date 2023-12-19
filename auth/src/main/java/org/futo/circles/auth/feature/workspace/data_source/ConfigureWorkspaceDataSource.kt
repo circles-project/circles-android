@@ -1,10 +1,12 @@
 package org.futo.circles.auth.feature.workspace.data_source
 
 import kotlinx.coroutines.delay
-import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
+import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
+import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.CirclesRoom
+import org.futo.circles.core.model.SharedCirclesSpace
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.matrix.android.sdk.api.session.room.Room
@@ -22,14 +24,17 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         var roomId = addIdToAccountDataIfRoomExistWithTag(room)
         if (roomId == null) roomId = getJoinedRoomIdFromAccountData(room)
         if (roomId == null) createRoomWithAccountDataRecordIfNeed(room)
-        else {
-            try {
-                getJoinedRoomById(roomId)?.let { validateRelations(room.parentAccountDataKey, it) }
-            } catch (_: Exception) {
-                val parentRoomId =
-                    room.parentAccountDataKey?.let { spacesTreeAccountDataSource.getRoomIdByKey(it) }
-                parentRoomId?.let { roomRelationsBuilder.setRelations(roomId, parentRoomId) }
-            }
+        else validateAndFixRelationInNeeded(roomId, room)
+    }
+
+    private suspend fun validateAndFixRelationInNeeded(roomId: String, room: CirclesRoom) {
+        try {
+            getJoinedRoomById(roomId)?.let { validateRelations(room.parentAccountDataKey, it) }
+        } catch (_: Exception) {
+            val parentRoomId =
+                room.parentAccountDataKey?.let { spacesTreeAccountDataSource.getRoomIdByKey(it) }
+            parentRoomId?.let { roomRelationsBuilder.setRelations(roomId, parentRoomId) }
+            removeSharedCirclesToMyCirclesRelationIfNeeded(room, roomId)
         }
     }
 
@@ -96,6 +101,18 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         }
         delay(CREATE_ROOM_DELAY)
         return roomId
+    }
+
+    //part of Shared Circles from My Circles to Root migration
+    private suspend fun removeSharedCirclesToMyCirclesRelationIfNeeded(
+        circlesRoom: CirclesRoom,
+        roomId: String
+    ) {
+        if (circlesRoom !is SharedCirclesSpace) return
+        val myCirclesSpaceId =
+            spacesTreeAccountDataSource.getRoomIdByKey(CIRCLES_SPACE_ACCOUNT_DATA_KEY) ?: return
+        roomRelationsBuilder.removeRelations(roomId, myCirclesSpaceId)
+
     }
 
     private companion object {

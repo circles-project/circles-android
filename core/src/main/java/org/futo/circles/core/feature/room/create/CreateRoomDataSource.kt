@@ -49,14 +49,17 @@ class CreateRoomDataSource @Inject constructor(
             parentId?.let { roomRelationsBuilder.setRelations(id, it) }
         }
         if (circlesRoom is Circle) {
-            val timelineId = createCircleTimeline(id, name, iconUri, inviteIds)
+            val timelineId = createCircleTimeline(id,
+                name ?: circlesRoom.nameId?.let { context.getString(it) }, iconUri, inviteIds
+            )
             if (isPublicCircle) sharedCircleDataSource.addToSharedCircles(timelineId)
         }
         return id
     }
 
     suspend fun createCircleTimeline(
-        circleId: String, name: String? = null,
+        circleId: String,
+        name: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null
     ): String {
