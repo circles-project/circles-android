@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
@@ -15,6 +16,7 @@ import org.futo.circles.R
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
+import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -74,8 +76,17 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             getCurrentUserPowerLevel(args.roomId),
             this,
             isThread
-        ) { loadMoreDebounce(Unit) }.apply { setHasStableIds(true) }
+        ) { loadMoreDebounce(Unit) }.apply {
+            setHasStableIds(true)
+            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    super.onItemRangeInserted(positionStart, itemCount)
+                    scrollToTopIfMyNewPostAdded(positionStart, itemCount)
+                }
+            })
+        }
     }
+
     private val navigator by lazy { TimelineNavigator(this) }
     private val knocksCountBadgeDrawable by lazy {
         BadgeDrawable.create(requireContext()).apply {
@@ -277,6 +288,23 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         onLocalAddEmojiCallback?.invoke(emoji)
         onLocalAddEmojiCallback = null
         viewModel.sendReaction(roomId, eventId, emoji)
+    }
+
+    private fun scrollToTopIfMyNewPostAdded(positionStart: Int, itemCount: Int) {
+        val items = viewModel.timelineEventsLiveData.value ?: emptyList()
+        if (itemCount != 1) return
+        if (isThread) {
+            val lastItemPosition = items.size - 1
+            if (items.lastOrNull()?.isMyPost() == true && positionStart == lastItemPosition) {
+                binding.rvTimeline.layoutManager?.scrollToPosition(lastItemPosition)
+                binding.lCreatePost.gone()
+            }
+        } else {
+            if (items.firstOrNull()?.isMyPost() == true && positionStart == 0)
+                binding.rvTimeline.layoutManager?.scrollToPosition(0)
+        }
+
+
     }
 
     private fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
