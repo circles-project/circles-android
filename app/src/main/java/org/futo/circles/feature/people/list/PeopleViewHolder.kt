@@ -24,28 +24,6 @@ abstract class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     open fun bindPayload(data: PeopleUserListItemPayload) {}
 }
 
-class PeopleIgnoredUserViewHolder(
-    parent: ViewGroup,
-    private val onUnIgnore: (Int) -> Unit
-) : PeopleViewHolder(inflate(parent, ListItemPeopleIgnoredBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemPeopleIgnoredBinding
-
-    init {
-        onClick(binding.btnUnIgnore) { position -> onUnIgnore(position) }
-    }
-
-    override fun bind(data: PeopleListItem) {
-        (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
-    }
-
-    override fun bindPayload(data: PeopleUserListItemPayload) {
-        data.user?.let { binding.userItem.bind(it) }
-    }
-}
-
 class PeopleDefaultUserViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit

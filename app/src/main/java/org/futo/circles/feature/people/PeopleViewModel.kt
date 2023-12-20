@@ -15,13 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PeopleViewModel @Inject constructor(
-    private val peopleDataSource: PeopleDataSource,
-    private val userOptionsDataSource: UserOptionsDataSource
+    private val peopleDataSource: PeopleDataSource
 ) : ViewModel() {
 
     val peopleLiveData = MutableLiveData<List<PeopleListItem>>()
     val followUserLiveData = SingleEventLiveData<Response<Unit?>>()
-    val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val followUserRequestLiveData = SingleEventLiveData<Response<Unit?>>()
 
     init {
@@ -36,18 +34,11 @@ class PeopleViewModel @Inject constructor(
         }
     }
 
-    fun unIgnoreUser(userId: String) {
-        launchBg {
-            unIgnoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(userId))
-        }
-    }
-
     fun onFollowRequestAnswered(userId: String, accepted: Boolean) {
         launchBg {
             val result = if (accepted) peopleDataSource.acceptFollowRequest(userId)
             else peopleDataSource.declineFollowRequest(userId)
             followUserRequestLiveData.postValue(result)
         }
-
     }
 }

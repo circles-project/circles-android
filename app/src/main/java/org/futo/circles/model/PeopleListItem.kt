@@ -6,7 +6,7 @@ import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.toCircleUser
 
-enum class PeopleItemType { Header, Friend, Following, Follower, Request, Known, Suggestion, Ignored }
+enum class PeopleItemType { Header, Friend, Following, Follower, Request, Known, Suggestion }
 sealed class PeopleListItem(
     open val type: PeopleItemType
 ) : IdEntity<String>
@@ -23,7 +23,6 @@ data class PeopleHeaderItem(
         val knownUsersHeader = PeopleHeaderItem(R.string.known_users)
         val suggestions = PeopleHeaderItem(R.string.suggestions)
         val requests = PeopleHeaderItem(R.string.requests)
-        val ignoredUsers = PeopleHeaderItem(R.string.ignored_users)
     }
 }
 

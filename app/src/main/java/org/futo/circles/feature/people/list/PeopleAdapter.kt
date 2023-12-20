@@ -9,7 +9,6 @@ import org.futo.circles.model.PeopleUserListItemPayload
 
 class PeopleAdapter(
     private val onUserClicked: (String) -> Unit,
-    private val onUnIgnore: (String) -> Unit,
     private val onRequestClicked: (String, Boolean) -> Unit
 ) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is PeopleUserListItem && old is PeopleUserListItem) {
@@ -27,10 +26,6 @@ class PeopleAdapter(
                 onRequestClicked = { position, isAccepted ->
                     onRequestClicked(getItem(position).id, isAccepted)
                 }
-            )
-            PeopleItemType.Ignored -> PeopleIgnoredUserViewHolder(
-                parent,
-                onUnIgnore = { position -> onUnIgnore(getItem(position).id) }
             )
             else -> PeopleDefaultUserViewHolder(
                 parent,

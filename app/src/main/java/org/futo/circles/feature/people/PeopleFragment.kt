@@ -38,8 +38,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
             onRequestClicked = { userId, isAccepted ->
                 if (showNoInternetConnection()) return@PeopleAdapter
                 viewModel.onFollowRequestAnswered(userId, isAccepted)
-            },
-            onUnIgnore = { userId -> viewModel.unIgnoreUser(userId) }
+            }
         )
     }
 
@@ -78,7 +77,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         }
         viewModel.followUserLiveData.observeResponse(this,
             success = { showSuccess(getString(R.string.request_sent)) })
-        viewModel.unIgnoreUserLiveData.observeResponse(this)
         viewModel.followUserRequestLiveData.observeResponse(this)
     }
 
