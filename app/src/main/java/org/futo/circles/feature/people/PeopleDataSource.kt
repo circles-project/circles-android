@@ -45,25 +45,34 @@ class PeopleDataSource @Inject constructor(
     suspend fun getPeopleList(query: String) = combine(
         searchUserDataSource.searchKnownUsers(query),
         searchUserDataSource.searchSuggestions(query),
+        getIgnoredUserFlow(),
         getProfileRoomMembersKnockFlow()
-    ) { knowUsers, suggestions, requests ->
-        withContext(Dispatchers.IO) { buildList(knowUsers, suggestions, requests) }
+    ) { knowUsers, suggestions, ignoredUsers, requests ->
+        withContext(Dispatchers.IO) { buildList(knowUsers, suggestions, ignoredUsers, requests) }
     }.distinctUntilChanged()
 
     suspend fun refreshRoomMembers() {
         searchUserDataSource.loadAllRoomMembersIfNeeded()
     }
 
+    private fun getIgnoredUserFlow() =
+        session?.userService()?.getIgnoredUsersLive()?.asFlow() ?: flowOf()
+
+
     private fun buildList(
         knowUsers: List<User>,
         suggestions: List<User>,
+        ignoredUsers: List<User>,
         requests: List<KnockRequestListItem>
     ): List<PeopleListItem> {
+        val ignoredUsersIds = ignoredUsers.map { it.userId }.toSet()
         val uniqueItemsList = mutableListOf<PeopleListItem>().apply {
             addAll(requests.map { it.toPeopleRequestListItem() })
             addAll(knowUsers.map { it.toPeopleUserListItem(getKnownUserItemType(it.userId)) })
             addAll(suggestions.map { it.toPeopleUserListItem(PeopleItemType.Suggestion) })
-        }.distinctBy { it.id }.filterNot { it.id == session?.myUserId }
+        }
+            .distinctBy { it.id }
+            .filterNot { it.id == session?.myUserId || ignoredUsersIds.contains(it.id) }
 
         return mutableListOf<PeopleListItem>().apply {
             addSection(
