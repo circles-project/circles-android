@@ -54,4 +54,9 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             .navigateSafe(SettingsFragmentDirections.toManageSubscriptionDialogFragment())
     }
 
+    fun navigateToIgnoredUsers() {
+        fragment.findNavController()
+            .navigateSafe(SettingsFragmentDirections.toIgnoredUsersDialogFragment())
+    }
+
 }
