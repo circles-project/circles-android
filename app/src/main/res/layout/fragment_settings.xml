@@ -131,9 +131,7 @@
                 android:id="@+id/lMediaStorage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/settingMenuHeader"
@@ -156,7 +154,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:gravity="center"
-                    android:paddingBottom="4dp"
                     android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="@id/ivProfile"
                     app:layout_constraintEnd_toEndOf="@id/ivEditProfile"
@@ -164,35 +161,63 @@
                     app:layout_constraintTop_toBottomOf="@id/ivEditProfile"
                     tools:text="7 GB of 15 GB used" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/divider_color" />
+
             </LinearLayout>
 
             <TextView
                 style="@style/settingMenuHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/notifications" />
+                android:text="@string/general" />
 
             <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvPushNotifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hasDivider="false"
                 app:optionIcon="@drawable/ic_notifications"
                 app:optionName="@string/push_notifications" />
-
-            <TextView
-                style="@style/settingMenuHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/session" />
 
             <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvLoginSessions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 app:optionIcon="@drawable/ic_phone"
                 app:optionName="@string/login_sessions" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvIgnoredUsers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_ignore"
+                app:optionName="@string/ignored_users" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvManageSubscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hasDivider="false"
+                app:optionIcon="@drawable/ic_payment"
+                app:optionName="@string/manage_subscription" />
+
+
+            <TextView
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/account" />
+
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_lock"
+                app:optionName="@string/change_password" />
 
             <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvSwitchUser"
@@ -205,31 +230,8 @@
                 android:id="@+id/tvLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hasDivider="false"
                 app:optionIcon="@drawable/ic_logout"
                 app:optionName="@string/log_out" />
-
-
-            <TextView
-                style="@style/settingMenuHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/account" />
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvManageSubscription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_payment"
-                app:optionName="@string/manage_subscription" />
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvChangePassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_lock"
-                app:optionName="@string/change_password" />
-
 
             <TextView
                 android:id="@+id/tvDeactivate"

@@ -76,6 +76,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             ivShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
+            tvIgnoredUsers.setOnClickListener { navigator.navigateToIgnoredUsers() }
         }
         setVersion()
     }
