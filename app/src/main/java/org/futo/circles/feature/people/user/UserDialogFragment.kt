@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.NetworkObserver
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -19,7 +20,6 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.databinding.DialogFragmentUserBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.people.user.list.UsersCirclesAdapter
@@ -133,7 +133,7 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             toolbar.title = user.notEmptyDisplayName()
             tvUserId.text = user.userId
             tvUserName.text = user.notEmptyDisplayName()
-            ivUser.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
+            ivUser.loadUserProfileIcon(user.avatarUrl, user.userId)
             tvEmptyCirclesList.text =
                 getString(R.string.not_following_any_circles_format, user.notEmptyDisplayName())
         }

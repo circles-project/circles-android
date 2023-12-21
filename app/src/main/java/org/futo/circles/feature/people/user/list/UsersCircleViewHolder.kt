@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.base.list.ViewBindingHolder
@@ -38,7 +38,7 @@ class UsersTimelineRoomViewHolder(
         if (data !is TimelineRoomListItem) return
         with(binding) {
             tvTimelineName.text = data.info.title
-            ivTimelineImage.loadProfileIcon(data.info.avatarUrl, data.info.title)
+            ivTimelineImage.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
             btnFollow.setIsVisible(!data.isJoined)
             btnUnFollow.setIsVisible(data.isJoined)
         }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ListItemInvitedGroupBinding
@@ -49,7 +49,7 @@ class JoinedGroupViewHolder(
     override fun bind(data: GroupListItem) {
         if (data !is JoinedGroupListItem) return
 
-        binding.ivGroup.loadProfileIcon(data.info.avatarUrl, data.info.title)
+        binding.ivGroup.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
         setIsEncrypted(binding.ivLock, data.isEncrypted)
         setTitle(binding.tvGroupTitle, data.info.title)
         setTopic(data.topic)
@@ -122,7 +122,7 @@ class InvitedGroupViewHolder(
         if (data !is InvitedGroupListItem) return
 
         with(binding) {
-            ivGroup.loadProfileIcon(
+            ivGroup.loadRoomProfileIcon(
                 data.info.avatarUrl,
                 data.info.title,
                 applyBlur = data.shouldBlurIcon

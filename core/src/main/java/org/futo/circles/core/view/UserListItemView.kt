@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ViewUserListItemBinding
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.setSelectableItemBackground
 import org.futo.circles.core.model.CirclesUserSummary
 
@@ -22,7 +22,7 @@ class UserListItemView(
         with(binding) {
             tvUserName.text = user.name
             tvUserId.text = user.id
-            ivUserImage.loadProfileIcon(user.avatarUrl, user.name)
+            ivUserImage.loadUserProfileIcon(user.avatarUrl, user.id)
         }
     }
 
@@ -37,7 +37,7 @@ class UserListItemView(
             binding.ivUserImage.setImageResource(R.drawable.ic_check_circle)
             setBackgroundColor(context.getColor(R.color.highlight_color))
         } else {
-            binding.ivUserImage.loadProfileIcon(user.avatarUrl, user.name)
+            binding.ivUserImage.loadUserProfileIcon(user.avatarUrl, user.id)
             setSelectableItemBackground()
         }
     }

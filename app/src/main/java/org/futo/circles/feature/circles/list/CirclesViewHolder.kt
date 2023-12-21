@@ -8,7 +8,7 @@ import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ListItemInvitedCircleBinding
@@ -45,7 +45,7 @@ class JoinedCircleViewHolder(
         if (data !is JoinedCircleListItem) return
 
         with(binding) {
-            ivCircle.loadProfileIcon(data.info.avatarUrl, data.info.title)
+            ivCircle.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
             setTitle(tvCircleTitle, data.info.title)
             setFollowingCount(data.followingCount)
             setFollowedByCount(data.followedByCount)
@@ -103,7 +103,7 @@ class InvitedCircleViewHolder(
 
         with(binding) {
             tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
-            ivCircle.loadProfileIcon(
+            ivCircle.loadRoomProfileIcon(
                 data.info.avatarUrl,
                 data.info.title,
                 applyBlur = data.shouldBlurIcon

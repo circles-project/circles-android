@@ -8,8 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.extensions.gone
-import org.futo.circles.core.extensions.loadProfileIcon
-import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.databinding.ViewCreatePostBinding
@@ -53,7 +52,7 @@ class CreatePostView(
     }
 
     fun setUserInfo(user: User) {
-        binding.ivProfile.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
+        binding.ivProfile.loadUserProfileIcon(user.avatarUrl, user.userId)
     }
 
     private fun setupButtons(isThread: Boolean) {

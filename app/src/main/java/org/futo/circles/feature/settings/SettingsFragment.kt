@@ -14,7 +14,7 @@ import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -130,7 +130,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun bindProfile(user: User) {
         with(binding) {
-            ivProfile.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
+            ivProfile.loadUserProfileIcon(user.avatarUrl, user.userId)
             tvUserName.text = user.notEmptyDisplayName()
             tvUserId.text = user.userId
         }

@@ -9,7 +9,7 @@ import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInvitedGalleryBinding
 import org.futo.circles.core.databinding.ListItemJoinedGalleryBinding
 import org.futo.circles.core.extensions.loadMatrixImage
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.textDrawable.ColorGenerator
@@ -71,7 +71,7 @@ class InvitedGalleryViewHolder(
 
         with(binding) {
             tvGalleryTitle.text = data.info.title
-            ivGallery.loadProfileIcon(
+            ivGallery.loadRoomProfileIcon(
                 data.info.avatarUrl,
                 data.info.title,
                 applyBlur = data.shouldBlurIcon

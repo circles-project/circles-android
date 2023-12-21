@@ -6,12 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.databinding.ListItemPeopleDefaultBinding
-import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
 import org.futo.circles.databinding.ListItemPeopleRequestBinding
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
@@ -76,7 +75,7 @@ class PeopleRequestUserViewHolder(
     private fun bindUser(user: CirclesUserSummary) {
         with(binding) {
             tvUserName.text = user.name
-            ivUserImage.loadProfileIcon(user.avatarUrl, user.name)
+            ivUserImage.loadUserProfileIcon(user.avatarUrl, user.id)
         }
     }
 }
