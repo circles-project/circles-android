@@ -22,7 +22,6 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
-import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
@@ -38,12 +37,7 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private val listAdapter by lazy {
         GroupsListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
-            onInviteClicked = { roomListItem, isAccepted ->
-                onInviteClicked(roomListItem, isAccepted)
-            },
-            onUnblurProfileIconClicked = { roomListItem ->
-                viewModel.unblurProfileIcon(roomListItem)
-            }
+            onOpenInvitesClicked = {}
         )
     }
 
@@ -90,12 +84,6 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
         NetworkObserver.observe(this) { setEnabledViews(it, listOf(binding.rvRooms)) }
         viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
         viewModel.inviteResultLiveData.observeResponse(this)
-    }
-
-    private fun onInviteClicked(room: GroupListItem, isAccepted: Boolean) {
-        if (showNoInternetConnection()) return
-        if (isAccepted) viewModel.acceptGroupInvite(room.id)
-        else viewModel.rejectInvite(room.id)
     }
 
 

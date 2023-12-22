@@ -2,17 +2,16 @@ package org.futo.circles.feature.groups.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
+import org.futo.circles.model.GroupInvitesNotificationListItem
 import org.futo.circles.model.GroupListItem
 import org.futo.circles.model.GroupListItemPayload
-import org.futo.circles.model.InvitedGroupListItem
 import org.futo.circles.model.JoinedGroupListItem
 
-enum class GroupListItemViewType { JoinedGroup, InvitedGroup }
+enum class GroupListItemViewType { JoinedGroup, InviteNotification }
 
 class GroupsListAdapter(
     private val onRoomClicked: (GroupListItem) -> Unit,
-    private val onInviteClicked: (GroupListItem, Boolean) -> Unit,
-    private val onUnblurProfileIconClicked: (GroupListItem) -> Unit
+    private val onOpenInvitesClicked: () -> Unit
 ) : BaseRvAdapter<GroupListItem, GroupViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedGroupListItem && old is JoinedGroupListItem) {
         GroupListItemPayload(
@@ -29,26 +28,17 @@ class GroupsListAdapter(
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is JoinedGroupListItem -> GroupListItemViewType.JoinedGroup.ordinal
-        is InvitedGroupListItem -> GroupListItemViewType.InvitedGroup.ordinal
+        is GroupInvitesNotificationListItem -> GroupListItemViewType.InviteNotification.ordinal
     }
 
     override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
+        parent: ViewGroup, viewType: Int
     ) = when (GroupListItemViewType.values()[viewType]) {
-        GroupListItemViewType.JoinedGroup -> JoinedGroupViewHolder(
-            parent = parent,
-            onGroupClicked = { position -> onRoomClicked(getItem(position)) }
-        )
+        GroupListItemViewType.JoinedGroup -> JoinedGroupViewHolder(parent = parent,
+            onGroupClicked = { position -> onRoomClicked(getItem(position)) })
 
-        GroupListItemViewType.InvitedGroup -> InvitedGroupViewHolder(
-            parent = parent,
-            onInviteClicked = { position, isAccepted ->
-                onInviteClicked(getItem(position), isAccepted)
-            },
-            onShowProfileIconClicked = { position ->
-                onUnblurProfileIconClicked(getItem(position))
-            }
+        GroupListItemViewType.InviteNotification -> GroupInviteNotificationViewHolder(
+            parent = parent, onClicked = { onOpenInvitesClicked() }
         )
     }
 
@@ -57,9 +47,7 @@ class GroupsListAdapter(
     }
 
     override fun onBindViewHolder(
-        holder: GroupViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
+        holder: GroupViewHolder, position: Int, payloads: MutableList<Any>
     ) {
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
