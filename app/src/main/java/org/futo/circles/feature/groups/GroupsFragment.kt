@@ -20,7 +20,6 @@ import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.PreferencesProvider
@@ -37,7 +36,9 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private val listAdapter by lazy {
         GroupsListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
-            onOpenInvitesClicked = {}
+            onOpenInvitesClicked = {
+                findNavController().navigateSafe(GroupsFragmentDirections.toInvites())
+            }
         )
     }
 

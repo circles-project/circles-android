@@ -69,6 +69,7 @@ native <methods>;
 -keep class androidx.renderscript.** { *; }
 
 -keep class org.futo.circles.core.model.CircleRoomTypeArg
+-keep class org.futo.circles.core.model.InviteTypeArg
 -keep class org.futo.circles.auth.model.PasswordModeArg
 -keep class org.futo.circles.auth.model.TermsModeArg
 -keep class org.futo.circles.core.model.ShareUrlTypeArg

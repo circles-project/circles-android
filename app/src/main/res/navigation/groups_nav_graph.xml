@@ -32,9 +32,15 @@
             android:id="@+id/to_createGroupDialogFragment"
             app:destination="@id/createGroupDialogFragment" />
 
+        <action
+            android:id="@+id/to_invites"
+            app:destination="@id/invites_nav_graph" />
+
     </fragment>
 
     <include app:graph="@navigation/timeline_nav_graph" />
+
+    <include app:graph="@navigation/invites_nav_graph" />
 
     <dialog
         android:id="@+id/createGroupDialogFragment"

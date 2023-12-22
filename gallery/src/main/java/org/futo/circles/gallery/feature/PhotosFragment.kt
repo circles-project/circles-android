@@ -36,7 +36,9 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private val listAdapter by lazy {
         PhotosListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
-            onOpenInvitesClicked = {}
+            onOpenInvitesClicked = {
+                findNavController().navigateSafe(PhotosFragmentDirections.toInvites())
+            }
         )
     }
 

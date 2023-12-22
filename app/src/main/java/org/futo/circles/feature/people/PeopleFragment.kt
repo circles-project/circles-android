@@ -32,7 +32,9 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
     private val peopleAdapter by lazy {
         PeopleAdapter(
             onUserClicked = { userId -> navigateToUserPage(userId) },
-            onOpenRequestsClicked = {}
+            onOpenRequestsClicked = {
+                findNavController().navigateSafe(PeopleFragmentDirections.toInvites())
+            }
         )
     }
 

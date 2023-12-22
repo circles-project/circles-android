@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/invites_nav_graph"
+    app:startDestination="@id/invitesDialogFragment">
+    <dialog
+        android:id="@+id/invitesDialogFragment"
+        android:name="org.futo.circles.core.feature.room.invites.InvitesDialogFragment"
+        tools:layout="@layout/dialog_fragment_invites">
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.core.model.InviteTypeArg"
+            app:nullable="false" />
+
+    </dialog>
+</navigation>

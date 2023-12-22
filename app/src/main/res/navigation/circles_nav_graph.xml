@@ -32,15 +32,8 @@
             android:id="@+id/to_createCircleDialogFragment"
             app:destination="@id/createCircleDialogFragment" />
         <action
-            android:id="@+id/to_acceptCircleInviteDialogFragment"
-            app:destination="@id/acceptCircleInviteDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
+            android:id="@+id/to_invites"
+            app:destination="@id/invites_nav_graph" />
     </fragment>
 
     <include app:graph="@navigation/timeline_nav_graph" />
@@ -66,5 +59,7 @@
             app:destination="@id/createCircleDialogFragment" />
 
     </dialog>
+
+    <include app:graph="@navigation/invites_nav_graph" />
 
 </navigation>

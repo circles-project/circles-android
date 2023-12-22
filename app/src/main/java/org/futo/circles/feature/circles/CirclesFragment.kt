@@ -78,7 +78,9 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms),
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = CirclesListAdapter(
                 onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
-                onOpenInvitesClicked = {}
+                onOpenInvitesClicked = {
+                    findNavController().navigateSafe(CirclesFragmentDirections.toInvites())
+                }
             ).also { listAdapter = it }
             bindToFab(binding.fbAddRoom)
         }

@@ -28,6 +28,9 @@
         <action
             android:id="@+id/to_mediaBackupDialogFragment"
             app:destination="@id/mediaBackupDialogFragment" />
+        <action
+            android:id="@+id/to_invites"
+            app:destination="@id/invites_nav_graph" />
     </fragment>
 
     <dialog
@@ -68,5 +71,7 @@
         tools:layout="@layout/dialog_fragment_media_backup" />
 
     <include app:graph="@navigation/timeline_options_nav_graph" />
+
+    <include app:graph="@navigation/invites_nav_graph" />
 
 </navigation>
