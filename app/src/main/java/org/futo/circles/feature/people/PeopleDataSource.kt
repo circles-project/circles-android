@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
-import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
 import org.futo.circles.core.feature.select_users.SearchUserDataSource
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
@@ -17,7 +16,7 @@ import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleListItem
-import org.futo.circles.model.toPeopleRequestListItem
+import org.futo.circles.model.PeopleRequestNotificationListItem
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
@@ -30,13 +29,6 @@ class PeopleDataSource @Inject constructor(
 
     private val session = MatrixSessionProvider.currentSession
     private val profileRoomId = sharedCircleDataSource.getSharedCirclesSpaceId() ?: ""
-
-    suspend fun acceptFollowRequest(userId: String) = createResult {
-        session?.roomService()?.getRoom(profileRoomId)?.membershipService()?.invite(userId)
-    }
-
-    suspend fun declineFollowRequest(userId: String) =
-        createResult { session?.getRoom(profileRoomId)?.membershipService()?.remove(userId) }
 
     private fun getProfileRoomMembersKnockFlow(): Flow<List<KnockRequestListItem>> =
         knockRequestsDataSource.getKnockRequestsListItemsLiveData(profileRoomId)?.asFlow()
@@ -67,7 +59,6 @@ class PeopleDataSource @Inject constructor(
     ): List<PeopleListItem> {
         val ignoredUsersIds = ignoredUsers.map { it.userId }.toSet()
         val uniqueItemsList = mutableListOf<PeopleListItem>().apply {
-            addAll(requests.map { it.toPeopleRequestListItem() })
             addAll(knowUsers.map { it.toPeopleUserListItem(getKnownUserItemType(it.userId)) })
             addAll(suggestions.map { it.toPeopleUserListItem(PeopleItemType.Suggestion) })
         }
@@ -75,10 +66,9 @@ class PeopleDataSource @Inject constructor(
             .filterNot { it.id == session?.myUserId || ignoredUsersIds.contains(it.id) }
 
         return mutableListOf<PeopleListItem>().apply {
-            addSection(
-                PeopleHeaderItem.requests,
-                uniqueItemsList.filter { it.type == PeopleItemType.Request }
-            )
+            if (requests.isNotEmpty())
+                add(PeopleRequestNotificationListItem(requests.size))
+
             addSection(
                 PeopleHeaderItem.friends,
                 uniqueItemsList.filter { it.type == PeopleItemType.Friend }
