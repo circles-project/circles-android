@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackgroundBorderless"
+    android:clickable="true"
+    android:focusable="true"
     android:padding="8dp">
 
     <TextView
@@ -14,6 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="@color/blue"
-        tools:text="@string/group_invites_notification_format" />
+        tools:text="@string/gallery_invites_notification_format" />
 
 </FrameLayout>

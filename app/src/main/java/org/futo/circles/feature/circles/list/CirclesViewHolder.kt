@@ -8,10 +8,10 @@ import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.databinding.ListItemJoinedCircleBinding
 import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem

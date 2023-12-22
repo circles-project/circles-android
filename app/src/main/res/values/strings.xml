@@ -212,6 +212,8 @@
     <string name="optional_request_message">Optional: Request message</string>
     <string name="media_storage">Media storage</string>
     <string name="media_usage_format">%s of %s used</string>
+    <string name="group_invites_notification_format">Show %d Group invitations</string>
+    <string name="circle_invites_notification_format">Show %d Circle invitations</string>
 
     <!-- Rich text editor -->
     <string name="rich_text_editor_format_bold">Apply bold format</string>

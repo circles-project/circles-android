@@ -21,7 +21,6 @@ import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.model.GalleryListItem
@@ -37,12 +36,7 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private val listAdapter by lazy {
         PhotosListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
-            onInviteClicked = { roomListItem, isAccepted ->
-                onInviteClicked(roomListItem, isAccepted)
-            },
-            onUnblurProfileIconClicked = { roomListItem ->
-                viewModel.unblurProfileIcon(roomListItem)
-            }
+            onOpenInvitesClicked = {}
         )
     }
 
@@ -87,7 +81,6 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private fun setupObservers() {
         NetworkObserver.observe(this) { setEnabledViews(it, listOf(binding.rvRooms)) }
         viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
-        viewModel.inviteResultLiveData.observeResponse(this)
     }
 
     private fun onRoomListItemClicked(room: GalleryListItem) {
@@ -98,11 +91,6 @@ class PhotosFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             readMediaPermissionHelper.runWithPermission { navigateToBackupSettings() }
         else navigateToBackupSettings()
-    }
-
-    private fun onInviteClicked(room: GalleryListItem, isAccepted: Boolean) {
-        if (isAccepted) viewModel.acceptPhotosInvite(room.id)
-        else viewModel.rejectInvite(room.id)
     }
 
     private fun navigateToCreateRoom() {

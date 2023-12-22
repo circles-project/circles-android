@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
+import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.databinding.ListItemJoinedGroupBinding
 import org.futo.circles.extensions.setIsEncryptedIcon
 import org.futo.circles.model.GroupInvitesNotificationListItem
