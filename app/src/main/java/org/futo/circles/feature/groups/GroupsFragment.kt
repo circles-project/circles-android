@@ -83,7 +83,6 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     private fun setupObservers() {
         NetworkObserver.observe(this) { setEnabledViews(it, listOf(binding.rvRooms)) }
         viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
-        viewModel.inviteResultLiveData.observeResponse(this)
     }
 
 

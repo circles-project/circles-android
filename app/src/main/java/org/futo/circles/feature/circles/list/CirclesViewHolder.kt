@@ -11,20 +11,17 @@ import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.databinding.ListItemInvitedCircleBinding
+import org.futo.circles.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.databinding.ListItemJoinedCircleBinding
+import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CircleListItemPayload
 import org.futo.circles.model.CirclesHeaderItem
-import org.futo.circles.model.InvitedCircleListItem
 import org.futo.circles.model.JoinedCircleListItem
 
 abstract class CirclesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: CircleListItem)
 
-    protected fun setTitle(titleView: TextView, title: String) {
-        titleView.text = title
-    }
 }
 
 
@@ -61,6 +58,10 @@ class JoinedCircleViewHolder(
         data.knocksCount?.let { setRequestsCount(it) }
     }
 
+    private fun setTitle(titleView: TextView, title: String) {
+        titleView.text = title
+    }
+
     private fun setFollowingCount(followersCount: Int) {
         binding.tvFollowing.text = context.getString(R.string.following_format, followersCount)
     }
@@ -82,41 +83,26 @@ class JoinedCircleViewHolder(
     }
 }
 
-class InvitedCircleViewHolder(
+class CircleInviteNotificationViewHolder(
     parent: ViewGroup,
-    onInviteClicked: (Int, Boolean) -> Unit,
-    onShowProfileIconClicked: (Int) -> Unit
-) : CirclesViewHolder(inflate(parent, ListItemInvitedCircleBinding::inflate)) {
+    onClicked: () -> Unit
+) : CirclesViewHolder(inflate(parent, ListItemInviteNotificationBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemInvitedCircleBinding
+    private val binding = baseBinding as ListItemInviteNotificationBinding
 
     init {
-        onClick(binding.btnAccept) { position -> onInviteClicked(position, true) }
-        onClick(binding.btnDecline) { position -> onInviteClicked(position, false) }
-        onClick(binding.ivCircle) { position -> onShowProfileIconClicked(position) }
+        onClick(binding.lInviteNotification) { _ -> onClicked() }
     }
 
     override fun bind(data: CircleListItem) {
-        if (data !is InvitedCircleListItem) return
-
-        with(binding) {
-            tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
-            ivCircle.loadRoomProfileIcon(
-                data.info.avatarUrl,
-                data.info.title,
-                applyBlur = data.shouldBlurIcon
-            )
-            setTitle(tvCircleTitle, data.info.title)
-            binding.tvInvitedBy.text =
-                context.getString(
-                    org.futo.circles.core.R.string.invited_by_format,
-                    data.inviterName
-                )
-        }
+        if (data !is CircleInvitesNotificationListItem) return
+        binding.tvInvitesMessage.text =
+            context.getString(R.string.circle_invites_notification_format, data.invitesCount)
     }
 }
+
 
 class CircleHeaderViewHolder(
     parent: ViewGroup,

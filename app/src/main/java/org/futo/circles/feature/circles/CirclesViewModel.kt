@@ -11,32 +11,21 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.create.CreateRoomDataSource
-import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.model.CircleListItem
 import org.matrix.android.sdk.api.session.getRoomSummary
 import javax.inject.Inject
 
 @HiltViewModel
 class CirclesViewModel @Inject constructor(
-    private val dataSource: CirclesDataSource,
-    private val inviteRequestsDataSource: InviteRequestsDataSource,
+    dataSource: CirclesDataSource,
     private val createRoomDataSource: CreateRoomDataSource
 ) : ViewModel() {
 
     val roomsLiveData = dataSource.getCirclesFlow().asLiveData()
-    val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToCircleLiveData = SingleEventLiveData<Response<String>>()
     val createTimelineLoadingLiveData = MutableLiveData<LoadingData>()
-
-    fun rejectInvite(roomId: String) {
-        launchBg {
-            val result = inviteRequestsDataSource.rejectInvite(roomId)
-            inviteResultLiveData.postValue(result)
-        }
-    }
 
 
     fun createTimeLineIfNotExist(circleId: String) {
@@ -54,10 +43,6 @@ class CirclesViewModel @Inject constructor(
             createTimelineLoadingLiveData.postValue(LoadingData(isLoading = false))
             navigateToCircleLiveData.postValue(result)
         }
-    }
-
-    fun unblurProfileIcon(roomListItem: CircleListItem) {
-        dataSource.unblurProfileImageFor(roomListItem.id)
     }
 
 }
