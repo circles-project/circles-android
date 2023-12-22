@@ -1,37 +1,41 @@
 package org.futo.circles.feature.circles
 
-import org.futo.circles.core.feature.room.RoomListHelper
+import androidx.lifecycle.asFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.withContext
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.TIMELINE_TYPE
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
-import org.futo.circles.mapping.toInviteCircleListItem
 import org.futo.circles.mapping.toJoinedCircleListItem
+import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CirclesHeaderItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
+import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 class CirclesDataSource @Inject constructor(
     private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource,
-    private val sharedCircleDataSource: SharedCircleDataSource,
-    private val roomListHelper: RoomListHelper
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) {
 
-    fun getCirclesFlow() = roomListHelper.getRoomsFlow(::buildCirclesList, null)
+    fun getCirclesFlow() = combine(
+        MatrixSessionProvider.getSessionOrThrow().roomService()
+            .getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
+            .asFlow(),
+        MatrixSessionProvider.getSessionOrThrow().roomService().getChangeMembershipsLive().asFlow()
+    ) { roomSummaries, _ ->
+        withContext(Dispatchers.IO) { buildCirclesList(roomSummaries) }
+    }.distinctUntilChanged()
 
-    private fun buildCirclesList(
-        list: List<RoomSummary>,
-        knownUsersIds: Set<String>,
-        roomIdsToUnblur: Set<String>
-    ): List<CircleListItem> {
-        val invites = list.filter { isInviteToCircleTimeline(it) }.map {
-            it.toInviteCircleListItem(
-                roomListHelper.shouldBlurIconFor(it, knownUsersIds, roomIdsToUnblur)
-            )
-        }
+    private fun buildCirclesList(list: List<RoomSummary>): List<CircleListItem> {
+        val invitesCount = list.filter { isInviteToCircleTimeline(it) }.size
 
         val joinedCirclesSpaceIds = getJoinedCirclesIds()
         val joinedCircles = list.filter { isJoinedCircle(it, joinedCirclesSpaceIds) }
@@ -46,7 +50,9 @@ class CirclesDataSource @Inject constructor(
         val privateCircles = joinedCircles - sharedCircles.toSet()
 
         val displayList = mutableListOf<CircleListItem>().apply {
-            addSection(CirclesHeaderItem.invitesCirclesHeader, invites)
+            if (invitesCount > 0)
+                add(CircleInvitesNotificationListItem(invitesCount))
+
             addSection(
                 CirclesHeaderItem.sharedCirclesHeader,
                 sharedCircles.map { it.toJoinedCircleListItem(true) })
@@ -82,7 +88,4 @@ class CirclesDataSource @Inject constructor(
             addAll(items)
         }
     }
-
-    fun unblurProfileImageFor(id: String) = roomListHelper.unblurProfileImageFor(id)
-
 }
