@@ -9,7 +9,7 @@ import org.futo.circles.model.PeopleUserListItemPayload
 
 class PeopleAdapter(
     private val onUserClicked: (String) -> Unit,
-    private val onRequestClicked: (String, Boolean) -> Unit
+    private val onOpenRequestsClicked: () -> Unit
 ) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is PeopleUserListItem && old is PeopleUserListItem) {
         PeopleUserListItemPayload(user = new.user.takeIf { it != old.user })
@@ -21,12 +21,10 @@ class PeopleAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         return when (PeopleItemType.values()[viewType]) {
             PeopleItemType.Header -> PeopleHeaderViewHolder(parent)
-            PeopleItemType.Request -> PeopleRequestUserViewHolder(
-                parent,
-                onRequestClicked = { position, isAccepted ->
-                    onRequestClicked(getItem(position).id, isAccepted)
-                }
+            PeopleItemType.RequestNotification -> FollowRequestNotificationViewHolder(
+                parent = parent, onClicked = { onOpenRequestsClicked() }
             )
+
             else -> PeopleDefaultUserViewHolder(
                 parent,
                 onUserClicked = { position -> onUserClicked(getItem(position).id) }

@@ -214,6 +214,7 @@
     <string name="media_usage_format">%s of %s used</string>
     <string name="group_invites_notification_format">Show %d Group invitations</string>
     <string name="circle_invites_notification_format">Show %d Circle invitations</string>
+    <string name="show_follow_requests_format">Show %d follow requests</string>
 
     <!-- Rich text editor -->
     <string name="rich_text_editor_format_bold">Apply bold format</string>

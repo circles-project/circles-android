@@ -19,8 +19,6 @@ class PeopleViewModel @Inject constructor(
 ) : ViewModel() {
 
     val peopleLiveData = MutableLiveData<List<PeopleListItem>>()
-    val followUserLiveData = SingleEventLiveData<Response<Unit?>>()
-    val followUserRequestLiveData = SingleEventLiveData<Response<Unit?>>()
 
     init {
         launchBg { peopleDataSource.refreshRoomMembers() }
@@ -31,14 +29,6 @@ class PeopleViewModel @Inject constructor(
             queryFlow
                 .flatMapLatest { query -> peopleDataSource.getPeopleList(query) }
                 .collectLatest { items -> peopleLiveData.postValue(items) }
-        }
-    }
-
-    fun onFollowRequestAnswered(userId: String, accepted: Boolean) {
-        launchBg {
-            val result = if (accepted) peopleDataSource.acceptFollowRequest(userId)
-            else peopleDataSource.declineFollowRequest(userId)
-            followUserRequestLiveData.postValue(result)
         }
     }
 }
