@@ -145,4 +145,9 @@
     <string name="create">Create</string>
     <string name="show">Show</string>
     <string name="gallery_invites_notification_format">Show %d Gallery invitations</string>
+    <string name="follow_requests">Follow requests</string>
+    <string name="group_invitations">Group invitations</string>
+    <string name="gallery_invitations">Gallery invitations</string>
+    <string name="circle_invitations">Circle invitations</string>
+    <string name="no_new_invitations_format">You don\'t have any %s</string>
 </resources>
