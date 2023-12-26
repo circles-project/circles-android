@@ -12,9 +12,9 @@ import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsEncryptedIcon
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ListItemJoinedGroupBinding
-import org.futo.circles.extensions.setIsEncryptedIcon
 import org.futo.circles.model.GroupInvitesNotificationListItem
 import org.futo.circles.model.GroupListItem
 import org.futo.circles.model.GroupListItemPayload
