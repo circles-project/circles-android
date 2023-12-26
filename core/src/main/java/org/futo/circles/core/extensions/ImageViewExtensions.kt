@@ -12,6 +12,7 @@ import com.bumptech.glide.request.target.Target
 import com.caverock.androidsvg.SVG
 import jdenticon.Jdenticon
 import jp.wasabeef.glide.transformations.BlurTransformation
+import org.futo.circles.core.R
 import org.futo.circles.core.feature.blurhash.ThumbHash
 import org.futo.circles.core.feature.textDrawable.ColorGenerator
 import org.futo.circles.core.feature.textDrawable.TextDrawable
@@ -115,4 +116,8 @@ fun ImageView.loadMatrixImage(
             .apply { if (applyBlur) transform(BlurTransformation(30)) }
             .into(this)
     }
+}
+
+fun ImageView.setIsEncryptedIcon(isEncrypted: Boolean) {
+    setImageResource(if (isEncrypted) R.drawable.ic_lock else R.drawable.ic_lock_open)
 }
