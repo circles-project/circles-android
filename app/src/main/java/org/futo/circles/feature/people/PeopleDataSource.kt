@@ -1,6 +1,7 @@
 package org.futo.circles.feature.people
 
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -10,7 +11,6 @@ import kotlinx.coroutines.withContext
 import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
 import org.futo.circles.core.feature.select_users.SearchUserDataSource
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
-import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
@@ -30,17 +30,25 @@ class PeopleDataSource @Inject constructor(
     private val session = MatrixSessionProvider.currentSession
     private val profileRoomId = sharedCircleDataSource.getSharedCirclesSpaceId() ?: ""
 
-    private fun getProfileRoomMembersKnockFlow(): Flow<List<KnockRequestListItem>> =
-        knockRequestsDataSource.getKnockRequestsListItemsLiveData(profileRoomId)?.asFlow()
-            ?: flowOf()
+    private fun getKnockRequestCountFlow(): Flow<Int> =
+        knockRequestsDataSource.getKnockRequestsListItemsLiveData(profileRoomId)?.map {
+            it.size
+        }?.asFlow() ?: flowOf()
 
     suspend fun getPeopleList(query: String) = combine(
         searchUserDataSource.searchKnownUsers(query),
         searchUserDataSource.searchSuggestions(query),
         getIgnoredUserFlow(),
-        getProfileRoomMembersKnockFlow()
-    ) { knowUsers, suggestions, ignoredUsers, requests ->
-        withContext(Dispatchers.IO) { buildList(knowUsers, suggestions, ignoredUsers, requests) }
+        getKnockRequestCountFlow()
+    ) { knowUsers, suggestions, ignoredUsers, requestsCount ->
+        withContext(Dispatchers.IO) {
+            buildList(
+                knowUsers,
+                suggestions,
+                ignoredUsers,
+                requestsCount
+            )
+        }
     }.distinctUntilChanged()
 
     suspend fun refreshRoomMembers() {
@@ -55,7 +63,7 @@ class PeopleDataSource @Inject constructor(
         knowUsers: List<User>,
         suggestions: List<User>,
         ignoredUsers: List<User>,
-        requests: List<KnockRequestListItem>
+        requestsCount: Int
     ): List<PeopleListItem> {
         val ignoredUsersIds = ignoredUsers.map { it.userId }.toSet()
         val uniqueItemsList = mutableListOf<PeopleListItem>().apply {
@@ -66,8 +74,8 @@ class PeopleDataSource @Inject constructor(
             .filterNot { it.id == session?.myUserId || ignoredUsersIds.contains(it.id) }
 
         return mutableListOf<PeopleListItem>().apply {
-            if (requests.isNotEmpty())
-                add(PeopleRequestNotificationListItem(requests.size))
+            if (requestsCount > 0)
+                add(PeopleRequestNotificationListItem(requestsCount))
 
             addSection(
                 PeopleHeaderItem.friends,
