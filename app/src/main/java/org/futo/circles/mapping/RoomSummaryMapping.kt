@@ -1,12 +1,9 @@
 package org.futo.circles.mapping
 
-import org.futo.circles.core.mapping.getInviterName
 import org.futo.circles.core.mapping.toRoomInfo
 import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.model.InvitedCircleListItem
-import org.futo.circles.model.InvitedGroupListItem
 import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.JoinedGroupListItem
 import org.futo.circles.model.TimelineRoomListItem
@@ -29,14 +26,6 @@ fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     knockRequestsCount = getKnocksCount(roomId)
 )
 
-fun RoomSummary.toInviteGroupListItem(shouldBlurIcon: Boolean) = InvitedGroupListItem(
-    id = roomId,
-    info = toRoomInfo(),
-    isEncrypted = isEncrypted,
-    inviterName = getInviterName(),
-    shouldBlurIcon = shouldBlurIcon
-)
-
 fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) = JoinedCircleListItem(
     id = roomId,
     info = toRoomInfo(),
@@ -45,13 +34,6 @@ fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) = JoinedCircle
     followedByCount = getFollowersCount(),
     unreadCount = getCircleUnreadMessagesCount(),
     knockRequestsCount = getKnocksCount(getTimelineRoomFor(roomId)?.roomId ?: "")
-)
-
-fun RoomSummary.toInviteCircleListItem(shouldBlurIcon: Boolean) = InvitedCircleListItem(
-    id = roomId,
-    info = toRoomInfo(),
-    inviterName = getInviterName(),
-    shouldBlurIcon = shouldBlurIcon
 )
 
 private fun RoomSummary.getFollowersCount(): Int =
