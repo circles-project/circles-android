@@ -15,4 +15,16 @@
             app:nullable="false" />
 
     </dialog>
+
+    <action
+        android:id="@+id/to_acceptCircleInviteDialogFragment"
+        app:destination="@id/acceptCircleInviteDialogFragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </action>
+
 </navigation>
