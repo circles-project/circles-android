@@ -43,7 +43,6 @@ class KnockRequestsDialogFragment :
             adapter = knocksListAdapter
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.knock_requests_empty_message))
-                setArrowVisible(false)
             })
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }

@@ -74,6 +74,7 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms),
         binding.rvRooms.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.circles_empty_message))
+                setArrowVisible(true)
             })
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = CirclesListAdapter(

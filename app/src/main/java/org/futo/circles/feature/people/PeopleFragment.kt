@@ -59,7 +59,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         binding.rvUsers.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.people_empty_message))
-                setArrowVisible(false)
             })
             adapter = peopleAdapter
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))

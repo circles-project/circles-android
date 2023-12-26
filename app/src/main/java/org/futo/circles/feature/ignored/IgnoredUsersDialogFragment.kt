@@ -39,7 +39,6 @@ class IgnoredUsersDialogFragment :
         binding.rvIgnoredUsers.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.ignored_users_empty_message))
-                setArrowVisible(false)
             })
             adapter = usersAdapter
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
