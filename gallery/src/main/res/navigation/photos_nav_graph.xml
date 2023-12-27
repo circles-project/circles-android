@@ -30,7 +30,15 @@
             app:destination="@id/mediaBackupDialogFragment" />
         <action
             android:id="@+id/to_invites"
-            app:destination="@id/invites_nav_graph" />
+            app:destination="@id/invites_nav_graph">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Photo"
+                app:argType="org.futo.circles.core.model.InviteTypeArg"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
     <dialog
@@ -48,7 +56,7 @@
             app:nullable="false" />
         <action
             android:id="@+id/to_timeline_options"
-            app:destination="@id/timeline_options_nav_graph" >
+            app:destination="@id/timeline_options_nav_graph">
 
             <argument
                 android:name="roomId"

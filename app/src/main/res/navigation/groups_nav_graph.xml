@@ -34,7 +34,15 @@
 
         <action
             android:id="@+id/to_invites"
-            app:destination="@id/invites_nav_graph" />
+            app:destination="@id/invites_nav_graph">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Group"
+                app:argType="org.futo.circles.core.model.InviteTypeArg"
+                app:nullable="false" />
+
+        </action>
 
     </fragment>
 
