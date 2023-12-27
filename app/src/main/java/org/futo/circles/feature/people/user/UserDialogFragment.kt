@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
@@ -66,13 +67,8 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = usersCirclesAdapter
         }
-        val amIFollowing = viewModel.amIFollowingUser()
-        binding.btnUnFollow.apply {
-            setIsVisible(amIFollowing)
-            setOnClickListener { withConfirmation(UnfollowUser()) { viewModel.unFollowUser() } }
-        }
         binding.btnInviteToConnect.apply {
-            setIsVisible(!amIFollowing)
+            setIsVisible(!viewModel.isUserMyFollower())
             setOnClickListener { viewModel.inviteToMySharedCircle() }
         }
     }
@@ -81,10 +77,15 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
     private fun setupMenu() {
         with(binding.toolbar) {
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
+            menu.findItem(R.id.unFollow).isVisible = viewModel.amIFollowingUser()
             menu.findItem(R.id.ignore).isVisible = !isUserIgnored
             menu.findItem(R.id.unIgnore).isVisible = isUserIgnored
             setOnMenuItemClickListener { item ->
                 return@setOnMenuItemClickListener when (item.itemId) {
+                    R.id.unFollow -> {
+                        withConfirmation(UnfollowUser()) { viewModel.unFollowUser() }
+                        true
+                    }
                     R.id.ignore -> {
                         withConfirmation(IgnoreUser()) { viewModel.ignoreUser() }
                         true
@@ -114,6 +115,11 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
         }
         viewModel.requestFollowLiveData.observeResponse(this,
             success = { showSuccess(getString(R.string.request_sent)) })
+        viewModel.inviteToConnectLiveData.observeResponse(this,
+            success = {
+                showSuccess(getString(R.string.request_sent))
+                binding.btnInviteToConnect.gone()
+            })
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {
                 context?.let { showSuccess(it.getString(R.string.user_ignored)) }

@@ -71,20 +71,6 @@
         tools:text="texsdt" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnUnFollow"
-        style="@style/NegativeButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/unfollow"
-        android:textSize="12sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUserId"
-        tools:visibility="visible" />
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnInviteToConnect"
         style="@style/AccentButtonStyle"
         android:layout_width="wrap_content"
@@ -99,13 +85,6 @@
         app:layout_constraintTop_toBottomOf="@id/tvUserId"
         tools:visibility="visible" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/buttonsBarier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="btnInviteToConnect,btnUnFollow" />
-
 
     <View
         android:id="@+id/divider"
@@ -115,7 +94,7 @@
         android:background="@color/divider_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonsBarier" />
+        app:layout_constraintTop_toBottomOf="@id/btnInviteToConnect" />
 
 
     <org.futo.circles.core.view.LoadingRecyclerView
