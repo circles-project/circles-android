@@ -20,6 +20,7 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.databinding.DialogFragmentUserBinding
 import org.futo.circles.extensions.*
 import org.futo.circles.feature.people.user.list.UsersCirclesAdapter
@@ -107,7 +108,6 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
         viewModel.userLiveData.observeData(this) { setupUserInfo(it) }
         viewModel.timelineLiveDataLiveData.observeData(this) {
             usersCirclesAdapter.submitList(it)
-            binding.tvEmptyCirclesList.setIsVisible(it.isEmpty())
         }
         viewModel.requestFollowLiveData.observeResponse(this,
             success = { showSuccess(getString(R.string.request_sent)) })
@@ -134,8 +134,14 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             tvUserId.text = user.userId
             tvUserName.text = user.notEmptyDisplayName()
             ivUser.loadUserProfileIcon(user.avatarUrl, user.userId)
-            tvEmptyCirclesList.text =
-                getString(R.string.not_following_any_circles_format, user.notEmptyDisplayName())
+            rvCircles.setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
+                setText(
+                    getString(
+                        R.string.not_following_any_circles_format,
+                        user.notEmptyDisplayName()
+                    )
+                )
+            })
         }
     }
 
