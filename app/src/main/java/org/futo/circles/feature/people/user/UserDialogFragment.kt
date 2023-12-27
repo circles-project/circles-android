@@ -66,22 +66,25 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = usersCirclesAdapter
         }
+        val amIFollowing = viewModel.amIFollowingUser()
+        binding.btnUnFollow.apply {
+            setIsVisible(amIFollowing)
+            setOnClickListener { withConfirmation(UnfollowUser()) { viewModel.unFollowUser() } }
+        }
+        binding.btnInviteToConnect.apply {
+            setIsVisible(!amIFollowing)
+            setOnClickListener { viewModel.inviteToMySharedCircle() }
+        }
     }
 
     @SuppressLint("RestrictedApi")
     private fun setupMenu() {
         with(binding.toolbar) {
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-            menu.findItem(R.id.unFollow).isVisible = viewModel.amIFollowingUser()
             menu.findItem(R.id.ignore).isVisible = !isUserIgnored
             menu.findItem(R.id.unIgnore).isVisible = isUserIgnored
             setOnMenuItemClickListener { item ->
                 return@setOnMenuItemClickListener when (item.itemId) {
-                    R.id.unFollow -> {
-                        withConfirmation(UnfollowUser()) { viewModel.unFollowUser() }
-                        true
-                    }
-
                     R.id.ignore -> {
                         withConfirmation(IgnoreUser()) { viewModel.ignoreUser() }
                         true

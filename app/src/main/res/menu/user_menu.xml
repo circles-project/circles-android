@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/unFollow"
-        android:icon="@drawable/ic_unfollow"
-        android:title="@string/unfollow" />
 
     <item
         android:id="@+id/ignore"

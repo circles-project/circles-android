@@ -13,6 +13,8 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.launchUi
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
+import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
+import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.model.TimelineListItem
@@ -23,10 +25,13 @@ class UserViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val userDataSource: UserDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
-    private val roomRelationsBuilder: RoomRelationsBuilder
+    private val roomRelationsBuilder: RoomRelationsBuilder,
+    private val inviteRequestsDataSource: InviteRequestsDataSource,
+    sharedCircleDataSource: SharedCircleDataSource
 ) : ViewModel() {
 
     private val userId: String = savedStateHandle.getOrThrow("userId")
+    private val mySharedCircleSpaceId = sharedCircleDataSource.getSharedCirclesSpaceId() ?: ""
 
     val userLiveData = userDataSource.userLiveData
     val timelineLiveDataLiveData = MutableLiveData<List<TimelineListItem>>()
@@ -87,5 +92,11 @@ class UserViewModel @Inject constructor(
     }
 
     fun amIFollowingUser(): Boolean = userOptionsDataSource.amIFollowingUser(userId)
+    fun inviteToMySharedCircle() {
+        launchBg {
+            val result = inviteRequestsDataSource.inviteUser(mySharedCircleSpaceId, userId)
+            requestFollowLiveData.postValue(result)
+        }
+    }
 
 }
