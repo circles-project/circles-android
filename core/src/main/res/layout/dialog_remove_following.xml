@@ -51,7 +51,6 @@
 
             <TextView
                 android:id="@+id/tvRemove"
-                style="@style/subheadline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -61,7 +60,8 @@
                 android:focusable="true"
                 android:padding="16dp"
                 android:text="@string/remove_from_this_circle_but_do_not_unfollow"
-                android:textColor="@color/black"
+                android:textAppearance="@style/footNote"
+                android:textSize="15sp"
                 app:drawableLeftCompat="@drawable/ic_delete"
                 app:drawableTint="@color/menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,16 +70,16 @@
 
             <TextView
                 android:id="@+id/tvUnfollow"
-                style="@style/subheadline"
+                style="@style/footNote"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:drawablePadding="16dp"
                 android:focusable="true"
+                android:textSize="15sp"
                 android:padding="16dp"
                 android:text="@string/unfollow_completely_remove_from_all_circles"
-                android:textColor="@color/black"
                 app:drawableLeftCompat="@drawable/ic_logout"
                 app:drawableTint="@color/menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
