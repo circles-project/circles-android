@@ -185,7 +185,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {
-                context?.let { showSuccess(it.getString(R.string.user_ignored)) }
+                context?.let { showSuccess(it.getString(org.futo.circles.core.R.string.user_ignored)) }
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
 

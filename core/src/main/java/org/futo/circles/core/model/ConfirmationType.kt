@@ -10,7 +10,7 @@ abstract class ConfirmationType(
 )
 
 data class DeactivateAccount(
-    override val titleRes: Int = org.futo.circles.core.R.string.deactivate_my_account,
+    override val titleRes: Int = R.string.deactivate_my_account,
     override val messageRes: Int = R.string.deactivate_message,
     override val positiveButtonRes: Int = R.string.deactivate
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
@@ -42,7 +42,7 @@ data class ResendInvite(
 data class RemoveRoomUser(
     override val titleRes: Int = R.string.remove_user,
     override val messageRes: Int = R.string.remove_user_in_room_message,
-    override val positiveButtonRes: Int = org.futo.circles.core.R.string.remove
+    override val positiveButtonRes: Int = R.string.remove
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
 data class LeaveGroup(
@@ -73,4 +73,22 @@ data class DeleteGallery(
     override val titleRes: Int = R.string.delete_gallery,
     override val messageRes: Int = R.string.delete_gallery_message,
     override val positiveButtonRes: Int = R.string.delete
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class UnfollowTimeline(
+    override val titleRes: Int = R.string.unfollow,
+    override val messageRes: Int = R.string.unfollow_user_timeline,
+    override val positiveButtonRes: Int = R.string.unfollow
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class IgnoreUser(
+    override val titleRes: Int = R.string.ignore,
+    override val messageRes: Int = R.string.ignore_user_message,
+    override val positiveButtonRes: Int = R.string.ignore
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class UnfollowUser(
+    override val titleRes: Int = R.string.unfollow,
+    override val messageRes: Int = R.string.unfollow_user_message,
+    override val positiveButtonRes: Int = R.string.unfollow
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

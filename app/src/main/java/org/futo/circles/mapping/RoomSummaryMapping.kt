@@ -1,18 +1,15 @@
 package org.futo.circles.mapping
 
 import org.futo.circles.core.mapping.toRoomInfo
-import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.JoinedGroupListItem
-import org.futo.circles.model.TimelineRoomListItem
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.model.SpaceChildInfo
 
 
 fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
@@ -51,12 +48,6 @@ private fun RoomSummary.getCircleUnreadMessagesCount(): Int {
     return unreadInCircle
 }
 
-fun RoomSummary.toTimelineRoomListItem() = TimelineRoomListItem(
-    id = roomId,
-    info = toRoomInfo(),
-    isJoined = membership == Membership.JOIN
-)
-
 fun getKnocksCount(roomId: String) =
     MatrixSessionProvider.currentSession?.getRoom(roomId)?.membershipService()
         ?.getRoomMembers(
@@ -65,12 +56,3 @@ fun getKnocksCount(roomId: String) =
                 memberships = listOf(Membership.KNOCK)
             }
         )?.size ?: 0
-
-fun SpaceChildInfo.toTimelineRoomListItem() = TimelineRoomListItem(
-    id = childRoomId,
-    info = RoomInfo(
-        title = name?.takeIf { it.isNotEmpty() } ?: childRoomId,
-        avatarUrl = avatarUrl ?: ""
-    ),
-    isJoined = false
-)

@@ -1,4 +1,4 @@
-package org.futo.circles.feature.people.user
+package org.futo.circles.core.feature.user
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -15,9 +15,8 @@ import org.futo.circles.core.extensions.launchUi
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
+import org.futo.circles.core.model.TimelineListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.feature.people.UserOptionsDataSource
-import org.futo.circles.model.TimelineListItem
 import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
 

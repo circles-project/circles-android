@@ -1,11 +1,13 @@
-package org.futo.circles.feature.people.user.list
+package org.futo.circles.core.feature.user.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
-import org.futo.circles.feature.people.user.list.TimelineViewType.*
-import org.futo.circles.model.TimelineHeaderItem
-import org.futo.circles.model.TimelineListItem
-import org.futo.circles.model.TimelineRoomListItem
+import org.futo.circles.core.feature.user.list.TimelineViewType.Header
+import org.futo.circles.core.feature.user.list.TimelineViewType.Room
+import org.futo.circles.core.feature.user.list.TimelineViewType.values
+import org.futo.circles.core.model.TimelineHeaderItem
+import org.futo.circles.core.model.TimelineListItem
+import org.futo.circles.core.model.TimelineRoomListItem
 
 private enum class TimelineViewType { Header, Room }
 class UsersCirclesAdapter(

@@ -17,7 +17,7 @@ data class PeopleHeaderItem(
     companion object {
         val friends = PeopleHeaderItem(org.futo.circles.auth.R.string.friends)
         val followersUsersHeader = PeopleHeaderItem(R.string.followers)
-        val followingUsersHeader = PeopleHeaderItem(R.string.following)
+        val followingUsersHeader = PeopleHeaderItem(org.futo.circles.core.R.string.following)
         val knownUsersHeader = PeopleHeaderItem(R.string.known_users)
         val suggestions = PeopleHeaderItem(R.string.suggestions)
     }

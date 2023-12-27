@@ -150,4 +150,16 @@
     <string name="gallery_invitations">Gallery invitations</string>
     <string name="circle_invitations">Circle invitations</string>
     <string name="no_new_invitations_format">You don\'t have any %s</string>
+    <string name="following">Following</string>
+    <string name="others">Others</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="unfollow_user_timeline">Are you sure you want to unfollow this timeline?</string>
+    <string name="unfollow_user_message">Are you sure you want to unfollow this user?</string>
+    <string name="ignore">Ignore</string>
+    <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
+    <string name="request_sent">Request sent</string>
+    <string name="unignore">Unignore</string>
+    <string name="user_ignored">User ignored</string>
+    <string name="user_unignored">User un ignored</string>
+    <string name="not_following_any_circles_format">Not following any Circles for %s</string>
 </resources>

@@ -1,4 +1,4 @@
-package org.futo.circles.feature.people.user
+package org.futo.circles.core.feature.user
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,9 +7,10 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.R
+import org.futo.circles.core.R
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.databinding.DialogFragmentUserBinding
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
@@ -21,13 +22,11 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.feature.user.list.UsersCirclesAdapter
+import org.futo.circles.core.model.IgnoreUser
+import org.futo.circles.core.model.UnfollowTimeline
+import org.futo.circles.core.model.UnfollowUser
 import org.futo.circles.core.view.EmptyTabPlaceholderView
-import org.futo.circles.databinding.DialogFragmentUserBinding
-import org.futo.circles.extensions.*
-import org.futo.circles.feature.people.user.list.UsersCirclesAdapter
-import org.futo.circles.model.IgnoreUser
-import org.futo.circles.model.UnfollowTimeline
-import org.futo.circles.model.UnfollowUser
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
@@ -86,6 +85,7 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
                         withConfirmation(UnfollowUser()) { viewModel.unFollowUser() }
                         true
                     }
+
                     R.id.ignore -> {
                         withConfirmation(IgnoreUser()) { viewModel.ignoreUser() }
                         true
