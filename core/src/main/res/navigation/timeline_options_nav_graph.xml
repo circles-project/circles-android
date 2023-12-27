@@ -231,6 +231,16 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_userDialogFragment"
+            app:destination="@id/userDialogFragment">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
     </dialog>
     <dialog
@@ -266,5 +276,10 @@
             app:argType="string"
             app:nullable="false" />
     </dialog>
+
+    <dialog
+        android:id="@+id/userDialogFragment"
+        android:name="org.futo.circles.core.feature.user.UserDialogFragment"
+        tools:layout="@layout/dialog_fragment_user" />
 
 </navigation>

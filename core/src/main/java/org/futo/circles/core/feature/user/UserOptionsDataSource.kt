@@ -1,4 +1,4 @@
-package org.futo.circles.feature.people
+package org.futo.circles.core.feature.user
 
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult

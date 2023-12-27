@@ -15,7 +15,6 @@
     <string name="share">Share</string>
     <string name="follow">Follow</string>
     <string name="fix">Fix</string>
-    <string name="following">Following</string>
     <string name="followers">Followers</string>
     <string name="known_users">Known users</string>
     <string name="ignored_users">Ignored users</string>
@@ -27,7 +26,6 @@
     <string name="create_new_circle">Create new circle</string>
     <string name="private_circles">Private Circles</string>
     <string name="log_out">Log out</string>
-    <string name="others">Others</string>
     <string name="following_format">Following %d</string>
     <string name="room_type_format">Room type: %s</string>
     <string name="topic_format">Topic: %s</string>
@@ -41,16 +39,10 @@
     <string name="encrypting">Encrypting</string>
     <string name="uploading">Uploading</string>
     <string name="ignore_sender">Ignore sender</string>
-    <string name="ignore">Ignore</string>
     <string name="saved">Saved</string>
     <string name="you_can_not_post_to_this_room">You can not post to this room</string>
     <string name="remove_post">Remove post</string>
     <string name="remove_post_message">Are you sure you want to remove this post?</string>
-    <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
-    <string name="unfollow_user_message">Are you sure you want to unfollow this user?</string>
-    <string name="unfollow_user_timeline">Are you sure you want to unfollow this timeline?</string>
-    <string name="user_ignored">User ignored</string>
-    <string name="user_unignored">User un ignored</string>
     <string name="reporting_inappropriate_content">Reporting inappropriate content</string>
     <string name="reporting_message">Thank you for helping to keep this community safe and pleasant for everyone.\nThe following brief questions will help us to respond most effectively to your report.</string>
     <string name="how_inappropriate_is_the_reported_content">How inappropriate is the reported content?</string>
@@ -72,15 +64,12 @@
     <string name="hundred">100</string>
     <string name="severity_formatter">Severity: %d</string>
     <string name="add_reaction">Add reaction</string>
-    <string name="unfollow">Unfollow</string>
     <string name="request_to_join">Request to join</string>
     <string name="request_to_follow">Request to follow</string>
     <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
     <string name="accept_invite">Accept invite</string>
     <string name="save_to_device">Save to device</string>
     <string name="save_to_gallery">Save to gallery</string>
-    <string name="unignore">Unignore</string>
-    <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="notifications">Notifications</string>
     <string name="push_notifications_test">Push notifications test</string>
     <string name="share_with_group">Share with a group</string>
@@ -114,7 +103,6 @@
     <string name="add_link">Add link</string>
     <string name="switch_user">Switch User</string>
     <string name="search_people">Search people</string>
-    <string name="request_sent">Request sent</string>
     <string name="wants_to_follow_you">wants to follow you</string>
     <string name="notification_unknown_room_name">Room</string>
     <string name="notification_new_invitation">New Invitation</string>
@@ -229,6 +217,8 @@
     <string name="rich_text_editor_quote">Toggle quote</string>
     <string name="rich_text_editor_code_block">Toggle code block</string>
     <string name="general">General</string>
+    <string name="invite_to_connect">Invite to connect</string>
+    <string name="empty_media_storage_info">0 MB used</string>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

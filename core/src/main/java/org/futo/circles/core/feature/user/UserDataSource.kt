@@ -1,4 +1,4 @@
-package org.futo.circles.feature.people.user
+package org.futo.circles.core.feature.user
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.getRoomOwners
-import org.futo.circles.core.model.TIMELINE_TYPE
-import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
-import org.futo.circles.mapping.toTimelineRoomListItem
-import org.futo.circles.model.TimelineHeaderItem
-import org.futo.circles.model.TimelineListItem
-import org.futo.circles.model.TimelineRoomListItem
+import org.futo.circles.core.model.TIMELINE_TYPE
+import org.futo.circles.core.model.TimelineHeaderItem
+import org.futo.circles.core.model.TimelineListItem
+import org.futo.circles.core.model.TimelineRoomListItem
+import org.futo.circles.core.model.toTimelineRoomListItem
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary

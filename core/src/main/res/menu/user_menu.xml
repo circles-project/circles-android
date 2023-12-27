@@ -6,9 +6,10 @@
         android:icon="@drawable/ic_unfollow"
         android:title="@string/unfollow" />
 
+
     <item
         android:id="@+id/ignore"
-        android:icon="@drawable/ic_ignore"
+        android:icon="@drawable/ic_notifications_off"
         android:title="@string/ignore" />
 
     <item

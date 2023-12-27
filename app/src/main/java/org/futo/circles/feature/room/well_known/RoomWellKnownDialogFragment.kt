@@ -39,7 +39,8 @@ class RoomWellKnownDialogFragment :
 
     private fun setupViews() {
         binding.btnRequest.setOnClickListener {
-            viewModel.sendKnockRequest(binding.tilRequestMessage.getText().takeIf { it.isNotEmpty() })
+            viewModel.sendKnockRequest(
+                binding.tilRequestMessage.getText().takeIf { it.isNotEmpty() })
             binding.btnRequest.setIsLoading(true)
         }
     }
@@ -52,7 +53,7 @@ class RoomWellKnownDialogFragment :
         )
         viewModel.knockRequestLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.request_sent))
+                showSuccess(getString(org.futo.circles.core.R.string.request_sent))
                 onBackPressed()
             },
             onRequestInvoked = { binding.btnRequest.setIsLoading(false) })

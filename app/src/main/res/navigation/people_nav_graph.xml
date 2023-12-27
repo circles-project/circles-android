@@ -35,7 +35,7 @@
 
     <dialog
         android:id="@+id/userFragment"
-        android:name="org.futo.circles.feature.people.user.UserDialogFragment"
+        android:name="org.futo.circles.core.feature.user.UserDialogFragment"
         tools:layout="@layout/dialog_fragment_user">
 
         <argument
