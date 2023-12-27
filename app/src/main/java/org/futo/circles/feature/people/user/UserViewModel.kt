@@ -18,6 +18,7 @@ import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.people.UserOptionsDataSource
 import org.futo.circles.model.TimelineListItem
+import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,11 +32,12 @@ class UserViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val userId: String = savedStateHandle.getOrThrow("userId")
-    private val mySharedCircleSpaceId = sharedCircleDataSource.getSharedCirclesSpaceId() ?: ""
+    private val profileRoomId = sharedCircleDataSource.getSharedCirclesSpaceId() ?: ""
 
     val userLiveData = userDataSource.userLiveData
     val timelineLiveDataLiveData = MutableLiveData<List<TimelineListItem>>()
     val requestFollowLiveData = SingleEventLiveData<Response<Unit?>>()
+    val inviteToConnectLiveData = SingleEventLiveData<Response<Unit?>>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unFollowUserLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -92,10 +94,18 @@ class UserViewModel @Inject constructor(
     }
 
     fun amIFollowingUser(): Boolean = userOptionsDataSource.amIFollowingUser(userId)
+
+    fun isUserMyFollower(): Boolean {
+        val mySharedCircleMembers =
+            MatrixSessionProvider.currentSession?.getRoom(profileRoomId)
+                ?.roomSummary()?.otherMemberIds ?: emptyList()
+        return mySharedCircleMembers.contains(userId)
+    }
+
     fun inviteToMySharedCircle() {
         launchBg {
-            val result = inviteRequestsDataSource.inviteUser(mySharedCircleSpaceId, userId)
-            requestFollowLiveData.postValue(result)
+            val result = inviteRequestsDataSource.inviteUser(profileRoomId, userId)
+            inviteToConnectLiveData.postValue(result)
         }
     }
 
