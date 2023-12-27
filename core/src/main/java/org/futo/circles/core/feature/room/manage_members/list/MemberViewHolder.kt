@@ -2,7 +2,9 @@ package org.futo.circles.core.feature.room.manage_members.list
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.core.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemBannedMemberBinding
@@ -28,7 +30,8 @@ abstract class ManageMembersViewHolder(view: View) : RecyclerView.ViewHolder(vie
 
 class MemberViewHolder(
     parent: ViewGroup,
-    private val onUserClicked: (Int) -> Unit,
+    private val onOpenUserClicked: (Int) -> Unit,
+    private val onToggleClicked: (Int) -> Unit,
     private val manageMembersListener: ManageMembersOptionsListener
 ) : ManageMembersViewHolder(inflate(parent, ListItemMemberBinding::inflate)) {
 
@@ -42,13 +45,16 @@ class MemberViewHolder(
         with(binding) {
             tvRole.text = context.getString(data.role.getRoleNameResId())
             vUser.bind(data.user)
+            onClick(vUser.findViewById<ImageView>(R.id.ivUserImage)) {
+                onOpenUserClicked(it)
+            }
             if (data.isOptionsAvailable) {
                 ivOptionsArrow.visible()
                 ivOptionsArrow.setImageResource(
-                    if (data.isOptionsOpened) org.futo.circles.core.R.drawable.ic_keyboard_arrow_up
-                    else org.futo.circles.core.R.drawable.ic_keyboard_arrow_down
+                    if (data.isOptionsOpened) R.drawable.ic_keyboard_arrow_up
+                    else R.drawable.ic_keyboard_arrow_down
                 )
-                onClick(binding.contentLayout) { position -> onUserClicked(position) }
+                onClick(binding.contentLayout) { position -> onToggleClicked(position) }
                 with(optionsView) {
                     setListener(manageMembersListener)
                     setIsVisible(data.isOptionsOpened)
@@ -56,7 +62,7 @@ class MemberViewHolder(
                 }
             } else {
                 ivOptionsArrow.gone()
-                binding.contentLayout.setOnClickListener(null)
+                onClick(binding.contentLayout) { position -> onOpenUserClicked(position) }
             }
         }
     }
@@ -78,7 +84,8 @@ class ManageMembersHeaderViewHolder(
 
 class InvitedMemberViewHolder(
     parent: ViewGroup,
-    private val onUserClicked: (Int) -> Unit,
+    private val onOpenUserClicked: (Int) -> Unit,
+    private val onToggleClicked: (Int) -> Unit,
     private val manageMembersListener: ManageMembersOptionsListener
 ) : ManageMembersViewHolder(inflate(parent, ListItemInvitedMemberBinding::inflate)) {
 
@@ -91,13 +98,16 @@ class InvitedMemberViewHolder(
 
         with(binding) {
             vUser.bind(data.user)
+            onClick(vUser.findViewById<ImageView>(R.id.ivUserImage)) {
+                onOpenUserClicked(it)
+            }
             if (data.isOptionsAvailable) {
                 ivOptionsArrow.visible()
                 ivOptionsArrow.setImageResource(
-                    if (data.isOptionsOpened) org.futo.circles.core.R.drawable.ic_keyboard_arrow_up
-                    else org.futo.circles.core.R.drawable.ic_keyboard_arrow_down
+                    if (data.isOptionsOpened) R.drawable.ic_keyboard_arrow_up
+                    else R.drawable.ic_keyboard_arrow_down
                 )
-                onClick(binding.contentLayout) { position -> onUserClicked(position) }
+                onClick(binding.contentLayout) { position -> onToggleClicked(position) }
                 binding.optionsLayout.setIsVisible(data.isOptionsOpened)
                 binding.btnRemove.setOnClickListener {
                     manageMembersListener.cancelPendingInvitation(data.user.id)
@@ -107,7 +117,7 @@ class InvitedMemberViewHolder(
                 }
             } else {
                 ivOptionsArrow.gone()
-                binding.contentLayout.setOnClickListener(null)
+                onClick(binding.contentLayout) { position -> onOpenUserClicked(position) }
             }
         }
     }

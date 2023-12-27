@@ -13,7 +13,8 @@ private enum class ManageGroupMembersViewTypes { Header, Member, Invited, Banned
 
 class GroupMembersListAdapter(
     private val manageMembersListener: ManageMembersOptionsListener,
-    private val onToggleOptions: (String) -> Unit
+    private val onToggleOptions: (String) -> Unit,
+    private val onOpenUserPage: (String) -> Unit,
 ) : BaseRvAdapter<ManageMembersListItem, ManageMembersViewHolder>(
     DefaultIdEntityCallback()
 ) {
@@ -30,13 +31,15 @@ class GroupMembersListAdapter(
             ManageGroupMembersViewTypes.Header -> ManageMembersHeaderViewHolder(parent)
             ManageGroupMembersViewTypes.Member -> MemberViewHolder(
                 parent = parent,
-                onUserClicked = { position -> onToggleOptions(getItem(position).id) },
+                onToggleClicked = { position -> onToggleOptions(getItem(position).id) },
+                onOpenUserClicked = { position -> onOpenUserPage(getItem(position).id) },
                 manageMembersListener = manageMembersListener
             )
 
             ManageGroupMembersViewTypes.Invited -> InvitedMemberViewHolder(
                 parent = parent,
-                onUserClicked = { position -> onToggleOptions(getItem(position).id) },
+                onToggleClicked = { position -> onToggleOptions(getItem(position).id) },
+                onOpenUserClicked = { position -> onOpenUserPage(getItem(position).id) },
                 manageMembersListener = manageMembersListener
             )
 
