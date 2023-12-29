@@ -1,7 +1,9 @@
 package org.futo.circles.mapping
 
+import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.mapping.toRoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.JoinedGroupListItem
@@ -27,11 +29,16 @@ fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) = JoinedCircle
     id = roomId,
     info = toRoomInfo(),
     isShared = isShared,
-    followingCount = spaceChildren?.size?.takeIf { it != 0 }?.minus(1) ?: 0,
+    followingCount = getFollowingCount(),
     followedByCount = getFollowersCount(),
     unreadCount = getCircleUnreadMessagesCount(),
     knockRequestsCount = getKnocksCount(getTimelineRoomFor(roomId)?.roomId ?: "")
 )
+
+private fun RoomSummary.getFollowingCount() = spaceChildren?.filter {
+    getJoinedRoomById(it.childRoomId) != null &&
+            getRoomOwner(it.childRoomId)?.userId != MatrixSessionProvider.currentSession?.myUserId
+}?.size ?: 0
 
 private fun RoomSummary.getFollowersCount(): Int =
     getTimelineRoomFor(roomId)?.roomSummary()?.otherMemberIds?.size ?: 0
