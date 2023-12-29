@@ -10,7 +10,6 @@ import org.matrix.android.sdk.api.session.room.getStateEvent
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
-import org.matrix.android.sdk.api.session.room.model.create.RoomCreateContent
 import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
@@ -104,6 +103,6 @@ fun getRoomOwner(roomId: String): RoomMemberSummary? {
     val creatorUserId = room.getStateEvent(
         EventType.STATE_ROOM_CREATE,
         QueryStringValue.IsEmpty
-    )?.content.toModel<RoomCreateContent>()?.creator ?: return null
+    )?.senderId ?: return null
     return room.membershipService().getRoomMember(creatorUserId)
 }
