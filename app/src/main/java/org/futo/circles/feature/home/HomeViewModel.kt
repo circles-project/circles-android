@@ -9,7 +9,6 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.feature.notifications.PushersManager
@@ -25,8 +24,7 @@ class HomeViewModel @Inject constructor(
     private val workspaceTasksProvider: WorkspaceTasksProvider,
     private val workspaceDataSource: ConfigureWorkspaceDataSource,
     roomAccountDataSource: RoomAccountDataSource,
-    shortcutsHandler: ShortcutsHandler,
-    sharedCircleDataSource: SharedCircleDataSource
+    shortcutsHandler: ShortcutsHandler
 ) : ViewModel() {
 
     val validateWorkspaceLoadingLiveData = SingleEventLiveData<LoadingData>()
