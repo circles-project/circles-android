@@ -1,16 +1,5 @@
 package org.futo.circles.core.feature.workspace
 
-import android.os.Build
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.map
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.model.PROFILE_SPACE_ACCOUNT_DATA_KEY
@@ -19,10 +8,7 @@ import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.getRoomSummary
-import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.model.RoomType
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 class SharedCircleDataSource @Inject constructor(
@@ -42,24 +28,6 @@ class SharedCircleDataSource @Inject constructor(
 
         roomRelationsBuilder.removeRelations(userSharedCircleId, mySharedCircleId)
         MatrixSessionProvider.getSessionOrThrow().roomService().leaveRoom(userSharedCircleId)
-    }
-
-    fun observeAndAutoAcceptSharedSpaceInvites(coroutineScope: CoroutineScope): Job {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) return Job()
-        val session = MatrixSessionProvider.currentSession ?: return Job()
-        return session.roomService().getRoomSummariesLive(
-            roomSummaryQueryParams {
-                excludeType = null
-                memberships = listOf(Membership.INVITE)
-            }).map { it.filter { it.roomType == RoomType.SPACE }.map { it.roomId } }
-            .asFlow().onEach { roomsIds ->
-                withContext(Dispatchers.IO) {
-                    roomsIds.forEach { acceptSharedCircleInvite(session, it) }
-                }
-            }
-            .flowOn(Dispatchers.Default)
-            .catch { }
-            .launchIn(coroutineScope)
     }
 
     suspend fun addToSharedCircles(timelineId: String) {
