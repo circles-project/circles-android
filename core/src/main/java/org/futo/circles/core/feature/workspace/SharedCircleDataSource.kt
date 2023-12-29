@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
-import org.futo.circles.core.extensions.getRoomOwners
+import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.model.PROFILE_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -74,7 +74,7 @@ class SharedCircleDataSource @Inject constructor(
         val sharedCirclesSpaceId = getSharedCirclesSpaceId() ?: return null
         val userSharedCircleId =
             getJoinedRoomById(sharedCirclesSpaceId)?.roomSummary()?.spaceChildren?.firstOrNull { child ->
-                getRoomOwners(child.childRoomId).map { it.userId }.contains(userId)
+                getRoomOwner(child.childRoomId)?.userId == userId
             }?.childRoomId ?: return null
         return getJoinedRoomById(userSharedCircleId)?.roomSummary()
     }
