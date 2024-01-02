@@ -27,8 +27,8 @@ fun PowerLevelsContent.isCurrentUserAbleToPost(): Boolean {
 
 fun PowerLevelsContent.isCurrentUserOnlyAdmin(roomId: String): Boolean {
     val isAdmin = isCurrentUserAdmin()
-    val roomOwnersCount = getRoomOwners(roomId).size
-    return isAdmin && roomOwnersCount == 1
+    val roomAdminsCount = getRoomAdmins(roomId).size
+    return isAdmin && roomAdminsCount == 1
 }
 
 fun PowerLevelsContent.isCurrentUserAdmin(): Boolean {
@@ -88,7 +88,7 @@ fun getCurrentUserPowerLevel(roomId: String): Int {
     return PowerLevelsHelper(powerLevelsContent).getUserPowerLevelValue(session.myUserId)
 }
 
-fun getRoomOwners(roomId: String): List<RoomMemberSummary> {
+fun getRoomAdmins(roomId: String): List<RoomMemberSummary> {
     val room = MatrixSessionProvider.currentSession?.getRoom(roomId) ?: return emptyList()
     val powerLevelsContent = getPowerLevelContent(roomId) ?: return emptyList()
     return room.membershipService().getRoomMembers(roomMemberQueryParams())
@@ -96,4 +96,13 @@ fun getRoomOwners(roomId: String): List<RoomMemberSummary> {
             powerLevelsContent.getUserPowerLevel(roomMemberSummary.userId) == Role.Admin.value &&
                     roomMemberSummary.membership.isActive()
         }
+}
+
+fun getRoomOwner(roomId: String): RoomMemberSummary? {
+    val room = MatrixSessionProvider.currentSession?.getRoom(roomId) ?: return null
+    val creatorUserId = room.getStateEvent(
+        EventType.STATE_ROOM_CREATE,
+        QueryStringValue.IsEmpty
+    )?.senderId ?: return null
+    return room.membershipService().getRoomMember(creatorUserId)
 }

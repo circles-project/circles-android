@@ -1,10 +1,10 @@
 package org.futo.circles.core.feature.room
 
-import org.futo.circles.core.extensions.getRoomOwners
+import org.futo.circles.core.extensions.getRoomOwner
+import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
-import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
@@ -31,7 +31,7 @@ class RoomRelationsBuilder @Inject constructor(
     suspend fun removeFromAllParents(childId: String) {
         session?.getRoom(childId)?.roomSummary()?.spaceParents?.forEach {
             val parentId = it.roomSummary?.roomId ?: ""
-            if (getRoomOwners(parentId).firstOrNull { it.userId == session?.myUserId } != null)
+            if (getRoomOwner(parentId)?.userId == session?.myUserId)
                 removeRelations(childId, parentId)
         }
     }

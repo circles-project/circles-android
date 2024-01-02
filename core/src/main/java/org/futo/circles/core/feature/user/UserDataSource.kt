@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.extensions.getRoomOwners
+import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.model.TimelineHeaderItem
@@ -90,6 +90,6 @@ class UserDataSource @Inject constructor(
 
     private fun isUsersCircleTimeline(summary: RoomSummary) =
         summary.roomType == TIMELINE_TYPE && summary.membership == Membership.JOIN &&
-                getRoomOwners(summary.roomId).map { it.userId }.contains(userId)
+                getRoomOwner(summary.roomId)?.userId == userId
 
 }

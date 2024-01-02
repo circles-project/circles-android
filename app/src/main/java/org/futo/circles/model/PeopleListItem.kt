@@ -4,7 +4,7 @@ import org.futo.circles.R
 import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.model.CirclesUserSummary
 
-enum class PeopleItemType { Header, Friend, Following, Follower, RequestNotification, Known, Suggestion }
+enum class PeopleItemType { Header, Connection, Following, Follower, RequestNotification, Others, Suggestion }
 sealed class PeopleListItem(
     open val type: PeopleItemType
 ) : IdEntity<String>
@@ -15,17 +15,19 @@ data class PeopleHeaderItem(
     override val id: String = titleRes.toString()
 
     companion object {
-        val friends = PeopleHeaderItem(org.futo.circles.auth.R.string.friends)
-        val followersUsersHeader = PeopleHeaderItem(R.string.followers)
-        val followingUsersHeader = PeopleHeaderItem(org.futo.circles.core.R.string.following)
-        val knownUsersHeader = PeopleHeaderItem(R.string.known_users)
+        val connections = PeopleHeaderItem(R.string.my_connections)
+        val followersUsersHeader = PeopleHeaderItem(org.futo.circles.core.R.string.my_followers)
+        val followingUsersHeader =
+            PeopleHeaderItem(org.futo.circles.core.R.string.people_i_m_following)
+        val othersHeader = PeopleHeaderItem(org.futo.circles.core.R.string.others)
         val suggestions = PeopleHeaderItem(R.string.suggestions)
     }
 }
 
 class PeopleUserListItem(
     val user: CirclesUserSummary,
-    override val type: PeopleItemType
+    override val type: PeopleItemType,
+    val isIgnored: Boolean
 ) : PeopleListItem(type) {
     override val id: String = user.id
 }

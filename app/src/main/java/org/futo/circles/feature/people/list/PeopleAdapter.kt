@@ -19,7 +19,7 @@ class PeopleAdapter(
     override fun getItemViewType(position: Int): Int = getItem(position).type.ordinal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
-        return when (PeopleItemType.values()[viewType]) {
+        return when (PeopleItemType.entries[viewType]) {
             PeopleItemType.Header -> PeopleHeaderViewHolder(parent)
             PeopleItemType.RequestNotification -> FollowRequestNotificationViewHolder(
                 parent = parent, onClicked = { onOpenRequestsClicked() }

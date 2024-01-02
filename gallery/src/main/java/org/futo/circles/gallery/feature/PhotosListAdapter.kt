@@ -24,7 +24,7 @@ class PhotosListAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = when (GalleryListItemViewType.values()[viewType]) {
+    ) = when (GalleryListItemViewType.entries[viewType]) {
         GalleryListItemViewType.JoinedGallery -> JoinedGalleryViewHolder(
             parent = parent,
             onGalleryClicked = { position -> onRoomClicked(getItem(position)) }

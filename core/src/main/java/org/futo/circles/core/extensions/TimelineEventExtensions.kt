@@ -12,5 +12,5 @@ fun TimelineEvent.getPostContentType(): PostContentType? {
     val messageType = if (root.getClearType() == EventType.MESSAGE) root.getClearContent()
         .toModel<MessageContent>()?.msgType
     else getLastMessageContent()?.msgType
-    return PostContentType.values().firstOrNull { it.typeKey == messageType }
+    return PostContentType.entries.firstOrNull { it.typeKey == messageType }
 }

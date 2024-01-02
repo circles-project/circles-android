@@ -118,7 +118,7 @@ open class MediaPickerHelper(
                 Array<PickGalleryMediaResultItem>::class.java
             )
         }?.forEach {
-            when (MediaType.values()[it.mediaTypeOrdinal]) {
+            when (MediaType.entries[it.mediaTypeOrdinal]) {
                 MediaType.Image -> onImageSelected?.invoke(itemId, Uri.parse(it.uriString))
                 MediaType.Video -> onVideoSelected?.invoke(Uri.parse(it.uriString))
             }

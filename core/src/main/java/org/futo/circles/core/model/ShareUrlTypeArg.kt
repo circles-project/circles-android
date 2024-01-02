@@ -10,6 +10,6 @@ enum class ShareUrlTypeArg(val typeKey: String) {
 
 fun shareUrlTypeArgFromType(type: String): ShareUrlTypeArg? {
     val urlType: ShareUrlTypeArg? = null
-    ShareUrlTypeArg.values().forEach { if (type == it.typeKey) return it }
+    ShareUrlTypeArg.entries.forEach { if (type == it.typeKey) return it }
     return urlType
 }

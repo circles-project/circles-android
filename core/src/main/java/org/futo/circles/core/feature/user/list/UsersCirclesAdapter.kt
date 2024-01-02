@@ -23,7 +23,7 @@ class UsersCirclesAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): UserTimelineViewHolder = when (values()[viewType]) {
+    ): UserTimelineViewHolder = when (TimelineViewType.entries[viewType]) {
         Header -> UserTimelineHeaderViewHolder(parent)
         Room -> UsersTimelineRoomViewHolder(
             parent,

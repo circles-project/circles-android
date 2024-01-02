@@ -26,6 +26,7 @@ import org.futo.circles.core.feature.user.list.UsersCirclesAdapter
 import org.futo.circles.core.model.IgnoreUser
 import org.futo.circles.core.model.UnfollowTimeline
 import org.futo.circles.core.model.UnfollowUser
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -131,7 +132,7 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             })
         viewModel.isUserIgnoredLiveData?.observeData(this) {
             isUserIgnored = it
-            binding.toolbar.invalidateMenu()
+            setupMenu()
         }
         viewModel.unFollowUserLiveData.observeResponse(this,
             success = { onBackPressed() })

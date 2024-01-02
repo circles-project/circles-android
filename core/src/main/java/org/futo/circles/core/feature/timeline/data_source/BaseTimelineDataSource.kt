@@ -58,7 +58,6 @@ abstract class BaseTimelineDataSource(
         startTimeline(listener)
         awaitClose()
     }.flowOn(Dispatchers.IO)
-        .debounce(150)
         .mapLatest {
             val items = timelineBuilder.build(it, isThread)
             if (it.isNotEmpty() && items.size <= LOAD_MORE_THRESHOLD) loadMore()
