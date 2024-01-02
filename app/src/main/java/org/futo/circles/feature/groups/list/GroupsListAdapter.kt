@@ -33,7 +33,7 @@ class GroupsListAdapter(
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ) = when (GroupListItemViewType.values()[viewType]) {
+    ) = when (GroupListItemViewType.entries[viewType]) {
         GroupListItemViewType.JoinedGroup -> JoinedGroupViewHolder(parent = parent,
             onGroupClicked = { position -> onRoomClicked(getItem(position)) })
 

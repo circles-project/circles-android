@@ -22,7 +22,7 @@ class InviteMembersSearchListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InviteMemberViewHolder {
-        return when (InviteListViewType.values()[viewType]) {
+        return when (InviteListViewType.entries[viewType]) {
             InviteListViewType.Header -> HeaderViewHolder(parent)
             InviteListViewType.User -> UserViewHolder(
                 parent,

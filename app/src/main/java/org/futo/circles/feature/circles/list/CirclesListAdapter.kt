@@ -34,7 +34,7 @@ class CirclesListAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = when (CirclesListItemViewType.values()[viewType]) {
+    ) = when (CirclesListItemViewType.entries[viewType]) {
         CirclesListItemViewType.JoinedCircle -> JoinedCircleViewHolder(
             parent = parent,
             onCircleClicked = { position -> onRoomClicked(getItem(position)) }

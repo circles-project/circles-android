@@ -27,7 +27,7 @@ class ActiveSessionsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActiveSessionsViewHolder {
-        return when (ActiveSessionViewTypes.values()[viewType]) {
+        return when (ActiveSessionViewTypes.entries[viewType]) {
             ActiveSessionViewTypes.Header -> SessionHeaderViewHolder(parent)
             ActiveSessionViewTypes.Session -> SessionItemViewHolder(
                 parent = parent,

@@ -32,7 +32,7 @@ class SelectRoomsDataSource @Inject constructor(
 
     private val ordinal = savedStateHandle.getOrThrow<Int>(SelectRoomsFragment.TYPE_ORDINAL)
     private val roomType: CircleRoomTypeArg =
-        CircleRoomTypeArg.values().firstOrNull { it.ordinal == ordinal }
+        CircleRoomTypeArg.entries.firstOrNull { it.ordinal == ordinal }
             ?: CircleRoomTypeArg.Circle
 
     private val session by lazy { MatrixSessionProvider.currentSession }
