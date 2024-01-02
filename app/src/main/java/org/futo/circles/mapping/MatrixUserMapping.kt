@@ -6,7 +6,7 @@ import org.futo.circles.model.PeopleUserListItem
 import org.matrix.android.sdk.api.session.user.model.User
 
 
-fun User.toPeopleUserListItem(type: PeopleItemType) =
-    PeopleUserListItem(toCirclesUserSummary(), type)
+fun User.toPeopleUserListItem(type: PeopleItemType, isIgnored: Boolean) =
+    PeopleUserListItem(toCirclesUserSummary(), type, isIgnored)
 
 

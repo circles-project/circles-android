@@ -203,6 +203,7 @@
     <string name="group_invites_notification_format">Show %d Group invitations</string>
     <string name="circle_invites_notification_format">Show %d Circle invitations</string>
     <string name="show_follow_requests_format">Show %d follow requests</string>
+    <string name="my_connections">My Connections</string>
 
     <!-- Rich text editor -->
     <string name="rich_text_editor_format_bold">Apply bold format</string>
