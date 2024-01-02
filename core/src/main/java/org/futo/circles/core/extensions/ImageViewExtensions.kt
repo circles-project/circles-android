@@ -80,13 +80,14 @@ fun ImageView.loadRoomProfileIcon(
 fun ImageView.loadUserProfileIcon(
     url: String?,
     userId: String,
-    session: Session? = null
+    session: Session? = null,
+    applyBlur: Boolean = false
 ) {
     post {
         val svgString = Jdenticon.toSvg(userId, measuredWidth)
         val svg = SVG.getFromString(svgString)
         val placeholder = PictureDrawable(svg.renderToPicture())
-        loadMatrixImage(url, placeholder = placeholder, session = session)
+        loadMatrixImage(url, placeholder = placeholder, session = session, applyBlur = applyBlur)
     }
 }
 

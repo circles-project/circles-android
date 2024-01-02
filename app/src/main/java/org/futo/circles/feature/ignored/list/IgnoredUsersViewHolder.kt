@@ -3,6 +3,7 @@ package org.futo.circles.feature.ignored.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.base.list.ViewBindingHolder
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
@@ -21,6 +22,10 @@ class IgnoredUsersViewHolder(
     }
 
     fun bind(data: CirclesUserSummary) {
-        binding.userItem.bind(data)
+        with(binding) {
+            tvUserName.text = data.name
+            tvUserId.text = data.id
+            ivUserImage.loadUserProfileIcon(data.avatarUrl, data.id)
+        }
     }
 }

@@ -8,7 +8,10 @@ import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
+import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ListItemPeopleDefaultBinding
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
@@ -35,11 +38,40 @@ class PeopleDefaultUserViewHolder(
     }
 
     override fun bind(data: PeopleListItem) {
-        (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
+        val userItem = (data as? PeopleUserListItem) ?: return
+        if (userItem.isIgnored) setUnBlurClick(userItem)
+        with(binding) {
+            tvUserName.text = userItem.user.name
+            tvUserId.text = userItem.user.id
+            ivUserImage.loadUserProfileIcon(
+                userItem.user.avatarUrl,
+                userItem.user.id,
+                applyBlur = userItem.isIgnored
+            )
+            tvIgnoredLabel.setIsVisible(userItem.isIgnored)
+            binding.tvShowProfileImage.setIsVisible(userItem.isIgnored)
+        }
     }
 
     override fun bindPayload(data: PeopleUserListItemPayload) {
-        data.user?.let { binding.userItem.bind(it) }
+        with(binding) {
+            data.user?.let {
+                tvUserName.text = it.name
+                tvUserId.text = it.id
+                ivUserImage.loadUserProfileIcon(it.avatarUrl, it.id)
+            }
+        }
+    }
+
+    private fun setUnBlurClick(userItem: PeopleUserListItem) {
+        binding.ivUserImage.setOnClickListener {
+            binding.ivUserImage.loadUserProfileIcon(
+                userItem.user.avatarUrl,
+                userItem.user.id,
+                applyBlur = false
+            )
+            binding.tvShowProfileImage.gone()
+        }
     }
 }
 
@@ -59,7 +91,7 @@ class FollowRequestNotificationViewHolder(
     override fun bind(data: PeopleListItem) {
         if (data !is PeopleRequestNotificationListItem) return
         binding.tvInvitesMessage.text =
-            context.getString(R.string.show_follow_requests_format, data.requestsCount)
+            context.getString(R.string.show_connection_invites_format, data.requestsCount)
     }
 }
 
