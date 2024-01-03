@@ -9,6 +9,7 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
+import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.InviteTypeArg
 import javax.inject.Inject
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class InvitesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val dataSource: InvitesDataSource,
-    private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource
+    private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource,
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) : ViewModel() {
 
     private val inviteType: InviteTypeArg = savedStateHandle.getOrThrow("type")
@@ -41,7 +43,6 @@ class InvitesViewModel @Inject constructor(
         }
     }
 
-
     fun onFollowRequestAnswered(userId: String, accepted: Boolean) {
         launchBg {
             val result = if (accepted) dataSource.acceptFollowRequest(userId)
@@ -50,9 +51,17 @@ class InvitesViewModel @Inject constructor(
         }
     }
 
-
     fun unblurProfileIcon(roomId: String) {
         dataSource.unblurProfileImageFor(roomId)
+    }
+
+    fun onConnectionInviteAnswered(roomId: String, accepted: Boolean) {
+        if (accepted)
+            launchBg {
+               val result =  sharedCircleDataSource.acceptSharedCircleInvite(roomId)
+                inviteResultLiveData.postValue(result)
+            }
+        else rejectRoomInvite(roomId)
     }
 
 

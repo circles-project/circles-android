@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
+import org.futo.circles.core.databinding.ListItemConnectionInviteBinding
+import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.databinding.ListItemInvitedCircleBinding
 import org.futo.circles.core.databinding.ListItemInvitedGalleryBinding
 import org.futo.circles.core.databinding.ListItemInvitedGroupBinding
@@ -17,6 +19,7 @@ import org.futo.circles.core.extensions.setIsEncryptedIcon
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.core.model.FollowRequestListItem
+import org.futo.circles.core.model.InviteHeader
 import org.futo.circles.core.model.InviteListItem
 import org.futo.circles.core.model.RoomInviteListItem
 
@@ -157,5 +160,46 @@ class FollowRequestViewHolder(
             tvUserName.text = user.name
             ivUserImage.loadUserProfileIcon(user.avatarUrl, user.id)
         }
+    }
+}
+
+class ConnectionInviteViewHolder(
+    parent: ViewGroup,
+    private val onRequestClicked: (Int, Boolean) -> Unit
+) : InviteViewHolder(inflate(parent, ListItemConnectionInviteBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemConnectionInviteBinding
+
+    init {
+        onClick(binding.btnAccept) { position -> onRequestClicked(position, true) }
+        onClick(binding.btnDecline) { position -> onRequestClicked(position, false) }
+    }
+
+    override fun bind(data: InviteListItem) {
+        val user = (data as? FollowRequestListItem)?.user ?: return
+        bindUser(user)
+    }
+
+    private fun bindUser(user: CirclesUserSummary) {
+        with(binding) {
+            tvUserName.text = user.name
+            ivUserImage.loadUserProfileIcon(user.avatarUrl, user.id)
+        }
+    }
+}
+
+class InviteHeaderViewHolder(
+    parent: ViewGroup,
+) : InviteViewHolder(inflate(parent, ListItemInviteHeaderBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemInviteHeaderBinding
+
+    override fun bind(data: InviteListItem) {
+        if (data !is InviteHeader) return
+        binding.tvHeader.text = context.getString(data.titleRes)
     }
 }

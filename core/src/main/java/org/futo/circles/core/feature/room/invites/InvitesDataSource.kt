@@ -14,16 +14,22 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
+import org.futo.circles.core.mapping.toCirclesUserSummary
+import org.futo.circles.core.model.ConnectionInviteListItem
 import org.futo.circles.core.model.FollowRequestListItem
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
+import org.futo.circles.core.model.InviteHeader
+import org.futo.circles.core.model.InviteListItem
 import org.futo.circles.core.model.InviteTypeArg
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.model.TIMELINE_TYPE
+import org.futo.circles.core.model.convertToCircleRoomType
 import org.futo.circles.core.model.toCircleUser
 import org.futo.circles.core.model.toRoomInviteListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.RoomType
@@ -40,13 +46,43 @@ class InvitesDataSource @Inject constructor(
     private val roomIdsToUnblurProfile = MutableStateFlow<Set<String>>(emptySet())
 
     fun getInvitesFlow(type: InviteTypeArg) = when (type) {
-        InviteTypeArg.People -> getProfileRoomMembersKnockFlow()
+        InviteTypeArg.People -> getPeopleInvites()
         else -> getRoomInvitesFlow(type)
+    }
+
+    private fun getPeopleInvites() = combine(
+        getProfileSpaceInvitesFlow(),
+        getProfileRoomMembersKnockFlow()
+    ) { invites, knocks ->
+        val list = mutableListOf<InviteListItem>()
+        if (invites.isNotEmpty()) {
+            list.add(InviteHeader.connectInvitesHeader)
+            list.addAll(invites)
+        }
+        if (knocks.isNotEmpty()) {
+            list.add(InviteHeader.followRequestHeader)
+            list.addAll(knocks)
+        }
+        list
     }
 
     private fun getProfileRoomMembersKnockFlow(): Flow<List<FollowRequestListItem>> =
         knockRequestsDataSource.getKnockRequestsListItemsLiveData(profileRoomId)?.map { list ->
             list.map { FollowRequestListItem(it.toCircleUser(), it.message) }
+        }?.asFlow() ?: flowOf()
+
+    private fun getProfileSpaceInvitesFlow(): Flow<List<ConnectionInviteListItem>> =
+        session?.roomService()?.getRoomSummariesLive(
+            roomSummaryQueryParams {
+                excludeType = null
+                memberships = listOf(Membership.INVITE)
+            })?.map {
+            it.filter { it.roomType == RoomType.SPACE }.map {
+                ConnectionInviteListItem(
+                    it.roomId,
+                    session.getUserOrDefault(it.inviterId ?: "").toCirclesUserSummary()
+                )
+            }
         }?.asFlow() ?: flowOf()
 
     private fun getRoomInvitesFlow(
@@ -72,7 +108,7 @@ class InvitesDataSource @Inject constructor(
                 }
             }.map {
                 it.toRoomInviteListItem(
-                    inviteType,
+                    convertToCircleRoomType(it.roomType),
                     shouldBlurIconFor(it, knownUsersIds, roomIdsToUnblur)
                 )
             }

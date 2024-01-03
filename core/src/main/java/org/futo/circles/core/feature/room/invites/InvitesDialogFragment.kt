@@ -15,8 +15,11 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.feature.room.invites.list.InvitesAdapter
 import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.ConnectionInviteListItem
+import org.futo.circles.core.model.FollowRequestListItem
 import org.futo.circles.core.model.InviteListItem
 import org.futo.circles.core.model.InviteTypeArg
+import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
@@ -66,7 +69,7 @@ class InvitesDialogFragment : BaseFullscreenDialogFragment(DialogFragmentInvites
             InviteTypeArg.Circle -> R.string.circle_invitations
             InviteTypeArg.Group -> R.string.group_invitations
             InviteTypeArg.Photo -> R.string.gallery_invitations
-            InviteTypeArg.People -> R.string.follow_requests
+            InviteTypeArg.People -> R.string.connection_invites_requests
         }
     )
 
@@ -74,14 +77,24 @@ class InvitesDialogFragment : BaseFullscreenDialogFragment(DialogFragmentInvites
 
     private fun onInviteClicked(item: InviteListItem, isAccepted: Boolean) {
         if (showNoInternetConnection()) return
-        when (item.inviteType) {
-            InviteTypeArg.Circle -> if (isAccepted) onAcceptCircleInviteClicked(item.id)
-            else viewModel.rejectRoomInvite(item.id)
+        when (item) {
+            is ConnectionInviteListItem -> viewModel.onConnectionInviteAnswered(
+                item.roomId, isAccepted
+            )
 
-            InviteTypeArg.Group -> handleRoomInvite(item.id, isAccepted, CircleRoomTypeArg.Group)
-            InviteTypeArg.Photo -> handleRoomInvite(item.id, isAccepted, CircleRoomTypeArg.Photo)
-            InviteTypeArg.People -> viewModel.onFollowRequestAnswered(item.id, isAccepted)
+            is FollowRequestListItem -> viewModel.onFollowRequestAnswered(item.id, isAccepted)
+            is RoomInviteListItem -> when (item.roomType) {
+                CircleRoomTypeArg.Circle -> handleCircleInvite(item.id, isAccepted)
+                else -> handleRoomInvite(item.id, isAccepted, item.roomType)
+            }
+
+            else -> {}
         }
+    }
+
+    private fun handleCircleInvite(roomId: String, isAccepted: Boolean) {
+        if (isAccepted) onAcceptCircleInviteClicked(roomId)
+        else viewModel.rejectRoomInvite(roomId)
     }
 
     private fun handleRoomInvite(roomId: String, isAccepted: Boolean, type: CircleRoomTypeArg) {

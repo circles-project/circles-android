@@ -145,7 +145,7 @@
     <string name="create">Create</string>
     <string name="show">Show</string>
     <string name="gallery_invites_notification_format">Show %d Gallery invitations</string>
-    <string name="follow_requests">Follow requests</string>
+    <string name="connection_invites_requests">Connection invites/requests</string>
     <string name="group_invitations">Group invitations</string>
     <string name="gallery_invitations">Gallery invitations</string>
     <string name="circle_invitations">Circle invitations</string>
@@ -162,4 +162,8 @@
     <string name="user_ignored">User ignored</string>
     <string name="user_unignored">User un ignored</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
+    <string name="requests_to_follow_you">requests to follow you</string>
+    <string name="invites_you_to_connect">invites you to connect</string>
+    <string name="invites">Invites</string>
+    <string name="requests">Requests</string>
 </resources>

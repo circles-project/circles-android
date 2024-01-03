@@ -1,12 +1,12 @@
 package org.futo.circles.core.feature.workspace
 
+import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.model.PROFILE_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
@@ -56,9 +56,10 @@ class SharedCircleDataSource @Inject constructor(
         return sharedCirclesTimelineIds.contains(timelineId)
     }
 
-    private suspend fun acceptSharedCircleInvite(session: Session, roomId: String) {
-        session.roomService().joinRoom(roomId)
-        val sharedCirclesSpaceId = getSharedCirclesSpaceId() ?: return
+    suspend fun acceptSharedCircleInvite(roomId: String) = createResult {
+        MatrixSessionProvider.getSessionOrThrow().roomService().joinRoom(roomId)
+        val sharedCirclesSpaceId =
+            getSharedCirclesSpaceId() ?: throw IllegalArgumentException("Profile space not found")
         roomRelationsBuilder.setRelations(roomId, sharedCirclesSpaceId)
     }
 }

@@ -27,7 +27,7 @@
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:lines="1"
-        app:layout_constraintBottom_toTopOf="@id/tvFollowText"
+        app:layout_constraintBottom_toTopOf="@id/tvInvitesToConnect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivUserImage"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,34 +35,19 @@
         tools:text="Android01" />
 
     <TextView
-        android:id="@+id/tvFollowText"
+        android:id="@+id/tvInvitesToConnect"
         style="@style/subheadline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
-        android:text="@string/requests_to_follow_you"
+        android:text="@string/invites_you_to_connect"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="@id/tvUserName"
         app:layout_constraintStart_toStartOf="@id/tvUserName"
         app:layout_constraintTop_toBottomOf="@id/tvUserName" />
 
-    <TextView
-        android:id="@+id/tvReasonMessage"
-        style="@style/subheadline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:textSize="13sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/tvUserName"
-        app:layout_constraintStart_toStartOf="@id/tvUserName"
-        app:layout_constraintTop_toBottomOf="@id/tvFollowText"
-        tools:text="Reason message messagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessage"
-        tools:visibility="visible" />
-
+    
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAccept"
         style="@style/AccentButtonStyle"
@@ -76,7 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnDecline"
         app:layout_constraintStart_toEndOf="@id/ivUserImage"
-        app:layout_constraintTop_toBottomOf="@id/tvReasonMessage"
+        app:layout_constraintTop_toBottomOf="@id/tvInvitesToConnect"
 
         />
 
