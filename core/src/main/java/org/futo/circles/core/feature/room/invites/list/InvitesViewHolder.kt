@@ -18,6 +18,7 @@ import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsEncryptedIcon
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.CirclesUserSummary
+import org.futo.circles.core.model.ConnectionInviteListItem
 import org.futo.circles.core.model.FollowRequestListItem
 import org.futo.circles.core.model.InviteHeader
 import org.futo.circles.core.model.InviteListItem
@@ -178,7 +179,7 @@ class ConnectionInviteViewHolder(
     }
 
     override fun bind(data: InviteListItem) {
-        val user = (data as? FollowRequestListItem)?.user ?: return
+        val user = (data as? ConnectionInviteListItem)?.user ?: return
         bindUser(user)
     }
 
