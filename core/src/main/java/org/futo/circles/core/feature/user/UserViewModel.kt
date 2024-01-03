@@ -13,7 +13,7 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.launchUi
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
-import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
+import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.model.TimelineListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -26,7 +26,7 @@ class UserViewModel @Inject constructor(
     private val userDataSource: UserDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
     private val roomRelationsBuilder: RoomRelationsBuilder,
-    private val inviteRequestsDataSource: InviteRequestsDataSource,
+    private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource,
     sharedCircleDataSource: SharedCircleDataSource
 ) : ViewModel() {
 
@@ -103,7 +103,7 @@ class UserViewModel @Inject constructor(
 
     fun inviteToMySharedCircle() {
         launchBg {
-            val result = inviteRequestsDataSource.inviteUser(profileRoomId, userId)
+            val result = manageInviteRequestsDataSource.inviteUser(profileRoomId, userId)
             inviteToConnectLiveData.postValue(result)
         }
     }

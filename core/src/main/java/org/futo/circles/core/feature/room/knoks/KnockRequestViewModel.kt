@@ -7,14 +7,14 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
+import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
 import org.futo.circles.core.model.KnockRequestListItem
 import javax.inject.Inject
 
 @HiltViewModel
 class KnockRequestViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val inviteRequestsDataSource: InviteRequestsDataSource,
+    private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource,
     knockRequestsDataSource: KnockRequestsDataSource
 ) : ViewModel() {
 
@@ -25,13 +25,13 @@ class KnockRequestViewModel @Inject constructor(
 
     fun inviteUser(user: KnockRequestListItem) {
         launchBg {
-            val result = inviteRequestsDataSource.inviteUser(roomId, user.requesterId)
+            val result = manageInviteRequestsDataSource.inviteUser(roomId, user.requesterId)
             inviteResultLiveData.postValue(result)
         }
     }
 
     fun kickUser(user: KnockRequestListItem) {
-        launchBg { inviteRequestsDataSource.kickUser(roomId, user.requesterId) }
+        launchBg { manageInviteRequestsDataSource.kickUser(roomId, user.requesterId) }
     }
 
 }

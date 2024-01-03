@@ -8,7 +8,7 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.feature.room.invite.InviteRequestsDataSource
+import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.InviteTypeArg
 import javax.inject.Inject
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class InvitesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val dataSource: InvitesDataSource,
-    private val inviteRequestsDataSource: InviteRequestsDataSource
+    private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource
 ) : ViewModel() {
 
     private val inviteType: InviteTypeArg = savedStateHandle.getOrThrow("type")
@@ -29,14 +29,14 @@ class InvitesViewModel @Inject constructor(
 
     fun rejectRoomInvite(roomId: String) {
         launchBg {
-            val result = inviteRequestsDataSource.rejectInvite(roomId)
+            val result = manageInviteRequestsDataSource.rejectInvite(roomId)
             inviteResultLiveData.postValue(result)
         }
     }
 
     fun acceptRoomInvite(roomId: String, roomType: CircleRoomTypeArg) {
         launchBg {
-            val result = inviteRequestsDataSource.acceptInvite(roomId, roomType)
+            val result = manageInviteRequestsDataSource.acceptInvite(roomId, roomType)
             inviteResultLiveData.postValue(result)
         }
     }

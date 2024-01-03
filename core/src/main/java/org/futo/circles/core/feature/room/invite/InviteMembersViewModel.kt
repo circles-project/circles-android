@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InviteMembersViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val dataSource: InviteRequestsDataSource
+    private val dataSource: ManageInviteRequestsDataSource
 ) : ViewModel() {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")

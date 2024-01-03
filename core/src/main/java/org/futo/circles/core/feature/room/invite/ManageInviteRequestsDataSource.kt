@@ -14,7 +14,7 @@ import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
 
 @ViewModelScoped
-class InviteRequestsDataSource @Inject constructor(
+class ManageInviteRequestsDataSource @Inject constructor(
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 
