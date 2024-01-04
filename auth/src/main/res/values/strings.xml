@@ -14,8 +14,6 @@
     <string name="us_server_format"><![CDATA[<b>US</b> - (%s)]]></string>
     <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>
     <string name="sign_up_using_active_subscription">Sign Up using your active subscription</string>
-    <string name="choose_a_subscription">Choose a subscription</string>
-    <string name="create_a_subscription">Create a subscription</string>
     <string name="sign_up">Sign Up</string>
     <string name="not_supported_stage_format">Not supported stage %s</string>
     <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
@@ -61,8 +59,9 @@
     <string name="enter_your_password">Enter your password</string>
     <string name="password">Password</string>
     <string name="repeat_password">Repeat password</string>
-    <string name="server_location">Server Location</string>
+    <string name="server">Server</string>
     <string name="sign_up_with_subscription">Sign up with subscription</string>
+    <string name="sign_up_for_free">Sign up for free</string>
     <string name="or">Or</string>
     <string name="setup_profile">Setup profile</string>
     <string name="upload_a_profile_photo">Upload a profile photo</string>

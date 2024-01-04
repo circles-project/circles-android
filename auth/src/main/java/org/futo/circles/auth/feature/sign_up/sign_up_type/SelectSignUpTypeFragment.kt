@@ -1,11 +1,12 @@
 package org.futo.circles.auth.feature.sign_up.sign_up_type
 
 import android.os.Bundle
-import android.text.Html
 import android.view.View
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.radiobutton.MaterialRadioButton
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSelectSignUpTypeBinding
@@ -31,18 +32,25 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
 
     private fun setupViews() {
         with(binding) {
-            btnEU.text = Html.fromHtml(
-                getString(R.string.eu_server_format, CirclesAppConfig.euServerDomain),
-                Html.FROM_HTML_MODE_COMPACT
-            )
-            btnUS.text =
-                Html.fromHtml(
-                    getString(R.string.us_server_format, CirclesAppConfig.usServerDomain),
-                    Html.FROM_HTML_MODE_COMPACT
+            serverDomainGroup.setOnCheckedChangeListener { _, _ ->
+                viewModel.loadSignupFlowsForDomain(getDomain())
+            }
+            CirclesAppConfig.serverDomains.forEach { domain ->
+                serverDomainGroup.addView(
+                    MaterialRadioButton(requireContext()).apply {
+                        text = domain
+                        textSize = 20f
+                    }
                 )
-            btnSignup.setOnClickListener {
-                startLoading(btnSignup)
-                viewModel.startSignUp(getDomain())
+            }
+            serverDomainGroup.check(serverDomainGroup.children.first().id)
+            btnSubscription.setOnClickListener {
+                startLoading(btnSubscription)
+                viewModel.startSignUp(true)
+            }
+            btnFree.setOnClickListener {
+                startLoading(btnFree)
+                viewModel.startSignUp(false)
             }
         }
     }
@@ -51,9 +59,8 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
         viewModel.startSignUpEventLiveData.observeResponse(this)
     }
 
-    private fun getDomain() = when (binding.serverLocationGroup.checkedRadioButtonId) {
-        binding.btnUS.id -> CirclesAppConfig.usServerDomain
-        binding.btnEU.id -> CirclesAppConfig.euServerDomain
-        else -> CirclesAppConfig.usServerDomain
-    }
+    private fun getDomain() =
+        binding.serverDomainGroup
+            .findViewById<MaterialRadioButton>(binding.serverDomainGroup.checkedRadioButtonId).text.toString()
+
 }

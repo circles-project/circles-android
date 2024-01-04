@@ -14,14 +14,19 @@ class SelectSignUpTypeViewModel @Inject constructor(
 
     val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
 
-    fun startSignUp(serverDomain: String) {
+    fun startSignUp(isSubscription: Boolean) {
         launchBg {
-            startSignUpEventLiveData.postValue(dataSource.startNewRegistration(serverDomain))
+            val result = dataSource.startNewRegistration(isSubscription)
+            startSignUpEventLiveData.postValue(result)
         }
     }
 
     fun clearSubtitle() {
         dataSource.clearSubtitle()
+    }
+
+    fun loadSignupFlowsForDomain(domain: String) {
+        launchBg { dataSource.getAuthFlowsFor(domain) }
     }
 
 }
