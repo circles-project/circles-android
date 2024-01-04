@@ -26,53 +26,73 @@
 
 
     <TextView
-        android:id="@+id/tvServerLocationTitle"
+        android:id="@+id/tvServerTitle"
         style="@style/headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/server_location"
+        android:text="@string/server"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineLogo" />
 
     <RadioGroup
-        android:id="@+id/serverLocationGroup"
+        android:id="@+id/serverDomainGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvServerLocationTitle">
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/btnUS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:paddingHorizontal="8dp"
-            android:textSize="17sp"
-            tools:text="US some.server.domain" />
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/btnEU"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
-            android:textSize="17sp"
-            tools:text="EU - (some.server.domain)" />
-
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@id/tvServerTitle" />
 
 
-    <org.futo.circles.core.view.LoadingButton
-        android:id="@+id/btnSignup"
+    <LinearLayout
+        android:id="@+id/lButtonsContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/sign_up_with_subscription"
+        android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/serverLocationGroup" />
+        app:layout_constraintTop_toBottomOf="@id/serverDomainGroup"
+        tools:visibility="visible">
+
+        <org.futo.circles.core.view.LoadingButton
+            android:id="@+id/btnFree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/sign_up_for_free" />
+
+        <TextView
+            android:id="@+id/tvOr"
+            style="@style/headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="@string/or" />
+
+        <org.futo.circles.core.view.LoadingButton
+            android:id="@+id/btnSubscription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/sign_up_with_subscription" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/flowProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/serverDomainGroup"
+        tools:visibility="visible" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
