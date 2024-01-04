@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
+import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.core.base.SingleEventLiveData
@@ -43,7 +44,7 @@ class SignUpDataSource @Inject constructor(
     var domain: String = ""
         private set
 
-    fun startSignUpStages(
+    suspend fun startSignUpStages(
         stages: List<Stage>,
         serverDomain: String
     ) {
@@ -51,7 +52,14 @@ class SignUpDataSource @Inject constructor(
         stagesToComplete.clear()
         domain = serverDomain
         stagesToComplete.addAll(stages)
-        navigateToNextStage()
+        if ((stages.firstOrNull() as? Stage.Other)?.type == REGISTRATION_FREE_TYPE)
+            skipFreeSubscriptionDummyStage()
+        else navigateToNextStage()
+    }
+
+    private suspend fun skipFreeSubscriptionDummyStage() {
+        setNextStage()
+        performRegistrationStage(mapOf(BaseLoginStagesDataSource.TYPE_PARAM_KEY to REGISTRATION_FREE_TYPE))
     }
 
     suspend fun performRegistrationStage(
