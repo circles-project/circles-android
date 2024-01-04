@@ -12,7 +12,10 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSelectSignUpTypeBinding
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.showError
 
 @AndroidEntryPoint
 class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type),
@@ -33,6 +36,7 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
     private fun setupViews() {
         with(binding) {
             serverDomainGroup.setOnCheckedChangeListener { _, _ ->
+                setFlowsLoading(true)
                 viewModel.loadSignupFlowsForDomain(getDomain())
             }
             CirclesAppConfig.serverDomains.forEach { domain ->
@@ -57,6 +61,29 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
 
     private fun setupObservers() {
         viewModel.startSignUpEventLiveData.observeResponse(this)
+        viewModel.signupFlowsLiveData.observeResponse(this,
+            success = {
+                val hasSubscriptionFlow = viewModel.hasSubscriptionFlow(it)
+                val hasFreeFlow = viewModel.hasFreeFlow(it)
+                with(binding) {
+                    btnSubscription.setIsVisible(hasSubscriptionFlow)
+                    btnFree.setIsVisible(hasFreeFlow)
+                    tvOr.setIsVisible(hasFreeFlow && hasSubscriptionFlow)
+                }
+            },
+            error = { message ->
+                showError(message)
+                binding.lButtonsContainer.gone()
+            },
+            onRequestInvoked = { setFlowsLoading(false) }
+        )
+    }
+
+    private fun setFlowsLoading(isLoading: Boolean) {
+        with(binding) {
+            lButtonsContainer.setIsVisible(!isLoading)
+            flowProgress.setIsVisible(isLoading)
+        }
     }
 
     private fun getDomain() =

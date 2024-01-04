@@ -47,11 +47,11 @@ class SelectSignUpTypeDataSource @Inject constructor(
     }
 
     // Must start with org.futo.subscriptions.free_forever
-    private fun getFreeSignupStages(flows: List<List<Stage>>): List<Stage>? =
+    fun getFreeSignupStages(flows: List<List<Stage>>): List<Stage>? =
         flows.firstOrNull { (it.firstOrNull() as? Stage.Other)?.type == REGISTRATION_FREE_TYPE }
 
     // Must start with org.futo.subscription.google_play
-    private fun getSubscriptionSignupStages(flows: List<List<Stage>>): List<Stage>? =
+    fun getSubscriptionSignupStages(flows: List<List<Stage>>): List<Stage>? =
         flows.firstOrNull { (it.firstOrNull() as? Stage.Other)?.type == REGISTRATION_SUBSCRIPTION_TYPE }
 
 }
