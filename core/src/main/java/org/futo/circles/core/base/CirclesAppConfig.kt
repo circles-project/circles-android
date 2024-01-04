@@ -14,10 +14,7 @@ object CirclesAppConfig {
     var appName = ""
         private set
 
-    var usServerDomain = ""
-        private set
-
-    var euServerDomain = ""
+    var serverDomains = emptyList<String>()
         private set
 
     var isMediaBackupEnabled = false
@@ -32,9 +29,8 @@ object CirclesAppConfig {
         private var version: String? = null,
         private var flavour: String? = null,
         private var appName: String? = null,
-        private var usDomain: String? = null,
+        private var serverDomains: List<String> = emptyList(),
         private var euDomain: String? = null,
-        private var subscriptionEnabled: Boolean = false,
         private var mediaBackupEnabled: Boolean = false,
         private var rageshakeEnabled: Boolean = false
     ) {
@@ -48,9 +44,7 @@ object CirclesAppConfig {
 
         fun appName(appName: String) = apply { this.appName = appName }
 
-        fun usDomain(domain: String) = apply { this.usDomain = domain }
-
-        fun euDomain(domain: String) = apply { this.euDomain = domain }
+        fun serverDomains(domains: List<String>) = apply { this.serverDomains = domains }
 
         fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
 
@@ -70,11 +64,8 @@ object CirclesAppConfig {
             CirclesAppConfig.appName = appName?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("appName is empty $appName")
 
-            usServerDomain = usDomain?.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("Illegal US server domain $usDomain")
-
-            euServerDomain = euDomain?.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("Illegal EU server domain $euDomain")
+            CirclesAppConfig.serverDomains = serverDomains.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("Illegal empty server domains")
 
             isMediaBackupEnabled = mediaBackupEnabled
             isRageshakeEnabled = rageshakeEnabled

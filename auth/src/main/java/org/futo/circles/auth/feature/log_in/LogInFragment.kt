@@ -39,7 +39,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
         ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
-            listOf(CirclesAppConfig.usServerDomain, CirclesAppConfig.euServerDomain)
+            CirclesAppConfig.serverDomains
         )
     }
 
@@ -71,11 +71,11 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 setAdapter(autocompleteAdapter)
                 onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
                     tilDomain.hint =
-                        if (!hasFocus && tvDomain.text.isEmpty()) CirclesAppConfig.usServerDomain
+                        if (!hasFocus && tvDomain.text.isEmpty()) CirclesAppConfig.serverDomains.first()
                         else getString(R.string.domain)
                 }
             }
-            tilDomain.hint = CirclesAppConfig.usServerDomain
+            tilDomain.hint = CirclesAppConfig.serverDomains.first()
             binding.rvSwitchUsers.apply {
                 adapter = switchUsersAdapter
                 addItemDecoration(
@@ -121,5 +121,5 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
     }
 
     private fun getDomain() = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
-        ?: CirclesAppConfig.usServerDomain
+        ?: CirclesAppConfig.serverDomains.first()
 }
