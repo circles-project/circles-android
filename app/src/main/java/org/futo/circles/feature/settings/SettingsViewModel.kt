@@ -1,16 +1,15 @@
 package org.futo.circles.feature.settings
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.log_in.log_out.LogoutDataSource
 import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 import javax.inject.Inject
 
@@ -29,7 +28,7 @@ class SettingsViewModel @Inject constructor(
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToMatrixChangePasswordEvent = SingleEventLiveData<Unit>()
     val changePasswordResponseLiveData = SingleEventLiveData<Response<Unit?>>()
-    val mediaUsageInfoLiveData = MutableLiveData<MediaUsageInfo?>()
+    val mediaUsageInfoLiveData = SingleEventLiveData<Response<MediaUsageInfo?>>()
 
     fun logOut() {
         launchBg {
@@ -64,10 +63,10 @@ class SettingsViewModel @Inject constructor(
     fun getSharedCircleSpaceId(): String? = sharedCircleDataSource.getSharedCirclesSpaceId()
     fun updateMediaUsageInfo() {
         launchBg {
-            val mediaUsageInfo = tryOrNull {
+            val mediaUsageInfoResult = createResult {
                 MatrixSessionProvider.getSessionOrThrow().mediaService().getMediaUsage()
             }
-            mediaUsageInfoLiveData.postValue(mediaUsageInfo)
+            mediaUsageInfoLiveData.postValue(mediaUsageInfoResult)
         }
     }
 }

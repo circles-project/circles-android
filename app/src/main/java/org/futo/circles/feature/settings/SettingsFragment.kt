@@ -109,9 +109,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
-        viewModel.mediaUsageInfoLiveData.observeData(this) { mediaUsage ->
-            bindMediaUsageProgress(mediaUsage)
-        }
+        viewModel.mediaUsageInfoLiveData.observeResponse(this,
+            error = { bindMediaUsageProgress(null) },
+            success = { bindMediaUsageProgress(it) })
     }
 
     private fun bindMediaUsageProgress(mediaUsage: MediaUsageInfo?) {
