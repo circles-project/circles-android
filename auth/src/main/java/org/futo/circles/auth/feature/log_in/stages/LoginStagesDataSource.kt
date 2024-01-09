@@ -111,7 +111,7 @@ class LoginStagesDataSource @Inject constructor(
         return handleRestoreResult(restoreResult)
     }
 
-    private suspend fun handleRestoreResult(restoreResult: Response<Unit>): Response<Unit> {
+    private fun handleRestoreResult(restoreResult: Response<Unit>): Response<Unit> {
         when (restoreResult) {
             is Response.Error -> loginNavigationLiveData.postValue(LoginNavigationEvent.PassPhrase)
             is Response.Success -> navigateToMain()
