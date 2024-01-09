@@ -91,7 +91,7 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
 
     //Webp animations
-    api 'com.github.penfeizhou.android.animation:glide-plugin:2.26.0'
+    api 'com.github.penfeizhou.android.animation:glide-plugin:2.28.0'
 
     //QR
     api 'com.google.zxing:core:3.5.2'
