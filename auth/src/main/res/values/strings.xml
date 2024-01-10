@@ -5,6 +5,7 @@
     <string name="blind_salt_is_missing">Blind salt is missing</string>
     <string name="b_param_is_missing">B param is missing</string>
     <string name="initial_device_name">FUTO Circles (Android)</string>
+    <string name="initial_sync">Initial sync</string>
     <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
     <string name="unsupported_login_method">Unsupported login method</string>
     <string name="discard_current_login_progress">Discard current login progress?</string>

@@ -13,6 +13,7 @@ import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
@@ -62,7 +63,11 @@ class LoginStagesDataSource @Inject constructor(
     }
 
     private suspend fun finishLogin(session: Session) {
+        passPhraseLoadingLiveData.postValue(
+            LoadingData(messageId = R.string.initial_sync, isLoading = true)
+        )
         MatrixSessionProvider.awaitForSessionSync(session)
+        passPhraseLoadingLiveData.postValue(LoadingData(isLoading = false))
         refreshTokenManager.scheduleTokenRefreshIfNeeded(session)
         handleKeysBackup()
         BSSpekeClientProvider.clear()
