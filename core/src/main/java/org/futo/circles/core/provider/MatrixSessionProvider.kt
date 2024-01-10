@@ -4,9 +4,11 @@ import android.content.Context
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
+import org.matrix.android.sdk.api.SyncConfig
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.statistics.StatisticEvent
+import org.matrix.android.sdk.api.session.sync.filter.SyncFilterParams
 
 object MatrixSessionProvider {
 
@@ -28,7 +30,13 @@ object MatrixSessionProvider {
         notificationSetupListener = notificationListener
         Matrix(
             context = context, matrixConfiguration = MatrixConfiguration(
-                roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl(context)
+                roomDisplayNameFallbackProvider = RoomDisplayNameFallbackProviderImpl(context),
+                syncConfig = SyncConfig(
+                    syncFilterParams = SyncFilterParams(
+                        lazyLoadMembersForStateEvents = true,
+                        useThreadNotifications = true
+                    )
+                )
             )
         ).also { MatrixInstanceProvider.saveMatrixInstance(it) }
 
