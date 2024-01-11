@@ -38,13 +38,9 @@ class LoginDataSource @Inject constructor(
         val homeServerConfig = buildHomeServerConfigFromDomain(domain)
         val supportedLoginMethods = authService.getLoginFlow(homeServerConfig).supportedLoginTypes
 
-        return if (supportedLoginMethods.isEmpty()) {
-            getCircleLoginStages(userName, domain)
-        } else if (isPasswordLogin(supportedLoginMethods)) {
+        return if (isPasswordLogin(supportedLoginMethods))
             listOf(Stage.Other(true, DIRECT_LOGIN_PASSWORD_TYPE, null))
-        } else {
-            throw IllegalArgumentException(context.getString(R.string.unsupported_login_method))
-        }
+        else getCircleLoginStages(userName, domain)
     }
 
     private fun isPasswordLogin(methods: List<String>) = methods.contains(LOGIN_PASSWORD_TYPE)
