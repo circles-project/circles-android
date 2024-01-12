@@ -12,16 +12,15 @@ import kotlinx.coroutines.flow.map
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
-import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.model.TimelineHeaderItem
 import org.futo.circles.core.model.TimelineListItem
 import org.futo.circles.core.model.TimelineRoomListItem
 import org.futo.circles.core.model.toTimelineRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getTimelinesLiveData
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -66,8 +65,7 @@ class UserDataSource @Inject constructor(
         }
     }
 
-    private fun getAllFollowingTimelinesFlow() = session.roomService()
-        .getRoomSummariesLive(roomSummaryQueryParams())
+    private fun getAllFollowingTimelinesFlow() = getTimelinesLiveData(listOf(Membership.JOIN))
         .map { list -> filterUsersTimelines(list) }.asFlow()
 
     private suspend fun getAllSharedTimelinesFlow() = session.roomService().getRoomSummaryLive(
@@ -89,7 +87,6 @@ class UserDataSource @Inject constructor(
     }
 
     private fun isUsersCircleTimeline(summary: RoomSummary) =
-        summary.roomType == TIMELINE_TYPE && summary.membership == Membership.JOIN &&
-                getRoomOwner(summary.roomId)?.userId == userId
+        getRoomOwner(summary.roomId)?.userId == userId
 
 }

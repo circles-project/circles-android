@@ -35,7 +35,6 @@ import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.RoomType
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 class InvitesDataSource @Inject constructor(
