@@ -1,10 +1,12 @@
 package org.futo.circles.core.utils
 
+import androidx.lifecycle.asFlow
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.query.RoomCategoryFilter
+import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
@@ -13,6 +15,7 @@ const val roomType = "m.room"
 const val spaceType = RoomType.SPACE
 
 private val roomTypes = listOf(
+    null,
     roomType,
     spaceType,
     GALLERY_TYPE,
@@ -32,7 +35,7 @@ private fun getRoomsWithType(
 ) = MatrixSessionProvider.getSessionOrThrow().roomService()
     .getRoomSummaries(getCirclesRoomTypeFilter(type, membershipFilter))
 
-private fun getCirclesRoomTypeFilter(type:String, membershipFilter: List<Membership>) =
+private fun getCirclesRoomTypeFilter(type: String, membershipFilter: List<Membership>) =
     roomSummaryQueryParams {
         memberships = membershipFilter
         includeType = listOf(type)
@@ -54,5 +57,17 @@ fun getSpacesLiveData(membershipFilter: List<Membership> = Membership.activeMemb
 
 fun getTimelinesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsLiveDataWithType(TIMELINE_TYPE, membershipFilter)
+
+fun getAllJoinedCirclesRoomsAndSpaces(session: Session = MatrixSessionProvider.getSessionOrThrow()) =
+    session.roomService().getRoomSummaries(roomSummaryQueryParams {
+        excludeType = listOf(roomType, null)
+        memberships = listOf(Membership.JOIN)
+    })
+
+fun getAllJoinedCirclesRoomsLiveData() = MatrixSessionProvider.getSessionOrThrow().roomService()
+    .getRoomSummariesLive(roomSummaryQueryParams {
+        excludeType = listOf(roomType, spaceType, null)
+        memberships = listOf(Membership.JOIN)
+    })
 
 

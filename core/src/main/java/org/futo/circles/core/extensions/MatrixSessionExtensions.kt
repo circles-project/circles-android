@@ -6,14 +6,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.mapLatest
-import org.matrix.android.sdk.api.extensions.tryOrNull
+import org.futo.circles.core.utils.getAllJoinedCirclesRoomsLiveData
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 
 private val sessionCoroutineScopes = HashMap<String, CoroutineScope>(1)
@@ -52,11 +51,8 @@ fun Session.getUserIdsToExclude() = mutableListOf(
 fun Session.getServerDomain() = myUserId.substringAfter(":")
 
 
-fun Session.getKnownUsersFlow() = roomService().getRoomSummariesLive(roomSummaryQueryParams {
-    excludeType = null
-    memberships = listOf(Membership.JOIN)
-}).asFlow()
-    .mapLatest { roomSummaries ->
+fun Session.getKnownUsersFlow() =
+    getAllJoinedCirclesRoomsLiveData().asFlow().mapLatest { roomSummaries ->
         val knowUsers = mutableSetOf<User>()
         roomSummaries.forEach { summary ->
             val joinedMembersIds = getRoom(summary.roomId)?.membershipService()
