@@ -8,10 +8,9 @@ import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.model.SharedCirclesSpace
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getAllJoinedCirclesRoomsAndSpaces
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.matrix.android.sdk.api.session.room.Room
-import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 class ConfigureWorkspaceDataSource @Inject constructor(
@@ -81,10 +80,7 @@ class ConfigureWorkspaceDataSource @Inject constructor(
 
     private fun getJoinedRoomIdByTag(tag: String): String? {
         val session = MatrixSessionProvider.currentSession ?: return null
-        return session.roomService().getRoomSummaries(roomSummaryQueryParams {
-            excludeType = null
-            memberships = listOf(Membership.JOIN)
-        }).firstOrNull { it.hasTag(tag) }?.roomId
+        return getAllJoinedCirclesRoomsAndSpaces(session).firstOrNull { it.hasTag(tag) }?.roomId
     }
 
     private fun getJoinedRoomIdFromAccountData(room: CirclesRoom): String? {
