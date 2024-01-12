@@ -57,23 +57,29 @@ fun getSpacesLiveData(membershipFilter: List<Membership> = Membership.activeMemb
 fun getTimelinesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsLiveDataWithType(TIMELINE_TYPE, membershipFilter)
 
-fun getAllJoinedCirclesRoomsAndSpaces(session: Session = MatrixSessionProvider.getSessionOrThrow()) =
-    session.roomService().getRoomSummaries(roomSummaryQueryParams {
+private fun getAllRoomsAndSpacesFilter(membershipFilter: List<Membership>) =
+    roomSummaryQueryParams {
         excludeType = listOf(roomType, null)
-        memberships = listOf(Membership.JOIN)
-    })
+        memberships = membershipFilter
+    }
+
+fun getAllJoinedCirclesRoomsAndSpaces(session: Session = MatrixSessionProvider.getSessionOrThrow()) =
+    session.roomService().getRoomSummaries(getAllRoomsAndSpacesFilter(listOf(Membership.JOIN)))
 
 fun getAllJoinedCirclesRoomsAndSpacesLiveData(session: Session = MatrixSessionProvider.getSessionOrThrow()) =
-    session.roomService().getRoomSummariesLive(roomSummaryQueryParams {
-        excludeType = listOf(roomType, null)
-        memberships = listOf(Membership.JOIN)
-    })
+    session.roomService().getRoomSummariesLive(getAllRoomsAndSpacesFilter(listOf(Membership.JOIN)))
+
+private fun getAllRoomsFiler(membershipFilter: List<Membership>) = roomSummaryQueryParams {
+    excludeType = listOf(roomType, spaceType, null)
+    memberships = membershipFilter
+}
 
 fun getAllCirclesRoomsLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     MatrixSessionProvider.getSessionOrThrow().roomService()
-        .getRoomSummariesLive(roomSummaryQueryParams {
-            excludeType = listOf(roomType, spaceType, null)
-            memberships = membershipFilter
-        })
+        .getRoomSummariesLive(getAllRoomsFiler(membershipFilter))
+
+fun getAllCirclesRooms(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+    MatrixSessionProvider.getSessionOrThrow().roomService()
+        .getRoomSummaries(getAllRoomsFiler(membershipFilter))
 
 
