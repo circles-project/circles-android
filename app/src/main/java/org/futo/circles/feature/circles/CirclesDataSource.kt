@@ -1,5 +1,6 @@
 package org.futo.circles.feature.circles
 
+import android.util.Log
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
@@ -11,13 +12,13 @@ import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
+import org.futo.circles.core.utils.getTimelinesLiveData
 import org.futo.circles.mapping.toJoinedCircleListItem
 import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CirclesHeaderItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 class CirclesDataSource @Inject constructor(
@@ -26,19 +27,16 @@ class CirclesDataSource @Inject constructor(
 ) {
 
     fun getCirclesFlow() = combine(
-        MatrixSessionProvider.getSessionOrThrow().roomService()
-            .getRoomSummariesLive(roomSummaryQueryParams { excludeType = null })
-            .asFlow(),
+        getTimelinesLiveData().asFlow(),
         MatrixSessionProvider.getSessionOrThrow().roomService().getChangeMembershipsLive().asFlow()
-    ) { roomSummaries, _ ->
-        withContext(Dispatchers.IO) { buildCirclesList(roomSummaries) }
+    ) { timelines, _ ->
+        withContext(Dispatchers.IO) { buildCirclesList(timelines) }
     }.distinctUntilChanged()
 
-    private fun buildCirclesList(list: List<RoomSummary>): List<CircleListItem> {
-        val invitesCount = list.filter { isInviteToCircleTimeline(it) }.size
+    private fun buildCirclesList(timelines: List<RoomSummary>): List<CircleListItem> {
+        val invitesCount = timelines.filter { it.membership == Membership.INVITE }.size
 
-        val joinedCirclesSpaceIds = getJoinedCirclesIds()
-        val joinedCircles = list.filter { isJoinedCircle(it, joinedCirclesSpaceIds) }
+        val joinedCircles = getJoinedCirclesIds().mapNotNull { getJoinedRoomById(it)?.roomSummary() }
 
         val sharedCirclesTimelinesIds = sharedCircleDataSource.getSharedCirclesTimelinesIds()
         val sharedCircles = joinedCircles.filter { joinedCircle ->
@@ -62,9 +60,6 @@ class CirclesDataSource @Inject constructor(
         }
         return displayList
     }
-
-    fun isJoinedCircle(summary: RoomSummary, joinedCirclesIds: List<String>): Boolean =
-        joinedCirclesIds.contains(summary.roomId)
 
     fun getJoinedCirclesIds(): List<String> {
         val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(
