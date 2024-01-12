@@ -16,6 +16,7 @@ import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
+import org.futo.circles.core.utils.getSpacesLiveData
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleHeaderItem
@@ -24,8 +25,6 @@ import org.futo.circles.model.PeopleListItem
 import org.futo.circles.model.PeopleRequestNotificationListItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.model.RoomType
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
 
@@ -44,12 +43,8 @@ class PeopleDataSource @Inject constructor(
             it.size
         }?.asFlow() ?: flowOf()
 
-    private fun getProfileSpaceInvitesCountFlow() = session?.roomService()?.getRoomSummariesLive(
-        roomSummaryQueryParams {
-            excludeType = null
-            memberships = listOf(Membership.INVITE)
-        })?.map { it.filter { it.roomType == RoomType.SPACE } }?.map { it.size }
-        ?.asFlow() ?: flowOf()
+    private fun getProfileSpaceInvitesCountFlow() =
+        getSpacesLiveData(listOf(Membership.INVITE)).map { it.size }.asFlow()
 
 
     suspend fun getPeopleList(query: String) = combine(
