@@ -64,6 +64,12 @@ fun getAllJoinedCirclesRoomsAndSpaces(session: Session = MatrixSessionProvider.g
         memberships = listOf(Membership.JOIN)
     })
 
+fun getAllJoinedCirclesRoomsAndSpacesLiveData(session: Session = MatrixSessionProvider.getSessionOrThrow()) =
+    session.roomService().getRoomSummariesLive(roomSummaryQueryParams {
+        excludeType = listOf(roomType, null)
+        memberships = listOf(Membership.JOIN)
+    })
+
 fun getAllJoinedCirclesRoomsLiveData() = MatrixSessionProvider.getSessionOrThrow().roomService()
     .getRoomSummariesLive(roomSummaryQueryParams {
         excludeType = listOf(roomType, spaceType, null)

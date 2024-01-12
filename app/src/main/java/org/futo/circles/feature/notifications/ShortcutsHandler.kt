@@ -13,10 +13,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.futo.circles.R
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.room.RoomSortOrder
-import org.matrix.android.sdk.api.session.room.model.Membership
+import org.futo.circles.core.utils.getAllJoinedCirclesRoomsAndSpacesLiveData
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 class ShortcutsHandler @Inject constructor(
@@ -33,12 +31,7 @@ class ShortcutsHandler @Inject constructor(
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) return Job()
 
         val session = MatrixSessionProvider.currentSession ?: return Job()
-        return session.roomService().getRoomSummariesLive(
-            roomSummaryQueryParams {
-                memberships = listOf(Membership.JOIN)
-            },
-            sortOrder = RoomSortOrder.PRIORITY_AND_ACTIVITY
-        ).asFlow().onEach { rooms ->
+        return getAllJoinedCirclesRoomsAndSpacesLiveData(session).asFlow().onEach { rooms ->
             removeDeadShortcuts(rooms.map { it.roomId })
             createShortcuts(rooms)
         }
