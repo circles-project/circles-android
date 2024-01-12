@@ -8,7 +8,7 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 import javax.inject.Inject
 
 class SelectGalleriesDataSource @Inject constructor() {
-    
+
     val galleriesLiveData = MutableLiveData(getInitialGalleriesList())
 
     private fun getInitialGalleriesList(): List<SelectableRoomListItem> =

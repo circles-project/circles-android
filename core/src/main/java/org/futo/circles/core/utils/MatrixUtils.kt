@@ -39,7 +39,7 @@ fun getGalleriesLiveData(membershipFilter: List<Membership> = Membership.activeM
     getRoomsLiveDataWithType(GALLERY_TYPE, membershipFilter)
 
 fun getGalleries(membershipFilter: List<Membership> = Membership.activeMemberships()) =
-    getRoomsWithType(GROUP_TYPE, membershipFilter)
+    getRoomsWithType(GALLERY_TYPE, membershipFilter)
 
 
 
