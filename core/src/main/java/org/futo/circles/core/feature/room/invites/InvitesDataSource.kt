@@ -28,6 +28,8 @@ import org.futo.circles.core.model.convertToCircleRoomType
 import org.futo.circles.core.model.toCircleUser
 import org.futo.circles.core.model.toRoomInviteListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getAllCirclesRoomsLiveData
+import org.futo.circles.core.utils.getSpacesLiveData
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -72,28 +74,19 @@ class InvitesDataSource @Inject constructor(
         }?.asFlow() ?: flowOf()
 
     private fun getProfileSpaceInvitesFlow(): Flow<List<ConnectionInviteListItem>> =
-        session?.roomService()?.getRoomSummariesLive(
-            roomSummaryQueryParams {
-                excludeType = null
-                memberships = listOf(Membership.INVITE)
-            })?.map {
-            it.filter { it.roomType == RoomType.SPACE }.map {
+        getSpacesLiveData(listOf(Membership.INVITE)).map {
+            it.filter { it.roomType == RoomType.SPACE }.map { summary ->
                 ConnectionInviteListItem(
-                    it.roomId,
-                    session.getUserOrDefault(it.inviterId ?: "").toCirclesUserSummary()
+                    summary.roomId,
+                    session.getUserOrDefault(summary.inviterId ?: "").toCirclesUserSummary()
                 )
             }
-        }?.asFlow() ?: flowOf()
+        }.asFlow()
 
     private fun getRoomInvitesFlow(
         inviteType: InviteTypeArg
     ): Flow<List<RoomInviteListItem>> = combine(
-        MatrixSessionProvider.getSessionOrThrow().roomService()
-            .getRoomSummariesLive(roomSummaryQueryParams {
-                excludeType = listOf(RoomType.SPACE)
-                memberships = listOf(Membership.INVITE)
-            })
-            .asFlow(),
+        getAllCirclesRoomsLiveData(listOf(Membership.INVITE)).asFlow(),
         MatrixSessionProvider.getSessionOrThrow().getKnownUsersFlow(),
         roomIdsToUnblurProfile
     ) { roomSummaries, knownUsers, roomIdsToUnblur ->

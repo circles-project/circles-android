@@ -1,6 +1,5 @@
 package org.futo.circles.core.utils
 
-import androidx.lifecycle.asFlow
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.TIMELINE_TYPE
@@ -70,10 +69,11 @@ fun getAllJoinedCirclesRoomsAndSpacesLiveData(session: Session = MatrixSessionPr
         memberships = listOf(Membership.JOIN)
     })
 
-fun getAllJoinedCirclesRoomsLiveData() = MatrixSessionProvider.getSessionOrThrow().roomService()
-    .getRoomSummariesLive(roomSummaryQueryParams {
-        excludeType = listOf(roomType, spaceType, null)
-        memberships = listOf(Membership.JOIN)
-    })
+fun getAllCirclesRoomsLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+    MatrixSessionProvider.getSessionOrThrow().roomService()
+        .getRoomSummariesLive(roomSummaryQueryParams {
+            excludeType = listOf(roomType, spaceType, null)
+            memberships = membershipFilter
+        })
 
 

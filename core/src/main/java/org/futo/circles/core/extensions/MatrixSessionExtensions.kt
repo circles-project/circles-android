@@ -6,7 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.mapLatest
-import org.futo.circles.core.utils.getAllJoinedCirclesRoomsLiveData
+import org.futo.circles.core.utils.getAllCirclesRoomsLiveData
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.getRoom
@@ -52,7 +52,7 @@ fun Session.getServerDomain() = myUserId.substringAfter(":")
 
 
 fun Session.getKnownUsersFlow() =
-    getAllJoinedCirclesRoomsLiveData().asFlow().mapLatest { roomSummaries ->
+    getAllCirclesRoomsLiveData(listOf(Membership.JOIN)).asFlow().mapLatest { roomSummaries ->
         val knowUsers = mutableSetOf<User>()
         roomSummaries.forEach { summary ->
             val joinedMembersIds = getRoom(summary.roomId)?.membershipService()
