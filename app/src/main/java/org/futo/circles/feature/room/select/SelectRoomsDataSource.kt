@@ -9,19 +9,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOn
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.mapping.toSelectableRoomListItem
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.GALLERY_TYPE
-import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getGalleriesLiveData
+import org.futo.circles.core.utils.getGroupsLiveData
+import org.futo.circles.core.utils.getSpacesLiveData
 import org.futo.circles.feature.circles.CirclesDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -35,8 +33,6 @@ class SelectRoomsDataSource @Inject constructor(
         CircleRoomTypeArg.entries.firstOrNull { it.ordinal == ordinal }
             ?: CircleRoomTypeArg.Circle
 
-    private val session by lazy { MatrixSessionProvider.currentSession }
-
     private val selectedRoomsFlow = MutableStateFlow<List<SelectableRoomListItem>>(emptyList())
     val roomsFlow = getMergedRoomsListFlow()
 
@@ -48,11 +44,16 @@ class SelectRoomsDataSource @Inject constructor(
     private fun getRoomsFlowWithType(): Flow<List<RoomSummary>> = when (roomType) {
         CircleRoomTypeArg.Circle -> {
             val joinedCirclesIds = circleDataSource.getJoinedCirclesIds()
-            getFilteredRoomsFlow { circleDataSource.isJoinedCircle(it, joinedCirclesIds) }
+            getSpacesLiveData(listOf(Membership.JOIN)).map { summaries ->
+                summaries.mapNotNull { summary ->
+                    if (joinedCirclesIds.contains(summary.roomId)) summary
+                    else null
+                }
+            }.asFlow()
         }
 
-        CircleRoomTypeArg.Group -> getFilteredRoomsFlow { (it.roomType == GROUP_TYPE && it.membership == Membership.JOIN) }
-        CircleRoomTypeArg.Photo -> getFilteredRoomsFlow { (it.roomType == GALLERY_TYPE && it.membership == Membership.JOIN) }
+        CircleRoomTypeArg.Group -> getGroupsLiveData(listOf(Membership.JOIN)).asFlow()
+        CircleRoomTypeArg.Photo -> getGalleriesLiveData(listOf(Membership.JOIN)).asFlow()
     }
 
     fun getSelectedRooms() = selectedRoomsFlow.value.filter { it.isSelected }
@@ -63,13 +64,6 @@ class SelectRoomsDataSource @Inject constructor(
         else list.add(circle.copy(isSelected = true))
         selectedRoomsFlow.value = list
     }
-
-    private fun getFilteredRoomsFlow(filter: (summary: RoomSummary) -> Boolean) =
-        session?.roomService()?.getRoomSummariesLive(roomSummaryQueryParams {
-            excludeType = null
-        })?.map { summaries ->
-            summaries.mapNotNull { summary -> if (filter(summary)) summary else null }
-        }?.asFlow() ?: emptyFlow()
 
     private fun List<SelectableRoomListItem>.containsWithId(id: String) =
         firstOrNull { it.id == id } != null
