@@ -14,17 +14,32 @@ private fun getRoomsLiveDataWithType(
     type: String,
     membershipFilter: List<Membership> = Membership.activeMemberships()
 ) = MatrixSessionProvider.getSessionOrThrow().roomService()
-    .getRoomSummariesLive(roomSummaryQueryParams {
+    .getRoomSummariesLive(getCirclesRoomTypeFilter(type, membershipFilter))
+
+private fun getRoomsWithType(
+    type: String,
+    membershipFilter: List<Membership> = Membership.activeMemberships()
+) = MatrixSessionProvider.getSessionOrThrow().roomService()
+    .getRoomSummaries(getCirclesRoomTypeFilter(type, membershipFilter))
+
+private fun getCirclesRoomTypeFilter(type: String, membershipFilter: List<Membership>) =
+    roomSummaryQueryParams {
         memberships = membershipFilter
         includeType = listOf(type)
         excludeType = listOf(roomType, spaceType)
-    })
+    }
 
 fun getGroupsLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsLiveDataWithType(GROUP_TYPE, membershipFilter)
 
+fun getGroups(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+    getRoomsWithType(GROUP_TYPE, membershipFilter)
+
 fun getGalleriesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsLiveDataWithType(GALLERY_TYPE, membershipFilter)
+
+fun getGalleries(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+    getRoomsWithType(GROUP_TYPE, membershipFilter)
 
 
 
