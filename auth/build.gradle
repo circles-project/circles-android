@@ -92,35 +92,35 @@ kapt {
     correctErrorTypes = true
 }
 
-//def groupIdString = "org.futo.circles"
-//def artifactIdString = "auth"
-//
-//afterEvaluate {
-//    Properties properties = new Properties()
-//    if (rootProject.file("local.properties").exists()) {
-//        properties.load(rootProject.file("local.properties").newDataInputStream())
-//    }
-//    publishing {
-//        publications {
-//            release(MavenPublication) {
-//                from components.release
-//                groupId groupIdString
-//                artifactId artifactIdString
-//                version rootProject.ext.modules_version
-//            }
-//        }
-//        repositories {
-//            maven {
-//                url "https://gitlab.futo.org/api/v4/projects/$rootProject.ext.modules_gitlab_projectId/packages/maven"
-//                name "GitLab"
-//                credentials(HttpHeaderCredentials) {
-//                    name = "Private-Token"
-//                    value = properties.getProperty("PUBLISH_TOKEN")
-//                }
-//                authentication {
-//                    header(HttpHeaderAuthentication)
-//                }
-//            }
-//        }
-//    }
-//}
+def groupIdString = "org.futo.circles"
+def artifactIdString = "auth-gplay"
+
+afterEvaluate {
+    Properties properties = new Properties()
+    if (rootProject.file("local.properties").exists()) {
+        properties.load(rootProject.file("local.properties").newDataInputStream())
+    }
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.gplayRelease
+                groupId groupIdString
+                artifactId artifactIdString
+                version rootProject.ext.modules_version
+            }
+        }
+        repositories {
+            maven {
+                url "https://gitlab.futo.org/api/v4/projects/$rootProject.ext.modules_gitlab_projectId/packages/maven"
+                name "GitLab"
+                credentials(HttpHeaderCredentials) {
+                    name = "Private-Token"
+                    value = properties.getProperty("PUBLISH_TOKEN")
+                }
+                authentication {
+                    header(HttpHeaderAuthentication)
+                }
+            }
+        }
+    }
+}
