@@ -37,6 +37,17 @@ android {
         }
     }
 
+    def flavor_dimension_name = "store"
+    flavorDimensions.add(flavor_dimension_name)
+    productFlavors {
+        gplay {
+            dimension flavor_dimension_name
+        }
+        fdroid {
+            dimension flavor_dimension_name
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -62,7 +73,7 @@ dependencies {
     implementation 'com.nulab-inc:zxcvbn:1.8.2'
 
     //Subscriptions
-    implementation 'com.android.billingclient:billing-ktx:6.1.0'
+    gplayImplementation 'com.android.billingclient:billing-ktx:6.1.0'
 
     //QR
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
@@ -81,35 +92,35 @@ kapt {
     correctErrorTypes = true
 }
 
-def groupIdString = "org.futo.circles"
-def artifactIdString = "auth"
-
-afterEvaluate {
-    Properties properties = new Properties()
-    if (rootProject.file("local.properties").exists()) {
-        properties.load(rootProject.file("local.properties").newDataInputStream())
-    }
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId groupIdString
-                artifactId artifactIdString
-                version rootProject.ext.modules_version
-            }
-        }
-        repositories {
-            maven {
-                url "https://gitlab.futo.org/api/v4/projects/$rootProject.ext.modules_gitlab_projectId/packages/maven"
-                name "GitLab"
-                credentials(HttpHeaderCredentials) {
-                    name = "Private-Token"
-                    value = properties.getProperty("PUBLISH_TOKEN")
-                }
-                authentication {
-                    header(HttpHeaderAuthentication)
-                }
-            }
-        }
-    }
-}
+//def groupIdString = "org.futo.circles"
+//def artifactIdString = "auth"
+//
+//afterEvaluate {
+//    Properties properties = new Properties()
+//    if (rootProject.file("local.properties").exists()) {
+//        properties.load(rootProject.file("local.properties").newDataInputStream())
+//    }
+//    publishing {
+//        publications {
+//            release(MavenPublication) {
+//                from components.release
+//                groupId groupIdString
+//                artifactId artifactIdString
+//                version rootProject.ext.modules_version
+//            }
+//        }
+//        repositories {
+//            maven {
+//                url "https://gitlab.futo.org/api/v4/projects/$rootProject.ext.modules_gitlab_projectId/packages/maven"
+//                name "GitLab"
+//                credentials(HttpHeaderCredentials) {
+//                    name = "Private-Token"
+//                    value = properties.getProperty("PUBLISH_TOKEN")
+//                }
+//                authentication {
+//                    header(HttpHeaderAuthentication)
+//                }
+//            }
+//        }
+//    }
+//}
