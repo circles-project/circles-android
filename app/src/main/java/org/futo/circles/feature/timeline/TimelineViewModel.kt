@@ -16,13 +16,13 @@ import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
+import org.futo.circles.core.feature.user.UserOptionsDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
-import org.futo.circles.core.feature.user.UserOptionsDataSource
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
@@ -71,7 +71,8 @@ class TimelineViewModel @Inject constructor(
 
     fun ignoreSender(senderId: String) {
         launchBg {
-            ignoreUserLiveData.postValue(userOptionsDataSource.ignoreSender(senderId))
+            val result = userOptionsDataSource.ignoreSender(senderId)
+            ignoreUserLiveData.postValue(result)
         }
     }
 

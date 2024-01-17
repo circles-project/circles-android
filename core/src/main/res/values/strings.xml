@@ -166,4 +166,6 @@
     <string name="invites_you_to_connect">invites you to connect</string>
     <string name="invites">Invites</string>
     <string name="requests">Requests</string>
+    <string name="invite_to_connect">Invite to connect</string>
+    <string name="follow">Follow</string>
 </resources>

@@ -9,7 +9,6 @@
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
     <string name="share">Share</string>
-    <string name="follow">Follow</string>
     <string name="fix">Fix</string>
     <string name="followers">Followers</string>
     <string name="known_users">Known users</string>
@@ -194,7 +193,7 @@
     <string name="help">Help</string>
     <string name="optional_request_message">Optional: Request message</string>
     <string name="media_storage">Media storage</string>
-    <string name="media_usage_format">%s of %s used</string>
+    <string name="media_usage_format">%1$s of %2$s used</string>
     <string name="group_invites_notification_format">Show %d Group invitations</string>
     <string name="circle_invites_notification_format">Show %d Circle invitations</string>
     <string name="show_connection_invites_format">Show %d connection invites</string>
@@ -214,7 +213,6 @@
     <string name="rich_text_editor_quote">Toggle quote</string>
     <string name="rich_text_editor_code_block">Toggle code block</string>
     <string name="general">General</string>
-    <string name="invite_to_connect">Invite to connect</string>
     <string name="empty_media_storage_info">0 MB used</string>
 
     <string-array name="debug_domains">

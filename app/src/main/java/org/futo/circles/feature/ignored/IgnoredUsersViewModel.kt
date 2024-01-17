@@ -24,7 +24,8 @@ class IgnoredUsersViewModel @Inject constructor(
 
     fun unIgnoreUser(userId: String) {
         launchBg {
-            unIgnoreUserLiveData.postValue(userOptionsDataSource.unIgnoreSender(userId))
+            val result = userOptionsDataSource.unIgnoreSender(userId)
+            unIgnoreUserLiveData.postValue(result)
         }
     }
 

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="reply_post_item_margin">24dp</dimen>
-    <dimen name="post_text_side_margin">24dp</dimen>
-    <dimen name="group_icon_size">120dp</dimen>
-    <dimen name="circle_icon_size">100dp</dimen>
-    <dimen name="profile_avatar_size">50dp</dimen>
-</resources>
