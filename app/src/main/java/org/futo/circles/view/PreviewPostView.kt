@@ -282,7 +282,7 @@ class PreviewPostView(
         addMenuItem(binding.lMainMenu, org.futo.circles.core.R.drawable.ic_mention) {
             insertMentionMark()
         }
-        addMenuItem(binding.lMainMenu, R.drawable.ic_link) {
+        addMenuItem(binding.lMainMenu, org.futo.circles.core.R.drawable.ic_link) {
             listener?.onAddLinkClicked()
         }
         addMenuItem(binding.lMainMenu, R.drawable.ic_text) {
