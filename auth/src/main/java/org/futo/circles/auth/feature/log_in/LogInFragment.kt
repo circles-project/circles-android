@@ -16,6 +16,7 @@ import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHold
 import org.futo.circles.auth.model.RemoveUser
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.list.BaseRvDecoration
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
@@ -25,7 +26,6 @@ import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.base.fragment.HasLoadingState
 
 
 @AndroidEntryPoint
@@ -39,7 +39,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
         ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
-            listOf(CirclesAppConfig.usServerDomain, CirclesAppConfig.euServerDomain)
+            CirclesAppConfig.serverDomains
         )
     }
 
@@ -66,15 +66,16 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
 
     private fun setupViews() {
         with(binding) {
+            groupSignup.setIsVisible(CirclesAppConfig.isGplayFlavor())
             tvDomain.apply {
                 setAdapter(autocompleteAdapter)
                 onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
                     tilDomain.hint =
-                        if (!hasFocus && tvDomain.text.isEmpty()) CirclesAppConfig.usServerDomain
+                        if (!hasFocus && tvDomain.text.isEmpty()) CirclesAppConfig.serverDomains.first()
                         else getString(R.string.domain)
                 }
             }
-            tilDomain.hint = CirclesAppConfig.usServerDomain
+            tilDomain.hint = CirclesAppConfig.serverDomains.first()
             binding.rvSwitchUsers.apply {
                 adapter = switchUsersAdapter
                 addItemDecoration(
@@ -87,7 +88,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this){ setEnabledViews(it) }
+        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.loginResultLiveData.observeResponse(this,
             success = {
                 findNavController().navigateSafe(LogInFragmentDirections.toLoginStagesFragment())
@@ -120,5 +121,5 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
     }
 
     private fun getDomain() = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
-        ?: CirclesAppConfig.usServerDomain
+        ?: CirclesAppConfig.serverDomains.first()
 }

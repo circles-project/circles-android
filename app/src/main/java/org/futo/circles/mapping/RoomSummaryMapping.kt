@@ -1,21 +1,17 @@
 package org.futo.circles.mapping
 
-import org.futo.circles.core.mapping.getInviterName
+import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.mapping.toRoomInfo
-import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.model.InvitedCircleListItem
-import org.futo.circles.model.InvitedGroupListItem
 import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.JoinedGroupListItem
-import org.futo.circles.model.TimelineRoomListItem
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
-import org.matrix.android.sdk.api.session.room.model.SpaceChildInfo
 
 
 fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
@@ -29,30 +25,20 @@ fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     knockRequestsCount = getKnocksCount(roomId)
 )
 
-fun RoomSummary.toInviteGroupListItem(shouldBlurIcon: Boolean) = InvitedGroupListItem(
-    id = roomId,
-    info = toRoomInfo(),
-    isEncrypted = isEncrypted,
-    inviterName = getInviterName(),
-    shouldBlurIcon = shouldBlurIcon
-)
-
 fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) = JoinedCircleListItem(
     id = roomId,
     info = toRoomInfo(),
     isShared = isShared,
-    followingCount = spaceChildren?.size?.takeIf { it != 0 }?.minus(1) ?: 0,
+    followingCount = getFollowingCount(),
     followedByCount = getFollowersCount(),
     unreadCount = getCircleUnreadMessagesCount(),
     knockRequestsCount = getKnocksCount(getTimelineRoomFor(roomId)?.roomId ?: "")
 )
 
-fun RoomSummary.toInviteCircleListItem(shouldBlurIcon: Boolean) = InvitedCircleListItem(
-    id = roomId,
-    info = toRoomInfo(),
-    inviterName = getInviterName(),
-    shouldBlurIcon = shouldBlurIcon
-)
+private fun RoomSummary.getFollowingCount() = spaceChildren?.filter {
+    getJoinedRoomById(it.childRoomId) != null &&
+            getRoomOwner(it.childRoomId)?.userId != MatrixSessionProvider.currentSession?.myUserId
+}?.size ?: 0
 
 private fun RoomSummary.getFollowersCount(): Int =
     getTimelineRoomFor(roomId)?.roomSummary()?.otherMemberIds?.size ?: 0
@@ -69,12 +55,6 @@ private fun RoomSummary.getCircleUnreadMessagesCount(): Int {
     return unreadInCircle
 }
 
-fun RoomSummary.toTimelineRoomListItem() = TimelineRoomListItem(
-    id = roomId,
-    info = toRoomInfo(),
-    isJoined = membership == Membership.JOIN
-)
-
 fun getKnocksCount(roomId: String) =
     MatrixSessionProvider.currentSession?.getRoom(roomId)?.membershipService()
         ?.getRoomMembers(
@@ -83,12 +63,3 @@ fun getKnocksCount(roomId: String) =
                 memberships = listOf(Membership.KNOCK)
             }
         )?.size ?: 0
-
-fun SpaceChildInfo.toTimelineRoomListItem() = TimelineRoomListItem(
-    id = childRoomId,
-    info = RoomInfo(
-        title = name?.takeIf { it.isNotEmpty() } ?: childRoomId,
-        avatarUrl = avatarUrl ?: ""
-    ),
-    isJoined = false
-)

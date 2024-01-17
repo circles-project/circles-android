@@ -35,7 +35,7 @@ class TimelineAdapter(
     override fun getItemViewType(position: Int): Int = getItem(position).content.type.ordinal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        return when (PostContentType.values()[viewType]) {
+        return when (PostContentType.entries[viewType]) {
             PostContentType.POLL_CONTENT -> PollPostViewHolder(
                 parent, postOptionsListener, isThread
             )

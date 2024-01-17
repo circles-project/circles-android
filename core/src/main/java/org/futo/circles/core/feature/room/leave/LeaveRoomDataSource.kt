@@ -5,7 +5,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.extensions.getRoomOwners
+import org.futo.circles.core.extensions.getRoomAdmins
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
@@ -67,7 +67,7 @@ class LeaveRoomDataSource @Inject constructor(
         if (isSingleMember) return true
         val isUserOwner = getCurrentUserPowerLevel(roomId) == Role.Admin.value
         if (!isUserOwner) return true
-        val roomHasOneOwner = getRoomOwners(roomId).size == 1
-        return !roomHasOneOwner
+        val roomHasOneAdmin = getRoomAdmins(roomId).size == 1
+        return !roomHasOneAdmin
     }
 }

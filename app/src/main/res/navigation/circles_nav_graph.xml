@@ -32,15 +32,16 @@
             android:id="@+id/to_createCircleDialogFragment"
             app:destination="@id/createCircleDialogFragment" />
         <action
-            android:id="@+id/to_acceptCircleInviteDialogFragment"
-            app:destination="@id/acceptCircleInviteDialogFragment">
+            android:id="@+id/to_invites"
+            app:destination="@id/invites_nav_graph">
 
             <argument
-                android:name="roomId"
-                app:argType="string"
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="org.futo.circles.core.model.InviteTypeArg"
                 app:nullable="false" />
-
         </action>
+
     </fragment>
 
     <include app:graph="@navigation/timeline_nav_graph" />
@@ -66,5 +67,7 @@
             app:destination="@id/createCircleDialogFragment" />
 
     </dialog>
+
+    <include app:graph="@navigation/invites_nav_graph" />
 
 </navigation>

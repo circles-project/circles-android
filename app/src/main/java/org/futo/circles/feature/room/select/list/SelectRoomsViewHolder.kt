@@ -3,7 +3,7 @@ package org.futo.circles.feature.room.select.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setSelectableItemBackground
 import org.futo.circles.core.base.list.ViewBindingHolder
@@ -36,7 +36,7 @@ class SelectRoomsViewHolder(
             binding.ivCircleImage.setImageResource(R.drawable.ic_check_circle)
             binding.lRoot.setBackgroundColor(context.getColor(R.color.highlight_color))
         } else {
-            binding.ivCircleImage.loadProfileIcon(data.info.avatarUrl, data.info.title)
+            binding.ivCircleImage.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
             binding.lRoot.setSelectableItemBackground()
         }
     }

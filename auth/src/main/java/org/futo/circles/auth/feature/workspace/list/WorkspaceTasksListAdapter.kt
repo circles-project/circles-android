@@ -20,7 +20,7 @@ class WorkspaceTasksListAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = when (WorkspaceTaskViewType.values()[viewType]) {
+    ) = when (WorkspaceTaskViewType.entries[viewType]) {
         WorkspaceTaskViewType.Mandatory -> MandatoryWorkspaceTaskViewHolder(parent = parent)
 
         WorkspaceTaskViewType.Optional -> OptionalWorkspaceTaskViewHolder(

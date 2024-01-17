@@ -3,10 +3,8 @@ package org.futo.circles.model
 import org.futo.circles.R
 import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.model.CirclesUserSummary
-import org.futo.circles.core.model.KnockRequestListItem
-import org.futo.circles.core.model.toCircleUser
 
-enum class PeopleItemType { Header, Friend, Following, Follower, Request, Known, Suggestion, Ignored }
+enum class PeopleItemType { Header, Connection, Following, Follower, RequestNotification, Others, Suggestion }
 sealed class PeopleListItem(
     open val type: PeopleItemType
 ) : IdEntity<String>
@@ -17,28 +15,25 @@ data class PeopleHeaderItem(
     override val id: String = titleRes.toString()
 
     companion object {
-        val friends = PeopleHeaderItem(org.futo.circles.auth.R.string.friends)
-        val followersUsersHeader = PeopleHeaderItem(R.string.followers)
-        val followingUsersHeader = PeopleHeaderItem(R.string.following)
-        val knownUsersHeader = PeopleHeaderItem(R.string.known_users)
+        val connections = PeopleHeaderItem(R.string.my_connections)
+        val followersUsersHeader = PeopleHeaderItem(org.futo.circles.core.R.string.my_followers)
+        val followingUsersHeader =
+            PeopleHeaderItem(org.futo.circles.core.R.string.people_i_m_following)
+        val othersHeader = PeopleHeaderItem(org.futo.circles.core.R.string.others)
         val suggestions = PeopleHeaderItem(R.string.suggestions)
-        val requests = PeopleHeaderItem(R.string.requests)
-        val ignoredUsers = PeopleHeaderItem(R.string.ignored_users)
     }
 }
 
 class PeopleUserListItem(
     val user: CirclesUserSummary,
-    override val type: PeopleItemType
+    override val type: PeopleItemType,
+    val isIgnored: Boolean
 ) : PeopleListItem(type) {
     override val id: String = user.id
 }
 
-class PeopleRequestListItem(
-    val user: CirclesUserSummary,
-    val reasonMessage: String?
-) : PeopleListItem(PeopleItemType.Request) {
-    override val id: String = user.id
+class PeopleRequestNotificationListItem(
+    val requestsCount: Int
+) : PeopleListItem(PeopleItemType.RequestNotification) {
+    override val id: String = "PeopleRequestNotificationListItem"
 }
-
-fun KnockRequestListItem.toPeopleRequestListItem() = PeopleRequestListItem(toCircleUser(), message)

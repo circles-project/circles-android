@@ -13,7 +13,7 @@ import org.futo.circles.core.databinding.DialogFragmentTimelineOptionsBinding
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
@@ -150,7 +150,7 @@ class TimelineOptionsDialogFragment :
         }
         viewModel.roomSummaryLiveData?.observeData(this) {
             it.getOrNull()?.let { room ->
-                binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
+                binding.ivCover.loadRoomProfileIcon(room.avatarUrl, room.displayName)
                 binding.toolbar.title = room.displayName
             }
         }

@@ -14,9 +14,8 @@
         android:id="@+id/ivIcon"
         style="@style/AuthLogoStyle"
         android:layout_width="@dimen/group_icon_size"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/group_icon_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="W,1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

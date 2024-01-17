@@ -1,48 +1,37 @@
 package org.futo.circles.gallery.feature
 
-import org.futo.circles.core.feature.room.RoomListHelper
-import org.futo.circles.core.mapping.toInvitedGalleryListItem
+import androidx.lifecycle.asFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.withContext
 import org.futo.circles.core.mapping.toJoinedGalleryListItem
-import org.futo.circles.core.model.GALLERY_TYPE
+import org.futo.circles.core.model.GalleryInvitesNotificationListItem
 import org.futo.circles.core.model.GalleryListItem
+import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getGalleriesLiveData
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
 
-class PhotosDataSource @Inject constructor(
-    private val roomListHelper: RoomListHelper
-) {
+class PhotosDataSource @Inject constructor() {
 
-    fun getGalleriesFlow() = roomListHelper.getRoomsFlow(::filterGalleries)
+    fun getGalleriesFlow() = combine(
+        getGalleriesLiveData().asFlow(),
+        MatrixSessionProvider.getSessionOrThrow().roomService().getChangeMembershipsLive().asFlow()
+    ) { roomSummaries, _ ->
+        withContext(Dispatchers.IO) { buildList(roomSummaries) }
+    }.distinctUntilChanged()
 
-    private fun filterGalleries(
-        list: List<RoomSummary>,
-        knownUsersIds: Set<String>,
-        roomIdsToUnblur: Set<String>
-    ): List<GalleryListItem> {
-        val galleries = list.filter { it.roomType == GALLERY_TYPE }
-        val joined = galleries.mapNotNull { it.takeIf { it.membership == Membership.JOIN } }
-        val invites = galleries.mapNotNull { it.takeIf { it.membership == Membership.INVITE } }
+
+    private fun buildList(galleries: List<RoomSummary>): List<GalleryListItem> {
+        val joined = galleries.filter { it.membership == Membership.JOIN }
+        val invitesCount = galleries.filter { it.membership == Membership.INVITE }.size
         return mutableListOf<GalleryListItem>().apply {
-            addAll(invites.map {
-                it.toInvitedGalleryListItem(
-                    roomListHelper.shouldBlurIconFor(it, knownUsersIds, roomIdsToUnblur)
-                )
-            })
+            if (invitesCount > 0)
+                add(GalleryInvitesNotificationListItem(invitesCount))
+
             addAll(joined.map { it.toJoinedGalleryListItem() })
         }
     }
-
-    private fun shouldBlurIconFor(
-        roomId: String,
-        inviterId: String?,
-        knownUserIds: Set<String>,
-        roomIdsToUnblur: Set<String>
-    ): Boolean {
-        val isKnownUser = knownUserIds.contains(inviterId)
-        val isRoomUnbluredByUser = roomIdsToUnblur.contains(roomId)
-        return !isKnownUser && !isRoomUnbluredByUser
-    }
-
-    fun unblurProfileImageFor(id: String) = roomListHelper.unblurProfileImageFor(id)
 }

@@ -15,8 +15,7 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="@string/reporting_inappropriate_content"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/subheadline"
-        app:titleTextColor="@color/black">
+        app:titleTextAppearance="@style/subheadline">
 
         <org.futo.circles.core.view.LoadingButton
             android:id="@+id/btnReport"

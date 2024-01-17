@@ -4,11 +4,15 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.PictureDrawable
 import android.util.Size
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
+import com.caverock.androidsvg.SVG
+import jdenticon.Jdenticon
 import jp.wasabeef.glide.transformations.BlurTransformation
+import org.futo.circles.core.R
 import org.futo.circles.core.feature.blurhash.ThumbHash
 import org.futo.circles.core.feature.textDrawable.ColorGenerator
 import org.futo.circles.core.feature.textDrawable.TextDrawable
@@ -52,7 +56,7 @@ fun ImageView.loadEncryptedImage(
     } ?: loadMatrixImage(content.fileUrl, loadOriginalSize, preferredSize = preferredSize)
 }
 
-fun ImageView.loadProfileIcon(
+fun ImageView.loadRoomProfileIcon(
     url: String?,
     userId: String,
     loadOriginalSize: Boolean = false,
@@ -73,6 +77,20 @@ fun ImageView.loadProfileIcon(
     loadMatrixImage(url, loadOriginalSize, placeholder, preferredSize, session, applyBlur)
 }
 
+fun ImageView.loadUserProfileIcon(
+    url: String?,
+    userId: String,
+    session: Session? = null,
+    applyBlur: Boolean = false
+) {
+    post {
+        val svgString = Jdenticon.toSvg(userId, measuredWidth)
+        val svg = SVG.getFromString(svgString)
+        val placeholder = PictureDrawable(svg.renderToPicture())
+        loadMatrixImage(url, placeholder = placeholder, session = session, applyBlur = applyBlur)
+    }
+}
+
 
 @SuppressLint("CheckResult")
 fun ImageView.loadMatrixImage(
@@ -83,13 +101,24 @@ fun ImageView.loadMatrixImage(
     session: Session? = null,
     applyBlur: Boolean = false
 ) {
-    val currentSession = session ?: MatrixSessionProvider.currentSession
-    val size = if (loadOriginalSize) null else preferredSize ?: Size(width, height)
-    val resolvedUrl = currentSession?.resolveUrl(url, size)
-    Glide.with(this)
-        .load(resolvedUrl)
-        .fitCenter()
-        .error(placeholder)
-        .apply { if (applyBlur) transform(BlurTransformation(30)) }
-        .into(this)
+    post {
+        val currentSession = session ?: MatrixSessionProvider.currentSession
+        val size = if (loadOriginalSize) null
+        else preferredSize ?: Size(
+            measuredWidth,
+            measuredHeight
+        ).takeIf { measuredWidth > 0 && measuredHeight > 0 }
+        val resolvedUrl = currentSession?.resolveUrl(url, size)
+        Glide.with(this)
+            .load(resolvedUrl)
+            .fitCenter()
+            .placeholder(placeholder)
+            .error(placeholder)
+            .apply { if (applyBlur) transform(BlurTransformation(30)) }
+            .into(this)
+    }
+}
+
+fun ImageView.setIsEncryptedIcon(isEncrypted: Boolean) {
+    setImageResource(if (isEncrypted) R.drawable.ic_lock else R.drawable.ic_lock_open)
 }

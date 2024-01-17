@@ -17,7 +17,7 @@ class ChangeAccessLevelDataSource @Inject constructor(
     private val levelValue: Int = savedStateHandle.getOrThrow("levelValue")
     private val myUserLevelValue: Int = savedStateHandle.getOrThrow("myUserLevelValue")
 
-    fun getRolesList() = AccessLevel.values().map {
+    fun getRolesList() = AccessLevel.entries.map {
         AccessLevelListItem(
             Role.fromValue(it.levelValue, Role.Default.value),
             it.levelValue == levelValue

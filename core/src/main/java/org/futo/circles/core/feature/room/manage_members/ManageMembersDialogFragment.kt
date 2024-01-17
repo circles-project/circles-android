@@ -22,6 +22,7 @@ import org.futo.circles.core.model.CancelInvite
 import org.futo.circles.core.model.RemoveRoomUser
 import org.futo.circles.core.model.ResendInvite
 import org.futo.circles.core.model.UnbanUser
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 @AndroidEntryPoint
@@ -34,7 +35,13 @@ class ManageMembersDialogFragment :
     private val membersListAdapter by lazy {
         GroupMembersListAdapter(
             this,
-            onToggleOptions = { userId -> viewModel.toggleOptionsVisibility(userId) }
+            onToggleOptions = { userId -> viewModel.toggleOptionsVisibility(userId) },
+            onOpenUserPage = {
+                if (it == MatrixSessionProvider.currentSession?.myUserId) return@GroupMembersListAdapter
+                findNavController().navigateSafe(
+                    ManageMembersDialogFragmentDirections.toUserDialogFragment(it)
+                )
+            }
         )
     }
 

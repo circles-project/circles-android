@@ -74,6 +74,6 @@ class AcceptCircleInviteDialogFragment :
 
     override fun onRoomsListChanged(rooms: List<SelectableRoomListItem>) {
         binding.createCircleGroup.setIsVisible(rooms.isEmpty())
-        binding.selectCircleGroup.setIsVisible(!rooms.isEmpty())
+        binding.selectCircleGroup.setIsVisible(rooms.isNotEmpty())
     }
 }

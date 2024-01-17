@@ -9,7 +9,7 @@ import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.gone
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
@@ -39,7 +39,8 @@ class RoomWellKnownDialogFragment :
 
     private fun setupViews() {
         binding.btnRequest.setOnClickListener {
-            viewModel.sendKnockRequest(binding.tilRequestMessage.getText().takeIf { it.isNotEmpty() })
+            viewModel.sendKnockRequest(
+                binding.tilRequestMessage.getText().takeIf { it.isNotEmpty() })
             binding.btnRequest.setIsLoading(true)
         }
     }
@@ -52,7 +53,7 @@ class RoomWellKnownDialogFragment :
         )
         viewModel.knockRequestLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(R.string.request_sent))
+                showSuccess(getString(org.futo.circles.core.R.string.request_sent))
                 onBackPressed()
             },
             onRequestInvoked = { binding.btnRequest.setIsLoading(false) })
@@ -76,7 +77,7 @@ class RoomWellKnownDialogFragment :
         with(binding) {
             ivCover.apply {
                 if (roomInfo.avatarUrl != null || roomInfo.name != null)
-                    loadProfileIcon(roomInfo.avatarUrl, roomInfo.name ?: "")
+                    loadRoomProfileIcon(roomInfo.avatarUrl, roomInfo.name ?: "")
                 else setImageResource(R.drawable.ic_logo)
             }
             tvRoomName.apply {

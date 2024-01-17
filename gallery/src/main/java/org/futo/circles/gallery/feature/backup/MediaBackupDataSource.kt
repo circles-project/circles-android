@@ -9,12 +9,12 @@ import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getGalleries
 import org.futo.circles.gallery.model.MediaFolderListItem
 import org.futo.circles.gallery.model.MediaToBackupItem
 import org.futo.circles.gallery.model.toMediaToBackupItem
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import java.io.File
 import javax.inject.Inject
 
@@ -79,7 +79,7 @@ class MediaBackupDataSource @Inject constructor(
     }
 
     private suspend fun createGalleryIfNotExist(bucketId: String): String {
-        var roomId = getJoinedRoomIdByTag(bucketId)
+        var roomId = getJoinedGalleryIdByTag(bucketId)
         if (roomId == null) {
             roomId = createRoomDataSource.createRoom(
                 circlesRoom = Gallery(),
@@ -91,12 +91,10 @@ class MediaBackupDataSource @Inject constructor(
         return roomId
     }
 
-    private fun getJoinedRoomIdByTag(tag: String): String? {
-        val session = MatrixSessionProvider.currentSession ?: return null
-        return session.roomService().getRoomSummaries(roomSummaryQueryParams {
-            memberships = listOf(Membership.JOIN)
-        }).firstOrNull { it.hasTag(tag) }?.roomId
-    }
+    private fun getJoinedGalleryIdByTag(tag: String): String? =
+        getGalleries(membershipFilter = listOf(Membership.JOIN))
+            .firstOrNull { it.hasTag(tag) }?.roomId
+
 
     private fun getMediaCursor(
         selection: String? = null

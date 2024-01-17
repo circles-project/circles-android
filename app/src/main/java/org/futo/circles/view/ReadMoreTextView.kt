@@ -9,10 +9,14 @@ import android.text.TextPaint
 import android.text.TextUtils
 import android.text.style.TextAppearanceSpan
 import android.util.AttributeSet
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.use
 import androidx.core.text.buildSpannedString
+import androidx.core.text.getSpans
 import androidx.core.text.inSpans
+import androidx.core.text.toSpannable
+import io.noties.markwon.core.spans.LinkSpan
 import org.futo.circles.R
 import kotlin.text.Typography.ellipsis
 import kotlin.text.Typography.nbsp
@@ -47,7 +51,17 @@ class ReadMoreTextView @JvmOverloads constructor(
         }
 
         if (hasOnClickListeners()) throw IllegalStateException("Custom onClickListener not supported")
-        super.setOnClickListener { toggle() }
+        super.setOnClickListener {
+            toggle()
+            if (collapseText == originalText &&
+                originalText?.toSpannable()
+                    ?.getSpans<LinkSpan>(0, originalText?.length ?: 0)?.size == 0
+            ) (parent?.parent as? ViewGroup)?.performClick()
+        }
+
+        super.setOnLongClickListener {
+            (parent?.parent as? ViewGroup)?.performLongClick() == true
+        }
 
         if (originalText != null) invalidateText()
 

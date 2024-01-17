@@ -8,15 +8,14 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.DialogFragmentEditProfileBinding
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.getText
-import org.futo.circles.core.extensions.loadProfileIcon
-import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -83,7 +82,7 @@ class EditProfileDialogFragment :
 
     private fun setInitialUserInfo(user: User) {
         with(binding) {
-            ivProfile.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
+            ivProfile.loadUserProfileIcon(user.avatarUrl, user.userId)
             tilName.editText?.setText(user.displayName)
             tilUserId.editText?.setText(user.userId)
         }

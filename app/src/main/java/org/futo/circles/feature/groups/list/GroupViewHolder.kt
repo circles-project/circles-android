@@ -9,28 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsEncryptedIcon
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.databinding.ListItemInvitedGroupBinding
 import org.futo.circles.databinding.ListItemJoinedGroupBinding
-import org.futo.circles.extensions.setIsEncryptedIcon
+import org.futo.circles.model.GroupInvitesNotificationListItem
 import org.futo.circles.model.GroupListItem
 import org.futo.circles.model.GroupListItemPayload
-import org.futo.circles.model.InvitedGroupListItem
 import org.futo.circles.model.JoinedGroupListItem
 
 
 abstract class GroupViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: GroupListItem)
-
-    protected fun setIsEncrypted(lockIcon: ImageView, isEncrypted: Boolean) {
-        lockIcon.setIsEncryptedIcon(isEncrypted)
-    }
-
-    protected fun setTitle(titleView: TextView, title: String) {
-        titleView.text = title
-    }
 }
 
 class JoinedGroupViewHolder(
@@ -49,7 +41,7 @@ class JoinedGroupViewHolder(
     override fun bind(data: GroupListItem) {
         if (data !is JoinedGroupListItem) return
 
-        binding.ivGroup.loadProfileIcon(data.info.avatarUrl, data.info.title)
+        binding.ivGroup.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
         setIsEncrypted(binding.ivLock, data.isEncrypted)
         setTitle(binding.tvGroupTitle, data.info.title)
         setTopic(data.topic)
@@ -65,6 +57,14 @@ class JoinedGroupViewHolder(
         data.knocksCount?.let { setMembersCount(data.membersCount ?: 0, it) }
         data.timestamp?.let { setUpdateTime(it) }
         data.unreadCount?.let { setUnreadCount(it) }
+    }
+
+    private fun setIsEncrypted(lockIcon: ImageView, isEncrypted: Boolean) {
+        lockIcon.setIsEncryptedIcon(isEncrypted)
+    }
+
+    private fun setTitle(titleView: TextView, title: String) {
+        titleView.text = title
     }
 
     private fun setTopic(topic: String) {
@@ -102,38 +102,22 @@ class JoinedGroupViewHolder(
     }
 }
 
-class InvitedGroupViewHolder(
+class GroupInviteNotificationViewHolder(
     parent: ViewGroup,
-    onInviteClicked: (Int, Boolean) -> Unit,
-    onShowProfileIconClicked: (Int) -> Unit
-) : GroupViewHolder(inflate(parent, ListItemInvitedGroupBinding::inflate)) {
+    onClicked: () -> Unit
+) : GroupViewHolder(inflate(parent, ListItemInviteNotificationBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemInvitedGroupBinding
+    private val binding = baseBinding as ListItemInviteNotificationBinding
 
     init {
-        onClick(binding.btnAccept) { position -> onInviteClicked(position, true) }
-        onClick(binding.btnDecline) { position -> onInviteClicked(position, false) }
-        onClick(binding.ivGroup) { position -> onShowProfileIconClicked(position) }
+        onClick(binding.lInviteNotification) { _ -> onClicked() }
     }
 
     override fun bind(data: GroupListItem) {
-        if (data !is InvitedGroupListItem) return
-
-        with(binding) {
-            ivGroup.loadProfileIcon(
-                data.info.avatarUrl,
-                data.info.title,
-                applyBlur = data.shouldBlurIcon
-            )
-            tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
-            setIsEncrypted(ivLock, data.isEncrypted)
-            setTitle(tvGroupTitle, data.info.title)
-            tvInviterName.text = context.getString(
-                org.futo.circles.core.R.string.invited_by_format,
-                data.inviterName
-            )
-        }
+        if (data !is GroupInvitesNotificationListItem) return
+        binding.tvInvitesMessage.text =
+            context.getString(R.string.group_invites_notification_format, data.invitesCount)
     }
 }

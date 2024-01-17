@@ -1,0 +1,8 @@
+- Initial sync improvements
+- Jdenticon for user's avatar placeholders
+- Media usage info (only for servers that support it)
+- Connect with other user option
+- New screens for invitations
+- Ignored user section in Settings
+- More categories on People tab
+- Bug fixes and performance improvements

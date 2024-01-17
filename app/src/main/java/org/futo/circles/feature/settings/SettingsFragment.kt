@@ -1,6 +1,7 @@
 package org.futo.circles.feature.settings
 
 import android.os.Bundle
+import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -13,11 +14,12 @@ import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
@@ -27,6 +29,7 @@ import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.matrix.android.sdk.api.session.user.model.User
+import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -43,8 +46,17 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateMediaUsageInfo()
+    }
+
     private fun setupViews() {
         with(binding) {
+            tvManageSubscription.apply {
+                setIsVisible(CirclesAppConfig.isGplayFlavor())
+                setOnClickListener { navigator.navigateToSubscriptionInfo() }
+            }
             tvLogout.setOnClickListener {
                 withConfirmation(LogOut()) {
                     loadingDialog.handleLoading(LoadingData(R.string.log_out))
@@ -52,7 +64,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 }
             }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
-            ivProfile.setOnClickListener { navigator.navigateToProfile() }
+            ivEditProfile.setOnClickListener { navigator.navigateToProfile() }
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
             tvDeactivate.setOnClickListener {
                 withConfirmation(DeactivateAccount()) {
@@ -64,6 +76,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             ivShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
+            tvIgnoredUsers.setOnClickListener { navigator.navigateToIgnoredUsers() }
         }
         setVersion()
     }
@@ -96,11 +109,28 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
+        viewModel.mediaUsageInfoLiveData.observeResponse(this,
+            error = { bindMediaUsageProgress(null) },
+            success = { bindMediaUsageProgress(it) })
+    }
+
+    private fun bindMediaUsageProgress(mediaUsage: MediaUsageInfo?) {
+        binding.lMediaStorage.setIsVisible(mediaUsage != null)
+        mediaUsage ?: return
+        binding.mediaStorageProgress.apply {
+            max = mediaUsage.storageSize.toInt()
+            progress = mediaUsage.usedSize.toInt()
+        }
+        binding.tvMediaStorageInfo.text = getString(
+            R.string.media_usage_format,
+            Formatter.formatFileSize(requireContext(), mediaUsage.usedSize),
+            Formatter.formatFileSize(requireContext(), mediaUsage.storageSize),
+        )
     }
 
     private fun bindProfile(user: User) {
         with(binding) {
-            ivProfile.loadProfileIcon(user.avatarUrl, user.notEmptyDisplayName())
+            ivProfile.loadUserProfileIcon(user.avatarUrl, user.userId)
             tvUserName.text = user.notEmptyDisplayName()
             tvUserId.text = user.userId
         }

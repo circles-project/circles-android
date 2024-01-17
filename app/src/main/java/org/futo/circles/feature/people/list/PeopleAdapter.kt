@@ -9,29 +9,23 @@ import org.futo.circles.model.PeopleUserListItemPayload
 
 class PeopleAdapter(
     private val onUserClicked: (String) -> Unit,
-    private val onUnIgnore: (String) -> Unit,
-    private val onRequestClicked: (String, Boolean) -> Unit
+    private val onOpenRequestsClicked: () -> Unit
 ) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is PeopleUserListItem && old is PeopleUserListItem) {
-        PeopleUserListItemPayload(user = new.user.takeIf { it != old.user })
+        if (new.isIgnored != old.isIgnored) null
+        else PeopleUserListItemPayload(user = new.user.takeIf { it != old.user })
     } else null
 }) {
 
     override fun getItemViewType(position: Int): Int = getItem(position).type.ordinal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
-        return when (PeopleItemType.values()[viewType]) {
+        return when (PeopleItemType.entries[viewType]) {
             PeopleItemType.Header -> PeopleHeaderViewHolder(parent)
-            PeopleItemType.Request -> PeopleRequestUserViewHolder(
-                parent,
-                onRequestClicked = { position, isAccepted ->
-                    onRequestClicked(getItem(position).id, isAccepted)
-                }
+            PeopleItemType.RequestNotification -> FollowRequestNotificationViewHolder(
+                parent = parent, onClicked = { onOpenRequestsClicked() }
             )
-            PeopleItemType.Ignored -> PeopleIgnoredUserViewHolder(
-                parent,
-                onUnIgnore = { position -> onUnIgnore(getItem(position).id) }
-            )
+
             else -> PeopleDefaultUserViewHolder(
                 parent,
                 onUserClicked = { position -> onUserClicked(getItem(position).id) }

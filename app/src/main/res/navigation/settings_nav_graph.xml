@@ -40,6 +40,12 @@
         <action
             android:id="@+id/to_pushNotificationsSettingsDialogFragment"
             app:destination="@id/pushNotificationsSettingsDialogFragment" />
+        <action
+            android:id="@+id/to_manageSubscriptionDialogFragment"
+            app:destination="@id/manageSubscriptionDialogFragment" />
+        <action
+            android:id="@+id/to_ignoredUsersDialogFragment"
+            app:destination="@id/ignoredUsersDialogFragment" />
     </fragment>
 
     <dialog
@@ -74,5 +80,14 @@
         android:id="@+id/reAuthStagesDialogFragment"
         android:name="org.futo.circles.auth.feature.reauth.ReAuthStagesDialogFragment"
         tools:layout="@layout/fragment_login_stages" />
+
+    <dialog
+        android:id="@+id/manageSubscriptionDialogFragment"
+        android:name="org.futo.circles.auth.feature.manage_subscription.ManageSubscriptionDialogFragment"
+        tools:layout="@layout/dialog_fragment_manage_subscription" />
+    <dialog
+        android:id="@+id/ignoredUsersDialogFragment"
+        android:name="org.futo.circles.feature.ignored.IgnoredUsersDialogFragment"
+        tools:layout="@layout/dialog_fragment_ignored_users" />
 
 </navigation>

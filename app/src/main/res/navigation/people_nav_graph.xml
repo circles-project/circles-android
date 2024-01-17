@@ -20,11 +20,22 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_invites"
+            app:destination="@id/invites_nav_graph">
+
+            <argument
+                android:name="type"
+                android:defaultValue="People"
+                app:argType="org.futo.circles.core.model.InviteTypeArg"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
     <dialog
         android:id="@+id/userFragment"
-        android:name="org.futo.circles.feature.people.user.UserDialogFragment"
+        android:name="org.futo.circles.core.feature.user.UserDialogFragment"
         tools:layout="@layout/dialog_fragment_user">
 
         <argument
@@ -33,5 +44,7 @@
             app:nullable="false" />
 
     </dialog>
+
+    <include app:graph="@navigation/invites_nav_graph" />
 
 </navigation>

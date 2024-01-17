@@ -21,7 +21,17 @@ sealed class PostContent(open val type: PostContentType) {
 data class TextContent(
     val message: String,
     val messageSpanned: Spanned
-) : PostContent(PostContentType.TEXT_CONTENT)
+) : PostContent(PostContentType.TEXT_CONTENT) {
+
+    // to optimize payload calculation (spanned==spanned will return false and trigger unnecessary list update)
+    override fun equals(other: Any?): Boolean = this.message == (other as? TextContent)?.message
+
+    override fun hashCode(): Int {
+        var result = message.hashCode()
+        result = 31 * result + messageSpanned.hashCode()
+        return result
+    }
+}
 
 data class MediaContent(
     override val type: PostContentType,
@@ -32,6 +42,14 @@ data class MediaContent(
     val thumbHash: String?
 ) : PostContent(type) {
 
+    override fun equals(other: Any?): Boolean =
+        this.type == (other as? MediaContent)?.type &&
+                this.caption == (other as? MediaContent)?.caption &&
+                this.mediaFileData == (other as? MediaContent)?.mediaFileData &&
+                this.thumbnailFileData == (other as? MediaContent)?.thumbnailFileData &&
+                this.thumbHash == (other as? MediaContent)?.thumbHash
+
+
     fun thumbnailOrFullSize(width: Int) = thumbnailFileData?.let {
         Size(width, (width / it.aspectRatio).toInt())
     } ?: Size(width, (width / mediaFileData.aspectRatio).toInt())
@@ -39,6 +57,16 @@ data class MediaContent(
 
     fun getMediaType(): MediaType =
         if (type == PostContentType.VIDEO_CONTENT) MediaType.Video else MediaType.Image
+
+    override fun hashCode(): Int {
+        var result = type.hashCode()
+        result = 31 * result + (caption?.hashCode() ?: 0)
+        result = 31 * result + (captionSpanned?.hashCode() ?: 0)
+        result = 31 * result + mediaFileData.hashCode()
+        result = 31 * result + (thumbnailFileData?.hashCode() ?: 0)
+        result = 31 * result + (thumbHash?.hashCode() ?: 0)
+        return result
+    }
 }
 
 data class PollContent(

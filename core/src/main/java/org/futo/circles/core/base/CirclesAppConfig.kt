@@ -14,13 +14,7 @@ object CirclesAppConfig {
     var appName = ""
         private set
 
-    var usServerDomain = ""
-        private set
-
-    var euServerDomain = ""
-        private set
-
-    var isSubscriptionsEnabled = false
+    var serverDomains = emptyList<String>()
         private set
 
     var isMediaBackupEnabled = false
@@ -28,14 +22,15 @@ object CirclesAppConfig {
     var isRageshakeEnabled = false
         private set
 
+    fun isGplayFlavor(): Boolean = buildFlavourName.contains("gplay", true)
+
     data class Initializer(
         private var appId: String? = null,
         private var version: String? = null,
         private var flavour: String? = null,
         private var appName: String? = null,
-        private var usDomain: String? = null,
+        private var serverDomains: List<String> = emptyList(),
         private var euDomain: String? = null,
-        private var subscriptionEnabled: Boolean = false,
         private var mediaBackupEnabled: Boolean = false,
         private var rageshakeEnabled: Boolean = false
     ) {
@@ -49,12 +44,7 @@ object CirclesAppConfig {
 
         fun appName(appName: String) = apply { this.appName = appName }
 
-        fun usDomain(domain: String) = apply { this.usDomain = domain }
-
-        fun euDomain(domain: String) = apply { this.euDomain = domain }
-
-        fun isSubscriptionEnabled(isEnabled: Boolean) =
-            apply { this.subscriptionEnabled = isEnabled }
+        fun serverDomains(domains: List<String>) = apply { this.serverDomains = domains }
 
         fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
 
@@ -74,13 +64,9 @@ object CirclesAppConfig {
             CirclesAppConfig.appName = appName?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("appName is empty $appName")
 
-            usServerDomain = usDomain?.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("Illegal US server domain $usDomain")
+            CirclesAppConfig.serverDomains = serverDomains.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("Illegal empty server domains")
 
-            euServerDomain = euDomain?.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("Illegal EU server domain $euDomain")
-
-            isSubscriptionsEnabled = subscriptionEnabled
             isMediaBackupEnabled = mediaBackupEnabled
             isRageshakeEnabled = rageshakeEnabled
         }

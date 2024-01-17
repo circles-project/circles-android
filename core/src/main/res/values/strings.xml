@@ -144,4 +144,26 @@
     <string name="knock_requests_empty_message">You don\'t have any knock request</string>
     <string name="create">Create</string>
     <string name="show">Show</string>
+    <string name="gallery_invites_notification_format">Show %d Gallery invitations</string>
+    <string name="connection_invites_requests">Connection invites/requests</string>
+    <string name="group_invitations">Group invitations</string>
+    <string name="gallery_invitations">Gallery invitations</string>
+    <string name="circle_invitations">Circle invitations</string>
+    <string name="no_new_invitations_format">You don\'t have any %s</string>
+    <string name="following">Following</string>
+    <string name="others">Others</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="unfollow_user_timeline">Are you sure you want to unfollow this timeline?</string>
+    <string name="unfollow_user_message">Are you sure you want to unfollow this user?</string>
+    <string name="ignore">Ignore</string>
+    <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
+    <string name="request_sent">Request sent</string>
+    <string name="unignore">Unignore</string>
+    <string name="user_ignored">User ignored</string>
+    <string name="user_unignored">User un ignored</string>
+    <string name="not_following_any_circles_format">Not following any Circles for %s</string>
+    <string name="requests_to_follow_you">requests to follow you</string>
+    <string name="invites_you_to_connect">invites you to connect</string>
+    <string name="invites">Invites</string>
+    <string name="requests">Requests</string>
 </resources>

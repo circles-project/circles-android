@@ -53,7 +53,7 @@ data class CirclesSpace(
 
 data class SharedCirclesSpace(
     override val nameId: Int? = R.string.shared_circles,
-    override val parentAccountDataKey: String? = CIRCLES_SPACE_ACCOUNT_DATA_KEY,
+    override val parentAccountDataKey: String? = ROOT_SPACE_ACCOUNT_DATA_KEY,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK,
     override val accountDataKey: String? = PROFILE_SPACE_ACCOUNT_DATA_KEY

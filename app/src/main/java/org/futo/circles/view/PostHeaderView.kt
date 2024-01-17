@@ -7,14 +7,14 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
 import org.futo.circles.core.extensions.getAttributes
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.core.extensions.setIsEncryptedIcon
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.databinding.ViewPostHeaderBinding
-import org.futo.circles.extensions.setIsEncryptedIcon
 import java.util.Date
 
 class PostHeaderView(
@@ -53,7 +53,7 @@ class PostHeaderView(
     ) {
         with(binding) {
             ivSenderImage.apply {
-                loadProfileIcon(avatarUrl, name)
+                loadUserProfileIcon(avatarUrl, userId)
                 setOnClickListener {
                     if (userId != MatrixSessionProvider.currentSession?.myUserId)
                         optionsListener?.onUserClicked(userId)

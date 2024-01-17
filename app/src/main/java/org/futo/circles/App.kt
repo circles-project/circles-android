@@ -20,6 +20,7 @@ import org.matrix.android.sdk.api.session.Session
 import timber.log.Timber
 import javax.inject.Inject
 
+
 @HiltAndroidApp
 class App : Application() {
 
@@ -45,8 +46,12 @@ class App : Application() {
                 BuildConfig.FLAVOR
             )
             .appName(getString(R.string.app_name))
-            .euDomain(getString(if (BuildConfig.DEBUG) R.string.debug_eu_domain else R.string.release_eu_domain))
-            .usDomain(getString(if (BuildConfig.DEBUG) R.string.debug_us_domain else R.string.release_us_domain))
+            .serverDomains(
+                applicationContext.resources.getStringArray(
+                    if (BuildConfig.DEBUG) R.array.debug_domains
+                    else R.array.release_domains
+                ).toList()
+            )
             .init()
 
         MatrixSessionProvider.initSession(
@@ -67,7 +72,6 @@ class App : Application() {
         notificationUtils.createNotificationChannels()
         setupLifecycleObserver()
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
-
     }
 
     private fun setupLifecycleObserver() {

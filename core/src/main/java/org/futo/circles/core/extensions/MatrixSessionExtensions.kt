@@ -6,13 +6,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.mapLatest
+import org.futo.circles.core.utils.getAllCirclesRoomsLiveData
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.content.ContentUrlResolver
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 import org.matrix.android.sdk.api.session.user.model.User
 
 private val sessionCoroutineScopes = HashMap<String, CoroutineScope>(1)
@@ -50,20 +50,18 @@ fun Session.getUserIdsToExclude() = mutableListOf(
 
 fun Session.getServerDomain() = myUserId.substringAfter(":")
 
-suspend fun Session.getOrFetchUser(userId: String): User =
-    getUser(userId) ?: userService().resolveUser(userId)
 
-fun Session.getKnownUsersFlow() = roomService().getRoomSummariesLive(roomSummaryQueryParams {
-        memberships = listOf(Membership.JOIN)
-    }).asFlow()
-        .mapLatest { roomSummaries ->
-            val knowUsers = mutableSetOf<User>()
-            roomSummaries.forEach { summary ->
-                val joinedMembersIds = getRoom(summary.roomId)?.membershipService()
-                    ?.getRoomMembers(roomMemberQueryParams {
-                        memberships = listOf(Membership.JOIN)
-                    })?.map { it.userId } ?: emptyList()
-                joinedMembersIds.forEach { knowUsers.add(getOrFetchUser(it)) }
+fun Session.getKnownUsersFlow() =
+    getAllCirclesRoomsLiveData(listOf(Membership.JOIN)).asFlow().mapLatest { roomSummaries ->
+        val knowUsers = mutableSetOf<User>()
+        roomSummaries.forEach { summary ->
+            val joinedMembersIds = getRoom(summary.roomId)?.membershipService()
+                ?.getRoomMembers(roomMemberQueryParams {
+                    memberships = listOf(Membership.JOIN)
+                })?.map { it.userId } ?: emptyList()
+            joinedMembersIds.forEach {
+                getUser(it)?.let { user -> knowUsers.add(user) }
             }
-            knowUsers.toList().filterNot { getUserIdsToExclude().contains(it.userId) }
         }
+        knowUsers.toList().filterNot { getUserIdsToExclude().contains(it.userId) }
+    }

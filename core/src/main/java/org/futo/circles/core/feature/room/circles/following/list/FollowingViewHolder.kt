@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ListItemFollowingBinding
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.base.list.ViewBindingHolder
@@ -28,7 +28,7 @@ class FollowingViewHolder(
     fun bind(data: FollowingListItem) {
         binding.tvCircleName.text = data.name
         binding.tvUserName.text = data.ownerName
-        binding.ivRoom.loadProfileIcon(data.avatarUrl, data.name)
+        binding.ivRoom.loadRoomProfileIcon(data.avatarUrl, data.name)
         binding.tvUpdateTime.text = context.getString(
             R.string.last_updated_formatter, DateUtils.getRelativeTimeSpanString(
                 data.updatedTime, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS

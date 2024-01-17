@@ -62,8 +62,7 @@ class PostLayout(
             }
 
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                if (binding.postFooter.areUserAbleToReply())
-                    post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
+                openReplies()
                 return true
             }
 
@@ -75,9 +74,18 @@ class PostLayout(
         }
 
     init {
-        binding.lvContent.setOnClickListener {
-            post?.let {
-                if (it.content.isMedia()) optionsListener?.onShowPreview(it.postInfo.roomId, it.id)
+        binding.lvContent.apply {
+            setOnClickListener {
+                post?.let {
+                    if (it.content.isMedia()) optionsListener?.onShowPreview(
+                        it.postInfo.roomId,
+                        it.id
+                    ) else openReplies()
+                }
+            }
+            setOnLongClickListener {
+                binding.postHeader.showMenu()
+                true
             }
         }
         binding.lCard.setOnTouchListener { _, event ->
@@ -113,6 +121,11 @@ class PostLayout(
 
     private fun setIsEdited(isEdited: Boolean) {
         binding.tvEditedLabel.setIsVisible(isEdited)
+    }
+
+    private fun openReplies() {
+        if (binding.postFooter.areUserAbleToReply())
+            post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
     }
 
     private fun setMentionBorder(content: PostContent) {

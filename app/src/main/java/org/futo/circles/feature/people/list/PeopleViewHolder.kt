@@ -3,47 +3,25 @@ package org.futo.circles.feature.people.list
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
+import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.databinding.ListItemPeopleDefaultBinding
-import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
-import org.futo.circles.databinding.ListItemPeopleRequestBinding
 import org.futo.circles.model.PeopleHeaderItem
 import org.futo.circles.model.PeopleListItem
-import org.futo.circles.model.PeopleRequestListItem
+import org.futo.circles.model.PeopleRequestNotificationListItem
 import org.futo.circles.model.PeopleUserListItem
 import org.futo.circles.model.PeopleUserListItemPayload
 
 abstract class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(data: PeopleListItem)
     open fun bindPayload(data: PeopleUserListItemPayload) {}
-}
-
-class PeopleIgnoredUserViewHolder(
-    parent: ViewGroup,
-    private val onUnIgnore: (Int) -> Unit
-) : PeopleViewHolder(inflate(parent, ListItemPeopleIgnoredBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemPeopleIgnoredBinding
-
-    init {
-        onClick(binding.btnUnIgnore) { position -> onUnIgnore(position) }
-    }
-
-    override fun bind(data: PeopleListItem) {
-        (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
-    }
-
-    override fun bindPayload(data: PeopleUserListItemPayload) {
-        data.user?.let { binding.userItem.bind(it) }
-    }
 }
 
 class PeopleDefaultUserViewHolder(
@@ -60,46 +38,60 @@ class PeopleDefaultUserViewHolder(
     }
 
     override fun bind(data: PeopleListItem) {
-        (data as? PeopleUserListItem)?.let { binding.userItem.bind(it.user) }
+        val userItem = (data as? PeopleUserListItem) ?: return
+        if (userItem.isIgnored) setUnBlurClick(userItem)
+        with(binding) {
+            tvUserName.text = userItem.user.name
+            tvUserId.text = userItem.user.id
+            ivUserImage.loadUserProfileIcon(
+                userItem.user.avatarUrl,
+                userItem.user.id,
+                applyBlur = userItem.isIgnored
+            )
+            tvIgnoredLabel.setIsVisible(userItem.isIgnored)
+            binding.tvShowProfileImage.setIsVisible(userItem.isIgnored)
+        }
     }
 
     override fun bindPayload(data: PeopleUserListItemPayload) {
-        data.user?.let { binding.userItem.bind(it) }
+        with(binding) {
+            data.user?.let {
+                tvUserName.text = it.name
+                tvUserId.text = it.id
+                ivUserImage.loadUserProfileIcon(it.avatarUrl, it.id)
+            }
+        }
+    }
+
+    private fun setUnBlurClick(userItem: PeopleUserListItem) {
+        binding.ivUserImage.setOnClickListener {
+            binding.ivUserImage.loadUserProfileIcon(
+                userItem.user.avatarUrl,
+                userItem.user.id,
+                applyBlur = false
+            )
+            binding.tvShowProfileImage.gone()
+        }
     }
 }
 
-class PeopleRequestUserViewHolder(
+class FollowRequestNotificationViewHolder(
     parent: ViewGroup,
-    private val onRequestClicked: (Int, Boolean) -> Unit
-) : PeopleViewHolder(inflate(parent, ListItemPeopleRequestBinding::inflate)) {
+    onClicked: () -> Unit
+) : PeopleViewHolder(inflate(parent, ListItemInviteNotificationBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemPeopleRequestBinding
+    private val binding = baseBinding as ListItemInviteNotificationBinding
 
     init {
-        onClick(binding.btnAccept) { position -> onRequestClicked(position, true) }
-        onClick(binding.btnDecline) { position -> onRequestClicked(position, false) }
+        onClick(binding.lInviteNotification) { _ -> onClicked() }
     }
 
     override fun bind(data: PeopleListItem) {
-        val user = (data as? PeopleRequestListItem)?.user ?: return
-        bindUser(user)
-        binding.tvReasonMessage.apply {
-            setIsVisible(data.reasonMessage != null)
-            text = data.reasonMessage
-        }
-    }
-
-    override fun bindPayload(data: PeopleUserListItemPayload) {
-        data.user?.let { bindUser(it) }
-    }
-
-    private fun bindUser(user: CirclesUserSummary) {
-        with(binding) {
-            tvUserName.text = user.name
-            ivUserImage.loadProfileIcon(user.avatarUrl, user.name)
-        }
+        if (data !is PeopleRequestNotificationListItem) return
+        binding.tvInvitesMessage.text =
+            context.getString(R.string.show_connection_invites_format, data.requestsCount)
     }
 }
 

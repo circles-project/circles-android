@@ -22,7 +22,6 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
-import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
@@ -75,15 +74,13 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms),
         binding.rvRooms.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.circles_empty_message))
+                setArrowVisible(true)
             })
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = CirclesListAdapter(
                 onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
-                onInviteClicked = { roomListItem, isAccepted ->
-                    onInviteClicked(roomListItem, isAccepted)
-                },
-                onUnblurProfileIconClicked = { roomListItem ->
-                    viewModel.unblurProfileIcon(roomListItem)
+                onOpenInvitesClicked = {
+                    findNavController().navigateSafe(CirclesFragmentDirections.toInvites())
                 }
             ).also { listAdapter = it }
             bindToFab(binding.fbAddRoom)
@@ -97,7 +94,6 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms),
             listAdapter?.submitList(it)
             binding.rvRooms.notifyItemsChanged()
         }
-        viewModel.inviteResultLiveData.observeResponse(this)
         viewModel.createTimelineLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
         }
@@ -107,23 +103,11 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms),
             })
     }
 
-    private fun onInviteClicked(room: CircleListItem, isAccepted: Boolean) {
-        if (showNoInternetConnection()) return
-        if (isAccepted) onAcceptInviteClicked(room)
-        else viewModel.rejectInvite(room.id)
-    }
-
     private fun onRoomListItemClicked(room: CircleListItem) {
         viewModel.createTimeLineIfNotExist(room.id)
     }
 
     private fun navigateToCreateRoom() {
         findNavController().navigateSafe(CirclesFragmentDirections.toCreateCircleDialogFragment())
-    }
-
-    private fun onAcceptInviteClicked(room: CircleListItem) {
-        findNavController().navigateSafe(
-            CirclesFragmentDirections.toAcceptCircleInviteDialogFragment(room.id)
-        )
     }
 }

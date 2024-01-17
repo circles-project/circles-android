@@ -23,6 +23,7 @@ import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.model.message.MessageImageContent
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 import org.matrix.android.sdk.api.session.room.model.relation.RelationDefaultContent
+import org.matrix.android.sdk.api.session.room.model.relation.ReplyToContent
 import org.matrix.android.sdk.api.util.Cancelable
 import org.matrix.android.sdk.api.util.CancelableBag
 import org.matrix.android.sdk.internal.util.CancelableWork
@@ -88,12 +89,22 @@ class SendMessageDataSource @Inject constructor(@ApplicationContext private val 
         val additionalContent = mutableMapOf<String, Any>()
         caption?.let { additionalContent[MediaCaptionFieldKey] = it }
 
+        val relatesTo = threadEventId?.let {
+            RelationDefaultContent(
+                type = RelationType.THREAD,
+                eventId = it,
+                isFallingBack = true,
+                inReplyTo = ReplyToContent(eventId = it)
+            )
+        }
+
         return roomForMessage.sendService().sendMedia(
             content,
             compressBeforeSending,
             emptySet(),
             rootThreadEventId = threadEventId,
-            additionalContent = additionalContent
+            additionalContent = additionalContent,
+            relatesTo = relatesTo
         )
     }
 

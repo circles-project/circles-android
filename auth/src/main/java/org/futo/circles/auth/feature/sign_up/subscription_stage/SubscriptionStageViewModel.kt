@@ -22,15 +22,19 @@ class SubscriptionStageViewModel @Inject constructor(
     val purchaseLiveData = SingleEventLiveData<Response<Unit>>()
     val subscriptionsListLiveData = MutableLiveData<Response<List<SubscriptionListItem>>>()
 
-    fun validateSubscription(subscriptionReceiptData: SubscriptionReceiptData) {
+    fun initiateSubscriptionStage(subscriptionManager: SubscriptionManager) {
         launchBg {
-            subscribeLiveData.postValue(dataSource.validateSubscription(subscriptionReceiptData))
+            when (val activeSubscriptionResult =
+                getLastActiveSubscriptionReceipt(subscriptionManager)) {
+                is Response.Success -> validateSubscription(activeSubscriptionResult.data)
+                is Response.Error -> loadSubscriptionsList(subscriptionManager)
+            }
         }
     }
 
-    fun loadSubscriptionsList(subscriptionManager: SubscriptionManager) {
+    fun validateSubscription(subscriptionReceiptData: SubscriptionReceiptData) {
         launchBg {
-            subscriptionsListLiveData.postValue(subscriptionManager.getDetails(dataSource.getProductIdsList()))
+            subscribeLiveData.postValue(dataSource.validateSubscription(subscriptionReceiptData))
         }
     }
 
@@ -39,5 +43,13 @@ class SubscriptionStageViewModel @Inject constructor(
             purchaseLiveData.postValue(subscriptionManager.purchaseProduct(productId))
         }
     }
+
+    private suspend fun loadSubscriptionsList(subscriptionManager: SubscriptionManager) {
+        val details = subscriptionManager.getDetails(dataSource.getProductIdsList())
+        subscriptionsListLiveData.postValue(details)
+    }
+
+    private suspend fun getLastActiveSubscriptionReceipt(subscriptionManager: SubscriptionManager) =
+        subscriptionManager.getActiveSubscriptionReceipt()
 
 }

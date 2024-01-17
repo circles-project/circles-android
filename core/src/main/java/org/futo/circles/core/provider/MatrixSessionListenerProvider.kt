@@ -1,5 +1,12 @@
 package org.futo.circles.core.provider
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.coroutineScope
+import org.futo.circles.core.extensions.createResult
+import org.matrix.android.sdk.api.auth.data.sessionId
 import org.matrix.android.sdk.api.failure.GlobalError
 import org.matrix.android.sdk.api.session.Session
 
@@ -10,11 +17,21 @@ object MatrixSessionListenerProvider {
 
     val sessionListener: Session.Listener = object : Session.Listener {
         override fun onGlobalError(session: Session, globalError: GlobalError) {
-            if (globalError is GlobalError.InvalidToken) {
-                onInvalidToken?.invoke(globalError)
-                onInvalidToken = null
-            }
+            if (globalError !is GlobalError.InvalidToken) return
 
+            session.coroutineScope.launch(Dispatchers.IO) {
+                val refreshResult = createResult {
+                    MatrixInstanceProvider.matrix.authenticationService()
+                        .refreshToken(session.sessionParams.credentials.sessionId())
+                }
+
+                if (refreshResult is Response.Error) {
+                    withContext(Dispatchers.Main) {
+                        onInvalidToken?.invoke(globalError)
+                        onInvalidToken = null
+                    }
+                }
+            }
         }
     }
 

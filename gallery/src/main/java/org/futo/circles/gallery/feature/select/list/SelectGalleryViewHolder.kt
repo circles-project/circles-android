@@ -2,7 +2,7 @@ package org.futo.circles.gallery.feature.select.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.base.list.ViewBindingHolder
@@ -24,7 +24,7 @@ class SelectGalleryViewHolder(
 
     fun bind(data: SelectableRoomListItem) {
         with(binding) {
-            baseGalleryItem.ivGalleryImage.loadProfileIcon(data.info.avatarUrl, "")
+            baseGalleryItem.ivGalleryImage.loadRoomProfileIcon(data.info.avatarUrl, "")
             baseGalleryItem.tvGalleryName.text = data.info.title
             ivSelect.setImageResource(
                 if (data.isSelected) org.futo.circles.core.R.drawable.ic_check_circle

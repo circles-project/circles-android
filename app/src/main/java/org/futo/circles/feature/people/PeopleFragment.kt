@@ -18,10 +18,7 @@ import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
-import org.futo.circles.core.extensions.showNoInternetConnection
-import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.databinding.FragmentPeopleBinding
 import org.futo.circles.feature.people.list.PeopleAdapter
@@ -35,11 +32,9 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
     private val peopleAdapter by lazy {
         PeopleAdapter(
             onUserClicked = { userId -> navigateToUserPage(userId) },
-            onRequestClicked = { userId, isAccepted ->
-                if (showNoInternetConnection()) return@PeopleAdapter
-                viewModel.onFollowRequestAnswered(userId, isAccepted)
-            },
-            onUnIgnore = { userId -> viewModel.unIgnoreUser(userId) }
+            onOpenRequestsClicked = {
+                findNavController().navigateSafe(PeopleFragmentDirections.toInvites())
+            }
         )
     }
 
@@ -64,7 +59,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         binding.rvUsers.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.people_empty_message))
-                setArrowVisible(false)
             })
             adapter = peopleAdapter
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -76,10 +70,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         viewModel.peopleLiveData.observeData(this) { items ->
             peopleAdapter.submitList(items)
         }
-        viewModel.followUserLiveData.observeResponse(this,
-            success = { showSuccess(getString(R.string.request_sent)) })
-        viewModel.unIgnoreUserLiveData.observeResponse(this)
-        viewModel.followUserRequestLiveData.observeResponse(this)
     }
 
     private fun navigateToUserPage(userId: String) {

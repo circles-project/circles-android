@@ -11,8 +11,8 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.min_sdk_version
         targetSdk rootProject.ext.sdk_version
-        versionCode 31
-        versionName "1.0.21"
+        versionCode 32
+        versionName "1.0.22"
         archivesBaseName = "circles-v${versionName}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -20,6 +20,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     signingConfigs {
@@ -77,7 +78,7 @@ dependencies {
     implementation project(path: ':gallery')
 
     //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.6.0')
+    gplayImplementation platform('com.google.firebase:firebase-bom:32.7.0')
     gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
@@ -86,7 +87,7 @@ dependencies {
     implementation 'com.github.UnifiedPush:android-connector:2.1.1'
 
     //Emoji
-    implementation 'com.vanniktech:emoji-google:0.17.0'
+    implementation 'com.vanniktech:emoji-google:0.18.0'
 
     //Log
     implementation 'com.jakewharton.timber:timber:5.0.1'

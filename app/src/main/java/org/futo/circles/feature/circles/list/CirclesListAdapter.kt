@@ -2,18 +2,17 @@ package org.futo.circles.feature.circles.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
+import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CircleListItemPayload
 import org.futo.circles.model.CirclesHeaderItem
-import org.futo.circles.model.InvitedCircleListItem
 import org.futo.circles.model.JoinedCircleListItem
 
-enum class CirclesListItemViewType { JoinedCircle, InvitedCircle, Header }
+enum class CirclesListItemViewType { JoinedCircle, InviteNotification, Header }
 
 class CirclesListAdapter(
     private val onRoomClicked: (CircleListItem) -> Unit,
-    private val onInviteClicked: (CircleListItem, Boolean) -> Unit,
-    private val onUnblurProfileIconClicked: (CircleListItem) -> Unit
+    private val onOpenInvitesClicked: () -> Unit
 ) : BaseRvAdapter<CircleListItem, CirclesViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedCircleListItem && old is JoinedCircleListItem) {
         CircleListItemPayload(
@@ -28,27 +27,22 @@ class CirclesListAdapter(
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is JoinedCircleListItem -> CirclesListItemViewType.JoinedCircle.ordinal
-        is InvitedCircleListItem -> CirclesListItemViewType.InvitedCircle.ordinal
+        is CircleInvitesNotificationListItem -> CirclesListItemViewType.InviteNotification.ordinal
         is CirclesHeaderItem -> CirclesListItemViewType.Header.ordinal
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ) = when (CirclesListItemViewType.values()[viewType]) {
+    ) = when (CirclesListItemViewType.entries[viewType]) {
         CirclesListItemViewType.JoinedCircle -> JoinedCircleViewHolder(
             parent = parent,
             onCircleClicked = { position -> onRoomClicked(getItem(position)) }
         )
 
-        CirclesListItemViewType.InvitedCircle -> InvitedCircleViewHolder(
+        CirclesListItemViewType.InviteNotification -> CircleInviteNotificationViewHolder(
             parent = parent,
-            onInviteClicked = { position, isAccepted ->
-                onInviteClicked(getItem(position), isAccepted)
-            },
-            onShowProfileIconClicked = { position ->
-                onUnblurProfileIconClicked(getItem(position))
-            }
+            onClicked = { onOpenInvitesClicked() }
         )
 
         CirclesListItemViewType.Header -> CircleHeaderViewHolder(parent = parent)

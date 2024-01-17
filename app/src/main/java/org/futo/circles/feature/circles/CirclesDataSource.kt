@@ -1,13 +1,20 @@
 package org.futo.circles.feature.circles
 
-import org.futo.circles.core.feature.room.RoomListHelper
+import android.util.Log
+import androidx.lifecycle.asFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.withContext
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.TIMELINE_TYPE
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
-import org.futo.circles.mapping.toInviteCircleListItem
+import org.futo.circles.core.utils.getTimelinesLiveData
 import org.futo.circles.mapping.toJoinedCircleListItem
+import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CirclesHeaderItem
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -16,25 +23,20 @@ import javax.inject.Inject
 
 class CirclesDataSource @Inject constructor(
     private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource,
-    private val sharedCircleDataSource: SharedCircleDataSource,
-    private val roomListHelper: RoomListHelper
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) {
 
-    fun getCirclesFlow() = roomListHelper.getRoomsFlow(::buildCirclesList, null)
+    fun getCirclesFlow() = combine(
+        getTimelinesLiveData().asFlow(),
+        MatrixSessionProvider.getSessionOrThrow().roomService().getChangeMembershipsLive().asFlow()
+    ) { timelines, _ ->
+        withContext(Dispatchers.IO) { buildCirclesList(timelines) }
+    }.distinctUntilChanged()
 
-    private fun buildCirclesList(
-        list: List<RoomSummary>,
-        knownUsersIds: Set<String>,
-        roomIdsToUnblur: Set<String>
-    ): List<CircleListItem> {
-        val invites = list.filter { isInviteToCircleTimeline(it) }.map {
-            it.toInviteCircleListItem(
-                roomListHelper.shouldBlurIconFor(it, knownUsersIds, roomIdsToUnblur)
-            )
-        }
+    private fun buildCirclesList(timelines: List<RoomSummary>): List<CircleListItem> {
+        val invitesCount = timelines.filter { it.membership == Membership.INVITE }.size
 
-        val joinedCirclesSpaceIds = getJoinedCirclesIds()
-        val joinedCircles = list.filter { isJoinedCircle(it, joinedCirclesSpaceIds) }
+        val joinedCircles = getJoinedCirclesIds().mapNotNull { getJoinedRoomById(it)?.roomSummary() }
 
         val sharedCirclesTimelinesIds = sharedCircleDataSource.getSharedCirclesTimelinesIds()
         val sharedCircles = joinedCircles.filter { joinedCircle ->
@@ -46,7 +48,9 @@ class CirclesDataSource @Inject constructor(
         val privateCircles = joinedCircles - sharedCircles.toSet()
 
         val displayList = mutableListOf<CircleListItem>().apply {
-            addSection(CirclesHeaderItem.invitesCirclesHeader, invites)
+            if (invitesCount > 0)
+                add(CircleInvitesNotificationListItem(invitesCount))
+
             addSection(
                 CirclesHeaderItem.sharedCirclesHeader,
                 sharedCircles.map { it.toJoinedCircleListItem(true) })
@@ -57,17 +61,13 @@ class CirclesDataSource @Inject constructor(
         return displayList
     }
 
-    fun isJoinedCircle(summary: RoomSummary, joinedCirclesIds: List<String>): Boolean =
-        joinedCirclesIds.contains(summary.roomId)
-
     fun getJoinedCirclesIds(): List<String> {
         val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(
             CIRCLES_SPACE_ACCOUNT_DATA_KEY
         ) ?: return emptyList()
-        val sharedCircleSpaceId = sharedCircleDataSource.getSharedCirclesSpaceId()
         val ids = getJoinedRoomById(circlesSpaceId)?.roomSummary()?.spaceChildren
             ?.map { it.childRoomId }
-            ?.filter { it != sharedCircleSpaceId && getJoinedRoomById(it) != null }
+            ?.filter { getJoinedRoomById(it) != null }
         return ids ?: emptyList()
     }
 
@@ -83,7 +83,4 @@ class CirclesDataSource @Inject constructor(
             addAll(items)
         }
     }
-
-    fun unblurProfileImageFor(id: String) = roomListHelper.unblurProfileImageFor(id)
-
 }

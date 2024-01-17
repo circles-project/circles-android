@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.DialogFragmentUpdateGalleryBinding
 import org.futo.circles.core.extensions.getText
-import org.futo.circles.core.extensions.loadProfileIcon
+import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.feature.room.update.UpdateRoomDialogFragment
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -41,7 +41,7 @@ class UpdateGalleryDialogFragment :
     }
 
     override fun setInitialRoomData(room: RoomSummary) {
-        binding.ivCover.loadProfileIcon(room.avatarUrl, room.displayName)
+        binding.ivCover.loadRoomProfileIcon(room.avatarUrl, room.displayName)
         binding.tilName.editText?.setText(room.displayName)
     }
 

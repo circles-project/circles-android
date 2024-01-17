@@ -4,10 +4,9 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
+import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
-import org.futo.circles.auth.feature.sign_up.subscription_stage.SubscriptionStageDataSource
-import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
@@ -45,35 +44,22 @@ class SignUpDataSource @Inject constructor(
     var domain: String = ""
         private set
 
-    private val subscriptionStageDataSource = SubscriptionStageDataSource(this)
-
     suspend fun startSignUpStages(
         stages: List<Stage>,
-        serverDomain: String,
-        subscriptionReceiptData: SubscriptionReceiptData?
+        serverDomain: String
     ) {
         currentStage = null
         stagesToComplete.clear()
         domain = serverDomain
         stagesToComplete.addAll(stages)
-        subscriptionReceiptData?.let { skipSubscriptionStageIfValid(it) } ?: navigateToNextStage()
+        if ((stages.firstOrNull() as? Stage.Other)?.type == REGISTRATION_FREE_TYPE)
+            skipFreeSubscriptionDummyStage()
+        else navigateToNextStage()
     }
 
-    private suspend fun skipSubscriptionStageIfValid(subscriptionReceiptData: SubscriptionReceiptData) {
+    private suspend fun skipFreeSubscriptionDummyStage() {
         setNextStage()
-        (currentStage as? Stage.Other)?.takeIf {
-            it.type == REGISTRATION_SUBSCRIPTION_TYPE
-        } ?: run {
-            currentStage = null
-            navigateToNextStage()
-            return
-        }
-        val response = subscriptionStageDataSource.validateSubscription(subscriptionReceiptData)
-
-        if (response is Response.Error) {
-            currentStage = null
-            navigateToNextStage()
-        }
+        performRegistrationStage(mapOf(BaseLoginStagesDataSource.TYPE_PARAM_KEY to REGISTRATION_FREE_TYPE))
     }
 
     suspend fun performRegistrationStage(
@@ -82,7 +68,11 @@ class SignUpDataSource @Inject constructor(
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
         val result = createResult {
-            wizard.registrationCustom(authParams, context.getString(R.string.initial_device_name), true)
+            wizard.registrationCustom(
+                authParams,
+                context.getString(R.string.initial_device_name),
+                true
+            )
         }
 
         (result as? Response.Success)?.let {
@@ -161,6 +151,7 @@ class SignUpDataSource @Inject constructor(
     }
 
     companion object {
+        const val REGISTRATION_FREE_TYPE = "org.futo.subscriptions.free_forever"
         const val REGISTRATION_TOKEN_TYPE = "m.login.registration_token"
         const val REGISTRATION_SUBSCRIPTION_TYPE = "org.futo.subscription.google_play"
         const val REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE = "m.enroll.email.request_token"
