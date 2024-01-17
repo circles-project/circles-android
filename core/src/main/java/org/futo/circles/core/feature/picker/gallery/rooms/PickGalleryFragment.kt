@@ -36,6 +36,6 @@ class PickGalleryFragment : Fragment(R.layout.fragment_pick_gallery) {
     }
 
     private fun setupObservers() {
-        viewModel.galleriesLiveData?.observeData(this) { listAdapter.submitList(it) }
+        viewModel.galleriesLiveData.observeData(this) { listAdapter.submitList(it) }
     }
 }
