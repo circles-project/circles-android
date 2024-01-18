@@ -61,6 +61,12 @@ android {
             version '3.22.1'
         }
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -92,34 +98,15 @@ kapt {
     correctErrorTypes = true
 }
 
-def groupIdString = "org.futo.circles"
-def artifactIdString = "auth-gplay"
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = rootProject.ext.modules_groupId
+            artifactId = "auth-gplay"
+            version rootProject.ext.modules_version
 
-afterEvaluate {
-    Properties properties = new Properties()
-    if (rootProject.file("local.properties").exists()) {
-        properties.load(rootProject.file("local.properties").newDataInputStream())
-    }
-    publishing {
-        publications {
-            release(MavenPublication) {
+            afterEvaluate {
                 from components.gplayRelease
-                groupId groupIdString
-                artifactId artifactIdString
-                version rootProject.ext.modules_version
-            }
-        }
-        repositories {
-            maven {
-                url "https://gitlab.futo.org/api/v4/projects/$rootProject.ext.modules_gitlab_projectId/packages/maven"
-                name "GitLab"
-                credentials(HttpHeaderCredentials) {
-                    name = "Private-Token"
-                    value = properties.getProperty("PUBLISH_TOKEN")
-                }
-                authentication {
-                    header(HttpHeaderAuthentication)
-                }
             }
         }
     }

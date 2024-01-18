@@ -39,6 +39,12 @@ android {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         ]
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -67,35 +73,15 @@ kapt {
 }
 
 
-def groupIdString = "org.futo.circles"
-def artifactIdString = "gallery"
-def publicationName = "release"
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = rootProject.ext.modules_groupId
+            artifactId = "gallery"
+            version rootProject.ext.modules_version
 
-afterEvaluate {
-    Properties properties = new Properties()
-    if (rootProject.file("local.properties").exists()) {
-        properties.load(rootProject.file("local.properties").newDataInputStream())
-    }
-    publishing {
-        publications {
-            "$publicationName"(MavenPublication) {
+            afterEvaluate {
                 from components.release
-                groupId groupIdString
-                artifactId artifactIdString
-                version rootProject.ext.modules_version
-            }
-        }
-        repositories {
-            maven {
-                url "https://gitlab.futo.org/api/v4/projects/$rootProject.ext.modules_gitlab_projectId/packages/maven"
-                name "GitLab"
-                credentials(HttpHeaderCredentials) {
-                    name = "Private-Token"
-                    value = properties.getProperty("PUBLISH_TOKEN")
-                }
-                authentication {
-                    header(HttpHeaderAuthentication)
-                }
             }
         }
     }

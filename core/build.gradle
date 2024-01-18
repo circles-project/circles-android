@@ -41,6 +41,12 @@ android {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         ]
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -70,7 +76,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
 
     //Matrix
-    api 'org.matrix.android:matrix-sdk-android:1.6.11'
+    api('org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.8@aar') { transitive = true }
 
     //Retrofit2
     def retrofit_version = '2.9.0'
@@ -121,35 +127,15 @@ kapt {
     correctErrorTypes = true
 }
 
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = rootProject.ext.modules_groupId
+            artifactId = "core"
+            version rootProject.ext.modules_version
 
-def groupIdString = "org.futo.circles"
-def artifactIdString = "core"
-
-afterEvaluate {
-    Properties properties = new Properties()
-    if (rootProject.file("local.properties").exists()) {
-        properties.load(rootProject.file("local.properties").newDataInputStream())
-    }
-    publishing {
-        publications {
-            release(MavenPublication) {
+            afterEvaluate {
                 from components.release
-                groupId groupIdString
-                artifactId artifactIdString
-                version rootProject.ext.modules_version
-            }
-        }
-        repositories {
-            maven {
-                url "https://gitlab.futo.org/api/v4/projects/$rootProject.ext.modules_gitlab_projectId/packages/maven"
-                name "GitLab"
-                credentials(HttpHeaderCredentials) {
-                    name = "Private-Token"
-                    value = properties.getProperty("PUBLISH_TOKEN")
-                }
-                authentication {
-                    header(HttpHeaderAuthentication)
-                }
             }
         }
     }

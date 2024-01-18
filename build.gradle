@@ -5,7 +5,7 @@ buildscript {
         androidx_nav_version = '2.7.6'
         hilt_version = '2.50'
         modules_version = "1.0.9"
-        modules_gitlab_projectId = "13"
+        modules_groupId = "org.futo.gitlab.circles"
     }
     repositories {
         google()
@@ -26,32 +26,10 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url 'https://gitlab.futo.org/api/v4/projects/16/packages/maven' }
-        maven { url 'https://gitlab.futo.org/api/v4/projects/13/packages/maven' }
-        maven { url 'https://gitlab.futo.org/api/v4/projects/130/packages/maven' }
     }
 }
 
 
 tasks.register('clean', Delete) {
     delete rootProject.buildDir
-}
-
-tasks.register('cleanBuildPublishModules', GradleBuild) {
-    tasks.register('assembleModulesRelease') {
-        dependsOn 'clean'
-        dependsOn ':core:assembleRelease'
-        dependsOn ':auth:assembleRelease'
-        dependsOn ':gallery:assembleRelease'
-    }
-
-    tasks.register('publishModules') {
-        dependsOn 'assembleModulesRelease'
-        dependsOn ':core:publish'
-        dependsOn ':auth:publish'
-        dependsOn ':gallery:publish'
-    }
-
-    dependsOn 'assembleModulesRelease'
-    dependsOn 'publishModules'
 }
