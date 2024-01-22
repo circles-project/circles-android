@@ -41,10 +41,14 @@ class SearchUserDataSource @Inject constructor() {
         query: String,
         userIdsToExclude: Set<String> = emptySet()
     ): Flow<List<User>> = flow {
-        val userFromDirectory = searchInUsersDirectory(query, userIdsToExclude)
-        val userById = searchUserById(query)
-        val list = userFromDirectory.toMutableList().apply { userById?.let { add(it) } }
-        emit(list.distinctBy { it.userId })
+        if (query.isEmpty()) {
+            emit(emptyList())
+        } else {
+            val userFromDirectory = searchInUsersDirectory(query, userIdsToExclude)
+            val userById = searchUserById(query)
+            val list = userFromDirectory.toMutableList().apply { userById?.let { add(it) } }
+            emit(list.distinctBy { it.userId })
+        }
     }.catch { emit(emptyList()) }
 
     private suspend fun searchUserById(query: String) = (createResult {
