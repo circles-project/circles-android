@@ -14,6 +14,11 @@ stages:
   - deploy
   - message
 
+variables:
+  X86_CODE: "x86"
+  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/circlesrelease/${CI_COMMIT_TAG}"
+
+
 before_script:
   - chmod +x ./gradlew
   - echo -n ${SIGNING_KEY_BASE64} | base64 -d > circuli_key.jks
@@ -21,32 +26,15 @@ before_script:
   - echo "KEY_PASSWORD=${KEY_PASSWORD}" >> signing.properties
   - echo "ALIAS_NAME=${ALIAS_NAME}" >> signing.properties
 
-buildAndPushFdroid:
+buildAndUploadFdroid:
   image: softartdev/android-fastlane
   stage: build
   script:
     - echo "Building F-Droid apk"
     - ./gradlew clean
     - ./gradlew assembleFdroidRelease
-    - apt-get update -qy && apt-get upgrade -qy
-    - apt-get install -y git
-    - git config --global user.email "taras@futo.org"
-    - git config --global user.name "ci-bot"
-    - echo "Push build to master"
-    - git remote set-url origin https://gitlab-ci-token:${GITLAB_ACCESS_TOKEN}@gitlab.futo.org/circles/circles-android.git
-    - git add -f app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-release.apk
-    - git mv app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-release.apk .
-    - git commit -m "Add F-Droid release apk $CI_COMMIT_TAG"
-    - git push origin HEAD:main -o ci.skip
-    - echo "Push build to fdroid repo"
-    - cd ..
-    - rm -rf circles-fdroid-repo
-    - git clone https://gitlab-ci-token:${FDROID_REPO_GITLAB_ACCESS_TOKEN}@gitlab.futo.org/circles/circles-fdroid-repo.git
-    - cp circles-android/circles-$CI_COMMIT_TAG-fdroid-release.apk circles-fdroid-repo/fdroid/repo
-    - cd circles-fdroid-repo
-    - git add -f fdroid/repo/circles-$CI_COMMIT_TAG-fdroid-release.apk
-    - git commit -m "Add F-Droid release apk $CI_COMMIT_TAG"
-    - git push origin HEAD:main
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-$X86_CODE-release.apk "${PACKAGE_REGISTRY_URL}/${X86_CODE}"
 
 createGitlabRelease:
   stage: release
@@ -62,31 +50,29 @@ createGitlabRelease:
     description: description.txt
     assets:
       links:
-        - name: 'F-Droid release apk $CI_COMMIT_TAG'
-          url: 'https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-$CI_COMMIT_TAG-fdroid-release.apk?ref_type=heads'
+        - name: 'F-Droid release apk $X86_CODE $CI_COMMIT_TAG'
+          url: '${PACKAGE_REGISTRY_URL}/${X86_CODE}'
 
 
-
-uploadPlayStoreBeta:
-  image: softartdev/android-fastlane
-  stage: deploy
-  script:
-    - echo "Running the uploadPlayStoreBeta job"
-    - bundle install
-    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
-    - bundle exec fastlane deployGoogle
-
-sendZulipMessage:
-  stage: message
-  script:
-    - apk update
-    - apk add curl
-    - CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
-    - CHANGELOG_TEXT=$(cat $CHANGELOG_FILE_PATH)
-    - |
-      MESSAGE="Circles Android ${CI_COMMIT_TAG}
-      $CHANGELOG_TEXT
-
-      Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
-      Direct apk link - https://gitlab.futo.org/circles/circles-android/-/raw/main/circles-${CI_COMMIT_TAG}-fdroid-release.apk?ref_type=heads"
-    - curl -X POST https://zulip.futo.org/api/v1/messages -u circles-bot@zulip.futo.org:$ZULIP_BOT_KEY --data-urlencode type=stream --data-urlencode 'to="circles"' --data-urlencode topic=Releases -G --data-urlencode "content=$MESSAGE"
+#uploadPlayStoreBeta:
+#  image: softartdev/android-fastlane
+#  stage: deploy
+#  script:
+#    - echo "Running the uploadPlayStoreBeta job"
+#    - bundle install
+#    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
+#    - bundle exec fastlane deployGoogle
+#
+#sendZulipMessage:
+#  stage: message
+#  script:
+#    - apk update
+#    - apk add curl
+#    - CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
+#    - CHANGELOG_TEXT=$(cat $CHANGELOG_FILE_PATH)
+#    - |
+#      MESSAGE="Circles Android ${CI_COMMIT_TAG}
+#      $CHANGELOG_TEXT
+#
+#      Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
+#    - curl -X POST https://zulip.futo.org/api/v1/messages -u circles-bot@zulip.futo.org:$ZULIP_BOT_KEY --data-urlencode type=stream --data-urlencode 'to="circles"' --data-urlencode topic=Releases -G --data-urlencode "content=$MESSAGE"
