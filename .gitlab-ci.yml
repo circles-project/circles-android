@@ -34,7 +34,7 @@ buildAndUploadFdroid:
     - ./gradlew clean
     - ./gradlew assembleFdroidRelease
     - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-$X86_CODE-release.apk "${PACKAGE_REGISTRY_URL}/${X86_CODE}"
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-$X86_CODE-release.apk "${PACKAGE_REGISTRY_URL}/${X86_CODE}/"
 
 createGitlabRelease:
   stage: release
