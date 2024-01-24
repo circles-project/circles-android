@@ -56,25 +56,26 @@ createGitlabRelease:
           url: '${APK_URL}'
 
 
-#uploadPlayStoreBeta:
-#  image: softartdev/android-fastlane
-#  stage: deploy
-#  script:
-#    - echo "Running the uploadPlayStoreBeta job"
-#    - bundle install
-#    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
-#    - bundle exec fastlane deployGoogle
-#
-#sendZulipMessage:
-#  stage: message
-#  script:
-#    - apk update
-#    - apk add curl
-#    - CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
-#    - CHANGELOG_TEXT=$(cat $CHANGELOG_FILE_PATH)
-#    - |
-#      MESSAGE="Circles Android ${CI_COMMIT_TAG}
-#      $CHANGELOG_TEXT
-#
-#      Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
-#    - curl -X POST https://zulip.futo.org/api/v1/messages -u circles-bot@zulip.futo.org:$ZULIP_BOT_KEY --data-urlencode type=stream --data-urlencode 'to="circles"' --data-urlencode topic=Releases -G --data-urlencode "content=$MESSAGE"
+uploadPlayStoreBeta:
+  image: softartdev/android-fastlane
+  stage: deploy
+  script:
+    - echo "Running the uploadPlayStoreBeta job"
+    - bundle install
+    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
+    - bundle exec fastlane deployGoogle
+
+sendZulipMessage:
+  stage: message
+  script:
+    - apk update
+    - apk add curl
+    - CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
+    - CHANGELOG_TEXT=$(cat $CHANGELOG_FILE_PATH)
+    - |
+      MESSAGE="Circles Android ${CI_COMMIT_TAG}
+      $CHANGELOG_TEXT
+
+      Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
+      Direct ${ARM64_V8A_CODE} apk link - ${APK_URL}"
+    - curl -X POST https://zulip.futo.org/api/v1/messages -u circles-bot@zulip.futo.org:$ZULIP_BOT_KEY --data-urlencode type=stream --data-urlencode 'to="circles"' --data-urlencode topic=Releases -G --data-urlencode "content=$MESSAGE"
