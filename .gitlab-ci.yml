@@ -15,8 +15,10 @@ stages:
   - message
 
 variables:
-  X86_CODE: "x86"
-  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/circlesrelease/${CI_COMMIT_TAG}"
+  ARM64_V8A_CODE: "arm64-v8a"
+  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/circles_release/${CI_COMMIT_TAG}"
+  APK_NAME: "circles-$CI_COMMIT_TAG-fdroid-$ARM64_V8A_CODE-release.apk"
+  APK_URL: "${PACKAGE_REGISTRY_URL}/circles-$CI_COMMIT_TAG-fdroid-$ARM64_V8A_CODE-release.apk"
 
 
 before_script:
@@ -34,7 +36,7 @@ buildAndUploadFdroid:
     - ./gradlew clean
     - ./gradlew assembleFdroidRelease
     - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file app/build/outputs/apk/fdroid/release/circles-$CI_COMMIT_TAG-fdroid-$X86_CODE-release.apk "${PACKAGE_REGISTRY_URL}/${X86_CODE}"
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file app/build/outputs/apk/fdroid/release/$APK_NAME "${APK_URL}"
 
 createGitlabRelease:
   stage: release
@@ -50,29 +52,30 @@ createGitlabRelease:
     description: description.txt
     assets:
       links:
-        - name: 'F-Droid release apk $X86_CODE $CI_COMMIT_TAG'
-          url: '${PACKAGE_REGISTRY_URL}/${X86_CODE}'
+        - name: 'F-Droid release apk $ARM64_V8A_CODE $CI_COMMIT_TAG'
+          url: '${APK_URL}'
 
 
-#uploadPlayStoreBeta:
-#  image: softartdev/android-fastlane
-#  stage: deploy
-#  script:
-#    - echo "Running the uploadPlayStoreBeta job"
-#    - bundle install
-#    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
-#    - bundle exec fastlane deployGoogle
-#
-#sendZulipMessage:
-#  stage: message
-#  script:
-#    - apk update
-#    - apk add curl
-#    - CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
-#    - CHANGELOG_TEXT=$(cat $CHANGELOG_FILE_PATH)
-#    - |
-#      MESSAGE="Circles Android ${CI_COMMIT_TAG}
-#      $CHANGELOG_TEXT
-#
-#      Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
-#    - curl -X POST https://zulip.futo.org/api/v1/messages -u circles-bot@zulip.futo.org:$ZULIP_BOT_KEY --data-urlencode type=stream --data-urlencode 'to="circles"' --data-urlencode topic=Releases -G --data-urlencode "content=$MESSAGE"
+uploadPlayStoreBeta:
+  image: softartdev/android-fastlane
+  stage: deploy
+  script:
+    - echo "Running the uploadPlayStoreBeta job"
+    - bundle install
+    - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
+    - bundle exec fastlane deployGoogle
+
+sendZulipMessage:
+  stage: message
+  script:
+    - apk update
+    - apk add curl
+    - CHANGELOG_FILE_PATH=$(ls -l fastlane/metadata/android/en-US/changelogs/*.txt | sort -k 9,9 -r | head -n 1 | awk '{print $NF}')
+    - CHANGELOG_TEXT=$(cat $CHANGELOG_FILE_PATH)
+    - |
+      MESSAGE="Circles Android ${CI_COMMIT_TAG}
+      $CHANGELOG_TEXT
+
+      Gitlab release - https://gitlab.futo.org/circles/circles-android/-/releases/${CI_COMMIT_TAG}
+      Direct ${ARM64_V8A_CODE} apk link - ${APK_URL}"
+    - curl -X POST https://zulip.futo.org/api/v1/messages -u circles-bot@zulip.futo.org:$ZULIP_BOT_KEY --data-urlencode type=stream --data-urlencode 'to="circles"' --data-urlencode topic=Releases -G --data-urlencode "content=$MESSAGE"
