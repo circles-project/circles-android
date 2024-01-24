@@ -63,6 +63,7 @@ uploadPlayStoreBeta:
     - echo "Running the uploadPlayStoreBeta job"
     - bundle install
     - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
+    - bundle update fastlane
     - bundle exec fastlane deployGoogle
 
 sendZulipMessage:
