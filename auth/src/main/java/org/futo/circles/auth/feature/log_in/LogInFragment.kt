@@ -66,7 +66,6 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
 
     private fun setupViews() {
         with(binding) {
-            groupSignup.setIsVisible(CirclesAppConfig.isGplayFlavor())
             tvDomain.apply {
                 setAdapter(autocompleteAdapter)
                 onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
