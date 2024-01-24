@@ -91,7 +91,7 @@ android.applicationVariants.configureEach { variant ->
         def baseAbiVersionCode = project.ext.abiCodes.get(output.getFilter(OutputFile.ABI))
         if (baseAbiVersionCode != null) {
             output.versionCodeOverride =
-                    baseAbiVersionCode * 1000 + variant.versionCode
+                    variant.versionCode * 100 + baseAbiVersionCode
         }
     }
 }
