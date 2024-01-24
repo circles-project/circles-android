@@ -66,8 +66,6 @@ private fun getAllRoomsAndSpacesFilter(membershipFilter: List<Membership>) =
 fun getAllJoinedCirclesRoomsAndSpaces(session: Session = MatrixSessionProvider.getSessionOrThrow()) =
     session.roomService().getRoomSummaries(getAllRoomsAndSpacesFilter(listOf(Membership.JOIN)))
 
-fun getAllJoinedCirclesRoomsAndSpacesLiveData(session: Session = MatrixSessionProvider.getSessionOrThrow()) =
-    session.roomService().getRoomSummariesLive(getAllRoomsAndSpacesFilter(listOf(Membership.JOIN)))
 
 private fun getAllRoomsFiler(membershipFilter: List<Membership>) = roomSummaryQueryParams {
     excludeType = listOf(roomType, spaceType, null)
