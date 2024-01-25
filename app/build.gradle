@@ -5,7 +5,6 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
-def splitApks = !project.hasProperty("noSplits")
 
 android {
     compileSdk rootProject.ext.sdk_version
@@ -20,25 +19,17 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        if (project.hasProperty("noSplits")) {
-            ndk {
-                (project.properties["ABI_FILTERS"] as String).split(';').each {
-                    abiFilters.add(it)
-                }
-            }
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include "x86", "x86_64", "arm64-v8a", "armeabi-v7a"
+            universalApk false
         }
     }
 
-    if (splitApks) {
-        splits {
-            abi {
-                enable true
-                reset()
-                include "x86", "x86_64", "arm64-v8a", "armeabi-v7a"
-                universalApk false
-            }
-        }
-    }
 
     buildFeatures {
         viewBinding true
