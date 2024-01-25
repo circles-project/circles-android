@@ -1,0 +1,3 @@
+- New default domains
+- circles.futo.org domain for deep links
+- Bug fixes and performance improvements
