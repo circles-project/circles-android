@@ -115,17 +115,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun bindMediaUsageProgress(mediaUsage: MediaUsageInfo?) {
-        binding.lMediaStorage.setIsVisible(mediaUsage != null)
-        mediaUsage ?: return
-        binding.mediaStorageProgress.apply {
-            max = mediaUsage.storageSize.toInt()
-            progress = mediaUsage.usedSize.toInt()
+        mediaUsage?.let {
+            binding.mediaStorageProgress.apply {
+                max = mediaUsage.storageSize.toInt()
+                progress = mediaUsage.usedSize.toInt()
+            }
+            binding.tvMediaStorageInfo.text = getString(
+                R.string.media_usage_format,
+                Formatter.formatFileSize(requireContext(), mediaUsage.usedSize),
+                Formatter.formatFileSize(requireContext(), mediaUsage.storageSize),
+            )
+        } ?: run {
+            binding.tvMediaStorageInfo.text = getString(R.string.no_info_available)
         }
-        binding.tvMediaStorageInfo.text = getString(
-            R.string.media_usage_format,
-            Formatter.formatFileSize(requireContext(), mediaUsage.usedSize),
-            Formatter.formatFileSize(requireContext(), mediaUsage.storageSize),
-        )
     }
 
     private fun bindProfile(user: User) {
