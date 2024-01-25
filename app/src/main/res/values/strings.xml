@@ -194,6 +194,7 @@
     <string name="optional_request_message">Optional: Request message</string>
     <string name="media_storage">Media storage</string>
     <string name="media_usage_format">%1$s of %2$s used</string>
+    <string name="no_info_available">No info available</string>
     <string name="group_invites_notification_format">Show %d Group invitations</string>
     <string name="circle_invites_notification_format">Show %d Circle invitations</string>
     <string name="show_connection_invites_format">Show %d connection invites</string>
