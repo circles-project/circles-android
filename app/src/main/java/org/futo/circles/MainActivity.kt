@@ -19,11 +19,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         MarkdownParser.initBuilder(this)
     }
 
-    override fun onDestroy() {
-        MarkdownParser.clearInstance()
-        super.onDestroy()
-    }
-
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
