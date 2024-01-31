@@ -16,7 +16,6 @@ import org.futo.circles.R
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
-import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -111,7 +110,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             getRecyclerView().apply {
                 isNestedScrollingEnabled = false
                 setHasFixedSize(true)
-                itemAnimator = null
                 setItemViewCacheSize(20)
             }
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -296,12 +294,18 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         if (isThread) {
             val lastItemPosition = items.size - 1
             if (items.lastOrNull()?.isMyPost() == true && positionStart == lastItemPosition) {
-                binding.rvTimeline.layoutManager?.scrollToPosition(lastItemPosition)
-                binding.lCreatePost.gone()
+                binding.rvTimeline.layoutManager?.smoothScrollToPosition(
+                    binding.rvTimeline.getRecyclerView(),
+                    null,
+                    lastItemPosition
+                )
             }
         } else {
-            if (items.firstOrNull()?.isMyPost() == true && positionStart == 0)
-                binding.rvTimeline.layoutManager?.scrollToPosition(0)
+            if (items.firstOrNull()?.isMyPost() == true && positionStart == 0) {
+                binding.rvTimeline.layoutManager?.smoothScrollToPosition(
+                    binding.rvTimeline.getRecyclerView(), null, 0
+                )
+            }
         }
 
 
