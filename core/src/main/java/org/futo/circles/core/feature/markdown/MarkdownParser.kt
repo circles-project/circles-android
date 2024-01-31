@@ -25,10 +25,6 @@ object MarkdownParser {
 
     fun parse(text: String): Spanned = markwonBulder?.toMarkdown(text) ?: SpannableString(text)
 
-    fun clearInstance() {
-        markwonBulder = null
-    }
-
     //require UI context for Mentions span
     fun initBuilder(context: Context) = markwonBuilder(context).also { markwonBulder = it }
 

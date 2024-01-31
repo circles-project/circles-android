@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.markdown.MarkdownParser
@@ -74,20 +75,6 @@ class PostLayout(
         }
 
     init {
-        binding.lvContent.apply {
-            setOnClickListener {
-                post?.let {
-                    if (it.content.isMedia()) optionsListener?.onShowPreview(
-                        it.postInfo.roomId,
-                        it.id
-                    ) else openReplies()
-                }
-            }
-            setOnLongClickListener {
-                binding.postHeader.showMenu()
-                true
-            }
-        }
         binding.lCard.setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
             false
@@ -98,6 +85,7 @@ class PostLayout(
         optionsListener = postOptionsListener
         binding.postFooter.setListener(postOptionsListener)
         binding.postHeader.setListener(postOptionsListener)
+        setupClickListeners()
     }
 
 
@@ -109,6 +97,25 @@ class PostLayout(
     fun setPayload(payload: PostItemPayload) {
         setSendStatus(payload.sendState, payload.readByCount)
         binding.postFooter.bindPayload(payload.repliesCount, payload.reactions)
+    }
+
+    private fun setupClickListeners() {
+        binding.lvContent.findViewById<ConstraintLayout>(R.id.vMediaContent)?.apply {
+            setOnClickListener {
+                post?.let { optionsListener?.onShowPreview(it.postInfo.roomId, it.id) }
+            }
+            setOnLongClickListener {
+                binding.postHeader.showMenu()
+                true
+            }
+        }
+        binding.lvContent.findViewById<ReadMoreTextView>(R.id.tvTextContent)?.apply {
+            setNotCollapsableClickAction { openReplies() }
+            setOnLongClickListener {
+                binding.postHeader.showMenu()
+                true
+            }
+        }
     }
 
     private fun setGeneralMessageData(data: Post, userPowerLevel: Int, isThread: Boolean) {

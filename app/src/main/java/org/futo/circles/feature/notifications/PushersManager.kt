@@ -72,8 +72,18 @@ class PushersManager @Inject constructor(
             return
         }
         val distributors = getAllDistributors()
-        return if (distributors.size == 1) saveAndRegisterApp(distributors.first())
-        else saveAndRegisterApp(context.applicationContext.packageName)
+        val backgroundSyncDistributor = context.applicationContext.packageName
+
+        if (distributors.size == 1) saveAndRegisterApp(backgroundSyncDistributor)
+        else {
+            val defaultDistributor = distributors
+                .toMutableList()
+                .apply { remove(backgroundSyncDistributor) }
+                .firstOrNull()
+                ?: backgroundSyncDistributor
+
+            saveAndRegisterApp(defaultDistributor)
+        }
     }
 
     private fun shouldAddHttpPusher(): Boolean {

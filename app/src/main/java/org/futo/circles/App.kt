@@ -7,6 +7,9 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.vanniktech.emoji.EmojiManager
 import com.vanniktech.emoji.google.GoogleEmojiProvider
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.provider.MatrixNotificationSetupListener
@@ -15,6 +18,7 @@ import org.futo.circles.feature.notifications.FcmHelper
 import org.futo.circles.feature.notifications.GuardServiceStarter
 import org.futo.circles.feature.notifications.NotificationUtils
 import org.futo.circles.feature.notifications.PushRuleTriggerListener
+import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.timeline.post.emoji.RecentEmojisProvider
 import org.matrix.android.sdk.api.session.Session
 import timber.log.Timber
@@ -35,6 +39,9 @@ class App : Application() {
 
     @Inject
     lateinit var pushRuleTriggerListener: PushRuleTriggerListener
+
+    @Inject
+    lateinit var pushersManager: PushersManager
 
     override fun onCreate() {
         super.onCreate()
@@ -65,6 +72,7 @@ class App : Application() {
                 override fun onStop() {
                     pushRuleTriggerListener.stop()
                     guardServiceStarter.stop()
+                    MainScope().launch(Dispatchers.IO) { pushersManager.unregisterUnifiedPush() }
                 }
             }
         ) { RecentEmojisProvider.initWithDefaultRecentEmojis(applicationContext) }

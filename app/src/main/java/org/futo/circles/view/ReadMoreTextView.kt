@@ -34,6 +34,7 @@ class ReadMoreTextView @JvmOverloads constructor(
     private var expanded: Boolean = false
     private var originalText: CharSequence? = null
     private var collapseText: CharSequence? = null
+    private var notCloseableClickListener: (() -> Unit)? = null
 
     init {
         context.obtainStyledAttributes(
@@ -56,7 +57,10 @@ class ReadMoreTextView @JvmOverloads constructor(
             if (collapseText == originalText &&
                 originalText?.toSpannable()
                     ?.getSpans<LinkSpan>(0, originalText?.length ?: 0)?.size == 0
-            ) (parent?.parent as? ViewGroup)?.performClick()
+            ) {
+                notCloseableClickListener?.invoke()
+                (parent?.parent as? ViewGroup)?.performClick()
+            }
         }
 
         super.setOnLongClickListener {
@@ -65,6 +69,10 @@ class ReadMoreTextView @JvmOverloads constructor(
 
         if (originalText != null) invalidateText()
 
+    }
+
+    fun setNotCollapsableClickAction(listener: () -> Unit) {
+        notCloseableClickListener = listener
     }
 
     override fun setLines(lines: Int) {
