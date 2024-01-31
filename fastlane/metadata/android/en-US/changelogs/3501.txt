@@ -1,0 +1,5 @@
+- Fixed posting replies
+- UnifiedPush as default distributor(F-Droid)
+- Fixed registering UnifiedPush for multiple accounts
+- Fixed markdown rendering after switching user
+- Bug fixes and performance improvements
