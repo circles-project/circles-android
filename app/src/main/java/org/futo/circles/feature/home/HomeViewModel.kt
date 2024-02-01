@@ -11,6 +11,7 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.notifications.ShortcutsHandler
 import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
@@ -62,9 +63,9 @@ class HomeViewModel @Inject constructor(
         else getParentSpaceIdForRoom(summary)
     }
 
-
     private fun getParentSpaceIdForRoom(summary: RoomSummary): String? =
-        summary.spaceParents?.firstOrNull { it.roomSummary?.membership == Membership.JOIN }
-            ?.roomSummary?.roomId
-
+        summary.flattenParentIds.mapNotNull { getJoinedRoomById(it)?.roomSummary() }
+            .firstOrNull {
+                it.spaceChildren?.map { it.childRoomId }?.contains(summary.roomId) == true
+            }?.roomId
 }
