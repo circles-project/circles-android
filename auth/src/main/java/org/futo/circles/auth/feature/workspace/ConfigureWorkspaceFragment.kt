@@ -14,12 +14,12 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentConfigureWorkspaceBinding
 import org.futo.circles.auth.feature.workspace.list.WorkspaceTasksListAdapter
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showError
-import org.futo.circles.core.base.fragment.HasLoadingState
 
 @AndroidEntryPoint
 class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspace),
@@ -49,12 +49,6 @@ class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspac
 
     private fun setupViews() {
         with(binding) {
-            val shouldValidate = arguments?.getBoolean(SHOULD_VALIDATE) ?: false
-            toolbar.title =
-                getString(if (shouldValidate) R.string.validating_workspace else R.string.configure_workspace)
-
-            if (shouldValidate) startLoading(btbConfigure)
-
             rvWorkspaceTasks.apply {
                 adapter = tasksAdapter
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -67,7 +61,7 @@ class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspac
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this){ setEnabledViews(it) }
+        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.tasksLiveData.observeData(this) {
             tasksAdapter.submitList(it)
         }
@@ -84,10 +78,11 @@ class ConfigureWorkspaceFragment : Fragment(R.layout.fragment_configure_workspac
             })
         viewModel.validateWorkspaceResultLiveData.observeResponse(this,
             success = { configureWorkspaceListener?.onWorkspaceConfigured() },
-            error = {
-                binding.toolbar.title = getString(R.string.configure_workspace)
-            }
+            error = { binding.btbConfigure.setIsLoading(false) }
         )
+        viewModel.validationStartedEventLiveData.observeData(this) {
+            startLoading(binding.btbConfigure)
+        }
     }
 
     companion object {

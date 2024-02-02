@@ -32,12 +32,14 @@ class ConfigureWorkspaceViewModel @Inject constructor(
     )
     val workspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
     val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
+    val validationStartedEventLiveData = SingleEventLiveData<Unit>()
 
     init {
         if (shouldValidate) validateWorkspace()
     }
 
     private fun validateWorkspace() = launchBg {
+        validationStartedEventLiveData.postValue(Unit)
         val tasks = tasksLiveData.value?.toMutableList() ?: mutableListOf()
         var hasError = false
         tasks.forEachIndexed { i, item ->
