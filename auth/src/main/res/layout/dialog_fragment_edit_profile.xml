@@ -107,6 +107,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvNameHeader">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
@@ -140,6 +141,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvUserIdHeader">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etUserId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
@@ -172,6 +174,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvContactInfoHeader">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etContactInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
