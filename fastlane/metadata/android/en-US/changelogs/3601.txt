@@ -1,3 +1,4 @@
 - Invite notification deep link
 - Fixed views count on post
+- Fixed Configure workspace screen and input fields state saving
 - Bug fixes and performance improvements
