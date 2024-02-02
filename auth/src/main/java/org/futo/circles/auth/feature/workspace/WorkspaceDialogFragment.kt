@@ -5,8 +5,8 @@ import android.view.View
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.DialogFragmentWorkspaceBinding
-import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.extensions.showSuccess
 
 @AndroidEntryPoint
 class WorkspaceDialogFragment :
@@ -16,7 +16,7 @@ class WorkspaceDialogFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         isCancelable = false
-        addConfigureWorkspaceFragment()
+        if (savedInstanceState == null) addConfigureWorkspaceFragment()
     }
 
     private fun addConfigureWorkspaceFragment() {
