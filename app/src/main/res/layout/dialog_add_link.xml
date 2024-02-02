@@ -52,6 +52,7 @@
                 app:layout_constraintTop_toBottomOf="@id/titleDivider">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
@@ -74,6 +75,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tilMessage">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etLink"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
