@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,10 +12,10 @@ import org.futo.circles.auth.databinding.FragmentAcceptTermsBinding
 import org.futo.circles.auth.extensions.openCustomTabUrl
 import org.futo.circles.auth.feature.sign_up.terms.list.TermsListAdapter
 import org.futo.circles.auth.model.TermsListItem
-import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
+import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
 
 @AndroidEntryPoint
 class AcceptTermsFragment : ParentBackPressOwnerFragment(R.layout.fragment_accept_terms),
@@ -38,6 +37,11 @@ class AcceptTermsFragment : ParentBackPressOwnerFragment(R.layout.fragment_accep
         setupObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.termsListLiveData.value?.let { setAcceptEnabled(it) }
+    }
+
     private fun setupViews() {
         with(binding) {
             btnAccept.setOnClickListener {
@@ -57,8 +61,12 @@ class AcceptTermsFragment : ParentBackPressOwnerFragment(R.layout.fragment_accep
 
         viewModel.termsListLiveData.observeData(this) {
             listAdapter.submitList(it)
-            binding.btnAccept.isEnabled = isAllTermsAccepted(it)
+            setAcceptEnabled(it)
         }
+    }
+
+    private fun setAcceptEnabled(list: List<TermsListItem>) {
+        binding.btnAccept.isEnabled = isAllTermsAccepted(list)
     }
 
     private fun isAllTermsAccepted(list: List<TermsListItem>): Boolean {
