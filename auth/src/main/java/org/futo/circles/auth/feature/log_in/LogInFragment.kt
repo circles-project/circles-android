@@ -1,6 +1,8 @@
 package org.futo.circles.auth.feature.log_in
 
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.widget.ArrayAdapter
@@ -75,14 +77,20 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 }
             }
             tilDomain.hint = CirclesAppConfig.serverDomains.first()
-            binding.rvSwitchUsers.apply {
+            rvSwitchUsers.apply {
                 adapter = switchUsersAdapter
-                addItemDecoration(
-                    BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(
-                        16
-                    )
-                )
+                addItemDecoration(BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(16))
             }
+            etUserName.filters = arrayOf<InputFilter>(object : InputFilter.AllCaps() {
+                override fun filter(
+                    source: CharSequence?,
+                    start: Int,
+                    end: Int,
+                    dest: Spanned?,
+                    dstart: Int,
+                    dend: Int
+                ) = source.toString().lowercase()
+            })
         }
     }
 
