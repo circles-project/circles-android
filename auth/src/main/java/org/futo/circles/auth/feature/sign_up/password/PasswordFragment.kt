@@ -33,6 +33,11 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
         setupObservers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        onPasswordDataChanged()
+    }
+
     private fun setupViews() {
         with(binding) {
             btnLogin.apply {
