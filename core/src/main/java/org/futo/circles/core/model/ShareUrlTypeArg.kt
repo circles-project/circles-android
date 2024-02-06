@@ -3,7 +3,7 @@ package org.futo.circles.core.model
 enum class ShareUrlTypeArg(val typeKey: String) {
     ROOM("room"),
     PROFILE("profile"),
-    GALLERY("galley"),
+    GALLERY("gallery"),
     GROUP("group"),
     TIMELINE("timeline")
 }

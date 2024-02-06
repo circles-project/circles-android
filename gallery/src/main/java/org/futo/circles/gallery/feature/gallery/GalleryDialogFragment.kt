@@ -9,15 +9,18 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
+import com.google.android.material.badge.ExperimentalBadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.fragment.BackPressOwner
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setEnabledChildren
-import org.futo.circles.core.base.fragment.BackPressOwner
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
@@ -29,7 +32,7 @@ interface GalleryMediaPreviewListener {
     fun onPreviewMedia(itemId: String, view: View, position: Int)
 }
 
-@AndroidEntryPoint
+@ExperimentalBadgeUtils @AndroidEntryPoint
 class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGalleryBinding::inflate),
     GalleryMediaPreviewListener, BackPressOwner {
 
@@ -42,6 +45,14 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     private val galleryFragment by lazy { GalleryGridFragment.create(args.roomId) }
 
     private val viewModel by viewModels<GalleryDialogFragmentViewModel>()
+
+    private val knocksCountBadgeDrawable by lazy {
+        BadgeDrawable.create(requireContext()).apply {
+            isVisible = false
+            backgroundColor =
+                ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return object : Dialog(requireActivity(), theme) {
@@ -63,7 +74,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addGalleryFragment()
+        if (savedInstanceState == null) addGalleryFragment()
         setupViews()
         setupMenu()
         setupObservers()
@@ -74,6 +85,11 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
             setNavigationOnClickListener { handleBackPress() }
             setOnClickListener { binding.toolbar.showOverflowMenu() }
         }
+
+        BadgeUtils.attachBadgeDrawable(
+            knocksCountBadgeDrawable, binding.toolbar,
+            org.futo.circles.core.R.id.settings
+        )
     }
 
     private fun addGalleryFragment() {
@@ -95,6 +111,12 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         viewModel.deleteGalleryLiveData.observeResponse(this,
             success = { onBackPressed() }
         )
+        viewModel.knockRequestCountLiveData?.observeData(this) {
+            knocksCountBadgeDrawable.apply {
+                number = it
+                isVisible = it > 0
+            }
+        }
     }
 
     private fun setupMenu() {

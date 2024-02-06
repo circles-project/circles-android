@@ -145,6 +145,7 @@ class TimelineOptionsDialogFragment :
             with(binding) {
                 tvConfigure.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToChangeSettings())
                 tvInviteMembers.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
+                tvKnockRequests.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
                 tvDelete.setIsVisible(groupPowerLevelsContent.isCurrentUserOnlyAdmin(args.roomId))
             }
         }
