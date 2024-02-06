@@ -14,14 +14,14 @@ import androidx.transition.TransitionInflater
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.list.BaseRvDecoration
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.base.list.BaseRvDecoration
-import org.futo.circles.core.model.GalleryContentListItem
-import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.feature.picker.gallery.media.list.GalleryMediaItemViewHolder
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
+import org.futo.circles.core.model.GalleryContentListItem
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryGridBinding
 import org.futo.circles.gallery.feature.gallery.GalleryMediaPreviewListener
