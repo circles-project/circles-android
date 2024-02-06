@@ -26,5 +26,5 @@ class GalleryDialogFragmentViewModel @Inject constructor(
 
     val deleteGalleryLiveData = SingleEventLiveData<Response<Unit?>>()
 
-    val knockRequestCountLiveData = knockRequestsDataSource.getKnockRequestCountLiveData(roomId)
+    val knockRequestCountLiveData = knockRequestsDataSource.getKnockRequestCountLiveDataForCurrentUserInRoom(roomId)
 }

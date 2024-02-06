@@ -56,7 +56,7 @@ class TimelineViewModel @Inject constructor(
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
     val knockRequestCountLiveData =
-        knockRequestsDataSource.getKnockRequestCountLiveData(getRoomOrTimelineId())
+        knockRequestsDataSource.getKnockRequestCountLiveDataForCurrentUserInRoom(getRoomOrTimelineId())
 
 
     fun sharePostContent(content: PostContent) {

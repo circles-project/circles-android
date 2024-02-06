@@ -34,7 +34,7 @@ class TimelineOptionsViewModel @Inject constructor(
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
     val knockRequestCountLiveData =
-        knockRequestsDataSource.getKnockRequestCountLiveData(getRoomOrTimelineId())
+        knockRequestsDataSource.getKnockRequestCountLiveDataForCurrentUserInRoom(getRoomOrTimelineId())
 
     val roomSummaryLiveData =
         MatrixSessionProvider.getSessionOrThrow().getRoom(roomId)?.getRoomSummaryLive()

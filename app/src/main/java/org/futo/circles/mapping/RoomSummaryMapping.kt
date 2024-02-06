@@ -1,6 +1,8 @@
 package org.futo.circles.mapping
 
+import org.futo.circles.core.extensions.getPowerLevelContent
 import org.futo.circles.core.extensions.getRoomOwner
+import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.mapping.toRoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
@@ -55,11 +57,14 @@ private fun RoomSummary.getCircleUnreadMessagesCount(): Int {
     return unreadInCircle
 }
 
-fun getKnocksCount(roomId: String) =
-    MatrixSessionProvider.currentSession?.getRoom(roomId)?.membershipService()
+fun getKnocksCount(roomId: String): Int {
+    if (getPowerLevelContent(roomId)?.isCurrentUserAbleToInvite() == false) return 0
+    return MatrixSessionProvider.currentSession?.getRoom(roomId)?.membershipService()
         ?.getRoomMembers(
             roomMemberQueryParams {
                 excludeSelf = true
                 memberships = listOf(Membership.KNOCK)
             }
         )?.size ?: 0
+}
+
