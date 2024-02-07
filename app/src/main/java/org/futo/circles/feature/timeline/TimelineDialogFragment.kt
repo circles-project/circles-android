@@ -190,7 +190,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         viewModel.profileLiveData?.observeData(this) {
             it.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
         }
-        viewModel.knockRequestCountLiveData?.observeData(this) {
+        viewModel.knockRequestCountLiveData.observeData(this) {
             knocksCountBadgeDrawable.apply {
                 number = it
                 isVisible = it > 0

@@ -158,7 +158,7 @@ class TimelineOptionsDialogFragment :
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.svPushNotifications.isChecked = it
         }
-        viewModel.knockRequestCountLiveData?.observeData(this) {
+        viewModel.knockRequestCountLiveData.observeData(this) {
             binding.ivKnocksCount.apply {
                 setIsVisible(it > 0)
                 setCount(it)

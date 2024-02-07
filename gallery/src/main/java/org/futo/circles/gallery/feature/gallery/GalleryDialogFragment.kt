@@ -111,7 +111,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
         viewModel.deleteGalleryLiveData.observeResponse(this,
             success = { onBackPressed() }
         )
-        viewModel.knockRequestCountLiveData?.observeData(this) {
+        viewModel.knockRequestCountLiveData.observeData(this) {
             knocksCountBadgeDrawable.apply {
                 number = it
                 isVisible = it > 0
