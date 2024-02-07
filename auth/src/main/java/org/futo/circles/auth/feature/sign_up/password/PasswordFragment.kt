@@ -11,12 +11,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentPasswordBinding
+import org.futo.circles.auth.feature.sign_up.password.confirmation.SetupPasswordWarningDialog
 import org.futo.circles.auth.model.PasswordModeArg
+import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.base.fragment.HasLoadingState
-import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 
 @AndroidEntryPoint
 class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password),
@@ -26,6 +27,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
     private val viewModel by viewModels<PasswordViewModel>()
     override val fragment: Fragment = this
     private val binding by viewBinding(FragmentPasswordBinding::bind)
+    private val passphraseWarningDialog by lazy { SetupPasswordWarningDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,6 +37,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
 
     override fun onResume() {
         super.onResume()
+        showPasswordWarningIfNeeded()
         onPasswordDataChanged()
     }
 
@@ -73,7 +76,16 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
         val password = binding.tilPassword.getText()
         val repeat = binding.tilRepeatPassword.getText()
         binding.btnLogin.isEnabled = if (isSignupMode()) {
-            binding.vPasswordStrength.isPasswordStrong() && password == repeat
+            binding.vPasswordStrength.isPasswordStrong() && password == repeat && password.isNotEmpty()
         } else password.isNotEmpty()
+    }
+
+    private fun showPasswordWarningIfNeeded() {
+        if (isSignupMode() && viewModel.isPasswordWarningConfirmed().not()) {
+            passphraseWarningDialog.apply {
+                setOnDismissListener { viewModel.confirmPasswordWarning() }
+                show()
+            }
+        }
     }
 }

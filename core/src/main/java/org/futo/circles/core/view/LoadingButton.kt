@@ -17,7 +17,8 @@ import org.futo.circles.core.extensions.setIsVisible
 class LoadingButtonState(
     val superSavedState: Parcelable?,
     val isLoading: Boolean,
-    val text: String
+    val text: String,
+    val isEnabled: Boolean
 ) : View.BaseSavedState(superSavedState), Parcelable
 
 
@@ -53,7 +54,7 @@ class LoadingButton(
 
     override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
-        return LoadingButtonState(superState, isLoading, buttonText)
+        return LoadingButtonState(superState, isLoading, buttonText, isEnabled)
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
@@ -62,6 +63,7 @@ class LoadingButton(
         doOnLayout {
             setText(loadingButtonState?.text ?: "")
             setIsLoading(loadingButtonState?.isLoading ?: false)
+            isEnabled = loadingButtonState?.isEnabled ?: true
         }
     }
 
