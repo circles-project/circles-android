@@ -131,8 +131,7 @@ class PostLayout(
     }
 
     private fun openReplies() {
-        if (binding.postFooter.areUserAbleToReply())
-            post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
+        post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
     }
 
     private fun setMentionBorder(content: PostContent) {
