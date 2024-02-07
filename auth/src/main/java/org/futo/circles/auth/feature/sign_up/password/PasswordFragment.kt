@@ -76,12 +76,12 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
         val password = binding.tilPassword.getText()
         val repeat = binding.tilRepeatPassword.getText()
         binding.btnLogin.isEnabled = if (isSignupMode()) {
-            binding.vPasswordStrength.isPasswordStrong() && password == repeat
+            binding.vPasswordStrength.isPasswordStrong() && password == repeat && password.isNotEmpty()
         } else password.isNotEmpty()
     }
 
     private fun showPasswordWarningIfNeeded() {
-        if (isSignupMode() && viewModel.isPasswordWarningConfirmed()) {
+        if (isSignupMode() && viewModel.isPasswordWarningConfirmed().not()) {
             passphraseWarningDialog.apply {
                 setOnDismissListener { viewModel.confirmPasswordWarning() }
                 show()
