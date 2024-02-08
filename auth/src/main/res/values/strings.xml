@@ -173,6 +173,9 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
     <string name="passphrase_usage_explanation">On the next screen we will ask you to set up a passphrase to your account.\n\nCircles uses your passphrase to log in AND to protect your encryption keys.</string>
     <string name="forget_passphrase_warning">If you forget your passphrase, you won\'t be able to recover posts or photos on a new device.</string>
     <string name="passphrase_tip">Tip: It\'s OK to write your passphrase down and store it in a secure location.</string>
+    <string name="username_not_found">Username not found</string>
+    <string name="invalid_validation_code">Invalid validation code</string>
+    <string name="invalid_password">Invalid password</string>
 
 
     <plurals name="days">

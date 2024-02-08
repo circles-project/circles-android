@@ -15,8 +15,7 @@ class ValidateEmailViewModel @Inject constructor(
 ) : ViewModel() {
 
     val sendCodeLiveData = MutableLiveData<Response<RegistrationResult>>()
-    val validateEmailLiveData =
-        SingleEventLiveData<Response<RegistrationResult>>()
+    val validateEmailLiveData = SingleEventLiveData<Response<RegistrationResult>>()
 
     val showSubscribeCheckLiveData = MutableLiveData(dataSource.shouldShowSubscribeToEmail())
 

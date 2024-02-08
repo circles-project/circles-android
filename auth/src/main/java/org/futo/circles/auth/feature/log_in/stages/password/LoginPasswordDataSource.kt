@@ -6,7 +6,7 @@ import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM
 import org.futo.circles.auth.base.PasswordDataSource
 import org.futo.circles.core.extensions.Response
 
-class LoginPasswordDataSource constructor(
+class LoginPasswordDataSource(
     private val loginStagesDataSource: BaseLoginStagesDataSource
 ) : PasswordDataSource {
 

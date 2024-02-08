@@ -99,6 +99,9 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
         viewModel.loginResultLiveData.observeResponse(this,
             success = {
                 findNavController().navigateSafe(LogInFragmentDirections.toLoginStagesFragment())
+            },
+            error = {
+                showError(getString(R.string.username_not_found))
             }
         )
         viewModel.switchUsersLiveData.observeData(this) {

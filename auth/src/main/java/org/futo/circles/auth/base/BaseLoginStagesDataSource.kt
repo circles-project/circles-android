@@ -14,7 +14,7 @@ import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
 
-abstract class BaseLoginStagesDataSource constructor(private val context: Context) {
+abstract class BaseLoginStagesDataSource(private val context: Context) {
 
     class Factory @Inject constructor(
         private val loginStagesDataSource: LoginStagesDataSource,

@@ -18,6 +18,7 @@ import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.showError
 
 @AndroidEntryPoint
 class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password),
@@ -69,7 +70,8 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
     }
 
     private fun setupObservers() {
-        viewModel.passwordResponseLiveData.observeResponse(this)
+        viewModel.passwordResponseLiveData.observeResponse(this,
+            error = { showError(getString(R.string.invalid_password)) })
     }
 
     private fun onPasswordDataChanged() {

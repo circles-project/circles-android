@@ -17,6 +17,7 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showDialog
+import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
 
@@ -68,7 +69,9 @@ class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_val
     private fun setupObservers() {
         viewModel.sendCodeLiveData.observeResponse(this,
             success = { validationCodeSentState() })
-        viewModel.validateEmailLiveData.observeResponse(this)
+        viewModel.validateEmailLiveData.observeResponse(this, error = {
+            showError(getString(R.string.invalid_validation_code))
+        })
         viewModel.showSubscribeCheckLiveData.observeData(this) {
             binding.cbEmailUpdates.setIsVisible(it)
         }
