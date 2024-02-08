@@ -47,9 +47,9 @@
                 app:nullable="false" />
 
             <argument
-                android:name="type"
-                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
-                app:nullable="false" />
+                android:name="timelineId"
+                app:argType="string"
+                app:nullable="true" />
 
         </action>
 

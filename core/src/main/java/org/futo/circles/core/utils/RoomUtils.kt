@@ -23,10 +23,6 @@ fun getTimelineRoomFor(circleId: String): Room? {
     return session.getRoom(circleId)?.getTimelineRoom()
 }
 
-fun getTimelineRoomIdOrThrow(circleId: String) = getTimelineRoomFor(circleId)?.roomId
-    ?: throw IllegalArgumentException("Timeline not found")
-
-
 fun getJoinedRoomById(roomId: String): Room? {
     val session = MatrixSessionProvider.currentSession ?: return null
     return session.roomService().getRoom(roomId)

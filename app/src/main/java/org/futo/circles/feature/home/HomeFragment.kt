@@ -23,11 +23,11 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.InviteTypeArg
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
@@ -106,13 +106,11 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     }
 
     private fun handlePostNotificationOpen(type: String, summary: RoomSummary) {
-        val circlesRoomType = if (type == GROUP_TYPE) CircleRoomTypeArg.Group
-        else CircleRoomTypeArg.Circle
-
-        val timelineId = viewModel.getNotificationGroupOrCircleId(summary) ?: return
+        val roomId = viewModel.getNotificationGroupOrCircleId(summary) ?: return
+        val timelineId = if (type == GROUP_TYPE) null else getTimelineRoomFor(roomId)?.roomId
         binding.bottomNavigationView.post {
             findNavController().navigateSafe(
-                HomeFragmentDirections.toTimeline(timelineId, circlesRoomType)
+                HomeFragmentDirections.toTimeline(roomId, timelineId)
             )
         }
     }

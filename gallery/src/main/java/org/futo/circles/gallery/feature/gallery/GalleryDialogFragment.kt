@@ -21,7 +21,6 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setEnabledChildren
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment
@@ -32,7 +31,8 @@ interface GalleryMediaPreviewListener {
     fun onPreviewMedia(itemId: String, view: View, position: Int)
 }
 
-@ExperimentalBadgeUtils @AndroidEntryPoint
+@ExperimentalBadgeUtils
+@AndroidEntryPoint
 class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGalleryBinding::inflate),
     GalleryMediaPreviewListener, BackPressOwner {
 
@@ -140,7 +140,7 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
 
     private fun navigateToOptions() {
         findNavController().navigateSafe(
-            GalleryDialogFragmentDirections.toTimelineOptions(args.roomId, CircleRoomTypeArg.Photo)
+            GalleryDialogFragmentDirections.toTimelineOptions(args.roomId)
         )
     }
 

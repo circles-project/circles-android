@@ -6,10 +6,7 @@ import androidx.lifecycle.map
 import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.notification.RoomNotificationState
@@ -21,18 +18,14 @@ class RoomNotificationsDataSource @Inject constructor(
 ) {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val type: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
+    private val timelineId: String? = savedStateHandle["timelineId"]
+    private val isCircle: Boolean = timelineId != null
 
     private val session
         get() = MatrixSessionProvider.getSessionOrThrow()
 
-    private val timelineId by lazy {
-        if (type == CircleRoomTypeArg.Circle) getTimelineRoomIdOrThrow(roomId)
-        else roomId
-    }
-
     val notificationsStateLiveData =
-        session.getRoom(timelineId)?.roomPushRuleService()?.getLiveRoomNotificationState()?.map {
+        session.getRoom(timelineId?:roomId)?.roomPushRuleService()?.getLiveRoomNotificationState()?.map {
             it != RoomNotificationState.MUTE
         } ?: MutableLiveData(true)
 
@@ -44,12 +37,13 @@ class RoomNotificationsDataSource @Inject constructor(
         }
     }
 
-    private fun getTimelineRooms(): List<Room> = when (type) {
-        CircleRoomTypeArg.Circle -> session.getRoom(roomId)
+    private fun getTimelineRooms(): List<Room> = if (isCircle) {
+        session.getRoom(roomId)
             ?.roomSummary()?.spaceChildren?.mapNotNull {
                 session.getRoom(it.childRoomId)
             } ?: emptyList()
-
-        else -> listOfNotNull(session.getRoom(roomId))
+    } else {
+        listOfNotNull(session.getRoom(roomId))
     }
+
 }

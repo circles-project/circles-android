@@ -40,7 +40,7 @@ class TimelineOptionsDialogFragment :
 
     private val viewModel by viewModels<TimelineOptionsViewModel>()
 
-    private val timelineId by lazy { viewModel.getRoomOrTimelineId() }
+    private val timelineId by lazy { args.timelineId ?: args.roomId }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { TimelineOptionsNavigator(this) }
 

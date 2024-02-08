@@ -17,12 +17,10 @@ import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.feature.user.UserOptionsDataSource
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
@@ -42,10 +40,10 @@ class TimelineViewModel @Inject constructor(
     private val postOptionsDataSource: PostOptionsDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
     private val readMessageDataSource: ReadMessageDataSource
-) : BaseTimelineViewModel(timelineDataSourceFactory.create(savedStateHandle.get<CircleRoomTypeArg>("type") == CircleRoomTypeArg.Circle)) {
+) : BaseTimelineViewModel(timelineDataSourceFactory.create(savedStateHandle.get<String>("timelineId") != null)) {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val type: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
+    private val timelineId: String? = savedStateHandle["timelineId"]
 
     val session = MatrixSessionProvider.currentSession
     val profileLiveData = session?.userService()?.getUserLive(session.myUserId)
@@ -56,7 +54,9 @@ class TimelineViewModel @Inject constructor(
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
     val knockRequestCountLiveData =
-        knockRequestsDataSource.getKnockRequestCountLiveDataForCurrentUserInRoom(getRoomOrTimelineId())
+        knockRequestsDataSource.getKnockRequestCountLiveDataForCurrentUserInRoom(
+            timelineId ?: roomId
+        )
 
 
     fun sharePostContent(content: PostContent) {
@@ -149,8 +149,4 @@ class TimelineViewModel @Inject constructor(
             }?.awaitAll()
         }
     }
-
-    fun getRoomOrTimelineId() =
-        if (type == CircleRoomTypeArg.Circle) getTimelineRoomIdOrThrow(roomId)
-        else roomId
 }
