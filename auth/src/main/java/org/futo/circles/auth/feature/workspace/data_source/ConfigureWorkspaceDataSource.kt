@@ -1,6 +1,5 @@
 package org.futo.circles.auth.feature.workspace.data_source
 
-import kotlinx.coroutines.delay
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
@@ -95,7 +94,6 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         room.accountDataKey?.let { key ->
             spacesTreeAccountDataSource.updateSpacesConfigAccountData(key, roomId)
         }
-        delay(CREATE_ROOM_DELAY)
         return roomId
     }
 
@@ -110,9 +108,4 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         roomRelationsBuilder.removeRelations(roomId, myCirclesSpaceId)
 
     }
-
-    private companion object {
-        private const val CREATE_ROOM_DELAY = 1000L
-    }
-
 }
