@@ -7,6 +7,7 @@ import org.matrix.android.sdk.api.listeners.ProgressListener
 import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.crypto.crosssigning.KEYBACKUP_SECRET_SSSS_NAME
+import org.matrix.android.sdk.api.session.crypto.keysbackup.BackupRecoveryKey
 import org.matrix.android.sdk.api.session.crypto.keysbackup.computeRecoveryKey
 import org.matrix.android.sdk.api.session.crypto.keysbackup.extractCurveKeyFromRecoveryKey
 import org.matrix.android.sdk.api.session.securestorage.EmptyKeySigner
@@ -48,7 +49,8 @@ class SSSSDataSource @Inject constructor() {
 
     suspend fun replaceBsSpeke4SKey() {
         val recoveryKey = MatrixSessionProvider.getSessionOrThrow()
-            .cryptoService().keysBackupService().getKeyBackupRecoveryKeyInfo()?.recoveryKey?.toBase64()
+            .cryptoService().keysBackupService()
+            .getKeyBackupRecoveryKeyInfo()?.recoveryKey?.toBase58()
             ?: throw Exception("Recovery Key not found")
         val secret = extractCurveKeyFromRecoveryKey(recoveryKey)
             ?: throw Exception("Can not get secret from recovery key")
@@ -131,6 +133,7 @@ class SSSSDataSource @Inject constructor() {
             secretBase64 = keyBackupPrivateKey.toBase64NoPadding(),
             keys = listOf(KeyRef(keyInfo.keyId, keyInfo.keySpec))
         )
+        session.cryptoService().keysBackupService().onSecretKeyGossip(keyBackupPrivateKey.toBase64NoPadding())
         session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
     }
 
