@@ -3,11 +3,6 @@ package org.futo.circles.core.utils
 import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.futo.circles.core.R
 import org.futo.circles.core.provider.MatrixSessionListenerProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -36,8 +31,7 @@ object LauncherActivityUtils {
                     activity,
                     activity.getString(R.string.you_are_signed_out),
                     Toast.LENGTH_LONG
-                )
-                    .show()
+                ).show()
                 clearSessionAndRestart(activity, launcherActivityIntent)
             }
         }
