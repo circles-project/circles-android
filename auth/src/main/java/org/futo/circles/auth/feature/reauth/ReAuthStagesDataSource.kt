@@ -56,7 +56,7 @@ class ReAuthStagesDataSource @Inject constructor(
         (result as? Response.Success)?.let {
             password?.let { userPassword = it }
             stageCompleted(it.data)
-        }
+        } ?: run { finishReAuthEventLiveData.postValue(Unit) }
         return result
     }
 
