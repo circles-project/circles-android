@@ -110,8 +110,8 @@ dependencies {
     api "io.noties.markwon:linkify:$markwon_version"
     api "io.noties.markwon:ext-strikethrough:$markwon_version"
     api "io.noties.markwon:ext-tasklist:$markwon_version"
-    //noinspection GradleDependency
-    api "io.element.android:wysiwyg:2.2.2"
+
+    api 'io.element.android:wysiwyg:2.29.0'
 
     //Shake detection
     implementation 'com.squareup:seismic:1.0.3'

@@ -82,7 +82,10 @@ class PreviewPostView(
             doAfterTextChanged {
                 binding.btnSend.isEnabled = it?.toString()?.isNotBlank() == true
             }
-            linkDisplayHandler = MentionsLinkDisplayHandler(context)
+            updateStyle(
+                styleConfig = this.styleConfig,
+                mentionDisplayHandler = MentionsLinkDisplayHandler(context)
+            )
         }
         setupRichTextMenu()
     }
@@ -237,7 +240,7 @@ class PreviewPostView(
             )
             .with(object : AutocompleteCallback<UserListItem> {
                 override fun onPopupItemClicked(editable: Editable, item: UserListItem): Boolean {
-                    binding.etTextPost.setLinkSuggestion(
+                    binding.etTextPost.insertMentionAtSuggestion(
                         MATRIX_TO_URL_BASE + item.id,
                         "@${item.user.name}@"
                     )
