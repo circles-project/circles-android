@@ -117,7 +117,7 @@ class PreviewPostView(
     }
 
     fun setText(message: String) {
-        binding.etTextPost.setFormattedMarkdown(message)
+        binding.etTextPost.setMarkdown(message)
         setTextContent()
     }
 
@@ -378,17 +378,11 @@ class PreviewPostView(
         }
     }
 
+    //To remove extra space between word and mardown char (__aaa __*b* -> __aaa__ *b*)
     private fun EditorEditText.getFormattedMarkdown(): String = getMarkdown()
-        .replace("<br><br>", "")
-        .replace("\\", "")
-        .replace("__", "**")
+        .replace(Regex("__(\\S+(?:\\s\\S+)*) __"), "__$1__ ")
+        .replace(Regex("\\*(\\S+(?:\\s\\S+)*) \\*"), "*$1* ")
+        .replace(Regex("~~(\\S+(?:\\s\\S+)*) ~~"), "~~$1~~ ")
 
-
-    private fun EditorEditText.setFormattedMarkdown(message: String) {
-        val formattedMessage = message
-            .replace("\\r\\r|\\n\\n".toRegex(), "<br><br>")
-            .replace("__", "**")
-        setMarkdown(formattedMessage)
-    }
 
 }
