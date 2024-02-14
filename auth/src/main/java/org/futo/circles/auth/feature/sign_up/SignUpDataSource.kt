@@ -153,7 +153,7 @@ class SignUpDataSource @Inject constructor(
     companion object {
         const val REGISTRATION_FREE_TYPE = "org.futo.subscriptions.free_forever"
         const val REGISTRATION_TOKEN_TYPE = "m.login.registration_token"
-        const val REGISTRATION_SUBSCRIPTION_TYPE = "org.futo.subscription.google_play"
+        const val REGISTRATION_SUBSCRIPTION_TYPE = "org.futo.subscriptions.google_play"
         const val REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE = "m.enroll.email.request_token"
         const val REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE = "m.enroll.email.submit_token"
         const val REGISTRATION_USERNAME_TYPE = "m.enroll.username"
