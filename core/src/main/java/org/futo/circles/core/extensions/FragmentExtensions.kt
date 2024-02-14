@@ -55,7 +55,13 @@ private fun Fragment.showDialogBar(message: String, isError: Boolean) {
     dialog.show()
 
     val handler = Handler(Looper.getMainLooper())
-    val runnable = Runnable { if (dialog.isShowing) dialog.dismiss() }
+    val runnable =
+        Runnable {
+            activity?.let {
+                if (dialog.isShowing && !it.isFinishing) dialog.dismiss()
+            }
+        }
+
     dialog.setOnDismissListener { handler.removeCallbacks(runnable) }
     handler.postDelayed(runnable, MESSAGE_BAR_DURATION)
 }
@@ -153,7 +159,7 @@ fun DialogFragment.showUnIgnoreConfirmationDialog(onUnIgnore: (Boolean) -> Unit)
             dialogInterface.dismiss()
         }
         .setNegativeButton(R.string.unignore) { dialogInterface, _ ->
-            onUnIgnore(true)
+            onUnIgnore(false)
             dialogInterface.dismiss()
         }
         .setNeutralButton(R.string.cancel) { dialogInterface, _ -> dialogInterface.dismiss() }
