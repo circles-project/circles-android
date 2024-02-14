@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.NetworkObserver
@@ -21,12 +23,13 @@ import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.showUnIgnoreConfirmationDialog
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.user.list.UsersCirclesAdapter
 import org.futo.circles.core.model.IgnoreUser
 import org.futo.circles.core.model.UnfollowTimeline
 import org.futo.circles.core.model.UnfollowUser
-import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.matrix.android.sdk.api.session.user.model.User
 
@@ -93,7 +96,7 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
                     }
 
                     R.id.unIgnore -> {
-                        viewModel.unIgnoreUser()
+                        showUnIgnoreConfirmationDialog { viewModel.unIgnoreUser(it) }
                         true
                     }
 
@@ -127,8 +130,13 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
                 onBackPressed()
             })
         viewModel.unIgnoreUserLiveData.observeResponse(this,
-            success = {
+            success = { shouldRestart ->
                 context?.let { showSuccess(it.getString(R.string.user_unignored)) }
+                if (shouldRestart) {
+                    activity?.let {
+                        LauncherActivityUtils.clearSessionAndRestart(it, it.intent)
+                    }
+                }
             })
         viewModel.isUserIgnoredLiveData?.observeData(this) {
             isUserIgnored = it
