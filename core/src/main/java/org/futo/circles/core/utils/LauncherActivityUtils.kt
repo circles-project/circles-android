@@ -13,6 +13,7 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 
 object LauncherActivityUtils {
 
+    var isReloadAfterClearCache = false
     private const val IS_CLEAR_CACHE = "is_clear_cache"
 
     fun clearCacheAndRestart(activity: AppCompatActivity) {
@@ -36,6 +37,7 @@ object LauncherActivityUtils {
 
     fun syncSessionIfCashWasCleared(activity: AppCompatActivity) {
         val isClearCashReload = activity.intent?.getBooleanExtra(IS_CLEAR_CACHE, false) ?: false
+        isReloadAfterClearCache = isClearCashReload
         if (isClearCashReload) {
             MatrixSessionProvider.currentSession?.syncService()?.startSync(true)
             activity.intent?.removeExtra(IS_CLEAR_CACHE)
