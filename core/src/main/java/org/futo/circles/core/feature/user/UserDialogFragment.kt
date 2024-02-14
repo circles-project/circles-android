@@ -3,11 +3,10 @@ package org.futo.circles.core.feature.user
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.NetworkObserver
@@ -133,8 +132,8 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             success = { shouldRestart ->
                 context?.let { showSuccess(it.getString(R.string.user_unignored)) }
                 if (shouldRestart) {
-                    activity?.let {
-                        LauncherActivityUtils.clearSessionAndRestart(it, it.intent)
+                    (activity as? AppCompatActivity)?.let {
+                        LauncherActivityUtils.clearCacheAndRestart(it)
                     }
                 }
             })

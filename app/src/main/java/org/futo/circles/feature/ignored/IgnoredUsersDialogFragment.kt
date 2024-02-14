@@ -2,6 +2,7 @@ package org.futo.circles.feature.ignored
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,8 +61,8 @@ class IgnoredUsersDialogFragment :
             success = { shouldRestart ->
                 context?.let { showSuccess(it.getString(org.futo.circles.core.R.string.user_unignored)) }
                 if (shouldRestart) {
-                    activity?.let {
-                        LauncherActivityUtils.clearSessionAndRestart(it, it.intent)
+                    (activity as? AppCompatActivity)?.let {
+                        LauncherActivityUtils.clearCacheAndRestart(it)
                     }
                 }
             })
