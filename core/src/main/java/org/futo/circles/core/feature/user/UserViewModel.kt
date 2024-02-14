@@ -38,7 +38,7 @@ class UserViewModel @Inject constructor(
     val requestFollowLiveData = SingleEventLiveData<Response<Unit?>>()
     val inviteToConnectLiveData = SingleEventLiveData<Response<Unit?>>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
-    val unIgnoreUserLiveData = SingleEventLiveData<Response<Boolean>>()
+    val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unFollowUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val isUserIgnoredLiveData = userOptionsDataSource.ignoredUsersLiveData?.map {
         it.firstOrNull { it.userId == userId } != null
@@ -80,12 +80,10 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun unIgnoreUser(shouldRestart: Boolean) {
+    fun unIgnoreUser() {
         launchBg {
-            when (val result = userOptionsDataSource.unIgnoreSender(userId)) {
-                is Response.Error -> unIgnoreUserLiveData.postValue(result)
-                is Response.Success -> unIgnoreUserLiveData.postValue(Response.Success(shouldRestart))
-            }
+            val result = userOptionsDataSource.unIgnoreSender(userId)
+            unIgnoreUserLiveData.postValue(result)
         }
     }
 

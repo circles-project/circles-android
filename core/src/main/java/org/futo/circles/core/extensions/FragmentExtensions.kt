@@ -20,7 +20,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.futo.circles.core.R
@@ -148,20 +147,4 @@ fun Fragment.openNotificationSettings() {
 
 fun Fragment.getAllChildFragments(): List<Fragment> {
     return listOf(this) + childFragmentManager.fragments.map { it.getAllChildFragments() }.flatten()
-}
-
-fun DialogFragment.showUnIgnoreConfirmationDialog(onUnIgnore: (Boolean) -> Unit) {
-    MaterialAlertDialogBuilder(requireContext())
-        .setTitle(R.string.unignore)
-        .setMessage(R.string.unignore_message)
-        .setPositiveButton(R.string.unignore_and_restart) { dialogInterface, _ ->
-            onUnIgnore(true)
-            dialogInterface.dismiss()
-        }
-        .setNegativeButton(R.string.unignore) { dialogInterface, _ ->
-            onUnIgnore(false)
-            dialogInterface.dismiss()
-        }
-        .setNeutralButton(R.string.cancel) { dialogInterface, _ -> dialogInterface.dismiss() }
-        .show()
 }

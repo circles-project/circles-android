@@ -87,6 +87,12 @@ data class IgnoreUser(
     override val positiveButtonRes: Int = R.string.ignore
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
+data class UnIgnoreUser(
+    override val titleRes: Int = R.string.unignore,
+    override val messageRes: Int = R.string.unignore_message,
+    override val positiveButtonRes: Int = R.string.unignore_and_restart
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
 data class UnfollowUser(
     override val titleRes: Int = R.string.unfollow,
     override val messageRes: Int = R.string.unfollow_user_message,

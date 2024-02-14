@@ -10,8 +10,8 @@ import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.extensions.showUnIgnoreConfirmationDialog
+import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.model.UnIgnoreUser
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.databinding.DialogFragmentIgnoredUsersBinding
@@ -30,9 +30,7 @@ class IgnoredUsersDialogFragment :
     private val usersAdapter by lazy {
         IgnoredUsersAdapter(
             onUnIgnore = { userId ->
-                showUnIgnoreConfirmationDialog {
-                    viewModel.unIgnoreUser(userId, it)
-                }
+                withConfirmation(UnIgnoreUser()) { viewModel.unIgnoreUser(userId) }
             }
         )
     }
@@ -58,12 +56,9 @@ class IgnoredUsersDialogFragment :
             usersAdapter.submitList(it)
         }
         viewModel.unIgnoreUserLiveData.observeResponse(this,
-            success = { shouldRestart ->
-                context?.let { showSuccess(it.getString(org.futo.circles.core.R.string.user_unignored)) }
-                if (shouldRestart) {
-                    (activity as? AppCompatActivity)?.let {
-                        LauncherActivityUtils.clearCacheAndRestart(it)
-                    }
+            success = {
+                (activity as? AppCompatActivity)?.let {
+                    LauncherActivityUtils.clearCacheAndRestart(it)
                 }
             })
     }

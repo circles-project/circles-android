@@ -22,10 +22,10 @@ import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.extensions.showUnIgnoreConfirmationDialog
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.user.list.UsersCirclesAdapter
 import org.futo.circles.core.model.IgnoreUser
+import org.futo.circles.core.model.UnIgnoreUser
 import org.futo.circles.core.model.UnfollowTimeline
 import org.futo.circles.core.model.UnfollowUser
 import org.futo.circles.core.utils.LauncherActivityUtils
@@ -95,7 +95,7 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
                     }
 
                     R.id.unIgnore -> {
-                        showUnIgnoreConfirmationDialog { viewModel.unIgnoreUser(it) }
+                        withConfirmation(UnIgnoreUser()) { viewModel.unIgnoreUser() }
                         true
                     }
 
@@ -129,12 +129,9 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
                 onBackPressed()
             })
         viewModel.unIgnoreUserLiveData.observeResponse(this,
-            success = { shouldRestart ->
-                context?.let { showSuccess(it.getString(R.string.user_unignored)) }
-                if (shouldRestart) {
-                    (activity as? AppCompatActivity)?.let {
-                        LauncherActivityUtils.clearCacheAndRestart(it)
-                    }
+            success = {
+                (activity as? AppCompatActivity)?.let {
+                    LauncherActivityUtils.clearCacheAndRestart(it)
                 }
             })
         viewModel.isUserIgnoredLiveData?.observeData(this) {

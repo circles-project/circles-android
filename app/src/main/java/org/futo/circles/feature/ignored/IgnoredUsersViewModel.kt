@@ -16,18 +16,16 @@ class IgnoredUsersViewModel @Inject constructor(
     private val userOptionsDataSource: UserOptionsDataSource
 ) : ViewModel() {
 
-    val unIgnoreUserLiveData = SingleEventLiveData<Response<Boolean>>()
+    val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
 
     val ignoredUsersLiveData =
         MatrixSessionProvider.getSessionOrThrow().userService().getIgnoredUsersLive()
             .map { it.map { it.toCirclesUserSummary() } }
 
-    fun unIgnoreUser(userId: String, shouldRestart: Boolean) {
+    fun unIgnoreUser(userId: String) {
         launchBg {
-            when (val result = userOptionsDataSource.unIgnoreSender(userId)) {
-                is Response.Error -> unIgnoreUserLiveData.postValue(result)
-                is Response.Success -> unIgnoreUserLiveData.postValue(Response.Success(shouldRestart))
-            }
+            val result = userOptionsDataSource.unIgnoreSender(userId)
+            unIgnoreUserLiveData.postValue(result)
         }
     }
 
