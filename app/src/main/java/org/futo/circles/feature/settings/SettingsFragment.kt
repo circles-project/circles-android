@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -27,6 +28,7 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.PreferencesProvider
+import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.matrix.android.sdk.api.session.user.model.User
@@ -62,6 +64,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
                 withConfirmation(LogOut()) {
                     loadingDialog.handleLoading(LoadingData(R.string.log_out))
                     viewModel.logOut()
+                }
+            }
+            tvClearCache.setOnClickListener {
+                (activity as? AppCompatActivity)?.let {
+                    LauncherActivityUtils.clearCacheAndRestart(it)
                 }
             }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }

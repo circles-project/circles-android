@@ -204,6 +204,14 @@
                 app:optionName="@string/switch_user" />
 
             <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvClearCache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_reload"
+                app:optionName="@string/clear_cache_and_reload" />
+
+
+            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
