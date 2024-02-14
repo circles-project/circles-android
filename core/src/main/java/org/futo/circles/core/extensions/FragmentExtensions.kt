@@ -22,8 +22,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.R
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.ConfirmationType
 
@@ -54,7 +54,13 @@ private fun Fragment.showDialogBar(message: String, isError: Boolean) {
     dialog.show()
 
     val handler = Handler(Looper.getMainLooper())
-    val runnable = Runnable { if (dialog.isShowing) dialog.dismiss() }
+    val runnable =
+        Runnable {
+            activity?.let {
+                if (dialog.isShowing && !it.isFinishing) dialog.dismiss()
+            }
+        }
+
     dialog.setOnDismissListener { handler.removeCallbacks(runnable) }
     handler.postDelayed(runnable, MESSAGE_BAR_DURATION)
 }

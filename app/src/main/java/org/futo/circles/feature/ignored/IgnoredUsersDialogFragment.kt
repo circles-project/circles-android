@@ -2,6 +2,7 @@ package org.futo.circles.feature.ignored
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
@@ -9,6 +10,9 @@ import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.model.UnIgnoreUser
+import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.databinding.DialogFragmentIgnoredUsersBinding
 import org.futo.circles.feature.ignored.list.IgnoredUsersAdapter
@@ -25,7 +29,9 @@ class IgnoredUsersDialogFragment :
 
     private val usersAdapter by lazy {
         IgnoredUsersAdapter(
-            onUnIgnore = { userId -> viewModel.unIgnoreUser(userId) }
+            onUnIgnore = { userId ->
+                withConfirmation(UnIgnoreUser()) { viewModel.unIgnoreUser(userId) }
+            }
         )
     }
 
@@ -49,7 +55,12 @@ class IgnoredUsersDialogFragment :
         viewModel.ignoredUsersLiveData.observeData(this) {
             usersAdapter.submitList(it)
         }
-        viewModel.unIgnoreUserLiveData.observeResponse(this)
+        viewModel.unIgnoreUserLiveData.observeResponse(this,
+            success = {
+                (activity as? AppCompatActivity)?.let {
+                    LauncherActivityUtils.clearCacheAndRestart(it)
+                }
+            })
     }
 
 }
