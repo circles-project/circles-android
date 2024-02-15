@@ -26,6 +26,7 @@ import org.futo.circles.core.R
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.ConfirmationType
+import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
 private const val MESSAGE_BAR_DURATION = 3500L
@@ -54,12 +55,7 @@ private fun Fragment.showDialogBar(message: String, isError: Boolean) {
     dialog.show()
 
     val handler = Handler(Looper.getMainLooper())
-    val runnable =
-        Runnable {
-            activity?.let {
-                if (dialog.isShowing && !it.isFinishing) dialog.dismiss()
-            }
-        }
+    val runnable = Runnable { tryOrNull { if (dialog.isShowing) dialog.dismiss() } }
 
     dialog.setOnDismissListener { handler.removeCallbacks(runnable) }
     handler.postDelayed(runnable, MESSAGE_BAR_DURATION)
