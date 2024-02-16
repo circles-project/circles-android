@@ -52,14 +52,7 @@ class SignUpDataSource @Inject constructor(
         stagesToComplete.clear()
         domain = serverDomain
         stagesToComplete.addAll(stages)
-        if ((stages.firstOrNull() as? Stage.Other)?.type == REGISTRATION_FREE_TYPE)
-            skipFreeSubscriptionDummyStage()
-        else navigateToNextStage()
-    }
-
-    private suspend fun skipFreeSubscriptionDummyStage() {
-        setNextStage()
-        performRegistrationStage(mapOf(BaseLoginStagesDataSource.TYPE_PARAM_KEY to REGISTRATION_FREE_TYPE))
+        navigateToNextStage()
     }
 
     suspend fun performRegistrationStage(
@@ -116,7 +109,7 @@ class SignUpDataSource @Inject constructor(
         } ?: stagesToComplete.firstOrNull()
     }
 
-    private fun navigateToNextStage() {
+    private suspend fun navigateToNextStage() {
         setNextStage()
         val event = when (val stage = currentStage) {
             is Stage.Terms -> SignUpNavigationEvents.AcceptTerm
@@ -129,7 +122,12 @@ class SignUpDataSource @Inject constructor(
         updatePageSubtitle()
     }
 
-    private fun handleStageOther(type: String): SignUpNavigationEvents? = when (type) {
+    private suspend fun handleStageOther(type: String): SignUpNavigationEvents? = when (type) {
+        REGISTRATION_FREE_TYPE -> {
+            performRegistrationStage(mapOf(BaseLoginStagesDataSource.TYPE_PARAM_KEY to REGISTRATION_FREE_TYPE))
+            null
+        }
+
         REGISTRATION_TOKEN_TYPE -> SignUpNavigationEvents.TokenValidation
         REGISTRATION_SUBSCRIPTION_TYPE -> SignUpNavigationEvents.Subscription
         REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE -> SignUpNavigationEvents.ValidateEmail

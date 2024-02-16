@@ -47,14 +47,21 @@ class SelectSignUpTypeDataSource @Inject constructor(
         signUpDataSource.startSignUpStages(stages, domain)
     }
 
-    // Must start with org.futo.subscriptions.free_forever
-    fun getFreeSignupStages(flows: List<List<Stage>>): List<Stage>? =
-        flows.firstOrNull { (it.firstOrNull() as? Stage.Other)?.type == REGISTRATION_FREE_TYPE }
+    // Must contain org.futo.subscriptions.free_forever
+    fun getFreeSignupStages(flows: List<List<Stage>>): List<Stage>? = flows.firstOrNull { stages ->
+        stages.firstOrNull { stage ->
+            (stage as? Stage.Other)?.type == REGISTRATION_FREE_TYPE
+        } != null
+    }
 
-    // Must start with org.futo.subscription.google_play, available only for gPlay flavor
+    // Must contain org.futo.subscription.google_play, available only for gPlay flavor
     fun getSubscriptionSignupStages(flows: List<List<Stage>>): List<Stage>? =
         if (CirclesAppConfig.isGplayFlavor()) {
-            flows.firstOrNull { (it.firstOrNull() as? Stage.Other)?.type == REGISTRATION_SUBSCRIPTION_TYPE }
+            flows.firstOrNull { stages ->
+                stages.firstOrNull { stage ->
+                    (stage as? Stage.Other)?.type == REGISTRATION_SUBSCRIPTION_TYPE
+                } != null
+            }
         } else null
 
 }
