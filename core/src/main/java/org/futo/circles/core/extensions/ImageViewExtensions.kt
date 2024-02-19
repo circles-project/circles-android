@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.PictureDrawable
+import android.util.Log
 import android.util.Size
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -46,11 +47,14 @@ fun ImageView.loadEncryptedImage(
         )
     }
     content.elementToDecrypt?.let {
+        Log.d(
+            "MyLog",
+            "encrypted $loadWidth / $loadHeight"
+        )
         GlideApp
             .with(context)
             .load(content)
             .placeholder(placeholder)
-            .override(loadWidth, loadHeight)
             .fitCenter()
             .into(this)
     } ?: loadMatrixImage(content.fileUrl, loadOriginalSize, preferredSize = preferredSize)
