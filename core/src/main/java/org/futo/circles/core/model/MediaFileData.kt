@@ -13,6 +13,4 @@ data class MediaFileData(
     val duration: String
 ) {
     val aspectRatio = width.toFloat() / height.toFloat()
-    fun calculateSize(width: Int) = Size(width, (width / aspectRatio).toInt())
-
 }
