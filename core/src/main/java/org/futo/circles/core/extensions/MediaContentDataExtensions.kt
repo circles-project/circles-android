@@ -18,8 +18,7 @@ fun MediaFileData.loadEncryptedIntoWithAspect(
         if (fileUrl.startsWith(UriContentScheme)) {
             imageView.loadImage(fileUrl)
         } else {
-            val size = Size(width, (width / aspectRatio).toInt())
-            imageView.loadEncryptedImage(this, size, thumbHash = thumbHash)
+            imageView.loadEncryptedImage(this, Size(width, height), thumbHash = thumbHash)
         }
     }
 }

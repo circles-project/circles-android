@@ -1,8 +1,8 @@
 package org.futo.circles.core.model
 
 import android.text.Spanned
-import android.util.Log
 import android.util.Size
+import org.futo.circles.core.utils.MediaUtils.getThumbSizeWithLimits
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
 enum class PostContentType(val typeKey: String) {
@@ -53,25 +53,8 @@ data class MediaContent(
 
     fun calculateThumbnailSize(viewWidth: Int): Size {
         val data = thumbnailFileData ?: mediaFileData
-
-        Log.d("MyLog", "--original ${data.width}/${data.height}/${data.aspectRatio}")
-
-        val maxHeight = (1.5 * viewWidth).toInt()
-        val minHeight = (viewWidth * 0.5).toInt()
-
-        val aspectHeight = (viewWidth / data.aspectRatio).toInt()
-
-        val height = if (aspectHeight in minHeight..maxHeight) aspectHeight
-        else if (aspectHeight < minHeight) minHeight else maxHeight
-
-        val size = Size(viewWidth, height)
-        Log.d(
-            "MyLog",
-            "output ${size.width}/${size.height}/${size.width.toFloat() / size.height.toFloat()}"
-        )
-        return size
+        return getThumbSizeWithLimits(viewWidth, Size(data.width, data.height))
     }
-
 
     fun getMediaType(): MediaType =
         if (type == PostContentType.VIDEO_CONTENT) MediaType.Video else MediaType.Image
