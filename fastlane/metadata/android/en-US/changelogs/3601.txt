@@ -1,4 +1,7 @@
-- Invite notification deep link
+- Limit displayed aspect ratios for media posts
+- Removed Create room delay
+- Fixed Change password flow
+- Inline Markdown fixes
 - Fixed views count on post
-- Fixed Configure workspace screen and input fields state saving
+- Fixed screens state saving
 - Bug fixes and performance improvements
