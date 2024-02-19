@@ -17,6 +17,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         LauncherActivityUtils.setInvalidTokenListener(this, getSelfIntent(this))
         MarkdownParser.initBuilder(this)
+        LauncherActivityUtils.syncSessionIfCashWasCleared(this)
     }
 
     override fun onNewIntent(intent: Intent) {

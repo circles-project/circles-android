@@ -72,15 +72,12 @@ class PostFooterView(
 
     fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
 
-    fun areUserAbleToReply() = !isThreadPost && areUserAbleToPost()
-
     private fun bindViewData(repliesCount: Int, canShare: Boolean) {
         with(binding) {
             btnShare.setIsVisible(canShare)
             btnLike.isEnabled = areUserAbleToPost()
             btnReply.apply {
                 isVisible = !isThreadPost
-                isEnabled = areUserAbleToPost()
                 setRepliesCount(repliesCount)
             }
         }

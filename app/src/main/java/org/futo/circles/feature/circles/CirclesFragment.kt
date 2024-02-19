@@ -98,8 +98,10 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms),
             loadingDialog.handleLoading(it)
         }
         viewModel.navigateToCircleLiveData.observeResponse(this,
-            success = {
-                findNavController().navigateSafe(CirclesFragmentDirections.toTimeline(it))
+            success = { (circleId, timelineId) ->
+                findNavController().navigateSafe(
+                    CirclesFragmentDirections.toTimeline(circleId, timelineId)
+                )
             })
     }
 

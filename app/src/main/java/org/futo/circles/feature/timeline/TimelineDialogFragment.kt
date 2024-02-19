@@ -53,10 +53,9 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
 
-    private val isGroupMode by lazy { args.type == CircleRoomTypeArg.Group }
+    private val isGroupMode by lazy { args.timelineId == null }
     private val isThread by lazy { args.threadEventId != null }
 
-    private val timelineId by lazy { viewModel.getRoomOrTimelineId() }
     private val binding by lazy {
         getBinding() as DialogFragmentTimelineBinding
     }
@@ -116,11 +115,11 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
         binding.lCreatePost.setUp(object : CreatePostViewListener {
             override fun onCreatePoll() {
-                navigator.navigateToCreatePoll(timelineId)
+                navigator.navigateToCreatePoll(args.timelineId ?: args.roomId)
             }
 
             override fun onCreatePost() {
-                navigator.navigateToCreatePost(timelineId, args.threadEventId)
+                navigator.navigateToCreatePost(args.timelineId ?: args.roomId, args.threadEventId)
             }
         }, binding.rvTimeline.getRecyclerView(), isThread)
 
@@ -143,13 +142,10 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     private fun setupMenuClickListener() {
         binding.toolbar.apply {
-            setOnClickListener { navigator.navigateToTimelineOptions(args.roomId, args.type) }
+            setOnClickListener { navigateToTimelineOptions() }
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    org.futo.circles.core.R.id.settings -> navigator.navigateToTimelineOptions(
-                        args.roomId,
-                        args.type
-                    )
+                    org.futo.circles.core.R.id.settings -> navigateToTimelineOptions()
                 }
                 return@setOnMenuItemClickListener true
             }
@@ -190,7 +186,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         viewModel.profileLiveData?.observeData(this) {
             it.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
         }
-        viewModel.knockRequestCountLiveData?.observeData(this) {
+        viewModel.knockRequestCountLiveData.observeData(this) {
             knocksCountBadgeDrawable.apply {
                 number = it
                 isVisible = it > 0
@@ -288,6 +284,11 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         viewModel.sendReaction(roomId, eventId, emoji)
     }
 
+    private fun navigateToTimelineOptions() {
+        val type = if (isGroupMode) CircleRoomTypeArg.Group else CircleRoomTypeArg.Circle
+        navigator.navigateToTimelineOptions(args.roomId, type, args.timelineId)
+    }
+
     private fun scrollToTopIfMyNewPostAdded(positionStart: Int, itemCount: Int) {
         val items = viewModel.timelineEventsLiveData.value ?: emptyList()
         if (itemCount != 1) return
@@ -307,8 +308,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
                 )
             }
         }
-
-
     }
 
     private fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {

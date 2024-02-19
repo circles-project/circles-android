@@ -32,7 +32,7 @@ abstract class GridMediaItemViewHolder(view: View) : RecyclerView.ViewHolder(vie
     private fun bindCover(id: String, mediaContent: MediaContent) {
         ivCover.transitionName = id
         ivCover.post {
-            val size = mediaContent.thumbnailOrFullSize(ivCover.width)
+            val size = mediaContent.calculateThumbnailSize(ivCover.width)
             ivCover.updateLayoutParams {
                 width = size.width
                 height = size.height

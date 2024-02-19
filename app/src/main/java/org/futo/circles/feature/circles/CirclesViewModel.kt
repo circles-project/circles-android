@@ -24,21 +24,21 @@ class CirclesViewModel @Inject constructor(
 ) : ViewModel() {
 
     val roomsLiveData = dataSource.getCirclesFlow().asLiveData()
-    val navigateToCircleLiveData = SingleEventLiveData<Response<String>>()
+    val navigateToCircleLiveData = SingleEventLiveData<Response<Pair<String, String>>>()
     val createTimelineLoadingLiveData = MutableLiveData<LoadingData>()
 
 
     fun createTimeLineIfNotExist(circleId: String) {
         launchBg {
             val result = createResult {
-                if (getTimelineRoomFor(circleId) == null) {
+                var timelineId = getTimelineRoomFor(circleId)?.roomId
+                if (timelineId == null) {
                     createTimelineLoadingLiveData.postValue(LoadingData(R.string.creating_timeline))
                     val name =
                         MatrixSessionProvider.getSessionOrThrow().getRoomSummary(circleId)?.name
-                    createRoomDataSource.createCircleTimeline(circleId, name)
-                    delay(1000L)
+                    timelineId = createRoomDataSource.createCircleTimeline(circleId, name)
                 }
-                circleId
+                circleId to timelineId
             }
             createTimelineLoadingLiveData.postValue(LoadingData(isLoading = false))
             navigateToCircleLiveData.postValue(result)

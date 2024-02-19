@@ -33,6 +33,7 @@ import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.UserListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.ImageUtils
+import org.futo.circles.core.utils.MediaUtils
 import org.futo.circles.core.utils.VideoUtils
 import org.futo.circles.core.utils.VideoUtils.getVideoDuration
 import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
@@ -82,7 +83,10 @@ class PreviewPostView(
             doAfterTextChanged {
                 binding.btnSend.isEnabled = it?.toString()?.isNotBlank() == true
             }
-            linkDisplayHandler = MentionsLinkDisplayHandler(context)
+            updateStyle(
+                styleConfig = this.styleConfig,
+                mentionDisplayHandler = MentionsLinkDisplayHandler(context)
+            )
         }
         setupRichTextMenu()
     }
@@ -197,15 +201,16 @@ class PreviewPostView(
     }
 
     private fun loadMediaCover(uri: Uri, mediaType: MediaType) {
-        val size = when (mediaType) {
+        val originalSize = when (mediaType) {
             MediaType.Image -> ImageUtils.getImageResolution(context, uri)
             MediaType.Video -> VideoUtils.getVideoResolution(context, uri)
         }
-        val aspectRatio = size.width.toFloat() / size.height.toFloat()
+        val calculatedSize =
+            MediaUtils.getThumbSizeWithLimits(binding.lvContent.width, originalSize)
         binding.lMediaContent.ivCover.post {
             binding.lMediaContent.ivCover.updateLayoutParams {
-                width = binding.lvContent.width
-                height = (width / aspectRatio).toInt()
+                width = calculatedSize.width
+                height = calculatedSize.height
             }
         }
         binding.lMediaContent.ivCover.loadImage(uri.toString())
@@ -214,7 +219,7 @@ class PreviewPostView(
     private fun loadMediaCover(mediaContent: MediaContent) {
         val image = binding.lMediaContent.ivCover
         image.post {
-            val size = mediaContent.thumbnailOrFullSize(image.width)
+            val size = mediaContent.calculateThumbnailSize(image.width)
             image.updateLayoutParams {
                 width = size.width
                 height = size.height
@@ -237,7 +242,7 @@ class PreviewPostView(
             )
             .with(object : AutocompleteCallback<UserListItem> {
                 override fun onPopupItemClicked(editable: Editable, item: UserListItem): Boolean {
-                    binding.etTextPost.setLinkSuggestion(
+                    binding.etTextPost.insertMentionAtSuggestion(
                         MATRIX_TO_URL_BASE + item.id,
                         "@${item.user.name}@"
                     )
@@ -375,15 +380,16 @@ class PreviewPostView(
         }
     }
 
+    //To remove extra space between word and markdown char (__aaa __*b* -> __aaa__ *b*)
     private fun EditorEditText.getFormattedMarkdown(): String = getMarkdown()
-        .replace("<br><br>", "")
-        .replace("\\", "")
         .replace("__", "**")
+        .replace(Regex("\\*\\*(\\S+(?:\\s\\S+)*) \\*\\*"), "**$1** ")
+        .replace(Regex("\\*(\\S+(?:\\s\\S+)*) \\*"), "*$1* ")
+        .replace(Regex("~~(\\S+(?:\\s\\S+)*) ~~"), "~~$1~~ ")
 
-
+    // __ does not work for inline like: asd__asd__asd
     private fun EditorEditText.setFormattedMarkdown(message: String) {
         val formattedMessage = message
-            .replace("\\r\\r|\\n\\n".toRegex(), "<br><br>")
             .replace("__", "**")
         setMarkdown(formattedMessage)
     }

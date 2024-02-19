@@ -33,7 +33,7 @@
     <string name="and">and</string>
     <string name="other">Other</string>
     <string name="display_name">Display name</string>
-    <string name="display_name_explanation">Your display name is how other users on the service will identify you.\n\nThe display name must consist of at least 8 characters, including at least two letters [a–z].\n\nIf you like, you can also use the numeric digits [0–9] and/or a few special characters like the dash, underscore, and period or \"dot\".</string>
+    <string name="display_name_explanation">Your display name is how other users on the service will identify you.</string>
     <string name="weak_password">Weak password</string>
     <string name="fair_password">Fair password</string>
     <string name="good_password">Good password</string>
@@ -52,7 +52,7 @@
     <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="domain">Domain</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
-    <string name="username">Username</string>
+    <string name="username">username</string>
     <string name="at_symbol">\@</string>
     <string name="user_id_separator">:</string>
     <string name="not_a_member">Not a member?</string>
@@ -168,6 +168,14 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
     <string name="is_auto_renew_message">Subscription will renew automatically</string>
     <string name="is_not_auto_renew_message">Subscription will not renew automatically</string>
     <string name="can_not_open_google_play">Can not open Google Play</string>
+    <string name="i_understand">I understand</string>
+    <string name="circles_is_different">Circles is different!</string>
+    <string name="passphrase_usage_explanation">On the next screen we will ask you to set up a passphrase to your account.\n\nCircles uses your passphrase to log in AND to protect your encryption keys.</string>
+    <string name="forget_passphrase_warning">If you forget your passphrase, you won\'t be able to recover posts or photos on a new device.</string>
+    <string name="passphrase_tip">Tip: It\'s OK to write your passphrase down and store it in a secure location.</string>
+    <string name="username_not_found">Username not found</string>
+    <string name="invalid_validation_code">Invalid validation code</string>
+    <string name="invalid_password">Invalid password</string>
 
 
     <plurals name="days">

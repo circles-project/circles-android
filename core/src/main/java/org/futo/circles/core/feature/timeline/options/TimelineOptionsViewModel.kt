@@ -14,7 +14,6 @@ import org.futo.circles.core.feature.room.leave.LeaveRoomDataSource
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getTimelineRoomIdOrThrow
 import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
 
@@ -28,13 +27,15 @@ class TimelineOptionsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val type: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
+    private val timelineId: String? = savedStateHandle["timelineId"]
 
     val leaveDeleteEventLiveData = SingleEventLiveData<Response<Unit?>>()
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
     val knockRequestCountLiveData =
-        knockRequestsDataSource.getKnockRequestCountLiveData(getRoomOrTimelineId())
+        knockRequestsDataSource.getKnockRequestCountLiveDataForCurrentUserInRoom(
+            timelineId ?: roomId
+        )
 
     val roomSummaryLiveData =
         MatrixSessionProvider.getSessionOrThrow().getRoom(roomId)?.getRoomSummaryLive()
@@ -62,9 +63,5 @@ class TimelineOptionsViewModel @Inject constructor(
     }
 
     fun canLeaveRoom(): Boolean = leaveRoomDataSource.canLeaveRoom()
-
-    fun getRoomOrTimelineId() =
-        if (type == CircleRoomTypeArg.Circle) getTimelineRoomIdOrThrow(roomId)
-        else roomId
 
 }

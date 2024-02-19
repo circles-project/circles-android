@@ -18,6 +18,7 @@ import org.futo.circles.core.model.TimelineRoomListItem
 import org.futo.circles.core.model.toTimelineRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelinesLiveData
+import org.futo.circles.core.utils.spaceType
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -75,8 +76,9 @@ class UserDataSource @Inject constructor(
     }
 
     private suspend fun mapSharedTimelines(sharedSummary: RoomSummary): List<TimelineRoomListItem> =
-        session.spaceService().querySpaceChildren(sharedSummary.roomId).children.map {
-            it.toTimelineRoomListItem()
+        session.spaceService().querySpaceChildren(sharedSummary.roomId).children.mapNotNull {
+            if (it.roomType == spaceType) null
+            else it.toTimelineRoomListItem()
         }
 
     private fun filterUsersTimelines(list: List<RoomSummary>): List<TimelineRoomListItem> {

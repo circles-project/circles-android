@@ -7,6 +7,7 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationFlowResponse
 import org.matrix.android.sdk.internal.auth.toFlowsWithStages
 import javax.inject.Inject
 import kotlin.coroutines.Continuation
+import kotlin.coroutines.resumeWithException
 
 class AuthConfirmationProvider @Inject constructor(
     private val reAuthStagesDataSource: ReAuthStagesDataSource
@@ -19,6 +20,7 @@ class AuthConfirmationProvider @Inject constructor(
         errCode: String?,
         promise: Continuation<UIABaseAuth>
     ) {
+        if (errCode != null) promise.resumeWithException(IllegalStateException(errCode))
         if (flowResponse.completedStages.isNullOrEmpty()) {
             val stages = flowResponse.toFlowsWithStages().firstOrNull() ?: emptyList()
             startReAuthEventLiveData.postValue(Unit)

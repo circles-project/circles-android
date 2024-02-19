@@ -50,7 +50,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
             handleNavigation(it)
         }
         viewModel.finishRegistrationLiveData.observeResponse(this,
-            success = { navigateToConfigureWorspace() },
+            success = { navigateToConfigureWorkspace() },
             error = { message ->
                 showError(message)
                 loadingDialog.dismiss()
@@ -88,7 +88,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
 
     override fun onChildBackPress(callback: OnBackPressedCallback) {
         val includedFragmentsManager = childNavHostFragment.childFragmentManager
-        if (includedFragmentsManager.backStackEntryCount == 0) {
+        if (includedFragmentsManager.backStackEntryCount == 1) {
             callback.remove()
             onBackPressed()
         } else {
@@ -96,7 +96,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
         }
     }
 
-    private fun navigateToConfigureWorspace() {
+    private fun navigateToConfigureWorkspace() {
         findNavController().navigateSafe(SignUpFragmentDirections.toConfigureWorkspace())
     }
 

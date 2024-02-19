@@ -40,7 +40,7 @@ class TimelineOptionsDialogFragment :
 
     private val viewModel by viewModels<TimelineOptionsViewModel>()
 
-    private val timelineId by lazy { viewModel.getRoomOrTimelineId() }
+    private val timelineId by lazy { args.timelineId ?: args.roomId }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { TimelineOptionsNavigator(this) }
 
@@ -145,6 +145,7 @@ class TimelineOptionsDialogFragment :
             with(binding) {
                 tvConfigure.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToChangeSettings())
                 tvInviteMembers.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
+                tvKnockRequests.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
                 tvDelete.setIsVisible(groupPowerLevelsContent.isCurrentUserOnlyAdmin(args.roomId))
             }
         }
@@ -157,7 +158,7 @@ class TimelineOptionsDialogFragment :
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.svPushNotifications.isChecked = it
         }
-        viewModel.knockRequestCountLiveData?.observeData(this) {
+        viewModel.knockRequestCountLiveData.observeData(this) {
             binding.ivKnocksCount.apply {
                 setIsVisible(it > 0)
                 setCount(it)

@@ -50,7 +50,6 @@ fun ImageView.loadEncryptedImage(
             .with(context)
             .load(content)
             .placeholder(placeholder)
-            .override(loadWidth, loadHeight)
             .fitCenter()
             .into(this)
     } ?: loadMatrixImage(content.fileUrl, loadOriginalSize, preferredSize = preferredSize)

@@ -1,6 +1,5 @@
 package org.futo.circles.core.model
 
-import android.util.Size
 import org.matrix.android.sdk.api.session.crypto.attachments.ElementToDecrypt
 
 data class MediaFileData(
@@ -11,8 +10,4 @@ data class MediaFileData(
     val width: Int,
     val height: Int,
     val duration: String
-) {
-    val aspectRatio = width.toFloat() / height.toFloat()
-    fun calculateSize(width: Int) = Size(width, (width / aspectRatio).toInt())
-
-}
+)

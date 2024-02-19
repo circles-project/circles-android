@@ -1,6 +1,5 @@
 package org.futo.circles.feature.circles
 
-import android.util.Log
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
@@ -9,7 +8,6 @@ import kotlinx.coroutines.withContext
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
-import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getTimelinesLiveData
@@ -36,7 +34,8 @@ class CirclesDataSource @Inject constructor(
     private fun buildCirclesList(timelines: List<RoomSummary>): List<CircleListItem> {
         val invitesCount = timelines.filter { it.membership == Membership.INVITE }.size
 
-        val joinedCircles = getJoinedCirclesIds().mapNotNull { getJoinedRoomById(it)?.roomSummary() }
+        val joinedCircles =
+            getJoinedCirclesIds().mapNotNull { getJoinedRoomById(it)?.roomSummary() }
 
         val sharedCirclesTimelinesIds = sharedCircleDataSource.getSharedCirclesTimelinesIds()
         val sharedCircles = joinedCircles.filter { joinedCircle ->
@@ -70,9 +69,6 @@ class CirclesDataSource @Inject constructor(
             ?.filter { getJoinedRoomById(it) != null }
         return ids ?: emptyList()
     }
-
-    private fun isInviteToCircleTimeline(summary: RoomSummary) =
-        summary.roomType == TIMELINE_TYPE && summary.membership == Membership.INVITE
 
     private fun MutableList<CircleListItem>.addSection(
         title: CirclesHeaderItem,

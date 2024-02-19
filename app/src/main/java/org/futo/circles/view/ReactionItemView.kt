@@ -25,9 +25,9 @@ class ReactionItemView(
 
     fun bindReactionData(data: ReactionsData) {
         reactionsData = data
+        tag = data.key
         binding.emojiChip.apply {
             val title = "${data.key} ${data.count}"
-            tag = data.key
             text = title
             isChecked = data.addedByMe
         }

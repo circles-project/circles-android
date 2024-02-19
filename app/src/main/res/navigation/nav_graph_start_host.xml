@@ -47,8 +47,19 @@
                 app:nullable="false" />
 
             <argument
+                android:name="timelineId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+
+        <action
+            android:id="@+id/to_invites"
+            app:destination="@id/invites_nav_graph">
+
+            <argument
                 android:name="type"
-                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.core.model.InviteTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -69,5 +80,7 @@
     </dialog>
 
     <include app:graph="@navigation/timeline_nav_graph" />
+
+    <include app:graph="@navigation/invites_nav_graph" />
 
 </navigation>

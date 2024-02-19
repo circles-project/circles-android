@@ -22,33 +22,21 @@
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
             tools:src="@color/blue" />
 
-        <ImageView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/ivEditProfile"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="4dp"
-            android:src="@drawable/ic_edit"
-            app:layout_constraintBottom_toTopOf="@id/tvEditTitle"
+            android:text="@string/edit_profile"
+            android:textColor="@color/menu_icon_color"
+            android:textSize="13sp"
+            app:icon="@drawable/ic_edit"
+            app:iconGravity="top"
+            app:iconTint="@color/menu_icon_color"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
             app:layout_constraintEnd_toStartOf="@id/ivProfile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivProfile"
-            app:layout_constraintVertical_bias="0.6"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/tvEditTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/edit_profile"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
-            app:layout_constraintEnd_toEndOf="@id/ivEditProfile"
-            app:layout_constraintStart_toStartOf="@id/ivEditProfile"
-            app:layout_constraintTop_toBottomOf="@id/ivEditProfile" />
+            app:layout_constraintTop_toTopOf="@id/ivProfile" />
 
 
         <TextView
@@ -79,33 +67,22 @@
             app:layout_constraintTop_toBottomOf="@id/tvUserName"
             tools:text="texsdt" />
 
-        <ImageView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/ivShareProfile"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="4dp"
-            android:src="@drawable/ic_qr"
-            app:layout_constraintBottom_toTopOf="@id/tvShareTitle"
+            android:text="@string/share_profile"
+            android:textColor="@color/menu_icon_color"
+            android:textSize="13sp"
+            app:icon="@drawable/ic_qr"
+            app:iconGravity="top"
+            app:iconTint="@color/menu_icon_color"
+            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivProfile"
             app:layout_constraintTop_toTopOf="@id/ivProfile"
-            app:layout_constraintVertical_bias="0.6"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/tvShareTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/share_profile"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
-            app:layout_constraintEnd_toEndOf="@id/ivShareProfile"
-            app:layout_constraintStart_toStartOf="@id/ivShareProfile"
-            app:layout_constraintTop_toBottomOf="@id/ivShareProfile" />
+            app:rippleColor="@color/highlight_color" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -154,12 +131,12 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:gravity="center"
+                    android:text="@string/empty_media_storage_info"
                     android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="@id/ivProfile"
                     app:layout_constraintEnd_toEndOf="@id/ivEditProfile"
                     app:layout_constraintStart_toStartOf="@id/ivEditProfile"
-                    app:layout_constraintTop_toBottomOf="@id/ivEditProfile"
-                    android:text="@string/empty_media_storage_info" />
+                    app:layout_constraintTop_toBottomOf="@id/ivEditProfile" />
 
                 <View
                     android:layout_width="match_parent"
@@ -225,6 +202,14 @@
                 android:layout_height="wrap_content"
                 app:optionIcon="@drawable/ic_switch_user"
                 app:optionName="@string/switch_user" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvClearCache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_reload"
+                app:optionName="@string/clear_cache_and_reload" />
+
 
             <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvLogout"

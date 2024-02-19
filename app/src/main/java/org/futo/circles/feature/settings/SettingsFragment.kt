@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
+import org.futo.circles.auth.feature.reauth.ReAuthCancellationListener
 import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
 import org.futo.circles.core.base.CirclesAppConfig
@@ -26,13 +28,14 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.PreferencesProvider
+import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
 import org.matrix.android.sdk.api.session.user.model.User
 import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 
 @AndroidEntryPoint
-class SettingsFragment : Fragment(R.layout.fragment_settings) {
+class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellationListener {
 
     private val binding by viewBinding(FragmentSettingsBinding::bind)
     private val viewModel by viewModels<SettingsViewModel>()
@@ -61,6 +64,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 withConfirmation(LogOut()) {
                     loadingDialog.handleLoading(LoadingData(R.string.log_out))
                     viewModel.logOut()
+                }
+            }
+            tvClearCache.setOnClickListener {
+                (activity as? AppCompatActivity)?.let {
+                    LauncherActivityUtils.clearCacheAndRestart(it)
                 }
             }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
@@ -157,5 +165,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val messageId = if (isEnabled) R.string.developer_mode_disabled
         else R.string.developer_mode_enabled
         Toast.makeText(requireContext(), getString(messageId), Toast.LENGTH_LONG).show()
+    }
+
+    override fun onReAuthCanceled() {
+        loadingDialog.dismiss()
     }
 }

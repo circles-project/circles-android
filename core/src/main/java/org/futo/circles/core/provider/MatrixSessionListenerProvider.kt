@@ -14,10 +14,13 @@ import org.matrix.android.sdk.api.session.Session
 object MatrixSessionListenerProvider {
 
     private var onInvalidToken: ((GlobalError) -> Unit)? = null
+    var isRunning = false
 
     val sessionListener: Session.Listener = object : Session.Listener {
         override fun onGlobalError(session: Session, globalError: GlobalError) {
             if (globalError !is GlobalError.InvalidToken) return
+            if (isRunning) return
+            isRunning = true
 
             session.coroutineScope.launch(Dispatchers.IO) {
                 val refreshResult = createResult {
@@ -27,10 +30,14 @@ object MatrixSessionListenerProvider {
 
                 if (refreshResult is Response.Error) {
                     withContext(Dispatchers.Main) {
+                        session.syncService().stopSync()
+                        MatrixInstanceProvider.matrix.authenticationService()
+                            .removeSession(session.sessionParams.credentials.sessionId())
                         onInvalidToken?.invoke(globalError)
                         onInvalidToken = null
                     }
                 }
+                isRunning = false
             }
         }
     }

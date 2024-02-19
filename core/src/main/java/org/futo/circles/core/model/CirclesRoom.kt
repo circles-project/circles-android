@@ -113,7 +113,7 @@ data class Gallery(
     override val nameId: Int? = null,
     override val parentAccountDataKey: String? = PHOTOS_SPACE_ACCOUNT_DATA_KEY,
     override val type: String? = GALLERY_TYPE,
-    override val joinRules: RoomJoinRules? = RoomJoinRules.INVITE
+    override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK
 ) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, null)
 
 data class Timeline(

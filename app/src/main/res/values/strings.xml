@@ -97,6 +97,7 @@
     <string name="add">Add</string>
     <string name="add_link">Add link</string>
     <string name="switch_user">Switch User</string>
+    <string name="clear_cache_and_reload">Clear cache and reload</string>
     <string name="search_people">Search people</string>
     <string name="notification_unknown_room_name">Room</string>
     <string name="notification_new_invitation">New Invitation</string>

@@ -1,5 +1,6 @@
 package org.futo.circles.core.extensions
 
+import android.util.Size
 import android.widget.ImageView
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
@@ -17,8 +18,7 @@ fun MediaFileData.loadEncryptedIntoWithAspect(
         if (fileUrl.startsWith(UriContentScheme)) {
             imageView.loadImage(fileUrl)
         } else {
-            val size = calculateSize(imageView.width)
-            imageView.loadEncryptedImage(this, size, thumbHash = thumbHash)
+            imageView.loadEncryptedImage(this, Size(width, height), thumbHash = thumbHash)
         }
     }
 }

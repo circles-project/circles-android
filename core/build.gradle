@@ -76,7 +76,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
 
     //Matrix
-    api('org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.13@aar') {
+    api('org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.19@aar') {
         transitive = true
     }
 
@@ -102,7 +102,7 @@ dependencies {
     api 'com.github.penfeizhou.android.animation:glide-plugin:2.28.0'
 
     //QR
-    api 'com.google.zxing:core:3.5.2'
+    api 'com.google.zxing:core:3.5.3'
 
     //Markdown
     def markwon_version = "4.6.2"
@@ -110,8 +110,8 @@ dependencies {
     api "io.noties.markwon:linkify:$markwon_version"
     api "io.noties.markwon:ext-strikethrough:$markwon_version"
     api "io.noties.markwon:ext-tasklist:$markwon_version"
-    //noinspection GradleDependency
-    api "io.element.android:wysiwyg:2.2.2"
+
+    api 'io.element.android:wysiwyg:2.29.0'
 
     //Shake detection
     implementation 'com.squareup:seismic:1.0.3'

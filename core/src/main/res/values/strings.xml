@@ -159,6 +159,8 @@
     <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
     <string name="request_sent">Request sent</string>
     <string name="unignore">Unignore</string>
+    <string name="unignore_and_restart">Unignore and restart</string>
+    <string name="unignore_message">Unignoring this user will show all messages from them again.\n\nNote that to take affect this action requires to restart the app and sync the session.</string>
     <string name="user_ignored">User ignored</string>
     <string name="user_unignored">User un ignored</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>

@@ -12,12 +12,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
+import org.futo.circles.core.base.fragment.BackPressOwner
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showDialog
-import org.futo.circles.core.base.fragment.BackPressOwner
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 
 @AndroidEntryPoint
 class ReAuthStagesDialogFragment :
@@ -43,7 +43,10 @@ class ReAuthStagesDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.title = getString(R.string.confirm_auth)
+        binding.toolbar.apply {
+            title = getString(R.string.confirm_auth)
+            setNavigationOnClickListener { handleBackAction() }
+        }
         setupObservers()
     }
 
@@ -71,17 +74,33 @@ class ReAuthStagesDialogFragment :
         showDialog(
             titleResIdRes = R.string.discard_current_login_progress,
             negativeButtonVisible = true,
-            positiveAction = { findNavController().popBackStack() })
+            positiveAction = {
+                cancelReAuth()
+                findNavController().popBackStack()
+            }
+        )
     }
 
     override fun onChildBackPress(callback: OnBackPressedCallback) {
+        handleBackAction(callback)
+    }
+
+    private fun handleBackAction(callback: OnBackPressedCallback? = null) {
         val includedFragmentsManager = childNavHostFragment.childFragmentManager
-        if (includedFragmentsManager.backStackEntryCount == 0) {
-            callback.remove()
+        if (includedFragmentsManager.backStackEntryCount == 1) {
+            cancelReAuth()
+            callback?.remove()
             onBackPressed()
         } else {
             showDiscardDialog()
         }
+    }
+
+    private fun cancelReAuth() {
+        parentFragment?.childFragmentManager?.fragments?.forEach {
+            (it as? ReAuthCancellationListener)?.onReAuthCanceled()
+        }
+
     }
 
 }
