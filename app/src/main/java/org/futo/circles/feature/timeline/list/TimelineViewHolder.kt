@@ -108,7 +108,7 @@ class TextMediaPostViewHolder(
     private fun bindMediaCover(content: MediaContent) {
         val image = binding.vMediaContent.ivCover
         image.post {
-            val size = content.thumbnailOrFullSize(image.width)
+            val size = content.calculateThumbnailSize(image.width)
             image.updateLayoutParams {
                 width = size.width
                 height = size.height

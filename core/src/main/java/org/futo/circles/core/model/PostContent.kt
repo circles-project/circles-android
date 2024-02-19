@@ -1,6 +1,7 @@
 package org.futo.circles.core.model
 
 import android.text.Spanned
+import android.util.Log
 import android.util.Size
 import org.matrix.android.sdk.api.session.room.model.message.MessageType
 
@@ -50,9 +51,26 @@ data class MediaContent(
                 this.thumbHash == (other as? MediaContent)?.thumbHash
 
 
-    fun thumbnailOrFullSize(width: Int) = thumbnailFileData?.let {
-        Size(width, (width / it.aspectRatio).toInt())
-    } ?: Size(width, (width / mediaFileData.aspectRatio).toInt())
+    fun calculateThumbnailSize(viewWidth: Int): Size {
+        val data = thumbnailFileData ?: mediaFileData
+
+        Log.d("MyLog", "--original ${data.width}/${data.height}/${data.aspectRatio}")
+
+        val maxHeight = (1.5 * viewWidth).toInt()
+        val minHeight = (viewWidth * 0.5).toInt()
+
+        val aspectHeight = (viewWidth / data.aspectRatio).toInt()
+
+        val height = if (aspectHeight in minHeight..maxHeight) aspectHeight
+        else if (aspectHeight < minHeight) minHeight else maxHeight
+
+        val size = Size(viewWidth, height)
+        Log.d(
+            "MyLog",
+            "output ${size.width}/${size.height}/${size.width.toFloat() / size.height.toFloat()}"
+        )
+        return size
+    }
 
 
     fun getMediaType(): MediaType =
