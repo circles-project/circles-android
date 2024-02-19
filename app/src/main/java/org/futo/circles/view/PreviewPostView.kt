@@ -380,7 +380,7 @@ class PreviewPostView(
 
     //To remove extra space between word and markdown char (__aaa __*b* -> __aaa__ *b*)
     private fun EditorEditText.getFormattedMarkdown(): String = getMarkdown()
-        .replace("__","**")
+        .replace("__", "**")
         .replace(Regex("\\*\\*(\\S+(?:\\s\\S+)*) \\*\\*"), "**$1** ")
         .replace(Regex("\\*(\\S+(?:\\s\\S+)*) \\*"), "*$1* ")
         .replace(Regex("~~(\\S+(?:\\s\\S+)*) ~~"), "~~$1~~ ")
@@ -391,7 +391,5 @@ class PreviewPostView(
             .replace("__", "**")
         setMarkdown(formattedMessage)
     }
-
-
 
 }
