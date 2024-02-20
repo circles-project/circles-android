@@ -34,6 +34,8 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
             onUserClicked = { userId -> navigateToUserPage(userId) },
             onOpenRequestsClicked = {
                 findNavController().navigateSafe(PeopleFragmentDirections.toInvites())
+            },
+            onCategoryClicked = {
             }
         )
     }
@@ -58,10 +60,9 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
     private fun setupViews() {
         binding.rvUsers.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
-                setText(getString(R.string.people_empty_message))
+                setText(getString(R.string.no_results))
             })
             adapter = peopleAdapter
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }
 
