@@ -152,6 +152,7 @@
     <string name="no_new_invitations_format">You don\'t have any %s</string>
     <string name="following">Following</string>
     <string name="others">Others</string>
+    <string name="other_known_users">Other known users</string>
     <string name="unfollow">Unfollow</string>
     <string name="unfollow_user_timeline">Are you sure you want to unfollow this timeline?</string>
     <string name="unfollow_user_message">Are you sure you want to unfollow this user?</string>
