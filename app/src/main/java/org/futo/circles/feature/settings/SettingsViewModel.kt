@@ -17,11 +17,9 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val settingsDataSource: SettingsDataSource,
     private val logoutDataSource: LogoutDataSource,
-    private val sharedCircleDataSource: SharedCircleDataSource,
     private val refreshTokenManager: RefreshTokenManager
 ) : ViewModel() {
 
-    val profileLiveData = settingsDataSource.profileLiveData
     val passPhraseLoadingLiveData = settingsDataSource.passPhraseLoadingLiveData
     val startReAuthEventLiveData = settingsDataSource.startReAuthEventLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -60,7 +58,6 @@ class SettingsViewModel @Inject constructor(
         changePasswordResponseLiveData.postValue(createBackupResult)
     }
 
-    fun getSharedCircleSpaceId(): String? = sharedCircleDataSource.getSharedCirclesSpaceId()
     fun updateMediaUsageInfo() {
         launchBg {
             val mediaUsageInfoResult = createResult {

@@ -15,7 +15,6 @@ class SettingsDataSource @Inject constructor(
     private val session = MatrixSessionProvider.getSessionOrThrow()
     val passPhraseLoadingLiveData = changePasswordDataSource.passPhraseLoadingLiveData
     val startReAuthEventLiveData = authConfirmationProvider.startReAuthEventLiveData
-    val profileLiveData = session.userService().getUserLive(session.myUserId)
 
     suspend fun deactivateAccount(): Response<Unit> = createResult {
         session.accountService().deactivateAccount(false, authConfirmationProvider)

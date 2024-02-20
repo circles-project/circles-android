@@ -35,7 +35,7 @@ class PeopleDataSource @Inject constructor(
     private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource
 ) {
 
-    private val session = MatrixSessionProvider.currentSession
+    private val session = MatrixSessionProvider.getSessionOrThrow()
     private val profileRoomId = sharedCircleDataSource.getSharedCirclesSpaceId() ?: ""
 
     private fun getKnockRequestCountFlow(): Flow<Int> =
