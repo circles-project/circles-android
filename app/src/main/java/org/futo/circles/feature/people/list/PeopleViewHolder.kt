@@ -115,4 +115,8 @@ class PeopleCategoryViewHolder(
             tvCount.text = data.count.toString()
         }
     }
+
+    override fun bindPayload(data: PeopleUserListItemPayload) {
+        binding.tvCount.text = data.categoryCount.toString()
+    }
 }

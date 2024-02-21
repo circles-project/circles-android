@@ -2,6 +2,7 @@ package org.futo.circles.feature.people.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
+import org.futo.circles.model.PeopleCategoryListItem
 import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleListItem
 import org.futo.circles.model.PeopleUserListItem
@@ -14,7 +15,9 @@ class PeopleAdapter(
 ) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is PeopleUserListItem && old is PeopleUserListItem) {
         if (new.isIgnored != old.isIgnored) null
-        else PeopleUserListItemPayload(user = new.user.takeIf { it != old.user })
+        else PeopleUserListItemPayload(user = new.user.takeIf { it != old.user }, null)
+    } else if (new is PeopleCategoryListItem && old is PeopleCategoryListItem) {
+        new.count.takeIf { it != old.count }?.let { PeopleUserListItemPayload(null, it) }
     } else null
 }) {
 
@@ -25,6 +28,7 @@ class PeopleAdapter(
             PeopleItemType.Category -> PeopleCategoryViewHolder(
                 parent = parent, onClicked = { onCategoryClicked() }
             )
+
             PeopleItemType.RequestNotification -> FollowRequestNotificationViewHolder(
                 parent = parent, onClicked = { onOpenRequestsClicked() }
             )
