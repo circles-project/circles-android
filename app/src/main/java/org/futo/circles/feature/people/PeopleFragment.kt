@@ -9,14 +9,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.core.extensions.loadUserProfileIcon
-import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setEnabledViews
@@ -35,10 +33,10 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
 
     private val peopleAdapter by lazy {
         PeopleAdapter(onUserClicked = { userId -> navigator.navigateToUserPage(userId) },
-            onOpenRequestsClicked = {
-                findNavController().navigateSafe(PeopleFragmentDirections.toInvites())
-            },
-            onCategoryClicked = {})
+            onOpenRequestsClicked = { navigator.navigateToInvites() },
+            onCategoryClicked = { categoryType ->
+
+            })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
