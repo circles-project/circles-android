@@ -20,7 +20,6 @@ import org.futo.circles.core.utils.getSpacesLiveData
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleCategoryListItem
-import org.futo.circles.model.PeopleItemType
 import org.futo.circles.model.PeopleListItem
 import org.futo.circles.model.PeopleRequestNotificationListItem
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -70,8 +69,7 @@ class PeopleDataSource @Inject constructor(
         searchUserDataSource.loadAllRoomMembersIfNeeded()
     }
 
-    private fun getIgnoredUserFlow() =
-        session?.userService()?.getIgnoredUsersLive()?.asFlow() ?: flowOf()
+    private fun getIgnoredUserFlow() = session.userService().getIgnoredUsersLive().asFlow()
 
 
     private fun buildList(
@@ -95,10 +93,7 @@ class PeopleDataSource @Inject constructor(
         val ignoredUsersIds = ignoredUsers.map { it.userId }.toSet()
         val searchResult = (knowUsers + suggestions).distinctBy { it.userId }
         list.addAll(searchResult.map {
-            it.toPeopleUserListItem(
-                PeopleItemType.Suggestion,
-                ignoredUsersIds.contains(it.userId)
-            )
+            it.toPeopleUserListItem(ignoredUsersIds.contains(it.userId))
         })
         return list
     }
@@ -145,7 +140,7 @@ class PeopleDataSource @Inject constructor(
         val myCirclesSpace = getMyCirclesSpaceSummary() ?: return emptyList()
         val peopleIamFollowing = myCirclesSpace.spaceChildren?.mapNotNull {
             getJoinedRoomById(it.childRoomId)?.roomSummary()?.spaceChildren?.mapNotNull {
-                getRoomOwner(it.childRoomId)?.userId?.takeIf { it != session?.myUserId }
+                getRoomOwner(it.childRoomId)?.userId?.takeIf { it != session.myUserId }
             }
         }?.flatMap { it.toSet() } ?: emptyList()
 
