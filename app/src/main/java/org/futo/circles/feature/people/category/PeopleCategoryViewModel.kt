@@ -1,4 +1,4 @@
-package org.futo.circles.feature.ignored
+package org.futo.circles.feature.people.category
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
@@ -12,7 +12,7 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import javax.inject.Inject
 
 @HiltViewModel
-class IgnoredUsersViewModel @Inject constructor(
+class PeopleCategoryViewModel @Inject constructor(
     private val userOptionsDataSource: UserOptionsDataSource
 ) : ViewModel() {
 

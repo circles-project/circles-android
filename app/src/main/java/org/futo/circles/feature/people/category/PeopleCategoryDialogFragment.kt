@@ -1,4 +1,4 @@
-package org.futo.circles.feature.ignored
+package org.futo.circles.feature.people.category
 
 import android.os.Bundle
 import android.view.View
@@ -14,21 +14,22 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.UnIgnoreUser
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.EmptyTabPlaceholderView
-import org.futo.circles.databinding.DialogFragmentIgnoredUsersBinding
-import org.futo.circles.feature.ignored.list.IgnoredUsersAdapter
+import org.futo.circles.databinding.DialogFragmentPeopleCategoryBinding
+import org.futo.circles.feature.people.list.PeopleAdapter
 
 @AndroidEntryPoint
-class IgnoredUsersDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentIgnoredUsersBinding::inflate) {
+class PeopleCategoryDialogFragment :
+    BaseFullscreenDialogFragment(DialogFragmentPeopleCategoryBinding::inflate) {
 
-    private val viewModel by viewModels<IgnoredUsersViewModel>()
+    private val viewModel by viewModels<PeopleCategoryViewModel>()
 
     private val binding by lazy {
-        getBinding() as DialogFragmentIgnoredUsersBinding
+        getBinding() as DialogFragmentPeopleCategoryBinding
     }
 
     private val usersAdapter by lazy {
-        IgnoredUsersAdapter(
+        PeopleAdapter(
+            onUserClicked = { userId ->  },
             onUnIgnore = { userId ->
                 withConfirmation(UnIgnoreUser()) { viewModel.unIgnoreUser(userId) }
             }
@@ -42,9 +43,9 @@ class IgnoredUsersDialogFragment :
     }
 
     private fun setupViews() {
-        binding.rvIgnoredUsers.apply {
+        binding.rvUsers.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
-                setText(getString(R.string.ignored_users_empty_message))
+                //setText(getString(R.string.ignored_users_empty_message))
             })
             adapter = usersAdapter
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -53,7 +54,7 @@ class IgnoredUsersDialogFragment :
 
     private fun setupObservers() {
         viewModel.ignoredUsersLiveData.observeData(this) {
-            usersAdapter.submitList(it)
+            //usersAdapter.submitList(it)
         }
         viewModel.unIgnoreUserLiveData.observeResponse(this,
             success = {
