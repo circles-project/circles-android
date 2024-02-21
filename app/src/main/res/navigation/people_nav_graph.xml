@@ -85,6 +85,11 @@
         android:id="@+id/peopleCategoryDialogFragment"
         android:name="org.futo.circles.feature.people.category.PeopleCategoryDialogFragment"
         tools:layout="@layout/dialog_fragment_people_category">
+        <argument
+            android:name="categoryType"
+            app:argType="org.futo.circles.model.PeopleCategoryTypeArg"
+            app:nullable="false" />
+
         <action
             android:id="@+id/to_userFragment"
             app:destination="@id/userFragment">
