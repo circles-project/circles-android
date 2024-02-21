@@ -72,7 +72,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
                 }
             }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
-            ivEditProfile.setOnClickListener { navigator.navigateToProfile() }
+
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
             tvDeactivate.setOnClickListener {
                 withConfirmation(DeactivateAccount()) {
@@ -83,8 +83,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
-            ivShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
-            tvIgnoredUsers.setOnClickListener { navigator.navigateToIgnoredUsers() }
         }
         setVersion()
     }
@@ -95,9 +93,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
             success = { clearSessionAndRestart() },
             onRequestInvoked = { loadingDialog.dismiss() }
         )
-        viewModel.profileLiveData.observeData(this) {
-            it.getOrNull()?.let { bindProfile(it) }
-        }
         viewModel.deactivateLiveData.observeResponse(this,
             success = { clearSessionAndRestart() },
             error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) },
@@ -135,14 +130,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
             )
         } ?: run {
             binding.tvMediaStorageInfo.text = getString(R.string.no_info_available)
-        }
-    }
-
-    private fun bindProfile(user: User) {
-        with(binding) {
-            ivProfile.loadUserProfileIcon(user.avatarUrl, user.userId)
-            tvUserName.text = user.notEmptyDisplayName()
-            tvUserId.text = user.userId
         }
     }
 

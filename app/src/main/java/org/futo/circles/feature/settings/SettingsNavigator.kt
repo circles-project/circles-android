@@ -23,40 +23,15 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             .navigateSafe(SettingsFragmentDirections.toChangePasswordDialogFragment())
     }
 
-    fun navigateToProfile() {
-        fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toEditProfileDialogFragment())
-    }
-
     fun navigateToReAuthStages() {
         fragment.findNavController()
             .navigateSafe(SettingsFragmentDirections.toReAuthStagesDialogFragment())
     }
 
-    fun navigateToShareProfile(sharedSpaceId: String?) {
-        sharedSpaceId ?: kotlin.run {
-            fragment.showError(
-                fragment.requireContext().getString(R.string.shared_circles_space_not_found)
-            )
-            return
-        }
-        fragment.findNavController()
-            .navigateSafe(
-                SettingsFragmentDirections.toShareProfileDialogFragment(
-                    sharedSpaceId,
-                    ShareUrlTypeArg.PROFILE
-                )
-            )
-    }
 
     fun navigateToSubscriptionInfo() {
         fragment.findNavController()
             .navigateSafe(SettingsFragmentDirections.toManageSubscriptionDialogFragment())
-    }
-
-    fun navigateToIgnoredUsers() {
-        fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toIgnoredUsersDialogFragment())
     }
 
 }

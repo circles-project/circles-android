@@ -186,8 +186,7 @@
     <string name="developer_mode_disabled">Developer mode is disabled</string>
     <string name="groups_empty_message">Create your first Group</string>
     <string name="circles_empty_message">Create your first Circle</string>
-    <string name="people_empty_message">Members of Circles and Groups you are joined will be shown here</string>
-    <string name="ignored_users_empty_message">Ignored users will be shown here</string>
+    <string name="people_category_empty_message">%s will be shown here</string>
     <string name="creating_timeline">Creating timeline</string>
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="session">Session</string>

@@ -1,0 +1,2 @@
+- New People tab
+- Bug fixes and performance improvements

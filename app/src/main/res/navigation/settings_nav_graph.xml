@@ -10,9 +10,7 @@
         android:name="org.futo.circles.feature.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/to_editProfileDialogFragment"
-            app:destination="@id/editProfileDialogFragment" />
+
         <action
             android:id="@+id/to_changePasswordDialogFragment"
             app:destination="@id/changePasswordDialogFragment" />
@@ -23,43 +21,19 @@
             android:id="@+id/to_reAuthStagesDialogFragment"
             app:destination="@id/reAuthStagesDialogFragment" />
         <action
-            android:id="@+id/to_shareProfileDialogFragment"
-            app:destination="@id/share_room_nav_graph">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="urlType"
-                app:argType="org.futo.circles.core.model.ShareUrlTypeArg"
-                app:nullable="false" />
-
-        </action>
-        <action
             android:id="@+id/to_pushNotificationsSettingsDialogFragment"
             app:destination="@id/pushNotificationsSettingsDialogFragment" />
         <action
             android:id="@+id/to_manageSubscriptionDialogFragment"
             app:destination="@id/manageSubscriptionDialogFragment" />
-        <action
-            android:id="@+id/to_ignoredUsersDialogFragment"
-            app:destination="@id/ignoredUsersDialogFragment" />
     </fragment>
 
-    <dialog
-        android:id="@+id/editProfileDialogFragment"
-        android:name="org.futo.circles.auth.feature.profile.edit.EditProfileDialogFragment"
-        android:label="ProfileDialogFragment"
-        tools:layout="@layout/dialog_fragment_edit_profile" />
+
     <dialog
         android:id="@+id/changePasswordDialogFragment"
         android:name="org.futo.circles.auth.feature.change_password.ChangePasswordDialogFragment"
         android:label="ChangePasswordDialogFragment"
         tools:layout="@layout/dialog_fragment_change_password" />
-
-    <include app:graph="@navigation/share_room_nav_graph" />
 
     <dialog
         android:id="@+id/pushNotificationsSettingsDialogFragment"
@@ -85,9 +59,5 @@
         android:id="@+id/manageSubscriptionDialogFragment"
         android:name="org.futo.circles.auth.feature.manage_subscription.ManageSubscriptionDialogFragment"
         tools:layout="@layout/dialog_fragment_manage_subscription" />
-    <dialog
-        android:id="@+id/ignoredUsersDialogFragment"
-        android:name="org.futo.circles.feature.ignored.IgnoredUsersDialogFragment"
-        tools:layout="@layout/dialog_fragment_ignored_users" />
 
 </navigation>
