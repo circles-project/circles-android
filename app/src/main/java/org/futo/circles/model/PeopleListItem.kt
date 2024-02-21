@@ -4,54 +4,62 @@ import org.futo.circles.R
 import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.model.CirclesUserSummary
 
-enum class PeopleItemType { Category, Connection, Following, Follower, RequestNotification, Others, Suggestion }
-sealed class PeopleListItem(
-    open val type: PeopleItemType
-) : IdEntity<String>
+sealed class PeopleListItem : IdEntity<String>
 
 data class PeopleCategoryListItem(
     val titleRes: Int,
     val iconRes: Int,
+    val typeArg: PeopleCategoryTypeArg,
     val count: Int = 0
-) : PeopleListItem(PeopleItemType.Category) {
+) : PeopleListItem() {
     override val id: String = titleRes.toString()
 
     companion object {
         val connections = PeopleCategoryListItem(
             R.string.my_connections,
-            R.drawable.ic_connection
+            R.drawable.ic_connection,
+            PeopleCategoryTypeArg.Connections
         )
         val followersUsers = PeopleCategoryListItem(
             org.futo.circles.core.R.string.my_followers,
-            org.futo.circles.core.R.drawable.ic_round_people
+            org.futo.circles.core.R.drawable.ic_round_people,
+            PeopleCategoryTypeArg.Followers
         )
         val followingUsers =
             PeopleCategoryListItem(
                 org.futo.circles.core.R.string.people_i_m_following,
-                org.futo.circles.core.R.drawable.ic_outline_people
+                org.futo.circles.core.R.drawable.ic_outline_people,
+                PeopleCategoryTypeArg.Following
             )
         val others = PeopleCategoryListItem(
             org.futo.circles.core.R.string.other_known_users,
-            R.drawable.ic_other_people
+            R.drawable.ic_other_people,
+            PeopleCategoryTypeArg.Other
 
         )
         val ignored = PeopleCategoryListItem(
             R.string.ignored_users,
-            R.drawable.ic_ignore
+            R.drawable.ic_ignore,
+            PeopleCategoryTypeArg.Ignored
         )
     }
 }
 
 class PeopleUserListItem(
     val user: CirclesUserSummary,
-    override val type: PeopleItemType,
     val isIgnored: Boolean
-) : PeopleListItem(type) {
+) : PeopleListItem() {
+    override val id: String = user.id
+}
+
+class PeopleIgnoredUserListItem(
+    val user: CirclesUserSummary
+) : PeopleListItem() {
     override val id: String = user.id
 }
 
 class PeopleRequestNotificationListItem(
     val requestsCount: Int
-) : PeopleListItem(PeopleItemType.RequestNotification) {
+) : PeopleListItem() {
     override val id: String = "PeopleRequestNotificationListItem"
 }
