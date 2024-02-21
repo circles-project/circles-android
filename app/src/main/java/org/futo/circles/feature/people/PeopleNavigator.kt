@@ -5,6 +5,7 @@ import org.futo.circles.R
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.model.ShareUrlTypeArg
+import org.futo.circles.model.PeopleCategoryTypeArg
 
 class PeopleNavigator(private val fragment: PeopleFragment) {
 
@@ -14,6 +15,11 @@ class PeopleNavigator(private val fragment: PeopleFragment) {
 
     fun navigateToUserPage(userId: String) {
         fragment.findNavController().navigateSafe(PeopleFragmentDirections.toUserFragment(userId))
+    }
+
+    fun navigateToPeopleCategoryPage(categoryType: PeopleCategoryTypeArg) {
+        fragment.findNavController()
+            .navigateSafe(PeopleFragmentDirections.toPeopleCategoryDialogFragment(categoryType))
     }
 
     fun navigateToEditProfile() {

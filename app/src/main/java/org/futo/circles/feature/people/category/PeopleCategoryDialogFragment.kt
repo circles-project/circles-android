@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.withConfirmation
@@ -29,7 +30,11 @@ class PeopleCategoryDialogFragment :
 
     private val usersAdapter by lazy {
         PeopleAdapter(
-            onUserClicked = { userId ->  },
+            onUserClicked = { userId ->
+                findNavController().navigateSafe(
+                    PeopleCategoryDialogFragmentDirections.toUserFragment(userId)
+                )
+            },
             onUnIgnore = { userId ->
                 withConfirmation(UnIgnoreUser()) { viewModel.unIgnoreUser(userId) }
             }

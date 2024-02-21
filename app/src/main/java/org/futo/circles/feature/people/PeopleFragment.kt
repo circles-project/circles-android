@@ -35,7 +35,7 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
         PeopleAdapter(onUserClicked = { userId -> navigator.navigateToUserPage(userId) },
             onOpenRequestsClicked = { navigator.navigateToInvites() },
             onCategoryClicked = { categoryType ->
-
+                navigator.navigateToPeopleCategoryPage(categoryType)
             })
     }
 
