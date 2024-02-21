@@ -58,7 +58,7 @@ class PeopleCategoryDataSource @Inject constructor(
         val myCirclesSpace = getMyCirclesSpaceSummary() ?: return emptyList()
         val myTimelinesFollowersIds = myCirclesSpace.spaceChildren?.mapNotNull {
             getTimelineRoomFor(it.childRoomId)?.roomSummary()?.otherMemberIds
-        }?.flatMap { it.toSet() } ?: emptyList()
+        }?.flatMap { it.toList() }?.toSet() ?: emptyList()
 
         return myTimelinesFollowersIds.map { session.getUserOrDefault(it) }
     }
@@ -70,7 +70,7 @@ class PeopleCategoryDataSource @Inject constructor(
             getJoinedRoomById(it.childRoomId)?.roomSummary()?.spaceChildren?.mapNotNull {
                 getRoomOwner(it.childRoomId)?.userId?.takeIf { it != session.myUserId }
             }
-        }?.flatMap { it.toSet() } ?: emptyList()
+        }?.flatMap { it.toList() }?.toSet() ?: emptyList()
 
         return peopleIamFollowingIds.map { session.getUserOrDefault(it) }
     }
