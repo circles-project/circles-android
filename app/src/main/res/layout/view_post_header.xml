@@ -66,16 +66,34 @@
 
     <TextView
         android:id="@+id/tvUserId"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
         android:textSize="13sp"
+        app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="@id/ivSenderImage"
-        app:layout_constraintEnd_toStartOf="@id/btnMore"
+        app:layout_constraintEnd_toStartOf="@id/tvRoomName"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@id/tvUserName"
         app:layout_constraintTop_toBottomOf="@id/tvUserName"
-        tools:text="Android01@domainsadasdasd" />
+        tools:text="Android01:nl.circles-dev.net" />
+
+    <TextView
+        android:id="@+id/tvRoomName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constrainedWidth="true"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivSenderImage"
+        app:layout_constraintEnd_toStartOf="@id/btnMore"
+        app:layout_constraintStart_toEndOf="@id/tvUserId"
+        app:layout_constraintTop_toBottomOf="@id/tvUserName"
+        tools:text="(Timeline name)" />
 
     <ImageButton
         android:id="@+id/btnMore"
