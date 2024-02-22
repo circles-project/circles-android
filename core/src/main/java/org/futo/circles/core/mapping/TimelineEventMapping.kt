@@ -10,7 +10,10 @@ import org.futo.circles.core.model.ReactionsData
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited
 
-fun TimelineEvent.toPost(readReceipts: List<Long> = emptyList()): Post = Post(
+fun TimelineEvent.toPost(
+    readReceipts: List<Long> = emptyList(),
+    timelineName: String? = null
+): Post = Post(
     postInfo = toPostInfo(),
     content = toPostContent(),
     sendState = root.sendState,
@@ -18,7 +21,8 @@ fun TimelineEvent.toPost(readReceipts: List<Long> = emptyList()): Post = Post(
     repliesCount = root.threadDetails?.numberOfThreads ?: 0,
     reactionsData = annotations?.reactionsSummary?.map {
         ReactionsData(it.key, it.count, it.addedByMe)
-    } ?: emptyList()
+    } ?: emptyList(),
+    timelineName = timelineName
 )
 
 fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
