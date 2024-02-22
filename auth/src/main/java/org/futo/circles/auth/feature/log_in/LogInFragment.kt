@@ -127,6 +127,13 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 startLoading(btnLogin)
                 viewModel.startLogInFlow(userName, getDomain())
             }
+            btnForgotPassword.setOnClickListener {
+                val userName = binding.tilUserName.getText()
+                if (userName.isEmpty()) {
+                    showError(getString(R.string.username_can_not_be_empty))
+                    return@setOnClickListener
+                }
+            }
         }
     }
 
