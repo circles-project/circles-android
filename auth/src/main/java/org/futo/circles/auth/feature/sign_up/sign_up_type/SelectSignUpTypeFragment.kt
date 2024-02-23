@@ -2,6 +2,7 @@ package org.futo.circles.auth.feature.sign_up.sign_up_type
 
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioButton
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -47,7 +48,7 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
                     }
                 )
             }
-            serverDomainGroup.check(serverDomainGroup.children.first().id)
+            (serverDomainGroup.children.first() as? RadioButton)?.toggle()
             btnSubscription.setOnClickListener {
                 startLoading(btnSubscription)
                 viewModel.startSignUp(true)
