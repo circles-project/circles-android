@@ -12,7 +12,8 @@ import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited
 
 fun TimelineEvent.toPost(
     readReceipts: List<Long> = emptyList(),
-    timelineName: String? = null
+    timelineName: String? = null,
+    timelineOwnerName: String? = null
 ): Post = Post(
     postInfo = toPostInfo(),
     content = toPostContent(),
@@ -22,7 +23,8 @@ fun TimelineEvent.toPost(
     reactionsData = annotations?.reactionsSummary?.map {
         ReactionsData(it.key, it.count, it.addedByMe)
     } ?: emptyList(),
-    timelineName = timelineName
+    timelineName = timelineName,
+    timelineOwnerName = timelineOwnerName
 )
 
 fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(

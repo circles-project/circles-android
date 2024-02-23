@@ -215,6 +215,7 @@
     <string name="rich_text_editor_code_block">Toggle code block</string>
     <string name="general">General</string>
     <string name="empty_media_storage_info">0 MB used</string>
+    <string name="in_timeline_format">(in %1$s / %2$s)</string>
 
     <string-array name="debug_domains">
         <item>nl.circles-dev.net</item>

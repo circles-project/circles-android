@@ -1,11 +1,14 @@
 package org.futo.circles.core.extensions
 
 import org.futo.circles.core.utils.UserUtils
+import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.sender.SenderInfo
 import org.matrix.android.sdk.api.session.user.model.User
 
 
 fun User.notEmptyDisplayName(): String = getName(userId, displayName)
+
+fun RoomMemberSummary.notEmptyDisplayName(): String = getName(userId, displayName)
 
 fun SenderInfo.notEmptyDisplayName(): String = getName(userId, displayName)
 

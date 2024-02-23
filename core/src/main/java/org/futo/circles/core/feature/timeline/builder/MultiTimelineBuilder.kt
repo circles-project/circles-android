@@ -1,5 +1,7 @@
 package org.futo.circles.core.feature.timeline.builder
 
+import org.futo.circles.core.extensions.getRoomOwner
+import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.Post
@@ -18,8 +20,9 @@ class MultiTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
         val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
             ?: return getAllTimelinesPostsList()
         val roomName = room.roomSummary()?.nameOrId()
+        val roomOwnerName = getRoomOwner(roomId)?.notEmptyDisplayName()
         val receipts = getReadReceipts(room).also { readReceiptMap[roomId] = it }
-        currentSnapshotMap[roomId] = this.map { it.toPost(receipts, roomName) }
+        currentSnapshotMap[roomId] = this.map { it.toPost(receipts, roomName, roomOwnerName) }
         return sortList(getAllTimelinesPostsList(), isThread)
     }
 
