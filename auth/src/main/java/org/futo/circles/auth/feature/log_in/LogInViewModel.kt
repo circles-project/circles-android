@@ -21,7 +21,7 @@ class LogInViewModel @Inject constructor(
     val switchUsersLiveData = MutableLiveData(switchUserDataSource.getSwitchUsersList())
     val navigateToBottomMenuScreenLiveData = SingleEventLiveData<Unit>()
 
-    fun startLogInFlow(userName: String, domain: String) {
+    fun startLogInFlow(userName: String, domain: String, isForgotPassword: Boolean) {
         switchUserDataSource.getSessionCredentialsIdByUserInfo(userName, domain)
             ?.let { resumeSwitchUserSession(it) }
             ?: login(userName, domain)

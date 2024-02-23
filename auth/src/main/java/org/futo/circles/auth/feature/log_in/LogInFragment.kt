@@ -118,23 +118,19 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
             btnSignUp.setOnClickListener {
                 findNavController().navigateSafe(LogInFragmentDirections.toSignUpFragment())
             }
-            btnLogin.setOnClickListener {
-                val userName = binding.tilUserName.getText()
-                if (userName.isEmpty()) {
-                    showError(getString(R.string.username_can_not_be_empty))
-                    return@setOnClickListener
-                }
-                startLoading(btnLogin)
-                viewModel.startLogInFlow(userName, getDomain())
-            }
-            btnForgotPassword.setOnClickListener {
-                val userName = binding.tilUserName.getText()
-                if (userName.isEmpty()) {
-                    showError(getString(R.string.username_can_not_be_empty))
-                    return@setOnClickListener
-                }
-            }
+            btnLogin.setOnClickListener { startLogin(false) }
+            btnForgotPassword.setOnClickListener { startLogin(true) }
         }
+    }
+
+    private fun startLogin(isForgotPassword: Boolean) {
+        val userName = binding.tilUserName.getText()
+        if (userName.isEmpty()) {
+            showError(getString(R.string.username_can_not_be_empty))
+            return
+        }
+        startLoading(binding.btnLogin)
+        viewModel.startLogInFlow(userName, getDomain(), isForgotPassword)
     }
 
     private fun getDomain() = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
