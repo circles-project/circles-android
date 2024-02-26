@@ -3,7 +3,6 @@ package org.futo.circles.auth.feature.log_in.stages.password
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.base.BaseBsSpekeStageDataSource
-import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage

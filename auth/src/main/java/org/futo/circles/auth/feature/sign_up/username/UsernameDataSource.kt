@@ -1,7 +1,6 @@
 package org.futo.circles.auth.feature.sign_up.username
 
 import androidx.lifecycle.MutableLiveData
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_USERNAME_TYPE
 import org.futo.circles.core.extensions.Response

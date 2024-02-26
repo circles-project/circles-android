@@ -1,8 +1,5 @@
 package org.futo.circles.auth.feature.log_in.stages.password
 
-import org.futo.circles.auth.base.BaseLoginStagesDataSource
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_PASSWORD_TYPE
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.base.PasswordDataSource
 import org.futo.circles.core.extensions.Response
 

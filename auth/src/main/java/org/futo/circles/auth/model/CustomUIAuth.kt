@@ -1,6 +1,5 @@
 package org.futo.circles.auth.model
 
-import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.UIABaseAuth
 import org.matrix.android.sdk.api.util.JsonDict

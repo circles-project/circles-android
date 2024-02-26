@@ -3,12 +3,6 @@ package org.futo.circles.auth.feature.log_in
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.BaseLoginStagesDataSource
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.DIRECT_LOGIN_PASSWORD_TYPE
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_PASSWORD_TYPE
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_PASSWORD_USER_ID_TYPE
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.USER_PARAM_KEY
 import org.futo.circles.auth.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.core.extensions.createResult

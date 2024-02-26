@@ -17,6 +17,9 @@
             android:id="@+id/to_loginStagesFragment"
             app:destination="@id/loginStagesFragment" />
         <action
+            android:id="@+id/to_uiaFragment"
+            app:destination="@id/uiaFragment" />
+        <action
             android:id="@+id/to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/logInFragment"
@@ -33,6 +36,20 @@
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <dialog
+        android:id="@+id/uiaFragment"
+        android:name="org.futo.circles.auth.feature.uia.UIADialogFragment"
+        tools:layout="@layout/dialog_fragment_uia">
+
+        <action
+            android:id="@+id/to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/logInFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
+
+
     <fragment
         android:id="@+id/signUpFragment"
         android:name="org.futo.circles.auth.feature.sign_up.SignUpFragment"

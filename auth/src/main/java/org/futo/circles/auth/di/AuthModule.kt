@@ -6,7 +6,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.auth.base.PasswordDataSource
 import org.futo.circles.auth.feature.log_in.stages.password.DirectLoginPasswordDataSource
 import org.futo.circles.auth.feature.log_in.stages.password.LoginBsSpekeDataSource

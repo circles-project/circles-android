@@ -1,6 +1,5 @@
 package org.futo.circles.auth.feature.sign_up.password
 
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.base.PasswordDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_PASSWORD_TYPE

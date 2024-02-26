@@ -1,8 +1,6 @@
 package org.futo.circles.auth.feature.log_in.stages.terms
 
 import org.futo.circles.auth.base.BaseAcceptTermsDataSource
-import org.futo.circles.auth.base.BaseLoginStagesDataSource
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.extensions.toTermsListItems
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.data.LoginFlowTypes

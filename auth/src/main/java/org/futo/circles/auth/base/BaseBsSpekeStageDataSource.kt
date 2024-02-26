@@ -3,9 +3,6 @@ package org.futo.circles.auth.base
 import android.content.Context
 import android.util.Base64
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_BSSPEKE_OPRF_TYPE
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
-import org.futo.circles.auth.base.BaseLoginStagesDataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.bsspeke.BSSpekeClient
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.log_in.stages.password.LoginBsSpekeDataSource

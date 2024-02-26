@@ -4,12 +4,12 @@ import android.content.Context
 import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.BaseLoginStagesDataSource
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.EncryptionAlgorithmHelper
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.auth.feature.token.RefreshTokenManager
+import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
@@ -17,6 +17,7 @@ import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
+import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
@@ -31,18 +32,24 @@ class LoginStagesDataSource @Inject constructor(
     private val encryptionAlgorithmHelper: EncryptionAlgorithmHelper,
     private val createPassPhraseDataSource: CreatePassPhraseDataSource,
     private val refreshTokenManager: RefreshTokenManager
-) : BaseLoginStagesDataSource(context) {
+) : UIADataSource(context) {
 
     val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
     val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
     val messageEventLiveData = SingleEventLiveData<Int>()
 
-    override suspend fun performLoginStage(
-        authParams: JsonDict,
-        password: String?
-    ): Response<RegistrationResult> {
+    suspend fun startLoginStages(
+        loginStages: List<Stage>,
+        name: String,
+        serverDomain: String
+    ) {
+        userName = name
+        startUIAStages(loginStages, serverDomain)
+    }
+
+    override suspend fun sendDataForStageResult(authParams: JsonDict): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getLoginWizard()
-        val result = createResult {
+        return createResult {
             wizard.loginStageCustom(
                 authParams,
                 getIdentifier(),
@@ -50,19 +57,9 @@ class LoginStagesDataSource @Inject constructor(
                 true
             )
         }
-        (result as? Response.Success)?.let { stageCompleted(result.data, password) }
-        return result
     }
 
-    suspend fun stageCompleted(result: RegistrationResult, password: String?) {
-        if (isStageRetry(result)) return
-        password?.let { userPassword = it }
-        (result as? RegistrationResult.Success)?.let {
-            finishLogin(it.session)
-        } ?: navigateToNextStage()
-    }
-
-    private suspend fun finishLogin(session: Session) {
+    override suspend fun finishStages(session: Session) {
         passPhraseLoadingLiveData.postValue(
             LoadingData(messageId = R.string.initial_sync, isLoading = true)
         )

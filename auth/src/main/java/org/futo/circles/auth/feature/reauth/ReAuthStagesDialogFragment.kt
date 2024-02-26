@@ -10,7 +10,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
 import org.futo.circles.core.base.fragment.BackPressOwner
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment

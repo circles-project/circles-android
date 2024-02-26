@@ -13,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.LoginStageNavigationEvent
 import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
 import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialog
 import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialogListener
