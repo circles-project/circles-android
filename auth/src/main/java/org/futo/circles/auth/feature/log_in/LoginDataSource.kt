@@ -3,8 +3,16 @@ package org.futo.circles.auth.feature.log_in
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
-import org.futo.circles.auth.feature.log_in.stages.LoginStagesDataSource
-import org.futo.circles.auth.feature.sign_up.SignUpDataSource
+import org.futo.circles.auth.feature.uia.UIADataSource
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.DIRECT_LOGIN_PASSWORD_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_USER_ID_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_BSSPEKE_SAVE_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.USER_PARAM_KEY
+import org.futo.circles.auth.feature.uia.UIAFlowType
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
@@ -13,9 +21,10 @@ import javax.inject.Inject
 
 class LoginDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val loginStagesDataSource: LoginStagesDataSource
+    private val uiaFactory: UIADataSource.Factory
 ) {
 
+    private val loginStagesDataSource by lazy { uiaFactory.create(UIAFlowType.Login) }
     private val authService by lazy { MatrixInstanceProvider.matrix.authenticationService() }
 
     suspend fun startLogin(
@@ -25,7 +34,7 @@ class LoginDataSource @Inject constructor(
     ) = createResult {
         authService.cancelPendingLoginOrRegistration()
         val stages = prepareLoginStages(userName, domain, isForgotPassword)
-        loginStagesDataSource.startLoginStages(stages, userName, domain)
+        loginStagesDataSource.startUIAStages(stages, domain, userName)
     }
 
     private suspend fun prepareLoginStages(
@@ -66,17 +75,17 @@ class LoginDataSource @Inject constructor(
     private fun getCircleStagesForLogin(flows: List<List<Stage>>): List<Stage>? =
         flows.firstOrNull { stages ->
             stages.firstOrNull { stage ->
-                (stage as? Stage.Other)?.type == BaseLoginStagesDataSource.LOGIN_BSSPEKE_VERIFY_TYPE
+                (stage as? Stage.Other)?.type == LOGIN_BSSPEKE_VERIFY_TYPE
             } != null
         }
 
     private fun getCircleStagesForForgotPassword(flows: List<List<Stage>>): List<Stage>? =
         flows.firstOrNull { stages ->
             val containsEmailStage = stages.firstOrNull { stage ->
-                (stage as? Stage.Other)?.type == SignUpDataSource.REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
+                (stage as? Stage.Other)?.type == REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
             } != null
             val containsSetPassword = stages.firstOrNull { stage ->
-                (stage as? Stage.Other)?.type == SignUpDataSource.REGISTRATION_BSSPEKE_SAVE_TYPE
+                (stage as? Stage.Other)?.type == REGISTRATION_BSSPEKE_SAVE_TYPE
             } != null
             containsEmailStage && containsSetPassword
         }

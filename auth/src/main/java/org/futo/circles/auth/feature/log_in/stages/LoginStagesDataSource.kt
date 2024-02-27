@@ -16,14 +16,12 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.auth.UIABaseAuth
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.Continuation
 
 enum class LoginNavigationEvent { Main, PassPhrase }
 
@@ -47,8 +45,8 @@ class LoginStagesDataSource @Inject constructor(
         name: String?
     ) {
         userPassword = ""
-        this.userName = name ?: throw IllegalArgumentException("Username is required for login")
-        super.startUIAStages(stages, serverDomain, userName)
+        name ?: throw IllegalArgumentException("Username is required for login")
+        super.startUIAStages(stages, serverDomain, name)
     }
 
     override suspend fun performUIAStage(
@@ -142,11 +140,5 @@ class LoginStagesDataSource @Inject constructor(
 
     fun navigateToMain() {
         loginNavigationLiveData.postValue(LoginNavigationEvent.Main)
-    }
-
-    companion object {
-        //params
-        const val USER_PARAM_KEY = "user"
-        const val LOGIN_PASSWORD_USER_ID_TYPE = "m.id.user"
     }
 }

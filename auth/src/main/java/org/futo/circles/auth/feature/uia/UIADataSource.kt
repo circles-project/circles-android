@@ -52,6 +52,7 @@ abstract class UIADataSource(private val context: Context) {
         name: String? = null
     ) {
         currentStage = null
+        this.userName = name ?: ""
         stagesToComplete.clear()
         domain = serverDomain
         stagesToComplete.addAll(stages)
@@ -89,7 +90,6 @@ abstract class UIADataSource(private val context: Context) {
             finishStages(it.session)
         } ?: navigateToNextStage()
     }
-
 
     private fun isStageRetry(result: RegistrationResult?): Boolean {
         val nextStageType =
@@ -153,6 +153,8 @@ abstract class UIADataSource(private val context: Context) {
     companion object {
         //params
         const val TYPE_PARAM_KEY = "type"
+        const val USER_PARAM_KEY = "user"
+        const val LOGIN_PASSWORD_USER_ID_TYPE = "m.id.user"
 
         //login stages
         const val LOGIN_PASSWORD_TYPE = "m.login.password"
