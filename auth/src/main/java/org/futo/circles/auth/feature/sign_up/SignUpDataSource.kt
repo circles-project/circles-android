@@ -26,25 +26,13 @@ class SignUpDataSource @Inject constructor(
     private val preferencesProvider: PreferencesProvider
 ) : UIADataSource(context) {
 
-
     val finishRegistrationLiveData = SingleEventLiveData<Response<Unit>>()
     val passPhraseLoadingLiveData = createPassPhraseDataSource.loadingLiveData
 
-
-    suspend fun startSignUpStages(
-        stages: List<Stage>,
-        serverDomain: String
-    ) {
-        currentStage = null
-        stagesToComplete.clear()
-        domain = serverDomain
-        stagesToComplete.addAll(stages)
-        navigateToNextStage()
-    }
-
-    suspend fun performRegistrationStage(
+    override suspend fun performUIAStage(
         authParams: JsonDict,
-        name: String? = null
+        name: String?,
+        password: String?
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
         val result = createResult {
@@ -62,16 +50,15 @@ class SignUpDataSource @Inject constructor(
         return result
     }
 
-    fun clearSubtitle() {
-        subtitleLiveData.postValue("")
-    }
-
-    private suspend fun finishRegistration(session: Session) = createResult {
-        MatrixInstanceProvider.matrix.authenticationService().reset()
-        MatrixSessionProvider.awaitForSessionStart(session)
-        preferencesProvider.setShouldShowAllExplanations()
-        createPassPhraseDataSource.createPassPhraseBackup()
-        BSSpekeClientProvider.clear()
+    override suspend fun finishStages(session: Session) {
+        //finishRegistrationLiveData.postValue(finishRegistration(it.session))
+        createResult {
+            MatrixInstanceProvider.matrix.authenticationService().reset()
+            MatrixSessionProvider.awaitForSessionStart(session)
+            preferencesProvider.setShouldShowAllExplanations()
+            createPassPhraseDataSource.createPassPhraseBackup()
+            BSSpekeClientProvider.clear()
+        }
     }
 
 }

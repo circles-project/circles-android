@@ -18,7 +18,6 @@ class LoginStagesViewModel @Inject constructor(
     val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
     val loginNavigationLiveData = loginStagesDataSource.loginNavigationLiveData
     val passPhraseLoadingLiveData = loginStagesDataSource.passPhraseLoadingLiveData
-    val messageEventLiveData = loginStagesDataSource.messageEventLiveData
 
     fun restoreBackupWithPassPhrase(passphrase: String) {
         launchBg {

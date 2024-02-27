@@ -17,6 +17,7 @@ import org.futo.circles.auth.databinding.FragmentLoginStagesBinding
 import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialog
 import org.futo.circles.auth.feature.log_in.recovery.EnterPassPhraseDialogListener
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.fragment.BackPressOwner
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -24,7 +25,6 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
-import org.futo.circles.core.base.fragment.BackPressOwner
 import org.futo.circles.core.view.LoadingDialog
 
 @AndroidEntryPoint
@@ -86,9 +86,6 @@ class LogInStagesFragment : Fragment(R.layout.fragment_login_stages),
                 LoginNavigationEvent.PassPhrase -> showPassPhraseDialog()
                 else -> navigateToHome()
             }
-        }
-        viewModel.messageEventLiveData.observeData(this) { messageId ->
-            showError(requireContext().getString(messageId))
         }
     }
 

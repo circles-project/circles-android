@@ -25,13 +25,15 @@ class ReAuthStagesDataSource @Inject constructor(
     @ApplicationContext context: Context,
 ) : UIADataSource(context) {
 
+    val finishReAuthEventLiveData = SingleEventLiveData<Unit>()
     private var authPromise: Continuation<UIABaseAuth>? = null
     private var sessionId: String = ""
     private var stageResultContinuation: Continuation<Response<RegistrationResult>>? = null
 
-    suspend fun startReAuthStages(
+
+    override suspend fun startUIAStages(
+        stages: List<Stage>,
         session: String,
-        loginStages: List<Stage>,
         promise: Continuation<UIABaseAuth>
     ) {
         sessionId = session
@@ -40,38 +42,32 @@ class ReAuthStagesDataSource @Inject constructor(
         val userId = MatrixSessionProvider.getSessionOrThrow().myUserId
         val domain = userId.substringAfter(":")
         val name = userId.substringAfter("@").substringBefore(":")
-        startUIAStages(loginStages, domain)
+        startUIAStages(stages, domain, name)
     }
 
-    override suspend fun sendDataForStageResult(authParams: JsonDict): Response<RegistrationResult> {
+
+    override suspend fun performUIAStage(
+        authParams: JsonDict,
+        name: String?,
+        password: String?
+    ): Response<RegistrationResult> {
         authPromise?.resume(CustomUIAuth(sessionId, authParams))
-        return if (isLastStage())
+
+        val result = if (isLastStage())
             Response.Success(RegistrationResult.Success(MatrixSessionProvider.getSessionOrThrow()))
         else awaitForStageResult()
+
+        (result as? Response.Success)?.let {
+            stageCompleted(it.data)
+        } ?: run { finishReAuthEventLiveData.postValue(Unit) }
+        return result
     }
 
     override suspend fun finishStages(session: Session) {
-        TODO("Not yet implemented")
+        finishReAuthEventLiveData.postValue(Unit)
     }
 
-//    override suspend fun performLoginStage(
-//        authParams: JsonDict,
-//        password: String?
-//    ): Response<RegistrationResult> {
-//        authPromise?.resume(CustomUIAuth(sessionId, authParams))
-//
-//        val result = if (isLastStage())
-//            Response.Success(RegistrationResult.Success(MatrixSessionProvider.getSessionOrThrow()))
-//        else awaitForStageResult()
-//
-//        (result as? Response.Success)?.let {
-//            password?.let { userPassword = it }
-//            stageCompleted(it.data)
-//        } ?: run { finishReAuthEventLiveData.postValue(Unit) }
-//        return result
-//    }
-
-    fun onStageResult(
+    override fun onStageResult(
         promise: Continuation<UIABaseAuth>,
         flowResponse: RegistrationFlowResponse,
         errCode: String?
@@ -86,4 +82,5 @@ class ReAuthStagesDataSource @Inject constructor(
     private suspend fun awaitForStageResult() = suspendCoroutine { stageResultContinuation = it }
 
     private fun isLastStage() = stagesToComplete.last() == currentStage
+
 }

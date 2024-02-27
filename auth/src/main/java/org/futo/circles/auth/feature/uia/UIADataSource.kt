@@ -2,24 +2,37 @@ package org.futo.circles.auth.feature.uia
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.UIANavigationEvent
+import org.futo.circles.auth.feature.log_in.stages.LoginStagesDataSource
+import org.futo.circles.auth.feature.reauth.ReAuthStagesDataSource
+import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
-import org.futo.circles.core.extensions.createResult
-import org.futo.circles.core.provider.MatrixInstanceProvider
+import org.matrix.android.sdk.api.auth.UIABaseAuth
+import org.matrix.android.sdk.api.auth.registration.RegistrationFlowResponse
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
-import javax.inject.Singleton
+import kotlin.coroutines.Continuation
 
-@Singleton
-class UIADataSource @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
+abstract class UIADataSource(private val context: Context) {
+
+    class Factory @Inject constructor(
+        private val loginStagesDataSource: LoginStagesDataSource,
+        private val reAuthStagesDataSource: ReAuthStagesDataSource,
+        private val signUpDataSource: SignUpDataSource
+    ) {
+        fun create(flowType: UIAFlowType): UIADataSource = when (flowType) {
+            UIAFlowType.Login -> loginStagesDataSource
+            UIAFlowType.Signup -> signUpDataSource
+            UIAFlowType.ReAuth -> reAuthStagesDataSource
+            UIAFlowType.ForgotPassword -> loginStagesDataSource
+        }
+    }
+
 
     val subtitleLiveData = MutableLiveData<String>()
     val navigationLiveData = SingleEventLiveData<UIANavigationEvent>()
@@ -32,44 +45,41 @@ class UIADataSource @Inject constructor(
     var domain: String = ""
         private set
 
-    var userPassword: String = ""
 
-    abstract suspend fun sendDataForStageResult(authParams: JsonDict): Response<RegistrationResult>
-
-    abstract suspend fun finishStages(session: Session)
-
-    suspend fun startUIAStages(
+    open suspend fun startUIAStages(
         stages: List<Stage>,
-        serverDomain: String
+        serverDomain: String,
+        name: String? = null
     ) {
-        domain = serverDomain
-        userPassword = ""
         currentStage = null
         stagesToComplete.clear()
+        domain = serverDomain
         stagesToComplete.addAll(stages)
         navigateToNextStage()
     }
 
-    suspend fun performUIAStage(
+    open suspend fun startUIAStages(
+        stages: List<Stage>,
+        session: String,
+        promise: Continuation<UIABaseAuth>
+    ) {
+        throw IllegalArgumentException("Override only for AuthConfirmation provider usage")
+    }
+
+    abstract suspend fun performUIAStage(
         authParams: JsonDict,
         name: String? = null,
         password: String? = null
-    ): Response<RegistrationResult> {
-        val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
-        val result = createResult {
-            wizard.registrationCustom(
-                authParams,
-                context.getString(R.string.initial_device_name),
-                true
-            )
-        }
+    ): Response<RegistrationResult>
 
-        (result as? Response.Success)?.let {
-            name?.let { userName = it }
-            password?.let { userPassword = it }
-            stageCompleted(result.data)
-        }
-        return result
+    abstract suspend fun finishStages(session: Session)
+
+    open fun onStageResult(
+        promise: Continuation<UIABaseAuth>,
+        flowResponse: RegistrationFlowResponse,
+        errCode: String?
+    ) {
+        throw IllegalArgumentException("Override only for AuthConfirmation provider usage")
     }
 
 
@@ -80,10 +90,6 @@ class UIADataSource @Inject constructor(
         } ?: navigateToNextStage()
     }
 
-    protected fun getIdentifier() = mapOf(
-        USER_PARAM_KEY to "@$userName:$domain",
-        TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
-    )
 
     private fun isStageRetry(result: RegistrationResult?): Boolean {
         val nextStageType =
@@ -146,9 +152,7 @@ class UIADataSource @Inject constructor(
 
     companion object {
         //params
-        const val USER_PARAM_KEY = "user"
         const val TYPE_PARAM_KEY = "type"
-        const val LOGIN_PASSWORD_USER_ID_TYPE = "m.id.user"
 
         //login stages
         const val LOGIN_PASSWORD_TYPE = "m.login.password"

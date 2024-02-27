@@ -16,12 +16,14 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.matrix.android.sdk.api.auth.UIABaseAuth
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.Continuation
 
 enum class LoginNavigationEvent { Main, PassPhrase }
 
@@ -36,20 +38,26 @@ class LoginStagesDataSource @Inject constructor(
 
     val loginNavigationLiveData = SingleEventLiveData<LoginNavigationEvent>()
     val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
-    val messageEventLiveData = SingleEventLiveData<Int>()
 
-    suspend fun startLoginStages(
-        loginStages: List<Stage>,
-        name: String,
-        serverDomain: String
+    private var userPassword: String = ""
+
+    override suspend fun startUIAStages(
+        stages: List<Stage>,
+        serverDomain: String,
+        name: String?
     ) {
-        userName = name
-        startUIAStages(loginStages, serverDomain)
+        userPassword = ""
+        this.userName = name ?: throw IllegalArgumentException("Username is required for login")
+        super.startUIAStages(stages, serverDomain, userName)
     }
 
-    override suspend fun sendDataForStageResult(authParams: JsonDict): Response<RegistrationResult> {
+    override suspend fun performUIAStage(
+        authParams: JsonDict,
+        name: String?,
+        password: String?
+    ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getLoginWizard()
-        return createResult {
+        val result = createResult {
             wizard.loginStageCustom(
                 authParams,
                 getIdentifier(),
@@ -57,7 +65,13 @@ class LoginStagesDataSource @Inject constructor(
                 true
             )
         }
+        (result as? Response.Success)?.let {
+            password?.let { userPassword = it }
+            stageCompleted(result.data)
+        }
+        return result
     }
+
 
     override suspend fun finishStages(session: Session) {
         passPhraseLoadingLiveData.postValue(
@@ -69,6 +83,11 @@ class LoginStagesDataSource @Inject constructor(
         handleKeysBackup()
         BSSpekeClientProvider.clear()
     }
+
+    private fun getIdentifier() = mapOf(
+        USER_PARAM_KEY to "@$userName:$domain",
+        TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
+    )
 
     private suspend fun handleKeysBackup() {
         if (encryptionAlgorithmHelper.isBcryptAlgorithm()) restoreAndMigrateBCrypt(userPassword)
@@ -123,5 +142,11 @@ class LoginStagesDataSource @Inject constructor(
 
     fun navigateToMain() {
         loginNavigationLiveData.postValue(LoginNavigationEvent.Main)
+    }
+
+    companion object {
+        //params
+        const val USER_PARAM_KEY = "user"
+        const val LOGIN_PASSWORD_USER_ID_TYPE = "m.id.user"
     }
 }

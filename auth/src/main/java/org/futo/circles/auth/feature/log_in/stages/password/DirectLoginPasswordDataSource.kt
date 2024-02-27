@@ -4,9 +4,9 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.base.PasswordDataSource
+import org.futo.circles.auth.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
-import org.futo.circles.auth.feature.log_in.stages.LoginStagesDataSource
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import javax.inject.Inject
@@ -26,9 +26,7 @@ class DirectLoginPasswordDataSource @Inject constructor(
         }
         return when (result) {
             is Response.Success -> {
-                loginStagesDataSource.stageCompleted(
-                    RegistrationResult.Success(result.data), password
-                )
+                loginStagesDataSource.stageCompleted(RegistrationResult.Success(result.data))
                 Response.Success(Unit)
             }
 
