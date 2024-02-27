@@ -1,4 +1,4 @@
-package org.futo.circles.auth.base
+package org.futo.circles.auth.model
 
 
 enum class UIANavigationEvent {
