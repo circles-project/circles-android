@@ -29,7 +29,6 @@ class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clearSubtitle()
         setupViews()
         setupObservers()
     }

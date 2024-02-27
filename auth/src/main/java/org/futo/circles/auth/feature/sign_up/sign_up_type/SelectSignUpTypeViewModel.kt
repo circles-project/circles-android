@@ -23,10 +23,6 @@ class SelectSignUpTypeViewModel @Inject constructor(
         }
     }
 
-    fun clearSubtitle() {
-        dataSource.clearSubtitle()
-    }
-
     fun loadSignupFlowsForDomain(domain: String) {
         launchBg {
             val result = dataSource.getAuthFlowsFor(domain)
