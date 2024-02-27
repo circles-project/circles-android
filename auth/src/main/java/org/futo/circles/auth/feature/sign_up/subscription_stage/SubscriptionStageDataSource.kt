@@ -1,21 +1,22 @@
 package org.futo.circles.auth.feature.sign_up.subscription_stage
 
-import org.futo.circles.auth.feature.sign_up.SignUpDataSource
-import org.futo.circles.auth.feature.sign_up.SignUpDataSource.Companion.REGISTRATION_SUBSCRIPTION_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_SUBSCRIPTION_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
+import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.auth.model.SubscriptionReceiptData
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import javax.inject.Inject
 
-class SubscriptionStageDataSource @Inject constructor(
-    private val signUpDataSource: SignUpDataSource
-) {
+class SubscriptionStageDataSource @Inject constructor() {
+
+    private val uiaDataSource = UIADataSourceProvider.getDataSourceOrThrow()
 
     suspend fun validateSubscription(
         subscriptionReceiptData: SubscriptionReceiptData
     ): Response<RegistrationResult> =
-        signUpDataSource.performRegistrationStage(
+        uiaDataSource.performUIAStage(
             mapOf(
                 TYPE_PARAM_KEY to REGISTRATION_SUBSCRIPTION_TYPE,
                 ORDER_ID_KEY to subscriptionReceiptData.orderId,
@@ -25,7 +26,7 @@ class SubscriptionStageDataSource @Inject constructor(
             )
         )
 
-    fun getProductIdsList() = ((signUpDataSource.currentStage as? Stage.Other)
+    fun getProductIdsList() = ((uiaDataSource.currentStage as? Stage.Other)
         ?.params?.get(SUBSCRIPTION_IDS_PARAMS_KEY) as? List<*>)
         ?.map { it.toString() }
         ?: emptyList()
