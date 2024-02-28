@@ -6,7 +6,8 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_FREE_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_SUBSCRIPTION_TYPE
-import org.futo.circles.auth.feature.uia.UIAFlowType
+import org.futo.circles.auth.feature.uia.UIADataSourceProvider
+import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
@@ -16,12 +17,14 @@ import javax.inject.Inject
 
 class SignUpDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val uiaFactory: UIADataSource.Factory
+    uiaFactory: UIADataSource.Factory
 ) {
 
     private var registrationFlowsForDomain: Pair<String, List<List<Stage>>>? = null
 
-    private val uiaDataSource by lazy { uiaFactory.create(UIAFlowType.Signup) }
+    private val uiaDataSource by lazy {
+        UIADataSourceProvider.create(UIAFlowType.Signup, uiaFactory)
+    }
 
     suspend fun getAuthFlowsFor(domain: String) = createResult {
         registrationFlowsForDomain = null

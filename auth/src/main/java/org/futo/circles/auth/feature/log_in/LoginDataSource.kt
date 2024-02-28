@@ -12,7 +12,8 @@ import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_BS
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.USER_PARAM_KEY
-import org.futo.circles.auth.feature.uia.UIAFlowType
+import org.futo.circles.auth.feature.uia.UIADataSourceProvider
+import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
@@ -21,10 +22,12 @@ import javax.inject.Inject
 
 class LoginDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val uiaFactory: UIADataSource.Factory
+    uiaFactory: UIADataSource.Factory
 ) {
 
-    private val uiaDataSource by lazy { uiaFactory.create(UIAFlowType.Login) }
+    private val uiaDataSource by lazy {
+        UIADataSourceProvider.create(UIAFlowType.Login, uiaFactory)
+    }
     private val authService by lazy { MatrixInstanceProvider.matrix.authenticationService() }
 
     suspend fun startLogin(

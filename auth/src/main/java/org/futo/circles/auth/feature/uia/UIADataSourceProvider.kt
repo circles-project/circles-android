@@ -1,11 +1,11 @@
 package org.futo.circles.auth.feature.uia
 
-enum class UIAFlowType { Login, Signup, ReAuth, ForgotPassword }
+import org.futo.circles.auth.model.UIAFlowType
+
 
 object UIADataSourceProvider {
 
-    var activeFlowDataSource: UIADataSource? = null
-        private set
+    private var activeFlowDataSource: UIADataSource? = null
 
     var activeFlowType: UIAFlowType? = null
         private set
@@ -14,9 +14,8 @@ object UIADataSourceProvider {
         activeFlowDataSource ?: throw IllegalArgumentException("Flow is not active")
 
 
-    fun startUIAFlow(flowType: UIAFlowType, factory: UIADataSource.Factory) {
+    fun create(flowType: UIAFlowType, factory: UIADataSource.Factory): UIADataSource {
         activeFlowType = flowType
-        activeFlowDataSource = factory.create(flowType)
-
+        return factory.create(flowType).also { activeFlowDataSource = it }
     }
 }
