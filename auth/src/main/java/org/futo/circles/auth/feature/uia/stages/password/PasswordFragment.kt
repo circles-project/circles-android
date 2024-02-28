@@ -11,8 +11,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentPasswordBinding
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
-import org.futo.circles.auth.feature.uia.UIAFlowType
 import org.futo.circles.auth.feature.uia.stages.password.confirmation.SetupPasswordWarningDialog
+import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText

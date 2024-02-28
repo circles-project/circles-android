@@ -12,7 +12,7 @@ import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_BS
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_BSSPEKE_SAVE_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
-import org.futo.circles.auth.feature.uia.UIAFlowType
+import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
