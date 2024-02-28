@@ -14,10 +14,6 @@
         app:destination="@id/validateEmailFragment" />
 
     <action
-        android:id="@+id/to_acceptTermsSignup"
-        app:destination="@id/acceptTermsFragment" />
-
-    <action
         android:id="@+id/to_subscriptions"
         app:destination="@id/subscriptionStageFragment" />
 
@@ -25,46 +21,13 @@
         android:id="@+id/to_username"
         app:destination="@id/usernameFragment" />
 
-    <action
-        android:id="@+id/to_passwordSignup"
-        app:destination="@id/passwordFragment" />
-
-    <action
-        android:id="@+id/to_bsspekeSignup"
-        app:destination="@id/passwordFragment" />
-
 
     <action
         android:id="@+id/to_acceptTerms"
         app:destination="@id/acceptTermsFragment" />
 
     <action
-        android:id="@+id/to_ReAuthAcceptTerms"
-        app:destination="@id/acceptTermsFragment" />
-
-    <action
-        android:id="@+id/to_direct_login"
-        app:destination="@id/passwordFragment" />
-
-    <action
         android:id="@+id/to_password"
-        app:destination="@id/passwordFragment" />
-
-
-    <action
-        android:id="@+id/to_bsspeke"
-        app:destination="@id/passwordFragment" />
-
-    <action
-        android:id="@+id/to_reAuthPassword"
-        app:destination="@id/passwordFragment" />
-
-    <action
-        android:id="@+id/to_reAuthBsSpekeLogin"
-        app:destination="@id/passwordFragment" />
-
-    <action
-        android:id="@+id/to_reAuthBsSpekeSignup"
         app:destination="@id/passwordFragment" />
 
 
