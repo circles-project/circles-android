@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @Singleton
 class LoginStagesDataSource @Inject constructor(
     @ApplicationContext private val context: Context
-) : UIADataSource(context) {
+) : UIADataSource() {
 
 
     var userPassword: String = ""

@@ -1,7 +1,5 @@
 package org.futo.circles.auth.feature.uia.flow.reauth
 
-import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.model.CustomUIAuth
 import org.futo.circles.core.extensions.Response
@@ -19,9 +17,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @Singleton
-class ReAuthStagesDataSource @Inject constructor(
-    @ApplicationContext context: Context,
-) : UIADataSource(context) {
+class ReAuthStagesDataSource @Inject constructor() : UIADataSource() {
 
     private var authPromise: Continuation<UIABaseAuth>? = null
     private var sessionId: String = ""

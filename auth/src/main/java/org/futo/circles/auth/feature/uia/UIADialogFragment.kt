@@ -15,6 +15,7 @@ import org.futo.circles.auth.databinding.DialogFragmentUiaBinding
 import org.futo.circles.auth.feature.pass_phrase.recovery.EnterPassPhraseDialog
 import org.futo.circles.auth.feature.pass_phrase.recovery.EnterPassPhraseDialogListener
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
+import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.auth.model.UIANavigationEvent
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BackPressOwner
@@ -78,8 +79,9 @@ class UIADialogFragment :
         viewModel.navigationLiveData.observeData(this) { event ->
             handleNavigation(event)
         }
-        viewModel.subtitleLiveData.observeData(this) {
-            binding.toolbar.subtitle = it
+        viewModel.subtitleLiveData.observeData(this) { (number, size) ->
+            binding.toolbar.subtitle =
+                getString(R.string.sign_up_stage_subtitle_format, number, size)
         }
         viewModel.restoreKeysLiveData.observeResponse(
             this,

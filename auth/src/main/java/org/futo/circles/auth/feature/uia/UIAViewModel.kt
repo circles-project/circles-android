@@ -1,6 +1,7 @@
 package org.futo.circles.auth.feature.uia
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.R
@@ -33,7 +34,7 @@ class UIAViewModel @Inject constructor(
 
     val uiaDataSource = UIADataSourceProvider.getDataSourceOrThrow()
 
-    val subtitleLiveData = uiaDataSource.subtitleLiveData
+    val subtitleLiveData: LiveData<Pair<Int, Int>> = uiaDataSource.subtitleLiveData
     val navigationLiveData = uiaDataSource.navigationLiveData
     val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
     val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData

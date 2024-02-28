@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class SignUpStagesDataSource @Inject constructor(
     @ApplicationContext private val context: Context
-) : UIADataSource(context) {
+) : UIADataSource() {
 
     override suspend fun performUIAStage(
         authParams: JsonDict,

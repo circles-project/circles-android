@@ -1,11 +1,10 @@
 package org.futo.circles.auth.feature.uia
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.uia.flow.LoginStagesDataSource
 import org.futo.circles.auth.feature.uia.flow.SignUpStagesDataSource
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthStagesDataSource
+import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.auth.model.UIANavigationEvent
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
@@ -18,7 +17,7 @@ import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
 import kotlin.coroutines.Continuation
 
-abstract class UIADataSource(private val context: Context) {
+abstract class UIADataSource {
 
     class Factory @Inject constructor(
         private val loginStagesDataSource: LoginStagesDataSource,
@@ -34,7 +33,7 @@ abstract class UIADataSource(private val context: Context) {
     }
 
 
-    val subtitleLiveData = MutableLiveData<String>()
+    val subtitleLiveData = MutableLiveData<Pair<Int, Int>>()
     val navigationLiveData = SingleEventLiveData<UIANavigationEvent>()
     val finishUIAEventLiveData = SingleEventLiveData<Session>()
 
@@ -107,9 +106,7 @@ abstract class UIADataSource(private val context: Context) {
         val event = when (val stage = currentStage) {
             is Stage.Terms -> UIANavigationEvent.AcceptTerm
             is Stage.Other -> handleStageOther(stage.type)
-            else -> throw IllegalArgumentException(
-                context.getString(R.string.not_supported_stage_format, stage.toString())
-            )
+            else -> throw IllegalArgumentException("Not supported stage $stage")
         }
         event?.let { navigationLiveData.postValue(it) }
         updatePageSubtitle()
@@ -135,9 +132,8 @@ abstract class UIADataSource(private val context: Context) {
 
         REGISTRATION_BSSPEKE_SAVE_TYPE -> null
         LOGIN_BSSPEKE_VERIFY_TYPE -> null
-        else -> throw IllegalArgumentException(
-            context.getString(R.string.not_supported_stage_format, type)
-        )
+        else -> throw IllegalArgumentException("Not supported stage $type")
+
     }
 
     private fun getCurrentStageIndex() =
@@ -146,8 +142,7 @@ abstract class UIADataSource(private val context: Context) {
     private fun updatePageSubtitle() {
         val size = stagesToComplete.size
         val number = getCurrentStageIndex() + 1
-        val subtitle = context.getString(R.string.sign_up_stage_subtitle_format, number, size)
-        subtitleLiveData.postValue(subtitle)
+        subtitleLiveData.postValue(number to size)
     }
 
     companion object {
