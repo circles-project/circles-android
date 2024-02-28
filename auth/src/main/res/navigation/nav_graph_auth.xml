@@ -18,6 +18,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
 
     <dialog
@@ -58,5 +61,13 @@
             app:destination="@id/setupProfileFragment"
             app:popUpTo="@id/configureWorkspaceFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="org.futo.circles.auth.feature.sign_up.SignUpFragment"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/to_uiaFragment"
+            app:destination="@id/uiaFragment" />
     </fragment>
 </navigation>
