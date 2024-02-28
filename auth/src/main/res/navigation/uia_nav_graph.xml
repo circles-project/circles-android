@@ -33,36 +33,36 @@
 
     <fragment
         android:id="@+id/validateTokenFragment"
-        android:name="org.futo.circles.auth.feature.sign_up.validate_token.ValidateTokenFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.validate_token.ValidateTokenFragment"
         tools:layout="@layout/fragment_validate_token" />
 
     <fragment
         android:id="@+id/validateEmailFragment"
-        android:name="org.futo.circles.auth.feature.sign_up.validate_email.ValidateEmailFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.validate_email.ValidateEmailFragment"
         tools:layout="@layout/fragment_validate_email" />
 
     <fragment
         android:id="@+id/acceptTermsFragment"
-        android:name="org.futo.circles.auth.feature.sign_up.terms.AcceptTermsFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.terms.AcceptTermsFragment"
         tools:layout="@layout/fragment_accept_terms" />
 
     <fragment
         android:id="@+id/subscriptionStageFragment"
-        android:name="org.futo.circles.auth.feature.sign_up.subscription_stage.SubscriptionStageFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.subscription_stage.SubscriptionStageFragment"
         tools:layout="@layout/fragment_subscription_stage" />
     <fragment
         android:id="@+id/passwordFragment"
-        android:name="org.futo.circles.auth.feature.sign_up.password.PasswordFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.password.PasswordFragment"
         tools:layout="@layout/fragment_password" />
 
     <fragment
         android:id="@+id/usernameFragment"
-        android:name="org.futo.circles.auth.feature.sign_up.username.UsernameFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.username.UsernameFragment"
         tools:layout="@layout/fragment_username" />
 
     <fragment
         android:id="@+id/emptyFragment"
-        android:name="org.futo.circles.auth.feature.log_in.EmptyFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.EmptyFragment"
         tools:layout="@layout/fragment_empty" />
 
 

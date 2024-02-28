@@ -11,7 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
-import org.futo.circles.auth.feature.reauth.ReAuthCancellationListener
+import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
 import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
 import org.futo.circles.core.base.CirclesAppConfig

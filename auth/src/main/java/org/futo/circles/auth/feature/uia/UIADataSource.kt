@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import org.futo.circles.auth.R
 import org.futo.circles.auth.model.UIANavigationEvent
 import org.futo.circles.auth.feature.uia.flow.LoginStagesDataSource
-import org.futo.circles.auth.feature.reauth.ReAuthStagesDataSource
+import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthStagesDataSource
 import org.futo.circles.auth.feature.uia.flow.SignUpStagesDataSource
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response

@@ -2,13 +2,11 @@ package org.futo.circles.feature.settings
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.auth.feature.log_in.log_out.LogoutDataSource
 import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 import javax.inject.Inject
@@ -16,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDataSource: SettingsDataSource,
-    private val logoutDataSource: LogoutDataSource,
     private val refreshTokenManager: RefreshTokenManager
 ) : ViewModel() {
 
@@ -31,7 +28,9 @@ class SettingsViewModel @Inject constructor(
     fun logOut() {
         launchBg {
             MatrixSessionProvider.currentSession?.let { refreshTokenManager.cancelTokenRefreshing(it) }
-            val result = logoutDataSource.logOut()
+            val result = createResult {
+                MatrixSessionProvider.getSessionOrThrow().signOutService().signOut(true)
+            }
             logOutLiveData.postValue(result)
         }
     }
