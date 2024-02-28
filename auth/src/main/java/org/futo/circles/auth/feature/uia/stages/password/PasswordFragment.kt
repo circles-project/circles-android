@@ -6,11 +6,12 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentPasswordBinding
+import org.futo.circles.auth.feature.uia.UIADataSourceProvider
+import org.futo.circles.auth.feature.uia.UIAFlowType
 import org.futo.circles.auth.feature.uia.stages.password.confirmation.SetupPasswordWarningDialog
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
@@ -23,7 +24,6 @@ import org.futo.circles.core.extensions.showError
 class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password),
     HasLoadingState {
 
-    private val args: PasswordFragmentArgs by navArgs()
     private val viewModel by viewModels<PasswordViewModel>()
     override val fragment: Fragment = this
     private val binding by viewBinding(FragmentPasswordBinding::bind)
@@ -63,10 +63,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
         }
     }
 
-    private fun isSignupMode() = when (args.mode) {
-        PasswordModeArg.ReAuthBsSpekeSignup, PasswordModeArg.SignupPasswordStage, PasswordModeArg.SignupBsSpekeStage -> true
-        else -> false
-    }
+    private fun isSignupMode() = UIADataSourceProvider.activeFlowType == UIAFlowType.Signup
 
     private fun setupObservers() {
         viewModel.passwordResponseLiveData.observeResponse(this,
