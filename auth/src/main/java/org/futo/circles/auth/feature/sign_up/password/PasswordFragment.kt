@@ -12,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentPasswordBinding
 import org.futo.circles.auth.feature.sign_up.password.confirmation.SetupPasswordWarningDialog
-import org.futo.circles.auth.model.PasswordModeArg
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText

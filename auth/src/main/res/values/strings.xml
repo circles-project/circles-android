@@ -49,7 +49,6 @@
     <string name="importing_keys">Importing keys.</string>
     <string name="decrypting_key">Decrypting key.</string>
     <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
-    <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="domain">Domain</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="username">username</string>
