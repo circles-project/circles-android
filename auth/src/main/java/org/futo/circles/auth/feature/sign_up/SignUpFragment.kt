@@ -6,6 +6,7 @@ import android.widget.RadioButton
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.radiobutton.MaterialRadioButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +15,7 @@ import org.futo.circles.auth.databinding.FragmentSignUpBinding
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
@@ -60,7 +62,11 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
     }
 
     private fun setupObservers() {
-        viewModel.startSignUpEventLiveData.observeResponse(this)
+        viewModel.startSignUpEventLiveData.observeResponse(
+            this,
+            success = { findNavController().navigateSafe(SignUpFragmentDirections.toUiaFragment()) }
+        )
+
         viewModel.signupFlowsLiveData.observeResponse(this,
             success = {
                 val hasSubscriptionFlow = viewModel.hasSubscriptionFlow(it)
