@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.sign_up
+package org.futo.circles.auth.feature.uia.flow
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -13,14 +13,13 @@ import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
-import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SignUpDataSource @Inject constructor(
+class SignUpStagesDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val createPassPhraseDataSource: CreatePassPhraseDataSource,
     private val preferencesProvider: PreferencesProvider

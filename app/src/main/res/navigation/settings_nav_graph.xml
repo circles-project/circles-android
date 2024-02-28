@@ -18,8 +18,8 @@
             android:id="@+id/to_activeSessionsDialogFragment"
             app:destination="@id/log_in_sessions_nav_graph" />
         <action
-            android:id="@+id/to_reAuthStagesDialogFragment"
-            app:destination="@id/reAuthStagesDialogFragment" />
+            android:id="@+id/to_uiaDialogFragment"
+            app:destination="@id/UIADialogFragment" />
         <action
             android:id="@+id/to_pushNotificationsSettingsDialogFragment"
             app:destination="@id/pushNotificationsSettingsDialogFragment" />
@@ -51,13 +51,12 @@
     <include app:graph="@navigation/log_in_sessions_nav_graph" />
 
     <dialog
-        android:id="@+id/reAuthStagesDialogFragment"
-        android:name="org.futo.circles.auth.feature.reauth.ReAuthStagesDialogFragment"
-        tools:layout="@layout/fragment_login_stages" />
-
-    <dialog
         android:id="@+id/manageSubscriptionDialogFragment"
         android:name="org.futo.circles.auth.feature.manage_subscription.ManageSubscriptionDialogFragment"
         tools:layout="@layout/dialog_fragment_manage_subscription" />
+    <dialog
+        android:id="@+id/UIADialogFragment"
+        android:name="org.futo.circles.auth.feature.uia.UIADialogFragment"
+        tools:layout="@layout/dialog_fragment_uia" />
 
 </navigation>
