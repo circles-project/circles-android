@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.sign_up.sign_up_type
+package org.futo.circles.auth.feature.sign_up
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,8 +9,8 @@ import org.matrix.android.sdk.api.auth.registration.Stage
 import javax.inject.Inject
 
 @HiltViewModel
-class SelectSignUpTypeViewModel @Inject constructor(
-    private val dataSource: SelectSignUpTypeDataSource
+class SignUpViewModel @Inject constructor(
+    private val dataSource: SignUpDataSource
 ) : ViewModel() {
 
     val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()

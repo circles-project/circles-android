@@ -3,10 +3,10 @@ package org.futo.circles.auth.feature.uia
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.auth.R
-import org.futo.circles.auth.base.UIANavigationEvent
-import org.futo.circles.auth.feature.log_in.stages.LoginStagesDataSource
+import org.futo.circles.auth.model.UIANavigationEvent
+import org.futo.circles.auth.feature.uia.flow.LoginStagesDataSource
 import org.futo.circles.auth.feature.reauth.ReAuthStagesDataSource
-import org.futo.circles.auth.feature.sign_up.SignUpDataSource
+import org.futo.circles.auth.feature.uia.flow.SignUpStagesDataSource
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.UIABaseAuth
@@ -23,11 +23,11 @@ abstract class UIADataSource(private val context: Context) {
     class Factory @Inject constructor(
         private val loginStagesDataSource: LoginStagesDataSource,
         private val reAuthStagesDataSource: ReAuthStagesDataSource,
-        private val signUpDataSource: SignUpDataSource
+        private val signUpStagesDataSource: SignUpStagesDataSource
     ) {
         fun create(flowType: UIAFlowType): UIADataSource = when (flowType) {
             UIAFlowType.Login -> loginStagesDataSource
-            UIAFlowType.Signup -> signUpDataSource
+            UIAFlowType.Signup -> signUpStagesDataSource
             UIAFlowType.ReAuth -> reAuthStagesDataSource
             UIAFlowType.ForgotPassword -> loginStagesDataSource
         }

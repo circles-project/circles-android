@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.sign_up.sign_up_type
+package org.futo.circles.auth.feature.sign_up
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.radiobutton.MaterialRadioButton
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
-import org.futo.circles.auth.databinding.FragmentSelectSignUpTypeBinding
+import org.futo.circles.auth.databinding.FragmentSignUpBinding
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.gone
@@ -19,13 +19,13 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 
 @AndroidEntryPoint
-class SelectSignUpTypeFragment : Fragment(R.layout.fragment_select_sign_up_type),
+class SignUpFragment : Fragment(R.layout.fragment_sign_up),
     HasLoadingState {
 
     override val fragment: Fragment = this
 
-    private val binding by viewBinding(FragmentSelectSignUpTypeBinding::bind)
-    private val viewModel by viewModels<SelectSignUpTypeViewModel>()
+    private val binding by viewBinding(FragmentSignUpBinding::bind)
+    private val viewModel by viewModels<SignUpViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

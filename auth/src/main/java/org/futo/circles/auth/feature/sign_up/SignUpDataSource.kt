@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.sign_up.sign_up_type
+package org.futo.circles.auth.feature.sign_up
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -6,7 +6,6 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_FREE_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_SUBSCRIPTION_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.auth.feature.uia.UIAFlowType
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.extensions.createResult
@@ -15,7 +14,7 @@ import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDoma
 import org.matrix.android.sdk.api.auth.registration.Stage
 import javax.inject.Inject
 
-class SelectSignUpTypeDataSource @Inject constructor(
+class SignUpDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val uiaFactory: UIADataSource.Factory
 ) {
