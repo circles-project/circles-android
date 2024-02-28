@@ -4,7 +4,6 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.model.CustomUIAuth
-import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.UIABaseAuth
@@ -12,7 +11,6 @@ import org.matrix.android.sdk.api.auth.registration.RegistrationFlowResponse
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
 import org.matrix.android.sdk.api.auth.registration.toFlowResult
-import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.util.JsonDict
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,11 +23,9 @@ class ReAuthStagesDataSource @Inject constructor(
     @ApplicationContext context: Context,
 ) : UIADataSource(context) {
 
-    val finishReAuthEventLiveData = SingleEventLiveData<Unit>()
     private var authPromise: Continuation<UIABaseAuth>? = null
     private var sessionId: String = ""
     private var stageResultContinuation: Continuation<Response<RegistrationResult>>? = null
-
 
     override suspend fun startUIAStages(
         stages: List<Stage>,
@@ -59,12 +55,8 @@ class ReAuthStagesDataSource @Inject constructor(
 
         (result as? Response.Success)?.let {
             stageCompleted(it.data)
-        } ?: run { finishReAuthEventLiveData.postValue(Unit) }
+        } ?: run { finishUIAEventLiveData.postValue(MatrixSessionProvider.getSessionOrThrow()) }
         return result
-    }
-
-    override suspend fun finishStages(session: Session) {
-        finishReAuthEventLiveData.postValue(Unit)
     }
 
     override fun onStageResult(

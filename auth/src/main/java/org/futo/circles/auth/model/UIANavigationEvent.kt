@@ -7,10 +7,8 @@ enum class UIANavigationEvent {
     AcceptTerm,
     ValidateEmail,
     Password,
-    BSspeke,
     Username,
-    Terms,
-    DirectPassword,
-    BSspekeLogin,
-    BSspekeSignup
+    Home,
+    ConfigureWorkspace,
+    PassPhrase
 }

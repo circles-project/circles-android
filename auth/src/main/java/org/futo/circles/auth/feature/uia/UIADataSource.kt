@@ -3,10 +3,10 @@ package org.futo.circles.auth.feature.uia
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.auth.R
-import org.futo.circles.auth.model.UIANavigationEvent
 import org.futo.circles.auth.feature.uia.flow.LoginStagesDataSource
-import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthStagesDataSource
 import org.futo.circles.auth.feature.uia.flow.SignUpStagesDataSource
+import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthStagesDataSource
+import org.futo.circles.auth.model.UIANavigationEvent
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.UIABaseAuth
@@ -36,6 +36,7 @@ abstract class UIADataSource(private val context: Context) {
 
     val subtitleLiveData = MutableLiveData<String>()
     val navigationLiveData = SingleEventLiveData<UIANavigationEvent>()
+    val finishUIAEventLiveData = SingleEventLiveData<Session>()
 
     val stagesToComplete = mutableListOf<Stage>()
     var currentStage: Stage? = null
@@ -73,8 +74,6 @@ abstract class UIADataSource(private val context: Context) {
         password: String? = null
     ): Response<RegistrationResult>
 
-    abstract suspend fun finishStages(session: Session)
-
     open fun onStageResult(
         promise: Continuation<UIABaseAuth>,
         flowResponse: RegistrationFlowResponse,
@@ -87,7 +86,7 @@ abstract class UIADataSource(private val context: Context) {
     suspend fun stageCompleted(result: RegistrationResult) {
         if (isStageRetry(result)) return
         (result as? RegistrationResult.Success)?.let {
-            finishStages(it.session)
+            finishUIAEventLiveData.postValue(it.session)
         } ?: navigateToNextStage()
     }
 
@@ -128,12 +127,13 @@ abstract class UIADataSource(private val context: Context) {
         REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE -> UIANavigationEvent.ValidateEmail
         REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE -> null //stay on same screen
         REGISTRATION_USERNAME_TYPE -> UIANavigationEvent.Username
-        REGISTRATION_PASSWORD_TYPE -> UIANavigationEvent.Password
-        REGISTRATION_BSSPEKE_OPRF_TYPE -> UIANavigationEvent.BSspeke
+        REGISTRATION_PASSWORD_TYPE,
+        LOGIN_PASSWORD_TYPE,
+        LOGIN_BSSPEKE_OPRF_TYPE,
+        DIRECT_LOGIN_PASSWORD_TYPE,
+        REGISTRATION_BSSPEKE_OPRF_TYPE -> UIANavigationEvent.Password
+
         REGISTRATION_BSSPEKE_SAVE_TYPE -> null
-        LOGIN_PASSWORD_TYPE -> UIANavigationEvent.Password
-        DIRECT_LOGIN_PASSWORD_TYPE -> UIANavigationEvent.DirectPassword
-        LOGIN_BSSPEKE_OPRF_TYPE -> UIANavigationEvent.BSspekeLogin
         LOGIN_BSSPEKE_VERIFY_TYPE -> null
         else -> throw IllegalArgumentException(
             context.getString(R.string.not_supported_stage_format, type)
