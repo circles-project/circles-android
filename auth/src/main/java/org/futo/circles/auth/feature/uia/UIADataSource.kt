@@ -34,7 +34,7 @@ abstract class UIADataSource {
 
 
     val subtitleLiveData = MutableLiveData<Pair<Int, Int>>()
-    val navigationLiveData = SingleEventLiveData<UIANavigationEvent>()
+    val stagesNavigationLiveData = SingleEventLiveData<UIANavigationEvent>()
     val finishUIAEventLiveData = SingleEventLiveData<Session>()
 
     val stagesToComplete = mutableListOf<Stage>()
@@ -108,7 +108,7 @@ abstract class UIADataSource {
             is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException("Not supported stage $stage")
         }
-        event?.let { navigationLiveData.postValue(it) }
+        event?.let { stagesNavigationLiveData.postValue(it) }
         updatePageSubtitle()
     }
 

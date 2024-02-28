@@ -7,8 +7,5 @@ enum class UIANavigationEvent {
     AcceptTerm,
     ValidateEmail,
     Password,
-    Username,
-    Home,
-    ConfigureWorkspace,
-    PassPhrase
+    Username
 }

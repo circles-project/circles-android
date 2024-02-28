@@ -15,6 +15,7 @@ import org.futo.circles.auth.databinding.DialogFragmentUiaBinding
 import org.futo.circles.auth.feature.pass_phrase.recovery.EnterPassPhraseDialog
 import org.futo.circles.auth.feature.pass_phrase.recovery.EnterPassPhraseDialogListener
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
+import org.futo.circles.auth.model.AuthUIAScreenNavigationEvent
 import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.auth.model.UIANavigationEvent
 import org.futo.circles.core.base.NetworkObserver
@@ -76,8 +77,11 @@ class UIADialogFragment :
 
     private fun setupObservers() {
         NetworkObserver.observe(this) { setEnabledViews(it) }
+        viewModel.stagesNavigationLiveData.observeData(this) { event ->
+            handleStagesNavigation(event)
+        }
         viewModel.navigationLiveData.observeData(this) { event ->
-            handleNavigation(event)
+            handleScreenNavigation(event)
         }
         viewModel.subtitleLiveData.observeData(this) { (number, size) ->
             binding.toolbar.subtitle =
@@ -108,7 +112,21 @@ class UIADialogFragment :
         )
     }
 
-    private fun handleNavigation(event: UIANavigationEvent) {
+    private fun handleScreenNavigation(event: AuthUIAScreenNavigationEvent) {
+        when (event) {
+            AuthUIAScreenNavigationEvent.Home -> findNavController().navigateSafe(
+                UIADialogFragmentDirections.toHomeFragment()
+            )
+
+            AuthUIAScreenNavigationEvent.ConfigureWorkspace -> findNavController().navigateSafe(
+                UIADialogFragmentDirections.toConfigureWorkspace()
+            )
+
+            AuthUIAScreenNavigationEvent.PassPhrase -> showPassPhraseDialog()
+        }
+    }
+
+    private fun handleStagesNavigation(event: UIANavigationEvent) {
         val id = when (event) {
             UIANavigationEvent.TokenValidation -> R.id.to_validateToken
             UIANavigationEvent.Subscription -> R.id.to_subscriptions
@@ -116,14 +134,8 @@ class UIADialogFragment :
             UIANavigationEvent.ValidateEmail -> R.id.to_validateEmail
             UIANavigationEvent.Password -> R.id.to_password
             UIANavigationEvent.Username -> R.id.to_username
-            UIANavigationEvent.Home -> R.id.to_homeFragment
-            UIANavigationEvent.ConfigureWorkspace -> R.id.to_ConfigureWorkspace
-            UIANavigationEvent.PassPhrase -> {
-                showPassPhraseDialog()
-                null
-            }
         }
-        id?.let { binding.navHostFragment.findNavController().navigateSafe(it) }
+        binding.navHostFragment.findNavController().navigateSafe(id)
     }
 
     private fun showPassPhraseDialog() {
@@ -142,7 +154,7 @@ class UIADialogFragment :
                 }
 
                 override fun onDoNotRestore() {
-                    viewModel.onDoNotRestoreBackup()
+                    enterPassPhraseDialog?.dismiss()
                 }
 
                 override fun onSelectFileClicked() {

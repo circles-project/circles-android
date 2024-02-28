@@ -11,7 +11,7 @@ import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSour
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.auth.feature.uia.flow.LoginStagesDataSource
-import org.futo.circles.auth.model.UIANavigationEvent
+import org.futo.circles.auth.model.AuthUIAScreenNavigationEvent
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
@@ -35,7 +35,8 @@ class UIAViewModel @Inject constructor(
     val uiaDataSource = UIADataSourceProvider.getDataSourceOrThrow()
 
     val subtitleLiveData: LiveData<Pair<Int, Int>> = uiaDataSource.subtitleLiveData
-    val navigationLiveData = uiaDataSource.navigationLiveData
+    val stagesNavigationLiveData = uiaDataSource.stagesNavigationLiveData
+    val navigationLiveData = SingleEventLiveData<AuthUIAScreenNavigationEvent>()
     val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
     val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
     val finishUIAEventLiveData = uiaDataSource.finishUIAEventLiveData
@@ -68,10 +69,6 @@ class UIAViewModel @Inject constructor(
         }
     }
 
-    fun onDoNotRestoreBackup() {
-        navigationLiveData.postValue(UIANavigationEvent.Home)
-    }
-
     fun finishLogin(session: Session) {
         launchBg {
             passPhraseLoadingLiveData.postValue(
@@ -94,7 +91,9 @@ class UIAViewModel @Inject constructor(
                 createPassPhraseDataSource.createPassPhraseBackup()
                 BSSpekeClientProvider.clear()
             }
-            (result as? Response.Success)?.let { navigationLiveData.postValue(UIANavigationEvent.ConfigureWorkspace) }
+            (result as? Response.Success)?.let {
+                navigationLiveData.postValue(AuthUIAScreenNavigationEvent.ConfigureWorkspace)
+            }
             createBackupResultLiveData.postValue(result)
         }
     }
@@ -106,7 +105,7 @@ class UIAViewModel @Inject constructor(
             }
         } else {
             if (encryptionAlgorithmHelper.isBsSpekePassPhrase()) restoreBsSpekeBackup()
-            else navigationLiveData.postValue(UIANavigationEvent.PassPhrase)
+            else navigationLiveData.postValue(AuthUIAScreenNavigationEvent.PassPhrase)
         }
     }
 
@@ -127,10 +126,10 @@ class UIAViewModel @Inject constructor(
         when (restoreResult) {
             is Response.Error -> {
                 restoreKeysLiveData.postValue(restoreResult)
-                navigationLiveData.postValue(UIANavigationEvent.PassPhrase)
+                navigationLiveData.postValue(AuthUIAScreenNavigationEvent.PassPhrase)
             }
 
-            is Response.Success -> navigationLiveData.postValue(UIANavigationEvent.Home)
+            is Response.Success -> navigationLiveData.postValue(AuthUIAScreenNavigationEvent.Home)
         }
     }
 
