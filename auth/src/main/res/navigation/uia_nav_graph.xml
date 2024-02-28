@@ -15,13 +15,7 @@
 
     <action
         android:id="@+id/to_acceptTermsSignup"
-        app:destination="@id/acceptTermsFragment">
-        <argument
-            android:name="mode"
-            android:defaultValue="Signup"
-            app:argType="org.futo.circles.auth.model.TermsModeArg"
-            app:nullable="false" />
-    </action>
+        app:destination="@id/acceptTermsFragment" />
 
     <action
         android:id="@+id/to_subscriptions"
@@ -57,27 +51,11 @@
 
     <action
         android:id="@+id/to_acceptTerms"
-        app:destination="@id/acceptTermsFragment">
-
-        <argument
-            android:name="mode"
-            android:defaultValue="Login"
-            app:argType="org.futo.circles.auth.model.TermsModeArg"
-            app:nullable="false" />
-
-    </action>
+        app:destination="@id/acceptTermsFragment" />
 
     <action
         android:id="@+id/to_ReAuthAcceptTerms"
-        app:destination="@id/acceptTermsFragment">
-
-        <argument
-            android:name="mode"
-            android:defaultValue="ReAuth"
-            app:argType="org.futo.circles.auth.model.TermsModeArg"
-            app:nullable="false" />
-
-    </action>
+        app:destination="@id/acceptTermsFragment" />
 
     <action
         android:id="@+id/to_direct_login"
@@ -165,14 +143,7 @@
     <fragment
         android:id="@+id/acceptTermsFragment"
         android:name="org.futo.circles.auth.feature.sign_up.terms.AcceptTermsFragment"
-        tools:layout="@layout/fragment_accept_terms">
-
-        <argument
-            android:name="mode"
-            app:argType="org.futo.circles.auth.model.TermsModeArg"
-            app:nullable="false" />
-
-    </fragment>
+        tools:layout="@layout/fragment_accept_terms"/>
 
     <fragment
         android:id="@+id/subscriptionStageFragment"
