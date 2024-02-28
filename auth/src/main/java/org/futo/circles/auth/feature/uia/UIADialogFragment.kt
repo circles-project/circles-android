@@ -1,5 +1,6 @@
 package org.futo.circles.auth.feature.uia
 
+import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -54,6 +55,14 @@ class UIADialogFragment :
         childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
+        object : Dialog(requireContext(), theme) {
+            @Suppress("OVERRIDE_DEPRECATION")
+            override fun onBackPressed() {
+                activity?.onBackPressedDispatcher?.onBackPressed()
+            }
+        }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
@@ -71,7 +80,7 @@ class UIADialogFragment :
                     else -> R.string.log_in
                 }
             )
-            setNavigationOnClickListener { onBackPressed() }
+            setNavigationOnClickListener { handleBackAction() }
         }
     }
 
@@ -178,10 +187,14 @@ class UIADialogFragment :
     }
 
     override fun onChildBackPress(callback: OnBackPressedCallback) {
+        handleBackAction(callback)
+    }
+
+    private fun handleBackAction(callback: OnBackPressedCallback? = null) {
         val includedFragmentsManager = childNavHostFragment.childFragmentManager
         if (includedFragmentsManager.backStackEntryCount == 1) {
             cancelReAuth()
-            callback.remove()
+            callback?.remove()
             onBackPressed()
         } else {
             showDiscardDialog()
