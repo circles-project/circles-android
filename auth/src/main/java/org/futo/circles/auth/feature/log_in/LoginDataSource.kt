@@ -24,7 +24,7 @@ class LoginDataSource @Inject constructor(
     private val uiaFactory: UIADataSource.Factory
 ) {
 
-    private val loginStagesDataSource by lazy { uiaFactory.create(UIAFlowType.Login) }
+    private val uiaDataSource by lazy { uiaFactory.create(UIAFlowType.Login) }
     private val authService by lazy { MatrixInstanceProvider.matrix.authenticationService() }
 
     suspend fun startLogin(
@@ -34,7 +34,7 @@ class LoginDataSource @Inject constructor(
     ) = createResult {
         authService.cancelPendingLoginOrRegistration()
         val stages = prepareLoginStages(userName, domain, isForgotPassword)
-        loginStagesDataSource.startUIAStages(stages, domain, userName)
+        uiaDataSource.startUIAStages(stages, domain, userName)
     }
 
     private suspend fun prepareLoginStages(

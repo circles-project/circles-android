@@ -98,7 +98,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
         NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.loginResultLiveData.observeResponse(this,
             success = {
-                findNavController().navigateSafe(LogInFragmentDirections.toLoginStagesFragment())
+                findNavController().navigateSafe(LogInFragmentDirections.toUiaFragment())
             },
             error = {
                 showError(getString(R.string.username_not_found))
