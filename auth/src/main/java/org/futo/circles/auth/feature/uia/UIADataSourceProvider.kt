@@ -18,4 +18,9 @@ object UIADataSourceProvider {
         activeFlowType = flowType
         return factory.create(flowType).also { activeFlowDataSource = it }
     }
+
+    fun clear() {
+        activeFlowType = null
+        activeFlowDataSource = null
+    }
 }
