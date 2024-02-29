@@ -7,6 +7,8 @@ import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.core.base.SingleEventLiveData
+import org.futo.circles.core.extensions.coroutineScope
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.auth.UIABaseAuth
 import org.matrix.android.sdk.api.auth.UserInteractiveAuthInterceptor
 import org.matrix.android.sdk.api.auth.registration.RegistrationFlowResponse
@@ -33,7 +35,7 @@ class AuthConfirmationProvider @Inject constructor(
         if (flowResponse.completedStages.isNullOrEmpty()) {
             val stages = flowResponse.toFlowsWithStages().firstOrNull() ?: emptyList()
             startReAuthEventLiveData.postValue(Unit)
-            MainScope().launch(Dispatchers.IO) {
+            MatrixSessionProvider.getSessionOrThrow().coroutineScope.launch(Dispatchers.IO) {
                 uiaDataSource.startUIAStages(stages, flowResponse.session ?: "", promise)
             }
         } else {
