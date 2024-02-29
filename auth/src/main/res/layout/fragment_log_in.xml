@@ -148,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@string/forgot_password"
+            android:text="@string/forgot_password_question"
             android:textColor="@color/blue"
             android:textSize="17sp"
             android:textStyle="bold"

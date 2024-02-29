@@ -174,7 +174,8 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
     <string name="username_not_found">Username not found</string>
     <string name="invalid_validation_code">Invalid validation code</string>
     <string name="invalid_password">Invalid password</string>
-    <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password_question">Forgot password?</string>
+    <string name="forgot_password">Forgot password</string>
 
 
     <plurals name="days">

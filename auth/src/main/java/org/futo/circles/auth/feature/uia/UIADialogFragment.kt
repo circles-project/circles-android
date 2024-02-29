@@ -110,6 +110,7 @@ class UIADialogFragment :
             when (UIADataSourceProvider.activeFlowType) {
                 UIAFlowType.Login -> viewModel.finishLogin(it)
                 UIAFlowType.Signup -> viewModel.finishSignup(it)
+                UIAFlowType.ForgotPassword->viewModel.finishForgotPassword(it)
                 else -> dismiss()
             }
         }

@@ -98,6 +98,10 @@ class UIAViewModel @Inject constructor(
         }
     }
 
+    fun finishForgotPassword(session: Session) {
+        TODO("Not yet implemented")
+    }
+
     private suspend fun handleKeysBackup() {
         if (encryptionAlgorithmHelper.isBcryptAlgorithm()) {
             (uiaDataSource as? LoginStagesDataSource)?.userPassword?.let {
