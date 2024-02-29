@@ -10,9 +10,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentPasswordBinding
+import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.auth.feature.uia.stages.password.confirmation.SetupPasswordWarningDialog
-import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
@@ -63,7 +63,12 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
         }
     }
 
-    private fun isSignupMode() = UIADataSourceProvider.activeFlowType == UIAFlowType.Signup
+    private fun isSignupMode(): Boolean {
+        val currentStageKey = UIADataSourceProvider.getDataSourceOrThrow().getCurrentStageKey()
+        return currentStageKey == UIADataSource.ENROLL_PASSWORD_TYPE
+                || currentStageKey == UIADataSource.ENROLL_BSSPEKE_OPRF_TYPE
+                || currentStageKey == UIADataSource.ENROLL_BSSPEKE_SAVE_TYPE
+    }
 
     private fun setupObservers() {
         viewModel.passwordResponseLiveData.observeResponse(this,
