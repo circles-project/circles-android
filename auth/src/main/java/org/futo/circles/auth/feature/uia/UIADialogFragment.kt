@@ -170,7 +170,7 @@ class UIADialogFragment :
                 }
 
                 override fun onDoNotRestore() {
-                    enterPassPhraseDialog?.dismiss()
+                    viewModel.cancelRestore()
                 }
 
                 override fun onSelectFileClicked() {

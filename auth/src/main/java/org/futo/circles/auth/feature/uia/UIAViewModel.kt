@@ -21,6 +21,7 @@ import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
+import org.matrix.android.sdk.api.auth.data.sessionId
 import org.matrix.android.sdk.api.session.Session
 import javax.inject.Inject
 
@@ -143,6 +144,15 @@ class UIAViewModel @Inject constructor(
             }
 
             is Response.Success -> navigationLiveData.postValue(AuthUIAScreenNavigationEvent.Home)
+        }
+    }
+
+    fun cancelRestore() {
+        launchBg {
+            val session = MatrixSessionProvider.currentSession ?: return@launchBg
+            val sessionId = session.sessionParams.credentials.sessionId()
+            refreshTokenManager.cancelTokenRefreshing(session)
+            MatrixInstanceProvider.matrix.authenticationService().removeSession(sessionId)
         }
     }
 
