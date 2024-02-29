@@ -4,8 +4,8 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.uia.UIADataSource
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_FREE_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_SUBSCRIPTION_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.SUBSCRIPTION_FREE_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.SUBSCRPTION_GOOGLE_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.core.base.CirclesAppConfig
@@ -52,7 +52,7 @@ class SignUpDataSource @Inject constructor(
     // Must contain org.futo.subscriptions.free_forever
     fun getFreeSignupStages(flows: List<List<Stage>>): List<Stage>? = flows.firstOrNull { stages ->
         stages.firstOrNull { stage ->
-            (stage as? Stage.Other)?.type == REGISTRATION_FREE_TYPE
+            (stage as? Stage.Other)?.type == SUBSCRIPTION_FREE_TYPE
         } != null
     }
 
@@ -61,7 +61,7 @@ class SignUpDataSource @Inject constructor(
         if (CirclesAppConfig.isGplayFlavor()) {
             flows.firstOrNull { stages ->
                 stages.firstOrNull { stage ->
-                    (stage as? Stage.Other)?.type == REGISTRATION_SUBSCRIPTION_TYPE
+                    (stage as? Stage.Other)?.type == SUBSCRPTION_GOOGLE_TYPE
                 } != null
             }
         } else null

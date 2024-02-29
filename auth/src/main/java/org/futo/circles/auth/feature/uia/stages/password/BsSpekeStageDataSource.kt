@@ -8,8 +8,8 @@ import org.futo.circles.auth.bsspeke.BSSpekeClient
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_OPRF_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_BSSPEKE_OPRF_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_BSSPEKE_SAVE_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_BSSPEKE_OPRF_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_BSSPEKE_SAVE_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.auth.model.UIAFlowType
@@ -39,7 +39,7 @@ class BsSpekeStageDataSource @Inject constructor(
     private fun isLoginMode() = UIADataSourceProvider.activeFlowType == UIAFlowType.Login
 
     private fun getOprfTypeKey() =
-        if (isLoginMode()) LOGIN_BSSPEKE_OPRF_TYPE else REGISTRATION_BSSPEKE_OPRF_TYPE
+        if (isLoginMode()) LOGIN_BSSPEKE_OPRF_TYPE else ENROLL_BSSPEKE_OPRF_TYPE
 
     private suspend fun performOprfStage(
         bsSpekeClient: BSSpekeClient
@@ -87,14 +87,14 @@ class BsSpekeStageDataSource @Inject constructor(
     ): Response<RegistrationResult> {
         val PandV: Pair<String, String>
         try {
-            val blindSalt = getBlindSalt(context, oprfResult, REGISTRATION_BSSPEKE_SAVE_TYPE)
+            val blindSalt = getBlindSalt(context, oprfResult, ENROLL_BSSPEKE_SAVE_TYPE)
             PandV = bsSpekeClient.generateBase64PandV(blindSalt, blocks, iterations)
         } catch (e: Exception) {
             return Response.Error(e.message ?: "")
         }
         return uiaDataSource.performUIAStage(
             mapOf(
-                TYPE_PARAM_KEY to REGISTRATION_BSSPEKE_SAVE_TYPE,
+                TYPE_PARAM_KEY to ENROLL_BSSPEKE_SAVE_TYPE,
                 P_PARAM_KEY to PandV.first,
                 V_PARAM_KEY to PandV.second,
                 PHF_PARAM_KEY to phfParams

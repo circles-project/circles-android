@@ -6,8 +6,8 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.DIRECT_LOGIN_PASSWORD_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_OPRF_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_BSSPEKE_OPRF_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_PASSWORD_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_BSSPEKE_OPRF_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_PASSWORD_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.core.extensions.Response
@@ -26,10 +26,10 @@ class PasswordDataSource @Inject constructor(
 
     suspend fun processPasswordStage(password: String): Response<Unit> =
         when ((uiaDataSource.currentStage as? Stage.Other)?.type) {
-            LOGIN_BSSPEKE_OPRF_TYPE, REGISTRATION_BSSPEKE_OPRF_TYPE ->
+            LOGIN_BSSPEKE_OPRF_TYPE, ENROLL_BSSPEKE_OPRF_TYPE ->
                 bsSpekeStageDataSource.processPasswordStage(password)
 
-            REGISTRATION_PASSWORD_TYPE -> processRegistrationPasswordStage(password)
+            ENROLL_PASSWORD_TYPE -> processRegistrationPasswordStage(password)
             LOGIN_PASSWORD_TYPE -> processPasswordStageL(password)
             DIRECT_LOGIN_PASSWORD_TYPE -> processDirectPasswordStage(password)
             else -> throw IllegalArgumentException("Unsupported password stage")
@@ -39,7 +39,7 @@ class PasswordDataSource @Inject constructor(
     private suspend fun processRegistrationPasswordStage(password: String): Response<Unit> =
         when (val result = uiaDataSource.performUIAStage(
             mapOf(
-                TYPE_PARAM_KEY to REGISTRATION_PASSWORD_TYPE,
+                TYPE_PARAM_KEY to ENROLL_PASSWORD_TYPE,
                 REGISTRATION_PASSWORD_PARAM_KEY to password
             )
         )) {

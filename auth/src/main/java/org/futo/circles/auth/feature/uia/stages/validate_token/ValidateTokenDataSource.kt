@@ -1,6 +1,6 @@
 package org.futo.circles.auth.feature.uia.stages.validate_token
 
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_TOKEN_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_REGISTRATION_TOKEN_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.core.extensions.Response
@@ -14,7 +14,7 @@ class ValidateTokenDataSource @Inject constructor() {
     suspend fun validateToken(token: String): Response<RegistrationResult> =
         uiaDataSource.performUIAStage(
             mapOf(
-                TYPE_PARAM_KEY to REGISTRATION_TOKEN_TYPE,
+                TYPE_PARAM_KEY to LOGIN_REGISTRATION_TOKEN_TYPE,
                 TOKEN_PARAM_KEY to token
             )
         )

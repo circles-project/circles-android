@@ -8,8 +8,8 @@ import org.futo.circles.auth.feature.uia.UIADataSource.Companion.DIRECT_LOGIN_PA
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_USER_ID_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_BSSPEKE_SAVE_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_BSSPEKE_SAVE_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_EMAIL_SUBMIT_TOKEN_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.USER_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
@@ -85,10 +85,10 @@ class LoginDataSource @Inject constructor(
     private fun getCircleStagesForForgotPassword(flows: List<List<Stage>>): List<Stage>? =
         flows.firstOrNull { stages ->
             val containsEmailStage = stages.firstOrNull { stage ->
-                (stage as? Stage.Other)?.type == REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
+                (stage as? Stage.Other)?.type == ENROLL_EMAIL_SUBMIT_TOKEN_TYPE
             } != null
             val containsSetPassword = stages.firstOrNull { stage ->
-                (stage as? Stage.Other)?.type == REGISTRATION_BSSPEKE_SAVE_TYPE
+                (stage as? Stage.Other)?.type == ENROLL_BSSPEKE_SAVE_TYPE
             } != null
             containsEmailStage && containsSetPassword
         }

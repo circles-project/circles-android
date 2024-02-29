@@ -1,7 +1,7 @@
 package org.futo.circles.auth.feature.uia.stages.validate_email
 
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_EMAIL_REQUEST_TOKEN_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_EMAIL_SUBMIT_TOKEN_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.core.extensions.Response
@@ -18,7 +18,7 @@ class ValidateEmailDataSource @Inject constructor() {
         subscribeToUpdates: Boolean
     ): Response<RegistrationResult> = uiaDataSource.performUIAStage(
         mapOf(
-            TYPE_PARAM_KEY to REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE,
+            TYPE_PARAM_KEY to ENROLL_EMAIL_REQUEST_TOKEN_TYPE,
             EMAIL_PARAM_KEY to email,
             SUBSCRIBE_TO_LIST to subscribeToUpdates
         )
@@ -27,7 +27,7 @@ class ValidateEmailDataSource @Inject constructor() {
     suspend fun validateEmail(code: String): Response<RegistrationResult> =
         uiaDataSource.performUIAStage(
             mapOf(
-                TYPE_PARAM_KEY to REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE,
+                TYPE_PARAM_KEY to ENROLL_EMAIL_SUBMIT_TOKEN_TYPE,
                 TOKEN_PARAM_KEY to code
             )
         )

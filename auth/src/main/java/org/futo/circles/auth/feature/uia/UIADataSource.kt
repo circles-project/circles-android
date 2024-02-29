@@ -114,23 +114,23 @@ abstract class UIADataSource {
 
 
     private suspend fun handleStageOther(type: String): UIANavigationEvent? = when (type) {
-        REGISTRATION_FREE_TYPE -> {
+        SUBSCRIPTION_FREE_TYPE -> {
             performUIAStage(mapOf(TYPE_PARAM_KEY to type))
             null
         }
 
-        REGISTRATION_TOKEN_TYPE -> UIANavigationEvent.TokenValidation
-        REGISTRATION_SUBSCRIPTION_TYPE -> UIANavigationEvent.Subscription
-        REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE -> UIANavigationEvent.ValidateEmail
-        REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE -> null //stay on same screen
-        REGISTRATION_USERNAME_TYPE -> UIANavigationEvent.Username
-        REGISTRATION_PASSWORD_TYPE,
+        LOGIN_REGISTRATION_TOKEN_TYPE -> UIANavigationEvent.TokenValidation
+        SUBSCRPTION_GOOGLE_TYPE -> UIANavigationEvent.Subscription
+        ENROLL_EMAIL_REQUEST_TOKEN_TYPE -> UIANavigationEvent.ValidateEmail
+        ENROLL_EMAIL_SUBMIT_TOKEN_TYPE -> null //stay on same screen
+        ENROLL_USERNAME_TYPE -> UIANavigationEvent.Username
+        ENROLL_PASSWORD_TYPE,
         LOGIN_PASSWORD_TYPE,
         LOGIN_BSSPEKE_OPRF_TYPE,
         DIRECT_LOGIN_PASSWORD_TYPE,
-        REGISTRATION_BSSPEKE_OPRF_TYPE -> UIANavigationEvent.Password
+        ENROLL_BSSPEKE_OPRF_TYPE -> UIANavigationEvent.Password
 
-        REGISTRATION_BSSPEKE_SAVE_TYPE -> null
+        ENROLL_BSSPEKE_SAVE_TYPE -> null
         LOGIN_BSSPEKE_VERIFY_TYPE -> null
         else -> throw IllegalArgumentException("Not supported stage $type")
 
@@ -151,21 +151,25 @@ abstract class UIADataSource {
         const val USER_PARAM_KEY = "user"
         const val LOGIN_PASSWORD_USER_ID_TYPE = "m.id.user"
 
-        //login stages
+        //stages password
         const val LOGIN_PASSWORD_TYPE = "m.login.password"
         const val DIRECT_LOGIN_PASSWORD_TYPE = "m.login.password.direct"
         const val LOGIN_BSSPEKE_OPRF_TYPE = "m.login.bsspeke-ecc.oprf"
         const val LOGIN_BSSPEKE_VERIFY_TYPE = "m.login.bsspeke-ecc.verify"
+        const val ENROLL_BSSPEKE_OPRF_TYPE = "m.enroll.bsspeke-ecc.oprf"
+        const val ENROLL_BSSPEKE_SAVE_TYPE = "m.enroll.bsspeke-ecc.save"
 
-        //signup stages
-        const val REGISTRATION_FREE_TYPE = "org.futo.subscriptions.free_forever"
-        const val REGISTRATION_TOKEN_TYPE = "m.login.registration_token"
-        const val REGISTRATION_SUBSCRIPTION_TYPE = "org.futo.subscriptions.google_play"
-        const val REGISTRATION_EMAIL_REQUEST_TOKEN_TYPE = "m.enroll.email.request_token"
-        const val REGISTRATION_EMAIL_SUBMIT_TOKEN_TYPE = "m.enroll.email.submit_token"
-        const val REGISTRATION_USERNAME_TYPE = "m.enroll.username"
-        const val REGISTRATION_PASSWORD_TYPE = "m.enroll.password"
-        const val REGISTRATION_BSSPEKE_OPRF_TYPE = "m.enroll.bsspeke-ecc.oprf"
-        const val REGISTRATION_BSSPEKE_SAVE_TYPE = "m.enroll.bsspeke-ecc.save"
+        //stages subscription
+        const val SUBSCRIPTION_FREE_TYPE = "org.futo.subscriptions.free_forever"
+        const val SUBSCRPTION_GOOGLE_TYPE = "org.futo.subscriptions.google_play"
+
+        //stages email
+        const val ENROLL_EMAIL_REQUEST_TOKEN_TYPE = "m.enroll.email.request_token"
+        const val ENROLL_EMAIL_SUBMIT_TOKEN_TYPE = "m.enroll.email.submit_token"
+
+        const val LOGIN_REGISTRATION_TOKEN_TYPE = "m.login.registration_token"
+        const val ENROLL_USERNAME_TYPE = "m.enroll.username"
+        const val ENROLL_PASSWORD_TYPE = "m.enroll.password"
+
     }
 }
