@@ -9,6 +9,7 @@ import org.futo.circles.auth.model.UIANavigationEvent
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.UIABaseAuth
+import org.matrix.android.sdk.api.auth.data.LoginFlowTypes
 import org.matrix.android.sdk.api.auth.registration.RegistrationFlowResponse
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
@@ -87,6 +88,11 @@ abstract class UIADataSource {
         (result as? RegistrationResult.Success)?.let {
             finishUIAEventLiveData.postValue(it.session)
         } ?: navigateToNextStage()
+    }
+
+    fun getCurrentStageKey() = when (currentStage) {
+        is Stage.Other -> (currentStage as Stage.Other).type
+        else -> LoginFlowTypes.TERMS
     }
 
     private fun isStageRetry(result: RegistrationResult?): Boolean {

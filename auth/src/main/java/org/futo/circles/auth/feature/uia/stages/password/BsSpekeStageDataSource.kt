@@ -6,13 +6,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.bsspeke.BSSpekeClient
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_OPRF_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_BSSPEKE_OPRF_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_BSSPEKE_SAVE_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_OPRF_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
-import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.core.extensions.Response
 import org.matrix.android.sdk.api.auth.registration.RegistrationResult
 import org.matrix.android.sdk.api.auth.registration.Stage
@@ -24,7 +23,11 @@ class BsSpekeStageDataSource @Inject constructor(
 
     private val uiaDataSource = UIADataSourceProvider.getDataSourceOrThrow()
 
+    private var isVerifyStages = true
+
     suspend fun processPasswordStage(password: String): Response<Unit> {
+        val currentStageKey = uiaDataSource.getCurrentStageKey()
+        isVerifyStages = currentStageKey == LOGIN_BSSPEKE_OPRF_TYPE || currentStageKey== LOGIN_BSSPEKE_VERIFY_TYPE
         BSSpekeClientProvider.initClient(uiaDataSource.userName, uiaDataSource.domain, password)
         val bsSpekeClient = BSSpekeClientProvider.getClientOrThrow()
         return when (val oprfResult = performOprfStage(bsSpekeClient)) {
@@ -36,10 +39,8 @@ class BsSpekeStageDataSource @Inject constructor(
         }
     }
 
-    private fun isLoginMode() = UIADataSourceProvider.activeFlowType == UIAFlowType.Login
-
-    private fun getOprfTypeKey() =
-        if (isLoginMode()) LOGIN_BSSPEKE_OPRF_TYPE else ENROLL_BSSPEKE_OPRF_TYPE
+    private fun getOprfTypeKey() = if (isVerifyStages) LOGIN_BSSPEKE_OPRF_TYPE
+    else ENROLL_BSSPEKE_OPRF_TYPE
 
     private suspend fun performOprfStage(
         bsSpekeClient: BSSpekeClient
@@ -66,7 +67,7 @@ class BsSpekeStageDataSource @Inject constructor(
             return Response.Error(e.message ?: "")
         }
         return when (val result =
-            if (isLoginMode()) performVerifyStage(
+            if (isVerifyStages) performVerifyStage(
                 oprfResult, bsSpekeClient, password, blocks, iterations
             )
             else performSaveStage(
