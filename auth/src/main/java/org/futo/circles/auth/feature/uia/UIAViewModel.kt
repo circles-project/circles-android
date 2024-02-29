@@ -2,6 +2,7 @@ package org.futo.circles.auth.feature.uia
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.R
@@ -38,7 +39,15 @@ class UIAViewModel @Inject constructor(
     val stagesNavigationLiveData = uiaDataSource.stagesNavigationLiveData
     val navigationLiveData = SingleEventLiveData<AuthUIAScreenNavigationEvent>()
     val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
-    val passPhraseLoadingLiveData = restoreBackupDataSource.loadingLiveData
+    val passPhraseLoadingLiveData: MediatorLiveData<LoadingData> =
+        MediatorLiveData<LoadingData>().also {
+            it.addSource(restoreBackupDataSource.loadingLiveData) { value ->
+                it.postValue(value)
+            }
+            it.addSource(createPassPhraseDataSource.loadingLiveData) { value ->
+                it.postValue(value)
+            }
+        }
     val finishUIAEventLiveData = uiaDataSource.finishUIAEventLiveData
     val createBackupResultLiveData = SingleEventLiveData<Response<Unit>>()
 
