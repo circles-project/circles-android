@@ -1,7 +1,6 @@
 package org.futo.circles.auth.feature.uia.flow.reauth
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
@@ -18,13 +17,10 @@ import kotlin.coroutines.Continuation
 import kotlin.coroutines.resumeWithException
 
 class AuthConfirmationProvider @Inject constructor(
-    uiaFactory: UIADataSource.Factory
+    private val uiaFactory: UIADataSource.Factory
 ) : UserInteractiveAuthInterceptor {
 
     val startReAuthEventLiveData = SingleEventLiveData<Unit>()
-    private val uiaDataSource by lazy {
-        UIADataSourceProvider.create(UIAFlowType.ReAuth, uiaFactory)
-    }
 
     override fun performStage(
         flowResponse: RegistrationFlowResponse,
@@ -36,10 +32,12 @@ class AuthConfirmationProvider @Inject constructor(
             val stages = flowResponse.toFlowsWithStages().firstOrNull() ?: emptyList()
             startReAuthEventLiveData.postValue(Unit)
             MatrixSessionProvider.getSessionOrThrow().coroutineScope.launch(Dispatchers.IO) {
-                uiaDataSource.startUIAStages(stages, flowResponse.session ?: "", promise)
+                UIADataSourceProvider.create(UIAFlowType.ReAuth, uiaFactory)
+                    .apply { startUIAStages(stages, flowResponse.session ?: "", promise) }
             }
         } else {
-            uiaDataSource.onStageResult(promise, flowResponse, errCode)
+            UIADataSourceProvider.getDataSourceOrThrow()
+                .onStageResult(promise, flowResponse, errCode)
         }
     }
 }

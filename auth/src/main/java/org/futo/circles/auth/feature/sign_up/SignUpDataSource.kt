@@ -17,14 +17,10 @@ import javax.inject.Inject
 
 class SignUpDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    uiaFactory: UIADataSource.Factory
+    private val uiaFactory: UIADataSource.Factory
 ) {
 
     private var registrationFlowsForDomain: Pair<String, List<List<Stage>>>? = null
-
-    private val uiaDataSource by lazy {
-        UIADataSourceProvider.create(UIAFlowType.Signup, uiaFactory)
-    }
 
     suspend fun getAuthFlowsFor(domain: String) = createResult {
         registrationFlowsForDomain = null
@@ -46,6 +42,7 @@ class SignUpDataSource @Inject constructor(
 
         stages ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
 
+        val uiaDataSource = UIADataSourceProvider.create(UIAFlowType.Signup, uiaFactory)
         uiaDataSource.startUIAStages(stages, domain)
     }
 
