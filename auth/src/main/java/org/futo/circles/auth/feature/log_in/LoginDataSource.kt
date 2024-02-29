@@ -5,11 +5,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.DIRECT_LOGIN_PASSWORD_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_USER_ID_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_BSSPEKE_SAVE_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_EMAIL_SUBMIT_TOKEN_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_EMAIL_SUBMIT_TOKEN_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_TYPE
+import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_USER_ID_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.USER_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
@@ -22,12 +23,10 @@ import javax.inject.Inject
 
 class LoginDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
-    uiaFactory: UIADataSource.Factory
+    private val uiaFactory: UIADataSource.Factory
 ) {
 
-    private val uiaDataSource by lazy {
-        UIADataSourceProvider.create(UIAFlowType.Login, uiaFactory)
-    }
+
     private val authService by lazy { MatrixInstanceProvider.matrix.authenticationService() }
 
     suspend fun startLogin(
@@ -37,6 +36,10 @@ class LoginDataSource @Inject constructor(
     ) = createResult {
         authService.cancelPendingLoginOrRegistration()
         val stages = prepareLoginStages(userName, domain, isForgotPassword)
+        val uiaDataSource = UIADataSourceProvider.create(
+            if (isForgotPassword) UIAFlowType.ForgotPassword else UIAFlowType.Login,
+            uiaFactory
+        )
         uiaDataSource.startUIAStages(stages, domain, userName)
     }
 
@@ -85,7 +88,7 @@ class LoginDataSource @Inject constructor(
     private fun getCircleStagesForForgotPassword(flows: List<List<Stage>>): List<Stage>? =
         flows.firstOrNull { stages ->
             val containsEmailStage = stages.firstOrNull { stage ->
-                (stage as? Stage.Other)?.type == ENROLL_EMAIL_SUBMIT_TOKEN_TYPE
+                (stage as? Stage.Other)?.type == LOGIN_EMAIL_SUBMIT_TOKEN_TYPE
             } != null
             val containsSetPassword = stages.firstOrNull { stage ->
                 (stage as? Stage.Other)?.type == ENROLL_BSSPEKE_SAVE_TYPE

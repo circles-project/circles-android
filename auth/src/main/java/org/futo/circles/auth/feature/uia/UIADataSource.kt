@@ -127,7 +127,9 @@ abstract class UIADataSource {
 
         LOGIN_REGISTRATION_TOKEN_TYPE -> UIANavigationEvent.TokenValidation
         SUBSCRPTION_GOOGLE_TYPE -> UIANavigationEvent.Subscription
+        LOGIN_EMAIL_REQUEST_TOKEN_TYPE,
         ENROLL_EMAIL_REQUEST_TOKEN_TYPE -> UIANavigationEvent.ValidateEmail
+        LOGIN_EMAIL_SUBMIT_TOKEN_TYPE,
         ENROLL_EMAIL_SUBMIT_TOKEN_TYPE -> null //stay on same screen
         ENROLL_USERNAME_TYPE -> UIANavigationEvent.Username
         ENROLL_PASSWORD_TYPE,
@@ -170,6 +172,8 @@ abstract class UIADataSource {
         const val SUBSCRPTION_GOOGLE_TYPE = "org.futo.subscriptions.google_play"
 
         //stages email
+        const val LOGIN_EMAIL_REQUEST_TOKEN_TYPE = "m.login.email.request_token"
+        const val LOGIN_EMAIL_SUBMIT_TOKEN_TYPE = "m.login.email.submit_token"
         const val ENROLL_EMAIL_REQUEST_TOKEN_TYPE = "m.enroll.email.request_token"
         const val ENROLL_EMAIL_SUBMIT_TOKEN_TYPE = "m.enroll.email.submit_token"
 

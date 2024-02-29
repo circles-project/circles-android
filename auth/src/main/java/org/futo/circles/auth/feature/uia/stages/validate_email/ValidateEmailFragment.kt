@@ -2,6 +2,7 @@ package org.futo.circles.auth.feature.uia.stages.validate_email
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -37,6 +38,7 @@ class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_val
 
     private fun setupViews() {
         with(binding) {
+            setAlwaysDisabledViews(listOf(binding.etEmail))
             tilEmail.editText?.doAfterTextChanged {
                 it?.let { btnSendCode.isEnabled = it.isValidEmail() }
             }
@@ -57,7 +59,7 @@ class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_val
             }
             btnSendCode.setOnClickListener {
                 startLoading(btnSendCode)
-                viewModel.sendCode(getEmailInput(), cbEmailUpdates.isChecked)
+                viewModel.sendCode(getEmailInput(), cbEmailUpdates.isChecked && cbEmailUpdates.isVisible)
             }
             btnValidate.setOnClickListener {
                 startLoading(btnValidate)
@@ -74,6 +76,14 @@ class ValidateEmailFragment : ParentBackPressOwnerFragment(R.layout.fragment_val
         })
         viewModel.showSubscribeCheckLiveData.observeData(this) {
             binding.cbEmailUpdates.setIsVisible(it)
+        }
+        viewModel.usersEmailLiveData.observeData(this) {email->
+            email?.let {
+                binding.etEmail.apply {
+                    setText(it)
+                    isEnabled = false
+                }
+            }
         }
     }
 
