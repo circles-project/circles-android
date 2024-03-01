@@ -15,6 +15,7 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentLogInBinding
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersAdapter
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHolder
+import org.futo.circles.auth.model.ForgotPassword
 import org.futo.circles.auth.model.RemoveUser
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
@@ -119,7 +120,9 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 findNavController().navigateSafe(LogInFragmentDirections.toSignUpFragment())
             }
             btnLogin.setOnClickListener { startLogin(false) }
-            btnForgotPassword.setOnClickListener { startLogin(true) }
+            btnForgotPassword.setOnClickListener {
+                withConfirmation(ForgotPassword()) { startLogin(true) }
+            }
         }
     }
 
