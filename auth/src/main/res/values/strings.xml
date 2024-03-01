@@ -8,7 +8,7 @@
     <string name="initial_sync">Initial sync</string>
     <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
     <string name="unsupported_login_method">Unsupported login method</string>
-    <string name="discard_current_login_progress">Discard current login progress?</string>
+    <string name="discard_current_auth_progress">Discard current auth progress?</string>
     <string name="set_password">Set password</string>
     <string name="log_in">Log In</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
@@ -16,7 +16,6 @@
     <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>
     <string name="sign_up_using_active_subscription">Sign Up using your active subscription</string>
     <string name="sign_up">Sign Up</string>
-    <string name="not_supported_stage_format">Not supported stage %s</string>
     <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
     <string name="no_backup_message">Keys backup not found</string>
     <string name="username_can_not_be_empty">Username can not be empty.</string>
@@ -49,7 +48,6 @@
     <string name="importing_keys">Importing keys.</string>
     <string name="decrypting_key">Decrypting key.</string>
     <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
-    <string name="discard_current_registration_progress">Discard current registration progress?</string>
     <string name="domain">Domain</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="username">username</string>
@@ -106,6 +104,7 @@
     <string name="remove_session_message">In order to sign out from this session you should confirm your auth.</string>
     <string name="reset_keys">Reset keys</string>
     <string name="reset_keys_message">Confirm auth to reset keys and enable cross signing</string>
+    <string name="forgot_password_message">After verifying your email the new password and key backup will be set.\n\nWarning: With a new key backup you will not be able to see all your previous encrypted messages, this action can not be undone.</string>
     <string name="confirm">Confirm</string>
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
     <string name="current_session">Current session</string>
@@ -176,6 +175,8 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
     <string name="username_not_found">Username not found</string>
     <string name="invalid_validation_code">Invalid validation code</string>
     <string name="invalid_password">Invalid password</string>
+    <string name="forgot_password_question">Forgot password?</string>
+    <string name="forgot_password">Forgot password</string>
 
 
     <plurals name="days">

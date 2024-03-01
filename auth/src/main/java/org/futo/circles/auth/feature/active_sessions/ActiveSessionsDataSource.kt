@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import org.futo.circles.auth.R
-import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
+import org.futo.circles.auth.feature.uia.flow.reauth.AuthConfirmationProvider
 import org.futo.circles.auth.model.ActiveSession
 import org.futo.circles.auth.model.ActiveSessionListItem
 import org.futo.circles.auth.model.SessionHeader

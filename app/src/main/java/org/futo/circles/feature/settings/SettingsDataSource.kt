@@ -1,7 +1,7 @@
 package org.futo.circles.feature.settings
 
 import org.futo.circles.auth.feature.change_password.ChangePasswordDataSource
-import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
+import org.futo.circles.auth.feature.uia.flow.reauth.AuthConfirmationProvider
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider

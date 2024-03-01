@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/uia_nav_graph"
+    app:startDestination="@id/emptyFragment">
+
+    <action
+        android:id="@+id/to_validateToken"
+        app:destination="@id/validateTokenFragment" />
+
+    <action
+        android:id="@+id/to_validateEmail"
+        app:destination="@id/validateEmailFragment" />
+
+    <action
+        android:id="@+id/to_subscriptions"
+        app:destination="@id/subscriptionStageFragment" />
+
+    <action
+        android:id="@+id/to_username"
+        app:destination="@id/usernameFragment" />
+
+
+    <action
+        android:id="@+id/to_acceptTerms"
+        app:destination="@id/acceptTermsFragment" />
+
+    <action
+        android:id="@+id/to_password"
+        app:destination="@id/passwordFragment" />
+
+
+    <fragment
+        android:id="@+id/validateTokenFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.validate_token.ValidateTokenFragment"
+        tools:layout="@layout/fragment_validate_token" />
+
+    <fragment
+        android:id="@+id/validateEmailFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.validate_email.ValidateEmailFragment"
+        tools:layout="@layout/fragment_validate_email" />
+
+    <fragment
+        android:id="@+id/acceptTermsFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.terms.AcceptTermsFragment"
+        tools:layout="@layout/fragment_accept_terms" />
+
+    <fragment
+        android:id="@+id/subscriptionStageFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.subscription_stage.SubscriptionStageFragment"
+        tools:layout="@layout/fragment_subscription_stage" />
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.password.PasswordFragment"
+        tools:layout="@layout/fragment_password" />
+
+    <fragment
+        android:id="@+id/usernameFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.username.UsernameFragment"
+        tools:layout="@layout/fragment_username" />
+
+    <fragment
+        android:id="@+id/emptyFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.EmptyFragment"
+        tools:layout="@layout/fragment_empty" />
+
+
+</navigation>
