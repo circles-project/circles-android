@@ -109,7 +109,17 @@ class UIAViewModel @Inject constructor(
     }
 
     fun finishForgotPassword(session: Session) {
-        TODO("Not yet implemented")
+        launchBg {
+            val result = createResult {
+                MatrixSessionProvider.awaitForSessionSync(session)
+                createPassPhraseDataSource.createPassPhraseBackup()
+                BSSpekeClientProvider.clear()
+            }
+            (result as? Response.Success)?.let {
+                navigationLiveData.postValue(AuthUIAScreenNavigationEvent.Home)
+            }
+            createBackupResultLiveData.postValue(result)
+        }
     }
 
     private suspend fun handleKeysBackup() {
