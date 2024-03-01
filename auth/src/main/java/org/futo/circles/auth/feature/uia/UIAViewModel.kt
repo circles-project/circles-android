@@ -152,6 +152,7 @@ class UIAViewModel @Inject constructor(
             val session = MatrixSessionProvider.currentSession ?: return@launchBg
             val sessionId = session.sessionParams.credentials.sessionId()
             refreshTokenManager.cancelTokenRefreshing(session)
+            MatrixSessionProvider.removeListenersAndStopSync()
             MatrixInstanceProvider.matrix.authenticationService().removeSession(sessionId)
         }
     }
