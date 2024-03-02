@@ -28,7 +28,7 @@ class ValidateEmailDataSource @Inject constructor() {
     suspend fun validateEmail(code: String): Response<RegistrationResult> =
         uiaDataSource.performUIAStage(
             mapOf(
-                TYPE_PARAM_KEY to if (isLogin()) LOGIN_EMAIL_REQUEST_TOKEN_TYPE else ENROLL_EMAIL_SUBMIT_TOKEN_TYPE,
+                TYPE_PARAM_KEY to if (isLogin()) LOGIN_EMAIL_SUBMIT_TOKEN_TYPE else ENROLL_EMAIL_SUBMIT_TOKEN_TYPE,
                 TOKEN_PARAM_KEY to code
             )
         )
