@@ -111,8 +111,11 @@ class UIAViewModel @Inject constructor(
     fun finishForgotPassword(session: Session) {
         launchBg {
             val result = createResult {
+                passPhraseLoadingLiveData.postValue(
+                    LoadingData(messageId = R.string.initial_sync, isLoading = true)
+                )
                 MatrixSessionProvider.awaitForSessionSync(session)
-                createPassPhraseDataSource.createPassPhraseBackup()
+                createPassPhraseDataSource.replaceToNewKeyBackup()
                 BSSpekeClientProvider.clear()
             }
             (result as? Response.Success)?.let {
