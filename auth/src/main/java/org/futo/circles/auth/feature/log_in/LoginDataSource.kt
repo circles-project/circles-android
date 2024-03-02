@@ -6,7 +6,6 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.DIRECT_LOGIN_PASSWORD_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_BSSPEKE_SAVE_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_EMAIL_SUBMIT_TOKEN_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_BSSPEKE_VERIFY_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_EMAIL_SUBMIT_TOKEN_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.LOGIN_PASSWORD_TYPE
@@ -49,21 +48,30 @@ class LoginDataSource @Inject constructor(
         isForgotPassword: Boolean
     ): List<Stage> {
         val homeServerConfig = buildHomeServerConfigFromDomain(domain)
-        val supportedLoginMethods = authService.getLoginFlow(homeServerConfig).supportedLoginTypes
+        val supportedLoginMethods =
+            authService.getLoginFlow(homeServerConfig).supportedLoginTypes
+        val stages =
+            getCircleStages(userName, domain, isForgotPassword)
+                ?: getPasswordStagesIfAvailable(supportedLoginMethods, isForgotPassword)
 
-        return if (isPasswordLogin(supportedLoginMethods)) {
-            if (isForgotPassword) throw IllegalArgumentException("Forgot password is only available for Circles domains")
-            else listOf(Stage.Other(true, DIRECT_LOGIN_PASSWORD_TYPE, null))
-        } else getCircleStages(userName, domain, isForgotPassword)
+        return stages
+            ?: throw IllegalArgumentException(context.getString(R.string.unsupported_login_method))
     }
 
     private fun isPasswordLogin(methods: List<String>) = methods.contains(LOGIN_PASSWORD_TYPE)
+
+    private fun getPasswordStagesIfAvailable(
+        supportedLoginMethods: List<String>,
+        isForgotPassword: Boolean
+    ): List<Stage>? = if (isPasswordLogin(supportedLoginMethods) && !isForgotPassword) {
+        listOf(Stage.Other(true, DIRECT_LOGIN_PASSWORD_TYPE, null))
+    } else null
 
     private suspend fun getCircleStages(
         userName: String,
         domain: String,
         isForgotPassword: Boolean
-    ): List<Stage> {
+    ): List<Stage>? {
         val identifierParams = mapOf(
             USER_PARAM_KEY to "@$userName:$domain",
             TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
@@ -71,11 +79,8 @@ class LoginDataSource @Inject constructor(
         val flows = authService.getLoginWizard()
             .getAllLoginFlows(identifierParams, context.getString(R.string.initial_device_name))
 
-        val stages = if (isForgotPassword) getCircleStagesForForgotPassword(flows)
+        return if (isForgotPassword) getCircleStagesForForgotPassword(flows)
         else getCircleStagesForLogin(flows)
-
-        return stages
-            ?: throw IllegalArgumentException(context.getString(R.string.unsupported_login_method))
     }
 
     private fun getCircleStagesForLogin(flows: List<List<Stage>>): List<Stage>? =
