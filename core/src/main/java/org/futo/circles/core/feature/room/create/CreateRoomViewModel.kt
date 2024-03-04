@@ -8,6 +8,7 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.Circle
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.Gallery
@@ -31,44 +32,74 @@ class CreateRoomViewModel @Inject constructor(
         topic: String,
         inviteIds: List<String>?,
         roomType: CircleRoomTypeArg,
-        isPublicCircle: Boolean
+        isPublicCircle: Boolean,
+        defaultUserAccessLevel: AccessLevel
     ) {
         launchBg {
             val result = createResult {
                 when (roomType) {
-                    CircleRoomTypeArg.Circle -> createCircle(name, inviteIds, isPublicCircle)
-                    CircleRoomTypeArg.Group -> createGroup(name, topic, inviteIds)
-                    CircleRoomTypeArg.Photo -> createGallery(name)
+                    CircleRoomTypeArg.Circle -> createCircle(
+                        name,
+                        inviteIds,
+                        isPublicCircle,
+                        defaultUserAccessLevel
+                    )
+
+                    CircleRoomTypeArg.Group -> createGroup(
+                        name,
+                        topic,
+                        inviteIds,
+                        defaultUserAccessLevel
+                    )
+
+                    CircleRoomTypeArg.Photo -> createGallery(
+                        name,
+                        inviteIds,
+                        defaultUserAccessLevel
+                    )
                 }
             }
             createRoomResponseLiveData.postValue(result)
         }
     }
 
-    private suspend fun createGroup(name: String, topic: String, inviteIds: List<String>?) =
-        dataSource.createRoom(
-            circlesRoom = Group(),
-            iconUri = selectedImageLiveData.value,
-            name = name,
-            topic = topic,
-            inviteIds = inviteIds
-        )
+    private suspend fun createGroup(
+        name: String, topic: String,
+        inviteIds: List<String>?,
+        defaultUserAccessLevel: AccessLevel
+    ) = dataSource.createRoom(
+        circlesRoom = Group(),
+        iconUri = selectedImageLiveData.value,
+        name = name,
+        topic = topic,
+        inviteIds = inviteIds,
+        defaultUserPowerLevel = defaultUserAccessLevel.levelValue
+    )
 
     private suspend fun createCircle(
         name: String,
         inviteIds: List<String>?,
-        isPublicCircle: Boolean
+        isPublicCircle: Boolean,
+        defaultUserAccessLevel: AccessLevel
     ) = dataSource.createRoom(
         circlesRoom = Circle(),
         name = name,
         iconUri = selectedImageLiveData.value,
         inviteIds = inviteIds,
-        isPublicCircle = isPublicCircle
+        isPublicCircle = isPublicCircle,
+        defaultUserPowerLevel = defaultUserAccessLevel.levelValue
     )
 
-    private suspend fun createGallery(name: String) = dataSource.createRoom(
-        circlesRoom = Gallery(),
-        name = name,
-        iconUri = selectedImageLiveData.value
-    )
+    private suspend fun createGallery(
+        name: String,
+        inviteIds: List<String>?,
+        defaultUserAccessLevel: AccessLevel
+    ) =
+        dataSource.createRoom(
+            circlesRoom = Gallery(),
+            name = name,
+            iconUri = selectedImageLiveData.value,
+            inviteIds = inviteIds,
+            defaultUserPowerLevel = defaultUserAccessLevel.levelValue
+        )
 }

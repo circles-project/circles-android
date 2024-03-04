@@ -6,6 +6,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
+import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.Circle
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.model.Timeline
@@ -39,18 +40,23 @@ class CreateRoomDataSource @Inject constructor(
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        isPublicCircle: Boolean = false
+        isPublicCircle: Boolean = false,
+        defaultUserPowerLevel: Int = AccessLevel.User.levelValue
     ): String {
         val id = session.roomService().createRoom(
-            getParams(circlesRoom, name, topic, iconUri, inviteIds)
+            getParams(circlesRoom, name, topic, iconUri, inviteIds, defaultUserPowerLevel)
         )
         circlesRoom.parentAccountDataKey?.let { key ->
             val parentId = spacesTreeAccountDataSource.getRoomIdByKey(key)
             parentId?.let { roomRelationsBuilder.setRelations(id, it) }
         }
         if (circlesRoom is Circle) {
-            val timelineId = createCircleTimeline(id,
-                name ?: circlesRoom.nameId?.let { context.getString(it) }, iconUri, inviteIds
+            val timelineId = createCircleTimeline(
+                id,
+                name ?: circlesRoom.nameId?.let { context.getString(it) },
+                iconUri,
+                inviteIds,
+                defaultUserPowerLevel
             )
             if (isPublicCircle) sharedCircleDataSource.addToSharedCircles(timelineId)
         }
@@ -61,9 +67,11 @@ class CreateRoomDataSource @Inject constructor(
         circleId: String,
         name: String? = null,
         iconUri: Uri? = null,
-        inviteIds: List<String>? = null
+        inviteIds: List<String>? = null,
+        defaultUserPowerLevel: Int = AccessLevel.User.levelValue
     ): String {
-        val timelineId = createRoom(Timeline(), name, null, iconUri, inviteIds)
+        val timelineId =
+            createRoom(Timeline(), name, null, iconUri, inviteIds, false, defaultUserPowerLevel)
         roomRelationsBuilder.setRelations(timelineId, circleId)
         return timelineId
     }
@@ -73,7 +81,8 @@ class CreateRoomDataSource @Inject constructor(
         name: String? = null,
         topic: String? = null,
         iconUri: Uri? = null,
-        inviteIds: List<String>? = null
+        inviteIds: List<String>? = null,
+        defaultUserPowerLevel: Int = AccessLevel.User.levelValue
     ): CreateRoomParams {
         val params = if (circlesRoom.isSpace()) {
             CreateSpaceParams()
@@ -81,7 +90,10 @@ class CreateRoomDataSource @Inject constructor(
             CreateRoomParams().apply {
                 visibility = RoomDirectoryVisibility.PRIVATE
                 historyVisibility = RoomHistoryVisibility.SHARED
-                powerLevelContentOverride = PowerLevelsContent(invite = Role.Moderator.value)
+                powerLevelContentOverride = PowerLevelsContent(
+                    invite = Role.Moderator.value,
+                    usersDefault = defaultUserPowerLevel
+                )
                 enableEncryption()
             }
         }

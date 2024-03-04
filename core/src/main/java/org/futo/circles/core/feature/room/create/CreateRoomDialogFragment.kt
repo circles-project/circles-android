@@ -118,7 +118,9 @@ class CreateRoomDialogFragment :
             binding.tilTopic.getText(),
             selectedUsersFragment?.getSelectedUsersIds(),
             roomType,
-            binding.btnPublic.isChecked
+            binding.btnPublic.isChecked,
+            AccessLevel.entries.getOrNull(binding.spUserRole.selectedItemPosition)
+                ?: AccessLevel.User
         )
     }
 
