@@ -29,7 +29,15 @@
 
         <action
             android:id="@+id/to_createCircleDialogFragment"
-            app:destination="@id/createCircleDialogFragment" />
+            app:destination="@id/createCircleDialogFragment">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
         <action
             android:id="@+id/to_invites"
             app:destination="@id/invites_nav_graph">
@@ -47,9 +55,16 @@
 
     <dialog
         android:id="@+id/createCircleDialogFragment"
-        android:name="org.futo.circles.feature.circles.create.CreateCircleDialogFragment"
-        android:label="CreateCircleDialogFragment"
-        tools:layout="@layout/dialog_fragment_create_circle" />
+        android:name="org.futo.circles.core.feature.room.create.CreateRoomDialogFragment"
+        tools:layout="@layout/dialog_fragment_create_room">
+
+        <argument
+            android:name="type"
+            android:defaultValue="Circle"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+    </dialog>
     <dialog
         android:id="@+id/acceptCircleInviteDialogFragment"
         android:name="org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDialogFragment"
@@ -63,7 +78,15 @@
 
         <action
             android:id="@+id/to_createCircleDialogFragment"
-            app:destination="@id/createCircleDialogFragment" />
+            app:destination="@id/createCircleDialogFragment">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
 
     </dialog>
 

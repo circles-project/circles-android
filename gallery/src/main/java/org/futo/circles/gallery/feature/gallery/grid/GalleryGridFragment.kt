@@ -73,7 +73,8 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
                     binding.rvGallery.getRecyclerView()
                         .findViewHolderForAdapterPosition(returnViewPosition) ?: return
 
-                val t = selectedViewHolder.itemView.findViewById<View>(R.id.ivCover)
+                val t =
+                    selectedViewHolder.itemView.findViewById<View>(org.futo.circles.core.R.id.ivCover)
                 sharedElements[names[0]] = t
                 returnViewPosition = -1
             }

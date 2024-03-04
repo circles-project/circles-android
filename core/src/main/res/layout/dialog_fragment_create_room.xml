@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="@string/create_new_group"
         app:titleCentered="true"
         app:titleMarginEnd="72dp">
 
@@ -34,7 +35,7 @@
 
     <View
         android:id="@+id/toolbarDivider"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
         android:background="@color/divider_color"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,56 +43,36 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="8dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="8dp" />
-
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivCover"
         android:layout_width="@dimen/group_icon_size"
         android:layout_height="@dimen/group_icon_size"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="centerCrop"
         android:src="@drawable/add_image_placeholder"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/toolbarDivider"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
 
 
     <TextView
         android:id="@+id/tvNameHeader"
         style="@style/headline"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="16dp"
-        android:text="@string/group_name"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/ivCover" />
+        tools:text="Room name" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="8dp"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tvNameHeader">
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etName"
@@ -107,24 +88,20 @@
     <TextView
         android:id="@+id/tvTopicHeader"
         style="@style/headline"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="16dp"
-        android:text="@string/group_topic_optional"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tilName" />
+        android:text="@string/group_topic_optional" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilTopic"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="8dp"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tvTopicHeader">
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTopic"
@@ -139,24 +116,100 @@
 
 
     <TextView
-        android:id="@+id/tvInviteUsers"
+        android:id="@+id/tvTypeHeader"
         style="@style/headline"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
         android:layout_marginTop="16dp"
-        android:text="@string/invite_members"
+        android:text="@string/circle_type" />
+
+    <RadioGroup
+        android:id="@+id/circleTypeGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/tilTopic" />
+        app:layout_constraintTop_toBottomOf="@id/tvTypeHeader">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/btnPublic"
+            android:layout_width="match_parent"
+            android:layout_weight="0.5"
+            android:paddingVertical="12dp"
+            android:text="@string/public_type"
+            android:textAppearance="@style/body" />
+
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/btnPrivate"
+            android:layout_width="match_parent"
+            android:layout_weight="0.5"
+            android:checked="true"
+            android:paddingVertical="12dp"
+            android:text="@string/private_type"
+            android:textAppearance="@style/body" />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/lCircleTypeExplanation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvPublicHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/public_circle_explanation" />
+
+        <TextView
+            android:id="@+id/tvPrivateHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/private_circle_explanation" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvRoleHeader"
+        style="@style/headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/default_user_role" />
+
+
+    <Spinner
+        android:id="@+id/spUserRole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp" />
+
+
+    <TextView
+        android:id="@+id/tvInviteUsers"
+        style="@style/headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/invite_members" />
 
 
     <FrameLayout
         android:id="@+id/lContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvInviteUsers" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
