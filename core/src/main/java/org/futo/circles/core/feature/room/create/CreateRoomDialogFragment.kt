@@ -1,8 +1,8 @@
 package org.futo.circles.core.feature.room.create
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.core.os.BundleCompat.getParcelable
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -16,9 +16,12 @@ import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.feature.select_users.SelectUsersFragment
 import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.CircleType
+
 
 @AndroidEntryPoint
 class CreateRoomDialogFragment :
@@ -37,31 +40,45 @@ class CreateRoomDialogFragment :
     }
     private var selectedUsersFragment: SelectUsersFragment? = null
 
+    private val circleTypeList = CircleType.entries.toTypedArray()
+    private val circleTypeAdapter by lazy {
+        ArrayAdapter(
+            requireContext(),
+            R.layout.view_spinner_item,
+            circleTypeList.map { getString(it.nameResId) }).apply {
+            setDropDownViewResource(R.layout.view_spinner_item)
+        }
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState == null) addSelectUsersFragment()
+        setupViews()
         setupObservers()
     }
 
-    private fun changeCoverImage() {
-        mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
-            viewModel.setImageUri(uri)
-        })
-    }
-
-    private fun createRoom(
-        type: CircleRoomTypeArg,
-        name: String,
-        topic: String? = null,
-        isPublicCircle: Boolean = false
-    ) {
-        viewModel.createRoom(
-            name,
-            topic ?: "",
-            selectedUsersFragment?.getSelectedUsersIds(),
-            type,
-            isPublicCircle
-        )
+    private fun setupViews() {
+        with(binding) {
+            val roomTypeName = getRoomTypeName()
+            toolbar.title = getString(R.string.create_new_room_format, roomTypeName)
+            val nameHeader = "$roomTypeName ${getString(R.string.name)}"
+            tvNameHeader.text = nameHeader
+            tvTopicHeader.setIsVisible(roomType == CircleRoomTypeArg.Group)
+            tilTopic.setIsVisible(roomType == CircleRoomTypeArg.Group)
+            tvTypeHeader.setIsVisible(roomType == CircleRoomTypeArg.Circle)
+            circleTypeGroup.setIsVisible(roomType == CircleRoomTypeArg.Circle)
+            lCircleTypeExplanation.setIsVisible(roomType == CircleRoomTypeArg.Circle)
+            ivCover.setOnClickListener { changeCoverImage() }
+            tilName.editText?.doAfterTextChanged {
+                it?.let { btnCreate.isEnabled = it.isNotEmpty() }
+            }
+            btnCreate.setOnClickListener {
+                createRoom()
+                startLoading(btnCreate)
+            }
+            spUserRole.adapter = circleTypeAdapter
+        }
     }
 
     private fun setupObservers() {
@@ -73,55 +90,35 @@ class CreateRoomDialogFragment :
         )
     }
 
+    private fun getRoomTypeName() = getString(
+        when (roomType) {
+            CircleRoomTypeArg.Circle -> R.string.circle
+            CircleRoomTypeArg.Group -> R.string.group_name
+            CircleRoomTypeArg.Photo -> R.string.gallery
+        }
+    )
+
+    private fun changeCoverImage() {
+        mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
+            viewModel.setImageUri(uri)
+        })
+    }
+
+    private fun createRoom() {
+        viewModel.createRoom(
+            binding.tilName.getText(),
+            binding.tilTopic.getText(),
+            selectedUsersFragment?.getSelectedUsersIds(),
+            roomType,
+            binding.btnPublic.isChecked
+        )
+    }
+
     private fun addSelectUsersFragment() {
         selectedUsersFragment = SelectUsersFragment.create(null).also {
             childFragmentManager.beginTransaction()
                 .replace(R.id.lContainer, it)
                 .commitAllowingStateLoss()
-        }
-    }
-
-    private fun setupViewsCircle() {
-        with(binding) {
-            ivCover.setOnClickListener { changeCoverImage() }
-            tilName.editText?.doAfterTextChanged {
-                it?.let { btnCreate.isEnabled = it.isNotEmpty() }
-            }
-            btnCreate.setOnClickListener {
-                createRoom(
-                    CircleRoomTypeArg.Circle,
-                    tilName.getText(),
-                    null,
-                    binding.btnPublic.isChecked
-                )
-                startLoading(btnCreate)
-            }
-        }
-    }
-
-    private fun setupViewsGroup() {
-        with(binding) {
-            ivCover.setOnClickListener { changeCoverImage() }
-            tilName.editText?.doAfterTextChanged {
-                it?.let { btnCreate.isEnabled = it.isNotEmpty() }
-            }
-            btnCreate.setOnClickListener {
-                createRoom(CircleRoomTypeArg.Group, tilName.getText(), tilTopic.getText())
-                startLoading(btnCreate)
-            }
-        }
-    }
-
-    private fun setupViewsGallery() {
-        with(binding) {
-            ivCover.setOnClickListener { changeCoverImage() }
-            tilName.editText?.doAfterTextChanged {
-                it?.let { btnCreate.isEnabled = it.isNotEmpty() }
-            }
-            btnCreate.setOnClickListener {
-                createRoom(CircleRoomTypeArg.Photo, tilName.getText())
-                startLoading(btnCreate)
-            }
         }
     }
 }

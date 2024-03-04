@@ -16,6 +16,8 @@
     <string name="photo">Photo</string>
     <string name="video">Video</string>
     <string name="gallery">Gallery</string>
+    <string name="circle">Circle</string>
+    <string name="group">Group</string>
     <string name="cancel">Cancel</string>
     <string name="device">Device</string>
     <string name="admin">Admin</string>
@@ -126,13 +128,14 @@
     <string name="decline">Decline</string>
     <string name="invited_by_format">Invited by %s</string>
     <string name="circle_encryption_warning">NOTE: Circle name and cover image are not encrypted</string>
-    <string name="circle_name">Circle name</string>
+    <string name="name">name</string>
+    <string name="create_new_room_format">Create new %s</string>
     <string name="circle_type">Circle type</string>
     <string name="public_type">Public</string>
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="public_circle_explanation">Other users can ask to join</string>
     <string name="private_type">Private</string>
-    <string name="private_circle_explanation">Accessible only by your invitation</string>
+    <string name="private_circle_explanation">Accessible only by invitation</string>
     <string name="gallery_name">Gallery name</string>
     <string name="gallery_encryption_warning">NOTE: Gallery name and cover image are not encrypted</string>
     <string name="group_name">Group name</string>
@@ -164,7 +167,6 @@
     <string name="unignore_and_restart">Unignore and restart</string>
     <string name="unignore_message">Unignoring this user will show all messages from them again.\n\nNote that to take affect this action requires to restart the app and sync the session.</string>
     <string name="user_ignored">User ignored</string>
-    <string name="user_unignored">User un ignored</string>
     <string name="not_following_any_circles_format">Not following any Circles for %s</string>
     <string name="requests_to_follow_you">requests to follow you</string>
     <string name="invites_you_to_connect">invites you to connect</string>
@@ -172,4 +174,5 @@
     <string name="requests">Requests</string>
     <string name="invite_to_connect">Invite to connect</string>
     <string name="follow">Follow</string>
+    <string name="default_user_role">Default user role</string>
 </resources>

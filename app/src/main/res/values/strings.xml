@@ -17,7 +17,6 @@
     <string name="requests">Requests</string>
     <string name="no_results">No results</string>
     <string name="invites">Invites</string>
-    <string name="create_new_group">Create new group</string>
     <string name="create_new_circle">Create new circle</string>
     <string name="private_circles">Private Circles</string>
     <string name="log_out">Log out</string>
