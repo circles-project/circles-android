@@ -129,6 +129,7 @@
     <string name="circle_name">Circle name</string>
     <string name="circle_type">Circle type</string>
     <string name="public_type">Public</string>
+    <string name="group_topic_optional">Group topic (optional)</string>
     <string name="public_circle_explanation">Other users can ask to join</string>
     <string name="private_type">Private</string>
     <string name="private_circle_explanation">Accessible only by your invitation</string>
