@@ -12,6 +12,7 @@ import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.databinding.DialogFragmentCreateRoomBinding
+import org.futo.circles.core.extensions.getRoleNameResId
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -19,8 +20,9 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.feature.select_users.SelectUsersFragment
+import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.CircleType
+import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 
 @AndroidEntryPoint
@@ -40,12 +42,15 @@ class CreateRoomDialogFragment :
     }
     private var selectedUsersFragment: SelectUsersFragment? = null
 
-    private val circleTypeList = CircleType.entries.toTypedArray()
+    private val circleTypeList = AccessLevel.entries.toTypedArray()
     private val circleTypeAdapter by lazy {
         ArrayAdapter(
             requireContext(),
             R.layout.view_spinner_item,
-            circleTypeList.map { getString(it.nameResId) }).apply {
+            circleTypeList.map {
+                val role = Role.fromValue(it.levelValue, Role.Default.value)
+                getString(role.getRoleNameResId())
+            }).apply {
             setDropDownViewResource(R.layout.view_spinner_item)
         }
     }
@@ -77,7 +82,10 @@ class CreateRoomDialogFragment :
                 createRoom()
                 startLoading(btnCreate)
             }
-            spUserRole.adapter = circleTypeAdapter
+            spUserRole.apply {
+                adapter = circleTypeAdapter
+                setSelection(AccessLevel.User.ordinal)
+            }
         }
     }
 
@@ -93,7 +101,7 @@ class CreateRoomDialogFragment :
     private fun getRoomTypeName() = getString(
         when (roomType) {
             CircleRoomTypeArg.Circle -> R.string.circle
-            CircleRoomTypeArg.Group -> R.string.group_name
+            CircleRoomTypeArg.Group -> R.string.group
             CircleRoomTypeArg.Photo -> R.string.gallery
         }
     )
