@@ -119,15 +119,13 @@
     <string name="configure_circle">Configure circle</string>
     <string name="invite_followers">Invite followers</string>
     <string name="select_another_admin_message">You must select another member as an \"Admin\" to be able to leave this room.</string>
-    <string name="group_updated">Group updated</string>
-    <string name="circle_updated">Circle updated</string>
-    <string name="gallery_updated">Gallery updated</string>
+    <string name="updated">Updated</string>
     <string name="last_updated_formatter">Last updated %s</string>
     <string name="delete_gallery_message">Are you sure you want to remove this gallery?</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
     <string name="invited_by_format">Invited by %s</string>
-    <string name="circle_encryption_warning">NOTE: Circle name and cover image are not encrypted</string>
+    <string name="encryption_warning">NOTE: name and cover image are not encrypted</string>
     <string name="name">name</string>
     <string name="create_new_room_format">Create new %s</string>
     <string name="circle_type">Circle type</string>
@@ -137,9 +135,7 @@
     <string name="private_type">Private</string>
     <string name="private_circle_explanation">Accessible only by invitation</string>
     <string name="gallery_name">Gallery name</string>
-    <string name="gallery_encryption_warning">NOTE: Gallery name and cover image are not encrypted</string>
     <string name="group_name">Group name</string>
-    <string name="group_encryption_warning">NOTE: Group name, topic and cover image are not encrypted</string>
     <string name="group_topic">Group topic</string>
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
     <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
