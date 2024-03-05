@@ -117,6 +117,7 @@
     <string name="delete_circle_message">Are you sure you want to remove this circle?</string>
     <string name="delete_group_message">Are you sure you want to remove this group?</string>
     <string name="configure_circle">Configure circle</string>
+    <string name="configure_room_format">Configure %s</string>
     <string name="invite_followers">Invite followers</string>
     <string name="select_another_admin_message">You must select another member as an \"Admin\" to be able to leave this room.</string>
     <string name="updated">Updated</string>

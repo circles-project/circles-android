@@ -2,6 +2,7 @@ package org.futo.circles.core.feature.room.update
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,15 +12,19 @@ import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.databinding.DialogFragmentUpdateRoomBinding
+import org.futo.circles.core.extensions.getRoleNameResId
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
+import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
+import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 @AndroidEntryPoint
 class UpdateRoomDialogFragment :
@@ -36,6 +41,19 @@ class UpdateRoomDialogFragment :
         getBinding() as DialogFragmentUpdateRoomBinding
     }
 
+    private val circleTypeList = AccessLevel.entries.toTypedArray()
+    private val circleTypeAdapter by lazy {
+        ArrayAdapter(
+            requireContext(),
+            R.layout.view_spinner_item,
+            circleTypeList.map {
+                val role = Role.fromValue(it.levelValue, Role.Default.value)
+                getString(role.getRoleNameResId())
+            }).apply {
+            setDropDownViewResource(R.layout.view_spinner_item)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
@@ -44,6 +62,17 @@ class UpdateRoomDialogFragment :
 
     private fun setupViews() {
         with(binding) {
+            val roomTypeName = getRoomTypeName()
+            toolbar.title = getString(R.string.configure_room_format, roomTypeName)
+            val nameHeader = "$roomTypeName ${getString(R.string.name)}"
+            tvNameHeader.text = nameHeader
+            val isGroup = roomType == CircleRoomTypeArg.Group
+            tvTopicHeader.setIsVisible(isGroup)
+            tilTopic.setIsVisible(isGroup)
+            val isCircle = roomType == CircleRoomTypeArg.Circle
+            tvTypeHeader.setIsVisible(isCircle)
+            circleTypeGroup.setIsVisible(isCircle)
+            lCircleTypeExplanation.setIsVisible(isCircle)
             ivCover.setOnClickListener { changeCoverImage() }
             btnChangeIcon.setOnClickListener { changeCoverImage() }
             tilName.editText?.doAfterTextChanged {
@@ -56,9 +85,10 @@ class UpdateRoomDialogFragment :
                 it?.let { onInputDataChanged() }
             }
             btnSave.setOnClickListener {
-                viewModel.update(tilName.getText(), tilTopic.getText(), isPublicRulesSelected())
+                viewModel.update(tilName.getText(), tilTopic.getText(), binding.btnPublic.isChecked)
                 startLoading(btnSave)
             }
+            spUserRole.adapter = circleTypeAdapter
         }
     }
 
@@ -82,18 +112,23 @@ class UpdateRoomDialogFragment :
     }
 
     private fun setInitialRoomData(room: RoomSummary) {
-        binding.ivCover.loadRoomProfileIcon(room.avatarUrl, room.displayName)
-        binding.tilName.editText?.setText(room.displayName)
-        binding.tilTopic.editText?.setText(room.topic)
-        val isCircleShared = viewModel.isCircleShared(roomId)
-        binding.btnPrivate.isChecked = !isCircleShared
-        binding.btnPublic.isChecked = isCircleShared
+        with(binding) {
+            ivCover.loadRoomProfileIcon(room.avatarUrl, room.displayName)
+            tilName.editText?.setText(room.displayName)
+            tilTopic.editText?.setText(room.topic)
+            val isCircleShared = viewModel.isCircleShared(roomId)
+            btnPrivate.isChecked = !isCircleShared
+            btnPublic.isChecked = isCircleShared
+        }
     }
 
-    private fun isPublicRulesSelected(): Boolean {
-        val checkedId = binding.circleTypeGroup.checkedRadioButtonId
-        return checkedId == binding.btnPublic.id
-    }
+    private fun getRoomTypeName() = getString(
+        when (roomType) {
+            CircleRoomTypeArg.Circle -> R.string.circle
+            CircleRoomTypeArg.Group -> R.string.group
+            CircleRoomTypeArg.Photo -> R.string.gallery
+        }
+    )
 
     private fun changeCoverImage() {
         mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
@@ -105,7 +140,7 @@ class UpdateRoomDialogFragment :
         viewModel.handleRoomDataUpdate(
             binding.tilName.getText(),
             binding.tilTopic.getText(),
-            isPublicRulesSelected()
+            binding.btnPublic.isChecked
         )
     }
 

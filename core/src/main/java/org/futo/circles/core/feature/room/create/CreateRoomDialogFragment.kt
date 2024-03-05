@@ -69,11 +69,13 @@ class CreateRoomDialogFragment :
             toolbar.title = getString(R.string.create_new_room_format, roomTypeName)
             val nameHeader = "$roomTypeName ${getString(R.string.name)}"
             tvNameHeader.text = nameHeader
-            tvTopicHeader.setIsVisible(roomType == CircleRoomTypeArg.Group)
-            tilTopic.setIsVisible(roomType == CircleRoomTypeArg.Group)
-            tvTypeHeader.setIsVisible(roomType == CircleRoomTypeArg.Circle)
-            circleTypeGroup.setIsVisible(roomType == CircleRoomTypeArg.Circle)
-            lCircleTypeExplanation.setIsVisible(roomType == CircleRoomTypeArg.Circle)
+            val isGroup = roomType == CircleRoomTypeArg.Group
+            tvTopicHeader.setIsVisible(isGroup)
+            tilTopic.setIsVisible(isGroup)
+            val isCircle = roomType == CircleRoomTypeArg.Circle
+            tvTypeHeader.setIsVisible(isCircle)
+            circleTypeGroup.setIsVisible(isCircle)
+            lCircleTypeExplanation.setIsVisible(isCircle)
             ivCover.setOnClickListener { changeCoverImage() }
             tilName.editText?.doAfterTextChanged {
                 it?.let { btnCreate.isEnabled = it.isNotEmpty() }
