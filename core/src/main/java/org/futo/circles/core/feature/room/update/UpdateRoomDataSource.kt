@@ -3,15 +3,26 @@ package org.futo.circles.core.feature.room.update
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.asFlow
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.mapNotNull
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getFilename
 import org.futo.circles.core.extensions.getOrThrow
+import org.futo.circles.core.feature.workspace.SharedCircleDataSource
+import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
+import org.matrix.android.sdk.api.query.QueryStringValue
+import org.matrix.android.sdk.api.session.events.model.EventType
+import org.matrix.android.sdk.api.session.events.model.toContent
+import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.getStateEvent
+import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import java.util.UUID
 import javax.inject.Inject
 
@@ -28,7 +39,18 @@ class UpdateRoomDataSource @Inject constructor(
 
     fun getRoomSummary() = room?.roomSummary()
 
-    suspend fun updateRoom(name: String, topic: String, uri: Uri?, isPublic: Boolean) =
+    fun getRoomPowerLevelFlow(): Flow<PowerLevelsContent> = room?.stateService()
+        ?.getStateEventLive(EventType.STATE_ROOM_POWER_LEVELS, QueryStringValue.IsEmpty)
+        ?.asFlow()
+        ?.mapNotNull { it.getOrNull()?.content.toModel<PowerLevelsContent>() } ?: flowOf()
+
+    suspend fun updateRoom(
+        name: String,
+        topic: String,
+        uri: Uri?,
+        isPublic: Boolean,
+        userAccessLevel: AccessLevel?
+    ) =
         createResult {
             if (isNameChanged(name)) room?.stateService()?.updateName(name)
             if (isTopicChanged(topic)) room?.stateService()?.updateTopic(topic)
@@ -37,12 +59,31 @@ class UpdateRoomDataSource @Inject constructor(
                 room?.stateService()
                     ?.updateAvatar(it, it.getFilename(context) ?: UUID.randomUUID().toString())
             }
+            userAccessLevel?.let { updateUserDefaultPowerLevel(it) }
         }
 
     private suspend fun handelPrivateSharedVisibilityUpdate(isPublic: Boolean) {
         val timelineId = room?.roomId?.let { getTimelineRoomFor(it)?.roomId } ?: return
         if (isPublic) sharedCircleDataSource.addToSharedCircles(timelineId)
         else sharedCircleDataSource.removeFromSharedCircles(timelineId)
+    }
+
+    private suspend fun updateUserDefaultPowerLevel(accessLevel: AccessLevel) {
+        val currentPowerLevel =
+            room?.getStateEvent(EventType.STATE_ROOM_POWER_LEVELS, QueryStringValue.IsEmpty)
+                ?.content
+                .toModel<PowerLevelsContent>() ?: return
+
+        val newPowerLevelsContent = currentPowerLevel.copy(
+            usersDefault = accessLevel.levelValue
+        ).toContent()
+
+        room?.stateService()
+            ?.sendStateEvent(
+                EventType.STATE_ROOM_POWER_LEVELS,
+                stateKey = "",
+                newPowerLevelsContent
+            )
     }
 
     fun isNameChanged(newName: String) = room?.roomSummary()?.displayName != newName

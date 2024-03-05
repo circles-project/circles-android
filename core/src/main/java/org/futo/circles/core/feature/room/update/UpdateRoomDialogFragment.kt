@@ -2,6 +2,8 @@ package org.futo.circles.core.feature.room.update
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -24,6 +26,7 @@ import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
+import org.matrix.android.sdk.api.session.room.model.usersDefaultOrDefault
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 @AndroidEntryPoint
@@ -43,13 +46,10 @@ class UpdateRoomDialogFragment :
 
     private val circleTypeList = AccessLevel.entries.toTypedArray()
     private val circleTypeAdapter by lazy {
-        ArrayAdapter(
-            requireContext(),
-            R.layout.view_spinner_item,
-            circleTypeList.map {
-                val role = Role.fromValue(it.levelValue, Role.Default.value)
-                getString(role.getRoleNameResId())
-            }).apply {
+        ArrayAdapter(requireContext(), R.layout.view_spinner_item, circleTypeList.map {
+            val role = Role.fromValue(it.levelValue, Role.Default.value)
+            getString(role.getRoleNameResId())
+        }).apply {
             setDropDownViewResource(R.layout.view_spinner_item)
         }
     }
@@ -85,10 +85,31 @@ class UpdateRoomDialogFragment :
                 it?.let { onInputDataChanged() }
             }
             btnSave.setOnClickListener {
-                viewModel.update(tilName.getText(), tilTopic.getText(), binding.btnPublic.isChecked)
+                viewModel.update(
+                    tilName.getText(),
+                    tilTopic.getText(),
+                    binding.btnPublic.isChecked,
+                    getSelectedAccessLevel()
+                )
                 startLoading(btnSave)
             }
-            spUserRole.adapter = circleTypeAdapter
+            spUserRole.apply {
+                adapter = circleTypeAdapter
+                onItemSelectedListener = object : OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        onInputDataChanged()
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                    }
+
+                }
+            }
         }
     }
 
@@ -97,14 +118,16 @@ class UpdateRoomDialogFragment :
             binding.ivCover.setImageURI(it)
             onInputDataChanged()
         }
-        viewModel.updateGroupResponseLiveData.observeResponse(this,
-            success = {
-                showSuccess(getString(R.string.updated))
-                onBackPressed()
-            }
-        )
-        viewModel.groupSummaryLiveData.observeData(this) {
+        viewModel.updateRoomResponseLiveData.observeResponse(this, success = {
+            showSuccess(getString(R.string.updated))
+            onBackPressed()
+        })
+        viewModel.roomSummaryLiveData.observeData(this) {
             it?.let { setInitialRoomData(it) }
+        }
+        viewModel.roomPowerLevelLiveData.observeData(this) {
+            val userDefaultRoleLevel = it.usersDefaultOrDefault()
+            binding.spUserRole.setSelection(AccessLevel.fromValue(userDefaultRoleLevel).ordinal)
         }
         viewModel.isRoomDataChangedLiveData.observeData(this) {
             binding.btnSave.isEnabled = it
@@ -140,8 +163,13 @@ class UpdateRoomDialogFragment :
         viewModel.handleRoomDataUpdate(
             binding.tilName.getText(),
             binding.tilTopic.getText(),
-            binding.btnPublic.isChecked
+            binding.btnPublic.isChecked,
+            getSelectedAccessLevel()
         )
     }
+
+    private fun getSelectedAccessLevel() =
+        AccessLevel.entries.getOrNull(binding.spUserRole.selectedItemPosition)
+            ?: AccessLevel.User
 
 }
