@@ -84,7 +84,9 @@ class CreateRoomDialogFragment :
                 createRoom()
                 startLoading(btnCreate)
             }
+            tvRoleHeader.setIsVisible(!isCircle)
             spUserRole.apply {
+                setIsVisible(!isCircle)
                 adapter = circleTypeAdapter
                 setSelection(AccessLevel.User.ordinal)
             }

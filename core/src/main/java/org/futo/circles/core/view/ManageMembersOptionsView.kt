@@ -45,12 +45,17 @@ class ManageMembersOptionsView(
         listener = callback
     }
 
-    fun setData(userId: String, powerLevelsContent: PowerLevelsContent) {
+    fun setData(
+        userId: String,
+        powerLevelsContent: PowerLevelsContent,
+        isAccessLevelAvailable: Boolean
+    ) {
         this.userId = userId
         this.powerLevelsContent = powerLevelsContent
         with(binding) {
             btnChangeAccessLevel.setIsVisible(
                 powerLevelsContent.isCurrentUserAbleToChangeLevelFor(userId)
+                        && isAccessLevelAvailable
             )
             btnRemove.setIsVisible(powerLevelsContent.isCurrentUserAbleToKick())
             btnBan.setIsVisible(powerLevelsContent.isCurrentUserAbleToBan())

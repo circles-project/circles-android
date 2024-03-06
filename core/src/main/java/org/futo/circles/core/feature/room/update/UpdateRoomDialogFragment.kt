@@ -93,7 +93,9 @@ class UpdateRoomDialogFragment :
                 )
                 startLoading(btnSave)
             }
+            tvRoleHeader.setIsVisible(!isCircle)
             spUserRole.apply {
+                setIsVisible(!isCircle)
                 adapter = circleTypeAdapter
                 onItemSelectedListener = object : OnItemSelectedListener {
                     override fun onItemSelected(

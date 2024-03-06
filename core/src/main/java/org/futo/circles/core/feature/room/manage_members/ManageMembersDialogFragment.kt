@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
@@ -17,8 +18,10 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.room.manage_members.change_role.ChangeAccessLevelListener
 import org.futo.circles.core.feature.room.manage_members.list.GroupMembersListAdapter
+import org.futo.circles.core.feature.room.share.ShareRoomDialogFragmentArgs
 import org.futo.circles.core.model.BanUser
 import org.futo.circles.core.model.CancelInvite
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.RemoveRoomUser
 import org.futo.circles.core.model.ResendInvite
 import org.futo.circles.core.model.UnbanUser
@@ -30,6 +33,7 @@ class ManageMembersDialogFragment :
     BaseFullscreenDialogFragment(DialogFragmentManageMembersBinding::inflate),
     ManageMembersOptionsListener, ChangeAccessLevelListener {
 
+    private val args: ManageMembersDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<ManageMembersViewModel>()
 
     private val membersListAdapter by lazy {
@@ -41,7 +45,8 @@ class ManageMembersDialogFragment :
                 findNavController().navigateSafe(
                     ManageMembersDialogFragmentDirections.toUserDialogFragment(it)
                 )
-            }
+            },
+            isChangeAccessLevelAvailable = args.type != CircleRoomTypeArg.Circle
         )
     }
 
