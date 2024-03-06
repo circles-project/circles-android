@@ -25,6 +25,7 @@ import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.InviteTypeArg
+import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
@@ -34,6 +35,7 @@ import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
+import org.matrix.android.sdk.api.session.sync.SyncState
 import javax.inject.Inject
 
 
@@ -47,7 +49,8 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
         RuntimePermissionHelper(this, Manifest.permission.POST_NOTIFICATIONS)
 
     private val viewModel by viewModels<HomeViewModel>()
-    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
+    private val validateLoadingDialog by lazy { LoadingDialog(requireContext()) }
+    private val syncLoadingDialog by lazy { LoadingDialog(requireContext()) }
 
     @Inject
     lateinit var mediaBackupServiceManager: MediaBackupServiceManager
@@ -131,9 +134,14 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
         }
         viewModel.validateWorkspaceResultLiveData.observeResponse(this,
             error = { WorkspaceDialogFragment().show(childFragmentManager, "workspace") },
-            onRequestInvoked = { loadingDialog.dismiss() })
+            onRequestInvoked = { validateLoadingDialog.dismiss() })
         viewModel.validateWorkspaceLoadingLiveData.observeData(this) {
-            loadingDialog.handleLoading(it)
+            validateLoadingDialog.handleLoading(it)
+        }
+        viewModel.syncStateLiveData.observeData(this) {
+            if (it is SyncState.Running && it.afterPause) {
+                syncLoadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.initial_sync))
+            } else syncLoadingDialog.dismiss()
         }
     }
 
