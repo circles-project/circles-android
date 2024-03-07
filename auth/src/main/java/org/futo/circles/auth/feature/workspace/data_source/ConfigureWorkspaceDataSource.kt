@@ -5,6 +5,7 @@ import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.CirclesRoom
+import org.futo.circles.core.model.PROFILE_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.SharedCirclesSpace
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getAllJoinedCirclesRoomsAndSpaces
@@ -27,7 +28,9 @@ class ConfigureWorkspaceDataSource @Inject constructor(
 
     private suspend fun validateAndFixRelationInNeeded(roomId: String, room: CirclesRoom) {
         try {
-            getJoinedRoomById(roomId)?.let { validateRelations(room.parentAccountDataKey, it) }
+            getJoinedRoomById(roomId)?.let {
+                validateRelations(room.parentAccountDataKey, it, room.accountDataKey)
+            }
         } catch (_: Exception) {
             val parentRoomId =
                 room.parentAccountDataKey?.let { spacesTreeAccountDataSource.getRoomIdByKey(it) }
@@ -42,10 +45,14 @@ class ConfigureWorkspaceDataSource @Inject constructor(
             ?: throw IllegalArgumentException("No account data record for key $accountDataKey")
         val joinedRoom = getJoinedRoomById(roomId)
             ?: throw IllegalArgumentException("No joined room for id $roomId found")
-        validateRelations(room.parentAccountDataKey, joinedRoom)
+        validateRelations(room.parentAccountDataKey, joinedRoom, accountDataKey)
     }
 
-    private fun validateRelations(parentAccountDataKey: String?, joinedRoom: Room) {
+    private fun validateRelations(
+        parentAccountDataKey: String?,
+        joinedRoom: Room,
+        accountDataKey: String?
+    ) {
         val parentKey = parentAccountDataKey ?: return
         val parentRoomId =
             spacesTreeAccountDataSource.getRoomIdByKey(parentKey) ?: throw IllegalArgumentException(
@@ -58,7 +65,8 @@ class ConfigureWorkspaceDataSource @Inject constructor(
             ?.spaceSummary()?.spaceParents?.mapNotNull { it.parentId }
             ?.contains(parentRoomId) == true
 
-        if (!childHasRelationToParent)
+        //iOS app do not set this relation
+        if (!childHasRelationToParent && accountDataKey != PROFILE_SPACE_ACCOUNT_DATA_KEY)
             throw IllegalArgumentException("Missing child to parent relations")
 
         val parentHasRelationToChild = joinedParentRoom.asSpace()
