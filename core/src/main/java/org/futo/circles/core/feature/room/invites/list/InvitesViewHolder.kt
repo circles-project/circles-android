@@ -49,6 +49,7 @@ class InvitedGroupViewHolder(
         if (data !is RoomInviteListItem) return
 
         with(binding) {
+            lLoading.setIsVisible(data.isLoading)
             ivGroup.loadRoomProfileIcon(
                 data.info.avatarUrl,
                 data.info.title,
@@ -85,6 +86,7 @@ class InvitedCircleViewHolder(
         if (data !is RoomInviteListItem) return
 
         with(binding) {
+            lLoading.setIsVisible(data.isLoading)
             tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
             ivCircle.loadRoomProfileIcon(
                 data.info.avatarUrl,
@@ -121,6 +123,7 @@ class InvitedGalleryViewHolder(
         if (data !is RoomInviteListItem) return
 
         with(binding) {
+            lLoading.setIsVisible(data.isLoading)
             tvGalleryTitle.text = data.info.title
             ivGallery.loadRoomProfileIcon(
                 data.info.avatarUrl,
@@ -148,8 +151,10 @@ class FollowRequestViewHolder(
     }
 
     override fun bind(data: InviteListItem) {
-        val user = (data as? FollowRequestListItem)?.user ?: return
-        bindUser(user)
+        if (data !is FollowRequestListItem) return
+
+        binding.lLoading.setIsVisible(data.isLoading)
+        bindUser(data.user)
         binding.tvReasonMessage.apply {
             setIsVisible(data.reasonMessage != null)
             text = data.reasonMessage
@@ -179,8 +184,10 @@ class ConnectionInviteViewHolder(
     }
 
     override fun bind(data: InviteListItem) {
-        val user = (data as? ConnectionInviteListItem)?.user ?: return
-        bindUser(user)
+        if (data !is ConnectionInviteListItem) return
+
+        binding.lLoading.setIsVisible(data.isLoading)
+        bindUser(data.user)
     }
 
     private fun bindUser(user: CirclesUserSummary) {
