@@ -25,6 +25,7 @@ class KnockRequestViewHolder(
     }
 
     fun bind(data: KnockRequestListItem) {
+        binding.lLoading.setIsVisible(data.isLoading)
         binding.tvReason.apply {
             setIsVisible(!data.message.isNullOrBlank())
             text = data.message
