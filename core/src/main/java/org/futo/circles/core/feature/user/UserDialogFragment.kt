@@ -22,6 +22,7 @@ import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.user.list.UsersCirclesAdapter
 import org.futo.circles.core.model.IgnoreUser
@@ -71,7 +72,10 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
         }
         binding.btnInviteToConnect.apply {
             setIsVisible(!viewModel.isUserMyFollower())
-            setOnClickListener { viewModel.inviteToMySharedCircle() }
+            setOnClickListener {
+                binding.lInviteToConnectLoading.visible()
+                viewModel.inviteToMySharedCircle()
+            }
         }
     }
 
@@ -118,10 +122,12 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
         }
         viewModel.requestFollowLiveData.observeResponse(this,
             success = { showSuccess(getString(R.string.request_sent)) })
+
         viewModel.inviteToConnectLiveData.observeResponse(this,
             success = {
                 showSuccess(getString(R.string.request_sent))
                 binding.btnInviteToConnect.gone()
+                binding.lInviteToConnectLoading.gone()
             })
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {

@@ -101,7 +101,7 @@
         android:clickable="true"
         android:focusable="true"
         android:outlineProvider="none"
-        android:translationZ="2dp"
+        android:translationZ="100dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

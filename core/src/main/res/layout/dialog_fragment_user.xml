@@ -85,6 +85,29 @@
         app:layout_constraintTop_toBottomOf="@id/tvUserId"
         tools:visibility="visible" />
 
+    <FrameLayout
+        android:id="@+id/lInviteToConnectLoading"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?android:colorBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:outlineProvider="none"
+        android:translationZ="100dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/btnInviteToConnect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnInviteToConnect">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </FrameLayout>
+
 
     <View
         android:id="@+id/divider"
