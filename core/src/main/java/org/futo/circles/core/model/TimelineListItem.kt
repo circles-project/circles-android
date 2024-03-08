@@ -23,7 +23,8 @@ data class TimelineHeaderItem(
 data class TimelineRoomListItem(
     override val id: String,
     val info: RoomInfo,
-    val isJoined: Boolean
+    val isJoined: Boolean,
+    val isLoading: Boolean = false
 ) : TimelineListItem()
 
 fun RoomSummary.toTimelineRoomListItem() = TimelineRoomListItem(

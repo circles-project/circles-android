@@ -120,7 +120,7 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
             }
         }
         viewModel.userLiveData.observeData(this) { setupUserInfo(it) }
-        viewModel.timelineLiveDataLiveData.observeData(this) {
+        viewModel.usersTimelinesLiveData.observeData(this) {
             usersCirclesAdapter.submitList(it)
         }
         viewModel.requestFollowLiveData.observeResponse(this,
