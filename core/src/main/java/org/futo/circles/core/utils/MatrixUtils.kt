@@ -22,6 +22,12 @@ private val roomTypes = listOf(
     GROUP_TYPE
 )
 
+val circlesRoomsTypes = listOf(
+    GALLERY_TYPE,
+    TIMELINE_TYPE,
+    GROUP_TYPE
+)
+
 private fun getRoomsLiveDataWithType(
     type: String,
     membershipFilter: List<Membership> = Membership.activeMemberships()
