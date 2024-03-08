@@ -25,11 +25,21 @@ class KnockRequestViewHolder(
     }
 
     fun bind(data: KnockRequestListItem) {
-        binding.lLoading.setIsVisible(data.isLoading)
-        binding.tvReason.apply {
-            setIsVisible(!data.message.isNullOrBlank())
-            text = data.message
+        with(binding) {
+            setLoading(data.isLoading)
+            tvReason.apply {
+                setIsVisible(!data.message.isNullOrBlank())
+                text = data.message
+            }
+            vUserLayout.bind(data.toCircleUser())
         }
-        binding.vUserLayout.bind(data.toCircleUser())
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        with(binding) {
+            vLoading.setIsVisible(isLoading)
+            btnInvite.setIsVisible(!isLoading)
+            btnDecline.setIsVisible(!isLoading)
+        }
     }
 }
