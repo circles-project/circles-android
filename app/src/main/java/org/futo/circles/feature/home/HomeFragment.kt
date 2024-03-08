@@ -140,7 +140,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
         }
         viewModel.syncStateLiveData.observeData(this) {
             if (it is SyncState.Running && it.afterPause) {
-                syncLoadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.initial_sync))
+                syncLoadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.session_sync))
             } else syncLoadingDialog.dismiss()
         }
     }

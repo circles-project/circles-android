@@ -39,8 +39,9 @@ class UsersTimelineRoomViewHolder(
         with(binding) {
             tvTimelineName.text = data.info.title
             ivTimelineImage.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
-            btnFollow.setIsVisible(!data.isJoined)
-            btnUnFollow.setIsVisible(data.isJoined)
+            vLoading.setIsVisible(data.isLoading)
+            btnFollow.setIsVisible(!data.isJoined && !data.isLoading)
+            btnUnFollow.setIsVisible(data.isJoined && !data.isLoading)
         }
     }
 }

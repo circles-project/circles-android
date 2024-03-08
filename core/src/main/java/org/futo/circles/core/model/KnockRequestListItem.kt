@@ -6,7 +6,8 @@ data class KnockRequestListItem(
     val requesterId: String,
     val requesterName: String,
     val requesterAvatarUrl: String?,
-    val message: String?
+    val message: String?,
+    val isLoading: Boolean = false
 ) : IdEntity<String> {
     override val id: String = requesterId
 }

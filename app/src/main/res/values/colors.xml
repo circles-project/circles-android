@@ -10,11 +10,9 @@
     <color name="status_bar_color">#20111111</color>
 
     <color name="green">#34C759</color>
-    <color name="purple">#AF52DE</color>
     <color name="yellow">#FFCC00</color>
     <color name="orange">#FF9500</color>
     <color name="red">#FF3B30</color>
-    <color name="pink">#FF2D55</color>
     <color name="gray">#8E8E93</color>
     <color name="close_background">#80000000</color>
     <color name="highlight_color">#4D0E7AFE</color>

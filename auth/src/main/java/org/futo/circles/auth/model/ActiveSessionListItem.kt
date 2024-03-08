@@ -18,7 +18,8 @@ data class ActiveSession(
     val cryptoDeviceInfo: CryptoDeviceInfo,
     val canVerify: Boolean,
     val isResetKeysVisible: Boolean,
-    val isOptionsVisible: Boolean
+    val isOptionsVisible: Boolean,
+    val isLoading: Boolean = false
 ) : ActiveSessionListItem() {
     override val id: String = cryptoDeviceInfo.deviceId
 

@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
 import org.futo.circles.core.feature.select_users.SearchUserDataSource
@@ -28,9 +27,7 @@ class PeopleDataSource @Inject constructor(
 
     private fun getKnockRequestCountFlow(): Flow<Int> =
         knockRequestsDataSource.getKnockRequestsListItemsLiveData(peopleCategoryDataSource.getProfileRoomId())
-            ?.map {
-                it.size
-            }?.asFlow() ?: flowOf()
+            .map { it.size }.asFlow()
 
     private fun getProfileSpaceInvitesCountFlow() =
         getSpacesLiveData(listOf(Membership.INVITE)).map { it.size }.asFlow()

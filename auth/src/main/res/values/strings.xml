@@ -6,18 +6,14 @@
     <string name="b_param_is_missing">B param is missing</string>
     <string name="initial_device_name">FUTO Circles (Android)</string>
     <string name="initial_sync">Initial sync</string>
-    <string name="not_found_login_flow_for_user">Log In flow for user not found</string>
+    <string name="session_sync">Session sync</string>
     <string name="unsupported_login_method">Unsupported login method</string>
     <string name="discard_current_auth_progress">Discard current auth progress?</string>
     <string name="set_password">Set password</string>
     <string name="log_in">Log In</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
-    <string name="us_server_format"><![CDATA[<b>US</b> - (%s)]]></string>
-    <string name="eu_server_format"><![CDATA[<b>EU</b> - (%s)]]></string>
-    <string name="sign_up_using_active_subscription">Sign Up using your active subscription</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
-    <string name="no_backup_message">Keys backup not found</string>
     <string name="username_can_not_be_empty">Username can not be empty.</string>
     <string name="confirm_auth">Confirm auth</string>
     <string name="email">Email</string>
@@ -67,7 +63,6 @@
     <string name="save">Save</string>
     <string name="skip">Skip</string>
     <string name="subscriptions">Subscriptions</string>
-    <string name="subscription">Subscription</string>
     <string name="manage_subscription">Manage subscription</string>
     <string name="enter_your_username">Enter your username</string>
     <string name="set_username">Set username</string>
@@ -83,7 +78,6 @@
     <string name="upload_recovery_key_file">Upload Recovery Key file</string>
     <string name="restore">Restore</string>
     <string name="validate_your_email">Validate your email</string>
-    <string name="not_supported_navigation_event">Not supported navigation event</string>
     <string name="feature_not_supported">Feature is not supported</string>
     <string name="service_unavailable">Service unavailable</string>
     <string name="item_unavailable">Item is unavailable</string>
@@ -111,7 +105,6 @@
     <string name="other_sessions">Other sessions</string>
     <string name="invalid_auth">Invalid auth</string>
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
-    <string name="cross_signed">cross signed</string>
     <string name="waiting_for_other_device_verification">Waiting for other device to start verification</string>
     <string name="session_verified">Session verified</string>
     <string name="verification_canceled">Verification canceled</string>

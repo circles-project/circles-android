@@ -50,7 +50,7 @@ class KnockRequestsDialogFragment :
 
     private fun setupObservers() {
         viewModel.inviteResultLiveData.observeResponse(this)
-        viewModel.knockRequestsLiveData?.observeData(this) {
+        viewModel.knockRequestsLiveData.observeData(this) {
             knocksListAdapter.submitList(it)
         }
     }
