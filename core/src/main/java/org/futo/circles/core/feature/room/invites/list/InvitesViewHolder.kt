@@ -49,7 +49,7 @@ class InvitedGroupViewHolder(
         if (data !is RoomInviteListItem) return
 
         with(binding) {
-            lLoading.setIsVisible(data.isLoading)
+            setLoading(data.isLoading)
             ivGroup.loadRoomProfileIcon(
                 data.info.avatarUrl,
                 data.info.title,
@@ -62,6 +62,14 @@ class InvitedGroupViewHolder(
                 R.string.invited_by_format,
                 data.inviterName
             )
+        }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        with(binding) {
+            vLoading.setIsVisible(isLoading)
+            btnAccept.setIsVisible(!isLoading)
+            btnDecline.setIsVisible(!isLoading)
         }
     }
 }
@@ -86,7 +94,7 @@ class InvitedCircleViewHolder(
         if (data !is RoomInviteListItem) return
 
         with(binding) {
-            lLoading.setIsVisible(data.isLoading)
+            setLoading(data.isLoading)
             tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
             ivCircle.loadRoomProfileIcon(
                 data.info.avatarUrl,
@@ -99,6 +107,14 @@ class InvitedCircleViewHolder(
                     R.string.invited_by_format,
                     data.inviterName
                 )
+        }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        with(binding) {
+            vLoading.setIsVisible(isLoading)
+            btnAccept.setIsVisible(!isLoading)
+            btnDecline.setIsVisible(!isLoading)
         }
     }
 }
@@ -123,7 +139,7 @@ class InvitedGalleryViewHolder(
         if (data !is RoomInviteListItem) return
 
         with(binding) {
-            lLoading.setIsVisible(data.isLoading)
+            setLoading(data.isLoading)
             tvGalleryTitle.text = data.info.title
             ivGallery.loadRoomProfileIcon(
                 data.info.avatarUrl,
@@ -132,6 +148,14 @@ class InvitedGalleryViewHolder(
             )
             tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
             tvInviterName.text = context.getString(R.string.invited_by_format, data.inviterName)
+        }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        with(binding) {
+            vLoading.setIsVisible(isLoading)
+            btnAccept.setIsVisible(!isLoading)
+            btnDecline.setIsVisible(!isLoading)
         }
     }
 }
@@ -153,7 +177,7 @@ class FollowRequestViewHolder(
     override fun bind(data: InviteListItem) {
         if (data !is FollowRequestListItem) return
 
-        binding.lLoading.setIsVisible(data.isLoading)
+        setLoading(data.isLoading)
         bindUser(data.user)
         binding.tvReasonMessage.apply {
             setIsVisible(data.reasonMessage != null)
@@ -165,6 +189,14 @@ class FollowRequestViewHolder(
         with(binding) {
             tvUserName.text = user.name
             ivUserImage.loadUserProfileIcon(user.avatarUrl, user.id)
+        }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        with(binding) {
+            vLoading.setIsVisible(isLoading)
+            btnAccept.setIsVisible(!isLoading)
+            btnDecline.setIsVisible(!isLoading)
         }
     }
 }
@@ -186,7 +218,7 @@ class ConnectionInviteViewHolder(
     override fun bind(data: InviteListItem) {
         if (data !is ConnectionInviteListItem) return
 
-        binding.lLoading.setIsVisible(data.isLoading)
+        setLoading(data.isLoading)
         bindUser(data.user)
     }
 
@@ -194,6 +226,14 @@ class ConnectionInviteViewHolder(
         with(binding) {
             tvUserName.text = user.name
             ivUserImage.loadUserProfileIcon(user.avatarUrl, user.id)
+        }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        with(binding) {
+            vLoading.setIsVisible(isLoading)
+            btnAccept.setIsVisible(!isLoading)
+            btnDecline.setIsVisible(!isLoading)
         }
     }
 }
