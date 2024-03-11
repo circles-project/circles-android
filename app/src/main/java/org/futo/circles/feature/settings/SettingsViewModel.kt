@@ -23,6 +23,7 @@ class SettingsViewModel @Inject constructor(
     val startReAuthEventLiveData = settingsDataSource.startReAuthEventLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
+    val addEmailLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToMatrixChangePasswordEvent = SingleEventLiveData<Unit>()
     val changePasswordResponseLiveData = SingleEventLiveData<Response<Unit?>>()
     val mediaUsageInfoLiveData = SingleEventLiveData<Response<MediaUsageInfo?>>()
@@ -51,6 +52,13 @@ class SettingsViewModel @Inject constructor(
                 is Response.Error -> navigateToMatrixChangePasswordEvent.postValue(Unit)
                 is Response.Success -> createNewBackupInNeeded()
             }
+        }
+    }
+
+    fun handleChangeEmailFlow() {
+        launchBg {
+            val result = settingsDataSource.addEmailUIA()
+            addEmailLiveData.postValue(result)
         }
     }
 

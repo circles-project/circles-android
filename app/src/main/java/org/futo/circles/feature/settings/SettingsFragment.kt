@@ -71,8 +71,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
                 }
             }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? MainActivity)?.stopSyncAndRestart() } }
-
             tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
+            tvAddEmail.setOnClickListener {
+                loadingDialog.handleLoading(LoadingData())
+                viewModel.handleChangeEmailFlow()
+            }
             tvDeactivate.setOnClickListener {
                 withConfirmation(DeactivateAccount()) {
                     loadingDialog.handleLoading(LoadingData())
@@ -105,6 +108,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
         viewModel.navigateToMatrixChangePasswordEvent.observeData(this) {
             navigator.navigateToMatrixChangePassword()
         }
+        viewModel.addEmailLiveData.observeResponse(this,
+            success = { showSuccess(getString(org.futo.circles.core.R.string.email_added)) },
+            error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) },
+            onRequestInvoked = { loadingDialog.dismiss() }
+        )
         viewModel.changePasswordResponseLiveData.observeResponse(this,
             success = { showSuccess(getString(org.futo.circles.core.R.string.password_changed)) },
             error = { message -> showError(message) },

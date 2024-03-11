@@ -20,6 +20,10 @@ class SettingsDataSource @Inject constructor(
         session.accountService().deactivateAccount(false, authConfirmationProvider)
     }
 
+    suspend fun addEmailUIA() = createResult {
+        session.accountService().changeEmailStages(authConfirmationProvider)
+    }
+
     suspend fun changePasswordUIA() =
         changePasswordDataSource.changePasswordUIA(authConfirmationProvider)
 

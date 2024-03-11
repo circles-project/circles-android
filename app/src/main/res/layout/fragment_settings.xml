@@ -123,11 +123,11 @@
             app:optionName="@string/change_password" />
 
         <org.futo.circles.core.view.SettingsMenuItemView
-            android:id="@+id/tvChangeEmail"
+            android:id="@+id/tvAddEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:optionIcon="@drawable/ic_email"
-            app:optionName="@string/change_email_address" />
+            app:optionName="@string/add_email_address" />
 
         <org.futo.circles.core.view.SettingsMenuItemView
             android:id="@+id/tvClearCache"
