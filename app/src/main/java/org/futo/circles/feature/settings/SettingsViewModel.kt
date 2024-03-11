@@ -7,6 +7,7 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 import javax.inject.Inject
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDataSource: SettingsDataSource,
-    private val refreshTokenManager: RefreshTokenManager
+    private val refreshTokenManager: RefreshTokenManager,
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) : ViewModel() {
 
     val passPhraseLoadingLiveData = settingsDataSource.passPhraseLoadingLiveData
@@ -65,4 +67,6 @@ class SettingsViewModel @Inject constructor(
             mediaUsageInfoLiveData.postValue(mediaUsageInfoResult)
         }
     }
+
+    fun getSharedCircleSpaceId(): String? = sharedCircleDataSource.getSharedCirclesSpaceId()
 }
