@@ -17,6 +17,7 @@
             style="@style/title2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:padding="16dp"
             tools:text="@t22:nl.circles-dev.net" />
 

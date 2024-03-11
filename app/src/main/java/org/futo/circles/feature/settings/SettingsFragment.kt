@@ -16,8 +16,6 @@ import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
-import org.futo.circles.core.extensions.loadUserProfileIcon
-import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
@@ -27,11 +25,11 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentSettingsBinding
-import org.matrix.android.sdk.api.session.user.model.User
 import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 
 @AndroidEntryPoint
@@ -56,6 +54,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
 
     private fun setupViews() {
         with(binding) {
+            tvUserId.text = MatrixSessionProvider.currentSession?.myUserId
             tvManageSubscription.apply {
                 setIsVisible(CirclesAppConfig.isGplayFlavor())
                 setOnClickListener { navigator.navigateToSubscriptionInfo() }
@@ -83,6 +82,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
             tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
+            tvEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
+            tvShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
         }
         setVersion()
     }
