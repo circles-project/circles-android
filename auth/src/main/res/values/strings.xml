@@ -91,6 +91,7 @@
     <string name="switch_user_message">Are you sure you want to switch user?</string>
     <string name="switch_str">Switch</string>
     <string name="change_password">Change password</string>
+    <string name="change_email_address">Change email address</string>
     <string name="new_password">New password</string>
     <string name="old_password">Old Password</string>
     <string name="repeat_new_password">Repeat new password</string>
