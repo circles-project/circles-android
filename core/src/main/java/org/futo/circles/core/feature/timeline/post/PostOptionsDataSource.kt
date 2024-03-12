@@ -3,17 +3,23 @@ package org.futo.circles.core.feature.timeline.post
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.extensions.createResult
+import org.futo.circles.core.extensions.getPostContentType
 import org.futo.circles.core.extensions.onBG
+import org.futo.circles.core.mapping.toMediaContent
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.model.MediaShareable
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.model.PostContentType.IMAGE_CONTENT
+import org.futo.circles.core.model.PostContentType.VIDEO_CONTENT
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.core.model.TextShareable
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.FileUtils.downloadEncryptedFileToContentUri
 import org.futo.circles.core.utils.FileUtils.saveMediaFileToDevice
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import javax.inject.Inject
@@ -24,10 +30,18 @@ class PostOptionsDataSource @Inject constructor(
 
     private val session = MatrixSessionProvider.currentSession
 
-    fun removeMessage(roomId: String, eventId: String) {
-        val roomForMessage = session?.getRoom(roomId)
-        roomForMessage?.getTimelineEvent(eventId)
-            ?.let { roomForMessage.sendService().redactEvent(it.root, null) }
+    suspend fun removeMessage(roomId: String, eventId: String) {
+        val roomForMessage = session?.getRoom(roomId) ?: return
+        val event = roomForMessage.getTimelineEvent(eventId) ?: return
+        roomForMessage.sendService().redactEvent(event.root, null)
+
+        val eventType = event.getPostContentType()
+        val mediaEvent = when (eventType) {
+            IMAGE_CONTENT -> event.toMediaContent(MediaType.Image)
+            VIDEO_CONTENT -> event.toMediaContent(MediaType.Video)
+            else -> return
+        }
+        tryOrNull { session.mediaService().deleteMediaFile(mediaEvent.mediaFileData.fileUrl) }
     }
 
     fun sendReaction(roomId: String, eventId: String, emoji: String) {
@@ -44,7 +58,7 @@ class PostOptionsDataSource @Inject constructor(
     suspend fun getShareableContent(content: PostContent): ShareableContent? = onBG {
         when (content) {
             is MediaContent -> getShareableMediaContent(content.mediaFileData)
-            is TextContent -> TextShareable(content.message.toString())
+            is TextContent -> TextShareable(content.message)
             else -> throw IllegalArgumentException("Not shareable post content")
         }
     }

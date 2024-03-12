@@ -66,7 +66,7 @@ class TimelineViewModel @Inject constructor(
     }
 
     fun removeMessage(roomId: String, eventId: String) {
-        postOptionsDataSource.removeMessage(roomId, eventId)
+        launchBg { postOptionsDataSource.removeMessage(roomId, eventId) }
     }
 
     fun ignoreSender(senderId: String) {
