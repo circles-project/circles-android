@@ -16,8 +16,10 @@ class MultiTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
     private var currentSnapshotMap: MutableMap<String, List<Post>> = mutableMapOf()
     private var readReceiptMap: MutableMap<String, List<Long>> = mutableMapOf()
 
-    override suspend fun List<TimelineEvent>.processSnapshot(isThread: Boolean): List<Post> {
-        val roomId = firstOrNull()?.roomId ?: return getCurrentTimelinesPostsList()
+    override suspend fun List<TimelineEvent>.processSnapshot(
+        roomId: String,
+        isThread: Boolean
+    ): List<Post> {
         val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
             ?: return getCurrentTimelinesPostsList()
         val roomName = room.roomSummary()?.nameOrId()

@@ -14,8 +14,10 @@ class SingleTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
 
     private var currentSnapshotList: List<Post> = listOf()
 
-    override suspend fun List<TimelineEvent>.processSnapshot(isThread: Boolean): List<Post> {
-        val roomId = firstOrNull()?.roomId ?: return currentSnapshotList
+    override suspend fun List<TimelineEvent>.processSnapshot(
+        roomId: String,
+        isThread: Boolean
+    ): List<Post> {
         val room =
             MatrixSessionProvider.currentSession?.getRoom(roomId) ?: return currentSnapshotList
         val receipts = getReadReceipts(room)
