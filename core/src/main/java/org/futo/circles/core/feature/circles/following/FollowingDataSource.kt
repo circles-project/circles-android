@@ -1,4 +1,4 @@
-package org.futo.circles.core.feature.room.circles.following
+package org.futo.circles.core.feature.circles.following
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map

@@ -1,4 +1,4 @@
-package org.futo.circles.core.feature.room.circles.following
+package org.futo.circles.core.feature.circles.following
 
 import android.content.Context
 import android.os.Bundle
