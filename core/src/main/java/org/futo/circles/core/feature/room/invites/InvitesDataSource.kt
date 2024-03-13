@@ -68,9 +68,9 @@ class InvitesDataSource @Inject constructor(
     }
 
     private fun getProfileRoomMembersKnockFlow(): Flow<List<FollowRequestListItem>> =
-        knockRequestsDataSource.getKnockRequestsListItemsLiveData(profileRoomId)?.map { list ->
+        knockRequestsDataSource.getKnockRequestsListItemsLiveData(profileRoomId).map { list ->
             list.map { FollowRequestListItem(it.toCircleUser(), it.message) }
-        }?.asFlow() ?: flowOf()
+        }.asFlow()
 
     private fun getProfileSpaceInvitesFlow(): Flow<List<ConnectionInviteListItem>> =
         getSpacesLiveData(listOf(Membership.INVITE)).map {
