@@ -114,6 +114,16 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_filterTimelinesDialogFragment"
+            app:destination="@id/filterTimelinesDialogFragment">
+
+            <argument
+                android:name="circleId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
 
     </dialog>
@@ -158,7 +168,7 @@
     </dialog>
     <dialog
         android:id="@+id/followingDialogFragment"
-        android:name="org.futo.circles.core.feature.room.circles.following.FollowingDialogFragment"
+        android:name="org.futo.circles.core.feature.circles.following.FollowingDialogFragment"
         android:label="FollowingDialogFragment"
         tools:layout="@layout/dialog_fragment_following">
 
@@ -253,5 +263,16 @@
         android:id="@+id/userDialogFragment"
         android:name="org.futo.circles.core.feature.user.UserDialogFragment"
         tools:layout="@layout/dialog_fragment_user" />
+    <dialog
+        android:id="@+id/filterTimelinesDialogFragment"
+        android:name="org.futo.circles.core.feature.circles.filter.FilterTimelinesDialogFragment"
+        tools:layout="@layout/dialog_fragment_filter_timeline">
+
+        <argument
+            android:name="circleId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
 
 </navigation>
