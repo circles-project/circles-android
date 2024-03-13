@@ -32,7 +32,8 @@ class MemberViewHolder(
     parent: ViewGroup,
     private val onOpenUserClicked: (Int) -> Unit,
     private val onToggleClicked: (Int) -> Unit,
-    private val manageMembersListener: ManageMembersOptionsListener
+    private val manageMembersListener: ManageMembersOptionsListener,
+    private val isChangeAccessLevelAvailable: Boolean
 ) : ManageMembersViewHolder(inflate(parent, ListItemMemberBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -58,7 +59,7 @@ class MemberViewHolder(
                 with(optionsView) {
                     setListener(manageMembersListener)
                     setIsVisible(data.isOptionsOpened)
-                    setData(data.id, data.powerLevelsContent)
+                    setData(data.id, data.powerLevelsContent, isChangeAccessLevelAvailable)
                 }
             } else {
                 ivOptionsArrow.gone()

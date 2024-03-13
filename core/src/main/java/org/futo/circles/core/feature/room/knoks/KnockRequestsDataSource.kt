@@ -1,6 +1,7 @@
 package org.futo.circles.core.feature.room.knoks
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
@@ -27,7 +28,7 @@ class KnockRequestsDataSource @Inject constructor() {
 
     fun getKnockRequestsListItemsLiveData(roomId: String) = getKnockRequestLiveData(roomId)?.map {
         it.map { user -> user.toKnockRequestListItem(roomId) }
-    }
+    } ?: MutableLiveData(emptyList())
 
     fun getKnockRequestCountLiveDataForCurrentUserInRoom(roomId: String): LiveData<Int> {
         val session = MatrixSessionProvider.getSessionOrThrow()

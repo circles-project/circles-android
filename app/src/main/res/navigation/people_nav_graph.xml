@@ -31,6 +31,34 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_editProfileDialogFragment"
+            app:destination="@id/editProfileDialogFragment" />
+        <action
+            android:id="@+id/to_shareProfileDialogFragment"
+            app:destination="@id/share_room_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="urlType"
+                app:argType="org.futo.circles.core.model.ShareUrlTypeArg"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_peopleCategoryDialogFragment"
+            app:destination="@id/peopleCategoryDialogFragment">
+
+            <argument
+                android:name="categoryType"
+                app:argType="org.futo.circles.model.PeopleCategoryTypeArg"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
     <dialog
@@ -46,5 +74,32 @@
     </dialog>
 
     <include app:graph="@navigation/invites_nav_graph" />
+
+    <include app:graph="@navigation/share_room_nav_graph" />
+
+    <dialog
+        android:id="@+id/editProfileDialogFragment"
+        android:name="org.futo.circles.auth.feature.profile.edit.EditProfileDialogFragment"
+        tools:layout="@layout/dialog_fragment_edit_profile" />
+    <dialog
+        android:id="@+id/peopleCategoryDialogFragment"
+        android:name="org.futo.circles.feature.people.category.PeopleCategoryDialogFragment"
+        tools:layout="@layout/dialog_fragment_people_category">
+        <argument
+            android:name="categoryType"
+            app:argType="org.futo.circles.model.PeopleCategoryTypeArg"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_userFragment"
+            app:destination="@id/userFragment">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+    </dialog>
 
 </navigation>

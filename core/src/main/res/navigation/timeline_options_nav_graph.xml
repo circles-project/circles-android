@@ -52,37 +52,21 @@
         </action>
 
         <action
-            android:id="@+id/to_updateCircleDialogFragment"
-            app:destination="@id/updateCircleDialogFragment">
+            android:id="@+id/to_updateRoomDialogFragment"
+            app:destination="@id/updateRoomDialogFragment">
 
             <argument
                 android:name="roomId"
                 app:argType="string"
                 app:nullable="false" />
 
-        </action>
-
-        <action
-            android:id="@+id/to_updateGroupDialogFragment"
-            app:destination="@id/updateGroupDialogFragment">
-
             <argument
-                android:name="roomId"
-                app:argType="string"
+                android:name="type"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
 
-        <action
-            android:id="@+id/to_updateGalleryDialogFragment"
-            app:destination="@id/updateGalleryDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
 
         <action
             android:id="@+id/to_inviteMembersDialogFragment"
@@ -145,40 +129,22 @@
 
     </dialog>
     <dialog
-        android:id="@+id/updateCircleDialogFragment"
-        android:name="org.futo.circles.core.feature.room.update.circle.UpdateCircleDialogFragment"
-        tools:layout="@layout/dialog_fragment_update_circle">
+        android:id="@+id/updateRoomDialogFragment"
+        android:name="org.futo.circles.core.feature.room.update.UpdateRoomDialogFragment"
+        tools:layout="@layout/dialog_fragment_update_room">
 
         <argument
             android:name="roomId"
             app:argType="string"
             app:nullable="false" />
 
-    </dialog>
-
-    <dialog
-        android:id="@+id/updateGalleryDialogFragment"
-        android:name="org.futo.circles.core.feature.room.update.gallery.UpdateGalleryDialogFragment"
-        tools:layout="@layout/dialog_fragment_update_gallery">
-
         <argument
-            android:name="roomId"
-            app:argType="string"
+            android:name="type"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
             app:nullable="false" />
 
     </dialog>
 
-    <dialog
-        android:id="@+id/updateGroupDialogFragment"
-        android:name="org.futo.circles.core.feature.room.update.group.UpdateGroupDialogFragment"
-        tools:layout="@layout/dialog_fragment_update_group">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
     <dialog
         android:id="@+id/inviteMembersDialogFragment"
         android:name="org.futo.circles.core.feature.room.invite.InviteMembersDialogFragment"

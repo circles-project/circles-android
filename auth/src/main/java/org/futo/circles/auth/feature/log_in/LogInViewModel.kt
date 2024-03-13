@@ -21,10 +21,10 @@ class LogInViewModel @Inject constructor(
     val switchUsersLiveData = MutableLiveData(switchUserDataSource.getSwitchUsersList())
     val navigateToBottomMenuScreenLiveData = SingleEventLiveData<Unit>()
 
-    fun startLogInFlow(userName: String, domain: String) {
+    fun startLogInFlow(userName: String, domain: String, isForgotPassword: Boolean) {
         switchUserDataSource.getSessionCredentialsIdByUserInfo(userName, domain)
             ?.let { resumeSwitchUserSession(it) }
-            ?: login(userName, domain)
+            ?: login(userName, domain, isForgotPassword)
     }
 
     fun removeSwitchUser(id: String) {
@@ -43,9 +43,9 @@ class LogInViewModel @Inject constructor(
         }
     }
 
-    private fun login(userName: String, domain: String) {
+    private fun login(userName: String, domain: String, isForgotPassword: Boolean) {
         launchBg {
-            val loginResult = loginDataSource.startLogin(userName, domain)
+            val loginResult = loginDataSource.startLogin(userName, domain, isForgotPassword)
             loginResultLiveData.postValue(loginResult)
         }
     }

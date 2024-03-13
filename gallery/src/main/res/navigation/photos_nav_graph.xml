@@ -13,7 +13,15 @@
 
         <action
             android:id="@+id/to_createGalleryDialogFragment"
-            app:destination="@id/createGalleryDialogFragment" />
+            app:destination="@id/create_room_nav_graph">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Photo"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
 
         <action
             android:id="@+id/to_galleryFragment"
@@ -41,10 +49,6 @@
         </action>
     </fragment>
 
-    <dialog
-        android:id="@+id/createGalleryDialogFragment"
-        android:name="org.futo.circles.gallery.feature.create.CreateGalleryDialogFragment"
-        tools:layout="@layout/dialog_fragment_create_gallery" />
     <dialog
         android:id="@+id/galleryFragment"
         android:name="org.futo.circles.gallery.feature.gallery.GalleryDialogFragment"
@@ -82,5 +86,7 @@
     <include app:graph="@navigation/timeline_options_nav_graph" />
 
     <include app:graph="@navigation/invites_nav_graph" />
+
+    <include app:graph="@navigation/create_room_nav_graph" />
 
 </navigation>

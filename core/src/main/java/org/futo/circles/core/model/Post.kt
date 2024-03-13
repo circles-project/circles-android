@@ -9,7 +9,9 @@ data class Post(
     val sendState: SendState,
     val readByCount: Int,
     val repliesCount: Int,
-    val reactionsData: List<ReactionsData>
+    val reactionsData: List<ReactionsData>,
+    val timelineName: String? = null,
+    val timelineOwnerName: String? = null
 ) : IdEntity<String> {
     override val id: String get() = postInfo.id
     fun isMyPost(): Boolean = postInfo.isMyPost()

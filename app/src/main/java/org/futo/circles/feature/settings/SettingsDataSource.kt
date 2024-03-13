@@ -1,7 +1,7 @@
 package org.futo.circles.feature.settings
 
 import org.futo.circles.auth.feature.change_password.ChangePasswordDataSource
-import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
+import org.futo.circles.auth.feature.uia.flow.reauth.AuthConfirmationProvider
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -15,10 +15,13 @@ class SettingsDataSource @Inject constructor(
     private val session = MatrixSessionProvider.getSessionOrThrow()
     val passPhraseLoadingLiveData = changePasswordDataSource.passPhraseLoadingLiveData
     val startReAuthEventLiveData = authConfirmationProvider.startReAuthEventLiveData
-    val profileLiveData = session.userService().getUserLive(session.myUserId)
 
     suspend fun deactivateAccount(): Response<Unit> = createResult {
         session.accountService().deactivateAccount(false, authConfirmationProvider)
+    }
+
+    suspend fun addEmailUIA() = createResult {
+        session.accountService().changeEmailStages(authConfirmationProvider)
     }
 
     suspend fun changePasswordUIA() =

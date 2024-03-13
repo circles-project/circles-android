@@ -79,7 +79,7 @@ class ActiveSessionsDialogFragment :
             error = { showError(getString(R.string.invalid_auth)) }
         )
         viewModel.startReAuthEventLiveData.observeData(this) {
-            findNavController().navigateSafe(ActiveSessionsDialogFragmentDirections.toReAuthStagesDialogFragment())
+            findNavController().navigateSafe(ActiveSessionsDialogFragmentDirections.toUiaDialogFragment())
         }
     }
 }

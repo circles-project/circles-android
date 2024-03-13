@@ -15,6 +15,7 @@ class GroupMembersListAdapter(
     private val manageMembersListener: ManageMembersOptionsListener,
     private val onToggleOptions: (String) -> Unit,
     private val onOpenUserPage: (String) -> Unit,
+    private val isChangeAccessLevelAvailable: Boolean
 ) : BaseRvAdapter<ManageMembersListItem, ManageMembersViewHolder>(
     DefaultIdEntityCallback()
 ) {
@@ -33,7 +34,8 @@ class GroupMembersListAdapter(
                 parent = parent,
                 onToggleClicked = { position -> onToggleOptions(getItem(position).id) },
                 onOpenUserClicked = { position -> onOpenUserPage(getItem(position).id) },
-                manageMembersListener = manageMembersListener
+                manageMembersListener = manageMembersListener,
+                isChangeAccessLevelAvailable = isChangeAccessLevelAvailable
             )
 
             ManageGroupMembersViewTypes.Invited -> InvitedMemberViewHolder(

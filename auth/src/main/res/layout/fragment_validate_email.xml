@@ -38,38 +38,53 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/validate_your_email"
-        app:layout_constraintBottom_toTopOf="@id/tilEmail"
+        app:layout_constraintBottom_toTopOf="@id/lEmailInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineLogo"
         app:layout_constraintVertical_bias="0.15"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilEmail"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <FrameLayout
+        android:id="@+id/lEmailInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="@string/email"
-        app:endIconDrawable="@drawable/ic_info"
-        app:endIconMode="custom"
-        app:endIconTint="@color/blue"
         app:layout_constraintBottom_toTopOf="@id/btnValidate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvValidateTitle">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEmail"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:padding="12dp" />
+            android:hint="@string/email"
+            app:endIconDrawable="@drawable/ic_info"
+            app:endIconMode="custom"
+            app:endIconTint="@color/blue">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:padding="12dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/spEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </FrameLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilValidationCode"
@@ -107,9 +122,9 @@
         android:enabled="false"
         android:text="@string/send_validation_code"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/tilEmail"
+        app:layout_constraintEnd_toEndOf="@id/lEmailInput"
         app:layout_constraintStart_toEndOf="@id/guidelineCenterVertical"
-        app:layout_constraintTop_toBottomOf="@id/tilEmail" />
+        app:layout_constraintTop_toBottomOf="@id/lEmailInput" />
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/cbEmailUpdates"

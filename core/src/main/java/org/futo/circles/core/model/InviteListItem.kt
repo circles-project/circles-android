@@ -28,17 +28,20 @@ data class RoomInviteListItem(
     val info: RoomInfo,
     val isEncrypted: Boolean,
     val inviterName: String,
-    val shouldBlurIcon: Boolean
+    val shouldBlurIcon: Boolean,
+    val isLoading: Boolean = false
 ) : InviteListItem(roomId)
 
 data class FollowRequestListItem(
     val user: CirclesUserSummary,
-    val reasonMessage: String?
+    val reasonMessage: String?,
+    val isLoading: Boolean = false
 ) : InviteListItem(user.id)
 
 data class ConnectionInviteListItem(
     val roomId: String,
     val user: CirclesUserSummary,
+    val isLoading: Boolean = false
 ) : InviteListItem(roomId)
 
 fun RoomSummary.toRoomInviteListItem(roomType: CircleRoomTypeArg, shouldBlurIcon: Boolean) =

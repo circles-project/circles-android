@@ -2,7 +2,6 @@ package org.futo.circles.feature.settings
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.auth.feature.log_in.log_out.LogoutDataSource
 import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
@@ -16,16 +15,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsDataSource: SettingsDataSource,
-    private val logoutDataSource: LogoutDataSource,
-    private val sharedCircleDataSource: SharedCircleDataSource,
-    private val refreshTokenManager: RefreshTokenManager
+    private val refreshTokenManager: RefreshTokenManager,
+    private val sharedCircleDataSource: SharedCircleDataSource
 ) : ViewModel() {
 
-    val profileLiveData = settingsDataSource.profileLiveData
     val passPhraseLoadingLiveData = settingsDataSource.passPhraseLoadingLiveData
     val startReAuthEventLiveData = settingsDataSource.startReAuthEventLiveData
     val logOutLiveData = SingleEventLiveData<Response<Unit?>>()
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
+    val addEmailLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToMatrixChangePasswordEvent = SingleEventLiveData<Unit>()
     val changePasswordResponseLiveData = SingleEventLiveData<Response<Unit?>>()
     val mediaUsageInfoLiveData = SingleEventLiveData<Response<MediaUsageInfo?>>()
@@ -33,7 +31,9 @@ class SettingsViewModel @Inject constructor(
     fun logOut() {
         launchBg {
             MatrixSessionProvider.currentSession?.let { refreshTokenManager.cancelTokenRefreshing(it) }
-            val result = logoutDataSource.logOut()
+            val result = createResult {
+                MatrixSessionProvider.getSessionOrThrow().signOutService().signOut(true)
+            }
             logOutLiveData.postValue(result)
         }
     }
@@ -55,12 +55,18 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun handleChangeEmailFlow() {
+        launchBg {
+            val result = settingsDataSource.addEmailUIA()
+            addEmailLiveData.postValue(result)
+        }
+    }
+
     private suspend fun createNewBackupInNeeded() {
         val createBackupResult = settingsDataSource.createNewBackupIfNeeded()
         changePasswordResponseLiveData.postValue(createBackupResult)
     }
 
-    fun getSharedCircleSpaceId(): String? = sharedCircleDataSource.getSharedCirclesSpaceId()
     fun updateMediaUsageInfo() {
         launchBg {
             val mediaUsageInfoResult = createResult {
@@ -69,4 +75,6 @@ class SettingsViewModel @Inject constructor(
             mediaUsageInfoLiveData.postValue(mediaUsageInfoResult)
         }
     }
+
+    fun getSharedCircleSpaceId(): String? = sharedCircleDataSource.getSharedCirclesSpaceId()
 }

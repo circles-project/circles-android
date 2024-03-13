@@ -1,0 +1,5 @@
+- Email address management
+- New People tab
+- Forgot password
+- Configurable default user power level for room
+- Bug fixes and performance improvements

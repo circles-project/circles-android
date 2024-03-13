@@ -61,7 +61,7 @@ class GalleryViewModel @Inject constructor(
 
     fun removeImage(position: Int) {
         val eventId = galleryItemsLiveData.value?.getOrNull(position)?.id ?: return
-        postOptionsDataSource.removeMessage(roomId, eventId)
+        launchBg { postOptionsDataSource.removeMessage(roomId, eventId) }
     }
 
     fun save(position: Int) {

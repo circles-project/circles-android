@@ -11,6 +11,8 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.provider.MatrixInstanceProvider
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.feature.notifications.PushersManager
@@ -32,6 +34,7 @@ class HomeViewModel @Inject constructor(
     val validateWorkspaceLoadingLiveData = SingleEventLiveData<LoadingData>()
     val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
     val mediaBackupSettingsLiveData = roomAccountDataSource.getMediaBackupSettingsLive()
+    val syncStateLiveData = MatrixSessionProvider.getSessionOrThrow().syncService().getSyncStateLive()
 
     init {
         shortcutsHandler.observeRoomsAndBuildShortcuts(viewModelScope)

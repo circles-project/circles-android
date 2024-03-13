@@ -5,6 +5,7 @@ import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.R
 import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.core.utils.circlesRoomsTypes
 import org.futo.circles.model.InviteNotifiableEvent
 import org.futo.circles.model.NotifiableEvent
 import org.futo.circles.model.NotifiableMessageEvent
@@ -49,6 +50,11 @@ class NotifiableEventResolver @Inject constructor(
     suspend fun resolveEvent(event: Event, session: Session): NotifiableEvent? {
         val roomID = event.roomId ?: return null
         val eventId = event.eventId ?: return null
+
+        // filter
+        val roomType = session.getRoom(roomID)?.roomSummary()?.roomType
+        if (roomType !in circlesRoomsTypes) return null
+
         if (event.getClearType() == EventType.STATE_ROOM_MEMBER) {
             return resolveStateRoomEvent(event, session)
         }

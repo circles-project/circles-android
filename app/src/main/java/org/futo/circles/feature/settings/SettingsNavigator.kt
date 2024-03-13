@@ -5,6 +5,7 @@ import org.futo.circles.R
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.model.ShareUrlTypeArg
+import org.futo.circles.feature.people.PeopleFragmentDirections
 
 class SettingsNavigator(private val fragment: SettingsFragment) {
 
@@ -23,14 +24,20 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             .navigateSafe(SettingsFragmentDirections.toChangePasswordDialogFragment())
     }
 
-    fun navigateToProfile() {
-        fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toEditProfileDialogFragment())
-    }
-
     fun navigateToReAuthStages() {
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toReAuthStagesDialogFragment())
+            .navigateSafe(SettingsFragmentDirections.toUiaDialogFragment())
+    }
+
+
+    fun navigateToSubscriptionInfo() {
+        fragment.findNavController()
+            .navigateSafe(SettingsFragmentDirections.toManageSubscriptionDialogFragment())
+    }
+
+    fun navigateToEditProfile() {
+        fragment.findNavController()
+            .navigateSafe(PeopleFragmentDirections.toEditProfileDialogFragment())
     }
 
     fun navigateToShareProfile(sharedSpaceId: String?) {
@@ -40,23 +47,12 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             )
             return
         }
-        fragment.findNavController()
-            .navigateSafe(
-                SettingsFragmentDirections.toShareProfileDialogFragment(
-                    sharedSpaceId,
-                    ShareUrlTypeArg.PROFILE
-                )
+        fragment.findNavController().navigateSafe(
+            PeopleFragmentDirections.toShareProfileDialogFragment(
+                sharedSpaceId,
+                ShareUrlTypeArg.PROFILE
             )
-    }
-
-    fun navigateToSubscriptionInfo() {
-        fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toManageSubscriptionDialogFragment())
-    }
-
-    fun navigateToIgnoredUsers() {
-        fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toIgnoredUsersDialogFragment())
+        )
     }
 
 }

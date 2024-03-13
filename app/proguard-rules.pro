@@ -70,9 +70,8 @@ native <methods>;
 
 -keep class org.futo.circles.core.model.CircleRoomTypeArg
 -keep class org.futo.circles.core.model.InviteTypeArg
--keep class org.futo.circles.auth.model.PasswordModeArg
--keep class org.futo.circles.auth.model.TermsModeArg
 -keep class org.futo.circles.core.model.ShareUrlTypeArg
+-keep class org.futo.circles.model.PeopleCategoryTypeArg
 
 -keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
 -keep public class * extends java.lang.Exception  # Optional: Keep custom exceptions.

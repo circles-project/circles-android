@@ -44,12 +44,20 @@ class PostHeaderView(
             sender.notEmptyDisplayName(),
             sender.avatarUrl,
             data.postInfo.timestamp,
-            data.postInfo.isEncrypted
+            data.postInfo.isEncrypted,
+            data.timelineName,
+            data.timelineOwnerName
         )
     }
 
     fun bindViewData(
-        userId: String, name: String, avatarUrl: String?, timestamp: Long, isEncrypted: Boolean
+        userId: String,
+        name: String,
+        avatarUrl: String?,
+        timestamp: Long,
+        isEncrypted: Boolean,
+        roomName: String? = null,
+        timelineOwnerName: String? = null
     ) {
         with(binding) {
             ivSenderImage.apply {
@@ -63,6 +71,12 @@ class PostHeaderView(
             tvUserId.text = UserUtils.removeDomainSuffix(userId)
             ivEncrypted.setIsEncryptedIcon(isEncrypted)
             tvMessageTime.text = DateFormat.format("MMM dd, h:mm a", Date(timestamp))
+
+            roomName?.let {
+                val nameFormat =
+                    context.getString(R.string.in_timeline_format, timelineOwnerName ?: "", it)
+                tvRoomName.text = nameFormat
+            }
         }
     }
 

@@ -137,10 +137,10 @@ class PostLayout(
     private fun setMentionBorder(content: PostContent) {
         val hasMention = when (content) {
             is MediaContent -> content.caption?.let {
-                MarkdownParser.hasCurrentUserMention(it.toString())
+                MarkdownParser.hasCurrentUserMention(it)
             } ?: false
 
-            is TextContent -> MarkdownParser.hasCurrentUserMention(content.message.toString())
+            is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
             is PollContent -> false
         }
         if (hasMention) binding.lCard.setBackgroundResource(R.drawable.bg_mention_highlight)

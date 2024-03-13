@@ -106,7 +106,7 @@
         app:layout_anchor="@id/lContainer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_create"
+        app:srcCompat="@drawable/ic_add"
         app:tint="@color/white"
         tools:ignore="ContentDescription" />
 

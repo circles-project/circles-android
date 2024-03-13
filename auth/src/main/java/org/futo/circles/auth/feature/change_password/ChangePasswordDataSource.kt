@@ -3,7 +3,7 @@ package org.futo.circles.auth.feature.change_password
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.EncryptionAlgorithmHelper
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
-import org.futo.circles.auth.feature.reauth.AuthConfirmationProvider
+import org.futo.circles.auth.feature.uia.flow.reauth.AuthConfirmationProvider
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider

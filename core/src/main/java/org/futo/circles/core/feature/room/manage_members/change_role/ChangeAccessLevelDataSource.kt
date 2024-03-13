@@ -2,7 +2,6 @@ package org.futo.circles.core.feature.room.manage_members.change_role
 
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.scopes.ViewModelScoped
-import org.futo.circles.core.base.READ_ONLY_ROLE
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.AccessLevelListItem
@@ -22,9 +21,7 @@ class ChangeAccessLevelDataSource @Inject constructor(
             Role.fromValue(it.levelValue, Role.Default.value),
             it.levelValue == levelValue
         )
-    }.toMutableList().apply {
-        add(AccessLevelListItem(Role.Custom(READ_ONLY_ROLE), READ_ONLY_ROLE == levelValue))
-    }.filter { myUserLevelValue >= it.role.value }
+    }.toMutableList().filter { myUserLevelValue >= it.role.value }
 
     fun isValueChanged(newValue: Int) = newValue != levelValue
 

@@ -11,39 +11,35 @@
         android:label="Log In"
         tools:layout="@layout/fragment_log_in">
         <action
-            android:id="@+id/to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-        <action
-            android:id="@+id/to_loginStagesFragment"
-            app:destination="@id/loginStagesFragment" />
+            android:id="@+id/to_uiaFragment"
+            app:destination="@id/uiaFragment" />
         <action
             android:id="@+id/to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/to_signUpFragment"
+            app:destination="@id/signUpFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/loginStagesFragment"
-        android:name="org.futo.circles.auth.feature.log_in.stages.LogInStagesFragment"
-        tools:layout="@layout/fragment_login_stages">
+
+    <dialog
+        android:id="@+id/uiaFragment"
+        android:name="org.futo.circles.auth.feature.uia.UIADialogFragment"
+        tools:layout="@layout/dialog_fragment_uia">
 
         <action
             android:id="@+id/to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/signUpFragment"
-        android:name="org.futo.circles.auth.feature.sign_up.SignUpFragment"
-        android:label="Sign up"
-        tools:layout="@layout/fragment_sign_up">
+
         <action
             android:id="@+id/to_ConfigureWorkspace"
             app:destination="@id/configureWorkspaceFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
-    </fragment>
+    </dialog>
     <fragment
         android:id="@+id/setupProfileFragment"
         android:name="org.futo.circles.auth.feature.profile.setup.SetupProfileFragment"
@@ -65,5 +61,13 @@
             app:destination="@id/setupProfileFragment"
             app:popUpTo="@id/configureWorkspaceFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="org.futo.circles.auth.feature.sign_up.SignUpFragment"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/to_uiaFragment"
+            app:destination="@id/uiaFragment" />
     </fragment>
 </navigation>

@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
@@ -47,8 +46,12 @@ abstract class BaseTimelineDataSource(
 
     fun getTimelineEventFlow(): Flow<List<Post>> = callbackFlow {
         val listener = object : Timeline.Listener {
-            override fun onTimelineUpdated(snapshot: List<TimelineEvent>) {
-                if (snapshot.isNotEmpty()) trySend(snapshot)
+            override fun onTimelineUpdated(
+                roomId: String,
+                timelineId: String,
+                snapshot: List<TimelineEvent>
+            ) {
+                if (snapshot.isNotEmpty()) trySend(roomId to snapshot)
             }
 
             override fun onTimelineFailure(timelineId: String, throwable: Throwable) {
@@ -58,9 +61,9 @@ abstract class BaseTimelineDataSource(
         startTimeline(listener)
         awaitClose()
     }.flowOn(Dispatchers.IO)
-        .mapLatest {
-            val items = timelineBuilder.build(it, isThread)
-            if (it.isNotEmpty() && items.size <= LOAD_MORE_THRESHOLD) loadMore()
+        .mapLatest { (roomId, snapshot) ->
+            val items = timelineBuilder.build(roomId, snapshot, isThread)
+            if (snapshot.isNotEmpty() && items.size <= LOAD_MORE_THRESHOLD) loadMore()
             items
         }
         .distinctUntilChanged()

@@ -17,13 +17,20 @@ abstract class BaseTimelineBuilder {
     private val supportedTimelineEvens: List<String> =
         listOf(EventType.MESSAGE, EventType.POLL_START.stable, EventType.POLL_START.unstable)
 
-    abstract suspend fun List<TimelineEvent>.processSnapshot(isThread: Boolean): List<Post>
+    abstract suspend fun List<TimelineEvent>.processSnapshot(
+        roomId: String,
+        isThread: Boolean
+    ): List<Post>
 
-    suspend fun build(snapshot: List<TimelineEvent>, isThread: Boolean): List<Post> =
+    suspend fun build(
+        roomId: String,
+        snapshot: List<TimelineEvent>,
+        isThread: Boolean
+    ): List<Post> =
         withContext(Dispatchers.IO) {
             snapshot
                 .filterTimelineEvents(isThread)
-                .processSnapshot(isThread)
+                .processSnapshot(roomId, isThread)
         }
 
     protected fun sortList(list: List<Post>, isThread: Boolean) =

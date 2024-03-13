@@ -6,9 +6,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.model.ShareableContent
-import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.PostContentDataSource
+import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
+import org.futo.circles.core.model.ShareableContent
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +35,7 @@ class TimelineMediaPreviewViewModel @Inject constructor(
     }
 
     fun removeImage() {
-        postOptionsDataSource.removeMessage(roomId, eventId)
+        launchBg { postOptionsDataSource.removeMessage(roomId, eventId) }
     }
 
     fun save() {

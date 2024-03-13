@@ -12,8 +12,8 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.min_sdk_version
         targetSdk rootProject.ext.sdk_version
-        versionCode 36
-        versionName "1.0.26"
+        versionCode 37
+        versionName "1.0.27"
         archivesBaseName = "circles-v${versionName}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -105,7 +105,7 @@ dependencies {
     implementation project(path: ':gallery')
 
     //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.7.2')
+    gplayImplementation platform('com.google.firebase:firebase-bom:32.7.4')
     gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
