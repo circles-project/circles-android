@@ -6,7 +6,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FilterTimelinesViewModel @Inject constructor(
-    private val dataSource: FilterTimelinesDataSource
+    dataSource: FilterTimelinesDataSource
 ) : ViewModel() {
+
+    val circleInfoLiveData = dataSource.circleSummaryLiveData
+
 
 }

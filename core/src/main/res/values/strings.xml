@@ -171,4 +171,6 @@
     <string name="invite_to_connect">Invite to connect</string>
     <string name="follow">Follow</string>
     <string name="default_user_role">Default user role</string>
+    <string name="select_timelines_format">Select timelines which posts you want to read in %s</string>
+    <string name="select_all">Select all</string>
 </resources>
