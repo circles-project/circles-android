@@ -84,6 +84,7 @@
     <string name="state_events">State events</string>
     <string name="push_notifications">Push notifications</string>
     <string name="configure_group">Configure group</string>
+    <string name="filter_timelines">Filter timelines</string>
     <string name="configure_gallery">Configure gallery</string>
     <string name="manage_members">Manage members</string>
     <string name="my_followers">My followers</string>
