@@ -24,7 +24,7 @@
 
         <action
             android:id="@+id/to_createGroupDialogFragment"
-            app:destination="@id/createGroupDialogFragment">
+            app:destination="@id/create_room_nav_graph">
 
             <argument
                 android:name="type"
@@ -52,17 +52,6 @@
 
     <include app:graph="@navigation/invites_nav_graph" />
 
-    <dialog
-        android:id="@+id/createGroupDialogFragment"
-        android:name="org.futo.circles.core.feature.room.create.CreateRoomDialogFragment"
-        tools:layout="@layout/dialog_fragment_create_room">
-
-        <argument
-            android:name="type"
-            android:defaultValue="Group"
-            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
-            app:nullable="false" />
-
-    </dialog>
+    <include app:graph="@navigation/create_room_nav_graph" />
 
 </navigation>
