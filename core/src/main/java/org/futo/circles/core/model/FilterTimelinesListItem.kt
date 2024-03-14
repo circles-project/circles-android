@@ -5,7 +5,7 @@ import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.mapping.nameOrId
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
-data class CircleFilterListItem(
+data class FilterTimelinesListItem(
     override val id: String,
     val name: String,
     val ownerName: String,
@@ -13,7 +13,7 @@ data class CircleFilterListItem(
     val isSelected: Boolean
 ) : IdEntity<String>
 
-fun RoomSummary.toCircleFilterListItem(isSelected: Boolean = true) = CircleFilterListItem(
+fun RoomSummary.toFilterTimelinesListItem(isSelected: Boolean = true) = FilterTimelinesListItem(
     id = roomId,
     name = nameOrId(),
     ownerName = getRoomOwner(roomId)?.displayName ?: "",

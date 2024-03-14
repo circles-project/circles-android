@@ -2,6 +2,7 @@ package org.futo.circles.core.feature.circles.filter
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -9,7 +10,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.model.toCircleFilterListItem
+import org.futo.circles.core.model.toFilterTimelinesListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.matrix.android.sdk.api.session.getRoom
@@ -34,9 +35,9 @@ class FilterTimelinesDataSource @Inject constructor(
         children.mapNotNull {
             session.getRoom(it.childRoomId)?.roomSummary()?.takeIf { summary ->
                 summary.membership.isActive() && summary.roomId != myTimelineId
-            }?.toCircleFilterListItem(isTimelineSelected(selectedIds, it.childRoomId))
+            }?.toFilterTimelinesListItem(isTimelineSelected(selectedIds, it.childRoomId))
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(Dispatchers.IO).asLiveData()
 
     suspend fun applyFilter() = createResult {
         session.getRoom(circleId)?.roomAccountDataService()
@@ -54,6 +55,11 @@ class FilterTimelinesDataSource @Inject constructor(
             else newSet.add(roomId)
             newSet
         }
+    }
+
+    fun selectAllTimelines() {
+        val ids = timelinesLiveData.value?.map { it.id }?.toSet() ?: emptySet()
+        selectedTimelinesIds.update { ids }
     }
 
     private fun isTimelineSelected(selectedIds: Set<String>, roomId: String): Boolean =

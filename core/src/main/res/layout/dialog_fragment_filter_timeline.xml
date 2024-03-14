@@ -58,7 +58,7 @@
 
 
     <org.futo.circles.core.view.LoadingRecyclerView
-        android:id="@+id/rvUsers"
+        android:id="@+id/rvTimelines"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"

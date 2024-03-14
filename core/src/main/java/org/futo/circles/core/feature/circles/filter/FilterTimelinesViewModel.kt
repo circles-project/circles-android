@@ -27,4 +27,8 @@ class FilterTimelinesViewModel @Inject constructor(
         dataSource.toggleItemSelected(id)
     }
 
+    fun selectAllItems() {
+        dataSource.selectAllTimelines()
+    }
+
 }
