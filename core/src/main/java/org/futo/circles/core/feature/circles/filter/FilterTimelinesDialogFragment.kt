@@ -30,7 +30,10 @@ class FilterTimelinesDialogFragment :
 
     private val filterTimelinesAdapter by lazy {
         FilterTimelinesAdapter(
-            onItemSelected = { id -> viewModel.toggleItemSelected(id) }
+            onItemSelected = { id ->
+                binding.btnSave.isEnabled = true
+                viewModel.toggleItemSelected(id)
+            }
         )
     }
 
@@ -46,7 +49,10 @@ class FilterTimelinesDialogFragment :
                 startLoading(btnSave)
                 viewModel.saveFilter()
             }
-            btnSelectAll.setOnClickListener { viewModel.selectAllItems() }
+            btnSelectAll.setOnClickListener {
+                binding.btnSave.isEnabled = true
+                viewModel.selectAllItems()
+            }
             rvTimelines.apply {
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
                 adapter = filterTimelinesAdapter
