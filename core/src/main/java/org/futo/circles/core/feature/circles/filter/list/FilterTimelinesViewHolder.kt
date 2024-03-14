@@ -18,7 +18,10 @@ class FilterTimelinesViewHolder(
     private val binding = baseBinding as ListItemTimelineFilterBinding
 
     init {
-        onClick(itemView) { position -> onItemClicked(position) }
+        onClick(itemView) { position ->
+            binding.vCheck.isChecked = !binding.vCheck.isChecked
+            onItemClicked(position)
+        }
     }
 
     fun bind(data: FilterTimelinesListItem) {

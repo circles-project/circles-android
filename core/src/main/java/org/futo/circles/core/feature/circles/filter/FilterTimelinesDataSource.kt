@@ -29,13 +29,9 @@ class FilterTimelinesDataSource @Inject constructor(
     val timelinesLiveData = combine(
         circleSummaryLiveData.asFlow(),
         selectedTimelinesIds
-    ) { circle, selectedIds ->
-        val children = circle.getOrNull()?.spaceChildren ?: emptyList()
-        val myTimelineId = getTimelineRoomFor(circleId)?.roomId
-        children.mapNotNull {
-            session.getRoom(it.childRoomId)?.roomSummary()?.takeIf { summary ->
-                summary.membership.isActive() && summary.roomId != myTimelineId
-            }?.toFilterTimelinesListItem(isTimelineSelected(selectedIds, it.childRoomId))
+    ) { _, selectedIds ->
+        getAllTimelinesIds().mapNotNull {
+            session.getRoom(it)?.roomSummary()?.toFilterTimelinesListItem(selectedIds.contains(it))
         }
     }.flowOn(Dispatchers.IO).asLiveData()
 
@@ -48,7 +44,7 @@ class FilterTimelinesDataSource @Inject constructor(
     }
 
     fun toggleItemSelected(roomId: String) {
-        val isItemSelected = isTimelineSelected(selectedTimelinesIds.value, roomId)
+        val isItemSelected = selectedTimelinesIds.value.contains(roomId)
         selectedTimelinesIds.update { value ->
             val newSet = value.toMutableSet()
             if (isItemSelected) newSet.remove(roomId)
@@ -58,18 +54,26 @@ class FilterTimelinesDataSource @Inject constructor(
     }
 
     fun selectAllTimelines() {
-        val ids = timelinesLiveData.value?.map { it.id }?.toSet() ?: emptySet()
-        selectedTimelinesIds.update { ids }
+        selectedTimelinesIds.update { getAllTimelinesIds() }
     }
-
-    private fun isTimelineSelected(selectedIds: Set<String>, roomId: String): Boolean =
-        if (selectedIds.isEmpty()) true
-        else selectedIds.contains(roomId)
 
     private fun getCircleFilter(): Set<String> {
         val content = session.getRoom(circleId)?.roomAccountDataService()
-            ?.getAccountDataEvent(CIRCLE_FILTER_EVENT_TYPE)?.content ?: return emptySet()
-        return (content[TIMELINES_KEY] as? List<*>)?.map { it.toString() }?.toSet() ?: emptySet()
+            ?.getAccountDataEvent(CIRCLE_FILTER_EVENT_TYPE)?.content ?: return getAllTimelinesIds()
+        return (content[TIMELINES_KEY] as? List<*>)?.map { it.toString() }?.toSet()
+            ?: getAllTimelinesIds()
+    }
+
+    private fun getAllTimelinesIds(): Set<String> {
+        val children = session.getRoom(circleId)?.roomSummary()?.spaceChildren ?: emptyList()
+        val myTimelineId = getTimelineRoomFor(circleId)?.roomId
+        return children.mapNotNull {
+            val timelineSummary =
+                session.getRoom(it.childRoomId)?.roomSummary()?.takeIf { summary ->
+                    summary.membership.isActive() && summary.roomId != myTimelineId
+                }
+            timelineSummary?.roomId
+        }.toSet()
     }
 
     companion object {
