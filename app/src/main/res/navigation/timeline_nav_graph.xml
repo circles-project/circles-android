@@ -29,6 +29,17 @@
             app:nullable="true" />
 
         <action
+            android:id="@+id/to_filterTimelinesDialogFragment"
+            app:destination="@id/filter_timelines_nav_graph">
+
+            <argument
+                android:name="circleId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
             android:id="@+id/to_createPostBottomSheet"
             app:destination="@id/createPostBottomSheet">
 
@@ -419,7 +430,8 @@
                 app:nullable="true" />
 
         </action>
-
-
     </dialog>
+
+    <include app:graph="@navigation/filter_timelines_nav_graph" />
+
 </navigation>

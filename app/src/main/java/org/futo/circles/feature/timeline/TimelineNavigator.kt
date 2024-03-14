@@ -21,6 +21,12 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         )
     }
 
+    fun navigateToTimelinesFilter(roomId: String) {
+        fragment.findNavController().navigateSafe(
+            TimelineDialogFragmentDirections.toFilterTimelinesDialogFragment(roomId)
+        )
+    }
+
     fun navigateToCreatePoll(roomId: String) {
         fragment.findNavController().navigateSafe(
             TimelineDialogFragmentDirections.toCreatePoll(roomId, null)

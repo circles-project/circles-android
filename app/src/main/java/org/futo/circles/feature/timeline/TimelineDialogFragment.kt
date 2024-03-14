@@ -143,9 +143,12 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun setupMenuClickListener() {
         binding.toolbar.apply {
             setOnClickListener { navigateToTimelineOptions() }
+            menu.findItem(org.futo.circles.core.R.id.filter).isVisible =
+                args.timelineId != null && !isThread
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     org.futo.circles.core.R.id.settings -> navigateToTimelineOptions()
+                    org.futo.circles.core.R.id.filter -> navigator.navigateToTimelinesFilter(args.roomId)
                 }
                 return@setOnMenuItemClickListener true
             }
