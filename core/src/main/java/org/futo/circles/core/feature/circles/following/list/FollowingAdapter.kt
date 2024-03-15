@@ -1,4 +1,4 @@
-package org.futo.circles.core.feature.room.circles.following.list
+package org.futo.circles.core.feature.circles.following.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter

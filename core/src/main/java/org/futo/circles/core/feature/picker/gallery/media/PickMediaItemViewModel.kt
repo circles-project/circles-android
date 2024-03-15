@@ -1,25 +1,26 @@
 package org.futo.circles.core.feature.picker.gallery.media
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import org.futo.circles.core.model.GalleryContentListItem
-import org.futo.circles.core.model.MediaContent
-import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.SingleTimelineDataSource
+import org.futo.circles.core.model.GalleryContentListItem
+import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.PostContentType
 import javax.inject.Inject
 
 @HiltViewModel
 class PickMediaItemViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    timelineDataSource: SingleTimelineDataSource
-) : BaseTimelineViewModel(timelineDataSource) {
+    timelineDataSource: SingleTimelineDataSource,
+    circleFilterAccountDataManager: CircleFilterAccountDataManager
+) : BaseTimelineViewModel(savedStateHandle, timelineDataSource, circleFilterAccountDataManager) {
 
     private val isVideoAvailable: Boolean = savedStateHandle[IS_VIDEO_AVAILABLE] ?: true
 

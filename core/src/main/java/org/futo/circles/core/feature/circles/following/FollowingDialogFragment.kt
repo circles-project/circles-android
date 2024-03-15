@@ -1,4 +1,4 @@
-package org.futo.circles.core.feature.room.circles.following
+package org.futo.circles.core.feature.circles.following
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.DialogFragmentFollowingBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.feature.room.circles.following.list.FollowingAdapter
+import org.futo.circles.core.feature.circles.following.list.FollowingAdapter
 import org.futo.circles.core.model.FollowingListItem
 
 @AndroidEntryPoint

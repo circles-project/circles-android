@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="8dp">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivRoom"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:padding="2dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp"
+        tools:src="@color/blue" />
+
+
+    <TextView
+        android:id="@+id/tvRoomName"
+        style="@style/headline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintBottom_toTopOf="@id/tvOwnerName"
+        app:layout_constraintEnd_toStartOf="@+id/vCheck"
+        app:layout_constraintStart_toEndOf="@id/ivRoom"
+        app:layout_constraintTop_toTopOf="@id/ivRoom"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="texsdt" />
+
+    <TextView
+        android:id="@+id/tvOwnerName"
+        style="@style/footNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        app:layout_constraintBottom_toBottomOf="@id/ivRoom"
+        app:layout_constraintEnd_toEndOf="@id/tvRoomName"
+        app:layout_constraintStart_toStartOf="@id/tvRoomName"
+        app:layout_constraintTop_toBottomOf="@id/tvRoomName"
+        tools:text="texsdt" />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/vCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

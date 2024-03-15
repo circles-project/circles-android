@@ -1,4 +1,4 @@
-package org.futo.circles.core.feature.room.circles.following.list
+package org.futo.circles.core.feature.circles.following.list
 
 import android.text.format.DateUtils
 import android.view.ViewGroup

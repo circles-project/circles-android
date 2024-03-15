@@ -57,4 +57,11 @@ class TimelineOptionsNavigator(private val fragment: TimelineOptionsDialogFragme
                 TimelineOptionsDialogFragmentDirections.toKnockRequestsDialogFragment(timelineId)
             )
     }
+
+    fun navigateFilterTimelines(circleId: String) {
+        fragment.findNavController()
+            .navigateSafe(
+                TimelineOptionsDialogFragmentDirections.toFilterTimelinesDialogFragment(circleId)
+            )
+    }
 }

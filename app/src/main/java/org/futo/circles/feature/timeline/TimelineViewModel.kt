@@ -7,8 +7,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
-import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.room.RoomNotificationsDataSource
 import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
@@ -39,11 +39,13 @@ class TimelineViewModel @Inject constructor(
     private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
-    private val readMessageDataSource: ReadMessageDataSource
-) : BaseTimelineViewModel(timelineDataSourceFactory.create(savedStateHandle.get<String>("timelineId") != null)) {
-
-    private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val timelineId: String? = savedStateHandle["timelineId"]
+    private val readMessageDataSource: ReadMessageDataSource,
+    circleFilterAccountDataManager: CircleFilterAccountDataManager
+) : BaseTimelineViewModel(
+    savedStateHandle,
+    timelineDataSourceFactory.create(savedStateHandle.get<String>("timelineId") != null),
+    circleFilterAccountDataManager
+) {
 
     val session = MatrixSessionProvider.currentSession
     val profileLiveData = session?.userService()?.getUserLive(session.myUserId)
