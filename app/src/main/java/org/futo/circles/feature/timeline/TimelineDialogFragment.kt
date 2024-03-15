@@ -41,6 +41,7 @@ import org.futo.circles.model.IgnoreSender
 import org.futo.circles.model.RemovePost
 import org.futo.circles.view.CreatePostViewListener
 import org.futo.circles.view.PostOptionsListener
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
@@ -143,8 +144,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun setupMenuClickListener() {
         binding.toolbar.apply {
             setOnClickListener { navigateToTimelineOptions() }
-            menu.findItem(org.futo.circles.core.R.id.filter).isVisible =
-                args.timelineId != null && !isThread
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     org.futo.circles.core.R.id.settings -> navigateToTimelineOptions()
@@ -166,6 +165,11 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             listAdapter.submitList(it)
             binding.rvTimeline.setIsPageLoading(false)
             viewModel.markTimelineAsRead(args.roomId, isGroupMode)
+        }
+        viewModel.isFilterActiveLiveData.observeData(this) {
+            val menuItem =
+                tryOrNull { binding.toolbar.menu.findItem(org.futo.circles.core.R.id.filter) }
+            menuItem?.isVisible = it
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =
