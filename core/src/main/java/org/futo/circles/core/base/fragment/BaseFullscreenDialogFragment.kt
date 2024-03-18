@@ -9,8 +9,8 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.appbar.MaterialToolbar
-import org.futo.circles.core.base.NoInternetConnectionViewPresenter
 import org.futo.circles.core.R
+import org.futo.circles.core.base.NoInternetConnectionViewPresenter
 import org.futo.circles.core.extensions.onBackPressed
 
 
@@ -32,6 +32,7 @@ abstract class BaseFullscreenDialogFragment(
     ): View? {
         _binding = inflate.invoke(inflater, container, false)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        dialog?.window?.attributes?.windowAnimations = R.style.DialogSlideAnimation
         return _binding?.root
     }
 

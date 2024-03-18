@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,7 +18,7 @@ import org.matrix.android.sdk.api.extensions.tryOrNull
 class LoadingRecyclerView(
     context: Context,
     attrs: AttributeSet? = null
-) : ConstraintLayout(context, attrs) {
+) : FrameLayout(context, attrs) {
 
     private val binding = ViewLoadingRecyclerBinding.inflate(LayoutInflater.from(context), this)
 
@@ -62,7 +62,7 @@ class LoadingRecyclerView(
 
     fun bindToFab(fab: FloatingActionButton) = binding.rvList.bindToFab(fab)
 
-    fun setIsPageLoading(isLoading:Boolean) = binding.pageLoading.setIsVisible(isLoading)
+    fun setIsPageLoading(isLoading: Boolean) = binding.pageLoading.setIsVisible(isLoading)
 
     private fun setupDataObserver() {
         with(binding) {

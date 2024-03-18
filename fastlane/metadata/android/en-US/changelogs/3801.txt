@@ -1,0 +1,3 @@
+- Circle's timelines filter
+- Screens animation
+- Bug fixes and performance improvements
