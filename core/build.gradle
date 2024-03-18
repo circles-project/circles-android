@@ -112,7 +112,7 @@ dependencies {
     api "io.noties.markwon:ext-strikethrough:$markwon_version"
     api "io.noties.markwon:ext-tasklist:$markwon_version"
 
-    api 'io.element.android:wysiwyg:2.32.0'
+    api 'io.element.android:wysiwyg:2.33.0'
 
     //Shake detection
     implementation 'com.squareup:seismic:1.0.3'
