@@ -1,13 +1,17 @@
 package org.futo.circles.feature.timeline.list
 
 import android.annotation.SuppressLint
-import android.text.method.LinkMovementMethod
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
@@ -20,9 +24,11 @@ import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.databinding.ViewPollPostBinding
 import org.futo.circles.databinding.ViewTextMediaPostBinding
-import org.futo.circles.model.*
+import org.futo.circles.feature.timeline.InternalLinkMovementMethod
+import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostLayout
 import org.futo.circles.view.PostOptionsListener
+import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
 sealed class PostViewHolder(view: View, private val isThread: Boolean) :
@@ -60,12 +66,32 @@ class TextMediaPostViewHolder(
     @SuppressLint("ClickableViewAccessibility")
     private fun handleTextClick() {
         binding.tvTextContent.apply {
-            movementMethod = LinkMovementMethod.getInstance()
+            movementMethod = InternalLinkMovementMethod(object : OnLinkClickedListener {
+                override fun onLinkClicked(url: String) {
+                    showLinkConfirmation(context, url)
+                }
+            })
             setOnTouchListener { v, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) v.requestFocus()
                 false
             }
         }
+    }
+
+    private fun showLinkConfirmation(context: Context, url: String) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.do_you_want_to_open_this_url)
+            .setMessage(url)
+            .setPositiveButton(android.R.string.ok) { dialogInterface, _ ->
+                tryOrNull {
+                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+                }
+                dialogInterface.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialogInterface, _ ->
+                dialogInterface.dismiss()
+            }
+            .show()
     }
 
     override fun bind(post: Post, userPowerLevel: Int) {
