@@ -15,7 +15,7 @@ class PasswordViewModel @Inject constructor(
     private var isPasswordWarningConfirmed: Boolean = false
     val passwordResponseLiveData = SingleEventLiveData<Response<Unit>>()
 
-    fun loginWithPassword(password: String) {
+    fun processPasswordStage(password: String) {
         launchBg {
             passwordResponseLiveData.postValue(passwordDataSource.processPasswordStage(password))
         }
