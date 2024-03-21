@@ -1,6 +1,7 @@
 package org.futo.circles.auth.feature.uia.stages.password
 
 import android.content.Context
+import androidx.credentials.CreatePasswordRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetPasswordOption
@@ -23,17 +24,17 @@ class PasswordViewModel @Inject constructor(
     val passwordResponseLiveData = SingleEventLiveData<Response<Unit>>()
     val passwordSelectedEventLiveData = SingleEventLiveData<String>()
 
-    fun processPasswordStage(password: String) {
-        launchBg { handlePasswordRequest(password) }
+    fun processPasswordStage(password: String, isSignup: Boolean, activityContext: Context) {
+        launchBg { handlePasswordRequest(password, isSignup, activityContext) }
     }
 
     fun getCredentials(activityContext: Context) {
         launchBg {
             tryOrNull {
                 val credentialManager = CredentialManager.create(activityContext)
-                val userName = UIADataSourceProvider.getDataSourceOrThrow().userName
+                val userId = UIADataSourceProvider.getDataSourceOrThrow().getUserId()
                 val request = GetCredentialRequest(
-                    listOf(GetPasswordOption(allowedUserIds = setOf(userName)))
+                    listOf(GetPasswordOption(allowedUserIds = setOf(userId)))
                 )
 
                 val result = credentialManager.getCredential(
@@ -44,15 +45,34 @@ class PasswordViewModel @Inject constructor(
                 if (result is PasswordCredential) {
                     val password = result.password
                     passwordSelectedEventLiveData.postValue(password)
-                    handlePasswordRequest(password)
+                    handlePasswordRequest(password, false, activityContext)
                 }
             }
         }
     }
 
-    private suspend fun handlePasswordRequest(password: String) {
+    private suspend fun handlePasswordRequest(
+        password: String,
+        isSignup: Boolean,
+        activityContext: Context
+    ) {
+        if (isSignup) registerPassword(activityContext, password)
         val result = passwordDataSource.processPasswordStage(password)
         passwordResponseLiveData.postValue(result)
+    }
+
+    private suspend fun registerPassword(activityContext: Context, password: String) {
+        tryOrNull {
+            val uiaDataSource = UIADataSourceProvider.getDataSourceOrThrow()
+            val createPasswordRequest = CreatePasswordRequest(
+                id = uiaDataSource.getUserId(),
+                password = password
+            )
+            CredentialManager.create(activityContext).createCredential(
+                activityContext,
+                createPasswordRequest
+            )
+        }
     }
 
     fun isPasswordWarningConfirmed() = isPasswordWarningConfirmed

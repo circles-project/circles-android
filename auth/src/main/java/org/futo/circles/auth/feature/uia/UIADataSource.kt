@@ -95,6 +95,8 @@ abstract class UIADataSource {
         else -> LoginFlowTypes.TERMS
     }
 
+    fun getUserId() = "@${userName}:${domain}"
+
     private fun isStageRetry(result: RegistrationResult?): Boolean {
         val nextStageType =
             ((result as? RegistrationResult.FlowResponse)?.flowResult?.missingStages?.firstOrNull() as? Stage.Other)?.type
@@ -129,6 +131,7 @@ abstract class UIADataSource {
         SUBSCRPTION_GOOGLE_TYPE -> UIANavigationEvent.Subscription
         LOGIN_EMAIL_REQUEST_TOKEN_TYPE,
         ENROLL_EMAIL_REQUEST_TOKEN_TYPE -> UIANavigationEvent.ValidateEmail
+
         LOGIN_EMAIL_SUBMIT_TOKEN_TYPE,
         ENROLL_EMAIL_SUBMIT_TOKEN_TYPE -> null //stay on same screen
         ENROLL_USERNAME_TYPE -> UIANavigationEvent.Username

@@ -49,7 +49,11 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
                 setText(getString(if (isSignupMode()) R.string.set_password else R.string.log_in))
                 setOnClickListener {
                     startLoading(btnLogin)
-                    viewModel.processPasswordStage(tilPassword.getText())
+                    viewModel.processPasswordStage(
+                        tilPassword.getText(),
+                        isSignupMode(),
+                        requireContext()
+                    )
                 }
             }
             tilPassword.editText?.apply {
