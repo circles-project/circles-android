@@ -7,7 +7,6 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.doOnLayout
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ViewLoadingButtonBinding
 import org.futo.circles.core.extensions.getAttributes
@@ -31,7 +30,8 @@ class LoadingButton(
         ViewLoadingButtonBinding.inflate(LayoutInflater.from(context), this)
 
     private var buttonText: String = ""
-    private var isLoading: Boolean = false
+    var isLoading: Boolean = false
+        private set
 
     init {
         getAttributes(attrs, R.styleable.LoadingButton) {
@@ -60,7 +60,7 @@ class LoadingButton(
     override fun onRestoreInstanceState(state: Parcelable?) {
         val loadingButtonState = state as? LoadingButtonState
         super.onRestoreInstanceState(loadingButtonState?.superSavedState ?: state)
-        doOnLayout {
+        post {
             setText(loadingButtonState?.text ?: "")
             setIsLoading(loadingButtonState?.isLoading ?: false)
             isEnabled = loadingButtonState?.isEnabled ?: true

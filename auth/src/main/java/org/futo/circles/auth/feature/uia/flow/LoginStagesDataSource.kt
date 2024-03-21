@@ -53,7 +53,7 @@ class LoginStagesDataSource @Inject constructor(
     }
 
     private fun getIdentifier() = mapOf(
-        USER_PARAM_KEY to "@$userName:$domain",
+        USER_PARAM_KEY to getUserId(),
         TYPE_PARAM_KEY to LOGIN_PASSWORD_USER_ID_TYPE
     )
 }

@@ -11,13 +11,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSetupProfileBinding
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showDialog
-import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 
 @AndroidEntryPoint
@@ -58,7 +58,7 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadi
 
     private fun setupObservers() {
         NetworkObserver.observe(this) {
-            setEnabledViews(it, listOf(binding.btnSkip))
+            setEnabledViews(it, listOf(binding.btnSkip, binding.btnSave))
         }
         viewModel.profileImageLiveData.observeData(this) {
             setSaveButtonEnabled()
@@ -76,6 +76,6 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile), HasLoadi
 
     private fun setSaveButtonEnabled() {
         binding.btnSave.isEnabled = viewModel.isProfileImageChosen() ||
-                binding.tilDisplayName.editText?.text.isNullOrEmpty() != true
+                binding.tilDisplayName.getText().isNotEmpty()
     }
 }

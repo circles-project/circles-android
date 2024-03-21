@@ -16,6 +16,7 @@ import org.futo.circles.auth.feature.uia.stages.password.confirmation.SetupPassw
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
@@ -33,6 +34,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
+        if (!isSignupMode()) viewModel.getCredentials(requireContext())
     }
 
     override fun onResume() {
@@ -47,7 +49,11 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
                 setText(getString(if (isSignupMode()) R.string.set_password else R.string.log_in))
                 setOnClickListener {
                     startLoading(btnLogin)
-                    viewModel.loginWithPassword(tilPassword.getText())
+                    viewModel.processPasswordStage(
+                        tilPassword.getText(),
+                        isSignupMode(),
+                        requireContext()
+                    )
                 }
             }
             tilPassword.editText?.apply {
@@ -73,14 +79,18 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
     private fun setupObservers() {
         viewModel.passwordResponseLiveData.observeResponse(this,
             error = { showError(getString(R.string.invalid_password)) })
+        viewModel.passwordSelectedEventLiveData.observeData(this) {
+            startLoading(binding.btnLogin)
+            binding.etPassword.setText(it)
+        }
     }
 
     private fun onPasswordDataChanged() {
         val password = binding.tilPassword.getText()
         val repeat = binding.tilRepeatPassword.getText()
         binding.btnLogin.isEnabled = if (isSignupMode()) {
-            binding.vPasswordStrength.isPasswordStrong() && password == repeat && password.isNotEmpty()
-        } else password.isNotEmpty()
+            binding.vPasswordStrength.isPasswordStrong() && password == repeat && password.isNotEmpty() && !binding.btnLogin.isLoading
+        } else password.isNotEmpty() && !binding.btnLogin.isLoading
     }
 
     private fun showPasswordWarningIfNeeded() {
