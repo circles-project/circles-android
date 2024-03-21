@@ -1,7 +1,6 @@
 package org.futo.circles.auth.feature.uia
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -68,11 +67,6 @@ class UIADialogFragment :
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        UIADataSourceProvider.clear()
     }
 
     private fun setupViews() {
