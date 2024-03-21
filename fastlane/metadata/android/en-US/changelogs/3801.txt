@@ -1,3 +1,4 @@
 - Circle's timelines filter
 - Screens animation
+- Credentials manager to save/autofill password
 - Bug fixes and performance improvements
