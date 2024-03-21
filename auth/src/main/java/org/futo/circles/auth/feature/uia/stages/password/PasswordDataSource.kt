@@ -55,7 +55,7 @@ class PasswordDataSource @Inject constructor(
             is Response.Error -> result
         }
     }
-    
+
     private suspend fun processDirectPasswordStage(password: String): Response<Unit> {
         val result = createResult {
             MatrixInstanceProvider.matrix.authenticationService().getLoginWizard().login(
