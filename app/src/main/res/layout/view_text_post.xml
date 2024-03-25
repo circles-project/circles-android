@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.futo.circles.view.PostLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lPost"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <org.futo.circles.view.ReadMoreTextView
+        android:id="@+id/tvTextContent"
+        style="@style/postMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/post_text_side_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:readMoreMaxLines="7"
+        app:readMoreText="@string/show_more"
+        app:readMoreTextColor="@color/blue" />
+
+</org.futo.circles.view.PostLayout>
