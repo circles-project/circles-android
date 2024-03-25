@@ -140,7 +140,7 @@ class PostLayout(
             } ?: false
 
             is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
-            is PollContent -> false
+            is PollContent -> MarkdownParser.hasCurrentUserMention(content.question)
         }
         if (hasMention) binding.lCard.setBackgroundResource(R.drawable.bg_mention_highlight)
         else binding.lCard.background = null
