@@ -1,6 +1,5 @@
 package org.futo.circles.feature.timeline.list
 
-import android.annotation.SuppressLint
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
@@ -10,7 +9,6 @@ import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostOptionsListener
 
 class TimelineAdapter(
-    private var userPowerLevel: Int,
     private val postOptionsListener: PostOptionsListener,
     private val isThread: Boolean,
     private val onLoadMore: () -> Unit
@@ -23,12 +21,6 @@ class TimelineAdapter(
         needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
     )
 }) {
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateUserPowerLevel(level: Int) {
-        userPowerLevel = level
-        notifyDataSetChanged()
-    }
 
     override fun getItemId(position: Int): Long = getItem(position).id.hashCode().toLong()
 
@@ -45,7 +37,7 @@ class TimelineAdapter(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(getItem(position), userPowerLevel)
+        holder.bind(getItem(position))
         if (position >= itemCount - BaseTimelineDataSource.LOAD_MORE_THRESHOLD) onLoadMore()
     }
 
@@ -59,7 +51,7 @@ class TimelineAdapter(
         } else {
             payloads.forEach {
                 val payload = (it as? PostItemPayload) ?: return@forEach
-                if (payload.needToUpdateFullItem) holder.bind(getItem(position), userPowerLevel)
+                if (payload.needToUpdateFullItem) holder.bind(getItem(position))
                 else holder.bindPayload(payload)
             }
         }

@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.CallSuper
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -36,8 +37,9 @@ sealed class PostViewHolder(view: View, private val isThread: Boolean) :
 
     abstract val postLayout: PostLayout
 
-    open fun bind(post: Post, userPowerLevel: Int) {
-        postLayout.setData(post, userPowerLevel, isThread)
+    @CallSuper
+    open fun bind(post: Post) {
+        postLayout.setData(post, isThread)
     }
 
     fun bindPayload(payload: PostItemPayload) {
@@ -94,8 +96,8 @@ class TextMediaPostViewHolder(
             .show()
     }
 
-    override fun bind(post: Post, userPowerLevel: Int) {
-        super.bind(post, userPowerLevel)
+    override fun bind(post: Post) {
+        super.bind(post)
         binding.vLoadingView.gone()
         when (val content = post.content) {
             is TextContent -> bindTextPost(content)
@@ -159,8 +161,8 @@ class PollPostViewHolder(
         binding.lPollPost.setListener(postOptionsListener)
     }
 
-    override fun bind(post: Post, userPowerLevel: Int) {
-        super.bind(post, userPowerLevel)
+    override fun bind(post: Post) {
+        super.bind(post)
         (post.content as? PollContent)?.let {
             binding.pollContentView.setup(it) { optionId ->
                 postOptionsListener.onPollOptionSelected(post.postInfo.roomId, post.id, optionId)

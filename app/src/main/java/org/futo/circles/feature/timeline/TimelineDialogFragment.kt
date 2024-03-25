@@ -71,11 +71,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     private val listAdapter by lazy {
-        TimelineAdapter(
-            getCurrentUserPowerLevel(args.roomId),
-            this,
-            isThread
-        ) { loadMoreDebounce(Unit) }.apply {
+        TimelineAdapter(this, isThread) { loadMoreDebounce(Unit) }.apply {
             setHasStableIds(true)
             registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -216,6 +212,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     override fun onShowEmoji(roomId: String, eventId: String, onAddEmoji: (String) -> Unit) {
         if (showNoInternetConnection()) return
+        if (showErrorIfNotAbleToPost()) return
         onLocalAddEmojiCallback = onAddEmoji
         navigator.navigateToShowEmoji(roomId, eventId)
     }
@@ -246,16 +243,14 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         roomId: String, eventId: String, emoji: String, isUnSend: Boolean
     ) {
         if (showNoInternetConnection()) return
-        if (viewModel.accessLevelLiveData.value?.isCurrentUserAbleToPost() != true) {
-            showError(getString(R.string.you_can_not_post_to_this_room))
-            return
-        }
+        if (showErrorIfNotAbleToPost()) return
         if (isUnSend) viewModel.unSendReaction(roomId, eventId, emoji)
         else viewModel.sendReaction(roomId, eventId, emoji)
     }
 
     override fun onPollOptionSelected(roomId: String, eventId: String, optionId: String) {
         if (showNoInternetConnection()) return
+        if (showErrorIfNotAbleToPost()) return
         viewModel.pollVote(roomId, eventId, optionId)
     }
 
@@ -320,7 +315,12 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         if (isGroupMode) onGroupUserAccessLevelChanged(powerLevelsContent)
         else onCircleUserAccessLeveChanged(powerLevelsContent)
-        listAdapter.updateUserPowerLevel(getCurrentUserPowerLevel(args.roomId))
+    }
+
+    private fun showErrorIfNotAbleToPost(): Boolean {
+        val isAbleToPost = viewModel.accessLevelLiveData.value?.isCurrentUserAbleToPost() == true
+        if (!isAbleToPost) showError(getString(R.string.you_can_not_post_to_this_room))
+        return !isAbleToPost
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {

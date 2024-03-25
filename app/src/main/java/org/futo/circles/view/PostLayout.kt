@@ -49,12 +49,11 @@ class PostLayout(
     private val gestureDetector =
         GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
-                if (binding.postFooter.areUserAbleToPost())
-                    post?.let {
-                        optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) { emoji ->
-                            binding.postFooter.addEmojiFromPickerLocalUpdate(emoji)
-                        }
+                post?.let {
+                    optionsListener?.onShowEmoji(it.postInfo.roomId, it.id) { emoji ->
+                        binding.postFooter.addEmojiFromPickerLocalUpdate(emoji)
                     }
+                }
                 return true
             }
 
@@ -89,9 +88,9 @@ class PostLayout(
     }
 
 
-    fun setData(data: Post, userPowerLevel: Int, isThread: Boolean) {
+    fun setData(data: Post, isThread: Boolean) {
         post = data
-        setGeneralMessageData(data, userPowerLevel, isThread)
+        setGeneralMessageData(data, isThread)
     }
 
     fun setPayload(payload: PostItemPayload) {
@@ -118,9 +117,9 @@ class PostLayout(
         }
     }
 
-    private fun setGeneralMessageData(data: Post, userPowerLevel: Int, isThread: Boolean) {
+    private fun setGeneralMessageData(data: Post, isThread: Boolean) {
         binding.postHeader.setData(data)
-        binding.postFooter.setData(data, userPowerLevel, isThread)
+        binding.postFooter.setData(data, isThread)
         setMentionBorder(data.content)
         setIsEdited(data.postInfo.isEdited)
         setSendStatus(data.sendState, data.readByCount)
