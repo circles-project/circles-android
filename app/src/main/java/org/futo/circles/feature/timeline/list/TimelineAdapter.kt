@@ -5,9 +5,9 @@ import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.feature.timeline.list.holder.ImagePostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PollPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PostViewHolder
-import org.futo.circles.feature.timeline.list.holder.TextMediaPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.TextPostViewHolder
 import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostOptionsListener
@@ -32,15 +32,22 @@ class TimelineAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         return when (PostContentType.entries[viewType]) {
-            PostContentType.POLL_CONTENT -> PollPostViewHolder(
-                parent, postOptionsListener, isThread
-            )
 
             PostContentType.TEXT_CONTENT -> TextPostViewHolder(
                 parent, postOptionsListener, isThread
             )
 
-            else -> TextMediaPostViewHolder(parent, postOptionsListener, isThread)
+            PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(
+                parent, postOptionsListener, isThread
+            )
+
+            PostContentType.VIDEO_CONTENT -> ImagePostViewHolder(
+                parent, postOptionsListener, isThread
+            )
+
+            PostContentType.POLL_CONTENT -> PollPostViewHolder(
+                parent, postOptionsListener, isThread
+            )
         }
     }
 
