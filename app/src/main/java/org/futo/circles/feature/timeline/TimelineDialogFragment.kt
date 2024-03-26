@@ -30,6 +30,7 @@ import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.utils.debounce
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
+import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
@@ -40,7 +41,6 @@ import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
 import org.futo.circles.model.RemovePost
 import org.futo.circles.view.CreatePostViewListener
-import org.futo.circles.view.PostOptionsListener
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role

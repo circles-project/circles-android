@@ -11,7 +11,6 @@ import org.futo.circles.feature.timeline.list.holder.PostViewHolder
 import org.futo.circles.feature.timeline.list.holder.TextPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.VideoPostViewHolder
 import org.futo.circles.model.PostItemPayload
-import org.futo.circles.view.PostOptionsListener
 
 class TimelineAdapter(
     private val postOptionsListener: PostOptionsListener,

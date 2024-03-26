@@ -6,8 +6,8 @@ import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.databinding.ViewTextPostBinding
+import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.view.PostLayout
-import org.futo.circles.view.PostOptionsListener
 
 class TextPostViewHolder(
     parent: ViewGroup,

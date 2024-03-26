@@ -10,10 +10,10 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.databinding.ViewImagePostBinding
+import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.UploadMediaTracker
 import org.futo.circles.feature.timeline.list.UploadMediaViewHolder
 import org.futo.circles.view.PostLayout
-import org.futo.circles.view.PostOptionsListener
 
 class ImagePostViewHolder(
     parent: ViewGroup,
