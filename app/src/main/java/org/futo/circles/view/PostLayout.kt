@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.R
-import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PollContent
@@ -19,20 +18,9 @@ import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.databinding.LayoutPostBinding
+import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.model.PostItemPayload
-import org.matrix.android.sdk.api.session.room.send.SendState
 
-
-interface PostOptionsListener {
-    fun onShowMenuClicked(roomId: String, eventId: String)
-    fun onUserClicked(userId: String)
-    fun onShare(content: PostContent)
-    fun onReply(roomId: String, eventId: String)
-    fun onShowPreview(roomId: String, eventId: String)
-    fun onShowEmoji(roomId: String, eventId: String, onAddEmoji: (String) -> Unit)
-    fun onEmojiChipClicked(roomId: String, eventId: String, emoji: String, isUnSend: Boolean)
-    fun onPollOptionSelected(roomId: String, eventId: String, optionId: String)
-}
 
 @SuppressLint("ClickableViewAccessibility")
 class PostLayout(
@@ -94,12 +82,12 @@ class PostLayout(
     }
 
     fun setPayload(payload: PostItemPayload) {
-        setSendStatus(payload.sendState, payload.readByCount)
+        binding.vPostStatus.setSendStatus(payload.sendState, payload.readByCount)
         binding.postFooter.bindPayload(payload.repliesCount, payload.reactions)
     }
 
     private fun setupClickListeners() {
-        binding.lvContent.findViewById<ConstraintLayout>(R.id.vMediaContent)?.apply {
+        binding.lvContent.findViewById<ConstraintLayout>(R.id.ivMediaContent)?.apply {
             setOnClickListener {
                 post?.let { optionsListener?.onShowPreview(it.postInfo.roomId, it.id) }
             }
@@ -121,12 +109,8 @@ class PostLayout(
         binding.postHeader.setData(data)
         binding.postFooter.setData(data, isThread)
         setMentionBorder(data.content)
-        setIsEdited(data.postInfo.isEdited)
-        setSendStatus(data.sendState, data.readByCount)
-    }
-
-    private fun setIsEdited(isEdited: Boolean) {
-        binding.tvEditedLabel.setIsVisible(isEdited)
+        binding.vPostStatus.setIsEdited(data.postInfo.isEdited)
+        binding.vPostStatus.setSendStatus(data.sendState, data.readByCount)
     }
 
     private fun openReplies() {
@@ -146,29 +130,6 @@ class PostLayout(
         else binding.lCard.background = null
     }
 
-    private fun setSendStatus(sendState: SendState, readByCount: Int) {
-        when {
-            sendState.isSending() -> {
-                binding.ivSendStatus.setImageResource(R.drawable.ic_sending)
-                binding.tvReadByCount.text = ""
-            }
-
-            sendState.hasFailed() -> {
-                binding.ivSendStatus.setImageResource(R.drawable.ic_send_failed)
-                binding.tvReadByCount.text = ""
-            }
-
-            sendState.isSent() -> {
-                if (readByCount > 0) {
-                    binding.ivSendStatus.setImageResource(org.futo.circles.core.R.drawable.ic_seen)
-                    binding.tvReadByCount.text = readByCount.toString()
-                } else {
-                    binding.ivSendStatus.setImageResource(R.drawable.ic_sent)
-                    binding.tvReadByCount.text = ""
-                }
-            }
-        }
-    }
 
     override fun addView(child: View, index: Int, params: ViewGroup.LayoutParams?) {
         if (child.id == R.id.lCard) {

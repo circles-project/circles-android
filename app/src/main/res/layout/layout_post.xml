@@ -38,44 +38,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/postHeader" />
 
-        <LinearLayout
-            android:id="@+id/lReadInfo"
+        <org.futo.circles.view.PostStatusView
+            android:id="@+id/vPostStatus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lvContent">
+            app:layout_constraintTop_toBottomOf="@id/lvContent" />
 
-            <ImageView
-                android:id="@+id/ivSendStatus"
-                android:layout_width="14dp"
-                android:layout_height="14dp"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="2dp"
-                android:src="@drawable/ic_sending" />
-
-            <TextView
-                android:id="@+id/tvReadByCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:lines="1"
-                android:textSize="12sp"
-                app:layout_goneMarginEnd="0dp"
-                tools:text="12" />
-
-            <TextView
-                android:id="@+id/tvEditedLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:text="@string/edited_label"
-                android:textSize="12sp"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-        </LinearLayout>
 
         <org.futo.circles.view.PostFooterView
             android:id="@+id/postFooter"
@@ -85,7 +56,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lReadInfo"
+            app:layout_constraintTop_toBottomOf="@id/vPostStatus"
             app:layout_goneMarginTop="8dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
