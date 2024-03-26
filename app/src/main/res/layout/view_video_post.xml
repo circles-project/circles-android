@@ -1,92 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.futo.circles.view.PostLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lPost"
+    android:id="@+id/lCard"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <org.futo.circles.view.PostHeaderView
+        android:id="@+id/postHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <org.futo.circles.view.ReadMoreTextView
+        android:id="@+id/tvTextContent"
+        style="@style/postMessage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <org.futo.circles.view.ReadMoreTextView
-            android:id="@+id/tvTextContent"
-            style="@style/postMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/post_text_side_margin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:readMoreMaxLines="7"
-            app:readMoreText="@string/show_more"
-            app:readMoreTextColor="@color/blue" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/post_text_side_margin"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/postHeader"
+        app:readMoreMaxLines="7"
+        app:readMoreText="@string/show_more"
+        app:readMoreTextColor="@color/blue" />
 
 
-            <ImageView
-                android:id="@+id/ivMediaContent"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/media_post_background"
-                android:scaleType="fitCenter"
-                app:layout_constraintDimensionRatio="w,1:1"
-                android:layout_marginTop="8dp"
-                android:foreground="?attr/selectableItemBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTextContent"
+    <ImageView
+        android:id="@+id/ivMediaContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/media_post_background"
+        android:foreground="?attr/selectableItemBackground"
+        android:scaleType="fitCenter"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTextContent"
 
-                />
+        />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivVideoIndicator"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:background="@color/white"
-                android:src="@drawable/ic_play_round"
-                app:layout_constraintBottom_toBottomOf="@id/ivMediaContent"
-                app:layout_constraintDimensionRatio="w,1:1"
-                app:layout_constraintEnd_toEndOf="@id/ivMediaContent"
-                app:layout_constraintStart_toStartOf="@id/ivMediaContent"
-                app:layout_constraintTop_toTopOf="@id/ivMediaContent"
-                app:layout_constraintWidth_percent="0.15"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
-                app:tint="@color/blue" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivVideoIndicator"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:src="@drawable/ic_play_round"
+        app:layout_constraintBottom_toBottomOf="@id/ivMediaContent"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="@id/ivMediaContent"
+        app:layout_constraintStart_toStartOf="@id/ivMediaContent"
+        app:layout_constraintTop_toTopOf="@id/ivMediaContent"
+        app:layout_constraintWidth_percent="0.15"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:tint="@color/blue" />
 
-            <TextView
-                android:id="@+id/tvDuration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="4dp"
-                android:shadowColor="@color/black"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="2"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/ivMediaContent"
-                app:layout_constraintEnd_toEndOf="@+id/ivMediaContent"
-                tools:text="00:00" />
+    <TextView
+        android:id="@+id/tvDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/ivMediaContent"
+        app:layout_constraintEnd_toEndOf="@+id/ivMediaContent"
+        tools:text="00:00" />
 
 
+    <org.futo.circles.core.view.LoadingView
+        android:id="@+id/vLoadingView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
+        android:background="@color/white"
+        android:padding="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/ivMediaContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivMediaContent"
+        tools:visibility="visible" />
 
-        <org.futo.circles.core.view.LoadingView
-            android:id="@+id/vLoadingView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="16dp"
-            android:background="@color/white"
-            android:padding="16dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/ivMediaContent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivMediaContent"
-            tools:visibility="visible" />
+    <org.futo.circles.view.PostStatusView
+        android:id="@+id/vPostStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivMediaContent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</org.futo.circles.view.PostLayout>
+    <org.futo.circles.view.PostFooterView
+        android:id="@+id/postFooter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vPostStatus"
+        app:layout_goneMarginTop="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

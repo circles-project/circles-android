@@ -108,26 +108,13 @@ class PostLayout(
     private fun setGeneralMessageData(data: Post, isThread: Boolean) {
         binding.postHeader.setData(data)
         binding.postFooter.setData(data, isThread)
-        setMentionBorder(data.content)
+        //setMentionBorder(data.content)
         binding.vPostStatus.setIsEdited(data.postInfo.isEdited)
         binding.vPostStatus.setSendStatus(data.sendState, data.readByCount)
     }
 
     private fun openReplies() {
         post?.let { optionsListener?.onReply(it.postInfo.roomId, it.id) }
-    }
-
-    private fun setMentionBorder(content: PostContent) {
-        val hasMention = when (content) {
-            is MediaContent -> content.caption?.let {
-                MarkdownParser.hasCurrentUserMention(it)
-            } ?: false
-
-            is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
-            is PollContent -> MarkdownParser.hasCurrentUserMention(content.question)
-        }
-        if (hasMention) binding.lCard.setBackgroundResource(R.drawable.bg_mention_highlight)
-        else binding.lCard.background = null
     }
 
 
