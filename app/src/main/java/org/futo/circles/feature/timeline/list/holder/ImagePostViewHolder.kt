@@ -3,10 +3,12 @@ package org.futo.circles.feature.timeline.list.holder
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.updateLayoutParams
+import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.databinding.ViewImagePostBinding
@@ -44,6 +46,7 @@ class ImagePostViewHolder(
     private fun bindMediaContent(content: MediaContent) {
         bindMediaCaption(content)
         bindMediaCover(content)
+        bindMentionBorder(content)
     }
 
     private fun bindMediaCaption(content: MediaContent) {
@@ -64,5 +67,13 @@ class ImagePostViewHolder(
             }
         }
         content.loadEncryptedThumbOrFullIntoWithAspect(image)
+    }
+
+    private fun bindMentionBorder(content: MediaContent) {
+        val hasMention = content.caption?.let {
+            MarkdownParser.hasCurrentUserMention(it)
+        } ?: false
+        if (hasMention) binding.lCard.setBackgroundResource(R.drawable.bg_mention_highlight)
+        else binding.lCard.background = null
     }
 }
