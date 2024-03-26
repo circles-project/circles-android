@@ -2,7 +2,9 @@ package org.futo.circles.feature.timeline.list.holder
 
 import android.view.ViewGroup
 import android.widget.TextView
+import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
+import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.databinding.ViewTextPostBinding
@@ -30,6 +32,13 @@ class TextPostViewHolder(
         super.bind(post)
         val content = (post.content as? TextContent) ?: return
         binding.tvTextContent.setText(content.messageSpanned, TextView.BufferType.SPANNABLE)
+        bindMentionBorder(content)
+    }
+
+    private fun bindMentionBorder(content: TextContent) {
+        val hasMention = MarkdownParser.hasCurrentUserMention(content.message)
+        if (hasMention) binding.lCard.setBackgroundResource(R.drawable.bg_mention_highlight)
+        else binding.lCard.background = null
     }
 
 }
