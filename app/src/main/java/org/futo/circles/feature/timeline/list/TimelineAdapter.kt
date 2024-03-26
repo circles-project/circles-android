@@ -6,6 +6,7 @@ import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.feature.timeline.list.holder.ImagePostViewHolder
+import org.futo.circles.feature.timeline.list.holder.MediaViewHolder
 import org.futo.circles.feature.timeline.list.holder.PollPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PostViewHolder
 import org.futo.circles.feature.timeline.list.holder.TextPostViewHolder
@@ -74,7 +75,7 @@ class TimelineAdapter(
 
     override fun onViewDetachedFromWindow(holder: PostViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        (holder as? UploadMediaViewHolder)?.uploadMediaTracker?.unTrack()
+        (holder as? MediaViewHolder)?.uploadMediaTracker?.unTrack()
     }
 
 }

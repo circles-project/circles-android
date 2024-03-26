@@ -4,9 +4,6 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.view.LoadingView
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
-interface UploadMediaViewHolder {
-    val uploadMediaTracker: UploadMediaTracker
-}
 
 class UploadMediaTracker {
 
