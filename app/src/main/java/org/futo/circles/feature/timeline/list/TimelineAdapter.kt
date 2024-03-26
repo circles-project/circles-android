@@ -9,6 +9,7 @@ import org.futo.circles.feature.timeline.list.holder.ImagePostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PollPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PostViewHolder
 import org.futo.circles.feature.timeline.list.holder.TextPostViewHolder
+import org.futo.circles.feature.timeline.list.holder.VideoPostViewHolder
 import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostOptionsListener
 
@@ -41,7 +42,7 @@ class TimelineAdapter(
                 parent, postOptionsListener, isThread
             )
 
-            PostContentType.VIDEO_CONTENT -> ImagePostViewHolder(
+            PostContentType.VIDEO_CONTENT -> VideoPostViewHolder(
                 parent, postOptionsListener, isThread
             )
 

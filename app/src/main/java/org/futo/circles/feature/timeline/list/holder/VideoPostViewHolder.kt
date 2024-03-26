@@ -4,15 +4,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.updateLayoutParams
 import org.futo.circles.core.base.list.ViewBindingHolder
-import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.model.MediaContent
-import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.Post
-import org.futo.circles.core.model.TextContent
-import org.futo.circles.databinding.ViewTextMediaPostBinding
+import org.futo.circles.databinding.ViewVideoPostBinding
 import org.futo.circles.feature.timeline.list.UploadMediaTracker
 import org.futo.circles.feature.timeline.list.UploadMediaViewHolder
 import org.futo.circles.view.PostLayout
@@ -22,12 +18,12 @@ class VideoPostViewHolder(
     parent: ViewGroup,
     postOptionsListener: PostOptionsListener,
     isThread: Boolean
-) : PostViewHolder(inflate(parent, ViewTextMediaPostBinding::inflate), isThread),
+) : PostViewHolder(inflate(parent, ViewVideoPostBinding::inflate), isThread),
     UploadMediaViewHolder {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ViewTextMediaPostBinding
+    private val binding = baseBinding as ViewVideoPostBinding
     override val postLayout: PostLayout = binding.lPost
     override val uploadMediaTracker = UploadMediaTracker()
 
@@ -38,31 +34,16 @@ class VideoPostViewHolder(
 
     override fun bind(post: Post) {
         super.bind(post)
-        binding.vLoadingView.gone()
-        when (val content = post.content) {
-            is TextContent -> bindTextPost(content)
-            is MediaContent -> {
-                bindMediaContent(content)
-                uploadMediaTracker.track(post.id, binding.vLoadingView)
-            }
-
-            else -> return
-        }
+        val content = (post.content as? MediaContent) ?: return
+        bindMediaContent(content)
+        uploadMediaTracker.track(post.id, binding.vLoadingView)
     }
 
-    private fun bindTextPost(content: TextContent) {
-        binding.tvTextContent.apply {
-            setText(content.messageSpanned, TextView.BufferType.SPANNABLE)
-            visible()
-        }
-        binding.vMediaContent.lMedia.gone()
-    }
 
     private fun bindMediaContent(content: MediaContent) {
         bindMediaCaption(content)
         bindMediaCover(content)
-        binding.vMediaContent.videoGroup.setIsVisible(content.getMediaType() == MediaType.Video)
-        binding.vMediaContent.tvDuration.text = content.mediaFileData.duration
+        binding.tvDuration.text = content.mediaFileData.duration
     }
 
     private fun bindMediaCaption(content: MediaContent) {
@@ -74,7 +55,7 @@ class VideoPostViewHolder(
     }
 
     private fun bindMediaCover(content: MediaContent) {
-        val image = binding.vMediaContent.ivCover
+        val image = binding.ivMediaContent
         image.post {
             val size = content.calculateThumbnailSize(image.width)
             image.updateLayoutParams {
