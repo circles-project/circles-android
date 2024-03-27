@@ -11,6 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
+import org.futo.circles.auth.extensions.openCustomTabUrl
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
 import org.futo.circles.auth.model.LogOut
 import org.futo.circles.auth.model.SwitchUser
@@ -87,6 +88,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             tvEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
             tvShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
+            tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(getString(R.string.privacy_policy_url)) }
         }
         setVersion()
     }
