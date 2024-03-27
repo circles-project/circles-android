@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lCard"
@@ -12,18 +12,24 @@
 
     <org.futo.circles.view.PostHeaderView
         android:id="@+id/postHeader"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <org.futo.circles.view.ReadMoreTextView
         android:id="@+id/tvTextContent"
         style="@style/postMessage"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/post_text_side_margin"
         android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/postHeader"
         app:readMoreMaxLines="7"
         app:readMoreText="@string/show_more"
         app:readMoreTextColor="@color/blue" />
@@ -31,39 +37,52 @@
 
     <ImageView
         android:id="@+id/ivMediaContent"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@color/media_post_background"
         android:foreground="?attr/selectableItemBackground"
         android:scaleType="fitCenter"
-        app:layout_goneMarginTop="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTextContent" />
 
     <org.futo.circles.core.view.LoadingView
         android:id="@+id/vLoadingView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginHorizontal="16dp"
         android:background="@color/white"
         android:padding="16dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/ivMediaContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivMediaContent"
         tools:visibility="visible" />
 
 
     <org.futo.circles.view.PostStatusView
         android:id="@+id/vPostStatus"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivMediaContent" />
 
 
     <org.futo.circles.view.PostFooterView
         android:id="@+id/postFooter"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vPostStatus"
         app:layout_goneMarginTop="8dp" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
