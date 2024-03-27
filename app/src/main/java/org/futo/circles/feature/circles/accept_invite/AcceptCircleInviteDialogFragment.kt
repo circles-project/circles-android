@@ -35,7 +35,7 @@ class AcceptCircleInviteDialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addSelectCirclesFragment()
+        if (savedInstanceState == null) addSelectCirclesFragment()
         setupViews()
         setupObservers()
     }
