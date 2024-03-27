@@ -1,5 +1,5 @@
 # FUTO Circles
-[Circles](https://circu.li/circles.html) is an end-to-end encrypted social network app
+[Circles](https://circles.futo.org/) is an end-to-end encrypted social network app
 that enables friends and families to securely share stories and photos while safeguarding
 security and privacy.
 
