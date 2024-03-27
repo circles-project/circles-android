@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.auth.explanation.CirclesExplanationDialog
+import org.futo.circles.auth.feature.explanation.CirclesExplanationDialog
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
