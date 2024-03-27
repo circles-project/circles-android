@@ -36,20 +36,24 @@
         app:readMoreTextColor="@color/blue" />
 
 
-    <ImageView
-        android:id="@+id/ivMediaContent"
+
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/videoView"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@color/media_post_background"
         android:foreground="?attr/selectableItemBackground"
         android:scaleType="fitCenter"
-        app:layout_constraintDimensionRatio="w,1:1"
+        android:soundEffectsEnabled="true"
+        app:keep_content_on_player_reset="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTextContent"
-
-        />
+        app:resize_mode="fit"
+        app:shutter_background_color="@android:color/transparent"
+        app:surface_type="texture_view"
+        app:use_controller="true" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivVideoIndicator"
@@ -58,11 +62,11 @@
         android:layout_gravity="center"
         android:background="@color/white"
         android:src="@drawable/ic_play_round"
-        app:layout_constraintBottom_toBottomOf="@id/ivMediaContent"
+        app:layout_constraintBottom_toBottomOf="@id/videoView"
         app:layout_constraintDimensionRatio="w,1:1"
-        app:layout_constraintEnd_toEndOf="@id/ivMediaContent"
-        app:layout_constraintStart_toStartOf="@id/ivMediaContent"
-        app:layout_constraintTop_toTopOf="@id/ivMediaContent"
+        app:layout_constraintEnd_toEndOf="@id/videoView"
+        app:layout_constraintStart_toStartOf="@id/videoView"
+        app:layout_constraintTop_toTopOf="@id/videoView"
         app:layout_constraintWidth_percent="0.15"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
         app:tint="@color/blue" />
@@ -78,8 +82,8 @@
         android:shadowDy="1"
         android:shadowRadius="2"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/ivMediaContent"
-        app:layout_constraintEnd_toEndOf="@+id/ivMediaContent"
+        app:layout_constraintBottom_toBottomOf="@+id/videoView"
+        app:layout_constraintEnd_toEndOf="@+id/videoView"
         tools:text="00:00" />
 
 
@@ -92,10 +96,10 @@
         android:background="@color/white"
         android:padding="16dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/ivMediaContent"
+        app:layout_constraintBottom_toBottomOf="@id/videoView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ivMediaContent"
+        app:layout_constraintTop_toTopOf="@id/videoView"
         tools:visibility="visible" />
 
     <org.futo.circles.view.PostStatusView
@@ -105,7 +109,7 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivMediaContent" />
+        app:layout_constraintTop_toBottomOf="@id/videoView" />
 
 
     <org.futo.circles.view.PostFooterView

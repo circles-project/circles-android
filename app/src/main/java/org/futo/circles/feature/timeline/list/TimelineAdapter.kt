@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline.list
 
 import android.view.ViewGroup
+import androidx.media3.exoplayer.ExoPlayer
 import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.model.Post
@@ -16,6 +17,7 @@ import org.futo.circles.model.PostItemPayload
 class TimelineAdapter(
     private val postOptionsListener: PostOptionsListener,
     private val isThread: Boolean,
+    private val videoPlayer: ExoPlayer,
     private val onLoadMore: () -> Unit
 ) : BaseRvAdapter<Post, PostViewHolder>(PayloadIdEntityCallback { old, new ->
     PostItemPayload(
@@ -43,7 +45,7 @@ class TimelineAdapter(
             )
 
             PostContentType.VIDEO_CONTENT -> VideoPostViewHolder(
-                parent, postOptionsListener, isThread
+                parent, postOptionsListener, isThread, videoPlayer
             )
 
             PostContentType.POLL_CONTENT -> PollPostViewHolder(

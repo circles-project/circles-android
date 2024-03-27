@@ -5,6 +5,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -70,8 +72,14 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         )
     }
 
+    private val videoPlayer by lazy {
+        ExoPlayer.Builder(requireContext()).build().apply {
+            repeatMode = Player.REPEAT_MODE_ONE
+        }
+    }
+
     private val listAdapter by lazy {
-        TimelineAdapter(this, isThread) { loadMoreDebounce(Unit) }.apply {
+        TimelineAdapter(this, isThread, videoPlayer) { loadMoreDebounce(Unit) }.apply {
             setHasStableIds(true)
             registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -99,6 +107,18 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         setupObservers()
         setupMenu()
     }
+
+    override fun onPause() {
+        super.onPause()
+        videoPlayer.pause()
+    }
+
+    override fun onDestroy() {
+        videoPlayer.stop()
+        videoPlayer.release()
+        super.onDestroy()
+    }
+
 
     private fun setupViews() {
         binding.rvTimeline.apply {

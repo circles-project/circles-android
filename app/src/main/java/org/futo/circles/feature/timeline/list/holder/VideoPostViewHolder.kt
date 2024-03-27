@@ -1,6 +1,9 @@
 package org.futo.circles.feature.timeline.list.holder
 
 import android.view.ViewGroup
+import androidx.core.view.updateLayoutParams
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.Post
@@ -15,7 +18,8 @@ import org.futo.circles.view.ReadMoreTextView
 class VideoPostViewHolder(
     parent: ViewGroup,
     postOptionsListener: PostOptionsListener,
-    isThread: Boolean
+    isThread: Boolean,
+    private val videoPlayer: ExoPlayer
 ) : PostViewHolder(inflate(parent, ViewVideoPostBinding::inflate), postOptionsListener, isThread),
     MediaViewHolder {
 
@@ -36,7 +40,7 @@ class VideoPostViewHolder(
 
     init {
         setListeners()
-        binding.ivMediaContent.apply {
+        binding.videoView.apply {
             setOnClickListener {
                 post?.let { optionsListener.onShowPreview(it.postInfo.roomId, it.id) }
             }
@@ -52,7 +56,16 @@ class VideoPostViewHolder(
         with(binding) {
             val content = (post.content as? MediaContent) ?: return
             bindMediaCaption(content, tvTextContent)
-            bindMediaCover(content, ivMediaContent)
+            //bindMediaCover(content, ivMediaContent)
+            videoView.post {
+                val size = content.calculateThumbnailSize(videoView.width)
+                videoView.updateLayoutParams {
+                    width = size.width
+                    height = size.height
+                }
+            }
+            videoPlayer.setMediaItem(MediaItem.fromUri(content.mediaFileData.fileUrl))
+            videoPlayer.prepare()
             tvDuration.text = content.mediaFileData.duration
             uploadMediaTracker.track(post.id, vLoadingView)
         }
