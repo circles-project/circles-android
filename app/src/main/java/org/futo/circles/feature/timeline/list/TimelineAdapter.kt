@@ -6,6 +6,7 @@ import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.list.holder.ImagePostViewHolder
 import org.futo.circles.feature.timeline.list.holder.MediaViewHolder
 import org.futo.circles.feature.timeline.list.holder.PollPostViewHolder
@@ -29,6 +30,11 @@ class TimelineAdapter(
     )
 }) {
 
+    private val uploadMediaTracker =
+        MatrixSessionProvider.getSessionOrThrow().contentUploadProgressTracker()
+    private val downloadMediaTracker =
+        MatrixSessionProvider.getSessionOrThrow().contentDownloadProgressTracker()
+
     override fun getItemId(position: Int): Long = getItem(position).id.hashCode().toLong()
 
     override fun getItemViewType(position: Int): Int = getItem(position).content.type.ordinal
@@ -41,11 +47,16 @@ class TimelineAdapter(
             )
 
             PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(
-                parent, postOptionsListener, isThread
+                parent, postOptionsListener, uploadMediaTracker, isThread
             )
 
             PostContentType.VIDEO_CONTENT -> VideoPostViewHolder(
-                parent, postOptionsListener, isThread, videoPlayer
+                parent,
+                postOptionsListener,
+                isThread,
+                downloadMediaTracker,
+                uploadMediaTracker,
+                videoPlayer
             )
 
             PostContentType.POLL_CONTENT -> PollPostViewHolder(
@@ -77,7 +88,7 @@ class TimelineAdapter(
 
     override fun onViewDetachedFromWindow(holder: PostViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        (holder as? MediaViewHolder)?.uploadMediaTracker?.unTrack()
+        (holder as? MediaViewHolder)?.unTrackMediaLoading()
     }
 
 }

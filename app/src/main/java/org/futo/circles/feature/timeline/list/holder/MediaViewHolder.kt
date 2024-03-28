@@ -6,11 +6,10 @@ import androidx.core.view.updateLayoutParams
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.MediaContent
-import org.futo.circles.feature.timeline.list.UploadMediaTracker
 
 interface MediaViewHolder {
 
-    val uploadMediaTracker: UploadMediaTracker
+    fun unTrackMediaLoading()
 
     fun bindMediaCaption(content: MediaContent, textView: TextView) {
         textView.apply {

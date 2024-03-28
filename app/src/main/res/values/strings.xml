@@ -28,8 +28,10 @@
     <string name="create_poll">Create poll</string>
     <string name="enter_your_message_here">Enter your message here</string>
     <string name="compressing">Compressing</string>
+    <string name="decrypting">Decrypting</string>
     <string name="encrypting">Encrypting</string>
     <string name="uploading">Uploading</string>
+    <string name="downloading">Downloading</string>
     <string name="ignore_sender">Ignore sender</string>
     <string name="saved">Saved</string>
     <string name="you_can_not_post_to_this_room">You can not post to this room</string>

@@ -6,10 +6,11 @@ import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.view.LoadingView
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
+import org.matrix.android.sdk.api.session.file.ContentDownloadStateTracker
 
-object UploadMediaProgressHelper {
+object MediaProgressHelper {
 
-    fun getListener(loadingView: LoadingView): ContentUploadStateTracker.UpdateListener =
+    fun getUploadListener(loadingView: LoadingView): ContentUploadStateTracker.UpdateListener =
         object : ContentUploadStateTracker.UpdateListener {
             override fun onUpdate(state: ContentUploadStateTracker.State) {
                 when (state) {
@@ -54,6 +55,30 @@ object UploadMediaProgressHelper {
                     else -> loadingView.gone()
                 }
             }
+        }
 
+    fun getDownloadListener(loadingView: LoadingView): ContentDownloadStateTracker.UpdateListener =
+        object : ContentDownloadStateTracker.UpdateListener {
+            override fun onDownloadStateUpdate(state: ContentDownloadStateTracker.State) {
+                when (state) {
+                    ContentDownloadStateTracker.State.Decrypting -> {
+                        loadingView.visible()
+                        loadingView.setProgress(LoadingData(R.string.decrypting))
+                    }
+
+                    is ContentDownloadStateTracker.State.Downloading -> {
+                        loadingView.visible()
+                        loadingView.setProgress(
+                            LoadingData(
+                                messageId = R.string.downloading,
+                                progress = state.current.toInt(),
+                                total = state.total.toInt()
+                            )
+                        )
+                    }
+
+                    else -> loadingView.gone()
+                }
+            }
         }
 }
