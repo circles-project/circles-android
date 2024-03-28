@@ -1,8 +1,10 @@
 package org.futo.circles.core.feature.picker.gallery.media
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -18,9 +20,15 @@ import javax.inject.Inject
 @HiltViewModel
 class PickMediaItemViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    @ApplicationContext context: Context,
     timelineDataSource: SingleTimelineDataSource,
     circleFilterAccountDataManager: CircleFilterAccountDataManager
-) : BaseTimelineViewModel(savedStateHandle, timelineDataSource, circleFilterAccountDataManager) {
+) : BaseTimelineViewModel(
+    savedStateHandle,
+    context,
+    timelineDataSource,
+    circleFilterAccountDataManager
+) {
 
     private val isVideoAvailable: Boolean = savedStateHandle[IS_VIDEO_AVAILABLE] ?: true
 

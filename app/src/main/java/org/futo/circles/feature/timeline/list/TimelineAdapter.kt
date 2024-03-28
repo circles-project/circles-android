@@ -32,8 +32,6 @@ class TimelineAdapter(
 
     private val uploadMediaTracker =
         MatrixSessionProvider.getSessionOrThrow().contentUploadProgressTracker()
-    private val downloadMediaTracker =
-        MatrixSessionProvider.getSessionOrThrow().contentDownloadProgressTracker()
 
     override fun getItemId(position: Int): Long = getItem(position).id.hashCode().toLong()
 
@@ -54,7 +52,6 @@ class TimelineAdapter(
                 parent,
                 postOptionsListener,
                 isThread,
-                downloadMediaTracker,
                 uploadMediaTracker,
                 videoPlayer
             )

@@ -1,8 +1,10 @@
 package org.futo.circles.feature.timeline
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import org.futo.circles.core.base.SingleEventLiveData
@@ -32,6 +34,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TimelineViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    @ApplicationContext context: Context,
     roomNotificationsDataSource: RoomNotificationsDataSource,
     timelineDataSourceFactory: BaseTimelineDataSource.Factory,
     accessLevelDataSource: AccessLevelDataSource,
@@ -43,6 +46,7 @@ class TimelineViewModel @Inject constructor(
     circleFilterAccountDataManager: CircleFilterAccountDataManager
 ) : BaseTimelineViewModel(
     savedStateHandle,
+    context,
     timelineDataSourceFactory.create(savedStateHandle.get<String>("timelineId") != null),
     circleFilterAccountDataManager
 ) {
