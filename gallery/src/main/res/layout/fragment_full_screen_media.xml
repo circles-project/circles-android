@@ -22,7 +22,7 @@
         app:keep_content_on_player_reset="true"
         app:resize_mode="fit"
         app:shutter_background_color="@android:color/transparent"
-        app:surface_type="texture_view"
+        app:surface_type="surface_view"
         app:use_controller="true" />
 
     <ProgressBar
