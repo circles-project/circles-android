@@ -1,10 +1,12 @@
 package org.futo.circles.gallery.feature.gallery.grid
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
@@ -23,13 +25,19 @@ import javax.inject.Inject
 @HiltViewModel
 class GalleryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    @ApplicationContext context: Context,
     timelineDataSource: SingleTimelineDataSource,
     private val sendMessageDataSource: SendMessageDataSource,
     private val mediaDataSource: PostContentDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
     accessLevelDataSource: AccessLevelDataSource,
     circleFilterAccountDataManager: CircleFilterAccountDataManager
-) : BaseTimelineViewModel(savedStateHandle, timelineDataSource, circleFilterAccountDataManager) {
+) : BaseTimelineViewModel(
+    savedStateHandle,
+    context,
+    timelineDataSource,
+    circleFilterAccountDataManager
+) {
 
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
 

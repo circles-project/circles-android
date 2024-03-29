@@ -1,5 +1,6 @@
 package org.futo.circles.core.model
 
+import android.net.Uri
 import org.matrix.android.sdk.api.session.crypto.attachments.ElementToDecrypt
 
 data class MediaFileData(
@@ -9,5 +10,6 @@ data class MediaFileData(
     val elementToDecrypt: ElementToDecrypt?,
     val width: Int,
     val height: Int,
-    val duration: String
+    val duration: String,
+    val videoUri: Uri? = null
 )

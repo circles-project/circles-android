@@ -66,7 +66,7 @@ body:
       label: Homeserver
       description: |
         Which server is your account registered on?
-      placeholder: e.g. matrix.org or circu.li
+      placeholder: e.g. matrix.org or circles.futo.org
     validations:
       required: false
   - type: input

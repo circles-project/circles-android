@@ -7,9 +7,9 @@ import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.view.LoadingView
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
-object UploadMediaProgressHelper {
+object MediaProgressHelper {
 
-    fun getListener(loadingView: LoadingView): ContentUploadStateTracker.UpdateListener =
+    fun getUploadListener(loadingView: LoadingView): ContentUploadStateTracker.UpdateListener =
         object : ContentUploadStateTracker.UpdateListener {
             override fun onUpdate(state: ContentUploadStateTracker.State) {
                 when (state) {
@@ -54,6 +54,5 @@ object UploadMediaProgressHelper {
                     else -> loadingView.gone()
                 }
             }
-
         }
 }

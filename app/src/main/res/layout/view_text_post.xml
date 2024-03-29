@@ -17,18 +17,27 @@
         android:layout_marginTop="8dp" />
 
 
-    <org.futo.circles.view.PollContentView
-        android:id="@+id/pollContentView"
+    <org.futo.circles.view.ReadMoreTextView
+        android:id="@+id/tvTextContent"
+        style="@style/postMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginHorizontal="@dimen/post_text_side_margin"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:readMoreMaxLines="7"
+        app:readMoreText="@string/show_more"
+        app:readMoreTextColor="@color/blue" />
+
 
     <org.futo.circles.view.PostStatusView
         android:id="@+id/vPostStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp" />
+
 
     <org.futo.circles.view.PostFooterView
         android:id="@+id/postFooter"

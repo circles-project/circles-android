@@ -1,4 +1,4 @@
-package org.futo.circles.auth.explanation
+package org.futo.circles.auth.feature.explanation
 
 import android.app.ActionBar
 import android.content.Context

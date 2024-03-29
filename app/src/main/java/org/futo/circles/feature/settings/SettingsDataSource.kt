@@ -17,7 +17,7 @@ class SettingsDataSource @Inject constructor(
     val startReAuthEventLiveData = authConfirmationProvider.startReAuthEventLiveData
 
     suspend fun deactivateAccount(): Response<Unit> = createResult {
-        session.accountService().deactivateAccount(false, authConfirmationProvider)
+        session.accountService().deactivateAccount(true, authConfirmationProvider)
     }
 
     suspend fun addEmailUIA() = createResult {

@@ -7,10 +7,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.ReactionsData
 import org.futo.circles.databinding.ViewPostFooterBinding
+import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 
@@ -25,7 +27,6 @@ class PostFooterView(
     private var optionsListener: PostOptionsListener? = null
     private var post: Post? = null
     private var isThreadPost = false
-    private var userPowerLevel: Int = Role.Default.value
 
     init {
         setupViews()
@@ -56,9 +57,8 @@ class PostFooterView(
         optionsListener = postOptionsListener
     }
 
-    fun setData(data: Post, powerLevel: Int, isThread: Boolean) {
+    fun setData(data: Post, isThread: Boolean) {
         post = data
-        userPowerLevel = powerLevel
         isThreadPost = isThread
         bindViewData(data.repliesCount, data.canShare())
         bindReactionsList(data.reactionsData)
@@ -70,12 +70,9 @@ class PostFooterView(
         bindReactionsList(reactions)
     }
 
-    fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
-
     private fun bindViewData(repliesCount: Int, canShare: Boolean) {
         with(binding) {
             btnShare.setIsVisible(canShare)
-            btnLike.isEnabled = areUserAbleToPost()
             btnReply.apply {
                 isVisible = !isThreadPost
                 setRepliesCount(repliesCount)
@@ -111,7 +108,7 @@ class PostFooterView(
 
     private fun locallyUpdateEmojisList(view: ReactionItemView, reaction: ReactionsData) {
         if (!NetworkObserver.isConnected()) return
-        if (areUserAbleToPost().not()) return
+        if (!isAbleToPost()) return
         if (reaction.addedByMe) {
             if (reaction.count == 1) {
                 binding.lEmojisContainer.removeView(view)
@@ -139,5 +136,7 @@ class PostFooterView(
         }
     }
 
+    private fun isAbleToPost() =
+        getCurrentUserPowerLevel(post?.postInfo?.roomId ?: "") >= Role.Default.value
 
 }

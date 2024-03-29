@@ -15,6 +15,7 @@ import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserUtils
 import org.futo.circles.databinding.ViewPostHeaderBinding
+import org.futo.circles.feature.timeline.list.PostOptionsListener
 import java.util.Date
 
 class PostHeaderView(

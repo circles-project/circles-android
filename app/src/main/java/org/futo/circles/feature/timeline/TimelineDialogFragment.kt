@@ -5,6 +5,9 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +33,7 @@ import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.utils.debounce
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
+import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.poll.CreatePollListener
 import org.futo.circles.feature.timeline.post.create.CreatePostListener
@@ -40,7 +44,6 @@ import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
 import org.futo.circles.model.RemovePost
 import org.futo.circles.view.CreatePostViewListener
-import org.futo.circles.view.PostOptionsListener
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
@@ -70,12 +73,14 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         )
     }
 
+    private val videoPlayer by lazy {
+        ExoPlayer.Builder(requireContext()).build().apply {
+            repeatMode = Player.REPEAT_MODE_ONE
+        }
+    }
+
     private val listAdapter by lazy {
-        TimelineAdapter(
-            getCurrentUserPowerLevel(args.roomId),
-            this,
-            isThread
-        ) { loadMoreDebounce(Unit) }.apply {
+        TimelineAdapter(this, isThread, videoPlayer) { loadMoreDebounce(Unit) }.apply {
             setHasStableIds(true)
             registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -102,7 +107,22 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         setupViews()
         setupObservers()
         setupMenu()
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id != R.id.timelineFragment) listAdapter.stopVideoPlayback()
+        }
     }
+
+    override fun onPause() {
+        super.onPause()
+        listAdapter.stopVideoPlayback()
+    }
+
+    override fun onDestroy() {
+        videoPlayer.stop()
+        videoPlayer.release()
+        super.onDestroy()
+    }
+
 
     private fun setupViews() {
         binding.rvTimeline.apply {
@@ -110,7 +130,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             getRecyclerView().apply {
                 isNestedScrollingEnabled = false
                 setHasFixedSize(true)
-                setItemViewCacheSize(20)
             }
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
@@ -216,6 +235,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     override fun onShowEmoji(roomId: String, eventId: String, onAddEmoji: (String) -> Unit) {
         if (showNoInternetConnection()) return
+        if (showErrorIfNotAbleToPost()) return
         onLocalAddEmojiCallback = onAddEmoji
         navigator.navigateToShowEmoji(roomId, eventId)
     }
@@ -246,16 +266,14 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         roomId: String, eventId: String, emoji: String, isUnSend: Boolean
     ) {
         if (showNoInternetConnection()) return
-        if (viewModel.accessLevelLiveData.value?.isCurrentUserAbleToPost() != true) {
-            showError(getString(R.string.you_can_not_post_to_this_room))
-            return
-        }
+        if (showErrorIfNotAbleToPost()) return
         if (isUnSend) viewModel.unSendReaction(roomId, eventId, emoji)
         else viewModel.sendReaction(roomId, eventId, emoji)
     }
 
     override fun onPollOptionSelected(roomId: String, eventId: String, optionId: String) {
         if (showNoInternetConnection()) return
+        if (showErrorIfNotAbleToPost()) return
         viewModel.pollVote(roomId, eventId, optionId)
     }
 
@@ -320,7 +338,12 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         if (isGroupMode) onGroupUserAccessLevelChanged(powerLevelsContent)
         else onCircleUserAccessLeveChanged(powerLevelsContent)
-        listAdapter.updateUserPowerLevel(getCurrentUserPowerLevel(args.roomId))
+    }
+
+    private fun showErrorIfNotAbleToPost(): Boolean {
+        val isAbleToPost = viewModel.accessLevelLiveData.value?.isCurrentUserAbleToPost() == true
+        if (!isAbleToPost) showError(getString(R.string.you_can_not_post_to_this_room))
+        return !isAbleToPost
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {

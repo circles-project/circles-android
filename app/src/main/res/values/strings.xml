@@ -196,6 +196,9 @@
     <string name="show_connection_invites_format">Show %d connection invites</string>
     <string name="my_connections">My Connections</string>
     <string name="ignored">Ignored</string>
+    <string name="downloading">Downloading</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
 
     <!-- Rich text editor -->
     <string name="general">General</string>
