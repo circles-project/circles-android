@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -106,6 +107,9 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         setupViews()
         setupObservers()
         setupMenu()
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id != R.id.timelineFragment) listAdapter.stopVideoPlayback()
+        }
     }
 
     override fun onPause() {

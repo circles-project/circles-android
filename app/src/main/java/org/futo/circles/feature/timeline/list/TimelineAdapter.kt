@@ -89,13 +89,14 @@ class TimelineAdapter(
     override fun onViewDetachedFromWindow(holder: PostViewHolder) {
         super.onViewDetachedFromWindow(holder)
         (holder as? MediaViewHolder)?.unTrackMediaLoading()
+        if (holder == currentPlayingVideoHolder) stopVideoPlayback()
     }
 
     override fun onVideoPlaybackStateChanged(holder: VideoPostViewHolder, isPlaying: Boolean) {
         currentPlayingVideoHolder = if (isPlaying) holder else null
     }
 
-    fun stopVideoPlayback(){
+    fun stopVideoPlayback() {
         currentPlayingVideoHolder?.stopVideo()
     }
 
