@@ -2,4 +2,5 @@
 - Screens animation
 - Credentials manager to save/autofill password
 - Adaptive app icon
+- Video playback in timeline post
 - Bug fixes and performance improvements
