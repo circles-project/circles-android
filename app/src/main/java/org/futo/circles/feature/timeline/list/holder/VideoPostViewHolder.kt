@@ -3,7 +3,6 @@ package org.futo.circles.feature.timeline.list.holder
 import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.media3.common.MediaItem
-import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.extensions.gone
@@ -13,6 +12,7 @@ import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.databinding.ViewVideoPostBinding
 import org.futo.circles.feature.timeline.list.MediaProgressHelper
+import org.futo.circles.feature.timeline.list.OnVideoPlayBackStateListener
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.view.PostFooterView
 import org.futo.circles.view.PostHeaderView
@@ -25,7 +25,8 @@ class VideoPostViewHolder(
     postOptionsListener: PostOptionsListener,
     isThread: Boolean,
     private val uploadMediaTracker: ContentUploadStateTracker,
-    private val videoPlayer: ExoPlayer
+    private val videoPlayer: ExoPlayer,
+    private val videoPlaybackListener: OnVideoPlayBackStateListener
 ) : PostViewHolder(inflate(parent, ViewVideoPostBinding::inflate), postOptionsListener, isThread),
     MediaViewHolder {
 
@@ -72,7 +73,7 @@ class VideoPostViewHolder(
             uploadMediaTracker.track(post.id, uploadListener)
         }
     }
-    
+
     private fun bindVideoView(content: MediaContent) {
         with(binding) {
             videoView.player = null
@@ -103,14 +104,18 @@ class VideoPostViewHolder(
             videoPlayer.setMediaItem(MediaItem.fromUri(it))
             videoPlayer.prepare()
             videoPlayer.play()
+            videoPlaybackListener.onVideoPlaybackStateChanged(this, true)
         }
     }
 
-    private fun stopVideo() {
+    fun stopVideo() {
+        videoPlaybackListener.onVideoPlaybackStateChanged(this, false)
         videoPlayer.stop()
-        binding.tvDuration.visible()
-        binding.ivVideoIndicator.visible()
-        binding.ivMediaContent.visible()
-        binding.videoView.invisible()
+        with(binding) {
+            tvDuration.visible()
+            ivVideoIndicator.visible()
+            ivMediaContent.visible()
+            videoView.invisible()
+        }
     }
 }

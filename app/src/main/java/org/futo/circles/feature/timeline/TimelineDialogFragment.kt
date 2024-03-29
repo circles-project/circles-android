@@ -110,7 +110,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     override fun onPause() {
         super.onPause()
-        videoPlayer.stop()
+        listAdapter.stopVideoPlayback()
     }
 
     override fun onDestroy() {

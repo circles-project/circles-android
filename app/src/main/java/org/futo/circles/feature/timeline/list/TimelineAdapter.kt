@@ -28,7 +28,9 @@ class TimelineAdapter(
         reactions = new.reactionsData,
         needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
     )
-}) {
+}), OnVideoPlayBackStateListener {
+
+    private var currentPlayingVideoHolder: VideoPostViewHolder? = null
 
     private val uploadMediaTracker =
         MatrixSessionProvider.getSessionOrThrow().contentUploadProgressTracker()
@@ -53,7 +55,8 @@ class TimelineAdapter(
                 postOptionsListener,
                 isThread,
                 uploadMediaTracker,
-                videoPlayer
+                videoPlayer,
+                this
             )
 
             PostContentType.POLL_CONTENT -> PollPostViewHolder(
@@ -86,6 +89,14 @@ class TimelineAdapter(
     override fun onViewDetachedFromWindow(holder: PostViewHolder) {
         super.onViewDetachedFromWindow(holder)
         (holder as? MediaViewHolder)?.unTrackMediaLoading()
+    }
+
+    override fun onVideoPlaybackStateChanged(holder: VideoPostViewHolder, isPlaying: Boolean) {
+        currentPlayingVideoHolder = if (isPlaying) holder else null
+    }
+
+    fun stopVideoPlayback(){
+        currentPlayingVideoHolder?.stopVideo()
     }
 
 }
