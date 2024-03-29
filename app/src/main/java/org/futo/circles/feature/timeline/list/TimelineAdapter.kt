@@ -93,11 +93,14 @@ class TimelineAdapter(
     }
 
     override fun onVideoPlaybackStateChanged(holder: VideoPostViewHolder, isPlaying: Boolean) {
-        currentPlayingVideoHolder = if (isPlaying) holder else null
+        currentPlayingVideoHolder = if (isPlaying) {
+            stopVideoPlayback(false)
+            holder
+        } else null
     }
 
-    fun stopVideoPlayback() {
-        currentPlayingVideoHolder?.stopVideo()
+    fun stopVideoPlayback(shouldNotify: Boolean = true) {
+        currentPlayingVideoHolder?.stopVideo(shouldNotify)
     }
 
 }

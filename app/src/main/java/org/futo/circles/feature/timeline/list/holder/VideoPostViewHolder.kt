@@ -100,18 +100,19 @@ class VideoPostViewHolder(
         }
         val uri = (post?.content as? MediaContent)?.mediaFileData?.videoUri
         uri?.let {
+            videoPlaybackListener.onVideoPlaybackStateChanged(this, true)
             binding.videoView.player = videoPlayer
             videoPlayer.setMediaItem(MediaItem.fromUri(it))
             videoPlayer.prepare()
             videoPlayer.play()
-            videoPlaybackListener.onVideoPlaybackStateChanged(this, true)
         }
     }
 
-    fun stopVideo() {
-        videoPlaybackListener.onVideoPlaybackStateChanged(this, false)
+    fun stopVideo(shouldNotify: Boolean = true) {
+        if (shouldNotify) videoPlaybackListener.onVideoPlaybackStateChanged(this, false)
         videoPlayer.stop()
         with(binding) {
+            videoView.player = null
             tvDuration.visible()
             ivVideoIndicator.visible()
             ivMediaContent.visible()
