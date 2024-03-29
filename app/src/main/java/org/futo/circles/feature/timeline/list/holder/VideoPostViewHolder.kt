@@ -4,10 +4,12 @@ import android.view.ViewGroup
 import androidx.core.view.updateLayoutParams
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
+import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.invisible
 import org.futo.circles.core.extensions.visible
+import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.databinding.ViewVideoPostBinding
@@ -92,19 +94,24 @@ class VideoPostViewHolder(
     }
 
     private fun playVideo() {
-        with(binding) {
-            tvDuration.gone()
-            videoView.visible()
-            ivVideoIndicator.gone()
-            ivMediaContent.gone()
-        }
         val uri = (post?.content as? MediaContent)?.mediaFileData?.videoUri
         uri?.let {
+            with(binding) {
+                tvDuration.gone()
+                videoView.visible()
+                ivVideoIndicator.gone()
+                ivMediaContent.gone()
+            }
             videoPlaybackListener.onVideoPlaybackStateChanged(this, true)
             binding.videoView.player = videoPlayer
             videoPlayer.setMediaItem(MediaItem.fromUri(it))
             videoPlayer.prepare()
             videoPlayer.play()
+        } ?: run {
+            binding.vLoadingView.apply {
+                visible()
+                setProgress(LoadingData(R.string.downloading))
+            }
         }
     }
 
