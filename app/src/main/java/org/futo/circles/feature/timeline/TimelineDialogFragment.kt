@@ -110,7 +110,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     override fun onPause() {
         super.onPause()
-        videoPlayer.pause()
+        videoPlayer.stop()
     }
 
     override fun onDestroy() {
@@ -126,7 +126,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             getRecyclerView().apply {
                 isNestedScrollingEnabled = false
                 setHasFixedSize(true)
-                setItemViewCacheSize(20)
             }
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
