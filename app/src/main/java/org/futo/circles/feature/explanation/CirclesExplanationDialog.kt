@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.explanation
+package org.futo.circles.feature.explanation
 
 import android.app.ActionBar
 import android.content.Context
@@ -13,7 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Space
 import androidx.appcompat.app.AppCompatDialog
-import org.futo.circles.auth.R
+import org.futo.circles.R
 import org.futo.circles.auth.databinding.DialogCirclesExplanationBinding
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CircleRoomTypeArg.Group
