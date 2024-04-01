@@ -98,18 +98,21 @@
         app:layout_constraintStart_toStartOf="@id/videoView"
         tools:text="00:00" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivFullScreen"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:background="?selectableItemBackgroundBorderless"
+        android:background="@color/background_dim"
         android:clickable="true"
         android:focusable="true"
+        android:foreground="?selectableItemBackgroundBorderless"
         android:padding="8dp"
         android:src="@drawable/ic_fullscreen"
-        android:textColor="@color/white"
+        app:contentPadding="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/videoView"
-        app:layout_constraintEnd_toEndOf="@id/videoView" />
+        app:layout_constraintEnd_toEndOf="@id/videoView"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:tint="@color/white" />
 
 
     <org.futo.circles.core.view.LoadingView

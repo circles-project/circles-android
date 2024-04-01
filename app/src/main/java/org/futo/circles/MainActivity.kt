@@ -8,6 +8,7 @@ import org.futo.circles.core.base.BaseActivity
 import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.feature.home.DeepLinkIntentHandler
+import org.futo.circles.feature.whats_new.WhatsNewDialog
 
 
 @AndroidEntryPoint
@@ -18,6 +19,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         LauncherActivityUtils.setInvalidTokenListener(this, getSelfIntent(this))
         MarkdownParser.initBuilder(this)
         LauncherActivityUtils.syncSessionIfCashWasCleared(this)
+        WhatsNewDialog.showIfNeed(this)
     }
 
     override fun onNewIntent(intent: Intent) {

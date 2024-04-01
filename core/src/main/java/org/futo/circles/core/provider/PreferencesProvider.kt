@@ -74,6 +74,14 @@ class PreferencesProvider @Inject constructor(
             true
         )
 
+    fun getWhatsNewShowedForVersion(): Int {
+        return getSharedPreferences().getInt(WHATS_NEW_SHOWED_FOR, 37)
+    }
+
+    fun storeWhatsNewShowedFor(version: Int) {
+        getSharedPreferences().edit { putInt(WHATS_NEW_SHOWED_FOR, version) }
+    }
+
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
@@ -83,5 +91,6 @@ class PreferencesProvider @Inject constructor(
         private const val FDROID_BACKGROUND_SYNC = "fdroid_background_sync"
         private const val SHOULD_SHOW_CIRCLES_EXPLANATION = "should_show_circles_explanation"
         private const val SHOULD_SHOW_GROUPS_EXPLANATION = "should_show_groups_explanation"
+        private const val WHATS_NEW_SHOWED_FOR = "whats_new_showed_for"
     }
 }

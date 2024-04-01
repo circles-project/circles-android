@@ -138,17 +138,6 @@
     <string name="friends_circle_description">Optional: Circle to follow your friends timelines. You will be able to create it anytime</string>
     <string name="family_circle_description">Optional: Circle to follow your family members timelines. You will be able to create it anytime</string>
     <string name="community_circle_description">Optional: Circle to follow other people timelines. You will be able to create it anytime</string>
-
-
-    <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
-<br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
-<br/><br/>For example, think about all the aunts and uncles and cousins from the different sides of your family.
-Or, think about all of your friends across all of the places you\'ve ever lived.
-<br/><br/>If you want to connect a bunch of people who <i>do</i> all know each other, then it\'s better to create a <b>Group</b> instead.]]></string>
-    <string name="group_explanation"><![CDATA[Tip: A <b>group</b> is the best way to connect a bunch of people where everyone is connected to everyone else.
-<br/><br/>Everyone in the group posts to the same timeline, and everyone in the group can see every post.
-<br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
-<br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
     <string name="configure">Configure</string>
     <string name="receive_email_updates">Receive email updates</string>
     <string name="you_don_t_have_any_active_subscriptions">You don\'t have any active subscriptions</string>
