@@ -202,6 +202,7 @@
     <string name="general">General</string>
     <string name="empty_media_storage_info">0 MB used</string>
     <string name="in_timeline_format">(in %1$s / %2$s)</string>
+    <string name="whats_new_in_format">What\'s new in %s</string>
 
     <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
 <br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
@@ -212,6 +213,23 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>Everyone in the group posts to the same timeline, and everyone in the group can see every post.
 <br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
 <br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
+    <string name="changelog"><![CDATA[
+- Circle\'s timelines filter
+- Screens animation
+- Credentials manager to save/autofill password
+- Adaptive app icon
+- Video playback in timeline post
+- Bug fixes and performance improvements
+]]></string>
+
+    <string name="upate_description"><![CDATA[
+    - Circle\'s timelines filter
+- Screens animation
+- Credentials manager to save/autofill password
+- Adaptive app icon
+- Video playback in timeline post
+- Bug fixes and performance improvements
+]]></string>
 
     <string-array name="debug_domains">
         <item>nl.circles-dev.net</item>

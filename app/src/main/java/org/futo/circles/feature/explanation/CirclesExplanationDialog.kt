@@ -14,10 +14,10 @@ import android.widget.LinearLayout
 import android.widget.Space
 import androidx.appcompat.app.AppCompatDialog
 import org.futo.circles.R
-import org.futo.circles.auth.databinding.DialogCirclesExplanationBinding
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CircleRoomTypeArg.Group
 import org.futo.circles.core.provider.PreferencesProvider
+import org.futo.circles.databinding.DialogCirclesExplanationBinding
 
 
 class CirclesExplanationDialog(context: Context, private val roomType: CircleRoomTypeArg) :
