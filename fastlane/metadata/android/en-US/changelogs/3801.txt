@@ -3,4 +3,5 @@
 - Credentials manager to save/autofill password
 - Adaptive app icon
 - Video playback in timeline post
+- What's new dialog
 - Bug fixes and performance improvements

@@ -213,14 +213,15 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>Everyone in the group posts to the same timeline, and everyone in the group can see every post.
 <br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
 <br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
-    <string name="changelog"><![CDATA[
+    <string name="changelog">
 - Circle\'s timelines filter
 - Screens animation
 - Credentials manager to save/autofill password
 - Adaptive app icon
 - Video playback in timeline post
+- What\'s new dialog
 - Bug fixes and performance improvements
-]]></string>
+</string>
 
     <string name="upate_description"><![CDATA[
     - Circle\'s timelines filter
