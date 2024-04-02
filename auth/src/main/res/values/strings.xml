@@ -160,6 +160,7 @@
     <string name="invalid_password">Invalid password</string>
     <string name="forgot_password_question">Forgot password?</string>
     <string name="forgot_password">Forgot password</string>
+    <string name="please_use_one_of_your_verified_emails_format">Please use one of your verified emails:\n%s</string>
 
 
     <plurals name="days">
