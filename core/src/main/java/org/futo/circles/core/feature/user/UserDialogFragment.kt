@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
@@ -15,6 +16,7 @@ import org.futo.circles.core.databinding.DialogFragmentUserBinding
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.invisible
 import org.futo.circles.core.extensions.loadUserProfileIcon
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -54,6 +56,9 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
                 withConfirmation(UnfollowTimeline()) {
                     viewModel.unFollowTimeline(timelineId)
                 }
+            },
+            onUserClicked = {
+                findNavController().navigateSafe(UserDialogFragmentDirections.toUserFragment(it))
             }
         )
     }

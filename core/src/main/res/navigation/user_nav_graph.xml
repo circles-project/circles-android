@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_nav_graph"
+    app:startDestination="@id/userFragment">
+
+    <dialog
+        android:id="@+id/userFragment"
+        android:name="org.futo.circles.core.feature.user.UserDialogFragment"
+        tools:layout="@layout/dialog_fragment_user">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_userFragment"
+            app:destination="@id/userFragment">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+    </dialog>
+
+</navigation>

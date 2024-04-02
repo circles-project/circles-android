@@ -113,7 +113,7 @@
 
         <action
             android:id="@+id/to_userDialogFragment"
-            app:destination="@id/userDialogFragment">
+            app:destination="@id/user_nav_graph">
 
             <argument
                 android:name="userId"
@@ -273,17 +273,8 @@
             app:nullable="false" />
 
     </dialog>
-    <dialog
-        android:id="@+id/userDialogFragment"
-        android:name="org.futo.circles.core.feature.user.UserDialogFragment"
-        tools:layout="@layout/dialog_fragment_user">
 
-        <argument
-            android:name="userId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
+    <include app:graph="@navigation/user_nav_graph" />
 
     <dialog
         android:id="@+id/saveToGalleyDialogFragment"
