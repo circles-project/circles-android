@@ -4,4 +4,5 @@
 - Adaptive app icon
 - Video playback in timeline post
 - What's new dialog
+- Mutual users section
 - Bug fixes and performance improvements
