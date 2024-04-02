@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_people">
         <action
             android:id="@+id/to_userFragment"
-            app:destination="@id/userFragment">
+            app:destination="@id/user_nav_graph">
 
             <argument
                 android:name="userId"
@@ -61,21 +61,11 @@
         </action>
     </fragment>
 
-    <dialog
-        android:id="@+id/userFragment"
-        android:name="org.futo.circles.core.feature.user.UserDialogFragment"
-        tools:layout="@layout/dialog_fragment_user">
-
-        <argument
-            android:name="userId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
-
     <include app:graph="@navigation/invites_nav_graph" />
 
     <include app:graph="@navigation/share_room_nav_graph" />
+
+    <include app:graph="@navigation/user_nav_graph" />
 
     <dialog
         android:id="@+id/editProfileDialogFragment"
@@ -92,7 +82,7 @@
 
         <action
             android:id="@+id/to_userFragment"
-            app:destination="@id/userFragment">
+            app:destination="@id/user_nav_graph">
 
             <argument
                 android:name="userId"
