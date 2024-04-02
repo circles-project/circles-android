@@ -17,6 +17,7 @@ data class TimelineHeaderItem(
     companion object {
         val followingHeader = TimelineHeaderItem(R.string.following)
         val othersHeader = TimelineHeaderItem(R.string.others)
+        val mutualFriends = TimelineHeaderItem(R.string.mutual_friends)
     }
 }
 
@@ -26,6 +27,13 @@ data class TimelineRoomListItem(
     val isJoined: Boolean,
     val isLoading: Boolean = false
 ) : TimelineListItem()
+
+data class MutualFriendListItem(
+    val user: CirclesUserSummary,
+    val isIgnored: Boolean
+) : TimelineListItem() {
+    override val id: String = user.id
+}
 
 fun RoomSummary.toTimelineRoomListItem() = TimelineRoomListItem(
     id = roomId,

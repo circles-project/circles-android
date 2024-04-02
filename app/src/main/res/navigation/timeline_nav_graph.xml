@@ -29,6 +29,17 @@
             app:nullable="true" />
 
         <action
+            android:id="@+id/to_filterTimelinesDialogFragment"
+            app:destination="@id/filter_timelines_nav_graph">
+
+            <argument
+                android:name="circleId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
             android:id="@+id/to_createPostBottomSheet"
             app:destination="@id/createPostBottomSheet">
 
@@ -102,7 +113,7 @@
 
         <action
             android:id="@+id/to_userDialogFragment"
-            app:destination="@id/userDialogFragment">
+            app:destination="@id/user_nav_graph">
 
             <argument
                 android:name="userId"
@@ -262,17 +273,8 @@
             app:nullable="false" />
 
     </dialog>
-    <dialog
-        android:id="@+id/userDialogFragment"
-        android:name="org.futo.circles.core.feature.user.UserDialogFragment"
-        tools:layout="@layout/dialog_fragment_user">
 
-        <argument
-            android:name="userId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
+    <include app:graph="@navigation/user_nav_graph" />
 
     <dialog
         android:id="@+id/saveToGalleyDialogFragment"
@@ -419,7 +421,8 @@
                 app:nullable="true" />
 
         </action>
-
-
     </dialog>
+
+    <include app:graph="@navigation/filter_timelines_nav_graph" />
+
 </navigation>

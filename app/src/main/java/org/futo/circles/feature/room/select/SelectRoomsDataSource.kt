@@ -42,15 +42,13 @@ class SelectRoomsDataSource @Inject constructor(
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
     private fun getRoomsFlowWithType(): Flow<List<RoomSummary>> = when (roomType) {
-        CircleRoomTypeArg.Circle -> {
+        CircleRoomTypeArg.Circle -> getSpacesLiveData(listOf(Membership.JOIN)).map { summaries ->
             val joinedCirclesIds = circleDataSource.getJoinedCirclesIds()
-            getSpacesLiveData(listOf(Membership.JOIN)).map { summaries ->
-                summaries.mapNotNull { summary ->
-                    if (joinedCirclesIds.contains(summary.roomId)) summary
-                    else null
-                }
-            }.asFlow()
-        }
+            summaries.mapNotNull { summary ->
+                if (joinedCirclesIds.contains(summary.roomId)) summary
+                else null
+            }
+        }.asFlow()
 
         CircleRoomTypeArg.Group -> getGroupsLiveData(listOf(Membership.JOIN)).asFlow()
         CircleRoomTypeArg.Photo -> getGalleriesLiveData(listOf(Membership.JOIN)).asFlow()

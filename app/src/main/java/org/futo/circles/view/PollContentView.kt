@@ -24,7 +24,7 @@ class PollContentView(
 
     fun setup(poll: PollContent, onOptionSelected: (String) -> Unit) {
         with(binding) {
-            tvPollQuestions.text = poll.question
+            tvPollQuestion.text = poll.question
             lvOptionsContainer.removeAllViews()
             poll.options.forEach {
                 val layoutParams =

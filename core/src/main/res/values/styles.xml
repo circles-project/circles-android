@@ -91,4 +91,14 @@
         <item name="android:paddingTop">8dp</item>
     </style>
 
+    <style name="DialogSlideAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_out</item>
+    </style>
+
+    <style name="DialogAlphaSlideAnimation">
+        <item name="android:windowEnterAnimation">@anim/alpha_show</item>
+        <item name="android:windowExitAnimation">@anim/slide_out</item>
+    </style>
+
 </resources>

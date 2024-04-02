@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:parentTag="android.widget.LinearLayout">
 
-    <TextView
-        android:id="@+id/tvPollQuestions"
+    <org.futo.circles.view.ReadMoreTextView
+        android:id="@+id/tvPollQuestion"
         style="@style/postMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
+        app:readMoreMaxLines="7"
+        app:readMoreText="@string/show_more"
+        app:readMoreTextColor="@color/blue"
         tools:text="Question" />
 
     <LinearLayout

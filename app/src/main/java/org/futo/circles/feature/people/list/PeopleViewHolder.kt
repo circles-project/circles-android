@@ -8,11 +8,11 @@ import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.databinding.ListItemPeopleCategoryBinding
+import org.futo.circles.core.databinding.ListItemPeopleDefaultBinding
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.databinding.ListItemPeopleDefaultBinding
 import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
 import org.futo.circles.model.PeopleCategoryListItem
 import org.futo.circles.model.PeopleIgnoredUserListItem

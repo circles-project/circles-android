@@ -135,3 +135,9 @@ native <methods>;
  ###JNA
  -keep class com.sun.jna.** { *; }
  -keep class * implements com.sun.jna.** { *; }
+
+ ###Passkeys
+ -if class androidx.credentials.CredentialManager
+ -keep class androidx.credentials.playservices.** {
+   *;
+ }

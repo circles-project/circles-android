@@ -127,6 +127,10 @@ class TimelineOptionsDialogFragment :
                 setIsVisible(args.type == CircleRoomTypeArg.Circle)
                 setOnClickListener { navigator.navigateToFollowing(args.roomId) }
             }
+            tvFilterTimelines.apply {
+                setIsVisible(args.type == CircleRoomTypeArg.Circle)
+                setOnClickListener { navigator.navigateFilterTimelines(args.roomId) }
+            }
         }
     }
 

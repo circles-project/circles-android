@@ -88,7 +88,7 @@ class UIAViewModel @Inject constructor(
             passPhraseLoadingLiveData.postValue(LoadingData(isLoading = false))
             refreshTokenManager.scheduleTokenRefreshIfNeeded(session)
             handleKeysBackup()
-            BSSpekeClientProvider.clear()
+            clearProviders()
         }
     }
 
@@ -99,7 +99,7 @@ class UIAViewModel @Inject constructor(
                 MatrixSessionProvider.awaitForSessionStart(session)
                 preferencesProvider.setShouldShowAllExplanations()
                 createPassPhraseDataSource.createPassPhraseBackup()
-                BSSpekeClientProvider.clear()
+                clearProviders()
             }
             (result as? Response.Success)?.let {
                 navigationLiveData.postValue(AuthUIAScreenNavigationEvent.ConfigureWorkspace)
@@ -116,7 +116,7 @@ class UIAViewModel @Inject constructor(
                 )
                 MatrixSessionProvider.awaitForSessionSync(session)
                 createPassPhraseDataSource.replaceToNewKeyBackup()
-                BSSpekeClientProvider.clear()
+                clearProviders()
             }
             (result as? Response.Success)?.let {
                 navigationLiveData.postValue(AuthUIAScreenNavigationEvent.Home)
@@ -168,6 +168,11 @@ class UIAViewModel @Inject constructor(
             MatrixSessionProvider.removeListenersAndStopSync()
             MatrixInstanceProvider.matrix.authenticationService().removeSession(sessionId)
         }
+    }
+
+    private fun clearProviders() {
+        BSSpekeClientProvider.clear()
+        UIADataSourceProvider.clear()
     }
 
 }

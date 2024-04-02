@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            tools:text="@t22:nl.circles-dev.net" />
+            tools:text="t22:nl.circles-dev.net" />
 
 
         <LinearLayout
@@ -173,6 +173,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/other" />
+
+        <org.futo.circles.core.view.SettingsMenuItemView
+            android:id="@+id/tvPrivacyPolicy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:optionIcon="@drawable/ic_privacy_policy"
+            app:optionName="@string/privacy_policy" />
 
         <org.futo.circles.core.view.SettingsMenuItemView
             android:id="@+id/tvVersion"

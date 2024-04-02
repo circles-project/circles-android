@@ -1,14 +1,16 @@
 package org.futo.circles.feature.timeline
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
-import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.room.RoomNotificationsDataSource
 import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
@@ -32,6 +34,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TimelineViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    @ApplicationContext context: Context,
     roomNotificationsDataSource: RoomNotificationsDataSource,
     timelineDataSourceFactory: BaseTimelineDataSource.Factory,
     accessLevelDataSource: AccessLevelDataSource,
@@ -39,11 +42,14 @@ class TimelineViewModel @Inject constructor(
     private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
-    private val readMessageDataSource: ReadMessageDataSource
-) : BaseTimelineViewModel(timelineDataSourceFactory.create(savedStateHandle.get<String>("timelineId") != null)) {
-
-    private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val timelineId: String? = savedStateHandle["timelineId"]
+    private val readMessageDataSource: ReadMessageDataSource,
+    circleFilterAccountDataManager: CircleFilterAccountDataManager
+) : BaseTimelineViewModel(
+    savedStateHandle,
+    context,
+    timelineDataSourceFactory.create(savedStateHandle.get<String>("timelineId") != null),
+    circleFilterAccountDataManager
+) {
 
     val session = MatrixSessionProvider.currentSession
     val profileLiveData = session?.userService()?.getUserLive(session.myUserId)

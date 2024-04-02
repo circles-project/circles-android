@@ -16,7 +16,6 @@ import org.futo.circles.core.extensions.launchUi
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
 import org.futo.circles.core.feature.workspace.SharedCircleDataSource
-import org.futo.circles.core.model.TimelineHeaderItem
 import org.futo.circles.core.model.TimelineListItem
 import org.futo.circles.core.model.TimelineRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -60,7 +59,7 @@ class UserViewModel @Inject constructor(
                             isLoading = loadingItemsValue.contains(item.id)
                         )
 
-                        is TimelineHeaderItem -> item
+                        else -> item
                     }
                 }
             )

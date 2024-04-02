@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.LinearLayout">
+
+
+    <ImageView
+        android:id="@+id/ivSendStatus"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/ic_sending" />
+
+    <TextView
+        android:id="@+id/tvReadByCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:lines="1"
+        android:textSize="12sp"
+        app:layout_goneMarginEnd="0dp"
+        tools:text="12" />
+
+    <TextView
+        android:id="@+id/tvEditedLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:text="@string/edited_label"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+
+</merge>

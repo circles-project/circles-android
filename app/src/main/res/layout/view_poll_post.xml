@@ -1,13 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.futo.circles.view.PostLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/lPollPost"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lCard"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?selectableItemBackground"
+    android:orientation="vertical">
+
+    <org.futo.circles.view.PostHeaderView
+        android:id="@+id/postHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp" />
+
 
     <org.futo.circles.view.PollContentView
         android:id="@+id/pollContentView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp" />
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp" />
 
-</org.futo.circles.view.PostLayout>
+    <org.futo.circles.view.PostStatusView
+        android:id="@+id/vPostStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp" />
+
+    <org.futo.circles.view.PostFooterView
+        android:id="@+id/postFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        app:layout_goneMarginTop="8dp" />
+
+</LinearLayout>

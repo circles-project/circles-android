@@ -19,8 +19,6 @@ object CirclesAppConfig {
 
     var isMediaBackupEnabled = false
         private set
-    var isRageshakeEnabled = false
-        private set
 
     fun isGplayFlavor(): Boolean = buildFlavourName.contains("gplay", true)
 
@@ -31,8 +29,7 @@ object CirclesAppConfig {
         private var appName: String? = null,
         private var serverDomains: List<String> = emptyList(),
         private var euDomain: String? = null,
-        private var mediaBackupEnabled: Boolean = false,
-        private var rageshakeEnabled: Boolean = false
+        private var mediaBackupEnabled: Boolean = false
     ) {
 
         fun buildConfigInfo(appId: String, version: String, flavour: String = "empty") =
@@ -47,8 +44,6 @@ object CirclesAppConfig {
         fun serverDomains(domains: List<String>) = apply { this.serverDomains = domains }
 
         fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
-
-        fun isRageshakeEnabled(isEnabled: Boolean) = apply { this.rageshakeEnabled = isEnabled }
 
 
         fun init() {
@@ -68,7 +63,6 @@ object CirclesAppConfig {
                 ?: throw IllegalArgumentException("Illegal empty server domains")
 
             isMediaBackupEnabled = mediaBackupEnabled
-            isRageshakeEnabled = rageshakeEnabled
         }
     }
 

@@ -3,7 +3,9 @@ package org.futo.circles.feature.timeline.preview
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.isVisible
@@ -12,13 +14,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.databinding.DialogFragmentTimelineMediaPreviewBinding
 import org.futo.circles.gallery.R
@@ -34,6 +36,17 @@ class TimelineMediaPreviewDialogFragment :
     private val args: TimelineMediaPreviewDialogFragmentArgs by navArgs()
 
     private val mediaFragment by lazy { FullScreenMediaFragment.create(args.roomId, args.eventId) }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        dialog?.window?.attributes?.windowAnimations =
+            org.futo.circles.core.R.style.DialogAlphaSlideAnimation
+        return view
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
