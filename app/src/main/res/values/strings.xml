@@ -233,7 +233,7 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 ]]></string>
 
     <string-array name="debug_domains">
-        <item>nl.circles-dev.net</item>
+        <item>us.circles-dev.net</item>
         <item>matrix.org</item>
     </string-array>
 
