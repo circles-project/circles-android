@@ -3,6 +3,7 @@ package org.futo.circles.core.feature.timeline.builder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.model.Post
+import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
@@ -12,7 +13,7 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.isEdition
 import org.matrix.android.sdk.api.session.room.timeline.isReply
 
-abstract class BaseTimelineBuilder {
+abstract class BaseTimelineBuilder(private val preferencesProvider: PreferencesProvider) {
 
     private val supportedTimelineEvens: List<String> =
         listOf(EventType.MESSAGE, EventType.POLL_START.stable, EventType.POLL_START.unstable)
@@ -48,7 +49,8 @@ abstract class BaseTimelineBuilder {
 
     private fun List<TimelineEvent>.filterTimelineEvents(isThread: Boolean): List<TimelineEvent> =
         filter {
-            val isSupportedEvent = it.root.getClearType() in supportedTimelineEvens
+            val isSupportedEvent = if (preferencesProvider.isDeveloperModeEnabled()) true
+            else it.root.getClearType() in supportedTimelineEvens
             val isNotRemovedEvent = !it.isEdition() && !it.root.isRedacted()
 
             if (isThread) isSupportedEvent && isNotRemovedEvent

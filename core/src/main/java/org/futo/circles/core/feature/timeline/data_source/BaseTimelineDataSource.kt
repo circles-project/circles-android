@@ -14,6 +14,7 @@ import org.futo.circles.core.feature.timeline.builder.MultiTimelineBuilder
 import org.futo.circles.core.feature.timeline.builder.SingleTimelineBuilder
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
@@ -27,10 +28,19 @@ abstract class BaseTimelineDataSource(
     private val timelineBuilder: BaseTimelineBuilder
 ) {
 
-    class Factory @Inject constructor(private val savedStateHandle: SavedStateHandle) {
+    class Factory @Inject constructor(
+        private val savedStateHandle: SavedStateHandle,
+        private val preferencesProvider: PreferencesProvider
+    ) {
         fun create(isMultiTimelines: Boolean): BaseTimelineDataSource =
-            if (isMultiTimelines) MultiTimelinesDataSource(savedStateHandle, MultiTimelineBuilder())
-            else SingleTimelineDataSource(savedStateHandle, SingleTimelineBuilder())
+            if (isMultiTimelines) MultiTimelinesDataSource(
+                savedStateHandle,
+                MultiTimelineBuilder(preferencesProvider)
+            )
+            else SingleTimelineDataSource(
+                savedStateHandle,
+                SingleTimelineBuilder(preferencesProvider)
+            )
     }
 
     protected val roomId: String = savedStateHandle.getOrThrow("roomId")

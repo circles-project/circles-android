@@ -6,12 +6,15 @@ import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import javax.inject.Inject
 
-class MultiTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
+class MultiTimelineBuilder @Inject constructor(
+    preferencesProvider: PreferencesProvider
+) : BaseTimelineBuilder(preferencesProvider) {
 
     private var currentSnapshotMap: MutableMap<String, List<Post>> = mutableMapOf()
     private var readReceiptMap: MutableMap<String, List<Long>> = mutableMapOf()
