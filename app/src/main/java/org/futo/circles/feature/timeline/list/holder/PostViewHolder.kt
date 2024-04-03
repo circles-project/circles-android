@@ -37,11 +37,11 @@ sealed class PostViewHolder(
     private val isThread: Boolean
 ) : RecyclerView.ViewHolder(view) {
 
-    abstract val postLayout: ViewGroup
+    abstract val postLayout: ViewGroup?
+    abstract val postFooter: PostFooterView?
+    abstract val postStatus: PostStatusView?
+    abstract val readMoreTextView: ReadMoreTextView?
     abstract val postHeader: PostHeaderView
-    abstract val postFooter: PostFooterView
-    abstract val postStatus: PostStatusView
-    abstract val readMoreTextView: ReadMoreTextView
 
     protected var post: Post? = null
 
@@ -50,7 +50,7 @@ sealed class PostViewHolder(
             override fun onDoubleTap(e: MotionEvent): Boolean {
                 post?.let {
                     optionsListener.onShowEmoji(it.postInfo.roomId, it.id) { emoji ->
-                        postFooter.addEmojiFromPickerLocalUpdate(emoji)
+                        postFooter?.addEmojiFromPickerLocalUpdate(emoji)
                     }
                 }
                 return true
@@ -74,14 +74,14 @@ sealed class PostViewHolder(
 
 
     protected fun setListeners() {
-        postLayout.setOnTouchListener { _, event ->
+        postLayout?.setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
             false
         }
-        postFooter.setListener(optionsListener)
+        postFooter?.setListener(optionsListener)
         postHeader.setListener(optionsListener)
         handleLinkClick()
-        readMoreTextView.apply {
+        readMoreTextView?.apply {
             setNotCollapsableClickAction { openReplies() }
             setOnLongClickListener {
                 postHeader.showMenu()
@@ -94,17 +94,17 @@ sealed class PostViewHolder(
     open fun bind(post: Post) {
         this.post = post
         postHeader.setData(post)
-        postFooter.setData(post, isThread)
+        postFooter?.setData(post, isThread)
         bindMentionBorder(post.content)
-        postStatus.apply {
+        postStatus?.apply {
             setIsEdited(post.postInfo.isEdited)
             setSendStatus(post.sendState, post.readByCount)
         }
     }
 
     fun bindPayload(payload: PostItemPayload) {
-        postStatus.setSendStatus(payload.sendState, payload.readByCount)
-        postFooter.bindPayload(payload.repliesCount, payload.reactions)
+        postStatus?.setSendStatus(payload.sendState, payload.readByCount)
+        postFooter?.bindPayload(payload.repliesCount, payload.reactions)
     }
 
     private fun bindMentionBorder(content: PostContent) {
@@ -115,15 +115,16 @@ sealed class PostViewHolder(
 
             is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
             is PollContent -> MarkdownParser.hasCurrentUserMention(content.question)
+            else -> false
         }
-        if (hasMention) postLayout.setBackgroundResource(R.drawable.bg_mention_highlight)
-        else postLayout.background = null
+        if (hasMention) postLayout?.setBackgroundResource(R.drawable.bg_mention_highlight)
+        else postLayout?.background = null
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
     private fun handleLinkClick() {
-        readMoreTextView.apply {
+        readMoreTextView?.apply {
             movementMethod = InternalLinkMovementMethod(object : OnLinkClickedListener {
                 override fun onLinkClicked(url: String) {
                     showLinkConfirmation(context, url)

@@ -9,6 +9,7 @@ import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.list.holder.ImagePostViewHolder
 import org.futo.circles.feature.timeline.list.holder.MediaViewHolder
+import org.futo.circles.feature.timeline.list.holder.OtherEventPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PollPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PostViewHolder
 import org.futo.circles.feature.timeline.list.holder.TextPostViewHolder
@@ -62,6 +63,8 @@ class TimelineAdapter(
             PostContentType.POLL_CONTENT -> PollPostViewHolder(
                 parent, postOptionsListener, isThread
             )
+
+            PostContentType.OTHER_CONTENT -> OtherEventPostViewHolder(parent, postOptionsListener)
         }
     }
 
