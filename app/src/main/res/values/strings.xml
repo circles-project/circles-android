@@ -223,14 +223,6 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 - Bug fixes and performance improvements
 </string>
 
-    <string name="upate_description"><![CDATA[
-    - Circle\'s timelines filter
-- Screens animation
-- Credentials manager to save/autofill password
-- Adaptive app icon
-- Video playback in timeline post
-- Bug fixes and performance improvements
-]]></string>
 
     <string-array name="debug_domains">
         <item>us.circles-dev.net</item>
