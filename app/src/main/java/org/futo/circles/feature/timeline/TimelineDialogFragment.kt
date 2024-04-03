@@ -127,10 +127,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun setupViews() {
         binding.rvTimeline.apply {
             adapter = listAdapter
-            getRecyclerView().apply {
-                isNestedScrollingEnabled = false
-                setHasFixedSize(true)
-            }
+            getRecyclerView().isNestedScrollingEnabled = false
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
         binding.lCreatePost.setUp(object : CreatePostViewListener {
