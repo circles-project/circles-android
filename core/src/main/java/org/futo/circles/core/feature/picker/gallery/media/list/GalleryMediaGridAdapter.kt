@@ -2,6 +2,7 @@ package org.futo.circles.core.feature.picker.gallery.media.list
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.core.feature.picker.gallery.media.list.holder.GalleryMediaItemViewHolder
 import org.futo.circles.core.feature.picker.gallery.media.list.holder.GalleryTimelineItemViewHolder
@@ -10,6 +11,7 @@ import org.futo.circles.core.feature.picker.gallery.media.list.holder.MultiSelec
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.GalleryTimelineListItem
 import org.futo.circles.core.model.GalleryTimelineLoadingListItem
+
 
 private enum class GalleryTimelineItemViewType { MEDIA, LOADING }
 
@@ -49,5 +51,7 @@ class GalleryMediaGridAdapter(
 
     override fun onBindViewHolder(holder: GalleryTimelineItemViewHolder, position: Int) {
         holder.bind(getItem(position))
+        val layoutParams = (holder as? GalleryTimelineLoadingViewHolder)?.itemView?.layoutParams
+        (layoutParams as? StaggeredGridLayoutManager.LayoutParams)?.isFullSpan = true
     }
 }
