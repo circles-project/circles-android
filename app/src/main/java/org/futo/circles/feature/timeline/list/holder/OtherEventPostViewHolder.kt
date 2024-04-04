@@ -40,8 +40,7 @@ class OtherEventPostViewHolder(
         }
     }
 
-    override fun bind(post: Post) {
-        super.bind(post)
+    override fun bindHolderSpecific(post: Post) {
         val content = (post.content as? OtherEventContent) ?: return
         binding.tvTextContent.text = content.eventType
     }

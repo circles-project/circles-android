@@ -3,32 +3,38 @@ package org.futo.circles.feature.timeline.list
 import android.view.ViewGroup
 import androidx.media3.exoplayer.ExoPlayer
 import org.futo.circles.core.base.list.BaseRvAdapter
-import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.PostListItem
+import org.futo.circles.core.model.TimelineLoadingItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.list.holder.ImagePostViewHolder
 import org.futo.circles.feature.timeline.list.holder.MediaViewHolder
 import org.futo.circles.feature.timeline.list.holder.OtherEventPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PollPostViewHolder
+import org.futo.circles.feature.timeline.list.holder.PostListItemViewHolder
 import org.futo.circles.feature.timeline.list.holder.PostViewHolder
 import org.futo.circles.feature.timeline.list.holder.TextPostViewHolder
+import org.futo.circles.feature.timeline.list.holder.TimelineLoadingViewHolder
 import org.futo.circles.feature.timeline.list.holder.VideoPostViewHolder
 import org.futo.circles.model.PostItemPayload
+
+private enum class TimelineViewType { TEXT, IMAGE, VIDEO, POLL, OTHER, LOADING }
 
 class TimelineAdapter(
     private val postOptionsListener: PostOptionsListener,
     private val isThread: Boolean,
-    private val videoPlayer: ExoPlayer,
-    private val onLoadMore: () -> Unit
-) : BaseRvAdapter<Post, PostViewHolder>(PayloadIdEntityCallback { old, new ->
-    PostItemPayload(
-        sendState = new.sendState,
-        readByCount = new.readByCount,
-        repliesCount = new.repliesCount,
-        reactions = new.reactionsData,
-        needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
-    )
+    private val videoPlayer: ExoPlayer
+) : BaseRvAdapter<PostListItem, PostListItemViewHolder>(PayloadIdEntityCallback { old, new ->
+    if (new is Post && old is Post)
+        PostItemPayload(
+            sendState = new.sendState,
+            readByCount = new.readByCount,
+            repliesCount = new.repliesCount,
+            reactions = new.reactionsData,
+            needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
+        )
+    else null
 }), OnVideoPlayBackStateListener {
 
     private var currentPlayingVideoHolder: VideoPostViewHolder? = null
@@ -38,20 +44,30 @@ class TimelineAdapter(
 
     override fun getItemId(position: Int): Long = getItem(position).id.hashCode().toLong()
 
-    override fun getItemViewType(position: Int): Int = getItem(position).content.type.ordinal
+    override fun getItemViewType(position: Int): Int = when (val item = getItem(position)) {
+        is Post -> when (item.content.type) {
+            PostContentType.TEXT_CONTENT -> TimelineViewType.TEXT.ordinal
+            PostContentType.IMAGE_CONTENT -> TimelineViewType.IMAGE.ordinal
+            PostContentType.VIDEO_CONTENT -> TimelineViewType.VIDEO.ordinal
+            PostContentType.POLL_CONTENT -> TimelineViewType.POLL.ordinal
+            PostContentType.OTHER_CONTENT -> TimelineViewType.OTHER.ordinal
+        }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        return when (PostContentType.entries[viewType]) {
+        is TimelineLoadingItem -> TimelineViewType.LOADING.ordinal
+    }
 
-            PostContentType.TEXT_CONTENT -> TextPostViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostListItemViewHolder {
+        return when (TimelineViewType.entries[viewType]) {
+
+            TimelineViewType.TEXT -> TextPostViewHolder(
                 parent, postOptionsListener, isThread
             )
 
-            PostContentType.IMAGE_CONTENT -> ImagePostViewHolder(
+            TimelineViewType.IMAGE -> ImagePostViewHolder(
                 parent, postOptionsListener, uploadMediaTracker, isThread
             )
 
-            PostContentType.VIDEO_CONTENT -> VideoPostViewHolder(
+            TimelineViewType.VIDEO -> VideoPostViewHolder(
                 parent,
                 postOptionsListener,
                 isThread,
@@ -60,24 +76,29 @@ class TimelineAdapter(
                 this
             )
 
-            PostContentType.POLL_CONTENT -> PollPostViewHolder(
+            TimelineViewType.POLL -> PollPostViewHolder(
                 parent, postOptionsListener, isThread
             )
 
-            PostContentType.OTHER_CONTENT -> OtherEventPostViewHolder(parent, postOptionsListener)
+            TimelineViewType.OTHER -> OtherEventPostViewHolder(parent, postOptionsListener)
+            TimelineViewType.LOADING -> TimelineLoadingViewHolder(parent)
         }
     }
 
-    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PostListItemViewHolder, position: Int) {
         holder.bind(getItem(position))
-        if (position >= itemCount - BaseTimelineDataSource.LOAD_MORE_THRESHOLD) onLoadMore()
     }
 
     override fun onBindViewHolder(
-        holder: PostViewHolder,
+        holder: PostListItemViewHolder,
         position: Int,
         payloads: MutableList<Any>
     ) {
+        (holder as? PostViewHolder) ?: run {
+            super.onBindViewHolder(holder, position, payloads)
+            return
+        }
+
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
@@ -89,7 +110,7 @@ class TimelineAdapter(
         }
     }
 
-    override fun onViewDetachedFromWindow(holder: PostViewHolder) {
+    override fun onViewDetachedFromWindow(holder: PostListItemViewHolder) {
         super.onViewDetachedFromWindow(holder)
         (holder as? MediaViewHolder)?.unTrackMediaLoading()
         if (holder == currentPlayingVideoHolder) stopVideoPlayback()

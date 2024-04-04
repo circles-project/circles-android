@@ -14,6 +14,7 @@ import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.SingleTimelineDataSource
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
 import javax.inject.Inject
 
@@ -38,7 +39,8 @@ class PickMediaItemViewModel @Inject constructor(
         timelineDataSource.getTimelineEventFlow(),
         selectedItemsFlow
     ) { items, selectedIds ->
-        items.mapNotNull { post ->
+        items.mapNotNull { item ->
+            val post = (item as? Post) ?: return@mapNotNull item
             (post.content as? MediaContent)?.let {
                 if (it.type == PostContentType.VIDEO_CONTENT && !isVideoAvailable) null
                 else GalleryContentListItem(

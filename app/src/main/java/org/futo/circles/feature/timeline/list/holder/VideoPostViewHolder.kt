@@ -64,8 +64,7 @@ class VideoPostViewHolder(
         binding.videoView.setOnClickListener { stopVideo() }
     }
 
-    override fun bind(post: Post) {
-        super.bind(post)
+    override fun bindHolderSpecific(post: Post) {
         with(binding) {
             val content = (post.content as? MediaContent) ?: return
             bindMediaCaption(content, tvTextContent)

@@ -37,8 +37,7 @@ class PollPostViewHolder(
         setListeners()
     }
 
-    override fun bind(post: Post) {
-        super.bind(post)
+    override fun bindHolderSpecific(post: Post) {
         val content = (post.content as? PollContent) ?: return
         binding.pollContentView.setup(content) { optionId ->
             postOptionsListener.onPollOptionSelected(post.postInfo.roomId, post.id, optionId)
