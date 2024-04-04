@@ -20,7 +20,7 @@ import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.picker.gallery.media.list.GalleryMediaGridAdapter
-import org.futo.circles.core.feature.picker.gallery.media.list.GalleryMediaItemViewHolder
+import org.futo.circles.core.feature.picker.gallery.media.list.holder.GalleryMediaItemViewHolder
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.MediaType
@@ -43,8 +43,7 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
             isMultiSelect = false,
             onMediaItemClicked = { item, view, position ->
                 onMediaItemSelected(item, view, position)
-            },
-            onLoadMore = { viewModel.loadMore() })
+            })
     }
 
     private var previewMediaListener: GalleryMediaPreviewListener? = null
@@ -64,6 +63,15 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
             returnViewPosition = bundle.getInt(POSITION)
             scrollToReturnPosition()
         }
+        binding.rvGallery.getRecyclerView()
+            .addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        viewModel.loadMore()
+                    }
+                }
+            })
     }
 
     private fun prepareTransitions() {

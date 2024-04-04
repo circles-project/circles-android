@@ -13,9 +13,11 @@ import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragme
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.SingleTimelineDataSource
 import org.futo.circles.core.model.GalleryContentListItem
+import org.futo.circles.core.model.GalleryTimelineLoadingListItem
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.TimelineLoadingItem
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,13 +41,21 @@ class PickMediaItemViewModel @Inject constructor(
         timelineDataSource.getTimelineEventFlow(),
         selectedItemsFlow
     ) { items, selectedIds ->
-        items.mapNotNull { item ->
-            val post = (item as? Post) ?: return@mapNotNull item
-            (post.content as? MediaContent)?.let {
-                if (it.type == PostContentType.VIDEO_CONTENT && !isVideoAvailable) null
-                else GalleryContentListItem(
-                    post.id, post.postInfo, it, selectedIds.firstOrNull { it.id == post.id } != null
-                )
+        items.mapNotNull { post ->
+            when (post) {
+                is Post -> {
+                    (post.content as? MediaContent)?.let {
+                        if (it.type == PostContentType.VIDEO_CONTENT && !isVideoAvailable) null
+                        else GalleryContentListItem(
+                            post.id,
+                            post.postInfo,
+                            it,
+                            selectedIds.firstOrNull { it.id == post.id } != null
+                        )
+                    }
+                }
+
+                is TimelineLoadingItem -> GalleryTimelineLoadingListItem()
             }
         }
     }.distinctUntilChanged().asLiveData()
