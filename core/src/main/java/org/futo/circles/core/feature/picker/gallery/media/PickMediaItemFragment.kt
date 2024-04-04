@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
+import org.futo.circles.core.base.list.BaseRvDecoration
 import org.futo.circles.core.databinding.FragmentPickGalleryBinding
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.base.list.BaseRvDecoration
-import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_MULTI_SELECT
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaViewModel
 import org.futo.circles.core.feature.picker.gallery.media.list.GalleryMediaGridAdapter
 import org.futo.circles.core.feature.picker.gallery.media.list.GalleryMediaItemViewHolder
+import org.futo.circles.core.model.GalleryContentListItem
 
 
 @AndroidEntryPoint
@@ -34,7 +34,7 @@ class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
     private val listAdapter by lazy {
         GalleryMediaGridAdapter(
             isMultiSelect = isMultiSelect,
-            onMediaItemClicked = { item -> onMediaItemSelected(item) },
+            onMediaItemClicked = { item, _, _ -> onMediaItemSelected(item) },
             onLoadMore = { viewModel.loadMore() })
     }
 
@@ -49,9 +49,10 @@ class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
     private fun setupViews() {
         binding.rvRooms.apply {
             layoutManager =
-                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
+                    gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                }
             adapter = listAdapter
-            getRecyclerView().itemAnimator = null
             addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
         }
     }

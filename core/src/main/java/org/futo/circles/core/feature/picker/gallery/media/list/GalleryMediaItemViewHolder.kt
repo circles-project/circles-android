@@ -9,12 +9,12 @@ import androidx.core.view.setPadding
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.R
+import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.databinding.ListItemGalleryMediaBinding
 import org.futo.circles.core.databinding.ListItemGalleryMediaMultiselectBinding
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PostContentType
@@ -73,7 +73,7 @@ class GalleryMediaItemViewHolder(
 
 class MultiSelectGalleryMediaItemViewHolder(
     parent: ViewGroup,
-    onItemClicked: (Int) -> Unit
+    onItemClicked: (Int, View) -> Unit
 ) : GridMediaItemViewHolder(inflate(parent, ListItemGalleryMediaMultiselectBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -88,7 +88,7 @@ class MultiSelectGalleryMediaItemViewHolder(
         get() = binding.lMediaItem.tvDuration
 
     init {
-        onClick(itemView) { position -> onItemClicked(position) }
+        onClick(itemView) { position -> onItemClicked(position, binding.lMediaItem.ivCover) }
     }
 
     override fun bind(data: GalleryContentListItem) {
