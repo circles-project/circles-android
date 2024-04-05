@@ -101,10 +101,10 @@ abstract class BaseTimelineDataSource(
 
     protected abstract fun onRestartTimeline(timelineId: String, throwable: Throwable)
     abstract fun clearTimeline()
-    protected abstract suspend fun loadMore(viewModelScope: CoroutineScope)
+    protected abstract suspend fun loadMore()
 
-    suspend fun loadNextPostsPage(viewModelScope: CoroutineScope) {
-        loadMore(viewModelScope)
+    suspend fun loadNextPostsPage() {
+        loadMore()
         pageLoadingFlow.update { false }
     }
 
@@ -128,18 +128,17 @@ abstract class BaseTimelineDataSource(
         if (timeline.hasMoreToLoad(listDirection)) {
             pageLoadingFlow.update { true }
             Log.d("MyLog", "load root")
-            val snapshot =
-                timeline.awaitPaginateWithTimelineUpdate(listDirection, MESSAGES_PER_PAGE)
-            var messagesLoaded = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
+            var snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
+            var postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
 
-            Log.d("MyLog", "count $messagesLoaded")
-            while (messagesLoaded < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(listDirection)) {
+            Log.d("MyLog", "count $postsLoadedCount")
+            while (postsLoadedCount < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(listDirection)) {
                 Log.d("MyLog", "load next")
-                val items =
-                    timeline.awaitPaginateWithTimelineUpdate(listDirection, MESSAGES_PER_PAGE)
-                messagesLoaded = timelineBuilder.filterTimelineEvents(items, isThread).size
-                Log.d("MyLog", "count $messagesLoaded")
+                snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
+                postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
+                Log.d("MyLog", "count $postsLoadedCount")
             }
+            timeline.postCurrentSnapshot()
         }
     }
 

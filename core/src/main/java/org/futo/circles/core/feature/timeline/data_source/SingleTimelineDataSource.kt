@@ -19,7 +19,7 @@ class SingleTimelineDataSource @Inject constructor(
 
     override fun startTimeline(viewModelScope: CoroutineScope, listener: Timeline.Listener) {
         timeline = createAndStartNewTimeline(room, listener)
-        viewModelScope.launch(Dispatchers.IO) { loadNextPostsPage(viewModelScope) }
+        viewModelScope.launch(Dispatchers.IO) { loadNextPostsPage() }
     }
 
     override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
@@ -31,7 +31,7 @@ class SingleTimelineDataSource @Inject constructor(
         timeline = null
     }
 
-    override suspend fun loadMore(viewModelScope: CoroutineScope) {
+    override suspend fun loadMore() {
         timeline?.let { loadNextPage(it) } ?: false
     }
 
