@@ -5,7 +5,6 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,15 +42,6 @@ class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
-        binding.rvRooms.getRecyclerView()
-            .addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        viewModel.loadMore()
-                    }
-                }
-            })
     }
 
 
@@ -63,6 +53,7 @@ class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
                 }
             adapter = listAdapter
             addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
+            addPageEndListener { viewModel.loadMore() }
         }
     }
 

@@ -63,15 +63,6 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
             returnViewPosition = bundle.getInt(POSITION)
             scrollToReturnPosition()
         }
-        binding.rvGallery.getRecyclerView()
-            .addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        viewModel.loadMore()
-                    }
-                }
-            })
     }
 
     private fun prepareTransitions() {
@@ -103,6 +94,7 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
             adapter = listAdapter
             addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
             bindToFab(binding.fbUploadImage)
+            addPageEndListener { viewModel.loadMore() }
         }
         binding.fbUploadImage.setOnClickListener { showImagePicker() }
     }
