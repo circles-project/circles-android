@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
@@ -30,8 +29,8 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.CreatePollContent
+import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
-import org.futo.circles.core.utils.debounce
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.TimelineAdapter
@@ -64,15 +63,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         getBinding() as DialogFragmentTimelineBinding
     }
 
-    private val loadMoreDebounce by lazy {
-        debounce<Unit>(
-            scope = lifecycleScope,
-            destinationFunction = {
-                binding.rvTimeline.setIsPageLoading(viewModel.loadMore())
-            }
-        )
-    }
-
     private val videoPlayer by lazy {
         ExoPlayer.Builder(requireContext()).build().apply {
             repeatMode = Player.REPEAT_MODE_ONE
@@ -80,7 +70,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     private val listAdapter by lazy {
-        TimelineAdapter(this, isThread, videoPlayer) { loadMoreDebounce(Unit) }.apply {
+        TimelineAdapter(this, isThread, videoPlayer).apply {
             setHasStableIds(true)
             registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
@@ -107,9 +97,16 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         setupViews()
         setupObservers()
         setupMenu()
-        findNavController().addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id != R.id.timelineFragment) listAdapter.stopVideoPlayback()
-        }
+        stopVideoOnNewScreenOpen()
+        binding.rvTimeline.getRecyclerView()
+            .addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        viewModel.loadMore()
+                    }
+                }
+            })
     }
 
     override fun onPause() {
@@ -179,7 +176,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
-            binding.rvTimeline.setIsPageLoading(false)
             viewModel.markTimelineAsRead(args.roomId, isGroupMode)
         }
         viewModel.isFilterActiveLiveData.observeData(this) {
@@ -306,6 +302,12 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         viewModel.sendReaction(roomId, eventId, emoji)
     }
 
+    private fun stopVideoOnNewScreenOpen() {
+        findNavController().addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id != R.id.timelineFragment) listAdapter.stopVideoPlayback()
+        }
+    }
+
     private fun navigateToTimelineOptions() {
         val type = if (isGroupMode) CircleRoomTypeArg.Group else CircleRoomTypeArg.Circle
         navigator.navigateToTimelineOptions(args.roomId, type, args.timelineId)
@@ -316,7 +318,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         if (itemCount != 1) return
         if (isThread) {
             val lastItemPosition = items.size - 1
-            if (items.lastOrNull()?.isMyPost() == true && positionStart == lastItemPosition) {
+            if ((items.lastOrNull() as? Post)?.isMyPost() == true && positionStart == lastItemPosition) {
                 binding.rvTimeline.layoutManager?.smoothScrollToPosition(
                     binding.rvTimeline.getRecyclerView(),
                     null,
@@ -324,7 +326,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
                 )
             }
         } else {
-            if (items.firstOrNull()?.isMyPost() == true && positionStart == 0) {
+            if ((items.firstOrNull() as? Post)?.isMyPost() == true && positionStart == 0) {
                 binding.rvTimeline.layoutManager?.smoothScrollToPosition(
                     binding.rvTimeline.getRecyclerView(), null, 0
                 )

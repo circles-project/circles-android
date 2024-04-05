@@ -18,7 +18,8 @@ abstract class BaseTimelineBuilder(private val preferencesProvider: PreferencesP
     private val supportedTimelineEvens: List<String> =
         listOf(EventType.MESSAGE, EventType.POLL_START.stable, EventType.POLL_START.unstable)
 
-    abstract suspend fun List<TimelineEvent>.processSnapshot(
+    abstract suspend fun processSnapshot(
+        snapshot: List<TimelineEvent>,
         roomId: String,
         isThread: Boolean
     ): List<Post>
@@ -29,9 +30,8 @@ abstract class BaseTimelineBuilder(private val preferencesProvider: PreferencesP
         isThread: Boolean
     ): List<Post> =
         withContext(Dispatchers.IO) {
-            snapshot
-                .filterTimelineEvents(isThread)
-                .processSnapshot(roomId, isThread)
+            val filteredEvents = filterTimelineEvents(snapshot, isThread)
+            processSnapshot(filteredEvents, roomId, isThread)
         }
 
     protected fun sortList(list: List<Post>, isThread: Boolean) =
@@ -47,13 +47,15 @@ abstract class BaseTimelineBuilder(private val preferencesProvider: PreferencesP
             room.getTimelineEvent(eventId)?.root?.originServerTs ?: 0
         }
 
-    private fun List<TimelineEvent>.filterTimelineEvents(isThread: Boolean): List<TimelineEvent> =
-        filter {
-            val isSupportedEvent = if (preferencesProvider.isDeveloperModeEnabled()) true
-            else it.root.getClearType() in supportedTimelineEvens
-            val isNotRemovedEvent = !it.isEdition() && !it.root.isRedacted()
+    fun filterTimelineEvents(
+        snapshot: List<TimelineEvent>,
+        isThread: Boolean
+    ): List<TimelineEvent> = snapshot.filter {
+        val isSupportedEvent = if (preferencesProvider.isDeveloperModeEnabled()) true
+        else it.root.getClearType() in supportedTimelineEvens
+        val isNotRemovedEvent = !it.isEdition() && !it.root.isRedacted()
 
-            if (isThread) isSupportedEvent && isNotRemovedEvent
-            else isSupportedEvent && isNotRemovedEvent && !it.isReply()
-        }
+        if (isThread) isSupportedEvent && isNotRemovedEvent
+        else isSupportedEvent && isNotRemovedEvent && !it.isReply()
+    }
 }

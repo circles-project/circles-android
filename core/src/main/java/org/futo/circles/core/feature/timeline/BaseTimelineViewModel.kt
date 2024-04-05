@@ -8,12 +8,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import org.futo.circles.core.extensions.getOrThrow
@@ -25,6 +27,7 @@ import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.PostListItem
 import org.futo.circles.core.utils.FileUtils
 
 abstract class BaseTimelineViewModel(
@@ -44,13 +47,13 @@ abstract class BaseTimelineViewModel(
     private val prefetchedVideoUriFlow = MutableStateFlow<Map<String, Uri>>(emptyMap())
 
     val timelineEventsLiveData = combine(
-        baseTimelineDataSource.getTimelineEventFlow(),
+        baseTimelineDataSource.getTimelineEventFlow(viewModelScope),
         getFilterFlow(),
         prefetchedVideoUriFlow
     ) { events, selectedRoomIds, videoUris ->
         val filteredEvents = applyTimelinesFilter(events, selectedRoomIds)
         mapEventsWithVideoUri(context, filteredEvents, videoUris)
-    }.flowOn(Dispatchers.IO).asLiveData()
+    }.flowOn(Dispatchers.IO).distinctUntilChanged().asLiveData()
 
     private fun getFilterFlow(): Flow<Set<String>> {
         timelineId ?: return MutableStateFlow(emptySet())
@@ -63,10 +66,13 @@ abstract class BaseTimelineViewModel(
         }?.asFlow() ?: MutableStateFlow(emptySet())
     }
 
-    private fun applyTimelinesFilter(events: List<Post>, selectedRoomIds: Set<String>): List<Post> {
+    private fun applyTimelinesFilter(
+        events: List<PostListItem>,
+        selectedRoomIds: Set<String>
+    ): List<PostListItem> {
         val isActive = isFilterActive(selectedRoomIds)
         isFilterActiveLiveData.postValue(isActive)
-        return if (isActive) events.filter { selectedRoomIds.contains(it.postInfo.roomId) }
+        return if (isActive) events.filter { selectedRoomIds.contains((it as? Post)?.postInfo?.roomId) }
         else events
     }
 
@@ -78,9 +84,10 @@ abstract class BaseTimelineViewModel(
 
     private fun mapEventsWithVideoUri(
         context: Context,
-        events: List<Post>,
+        events: List<PostListItem>,
         uriMap: Map<String, Uri>
-    ): List<Post> = events.map { post ->
+    ): List<PostListItem> = events.map { listItem ->
+        val post = (listItem as? Post) ?: return@map listItem
         if (post.content.type != PostContentType.VIDEO_CONTENT) return@map post
         val mediaContent = (post.content as? MediaContent) ?: return@map post
         val uri = uriMap[post.id] ?: run {
@@ -111,5 +118,7 @@ abstract class BaseTimelineViewModel(
         super.onCleared()
     }
 
-    fun loadMore(): Boolean = baseTimelineDataSource.loadMore()
+    fun loadMore() {
+        launchBg { baseTimelineDataSource.loadMore(true) }
+    }
 }

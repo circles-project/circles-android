@@ -19,7 +19,8 @@ class MultiTimelineBuilder @Inject constructor(
     private var currentSnapshotMap: MutableMap<String, List<Post>> = mutableMapOf()
     private var readReceiptMap: MutableMap<String, List<Long>> = mutableMapOf()
 
-    override suspend fun List<TimelineEvent>.processSnapshot(
+    override suspend fun processSnapshot(
+        snapshot: List<TimelineEvent>,
         roomId: String,
         isThread: Boolean
     ): List<Post> {
@@ -29,7 +30,7 @@ class MultiTimelineBuilder @Inject constructor(
         val roomOwner = getRoomOwner(roomId)
         val receipts = getReadReceipts(room).also { readReceiptMap[roomId] = it }
         currentSnapshotMap[roomId] =
-            this.filterRootPostNotFromOwner(isThread, receipts, roomName, roomOwner)
+            snapshot.filterRootPostNotFromOwner(isThread, receipts, roomName, roomOwner)
         return sortList(getCurrentTimelinesPostsList(), isThread)
     }
 

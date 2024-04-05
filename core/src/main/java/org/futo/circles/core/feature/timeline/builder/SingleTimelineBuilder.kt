@@ -16,7 +16,8 @@ class SingleTimelineBuilder @Inject constructor(preferencesProvider: Preferences
 
     private var currentSnapshotList: List<Post> = listOf()
 
-    override suspend fun List<TimelineEvent>.processSnapshot(
+    override suspend fun processSnapshot(
+        snapshot: List<TimelineEvent>,
         roomId: String,
         isThread: Boolean
     ): List<Post> {
@@ -25,7 +26,7 @@ class SingleTimelineBuilder @Inject constructor(preferencesProvider: Preferences
         val receipts = getReadReceipts(room)
         val roomName = room.roomSummary()?.nameOrId()
         val roomOwnerName = getRoomOwner(roomId)?.notEmptyDisplayName()
-        val posts = this.map {
+        val posts = snapshot.map {
             it.toPost(
                 receipts,
                 if (isThread) roomName else null,
