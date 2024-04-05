@@ -127,16 +127,11 @@ abstract class BaseTimelineDataSource(
     protected suspend fun loadNextPage(timeline: Timeline) {
         if (timeline.hasMoreToLoad(listDirection)) {
             pageLoadingFlow.update { true }
-            Log.d("MyLog", "load root")
             var snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
             var postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
-
-            Log.d("MyLog", "count $postsLoadedCount")
             while (postsLoadedCount < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(listDirection)) {
-                Log.d("MyLog", "load next")
                 snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
                 postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
-                Log.d("MyLog", "count $postsLoadedCount")
             }
             timeline.postCurrentSnapshot()
         }
