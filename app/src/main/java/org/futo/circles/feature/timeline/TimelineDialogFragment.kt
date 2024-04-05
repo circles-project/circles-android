@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -175,6 +176,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             binding.toolbar.title = title
         }
         viewModel.timelineEventsLiveData.observeData(this) {
+            Log.d("MyLog", "submit ${it.size}")
             listAdapter.submitList(it)
             viewModel.markTimelineAsRead(args.roomId, isGroupMode)
         }

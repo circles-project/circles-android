@@ -3,6 +3,7 @@ package org.futo.circles.core.feature.picker.gallery.media
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +39,7 @@ class PickMediaItemViewModel @Inject constructor(
     private val selectedItemsFlow = MutableStateFlow<List<GalleryContentListItem>>(emptyList())
 
     val galleryItemsLiveData = combine(
-        timelineDataSource.getTimelineEventFlow(),
+        timelineDataSource.getTimelineEventFlow(viewModelScope),
         selectedItemsFlow
     ) { items, selectedIds ->
         items.mapNotNull { post ->

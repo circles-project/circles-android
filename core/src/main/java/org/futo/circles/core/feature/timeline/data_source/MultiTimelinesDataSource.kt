@@ -3,8 +3,10 @@ package org.futo.circles.core.feature.timeline.data_source
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
 import org.futo.circles.core.feature.timeline.builder.MultiTimelineBuilder
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
@@ -19,11 +21,12 @@ class MultiTimelinesDataSource @Inject constructor(
 
     private var timelines: MutableList<Timeline> = mutableListOf()
 
-    override fun startTimeline(listener: Timeline.Listener) {
+    override fun startTimeline(viewModelScope: CoroutineScope, listener: Timeline.Listener) {
         getTimelineRooms().forEach { room ->
             val timeline = createAndStartNewTimeline(room, listener)
             timelines.add(timeline)
         }
+        viewModelScope.launch(Dispatchers.IO) { loadNextPostsPage(viewModelScope) }
     }
 
     override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
@@ -39,10 +42,6 @@ class MultiTimelinesDataSource @Inject constructor(
         timelines.map { timeline ->
             viewModelScope.async { loadNextPage(timeline) }
         }.awaitAll()
-    }
-
-    override fun loadMore() {
-        timelines.forEach { timeline -> silentLoadNextPage(timeline) }
     }
 
     private fun getTimelineRooms(): List<Room> = room.roomSummary()?.spaceChildren?.mapNotNull {

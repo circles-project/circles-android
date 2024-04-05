@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.base.SingleEventLiveData
@@ -44,17 +45,18 @@ class GalleryViewModel @Inject constructor(
 
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
 
-    val galleryItemsLiveData = timelineDataSource.getTimelineEventFlow().asLiveData().map { list ->
-        list.mapNotNull { item ->
-            when (item) {
-                is Post -> (item.content as? MediaContent)?.let {
-                    GalleryContentListItem(item.id, item.postInfo, it)
-                }
+    val galleryItemsLiveData =
+        timelineDataSource.getTimelineEventFlow(viewModelScope).asLiveData().map { list ->
+            list.mapNotNull { item ->
+                when (item) {
+                    is Post -> (item.content as? MediaContent)?.let {
+                        GalleryContentListItem(item.id, item.postInfo, it)
+                    }
 
-                is TimelineLoadingItem -> GalleryTimelineLoadingListItem()
+                    is TimelineLoadingItem -> GalleryTimelineLoadingListItem()
+                }
             }
         }
-    }
 
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val downloadLiveData = SingleEventLiveData<Unit>()

@@ -1,5 +1,6 @@
 package org.futo.circles.core.feature.timeline.data_source
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,9 +62,9 @@ abstract class BaseTimelineDataSource(
 
     private val pageLoadingFlow = MutableStateFlow(false)
 
-    fun getTimelineEventFlow(): Flow<List<PostListItem>> = combine(
+    fun getTimelineEventFlow(viewModelScope: CoroutineScope): Flow<List<PostListItem>> = combine(
         pageLoadingFlow,
-        getPostEventsFlow()
+        getPostEventsFlow(viewModelScope)
     ) { isLoading, events ->
         if (isLoading) {
             mutableListOf<PostListItem>().apply {
@@ -73,7 +74,7 @@ abstract class BaseTimelineDataSource(
         } else events
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
-    private fun getPostEventsFlow(): Flow<List<Post>> = callbackFlow {
+    private fun getPostEventsFlow(viewModelScope: CoroutineScope): Flow<List<Post>> = callbackFlow {
         val listener = object : Timeline.Listener {
             override fun onTimelineUpdated(
                 roomId: String,
@@ -87,22 +88,20 @@ abstract class BaseTimelineDataSource(
                 onRestartTimeline(timelineId, throwable)
             }
         }
-        startTimeline(listener)
+        startTimeline(viewModelScope, listener)
         awaitClose()
     }.flowOn(Dispatchers.IO)
-        .mapLatest { (roomId, snapshot) ->
-            val items = timelineBuilder.build(roomId, snapshot, isThread)
-            if (snapshot.isNotEmpty() && items.size <= MIN_ITEMS_THRESHOLD) loadMore()
-            items
-        }
+        .mapLatest { (roomId, snapshot) -> timelineBuilder.build(roomId, snapshot, isThread) }
         .distinctUntilChanged()
 
-    protected abstract fun startTimeline(listener: Timeline.Listener)
+    protected abstract fun startTimeline(
+        viewModelScope: CoroutineScope,
+        listener: Timeline.Listener
+    )
 
     protected abstract fun onRestartTimeline(timelineId: String, throwable: Throwable)
     abstract fun clearTimeline()
     protected abstract suspend fun loadMore(viewModelScope: CoroutineScope)
-    protected abstract fun loadMore()
 
     suspend fun loadNextPostsPage(viewModelScope: CoroutineScope) {
         loadMore(viewModelScope)
@@ -126,20 +125,26 @@ abstract class BaseTimelineDataSource(
     }
 
     protected suspend fun loadNextPage(timeline: Timeline) {
-        val hasMore = timeline.hasMoreToLoad(listDirection)
-        if (hasMore) {
+        if (timeline.hasMoreToLoad(listDirection)) {
             pageLoadingFlow.update { true }
-            timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
+            Log.d("MyLog", "load root")
+            val snapshot =
+                timeline.awaitPaginateWithTimelineUpdate(listDirection, MESSAGES_PER_PAGE)
+            var messagesLoaded = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
+
+            Log.d("MyLog", "count $messagesLoaded")
+            while (messagesLoaded < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(listDirection)) {
+                Log.d("MyLog", "load next")
+                val items =
+                    timeline.awaitPaginateWithTimelineUpdate(listDirection, MESSAGES_PER_PAGE)
+                messagesLoaded = timelineBuilder.filterTimelineEvents(items, isThread).size
+                Log.d("MyLog", "count $messagesLoaded")
+            }
         }
     }
 
-    protected fun silentLoadNextPage(timeline: Timeline) {
-        val hasMore = timeline.hasMoreToLoad(listDirection)
-        if (hasMore) timeline.paginate(listDirection, MESSAGES_PER_PAGE)
-    }
-
     companion object {
-        private const val MESSAGES_PER_PAGE = 50
-        private const val MIN_ITEMS_THRESHOLD = 15
+        private const val MESSAGES_PER_PAGE = 20
+        private const val MIN_MESSAGES_ON_PAGE = 10
     }
 }
