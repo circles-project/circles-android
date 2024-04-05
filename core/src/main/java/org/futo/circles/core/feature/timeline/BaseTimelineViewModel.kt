@@ -119,6 +119,6 @@ abstract class BaseTimelineViewModel(
     }
 
     fun loadMore() {
-        launchBg { baseTimelineDataSource.loadNextPostsPage() }
+        launchBg { baseTimelineDataSource.loadMore(true) }
     }
 }

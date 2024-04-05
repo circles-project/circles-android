@@ -27,7 +27,7 @@ class MultiTimelinesDataSource @Inject constructor(
             val timeline = createAndStartNewTimeline(room, listener)
             timelines.add(timeline)
         }
-        viewModelScope.launch(Dispatchers.IO) { loadNextPostsPage() }
+        viewModelScope.launch(Dispatchers.IO) { loadMore(false) }
     }
 
     override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
@@ -39,8 +39,8 @@ class MultiTimelinesDataSource @Inject constructor(
         timelines.clear()
     }
 
-    override suspend fun loadMore() {
-        timelines.map { timeline -> loadNextPage(timeline) }
+    override suspend fun loadMore(showLoader: Boolean) {
+        timelines.map { timeline -> loadNextPage(showLoader, timeline) }
     }
 
     private fun getTimelineRooms(): List<Room> = room.roomSummary()?.spaceChildren?.mapNotNull {

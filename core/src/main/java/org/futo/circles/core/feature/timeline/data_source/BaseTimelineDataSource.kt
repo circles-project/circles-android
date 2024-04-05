@@ -1,6 +1,5 @@
 package org.futo.circles.core.feature.timeline.data_source
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -87,6 +86,11 @@ abstract class BaseTimelineDataSource(
             override fun onTimelineFailure(timelineId: String, throwable: Throwable) {
                 onRestartTimeline(timelineId, throwable)
             }
+
+            override fun onNewTimelineEvents(eventIds: List<String>) {
+                super.onNewTimelineEvents(eventIds)
+                pageLoadingFlow.update { false }
+            }
         }
         startTimeline(viewModelScope, listener)
         awaitClose()
@@ -101,12 +105,7 @@ abstract class BaseTimelineDataSource(
 
     protected abstract fun onRestartTimeline(timelineId: String, throwable: Throwable)
     abstract fun clearTimeline()
-    protected abstract suspend fun loadMore()
-
-    suspend fun loadNextPostsPage() {
-        loadMore()
-        pageLoadingFlow.update { false }
-    }
+    abstract suspend fun loadMore(showLoader: Boolean)
 
     protected fun createAndStartNewTimeline(room: Room, listener: Timeline.Listener) =
         room.timelineService()
@@ -124,9 +123,9 @@ abstract class BaseTimelineDataSource(
         timeline.dispose()
     }
 
-    protected suspend fun loadNextPage(timeline: Timeline) {
+    protected suspend fun loadNextPage(showLoader: Boolean, timeline: Timeline) {
         if (timeline.hasMoreToLoad(listDirection)) {
-            pageLoadingFlow.update { true }
+            pageLoadingFlow.update { showLoader }
             var snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
             var postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
             while (postsLoadedCount < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(listDirection)) {
@@ -134,6 +133,8 @@ abstract class BaseTimelineDataSource(
                 postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
             }
             timeline.postCurrentSnapshot()
+        } else {
+            pageLoadingFlow.update { false }
         }
     }
 
