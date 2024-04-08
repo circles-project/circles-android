@@ -125,7 +125,6 @@ dependencies {
 
     // Google app update
     gplayImplementation "com.google.android.play:app-update:2.1.0"
-    gplayImplementation "com.google.android.play:app-update-ktx:2.1.0"
 
     //test
     testImplementation 'junit:junit:4.13.2'
