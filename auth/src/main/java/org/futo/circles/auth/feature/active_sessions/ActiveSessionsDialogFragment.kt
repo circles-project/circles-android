@@ -73,10 +73,10 @@ class ActiveSessionsDialogFragment :
             sessionsListAdapter.submitList(it)
         }
         viewModel.removeSessionLiveData.observeResponse(this,
-            error = { showError(getString(R.string.invalid_auth)) }
+            error = { showError(getString(R.string.the_password_you_entered_is_incorrect)) }
         )
         viewModel.resetKeysLiveData.observeResponse(this,
-            error = { showError(getString(R.string.invalid_auth)) }
+            error = { showError(getString(R.string.the_password_you_entered_is_incorrect)) }
         )
         viewModel.startReAuthEventLiveData.observeData(this) {
             findNavController().navigateSafe(ActiveSessionsDialogFragmentDirections.toUiaDialogFragment())

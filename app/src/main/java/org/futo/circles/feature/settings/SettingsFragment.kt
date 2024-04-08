@@ -101,7 +101,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
         )
         viewModel.deactivateLiveData.observeResponse(this,
             success = { clearSessionAndRestart() },
-            error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) },
+            error = { showError(getString(org.futo.circles.auth.R.string.the_password_you_entered_is_incorrect)) },
             onRequestInvoked = { loadingDialog.dismiss() }
         )
         viewModel.startReAuthEventLiveData.observeData(this) {
@@ -112,7 +112,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
         }
         viewModel.addEmailLiveData.observeResponse(this,
             success = { showSuccess(getString(org.futo.circles.core.R.string.email_added)) },
-            error = { showError(getString(org.futo.circles.auth.R.string.invalid_auth)) },
+            error = { showError(getString(org.futo.circles.auth.R.string.the_password_you_entered_is_incorrect)) },
             onRequestInvoked = { loadingDialog.dismiss() }
         )
         viewModel.changePasswordResponseLiveData.observeResponse(this,
