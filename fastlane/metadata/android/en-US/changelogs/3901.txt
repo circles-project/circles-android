@@ -1,0 +1,5 @@
+- Remove BCrypt backup support
+- Show all timeline events types with dev mode enabled
+- Improve paging for timeline
+- App update api (Google Play version)
+- Bug fixes and performance improvements
