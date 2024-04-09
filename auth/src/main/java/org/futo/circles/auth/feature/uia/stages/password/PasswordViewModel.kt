@@ -1,13 +1,9 @@
 package org.futo.circles.auth.feature.uia.stages.password
 
 import android.content.Context
-import androidx.credentials.CreatePasswordRequest
-import androidx.credentials.CredentialManager
-import androidx.credentials.GetCredentialRequest
-import androidx.credentials.GetPasswordOption
-import androidx.credentials.PasswordCredential
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.futo.circles.auth.credentials.CredentialsProvider
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
@@ -17,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PasswordViewModel @Inject constructor(
-    private val passwordDataSource: PasswordDataSource
+    private val passwordDataSource: PasswordDataSource,
+    private val credentialsProvider: CredentialsProvider
 ) : ViewModel() {
 
     private var isPasswordWarningConfirmed: Boolean = false
@@ -31,22 +28,13 @@ class PasswordViewModel @Inject constructor(
     fun getCredentials(activityContext: Context) {
         launchBg {
             tryOrNull {
-                val credentialManager = CredentialManager.create(activityContext)
                 val userId = UIADataSourceProvider.getDataSourceOrThrow().getUserId()
-                val request = GetCredentialRequest(
-                    listOf(GetPasswordOption(allowedUserIds = setOf(userId)))
-                )
-
-                val result = credentialManager.getCredential(
-                    context = activityContext,
-                    request = request
-                ).credential
-
-                if (result is PasswordCredential) {
-                    val password = result.password
-                    passwordSelectedEventLiveData.postValue(password)
-                    handlePasswordRequest(password, false, activityContext)
-                }
+                credentialsProvider.getManager()
+                    ?.getPasswordCredentials(activityContext, userId)
+                    ?.let { password ->
+                        passwordSelectedEventLiveData.postValue(password)
+                        handlePasswordRequest(password, false, activityContext)
+                    }
             }
         }
     }
@@ -63,15 +51,9 @@ class PasswordViewModel @Inject constructor(
 
     private suspend fun registerPassword(activityContext: Context, password: String) {
         tryOrNull {
-            val uiaDataSource = UIADataSourceProvider.getDataSourceOrThrow()
-            val createPasswordRequest = CreatePasswordRequest(
-                id = uiaDataSource.getUserId(),
-                password = password
-            )
-            CredentialManager.create(activityContext).createCredential(
-                activityContext,
-                createPasswordRequest
-            )
+            val userId = UIADataSourceProvider.getDataSourceOrThrow().getUserId()
+            credentialsProvider.getManager()
+                ?.savePasswordCredentials(activityContext, userId, password)
         }
     }
 

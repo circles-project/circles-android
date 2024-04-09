@@ -112,9 +112,6 @@ dependencies {
     api "io.noties.markwon:ext-tasklist:$markwon_version"
     api 'io.element.android:wysiwyg:2.36.0'
 
-    //PasswordManager
-    api "androidx.credentials:credentials:1.3.0-alpha02"
-
     //ExoPlayer
     def exoplayer_version = '1.3.0'
     api "androidx.media3:media3-exoplayer:$exoplayer_version"

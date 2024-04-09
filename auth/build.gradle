@@ -81,6 +81,11 @@ dependencies {
     //Subscriptions
     gplayImplementation 'com.android.billingclient:billing-ktx:6.2.0'
 
+    //PasswordManager
+    def credentials_version = '1.3.0-alpha02'
+    gplayImplementation "androidx.credentials:credentials:$credentials_version"
+    gplayImplementation "androidx.credentials:credentials-play-services-auth:$credentials_version"
+
     //QR
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
