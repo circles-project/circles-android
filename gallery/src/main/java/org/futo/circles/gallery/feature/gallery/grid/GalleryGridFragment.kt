@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 import androidx.transition.TransitionInflater
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +19,8 @@ import org.futo.circles.core.base.list.BaseRvDecoration
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.feature.picker.gallery.media.list.GalleryMediaItemViewHolder
+import org.futo.circles.core.feature.picker.gallery.media.list.GalleryMediaGridAdapter
+import org.futo.circles.core.feature.picker.gallery.media.list.holder.GalleryMediaItemViewHolder
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.MediaType
@@ -26,7 +28,6 @@ import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentGalleryGridBinding
 import org.futo.circles.gallery.feature.gallery.GalleryMediaPreviewListener
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment.Companion.POSITION
-import org.futo.circles.gallery.feature.gallery.grid.list.GalleryItemsAdapter
 
 
 @AndroidEntryPoint
@@ -38,9 +39,11 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
         this, isMultiSelect = true, isVideoAvailable = true
     )
     private val listAdapter by lazy {
-        GalleryItemsAdapter(onGalleryItemClicked = { item, view, position ->
-            onMediaItemSelected(item, view, position)
-        }, onLoadMore = { viewModel.loadMore() })
+        GalleryMediaGridAdapter(
+            isMultiSelect = false,
+            onMediaItemClicked = { item, view, position ->
+                onMediaItemSelected(item, view, position)
+            })
     }
 
     private var previewMediaListener: GalleryMediaPreviewListener? = null
@@ -84,11 +87,14 @@ class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
 
     private fun setupViews() {
         binding.rvGallery.apply {
-            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL).apply {
+                    gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+                }
             adapter = listAdapter
-            getRecyclerView().itemAnimator = null
             addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
             bindToFab(binding.fbUploadImage)
+            addPageEndListener { viewModel.loadMore() }
         }
         binding.fbUploadImage.setOnClickListener { showImagePicker() }
     }

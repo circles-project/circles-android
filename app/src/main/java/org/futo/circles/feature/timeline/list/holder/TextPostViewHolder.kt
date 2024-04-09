@@ -33,11 +33,11 @@ class TextPostViewHolder(
     override val readMoreTextView: ReadMoreTextView
         get() = binding.tvTextContent
 
-init {
-    setListeners()
-}
-    override fun bind(post: Post) {
-        super.bind(post)
+    init {
+        setListeners()
+    }
+
+    override fun bindHolderSpecific(post: Post) {
         val content = (post.content as? TextContent) ?: return
         binding.tvTextContent.setText(content.messageSpanned, TextView.BufferType.SPANNABLE)
     }

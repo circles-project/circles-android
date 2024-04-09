@@ -29,8 +29,7 @@ class ChangePasswordDataSource @Inject constructor(
 
     suspend fun createNewBackupInNeeded(): Response<Unit> =
         createResult {
-            if (encryptionAlgorithmHelper.isBcryptAlgorithm()) createPassPhraseDataSource.replaceToNewKeyBackup()
-            else if (encryptionAlgorithmHelper.isBsSpekePassPhrase())
+            if (encryptionAlgorithmHelper.isBsSpekePassPhrase())
                 createPassPhraseDataSource.changeBsSpekePassword4SKey()
 
             BSSpekeClientProvider.clear()

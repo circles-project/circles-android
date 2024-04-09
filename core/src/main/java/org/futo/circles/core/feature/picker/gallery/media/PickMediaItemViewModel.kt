@@ -3,6 +3,7 @@ package org.futo.circles.core.feature.picker.gallery.media
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +14,11 @@ import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragme
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.SingleTimelineDataSource
 import org.futo.circles.core.model.GalleryContentListItem
+import org.futo.circles.core.model.GalleryTimelineLoadingListItem
 import org.futo.circles.core.model.MediaContent
+import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.TimelineLoadingItem
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,15 +39,24 @@ class PickMediaItemViewModel @Inject constructor(
     private val selectedItemsFlow = MutableStateFlow<List<GalleryContentListItem>>(emptyList())
 
     val galleryItemsLiveData = combine(
-        timelineDataSource.getTimelineEventFlow(),
+        timelineDataSource.getTimelineEventFlow(viewModelScope),
         selectedItemsFlow
     ) { items, selectedIds ->
         items.mapNotNull { post ->
-            (post.content as? MediaContent)?.let {
-                if (it.type == PostContentType.VIDEO_CONTENT && !isVideoAvailable) null
-                else GalleryContentListItem(
-                    post.id, post.postInfo, it, selectedIds.firstOrNull { it.id == post.id } != null
-                )
+            when (post) {
+                is Post -> {
+                    (post.content as? MediaContent)?.let {
+                        if (it.type == PostContentType.VIDEO_CONTENT && !isVideoAvailable) null
+                        else GalleryContentListItem(
+                            post.id,
+                            post.postInfo,
+                            it,
+                            selectedIds.firstOrNull { it.id == post.id } != null
+                        )
+                    }
+                }
+
+                is TimelineLoadingItem -> GalleryTimelineLoadingListItem()
             }
         }
     }.distinctUntilChanged().asLiveData()

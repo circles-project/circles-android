@@ -71,7 +71,7 @@ fun Fragment.showSuccess(message: String) {
 
 fun Fragment.showNoInternetConnection(): Boolean {
     val isConnected = NetworkObserver.isConnected()
-    if (!isConnected) showError(getString(org.futo.circles.core.R.string.no_internet_connection))
+    if (!isConnected) showError(getString(R.string.no_internet_connection))
     return !isConnected
 }
 
@@ -141,6 +141,3 @@ fun Fragment.openNotificationSettings() {
     } else openAppSettings()
 }
 
-fun Fragment.getAllChildFragments(): List<Fragment> {
-    return listOf(this) + childFragmentManager.fragments.map { it.getAllChildFragments() }.flatten()
-}

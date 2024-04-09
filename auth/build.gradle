@@ -76,7 +76,7 @@ dependencies {
     implementation 'androidx.browser:browser:1.8.0'
 
     //Password strength
-    implementation 'com.nulab-inc:zxcvbn:1.8.2'
+    implementation 'com.nulab-inc:zxcvbn:1.9.0'
 
     //Subscriptions
     gplayImplementation 'com.android.billingclient:billing-ktx:6.2.0'

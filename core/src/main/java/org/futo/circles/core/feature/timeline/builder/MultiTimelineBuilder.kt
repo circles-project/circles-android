@@ -6,17 +6,21 @@ import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import javax.inject.Inject
 
-class MultiTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
+class MultiTimelineBuilder @Inject constructor(
+    preferencesProvider: PreferencesProvider
+) : BaseTimelineBuilder(preferencesProvider) {
 
     private var currentSnapshotMap: MutableMap<String, List<Post>> = mutableMapOf()
     private var readReceiptMap: MutableMap<String, List<Long>> = mutableMapOf()
 
-    override suspend fun List<TimelineEvent>.processSnapshot(
+    override suspend fun processSnapshot(
+        snapshot: List<TimelineEvent>,
         roomId: String,
         isThread: Boolean
     ): List<Post> {
@@ -26,7 +30,7 @@ class MultiTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
         val roomOwner = getRoomOwner(roomId)
         val receipts = getReadReceipts(room).also { readReceiptMap[roomId] = it }
         currentSnapshotMap[roomId] =
-            this.filterRootPostNotFromOwner(isThread, receipts, roomName, roomOwner)
+            snapshot.filterRootPostNotFromOwner(isThread, receipts, roomName, roomOwner)
         return sortList(getCurrentTimelinesPostsList(), isThread)
     }
 

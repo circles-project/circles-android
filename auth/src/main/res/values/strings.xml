@@ -104,7 +104,6 @@
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
     <string name="current_session">Current session</string>
     <string name="other_sessions">Other sessions</string>
-    <string name="invalid_auth">Invalid auth</string>
     <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
     <string name="waiting_for_other_device_verification">Waiting for other device to start verification</string>
     <string name="session_verified">Session verified</string>
@@ -157,7 +156,7 @@
     <string name="passphrase_tip">Tip: It\'s OK to write your passphrase down and store it in a secure location.</string>
     <string name="username_not_found">Username not found</string>
     <string name="invalid_validation_code">Invalid validation code</string>
-    <string name="invalid_password">Invalid password</string>
+    <string name="the_password_you_entered_is_incorrect">The password you entered is incorrect</string>
     <string name="forgot_password_question">Forgot password?</string>
     <string name="forgot_password">Forgot password</string>
     <string name="please_use_one_of_your_verified_emails_format">Please use one of your verified emails:\n%s</string>

@@ -7,6 +7,8 @@ import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.model.PostInfo
 import org.futo.circles.core.model.ReactionsData
+import org.futo.circles.core.model.toOtherEventContent
+import org.futo.circles.core.model.toTextContent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited
 
@@ -42,7 +44,7 @@ private fun TimelineEvent.toPostContent(): PostContent =
         PostContentType.IMAGE_CONTENT -> toMediaContent(MediaType.Image)
         PostContentType.VIDEO_CONTENT -> toMediaContent(MediaType.Video)
         PostContentType.POLL_CONTENT -> toPollContent()
-        else -> toTextContent()
+        else -> toOtherEventContent()
     }
 
 private fun TimelineEvent.getReadByCount(receipts: List<Long>): Int {

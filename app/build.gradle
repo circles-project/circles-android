@@ -12,8 +12,8 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.min_sdk_version
         targetSdk rootProject.ext.sdk_version
-        versionCode 38
-        versionName "1.0.28"
+        versionCode 39
+        versionName "1.0.29"
         archivesBaseName = "circles-v${versionName}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -122,6 +122,9 @@ dependencies {
     //Hilt
     implementation "com.google.dagger:hilt-android:$rootProject.ext.hilt_version"
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
+
+    // Google app update
+    gplayImplementation "com.google.android.play:app-update:2.1.0"
 
     //test
     testImplementation 'junit:junit:4.13.2'

@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.base.SingleEventLiveData
@@ -17,9 +18,12 @@ import org.futo.circles.core.feature.timeline.post.PostContentDataSource
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.model.GalleryContentListItem
+import org.futo.circles.core.model.GalleryTimelineLoadingListItem
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.ShareableContent
+import org.futo.circles.core.model.TimelineLoadingItem
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,13 +45,18 @@ class GalleryViewModel @Inject constructor(
 
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
 
-    val galleryItemsLiveData = timelineDataSource.getTimelineEventFlow().asLiveData().map { list ->
-        list.mapNotNull { post ->
-            (post.content as? MediaContent)?.let {
-                GalleryContentListItem(post.id, post.postInfo, it)
+    val galleryItemsLiveData =
+        timelineDataSource.getTimelineEventFlow(viewModelScope).asLiveData().map { list ->
+            list.mapNotNull { item ->
+                when (item) {
+                    is Post -> (item.content as? MediaContent)?.let {
+                        GalleryContentListItem(item.id, item.postInfo, it)
+                    }
+
+                    is TimelineLoadingItem -> GalleryTimelineLoadingListItem()
+                }
             }
         }
-    }
 
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val downloadLiveData = SingleEventLiveData<Unit>()

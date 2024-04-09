@@ -22,6 +22,7 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.feature.share.ShareProvider
+import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentFullScreenPagerBinding
 import org.futo.circles.gallery.feature.gallery.grid.GalleryViewModel
@@ -94,8 +95,8 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
                 setEnabledChildren(it)
             }
         }
-        viewModel.galleryItemsLiveData.observeData(this) {
-            pagerAdapter.submitList(it)
+        viewModel.galleryItemsLiveData.observeData(this) {items->
+            pagerAdapter.submitList(items.mapNotNull { (it as? GalleryContentListItem) })
             setToolbarTitle()
         }
         viewModel.shareLiveData.observeData(this) { content ->

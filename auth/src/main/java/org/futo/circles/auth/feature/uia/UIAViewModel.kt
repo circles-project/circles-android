@@ -11,7 +11,6 @@ import org.futo.circles.auth.feature.pass_phrase.EncryptionAlgorithmHelper
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
 import org.futo.circles.auth.feature.token.RefreshTokenManager
-import org.futo.circles.auth.feature.uia.flow.LoginStagesDataSource
 import org.futo.circles.auth.model.AuthUIAScreenNavigationEvent
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
@@ -126,26 +125,12 @@ class UIAViewModel @Inject constructor(
     }
 
     private suspend fun handleKeysBackup() {
-        if (encryptionAlgorithmHelper.isBcryptAlgorithm()) {
-            (uiaDataSource as? LoginStagesDataSource)?.userPassword?.let {
-                restoreAndMigrateBCrypt(it)
-            }
-        } else {
-            if (encryptionAlgorithmHelper.isBsSpekePassPhrase()) restoreBsSpekeBackup()
-            else navigationLiveData.postValue(AuthUIAScreenNavigationEvent.PassPhrase)
-        }
+        if (encryptionAlgorithmHelper.isBsSpekePassPhrase()) restoreBsSpekeBackup()
+        else navigationLiveData.postValue(AuthUIAScreenNavigationEvent.PassPhrase)
     }
 
     private suspend fun restoreBsSpekeBackup() {
         val restoreResult = createResult { restoreBackupDataSource.restoreWithBsSpekeKey() }
-        handleRestoreResult(restoreResult)
-    }
-
-    private suspend fun restoreAndMigrateBCrypt(passphrase: String) {
-        val restoreResult = createResult {
-            restoreBackupDataSource.restoreBcryptWithPassPhase(passphrase)
-            createPassPhraseDataSource.replaceToNewKeyBackup()
-        }
         handleRestoreResult(restoreResult)
     }
 

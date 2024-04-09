@@ -29,10 +29,11 @@ class PostMenuViewModel @Inject constructor(
 
     fun getSenderId() = postContentDataSource.getPost(roomId, eventId)?.postInfo?.sender?.userId
 
-    fun canDeletePost() =
-        (areUserAbleToPost() && isMyPost()) || userPowerLevel >= Role.Moderator.value
+    fun canDeletePost() = if (getPostContent()?.type == PostContentType.OTHER_CONTENT) false
+    else (areUserAbleToPost() && isMyPost()) || userPowerLevel >= Role.Moderator.value
 
-    fun canEditPost() = areUserAbleToPost() && isMyPost()
+    fun canEditPost() = if (getPostContent()?.type == PostContentType.OTHER_CONTENT) false
+    else areUserAbleToPost() && isMyPost()
             && getPostContent()?.type != PostContentType.POLL_CONTENT
 
     fun canEndPoll() = isPoll() && getPollState() != PollState.Ended && canDeletePost()

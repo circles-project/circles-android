@@ -2,7 +2,9 @@ package org.futo.circles.core.mapping
 
 import org.futo.circles.core.model.PollContent
 import org.futo.circles.core.model.PollOption
+import org.futo.circles.core.model.PollResponseData
 import org.futo.circles.core.model.PollState
+import org.futo.circles.core.model.PollVoteSummaryData
 import org.matrix.android.sdk.api.extensions.orFalse
 import org.matrix.android.sdk.api.session.room.model.message.MessagePollContent
 import org.matrix.android.sdk.api.session.room.model.message.PollAnswer
@@ -42,19 +44,6 @@ fun TimelineEvent.toPollContent(): PollContent {
         isClosedType = pollCreationInfo?.kind == PollType.UNDISCLOSED
     )
 }
-
-private data class PollResponseData(
-    val myVote: String?,
-    val votes: Map<String, PollVoteSummaryData>?,
-    val totalVotes: Int,
-    val winnerVoteCount: Int,
-    val isClosed: Boolean
-)
-
-private data class PollVoteSummaryData(
-    val total: Int,
-    val percentage: Double
-)
 
 private fun getPollState(
     sendState: SendState,

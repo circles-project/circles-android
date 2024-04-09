@@ -62,7 +62,16 @@ class LoadingRecyclerView(
 
     fun bindToFab(fab: FloatingActionButton) = binding.rvList.bindToFab(fab)
 
-    fun setIsPageLoading(isLoading: Boolean) = binding.pageLoading.setIsVisible(isLoading)
+    fun addPageEndListener(loadMore: () -> Unit) {
+        binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    loadMore.invoke()
+                }
+            }
+        })
+    }
 
     private fun setupDataObserver() {
         with(binding) {

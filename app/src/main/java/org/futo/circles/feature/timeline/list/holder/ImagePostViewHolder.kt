@@ -53,8 +53,7 @@ class ImagePostViewHolder(
     }
 
 
-    override fun bind(post: Post) {
-        super.bind(post)
+    override fun bindHolderSpecific(post: Post) {
         with(binding) {
             vLoadingView.gone()
             val content = (post.content as? MediaContent) ?: return

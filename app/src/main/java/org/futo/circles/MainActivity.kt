@@ -9,10 +9,16 @@ import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.feature.home.DeepLinkIntentHandler
 import org.futo.circles.feature.whats_new.WhatsNewDialog
+import org.futo.circles.update.AppUpdateManager
+import org.futo.circles.update.AppUpdateProvider
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity(R.layout.activity_main) {
+
+    @Inject
+    lateinit var appUpdateProvider: AppUpdateProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +26,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         MarkdownParser.initBuilder(this)
         LauncherActivityUtils.syncSessionIfCashWasCleared(this)
         WhatsNewDialog.showIfNeed(this)
+        appUpdateProvider.getManager()?.launchUpdateIfAvailable(this)
     }
 
     override fun onNewIntent(intent: Intent) {

@@ -18,10 +18,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
@@ -150,10 +149,7 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
     }
 
     override fun onSendClicked(content: CreatePostContent) {
-        if (!NetworkObserver.isConnected()) {
-            showError(getString(org.futo.circles.core.R.string.no_internet_connection))
-            return
-        }
+        if (showNoInternetConnection()) return
         sendPost(content)
         dismiss()
     }

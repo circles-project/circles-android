@@ -1,19 +1,26 @@
 package org.futo.circles.core.feature.timeline.data_source
 
 import androidx.lifecycle.SavedStateHandle
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.update
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.feature.timeline.builder.BaseTimelineBuilder
 import org.futo.circles.core.feature.timeline.builder.MultiTimelineBuilder
 import org.futo.circles.core.feature.timeline.builder.SingleTimelineBuilder
 import org.futo.circles.core.model.Post
+import org.futo.circles.core.model.PostListItem
+import org.futo.circles.core.model.TimelineLoadingItem
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
@@ -27,10 +34,19 @@ abstract class BaseTimelineDataSource(
     private val timelineBuilder: BaseTimelineBuilder
 ) {
 
-    class Factory @Inject constructor(private val savedStateHandle: SavedStateHandle) {
+    class Factory @Inject constructor(
+        private val savedStateHandle: SavedStateHandle,
+        private val preferencesProvider: PreferencesProvider
+    ) {
         fun create(isMultiTimelines: Boolean): BaseTimelineDataSource =
-            if (isMultiTimelines) MultiTimelinesDataSource(savedStateHandle, MultiTimelineBuilder())
-            else SingleTimelineDataSource(savedStateHandle, SingleTimelineBuilder())
+            if (isMultiTimelines) MultiTimelinesDataSource(
+                savedStateHandle,
+                MultiTimelineBuilder(preferencesProvider)
+            )
+            else SingleTimelineDataSource(
+                savedStateHandle,
+                SingleTimelineBuilder(preferencesProvider)
+            )
     }
 
     protected val roomId: String = savedStateHandle.getOrThrow("roomId")
@@ -43,8 +59,21 @@ abstract class BaseTimelineDataSource(
     private val listDirection =
         if (isThread) Timeline.Direction.FORWARDS else Timeline.Direction.BACKWARDS
 
+    private val pageLoadingFlow = MutableStateFlow(false)
 
-    fun getTimelineEventFlow(): Flow<List<Post>> = callbackFlow {
+    fun getTimelineEventFlow(viewModelScope: CoroutineScope): Flow<List<PostListItem>> = combine(
+        pageLoadingFlow,
+        getPostEventsFlow(viewModelScope)
+    ) { isLoading, events ->
+        if (isLoading) {
+            mutableListOf<PostListItem>().apply {
+                addAll(events)
+                add(TimelineLoadingItem())
+            }
+        } else events
+    }.flowOn(Dispatchers.IO).distinctUntilChanged()
+
+    private fun getPostEventsFlow(viewModelScope: CoroutineScope): Flow<List<Post>> = callbackFlow {
         val listener = object : Timeline.Listener {
             override fun onTimelineUpdated(
                 roomId: String,
@@ -57,22 +86,26 @@ abstract class BaseTimelineDataSource(
             override fun onTimelineFailure(timelineId: String, throwable: Throwable) {
                 onRestartTimeline(timelineId, throwable)
             }
+
+            override fun onNewTimelineEvents(eventIds: List<String>) {
+                super.onNewTimelineEvents(eventIds)
+                pageLoadingFlow.update { false }
+            }
         }
-        startTimeline(listener)
+        startTimeline(viewModelScope, listener)
         awaitClose()
     }.flowOn(Dispatchers.IO)
-        .mapLatest { (roomId, snapshot) ->
-            val items = timelineBuilder.build(roomId, snapshot, isThread)
-            if (snapshot.isNotEmpty() && items.size <= LOAD_MORE_THRESHOLD) loadMore()
-            items
-        }
+        .mapLatest { (roomId, snapshot) -> timelineBuilder.build(roomId, snapshot, isThread) }
         .distinctUntilChanged()
 
-    protected abstract fun startTimeline(listener: Timeline.Listener)
+    protected abstract fun startTimeline(
+        viewModelScope: CoroutineScope,
+        listener: Timeline.Listener
+    )
 
     protected abstract fun onRestartTimeline(timelineId: String, throwable: Throwable)
     abstract fun clearTimeline()
-    abstract fun loadMore(): Boolean
+    abstract suspend fun loadMore(showLoader: Boolean)
 
     protected fun createAndStartNewTimeline(room: Room, listener: Timeline.Listener) =
         room.timelineService()
@@ -90,14 +123,23 @@ abstract class BaseTimelineDataSource(
         timeline.dispose()
     }
 
-    protected fun loadNextPage(timeline: Timeline): Boolean {
-        val hasMore = timeline.hasMoreToLoad(listDirection)
-        if (hasMore) timeline.paginate(listDirection, MESSAGES_PER_PAGE)
-        return hasMore
+    protected suspend fun loadNextPage(showLoader: Boolean, timeline: Timeline) {
+        if (timeline.hasMoreToLoad(listDirection)) {
+            pageLoadingFlow.update { showLoader }
+            var snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
+            var postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
+            while (postsLoadedCount < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(listDirection)) {
+                snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
+                postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
+            }
+            timeline.postCurrentSnapshot()
+        } else {
+            pageLoadingFlow.update { false }
+        }
     }
 
     companion object {
-        private const val MESSAGES_PER_PAGE = 50
-        const val LOAD_MORE_THRESHOLD = 15
+        private const val MESSAGES_PER_PAGE = 20
+        private const val MIN_MESSAGES_ON_PAGE = 10
     }
 }

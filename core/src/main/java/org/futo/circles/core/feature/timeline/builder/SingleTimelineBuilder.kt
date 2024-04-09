@@ -6,15 +6,18 @@ import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import javax.inject.Inject
 
-class SingleTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
+class SingleTimelineBuilder @Inject constructor(preferencesProvider: PreferencesProvider) :
+    BaseTimelineBuilder(preferencesProvider) {
 
     private var currentSnapshotList: List<Post> = listOf()
 
-    override suspend fun List<TimelineEvent>.processSnapshot(
+    override suspend fun processSnapshot(
+        snapshot: List<TimelineEvent>,
         roomId: String,
         isThread: Boolean
     ): List<Post> {
@@ -23,7 +26,7 @@ class SingleTimelineBuilder @Inject constructor() : BaseTimelineBuilder() {
         val receipts = getReadReceipts(room)
         val roomName = room.roomSummary()?.nameOrId()
         val roomOwnerName = getRoomOwner(roomId)?.notEmptyDisplayName()
-        val posts = this.map {
+        val posts = snapshot.map {
             it.toPost(
                 receipts,
                 if (isThread) roomName else null,

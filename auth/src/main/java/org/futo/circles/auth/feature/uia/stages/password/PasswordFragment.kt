@@ -78,7 +78,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
 
     private fun setupObservers() {
         viewModel.passwordResponseLiveData.observeResponse(this,
-            error = { showError(getString(R.string.invalid_password)) })
+            error = { showError(getString(R.string.the_password_you_entered_is_incorrect)) })
         viewModel.passwordSelectedEventLiveData.observeData(this) {
             startLoading(binding.btnLogin)
             binding.etPassword.setText(it)

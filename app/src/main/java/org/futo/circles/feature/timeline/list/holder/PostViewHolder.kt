@@ -8,8 +8,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.CallSuper
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.futo.circles.R
 import org.futo.circles.core.base.list.context
@@ -18,6 +16,7 @@ import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.PollContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.model.PostListItem
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.feature.timeline.InternalLinkMovementMethod
 import org.futo.circles.feature.timeline.list.OnLinkClickedListener
@@ -31,17 +30,18 @@ import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
 @SuppressLint("ClickableViewAccessibility")
-sealed class PostViewHolder(
+abstract class PostViewHolder(
     view: View,
     protected val optionsListener: PostOptionsListener,
     private val isThread: Boolean
-) : RecyclerView.ViewHolder(view) {
+) : PostListItemViewHolder(view) {
 
-    abstract val postLayout: ViewGroup
+    abstract val postLayout: ViewGroup?
+    abstract val postFooter: PostFooterView?
+    abstract val postStatus: PostStatusView?
+    abstract val readMoreTextView: ReadMoreTextView?
     abstract val postHeader: PostHeaderView
-    abstract val postFooter: PostFooterView
-    abstract val postStatus: PostStatusView
-    abstract val readMoreTextView: ReadMoreTextView
+    abstract fun bindHolderSpecific(post: Post)
 
     protected var post: Post? = null
 
@@ -50,7 +50,7 @@ sealed class PostViewHolder(
             override fun onDoubleTap(e: MotionEvent): Boolean {
                 post?.let {
                     optionsListener.onShowEmoji(it.postInfo.roomId, it.id) { emoji ->
-                        postFooter.addEmojiFromPickerLocalUpdate(emoji)
+                        postFooter?.addEmojiFromPickerLocalUpdate(emoji)
                     }
                 }
                 return true
@@ -72,16 +72,19 @@ sealed class PostViewHolder(
             setIsLongpressEnabled(true)
         }
 
+    override fun bind(item: PostListItem) {
+        (item as? Post)?.let { bindPost(item) }
+    }
 
     protected fun setListeners() {
-        postLayout.setOnTouchListener { _, event ->
+        postLayout?.setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
             false
         }
-        postFooter.setListener(optionsListener)
+        postFooter?.setListener(optionsListener)
         postHeader.setListener(optionsListener)
         handleLinkClick()
-        readMoreTextView.apply {
+        readMoreTextView?.apply {
             setNotCollapsableClickAction { openReplies() }
             setOnLongClickListener {
                 postHeader.showMenu()
@@ -90,21 +93,21 @@ sealed class PostViewHolder(
         }
     }
 
-    @CallSuper
-    open fun bind(post: Post) {
+    private fun bindPost(post: Post) {
         this.post = post
         postHeader.setData(post)
-        postFooter.setData(post, isThread)
+        postFooter?.setData(post, isThread)
         bindMentionBorder(post.content)
-        postStatus.apply {
+        postStatus?.apply {
             setIsEdited(post.postInfo.isEdited)
             setSendStatus(post.sendState, post.readByCount)
         }
+        bindHolderSpecific(post)
     }
 
     fun bindPayload(payload: PostItemPayload) {
-        postStatus.setSendStatus(payload.sendState, payload.readByCount)
-        postFooter.bindPayload(payload.repliesCount, payload.reactions)
+        postStatus?.setSendStatus(payload.sendState, payload.readByCount)
+        postFooter?.bindPayload(payload.repliesCount, payload.reactions)
     }
 
     private fun bindMentionBorder(content: PostContent) {
@@ -115,15 +118,16 @@ sealed class PostViewHolder(
 
             is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
             is PollContent -> MarkdownParser.hasCurrentUserMention(content.question)
+            else -> false
         }
-        if (hasMention) postLayout.setBackgroundResource(R.drawable.bg_mention_highlight)
-        else postLayout.background = null
+        if (hasMention) postLayout?.setBackgroundResource(R.drawable.bg_mention_highlight)
+        else postLayout?.background = null
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
     private fun handleLinkClick() {
-        readMoreTextView.apply {
+        readMoreTextView?.apply {
             movementMethod = InternalLinkMovementMethod(object : OnLinkClickedListener {
                 override fun onLinkClicked(url: String) {
                     showLinkConfirmation(context, url)
