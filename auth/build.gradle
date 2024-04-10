@@ -3,6 +3,7 @@ apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'maven-publish'
 
 android {
     namespace 'org.futo.circles.auth'
