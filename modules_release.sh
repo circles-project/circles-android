@@ -36,8 +36,8 @@ awk -v version="$version_name" '/-Dversion=/ {gsub(/-Dversion=[^ ]+/, "-Dversion
 # Move .aar to the root directory
 mv core/build/outputs/aar/core-release.aar core-release.aar
 mv gallery/build/outputs/aar/gallery-release.aar gallery-release.aar
-mv auth/build/outputs/aar/auth-fdroid-release.aar auth-fdroid-release
-mv auth/build/outputs/aar/auth-gplay-release auth-gplay-release
+mv auth/build/outputs/aar/auth-fdroid-release.aar auth-fdroid-release.aar
+mv auth/build/outputs/aar/auth-gplay-release.aar auth-gplay-release.aar
 
 # Move pom-default.xml to the root directory and rename it to pom.xml
 mv core/build/publications/release/pom-default.xml pom_core.xml
