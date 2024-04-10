@@ -96,3 +96,26 @@ dependencies {
 kapt {
     correctErrorTypes = true
 }
+
+publishing {
+    publications {
+        gplayRelease(MavenPublication) {
+            groupId = rootProject.ext.modules_groupId
+            artifactId = "auth"
+            version rootProject.ext.modules_version
+
+            afterEvaluate {
+                from components.gplayRelease
+            }
+        }
+        fdroidRelease(MavenPublication) {
+            groupId = rootProject.ext.modules_groupId
+            artifactId = "auth"
+            version rootProject.ext.modules_version
+
+            afterEvaluate {
+                from components.fdroidRelease
+            }
+        }
+    }
+}
