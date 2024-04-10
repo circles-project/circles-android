@@ -3,7 +3,6 @@ apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'maven-publish'
 
 
 android {
@@ -39,12 +38,6 @@ android {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         ]
     }
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 dependencies {
@@ -65,19 +58,4 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
-}
-
-
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = rootProject.ext.modules_groupId
-            artifactId = "gallery"
-            version rootProject.ext.modules_version
-
-            afterEvaluate {
-                from components.release
-            }
-        }
-    }
 }
