@@ -1,12 +1,12 @@
 
 # Remove .aar and pom.xml from the root directory if they exist
-#rm -f auth-gplay-release.aar
-#rm -f auth-fdroid-release.aar
+rm -f auth-gplay-release.aar
+rm -f auth-fdroid-release.aar
 rm -f core-release.aar
 rm -f gallery-release.aar
 
-#rm -f pom_auth_gplay.xml
-#rm -f pom_auth_fdroid.xml
+rm -f pom_auth_gplay.xml
+rm -f pom_auth_fdroid.xml
 rm -f pom_core.xml
 rm -f pom_gallery.xml
 
@@ -25,20 +25,29 @@ awk -v version="$version_name" '/-Dversion=/ {gsub(/-Dversion=[^ ]+/, "-Dversion
 ./gradlew clean
 ./gradlew :core:assembleRelease
 ./gradlew :gallery:assembleRelease
+./gradlew :auth:assembleRelease
 
 # Generate POM file for release publication
 ./gradlew :core:generatePomFileForReleasePublication
 ./gradlew :gallery:generatePomFileForReleasePublication
+./gradlew :auth:generatePomFileForGplayReleasePublication
+./gradlew :auth:generatePomFileForFdroidReleasePublication
 
 # Move .aar to the root directory
 mv core/build/outputs/aar/core-release.aar core-release.aar
 mv gallery/build/outputs/aar/gallery-release.aar gallery-release.aar
+mv auth/build/outputs/aar/auth-fdroid-release.aar auth-fdroid-release
+mv auth/build/outputs/aar/auth-gplay-release auth-gplay-release
 
 # Move pom-default.xml to the root directory and rename it to pom.xml
 mv core/build/publications/release/pom-default.xml pom_core.xml
 mv gallery/build/publications/release/pom-default.xml pom_gallery.xml
+mv auth/build/publications/gplayRelease/pom-default.xml pom_auth_gplay.xml
+mv auth/build/publications/fdroidRelease/pom-default.xml pom_auth_fdroid.xml
 
 # Remove <packaging>aar</packaging> from pom.xml
 awk '!/<packaging>aar<\/packaging>/' pom_core.xml > tmp && mv tmp pom_core.xml
 awk '!/<packaging>aar<\/packaging>/' pom_gallery.xml > tmp && mv tmp pom_gallery.xml
+awk '!/<packaging>aar<\/packaging>/' pom_auth_fdroid.xml > tmp && mv tmp pom_auth_fdroid.xml
+awk '!/<packaging>aar<\/packaging>/' pom_auth_gplay.xml > tmp && mv tmp pom_auth_gplay.xml
 
