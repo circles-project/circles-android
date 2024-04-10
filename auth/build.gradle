@@ -3,7 +3,6 @@ apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'maven-publish'
 
 android {
     namespace 'org.futo.circles.auth'
@@ -61,12 +60,6 @@ android {
             version '3.22.1'
         }
     }
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 dependencies {
@@ -101,18 +94,4 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
-}
-
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = rootProject.ext.modules_groupId
-            artifactId = "auth-gplay"
-            version rootProject.ext.modules_version
-
-            afterEvaluate {
-                from components.gplayRelease
-            }
-        }
-    }
 }

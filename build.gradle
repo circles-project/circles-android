@@ -4,8 +4,6 @@ buildscript {
         min_sdk_version = 24
         androidx_nav_version = '2.7.7'
         hilt_version = '2.51.1'
-        modules_version = "1.0.9"
-        modules_groupId = "org.futo.gitlab.circles"
     }
     repositories {
         google()
