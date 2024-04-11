@@ -101,7 +101,7 @@ publishing {
     publications {
         gplayRelease(MavenPublication) {
             groupId = rootProject.ext.modules_groupId
-            artifactId = "auth"
+            artifactId = "auth_gplay"
             version rootProject.ext.modules_version
 
             afterEvaluate {
@@ -110,7 +110,7 @@ publishing {
         }
         fdroidRelease(MavenPublication) {
             groupId = rootProject.ext.modules_groupId
-            artifactId = "auth"
+            artifactId = "auth_fdroid"
             version rootProject.ext.modules_version
 
             afterEvaluate {
