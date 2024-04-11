@@ -39,15 +39,21 @@ mv gallery/build/outputs/aar/gallery-release.aar gallery-release.aar
 mv auth/build/outputs/aar/auth-fdroid-release.aar auth-fdroid-release.aar
 mv auth/build/outputs/aar/auth-gplay-release.aar auth-gplay-release.aar
 
-# Move pom-default.xml to the root directory and rename it to pom.xml
+# Move poms to the root directory and rename
 mv core/build/publications/release/pom-default.xml pom_core.xml
 mv gallery/build/publications/release/pom-default.xml pom_gallery.xml
 mv auth/build/publications/gplayRelease/pom-default.xml pom_auth_gplay.xml
 mv auth/build/publications/fdroidRelease/pom-default.xml pom_auth_fdroid.xml
 
-# Remove <packaging>aar</packaging> from pom.xml
+# Remove <packaging>aar</packaging> from pom
 awk '!/<packaging>aar<\/packaging>/' pom_core.xml > tmp && mv tmp pom_core.xml
 awk '!/<packaging>aar<\/packaging>/' pom_gallery.xml > tmp && mv tmp pom_gallery.xml
 awk '!/<packaging>aar<\/packaging>/' pom_auth_fdroid.xml > tmp && mv tmp pom_auth_fdroid.xml
 awk '!/<packaging>aar<\/packaging>/' pom_auth_gplay.xml > tmp && mv tmp pom_auth_gplay.xml
+
+# Change dependencies visibility to compile in pom
+awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_core.xml > temp && mv temp pom_core.xml
+awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_gallery.xml > temp && mv temp pom_gallery.xml
+awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_auth_fdroid.xml > temp && mv temp pom_auth_fdroid.xml
+awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_auth_gplay.xml > temp && mv temp pom_auth_gplay.xml
 
