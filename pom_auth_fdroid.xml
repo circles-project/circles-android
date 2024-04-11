@@ -8,7 +8,7 @@
   <!-- do_not_remove: published-with-gradle-metadata -->
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.futo.gitlab.circles</groupId>
-  <artifactId>auth</artifactId>
+  <artifactId>auth_fdroid</artifactId>
   <version>1.0.10</version>
   <dependencies>
     <dependency>
@@ -27,37 +27,37 @@
       <groupId>org.futo.gitlab.circles</groupId>
       <artifactId>core</artifactId>
       <version>1.0.10</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>androidx.browser</groupId>
       <artifactId>browser</artifactId>
       <version>1.8.0</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.nulab-inc</groupId>
       <artifactId>zxcvbn</artifactId>
       <version>1.9.0</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.yuriy-budiyev</groupId>
       <artifactId>code-scanner</artifactId>
       <version>2.3.2</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.google.dagger</groupId>
       <artifactId>hilt-android</artifactId>
       <version>2.51.1</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>androidx.hilt</groupId>
       <artifactId>hilt-work</artifactId>
       <version>1.2.0</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 </project>

@@ -184,25 +184,25 @@
       <groupId>com.google.dagger</groupId>
       <artifactId>hilt-android</artifactId>
       <version>2.51.1</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>jp.wasabeef</groupId>
       <artifactId>glide-transformations</artifactId>
       <version>4.3.0</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.WycliffeAssociates</groupId>
       <artifactId>jdenticon-kotlin</artifactId>
       <version>1.1</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.caverock</groupId>
       <artifactId>androidsvg-aar</artifactId>
       <version>1.4</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 </project>
