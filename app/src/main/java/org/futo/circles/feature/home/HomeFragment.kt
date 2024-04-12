@@ -18,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
+import org.futo.circles.core.base.DeepLinkIntentHandler
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse

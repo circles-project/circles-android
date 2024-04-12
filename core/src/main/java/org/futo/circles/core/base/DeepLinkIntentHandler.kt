@@ -1,4 +1,4 @@
-package org.futo.circles.feature.home
+package org.futo.circles.core.base
 
 interface DeepLinkIntentHandler {
     fun onNewIntent()
