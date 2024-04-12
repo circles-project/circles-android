@@ -50,11 +50,7 @@
                 android:layout_marginTop="4dp"
                 android:gravity="center"
                 android:text="@string/empty_media_storage_info"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="@id/ivProfile"
-                app:layout_constraintEnd_toEndOf="@id/ivEditProfile"
-                app:layout_constraintStart_toStartOf="@id/ivEditProfile"
-                app:layout_constraintTop_toBottomOf="@id/ivEditProfile" />
+                android:textSize="13sp" />
 
             <View
                 android:layout_width="match_parent"

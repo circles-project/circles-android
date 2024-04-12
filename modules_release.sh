@@ -44,9 +44,9 @@ awk '!/<packaging>aar<\/packaging>/' pom_gallery.xml > tmp && mv tmp pom_gallery
 awk '!/<packaging>aar<\/packaging>/' pom_auth_fdroid.xml > tmp && mv tmp pom_auth_fdroid.xml
 awk '!/<packaging>aar<\/packaging>/' pom_auth_gplay.xml > tmp && mv tmp pom_auth_gplay.xml
 
-# Change dependencies visibility to compile in pom
-awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_core.xml > temp && mv temp pom_core.xml
-awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_gallery.xml > temp && mv temp pom_gallery.xml
-awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_auth_fdroid.xml > temp && mv temp pom_auth_fdroid.xml
-awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_auth_gplay.xml > temp && mv temp pom_auth_gplay.xml
+## Change dependencies visibility to compile in pom
+#awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_core.xml > temp && mv temp pom_core.xml
+#awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_gallery.xml > temp && mv temp pom_gallery.xml
+#awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_auth_fdroid.xml > temp && mv temp pom_auth_fdroid.xml
+#awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_auth_gplay.xml > temp && mv temp pom_auth_gplay.xml
 
