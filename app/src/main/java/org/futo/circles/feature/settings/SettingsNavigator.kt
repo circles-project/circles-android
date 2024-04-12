@@ -5,7 +5,6 @@ import org.futo.circles.R
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.model.ShareUrlTypeArg
-import org.futo.circles.feature.people.PeopleFragmentDirections
 
 class SettingsNavigator(private val fragment: SettingsFragment) {
 
@@ -37,7 +36,7 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
 
     fun navigateToEditProfile() {
         fragment.findNavController()
-            .navigateSafe(PeopleFragmentDirections.toEditProfileDialogFragment())
+            .navigateSafe(SettingsFragmentDirections.toEditProfileDialogFragment())
     }
 
     fun navigateToShareProfile(sharedSpaceId: String?) {
@@ -48,7 +47,7 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             return
         }
         fragment.findNavController().navigateSafe(
-            PeopleFragmentDirections.toShareProfileDialogFragment(
+            SettingsFragmentDirections.toShareProfileDialogFragment(
                 sharedSpaceId,
                 ShareUrlTypeArg.PROFILE
             )
