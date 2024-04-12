@@ -44,9 +44,10 @@ awk '!/<packaging>aar<\/packaging>/' pom_gallery.xml > tmp && mv tmp pom_gallery
 awk '!/<packaging>aar<\/packaging>/' pom_auth_fdroid.xml > tmp && mv tmp pom_auth_fdroid.xml
 awk '!/<packaging>aar<\/packaging>/' pom_auth_gplay.xml > tmp && mv tmp pom_auth_gplay.xml
 
-## Change dependencies visibility to compile in pom
-#awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_core.xml > temp && mv temp pom_core.xml
-#awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_gallery.xml > temp && mv temp pom_gallery.xml
-#awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_auth_fdroid.xml > temp && mv temp pom_auth_fdroid.xml
-#awk '{gsub(/<scope>runtime<\/scope>/, "<scope>compile</scope>")}1' pom_auth_gplay.xml > temp && mv temp pom_auth_gplay.xml
-
+# Remove core dependency from pom
+GROUP_ID="org.futo.gitlab.circles"
+ARTIFACT_ID="core"
+SCOPE="runtime"
+xmlstarlet ed -L -N x="http://maven.apache.org/POM/4.0.0" -d "//x:dependency[x:groupId='$GROUP_ID' and x:artifactId='$ARTIFACT_ID' and x:version='$version_name' and x:scope='$SCOPE']" pom_gallery.xml
+xmlstarlet ed -L -N x="http://maven.apache.org/POM/4.0.0" -d "//x:dependency[x:groupId='$GROUP_ID' and x:artifactId='$ARTIFACT_ID' and x:version='$version_name' and x:scope='$SCOPE']" pom_auth_fdroid.xml
+xmlstarlet ed -L -N x="http://maven.apache.org/POM/4.0.0" -d "//x:dependency[x:groupId='$GROUP_ID' and x:artifactId='$ARTIFACT_ID' and x:version='$version_name' and x:scope='$SCOPE']" pom_auth_gplay.xml
