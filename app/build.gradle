@@ -104,15 +104,6 @@ dependencies {
     implementation project(path: ':auth')
     implementation project(path: ':gallery')
 
-    //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.8.0')
-    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
-    gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
-    gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
-
-    // UnifiedPush
-    implementation 'com.github.UnifiedPush:android-connector:2.1.1'
-
     //Emoji
     implementation 'com.vanniktech:emoji-google:0.18.0'
 
@@ -122,9 +113,6 @@ dependencies {
     //Hilt
     implementation "com.google.dagger:hilt-android:$rootProject.ext.hilt_version"
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
-
-    // Google app update
-    gplayImplementation "com.google.android.play:app-update:2.1.0"
 
     //test
     testImplementation 'junit:junit:4.13.2'

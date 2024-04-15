@@ -171,4 +171,85 @@
     <string name="ignored">Ignored</string>
     <string name="whats_new_in_format">What\'s new in %s</string>
     <string name="got_it">Got it</string>
+    <string name="notification_ticker_text_group">%1$s: %2$s %3$s</string>
+    <string name="notification_room_notifications">Room notifications</string>
+    <string name="notification_invitations">Invitations</string>
+    <string name="notification_listening_for_events">Listening for events</string>
+    <string name="notification_new_messages">New Messages</string>
+    <string name="action_mark_room_read">Mark as read</string>
+    <string name="notification_initial_sync">Initial Sync…</string>
+    <string name="notification_listening_for_notifications">Listening for notifications</string>
+    <string name="settings_troubleshoot_test_system_settings_title">System Settings</string>
+    <string name="settings_troubleshoot_test_system_settings_success">Notifications are enabled in the system settings.</string>
+    <string name="settings_troubleshoot_test_system_settings_failed">Notifications are disabled in the system settings.\nPlease check system settings.</string>
+    <string name="settings_troubleshoot_test_system_settings_permission_failed">Circles needs the permission to show notifications.\nPlease grant the permission.</string>
+    <string name="settings_troubleshoot_test_account_settings_title">Account Settings</string>
+    <string name="settings_troubleshoot_test_account_settings_success">Notifications are enabled for your account.</string>
+    <string name="settings_troubleshoot_test_account_settings_failed">Notifications are disabled for your account.\nPlease check account settings.</string>
+    <string name="settings_troubleshoot_test_bing_settings_title">Custom Settings</string>
+    <string name="settings_troubleshoot_test_bing_settings_success_with_warn">Notice that some messages type are set to be silent (will produce a notification with no sound).</string>
+    <string name="settings_troubleshoot_test_bing_settings_failed">Some notifications are disabled in your custom settings.</string>
+    <string name="settings_troubleshoot_test_play_services_title">Play Services Check</string>
+    <string name="settings_troubleshoot_test_play_services_success">Google Play Services APK is available and up-to-date.</string>
+    <string name="settings_troubleshoot_test_play_services_failed">Circles uses Google Play Services to deliver push messages but it doesn’t seem to be configured correctly:\n%1$s</string>
+    <string name="settings_troubleshoot_test_fcm_title">Firebase Token</string>
+    <string name="settings_troubleshoot_test_fcm_success">FCM token successfully retrieved:\n%1$s</string>
+    <string name="settings_troubleshoot_test_fcm_failed">Failed to retrieved FCM token:\n%1$s</string>
+    <string name="settings_troubleshoot_test_token_registration_title">Token Registration</string>
+    <string name="settings_troubleshoot_test_token_registration_success">FCM token successfully registered to homeserver.</string>
+    <string name="settings_troubleshoot_test_token_registration_failed">Failed to register FCM token to homeserver:\n%1$s</string>
+    <string name="settings_troubleshoot_test_push_loop_title">Test Push</string>
+    <string name="settings_troubleshoot_test_push_loop_waiting_for_push">The application is waiting for the PUSH</string>
+    <string name="settings_troubleshoot_test_push_loop_success">The application is receiving PUSH</string>
+    <string name="settings_troubleshoot_test_push_notification_content">You are viewing the notification! Click me!</string>
+    <string name="settings_troubleshoot_test_notification_title">Notification Display</string>
+    <string name="settings_troubleshoot_test_notification_notice">Please click on the notification. If you do not see the notification, please check the system settings.</string>
+    <string name="settings_troubleshoot_test_notification_notification_clicked">The notification has been clicked!</string>
+    <string name="settings_troubleshoot_test_distributors_title">Available methods</string>
+    <string name="settings_troubleshoot_test_distributors_gplay">No other method than Google Play Service found.</string>
+    <string name="settings_troubleshoot_test_distributors_fdroid">No other method than background synchronization found.</string>
+    <string name="settings_troubleshoot_test_current_distributor_title">Method</string>
+    <string name="settings_troubleshoot_test_current_distributor">Currently using %s.</string>
+    <string name="settings_troubleshoot_test_current_gateway_title">Gateway</string>
+    <string name="settings_troubleshoot_test_current_gateway">Current gateway: %s</string>
+    <string name="settings_troubleshoot_test_current_endpoint_title">Endpoint</string>
+    <string name="settings_troubleshoot_test_current_endpoint_success">Current endpoint: %s</string>
+    <string name="settings_troubleshoot_test_current_endpoint_failed">Cannot find the endpoint.</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_title">Endpoint Registration</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_success">Endpoint successfully registered to homeserver.</string>
+    <string name="settings_troubleshoot_test_endpoint_registration_failed">Failed to register endpoint token to homeserver:\n%1$s</string>
+    <string name="unifiedpush_distributor_fcm_fallback">Google Services</string>
+    <string name="unifiedpush_distributor_background_sync">Background synchronization</string>
+    <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
+    <string name="unable_to_register_receiver">Unable to register the receiver</string>
+    <string name="encrypted_message">Encrypted message</string>
+    <string name="notification_unknown_room_name">Room</string>
+    <string name="notification_new_invitation">New Invitation</string>
+    <string name="sent_a_video">Video</string>
+    <string name="sent_an_image">Image</string>
+    <string name="sent_a_poll">Poll</string>
+    <string name="sent_a_reaction">Reacted with: %s</string>
+    <string name="poll_response_room_list_preview">Vote cast</string>
+    <string name="poll_end_room_list_preview">Poll ended</string>
+    <string name="notifications_disabled">notifications disabled</string>
+    <string name="notice_room_third_party_invite">%1$s sent an invitation to join the room</string>
+    <string name="event_redacted_by_user_reason_with_reason">Event deleted by user, reason: %1$s</string>
+    <string name="event_redacted_by_admin_reason_with_reason">Event moderated by room admin, reason: %1$s</string>
+    <string name="event_redacted_by_user_reason">Event deleted by user</string>
+    <string name="event_redacted_by_admin_reason">Event moderated by room admin</string>
+    <plurals name="notification_compat_summary_line_for_room">
+        <item quantity="one">%1$s: %2$d message</item>
+        <item quantity="other">%1$s: %2$d messages</item>
+    </plurals>
+
+    <plurals name="settings_troubleshoot_test_distributors_many">
+        <item quantity="one">Found %d method.</item>
+        <item quantity="other">Found %d methods.</item>
+    </plurals>
+
+    <plurals name="room_new_messages_notification">
+        <item quantity="one">%d new message</item>
+        <item quantity="other">%d new messages</item>
+    </plurals>
+
 </resources>
