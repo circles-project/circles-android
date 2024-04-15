@@ -17,7 +17,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.MainActivity
 import org.futo.circles.core.R
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.extensions.getBitmap
@@ -206,7 +205,7 @@ class NotificationUtils @Inject constructor(
             .setSmallIcon(R.drawable.ic_push_notification)
             .setColor(accentColor)
             .apply {
-                val contentIntent = Intent(context, MainActivity::class.java)
+                val contentIntent = getMainIntent(context)
                 contentIntent.flags =
                     Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 contentIntent.data = createIgnoredUri(inviteNotifiableEvent.eventId)
@@ -239,7 +238,7 @@ class NotificationUtils @Inject constructor(
                 .setContentTitle(CirclesAppConfig.appName)
                 .setContentText(context.getString(R.string.settings_troubleshoot_test_push_notification_content))
                 .setSmallIcon(R.drawable.ic_push_notification)
-                .setLargeIcon(context.getBitmap(R.mipmap.ic_launcher))
+                .setLargeIcon(context.getBitmap(R.drawable.ic_notifications))
                 .setColor(ContextCompat.getColor(context, R.color.blue))
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
