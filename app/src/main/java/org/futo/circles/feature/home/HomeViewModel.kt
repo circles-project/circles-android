@@ -9,14 +9,13 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.feature.notifications.PushersManager
+import org.futo.circles.core.feature.notifications.ShortcutsHandler
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.LoadingData
-import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.utils.getJoinedRoomById
-import org.futo.circles.feature.notifications.PushersManager
-import org.futo.circles.feature.notifications.ShortcutsHandler
 import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -34,7 +33,8 @@ class HomeViewModel @Inject constructor(
     val validateWorkspaceLoadingLiveData = SingleEventLiveData<LoadingData>()
     val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
     val mediaBackupSettingsLiveData = roomAccountDataSource.getMediaBackupSettingsLive()
-    val syncStateLiveData = MatrixSessionProvider.getSessionOrThrow().syncService().getSyncStateLive()
+    val syncStateLiveData =
+        MatrixSessionProvider.getSessionOrThrow().syncService().getSyncStateLive()
 
     init {
         shortcutsHandler.observeRoomsAndBuildShortcuts(viewModelScope)

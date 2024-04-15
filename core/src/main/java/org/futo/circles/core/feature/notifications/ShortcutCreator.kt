@@ -1,6 +1,7 @@
 package org.futo.circles.core.feature.notifications
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.graphics.Bitmap
 import android.os.Build
@@ -9,7 +10,6 @@ import androidx.annotation.WorkerThread
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.MainActivity
 import org.futo.circles.core.extensions.dpToPx
 import org.futo.circles.core.glide.GlideApp
 import org.futo.circles.core.glide.GlideShortcutUtils.adaptiveShortcutDrawable
@@ -39,7 +39,7 @@ class ShortcutCreator @Inject constructor(
 
     @WorkerThread
     fun create(roomSummary: RoomSummary, rank: Int = 1): ShortcutInfoCompat {
-        val intent = MainActivity.getOpenRoomIntent(context, roomSummary.roomId)
+        val intent = getOpenRoomIntent(context, roomSummary.roomId)
         val bitmap = try {
             val glideRequests = GlideApp.with(context)
             val matrixItem = roomSummary.toMatrixItem()
@@ -65,15 +65,22 @@ class ShortcutCreator @Inject constructor(
         return ShortcutInfoCompat.Builder(context, roomSummary.roomId)
             .setShortLabel(roomSummary.displayName)
             .setIcon(bitmap?.toProfileImageIcon())
-            .setIntent(intent)
             .setLongLived(true)
             .setRank(rank)
-            .setCategories(categories)
+            .setCategories(categories).apply {
+                intent?.let { setIntent(it) }
+            }
             .build()
     }
 
     private fun Bitmap.toProfileImageIcon(): IconCompat =
         if (useAdaptiveIcon) IconCompat.createWithAdaptiveBitmap(this)
         else IconCompat.createWithBitmap(this)
+
+    private fun getOpenRoomIntent(context: Context, roomId: String): Intent? =
+        context.packageManager.getLaunchIntentForPackage(context.packageName)?.apply {
+            action = "OPEN_ROOM"
+            putExtra("roomId", roomId)
+        }
 
 }

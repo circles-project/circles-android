@@ -90,8 +90,6 @@ class NotificationUtils @Inject constructor(
         @StringRes subTitleResId: Int,
         withProgress: Boolean = true
     ): Notification {
-        val i = getMainIntent(context)
-        i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         val mainIntent = getMainIntent(context)
         val pi = PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_IMMUTABLE)
         val accentColor = ContextCompat.getColor(context, R.color.blue)
@@ -206,9 +204,9 @@ class NotificationUtils @Inject constructor(
             .setColor(accentColor)
             .apply {
                 val contentIntent = getMainIntent(context)
-                contentIntent.flags =
+                contentIntent?.flags =
                     Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                contentIntent.data = createIgnoredUri(inviteNotifiableEvent.eventId)
+                contentIntent?.data = createIgnoredUri(inviteNotifiableEvent.eventId)
                 setContentIntent(
                     buildNotificationClickIntent(inviteNotifiableEvent.roomId)
                 )
@@ -252,13 +250,20 @@ class NotificationUtils @Inject constructor(
         PendingIntent.getActivity(
             context,
             1,
-            MainActivity.getOpenRoomIntent(context, roomId),
+            getOpenRoomIntent(context, roomId),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-    private fun getMainIntent(context: Context): Intent {
-        return Intent(context, MainActivity::class.java)
+    private fun getMainIntent(context: Context): Intent? {
+        return context.packageManager.getLaunchIntentForPackage(context.packageName)
     }
+
+    private fun getOpenRoomIntent(context: Context, roomId: String): Intent? =
+        getMainIntent(context)?.apply {
+            action = "OPEN_ROOM"
+            putExtra("roomId", roomId)
+        }
+
 
     private fun createIgnoredUri(path: String): Uri = Uri.parse("ignored://$path")
 }

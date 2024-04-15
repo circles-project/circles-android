@@ -39,7 +39,7 @@ import org.futo.circles.core.utils.VideoUtils.getVideoDuration
 import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
 import org.futo.circles.databinding.ViewPreviewPostBinding
 import org.futo.circles.databinding.ViewRichTextMenuButtonBinding
-import org.futo.circles.extensions.convertDpToPixel
+import org.futo.circles.core.extensions.convertDpToPixel
 import org.futo.circles.feature.timeline.post.create.PreviewPostListener
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent

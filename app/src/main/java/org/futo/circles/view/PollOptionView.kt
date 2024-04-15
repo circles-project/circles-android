@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import org.futo.circles.R
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.databinding.ViewPollOptionBinding
 import org.futo.circles.core.model.PollOption
 import org.futo.circles.core.model.PollState
 import org.futo.circles.core.model.canVote
+import org.futo.circles.databinding.ViewPollOptionBinding
 
 class PollOptionView(
     context: Context,
@@ -53,7 +53,7 @@ class PollOptionView(
     private fun setCheckIcon(pollState: PollState, isMyVote: Boolean) {
         binding.ivCheck.setIsVisible(pollState != PollState.Ended)
         binding.ivCheck.setImageResource(
-            if (isMyVote) R.drawable.ic_check_circle else R.drawable.ic_unselected
+            if (isMyVote) org.futo.circles.core.R.drawable.ic_check_circle else R.drawable.ic_unselected
         )
     }
 
