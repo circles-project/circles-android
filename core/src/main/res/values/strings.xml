@@ -169,4 +169,6 @@
     <string name="select_all">Select all</string>
     <string name="mutual_friends">Mutual friends</string>
     <string name="ignored">Ignored</string>
+    <string name="whats_new_in_format">What\'s new in %s</string>
+    <string name="got_it">Got it</string>
 </resources>

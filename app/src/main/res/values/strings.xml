@@ -201,7 +201,6 @@
     <string name="general">General</string>
     <string name="empty_media_storage_info">0 MB used</string>
     <string name="in_timeline_format">(in %1$s / %2$s)</string>
-    <string name="whats_new_in_format">What\'s new in %s</string>
 
     <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
 <br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.

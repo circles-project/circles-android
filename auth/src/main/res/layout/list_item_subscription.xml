@@ -12,7 +12,7 @@
 
     <ImageView
         android:id="@+id/ivIcon"
-        style="@style/AuthLogoStyle"
+        style="@style/ImageLogoStyle"
         android:layout_width="@dimen/group_icon_size"
         android:layout_height="@dimen/group_icon_size"
         app:layout_constraintBottom_toBottomOf="parent"

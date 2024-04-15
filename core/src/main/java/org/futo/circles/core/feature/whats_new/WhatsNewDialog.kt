@@ -1,4 +1,4 @@
-package org.futo.circles.feature.whats_new
+package org.futo.circles.core.feature.whats_new
 
 import android.app.ActionBar
 import android.content.Context
@@ -10,11 +10,11 @@ import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialog
-import org.futo.circles.BuildConfig
-import org.futo.circles.R
+import org.futo.circles.core.R
+import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.core.databinding.DialogWhatsNewBinding
 import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.provider.PreferencesProvider
-import org.futo.circles.databinding.DialogWhatsNewBinding
 
 
 class WhatsNewDialog(context: Context) : AppCompatDialog(context) {
@@ -35,14 +35,15 @@ class WhatsNewDialog(context: Context) : AppCompatDialog(context) {
 
     private fun setupViews() {
         with(binding) {
-            tvTitle.text = context.getString(R.string.whats_new_in_format, BuildConfig.VERSION_NAME)
+            tvTitle.text =
+                context.getString(R.string.whats_new_in_format, CirclesAppConfig.appVersionName)
             btnDone.setOnClickListener {
-                preferencesProvider.storeWhatsNewShowedFor(BuildConfig.VERSION_CODE)
+                preferencesProvider.storeWhatsNewShowedFor(CirclesAppConfig.appVersionCode)
                 dismiss()
             }
             tvDescription.apply {
                 movementMethod = ScrollingMovementMethod()
-                val text = context.getString(R.string.changelog).replace("-", "\n*")
+                val text = CirclesAppConfig.changelog.replace("-", "\n*")
 
                 tvDescription.setText(MarkdownParser.parse(text), TextView.BufferType.SPANNABLE)
             }
@@ -52,7 +53,7 @@ class WhatsNewDialog(context: Context) : AppCompatDialog(context) {
     companion object {
         fun showIfNeed(context: Context) {
             val wasShownFor = PreferencesProvider(context).getWhatsNewShowedForVersion()
-            val currentVersionCode = BuildConfig.VERSION_CODE / 100
+            val currentVersionCode = CirclesAppConfig.appVersionCode / 100
             if (currentVersionCode > wasShownFor) WhatsNewDialog(context).show()
         }
 

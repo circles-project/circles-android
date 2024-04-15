@@ -8,7 +8,7 @@ import org.futo.circles.core.base.BaseActivity
 import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.base.DeepLinkIntentHandler
-import org.futo.circles.feature.whats_new.WhatsNewDialog
+import org.futo.circles.core.feature.whats_new.WhatsNewDialog
 import org.futo.circles.update.AppUpdateProvider
 import javax.inject.Inject
 

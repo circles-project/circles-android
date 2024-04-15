@@ -21,7 +21,7 @@
 
                 <ImageView
                     android:id="@+id/ivLogo"
-                    style="@style/AuthLogoStyle"
+                    style="@style/ImageLogoStyle"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
                     tools:text="What's new in " />
 
                 <TextView
-                    android:id="@id/tvDescription"
+                    android:id="@+id/tvDescription"
                     style="@style/body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

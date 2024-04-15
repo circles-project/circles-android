@@ -50,6 +50,7 @@ class App : Application() {
             .buildConfigInfo(
                 BuildConfig.APPLICATION_ID,
                 BuildConfig.VERSION_NAME,
+                BuildConfig.VERSION_CODE,
                 BuildConfig.FLAVOR
             )
             .appName(getString(R.string.app_name))
@@ -58,7 +59,7 @@ class App : Application() {
                     if (BuildConfig.DEBUG) R.array.debug_domains
                     else R.array.release_domains
                 ).toList()
-            )
+            ).changeLog(getString(R.string.changelog))
             .init()
 
         MatrixSessionProvider.initSession(
