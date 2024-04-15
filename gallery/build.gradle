@@ -14,6 +14,8 @@ android {
         minSdk rootProject.ext.min_sdk_version
         targetSdk rootProject.ext.sdk_version
 
+        missingDimensionStrategy "store", "gplay", "fdroid"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
