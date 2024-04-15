@@ -237,6 +237,11 @@
     <string name="event_redacted_by_admin_reason_with_reason">Event moderated by room admin, reason: %1$s</string>
     <string name="event_redacted_by_user_reason">Event deleted by user</string>
     <string name="event_redacted_by_admin_reason">Event moderated by room admin</string>
+    <string name="unifiedpush_distributors_dialog_title">Choose how to receive notifications</string>
+    <string name="shortcut_disabled">Shortcut disabled</string>
+    <string name="push_notifications_test">Push notifications test</string>
+    <string name="notification_method">Notification method</string>
+
     <plurals name="notification_compat_summary_line_for_room">
         <item quantity="one">%1$s: %2$d message</item>
         <item quantity="other">%1$s: %2$d messages</item>

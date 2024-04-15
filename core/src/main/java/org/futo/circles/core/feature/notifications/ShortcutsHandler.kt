@@ -11,7 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.futo.circles.R
+import org.futo.circles.core.R
 import org.futo.circles.core.utils.getAllCirclesRoomsLiveData
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
@@ -29,7 +29,7 @@ class ShortcutsHandler @Inject constructor(
 
     fun observeRoomsAndBuildShortcuts(coroutineScope: CoroutineScope): Job {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) return Job()
-        
+
         return getAllCirclesRoomsLiveData(listOf(Membership.JOIN)).asFlow().onEach { rooms ->
             removeDeadShortcuts(rooms.map { it.roomId })
             createShortcuts(rooms)

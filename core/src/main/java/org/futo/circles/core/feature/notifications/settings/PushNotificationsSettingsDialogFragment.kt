@@ -12,7 +12,7 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.openNotificationSettings
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.databinding.DialogFragmentPushNotificationsSettingsBinding
+import org.futo.circles.core.databinding.DialogFragmentPushNotificationsSettingsBinding
 
 @AndroidEntryPoint
 class PushNotificationsSettingsDialogFragment :
