@@ -77,6 +77,7 @@
       <artifactId>matrix-android-sdk</artifactId>
       <version>v1.6.10.32</version>
       <scope>compile</scope>
+      <type>aar</type>
     </dependency>
     <dependency>
       <groupId>com.squareup.retrofit2</groupId>

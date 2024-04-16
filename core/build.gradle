@@ -170,6 +170,9 @@ afterEvaluate {
                     dependencyNode.appendNode('artifactId', dep.name)
                     dependencyNode.appendNode('version', dep.version)
                     dependencyNode.appendNode('scope', scope)
+                    if (dep.group == "org.futo.gitlab.circles" && dep.name == "matrix-android-sdk") {
+                        dependencyNode.appendNode('type', 'aar')
+                    }
                 }
                 configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
                 configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
