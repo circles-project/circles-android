@@ -15,7 +15,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
 import org.futo.circles.core.base.DeepLinkIntentHandler
@@ -56,7 +55,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     @Inject
     lateinit var mediaBackupServiceManager: MediaBackupServiceManager
 
-    private val ROOM_ID_PARAM = "roomId"
+    private val roomIdParam = "roomId"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,7 +83,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     }
 
     private fun handleOpenFromNotification() {
-        val roomId = activity?.intent?.getStringExtra(ROOM_ID_PARAM) ?: return
+        val roomId = activity?.intent?.getStringExtra(roomIdParam) ?: return
         val summary = MatrixSessionProvider.currentSession?.getRoomSummary(roomId) ?: return
         val type = summary.roomType?.takeIf { it == GROUP_TYPE || it == TIMELINE_TYPE } ?: return
 
@@ -100,7 +99,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
             Membership.JOIN -> handlePostNotificationOpen(type, summary)
             else -> return
         }
-        activity?.intent?.removeExtra(ROOM_ID_PARAM)
+        activity?.intent?.removeExtra(roomIdParam)
     }
 
     private fun handleInviteNotificationOpen(type: String) {
