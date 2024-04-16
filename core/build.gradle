@@ -138,10 +138,9 @@ dependencies {
     gplayImplementation "com.google.android.play:app-update:2.1.0"
 
     //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.8.1')
-    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
-    gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
-    gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
+    gplayImplementation "com.google.firebase:firebase-crashlytics-ktx:18.6.4"
+    gplayImplementation "com.google.firebase:firebase-analytics-ktx:21.6.2"
+    gplayImplementation "com.google.firebase:firebase-messaging-ktx:23.4.1"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
