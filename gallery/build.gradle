@@ -70,16 +70,24 @@ kapt {
 }
 
 
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = rootProject.ext.modules_groupId
-            artifactId = "gallery"
-            version rootProject.ext.modules_version
+afterEvaluate {
+    publishing.publications.create("release", MavenPublication) {
+        groupId rootProject.ext.modules_groupId
+        artifactId "gallery"
+        version rootProject.ext.modules_version
 
-            afterEvaluate {
-                from components.release
+        pom.withXml {
+            def dependenciesNode = asNode().appendNode('dependencies')
+            ext.addDependency = { Dependency dep, String scope ->
+                if (dep.group == null || dep.name == null || dep.name == "unspecified" || dep.version == "unspecified") return
+                final dependencyNode = dependenciesNode.appendNode('dependency')
+                dependencyNode.appendNode('groupId', dep.group)
+                dependencyNode.appendNode('artifactId', dep.name)
+                dependencyNode.appendNode('version', dep.version)
+                dependencyNode.appendNode('scope', scope)
             }
+            configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
+            configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
         }
     }
 }
