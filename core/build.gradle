@@ -138,7 +138,7 @@ dependencies {
     gplayImplementation "com.google.android.play:app-update:2.1.0"
 
     //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.8.0')
+    gplayImplementation platform('com.google.firebase:firebase-bom:32.8.1')
     gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
     gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
@@ -152,24 +152,35 @@ kapt {
     correctErrorTypes = true
 }
 
-publishing {
-    publications {
-        gplayRelease(MavenPublication) {
-            groupId = rootProject.ext.modules_groupId
-            artifactId = "core_gplay"
-            version rootProject.ext.modules_version
-
-            afterEvaluate {
-                from components.gplayRelease
-            }
+afterEvaluate {
+    android.libraryVariants.each { variant ->
+        if (variant.buildType.name != "release") {
+            return
         }
-        fdroidRelease(MavenPublication) {
-            groupId = rootProject.ext.modules_groupId
-            artifactId = "core_fdroid"
+        publishing.publications.create(variant.name, MavenPublication) {
+            groupId rootProject.ext.modules_groupId
+            artifactId "core_${variant.flavorName}"
             version rootProject.ext.modules_version
 
-            afterEvaluate {
-                from components.fdroidRelease
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                ext.addDependency = { Dependency dep, String scope ->
+                    if (dep.group == null || dep.name == null || dep.name == "unspecified" || dep.version == "unspecified") return
+                    final dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dep.group)
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', dep.version)
+                    dependencyNode.appendNode('scope', scope)
+                }
+                configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
+                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+                if (variant.flavorName == "gplay") {
+                    configurations.gplayApi.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    configurations.gplayImplementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+                } else if (variant.flavorName == "fdroid") {
+                    configurations.fdroidApi.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    configurations.fdroidImplementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+                }
             }
         }
     }
