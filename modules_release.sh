@@ -47,11 +47,3 @@ awk '!/<packaging>aar<\/packaging>/' pom_core_gplay.xml > tmp && mv tmp pom_core
 awk '!/<packaging>aar<\/packaging>/' pom_gallery.xml > tmp && mv tmp pom_gallery.xml
 awk '!/<packaging>aar<\/packaging>/' pom_auth_fdroid.xml > tmp && mv tmp pom_auth_fdroid.xml
 awk '!/<packaging>aar<\/packaging>/' pom_auth_gplay.xml > tmp && mv tmp pom_auth_gplay.xml
-
-# Remove core dependency from pom
-GROUP_ID="org.futo.gitlab.circles"
-ARTIFACT_ID="core"
-SCOPE="runtime"
-xmlstarlet ed -L -N x="http://maven.apache.org/POM/4.0.0" -d "//x:dependency[x:groupId='$GROUP_ID' and x:artifactId='$ARTIFACT_ID' and x:version='$version_name' and x:scope='$SCOPE']" pom_gallery.xml
-xmlstarlet ed -L -N x="http://maven.apache.org/POM/4.0.0" -d "//x:dependency[x:groupId='$GROUP_ID' and x:artifactId='$ARTIFACT_ID' and x:version='$version_name' and x:scope='$SCOPE']" pom_auth_fdroid.xml
-xmlstarlet ed -L -N x="http://maven.apache.org/POM/4.0.0" -d "//x:dependency[x:groupId='$GROUP_ID' and x:artifactId='$ARTIFACT_ID' and x:version='$version_name' and x:scope='$SCOPE']" pom_auth_gplay.xml
