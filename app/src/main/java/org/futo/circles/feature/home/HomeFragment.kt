@@ -56,6 +56,8 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     @Inject
     lateinit var mediaBackupServiceManager: MediaBackupServiceManager
 
+    private val ROOM_ID_PARAM = "roomId"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findChildNavController()?.let { controller ->
@@ -82,7 +84,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     }
 
     private fun handleOpenFromNotification() {
-        val roomId = activity?.intent?.getStringExtra(MainActivity.ROOM_ID_PARAM) ?: return
+        val roomId = activity?.intent?.getStringExtra(ROOM_ID_PARAM) ?: return
         val summary = MatrixSessionProvider.currentSession?.getRoomSummary(roomId) ?: return
         val type = summary.roomType?.takeIf { it == GROUP_TYPE || it == TIMELINE_TYPE } ?: return
 
@@ -98,7 +100,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
             Membership.JOIN -> handlePostNotificationOpen(type, summary)
             else -> return
         }
-        activity?.intent?.removeExtra(MainActivity.ROOM_ID_PARAM)
+        activity?.intent?.removeExtra(ROOM_ID_PARAM)
     }
 
     private fun handleInviteNotificationOpen(type: String) {

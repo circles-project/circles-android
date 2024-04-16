@@ -177,7 +177,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =
-                if (it) "" else getString(R.string.notifications_disabled)
+                if (it) "" else getString(org.futo.circles.core.R.string.notifications_disabled)
         }
         viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
             onUserAccessLevelChanged(powerLevelsContent)

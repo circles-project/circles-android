@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AuthLogoStyle">
+    <style name="ImageLogoStyle">
         <item name="android:src">@drawable/ic_logo</item>
     </style>
 

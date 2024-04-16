@@ -152,7 +152,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
         binding.tvVersion.setText(
             getString(
                 org.futo.circles.core.R.string.version_format,
-                CirclesAppConfig.appVersion
+                CirclesAppConfig.appVersionName
             )
         )
     }

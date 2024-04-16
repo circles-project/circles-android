@@ -12,7 +12,7 @@ import com.vanniktech.emoji.EmojiTheming
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.TransparentBackgroundBottomSheetDialogFragment
 import org.futo.circles.databinding.BottomSheetEmojiBinding
-import org.futo.circles.extensions.isNightMode
+import org.futo.circles.core.extensions.isNightMode
 
 interface EmojiPickerListener {
     fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String)

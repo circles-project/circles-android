@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.BaseActivity
-import org.futo.circles.core.feature.markdown.MarkdownParser
-import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.base.DeepLinkIntentHandler
-import org.futo.circles.feature.whats_new.WhatsNewDialog
-import org.futo.circles.update.AppUpdateProvider
+import org.futo.circles.core.feature.markdown.MarkdownParser
+import org.futo.circles.core.feature.whats_new.WhatsNewDialog
+import org.futo.circles.core.update.AppUpdateProvider
+import org.futo.circles.core.utils.LauncherActivityUtils
 import javax.inject.Inject
 
 
@@ -47,14 +47,5 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         LauncherActivityUtils.stopSyncAndRestart(this, getSelfIntent(this))
     }
 
-
-    companion object {
-        const val ROOM_ID_PARAM = "roomId"
-        fun getSelfIntent(context: Context) = Intent(context, MainActivity::class.java)
-        fun getOpenRoomIntent(context: Context, roomId: String): Intent =
-            getSelfIntent(context).apply {
-                action = "OPEN_ROOM"
-                putExtra(ROOM_ID_PARAM, roomId)
-            }
-    }
+    private fun getSelfIntent(context: Context) = Intent(context, MainActivity::class.java)
 }

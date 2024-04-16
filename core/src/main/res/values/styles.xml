@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="ImageLogoStyle">
+        <item name="android:src">@drawable/add_image_placeholder</item>
+    </style>
+
     <style name="AccentButtonStyle" parent="@style/Widget.MaterialComponents.Button">
         <item name="textAllCaps">false</item>
         <item name="cornerRadius">8dp</item>

@@ -22,7 +22,7 @@
             app:destination="@id/UIADialogFragment" />
         <action
             android:id="@+id/to_pushNotificationsSettingsDialogFragment"
-            app:destination="@id/pushNotificationsSettingsDialogFragment" />
+            app:destination="@id/notification_settings_nav_graph" />
         <action
             android:id="@+id/to_manageSubscriptionDialogFragment"
             app:destination="@id/manageSubscriptionDialogFragment" />
@@ -53,18 +53,7 @@
         android:label="ChangePasswordDialogFragment"
         tools:layout="@layout/dialog_fragment_change_password" />
 
-    <dialog
-        android:id="@+id/pushNotificationsSettingsDialogFragment"
-        android:name="org.futo.circles.feature.notifications.settings.PushNotificationsSettingsDialogFragment"
-        tools:layout="@layout/dialog_fragment_push_notifications_settings">
-        <action
-            android:id="@+id/to_notificationTestDialogFragment"
-            app:destination="@id/notificationTestDialogFragment" />
-    </dialog>
-    <dialog
-        android:id="@+id/notificationTestDialogFragment"
-        android:name="org.futo.circles.feature.notifications.test.NotificationTestDialogFragment"
-        tools:layout="@layout/dialog_fragment_notifications_test" />
+    <include app:graph="@navigation/notification_settings_nav_graph" />
 
     <include app:graph="@navigation/log_in_sessions_nav_graph" />
 
