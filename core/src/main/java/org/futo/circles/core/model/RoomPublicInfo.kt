@@ -1,6 +1,5 @@
-package org.futo.circles.model
+package org.futo.circles.core.model
 
-import org.futo.circles.core.model.ShareUrlTypeArg
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.peeking.PeekResult
@@ -37,12 +36,3 @@ fun PeekResult.Success.toRoomPublicInfo(urlType: ShareUrlTypeArg) = RoomPublicIn
     type = urlType
 )
 
-fun RoomUrlData.toRoomPublicInfo() = RoomPublicInfo(
-    id = roomId,
-    name = null,
-    avatarUrl = null,
-    topic = null,
-    memberCount = 0,
-    membership = Membership.NONE,
-    type = type
-)

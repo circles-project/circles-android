@@ -69,7 +69,7 @@
 
     <dialog
         android:id="@+id/roomWellKnownDialogFragment"
-        android:name="org.futo.circles.feature.room.well_known.RoomWellKnownDialogFragment"
+        android:name="org.futo.circles.core.feature.room.well_known.RoomWellKnownDialogFragment"
         tools:layout="@layout/dialog_fragment_room_well_known">
 
         <argument

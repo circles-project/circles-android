@@ -30,6 +30,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivCover"
+        style="@style/ImageLogoStyle"
         android:layout_width="@dimen/group_icon_size"
         android:layout_height="@dimen/group_icon_size"
         android:layout_marginTop="36dp"
@@ -40,8 +41,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbarDivider"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintVertical_chainStyle="packed"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius"
-        tools:src="@drawable/ic_logo" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
 
 
     <ProgressBar

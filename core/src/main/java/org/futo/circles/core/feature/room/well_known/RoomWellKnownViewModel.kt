@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.well_known
+package org.futo.circles.core.feature.room.well_known
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -8,10 +8,10 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.model.RoomPublicInfo
+import org.futo.circles.core.model.RoomUrlData
+import org.futo.circles.core.model.parseUrlData
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.model.RoomPublicInfo
-import org.futo.circles.model.RoomUrlData
-import org.futo.circles.model.parseUrlData
 import javax.inject.Inject
 
 @HiltViewModel

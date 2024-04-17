@@ -1,12 +1,13 @@
-package org.futo.circles.feature.room.well_known
+package org.futo.circles.core.feature.room.well_known
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.R
+import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.databinding.DialogFragmentRoomWellKnownBinding
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadRoomProfileIcon
@@ -15,10 +16,9 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.model.RoomPublicInfo
 import org.futo.circles.core.model.ShareUrlTypeArg
-import org.futo.circles.databinding.DialogFragmentRoomWellKnownBinding
-import org.futo.circles.model.RoomPublicInfo
-import org.futo.circles.model.isProfile
+import org.futo.circles.core.model.isProfile
 import org.matrix.android.sdk.api.session.room.model.Membership
 
 @AndroidEntryPoint
@@ -76,9 +76,7 @@ class RoomWellKnownDialogFragment :
     private fun bindRoomData(roomInfo: RoomPublicInfo) {
         with(binding) {
             ivCover.apply {
-                if (roomInfo.avatarUrl != null || roomInfo.name != null)
-                    loadRoomProfileIcon(roomInfo.avatarUrl, roomInfo.name ?: "")
-                else setImageResource(R.drawable.ic_logo)
+                loadRoomProfileIcon(roomInfo.avatarUrl, roomInfo.name ?: "")
             }
             tvRoomName.apply {
                 setIsVisible(roomInfo.name != null)

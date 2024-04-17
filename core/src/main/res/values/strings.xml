@@ -242,6 +242,21 @@
     <string name="push_notifications_test">Push notifications test</string>
     <string name="notification_method">Notification method</string>
     <string name="fix">Fix</string>
+    <string name="unable_to_parse_url">Unable to parse url</string>
+    <string name="you_have_pending_invitation_room">You have a pending invitation to this room. Check your invite notifications</string>
+    <string name="you_are_already_member_room">You are already a member of this room</string>
+    <string name="you_are_banned_room">You are banned in this room</string>
+    <string name="request_to_become_member_room">Request to join to become a member of this room</string>
+    <string name="you_have_pending_invitation_user">You have a pending invitation to follow this user. Check your invite notifications</string>
+    <string name="you_are_already_following_user">You are already following this user</string>
+    <string name="send_request_to_follow_user">Send request to follow this user</string>
+    <string name="room_type_format">Room type: %s</string>
+    <string name="topic_format">Topic: %s</string>
+    <string name="request_to_join">Request to join</string>
+    <string name="request_to_follow">Request to follow</string>
+    <string name="following_format">Following %d</string>
+    <string name="joined_members_count">Joined members: %d</string>
+    <string name="optional_request_message">Optional: Request message</string>
 
     <plurals name="notification_compat_summary_line_for_room">
         <item quantity="one">%1$s: %2$d message</item>

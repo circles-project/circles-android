@@ -1,8 +1,7 @@
-package org.futo.circles.model
+package org.futo.circles.core.model
 
 import org.futo.circles.core.feature.share.BASE_SHARE_URL
-import org.futo.circles.core.model.ShareUrlTypeArg
-import org.futo.circles.core.model.shareUrlTypeArgFromType
+import org.matrix.android.sdk.api.session.room.model.Membership
 
 data class RoomUrlData(
     val roomId: String,
@@ -18,3 +17,13 @@ fun parseUrlData(url: String): RoomUrlData? {
     val roomId = data.getOrNull(1) ?: return null
     return RoomUrlData(roomId, type)
 }
+
+fun RoomUrlData.toRoomPublicInfo() = RoomPublicInfo(
+    id = roomId,
+    name = null,
+    avatarUrl = null,
+    topic = null,
+    memberCount = 0,
+    membership = Membership.NONE,
+    type = type
+)
