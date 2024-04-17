@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.uia.flow.reauth.AuthConfirmationProvider
-import org.futo.circles.auth.model.ActiveSession
-import org.futo.circles.auth.model.ActiveSessionListItem
-import org.futo.circles.auth.model.SessionHeader
 import org.futo.circles.core.base.ExpandableItemsDataSource
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.settings.model.ActiveSession
+import org.futo.circles.settings.model.ActiveSessionListItem
+import org.futo.circles.settings.model.SessionHeader
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
 import java.util.concurrent.TimeUnit

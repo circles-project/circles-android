@@ -12,7 +12,6 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.DialogFragmentActiveSessionsBinding
 import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionClickListener
 import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionsAdapter
@@ -73,10 +72,10 @@ class ActiveSessionsDialogFragment :
             sessionsListAdapter.submitList(it)
         }
         viewModel.removeSessionLiveData.observeResponse(this,
-            error = { showError(getString(R.string.the_password_you_entered_is_incorrect)) }
+            error = { showError(getString(org.futo.circles.auth.R.string.the_password_you_entered_is_incorrect)) }
         )
         viewModel.resetKeysLiveData.observeResponse(this,
-            error = { showError(getString(R.string.the_password_you_entered_is_incorrect)) }
+            error = { showError(getString(org.futo.circles.auth.R.string.the_password_you_entered_is_incorrect)) }
         )
         viewModel.startReAuthEventLiveData.observeData(this) {
             findNavController().navigateSafe(ActiveSessionsDialogFragmentDirections.toUiaDialogFragment())

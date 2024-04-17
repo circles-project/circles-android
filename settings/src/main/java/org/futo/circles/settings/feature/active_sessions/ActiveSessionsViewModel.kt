@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.auth.model.ActiveSession
-import org.futo.circles.auth.model.ActiveSessionListItem
-import org.futo.circles.auth.model.SessionHeader
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.settings.model.ActiveSession
+import org.futo.circles.settings.model.ActiveSessionListItem
+import org.futo.circles.settings.model.SessionHeader
 import javax.inject.Inject
 
 @HiltViewModel

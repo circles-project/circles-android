@@ -11,9 +11,9 @@ data class SwitchUser(
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
 data class LogOut(
-    override val titleRes: Int = R.string.log_out,
+    override val titleRes: Int = org.futo.circles.auth.R.string.log_out,
     override val messageRes: Int = R.string.log_out_message,
-    override val positiveButtonRes: Int = R.string.log_out
+    override val positiveButtonRes: Int = org.futo.circles.auth.R.string.log_out
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
 data class RemoveSession(
@@ -25,5 +25,5 @@ data class RemoveSession(
 data class ResetKeys(
     override val titleRes: Int = R.string.reset_keys,
     override val messageRes: Int = R.string.reset_keys_message,
-    override val positiveButtonRes: Int = R.string.confirm
+    override val positiveButtonRes: Int = org.futo.circles.auth.R.string.confirm
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

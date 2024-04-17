@@ -62,7 +62,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
             }
             tvLogout.setOnClickListener {
                 withConfirmation(LogOut()) {
-                    loadingDialog.handleLoading(LoadingData(R.string.log_out))
+                    loadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.log_out))
                     viewModel.logOut()
                 }
             }

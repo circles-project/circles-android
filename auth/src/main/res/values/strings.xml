@@ -121,6 +121,7 @@
     <string name="forgot_password">Forgot password</string>
     <string name="please_use_one_of_your_verified_emails_format">Please use one of your verified emails:\n%s</string>
     <string name="display_name">Display name</string>
+    <string name="the_password_you_entered_is_incorrect">The password you entered is incorrect</string>
     
     <plurals name="days">
         <item quantity="one">%1$d day</item>
