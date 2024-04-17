@@ -51,12 +51,6 @@ android {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         ]
     }
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 dependencies {
