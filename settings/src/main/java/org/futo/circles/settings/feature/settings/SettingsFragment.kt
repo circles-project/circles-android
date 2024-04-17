@@ -12,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
-import org.futo.circles.settings.SessionHolderActivity
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.openCustomTabUrl
@@ -28,6 +27,7 @@ import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.settings.R
+import org.futo.circles.settings.SessionHolderActivity
 import org.futo.circles.settings.databinding.FragmentSettingsBinding
 import org.futo.circles.settings.model.LogOut
 import org.futo.circles.settings.model.SwitchUser
@@ -88,7 +88,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             tvEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
             tvShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
-            tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(getString(R.string.privacy_policy_url)) }
+            tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
         }
         setVersion()
     }
