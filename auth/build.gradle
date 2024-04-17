@@ -73,7 +73,7 @@ dependencies {
     implementation 'com.nulab-inc:zxcvbn:1.9.0'
 
     //Subscriptions
-    gplayImplementation 'com.android.billingclient:billing-ktx:6.2.0'
+    gplayImplementation 'com.android.billingclient:billing-ktx:6.2.1'
 
     //PasswordManager
     def credentials_version = '1.3.0-alpha02'
