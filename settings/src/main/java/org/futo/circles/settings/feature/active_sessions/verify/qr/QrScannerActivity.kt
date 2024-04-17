@@ -12,9 +12,9 @@ import com.budiyev.android.codescanner.ErrorCallback
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Result
 import com.google.zxing.ResultMetadataType
-import org.futo.circles.auth.R
-import org.futo.circles.auth.databinding.ActivityQrScannerBinding
 import org.futo.circles.core.base.BaseActivity
+import org.futo.circles.settings.R
+import org.futo.circles.settings.databinding.ActivityQrScannerBinding
 
 class QrScannerActivity : BaseActivity(R.layout.activity_qr_scanner) {
 

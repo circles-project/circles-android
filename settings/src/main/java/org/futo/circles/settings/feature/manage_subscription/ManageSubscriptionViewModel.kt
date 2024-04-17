@@ -1,12 +1,12 @@
 package org.futo.circles.settings.feature.manage_subscription
 
+import android.telephony.SubscriptionManager
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.auth.model.ActiveSubscriptionInfo
-import org.futo.circles.auth.subscriptions.SubscriptionManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.settings.model.ActiveSubscriptionInfo
 import javax.inject.Inject
 
 @HiltViewModel

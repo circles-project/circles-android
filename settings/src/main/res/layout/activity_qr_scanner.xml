@@ -4,7 +4,7 @@
     android:id="@+id/mainContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.futo.circles.auth.org.futo.circles.settings.feature.active_sessions.verify.qr.QrScannerActivity">
+    tools:context="org.futo.circles.settings.feature.active_sessions.verify.qr.QrScannerActivity">
 
     <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/qrScannerView"

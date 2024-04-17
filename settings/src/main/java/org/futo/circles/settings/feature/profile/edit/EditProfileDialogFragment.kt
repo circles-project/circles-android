@@ -6,8 +6,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.auth.R
-import org.futo.circles.auth.databinding.DialogFragmentEditProfileBinding
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.getText
@@ -17,6 +15,8 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
+import org.futo.circles.settings.R
+import org.futo.circles.settings.databinding.DialogFragmentEditProfileBinding
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint

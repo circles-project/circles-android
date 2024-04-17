@@ -7,13 +7,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.auth.R
-import org.futo.circles.auth.databinding.DialogFragmentVerifySessionBinding
-import org.futo.circles.settings.feature.active_sessions.verify.qr.QrScannerActivity
-import org.futo.circles.auth.model.QrCanceled
-import org.futo.circles.auth.model.QrLoading
-import org.futo.circles.auth.model.QrReady
-import org.futo.circles.auth.model.QrSuccess
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
@@ -22,6 +15,13 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
+import org.futo.circles.settings.R
+import org.futo.circles.settings.databinding.DialogFragmentVerifySessionBinding
+import org.futo.circles.settings.feature.active_sessions.verify.qr.QrScannerActivity
+import org.futo.circles.settings.model.QrCanceled
+import org.futo.circles.settings.model.QrLoading
+import org.futo.circles.settings.model.QrReady
+import org.futo.circles.settings.model.QrSuccess
 
 @AndroidEntryPoint
 class VerifySessionDialogFragment :

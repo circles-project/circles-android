@@ -92,8 +92,6 @@
     <string name="link">Link</string>
     <string name="add">Add</string>
     <string name="add_link">Add link</string>
-    <string name="switch_user">Switch User</string>
-    <string name="clear_cache_and_reload">Clear cache and reload</string>
     <string name="search_people">Search people</string>
     <string name="thread_format">%s (thread)</string>
     <string name="unexpected_error">Something went wrong</string>
@@ -108,26 +106,18 @@
     <string name="you_are_already_following_user">You are already following this user</string>
     <string name="send_request_to_follow_user">Send request to follow this user</string>
     <string name="unable_to_parse_url">Unable to parse url</string>
-    <string name="developer_mode_enabled">Developer mode is enabled</string>
-    <string name="developer_mode_disabled">Developer mode is disabled</string>
     <string name="groups_empty_message">Create your first Group</string>
     <string name="circles_empty_message">Create your first Circle</string>
     <string name="people_category_empty_message">%s will be shown here</string>
     <string name="creating_timeline">Creating timeline</string>
     <string name="help">Help</string>
     <string name="optional_request_message">Optional: Request message</string>
-    <string name="media_storage">Media storage</string>
-    <string name="media_usage_format">%1$s of %2$s used</string>
-    <string name="no_info_available">No info available</string>
     <string name="group_invites_notification_format">Show %d Group invitations</string>
     <string name="circle_invites_notification_format">Show %d Circle invitations</string>
     <string name="show_connection_invites_format">Show %d connection invites</string>
     <string name="my_connections">My Connections</string>
     <string name="downloading">Downloading</string>
-    <string name="privacy_policy">Privacy policy</string>
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
-    <string name="general">General</string>
-    <string name="empty_media_storage_info">0 MB used</string>
     <string name="in_timeline_format">(in %1$s / %2$s)</string>
 
     <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.

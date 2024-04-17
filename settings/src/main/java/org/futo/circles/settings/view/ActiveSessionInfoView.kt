@@ -4,9 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import org.futo.circles.auth.databinding.ViewActiveSessionInfoBinding
-import org.futo.circles.auth.model.ActiveSession
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.settings.databinding.ViewActiveSessionInfoBinding
+import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionClickListener
+import org.futo.circles.settings.model.ActiveSession
 
 class ActiveSessionInfoView(
     context: Context,
@@ -33,7 +34,7 @@ class ActiveSessionInfoView(
 
     fun setData(
         activeSession: ActiveSession,
-        listener: org.futo.circles.settings.feature.active_sessions.list.ActiveSessionClickListener
+        listener: ActiveSessionClickListener
     ) {
         deviceId = activeSession.id
         activeSessionClickListener = listener

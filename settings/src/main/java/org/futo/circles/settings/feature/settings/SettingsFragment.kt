@@ -10,14 +10,12 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.MainActivity
-import org.futo.circles.auth.extensions.openCustomTabUrl
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
-import org.futo.circles.auth.model.LogOut
-import org.futo.circles.auth.model.SwitchUser
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.openCustomTabUrl
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
@@ -31,6 +29,8 @@ import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.FragmentSettingsBinding
+import org.futo.circles.settings.model.LogOut
+import org.futo.circles.settings.model.SwitchUser
 import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 
 @AndroidEntryPoint

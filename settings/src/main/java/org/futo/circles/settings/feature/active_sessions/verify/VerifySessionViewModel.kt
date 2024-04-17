@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.futo.circles.auth.model.QrLoading
-import org.futo.circles.auth.model.QrReady
-import org.futo.circles.auth.model.QrState
-import org.futo.circles.auth.model.QrSuccess
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.settings.model.QrLoading
+import org.futo.circles.settings.model.QrReady
+import org.futo.circles.settings.model.QrState
+import org.futo.circles.settings.model.QrSuccess
 import org.matrix.android.sdk.api.session.crypto.verification.EVerificationState
 import org.matrix.android.sdk.api.session.crypto.verification.PendingVerificationRequest
 import org.matrix.android.sdk.api.session.crypto.verification.QRCodeVerificationState

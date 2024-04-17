@@ -8,15 +8,15 @@ import android.text.format.DateFormat
 import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.auth.R
-import org.futo.circles.auth.databinding.DialogFragmentManageSubscriptionBinding
-import org.futo.circles.auth.model.ActiveSubscriptionInfo
 import org.futo.circles.auth.subscriptions.SubscriptionProvider
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.visible
+import org.futo.circles.settings.R
+import org.futo.circles.settings.databinding.DialogFragmentManageSubscriptionBinding
+import org.futo.circles.settings.model.ActiveSubscriptionInfo
 import java.util.Date
 import javax.inject.Inject
 

@@ -6,18 +6,18 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.auth.R
-import org.futo.circles.auth.databinding.DialogFragmentActiveSessionsBinding
-import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionClickListener
-import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionsAdapter
-import org.futo.circles.auth.model.RemoveSession
-import org.futo.circles.auth.model.ResetKeys
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.settings.R
+import org.futo.circles.settings.databinding.DialogFragmentActiveSessionsBinding
+import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionClickListener
+import org.futo.circles.settings.feature.active_sessions.list.ActiveSessionsAdapter
+import org.futo.circles.settings.model.RemoveSession
+import org.futo.circles.settings.model.ResetKeys
 
 @AndroidEntryPoint
 class ActiveSessionsDialogFragment :

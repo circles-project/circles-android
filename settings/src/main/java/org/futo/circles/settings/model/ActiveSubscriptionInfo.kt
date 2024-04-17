@@ -1,4 +1,4 @@
-package org.futo.circles.auth.model
+package org.futo.circles.settings.model
 
 data class ActiveSubscriptionInfo(
     val packageName: String,
