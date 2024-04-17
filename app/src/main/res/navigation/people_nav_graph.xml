@@ -69,7 +69,7 @@
 
     <dialog
         android:id="@+id/editProfileDialogFragment"
-        android:name="org.futo.circles.auth.feature.profile.edit.EditProfileDialogFragment"
+        android:name="org.futo.circles.settings.feature.profile.edit.EditProfileDialogFragment"
         tools:layout="@layout/dialog_fragment_edit_profile" />
     <dialog
         android:id="@+id/peopleCategoryDialogFragment"

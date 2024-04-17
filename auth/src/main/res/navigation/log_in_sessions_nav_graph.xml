@@ -7,7 +7,7 @@
 
     <dialog
         android:id="@+id/activeSessionsDialogFragment"
-        android:name="org.futo.circles.auth.feature.active_sessions.ActiveSessionsDialogFragment"
+        android:name="org.futo.circles.settings.feature.active_sessions.ActiveSessionsDialogFragment"
         android:label="ActiveSessionsDialogFragment"
         tools:layout="@layout/dialog_fragment_active_sessions">
         <action
@@ -28,7 +28,7 @@
     </dialog>
     <dialog
         android:id="@+id/verifySessionDialogFragment"
-        android:name="org.futo.circles.auth.feature.active_sessions.verify.VerifySessionDialogFragment"
+        android:name="org.futo.circles.settings.feature.active_sessions.verify.VerifySessionDialogFragment"
         tools:layout="@layout/dialog_fragment_verify_session">
 
         <argument

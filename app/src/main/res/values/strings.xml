@@ -95,7 +95,6 @@
     <string name="switch_user">Switch User</string>
     <string name="clear_cache_and_reload">Clear cache and reload</string>
     <string name="search_people">Search people</string>
-    <string name="shared_circles_space_not_found">Shared Circles space not found</string>
     <string name="thread_format">%s (thread)</string>
     <string name="unexpected_error">Something went wrong</string>
     <string name="shared_circles">Shared Circles</string>
