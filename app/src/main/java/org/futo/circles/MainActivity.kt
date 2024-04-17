@@ -6,6 +6,7 @@ import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.BaseActivity
 import org.futo.circles.core.base.DeepLinkIntentHandler
+import org.futo.circles.settings.SessionHolderActivity
 import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.feature.whats_new.WhatsNewDialog
 import org.futo.circles.core.update.AppUpdateProvider
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity(R.layout.activity_main) {
+class MainActivity : BaseActivity(R.layout.activity_main), SessionHolderActivity {
 
     @Inject
     lateinit var appUpdateProvider: AppUpdateProvider
@@ -39,11 +40,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             ?.let { (it as DeepLinkIntentHandler).onNewIntent() }
     }
 
-    fun clearSessionAndRestart() {
+    override fun clearSessionAndRestart() {
         LauncherActivityUtils.clearSessionAndRestart(this, getSelfIntent(this))
     }
 
-    fun stopSyncAndRestart() {
+    override fun stopSyncAndRestart() {
         LauncherActivityUtils.stopSyncAndRestart(this, getSelfIntent(this))
     }
 
