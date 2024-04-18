@@ -45,12 +45,3 @@ mv gallery/build/publications/release/pom-default.xml pom_gallery.xml
 mv auth/build/publications/gplayRelease/pom-default.xml pom_auth_gplay.xml
 mv auth/build/publications/fdroidRelease/pom-default.xml pom_auth_fdroid.xml
 mv settings/build/publications/release/pom-default.xml pom_settings.xml
-
-
-# Remove <packaging>aar</packaging> from pom
-awk '!/<packaging>aar<\/packaging>/' pom_core_fdroid.xml > tmp && mv tmp pom_core_fdroid.xml
-awk '!/<packaging>aar<\/packaging>/' pom_core_gplay.xml > tmp && mv tmp pom_core_gplay.xml
-awk '!/<packaging>aar<\/packaging>/' pom_gallery.xml > tmp && mv tmp pom_gallery.xml
-awk '!/<packaging>aar<\/packaging>/' pom_auth_fdroid.xml > tmp && mv tmp pom_auth_fdroid.xml
-awk '!/<packaging>aar<\/packaging>/' pom_auth_gplay.xml > tmp && mv tmp pom_auth_gplay.xml
-awk '!/<packaging>aar<\/packaging>/' pom_settings.xml > tmp && mv tmp pom_settings.xml
