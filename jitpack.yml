@@ -2,12 +2,14 @@ jdk:
   - openjdk11
 install:
   - FILE_AUTH_GPLAY="-Dfile=auth-gplay-release.aar"
-  - mvn install:install-file $FILE_AUTH_GPLAY -DgroupId=org.futo.gitlab.circles -DartifactId=auth_gplay -Dversion=1.0.11 -Dpackaging=aar -DpomFile=pom_auth_gplay.xml
+  - mvn install:install-file $FILE_AUTH_GPLAY -DgroupId=org.futo.gitlab.circles -DartifactId=auth_gplay -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_auth_gplay.xml
   - FILE_AUTH_FDROID="-Dfile=auth-fdroid-release.aar"
-  - mvn install:install-file $FILE_AUTH_FDROID -DgroupId=org.futo.gitlab.circles -DartifactId=auth_fdroid -Dversion=1.0.11 -Dpackaging=aar -DpomFile=pom_auth_fdroid.xml
+  - mvn install:install-file $FILE_AUTH_FDROID -DgroupId=org.futo.gitlab.circles -DartifactId=auth_fdroid -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_auth_fdroid.xml
   - FILE_CORE_GPLAY="-Dfile=core-gplay-release.aar"
-  - mvn install:install-file $FILE_CORE_GPLAY -DgroupId=org.futo.gitlab.circles -DartifactId=core_gplay -Dversion=1.0.11 -Dpackaging=aar -DpomFile=pom_core_gplay.xml
+  - mvn install:install-file $FILE_CORE_GPLAY -DgroupId=org.futo.gitlab.circles -DartifactId=core_gplay -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_core_gplay.xml
   - FILE_CORE_FDROID="-Dfile=core-fdroid-release.aar"
-  - mvn install:install-file $FILE_CORE_FDROID -DgroupId=org.futo.gitlab.circles -DartifactId=core_fdroid -Dversion=1.0.11 -Dpackaging=aar -DpomFile=pom_core_fdroid.xml
+  - mvn install:install-file $FILE_CORE_FDROID -DgroupId=org.futo.gitlab.circles -DartifactId=core_fdroid -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_core_fdroid.xml
   - FILE_GALLERY="-Dfile=gallery-release.aar"
-  - mvn install:install-file $FILE_GALLERY -DgroupId=org.futo.gitlab.circles -DartifactId=gallery -Dversion=1.0.11 -Dpackaging=aar -DpomFile=pom_gallery.xml
+  - mvn install:install-file $FILE_GALLERY -DgroupId=org.futo.gitlab.circles -DartifactId=gallery -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_gallery.xml
+  - FILE_SETTINGS="-Dfile=settings-release.aar"
+  - mvn install:install-file $FILE_SETTINGS -DgroupId=org.futo.gitlab.circles -DartifactId=settings -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_settings.xml
