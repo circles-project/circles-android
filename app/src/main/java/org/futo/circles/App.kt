@@ -59,7 +59,9 @@ class App : Application() {
                     if (BuildConfig.DEBUG) R.array.debug_domains
                     else R.array.release_domains
                 ).toList()
-            ).changeLog(getString(R.string.changelog))
+            )
+            .privacyPolicyUrl(getString(R.string.privacy_policy_url))
+            .changeLog(getString(R.string.changelog))
             .init()
 
         MatrixSessionProvider.initSession(

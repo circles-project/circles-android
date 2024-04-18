@@ -26,6 +26,9 @@ object CirclesAppConfig {
     var changelog = ""
         private set
 
+    var privacyPolicyUrl = ""
+        private set
+
     fun isGplayFlavor(): Boolean = buildFlavourName.contains("gplay", true)
 
     data class Initializer(
@@ -36,7 +39,8 @@ object CirclesAppConfig {
         private var appName: String? = null,
         private var serverDomains: List<String> = emptyList(),
         private var mediaBackupEnabled: Boolean = false,
-        private var changelog: String? = null
+        private var changelog: String? = null,
+        private var privacyPolicyUrl: String? = null
     ) {
 
         fun buildConfigInfo(
@@ -44,13 +48,12 @@ object CirclesAppConfig {
             versionName: String,
             versionCode: Int,
             flavour: String
-        ) =
-            apply {
-                this.appId = appId
-                this.versionName = versionName
-                this.versionCode = versionCode
-                this.flavour = flavour
-            }
+        ) = apply {
+            this.appId = appId
+            this.versionName = versionName
+            this.versionCode = versionCode
+            this.flavour = flavour
+        }
 
         fun appName(appName: String) = apply { this.appName = appName }
 
@@ -60,6 +63,8 @@ object CirclesAppConfig {
 
         fun changeLog(changelog: String) = apply { this.changelog = changelog }
 
+        fun privacyPolicyUrl(url: String) = apply { this.privacyPolicyUrl = url }
+
 
         fun init() {
             CirclesAppConfig.appId = appId?.takeIf { it.isNotEmpty() }
@@ -68,7 +73,7 @@ object CirclesAppConfig {
             appVersionName = versionName?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal versionName $versionName")
 
-            appVersionCode = versionCode?.takeIf { it!=-1 }
+            appVersionCode = versionCode?.takeIf { it != -1 }
                 ?: throw IllegalArgumentException("Illegal versionCode $versionCode")
 
             buildFlavourName = flavour?.takeIf { it.isNotEmpty() }
@@ -85,6 +90,9 @@ object CirclesAppConfig {
 
             CirclesAppConfig.changelog = changelog?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("changelog is empty $changelog")
+
+            CirclesAppConfig.privacyPolicyUrl = privacyPolicyUrl?.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("privacyPolicyUrl is empty $privacyPolicyUrl")
 
             isMediaBackupEnabled = mediaBackupEnabled
         }

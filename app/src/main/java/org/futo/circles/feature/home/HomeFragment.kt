@@ -163,7 +163,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.settingsFragment,
+                org.futo.circles.settings.R.id.settingsFragment,
                 R.id.circlesFragment,
                 R.id.peopleFragment,
                 R.id.groupsFragment,

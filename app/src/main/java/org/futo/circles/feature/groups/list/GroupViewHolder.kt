@@ -69,7 +69,7 @@ class JoinedGroupViewHolder(
 
     private fun setTopic(topic: String) {
         binding.tvTopic.setIsVisible(topic.isNotEmpty())
-        binding.tvTopic.text = context.getString(R.string.topic_formatter, topic)
+        binding.tvTopic.text = context.getString(org.futo.circles.core.R.string.topic_format, topic)
     }
 
     private fun setMembersCount(membersCount: Int, knocksCount: Int) {

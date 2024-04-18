@@ -27,7 +27,6 @@
     <string name="name_for_empty_room">Empty room</string>
     <string name="and">and</string>
     <string name="other">Other</string>
-    <string name="display_name">Display name</string>
     <string name="display_name_explanation">Your display name is how other users on the service will identify you.</string>
     <string name="weak_password">Weak password</string>
     <string name="fair_password">Fair password</string>
@@ -63,7 +62,6 @@
     <string name="save">Save</string>
     <string name="skip">Skip</string>
     <string name="subscriptions">Subscriptions</string>
-    <string name="manage_subscription">Manage subscription</string>
     <string name="enter_your_username">Enter your username</string>
     <string name="set_username">Set username</string>
     <string name="send_validation_code">Send validation code</string>
@@ -86,36 +84,10 @@
     <string name="developer_error">Developer error</string>
     <string name="purchase_failed_format">Purchase failed with code %d</string>
     <string name="log_out">Log out</string>
-    <string name="log_out_message">Are you sure you want to log out?</string>
-    <string name="switch_user">Switch User</string>
-    <string name="switch_user_message">Are you sure you want to switch user?</string>
-    <string name="switch_str">Switch</string>
-    <string name="change_password">Change password</string>
-    <string name="add_email_address">Add email address</string>
-    <string name="new_password">New password</string>
-    <string name="old_password">Old Password</string>
-    <string name="repeat_new_password">Repeat new password</string>
-    <string name="remove_session">Remove session</string>
-    <string name="remove_session_message">In order to sign out from this session you should confirm your auth.</string>
-    <string name="reset_keys">Reset keys</string>
-    <string name="reset_keys_message">Confirm auth to reset keys and enable cross signing</string>
     <string name="forgot_password_message">After verifying your email the new password and key backup will be set.\n\nWarning: With a new key backup you will not be able to see all your previous encrypted messages, this action can not be undone.</string>
     <string name="confirm">Confirm</string>
-    <string name="failed_to_read_qr_code">Failed to read QR code</string>
     <string name="current_session">Current session</string>
     <string name="other_sessions">Other sessions</string>
-    <string name="scan_with_one_of_devices_message">Scan QR code with one of your devices to finish verification</string>
-    <string name="waiting_for_other_device_verification">Waiting for other device to start verification</string>
-    <string name="session_verified">Session verified</string>
-    <string name="verification_canceled">Verification canceled</string>
-    <string name="active_login_sessions">Active login sessions</string>
-    <string name="login_sessions">Login sessions</string>
-    <string name="verify_session">Verify session</string>
-    <string name="scan_qr_code">Scan QR code</string>
-    <string name="profile_updated">Profile updated</string>
-    <string name="edit_profile">Edit Profile</string>
-    <string name="user_id">User ID</string>
-    <string name="verify">Verify</string>
     <string name="groups">Groups</string>
     <string name="circles">Circles</string>
     <string name="friends">Friends</string>
@@ -138,16 +110,6 @@
     <string name="community_circle_description">Optional: Circle to follow other people timelines. You will be able to create it anytime</string>
     <string name="configure">Configure</string>
     <string name="receive_email_updates">Receive email updates</string>
-    <string name="you_don_t_have_any_active_subscriptions">You don\'t have any active subscriptions</string>
-    <string name="manage_on_google_play">Manage on Google Play</string>
-    <string name="status_active">Status: Active</string>
-    <string name="price_format">Price: %s</string>
-    <string name="duration_format">Duration: %s</string>
-    <string name="purchase_time_format">Purchase time: %s</string>
-    <string name="product_id_format">Product id: %s</string>
-    <string name="is_auto_renew_message">Subscription will renew automatically</string>
-    <string name="is_not_auto_renew_message">Subscription will not renew automatically</string>
-    <string name="can_not_open_google_play">Can not open Google Play</string>
     <string name="i_understand">I understand</string>
     <string name="circles_is_different">Circles is different!</string>
     <string name="passphrase_usage_explanation">On the next screen we will ask you to set up a passphrase to your account.\n\nCircles uses your passphrase to log in AND to protect your encryption keys.</string>
@@ -155,12 +117,12 @@
     <string name="passphrase_tip">Tip: It\'s OK to write your passphrase down and store it in a secure location.</string>
     <string name="username_not_found">Username not found</string>
     <string name="invalid_validation_code">Invalid validation code</string>
-    <string name="the_password_you_entered_is_incorrect">The password you entered is incorrect</string>
     <string name="forgot_password_question">Forgot password?</string>
     <string name="forgot_password">Forgot password</string>
     <string name="please_use_one_of_your_verified_emails_format">Please use one of your verified emails:\n%s</string>
-
-
+    <string name="display_name">Display name</string>
+    <string name="the_password_you_entered_is_incorrect">The password you entered is incorrect</string>
+    
     <plurals name="days">
         <item quantity="one">%1$d day</item>
         <item quantity="many">%1$d days</item>
