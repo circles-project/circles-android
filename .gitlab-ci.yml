@@ -56,11 +56,11 @@ createGitlabRelease:
           url: '${APK_URL}'
 
 
-uploadPlayStoreBeta:
+uploadPlayStore:
   image: softartdev/android-fastlane
   stage: deploy
   script:
-    - echo "Running the uploadPlayStoreBeta job"
+    - echo "Running the uploadPlayStore job"
     - bundle install
     - echo ${GPLAY_API_KEY_JSON} > google_play_api_key.json
     - bundle exec fastlane deployGoogle
