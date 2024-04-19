@@ -14,6 +14,7 @@ import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.databinding.DialogFragmentUpdateRoomBinding
+import org.futo.circles.core.extensions.getCircleAvatarUrl
 import org.futo.circles.core.extensions.getRoleNameResId
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadRoomProfileIcon
@@ -89,7 +90,8 @@ class UpdateRoomDialogFragment :
                     tilName.getText(),
                     tilTopic.getText(),
                     binding.btnPublic.isChecked,
-                    getSelectedAccessLevel()
+                    getSelectedAccessLevel(),
+                    roomType == CircleRoomTypeArg.Circle
                 )
                 startLoading(btnSave)
             }
@@ -138,7 +140,10 @@ class UpdateRoomDialogFragment :
 
     private fun setInitialRoomData(room: RoomSummary) {
         with(binding) {
-            ivCover.loadRoomProfileIcon(room.avatarUrl, room.displayName)
+            ivCover.loadRoomProfileIcon(
+                if (roomType == CircleRoomTypeArg.Circle) room.getCircleAvatarUrl() else room.avatarUrl,
+                room.displayName
+            )
             tilName.editText?.setText(room.displayName)
             tilTopic.editText?.setText(room.topic)
             val isCircleShared = viewModel.isCircleShared(roomId)

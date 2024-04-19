@@ -49,18 +49,21 @@ class UpdateRoomDataSource @Inject constructor(
         topic: String,
         uri: Uri?,
         isPublic: Boolean,
-        userAccessLevel: AccessLevel?
-    ) =
-        createResult {
-            if (isNameChanged(name)) room?.stateService()?.updateName(name)
-            if (isTopicChanged(topic)) room?.stateService()?.updateTopic(topic)
-            if (isPrivateSharedChanged(isPublic)) handelPrivateSharedVisibilityUpdate(isPublic)
-            uri?.let {
-                room?.stateService()
-                    ?.updateAvatar(it, it.getFilename(context) ?: UUID.randomUUID().toString())
-            }
-            userAccessLevel?.let { updateUserDefaultPowerLevel(it) }
-        }
+        userAccessLevel: AccessLevel?,
+        isCircle: Boolean
+    ) = createResult {
+        if (isNameChanged(name)) room?.stateService()?.updateName(name)
+        if (isTopicChanged(topic)) room?.stateService()?.updateTopic(topic)
+        if (isPrivateSharedChanged(isPublic)) handelPrivateSharedVisibilityUpdate(isPublic)
+        uri?.let { updateProfileImage(it, isCircle) }
+        userAccessLevel?.let { updateUserDefaultPowerLevel(it) }
+    }
+
+    private suspend fun updateProfileImage(uri: Uri, isCircle: Boolean) {
+        val roomToUpdate = if (isCircle) getTimelineRoomFor(roomId) else room
+        roomToUpdate?.stateService()
+            ?.updateAvatar(uri, uri.getFilename(context) ?: UUID.randomUUID().toString())
+    }
 
     private suspend fun handelPrivateSharedVisibilityUpdate(isPublic: Boolean) {
         val timelineId = room?.roomId?.let { getTimelineRoomFor(it)?.roomId } ?: return

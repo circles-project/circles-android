@@ -10,6 +10,7 @@ import org.futo.circles.core.R
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.DialogFragmentTimelineOptionsBinding
+import org.futo.circles.core.extensions.getCircleAvatarUrl
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
@@ -155,7 +156,10 @@ class TimelineOptionsDialogFragment :
         }
         viewModel.roomSummaryLiveData?.observeData(this) {
             it.getOrNull()?.let { room ->
-                binding.ivCover.loadRoomProfileIcon(room.avatarUrl, room.displayName)
+                binding.ivCover.loadRoomProfileIcon(
+                    if (args.type == CircleRoomTypeArg.Circle) room.getCircleAvatarUrl() else room.avatarUrl,
+                    room.displayName
+                )
                 binding.toolbar.title = room.displayName
             }
         }
