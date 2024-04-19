@@ -19,8 +19,7 @@ data class CirclesHeaderItem(
 
 sealed class CircleRoomListItem(
     override val id: String,
-    open val info: RoomInfo,
-    open val membership: Membership
+    open val info: RoomInfo
 ) : CircleListItem()
 
 data class JoinedCircleListItem(
@@ -31,7 +30,7 @@ data class JoinedCircleListItem(
     val followedByCount: Int,
     val unreadCount: Int,
     val knockRequestsCount: Int
-) : CircleRoomListItem(id, info, Membership.JOIN)
+) : CircleRoomListItem(id, info)
 
 data class CircleInvitesNotificationListItem(
     val invitesCount: Int,
