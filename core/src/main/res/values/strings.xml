@@ -257,6 +257,8 @@
     <string name="following_format">Following %d</string>
     <string name="joined_members_count">Joined members: %d</string>
     <string name="optional_request_message">Optional: Request message</string>
+    <string name="my_galleries">My Galleries</string>
+    <string name="shared_galleries">Shared Galleries</string>
 
     <plurals name="notification_compat_summary_line_for_room">
         <item quantity="one">%1$s: %2$d message</item>

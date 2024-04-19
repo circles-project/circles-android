@@ -6,12 +6,16 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
+import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.databinding.ListItemJoinedGalleryBinding
 import org.futo.circles.core.extensions.loadMatrixImage
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.textDrawable.ColorGenerator
 import org.futo.circles.core.feature.textDrawable.TextDrawable
+import org.futo.circles.core.model.GalleryHeaderItem
 import org.futo.circles.core.model.GalleryInvitesNotificationListItem
 import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.model.JoinedGalleryListItem
@@ -44,6 +48,12 @@ class JoinedGalleryViewHolder(
                 .build()
             ivGalleryImage.loadMatrixImage(url = data.info.avatarUrl, placeholder = placeholder)
             tvGalleryName.text = data.info.title
+            lUser.setIsVisible(!data.isMyGallery())
+            data.roomOwner?.let {
+                tvUserName.text = it.displayName
+                ivUserImage.loadUserProfileIcon(it.avatarUrl, it.userId)
+            }
+
         }
     }
 }
@@ -65,5 +75,19 @@ class GalleryInviteNotificationViewHolder(
         if (data !is GalleryInvitesNotificationListItem) return
         binding.tvInvitesMessage.text =
             context.getString(R.string.gallery_invites_notification_format, data.invitesCount)
+    }
+}
+
+class GalleryHeaderViewHolder(
+    parent: ViewGroup,
+) : GalleryViewHolder(inflate(parent, ListItemInviteHeaderBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemInviteHeaderBinding
+
+    override fun bind(data: GalleryListItem) {
+        if (data !is GalleryHeaderItem) return
+        binding.tvHeader.text = context.getString(data.titleRes)
     }
 }

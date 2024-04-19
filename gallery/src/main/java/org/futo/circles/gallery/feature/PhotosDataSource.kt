@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.mapping.toJoinedGalleryListItem
+import org.futo.circles.core.model.GalleryHeaderItem
 import org.futo.circles.core.model.GalleryInvitesNotificationListItem
 import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -25,13 +26,36 @@ class PhotosDataSource @Inject constructor() {
 
 
     private fun buildList(galleries: List<RoomSummary>): List<GalleryListItem> {
-        val joined = galleries.filter { it.membership == Membership.JOIN }
+        val joined = galleries.mapNotNull {
+            if (it.membership == Membership.JOIN) it.toJoinedGalleryListItem()
+            else null
+        }
+        val sharedGalleries = joined.filter { !it.isMyGallery() }
         val invitesCount = galleries.filter { it.membership == Membership.INVITE }.size
-        return mutableListOf<GalleryListItem>().apply {
+
+        val displayList = mutableListOf<GalleryListItem>().apply {
             if (invitesCount > 0)
                 add(GalleryInvitesNotificationListItem(invitesCount))
 
-            addAll(joined.map { it.toJoinedGalleryListItem() })
+            addSection(
+                GalleryHeaderItem.myGalleriesHeader,
+                joined - sharedGalleries.toSet()
+            )
+            addSection(
+                GalleryHeaderItem.sharedGalleriesHeader,
+                sharedGalleries
+            )
+        }
+        return displayList
+    }
+
+    private fun MutableList<GalleryListItem>.addSection(
+        title: GalleryHeaderItem,
+        items: List<GalleryListItem>
+    ) {
+        if (items.isNotEmpty()) {
+            add(title)
+            addAll(items)
         }
     }
 }
