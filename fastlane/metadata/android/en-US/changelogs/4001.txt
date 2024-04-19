@@ -1,0 +1,2 @@
+- Shared Galleries section
+- Bug fixes and performance improvements
