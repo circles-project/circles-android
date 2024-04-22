@@ -73,7 +73,7 @@ dependencies {
     gplayImplementation 'com.android.billingclient:billing-ktx:6.2.1'
 
     //PasswordManager
-    def credentials_version = '1.3.0-alpha02'
+    def credentials_version = '1.3.0-alpha03'
     gplayImplementation "androidx.credentials:credentials:$credentials_version"
     gplayImplementation "androidx.credentials:credentials-play-services-auth:$credentials_version"
 

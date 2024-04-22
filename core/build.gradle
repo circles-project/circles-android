@@ -60,7 +60,7 @@ dependencies {
     api "androidx.autofill:autofill:1.1.0"
 
     //Kotlin
-    api "androidx.core:core-ktx:1.12.0"
+    api "androidx.core:core-ktx:1.13.0"
 
     //androidx lifecycle
     def lifecycle_version = "2.7.0"
@@ -80,7 +80,7 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
 
     //Matrix
-    api('org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.32@aar') {
+    api('org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.33@aar') {
         transitive = true
     }
 
