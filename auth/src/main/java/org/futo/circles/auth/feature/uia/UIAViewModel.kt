@@ -87,7 +87,6 @@ class UIAViewModel @Inject constructor(
             passPhraseLoadingLiveData.postValue(LoadingData(isLoading = false))
             refreshTokenManager.scheduleTokenRefreshIfNeeded(session)
             handleKeysBackup()
-            clearProviders()
         }
     }
 
@@ -141,7 +140,10 @@ class UIAViewModel @Inject constructor(
                 navigationLiveData.postValue(AuthUIAScreenNavigationEvent.PassPhrase)
             }
 
-            is Response.Success -> navigationLiveData.postValue(AuthUIAScreenNavigationEvent.Home)
+            is Response.Success -> {
+                clearProviders()
+                navigationLiveData.postValue(AuthUIAScreenNavigationEvent.Home)
+            }
         }
     }
 
