@@ -6,7 +6,6 @@ import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.coroutineScope
 import org.futo.circles.core.extensions.createResult
-import org.matrix.android.sdk.api.auth.data.sessionId
 import org.matrix.android.sdk.api.failure.GlobalError
 import org.matrix.android.sdk.api.session.Session
 
@@ -25,14 +24,14 @@ object MatrixSessionListenerProvider {
             session.coroutineScope.launch(Dispatchers.IO) {
                 val refreshResult = createResult {
                     MatrixInstanceProvider.matrix.authenticationService()
-                        .refreshToken(session.sessionParams.credentials.sessionId())
+                        .refreshToken(session.sessionId)
                 }
 
                 if (refreshResult is Response.Error) {
                     withContext(Dispatchers.Main) {
                         session.syncService().stopSync()
                         MatrixInstanceProvider.matrix.authenticationService()
-                            .removeSession(session.sessionParams.credentials.sessionId())
+                            .removeSession(session.sessionId)
                         onInvalidToken?.invoke(globalError)
                         onInvalidToken = null
                     }

@@ -26,7 +26,7 @@ class RefreshTokenManager @Inject constructor(
         if (expireTime < MIN_PERIODIC_INTERVAL_MILLIS) return
 
         val sessionIdData = Data.Builder()
-            .putString(RefreshTokenWorker.SESSION_ID_PARAM_KEY, credentials.sessionId())
+            .putString(RefreshTokenWorker.SESSION_ID_PARAM_KEY, session.sessionId)
             .build()
 
         val refreshRequest =
@@ -45,8 +45,7 @@ class RefreshTokenManager @Inject constructor(
     }
 
     fun cancelTokenRefreshing(session: Session) {
-        val credentials = session.sessionParams.credentials
-        cancelTokenRefreshingById(credentials.sessionId())
+        cancelTokenRefreshingById(session.sessionId)
     }
 
     fun cancelTokenRefreshingById(credentialsSessionId: String) {

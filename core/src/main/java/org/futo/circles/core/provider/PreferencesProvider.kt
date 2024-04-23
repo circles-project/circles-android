@@ -82,6 +82,19 @@ class PreferencesProvider @Inject constructor(
         getSharedPreferences().edit { putInt(WHATS_NEW_SHOWED_FOR, version) }
     }
 
+    fun getNotRestoredSessions(): Set<String> =
+        getSharedPreferences().getStringSet(NOT_RESTORED_SESSION, emptySet()) ?: emptySet()
+
+    fun removeSessionFromNotRestored(sessionId: String) {
+        val set = getNotRestoredSessions().toMutableSet().apply { remove(sessionId) }
+        getSharedPreferences().edit(true) { putStringSet(NOT_RESTORED_SESSION, set) }
+    }
+
+    fun storeSessionAsNotRestored(sessionId: String) {
+        val set = getNotRestoredSessions().toMutableSet().apply { add(sessionId) }
+        getSharedPreferences().edit(true) { putStringSet(NOT_RESTORED_SESSION, set) }
+    }
+
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
@@ -92,5 +105,6 @@ class PreferencesProvider @Inject constructor(
         private const val SHOULD_SHOW_CIRCLES_EXPLANATION = "should_show_circles_explanation"
         private const val SHOULD_SHOW_GROUPS_EXPLANATION = "should_show_groups_explanation"
         private const val WHATS_NEW_SHOWED_FOR = "whats_new_showed_for"
+        private const val NOT_RESTORED_SESSION = "not_restored_session"
     }
 }
