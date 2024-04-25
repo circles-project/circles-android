@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
-                android:inputType="textNoSuggestions"
+                android:inputType="textNoSuggestions|textVisiblePassword"
                 android:maxLines="1"
                 android:padding="12dp"
                 android:textSize="17sp" />
