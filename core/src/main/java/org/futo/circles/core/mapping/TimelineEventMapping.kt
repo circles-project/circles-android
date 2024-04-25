@@ -35,7 +35,8 @@ fun TimelineEvent.toPostInfo(): PostInfo = PostInfo(
     isEncrypted = isEncrypted(),
     timestamp = root.originServerTs ?: System.currentTimeMillis(),
     sender = senderInfo,
-    isEdited = hasBeenEdited()
+    isEdited = hasBeenEdited(),
+    editTimestamp = annotations?.editSummary?.lastEditTs
 )
 
 private fun TimelineEvent.toPostContent(): PostContent =

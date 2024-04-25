@@ -9,8 +9,11 @@ data class PostInfo(
     val sender: SenderInfo,
     val isEncrypted: Boolean,
     val timestamp: Long,
-    val isEdited: Boolean
+    val isEdited: Boolean,
+    val editTimestamp: Long?
 ) {
     fun isMyPost(): Boolean =
         sender.userId == MatrixSessionProvider.currentSession?.myUserId
+
+    fun getLastModifiedTimestamp() = editTimestamp ?: timestamp
 }

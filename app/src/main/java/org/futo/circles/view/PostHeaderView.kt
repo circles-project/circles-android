@@ -44,7 +44,7 @@ class PostHeaderView(
             sender.userId,
             sender.notEmptyDisplayName(),
             sender.avatarUrl,
-            data.postInfo.timestamp,
+            data.postInfo.getLastModifiedTimestamp(),
             data.postInfo.isEncrypted,
             data.timelineName,
             data.timelineOwnerName
