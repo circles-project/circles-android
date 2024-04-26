@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.core.view.isVisible
+import com.vanniktech.ui.parentViewGroup
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.setIsVisible
@@ -40,7 +41,9 @@ class PostFooterView(
                 }
             }
             btnShare.setOnClickListener {
-                post?.let { optionsListener?.onShare(it.content) }
+                post?.let {
+                    optionsListener?.onShare(it.content, this@PostFooterView.parentViewGroup())
+                }
             }
             btnLike.setOnClickListener {
                 post?.let {
@@ -60,7 +63,7 @@ class PostFooterView(
     fun setData(data: Post, isThread: Boolean) {
         post = data
         isThreadPost = isThread
-        bindViewData(data.repliesCount, data.canShare())
+        bindViewData(data.repliesCount)
         bindReactionsList(data.reactionsData)
     }
 
@@ -70,9 +73,8 @@ class PostFooterView(
         bindReactionsList(reactions)
     }
 
-    private fun bindViewData(repliesCount: Int, canShare: Boolean) {
+    private fun bindViewData(repliesCount: Int) {
         with(binding) {
-            btnShare.setIsVisible(canShare)
             btnReply.apply {
                 isVisible = !isThreadPost
                 setRepliesCount(repliesCount)

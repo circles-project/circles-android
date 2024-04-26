@@ -230,9 +230,9 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         navigator.navigateToThread(roomId, eventId)
     }
 
-    override fun onShare(content: PostContent) {
+    override fun onShare(content: PostContent, view: View) {
         if (showNoInternetConnection()) return
-        viewModel.sharePostContent(content)
+        viewModel.sharePostContent(content, view)
     }
 
     override fun onRemove(roomId: String, eventId: String) {
