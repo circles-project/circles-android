@@ -58,7 +58,7 @@ class PostOptionsDataSource @Inject constructor(
     suspend fun getShareableContent(content: PostContent): ShareableContent? = onBG {
         when (content) {
             is MediaContent -> getShareableMediaContent(content.mediaFileData)
-            is TextContent -> TextShareable(content.message)
+            is TextContent -> TextShareable(content.messageSpanned.toString())
             else -> throw IllegalArgumentException("Not shareable post content")
         }
     }
