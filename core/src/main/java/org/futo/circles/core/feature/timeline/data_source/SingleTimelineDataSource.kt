@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.futo.circles.core.feature.timeline.builder.SingleTimelineBuilder
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class SingleTimelineDataSource @Inject constructor(
     }
 
     override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
-        timeline?.restartWithEventId(null)
+        tryOrNull { timeline?.restartWithEventId(null) }
     }
 
     override fun clearTimeline() {
