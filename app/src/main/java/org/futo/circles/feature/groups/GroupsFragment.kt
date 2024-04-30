@@ -15,15 +15,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.feature.explanation.CirclesExplanationDialog
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
+import org.futo.circles.feature.explanation.CirclesExplanationDialog
 import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.model.GroupListItem
 
@@ -83,7 +81,6 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) { setEnabledViews(it, listOf(binding.rvRooms)) }
         viewModel.roomsLiveData.observeData(this) { listAdapter.submitList(it) }
     }
 

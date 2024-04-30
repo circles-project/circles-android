@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.DialogFragmentUserBinding
 import org.futo.circles.core.extensions.gone
@@ -21,7 +20,6 @@ import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
@@ -118,12 +116,6 @@ class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBindin
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) {
-            binding.toolbar.apply {
-                isEnabled = it
-                setEnabledChildren(it)
-            }
-        }
         viewModel.userLiveData.observeData(this) { setupUserInfo(it) }
         viewModel.usersTimelinesLiveData.observeData(this) {
             usersCirclesAdapter.submitList(it)

@@ -19,14 +19,12 @@ import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
 import org.futo.circles.auth.model.AuthUIAScreenNavigationEvent
 import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.auth.model.UIANavigationEvent
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BackPressOwner
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.view.LoadingDialog
@@ -85,7 +83,6 @@ class UIADialogFragment :
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.stagesNavigationLiveData.observeData(this) { event ->
             handleStagesNavigation(event)
         }

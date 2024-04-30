@@ -11,11 +11,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
 import org.futo.circles.core.base.CirclesAppConfig
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.openCustomTabUrl
-import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
@@ -94,7 +92,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.logOutLiveData.observeResponse(this,
             success = { clearSessionAndRestart() },
             onRequestInvoked = { loadingDialog.dismiss() }

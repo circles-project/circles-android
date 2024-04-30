@@ -12,12 +12,10 @@ import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.databinding.FragmentPeopleBinding
@@ -72,7 +70,6 @@ class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) { setEnabledViews(it, listOf(binding.rvUsers)) }
         viewModel.peopleLiveData.observeData(this) { items ->
             peopleAdapter.submitList(items)
         }
