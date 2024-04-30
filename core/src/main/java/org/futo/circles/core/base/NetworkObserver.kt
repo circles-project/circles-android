@@ -51,8 +51,15 @@ object NetworkObserver {
                 onConnectionChanged(false)
             }
         }
+        val builder = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .removeCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN)
+            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+            .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
+
         context.getSystemService<ConnectivityManager>()
-            ?.registerDefaultNetworkCallback(networkCallback)
+            ?.registerNetworkCallback(builder.build(), networkCallback)
         return networkCallback
     }
 
@@ -63,7 +70,8 @@ object NetworkObserver {
         val hasWifi = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI).orFalse()
         val hasMobileData =
             capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR).orFalse()
-        return hasWifi || hasMobileData
+        val hasVPN = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_VPN).orFalse()
+        return hasWifi || hasMobileData || hasVPN
     }
 
 }
