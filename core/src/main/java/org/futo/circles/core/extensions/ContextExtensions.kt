@@ -17,13 +17,6 @@ import androidx.core.content.res.ResourcesCompat
 import org.matrix.android.sdk.api.extensions.orFalse
 import org.matrix.android.sdk.api.util.getApplicationInfoCompat
 
-fun Context.isConnectedToWifi(): Boolean {
-    val connectivityManager = getSystemService<ConnectivityManager>() ?: return false
-    return connectivityManager.activeNetwork?.let { connectivityManager.getNetworkCapabilities(it) }
-        ?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        .orFalse()
-}
-
 
 fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
 

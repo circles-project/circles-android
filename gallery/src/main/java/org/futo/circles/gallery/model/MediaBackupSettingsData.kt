@@ -1,7 +1,7 @@
 package org.futo.circles.gallery.model
 
 import android.content.Context
-import org.futo.circles.core.extensions.isConnectedToWifi
+import org.futo.circles.core.base.NetworkObserver
 import org.matrix.android.sdk.api.session.events.model.Content
 
 data class MediaBackupSettingsData(
@@ -27,7 +27,7 @@ data class MediaBackupSettingsData(
     fun shouldStartBackup(context: Context): Boolean {
         if (isBackupEnabled) {
             if (backupOverWifi) {
-                if (context.isConnectedToWifi()) return true
+                if (NetworkObserver.isConnectedToWifi(context)) return true
             } else return true
         }
         return false

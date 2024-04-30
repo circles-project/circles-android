@@ -36,6 +36,13 @@ object NetworkObserver {
         }
     }
 
+    fun isConnectedToWifi(context: Context): Boolean {
+        val connectivityManager = context.getSystemService<ConnectivityManager>() ?: return false
+        return connectivityManager.activeNetwork?.let {
+            connectivityManager.getNetworkCapabilities(it)
+        }?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI).orFalse()
+    }
+
     private fun setInternetConnectionObserver(
         context: Context,
         onConnectionChanged: (Boolean) -> Unit
@@ -53,6 +60,7 @@ object NetworkObserver {
         }
         val builder = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
             .removeCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN)
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
