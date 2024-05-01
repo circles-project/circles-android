@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -57,17 +56,17 @@ object NetworkObserver {
                 super.onLost(network)
                 onConnectionChanged(false)
             }
-        }
-        val builder = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-            .removeCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN)
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-            .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
 
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities
+            ) {
+                super.onCapabilitiesChanged(network, networkCapabilities)
+                onConnectionChanged(isConnectedToInternet(context))
+            }
+        }
         context.getSystemService<ConnectivityManager>()
-            ?.registerNetworkCallback(builder.build(), networkCallback)
+            ?.registerDefaultNetworkCallback(networkCallback)
         return networkCallback
     }
 
@@ -78,8 +77,7 @@ object NetworkObserver {
         val hasWifi = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI).orFalse()
         val hasMobileData =
             capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR).orFalse()
-        val hasVPN = capabilities?.hasTransport(NetworkCapabilities.TRANSPORT_VPN).orFalse()
-        return hasWifi || hasMobileData || hasVPN
+        return hasWifi || hasMobileData
     }
 
 }
