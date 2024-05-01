@@ -18,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
 import org.futo.circles.core.base.DeepLinkIntentHandler
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -141,7 +142,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
             validateLoadingDialog.handleLoading(it)
         }
         viewModel.syncStateLiveData.observeData(this) {
-            if (it is SyncState.Running && it.afterPause) {
+            if (it is SyncState.Running && it.afterPause && NetworkObserver.isConnected()) {
                 syncLoadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.session_sync))
             } else syncLoadingDialog.dismiss()
         }
