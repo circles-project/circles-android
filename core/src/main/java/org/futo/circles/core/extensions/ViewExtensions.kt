@@ -73,6 +73,6 @@ fun ViewGroup.addNoInternetConnectionView(): TextView {
             FrameLayout.LayoutParams.WRAP_CONTENT
         )
     }
-    addView(noInternetView)
+    addView(noInternetView, 0)
     return noInternetView
 }
