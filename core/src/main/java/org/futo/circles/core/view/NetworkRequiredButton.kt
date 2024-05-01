@@ -16,6 +16,7 @@ class NetworkRequiredButton(
 
     override fun setOnClickListener(l: OnClickListener?) {
         customClickListener = l
+        super.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
