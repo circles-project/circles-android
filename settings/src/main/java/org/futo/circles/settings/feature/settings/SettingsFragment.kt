@@ -16,6 +16,7 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.openCustomTabUrl
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
@@ -59,23 +60,30 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ReAuthCancellatio
                 setOnClickListener { navigator.navigateToSubscriptionInfo() }
             }
             tvLogout.setOnClickListener {
+                if (showNoInternetConnection()) return@setOnClickListener
                 withConfirmation(LogOut()) {
                     loadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.log_out))
                     viewModel.logOut()
                 }
             }
             tvClearCache.setOnClickListener {
+                if (showNoInternetConnection()) return@setOnClickListener
                 (activity as? AppCompatActivity)?.let {
                     LauncherActivityUtils.clearCacheAndRestart(it)
                 }
             }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? SessionHolderActivity)?.stopSyncAndRestart() } }
-            tvChangePassword.setOnClickListener { viewModel.handleChangePasswordFlow() }
+            tvChangePassword.setOnClickListener {
+                if (showNoInternetConnection()) return@setOnClickListener
+                viewModel.handleChangePasswordFlow()
+            }
             tvAddEmail.setOnClickListener {
+                if (showNoInternetConnection()) return@setOnClickListener
                 loadingDialog.handleLoading(LoadingData())
                 viewModel.handleChangeEmailFlow()
             }
             tvDeactivate.setOnClickListener {
+                if (showNoInternetConnection()) return@setOnClickListener
                 withConfirmation(DeactivateAccount()) {
                     loadingDialog.handleLoading(LoadingData())
                     viewModel.deactivateAccount()
