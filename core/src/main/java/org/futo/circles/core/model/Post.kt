@@ -20,6 +20,4 @@ data class Post(
 ) : PostListItem() {
     override val id: String get() = postInfo.id
     fun isMyPost(): Boolean = postInfo.isMyPost()
-
-    fun canShare(): Boolean = content.type != PostContentType.POLL_CONTENT
 }

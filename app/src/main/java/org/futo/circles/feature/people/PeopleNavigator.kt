@@ -1,7 +1,6 @@
 package org.futo.circles.feature.people
 
 import androidx.navigation.fragment.findNavController
-import org.futo.circles.R
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.model.ShareUrlTypeArg
@@ -30,7 +29,8 @@ class PeopleNavigator(private val fragment: PeopleFragment) {
     fun navigateToShareProfile(sharedSpaceId: String?) {
         sharedSpaceId ?: kotlin.run {
             fragment.showError(
-                fragment.requireContext().getString(R.string.shared_circles_space_not_found)
+                fragment.requireContext()
+                    .getString(org.futo.circles.settings.R.string.shared_circles_space_not_found)
             )
             return
         }

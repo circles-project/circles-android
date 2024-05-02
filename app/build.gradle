@@ -12,8 +12,8 @@ android {
         applicationId "org.futo.circles"
         minSdk rootProject.ext.min_sdk_version
         targetSdk rootProject.ext.sdk_version
-        versionCode 39
-        versionName "1.0.29"
+        versionCode 40
+        versionName "1.0.30"
         archivesBaseName = "circles-v${versionName}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -82,6 +82,10 @@ android {
         ]
     }
     namespace 'org.futo.circles'
+    lint {
+        disable 'Instantiatable'
+    }
+
 }
 
 ext.abiCodes = ['armeabi-v7a': 1, 'x86': 2, 'x86_64': 3, 'arm64-v8a': 4]
@@ -103,15 +107,7 @@ dependencies {
     implementation project(path: ':core')
     implementation project(path: ':auth')
     implementation project(path: ':gallery')
-
-    //Firebase
-    gplayImplementation platform('com.google.firebase:firebase-bom:32.8.0')
-    gplayImplementation 'com.google.firebase:firebase-crashlytics-ktx'
-    gplayImplementation 'com.google.firebase:firebase-analytics-ktx'
-    gplayImplementation 'com.google.firebase:firebase-messaging-ktx'
-
-    // UnifiedPush
-    implementation 'com.github.UnifiedPush:android-connector:2.1.1'
+    implementation project(path: ':settings')
 
     //Emoji
     implementation 'com.vanniktech:emoji-google:0.18.0'
@@ -122,9 +118,6 @@ dependencies {
     //Hilt
     implementation "com.google.dagger:hilt-android:$rootProject.ext.hilt_version"
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
-
-    // Google app update
-    gplayImplementation "com.google.android.play:app-update:2.1.0"
 
     //test
     testImplementation 'junit:junit:4.13.2'

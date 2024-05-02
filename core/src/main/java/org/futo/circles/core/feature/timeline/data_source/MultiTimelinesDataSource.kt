@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.futo.circles.core.feature.timeline.builder.MultiTimelineBuilder
+import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
@@ -31,7 +32,7 @@ class MultiTimelinesDataSource @Inject constructor(
     }
 
     override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
-        timelines.firstOrNull { it.timelineID == timelineId }?.restartWithEventId(null)
+        tryOrNull { timelines.firstOrNull { it.timelineID == timelineId }?.restartWithEventId(null) }
     }
 
     override fun clearTimeline() {

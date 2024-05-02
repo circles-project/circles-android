@@ -28,7 +28,7 @@
         tools:ignore="DataExtractionRules"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".auth.feature.active_sessions.verify.qr.QrScannerActivity"
+            android:name=".settings.feature.active_sessions.verify.qr.QrScannerActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -125,7 +125,7 @@
             android:exported="false" />
 
         <service
-            android:name=".feature.notifications.CirclesSyncAndroidService"
+            android:name=".core.feature.notifications.CirclesSyncAndroidService"
             android:exported="false"
             android:foregroundServiceType="dataSync"
             tools:ignore="Instantiatable" />
@@ -144,16 +144,16 @@
         </service>
 
         <receiver
-            android:name=".feature.notifications.test.task.TestNotificationReceiver"
+            android:name=".core.feature.notifications.test.task.TestNotificationReceiver"
             android:exported="false" />
 
         <receiver
-            android:name=".feature.notifications.NotificationBroadcastReceiver"
+            android:name=".core.feature.notifications.NotificationBroadcastReceiver"
             android:enabled="true"
             android:exported="false" />
 
         <receiver
-            android:name=".feature.notifications.UnifiedPushMessagingReceiver"
+            android:name=".core.feature.notifications.UnifiedPushMessagingReceiver"
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedReceiver">
@@ -167,7 +167,7 @@
         </receiver>
 
         <receiver
-            android:name=".feature.notifications.KeepInternalDistributor"
+            android:name=".core.feature.notifications.KeepInternalDistributor"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

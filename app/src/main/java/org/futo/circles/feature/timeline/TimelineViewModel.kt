@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline
 
 import android.content.Context
+import android.view.View
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -65,9 +66,10 @@ class TimelineViewModel @Inject constructor(
         )
 
 
-    fun sharePostContent(content: PostContent) {
+    fun sharePostContent(content: PostContent, view: View) {
         launchBg {
-            postOptionsDataSource.getShareableContent(content)?.let { shareLiveData.postValue(it) }
+            postOptionsDataSource.getShareableContent(content, view)
+                ?.let { shareLiveData.postValue(it) }
         }
     }
 

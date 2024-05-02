@@ -13,11 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
@@ -103,12 +101,6 @@ class TimelineMediaPreviewDialogFragment :
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) {
-            binding.toolbar.apply {
-                isEnabled = it
-                setEnabledChildren(it)
-            }
-        }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
         }

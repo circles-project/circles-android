@@ -20,7 +20,6 @@ import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
-import org.matrix.android.sdk.api.auth.data.sessionId
 import org.matrix.android.sdk.api.session.Session
 import javax.inject.Inject
 
@@ -87,7 +86,6 @@ class UIAViewModel @Inject constructor(
             passPhraseLoadingLiveData.postValue(LoadingData(isLoading = false))
             refreshTokenManager.scheduleTokenRefreshIfNeeded(session)
             handleKeysBackup()
-            clearProviders()
         }
     }
 
@@ -115,18 +113,15 @@ class UIAViewModel @Inject constructor(
                 )
                 MatrixSessionProvider.awaitForSessionSync(session)
                 createPassPhraseDataSource.replaceToNewKeyBackup()
-                clearProviders()
             }
-            (result as? Response.Success)?.let {
-                navigationLiveData.postValue(AuthUIAScreenNavigationEvent.Home)
-            }
+            (result as? Response.Success)?.let { clearProvidersAndNavigateHome() }
             createBackupResultLiveData.postValue(result)
         }
     }
 
     private suspend fun handleKeysBackup() {
         if (encryptionAlgorithmHelper.isBsSpekePassPhrase()) restoreBsSpekeBackup()
-        else navigationLiveData.postValue(AuthUIAScreenNavigationEvent.PassPhrase)
+        else storeNotRestoredSessionAndShowPassphrase()
     }
 
     private suspend fun restoreBsSpekeBackup() {
@@ -138,21 +133,33 @@ class UIAViewModel @Inject constructor(
         when (restoreResult) {
             is Response.Error -> {
                 restoreKeysLiveData.postValue(restoreResult)
-                navigationLiveData.postValue(AuthUIAScreenNavigationEvent.PassPhrase)
+                storeNotRestoredSessionAndShowPassphrase()
             }
 
-            is Response.Success -> navigationLiveData.postValue(AuthUIAScreenNavigationEvent.Home)
+            is Response.Success -> clearProvidersAndNavigateHome()
         }
     }
 
     fun cancelRestore() {
         launchBg {
             val session = MatrixSessionProvider.currentSession ?: return@launchBg
-            val sessionId = session.sessionParams.credentials.sessionId()
             refreshTokenManager.cancelTokenRefreshing(session)
             MatrixSessionProvider.removeListenersAndStopSync()
-            MatrixInstanceProvider.matrix.authenticationService().removeSession(sessionId)
+            MatrixInstanceProvider.matrix.authenticationService().removeSession(session.sessionId)
+            preferencesProvider.removeSessionFromNotRestored(session.sessionId)
         }
+    }
+
+    private fun storeNotRestoredSessionAndShowPassphrase() {
+        MatrixSessionProvider.currentSession?.sessionId?.let {
+            preferencesProvider.storeSessionAsNotRestored(it)
+        }
+        navigationLiveData.postValue(AuthUIAScreenNavigationEvent.PassPhrase)
+    }
+
+    private fun clearProvidersAndNavigateHome() {
+        clearProviders()
+        navigationLiveData.postValue(AuthUIAScreenNavigationEvent.Home)
     }
 
     private fun clearProviders() {

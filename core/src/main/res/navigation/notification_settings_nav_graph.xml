@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notification_settings_nav_graph"
+    app:startDestination="@id/pushNotificationsSettingsDialogFragment">
+
+
+    <dialog
+        android:id="@+id/pushNotificationsSettingsDialogFragment"
+        android:name="org.futo.circles.core.feature.notifications.settings.PushNotificationsSettingsDialogFragment"
+        tools:layout="@layout/dialog_fragment_push_notifications_settings">
+        <action
+            android:id="@+id/to_notificationTestDialogFragment"
+            app:destination="@id/notificationTestDialogFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/notificationTestDialogFragment"
+        android:name="org.futo.circles.core.feature.notifications.test.NotificationTestDialogFragment"
+        tools:layout="@layout/dialog_fragment_notifications_test" />
+
+
+</navigation>

@@ -8,7 +8,7 @@
     <application>
 
         <service
-            android:name=".notifications.GuardAndroidService"
+            android:name=".core.notifications.GuardAndroidService"
             android:exported="false"
             android:foregroundServiceType="dataSync"
             tools:ignore="Instantiatable" />

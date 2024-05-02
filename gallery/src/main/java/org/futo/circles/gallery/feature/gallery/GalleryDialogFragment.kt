@@ -13,14 +13,12 @@ import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BackPressOwner
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentGalleryBinding
 import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragment
@@ -99,12 +97,6 @@ class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGallery
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) {
-            binding.toolbar.apply {
-                isEnabled = it
-                setEnabledChildren(it)
-            }
-        }
         viewModel.titleLiveData?.observeData(this) { title ->
             binding.toolbar.title = title
         }

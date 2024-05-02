@@ -26,14 +26,21 @@ class UpdateRoomViewModel @Inject constructor(
         selectedImageLiveData.value = uri
     }
 
-    fun update(name: String, topic: String, isPublic: Boolean, userAccessLevel: AccessLevel) {
+    fun update(
+        name: String,
+        topic: String,
+        isPublic: Boolean,
+        userAccessLevel: AccessLevel,
+        isCircle: Boolean
+    ) {
         launchBg {
             val result = dataSource.updateRoom(
                 name,
                 topic,
                 selectedImageLiveData.value,
                 isPublic,
-                userAccessLevel.takeIf { isDefaultUserRoleChanged(userAccessLevel) }
+                userAccessLevel.takeIf { isDefaultUserRoleChanged(userAccessLevel) },
+                isCircle
             )
             updateRoomResponseLiveData.postValue(result)
         }

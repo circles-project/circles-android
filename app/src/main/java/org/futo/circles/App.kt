@@ -12,13 +12,13 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.feature.notifications.FcmHelper
+import org.futo.circles.core.feature.notifications.GuardServiceStarter
+import org.futo.circles.core.feature.notifications.NotificationUtils
+import org.futo.circles.core.feature.notifications.PushRuleTriggerListener
+import org.futo.circles.core.feature.notifications.PushersManager
 import org.futo.circles.core.provider.MatrixNotificationSetupListener
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.feature.notifications.FcmHelper
-import org.futo.circles.feature.notifications.GuardServiceStarter
-import org.futo.circles.feature.notifications.NotificationUtils
-import org.futo.circles.feature.notifications.PushRuleTriggerListener
-import org.futo.circles.feature.notifications.PushersManager
 import org.futo.circles.feature.timeline.post.emoji.RecentEmojisProvider
 import org.matrix.android.sdk.api.session.Session
 import timber.log.Timber
@@ -50,6 +50,7 @@ class App : Application() {
             .buildConfigInfo(
                 BuildConfig.APPLICATION_ID,
                 BuildConfig.VERSION_NAME,
+                BuildConfig.VERSION_CODE,
                 BuildConfig.FLAVOR
             )
             .appName(getString(R.string.app_name))
@@ -59,6 +60,8 @@ class App : Application() {
                     else R.array.release_domains
                 ).toList()
             )
+            .privacyPolicyUrl(getString(R.string.privacy_policy_url))
+            .changeLog(getString(R.string.changelog))
             .init()
 
         MatrixSessionProvider.initSession(

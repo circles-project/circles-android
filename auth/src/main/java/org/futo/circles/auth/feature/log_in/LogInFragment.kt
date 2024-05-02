@@ -18,14 +18,12 @@ import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHold
 import org.futo.circles.auth.model.ForgotPassword
 import org.futo.circles.auth.model.RemoveUser
 import org.futo.circles.core.base.CirclesAppConfig
-import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.list.BaseRvDecoration
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.withConfirmation
@@ -96,7 +94,6 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) { setEnabledViews(it) }
         viewModel.loginResultLiveData.observeResponse(this,
             success = {
                 findNavController().navigateSafe(LogInFragmentDirections.toUiaFragment())

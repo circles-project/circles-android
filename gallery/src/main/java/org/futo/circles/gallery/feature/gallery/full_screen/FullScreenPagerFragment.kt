@@ -13,14 +13,12 @@ import androidx.transition.TransitionInflater
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.extensions.setEnabledChildren
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
-import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.gallery.R
@@ -89,13 +87,7 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
     }
 
     private fun setupObservers() {
-        NetworkObserver.observe(this) {
-            binding.toolbar.apply {
-                isEnabled = it
-                setEnabledChildren(it)
-            }
-        }
-        viewModel.galleryItemsLiveData.observeData(this) {items->
+        viewModel.galleryItemsLiveData.observeData(this) { items ->
             pagerAdapter.submitList(items.mapNotNull { (it as? GalleryContentListItem) })
             setToolbarTitle()
         }

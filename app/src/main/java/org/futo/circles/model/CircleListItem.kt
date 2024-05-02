@@ -3,7 +3,6 @@ package org.futo.circles.model
 import org.futo.circles.R
 import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.model.RoomInfo
-import org.matrix.android.sdk.api.session.room.model.Membership
 
 sealed class CircleListItem : IdEntity<String>
 data class CirclesHeaderItem(
@@ -17,24 +16,19 @@ data class CirclesHeaderItem(
     }
 }
 
-sealed class CircleRoomListItem(
-    override val id: String,
-    open val info: RoomInfo,
-    open val membership: Membership
-) : CircleListItem()
-
 data class JoinedCircleListItem(
     override val id: String,
-    override val info: RoomInfo,
+    val info: RoomInfo,
     val isShared: Boolean,
     val followingCount: Int,
     val followedByCount: Int,
     val unreadCount: Int,
     val knockRequestsCount: Int
-) : CircleRoomListItem(id, info, Membership.JOIN)
+) : CircleListItem()
 
 data class CircleInvitesNotificationListItem(
-    val invitesCount: Int,
+    val invitesCount: Int
+) : CircleListItem() {
     override val id: String = "CircleInvitesNotificationListItem"
-) : CircleListItem()
+}
 

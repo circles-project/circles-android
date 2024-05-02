@@ -4,7 +4,6 @@ import org.futo.circles.core.model.PostContent
 
 
 interface PostMenuListener {
-    fun onShare(content: PostContent)
     fun onIgnore(senderId: String)
     fun onSaveToDevice(content: PostContent)
     fun onRemove(roomId: String, eventId: String)

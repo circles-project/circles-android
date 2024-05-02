@@ -17,6 +17,7 @@ import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 
@@ -37,6 +38,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up),
 
     private fun setupViews() {
         with(binding) {
+            toolbar.setNavigationOnClickListener { onBackPressed() }
             serverDomainGroup.setOnCheckedChangeListener { _, _ ->
                 setFlowsLoading(true)
                 viewModel.loadSignupFlowsForDomain(getDomain())

@@ -1,0 +1,5 @@
+- Fixed create group/circle/gallery navigation
+- Share poll as image
+- Improved offline app browsing experience
+- Shared Galleries section
+- Bug fixes and performance improvements

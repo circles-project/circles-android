@@ -7,6 +7,7 @@ import androidx.core.os.BundleCompat.getParcelable
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
@@ -35,11 +36,8 @@ class CreateRoomDialogFragment :
         getBinding() as DialogFragmentCreateRoomBinding
     }
 
+    private val args: CreateRoomDialogFragmentArgs by navArgs()
     private val mediaPickerHelper = MediaPickerHelper(this)
-    private val roomType: CircleRoomTypeArg by lazy {
-        getParcelable(requireArguments(), "type", CircleRoomTypeArg::class.java)
-            ?: CircleRoomTypeArg.Group
-    }
     private var selectedUsersFragment: SelectUsersFragment? = null
 
     private val circleTypeList = AccessLevel.entries.toTypedArray()
@@ -69,10 +67,10 @@ class CreateRoomDialogFragment :
             toolbar.title = getString(R.string.create_new_room_format, roomTypeName)
             val nameHeader = "$roomTypeName ${getString(R.string.name)}"
             tvNameHeader.text = nameHeader
-            val isGroup = roomType == CircleRoomTypeArg.Group
+            val isGroup = args.type == CircleRoomTypeArg.Group
             tvTopicHeader.setIsVisible(isGroup)
             tilTopic.setIsVisible(isGroup)
-            val isCircle = roomType == CircleRoomTypeArg.Circle
+            val isCircle = args.type == CircleRoomTypeArg.Circle
             tvTypeHeader.setIsVisible(isCircle)
             circleTypeGroup.setIsVisible(isCircle)
             lCircleTypeExplanation.setIsVisible(isCircle)
@@ -103,7 +101,7 @@ class CreateRoomDialogFragment :
     }
 
     private fun getRoomTypeName() = getString(
-        when (roomType) {
+        when (args.type) {
             CircleRoomTypeArg.Circle -> R.string.circle
             CircleRoomTypeArg.Group -> R.string.group
             CircleRoomTypeArg.Photo -> R.string.gallery
@@ -121,7 +119,7 @@ class CreateRoomDialogFragment :
             binding.tilName.getText(),
             binding.tilTopic.getText(),
             selectedUsersFragment?.getSelectedUsersIds(),
-            roomType,
+            args.type,
             binding.btnPublic.isChecked,
             AccessLevel.entries.getOrNull(binding.spUserRole.selectedItemPosition)
                 ?: AccessLevel.User

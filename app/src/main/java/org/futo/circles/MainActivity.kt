@@ -5,17 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.BaseActivity
+import org.futo.circles.core.base.DeepLinkIntentHandler
+import org.futo.circles.settings.SessionHolderActivity
 import org.futo.circles.core.feature.markdown.MarkdownParser
+import org.futo.circles.core.feature.whats_new.WhatsNewDialog
+import org.futo.circles.core.update.AppUpdateProvider
 import org.futo.circles.core.utils.LauncherActivityUtils
-import org.futo.circles.feature.home.DeepLinkIntentHandler
-import org.futo.circles.feature.whats_new.WhatsNewDialog
-import org.futo.circles.update.AppUpdateManager
-import org.futo.circles.update.AppUpdateProvider
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity(R.layout.activity_main) {
+class MainActivity : BaseActivity(R.layout.activity_main), SessionHolderActivity {
 
     @Inject
     lateinit var appUpdateProvider: AppUpdateProvider
@@ -40,22 +40,13 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             ?.let { (it as DeepLinkIntentHandler).onNewIntent() }
     }
 
-    fun clearSessionAndRestart() {
+    override fun clearSessionAndRestart() {
         LauncherActivityUtils.clearSessionAndRestart(this, getSelfIntent(this))
     }
 
-    fun stopSyncAndRestart() {
+    override fun stopSyncAndRestart() {
         LauncherActivityUtils.stopSyncAndRestart(this, getSelfIntent(this))
     }
 
-
-    companion object {
-        const val ROOM_ID_PARAM = "roomId"
-        fun getSelfIntent(context: Context) = Intent(context, MainActivity::class.java)
-        fun getOpenRoomIntent(context: Context, roomId: String): Intent =
-            getSelfIntent(context).apply {
-                action = "OPEN_ROOM"
-                putExtra(ROOM_ID_PARAM, roomId)
-            }
-    }
+    private fun getSelfIntent(context: Context) = Intent(context, MainActivity::class.java)
 }

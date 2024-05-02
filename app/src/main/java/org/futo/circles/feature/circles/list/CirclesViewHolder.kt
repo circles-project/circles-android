@@ -63,7 +63,8 @@ class JoinedCircleViewHolder(
     }
 
     private fun setFollowingCount(followersCount: Int) {
-        binding.tvFollowing.text = context.getString(R.string.following_format, followersCount)
+        binding.tvFollowing.text =
+            context.getString(org.futo.circles.core.R.string.following_format, followersCount)
     }
 
     private fun setFollowedByCount(followedByCount: Int) {

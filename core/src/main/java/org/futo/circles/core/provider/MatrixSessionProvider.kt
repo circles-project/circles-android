@@ -1,6 +1,9 @@
 package org.futo.circles.core.provider
 
 import android.content.Context
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.matrix.android.sdk.api.Matrix
 import org.matrix.android.sdk.api.MatrixConfiguration
@@ -46,7 +49,18 @@ object MatrixSessionProvider {
             null
         }
 
-        lastSession?.let { startSession(it) }
+        lastSession?.let {
+            val preferences = PreferencesProvider(context)
+            if (preferences.getNotRestoredSessions().contains(it.sessionId)) {
+                MainScope().launch(Dispatchers.IO) {
+                    MatrixInstanceProvider.matrix.authenticationService()
+                        .removeSession(it.sessionId)
+                    preferences.removeSessionFromNotRestored(it.sessionId)
+                }
+            } else {
+                startSession(it)
+            }
+        }
     }
 
     fun clearSession() {

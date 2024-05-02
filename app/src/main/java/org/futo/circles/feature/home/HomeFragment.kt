@@ -15,9 +15,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.MainActivity
 import org.futo.circles.R
 import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
+import org.futo.circles.core.base.DeepLinkIntentHandler
+import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -55,6 +56,8 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     @Inject
     lateinit var mediaBackupServiceManager: MediaBackupServiceManager
 
+    private val roomIdParam = "roomId"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findChildNavController()?.let { controller ->
@@ -81,7 +84,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     }
 
     private fun handleOpenFromNotification() {
-        val roomId = activity?.intent?.getStringExtra(MainActivity.ROOM_ID_PARAM) ?: return
+        val roomId = activity?.intent?.getStringExtra(roomIdParam) ?: return
         val summary = MatrixSessionProvider.currentSession?.getRoomSummary(roomId) ?: return
         val type = summary.roomType?.takeIf { it == GROUP_TYPE || it == TIMELINE_TYPE } ?: return
 
@@ -97,7 +100,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
             Membership.JOIN -> handlePostNotificationOpen(type, summary)
             else -> return
         }
-        activity?.intent?.removeExtra(MainActivity.ROOM_ID_PARAM)
+        activity?.intent?.removeExtra(roomIdParam)
     }
 
     private fun handleInviteNotificationOpen(type: String) {
@@ -139,7 +142,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
             validateLoadingDialog.handleLoading(it)
         }
         viewModel.syncStateLiveData.observeData(this) {
-            if (it is SyncState.Running && it.afterPause) {
+            if (it is SyncState.Running && it.afterPause && NetworkObserver.isConnected()) {
                 syncLoadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.session_sync))
             } else syncLoadingDialog.dismiss()
         }
@@ -161,7 +164,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.settingsFragment,
+                org.futo.circles.settings.R.id.settingsFragment,
                 R.id.circlesFragment,
                 R.id.peopleFragment,
                 R.id.groupsFragment,

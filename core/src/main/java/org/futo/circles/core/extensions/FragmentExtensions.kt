@@ -20,6 +20,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.futo.circles.core.R
@@ -139,5 +140,11 @@ fun Fragment.openNotificationSettings() {
         }
         requireActivity().startActivity(intent)
     } else openAppSettings()
+}
+
+fun Fragment.openCustomTabUrl(url: String) {
+    context?.let {
+        tryOrNull { CustomTabsIntent.Builder().build().launchUrl(it, Uri.parse(url)) }
+    }
 }
 

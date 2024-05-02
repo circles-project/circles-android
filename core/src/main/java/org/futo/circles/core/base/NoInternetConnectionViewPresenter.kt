@@ -19,8 +19,7 @@ class NoInternetConnectionViewPresenter {
                 }
             } else {
                 if (noInternetConnectionView != null) return@observe
-                rootViewGroup.addNoInternetConnectionView()
-                    .also { noInternetConnectionView = it }
+                noInternetConnectionView = rootViewGroup.addNoInternetConnectionView()
             }
         }
     }

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <com.google.android.material.button.MaterialButton
+    <org.futo.circles.core.view.NetworkRequiredButton
         android:id="@+id/button"
         style="@style/AccentButtonStyle"
         android:layout_width="0dp"

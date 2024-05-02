@@ -6,11 +6,13 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import org.futo.circles.core.R
+import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
 fun View.visible() {
@@ -61,7 +63,9 @@ fun ViewGroup.setEnabledChildren(enabled: Boolean, viewsToExclude: List<View> = 
     }
 }
 
-fun ViewGroup.addNoInternetConnectionView(): TextView {
+fun ViewGroup.addNoInternetConnectionView(): TextView? {
+    val root = if (this is ScrollView) this.children.firstOrNull() as? ViewGroup else this
+    root ?: return null
     val noInternetView = TextView(context).apply {
         text = context.getString(R.string.no_internet_connection)
         setTextColor(ContextCompat.getColor(context, R.color.white))
@@ -73,6 +77,8 @@ fun ViewGroup.addNoInternetConnectionView(): TextView {
             FrameLayout.LayoutParams.WRAP_CONTENT
         )
     }
-    addView(noInternetView)
-    return noInternetView
+    return tryOrNull {
+        root.addView(noInternetView, 0)
+        noInternetView
+    }
 }

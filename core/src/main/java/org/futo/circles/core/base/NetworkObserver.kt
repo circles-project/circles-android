@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import androidx.core.content.getSystemService
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -36,6 +35,13 @@ object NetworkObserver {
         }
     }
 
+    fun isConnectedToWifi(context: Context): Boolean {
+        val connectivityManager = context.getSystemService<ConnectivityManager>() ?: return false
+        return connectivityManager.activeNetwork?.let {
+            connectivityManager.getNetworkCapabilities(it)
+        }?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI).orFalse()
+    }
+
     private fun setInternetConnectionObserver(
         context: Context,
         onConnectionChanged: (Boolean) -> Unit
@@ -49,6 +55,14 @@ object NetworkObserver {
             override fun onLost(network: Network) {
                 super.onLost(network)
                 onConnectionChanged(false)
+            }
+
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities
+            ) {
+                super.onCapabilitiesChanged(network, networkCapabilities)
+                onConnectionChanged(isConnectedToInternet(context))
             }
         }
         context.getSystemService<ConnectivityManager>()

@@ -9,13 +9,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentAcceptTermsBinding
-import org.futo.circles.auth.extensions.openCustomTabUrl
 import org.futo.circles.auth.feature.uia.stages.terms.list.TermsListAdapter
 import org.futo.circles.auth.model.TermsListItem
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.openCustomTabUrl
 
 @AndroidEntryPoint
 class AcceptTermsFragment : ParentBackPressOwnerFragment(R.layout.fragment_accept_terms),
