@@ -19,6 +19,8 @@ variables:
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/circles_release/${CI_COMMIT_TAG}"
   APK_NAME: "circles-$CI_COMMIT_TAG-fdroid-$ARM64_V8A_CODE-release.apk"
   APK_URL: "${PACKAGE_REGISTRY_URL}/circles-$CI_COMMIT_TAG-fdroid-$ARM64_V8A_CODE-release.apk"
+  # TODO: Remove when https://github.com/fastlane/fastlane/pull/21950 gets released
+  RUBYOPT: "-rostruct"
 
 
 before_script:
