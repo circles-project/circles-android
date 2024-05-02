@@ -60,7 +60,7 @@ dependencies {
     api "androidx.autofill:autofill:1.1.0"
 
     //Kotlin
-    api "androidx.core:core-ktx:1.13.0"
+    api 'androidx.core:core-ktx:1.13.1'
 
     //androidx lifecycle
     def lifecycle_version = "2.7.0"
