@@ -14,6 +14,7 @@ import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.crypto.keysbackup.BackupRecoveryKey
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
+import org.matrix.android.sdk.api.session.crypto.keysbackup.extractCurveKeyFromRecoveryKey
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
 import javax.inject.Inject
 
@@ -77,6 +78,9 @@ class RestoreBackupDataSource @Inject constructor(
         try {
             val keyData = ssssDataSource.getBsSpekeRecoveryKey(progressObserver)
             restoreKeysWithRecoveryKey(keyData)
+            extractCurveKeyFromRecoveryKey(keyData.recoveryKey)?.let {
+                MatrixSessionProvider.currentSession?.cryptoService()?.createDehydratedDevice(it)
+            }
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))
             throw e

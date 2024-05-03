@@ -80,12 +80,12 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$rootProject.ext.hilt_version"
 
     //Matrix release
-    api('org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.35@aar') {
-        transitive = true
-    }
+//    api('org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.35@aar') {
+//        transitive = true
+//    }
 
     //Matrix mavenLocal testing
-    //api "org.futo.gitlab.circles:matrix-android-sdk:0.1"
+    api "org.futo.gitlab.circles:matrix-android-sdk:0.1.7"
 
     //Retrofit2
     def retrofit_version = '2.11.0'
