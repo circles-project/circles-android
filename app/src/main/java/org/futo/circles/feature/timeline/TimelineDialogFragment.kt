@@ -223,6 +223,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     override fun onReply(roomId: String, eventId: String) {
+        if (isThread) return
         navigator.navigateToThread(roomId, eventId)
     }
 
