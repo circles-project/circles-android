@@ -24,24 +24,39 @@ awk -v version="$version_name" '/-Dversion=/ {gsub(/-Dversion=[^ ]+/, "-Dversion
 # Generate POM file for release publication
 ./gradlew :core:generatePomFileForGplayReleasePublication
 ./gradlew :core:generatePomFileForFdroidReleasePublication
-./gradlew :gallery:generatePomFileForReleasePublication
+
+./gradlew :gallery:generatePomFileForGplayReleasePublication
+./gradlew :gallery:generatePomFileForFdroidReleasePublication
+
 ./gradlew :auth:generatePomFileForGplayReleasePublication
 ./gradlew :auth:generatePomFileForFdroidReleasePublication
-./gradlew :settings:generatePomFileForReleasePublication
+
+./gradlew :settings:generatePomFileForGplayReleasePublication
+./gradlew :settings:generatePomFileForFdroidReleasePublication
 
 
 # Move .aar to the root directory
 mv core/build/outputs/aar/core-fdroid-release.aar core-fdroid-release.aar
 mv core/build/outputs/aar/core-gplay-release.aar core-gplay-release.aar
-mv gallery/build/outputs/aar/gallery-release.aar gallery-release.aar
+
+mv gallery/build/outputs/aar/gallery-fdroid-release.aar gallery-fdroid-release.aar
+mv gallery/build/outputs/aar/gallery-gplay-release.aar gallery-gplay-release.aar
+
 mv auth/build/outputs/aar/auth-fdroid-release.aar auth-fdroid-release.aar
 mv auth/build/outputs/aar/auth-gplay-release.aar auth-gplay-release.aar
-mv settings/build/outputs/aar/settings-release.aar settings-release.aar
+
+mv settings/build/outputs/aar/settings-fdroid-release.aar settings-fdroid-release.aar
+mv settings/build/outputs/aar/settings-gplay-release.aar settings-gplay-release.aar
 
 # Move poms to the root directory and rename
 mv core/build/publications/gplayRelease/pom-default.xml pom_core_gplay.xml
 mv core/build/publications/fdroidRelease/pom-default.xml pom_core_fdroid.xml
-mv gallery/build/publications/release/pom-default.xml pom_gallery.xml
+
+mv gallery/build/publications/gplayRelease/pom-default.xml pom_gallery_gplay.xml
+mv gallery/build/publications/fdroidRelease/pom-default.xml pom_gallery_fdroid.xml
+
 mv auth/build/publications/gplayRelease/pom-default.xml pom_auth_gplay.xml
 mv auth/build/publications/fdroidRelease/pom-default.xml pom_auth_fdroid.xml
-mv settings/build/publications/release/pom-default.xml pom_settings.xml
+
+mv settings/build/publications/gplayRelease/pom-default.xml pom_settings_gplay.xml
+mv settings/build/publications/fdroidRelease/pom-default.xml pom_settings_fdroid.xml
