@@ -66,6 +66,13 @@ class CreatePostView(
                 if (isUserAbleToPost)
                     if (dy > 0) gone() else if (dy < 0) visible()
             }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (isUserAbleToPost) visible()
+                }
+            }
         })
     }
 
