@@ -33,7 +33,6 @@ class CreatePassPhraseDataSource @Inject constructor(
         createKeyBackup(backupCreationInfo)
         val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey)
         crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
-        MatrixSessionProvider.currentSession?.cryptoService()?.createDehydratedDevice(keyBackupPrivateKey)
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
