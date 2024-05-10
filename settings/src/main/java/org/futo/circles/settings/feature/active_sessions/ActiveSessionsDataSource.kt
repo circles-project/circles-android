@@ -1,6 +1,7 @@
 package org.futo.circles.settings.feature.active_sessions
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.asFlow
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +19,10 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.settings.model.ActiveSession
 import org.futo.circles.settings.model.ActiveSessionListItem
 import org.futo.circles.settings.model.SessionHeader
+import org.matrix.android.sdk.api.session.crypto.crosssigning.MXCrossSigningInfo
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
 import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
+import org.matrix.android.sdk.api.util.Optional
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -41,7 +44,7 @@ class ActiveSessionsDataSource @Inject constructor(
             session.cryptoService().getMyDevicesInfoLive().asFlow(),
             session.cryptoService().getLiveCryptoDeviceInfo(session.myUserId).asFlow(),
             itemsWithVisibleOptionsFlow
-        ) { infoList, cryptoList, devicesWithVisibleOptions ->
+        ) {  infoList, cryptoList, devicesWithVisibleOptions ->
             buildList(infoList, cryptoList, devicesWithVisibleOptions)
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
     }
@@ -61,7 +64,7 @@ class ActiveSessionsDataSource @Inject constructor(
             devicesList.firstOrNull { it.second.deviceId == MatrixSessionProvider.currentSession?.sessionParams?.deviceId }
                 ?: return emptyList()
         val otherSessions = devicesList.toMutableList().apply { remove(currentSession) }
-            .filter { !isSessionInactive(it.first.lastSeenTs) }
+
         val isCurrentSessionVerified =
             currentSession.second.trustLevel?.isCrossSigningVerified() == true
 
@@ -99,18 +102,6 @@ class ActiveSessionsDataSource @Inject constructor(
     suspend fun resetKeysToEnableCrossSigning(): Response<Unit> = createResult {
         session.cryptoService().crossSigningService()
             .initializeCrossSigning(authConfirmationProvider)
-    }
-
-    private fun isSessionInactive(lastSeenTsMillis: Long?): Boolean =
-        if (lastSeenTsMillis == null || lastSeenTsMillis <= 0) {
-            false
-        } else {
-            val diffMilliseconds = System.currentTimeMillis() - lastSeenTsMillis
-            diffMilliseconds >= TimeUnit.DAYS.toMillis(SESSION_IS_MARKED_AS_INACTIVE_AFTER_DAYS)
-        }
-
-    companion object {
-        private const val SESSION_IS_MARKED_AS_INACTIVE_AFTER_DAYS = 30L
     }
 
 }
