@@ -1,7 +1,6 @@
 package org.futo.circles.settings.feature.active_sessions
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.asFlow
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -19,11 +18,7 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.settings.model.ActiveSession
 import org.futo.circles.settings.model.ActiveSessionListItem
 import org.futo.circles.settings.model.SessionHeader
-import org.matrix.android.sdk.api.session.crypto.crosssigning.MXCrossSigningInfo
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
-import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
-import org.matrix.android.sdk.api.util.Optional
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ActiveSessionsDataSource @Inject constructor(
@@ -39,56 +34,55 @@ class ActiveSessionsDataSource @Inject constructor(
         MutableStateFlow(mutableSetOf())
 
 
+    suspend fun refreshDevicesList() {
+        session.cryptoService().downloadKeysIfNeeded(listOf(session.myUserId), true)
+    }
+
     fun getActiveSessionsFlow(): Flow<List<ActiveSessionListItem>> {
         return combine(
-            session.cryptoService().getMyDevicesInfoLive().asFlow(),
             session.cryptoService().getLiveCryptoDeviceInfo(session.myUserId).asFlow(),
             itemsWithVisibleOptionsFlow
-        ) {  infoList, cryptoList, devicesWithVisibleOptions ->
-            buildList(infoList, cryptoList, devicesWithVisibleOptions)
+        ) { cryptoList, devicesWithVisibleOptions ->
+            buildList(cryptoList, devicesWithVisibleOptions)
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
     }
 
 
     private fun buildList(
-        infoList: List<DeviceInfo>,
         cryptoList: List<CryptoDeviceInfo>,
         sessionsWithVisibleOptions: Set<String>
     ): List<ActiveSessionListItem> {
-        val devicesList = infoList.mapNotNull { deviceInfo ->
-            val cryptoDeviceInfo = cryptoList.firstOrNull { it.deviceId == deviceInfo.deviceId }
-            cryptoDeviceInfo?.let { deviceInfo to it }
-        }.sortedByDescending { it.first.lastSeenTs }
+        val currentSession = cryptoList.firstOrNull {
+            it.deviceId == MatrixSessionProvider.currentSession?.sessionParams?.deviceId
+        } ?: return emptyList()
 
-        val currentSession =
-            devicesList.firstOrNull { it.second.deviceId == MatrixSessionProvider.currentSession?.sessionParams?.deviceId }
-                ?: return emptyList()
-        val otherSessions = devicesList.toMutableList().apply { remove(currentSession) }
+        val otherSessions = cryptoList.toMutableList().apply { remove(currentSession) }
+            .sortedByDescending { it.firstTimeSeenLocalTs }
 
         val isCurrentSessionVerified =
-            currentSession.second.trustLevel?.isCrossSigningVerified() == true
+            currentSession.trustLevel?.isCrossSigningVerified() == true
 
         val sessionsList =
             mutableListOf<ActiveSessionListItem>(SessionHeader(context.getString(R.string.current_session)))
         sessionsList.add(
             ActiveSession(
-                deviceInfo = currentSession.first,
-                cryptoDeviceInfo = currentSession.second,
+                cryptoDeviceInfo = currentSession,
                 canVerify = !isCurrentSessionVerified && otherSessions.isNotEmpty(),
                 isResetKeysVisible = !isCurrentSessionVerified,
-                isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.second.deviceId)
+                isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.deviceId)
             )
         )
         if (otherSessions.isNotEmpty()) {
             sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
-            sessionsList.addAll(otherSessions.map {
-                ActiveSession(
-                    deviceInfo = it.first,
-                    cryptoDeviceInfo = it.second,
-                    canVerify = isCurrentSessionVerified && it.second.trustLevel?.isCrossSigningVerified() != true,
-                    isResetKeysVisible = false,
-                    isOptionsVisible = sessionsWithVisibleOptions.contains(it.second.deviceId)
-                )
+            sessionsList.addAll(otherSessions.mapNotNull {
+                if (!it.isDehydrated) {
+                    ActiveSession(
+                        cryptoDeviceInfo = it,
+                        canVerify = isCurrentSessionVerified && it.trustLevel?.isCrossSigningVerified() != true,
+                        isResetKeysVisible = false,
+                        isOptionsVisible = sessionsWithVisibleOptions.contains(it.deviceId)
+                    )
+                } else null
             }
             )
         }

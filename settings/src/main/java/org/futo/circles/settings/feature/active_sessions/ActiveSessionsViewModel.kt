@@ -41,6 +41,9 @@ class ActiveSessionsViewModel @Inject constructor(
         }
     }
 
+    init {
+        launchBg { dataSource.refreshDevicesList() }
+    }
 
     fun onSessionClicked(deviceId: String) {
         dataSource.toggleOptionsVisibilityFor(deviceId)
