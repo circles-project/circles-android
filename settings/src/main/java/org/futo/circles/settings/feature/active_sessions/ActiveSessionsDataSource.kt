@@ -57,7 +57,6 @@ class ActiveSessionsDataSource @Inject constructor(
         } ?: return emptyList()
 
         val otherSessions = cryptoList.toMutableList().apply { remove(currentSession) }
-            .sortedByDescending { it.firstTimeSeenLocalTs }
 
         val isCurrentSessionVerified =
             currentSession.trustLevel?.isCrossSigningVerified() == true
