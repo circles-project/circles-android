@@ -1,6 +1,7 @@
 package org.futo.circles.auth.feature.pass_phrase.create
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
@@ -28,11 +29,16 @@ class CreatePassPhraseDataSource @Inject constructor(
     suspend fun createPassPhraseBackup() {
         loadingLiveData.postValue(LoadingData(messageId = R.string.generating_recovery_key))
         val keyBackupPrivateKey = generateRandomPrivateKey()
+        Log.d("MyLog", "createPassPhraseBackup random private key $keyBackupPrivateKey")
+
         val backupCreationInfo =
             keysBackupService.prepareKeysBackupVersion(keyBackupPrivateKey, null)
+
+        Log.d("MyLog", "createPassPhraseBackup backupCreationInfo $backupCreationInfo")
+
         createKeyBackup(backupCreationInfo)
-        val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey)
-        crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
+        val keySpec = ssssDataSource.storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey)
+        crossSigningDataSource.initCrossSigningIfNeed(keySpec)
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
