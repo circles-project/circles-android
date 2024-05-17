@@ -1,6 +1,5 @@
 package org.futo.circles.auth.feature.pass_phrase.restore
 
-import android.util.Log
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.model.SecretKeyData
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -26,13 +25,8 @@ class SSSSDataSource @Inject constructor() {
         val bsSpekeClient = BSSpekeClientProvider.getClientOrThrow()
         val keyId = bsSpekeClient.generateKeyId()
         val key = bsSpekeClient.generateHashKey()
-        Log.d("MyLog", "store key $key")
-
         val keyInfo = session.sharedSecretStorageService()
             .generateBsSpekeKeyInfo(keyId, key, EmptyKeySigner())
-
-        Log.d("MyLog", "store keyinfo $keyInfo")
-
         storeSecret(session, keyBackupPrivateKey, keyInfo)
         return keyInfo.keySpec
     }
@@ -42,11 +36,9 @@ class SSSSDataSource @Inject constructor() {
             StepProgressListener.Step.ComputingKey(0, 0)
         )
         val keyInfo = getKeyInfo()
-        Log.d("MyLog", "key info $keyInfo")
         val keySpec = RawBytesKeySpec(
             BSSpekeClientProvider.getClientOrThrow().generateHashKey()
         )
-        Log.d("MyLog", "key spec $keySpec")
 
         val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this passphrase")
@@ -120,15 +112,8 @@ class SSSSDataSource @Inject constructor() {
             secretBase64 = keyBackupPrivateKey.toBase64NoPadding(),
             keys = listOf(KeyRef(keyInfo.keyId, keyInfo.keySpec))
         )
-
-        Log.d(
-            "MyLog",
-            "storeSecret secretBase64 ${keyBackupPrivateKey.toBase64NoPadding()}, key info $keyInfo"
-        )
-
         session.cryptoService().keysBackupService()
             .onSecretKeyGossip(keyBackupPrivateKey.toBase64NoPadding())
-        Log.d("MyLog", "onSecretKeyGossip secretBase64 ${keyBackupPrivateKey.toBase64NoPadding()}")
 
         session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
     }

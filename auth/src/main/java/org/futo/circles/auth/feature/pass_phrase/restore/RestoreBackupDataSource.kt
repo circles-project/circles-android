@@ -3,7 +3,6 @@ package org.futo.circles.auth.feature.pass_phrase.restore
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
@@ -97,8 +96,6 @@ class RestoreBackupDataSource @Inject constructor(
     }
 
     private suspend fun restoreKeysWithRecoveryKey(secretKeyData: SecretKeyData) {
-
-        Log.d("MyLog", "keydata $secretKeyData")
         val keysBackupService = getKeysBackupService()
         try {
             val keyVersion = getKeysVersion(keysBackupService)
