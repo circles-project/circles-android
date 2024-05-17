@@ -14,8 +14,6 @@ android {
         minSdk rootProject.ext.min_sdk_version
         targetSdk rootProject.ext.sdk_version
 
-        missingDimensionStrategy "store", "gplay", "fdroid"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -28,6 +26,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    def flavor_dimension_name = "store"
+    flavorDimensions.add(flavor_dimension_name)
+    productFlavors {
+        gplay {
+            dimension flavor_dimension_name
+        }
+        fdroid {
+            dimension flavor_dimension_name
         }
     }
     compileOptions {
@@ -63,25 +71,36 @@ kapt {
     correctErrorTypes = true
 }
 
-
 afterEvaluate {
-    publishing.publications.create("release", MavenPublication) {
-        groupId rootProject.ext.modules_groupId
-        artifactId "gallery"
-        version rootProject.ext.modules_version
+    android.libraryVariants.each { variant ->
+        if (variant.buildType.name != "release") {
+            return
+        }
+        publishing.publications.create(variant.name, MavenPublication) {
+            groupId rootProject.ext.modules_groupId
+            artifactId "gallery_${variant.flavorName}"
+            version rootProject.ext.modules_version
 
-        pom.withXml {
-            def dependenciesNode = asNode().appendNode('dependencies')
-            ext.addDependency = { Dependency dep, String scope ->
-                if (dep.group == null || dep.name == null || dep.name == "unspecified" || dep.version == "unspecified") return
-                final dependencyNode = dependenciesNode.appendNode('dependency')
-                dependencyNode.appendNode('groupId', dep.group)
-                dependencyNode.appendNode('artifactId', dep.name)
-                dependencyNode.appendNode('version', dep.version)
-                dependencyNode.appendNode('scope', scope)
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                ext.addDependency = { Dependency dep, String scope ->
+                    if (dep.group == null || dep.name == null || dep.name == "unspecified" || dep.version == "unspecified") return
+                    final dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dep.group)
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', dep.version)
+                    dependencyNode.appendNode('scope', scope)
+                }
+                configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
+                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+                if (variant.flavorName == "gplay") {
+                    configurations.gplayApi.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    configurations.gplayImplementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+                } else if (variant.flavorName == "fdroid") {
+                    configurations.fdroidApi.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    configurations.fdroidImplementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+                }
             }
-            configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
-            configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
         }
     }
 }

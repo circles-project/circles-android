@@ -7,20 +7,22 @@ import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
-import org.futo.circles.auth.model.KeyData
+import org.futo.circles.auth.model.SecretKeyData
 import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.provider.KeyStoreProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.listeners.StepProgressListener
-import org.matrix.android.sdk.api.session.crypto.keysbackup.BackupRecoveryKey
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
+import org.matrix.android.sdk.api.session.securestorage.RawBytesKeySpec
 import javax.inject.Inject
 
 class RestoreBackupDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val ssssDataSource: SSSSDataSource,
-    private val crossSigningDataSource: CrossSigningDataSource
+    private val crossSigningDataSource: CrossSigningDataSource,
+    private val keyStoreProvider: KeyStoreProvider
 ) {
 
     val loadingLiveData = MutableLiveData(LoadingData(isLoading = false))
@@ -75,8 +77,12 @@ class RestoreBackupDataSource @Inject constructor(
 
     suspend fun restoreWithBsSpekeKey() {
         try {
-            val keyData = ssssDataSource.getBsSpekeRecoveryKey(progressObserver)
+            val keyData = ssssDataSource.getBsSpekeSecretKeyData(progressObserver)
             restoreKeysWithRecoveryKey(keyData)
+            keyStoreProvider.storeBsSpekePrivateKey(
+                (keyData.keySpec as RawBytesKeySpec).privateKey,
+                keyData.keyId
+            )
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))
             throw e
@@ -87,7 +93,7 @@ class RestoreBackupDataSource @Inject constructor(
     suspend fun restoreKeysWithPassPhase(passphrase: String) {
         try {
             val keyData =
-                ssssDataSource.getRecoveryKeyFromPassphrase(passphrase, progressObserver)
+                ssssDataSource.getSecretKeyDataFromPassphrase(passphrase, progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))
@@ -96,18 +102,18 @@ class RestoreBackupDataSource @Inject constructor(
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 
-    private suspend fun restoreKeysWithRecoveryKey(keyData: KeyData) {
+    private suspend fun restoreKeysWithRecoveryKey(secretKeyData: SecretKeyData) {
         val keysBackupService = getKeysBackupService()
         try {
             val keyVersion = getKeysVersion(keysBackupService)
             keysBackupService.restoreKeysWithRecoveryKey(
                 keyVersion,
-                BackupRecoveryKey.fromBase58(keyData.recoveryKey),
+                secretKeyData.getBackupRecoveryKey(),
                 null,
                 MatrixSessionProvider.currentSession?.myUserId,
                 progressObserver
             )
-            crossSigningDataSource.configureCrossSigning(keyData.keySpec)
+            crossSigningDataSource.configureCrossSigning(secretKeyData.keySpec)
             keysBackupService.trustKeysBackupVersion(keyVersion, true)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))
@@ -118,7 +124,7 @@ class RestoreBackupDataSource @Inject constructor(
 
     suspend fun restoreKeysWithRawKey(rawKey: String) {
         try {
-            val keyData = ssssDataSource.getRecoveryKeyFromFileKey(rawKey, progressObserver)
+            val keyData = ssssDataSource.getSecretKeyDataKeyFromFileKey(rawKey, progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))
@@ -130,7 +136,7 @@ class RestoreBackupDataSource @Inject constructor(
     suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
         try {
             val key = readRecoveryKeyFile(uri)
-            val keyData = ssssDataSource.getRecoveryKeyFromFileKey(key, progressObserver)
+            val keyData = ssssDataSource.getSecretKeyDataKeyFromFileKey(key, progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))

@@ -31,7 +31,7 @@ class SessionItemViewHolder(
         with(binding) {
             lRoot.setOnClickListener { activeSessionClickListener.onItemClicked(data.id) }
 
-            tvDeviceName.text = data.deviceInfo.displayName ?: data.id
+            tvDeviceName.text = data.cryptoDeviceInfo.displayName() ?: data.id
             tvDeviceId.text = data.cryptoDeviceInfo.deviceId
             vInfo.setData(data, activeSessionClickListener)
             vInfo.setIsVisible(data.isOptionsVisible)

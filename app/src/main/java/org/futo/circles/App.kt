@@ -90,6 +90,7 @@ class App : Application() {
             override fun onResume(owner: LifecycleOwner) {
                 fcmHelper.onEnterForeground()
                 MatrixSessionProvider.currentSession?.syncService()?.stopAnyBackgroundSync()
+                NetworkObserver.updateConnectionState(applicationContext)
             }
 
             override fun onPause(owner: LifecycleOwner) {

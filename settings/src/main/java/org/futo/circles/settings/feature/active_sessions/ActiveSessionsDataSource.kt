@@ -19,8 +19,6 @@ import org.futo.circles.settings.model.ActiveSession
 import org.futo.circles.settings.model.ActiveSessionListItem
 import org.futo.circles.settings.model.SessionHeader
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
-import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ActiveSessionsDataSource @Inject constructor(
@@ -36,56 +34,54 @@ class ActiveSessionsDataSource @Inject constructor(
         MutableStateFlow(mutableSetOf())
 
 
+    suspend fun refreshDevicesList() {
+        session.cryptoService().downloadKeysIfNeeded(listOf(session.myUserId), true)
+    }
+
     fun getActiveSessionsFlow(): Flow<List<ActiveSessionListItem>> {
         return combine(
-            session.cryptoService().getMyDevicesInfoLive().asFlow(),
             session.cryptoService().getLiveCryptoDeviceInfo(session.myUserId).asFlow(),
             itemsWithVisibleOptionsFlow
-        ) { infoList, cryptoList, devicesWithVisibleOptions ->
-            buildList(infoList, cryptoList, devicesWithVisibleOptions)
+        ) { cryptoList, devicesWithVisibleOptions ->
+            buildList(cryptoList, devicesWithVisibleOptions)
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
     }
 
 
     private fun buildList(
-        infoList: List<DeviceInfo>,
         cryptoList: List<CryptoDeviceInfo>,
         sessionsWithVisibleOptions: Set<String>
     ): List<ActiveSessionListItem> {
-        val devicesList = infoList.mapNotNull { deviceInfo ->
-            val cryptoDeviceInfo = cryptoList.firstOrNull { it.deviceId == deviceInfo.deviceId }
-            cryptoDeviceInfo?.let { deviceInfo to it }
-        }.sortedByDescending { it.first.lastSeenTs }
+        val currentSession = cryptoList.firstOrNull {
+            it.deviceId == MatrixSessionProvider.currentSession?.sessionParams?.deviceId
+        } ?: return emptyList()
 
-        val currentSession =
-            devicesList.firstOrNull { it.second.deviceId == MatrixSessionProvider.currentSession?.sessionParams?.deviceId }
-                ?: return emptyList()
-        val otherSessions = devicesList.toMutableList().apply { remove(currentSession) }
-            .filter { !isSessionInactive(it.first.lastSeenTs) }
+        val otherSessions = cryptoList.toMutableList().apply { remove(currentSession) }
+
         val isCurrentSessionVerified =
-            currentSession.second.trustLevel?.isCrossSigningVerified() == true
+            currentSession.trustLevel?.isCrossSigningVerified() == true
 
         val sessionsList =
             mutableListOf<ActiveSessionListItem>(SessionHeader(context.getString(R.string.current_session)))
         sessionsList.add(
             ActiveSession(
-                deviceInfo = currentSession.first,
-                cryptoDeviceInfo = currentSession.second,
+                cryptoDeviceInfo = currentSession,
                 canVerify = !isCurrentSessionVerified && otherSessions.isNotEmpty(),
                 isResetKeysVisible = !isCurrentSessionVerified,
-                isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.second.deviceId)
+                isOptionsVisible = sessionsWithVisibleOptions.contains(currentSession.deviceId)
             )
         )
         if (otherSessions.isNotEmpty()) {
             sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
-            sessionsList.addAll(otherSessions.map {
-                ActiveSession(
-                    deviceInfo = it.first,
-                    cryptoDeviceInfo = it.second,
-                    canVerify = isCurrentSessionVerified && it.second.trustLevel?.isCrossSigningVerified() != true,
-                    isResetKeysVisible = false,
-                    isOptionsVisible = sessionsWithVisibleOptions.contains(it.second.deviceId)
-                )
+            sessionsList.addAll(otherSessions.mapNotNull {
+                if (!it.isDehydrated) {
+                    ActiveSession(
+                        cryptoDeviceInfo = it,
+                        canVerify = isCurrentSessionVerified && it.trustLevel?.isCrossSigningVerified() != true,
+                        isResetKeysVisible = false,
+                        isOptionsVisible = sessionsWithVisibleOptions.contains(it.deviceId)
+                    )
+                } else null
             }
             )
         }
@@ -99,18 +95,6 @@ class ActiveSessionsDataSource @Inject constructor(
     suspend fun resetKeysToEnableCrossSigning(): Response<Unit> = createResult {
         session.cryptoService().crossSigningService()
             .initializeCrossSigning(authConfirmationProvider)
-    }
-
-    private fun isSessionInactive(lastSeenTsMillis: Long?): Boolean =
-        if (lastSeenTsMillis == null || lastSeenTsMillis <= 0) {
-            false
-        } else {
-            val diffMilliseconds = System.currentTimeMillis() - lastSeenTsMillis
-            diffMilliseconds >= TimeUnit.DAYS.toMillis(SESSION_IS_MARKED_AS_INACTIVE_AFTER_DAYS)
-        }
-
-    companion object {
-        private const val SESSION_IS_MARKED_AS_INACTIVE_AFTER_DAYS = 30L
     }
 
 }

@@ -21,8 +21,12 @@ object NetworkObserver {
     fun isConnected() = internetConnectionFlow.value
 
     fun register(context: Context) {
-        internetConnectionFlow.value = isConnectedToInternet(context)
+        updateConnectionState(context)
         setInternetConnectionObserver(context) { internetConnectionFlow.value = it }
+    }
+
+    fun updateConnectionState(context: Context) {
+        internetConnectionFlow.value = isConnectedToInternet(context)
     }
 
     fun observe(lifecycleOwner: LifecycleOwner, onConnectionChanged: (Boolean) -> Unit) {

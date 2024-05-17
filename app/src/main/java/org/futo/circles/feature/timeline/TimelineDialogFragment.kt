@@ -16,6 +16,7 @@ import com.google.android.material.badge.ExperimentalBadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.extensions.dpToPx
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
@@ -40,6 +41,7 @@ import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
 import org.futo.circles.model.RemovePost
+import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.CreatePostViewListener
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -113,7 +115,11 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private fun setupViews() {
         binding.rvTimeline.apply {
             adapter = listAdapter
-            getRecyclerView().isNestedScrollingEnabled = false
+            getRecyclerView().apply {
+                isNestedScrollingEnabled = false
+                clipToPadding = false
+                setPadding(paddingLeft, paddingTop, paddingRight, context.dpToPx(70))
+            }
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             addPageEndListener { viewModel.loadMore() }
         }
@@ -223,6 +229,7 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     }
 
     override fun onReply(roomId: String, eventId: String) {
+        if (isThread) return
         navigator.navigateToThread(roomId, eventId)
     }
 

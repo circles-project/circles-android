@@ -3,7 +3,6 @@ package org.futo.circles.settings.model
 import org.futo.circles.core.base.list.IdEntity
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.crypto.model.CryptoDeviceInfo
-import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
 
 sealed class ActiveSessionListItem : IdEntity<String>
 
@@ -14,7 +13,6 @@ data class SessionHeader(
 }
 
 data class ActiveSession(
-    val deviceInfo: DeviceInfo,
     val cryptoDeviceInfo: CryptoDeviceInfo,
     val canVerify: Boolean,
     val isResetKeysVisible: Boolean,
