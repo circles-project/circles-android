@@ -6,6 +6,7 @@ import org.matrix.android.sdk.api.session.securestorage.SsssKeySpec
 import org.matrix.android.sdk.api.util.fromBase64
 
 data class SecretKeyData(
+    val keyId: String,
     val secretBase64: String,
     val keySpec: SsssKeySpec
 ) {

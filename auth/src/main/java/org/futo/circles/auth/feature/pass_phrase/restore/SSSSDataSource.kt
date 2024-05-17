@@ -2,6 +2,7 @@ package org.futo.circles.auth.feature.pass_phrase.restore
 
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.model.SecretKeyData
+import org.futo.circles.core.provider.KeyStoreProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.ProgressListener
 import org.matrix.android.sdk.api.listeners.StepProgressListener
@@ -18,7 +19,9 @@ import org.matrix.android.sdk.api.session.securestorage.SsssKeySpec
 import org.matrix.android.sdk.api.util.toBase64NoPadding
 import javax.inject.Inject
 
-class SSSSDataSource @Inject constructor() {
+class SSSSDataSource @Inject constructor(
+    private val keyStoreProvider: KeyStoreProvider
+) {
 
     suspend fun storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey: ByteArray): SsssKeySpec {
         val session = MatrixSessionProvider.getSessionOrThrow()
@@ -43,7 +46,7 @@ class SSSSDataSource @Inject constructor() {
         val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this passphrase")
 
-        return SecretKeyData(secret, keySpec)
+        return SecretKeyData(keyInfo.id, secret, keySpec)
     }
 
     suspend fun replaceBsSpeke4SKey() {
@@ -81,7 +84,7 @@ class SSSSDataSource @Inject constructor() {
         val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this passphrase")
 
-        return SecretKeyData(secret, keySpec)
+        return SecretKeyData(keyInfo.id, secret, keySpec)
     }
 
     suspend fun getSecretKeyDataKeyFromFileKey(
@@ -99,7 +102,7 @@ class SSSSDataSource @Inject constructor() {
         val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this recovery key")
 
-        return SecretKeyData(secret, keySpec)
+        return SecretKeyData(keyInfo.id, secret, keySpec)
     }
 
     private suspend fun storeSecret(
@@ -115,6 +118,10 @@ class SSSSDataSource @Inject constructor() {
         session.cryptoService().keysBackupService()
             .onSecretKeyGossip(keyBackupPrivateKey.toBase64NoPadding())
 
+        keyStoreProvider.storeBsSpekePrivateKey(
+            (keyInfo.keySpec as RawBytesKeySpec).privateKey,
+            keyInfo.keyId
+        )
         session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
     }
 
