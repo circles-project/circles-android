@@ -95,6 +95,15 @@ class PreferencesProvider @Inject constructor(
         getSharedPreferences().edit(true) { putStringSet(NOT_RESTORED_SESSION, set) }
     }
 
+    fun getBSspekeEncryptedPrivateKeyBase64(alias: String): String? {
+        return getSharedPreferences().getString(alias, null)
+    }
+
+    fun storeBSspekeEncryptedPrivateKeyBase64(alias: String, key: String) {
+        getSharedPreferences().edit { putString(alias, key) }
+    }
+
+
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
