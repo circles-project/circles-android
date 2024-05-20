@@ -21,11 +21,11 @@ class SetupProfileDataSource @Inject constructor(
 
     suspend fun saveProfileData(profileImageUri: Uri?, displayName: String?) = createResult {
         profileImageUri?.let { uri ->
-            session.profileService().updateAvatar(session.myUserId, uri, getFileName(uri))
+            session.profileService().updateAvatar(session.myUserId, uri, getFileName(uri), false)
         }
 
         displayName?.let { name ->
-            session.profileService().setDisplayName(session.myUserId, name)
+            session.profileService().setDisplayName(session.myUserId, name, false)
         }
     }
 
