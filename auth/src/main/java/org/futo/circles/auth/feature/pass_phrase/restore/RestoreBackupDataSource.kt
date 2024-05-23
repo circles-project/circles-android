@@ -9,7 +9,6 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.model.SecretKeyData
 import org.futo.circles.core.model.LoadingData
-import org.futo.circles.core.provider.KeyStoreProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.listeners.StepProgressListener
@@ -21,8 +20,7 @@ import javax.inject.Inject
 class RestoreBackupDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val ssssDataSource: SSSSDataSource,
-    private val crossSigningDataSource: CrossSigningDataSource,
-    private val keyStoreProvider: KeyStoreProvider
+    private val crossSigningDataSource: CrossSigningDataSource
 ) {
 
     val loadingLiveData = MutableLiveData(LoadingData(isLoading = false))
@@ -79,10 +77,11 @@ class RestoreBackupDataSource @Inject constructor(
         try {
             val keyData = ssssDataSource.getBsSpekeSecretKeyData(progressObserver)
             restoreKeysWithRecoveryKey(keyData)
-            keyStoreProvider.storeBsSpekePrivateKey(
-                (keyData.keySpec as RawBytesKeySpec).privateKey,
-                keyData.keyId
-            )
+            MatrixSessionProvider.getSessionOrThrow().sharedSecretStorageService()
+                .storeBsSpekePrivateKey(
+                    (keyData.keySpec as RawBytesKeySpec).privateKey,
+                    keyData.keyId
+                )
         } catch (e: Throwable) {
             loadingLiveData.postValue(LoadingData(isLoading = false))
             throw e

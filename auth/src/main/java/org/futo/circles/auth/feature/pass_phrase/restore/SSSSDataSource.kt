@@ -2,7 +2,6 @@ package org.futo.circles.auth.feature.pass_phrase.restore
 
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.model.SecretKeyData
-import org.futo.circles.core.provider.KeyStoreProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.ProgressListener
 import org.matrix.android.sdk.api.listeners.StepProgressListener
@@ -19,9 +18,7 @@ import org.matrix.android.sdk.api.session.securestorage.SsssKeySpec
 import org.matrix.android.sdk.api.util.toBase64NoPadding
 import javax.inject.Inject
 
-class SSSSDataSource @Inject constructor(
-    private val keyStoreProvider: KeyStoreProvider
-) {
+class SSSSDataSource @Inject constructor() {
 
     suspend fun storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey: ByteArray): SsssKeySpec {
         val session = MatrixSessionProvider.getSessionOrThrow()
@@ -118,7 +115,7 @@ class SSSSDataSource @Inject constructor(
         session.cryptoService().keysBackupService()
             .onSecretKeyGossip(keyBackupPrivateKey.toBase64NoPadding())
 
-        keyStoreProvider.storeBsSpekePrivateKey(
+        session.sharedSecretStorageService().storeBsSpekePrivateKey(
             (keyInfo.keySpec as RawBytesKeySpec).privateKey,
             keyInfo.keyId
         )
