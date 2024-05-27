@@ -59,12 +59,13 @@
                 android:background="@null"
                 android:gravity="top"
                 android:hint="@string/enter_your_message_here"
+                android:inputType="textCapSentences"
                 app:bulletGap="8sp"
                 app:bulletRadius="4sp"
-                app:pillBackgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:pillBackgroundColor="@color/white"
                 tools:text="some text" />
 
 
