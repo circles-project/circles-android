@@ -9,8 +9,6 @@ import org.futo.circles.core.model.MediaContent
 
 interface MediaViewHolder {
 
-    fun unTrackMediaLoading()
-
     fun bindMediaCaption(content: MediaContent, textView: TextView) {
         textView.apply {
             val caption = content.captionSpanned
