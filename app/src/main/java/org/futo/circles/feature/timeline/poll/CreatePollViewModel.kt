@@ -5,7 +5,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.extensions.getOrThrow
+import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.mapping.toPollContent
+import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PollContent
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
@@ -13,7 +15,10 @@ import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import javax.inject.Inject
 
 @HiltViewModel
-class CreatePollViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
+class CreatePollViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val sendMessageDataSource: SendMessageDataSource
+) : ViewModel() {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
     private val eventId: String? = savedStateHandle["eventId"]
@@ -21,6 +26,12 @@ class CreatePollViewModel @Inject constructor(savedStateHandle: SavedStateHandle
 
     init {
         setEditPostInfo()
+    }
+
+    fun onSendPoll(pollContent: CreatePollContent) {
+        eventId?.let {
+            sendMessageDataSource.editPoll(roomId, it, pollContent)
+        } ?: sendMessageDataSource.createPoll(roomId, pollContent)
     }
 
     private fun setEditPostInfo() {

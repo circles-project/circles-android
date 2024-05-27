@@ -27,21 +27,16 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.TimelineAdapter
-import org.futo.circles.feature.timeline.poll.CreatePollListener
-import org.futo.circles.feature.timeline.post.create.CreatePostListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.menu.PostMenuListener
-import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
 import org.futo.circles.model.RemovePost
-import org.futo.circles.model.TextPostContent
 import org.futo.circles.view.CreatePostViewListener
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -50,8 +45,7 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 @ExperimentalBadgeUtils
 @AndroidEntryPoint
 class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimelineBinding::inflate),
-    PostOptionsListener, PostMenuListener,
-    CreatePostListener, CreatePollListener, EmojiPickerListener {
+    PostOptionsListener, PostMenuListener, EmojiPickerListener {
 
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
@@ -266,26 +260,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     override fun endPoll(roomId: String, eventId: String) {
         withConfirmation(EndPoll()) { viewModel.endPoll(roomId, eventId) }
-    }
-
-    override fun onSendPost(
-        roomId: String,
-        postContent: CreatePostContent,
-        threadEventId: String?
-    ) {
-        viewModel.sendPost(roomId, postContent, threadEventId)
-    }
-
-    override fun onEditPost(roomId: String, postContent: CreatePostContent, eventId: String) {
-        viewModel.editPost(eventId, roomId, postContent)
-    }
-
-    override fun onCreatePoll(roomId: String, pollContent: CreatePollContent) {
-        viewModel.createPoll(roomId, pollContent)
-    }
-
-    override fun onEditPoll(roomId: String, eventId: String, pollContent: CreatePollContent) {
-        viewModel.editPoll(roomId, eventId, pollContent)
     }
 
     override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {

@@ -39,13 +39,6 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
     private val viewModel by viewModels<CreatePostViewModel>()
 
     private val mediaPickerHelper = MediaPickerHelper(this, isVideoAvailable = true)
-    private var createPostListener: CreatePostListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        createPostListener =
-            parentFragmentManager.fragments.lastOrNull { it is CreatePostListener } as? CreatePostListener
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -117,17 +110,6 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
         binding?.vPostPreview?.setMedia(uri, type)
     }
 
-    private fun sendPost(content: CreatePostContent) {
-        if (args.isEdit) onEditPost(content)
-        else createPostListener?.onSendPost(
-            args.roomId, content, args.eventId
-        )
-    }
-
-    private fun onEditPost(content: CreatePostContent) {
-        val eventId = args.eventId ?: return
-        createPostListener?.onEditPost(args.roomId, content, eventId)
-    }
 
     override fun onUploadMediaClicked() {
         mediaPickerHelper.showMediaPickerDialog(
@@ -150,7 +132,7 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
 
     override fun onSendClicked(content: CreatePostContent) {
         if (showNoInternetConnection()) return
-        sendPost(content)
+        viewModel.onSendAction(content)
         dismiss()
     }
 

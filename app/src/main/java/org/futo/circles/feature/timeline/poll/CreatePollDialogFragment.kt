@@ -1,6 +1,5 @@
 package org.futo.circles.feature.timeline.poll
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
@@ -8,10 +7,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.databinding.DialogFragmentCreatePollBinding
 import org.matrix.android.sdk.api.session.room.model.message.PollType
@@ -27,14 +26,6 @@ class CreatePollDialogFragment :
     private val isEdit by lazy { args.eventId != null }
 
     private val viewModel by viewModels<CreatePollViewModel>()
-
-    private var createPollListener: CreatePollListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        createPollListener =
-            parentFragmentManager.fragments.firstOrNull { it is CreatePollListener } as? CreatePollListener
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -86,9 +77,7 @@ class CreatePollDialogFragment :
             binding.tilQuestion.getText(),
             binding.lvPostOptions.getOptionsList()
         )
-        args.eventId?.let {
-            createPollListener?.onEditPoll(args.roomId, it, pollContent)
-        } ?: createPollListener?.onCreatePoll(args.roomId, pollContent)
+        viewModel.onSendPoll(pollContent)
     }
 
 }
