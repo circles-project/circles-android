@@ -1,7 +1,6 @@
 package org.futo.circles.feature.timeline.post.create
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.net.Uri
@@ -20,8 +19,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
+import org.futo.circles.core.mapping.toPost
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContentType
@@ -132,8 +133,17 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
 
     override fun onSendClicked(content: CreatePostContent) {
         if (showNoInternetConnection()) return
-        viewModel.onSendAction(content)
-        dismiss()
+        val eventLiveData = viewModel.onSendAction(content) ?: run {
+            showError(getString(R.string.failed_to_send))
+            return
+        }
+        eventLiveData.observeData(this) {
+            val event = it.getOrNull() ?: run {
+                showError(getString(R.string.failed_to_send))
+                return@observeData
+            }
+            event.root.sendState
+        }
     }
 
     override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {

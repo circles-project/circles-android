@@ -1,5 +1,6 @@
 package org.futo.circles.feature.timeline.post.create
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -9,9 +10,13 @@ import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.timeline.post.PostContentDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
+import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
+import org.matrix.android.sdk.api.util.Optional
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,11 +36,15 @@ class CreatePostViewModel @Inject constructor(
         if (isEdit) setEditPostInfo()
     }
 
-    fun onSendAction(content: CreatePostContent) {
-        if (isEdit) eventId?.let { editPost(it, roomId, content) }
-        else sendPost(roomId, content, eventId)
-    }
+    fun onSendAction(content: CreatePostContent): LiveData<Optional<TimelineEvent>>? {
+        val eventId = if (isEdit) {
+            eventId?.let { editPost(it, roomId, content) }
+            eventId ?: ""
+        } else sendPost(roomId, content, eventId)
 
+        return MatrixSessionProvider.currentSession?.getRoom(roomId)?.timelineService()
+            ?.getTimelineEventLive(eventId)
+    }
 
     private fun setEditPostInfo() {
         eventId ?: return
@@ -43,22 +52,28 @@ class CreatePostViewModel @Inject constructor(
         postToEditContentLiveData.value = content
     }
 
-    private fun sendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?) {
+    private fun sendPost(
+        roomId: String,
+        postContent: CreatePostContent,
+        threadEventId: String?
+    ): String {
+        var eventId = ""
         launchBg {
-            when (postContent) {
+            eventId = when (postContent) {
                 is MediaPostContent -> sendMessageDataSource.sendMedia(
                     roomId,
                     postContent.uri,
                     postContent.caption,
                     threadEventId,
                     postContent.mediaType
-                )
+                ).first
 
                 is TextPostContent -> sendMessageDataSource.sendTextMessage(
                     roomId, postContent.text, threadEventId
                 )
             }
         }
+        return eventId
     }
 
     private fun editPost(eventId: String, roomId: String, postContent: CreatePostContent) {

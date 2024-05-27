@@ -103,6 +103,7 @@
     <string name="downloading">Downloading</string>
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
     <string name="in_timeline_format">(in %1$s / %2$s)</string>
+    <string name="failed_to_send">Failed to send, please try again</string>
 
     <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
 <br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
