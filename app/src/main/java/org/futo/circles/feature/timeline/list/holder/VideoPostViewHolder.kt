@@ -26,7 +26,6 @@ class VideoPostViewHolder(
     parent: ViewGroup,
     postOptionsListener: PostOptionsListener,
     isThread: Boolean,
-    private val uploadMediaTracker: ContentUploadStateTracker,
     private val videoPlayer: ExoPlayer,
     private val videoPlaybackListener: OnVideoPlayBackStateListener
 ) : PostViewHolder(inflate(parent, ViewVideoPostBinding::inflate), postOptionsListener, isThread),
@@ -46,8 +45,6 @@ class VideoPostViewHolder(
     override val readMoreTextView: ReadMoreTextView
         get() = binding.tvTextContent
 
-    private val uploadListener: ContentUploadStateTracker.UpdateListener =
-        MediaProgressHelper.getUploadListener(binding.vLoadingView)
 
     init {
         setListeners()
@@ -71,7 +68,6 @@ class VideoPostViewHolder(
             bindMediaCover(content, ivMediaContent)
             bindVideoView(content)
             tvDuration.text = content.mediaFileData.duration
-            uploadMediaTracker.track(post.id, uploadListener)
         }
     }
 
@@ -86,10 +82,6 @@ class VideoPostViewHolder(
                 }
             }
         }
-    }
-
-    override fun unTrackMediaLoading() {
-        post?.id?.let { uploadMediaTracker.untrack(it, uploadListener) }
     }
 
     private fun playVideo() {

@@ -110,7 +110,7 @@ dependencies {
     implementation project(path: ':settings')
 
     //Emoji
-    implementation 'com.vanniktech:emoji-google:0.18.0'
+    implementation 'com.vanniktech:emoji-google:0.20.0'
 
     //Log
     implementation 'com.jakewharton.timber:timber:5.0.1'

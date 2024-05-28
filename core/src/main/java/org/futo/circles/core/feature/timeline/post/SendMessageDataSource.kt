@@ -35,23 +35,26 @@ class SendMessageDataSource @Inject constructor(@ApplicationContext private val 
 
     private val session = MatrixSessionProvider.currentSession
 
-    fun sendTextMessage(roomId: String, message: String, threadEventId: String?) {
-        val roomForMessage = session?.getRoom(roomId) ?: return
-        threadEventId?.let {
+    fun sendTextMessage(roomId: String, message: String, threadEventId: String?): String {
+        val roomForMessage = session?.getRoom(roomId) ?: return ""
+        return threadEventId?.let {
             sendTextReply(roomForMessage, threadEventId, message)
         } ?: roomForMessage.sendService().sendTextMessage(message, autoMarkdown = true)
     }
 
-    private fun sendTextReply(roomForMessage: Room, threadEventId: String, message: String) {
-        val event = roomForMessage.getTimelineEvent(threadEventId) ?: return
-        roomForMessage.relationService()
-            .replyToMessage(
-                event,
-                message,
-                autoMarkdown = true,
-                showInThread = true,
-                rootThreadEventId = threadEventId
-            )
+    private fun sendTextReply(
+        roomForMessage: Room,
+        threadEventId: String,
+        message: String
+    ): String {
+        val event = roomForMessage.getTimelineEvent(threadEventId) ?: return ""
+        return roomForMessage.relationService().replyToMessage(
+            event,
+            message,
+            autoMarkdown = true,
+            showInThread = true,
+            rootThreadEventId = threadEventId
+        )
     }
 
     fun editTextMessage(eventId: String, roomId: String, message: String) {
@@ -80,12 +83,12 @@ class SendMessageDataSource @Inject constructor(@ApplicationContext private val 
         threadEventId: String?,
         type: MediaType,
         compressBeforeSending: Boolean = true
-    ): Cancelable? {
-        val roomForMessage = session?.getRoom(roomId) ?: return null
+    ): Pair<String, Cancelable?> {
+        val roomForMessage = session?.getRoom(roomId) ?: return "" to null
         val content = when (type) {
             MediaType.Image -> uri.toImageContentAttachmentData(context)
             MediaType.Video -> uri.toVideoContentAttachmentData(context)
-        } ?: return null
+        } ?: return "" to null
         val additionalContent = mutableMapOf<String, Any>()
         caption?.let { additionalContent[MediaCaptionFieldKey] = it }
 
@@ -101,7 +104,6 @@ class SendMessageDataSource @Inject constructor(@ApplicationContext private val 
         return roomForMessage.sendService().sendMedia(
             content,
             compressBeforeSending,
-            emptySet(),
             rootThreadEventId = threadEventId,
             additionalContent = additionalContent,
             relatesTo = relatesTo
@@ -125,10 +127,10 @@ class SendMessageDataSource @Inject constructor(@ApplicationContext private val 
         }
     }
 
-    fun createPoll(roomId: String, pollContent: CreatePollContent) {
-        val roomForMessage = session?.getRoom(roomId)
-        roomForMessage?.sendService()
-            ?.sendPoll(pollContent.pollType, pollContent.question, pollContent.options)
+    fun createPoll(roomId: String, pollContent: CreatePollContent): String {
+        val roomForMessage = session?.getRoom(roomId) ?: return ""
+        return roomForMessage.sendService()
+            .sendPoll(pollContent.pollType, pollContent.question, pollContent.options)
     }
 
     fun editPoll(roomId: String, eventId: String, pollContent: CreatePollContent) {

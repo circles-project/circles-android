@@ -7,9 +7,7 @@ import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.model.PostListItem
 import org.futo.circles.core.model.TimelineLoadingItem
-import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.list.holder.ImagePostViewHolder
-import org.futo.circles.feature.timeline.list.holder.MediaViewHolder
 import org.futo.circles.feature.timeline.list.holder.OtherEventPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PollPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PostListItemViewHolder
@@ -39,9 +37,6 @@ class TimelineAdapter(
 
     private var currentPlayingVideoHolder: VideoPostViewHolder? = null
 
-    private val uploadMediaTracker =
-        MatrixSessionProvider.getSessionOrThrow().contentUploadProgressTracker()
-
     override fun getItemId(position: Int): Long = getItem(position).id.hashCode().toLong()
 
     override fun getItemViewType(position: Int): Int = when (val item = getItem(position)) {
@@ -63,15 +58,12 @@ class TimelineAdapter(
                 parent, postOptionsListener, isThread
             )
 
-            TimelineViewType.IMAGE -> ImagePostViewHolder(
-                parent, postOptionsListener, uploadMediaTracker, isThread
-            )
+            TimelineViewType.IMAGE -> ImagePostViewHolder(parent, postOptionsListener, isThread)
 
             TimelineViewType.VIDEO -> VideoPostViewHolder(
                 parent,
                 postOptionsListener,
                 isThread,
-                uploadMediaTracker,
                 videoPlayer,
                 this
             )
@@ -112,7 +104,6 @@ class TimelineAdapter(
 
     override fun onViewDetachedFromWindow(holder: PostListItemViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        (holder as? MediaViewHolder)?.unTrackMediaLoading()
         if (holder == currentPlayingVideoHolder) stopVideoPlayback()
     }
 

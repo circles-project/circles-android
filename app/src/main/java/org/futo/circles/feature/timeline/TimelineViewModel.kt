@@ -40,7 +40,6 @@ class TimelineViewModel @Inject constructor(
     timelineDataSourceFactory: BaseTimelineDataSource.Factory,
     accessLevelDataSource: AccessLevelDataSource,
     knockRequestsDataSource: KnockRequestsDataSource,
-    private val sendMessageDataSource: SendMessageDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
     private val readMessageDataSource: ReadMessageDataSource,
@@ -89,44 +88,6 @@ class TimelineViewModel @Inject constructor(
             postOptionsDataSource.saveMediaToDevice(content)
             saveToDeviceLiveData.postValue(Unit)
         }
-    }
-
-    fun sendPost(roomId: String, postContent: CreatePostContent, threadEventId: String?) {
-        launchBg {
-            when (postContent) {
-                is MediaPostContent -> sendMessageDataSource.sendMedia(
-                    roomId,
-                    postContent.uri,
-                    postContent.caption,
-                    threadEventId,
-                    postContent.mediaType
-                )
-
-                is TextPostContent -> sendMessageDataSource.sendTextMessage(
-                    roomId, postContent.text, threadEventId
-                )
-            }
-        }
-    }
-
-    fun editPost(eventId: String, roomId: String, postContent: CreatePostContent) {
-        when (postContent) {
-            is MediaPostContent -> postContent.caption?.let {
-                sendMessageDataSource.editMediaCaption(eventId, roomId, postContent.caption)
-            }
-
-            is TextPostContent -> sendMessageDataSource.editTextMessage(
-                eventId, roomId, postContent.text
-            )
-        }
-    }
-
-    fun createPoll(roomId: String, pollContent: CreatePollContent) {
-        sendMessageDataSource.createPoll(roomId, pollContent)
-    }
-
-    fun editPoll(roomId: String, eventId: String, pollContent: CreatePollContent) {
-        sendMessageDataSource.editPoll(roomId, eventId, pollContent)
     }
 
     fun sendReaction(roomId: String, eventId: String, emoji: String) {
