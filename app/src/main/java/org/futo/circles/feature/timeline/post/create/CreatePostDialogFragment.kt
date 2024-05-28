@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline.post.create
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
 import android.net.Uri
@@ -47,12 +48,21 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
 
     private val mediaPickerHelper = MediaPickerHelper(this, isVideoAvailable = true)
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
+
     private val uploadMediaTracker =
         MatrixSessionProvider.currentSession?.contentUploadProgressTracker()
+
     private val uploadListener: ContentUploadStateTracker.UpdateListener by lazy {
         MediaProgressHelper.getUploadListener(binding?.vLoadingCard, binding?.vLoadingView)
     }
 
+    private var sentPostListener: PostSentListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        sentPostListener =
+            parentFragmentManager.fragments.lastOrNull { it is PostSentListener } as? PostSentListener
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -120,6 +130,7 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
                     binding?.vLoadingView?.setProgress(LoadingData(R.string.sending))
                     binding?.vLoadingCard?.visible()
                 } else if (sendState.isSent()) {
+                    if (!args.isEdit) sentPostListener?.onPostSent()
                     binding?.vLoadingCard?.gone()
                     dismiss()
                 } else {

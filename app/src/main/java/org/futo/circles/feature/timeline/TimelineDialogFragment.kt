@@ -9,7 +9,6 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
@@ -27,11 +26,11 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.TimelineAdapter
+import org.futo.circles.feature.timeline.post.create.PostSentListener
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.menu.PostMenuListener
 import org.futo.circles.model.EndPoll
@@ -45,7 +44,7 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 @ExperimentalBadgeUtils
 @AndroidEntryPoint
 class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimelineBinding::inflate),
-    PostOptionsListener, PostMenuListener, EmojiPickerListener {
+    PostOptionsListener, PostMenuListener, EmojiPickerListener, PostSentListener {
 
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
@@ -66,12 +65,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
     private val listAdapter by lazy {
         TimelineAdapter(this, isThread, videoPlayer).apply {
             setHasStableIds(true)
-            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    super.onItemRangeInserted(positionStart, itemCount)
-                    scrollToTopIfMyNewPostAdded(positionStart, itemCount)
-                }
-            })
         }
     }
 
@@ -202,6 +195,10 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         }
     }
 
+    override fun onPostSent() {
+        scrollToTopOnMyNewPostAdded()
+    }
+
     override fun onShowMenuClicked(roomId: String, eventId: String) {
         if (showNoInternetConnection()) return
         navigator.navigatePostMenu(roomId, eventId)
@@ -281,24 +278,13 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
         navigator.navigateToTimelineOptions(args.roomId, type, args.timelineId)
     }
 
-    private fun scrollToTopIfMyNewPostAdded(positionStart: Int, itemCount: Int) {
-        val items = viewModel.timelineEventsLiveData.value ?: emptyList()
-        if (itemCount != 1) return
+    private fun scrollToTopOnMyNewPostAdded() {
         if (isThread) {
-            val lastItemPosition = items.size - 1
-            if ((items.lastOrNull() as? Post)?.isMyPost() == true && positionStart == lastItemPosition) {
-                binding.rvTimeline.layoutManager?.smoothScrollToPosition(
-                    binding.rvTimeline.getRecyclerView(),
-                    null,
-                    lastItemPosition
-                )
+            binding.rvTimeline.adapter?.itemCount?.let { count ->
+                binding.rvTimeline.layoutManager?.scrollToPosition(count - 1)
             }
         } else {
-            if ((items.firstOrNull() as? Post)?.isMyPost() == true && positionStart == 0) {
-                binding.rvTimeline.layoutManager?.smoothScrollToPosition(
-                    binding.rvTimeline.getRecyclerView(), null, 0
-                )
-            }
+            binding.rvTimeline.layoutManager?.scrollToPosition(0)
         }
     }
 

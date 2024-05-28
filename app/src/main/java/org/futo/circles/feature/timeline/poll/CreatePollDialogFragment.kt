@@ -1,5 +1,6 @@
 package org.futo.circles.feature.timeline.poll
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
@@ -16,6 +17,7 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.databinding.DialogFragmentCreatePollBinding
+import org.futo.circles.feature.timeline.post.create.PostSentListener
 import org.matrix.android.sdk.api.session.room.model.message.PollType
 
 @AndroidEntryPoint
@@ -32,6 +34,14 @@ class CreatePollDialogFragment :
         get() = this
 
     private val viewModel by viewModels<CreatePollViewModel>()
+
+    private var sentPostListener: PostSentListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        sentPostListener =
+            parentFragmentManager.fragments.lastOrNull { it is PostSentListener } as? PostSentListener
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,6 +83,7 @@ class CreatePollDialogFragment :
         viewModel.sendLiveData.observeData(this) { sendStateLiveData ->
             sendStateLiveData.observeData(this) { sendState ->
                 if (sendState.isSent()) {
+                    if (!isEdit) sentPostListener?.onPostSent()
                     stopLoading()
                     onBackPressed()
                 } else if (sendState.hasFailed()) {
