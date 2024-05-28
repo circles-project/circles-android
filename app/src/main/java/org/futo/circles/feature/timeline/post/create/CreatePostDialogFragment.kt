@@ -30,9 +30,12 @@ import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.model.TextContent
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
+import org.futo.circles.feature.timeline.list.MediaProgressHelper
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.model.CreatePostContent
+import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
 @AndroidEntryPoint
 class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListener,
@@ -44,6 +47,12 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
 
     private val mediaPickerHelper = MediaPickerHelper(this, isVideoAvailable = true)
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
+    private val uploadMediaTracker =
+        MatrixSessionProvider.currentSession?.contentUploadProgressTracker()
+    private val uploadListener: ContentUploadStateTracker.UpdateListener by lazy {
+        MediaProgressHelper.getUploadListener(binding?.vLoadingCard, binding?.vLoadingView)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -102,7 +111,8 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
                 else -> binding?.vPostPreview?.setText((it as TextContent).message)
             }
         }
-        viewModel.sendEventObserverLiveData.observeData(this) { sendStateLiveData ->
+        viewModel.sendEventObserverLiveData.observeData(this) { (eventId, sendStateLiveData) ->
+            uploadMediaTracker?.track(eventId, uploadListener)
             sendStateLiveData.observeData(this) { sendState ->
                 setEnabledViews(!sendState.isSending())
                 bottomSheetBehavior?.isDraggable = !sendState.isSending()
@@ -114,6 +124,7 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
                     dismiss()
                 } else {
                     binding?.vLoadingCard?.gone()
+                    uploadMediaTracker?.clear()
                     showError(getString(R.string.failed_to_send))
                 }
             }
@@ -162,6 +173,7 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
 
     override fun onDestroyView() {
         super.onDestroyView()
+        uploadMediaTracker?.clear()
         binding = null
     }
 }

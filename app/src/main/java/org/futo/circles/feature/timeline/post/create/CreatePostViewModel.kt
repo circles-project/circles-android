@@ -31,7 +31,7 @@ class CreatePostViewModel @Inject constructor(
     private val isEdit: Boolean = savedStateHandle.getOrThrow("isEdit")
 
     val postToEditContentLiveData = MutableLiveData<PostContent>()
-    val sendEventObserverLiveData = MutableLiveData<LiveData<SendState>>()
+    val sendEventObserverLiveData = MutableLiveData<Pair<String, LiveData<SendState>>>()
 
     init {
         if (isEdit) setEditPostInfo()
@@ -49,7 +49,7 @@ class CreatePostViewModel @Inject constructor(
                     ?.getTimelineEventLive(newEventId)
                     ?.map { it.getOrNull()?.root?.sendState ?: SendState.SENDING }
                     ?: MutableLiveData(SendState.SENDING)
-            sendEventObserverLiveData.postValue(sendStateLiveData)
+            sendEventObserverLiveData.postValue(newEventId to sendStateLiveData)
         }
     }
 
