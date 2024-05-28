@@ -3,27 +3,33 @@ package org.futo.circles.feature.timeline.poll
 import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.databinding.DialogFragmentCreatePollBinding
 import org.matrix.android.sdk.api.session.room.model.message.PollType
 
 @AndroidEntryPoint
 class CreatePollDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentCreatePollBinding::inflate) {
+    BaseFullscreenDialogFragment(DialogFragmentCreatePollBinding::inflate), HasLoadingState {
 
     private val args: CreatePollDialogFragmentArgs by navArgs()
     private val binding by lazy {
         getBinding() as DialogFragmentCreatePollBinding
     }
     private val isEdit by lazy { args.eventId != null }
+
+    override val fragment: Fragment
+        get() = this
 
     private val viewModel by viewModels<CreatePollViewModel>()
 
@@ -40,7 +46,7 @@ class CreatePollDialogFragment :
                 setText(getString(if (isEdit) R.string.edit else org.futo.circles.core.R.string.create))
                 setOnClickListener {
                     createPoll()
-                    onBackPressed()
+                    startLoading(binding.btnCreate)
                 }
             }
             lvPostOptions.setOnChangeListener { handleCreateButtonAvailable() }
@@ -62,6 +68,17 @@ class CreatePollDialogFragment :
                 }
                 binding.btnClosedPoll.isChecked = content.isClosedType
                 handleCreateButtonAvailable()
+            }
+        }
+        viewModel.sendLiveData.observeData(this) { sendStateLiveData ->
+            sendStateLiveData.observeData(this) { sendState ->
+                if (sendState.isSent()) {
+                    stopLoading()
+                    onBackPressed()
+                } else if (sendState.hasFailed()) {
+                    stopLoading()
+                    showError(getString(R.string.failed_to_send))
+                }
             }
         }
     }
