@@ -107,15 +107,13 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
                 setEnabledViews(!sendState.isSending())
                 bottomSheetBehavior?.isDraggable = !sendState.isSending()
                 if (sendState.isSending()) {
-                    binding?.vLoadingView?.apply {
-                        setProgress(LoadingData(R.string.sending))
-                        visible()
-                    }
+                    binding?.vLoadingView?.setProgress(LoadingData(R.string.sending))
+                    binding?.vLoadingCard?.visible()
                 } else if (sendState.isSent()) {
-                    binding?.vLoadingView?.gone()
+                    binding?.vLoadingCard?.gone()
                     dismiss()
                 } else {
-                    binding?.vLoadingView?.gone()
+                    binding?.vLoadingCard?.gone()
                     showError(getString(R.string.failed_to_send))
                 }
             }
