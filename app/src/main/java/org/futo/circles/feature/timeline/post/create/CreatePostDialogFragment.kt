@@ -17,12 +17,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
-import org.futo.circles.core.mapping.toPost
+import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContentType
@@ -40,6 +43,7 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
     private val viewModel by viewModels<CreatePostViewModel>()
 
     private val mediaPickerHelper = MediaPickerHelper(this, isVideoAvailable = true)
+    private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -61,7 +65,7 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
         ) ?: return
         bottomSheet.setBackgroundColor(Color.TRANSPARENT)
         bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-        BottomSheetBehavior.from(bottomSheet).apply {
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
             peekHeight = resources.displayMetrics.heightPixels
             state = BottomSheetBehavior.STATE_EXPANDED
             addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -96,6 +100,24 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
                     binding?.vPostPreview?.setMediaFromExistingPost(it as MediaContent)
 
                 else -> binding?.vPostPreview?.setText((it as TextContent).message)
+            }
+        }
+        viewModel.sendEventObserverLiveData.observeData(this) { sendStateLiveData ->
+            sendStateLiveData.observeData(this) { sendState ->
+                setEnabledViews(!sendState.isSending())
+                bottomSheetBehavior?.isDraggable = !sendState.isSending()
+                if (sendState.isSending()) {
+                    binding?.vLoadingView?.apply {
+                        setProgress(LoadingData(R.string.sending))
+                        visible()
+                    }
+                } else if (sendState.isSent()) {
+                    binding?.vLoadingView?.gone()
+                    dismiss()
+                } else {
+                    binding?.vLoadingView?.gone()
+                    showError(getString(R.string.failed_to_send))
+                }
             }
         }
     }
@@ -133,17 +155,7 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
 
     override fun onSendClicked(content: CreatePostContent) {
         if (showNoInternetConnection()) return
-        val eventLiveData = viewModel.onSendAction(content) ?: run {
-            showError(getString(R.string.failed_to_send))
-            return
-        }
-        eventLiveData.observeData(this) {
-            val event = it.getOrNull() ?: run {
-                showError(getString(R.string.failed_to_send))
-                return@observeData
-            }
-            event.root.sendState
-        }
+        viewModel.onSendAction(content)
     }
 
     override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
