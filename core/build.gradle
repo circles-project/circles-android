@@ -85,7 +85,7 @@ dependencies {
 //    }
 
     //Matrix mavenLocal testing
-    api "org.futo.gitlab.circles:matrix-android-sdk:0.1.96"
+    api "org.futo.gitlab.circles:matrix-android-sdk:0.1.97"
 
     //Retrofit2
     def retrofit_version = '2.11.0'
