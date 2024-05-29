@@ -1,3 +1,4 @@
+@file:Suppress("DEPRECATION")
 import com.android.build.OutputFile
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.util.Properties
@@ -101,7 +102,7 @@ android {
         val variant = this
         outputs?.forEach { output ->
             if (output is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
-                @Suppress("DEPRECATION") val baseAbiVersionCode =
+                val baseAbiVersionCode =
                     abiCodes[output.getFilter(OutputFile.ABI)]
                 if (baseAbiVersionCode != null)
                     output.versionCodeOverride = variant.versionCode * 100 + baseAbiVersionCode
