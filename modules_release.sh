@@ -8,7 +8,7 @@ version_name=$(grep '^VERSION_NAME=' gradle.properties | cut -d'=' -f2)
 
 echo "Current version name: $version_name"
 
-# Change version in build.gradle
+# Change version in build.gradle.kts
 awk -v version="$version_name" '/^[[:space:]]*modules_version =/ {gsub(/modules_version = "[^"]+"/, "modules_version = \"" version "\"")} 1' build.gradle > tmp && mv tmp build.gradle
 
 # Change version in jitpack.yml
