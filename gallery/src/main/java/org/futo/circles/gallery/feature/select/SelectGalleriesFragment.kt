@@ -3,24 +3,24 @@ package org.futo.circles.gallery.feature.select
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.feature.room.select.RoomsPicker
 import org.futo.circles.core.feature.room.select.SelectRoomsListener
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentSelectGalleriesBinding
 import org.futo.circles.gallery.feature.select.list.SelectGalleryAdapter
 
 @AndroidEntryPoint
-class SelectGalleriesFragment : Fragment(R.layout.fragment_select_galleries), RoomsPicker {
+class SelectGalleriesFragment : BaseBindingFragment(FragmentSelectGalleriesBinding::inflate),
+    RoomsPicker {
 
     private val viewModel by viewModels<SelectGalleriesViewModel>()
-    private val binding by viewBinding(FragmentSelectGalleriesBinding::bind)
-
+    private val binding by lazy {
+        getBinding() as FragmentSelectGalleriesBinding
+    }
     private val listAdapter by lazy {
         SelectGalleryAdapter(
             onGalleryClicked = { galleryListItem -> onGallerySelected(galleryListItem) },
