@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import by.kirich1409.viewbindingdelegate.viewBinding
 import org.futo.circles.core.R
 import org.futo.circles.core.base.BaseActivity
 import org.futo.circles.core.base.CirclesAppConfig
@@ -16,10 +15,11 @@ import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 
-abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), SelectRoomsListener {
+abstract class BaseShareActivity : BaseActivity(), SelectRoomsListener {
+
+    private lateinit var binding: ActivityBaseShareBinding
 
     private val viewModel by viewModels<BaseShareViewModel>()
-    protected val binding by viewBinding(ActivityBaseShareBinding::bind, R.id.mainContainer)
     abstract val roomsPicker: RoomsPicker
 
     private var uriToShare: Uri? = null
@@ -30,6 +30,8 @@ abstract class BaseShareActivity : BaseActivity(R.layout.activity_base_share), S
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityBaseShareBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         MatrixSessionProvider.currentSession?.let {
             addSelectRoomsFragment()
             handleIntent()

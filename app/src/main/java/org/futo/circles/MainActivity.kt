@@ -6,22 +6,27 @@ import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.BaseActivity
 import org.futo.circles.core.base.DeepLinkIntentHandler
-import org.futo.circles.settings.SessionHolderActivity
 import org.futo.circles.core.feature.markdown.MarkdownParser
 import org.futo.circles.core.feature.whats_new.WhatsNewDialog
 import org.futo.circles.core.update.AppUpdateProvider
 import org.futo.circles.core.utils.LauncherActivityUtils
+import org.futo.circles.databinding.ActivityMainBinding
+import org.futo.circles.settings.SessionHolderActivity
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity(R.layout.activity_main), SessionHolderActivity {
+class MainActivity : BaseActivity(), SessionHolderActivity {
 
     @Inject
     lateinit var appUpdateProvider: AppUpdateProvider
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         LauncherActivityUtils.setInvalidTokenListener(this, getSelfIntent(this))
         MarkdownParser.initBuilder(this)
         LauncherActivityUtils.syncSessionIfCashWasCleared(this)

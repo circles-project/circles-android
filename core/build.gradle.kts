@@ -76,9 +76,6 @@ dependencies {
     api("androidx.navigation:navigation-fragment-ktx:${rootProject.ext["androidx_nav_version"]}")
     api("androidx.navigation:navigation-ui-ktx:${rootProject.ext["androidx_nav_version"]}")
 
-    // ViewBinding
-    api("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
-
     // Hilt
     implementation("com.google.dagger:hilt-android:${rootProject.ext["hilt_version"]}")
     kapt("com.google.dagger:hilt-compiler:${rootProject.ext["hilt_version"]}")
