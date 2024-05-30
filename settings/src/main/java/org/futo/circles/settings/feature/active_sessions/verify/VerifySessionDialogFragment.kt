@@ -25,13 +25,11 @@ import org.futo.circles.settings.model.QrSuccess
 
 @AndroidEntryPoint
 class VerifySessionDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentVerifySessionBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentVerifySessionBinding>(
+        DialogFragmentVerifySessionBinding::inflate
+    ) {
 
     private val viewModel by viewModels<VerifySessionViewModel>()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentVerifySessionBinding
-    }
 
     private val scanActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->

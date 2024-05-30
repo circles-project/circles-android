@@ -16,9 +16,10 @@ import org.futo.circles.core.databinding.DialogFragmentPushNotificationsSettings
 
 @AndroidEntryPoint
 class PushNotificationsSettingsDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentPushNotificationsSettingsBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentPushNotificationsSettingsBinding>(
+        DialogFragmentPushNotificationsSettingsBinding::inflate
+    ) {
 
-    private val binding by lazy { getBinding() as DialogFragmentPushNotificationsSettingsBinding }
     private val viewModel by viewModels<PushNotificationsSettingsViewModel>()
     private var selectedDistributorIndex = -1
 

@@ -6,26 +6,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.databinding.DialogFragmentReportBinding
 import org.futo.circles.feature.timeline.post.report.list.ReportCategoryAdapter
 
 @AndroidEntryPoint
 class ReportDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentReportBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment<DialogFragmentReportBinding>(DialogFragmentReportBinding::inflate),
+    HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<ReportViewModel>()
     private val listAdapter by lazy { ReportCategoryAdapter(::onReportCategorySelected) }
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentReportBinding
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

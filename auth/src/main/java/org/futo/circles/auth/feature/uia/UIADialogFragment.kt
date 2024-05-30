@@ -31,13 +31,10 @@ import org.futo.circles.core.view.LoadingDialog
 
 @AndroidEntryPoint
 class UIADialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentUiaBinding::inflate), BackPressOwner {
+    BaseFullscreenDialogFragment<DialogFragmentUiaBinding>(DialogFragmentUiaBinding::inflate),
+    BackPressOwner {
 
     private val viewModel by viewModels<UIAViewModel>()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentUiaBinding
-    }
 
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private var enterPassPhraseDialog: EnterPassPhraseDialog? = null

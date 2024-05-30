@@ -31,14 +31,11 @@ interface GalleryMediaPreviewListener {
 
 @ExperimentalBadgeUtils
 @AndroidEntryPoint
-class GalleryDialogFragment : BaseFullscreenDialogFragment(DialogFragmentGalleryBinding::inflate),
+class GalleryDialogFragment :
+    BaseFullscreenDialogFragment<DialogFragmentGalleryBinding>(DialogFragmentGalleryBinding::inflate),
     GalleryMediaPreviewListener, BackPressOwner {
 
     private val args: GalleryDialogFragmentArgs by navArgs()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentGalleryBinding
-    }
 
     private val galleryFragment by lazy { GalleryGridFragment.create(args.roomId) }
 

@@ -10,7 +10,7 @@ import org.futo.circles.core.extensions.showSuccess
 
 @AndroidEntryPoint
 class WorkspaceDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentWorkspaceBinding::inflate),
+    BaseFullscreenDialogFragment<DialogFragmentWorkspaceBinding>(DialogFragmentWorkspaceBinding::inflate),
     ConfigureWorkspaceListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

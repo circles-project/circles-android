@@ -27,10 +27,11 @@ import org.futo.circles.gallery.model.RemoveImage
 
 @AndroidEntryPoint
 class TimelineMediaPreviewDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentTimelineMediaPreviewBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentTimelineMediaPreviewBinding>(
+        DialogFragmentTimelineMediaPreviewBinding::inflate
+    ) {
 
     private val viewModel by viewModels<TimelineMediaPreviewViewModel>()
-    private val binding by lazy { getBinding() as DialogFragmentTimelineMediaPreviewBinding }
     private val args: TimelineMediaPreviewDialogFragmentArgs by navArgs()
 
     private val mediaFragment by lazy { FullScreenMediaFragment.create(args.roomId, args.eventId) }

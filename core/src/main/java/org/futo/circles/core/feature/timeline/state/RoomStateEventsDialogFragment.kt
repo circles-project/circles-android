@@ -3,21 +3,16 @@ package org.futo.circles.core.feature.timeline.state
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.DialogFragmentDebugInfoBinding
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 
 @AndroidEntryPoint
 class RoomStateEventsDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentDebugInfoBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentDebugInfoBinding>(DialogFragmentDebugInfoBinding::inflate) {
 
-    private val args: RoomStateEventsDialogFragmentArgs by navArgs()
-    private val binding by lazy {
-        getBinding() as DialogFragmentDebugInfoBinding
-    }
     private val viewModel by viewModels<RoomStateEventsViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -32,7 +32,8 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 @AndroidEntryPoint
 class UpdateRoomDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentUpdateRoomBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment<DialogFragmentUpdateRoomBinding>(DialogFragmentUpdateRoomBinding::inflate),
+    HasLoadingState {
 
     override val fragment: Fragment = this
     private val args: UpdateRoomDialogFragmentArgs by navArgs()
@@ -40,10 +41,6 @@ class UpdateRoomDialogFragment :
     private val roomId: String get() = args.roomId
     private val roomType: CircleRoomTypeArg get() = args.type
     private val mediaPickerHelper = MediaPickerHelper(this)
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentUpdateRoomBinding
-    }
 
     private val circleTypeList = AccessLevel.entries.toTypedArray()
     private val circleTypeAdapter by lazy {

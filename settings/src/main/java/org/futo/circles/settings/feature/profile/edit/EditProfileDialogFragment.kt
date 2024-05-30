@@ -21,15 +21,12 @@ import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
 class EditProfileDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentEditProfileBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment<DialogFragmentEditProfileBinding>(DialogFragmentEditProfileBinding::inflate),
+    HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<EditProfileViewModel>()
     private val mediaPickerHelper = MediaPickerHelper(this)
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentEditProfileBinding
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

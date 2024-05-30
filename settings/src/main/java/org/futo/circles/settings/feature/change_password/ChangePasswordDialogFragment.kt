@@ -19,15 +19,13 @@ import org.futo.circles.settings.databinding.DialogFragmentChangePasswordBinding
 
 @AndroidEntryPoint
 class ChangePasswordDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentChangePasswordBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment<DialogFragmentChangePasswordBinding>(
+        DialogFragmentChangePasswordBinding::inflate
+    ), HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<ChangePasswordViewModel>()
     private val createPassPhraseLoadingDialog by lazy { LoadingDialog(requireContext()) }
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentChangePasswordBinding
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

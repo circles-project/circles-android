@@ -111,7 +111,7 @@ fun Fragment.showDialog(
     }
 }
 
-fun Fragment.onBackPressed() = if (this is BaseFullscreenDialogFragment) dismiss() else
+fun Fragment.onBackPressed() = if (this is BaseFullscreenDialogFragment<*>) dismiss() else
     activity?.onBackPressedDispatcher?.onBackPressed()
 
 fun Fragment.withConfirmation(type: ConfirmationType, action: () -> Unit) {

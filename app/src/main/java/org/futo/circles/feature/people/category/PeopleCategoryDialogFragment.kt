@@ -23,15 +23,13 @@ import org.futo.circles.model.PeopleCategoryTypeArg
 
 @AndroidEntryPoint
 class PeopleCategoryDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentPeopleCategoryBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentPeopleCategoryBinding>(
+        DialogFragmentPeopleCategoryBinding::inflate
+    ) {
 
     private val viewModel by viewModels<PeopleCategoryViewModel>()
 
     private val args: PeopleCategoryDialogFragmentArgs by navArgs()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentPeopleCategoryBinding
-    }
 
     private val usersAdapter by lazy {
         PeopleAdapter(

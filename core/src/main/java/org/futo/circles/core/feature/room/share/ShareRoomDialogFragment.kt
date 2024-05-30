@@ -21,14 +21,10 @@ import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 @AndroidEntryPoint
 class ShareRoomDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentShareRoomBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentShareRoomBinding>(DialogFragmentShareRoomBinding::inflate) {
 
     private val viewModel by viewModels<ShareRoomViewModel>()
     private val args: ShareRoomDialogFragmentArgs by navArgs()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentShareRoomBinding
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -29,11 +29,9 @@ import org.futo.circles.core.provider.PreferencesProvider
 
 @AndroidEntryPoint
 class TimelineOptionsDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentTimelineOptionsBinding::inflate) {
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentTimelineOptionsBinding
-    }
+    BaseFullscreenDialogFragment<DialogFragmentTimelineOptionsBinding>(
+        DialogFragmentTimelineOptionsBinding::inflate
+    ) {
 
     private val args: TimelineOptionsDialogFragmentArgs by navArgs()
 

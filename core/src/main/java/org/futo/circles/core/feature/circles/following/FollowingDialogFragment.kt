@@ -14,12 +14,9 @@ import org.futo.circles.core.model.FollowingListItem
 
 @AndroidEntryPoint
 class FollowingDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentFollowingBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentFollowingBinding>(DialogFragmentFollowingBinding::inflate) {
 
     private val viewModel by viewModels<FollowingViewModel>()
-    private val binding by lazy {
-        getBinding() as DialogFragmentFollowingBinding
-    }
     private val listAdapter by lazy {
         FollowingAdapter(onRemoveClicked = { showRemoveOptionsDialog(it) })
     }

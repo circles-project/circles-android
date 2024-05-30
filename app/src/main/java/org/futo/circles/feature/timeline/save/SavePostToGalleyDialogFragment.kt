@@ -19,16 +19,13 @@ import org.futo.circles.gallery.feature.select.SelectGalleriesFragment
 
 @AndroidEntryPoint
 class SavePostToGalleyDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentSavePostToGalleryBinding::inflate),
-    HasLoadingState, SelectRoomsListener {
+    BaseFullscreenDialogFragment<DialogFragmentSavePostToGalleryBinding>(
+        DialogFragmentSavePostToGalleryBinding::inflate
+    ), HasLoadingState, SelectRoomsListener {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<SavePostToGalleryViewModel>()
     private val args: SavePostToGalleyDialogFragmentArgs by navArgs()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentSavePostToGalleryBinding
-    }
 
     private val selectedGalleriesFragment by lazy { SelectGalleriesFragment() }
 

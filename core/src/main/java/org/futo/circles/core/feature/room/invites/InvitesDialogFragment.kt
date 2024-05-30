@@ -23,13 +23,10 @@ import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
-class InvitesDialogFragment : BaseFullscreenDialogFragment(DialogFragmentInvitesBinding::inflate) {
+class InvitesDialogFragment :
+    BaseFullscreenDialogFragment<DialogFragmentInvitesBinding>(DialogFragmentInvitesBinding::inflate) {
 
     private val viewModel by viewModels<InvitesViewModel>()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentInvitesBinding
-    }
 
     private val invitesAdapter by lazy {
         InvitesAdapter(

@@ -22,12 +22,10 @@ import org.matrix.android.sdk.api.session.room.model.message.PollType
 
 @AndroidEntryPoint
 class CreatePollDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentCreatePollBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment<DialogFragmentCreatePollBinding>(DialogFragmentCreatePollBinding::inflate),
+    HasLoadingState {
 
     private val args: CreatePollDialogFragmentArgs by navArgs()
-    private val binding by lazy {
-        getBinding() as DialogFragmentCreatePollBinding
-    }
     private val isEdit by lazy { args.eventId != null }
 
     override val fragment: Fragment

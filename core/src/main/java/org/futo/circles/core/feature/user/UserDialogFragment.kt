@@ -36,12 +36,10 @@ import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
-class UserDialogFragment : BaseFullscreenDialogFragment(DialogFragmentUserBinding::inflate) {
+class UserDialogFragment :
+    BaseFullscreenDialogFragment<DialogFragmentUserBinding>(DialogFragmentUserBinding::inflate) {
 
     private val viewModel by viewModels<UserViewModel>()
-    private val binding by lazy {
-        getBinding() as DialogFragmentUserBinding
-    }
 
     private val usersCirclesAdapter by lazy {
         UsersCirclesAdapter(

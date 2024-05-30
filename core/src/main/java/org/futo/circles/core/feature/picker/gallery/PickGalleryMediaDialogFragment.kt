@@ -10,11 +10,11 @@ import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.DialogFragmentPickGalleryImageBinding
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.feature.picker.gallery.media.PickMediaItemFragment
 import org.futo.circles.core.feature.picker.gallery.rooms.PickGalleryFragment
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
@@ -22,14 +22,12 @@ import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 
 @AndroidEntryPoint
 class PickGalleryMediaDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentPickGalleryImageBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentPickGalleryImageBinding>(
+        DialogFragmentPickGalleryImageBinding::inflate
+    ) {
 
     private val viewModel by viewModels<PickGalleryMediaViewModel>()
     private val photosRoomsFragment by lazy { PickGalleryFragment() }
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentPickGalleryImageBinding
-    }
 
     private val isVideoAvailable by lazy {
         arguments?.getBoolean(IS_VIDEO_AVAILABLE) ?: false

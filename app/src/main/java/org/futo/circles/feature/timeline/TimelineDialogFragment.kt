@@ -43,7 +43,8 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 @ExperimentalBadgeUtils
 @AndroidEntryPoint
-class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimelineBinding::inflate),
+class TimelineDialogFragment :
+    BaseFullscreenDialogFragment<DialogFragmentTimelineBinding>(DialogFragmentTimelineBinding::inflate),
     PostOptionsListener, PostMenuListener, EmojiPickerListener, PostSentListener {
 
     private val args: TimelineDialogFragmentArgs by navArgs()
@@ -51,10 +52,6 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
 
     private val isGroupMode by lazy { args.timelineId == null }
     private val isThread by lazy { args.threadEventId != null }
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentTimelineBinding
-    }
 
     private val videoPlayer by lazy {
         ExoPlayer.Builder(requireContext()).build().apply {
@@ -184,8 +181,8 @@ class TimelineDialogFragment : BaseFullscreenDialogFragment(DialogFragmentTimeli
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
 
-        viewModel.profileLiveData?.observeData(this) {
-            it.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
+        viewModel.profileLiveData?.observeData(this) {user->
+            user.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
         }
         viewModel.knockRequestCountLiveData.observeData(this) {
             knocksCountBadgeDrawable.apply {
