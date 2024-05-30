@@ -9,10 +9,10 @@ plugins {
 
 android {
     namespace = "org.futo.circles.auth"
-    compileSdk = rootProject.extra["sdk_version"] as Int
+    compileSdk = rootProject.ext["sdk_version"] as Int
 
     defaultConfig {
-        minSdk = rootProject.extra["min_sdk_version"] as Int
+        minSdk = rootProject.ext["min_sdk_version"] as Int
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -75,16 +75,16 @@ dependencies {
     implementation("com.nulab-inc:zxcvbn:1.9.0")
 
     // Subscriptions
-    implementation("com.android.billingclient:billing-ktx:7.0.0")
+    "gplayImplementation"("com.android.billingclient:billing-ktx:7.0.0")
 
     // PasswordManager
     val credentialsVersion = "1.3.0-alpha04"
-    implementation("androidx.credentials:credentials:$credentialsVersion")
-    implementation("androidx.credentials:credentials-play-services-auth:$credentialsVersion")
+    "gplayImplementation"("androidx.credentials:credentials:$credentialsVersion")
+    "gplayImplementation"("androidx.credentials:credentials-play-services-auth:$credentialsVersion")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:${rootProject.extra["hilt_version"]}")
-    kapt("com.google.dagger:hilt-compiler:${rootProject.extra["hilt_version"]}")
+    implementation("com.google.dagger:hilt-android:${rootProject.ext["hilt_version"]}")
+    kapt("com.google.dagger:hilt-compiler:${rootProject.ext["hilt_version"]}")
     implementation("androidx.hilt:hilt-work:1.2.0")
 
     // Test dependencies
@@ -103,9 +103,9 @@ afterEvaluate {
             return@forEach
         }
         publishing.publications.create(variant.name, MavenPublication::class) {
-            groupId = rootProject.extra["modules_groupId"] as String
+            groupId = rootProject.ext["modules_groupId"] as String
             artifactId = "auth_${variant.flavorName}"
-            version = rootProject.extra["modules_version"] as String
+            version = rootProject.ext["modules_version"] as String
 
             pom.withXml {
                 val dependenciesNode = asNode().appendNode("dependencies")
