@@ -1,14 +1,14 @@
 package org.futo.circles.core.feature.picker.gallery.media
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.R
 import org.futo.circles.core.base.list.BaseRvDecoration
 import org.futo.circles.core.databinding.FragmentPickGalleryBinding
 import org.futo.circles.core.extensions.observeData
@@ -21,11 +21,12 @@ import org.futo.circles.core.model.GalleryContentListItem
 
 
 @AndroidEntryPoint
-class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
+class PickMediaItemFragment : Fragment() {
 
     private val viewModel by viewModels<PickMediaItemViewModel>()
     private val parentViewModel by viewModels<PickGalleryMediaViewModel>({ requireParentFragment() })
-    private val binding by viewBinding(FragmentPickGalleryBinding::bind)
+    private var _binding: FragmentPickGalleryBinding? = null
+    private val binding get() = _binding!!
 
     private val isMultiSelect by lazy {
         arguments?.getBoolean(IS_MULTI_SELECT) ?: false
@@ -35,6 +36,15 @@ class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
         GalleryMediaGridAdapter(
             isMultiSelect = isMultiSelect,
             onMediaItemClicked = { item, _, _ -> onMediaItemSelected(item) })
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPickGalleryBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
 
@@ -79,5 +89,10 @@ class PickMediaItemFragment : Fragment(R.layout.fragment_pick_gallery) {
                     IS_MULTI_SELECT to isMultiSelect
                 )
             }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

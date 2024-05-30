@@ -2,17 +2,18 @@ package org.futo.circles.feature.groups
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.databinding.FragmentRoomsBinding
@@ -26,10 +27,11 @@ import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.model.GroupListItem
 
 @AndroidEntryPoint
-class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), MenuProvider {
+class GroupsFragment : Fragment(), MenuProvider {
 
     private val viewModel by viewModels<GroupsViewModel>()
-    private val binding by viewBinding(FragmentRoomsBinding::bind)
+    private var _binding: FragmentRoomsBinding? = null
+    private val binding get() = _binding!!
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val listAdapter by lazy {
         GroupsListAdapter(
@@ -38,6 +40,15 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
                 findNavController().navigateSafe(GroupsFragmentDirections.toInvites())
             }
         )
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentRoomsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,5 +102,10 @@ class GroupsFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), 
 
     private fun navigateToCreateRoom() {
         findNavController().navigateSafe(GroupsFragmentDirections.toCreateGroupDialogFragment())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
