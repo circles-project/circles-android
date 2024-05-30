@@ -11,7 +11,6 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.transition.TransitionInflater
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.observeData
@@ -28,9 +27,12 @@ import org.futo.circles.gallery.model.RemoveImage
 
 
 @AndroidEntryPoint
-class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_full_screen_pager) {
+class FullScreenPagerFragment :
+    ParentBackPressOwnerFragment(FragmentFullScreenPagerBinding::inflate) {
 
-    private val binding by viewBinding(FragmentFullScreenPagerBinding::bind)
+    private val binding by lazy {
+        getBinding() as FragmentFullScreenPagerBinding
+    }
 
     private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
 

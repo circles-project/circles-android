@@ -1,16 +1,18 @@
 package org.futo.circles.core.base.fragment
 
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 
 interface BackPressOwner {
     fun onChildBackPress(callback: OnBackPressedCallback)
 }
 
-abstract class ParentBackPressOwnerFragment(@LayoutRes contentLayoutId: Int) :
-    Fragment(contentLayoutId) {
+abstract class ParentBackPressOwnerFragment(
+    inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
+) : BaseBindingFragment(inflate) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

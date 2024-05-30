@@ -7,12 +7,11 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.radiobutton.MaterialRadioButton
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSignUpBinding
 import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.navigateSafe
@@ -22,12 +21,13 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 
 @AndroidEntryPoint
-class SignUpFragment : Fragment(R.layout.fragment_sign_up),
-    HasLoadingState {
+class SignUpFragment : BaseBindingFragment(FragmentSignUpBinding::inflate), HasLoadingState {
 
     override val fragment: Fragment = this
 
-    private val binding by viewBinding(FragmentSignUpBinding::bind)
+    private val binding by lazy {
+        getBinding() as FragmentSignUpBinding
+    }
     private val viewModel by viewModels<SignUpViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -6,7 +6,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentPasswordBinding
@@ -22,12 +21,14 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 
 @AndroidEntryPoint
-class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password),
+class PasswordFragment : ParentBackPressOwnerFragment(FragmentPasswordBinding::inflate),
     HasLoadingState {
 
     private val viewModel by viewModels<PasswordViewModel>()
     override val fragment: Fragment = this
-    private val binding by viewBinding(FragmentPasswordBinding::bind)
+    private val binding by lazy {
+        getBinding() as FragmentPasswordBinding
+    }
     private val passphraseWarningDialog by lazy { SetupPasswordWarningDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

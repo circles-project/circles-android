@@ -4,13 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.R
 import org.futo.circles.base.RoomsListener
+import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.room.select.RoomsPicker
@@ -21,10 +19,12 @@ import org.futo.circles.feature.room.select.list.SelectRoomsAdapter
 import org.futo.circles.feature.room.select.list.SelectedChipsRoomsAdapter
 
 @AndroidEntryPoint
-class SelectRoomsFragment : Fragment(R.layout.fragment_select_rooms), RoomsPicker {
+class SelectRoomsFragment : BaseBindingFragment(FragmentSelectRoomsBinding::inflate), RoomsPicker {
 
     private val viewModel by viewModels<SelectRoomsViewModel>()
-    private val binding by viewBinding(FragmentSelectRoomsBinding::bind)
+    private val binding by lazy {
+        getBinding() as FragmentSelectRoomsBinding
+    }
 
     private val selectRoomsAdapter by lazy { SelectRoomsAdapter(viewModel::onRoomSelected) }
     private val selectedRoomsAdapter by lazy { SelectedChipsRoomsAdapter(viewModel::onRoomSelected) }
