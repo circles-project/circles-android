@@ -16,7 +16,6 @@ import org.futo.circles.core.R
 import org.futo.circles.core.feature.blurhash.ThumbHash
 import org.futo.circles.core.feature.textDrawable.ColorGenerator
 import org.futo.circles.core.feature.textDrawable.TextDrawable
-import org.futo.circles.core.glide.GlideApp
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.Session
@@ -46,7 +45,7 @@ fun ImageView.loadEncryptedImage(
         )
     }
     content.elementToDecrypt?.let {
-        GlideApp
+        Glide
             .with(context)
             .load(content)
             .placeholder(placeholder)

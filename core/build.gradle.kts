@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     id("maven-publish")
 }
@@ -105,7 +106,7 @@ dependencies {
     // Glide
     val glideVersion = "4.16.0"
     api("com.github.bumptech.glide:glide:$glideVersion")
-    kapt("com.github.bumptech.glide:compiler:$glideVersion")
+    ksp("com.github.bumptech.glide:ksp:$glideVersion")
     implementation("jp.wasabeef:glide-transformations:4.3.0")
 
     // Webp animations
