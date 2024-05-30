@@ -25,13 +25,9 @@ import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.gallery.R
 
 @AndroidEntryPoint
-class PhotosFragment : BaseBindingFragment(FragmentRoomsBinding::inflate), MenuProvider {
+class PhotosFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), MenuProvider {
 
     private val viewModel by viewModels<PhotosViewModel>()
-    private val binding by lazy {
-        getBinding() as FragmentRoomsBinding
-    }
-
     private val listAdapter by lazy {
         PhotosListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },

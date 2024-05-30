@@ -40,12 +40,9 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseBindingFragment(FragmentBottomNavigationBinding::inflate),
+class HomeFragment :
+    BaseBindingFragment<FragmentBottomNavigationBinding>(FragmentBottomNavigationBinding::inflate),
     DeepLinkIntentHandler {
-
-    private val binding by lazy {
-        getBinding() as FragmentBottomNavigationBinding
-    }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val notificationPermissionHelper =

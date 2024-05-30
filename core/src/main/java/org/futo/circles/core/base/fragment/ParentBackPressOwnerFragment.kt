@@ -10,9 +10,9 @@ interface BackPressOwner {
     fun onChildBackPress(callback: OnBackPressedCallback)
 }
 
-abstract class ParentBackPressOwnerFragment(
-    inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
-) : BaseBindingFragment(inflate) {
+abstract class ParentBackPressOwnerFragment<VB : ViewBinding>(
+    inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB
+) : BaseBindingFragment<VB>(inflate) {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

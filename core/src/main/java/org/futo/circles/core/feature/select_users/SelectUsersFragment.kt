@@ -16,15 +16,12 @@ import org.futo.circles.core.feature.select_users.list.selected.SelectedUsersLis
 import org.futo.circles.core.model.NoResultsItem
 
 @AndroidEntryPoint
-class SelectUsersFragment : BaseBindingFragment(FragmentSelectUsersBinding::inflate) {
+class SelectUsersFragment :
+    BaseBindingFragment<FragmentSelectUsersBinding>(FragmentSelectUsersBinding::inflate) {
 
     private val viewModel by viewModels<SelectUsersViewModel>()
-    private val binding by lazy {
-        getBinding() as FragmentSelectUsersBinding
-    }
     private val searchListAdapter by lazy { InviteMembersSearchListAdapter(viewModel::onUserSelected) }
     private val selectedUsersListAdapter by lazy { SelectedUsersListAdapter(viewModel::onUserSelected) }
-
     private var selectUsersListener: SelectUsersListener? = null
 
 

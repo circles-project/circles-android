@@ -19,12 +19,11 @@ import org.futo.circles.feature.room.select.list.SelectRoomsAdapter
 import org.futo.circles.feature.room.select.list.SelectedChipsRoomsAdapter
 
 @AndroidEntryPoint
-class SelectRoomsFragment : BaseBindingFragment(FragmentSelectRoomsBinding::inflate), RoomsPicker {
+class SelectRoomsFragment :
+    BaseBindingFragment<FragmentSelectRoomsBinding>(FragmentSelectRoomsBinding::inflate),
+    RoomsPicker {
 
     private val viewModel by viewModels<SelectRoomsViewModel>()
-    private val binding by lazy {
-        getBinding() as FragmentSelectRoomsBinding
-    }
 
     private val selectRoomsAdapter by lazy { SelectRoomsAdapter(viewModel::onRoomSelected) }
     private val selectedRoomsAdapter by lazy { SelectedChipsRoomsAdapter(viewModel::onRoomSelected) }

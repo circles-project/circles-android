@@ -19,13 +19,11 @@ import org.futo.circles.core.extensions.showDialog
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 
 @AndroidEntryPoint
-class SetupProfileFragment : BaseBindingFragment(FragmentSetupProfileBinding::inflate),
+class SetupProfileFragment :
+    BaseBindingFragment<FragmentSetupProfileBinding>(FragmentSetupProfileBinding::inflate),
     HasLoadingState {
 
     override val fragment: Fragment = this
-    private val binding by lazy {
-        getBinding() as FragmentSetupProfileBinding
-    }
     private val viewModel by viewModels<SetupProfileViewModel>()
     private val mediaPickerHelper = MediaPickerHelper(this, isGalleryAvailable = false)
 

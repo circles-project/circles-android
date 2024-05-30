@@ -21,13 +21,10 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 
 @AndroidEntryPoint
-class SignUpFragment : BaseBindingFragment(FragmentSignUpBinding::inflate), HasLoadingState {
+class SignUpFragment : BaseBindingFragment<FragmentSignUpBinding>(FragmentSignUpBinding::inflate),
+    HasLoadingState {
 
     override val fragment: Fragment = this
-
-    private val binding by lazy {
-        getBinding() as FragmentSignUpBinding
-    }
     private val viewModel by viewModels<SignUpViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -16,14 +16,12 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.openCustomTabUrl
 
 @AndroidEntryPoint
-class AcceptTermsFragment : ParentBackPressOwnerFragment(FragmentAcceptTermsBinding::inflate),
+class AcceptTermsFragment :
+    ParentBackPressOwnerFragment<FragmentAcceptTermsBinding>(FragmentAcceptTermsBinding::inflate),
     HasLoadingState {
 
     private val viewModel by viewModels<AcceptTermsViewModel>()
     override val fragment: Fragment = this
-    private val binding by lazy {
-        getBinding() as FragmentAcceptTermsBinding
-    }
     private val listAdapter by lazy {
         TermsListAdapter(
             onCheckChanged = { item -> viewModel.changeTermCheck(item) },

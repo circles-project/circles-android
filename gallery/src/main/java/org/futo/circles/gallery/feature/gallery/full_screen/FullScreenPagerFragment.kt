@@ -28,11 +28,7 @@ import org.futo.circles.gallery.model.RemoveImage
 
 @AndroidEntryPoint
 class FullScreenPagerFragment :
-    ParentBackPressOwnerFragment(FragmentFullScreenPagerBinding::inflate) {
-
-    private val binding by lazy {
-        getBinding() as FragmentFullScreenPagerBinding
-    }
+    ParentBackPressOwnerFragment<FragmentFullScreenPagerBinding>(FragmentFullScreenPagerBinding::inflate) {
 
     private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
 
@@ -42,7 +38,6 @@ class FullScreenPagerFragment :
             arguments?.getString(ROOM_ID) ?: ""
         )
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

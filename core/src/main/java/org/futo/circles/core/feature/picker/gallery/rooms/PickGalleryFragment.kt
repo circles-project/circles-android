@@ -11,13 +11,11 @@ import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaViewModel
 import org.futo.circles.core.feature.picker.gallery.rooms.list.PickGalleryListAdapter
 
 @AndroidEntryPoint
-class PickGalleryFragment : BaseBindingFragment(FragmentPickGalleryBinding::inflate) {
+class PickGalleryFragment :
+    BaseBindingFragment<FragmentPickGalleryBinding>(FragmentPickGalleryBinding::inflate) {
 
     private val viewModel by viewModels<PickGalleryViewModel>()
     private val parentViewModel by viewModels<PickGalleryMediaViewModel>({ requireParentFragment() })
-    private val binding by lazy {
-        getBinding() as FragmentPickGalleryBinding
-    }
     private val listAdapter by lazy {
         PickGalleryListAdapter(onRoomClicked = { gallery ->
             parentViewModel.onGalleryChosen(gallery.id)

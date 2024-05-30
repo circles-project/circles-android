@@ -19,11 +19,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SubscriptionStageFragment :
-    ParentBackPressOwnerFragment(FragmentSubscriptionStageBinding::inflate) {
+    ParentBackPressOwnerFragment<FragmentSubscriptionStageBinding>(FragmentSubscriptionStageBinding::inflate) {
 
-    private val binding by lazy {
-        getBinding() as FragmentSubscriptionStageBinding
-    }
     private val viewModel by viewModels<SubscriptionStageViewModel>()
 
     @Inject

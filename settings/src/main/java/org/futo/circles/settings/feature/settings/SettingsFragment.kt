@@ -32,12 +32,10 @@ import org.futo.circles.settings.model.SwitchUser
 import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 
 @AndroidEntryPoint
-class SettingsFragment : BaseBindingFragment(FragmentSettingsBinding::inflate),
+class SettingsFragment :
+    BaseBindingFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate),
     ReAuthCancellationListener {
 
-    private val binding by lazy {
-        getBinding() as FragmentSettingsBinding
-    }
     private val viewModel by viewModels<SettingsViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }

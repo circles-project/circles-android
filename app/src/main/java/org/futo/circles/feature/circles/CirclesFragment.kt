@@ -27,12 +27,9 @@ import org.futo.circles.feature.explanation.CirclesExplanationDialog
 import org.futo.circles.model.CircleListItem
 
 @AndroidEntryPoint
-class CirclesFragment : BaseBindingFragment(FragmentRoomsBinding::inflate), MenuProvider {
+class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), MenuProvider {
 
     private val viewModel by viewModels<CirclesViewModel>()
-    private val binding by lazy {
-        getBinding() as FragmentRoomsBinding
-    }
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private var listAdapter: CirclesListAdapter? = null

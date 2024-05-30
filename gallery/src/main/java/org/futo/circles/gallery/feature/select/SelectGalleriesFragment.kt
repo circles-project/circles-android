@@ -14,13 +14,11 @@ import org.futo.circles.gallery.databinding.FragmentSelectGalleriesBinding
 import org.futo.circles.gallery.feature.select.list.SelectGalleryAdapter
 
 @AndroidEntryPoint
-class SelectGalleriesFragment : BaseBindingFragment(FragmentSelectGalleriesBinding::inflate),
+class SelectGalleriesFragment :
+    BaseBindingFragment<FragmentSelectGalleriesBinding>(FragmentSelectGalleriesBinding::inflate),
     RoomsPicker {
 
     private val viewModel by viewModels<SelectGalleriesViewModel>()
-    private val binding by lazy {
-        getBinding() as FragmentSelectGalleriesBinding
-    }
     private val listAdapter by lazy {
         SelectGalleryAdapter(
             onGalleryClicked = { galleryListItem -> onGallerySelected(galleryListItem) },

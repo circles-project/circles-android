@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseBindingFragment(
-    private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
+abstract class BaseBindingFragment<VB : ViewBinding>(
+    private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB
 ) : Fragment() {
 
-    private var _binding: ViewBinding? = null
-
-    protected fun getBinding() = _binding
+    private var _binding: VB? = null
+    protected val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

@@ -16,11 +16,7 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.gallery.databinding.FragmentFullScreenMediaBinding
 
 @AndroidEntryPoint
-class FullScreenMediaFragment : BaseBindingFragment(FragmentFullScreenMediaBinding::inflate) {
-
-    private val binding by lazy {
-        getBinding() as FragmentFullScreenMediaBinding
-    }
+class FullScreenMediaFragment : BaseBindingFragment<FragmentFullScreenMediaBinding>(FragmentFullScreenMediaBinding::inflate) {
 
     private val viewModel by viewModels<FullScreenMediaViewModel>()
 

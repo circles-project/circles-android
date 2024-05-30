@@ -29,12 +29,10 @@ import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragm
 
 
 @AndroidEntryPoint
-class GalleryGridFragment : BaseBindingFragment(FragmentGalleryGridBinding::inflate) {
+class GalleryGridFragment :
+    BaseBindingFragment<FragmentGalleryGridBinding>(FragmentGalleryGridBinding::inflate) {
 
     private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
-    private val binding by lazy {
-        getBinding() as FragmentGalleryGridBinding
-    }
     private val mediaPickerHelper = MediaPickerHelper(
         this, isMultiSelect = true, isVideoAvailable = true
     )

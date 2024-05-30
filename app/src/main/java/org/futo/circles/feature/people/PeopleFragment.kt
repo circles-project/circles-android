@@ -22,13 +22,11 @@ import org.futo.circles.feature.people.list.PeopleAdapter
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
-class PeopleFragment : BaseBindingFragment(FragmentPeopleBinding::inflate), MenuProvider {
+class PeopleFragment : BaseBindingFragment<FragmentPeopleBinding>(FragmentPeopleBinding::inflate),
+    MenuProvider {
 
     private val viewModel by viewModels<PeopleViewModel>()
     private val navigator by lazy { PeopleNavigator(this) }
-    private val binding by lazy {
-        getBinding() as FragmentPeopleBinding
-    }
 
     private val peopleAdapter by lazy {
         PeopleAdapter(onUserClicked = { userId -> navigator.navigateToUserPage(userId) },

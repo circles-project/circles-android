@@ -15,13 +15,11 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showDialog
 
 @AndroidEntryPoint
-class ValidateTokenFragment : ParentBackPressOwnerFragment(FragmentValidateTokenBinding::inflate),
+class ValidateTokenFragment :
+    ParentBackPressOwnerFragment<FragmentValidateTokenBinding>(FragmentValidateTokenBinding::inflate),
     HasLoadingState {
 
     override val fragment: Fragment = this
-    private val binding by lazy {
-        getBinding() as FragmentValidateTokenBinding
-    }
     private val viewModel by viewModels<ValidateTokenViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

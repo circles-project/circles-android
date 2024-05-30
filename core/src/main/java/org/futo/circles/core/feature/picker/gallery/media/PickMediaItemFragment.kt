@@ -19,14 +19,11 @@ import org.futo.circles.core.model.GalleryContentListItem
 
 
 @AndroidEntryPoint
-class PickMediaItemFragment : BaseBindingFragment(FragmentPickGalleryBinding::inflate) {
+class PickMediaItemFragment :
+    BaseBindingFragment<FragmentPickGalleryBinding>(FragmentPickGalleryBinding::inflate) {
 
     private val viewModel by viewModels<PickMediaItemViewModel>()
     private val parentViewModel by viewModels<PickGalleryMediaViewModel>({ requireParentFragment() })
-    private val binding by lazy {
-        getBinding() as FragmentPickGalleryBinding
-    }
-
     private val isMultiSelect by lazy {
         arguments?.getBoolean(IS_MULTI_SELECT) ?: false
     }

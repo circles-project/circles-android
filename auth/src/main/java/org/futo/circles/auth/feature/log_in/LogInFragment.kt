@@ -30,13 +30,11 @@ import org.futo.circles.core.extensions.withConfirmation
 
 
 @AndroidEntryPoint
-class LogInFragment : BaseBindingFragment(FragmentLogInBinding::inflate), HasLoadingState {
+class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBinding::inflate),
+    HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<LogInViewModel>()
-    private val binding by lazy {
-        getBinding() as FragmentLogInBinding
-    }
     private val autocompleteAdapter by lazy {
         ArrayAdapter(
             requireContext(),

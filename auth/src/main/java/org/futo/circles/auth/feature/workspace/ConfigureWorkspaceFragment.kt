@@ -20,15 +20,12 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 
 @AndroidEntryPoint
-class ConfigureWorkspaceFragment : BaseBindingFragment(FragmentConfigureWorkspaceBinding::inflate),
+class ConfigureWorkspaceFragment :
+    BaseBindingFragment<FragmentConfigureWorkspaceBinding>(FragmentConfigureWorkspaceBinding::inflate),
     HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<ConfigureWorkspaceViewModel>()
-
-    private val binding by lazy {
-        getBinding() as FragmentConfigureWorkspaceBinding
-    }
 
     private val tasksAdapter by lazy {
         WorkspaceTasksListAdapter { viewModel.onOptionalTaskSelectionChanged(it) }

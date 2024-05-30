@@ -21,14 +21,12 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 
 @AndroidEntryPoint
-class PasswordFragment : ParentBackPressOwnerFragment(FragmentPasswordBinding::inflate),
+class PasswordFragment :
+    ParentBackPressOwnerFragment<FragmentPasswordBinding>(FragmentPasswordBinding::inflate),
     HasLoadingState {
 
     private val viewModel by viewModels<PasswordViewModel>()
     override val fragment: Fragment = this
-    private val binding by lazy {
-        getBinding() as FragmentPasswordBinding
-    }
     private val passphraseWarningDialog by lazy { SetupPasswordWarningDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -25,12 +25,10 @@ import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.model.GroupListItem
 
 @AndroidEntryPoint
-class GroupsFragment : BaseBindingFragment(FragmentRoomsBinding::inflate), MenuProvider {
+class GroupsFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate),
+    MenuProvider {
 
     private val viewModel by viewModels<GroupsViewModel>()
-    private val binding by lazy {
-        getBinding() as FragmentRoomsBinding
-    }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val listAdapter by lazy {
         GroupsListAdapter(

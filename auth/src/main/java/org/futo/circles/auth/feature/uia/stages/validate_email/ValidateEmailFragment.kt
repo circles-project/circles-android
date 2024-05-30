@@ -22,13 +22,11 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
 
 @AndroidEntryPoint
-class ValidateEmailFragment : ParentBackPressOwnerFragment(FragmentValidateEmailBinding::inflate),
+class ValidateEmailFragment :
+    ParentBackPressOwnerFragment<FragmentValidateEmailBinding>(FragmentValidateEmailBinding::inflate),
     HasLoadingState {
 
     override val fragment: Fragment = this
-    private val binding by lazy {
-        getBinding() as FragmentValidateEmailBinding
-    }
     private val viewModel by viewModels<ValidateEmailViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

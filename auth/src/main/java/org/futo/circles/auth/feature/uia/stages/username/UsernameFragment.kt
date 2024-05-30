@@ -16,14 +16,12 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 
 @AndroidEntryPoint
-class UsernameFragment : ParentBackPressOwnerFragment(FragmentUsernameBinding::inflate),
+class UsernameFragment :
+    ParentBackPressOwnerFragment<FragmentUsernameBinding>(FragmentUsernameBinding::inflate),
     HasLoadingState {
 
     private val viewModel by viewModels<UsernameViewModel>()
     override val fragment: Fragment = this
-    private val binding by lazy {
-        getBinding() as FragmentUsernameBinding
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
