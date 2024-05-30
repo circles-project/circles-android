@@ -26,7 +26,6 @@ class TimelineAdapter(
 ) : BaseRvAdapter<PostListItem, PostListItemViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is Post && old is Post)
         PostItemPayload(
-            sendState = new.sendState,
             readByCount = new.readByCount,
             repliesCount = new.repliesCount,
             reactions = new.reactionsData,

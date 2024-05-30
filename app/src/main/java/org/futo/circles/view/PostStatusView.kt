@@ -5,10 +5,8 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import org.futo.circles.R
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.databinding.ViewPostStatusBinding
-import org.matrix.android.sdk.api.session.room.send.SendState
 
 class PostStatusView(
     context: Context,
@@ -27,27 +25,13 @@ class PostStatusView(
         binding.tvEditedLabel.setIsVisible(isEdited)
     }
 
-    fun setSendStatus(sendState: SendState, readByCount: Int) {
-        when {
-            sendState.isSending() -> {
-                binding.ivSendStatus.setImageResource(R.drawable.ic_sending)
-                binding.tvReadByCount.text = ""
-            }
-
-            sendState.hasFailed() -> {
-                binding.ivSendStatus.setImageResource(R.drawable.ic_send_failed)
-                binding.tvReadByCount.text = ""
-            }
-
-            sendState.isSent() -> {
-                if (readByCount > 0) {
-                    binding.ivSendStatus.setImageResource(org.futo.circles.core.R.drawable.ic_seen)
-                    binding.tvReadByCount.text = readByCount.toString()
-                } else {
-                    binding.ivSendStatus.setImageResource(R.drawable.ic_sent)
-                    binding.tvReadByCount.text = ""
-                }
-            }
+    fun setReadByCount(readByCount: Int) {
+        if (readByCount > 0) {
+            binding.ivSendStatus.setImageResource(org.futo.circles.core.R.drawable.ic_seen)
+            binding.tvReadByCount.text = readByCount.toString()
+        } else {
+            binding.ivSendStatus.setImageDrawable(null)
+            binding.tvReadByCount.text = ""
         }
     }
 

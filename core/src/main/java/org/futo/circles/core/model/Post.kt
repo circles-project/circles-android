@@ -11,7 +11,6 @@ data class TimelineLoadingItem(
 data class Post(
     val postInfo: PostInfo,
     val content: PostContent,
-    val sendState: SendState,
     val readByCount: Int,
     val repliesCount: Int,
     val reactionsData: List<ReactionsData>,

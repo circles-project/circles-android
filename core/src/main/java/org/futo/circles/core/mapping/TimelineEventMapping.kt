@@ -19,7 +19,6 @@ fun TimelineEvent.toPost(
 ): Post = Post(
     postInfo = toPostInfo(),
     content = toPostContent(),
-    sendState = root.sendState,
     readByCount = getReadByCount(readReceipts),
     repliesCount = root.threadDetails?.numberOfThreads ?: 0,
     reactionsData = annotations?.reactionsSummary?.map {
