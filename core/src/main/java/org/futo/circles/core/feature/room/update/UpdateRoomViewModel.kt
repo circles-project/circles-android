@@ -9,6 +9,7 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.AccessLevel
+import org.futo.circles.core.model.CircleRoomTypeArg
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +32,7 @@ class UpdateRoomViewModel @Inject constructor(
         topic: String,
         isPublic: Boolean,
         userAccessLevel: AccessLevel,
-        isCircle: Boolean
+        roomTypeArg: CircleRoomTypeArg
     ) {
         launchBg {
             val result = dataSource.updateRoom(
@@ -40,7 +41,7 @@ class UpdateRoomViewModel @Inject constructor(
                 selectedImageLiveData.value,
                 isPublic,
                 userAccessLevel.takeIf { isDefaultUserRoleChanged(userAccessLevel) },
-                isCircle
+                roomTypeArg
             )
             updateRoomResponseLiveData.postValue(result)
         }

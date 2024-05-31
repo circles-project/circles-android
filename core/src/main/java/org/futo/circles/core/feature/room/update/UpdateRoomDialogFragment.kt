@@ -88,7 +88,7 @@ class UpdateRoomDialogFragment :
                     tilTopic.getText(),
                     binding.btnPublic.isChecked,
                     getSelectedAccessLevel(),
-                    roomType == CircleRoomTypeArg.Circle
+                    roomType
                 )
                 startLoading(btnSave)
             }
