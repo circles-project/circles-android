@@ -67,7 +67,7 @@ dependencies {
     api("androidx.core:core-ktx:1.13.1")
 
     // androidx lifecycle
-    val lifecycleVersion = "2.8.0"
+    val lifecycleVersion = "2.8.1"
     api("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     api("androidx.lifecycle:lifecycle-process:$lifecycleVersion")
@@ -86,7 +86,7 @@ dependencies {
     // }
 
     // Matrix mavenLocal testing
-    api("org.futo.gitlab.circles:matrix-android-sdk:0.1.97")
+    api("org.futo.gitlab.circles:matrix-android-sdk:0.1.100")
 
     // Retrofit2
     val retrofitVersion = "2.11.0"
@@ -139,10 +139,10 @@ dependencies {
     implementation("androidx.browser:browser:1.8.0")
 
     // Firebase
-    "gplayImplementation"("com.google.firebase:firebase-crashlytics-ktx:19.0.0")
-    "gplayImplementation"("com.google.firebase:firebase-analytics-ktx:22.0.0")
+    "gplayImplementation"("com.google.firebase:firebase-crashlytics-ktx:19.0.1")
+    "gplayImplementation"("com.google.firebase:firebase-analytics-ktx:22.0.1")
     "gplayImplementation"("com.google.firebase:firebase-messaging-ktx:24.0.0")
-    "gplayImplementation"("com.google.android.gms:play-services-base:18.4.0")
+    "gplayImplementation"("com.google.android.gms:play-services-base:18.5.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
