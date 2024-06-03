@@ -55,7 +55,7 @@ class ChangePasswordDialogFragment :
     private fun setupObservers() {
         viewModel.responseLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(org.futo.circles.core.R.string.password_changed))
+                showSuccess(getString(org.futo.circles.core.R.string.passphrase_changed))
                 onBackPressed()
             },
             error = { message ->

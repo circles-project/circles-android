@@ -9,7 +9,7 @@
     <string name="session_sync">Session sync</string>
     <string name="unsupported_login_method">Unsupported login method</string>
     <string name="discard_current_auth_progress">Discard current auth progress?</string>
-    <string name="set_password">Set password</string>
+    <string name="set_passphrase">Set passphrase</string>
     <string name="log_in">Log In</string>
     <string name="wrong_signup_config">Wrong signup config!</string>
     <string name="sign_up">Sign Up</string>
@@ -50,9 +50,9 @@
     <string name="user_id_separator">:</string>
     <string name="not_a_member">Not a member?</string>
     <string name="resume_session">Resume session:</string>
-    <string name="enter_your_password">Enter your password</string>
-    <string name="password">Password</string>
-    <string name="repeat_password">Repeat password</string>
+    <string name="choose_a_passphrase">Choose a passphrase</string>
+    <string name="enter_your_passphrase">Enter your passphrase</string>
+    <string name="repeat_passphrase">Repeat passphrase</string>
     <string name="server">Server</string>
     <string name="sign_up_with_subscription">Sign up with subscription</string>
     <string name="sign_up_for_free">Sign up for free</string>

@@ -73,7 +73,7 @@ class SettingsFragment :
                 }
             }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? SessionHolderActivity)?.stopSyncAndRestart() } }
-            tvChangePassword.setOnClickListener {
+            tvChangePassphrase.setOnClickListener {
                 if (showNoInternetConnection()) return@setOnClickListener
                 viewModel.handleChangePasswordFlow()
             }
@@ -121,7 +121,7 @@ class SettingsFragment :
             onRequestInvoked = { loadingDialog.dismiss() }
         )
         viewModel.changePasswordResponseLiveData.observeResponse(this,
-            success = { showSuccess(getString(org.futo.circles.core.R.string.password_changed)) },
+            success = { showSuccess(getString(org.futo.circles.core.R.string.passphrase_changed)) },
             error = { message -> showError(message) },
             onRequestInvoked = { loadingDialog.dismiss() }
         )

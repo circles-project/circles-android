@@ -112,11 +112,11 @@
 
 
         <org.futo.circles.core.view.SettingsMenuItemView
-            android:id="@+id/tvChangePassword"
+            android:id="@+id/tvChangePassphrase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:optionIcon="@drawable/ic_lock"
-            app:optionName="@string/change_password" />
+            app:optionName="@string/change_passphrase" />
 
         <org.futo.circles.core.view.SettingsMenuItemView
             android:id="@+id/tvAddEmail"

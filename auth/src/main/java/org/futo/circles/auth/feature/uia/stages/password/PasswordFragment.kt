@@ -45,7 +45,7 @@ class PasswordFragment :
     private fun setupViews() {
         with(binding) {
             btnLogin.apply {
-                setText(getString(if (isSignupMode()) R.string.set_password else R.string.log_in))
+                setText(getString(if (isSignupMode()) R.string.set_passphrase else R.string.log_in))
                 setOnClickListener {
                     startLoading(btnLogin)
                     viewModel.processPasswordStage(
@@ -55,6 +55,8 @@ class PasswordFragment :
                     )
                 }
             }
+            tvPasswordTitle.text =
+                getString(if (isSignupMode()) R.string.choose_a_passphrase else R.string.enter_your_passphrase)
             tilPassword.editText?.apply {
                 doAfterTextChanged {
                     if (isSignupMode()) vPasswordStrength.calculateStrength(tilPassword.getText())
