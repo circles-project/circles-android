@@ -35,7 +35,7 @@
             app:layout_constraintEnd_toStartOf="@id/tvCount"
             app:layout_constraintStart_toEndOf="@id/ivCategoryIcon"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="My Connections" />
+            tools:text="My followers" />
 
         <TextView
             android:id="@+id/tvCount"

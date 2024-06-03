@@ -12,19 +12,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.DialogFragmentUserBinding
-import org.futo.circles.core.extensions.gone
-import org.futo.circles.core.extensions.invisible
 import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
-import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.user.list.UsersCirclesAdapter
 import org.futo.circles.core.model.IgnoreUser
@@ -73,14 +68,6 @@ class UserDialogFragment :
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = usersCirclesAdapter
         }
-        binding.btnInviteToConnect.apply {
-            setIsVisible(!viewModel.isUserMyFollower())
-            setOnClickListener {
-                binding.vInviteToConnectLoading.visible()
-                binding.btnInviteToConnect.invisible()
-                viewModel.inviteToMySharedCircle()
-            }
-        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -120,20 +107,6 @@ class UserDialogFragment :
         }
         viewModel.requestFollowLiveData.observeResponse(this,
             success = { showSuccess(getString(R.string.request_sent)) })
-
-        viewModel.inviteToConnectLiveData.observeResponse(this,
-            success = {
-                showSuccess(getString(R.string.request_sent))
-                binding.btnInviteToConnect.gone()
-            },
-            error = {
-                binding.btnInviteToConnect.visible()
-                showError(it)
-            },
-            onRequestInvoked = {
-                binding.vInviteToConnectLoading.gone()
-            }
-        )
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {
                 context?.let { showSuccess(it.getString(R.string.user_ignored)) }

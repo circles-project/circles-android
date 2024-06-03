@@ -70,33 +70,6 @@
         app:layout_constraintTop_toBottomOf="@id/tvUserName"
         tools:text="texsdt" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnInviteToConnect"
-        style="@style/AccentButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/invite_to_connect"
-        android:textSize="12sp"
-        android:visibility="gone"
-        app:icon="@drawable/ic_link"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUserId"
-        tools:visibility="visible" />
-
-
-    <ProgressBar
-        android:id="@+id/vInviteToConnectLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUserId" />
-
 
     <View
         android:id="@+id/divider"
@@ -106,7 +79,7 @@
         android:background="@color/divider_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnInviteToConnect" />
+        app:layout_constraintTop_toBottomOf="@id/tvUserId" />
 
 
     <org.futo.circles.core.view.LoadingRecyclerView
