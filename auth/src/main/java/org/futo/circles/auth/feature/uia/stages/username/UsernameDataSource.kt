@@ -1,6 +1,5 @@
 package org.futo.circles.auth.feature.uia.stages.username
 
-import androidx.lifecycle.MutableLiveData
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.ENROLL_USERNAME_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.TYPE_PARAM_KEY
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
@@ -11,8 +10,6 @@ import javax.inject.Inject
 class UsernameDataSource @Inject constructor() {
 
     private val uiaDataSource = UIADataSourceProvider.getDataSourceOrThrow()
-
-    val domainLiveData = MutableLiveData(uiaDataSource.domain)
 
     suspend fun processUsernameStage(username: String): Response<RegistrationResult> =
         uiaDataSource.performUIAStage(

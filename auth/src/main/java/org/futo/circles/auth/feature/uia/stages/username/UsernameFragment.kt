@@ -12,7 +12,6 @@ import org.futo.circles.auth.databinding.FragmentUsernameBinding
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
-import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 
 @AndroidEntryPoint
@@ -58,9 +57,6 @@ class UsernameFragment :
 
     private fun setupObservers() {
         viewModel.usernameResponseLiveData.observeResponse(this)
-        viewModel.domainLiveData.observeData(this) {
-            binding.tvServerDomain.text = it
-        }
     }
 
     private fun setContinueButtonEnabled() {
