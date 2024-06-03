@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="vctr_content_quaternary" format="color" />
-
     <declare-styleable name="GroupPostHeaderView">
         <attr name="optionsVisible" format="boolean" />
     </declare-styleable>

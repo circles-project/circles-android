@@ -9,10 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import com.vanniktech.emoji.Emoji
 import com.vanniktech.emoji.EmojiTheming
-import org.futo.circles.R
 import org.futo.circles.core.base.fragment.TransparentBackgroundBottomSheetDialogFragment
-import org.futo.circles.databinding.BottomSheetEmojiBinding
 import org.futo.circles.core.extensions.isNightMode
+import org.futo.circles.databinding.BottomSheetEmojiBinding
 
 interface EmojiPickerListener {
     fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String)
@@ -58,11 +57,11 @@ class EmojiBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                         ),
                         primaryColor = ContextCompat.getColor(
                             requireContext(),
-                            R.color.gray
+                            org.futo.circles.core.R.color.gray
                         ),
                         secondaryColor = ContextCompat.getColor(
                             requireContext(),
-                            R.color.blue
+                            org.futo.circles.core.R.color.blue
                         ),
                         dividerColor = ContextCompat.getColor(
                             requireContext(),
@@ -70,11 +69,12 @@ class EmojiBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                         ),
                         textColor = ContextCompat.getColor(
                             requireContext(),
-                            if (context.isNightMode()) R.color.white else R.color.black
+                            if (context.isNightMode()) org.futo.circles.core.R.color.white
+                            else org.futo.circles.core.R.color.black
                         ),
                         textSecondaryColor = ContextCompat.getColor(
                             requireContext(),
-                            R.color.gray
+                            org.futo.circles.core.R.color.gray
                         )
                     ), RecentEmojisProvider.get(requireContext())
                 )

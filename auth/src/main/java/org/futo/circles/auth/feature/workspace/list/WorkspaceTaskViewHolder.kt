@@ -45,8 +45,8 @@ abstract class WorkspaceTaskViewHolder(view: View) : RecyclerView.ViewHolder(vie
                     setColorFilter(
                         ContextCompat.getColor(
                             context,
-                            if (status == TaskStatus.FAILED) R.color.red
-                            else R.color.blue
+                            if (status == TaskStatus.FAILED) org.futo.circles.core.R.color.red
+                            else org.futo.circles.core.R.color.blue
                         )
                     )
                 }

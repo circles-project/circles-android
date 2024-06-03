@@ -40,27 +40,27 @@ class PasswordStrengthView(
         val colorId = when (score) {
             1 -> {
                 binding.tvPasswordStrength.setText(R.string.fair_password)
-                R.color.yellow
+                org.futo.circles.core.R.color.yellow
             }
 
             2 -> {
                 binding.tvPasswordStrength.setText(R.string.good_password)
-                R.color.orange
+                org.futo.circles.core.R.color.orange
             }
 
             3 -> {
                 binding.tvPasswordStrength.setText(R.string.strong_password)
-                R.color.green
+                org.futo.circles.core.R.color.green
             }
 
             4 -> {
                 binding.tvPasswordStrength.setText(R.string.very_strong_password)
-                R.color.teal_700
+                org.futo.circles.core.R.color.teal_700
             }
 
             else -> {
                 binding.tvPasswordStrength.setText(R.string.weak_password)
-                R.color.red
+                org.futo.circles.core.R.color.red
             }
         }
         val color = ContextCompat.getColor(context, colorId)
