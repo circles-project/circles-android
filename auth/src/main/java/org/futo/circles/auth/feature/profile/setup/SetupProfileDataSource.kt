@@ -17,8 +17,6 @@ class SetupProfileDataSource @Inject constructor(
 
     fun getUserData() = session.userService().getUser(session.myUserId)
 
-    fun getThreePidData() = session.profileService().getThreePids()
-
     suspend fun saveProfileData(profileImageUri: Uri?, displayName: String?) = createResult {
         profileImageUri?.let { uri ->
             session.profileService().updateAvatar(session.myUserId, uri, getFileName(uri), false)

@@ -45,7 +45,7 @@ class EditProfileDialogFragment :
                 viewModel.update(tilName.getText())
                 startLoading(btnSave)
             }
-            setAlwaysDisabledViews(listOf(tilUserId, tilContactInfo))
+            setAlwaysDisabledViews(listOf(tilUserId))
         }
     }
 
@@ -62,9 +62,6 @@ class EditProfileDialogFragment :
         )
         viewModel.profileLiveData.observeData(this) {
             it?.let { user -> setInitialUserInfo(user) }
-        }
-        viewModel.threePidLiveData.observeData(this) {
-            binding.tilContactInfo.editText?.setText(it.firstOrNull()?.value ?: "")
         }
         viewModel.isProfileDataChangedLiveData.observeData(this) {
             binding.btnSave.isEnabled = it
