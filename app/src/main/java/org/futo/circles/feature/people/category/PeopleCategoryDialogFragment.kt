@@ -54,7 +54,6 @@ class PeopleCategoryDialogFragment :
         with(binding) {
             val title = getString(
                 when (args.categoryType) {
-                    PeopleCategoryTypeArg.Connections -> R.string.my_connections
                     PeopleCategoryTypeArg.Followers -> org.futo.circles.core.R.string.my_followers
                     PeopleCategoryTypeArg.Following -> org.futo.circles.core.R.string.people_i_m_following
                     PeopleCategoryTypeArg.Other -> org.futo.circles.core.R.string.other_known_users

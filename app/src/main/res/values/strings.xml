@@ -99,7 +99,6 @@
     <string name="group_invites_notification_format">Show %d Group invitations</string>
     <string name="circle_invites_notification_format">Show %d Circle invitations</string>
     <string name="show_connection_invites_format">Show %d connection invites</string>
-    <string name="my_connections">My Connections</string>
     <string name="downloading">Downloading</string>
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
     <string name="in_timeline_format">(in %1$s / %2$s)</string>
