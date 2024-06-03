@@ -1,7 +1,6 @@
 package org.futo.circles.settings.feature.settings
 
 import android.os.Bundle
-import android.text.format.Formatter
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +21,7 @@ import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
+import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.settings.R
@@ -141,8 +141,8 @@ class SettingsFragment :
             }
             binding.tvMediaStorageInfo.text = getString(
                 R.string.media_usage_format,
-                Formatter.formatFileSize(requireContext(), mediaUsage.usedSize),
-                Formatter.formatFileSize(requireContext(), mediaUsage.storageSize),
+                FileUtils.readableFileSize(mediaUsage.usedSize),
+                FileUtils.readableFileSize(mediaUsage.storageSize)
             )
         } ?: run {
             binding.tvMediaStorageInfo.text = getString(R.string.no_info_available)

@@ -1,11 +1,10 @@
 package org.futo.circles.gallery.feature.backup.list
 
-import android.text.format.Formatter.formatFileSize
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.base.list.ViewBindingHolder
-import org.futo.circles.core.base.list.context
 import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.gallery.databinding.ListItemMediaFolderBinding
 import org.futo.circles.gallery.model.MediaFolderListItem
 
@@ -28,7 +27,7 @@ class MediaFolderViewHolder(
     fun bind(data: MediaFolderListItem) {
         with(binding) {
             tvFolderName.text = data.displayName
-            tvSize.text = formatFileSize(context, data.size)
+            tvSize.text = FileUtils.readableFileSize(data.size)
             svFolder.isChecked = data.isSelected
         }
     }
