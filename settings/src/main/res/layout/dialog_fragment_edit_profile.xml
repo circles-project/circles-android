@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:maxHeight="40dp"
-        android:text="@string/change_icon"
+        android:text="@string/change_profile_picture"
         android:textSize="12sp"
         app:icon="@drawable/ic_create"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"

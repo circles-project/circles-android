@@ -52,6 +52,7 @@
     <string name="choose_gallery">Choose gallery</string>
     <string name="pick_media">Pick media</string>
     <string name="change_icon">Change icon</string>
+    <string name="change_profile_picture">Change profile picture</string>
     <string name="account">Account</string>
     <string name="deactivate_my_account">Deactivate my account</string>
     <string name="settings">Settings</string>
