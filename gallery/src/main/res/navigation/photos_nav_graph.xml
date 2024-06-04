@@ -7,7 +7,7 @@
 
     <dialog
         android:id="@+id/photosFragment"
-        android:name="org.futo.circles.gallery.feature.PhotosFragment"
+        android:name="org.futo.circles.gallery.feature.PhotosDialogFragment"
         android:label="@string/all_galleries"
         tools:layout="@layout/fragment_rooms">
 
