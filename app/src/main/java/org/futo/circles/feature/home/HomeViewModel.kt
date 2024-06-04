@@ -16,7 +16,6 @@ import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.utils.getJoinedRoomById
-import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
@@ -26,13 +25,11 @@ class HomeViewModel @Inject constructor(
     private val pushersManager: PushersManager,
     private val workspaceTasksProvider: WorkspaceTasksProvider,
     private val workspaceDataSource: ConfigureWorkspaceDataSource,
-    roomAccountDataSource: RoomAccountDataSource,
     shortcutsHandler: ShortcutsHandler
 ) : ViewModel() {
 
     val validateWorkspaceLoadingLiveData = SingleEventLiveData<LoadingData>()
     val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
-    val mediaBackupSettingsLiveData = roomAccountDataSource.getMediaBackupSettingsLive()
     val syncStateLiveData =
         MatrixSessionProvider.getSessionOrThrow().syncService().getSyncStateLive()
 
