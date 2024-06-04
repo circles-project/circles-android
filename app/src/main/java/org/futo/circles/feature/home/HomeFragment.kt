@@ -167,7 +167,6 @@ class HomeFragment :
                 R.id.circlesFragment,
                 R.id.peopleFragment,
                 R.id.groupsFragment,
-                org.futo.circles.gallery.R.id.photosFragment
             )
         )
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
