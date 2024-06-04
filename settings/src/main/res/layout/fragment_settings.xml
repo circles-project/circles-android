@@ -122,16 +122,9 @@
             android:id="@+id/tvAddEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:hasDivider="false"
             app:optionIcon="@drawable/ic_email"
             app:optionName="@string/add_email_address" />
-
-        <org.futo.circles.core.view.SettingsMenuItemView
-            android:id="@+id/tvClearCache"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:optionIcon="@drawable/ic_reload"
-            app:optionName="@string/clear_cache_and_reload" />
-
 
         <TextView
             style="@style/settingMenuHeader"
@@ -169,6 +162,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/other" />
+
+        <org.futo.circles.core.view.SettingsMenuItemView
+            android:id="@+id/tvAdvancedSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:optionIcon="@drawable/ic_settings"
+            app:optionName="@string/advanced_settings" />
 
         <org.futo.circles.core.view.SettingsMenuItemView
             android:id="@+id/tvPrivacyPolicy"

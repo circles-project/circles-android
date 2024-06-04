@@ -2,8 +2,6 @@ package org.futo.circles.settings.feature.settings
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
@@ -20,9 +18,7 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.FileUtils
-import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.settings.R
 import org.futo.circles.settings.SessionHolderActivity
@@ -38,7 +34,6 @@ class SettingsFragment :
 
     private val viewModel by viewModels<SettingsViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
-    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,12 +61,6 @@ class SettingsFragment :
                     viewModel.logOut()
                 }
             }
-            tvClearCache.setOnClickListener {
-                if (showNoInternetConnection()) return@setOnClickListener
-                (activity as? AppCompatActivity)?.let {
-                    LauncherActivityUtils.clearCacheAndRestart(it)
-                }
-            }
             tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? SessionHolderActivity)?.stopSyncAndRestart() } }
             tvChangePassphrase.setOnClickListener {
                 if (showNoInternetConnection()) return@setOnClickListener
@@ -90,11 +79,11 @@ class SettingsFragment :
                 }
             }
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
-            tvVersion.setOnLongClickListener { toggleDeveloperMode(); true }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             tvEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
             tvShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
             tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
+            tvAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
         }
         setVersion()
     }
@@ -162,13 +151,6 @@ class SettingsFragment :
         )
     }
 
-    private fun toggleDeveloperMode() {
-        val isEnabled = preferencesProvider.isDeveloperModeEnabled()
-        preferencesProvider.setDeveloperMode(!isEnabled)
-        val messageId = if (isEnabled) R.string.developer_mode_disabled
-        else R.string.developer_mode_enabled
-        Toast.makeText(requireContext(), getString(messageId), Toast.LENGTH_LONG).show()
-    }
 
     override fun onReAuthCanceled() {
         loadingDialog.dismiss()
