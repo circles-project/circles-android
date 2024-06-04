@@ -59,4 +59,9 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
         )
     }
 
+    fun navigateToPhotos() {
+        fragment.findNavController()
+            .navigateSafe(SettingsFragmentDirections.toPhotosNavGraph())
+    }
+
 }

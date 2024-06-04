@@ -5,7 +5,7 @@
     android:id="@+id/photos_nav_graph"
     app:startDestination="@id/photosFragment">
 
-    <fragment
+    <dialog
         android:id="@+id/photosFragment"
         android:name="org.futo.circles.gallery.feature.PhotosFragment"
         android:label="@string/all_galleries"
@@ -47,7 +47,7 @@
                 app:nullable="false" />
 
         </action>
-    </fragment>
+    </dialog>
 
     <dialog
         android:id="@+id/galleryFragment"

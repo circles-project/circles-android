@@ -18,6 +18,7 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.settings.R
@@ -35,6 +36,7 @@ class SettingsFragment :
     private val viewModel by viewModels<SettingsViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }
+    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,6 +47,7 @@ class SettingsFragment :
     override fun onResume() {
         super.onResume()
         viewModel.updateMediaUsageInfo()
+        binding.tvPhotos.setIsVisible(preferencesProvider.isPhotoGalleryEnabled())
     }
 
     private fun setupViews() {
@@ -84,6 +87,7 @@ class SettingsFragment :
             tvShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
             tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
             tvAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
+            tvPhotos.setOnClickListener { navigator.navigateToPhotos() }
         }
         setVersion()
     }

@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.fragment.BaseBindingFragment
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -25,7 +26,7 @@ import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.gallery.R
 
 @AndroidEntryPoint
-class PhotosFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), MenuProvider {
+class PhotosFragment : BaseFullscreenDialogFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate), MenuProvider {
 
     private val viewModel by viewModels<PhotosViewModel>()
     private val listAdapter by lazy {
