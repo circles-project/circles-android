@@ -1,23 +1,16 @@
 package org.futo.circles.feature.timeline.post.create
 
-import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -39,21 +32,21 @@ import org.futo.circles.model.CreatePostContent
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
 @AndroidEntryPoint
-class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListener,
+class CreatePostDialogFragment :
+    BaseFullscreenDialogFragment<DialogFragmentCreatePostBinding>(DialogFragmentCreatePostBinding::inflate),
+    PreviewPostListener,
     EmojiPickerListener {
 
-    private var binding: DialogFragmentCreatePostBinding? = null
     private val args: CreatePostDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<CreatePostViewModel>()
 
     private val mediaPickerHelper = MediaPickerHelper(this, isVideoAvailable = true)
-    private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
 
     private val uploadMediaTracker =
         MatrixSessionProvider.currentSession?.contentUploadProgressTracker()
 
     private val uploadListener: ContentUploadStateTracker.UpdateListener by lazy {
-        MediaProgressHelper.getUploadListener(binding?.vLoadingCard, binding?.vLoadingView)
+        MediaProgressHelper.getUploadListener(binding.vLoadingCard, binding.vLoadingView)
     }
 
     private var sentPostListener: PostSentListener? = null
@@ -64,39 +57,6 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
             parentFragmentManager.fragments.lastOrNull { it is PostSentListener } as? PostSentListener
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogFragmentCreatePostBinding.inflate(inflater, container, false)
-        return binding?.root
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        dialog.setOnShowListener { setupBottomSheet(it) }
-        return dialog
-    }
-
-    private fun setupBottomSheet(dialogInterface: DialogInterface) {
-        val bottomSheetDialog = dialogInterface as BottomSheetDialog
-        val bottomSheet = bottomSheetDialog.findViewById<View>(
-            com.google.android.material.R.id.design_bottom_sheet
-        ) ?: return
-        bottomSheet.setBackgroundColor(Color.TRANSPARENT)
-        bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet).apply {
-            peekHeight = resources.displayMetrics.heightPixels
-            state = BottomSheetBehavior.STATE_EXPANDED
-            addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == BottomSheetBehavior.STATE_HALF_EXPANDED) dismiss()
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-
-            })
-        }
-    }
 
     @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -108,33 +68,31 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
 
     private fun setupViews() {
         setToolbarTitle()
-        binding?.btnClose?.setOnClickListener { dismiss() }
-        binding?.vPostPreview?.setup(this@CreatePostDialogFragment, args.roomId, args.isEdit)
+        binding.vPostPreview.setup(this@CreatePostDialogFragment, args.roomId, args.isEdit)
     }
 
     private fun setupObservers() {
         viewModel.postToEditContentLiveData.observeData(this) {
             when (it.type) {
                 PostContentType.IMAGE_CONTENT, PostContentType.VIDEO_CONTENT ->
-                    binding?.vPostPreview?.setMediaFromExistingPost(it as MediaContent)
+                    binding.vPostPreview.setMediaFromExistingPost(it as MediaContent)
 
-                else -> binding?.vPostPreview?.setText((it as TextContent).message)
+                else -> binding.vPostPreview.setText((it as TextContent).message)
             }
         }
         viewModel.sendEventObserverLiveData.observeData(this) { (eventId, sendStateLiveData) ->
             uploadMediaTracker?.track(eventId, uploadListener)
             sendStateLiveData.observeData(this) { sendState ->
                 setEnabledViews(!sendState.isSending())
-                bottomSheetBehavior?.isDraggable = !sendState.isSending()
                 if (sendState.isSending()) {
-                    binding?.vLoadingView?.setProgress(LoadingData(R.string.sending))
-                    binding?.vLoadingCard?.visible()
+                    binding.vLoadingView.setProgress(LoadingData(R.string.sending))
+                    binding.vLoadingCard.visible()
                 } else if (sendState.isSent()) {
                     if (!args.isEdit) sentPostListener?.onPostSent()
-                    binding?.vLoadingCard?.gone()
+                    binding.vLoadingCard.gone()
                     dismiss()
                 } else {
-                    binding?.vLoadingCard?.gone()
+                    binding.vLoadingCard.gone()
                     uploadMediaTracker?.clear()
                     showError(getString(R.string.failed_to_send))
                 }
@@ -143,14 +101,14 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
     }
 
     private fun setToolbarTitle() {
-        binding?.tvTitle?.text = when {
+        binding.toolbar.title = when {
             args.isEdit -> getString(R.string.edit_post)
             else -> getString(R.string.create_post)
         }
     }
 
     private fun onMediaSelected(uri: Uri, type: MediaType) {
-        binding?.vPostPreview?.setMedia(uri, type)
+        binding.vPostPreview.setMedia(uri, type)
     }
 
 
@@ -169,7 +127,7 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
 
     override fun onAddLinkClicked() {
         AddLinkDialog(requireContext()) { title, link ->
-            binding?.vPostPreview?.insertLink(title, link)
+            binding.vPostPreview.insertLink(title, link)
         }.show()
     }
 
@@ -179,12 +137,11 @@ class CreatePostDialogFragment : BottomSheetDialogFragment(), PreviewPostListene
     }
 
     override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
-        binding?.vPostPreview?.insertEmoji(emoji)
+        binding.vPostPreview.insertEmoji(emoji)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         uploadMediaTracker?.clear()
-        binding = null
     }
 }
