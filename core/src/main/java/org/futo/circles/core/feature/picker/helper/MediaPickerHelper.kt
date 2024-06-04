@@ -26,13 +26,12 @@ import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage
 open class MediaPickerHelper(
     private val fragment: Fragment,
     private val isMultiSelect: Boolean = false,
-    private val isVideoAvailable: Boolean = false,
-    isGalleryAvailable: Boolean = true
+    private val isVideoAvailable: Boolean = false
 ) : PickMediaDialogListener {
 
 
     private val pickMediaDialog by lazy {
-        PickMediaDialog(fragment.requireContext(), isVideoAvailable, isGalleryAvailable, this)
+        PickMediaDialog(fragment.requireContext(), isVideoAvailable, this)
     }
 
     private val cameraPermissionHelper =
@@ -96,35 +95,7 @@ open class MediaPickerHelper(
             }
 
             PickImageMethod.Device -> dispatchDevicePickerIntent()
-            PickImageMethod.Gallery -> onGalleryMethodSelected()
         }
-    }
-
-    private fun onGalleryMethodSelected() {
-        fragment.childFragmentManager.setFragmentResultListener(
-            pickMediaRequestKey,
-            fragment
-        ) { key, bundle -> handlePickerFragmentResult(key, bundle) }
-
-        PickGalleryMediaDialogFragment.create(isVideoAvailable, isMultiSelect)
-            .show(fragment.childFragmentManager, "PickGalleryMediaDialogFragment")
-    }
-
-    private fun handlePickerFragmentResult(key: String, bundle: Bundle) {
-        if (key != pickMediaRequestKey) return
-        tryOrNull {
-            Gson().fromJson(
-                bundle.getString(pickMediaResultDataKey),
-                Array<PickGalleryMediaResultItem>::class.java
-            )
-        }?.forEach {
-            when (MediaType.entries[it.mediaTypeOrdinal]) {
-                MediaType.Image -> onImageSelected?.invoke(itemId, Uri.parse(it.uriString))
-                MediaType.Video -> onVideoSelected?.invoke(Uri.parse(it.uriString))
-            }
-        }
-
-
     }
 
     private fun onMediaFromDeviceSelected(uri: Uri) {

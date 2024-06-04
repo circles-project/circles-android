@@ -59,9 +59,6 @@ android {
 dependencies {
     implementation(project(":core"))
 
-    // Image zoom
-    implementation("com.jsibbold:zoomage:1.3.1")
-
     // Hilt
     implementation("com.google.dagger:hilt-android:${rootProject.ext["hilt_version"]}")
     kapt("com.google.dagger:hilt-compiler:${rootProject.ext["hilt_version"]}")

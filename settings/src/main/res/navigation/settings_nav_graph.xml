@@ -20,6 +20,10 @@
         <action
             android:id="@+id/to_uiaDialogFragment"
             app:destination="@id/UIADialogFragment" />
+
+        <action
+            android:id="@+id/to_advancedSettingsDialogFragment"
+            app:destination="@id/advancedSettingsDialogFragment" />
         <action
             android:id="@+id/to_pushNotificationsSettingsDialogFragment"
             app:destination="@id/notification_settings_nav_graph" />
@@ -44,6 +48,9 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_photos_nav_graph"
+            app:destination="@id/photos_nav_graph" />
     </fragment>
 
 
@@ -72,5 +79,12 @@
         android:id="@+id/editProfileDialogFragment"
         android:name="org.futo.circles.settings.feature.profile.edit.EditProfileDialogFragment"
         tools:layout="@layout/dialog_fragment_edit_profile" />
+    <dialog
+        android:id="@+id/advancedSettingsDialogFragment"
+        android:name="org.futo.circles.settings.feature.advanced.AdvancedSettingsDialogFragment"
+        tools:layout="@layout/dialog_fragment_advanced_settings" />
+
+    <include app:graph="@navigation/photos_nav_graph" />
+
 
 </navigation>

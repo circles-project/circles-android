@@ -85,22 +85,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvPhoto" />
 
-            <TextView
-                android:id="@+id/tvGallery"
-                style="@style/headline"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:drawablePadding="16dp"
-                android:focusable="true"
-                android:padding="16dp"
-                android:text="@string/gallery"
-                app:drawableLeftCompat="@drawable/ic_gallery"
-                app:drawableTint="@color/menu_icon_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvVideo" />
 
             <TextView
                 android:id="@+id/tvDevice"
@@ -117,7 +101,7 @@
                 app:drawableTint="@color/menu_icon_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvGallery" />
+                app:layout_constraintTop_toBottomOf="@id/tvVideo" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancel"

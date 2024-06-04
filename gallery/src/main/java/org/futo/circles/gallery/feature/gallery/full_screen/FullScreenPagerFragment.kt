@@ -20,10 +20,10 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.GalleryContentListItem
+import org.futo.circles.core.model.RemoveImage
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentFullScreenPagerBinding
 import org.futo.circles.gallery.feature.gallery.grid.GalleryViewModel
-import org.futo.circles.gallery.model.RemoveImage
 
 
 @AndroidEntryPoint
@@ -56,8 +56,8 @@ class FullScreenPagerFragment :
                     sharedElements: MutableMap<String?, View?>
                 ) {
                     val view = getCurrentSelectedFragment()?.view ?: return
-                    val image = view.findViewById<View>(R.id.ivImage)
-                    val video = view.findViewById<View>(R.id.videoView)
+                    val image = view.findViewById<View>(org.futo.circles.core.R.id.ivImage)
+                    val video = view.findViewById<View>(org.futo.circles.core.R.id.videoView)
                     sharedElements[names[0]] = if (image.isVisible) image else video
                 }
             })

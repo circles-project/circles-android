@@ -31,12 +31,10 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
-import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.sync.SyncState
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -51,9 +49,6 @@ class HomeFragment :
     private val viewModel by viewModels<HomeViewModel>()
     private val validateLoadingDialog by lazy { LoadingDialog(requireContext()) }
     private val syncLoadingDialog by lazy { LoadingDialog(requireContext()) }
-
-    @Inject
-    lateinit var mediaBackupServiceManager: MediaBackupServiceManager
 
     private val roomIdParam = "roomId"
 
@@ -75,11 +70,6 @@ class HomeFragment :
     private fun handleDeepLinks() {
         handleOpenFromNotification()
         handleOpenFromShareRoomUrl()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mediaBackupServiceManager.unbindMediaService(requireContext())
     }
 
     private fun handleOpenFromNotification() {
@@ -131,9 +121,6 @@ class HomeFragment :
     }
 
     private fun setupObservers() {
-        viewModel.mediaBackupSettingsLiveData?.observeData(this) {
-            mediaBackupServiceManager.bindMediaServiceIfNeeded(requireContext(), it)
-        }
         viewModel.validateWorkspaceResultLiveData.observeResponse(this,
             error = { WorkspaceDialogFragment().show(childFragmentManager, "workspace") },
             onRequestInvoked = { validateLoadingDialog.dismiss() })
@@ -167,7 +154,6 @@ class HomeFragment :
                 R.id.circlesFragment,
                 R.id.peopleFragment,
                 R.id.groupsFragment,
-                org.futo.circles.gallery.R.id.photosFragment
             )
         )
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
