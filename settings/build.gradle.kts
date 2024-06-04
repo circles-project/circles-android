@@ -59,6 +59,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":auth"))
+    implementation(project(":gallery"))
 
     // Hilt
     implementation("com.google.dagger:hilt-android:${rootProject.ext["hilt_version"]}")

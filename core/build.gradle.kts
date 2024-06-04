@@ -58,7 +58,7 @@ android {
 }
 
 dependencies {
-    api("androidx.appcompat:appcompat:1.6.1")
+    api("androidx.appcompat:appcompat:1.7.0")
     api("com.google.android.material:material:1.12.0")
     api("androidx.recyclerview:recyclerview:1.3.2")
     api("androidx.autofill:autofill:1.1.0")
@@ -124,6 +124,9 @@ dependencies {
     val exoplayerVersion = "1.3.1"
     api("androidx.media3:media3-exoplayer:$exoplayerVersion")
     api("androidx.media3:media3-ui:$exoplayerVersion")
+
+    // Image zoom
+    implementation("com.jsibbold:zoomage:1.3.1")
 
     // profile placeholder
     implementation("com.github.WycliffeAssociates:jdenticon-kotlin:1.1")

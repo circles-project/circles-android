@@ -114,7 +114,6 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":auth"))
-    implementation(project(":gallery"))
     implementation(project(":settings"))
 
     // Emoji
