@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.base.fragment.TransparentBackgroundBottomSheetDialogFragment
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.databinding.BottomSheetPostMenuBinding
 
@@ -64,12 +64,6 @@ class PostMenuBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                     setOnClickListener {
                         viewModel.getPostContent()?.let { menuListener?.onSaveToDevice(it) }
                         dismiss()
-                    }
-                }
-                tvSaveToGallery.apply {
-                    setIsVisible(viewModel.isMediaPost())
-                    setOnClickListener {
-                        navigator.navigateToSaveToGallery(args.roomId, args.eventId)
                     }
                 }
                 tvReport.apply {

@@ -46,13 +46,6 @@
                 app:optionName="@string/save_to_device" />
 
             <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvSaveToGallery"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_cloud_download"
-                app:optionName="@string/save_to_gallery" />
-
-            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvEditPoll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
