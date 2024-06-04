@@ -98,3 +98,9 @@ data class UnfollowUser(
     override val messageRes: Int = R.string.unfollow_user_message,
     override val positiveButtonRes: Int = R.string.unfollow
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class RemoveImage(
+    override val titleRes: Int = R.string.remove_image,
+    override val messageRes: Int = R.string.remove_image_message,
+    override val positiveButtonRes: Int =  org.futo.circles.core.R.string.remove
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

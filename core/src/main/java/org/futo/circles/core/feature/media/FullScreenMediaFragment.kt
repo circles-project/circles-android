@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.feature.gallery.full_screen.media_item
+package org.futo.circles.core.feature.media
 
 import android.os.Bundle
 import android.view.View
@@ -9,14 +9,15 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.BaseBindingFragment
+import org.futo.circles.core.databinding.FragmentFullScreenMediaBinding
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadEncryptedIntoWithAspect
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.gallery.databinding.FragmentFullScreenMediaBinding
 
 @AndroidEntryPoint
-class FullScreenMediaFragment : BaseBindingFragment<FragmentFullScreenMediaBinding>(FragmentFullScreenMediaBinding::inflate) {
+class FullScreenMediaFragment :
+    BaseBindingFragment<FragmentFullScreenMediaBinding>(FragmentFullScreenMediaBinding::inflate) {
 
     private val viewModel by viewModels<FullScreenMediaViewModel>()
 

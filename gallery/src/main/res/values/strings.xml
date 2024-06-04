@@ -2,8 +2,6 @@
 <resources>
     <string name="saved">Saved</string>
     <string name="delete">Delete</string>
-    <string name="remove_image">Remove image</string>
-    <string name="remove_image_message">Are you sure you want to remove this image?</string>
     <string name="upload_to_gallery">Upload to gallery</string>
     <string name="save_to_gallery">Save to gallery</string>
     <string name="all_galleries">All Galleries</string>

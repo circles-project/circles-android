@@ -1,4 +1,4 @@
-package org.futo.circles.gallery.feature.gallery.full_screen.media_item
+package org.futo.circles.core.feature.media
 
 import android.content.Context
 import android.net.Uri
