@@ -1,5 +1,6 @@
 package org.futo.circles.settings.feature.settings
 
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -37,6 +38,10 @@ class SettingsFragment :
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
+    private val photosEnabledSharedPrefListener = OnSharedPreferenceChangeListener { _, key ->
+        if (key == PreferencesProvider.PHOTO_GALLERY_KEY)
+            binding.tvPhotos.setIsVisible(preferencesProvider.isPhotoGalleryEnabled())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +52,6 @@ class SettingsFragment :
     override fun onResume() {
         super.onResume()
         viewModel.updateMediaUsageInfo()
-        binding.tvPhotos.setIsVisible(preferencesProvider.isPhotoGalleryEnabled())
     }
 
     private fun setupViews() {
@@ -124,6 +128,8 @@ class SettingsFragment :
         viewModel.mediaUsageInfoLiveData.observeResponse(this,
             error = { bindMediaUsageProgress(null) },
             success = { bindMediaUsageProgress(it) })
+        preferencesProvider.getSharedPreferences()
+            .registerOnSharedPreferenceChangeListener(photosEnabledSharedPrefListener)
     }
 
     private fun bindMediaUsageProgress(mediaUsage: MediaUsageInfo?) {
@@ -155,8 +161,13 @@ class SettingsFragment :
         )
     }
 
-
     override fun onReAuthCanceled() {
         loadingDialog.dismiss()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        preferencesProvider.getSharedPreferences()
+            .unregisterOnSharedPreferenceChangeListener(photosEnabledSharedPrefListener)
     }
 }

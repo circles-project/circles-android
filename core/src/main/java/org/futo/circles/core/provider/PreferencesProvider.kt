@@ -11,7 +11,7 @@ class PreferencesProvider @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    private fun getSharedPreferences() =
+    fun getSharedPreferences() =
         context.getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE)
 
     fun setDeveloperMode(isEnabled: Boolean) {
@@ -113,6 +113,6 @@ class PreferencesProvider @Inject constructor(
         private const val SHOULD_SHOW_GROUPS_EXPLANATION = "should_show_groups_explanation"
         private const val WHATS_NEW_SHOWED_FOR = "whats_new_showed_for"
         private const val NOT_RESTORED_SESSION = "not_restored_session"
-        private const val PHOTO_GALLERY_KEY = "photo_gallery_enabled"
+        const val PHOTO_GALLERY_KEY = "photo_gallery_enabled"
     }
 }
