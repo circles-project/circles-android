@@ -1,20 +1,30 @@
 package org.futo.circles.auth.feature.sign_up
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.futo.circles.auth.model.ServerDomainArg
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.matrix.android.sdk.api.auth.registration.Stage
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val dataSource: SignUpDataSource
 ) : ViewModel() {
 
+    private val domainArg: ServerDomainArg = savedStateHandle.getOrThrow("domainArg")
     val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
-    val signupFlowsLiveData = SingleEventLiveData<Response<List<List<Stage>>>>()
+    val signupFlowsLiveData = SingleEventLiveData<Response<Pair<Boolean, Boolean>>>()
+    val flowsLoadingData = SingleEventLiveData<Boolean>()
+
+    init {
+        loadSignupFlowsForDomain(getDomain())
+    }
 
     fun startSignUp(isSubscription: Boolean) {
         launchBg {
@@ -23,17 +33,29 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun loadSignupFlowsForDomain(domain: String) {
+    private fun getDomain() = when (domainArg) {
+        ServerDomainArg.US -> "us.circles-dev.net"
+        ServerDomainArg.EU -> "us.circles-dev.net"
+    }
+
+    private fun loadSignupFlowsForDomain(domain: String) {
+        flowsLoadingData.value = true
         launchBg {
-            val result = dataSource.getAuthFlowsFor(domain)
-            signupFlowsLiveData.postValue(result)
+            val mappedResult = when (val result = dataSource.getAuthFlowsFor(domain)) {
+                is Response.Error -> result
+                is Response.Success -> Response.Success(
+                    hasFreeFlow(result.data) to hasSubscriptionFlow(result.data)
+                )
+            }
+            flowsLoadingData.postValue(false)
+            signupFlowsLiveData.postValue(mappedResult)
         }
     }
 
-    fun hasSubscriptionFlow(flows: List<List<Stage>>): Boolean =
+    private fun hasSubscriptionFlow(flows: List<List<Stage>>): Boolean =
         dataSource.getSubscriptionSignupStages(flows) != null
 
-    fun hasFreeFlow(flows: List<List<Stage>>): Boolean =
+    private fun hasFreeFlow(flows: List<List<Stage>>): Boolean =
         dataSource.getFreeSignupStages(flows) != null
 
 }

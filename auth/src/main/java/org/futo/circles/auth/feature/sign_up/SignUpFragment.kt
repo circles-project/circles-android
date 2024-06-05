@@ -2,19 +2,16 @@ package org.futo.circles.auth.feature.sign_up
 
 import android.os.Bundle
 import android.view.View
-import android.widget.RadioButton
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.radiobutton.MaterialRadioButton
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.databinding.FragmentSignUpBinding
-import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.navigateSafe
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
@@ -36,19 +33,6 @@ class SignUpFragment : BaseBindingFragment<FragmentSignUpBinding>(FragmentSignUp
     private fun setupViews() {
         with(binding) {
             toolbar.setNavigationOnClickListener { onBackPressed() }
-            serverDomainGroup.setOnCheckedChangeListener { _, _ ->
-                setFlowsLoading(true)
-                viewModel.loadSignupFlowsForDomain(getDomain())
-            }
-            CirclesAppConfig.serverDomains.forEach { domain ->
-                serverDomainGroup.addView(
-                    MaterialRadioButton(requireContext()).apply {
-                        text = domain
-                        textSize = 20f
-                    }
-                )
-            }
-            (serverDomainGroup.children.first() as? RadioButton)?.toggle()
             btnSubscription.setOnClickListener {
                 startLoading(btnSubscription)
                 viewModel.startSignUp(true)
@@ -65,34 +49,22 @@ class SignUpFragment : BaseBindingFragment<FragmentSignUpBinding>(FragmentSignUp
             this,
             success = { findNavController().navigateSafe(SignUpFragmentDirections.toUiaFragment()) }
         )
-
         viewModel.signupFlowsLiveData.observeResponse(this,
-            success = {
-                val hasSubscriptionFlow = viewModel.hasSubscriptionFlow(it)
-                val hasFreeFlow = viewModel.hasFreeFlow(it)
-                with(binding) {
-                    btnSubscription.setIsVisible(hasSubscriptionFlow)
-                    btnFree.setIsVisible(hasFreeFlow)
-                    tvOr.setIsVisible(hasFreeFlow && hasSubscriptionFlow)
-                }
+            success = { (hasFree, hasSubscription) ->
+                binding.btnSubscription.setIsVisible(hasSubscription)
+                binding.btnFree.setIsVisible(hasFree)
             },
             error = { message ->
                 showError(message)
-                binding.lButtonsContainer.gone()
-            },
-            onRequestInvoked = { setFlowsLoading(false) }
+            }
         )
-    }
-
-    private fun setFlowsLoading(isLoading: Boolean) {
-        with(binding) {
-            lButtonsContainer.setIsVisible(!isLoading)
-            flowProgress.setIsVisible(isLoading)
+        viewModel.flowsLoadingData.observeData(this) { isLoading ->
+            binding.flowProgress.setIsVisible(isLoading)
+            if (isLoading) {
+                binding.btnSubscription.gone()
+                binding.btnFree.gone()
+            }
         }
     }
-
-    private fun getDomain() =
-        binding.serverDomainGroup
-            .findViewById<MaterialRadioButton>(binding.serverDomainGroup.checkedRadioButtonId).text.toString()
 
 }
