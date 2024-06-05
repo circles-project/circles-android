@@ -38,12 +38,23 @@
                 android:background="@color/divider_color" />
 
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/lUsServer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:paddingVertical="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:src="@drawable/ic_us" />
 
                 <TextView
                     android:id="@+id/tvUsServer"
@@ -52,13 +63,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:clickable="false"
-                    android:drawablePadding="8dp"
                     android:focusable="false"
                     android:text="@string/sign_up_for_us_server"
-                    android:textSize="20sp"
-                    app:drawableStartCompat="@drawable/ic_us" />
+                    android:textSize="20sp" />
 
-            </FrameLayout>
+            </LinearLayout>
 
             <View
                 android:id="@+id/vDivider"
@@ -67,27 +76,35 @@
                 android:layout_marginHorizontal="8dp"
                 android:background="@color/divider_color" />
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/lEuServer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:paddingVertical="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:src="@drawable/ic_eu" />
 
                 <TextView
                     android:id="@+id/tvEuServer"
                     style="@style/body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:clickable="false"
-                    android:drawablePadding="8dp"
                     android:focusable="false"
                     android:text="@string/sign_up_for_eu_server"
-                    android:textSize="20sp"
-                    app:drawableStartCompat="@drawable/ic_eu" />
+                    android:textSize="20sp" />
 
-            </FrameLayout>
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancel"
