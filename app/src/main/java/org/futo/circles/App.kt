@@ -55,8 +55,8 @@ class App : Application() {
             )
             .appName(getString(R.string.app_name))
             .serverDomains(
-                if (BuildConfig.DEBUG) getString(R.string.debug_domain) else getString(R.string.release_us_domain),
-                if (BuildConfig.DEBUG) getString(R.string.debug_domain) else getString(R.string.release_eu_domain)
+                if (BuildConfig.DEBUG) getString(R.string.debug_us_domain) else getString(R.string.release_us_domain),
+                if (BuildConfig.DEBUG) getString(R.string.debug_matrix_domain) else getString(R.string.release_eu_domain)
             )
             .privacyPolicyUrl(getString(R.string.privacy_policy_url))
             .changeLog(getString(R.string.changelog))
