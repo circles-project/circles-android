@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.model.ServerDomainArg
+import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
@@ -35,8 +36,8 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun getDomain() = when (domainArg) {
-        ServerDomainArg.US -> "us.circles-dev.net"
-        ServerDomainArg.EU -> "us.circles-dev.net"
+        ServerDomainArg.US -> CirclesAppConfig.usDomain
+        ServerDomainArg.EU -> CirclesAppConfig.euDomain
     }
 
     private fun loadSignupFlowsForDomain(domain: String) {
