@@ -1,5 +1,6 @@
 package org.futo.circles.auth.feature.sign_up
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,7 @@ class SignUpViewModel @Inject constructor(
 
     private val domainArg: ServerDomainArg = savedStateHandle.getOrThrow("domainArg")
     val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
-    val signupFlowsLiveData = SingleEventLiveData<Response<Pair<Boolean, Boolean>>>()
+    val signupFlowsLiveData = MutableLiveData<Response<Pair<Boolean, Boolean>>>()
     val flowsLoadingData = SingleEventLiveData<Boolean>()
 
     init {
