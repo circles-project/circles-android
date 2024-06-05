@@ -53,7 +53,6 @@
     <string name="choose_a_passphrase">Choose a passphrase</string>
     <string name="enter_your_passphrase">Enter your passphrase</string>
     <string name="repeat_passphrase">Repeat passphrase</string>
-    <string name="server">Server</string>
     <string name="sign_up_with_subscription">Sign up with subscription</string>
     <string name="sign_up_for_free">Sign up for free</string>
     <string name="or">Or</string>
@@ -122,7 +121,11 @@
     <string name="please_use_one_of_your_verified_emails_format">Please use one of your verified emails:\n%s</string>
     <string name="display_name">Display name</string>
     <string name="the_password_you_entered_is_incorrect">The password you entered is incorrect</string>
-    
+    <string name="choose_a_server">Choose a server</string>
+    <string name="sign_up_for_us_server">Sign up for US server</string>
+    <string name="sign_up_for_eu_server">Sign up for EU server</string>
+    <string name="sign_up_for_circles">Sign up for Circles</string>
+
     <plurals name="days">
         <item quantity="one">%1$d day</item>
         <item quantity="many">%1$d days</item>

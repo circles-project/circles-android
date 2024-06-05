@@ -39,7 +39,7 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
         ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
-            CirclesAppConfig.serverDomains
+            CirclesAppConfig.serverDomains()
         )
     }
 
@@ -70,11 +70,11 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
                 setAdapter(autocompleteAdapter)
                 onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
                     tilDomain.hint =
-                        if (!hasFocus && tvDomain.text.isEmpty()) CirclesAppConfig.serverDomains.first()
+                        if (!hasFocus && tvDomain.text.isEmpty()) CirclesAppConfig.serverDomains().first()
                         else getString(R.string.domain)
                 }
             }
-            tilDomain.hint = CirclesAppConfig.serverDomains.first()
+            tilDomain.hint = CirclesAppConfig.serverDomains().first()
             rvSwitchUsers.apply {
                 adapter = switchUsersAdapter
                 addItemDecoration(BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(16))
@@ -113,7 +113,7 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
     private fun setOnClickActions() {
         with(binding) {
             btnSignUp.setOnClickListener {
-                findNavController().navigateSafe(LogInFragmentDirections.toSignUpFragment())
+                findNavController().navigateSafe(LogInFragmentDirections.toSelectServerBottomSheet())
             }
             btnLogin.setOnClickListener { startLogin(false) }
             btnForgotPassword.setOnClickListener {
@@ -133,5 +133,5 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
     }
 
     private fun getDomain() = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
-        ?: CirclesAppConfig.serverDomains.first()
+        ?: CirclesAppConfig.serverDomains().first()
 }

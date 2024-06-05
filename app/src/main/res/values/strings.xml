@@ -121,16 +121,12 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 - Bug fixes and performance improvements
 </string>
 
+    <string name="debug_us_domain" translatable="false">us.circles-dev.net</string>
+    <string name="debug_matrix_domain" translatable="false">matrix.org</string>
 
-    <string-array name="debug_domains">
-        <item>us.circles-dev.net</item>
-        <item>matrix.org</item>
-    </string-array>
+    <string name="release_us_domain" translatable="false">circles.futo.org</string>
+    <string name="release_eu_domain" translatable="false">eu.circles.futo.org</string>
 
-    <string-array name="release_domains">
-        <item>circles.futo.org</item>
-        <item>eu.circles.futo.org</item>
-    </string-array>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>
