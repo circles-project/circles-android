@@ -32,12 +32,12 @@ class SelectServerBottomSheet : TransparentBackgroundBottomSheetDialogFragment()
     private fun setupViews() {
         binding?.lUsServer?.setOnClickListener {
             findNavController().navigateSafe(
-                SelectServerBottomSheetDirections.toSignUpFragment(ServerDomainArg.EU)
+                SelectServerBottomSheetDirections.toSignUpFragment(ServerDomainArg.US)
             )
         }
         binding?.lEuServer?.setOnClickListener {
             findNavController().navigateSafe(
-                SelectServerBottomSheetDirections.toSignUpFragment(ServerDomainArg.US)
+                SelectServerBottomSheetDirections.toSignUpFragment(ServerDomainArg.EU)
             )
         }
         binding?.btnCancel?.setOnClickListener { dismiss() }
