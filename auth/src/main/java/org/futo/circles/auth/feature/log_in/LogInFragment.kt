@@ -113,7 +113,7 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
     private fun setOnClickActions() {
         with(binding) {
             btnSignUp.setOnClickListener {
-                findNavController().navigateSafe(LogInFragmentDirections.toSignUpFragment())
+                findNavController().navigateSafe(LogInFragmentDirections.toSelectServerBottomSheet())
             }
             btnLogin.setOnClickListener { startLogin(false) }
             btnForgotPassword.setOnClickListener {
