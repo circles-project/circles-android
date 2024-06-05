@@ -81,7 +81,7 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:${rootProject.ext["hilt_version"]}")
 
     // Matrix release
-     api("org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.40@aar") {
+     api("org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.41@aar") {
          isTransitive = true
      }
 
