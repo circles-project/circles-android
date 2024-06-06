@@ -6,6 +6,7 @@ import org.futo.circles.auth.databinding.ListItemSetupCirclesBinding
 import org.futo.circles.auth.model.SetupCirclesListItem
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.extensions.onClick
+import org.futo.circles.core.provider.MatrixSessionProvider
 
 class SetupCirclesViewHolder(
     parent: ViewGroup,
@@ -26,7 +27,7 @@ class SetupCirclesViewHolder(
         with(binding) {
             ivCircle.setImageURI(data.uri)
             tvCircleTitle.text = data.name
-            tvUserId.text = data.userId
+            tvUserId.text = MatrixSessionProvider.currentSession?.myUserId ?: ""
         }
     }
 }

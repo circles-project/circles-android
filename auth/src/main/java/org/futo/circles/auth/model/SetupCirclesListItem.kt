@@ -5,8 +5,7 @@ import org.futo.circles.core.base.list.IdEntity
 
 data class SetupCirclesListItem(
     val name: String,
-    val userId: String,
-    val uri: Uri?
+    val uri: Uri? = null
 ) : IdEntity<String> {
     override val id: String
         get() = name
