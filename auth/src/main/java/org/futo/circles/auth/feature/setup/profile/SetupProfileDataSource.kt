@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.profile.setup
+package org.futo.circles.auth.feature.setup.profile
 
 import android.content.Context
 import android.net.Uri
