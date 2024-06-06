@@ -6,8 +6,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.databinding.FragmentSetupCirclesBinding
+import org.futo.circles.auth.feature.setup.circles.dialog.AddSetupCirclesItemDialog
 import org.futo.circles.auth.feature.setup.circles.list.SetupCirclesAdapter
 import org.futo.circles.core.base.fragment.BaseBindingFragment
+import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 
 @AndroidEntryPoint
@@ -41,13 +43,19 @@ class SetupCirclesFragment :
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
                 adapter = listAdapter
             }
-            btnAdd.setOnClickListener {  }
+            btnAdd.setOnClickListener {
+                AddSetupCirclesItemDialog(requireContext()) { name ->
+                    viewModel.addCircleItem(name)
+                }.show()
+            }
             btnNext.setOnClickListener { viewModel.finishCirclesSetup() }
         }
     }
 
     private fun setupObservers() {
-
+        viewModel.circlesLiveData.observeData(this) {
+            listAdapter.submitList(it)
+        }
     }
 
 }
