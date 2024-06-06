@@ -16,7 +16,7 @@ class SetupCirclesViewModel @Inject constructor(
 
     fun setImageUriForCircle(id: String, uri: Uri) {
         val list = circlesLiveData.value?.toMutableList() ?: mutableListOf()
-        list.map { item -> if (item.id == id) item.copy(uri = uri) else item }
+        list.map { item -> item.copy(uri = if (item.id == id) uri else item.uri) }
         circlesLiveData.value = list
     }
 
@@ -28,8 +28,10 @@ class SetupCirclesViewModel @Inject constructor(
 
     fun addCircleItem(name: String) {
         val list = circlesLiveData.value?.toMutableList() ?: mutableListOf()
-        list.add(SetupCirclesListItem(name))
-        circlesLiveData.value = list
+        if (list.firstOrNull { it.name == name } == null) {
+            list.add(SetupCirclesListItem(name))
+            circlesLiveData.value = list
+        }
     }
 
     fun finishCirclesSetup() {
