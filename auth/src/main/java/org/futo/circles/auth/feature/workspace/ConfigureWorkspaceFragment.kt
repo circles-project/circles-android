@@ -64,8 +64,8 @@ class ConfigureWorkspaceFragment :
         viewModel.workspaceResultLiveData.observeResponse(this,
             success = {
                 configureWorkspaceListener?.onWorkspaceConfigured() ?: kotlin.run {
-                    findNavController()
-                        .navigateSafe(ConfigureWorkspaceFragmentDirections.toSetupProfileFragment())
+//                    findNavController()
+//                        .navigateSafe(ConfigureWorkspaceFragmentDirections.toSetupProfileFragment())
                 }
             },
             error = {
