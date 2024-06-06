@@ -125,6 +125,9 @@
     <string name="sign_up_for_us_server">Sign up for US server</string>
     <string name="sign_up_for_eu_server">Sign up for EU server</string>
     <string name="sign_up_for_circles">Sign up for Circles</string>
+    <string name="setup_your_circles">Setup your circles</string>
+    <string name="next">Next</string>
+    <string name="add_a_new_circle">Add a new circle</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>
