@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
-    android:padding="4dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="4dp">
 
 
     <com.google.android.material.imageview.ShapeableImageView
