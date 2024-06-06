@@ -9,15 +9,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SetupCirclesViewModel @Inject constructor(
-    private val setupCirclesDataSource: SetupCirclesDataSource
+    setupCirclesDataSource: SetupCirclesDataSource
 ) : ViewModel() {
 
     val circlesLiveData = MutableLiveData(setupCirclesDataSource.getInitialCirclesList())
 
     fun setImageUriForCircle(id: String, uri: Uri) {
         val list = circlesLiveData.value?.toMutableList() ?: mutableListOf()
-        list.map { item -> item.copy(uri = if (item.id == id) uri else item.uri) }
-        circlesLiveData.value = list
+        val newList = list.map { item -> if (item.id == id) item.copy(uri = uri) else item }
+        circlesLiveData.value = newList
     }
 
     fun removeCircle(id: String) {
