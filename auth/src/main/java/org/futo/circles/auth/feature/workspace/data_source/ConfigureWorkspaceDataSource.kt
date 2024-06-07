@@ -1,5 +1,7 @@
 package org.futo.circles.auth.feature.workspace.data_source
 
+import android.net.Uri
+import org.futo.circles.auth.model.WorkspaceTask
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
@@ -19,11 +21,11 @@ class ConfigureWorkspaceDataSource @Inject constructor(
     private val roomRelationsBuilder: RoomRelationsBuilder
 ) {
 
-    suspend fun performCreateOrFix(room: CirclesRoom) {
-        var roomId = addIdToAccountDataIfRoomExistWithTag(room)
-        if (roomId == null) roomId = getJoinedRoomIdFromAccountData(room)
-        if (roomId == null) createRoomWithAccountDataRecordIfNeed(room)
-        else validateAndFixRelationInNeeded(roomId, room)
+    suspend fun performCreateOrFix(task: WorkspaceTask) {
+        var roomId = addIdToAccountDataIfRoomExistWithTag(task.room)
+        if (roomId == null) roomId = getJoinedRoomIdFromAccountData(task.room)
+        if (roomId == null) createRoomWithAccountDataRecordIfNeed(task.room, task.name, task.uri)
+        else validateAndFixRelationInNeeded(roomId, task.room)
     }
 
     private suspend fun validateAndFixRelationInNeeded(roomId: String, room: CirclesRoom) {
@@ -97,8 +99,12 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         return roomId
     }
 
-    private suspend fun createRoomWithAccountDataRecordIfNeed(room: CirclesRoom): String {
-        val roomId = createRoomDataSource.createRoom(room)
+    private suspend fun createRoomWithAccountDataRecordIfNeed(
+        room: CirclesRoom,
+        name: String? = null,
+        uri: Uri? = null
+    ): String {
+        val roomId = createRoomDataSource.createRoom(room, name = name, iconUri = uri)
         room.accountDataKey?.let { key ->
             spacesTreeAccountDataSource.updateSpacesConfigAccountData(key, roomId)
         }
