@@ -93,12 +93,8 @@
     <string name="family">Family</string>
     <string name="community">Community</string>
     <string name="retry">Retry</string>
-    <string name="workspace_configured">Workspace configured</string>
     <string name="validating_workspace">Validating workspace</string>
     <string name="configuring_workspace">Configuring workspace</string>
-    <string name="configure_workspace">Configure workspace</string>
-    <string name="setup_workspace_message">In order to use app we needs to configure your workspace. \nWe will create root spaces listed below and setup all the necessary relations between them.</string>
-    <string name="configure">Configure</string>
     <string name="receive_email_updates">Receive email updates</string>
     <string name="i_understand">I understand</string>
     <string name="circles_is_different">Circles is different!</string>
