@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.workspace.data_source
+package org.futo.circles.auth.feature.workspace
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

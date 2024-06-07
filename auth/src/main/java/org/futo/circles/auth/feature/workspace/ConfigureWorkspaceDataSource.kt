@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.workspace.data_source
+package org.futo.circles.auth.feature.workspace
 
 import android.net.Uri
 import org.futo.circles.auth.model.WorkspaceTask
