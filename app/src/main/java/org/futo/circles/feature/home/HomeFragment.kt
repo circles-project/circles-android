@@ -14,7 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
 import org.futo.circles.core.base.DeepLinkIntentHandler
 import org.futo.circles.core.base.NetworkObserver
 import org.futo.circles.core.base.fragment.BaseBindingFragment
@@ -121,9 +120,7 @@ class HomeFragment :
     }
 
     private fun setupObservers() {
-        viewModel.validateWorkspaceResultLiveData.observeResponse(this,
-            error = { WorkspaceDialogFragment().show(childFragmentManager, "workspace") },
-            onRequestInvoked = { validateLoadingDialog.dismiss() })
+        viewModel.validateWorkspaceResultLiveData.observeResponse(this)
         viewModel.validateWorkspaceLoadingLiveData.observeData(this) {
             validateLoadingDialog.handleLoading(it)
         }

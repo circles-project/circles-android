@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.R
-import org.futo.circles.auth.feature.workspace.data_source.ConfigureWorkspaceDataSource
-import org.futo.circles.auth.feature.workspace.data_source.WorkspaceTasksProvider
+import org.futo.circles.auth.feature.workspace.ConfigureWorkspaceDataSource
+import org.futo.circles.auth.feature.workspace.WorkspaceTasksProvider
 import org.futo.circles.auth.model.SetupCirclesListItem
 import org.futo.circles.auth.model.WorkspaceTask
 import org.futo.circles.core.base.SingleEventLiveData
@@ -64,9 +64,9 @@ class SetupCirclesViewModel @Inject constructor(
                 workspaceResultLiveData.postValue(result)
                 return@launchBg
             }
-            workspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
-            workspaceResultLiveData.postValue(Response.Success(Unit))
         }
+        workspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
+        workspaceResultLiveData.postValue(Response.Success(Unit))
     }
 
     private fun getAllWorkspaceTask(): List<WorkspaceTask> {
