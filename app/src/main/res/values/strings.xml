@@ -15,7 +15,6 @@
     <string name="no_results">No results</string>
     <string name="invites">Invites</string>
     <string name="create_new_circle">Create new circle</string>
-    <string name="private_circles">Private Circles</string>
     <string name="log_out">Log out</string>
     <string name="followed_by_format">Followed by %d</string>
     <string name="requests_format">Requests %d</string>
@@ -88,12 +87,10 @@
     <string name="search_people">Search people</string>
     <string name="thread_format">%s (thread)</string>
     <string name="unexpected_error">Something went wrong</string>
-    <string name="shared_circles">Shared Circles</string>
     <string name="save">Save</string>
     <string name="groups_empty_message">Create your first Group</string>
     <string name="circles_empty_message">Create your first Circle</string>
     <string name="people_category_empty_message">%s will be shown here</string>
-    <string name="creating_timeline">Creating timeline</string>
     <string name="help">Help</string>
     <string name="group_invites_notification_format">Show %d Group invitations</string>
     <string name="circle_invites_notification_format">Show %d Circle invitations</string>

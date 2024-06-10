@@ -30,7 +30,6 @@ class UpdateRoomViewModel @Inject constructor(
     fun update(
         name: String,
         topic: String,
-        isPublic: Boolean,
         userAccessLevel: AccessLevel,
         roomTypeArg: CircleRoomTypeArg
     ) {
@@ -39,7 +38,6 @@ class UpdateRoomViewModel @Inject constructor(
                 name,
                 topic,
                 selectedImageLiveData.value,
-                isPublic,
                 userAccessLevel.takeIf { isDefaultUserRoleChanged(userAccessLevel) },
                 roomTypeArg
             )
@@ -50,19 +48,15 @@ class UpdateRoomViewModel @Inject constructor(
     fun handleRoomDataUpdate(
         name: String,
         topic: String,
-        isPublic: Boolean,
         userAccessLevel: AccessLevel
     ) {
         val isDataUpdated = dataSource.isNameChanged(name) ||
                 dataSource.isTopicChanged(topic) ||
-                dataSource.isPrivateSharedChanged(isPublic) ||
                 isDefaultUserRoleChanged(userAccessLevel) ||
                 selectedImageLiveData.value != null
 
         isRoomDataChangedLiveData.postValue(isDataUpdated)
     }
-
-    fun isCircleShared(circleId: String) = dataSource.isCircleShared(circleId)
 
     private fun isDefaultUserRoleChanged(userAccessLevel: AccessLevel): Boolean {
         val initialRole = roomPowerLevelLiveData.value?.usersDefault ?: AccessLevel.User.levelValue

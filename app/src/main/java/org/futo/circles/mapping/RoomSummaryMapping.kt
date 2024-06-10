@@ -30,11 +30,11 @@ fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     knockRequestsCount = getKnocksCount(roomId)
 )
 
-fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) =
+fun RoomSummary.toJoinedCircleListItem(circleTimelineId: String) =
     JoinedCircleListItem(
         id = roomId,
+        timelineId = circleTimelineId,
         info = RoomInfo(nameOrId(), getCircleAvatarUrl()),
-        isShared = isShared,
         followingCount = getFollowingCount(),
         followedByCount = getFollowersCount(),
         unreadCount = getCircleUnreadMessagesCount(),
