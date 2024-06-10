@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.mapNotNull
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getFilename
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -31,8 +30,7 @@ import javax.inject.Inject
 @ViewModelScoped
 class UpdateRoomDataSource @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    @ApplicationContext private val context: Context,
-    private val sharedCircleDataSource: SharedCircleDataSource
+    @ApplicationContext private val context: Context
 ) {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
@@ -50,13 +48,11 @@ class UpdateRoomDataSource @Inject constructor(
         name: String,
         topic: String,
         uri: Uri?,
-        isPublic: Boolean,
         userAccessLevel: AccessLevel?,
         roomTypeArg: CircleRoomTypeArg
     ) = createResult {
         if (isNameChanged(name)) room?.stateService()?.updateName(name)
         if (isTopicChanged(topic)) room?.stateService()?.updateTopic(topic)
-        if (isPrivateSharedChanged(isPublic)) handelPrivateSharedVisibilityUpdate(isPublic)
         uri?.let { updateProfileImage(it, roomTypeArg) }
         userAccessLevel?.let { updateUserDefaultPowerLevel(it) }
     }
@@ -72,11 +68,6 @@ class UpdateRoomDataSource @Inject constructor(
         )
     }
 
-    private suspend fun handelPrivateSharedVisibilityUpdate(isPublic: Boolean) {
-        val timelineId = room?.roomId?.let { getTimelineRoomFor(it)?.roomId } ?: return
-        if (isPublic) sharedCircleDataSource.addToSharedCircles(timelineId)
-        else sharedCircleDataSource.removeFromSharedCircles(timelineId)
-    }
 
     private suspend fun updateUserDefaultPowerLevel(accessLevel: AccessLevel) {
         val currentPowerLevel =
@@ -99,14 +90,5 @@ class UpdateRoomDataSource @Inject constructor(
     fun isNameChanged(newName: String) = room?.roomSummary()?.displayName != newName
 
     fun isTopicChanged(newTopic: String) = room?.roomSummary()?.topic != newTopic
-
-    fun isPrivateSharedChanged(isPublic: Boolean) = room?.roomId?.let {
-        isCircleShared(it) != isPublic
-    } ?: false
-
-    fun isCircleShared(circleId: String) = sharedCircleDataSource.isCircleShared(
-        circleId,
-        sharedCircleDataSource.getSharedCirclesTimelinesIds()
-    )
 
 }

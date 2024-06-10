@@ -38,7 +38,7 @@ class UpdateRoomDialogFragment :
     override val fragment: Fragment = this
     private val args: UpdateRoomDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<UpdateRoomViewModel>()
-    private val roomId: String get() = args.roomId
+
     private val roomType: CircleRoomTypeArg get() = args.type
     private val mediaPickerHelper = MediaPickerHelper(this)
 
@@ -67,17 +67,10 @@ class UpdateRoomDialogFragment :
             val isGroup = roomType == CircleRoomTypeArg.Group
             tvTopicHeader.setIsVisible(isGroup)
             tilTopic.setIsVisible(isGroup)
-            val isCircle = roomType == CircleRoomTypeArg.Circle
-            tvTypeHeader.setIsVisible(isCircle)
-            circleTypeGroup.setIsVisible(isCircle)
-            lCircleTypeExplanation.setIsVisible(isCircle)
             ivCover.setOnClickListener { changeCoverImage() }
             btnChangeIcon.setOnClickListener { changeCoverImage() }
             tilName.editText?.doAfterTextChanged {
                 it?.let { onInputDataChanged() }
-            }
-            binding.circleTypeGroup.setOnCheckedChangeListener { _, _ ->
-                onInputDataChanged()
             }
             tilTopic.editText?.doAfterTextChanged {
                 it?.let { onInputDataChanged() }
@@ -86,12 +79,12 @@ class UpdateRoomDialogFragment :
                 viewModel.update(
                     tilName.getText(),
                     tilTopic.getText(),
-                    binding.btnPublic.isChecked,
                     getSelectedAccessLevel(),
                     roomType
                 )
                 startLoading(btnSave)
             }
+            val isCircle = roomType == CircleRoomTypeArg.Circle
             tvRoleHeader.setIsVisible(!isCircle)
             spUserRole.apply {
                 setIsVisible(!isCircle)
@@ -143,9 +136,6 @@ class UpdateRoomDialogFragment :
             )
             tilName.editText?.setText(room.displayName)
             tilTopic.editText?.setText(room.topic)
-            val isCircleShared = viewModel.isCircleShared(roomId)
-            btnPrivate.isChecked = !isCircleShared
-            btnPublic.isChecked = isCircleShared
         }
     }
 
@@ -167,7 +157,6 @@ class UpdateRoomDialogFragment :
         viewModel.handleRoomDataUpdate(
             binding.tilName.getText(),
             binding.tilTopic.getText(),
-            binding.btnPublic.isChecked,
             getSelectedAccessLevel()
         )
     }
