@@ -67,10 +67,6 @@ class CreateRoomDialogFragment :
             val isGroup = args.type == CircleRoomTypeArg.Group
             tvTopicHeader.setIsVisible(isGroup)
             tilTopic.setIsVisible(isGroup)
-            val isCircle = args.type == CircleRoomTypeArg.Circle
-            tvTypeHeader.setIsVisible(isCircle)
-            circleTypeGroup.setIsVisible(isCircle)
-            lCircleTypeExplanation.setIsVisible(isCircle)
             ivCover.setOnClickListener { changeCoverImage() }
             tilName.editText?.doAfterTextChanged {
                 it?.let { btnCreate.isEnabled = it.isNotEmpty() }
@@ -79,6 +75,7 @@ class CreateRoomDialogFragment :
                 createRoom()
                 startLoading(btnCreate)
             }
+            val isCircle = args.type == CircleRoomTypeArg.Circle
             tvRoleHeader.setIsVisible(!isCircle)
             spUserRole.apply {
                 setIsVisible(!isCircle)
@@ -117,7 +114,6 @@ class CreateRoomDialogFragment :
             binding.tilTopic.getText(),
             selectedUsersFragment?.getSelectedUsersIds(),
             args.type,
-            binding.btnPublic.isChecked,
             AccessLevel.entries.getOrNull(binding.spUserRole.selectedItemPosition)
                 ?: AccessLevel.User
         )
