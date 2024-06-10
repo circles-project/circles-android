@@ -88,7 +88,6 @@
     <string name="search_people">Search people</string>
     <string name="thread_format">%s (thread)</string>
     <string name="unexpected_error">Something went wrong</string>
-    <string name="shared_circles">Shared Circles</string>
     <string name="save">Save</string>
     <string name="groups_empty_message">Create your first Group</string>
     <string name="circles_empty_message">Create your first Circle</string>
