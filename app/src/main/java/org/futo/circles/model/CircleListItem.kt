@@ -12,6 +12,7 @@ data class CirclesHeaderItem(
 
 data class JoinedCircleListItem(
     override val id: String,
+    val timelineId: String,
     val info: RoomInfo,
     val followingCount: Int,
     val followedByCount: Int,
