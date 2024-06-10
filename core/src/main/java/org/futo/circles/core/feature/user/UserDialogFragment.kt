@@ -25,7 +25,6 @@ import org.futo.circles.core.feature.user.list.UsersCirclesAdapter
 import org.futo.circles.core.model.IgnoreUser
 import org.futo.circles.core.model.UnIgnoreUser
 import org.futo.circles.core.model.UnfollowTimeline
-import org.futo.circles.core.model.UnfollowUser
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.matrix.android.sdk.api.session.user.model.User
@@ -74,16 +73,10 @@ class UserDialogFragment :
     private fun setupMenu() {
         with(binding.toolbar) {
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-            menu.findItem(R.id.unFollow).isVisible = viewModel.amIFollowingUser()
             menu.findItem(R.id.ignore).isVisible = !isUserIgnored
             menu.findItem(R.id.unIgnore).isVisible = isUserIgnored
             setOnMenuItemClickListener { item ->
                 return@setOnMenuItemClickListener when (item.itemId) {
-                    R.id.unFollow -> {
-                        withConfirmation(UnfollowUser()) { viewModel.unFollowUser() }
-                        true
-                    }
-
                     R.id.ignore -> {
                         withConfirmation(IgnoreUser()) { viewModel.ignoreUser() }
                         true
@@ -122,8 +115,6 @@ class UserDialogFragment :
             isUserIgnored = it
             setupMenu()
         }
-        viewModel.unFollowUserLiveData.observeResponse(this,
-            success = { onBackPressed() })
     }
 
     private fun setupUserInfo(user: User) {

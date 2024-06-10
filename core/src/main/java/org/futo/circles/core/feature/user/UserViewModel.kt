@@ -37,7 +37,6 @@ class UserViewModel @Inject constructor(
     val requestFollowLiveData = SingleEventLiveData<Response<Unit?>>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
-    val unFollowUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val isUserIgnoredLiveData = userOptionsDataSource.ignoredUsersLiveData?.map {
         it.firstOrNull { it.userId == userId } != null
     }
@@ -111,15 +110,6 @@ class UserViewModel @Inject constructor(
             unIgnoreUserLiveData.postValue(result)
         }
     }
-
-    fun unFollowUser() {
-        launchBg {
-            unFollowUserLiveData.postValue(userOptionsDataSource.unFollowUser(userId))
-        }
-    }
-
-    fun amIFollowingUser(): Boolean = userOptionsDataSource.amIFollowingUser(userId)
-
 
     private fun toggleItemLoading(id: String) {
         val currentSet = loadingItemsIdsList.value?.toMutableSet() ?: return
