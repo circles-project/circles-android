@@ -63,8 +63,7 @@ class PeopleFragment : BaseBindingFragment<FragmentPeopleBinding>(FragmentPeople
                 })
                 adapter = peopleAdapter
             }
-            ivEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
-            ivShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
+            btnEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
         }
     }
 

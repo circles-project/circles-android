@@ -26,21 +26,4 @@ class PeopleNavigator(private val fragment: PeopleFragment) {
             .navigateSafe(PeopleFragmentDirections.toEditProfileDialogFragment())
     }
 
-    fun navigateToShareProfile(sharedSpaceId: String?) {
-        sharedSpaceId ?: kotlin.run {
-            fragment.showError(
-                fragment.requireContext()
-                    .getString(org.futo.circles.settings.R.string.shared_circles_space_not_found)
-            )
-            return
-        }
-        fragment.findNavController().navigateSafe(
-            PeopleFragmentDirections.toShareProfileDialogFragment(
-                sharedSpaceId,
-                ShareUrlTypeArg.PROFILE
-            )
-        )
-    }
-
-
 }
