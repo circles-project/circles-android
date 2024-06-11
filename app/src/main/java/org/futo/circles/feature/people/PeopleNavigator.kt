@@ -8,10 +8,6 @@ import org.futo.circles.model.PeopleCategoryTypeArg
 
 class PeopleNavigator(private val fragment: PeopleFragment) {
 
-    fun navigateToInvites() {
-        fragment.findNavController().navigateSafe(PeopleFragmentDirections.toInvites())
-    }
-
     fun navigateToUserPage(userId: String) {
         fragment.findNavController().navigateSafe(PeopleFragmentDirections.toUserFragment(userId))
     }
