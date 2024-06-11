@@ -6,26 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
-import org.futo.circles.core.databinding.ListItemConnectionInviteBinding
-import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.databinding.ListItemInvitedCircleBinding
 import org.futo.circles.core.databinding.ListItemInvitedGalleryBinding
 import org.futo.circles.core.databinding.ListItemInvitedGroupBinding
-import org.futo.circles.core.databinding.ListItemPeopleRequestBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
-import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsEncryptedIcon
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.model.CirclesUserSummary
-import org.futo.circles.core.model.ConnectionInviteListItem
-import org.futo.circles.core.model.FollowRequestListItem
-import org.futo.circles.core.model.InviteHeader
-import org.futo.circles.core.model.InviteListItem
 import org.futo.circles.core.model.RoomInviteListItem
 
 abstract class InviteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    abstract fun bind(data: InviteListItem)
+    abstract fun bind(data: RoomInviteListItem)
 }
 
 
@@ -45,9 +36,7 @@ class InvitedGroupViewHolder(
         onClick(binding.ivGroup) { position -> onShowProfileIconClicked(position) }
     }
 
-    override fun bind(data: InviteListItem) {
-        if (data !is RoomInviteListItem) return
-
+    override fun bind(data: RoomInviteListItem) {
         with(binding) {
             setLoading(data.isLoading)
             ivGroup.loadRoomProfileIcon(
@@ -90,9 +79,7 @@ class InvitedCircleViewHolder(
         onClick(binding.ivCircle) { position -> onShowProfileIconClicked(position) }
     }
 
-    override fun bind(data: InviteListItem) {
-        if (data !is RoomInviteListItem) return
-
+    override fun bind(data: RoomInviteListItem) {
         with(binding) {
             setLoading(data.isLoading)
             tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
@@ -135,9 +122,7 @@ class InvitedGalleryViewHolder(
         onClick(binding.ivGallery) { position -> onShowProfileIconClicked(position) }
     }
 
-    override fun bind(data: InviteListItem) {
-        if (data !is RoomInviteListItem) return
-
+    override fun bind(data: RoomInviteListItem) {
         with(binding) {
             setLoading(data.isLoading)
             tvGalleryTitle.text = data.info.title
@@ -157,97 +142,5 @@ class InvitedGalleryViewHolder(
             btnAccept.setIsVisible(!isLoading)
             btnDecline.setIsVisible(!isLoading)
         }
-    }
-}
-
-class FollowRequestViewHolder(
-    parent: ViewGroup,
-    private val onRequestClicked: (Int, Boolean) -> Unit
-) : InviteViewHolder(inflate(parent, ListItemPeopleRequestBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemPeopleRequestBinding
-
-    init {
-        onClick(binding.btnAccept) { position -> onRequestClicked(position, true) }
-        onClick(binding.btnDecline) { position -> onRequestClicked(position, false) }
-    }
-
-    override fun bind(data: InviteListItem) {
-        if (data !is FollowRequestListItem) return
-
-        setLoading(data.isLoading)
-        bindUser(data.user)
-        binding.tvReasonMessage.apply {
-            setIsVisible(data.reasonMessage != null)
-            text = data.reasonMessage
-        }
-    }
-
-    private fun bindUser(user: CirclesUserSummary) {
-        with(binding) {
-            tvUserName.text = user.name
-            ivUserImage.loadUserProfileIcon(user.avatarUrl, user.id)
-        }
-    }
-
-    private fun setLoading(isLoading: Boolean) {
-        with(binding) {
-            vLoading.setIsVisible(isLoading)
-            btnAccept.setIsVisible(!isLoading)
-            btnDecline.setIsVisible(!isLoading)
-        }
-    }
-}
-
-class ConnectionInviteViewHolder(
-    parent: ViewGroup,
-    private val onRequestClicked: (Int, Boolean) -> Unit
-) : InviteViewHolder(inflate(parent, ListItemConnectionInviteBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemConnectionInviteBinding
-
-    init {
-        onClick(binding.btnAccept) { position -> onRequestClicked(position, true) }
-        onClick(binding.btnDecline) { position -> onRequestClicked(position, false) }
-    }
-
-    override fun bind(data: InviteListItem) {
-        if (data !is ConnectionInviteListItem) return
-
-        setLoading(data.isLoading)
-        bindUser(data.user)
-    }
-
-    private fun bindUser(user: CirclesUserSummary) {
-        with(binding) {
-            tvUserName.text = user.name
-            ivUserImage.loadUserProfileIcon(user.avatarUrl, user.id)
-        }
-    }
-
-    private fun setLoading(isLoading: Boolean) {
-        with(binding) {
-            vLoading.setIsVisible(isLoading)
-            btnAccept.setIsVisible(!isLoading)
-            btnDecline.setIsVisible(!isLoading)
-        }
-    }
-}
-
-class InviteHeaderViewHolder(
-    parent: ViewGroup,
-) : InviteViewHolder(inflate(parent, ListItemInviteHeaderBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemInviteHeaderBinding
-
-    override fun bind(data: InviteListItem) {
-        if (data !is InviteHeader) return
-        binding.tvHeader.text = context.getString(data.titleRes)
     }
 }

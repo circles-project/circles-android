@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.extensions.getRoomOwner
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -20,8 +19,7 @@ import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
 
 class PeopleCategoryDataSource @Inject constructor(
-    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource,
-    private val sharedCircleDataSource: SharedCircleDataSource
+    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource
 ) {
 
     private val session = MatrixSessionProvider.getSessionOrThrow()
@@ -45,9 +43,6 @@ class PeopleCategoryDataSource @Inject constructor(
             userByCategory.map { it.toPeopleUserListItem(ignoreUserIds.contains(it.userId)) }
         }
     }
-
-
-    fun getProfileRoomId() = sharedCircleDataSource.getSharedCirclesSpaceId() ?: ""
 
     fun getIgnoredUserFlow() = session.userService().getIgnoredUsersLive().asFlow()
 
