@@ -111,10 +111,12 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
 <br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
     <string name="changelog">
-- Fixed create group/circle/gallery navigation
-- Share poll as image
-- Improved offline app browsing experience
-- Shared Galleries section
+- Support of dehydrated devices
+- Profile updates via presence system
+- Post composer awaits for post to be sent
+- Removed Connections
+- Removed Gallery (still available in advanced settings)
+- Replaced Configure Workspace with new setup flow
 - Bug fixes and performance improvements
 </string>
 
