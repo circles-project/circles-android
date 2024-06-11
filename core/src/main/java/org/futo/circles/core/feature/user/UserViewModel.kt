@@ -27,18 +27,14 @@ class UserViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val userDataSource: UserDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
-    private val roomRelationsBuilder: RoomRelationsBuilder,
-    private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource,
-    sharedCircleDataSource: SharedCircleDataSource
+    private val roomRelationsBuilder: RoomRelationsBuilder
 ) : ViewModel() {
 
     private val userId: String = savedStateHandle.getOrThrow("userId")
-    private val profileRoomId = sharedCircleDataSource.getSharedCirclesSpaceId() ?: ""
 
     val userLiveData = userDataSource.userLiveData
 
     val requestFollowLiveData = SingleEventLiveData<Response<Unit?>>()
-    val inviteToConnectLiveData = SingleEventLiveData<Response<Unit?>>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unFollowUserLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -124,19 +120,6 @@ class UserViewModel @Inject constructor(
 
     fun amIFollowingUser(): Boolean = userOptionsDataSource.amIFollowingUser(userId)
 
-    fun isUserMyFollower(): Boolean {
-        val mySharedCircleMembers =
-            MatrixSessionProvider.currentSession?.getRoom(profileRoomId)
-                ?.roomSummary()?.otherMemberIds ?: emptyList()
-        return mySharedCircleMembers.contains(userId)
-    }
-
-    fun inviteToMySharedCircle() {
-        launchBg {
-            val result = manageInviteRequestsDataSource.inviteUser(profileRoomId, userId)
-            inviteToConnectLiveData.postValue(result)
-        }
-    }
 
     private fun toggleItemLoading(id: String) {
         val currentSet = loadingItemsIdsList.value?.toMutableSet() ?: return

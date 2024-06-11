@@ -100,13 +100,13 @@ abstract class PostViewHolder(
         bindMentionBorder(post.content)
         postStatus?.apply {
             setIsEdited(post.postInfo.isEdited)
-            setSendStatus(post.sendState, post.readByCount)
+            setReadByCount(post.readByCount)
         }
         bindHolderSpecific(post)
     }
 
     fun bindPayload(payload: PostItemPayload) {
-        postStatus?.setSendStatus(payload.sendState, payload.readByCount)
+        postStatus?.setReadByCount(payload.readByCount)
         postFooter?.bindPayload(payload.repliesCount, payload.reactions)
     }
 

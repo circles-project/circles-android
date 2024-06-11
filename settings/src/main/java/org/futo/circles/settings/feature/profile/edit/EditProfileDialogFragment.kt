@@ -21,15 +21,12 @@ import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
 class EditProfileDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentEditProfileBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment<DialogFragmentEditProfileBinding>(DialogFragmentEditProfileBinding::inflate),
+    HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<EditProfileViewModel>()
     private val mediaPickerHelper = MediaPickerHelper(this)
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentEditProfileBinding
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,7 +45,7 @@ class EditProfileDialogFragment :
                 viewModel.update(tilName.getText())
                 startLoading(btnSave)
             }
-            setAlwaysDisabledViews(listOf(tilUserId, tilContactInfo))
+            setAlwaysDisabledViews(listOf(tilUserId))
         }
     }
 
@@ -65,9 +62,6 @@ class EditProfileDialogFragment :
         )
         viewModel.profileLiveData.observeData(this) {
             it?.let { user -> setInitialUserInfo(user) }
-        }
-        viewModel.threePidLiveData.observeData(this) {
-            binding.tilContactInfo.editText?.setText(it.firstOrNull()?.value ?: "")
         }
         viewModel.isProfileDataChangedLiveData.observeData(this) {
             binding.btnSave.isEnabled = it

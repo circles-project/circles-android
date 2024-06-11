@@ -53,24 +53,10 @@
                 <data android:pathPrefix="/room" />
                 <data android:pathPrefix="/profile" />
                 <data android:pathPrefix="/group" />
-                <data android:pathPrefix="/gallery" />
                 <data android:pathPrefix="/timeline" />
 
             </intent-filter>
 
-        </activity>
-        <activity
-            android:name=".gallery.feature.share.UploadToGalleryActivity"
-            android:exported="true"
-            android:launchMode="singleTask">
-            <intent-filter android:label="@string/gallery">
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="image/*" />
-                <data android:mimeType="video/*" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".feature.share.circle.ShareWithCircleActivity"
@@ -118,11 +104,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-        <service
-            android:name=".gallery.feature.backup.service.MediaBackupService"
-            android:enabled="true"
-            android:exported="false" />
 
         <service
             android:name=".core.feature.notifications.CirclesSyncAndroidService"

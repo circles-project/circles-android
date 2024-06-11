@@ -11,7 +11,6 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.transition.TransitionInflater
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.observeData
@@ -21,16 +20,15 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.GalleryContentListItem
+import org.futo.circles.core.model.RemoveImage
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.FragmentFullScreenPagerBinding
 import org.futo.circles.gallery.feature.gallery.grid.GalleryViewModel
-import org.futo.circles.gallery.model.RemoveImage
 
 
 @AndroidEntryPoint
-class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_full_screen_pager) {
-
-    private val binding by viewBinding(FragmentFullScreenPagerBinding::bind)
+class FullScreenPagerFragment :
+    ParentBackPressOwnerFragment<FragmentFullScreenPagerBinding>(FragmentFullScreenPagerBinding::inflate) {
 
     private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
 
@@ -40,7 +38,6 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
             arguments?.getString(ROOM_ID) ?: ""
         )
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,8 +56,8 @@ class FullScreenPagerFragment : ParentBackPressOwnerFragment(R.layout.fragment_f
                     sharedElements: MutableMap<String?, View?>
                 ) {
                     val view = getCurrentSelectedFragment()?.view ?: return
-                    val image = view.findViewById<View>(R.id.ivImage)
-                    val video = view.findViewById<View>(R.id.videoView)
+                    val image = view.findViewById<View>(org.futo.circles.core.R.id.ivImage)
+                    val video = view.findViewById<View>(org.futo.circles.core.R.id.videoView)
                     sharedElements[names[0]] = if (image.isVisible) image else video
                 }
             })

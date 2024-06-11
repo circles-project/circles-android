@@ -31,8 +31,8 @@ class CreatePassPhraseDataSource @Inject constructor(
         val backupCreationInfo =
             keysBackupService.prepareKeysBackupVersion(keyBackupPrivateKey, null)
         createKeyBackup(backupCreationInfo)
-        val keyData = ssssDataSource.storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey)
-        crossSigningDataSource.initCrossSigningIfNeed(keyData.keySpec)
+        val keySpec = ssssDataSource.storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey)
+        crossSigningDataSource.initCrossSigningIfNeed(keySpec)
         loadingLiveData.postValue(LoadingData(isLoading = false))
     }
 

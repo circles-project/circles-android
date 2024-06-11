@@ -14,6 +14,6 @@ const val DEFAULT_PUSH_GATEWAY = "https://matrix.gateway.unifiedpush.org/_matrix
 
 fun getCirclesDomain(): String {
     val homeServerUrl = MatrixSessionProvider.currentSession?.sessionParams?.homeServerUrl ?: ""
-    return CirclesAppConfig.serverDomains.firstOrNull { homeServerUrl.contains(it) }
-        ?: CirclesAppConfig.serverDomains.first()
+    return CirclesAppConfig.serverDomains().firstOrNull { homeServerUrl.contains(it) }
+        ?: CirclesAppConfig.serverDomains().first()
 }

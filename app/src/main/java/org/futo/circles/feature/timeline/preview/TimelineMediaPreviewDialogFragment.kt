@@ -19,18 +19,19 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.feature.media.FullScreenMediaFragment
 import org.futo.circles.core.feature.share.ShareProvider
+import org.futo.circles.core.model.RemoveImage
 import org.futo.circles.databinding.DialogFragmentTimelineMediaPreviewBinding
 import org.futo.circles.gallery.R
-import org.futo.circles.gallery.feature.gallery.full_screen.media_item.FullScreenMediaFragment
-import org.futo.circles.gallery.model.RemoveImage
 
 @AndroidEntryPoint
 class TimelineMediaPreviewDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentTimelineMediaPreviewBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentTimelineMediaPreviewBinding>(
+        DialogFragmentTimelineMediaPreviewBinding::inflate
+    ) {
 
     private val viewModel by viewModels<TimelineMediaPreviewViewModel>()
-    private val binding by lazy { getBinding() as DialogFragmentTimelineMediaPreviewBinding }
     private val args: TimelineMediaPreviewDialogFragmentArgs by navArgs()
 
     private val mediaFragment by lazy { FullScreenMediaFragment.create(args.roomId, args.eventId) }

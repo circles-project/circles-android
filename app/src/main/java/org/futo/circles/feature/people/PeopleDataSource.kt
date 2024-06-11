@@ -92,17 +92,14 @@ class PeopleDataSource @Inject constructor(
         val requestsCount = knocksCount + profileInvitesCount
         val followingUsers = peopleCategoryDataSource.getPeopleImFollowing()
         val followersUsers = peopleCategoryDataSource.getFollowers()
-        val connections = peopleCategoryDataSource.getMyConnections(knowUsers)
         val otherMembers = peopleCategoryDataSource.getOtherUsers(
             knowUsers,
-            connections,
             followersUsers,
             followingUsers
         )
 
         list.apply {
             if (requestsCount > 0) add(PeopleRequestNotificationListItem(requestsCount))
-            add(PeopleCategoryListItem.connections.copy(count = connections.size))
             add(PeopleCategoryListItem.followingUsers.copy(count = followingUsers.size))
             add(PeopleCategoryListItem.followersUsers.copy(count = followersUsers.size))
             add(PeopleCategoryListItem.others.copy(count = otherMembers.size))

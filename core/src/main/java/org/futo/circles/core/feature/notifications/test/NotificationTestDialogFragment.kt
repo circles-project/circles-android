@@ -21,13 +21,11 @@ import org.matrix.android.sdk.api.extensions.tryOrNull
 
 @AndroidEntryPoint
 class NotificationTestDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentNotificationsTestBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentNotificationsTestBinding>(
+        DialogFragmentNotificationsTestBinding::inflate
+    ) {
 
     private val viewModel by viewModels<NotificationTestViewModel>()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentNotificationsTestBinding
-    }
 
     private val testAdapter by lazy {
         NotificationsTestAdapter {

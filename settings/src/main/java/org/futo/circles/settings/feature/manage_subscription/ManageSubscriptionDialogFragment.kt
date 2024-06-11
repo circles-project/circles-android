@@ -22,13 +22,11 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ManageSubscriptionDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentManageSubscriptionBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentManageSubscriptionBinding>(
+        DialogFragmentManageSubscriptionBinding::inflate
+    ) {
 
     private val viewModel by viewModels<ManageSubscriptionViewModel>()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentManageSubscriptionBinding
-    }
 
     @Inject
     lateinit var subscriptionProvider: SubscriptionProvider

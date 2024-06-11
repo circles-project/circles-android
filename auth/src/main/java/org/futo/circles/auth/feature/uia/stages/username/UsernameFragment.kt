@@ -7,23 +7,20 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentUsernameBinding
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
-import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 
 @AndroidEntryPoint
-class UsernameFragment : ParentBackPressOwnerFragment(R.layout.fragment_username),
+class UsernameFragment :
+    ParentBackPressOwnerFragment<FragmentUsernameBinding>(FragmentUsernameBinding::inflate),
     HasLoadingState {
 
     private val viewModel by viewModels<UsernameViewModel>()
     override val fragment: Fragment = this
-    private val binding by viewBinding(FragmentUsernameBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,9 +57,6 @@ class UsernameFragment : ParentBackPressOwnerFragment(R.layout.fragment_username
 
     private fun setupObservers() {
         viewModel.usernameResponseLiveData.observeResponse(this)
-        viewModel.domainLiveData.observeData(this) {
-            binding.tvServerDomain.text = it
-        }
     }
 
     private fun setContinueButtonEnabled() {

@@ -17,7 +17,9 @@ import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
 class KnockRequestsDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentKnockRequestsBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentKnockRequestsBinding>(
+        DialogFragmentKnockRequestsBinding::inflate
+    ) {
 
     private val viewModel by viewModels<KnockRequestViewModel>()
 
@@ -26,11 +28,6 @@ class KnockRequestsDialogFragment :
             onRequestClicked = { item, isAccepted -> onRequestClicked(item, isAccepted) }
         )
     }
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentKnockRequestsBinding
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

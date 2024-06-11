@@ -32,7 +32,6 @@ class CreateRoomViewModel @Inject constructor(
         topic: String,
         inviteIds: List<String>?,
         roomType: CircleRoomTypeArg,
-        isPublicCircle: Boolean,
         defaultUserAccessLevel: AccessLevel
     ) {
         launchBg {
@@ -41,7 +40,6 @@ class CreateRoomViewModel @Inject constructor(
                     CircleRoomTypeArg.Circle -> createCircle(
                         name,
                         inviteIds,
-                        isPublicCircle,
                         defaultUserAccessLevel
                     )
 
@@ -79,14 +77,12 @@ class CreateRoomViewModel @Inject constructor(
     private suspend fun createCircle(
         name: String,
         inviteIds: List<String>?,
-        isPublicCircle: Boolean,
         defaultUserAccessLevel: AccessLevel
     ) = dataSource.createRoom(
         circlesRoom = Circle(),
         name = name,
         iconUri = selectedImageLiveData.value,
         inviteIds = inviteIds,
-        isPublicCircle = isPublicCircle,
         defaultUserPowerLevel = defaultUserAccessLevel.levelValue
     )
 

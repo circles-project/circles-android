@@ -3,20 +3,22 @@ package org.futo.circles.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.auth.feature.workspace.data_source.ConfigureWorkspaceDataSource
-import org.futo.circles.auth.feature.workspace.data_source.WorkspaceTasksProvider
+import org.futo.circles.auth.R
+import org.futo.circles.auth.feature.workspace.ConfigureWorkspaceDataSource
+import org.futo.circles.auth.feature.workspace.WorkspaceTasksProvider
+import org.futo.circles.auth.model.WorkspaceTask
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.notifications.PushersManager
 import org.futo.circles.core.feature.notifications.ShortcutsHandler
+import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.utils.getJoinedRoomById
-import org.futo.circles.gallery.feature.backup.RoomAccountDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
@@ -26,13 +28,11 @@ class HomeViewModel @Inject constructor(
     private val pushersManager: PushersManager,
     private val workspaceTasksProvider: WorkspaceTasksProvider,
     private val workspaceDataSource: ConfigureWorkspaceDataSource,
-    roomAccountDataSource: RoomAccountDataSource,
     shortcutsHandler: ShortcutsHandler
 ) : ViewModel() {
 
     val validateWorkspaceLoadingLiveData = SingleEventLiveData<LoadingData>()
     val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
-    val mediaBackupSettingsLiveData = roomAccountDataSource.getMediaBackupSettingsLive()
     val syncStateLiveData =
         MatrixSessionProvider.getSessionOrThrow().syncService().getSyncStateLive()
 
@@ -43,14 +43,35 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun validateWorkspace() = launchBg {
-        validateWorkspaceLoadingLiveData.postValue(LoadingData(org.futo.circles.auth.R.string.validating_workspace))
+        validateWorkspaceLoadingLiveData.postValue(LoadingData(R.string.validating_workspace))
         val tasks = workspaceTasksProvider.getMandatoryTasks()
         tasks.forEach { item ->
-            val validationResponse = createResult { workspaceDataSource.validate(item.room) }
+            val validationResponse = createResult { workspaceDataSource.validate(item) }
             (validationResponse as? Response.Error)?.let {
-                validateWorkspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
-                validateWorkspaceResultLiveData.postValue(Response.Error(""))
+                fixWorkspaceSetup(tasks)
                 return@launchBg
+            }
+        }
+        validateWorkspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
+        validateWorkspaceResultLiveData.postValue(Response.Success(Unit))
+    }
+
+    private suspend fun fixWorkspaceSetup(tasks: List<CirclesRoom>) {
+        tasks.forEachIndexed { i, item ->
+            validateWorkspaceLoadingLiveData.postValue(
+                LoadingData(
+                    messageId = R.string.configuring_workspace,
+                    isLoading = true,
+                    progress = i,
+                    total = tasks.size
+                )
+            )
+            val result =
+                createResult { workspaceDataSource.performCreateOrFix(WorkspaceTask(item)) }
+            (result as? Response.Error)?.let {
+                validateWorkspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
+                validateWorkspaceResultLiveData.postValue(result)
+                return@forEachIndexed
             }
         }
         validateWorkspaceLoadingLiveData.postValue(LoadingData(isLoading = false))

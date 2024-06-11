@@ -7,11 +7,10 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.extensions.getQueryTextChangeStateFlow
 import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.notEmptyDisplayName
@@ -23,11 +22,11 @@ import org.futo.circles.feature.people.list.PeopleAdapter
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
-class PeopleFragment : Fragment(R.layout.fragment_people), MenuProvider {
+class PeopleFragment : BaseBindingFragment<FragmentPeopleBinding>(FragmentPeopleBinding::inflate),
+    MenuProvider {
 
     private val viewModel by viewModels<PeopleViewModel>()
     private val navigator by lazy { PeopleNavigator(this) }
-    private val binding by viewBinding(FragmentPeopleBinding::bind)
 
     private val peopleAdapter by lazy {
         PeopleAdapter(onUserClicked = { userId -> navigator.navigateToUserPage(userId) },

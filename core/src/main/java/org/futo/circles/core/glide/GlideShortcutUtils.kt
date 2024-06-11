@@ -2,7 +2,10 @@ package org.futo.circles.core.glide
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import androidx.annotation.AnyThread
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
@@ -18,7 +21,7 @@ object GlideShortcutUtils {
     @AnyThread
     @Throws
     fun shortcutDrawable(
-        glideRequests: GlideRequests,
+        glideRequests: RequestManager,
         matrixItem: MatrixItem,
         iconSize: Int
     ): Bitmap {
@@ -33,7 +36,7 @@ object GlideShortcutUtils {
     @AnyThread
     @Throws
     fun adaptiveShortcutDrawable(
-        glideRequests: GlideRequests,
+        glideRequests: RequestManager,
         matrixItem: MatrixItem, iconSize: Int,
         adaptiveIconSize: Int,
         adaptiveIconOuterSides: Float
@@ -51,10 +54,10 @@ object GlideShortcutUtils {
             .get()
     }
 
-    private fun GlideRequest<Bitmap>.avatarOrText(
+    private fun RequestBuilder<Bitmap>.avatarOrText(
         matrixItem: MatrixItem,
         iconSize: Int
-    ): GlideRequest<Bitmap> {
+    ): RequestBuilder<Bitmap> {
         return this.let {
             val resolvedUrl = MatrixSessionProvider.currentSession?.resolveUrl(matrixItem.avatarUrl)
             if (resolvedUrl != null) {

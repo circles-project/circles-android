@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
@@ -20,9 +19,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SubscriptionStageFragment :
-    ParentBackPressOwnerFragment(R.layout.fragment_subscription_stage) {
+    ParentBackPressOwnerFragment<FragmentSubscriptionStageBinding>(FragmentSubscriptionStageBinding::inflate) {
 
-    private val binding by viewBinding(FragmentSubscriptionStageBinding::bind)
     private val viewModel by viewModels<SubscriptionStageViewModel>()
 
     @Inject

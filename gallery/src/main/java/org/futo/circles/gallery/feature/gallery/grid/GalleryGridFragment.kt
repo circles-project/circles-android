@@ -6,14 +6,13 @@ import android.view.View
 import android.view.View.OnLayoutChangeListener
 import androidx.core.app.SharedElementCallback
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 import androidx.transition.TransitionInflater
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.list.BaseRvDecoration
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
@@ -30,10 +29,10 @@ import org.futo.circles.gallery.feature.gallery.full_screen.FullScreenPagerFragm
 
 
 @AndroidEntryPoint
-class GalleryGridFragment : Fragment(R.layout.fragment_gallery_grid) {
+class GalleryGridFragment :
+    BaseBindingFragment<FragmentGalleryGridBinding>(FragmentGalleryGridBinding::inflate) {
 
     private val viewModel by viewModels<GalleryViewModel>({ requireParentFragment() })
-    private val binding by viewBinding(FragmentGalleryGridBinding::bind)
     private val mediaPickerHelper = MediaPickerHelper(
         this, isMultiSelect = true, isVideoAvailable = true
     )

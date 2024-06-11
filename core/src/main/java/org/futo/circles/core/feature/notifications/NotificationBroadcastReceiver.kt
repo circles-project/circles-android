@@ -13,7 +13,7 @@ import org.matrix.android.sdk.api.session.room.read.ReadService
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class NotificationBroadcastReceiver : BroadcastReceiver() {
+class NotificationBroadcastReceiver: BroadcastReceiver() {
 
     @Inject
     lateinit var notificationDrawerManager: NotificationDrawerManager

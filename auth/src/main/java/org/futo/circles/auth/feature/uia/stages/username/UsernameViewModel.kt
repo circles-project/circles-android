@@ -14,7 +14,6 @@ class UsernameViewModel @Inject constructor(
 ) : ViewModel() {
 
     val usernameResponseLiveData = SingleEventLiveData<Response<RegistrationResult>>()
-    val domainLiveData = usernameDataSource.domainLiveData
 
     fun setUsername(username: String) {
         launchBg {

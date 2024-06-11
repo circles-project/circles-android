@@ -23,13 +23,11 @@ import org.matrix.android.sdk.api.session.room.model.Membership
 
 @AndroidEntryPoint
 class RoomWellKnownDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentRoomWellKnownBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentRoomWellKnownBinding>(
+        DialogFragmentRoomWellKnownBinding::inflate
+    ) {
 
     private val viewModel by viewModels<RoomWellKnownViewModel>()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentRoomWellKnownBinding
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

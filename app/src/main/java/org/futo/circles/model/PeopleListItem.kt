@@ -15,11 +15,6 @@ data class PeopleCategoryListItem(
     override val id: String = titleRes.toString()
 
     companion object {
-        val connections = PeopleCategoryListItem(
-            R.string.my_connections,
-            R.drawable.ic_connection,
-            PeopleCategoryTypeArg.Connections
-        )
         val followersUsers = PeopleCategoryListItem(
             org.futo.circles.core.R.string.my_followers,
             org.futo.circles.core.R.drawable.ic_round_people,

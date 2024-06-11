@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
-abstract class BaseActivity(contentLayoutId: Int) : AppCompatActivity(contentLayoutId) {
+abstract class BaseActivity : AppCompatActivity() {
 
     private val noInternetConnectionPresenter = NoInternetConnectionViewPresenter()
 

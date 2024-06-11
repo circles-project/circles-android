@@ -20,13 +20,11 @@ import org.futo.circles.settings.model.ResetKeys
 
 @AndroidEntryPoint
 class ActiveSessionsDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentActiveSessionsBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentActiveSessionsBinding>(
+        DialogFragmentActiveSessionsBinding::inflate
+    ) {
 
     private val viewModel by viewModels<ActiveSessionsViewModel>()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentActiveSessionsBinding
-    }
 
     private val sessionsListAdapter by lazy {
         ActiveSessionsAdapter(object : ActiveSessionClickListener {

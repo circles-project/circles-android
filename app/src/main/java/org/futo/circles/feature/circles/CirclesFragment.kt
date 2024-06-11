@@ -8,31 +8,28 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.MenuProvider
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
+import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
-import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.feature.circles.list.CirclesListAdapter
 import org.futo.circles.feature.explanation.CirclesExplanationDialog
 import org.futo.circles.model.CircleListItem
+import org.futo.circles.model.JoinedCircleListItem
 
 @AndroidEntryPoint
-class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms), MenuProvider {
+class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate),
+    MenuProvider {
 
     private val viewModel by viewModels<CirclesViewModel>()
-    private val binding by viewBinding(FragmentRoomsBinding::bind)
-    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private var listAdapter: CirclesListAdapter? = null
 
@@ -76,7 +73,7 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms),
             })
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = CirclesListAdapter(
-                onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
+                onRoomClicked = { circleListItem -> onRoomListItemClicked(circleListItem) },
                 onOpenInvitesClicked = {
                     findNavController().navigateSafe(CirclesFragmentDirections.toInvites())
                 }
@@ -91,19 +88,13 @@ class CirclesFragment : Fragment(org.futo.circles.core.R.layout.fragment_rooms),
             listAdapter?.submitList(it)
             binding.rvRooms.notifyItemsChanged()
         }
-        viewModel.createTimelineLoadingLiveData.observeData(this) {
-            loadingDialog.handleLoading(it)
-        }
-        viewModel.navigateToCircleLiveData.observeResponse(this,
-            success = { (circleId, timelineId) ->
-                findNavController().navigateSafe(
-                    CirclesFragmentDirections.toTimeline(circleId, timelineId)
-                )
-            })
     }
 
-    private fun onRoomListItemClicked(room: CircleListItem) {
-        viewModel.createTimeLineIfNotExist(room.id)
+    private fun onRoomListItemClicked(circleListItem: CircleListItem) {
+        val circle = (circleListItem as? JoinedCircleListItem) ?: return
+        findNavController().navigateSafe(
+            CirclesFragmentDirections.toTimeline(circle.id, circle.timelineId)
+        )
     }
 
     private fun navigateToCreateRoom() {

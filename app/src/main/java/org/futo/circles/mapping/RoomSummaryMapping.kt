@@ -30,11 +30,11 @@ fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     knockRequestsCount = getKnocksCount(roomId)
 )
 
-fun RoomSummary.toJoinedCircleListItem(isShared: Boolean = false) =
+fun RoomSummary.toJoinedCircleListItem(circleTimelineId: String) =
     JoinedCircleListItem(
         id = roomId,
+        timelineId = circleTimelineId,
         info = RoomInfo(nameOrId(), getCircleAvatarUrl()),
-        isShared = isShared,
         followingCount = getFollowingCount(),
         followedByCount = getFollowersCount(),
         unreadCount = getCircleUnreadMessagesCount(),
@@ -46,8 +46,12 @@ private fun RoomSummary.getFollowingCount() = spaceChildren?.filter {
             getRoomOwner(it.childRoomId)?.userId != MatrixSessionProvider.currentSession?.myUserId
 }?.size ?: 0
 
-private fun RoomSummary.getFollowersCount(): Int =
-    getTimelineRoomFor(roomId)?.roomSummary()?.otherMemberIds?.size ?: 0
+//Joined members minus room owner
+private fun RoomSummary.getFollowersCount(): Int {
+    val joinedToTimelineCount = getTimelineRoomFor(roomId)?.roomSummary()?.joinedMembersCount ?: 0
+    val followersCount = joinedToTimelineCount.takeIf { it > 0 }?.let { it - 1 } ?: 0
+    return followersCount
+}
 
 
 private fun RoomSummary.getCircleUnreadMessagesCount(): Int {

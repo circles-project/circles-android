@@ -6,7 +6,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentPasswordBinding
@@ -22,12 +21,12 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 
 @AndroidEntryPoint
-class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password),
+class PasswordFragment :
+    ParentBackPressOwnerFragment<FragmentPasswordBinding>(FragmentPasswordBinding::inflate),
     HasLoadingState {
 
     private val viewModel by viewModels<PasswordViewModel>()
     override val fragment: Fragment = this
-    private val binding by viewBinding(FragmentPasswordBinding::bind)
     private val passphraseWarningDialog by lazy { SetupPasswordWarningDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,7 +45,7 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
     private fun setupViews() {
         with(binding) {
             btnLogin.apply {
-                setText(getString(if (isSignupMode()) R.string.set_password else R.string.log_in))
+                setText(getString(if (isSignupMode()) R.string.set_passphrase else R.string.log_in))
                 setOnClickListener {
                     startLoading(btnLogin)
                     viewModel.processPasswordStage(
@@ -56,6 +55,8 @@ class PasswordFragment : ParentBackPressOwnerFragment(R.layout.fragment_password
                     )
                 }
             }
+            tvPasswordTitle.text =
+                getString(if (isSignupMode()) R.string.choose_a_passphrase else R.string.enter_your_passphrase)
             tilPassword.editText?.apply {
                 doAfterTextChanged {
                     if (isSignupMode()) vPasswordStrength.calculateStrength(tilPassword.getText())

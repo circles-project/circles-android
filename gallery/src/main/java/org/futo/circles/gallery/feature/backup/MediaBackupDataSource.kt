@@ -71,7 +71,7 @@ class MediaBackupDataSource @Inject constructor(
         mediaInFolder.forEach { item ->
             val sendCancelable = sendMessageDataSource.sendMedia(
                 roomId, item.uri, null, null, MediaType.Image
-            )
+            ).second
             val isUploaded = sendMessageDataSource.awaitForUploading(sendCancelable)
             if (isUploaded)
                 roomAccountDataSource.saveMediaBackupDateModified(roomId, item.dateModified)

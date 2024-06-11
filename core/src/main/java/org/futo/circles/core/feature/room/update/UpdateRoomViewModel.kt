@@ -9,6 +9,7 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.AccessLevel
+import org.futo.circles.core.model.CircleRoomTypeArg
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,18 +30,16 @@ class UpdateRoomViewModel @Inject constructor(
     fun update(
         name: String,
         topic: String,
-        isPublic: Boolean,
         userAccessLevel: AccessLevel,
-        isCircle: Boolean
+        roomTypeArg: CircleRoomTypeArg
     ) {
         launchBg {
             val result = dataSource.updateRoom(
                 name,
                 topic,
                 selectedImageLiveData.value,
-                isPublic,
                 userAccessLevel.takeIf { isDefaultUserRoleChanged(userAccessLevel) },
-                isCircle
+                roomTypeArg
             )
             updateRoomResponseLiveData.postValue(result)
         }
@@ -49,19 +48,15 @@ class UpdateRoomViewModel @Inject constructor(
     fun handleRoomDataUpdate(
         name: String,
         topic: String,
-        isPublic: Boolean,
         userAccessLevel: AccessLevel
     ) {
         val isDataUpdated = dataSource.isNameChanged(name) ||
                 dataSource.isTopicChanged(topic) ||
-                dataSource.isPrivateSharedChanged(isPublic) ||
                 isDefaultUserRoleChanged(userAccessLevel) ||
                 selectedImageLiveData.value != null
 
         isRoomDataChangedLiveData.postValue(isDataUpdated)
     }
-
-    fun isCircleShared(circleId: String) = dataSource.isCircleShared(circleId)
 
     private fun isDefaultUserRoleChanged(userAccessLevel: AccessLevel): Boolean {
         val initialRole = roomPowerLevelLiveData.value?.usersDefault ?: AccessLevel.User.levelValue

@@ -1,15 +1,26 @@
 jdk:
   - openjdk11
 install:
+  - GROUP_ID="-DgroupId=org.futo.gitlab.circles"
+  - VERSION="-Dversion=1.0.12"
+  - PACKAGING="-Dpackaging=aar"
+
   - FILE_AUTH_GPLAY="-Dfile=auth-gplay-release.aar"
-  - mvn install:install-file $FILE_AUTH_GPLAY -DgroupId=org.futo.gitlab.circles -DartifactId=auth_gplay -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_auth_gplay.xml
+  - mvn install:install-file $FILE_AUTH_GPLAY $GROUP_ID -DartifactId=auth_gplay $VERSION $PACKAGING -DpomFile=pom_auth_gplay.xml
   - FILE_AUTH_FDROID="-Dfile=auth-fdroid-release.aar"
-  - mvn install:install-file $FILE_AUTH_FDROID -DgroupId=org.futo.gitlab.circles -DartifactId=auth_fdroid -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_auth_fdroid.xml
+  - mvn install:install-file $FILE_AUTH_FDROID $GROUP_ID -DartifactId=auth_fdroid $VERSION $PACKAGING -DpomFile=pom_auth_fdroid.xml
+
   - FILE_CORE_GPLAY="-Dfile=core-gplay-release.aar"
-  - mvn install:install-file $FILE_CORE_GPLAY -DgroupId=org.futo.gitlab.circles -DartifactId=core_gplay -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_core_gplay.xml
+  - mvn install:install-file $FILE_CORE_GPLAY $GROUP_ID -DartifactId=core_gplay $VERSION $PACKAGING -DpomFile=pom_core_gplay.xml
   - FILE_CORE_FDROID="-Dfile=core-fdroid-release.aar"
-  - mvn install:install-file $FILE_CORE_FDROID -DgroupId=org.futo.gitlab.circles -DartifactId=core_fdroid -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_core_fdroid.xml
-  - FILE_GALLERY="-Dfile=gallery-release.aar"
-  - mvn install:install-file $FILE_GALLERY -DgroupId=org.futo.gitlab.circles -DartifactId=gallery -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_gallery.xml
-  - FILE_SETTINGS="-Dfile=settings-release.aar"
-  - mvn install:install-file $FILE_SETTINGS -DgroupId=org.futo.gitlab.circles -DartifactId=settings -Dversion=1.0.12 -Dpackaging=aar -DpomFile=pom_settings.xml
+  - mvn install:install-file $FILE_CORE_FDROID $GROUP_ID -DartifactId=core_fdroid $VERSION $PACKAGING -DpomFile=pom_core_fdroid.xml
+
+  - FILE_GALLERY_GPLAY="-Dfile=gallery-gplay-release.aar"
+  - mvn install:install-file $FILE_GALLERY_GPLAY $GROUP_ID -DartifactId=gallery_gplay $VERSION $PACKAGING -DpomFile=pom_gallery_gplay.xml
+  - FILE_GALLERY_FDROID="-Dfile=gallery-fdroid-release.aar"
+  - mvn install:install-file $FILE_GALLERY_FDROID $GROUP_ID -DartifactId=gallery_fdroid $VERSION $PACKAGING -DpomFile=pom_gallery_fdroid.xml
+
+  - FILE_SETTINGS_GPLAY="-Dfile=settings-gplay-release.aar"
+  - mvn install:install-file $FILE_SETTINGS_GPLAY $GROUP_ID -DartifactId=settings_gplay $VERSION $PACKAGING -DpomFile=pom_settings_gplay.xml
+  - FILE_SETTINGS_FDROID="-Dfile=settings-fdroid-release.aar"
+  - mvn install:install-file $FILE_SETTINGS_FDROID $GROUP_ID -DartifactId=settings_fdroid $VERSION $PACKAGING -DpomFile=pom_settings_fdroid.xml

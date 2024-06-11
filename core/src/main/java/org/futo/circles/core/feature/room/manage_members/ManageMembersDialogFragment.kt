@@ -18,7 +18,6 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.room.manage_members.change_role.ChangeAccessLevelListener
 import org.futo.circles.core.feature.room.manage_members.list.GroupMembersListAdapter
-import org.futo.circles.core.feature.room.share.ShareRoomDialogFragmentArgs
 import org.futo.circles.core.model.BanUser
 import org.futo.circles.core.model.CancelInvite
 import org.futo.circles.core.model.CircleRoomTypeArg
@@ -30,7 +29,9 @@ import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 
 @AndroidEntryPoint
 class ManageMembersDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentManageMembersBinding::inflate),
+    BaseFullscreenDialogFragment<DialogFragmentManageMembersBinding>(
+        DialogFragmentManageMembersBinding::inflate
+    ),
     ManageMembersOptionsListener, ChangeAccessLevelListener {
 
     private val args: ManageMembersDialogFragmentArgs by navArgs()
@@ -49,11 +50,6 @@ class ManageMembersDialogFragment :
             isChangeAccessLevelAvailable = args.type != CircleRoomTypeArg.Circle
         )
     }
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentManageMembersBinding
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -14,8 +14,11 @@ import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import java.io.File
 import java.io.IOException
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.log10
+import kotlin.math.pow
 
 object FileUtils {
 
@@ -83,6 +86,15 @@ object FileUtils {
         context.contentResolver.openOutputStream(uri)?.sink()?.buffer()?.let { sink ->
             source.use { input -> sink.use { output -> output.writeAll(input) } }
         }
+    }
+
+    fun readableFileSize(size: Long): String {
+        if (size <= 0) return "0"
+        val units = arrayOf("B", "kB", "MB", "GB", "TB", "PB", "EB")
+        val digitGroups = (log10(size.toDouble()) / log10(1024.0)).toInt()
+        return DecimalFormat("#,##0.#").format(
+            size / 1024.0.pow(digitGroups.toDouble())
+        ) + " " + units[digitGroups]
     }
 
 }

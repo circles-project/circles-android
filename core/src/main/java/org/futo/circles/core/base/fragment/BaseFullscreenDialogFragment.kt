@@ -14,11 +14,14 @@ import org.futo.circles.core.base.NoInternetConnectionViewPresenter
 import org.futo.circles.core.extensions.onBackPressed
 
 
-abstract class BaseFullscreenDialogFragment(
-    private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> ViewBinding
+abstract class BaseFullscreenDialogFragment<VB : ViewBinding>(
+    private val inflate: (LayoutInflater, ViewGroup?, Boolean) -> VB
 ) : AppCompatDialogFragment() {
 
-    private var _binding: ViewBinding? = null
+
+    private var _binding: VB? = null
+    protected val binding get() = _binding!!
+
     protected open val toolbarId = R.id.toolbar
     private val noInternetConnectionPresenter = NoInternetConnectionViewPresenter()
 
@@ -41,8 +44,6 @@ abstract class BaseFullscreenDialogFragment(
         setupToolbar()
         noInternetConnectionPresenter.register(requireActivity(), _binding?.root as? ViewGroup)
     }
-
-    protected fun getBinding() = _binding
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -34,12 +34,10 @@ class PeopleCategoryDataSource @Inject constructor(
         ) { knowUsers, ignoredUsers ->
             val ignoreUserIds = ignoredUsers.map { it.userId }
             val userByCategory = when (categoryType) {
-                PeopleCategoryTypeArg.Connections -> getMyConnections(knowUsers)
                 PeopleCategoryTypeArg.Followers -> getFollowers()
                 PeopleCategoryTypeArg.Following -> getPeopleImFollowing()
                 else -> getOtherUsers(
                     knowUsers,
-                    getMyConnections(knowUsers),
                     getFollowers(),
                     getPeopleImFollowing()
                 )
@@ -75,27 +73,20 @@ class PeopleCategoryDataSource @Inject constructor(
         return peopleIamFollowingIds.map { session.getUserOrDefault(it) }
     }
 
-    fun getMyConnections(knowUsers: List<User>) = knowUsers.filter { isConnection(it.userId) }
-
     fun getOtherUsers(
         knowUsers: List<User>,
-        connections: List<User>,
         followers: List<User>,
         following: List<User>
     ): List<User> {
         val knownIds = knowUsers.map { it.userId }
-        val connectionsIds = connections.map { it.userId }
         val followersUsersIds = followers.map { it.userId }
         val followingUsersIds = following.map { it.userId }
 
         val otherMemberIds =
-            knownIds - connectionsIds.toSet() - followersUsersIds.toSet() - followingUsersIds.toSet()
+            knownIds - followersUsersIds.toSet() - followingUsersIds.toSet()
 
         return otherMemberIds.map { session.getUserOrDefault(it) }
     }
-
-    private fun isConnection(userId: String) =
-        sharedCircleDataSource.getSharedCircleFor(userId) != null
 
     private fun getMyCirclesSpaceSummary(): RoomSummary? {
         val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(

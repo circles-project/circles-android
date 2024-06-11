@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.Circle
@@ -28,8 +27,7 @@ import javax.inject.Inject
 class CreateRoomDataSource @Inject constructor(
     @ApplicationContext private val context: Context,
     private val roomRelationsBuilder: RoomRelationsBuilder,
-    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource,
-    private val sharedCircleDataSource: SharedCircleDataSource
+    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource
 ) {
 
     private val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
@@ -40,7 +38,6 @@ class CreateRoomDataSource @Inject constructor(
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        isPublicCircle: Boolean = false,
         defaultUserPowerLevel: Int = AccessLevel.User.levelValue
     ): String {
         val id = session.roomService().createRoom(
@@ -51,14 +48,13 @@ class CreateRoomDataSource @Inject constructor(
             parentId?.let { roomRelationsBuilder.setRelations(id, it) }
         }
         if (circlesRoom is Circle) {
-            val timelineId = createCircleTimeline(
+            createCircleTimeline(
                 id,
                 name ?: circlesRoom.nameId?.let { context.getString(it) },
                 iconUri,
                 inviteIds,
                 defaultUserPowerLevel
             )
-            if (isPublicCircle) sharedCircleDataSource.addToSharedCircles(timelineId)
         }
         return id
     }
@@ -71,7 +67,7 @@ class CreateRoomDataSource @Inject constructor(
         defaultUserPowerLevel: Int = AccessLevel.User.levelValue
     ): String {
         val timelineId =
-            createRoom(Timeline(), name, null, iconUri, inviteIds, false, defaultUserPowerLevel)
+            createRoom(Timeline(), name, null, iconUri, inviteIds, defaultUserPowerLevel)
         roomRelationsBuilder.setRelations(timelineId, circleId)
         return timelineId
     }

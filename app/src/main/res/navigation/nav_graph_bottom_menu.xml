@@ -8,8 +8,6 @@
 
     <include app:graph="@navigation/circles_nav_graph" />
 
-    <include app:graph="@navigation/photos_nav_graph" />
-
     <include app:graph="@navigation/people_nav_graph" />
 
     <include app:graph="@navigation/settings_nav_graph" />

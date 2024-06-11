@@ -19,14 +19,12 @@ import org.futo.circles.core.mapping.nameOrId
 
 @AndroidEntryPoint
 class FilterTimelinesDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentFilterTimelineBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment<DialogFragmentFilterTimelineBinding>(
+        DialogFragmentFilterTimelineBinding::inflate
+    ), HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<FilterTimelinesViewModel>()
-
-    private val binding by lazy {
-        getBinding() as DialogFragmentFilterTimelineBinding
-    }
 
     private val filterTimelinesAdapter by lazy {
         FilterTimelinesAdapter(

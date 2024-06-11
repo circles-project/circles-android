@@ -1,14 +1,12 @@
 package org.futo.circles.auth.feature.pass_phrase.restore
 
 import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
-import org.futo.circles.auth.model.KeyData
+import org.futo.circles.auth.model.SecretKeyData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.listeners.ProgressListener
 import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.crypto.crosssigning.KEYBACKUP_SECRET_SSSS_NAME
-import org.matrix.android.sdk.api.session.crypto.keysbackup.BackupRecoveryKey
-import org.matrix.android.sdk.api.session.crypto.keysbackup.computeRecoveryKey
 import org.matrix.android.sdk.api.session.crypto.keysbackup.extractCurveKeyFromRecoveryKey
 import org.matrix.android.sdk.api.session.securestorage.EmptyKeySigner
 import org.matrix.android.sdk.api.session.securestorage.KeyInfo
@@ -16,13 +14,13 @@ import org.matrix.android.sdk.api.session.securestorage.KeyInfoResult
 import org.matrix.android.sdk.api.session.securestorage.KeyRef
 import org.matrix.android.sdk.api.session.securestorage.RawBytesKeySpec
 import org.matrix.android.sdk.api.session.securestorage.SsssKeyCreationInfo
-import org.matrix.android.sdk.api.util.fromBase64
+import org.matrix.android.sdk.api.session.securestorage.SsssKeySpec
 import org.matrix.android.sdk.api.util.toBase64NoPadding
 import javax.inject.Inject
 
 class SSSSDataSource @Inject constructor() {
 
-    suspend fun storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey: ByteArray): KeyData {
+    suspend fun storeBsSpekeKeyIntoSSSS(keyBackupPrivateKey: ByteArray): SsssKeySpec {
         val session = MatrixSessionProvider.getSessionOrThrow()
         val bsSpekeClient = BSSpekeClientProvider.getClientOrThrow()
         val keyId = bsSpekeClient.generateKeyId()
@@ -30,10 +28,10 @@ class SSSSDataSource @Inject constructor() {
         val keyInfo = session.sharedSecretStorageService()
             .generateBsSpekeKeyInfo(keyId, key, EmptyKeySigner())
         storeSecret(session, keyBackupPrivateKey, keyInfo)
-        return KeyData(keyInfo.recoveryKey, keyInfo.keySpec)
+        return keyInfo.keySpec
     }
 
-    suspend fun getBsSpekeRecoveryKey(progressObserver: StepProgressListener): KeyData {
+    suspend fun getBsSpekeSecretKeyData(progressObserver: StepProgressListener): SecretKeyData {
         progressObserver.onStepProgress(
             StepProgressListener.Step.ComputingKey(0, 0)
         )
@@ -41,10 +39,11 @@ class SSSSDataSource @Inject constructor() {
         val keySpec = RawBytesKeySpec(
             BSSpekeClientProvider.getClientOrThrow().generateHashKey()
         )
+
         val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this passphrase")
 
-        return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
+        return SecretKeyData(keyInfo.id, secret, keySpec)
     }
 
     suspend fun replaceBsSpeke4SKey() {
@@ -57,10 +56,10 @@ class SSSSDataSource @Inject constructor() {
         storeBsSpekeKeyIntoSSSS(secret)
     }
 
-    suspend fun getRecoveryKeyFromPassphrase(
+    suspend fun getSecretKeyDataFromPassphrase(
         passphrase: String,
         progressObserver: StepProgressListener
-    ): KeyData {
+    ): SecretKeyData {
         val keyInfo = getKeyInfo()
 
         progressObserver.onStepProgress(
@@ -82,13 +81,13 @@ class SSSSDataSource @Inject constructor() {
         val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this passphrase")
 
-        return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
+        return SecretKeyData(keyInfo.id, secret, keySpec)
     }
 
-    suspend fun getRecoveryKeyFromFileKey(
+    suspend fun getSecretKeyDataKeyFromFileKey(
         recoveryKey: String,
         progressObserver: StepProgressListener
-    ): KeyData {
+    ): SecretKeyData {
         val keyInfo = getKeyInfo()
 
         progressObserver.onStepProgress(
@@ -100,7 +99,7 @@ class SSSSDataSource @Inject constructor() {
         val secret = getSecret(keyInfo, keySpec)
             ?: throw Exception("Backup could not be decrypted with this recovery key")
 
-        return KeyData(computeRecoveryKey(secret.fromBase64()), keySpec)
+        return SecretKeyData(keyInfo.id, secret, keySpec)
     }
 
     private suspend fun storeSecret(
@@ -115,6 +114,11 @@ class SSSSDataSource @Inject constructor() {
         )
         session.cryptoService().keysBackupService()
             .onSecretKeyGossip(keyBackupPrivateKey.toBase64NoPadding())
+
+        session.sharedSecretStorageService().storeBsSpekePrivateKey(
+            (keyInfo.keySpec as RawBytesKeySpec).privateKey,
+            keyInfo.keyId
+        )
         session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
     }
 

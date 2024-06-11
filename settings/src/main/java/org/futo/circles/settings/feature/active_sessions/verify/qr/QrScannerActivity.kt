@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
@@ -16,13 +15,15 @@ import org.futo.circles.core.base.BaseActivity
 import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.ActivityQrScannerBinding
 
-class QrScannerActivity : BaseActivity(R.layout.activity_qr_scanner) {
+class QrScannerActivity : BaseActivity() {
 
-    private val binding by viewBinding(ActivityQrScannerBinding::bind, R.id.mainContainer)
+    private lateinit var binding: ActivityQrScannerBinding
     private var codeScanner: CodeScanner? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityQrScannerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         codeScanner = CodeScanner(this, binding.qrScannerView).apply {
             decodeCallback = DecodeCallback {
                 runOnUiThread { handleQrResult(it) }

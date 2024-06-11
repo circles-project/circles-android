@@ -3,7 +3,6 @@ package org.futo.circles.core.feature.room.create
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import androidx.core.os.BundleCompat.getParcelable
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,13 +27,11 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
 @AndroidEntryPoint
 class CreateRoomDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentCreateRoomBinding::inflate), HasLoadingState {
+    BaseFullscreenDialogFragment<DialogFragmentCreateRoomBinding>(DialogFragmentCreateRoomBinding::inflate),
+    HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<CreateRoomViewModel>()
-    private val binding by lazy {
-        getBinding() as DialogFragmentCreateRoomBinding
-    }
 
     private val args: CreateRoomDialogFragmentArgs by navArgs()
     private val mediaPickerHelper = MediaPickerHelper(this)
@@ -70,10 +67,6 @@ class CreateRoomDialogFragment :
             val isGroup = args.type == CircleRoomTypeArg.Group
             tvTopicHeader.setIsVisible(isGroup)
             tilTopic.setIsVisible(isGroup)
-            val isCircle = args.type == CircleRoomTypeArg.Circle
-            tvTypeHeader.setIsVisible(isCircle)
-            circleTypeGroup.setIsVisible(isCircle)
-            lCircleTypeExplanation.setIsVisible(isCircle)
             ivCover.setOnClickListener { changeCoverImage() }
             tilName.editText?.doAfterTextChanged {
                 it?.let { btnCreate.isEnabled = it.isNotEmpty() }
@@ -82,6 +75,7 @@ class CreateRoomDialogFragment :
                 createRoom()
                 startLoading(btnCreate)
             }
+            val isCircle = args.type == CircleRoomTypeArg.Circle
             tvRoleHeader.setIsVisible(!isCircle)
             spUserRole.apply {
                 setIsVisible(!isCircle)
@@ -120,7 +114,6 @@ class CreateRoomDialogFragment :
             binding.tilTopic.getText(),
             selectedUsersFragment?.getSelectedUsersIds(),
             args.type,
-            binding.btnPublic.isChecked,
             AccessLevel.entries.getOrNull(binding.spUserRole.selectedItemPosition)
                 ?: AccessLevel.User
         )

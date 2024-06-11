@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentLogInBinding
@@ -18,6 +17,7 @@ import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHold
 import org.futo.circles.auth.model.ForgotPassword
 import org.futo.circles.auth.model.RemoveUser
 import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.list.BaseRvDecoration
 import org.futo.circles.core.extensions.getText
@@ -30,17 +30,16 @@ import org.futo.circles.core.extensions.withConfirmation
 
 
 @AndroidEntryPoint
-class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
+class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBinding::inflate),
+    HasLoadingState {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<LogInViewModel>()
-    private val binding by viewBinding(FragmentLogInBinding::bind)
-
     private val autocompleteAdapter by lazy {
         ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
-            CirclesAppConfig.serverDomains
+            CirclesAppConfig.serverDomains()
         )
     }
 
@@ -71,11 +70,11 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
                 setAdapter(autocompleteAdapter)
                 onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
                     tilDomain.hint =
-                        if (!hasFocus && tvDomain.text.isEmpty()) CirclesAppConfig.serverDomains.first()
+                        if (!hasFocus && tvDomain.text.isEmpty()) CirclesAppConfig.serverDomains().first()
                         else getString(R.string.domain)
                 }
             }
-            tilDomain.hint = CirclesAppConfig.serverDomains.first()
+            tilDomain.hint = CirclesAppConfig.serverDomains().first()
             rvSwitchUsers.apply {
                 adapter = switchUsersAdapter
                 addItemDecoration(BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(16))
@@ -114,7 +113,7 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
     private fun setOnClickActions() {
         with(binding) {
             btnSignUp.setOnClickListener {
-                findNavController().navigateSafe(LogInFragmentDirections.toSignUpFragment())
+                findNavController().navigateSafe(LogInFragmentDirections.toSelectServerBottomSheet())
             }
             btnLogin.setOnClickListener { startLogin(false) }
             btnForgotPassword.setOnClickListener {
@@ -134,5 +133,5 @@ class LogInFragment : Fragment(R.layout.fragment_log_in), HasLoadingState {
     }
 
     private fun getDomain() = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
-        ?: CirclesAppConfig.serverDomains.first()
+        ?: CirclesAppConfig.serverDomains().first()
 }

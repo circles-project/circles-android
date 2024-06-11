@@ -6,19 +6,17 @@ import android.os.Build.VERSION
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.auth.feature.workspace.WorkspaceDialogFragment
 import org.futo.circles.core.base.DeepLinkIntentHandler
 import org.futo.circles.core.base.NetworkObserver
+import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -32,18 +30,16 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
-import org.futo.circles.gallery.feature.backup.service.MediaBackupServiceManager
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.sync.SyncState
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkIntentHandler {
-
-    private val binding by viewBinding(FragmentBottomNavigationBinding::bind)
+class HomeFragment :
+    BaseBindingFragment<FragmentBottomNavigationBinding>(FragmentBottomNavigationBinding::inflate),
+    DeepLinkIntentHandler {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val notificationPermissionHelper =
@@ -52,9 +48,6 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     private val viewModel by viewModels<HomeViewModel>()
     private val validateLoadingDialog by lazy { LoadingDialog(requireContext()) }
     private val syncLoadingDialog by lazy { LoadingDialog(requireContext()) }
-
-    @Inject
-    lateinit var mediaBackupServiceManager: MediaBackupServiceManager
 
     private val roomIdParam = "roomId"
 
@@ -76,11 +69,6 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     private fun handleDeepLinks() {
         handleOpenFromNotification()
         handleOpenFromShareRoomUrl()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mediaBackupServiceManager.unbindMediaService(requireContext())
     }
 
     private fun handleOpenFromNotification() {
@@ -132,12 +120,7 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
     }
 
     private fun setupObservers() {
-        viewModel.mediaBackupSettingsLiveData?.observeData(this) {
-            mediaBackupServiceManager.bindMediaServiceIfNeeded(requireContext(), it)
-        }
-        viewModel.validateWorkspaceResultLiveData.observeResponse(this,
-            error = { WorkspaceDialogFragment().show(childFragmentManager, "workspace") },
-            onRequestInvoked = { validateLoadingDialog.dismiss() })
+        viewModel.validateWorkspaceResultLiveData.observeResponse(this)
         viewModel.validateWorkspaceLoadingLiveData.observeData(this) {
             validateLoadingDialog.handleLoading(it)
         }
@@ -168,7 +151,6 @@ class HomeFragment : Fragment(R.layout.fragment_bottom_navigation), DeepLinkInte
                 R.id.circlesFragment,
                 R.id.peopleFragment,
                 R.id.groupsFragment,
-                org.futo.circles.gallery.R.id.photosFragment
             )
         )
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)

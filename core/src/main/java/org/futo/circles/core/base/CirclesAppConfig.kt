@@ -17,7 +17,10 @@ object CirclesAppConfig {
     var appName = ""
         private set
 
-    var serverDomains = emptyList<String>()
+    var usDomain = ""
+        private set
+
+    var euDomain = ""
         private set
 
     var isMediaBackupEnabled = false
@@ -29,6 +32,8 @@ object CirclesAppConfig {
     var privacyPolicyUrl = ""
         private set
 
+    fun serverDomains() = listOf(usDomain, euDomain)
+
     fun isGplayFlavor(): Boolean = buildFlavourName.contains("gplay", true)
 
     data class Initializer(
@@ -37,7 +42,8 @@ object CirclesAppConfig {
         private var versionCode: Int? = null,
         private var flavour: String? = null,
         private var appName: String? = null,
-        private var serverDomains: List<String> = emptyList(),
+        private var usDomain: String? = null,
+        private var euDomain: String? = null,
         private var mediaBackupEnabled: Boolean = false,
         private var changelog: String? = null,
         private var privacyPolicyUrl: String? = null
@@ -57,7 +63,10 @@ object CirclesAppConfig {
 
         fun appName(appName: String) = apply { this.appName = appName }
 
-        fun serverDomains(domains: List<String>) = apply { this.serverDomains = domains }
+        fun serverDomains(usDomain: String, euDomain: String) = apply {
+            this.usDomain = usDomain
+            this.euDomain = euDomain
+        }
 
         fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
 
@@ -82,11 +91,11 @@ object CirclesAppConfig {
             CirclesAppConfig.appName = appName?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("appName is empty $appName")
 
-            CirclesAppConfig.serverDomains = serverDomains.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("Illegal empty server domains")
+            CirclesAppConfig.usDomain = usDomain?.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("Illegal empty US server domains")
 
-            CirclesAppConfig.serverDomains = serverDomains.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("Illegal empty server domains")
+            CirclesAppConfig.euDomain = euDomain?.takeIf { it.isNotEmpty() }
+                ?: throw IllegalArgumentException("Illegal empty EU server domains")
 
             CirclesAppConfig.changelog = changelog?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("changelog is empty $changelog")

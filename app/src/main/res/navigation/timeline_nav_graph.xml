@@ -277,23 +277,6 @@
     <include app:graph="@navigation/user_nav_graph" />
 
     <dialog
-        android:id="@+id/saveToGalleyDialogFragment"
-        android:name="org.futo.circles.feature.timeline.save.SavePostToGalleyDialogFragment"
-        tools:layout="@layout/dialog_fragment_save_post_to_gallery">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="eventId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
-
-    <dialog
         android:id="@+id/mediaPreviewDialogFragment"
         android:name="org.futo.circles.feature.timeline.preview.TimelineMediaPreviewDialogFragment"
         tools:layout="@layout/dialog_fragment_timeline_media_preview">
@@ -326,23 +309,6 @@
             app:argType="string"
             app:nullable="false" />
 
-        <action
-            android:id="@+id/to_saveToGalleyDialogFragment"
-            app:destination="@id/saveToGalleyDialogFragment"
-            app:popUpTo="@+id/postMenuBottomSheet"
-            app:popUpToInclusive="true">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="eventId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
 
         <action
             android:id="@+id/to_postInfo"

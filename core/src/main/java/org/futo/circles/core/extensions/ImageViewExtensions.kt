@@ -12,11 +12,14 @@ import com.bumptech.glide.request.target.Target
 import com.caverock.androidsvg.SVG
 import jdenticon.Jdenticon
 import jp.wasabeef.glide.transformations.BlurTransformation
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.futo.circles.core.R
 import org.futo.circles.core.feature.blurhash.ThumbHash
 import org.futo.circles.core.feature.textDrawable.ColorGenerator
 import org.futo.circles.core.feature.textDrawable.TextDrawable
-import org.futo.circles.core.glide.GlideApp
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.Session
@@ -46,76 +49,78 @@ fun ImageView.loadEncryptedImage(
         )
     }
     content.elementToDecrypt?.let {
-        GlideApp
+        Glide
             .with(context)
             .load(content)
             .placeholder(placeholder)
             .fitCenter()
             .into(this)
-    } ?: loadMatrixImage(content.fileUrl, loadOriginalSize, preferredSize = preferredSize)
+    } ?: loadMatrixImage(content.fileUrl)
 }
 
 fun ImageView.loadRoomProfileIcon(
     url: String?,
     userId: String,
-    loadOriginalSize: Boolean = false,
-    preferredSize: Size? = null,
-    session: Session? = null,
     applyBlur: Boolean = false
 ) {
+    MainScope().launch {
+        val session = MatrixSessionProvider.currentSession
+        val placeholder =
+            session?.resolveUrl(url)?.let { null } ?: getTextDrawablePlaceholder(userId)
+        loadMatrixImage(url, placeholder, session, applyBlur)
+    }
+}
+
+private suspend fun getTextDrawablePlaceholder(userId: String) = withContext(Dispatchers.IO) {
     val backgroundColor = ColorGenerator().getColor(userId)
     var text = userId.firstOrNull()?.toString()?.uppercase() ?: ""
     if (text == "@") text = userId.elementAtOrNull(1)?.toString()?.uppercase() ?: "?"
-    val placeholder = TextDrawable.Builder()
+    TextDrawable.Builder()
         .setShape(TextDrawable.SHAPE_ROUND_RECT)
         .setColor(backgroundColor)
         .setTextColor(Color.WHITE)
         .setText(text)
         .build()
-
-    loadMatrixImage(url, loadOriginalSize, placeholder, preferredSize, session, applyBlur)
 }
 
+//Specify session only in case there is no active one at this moment (e.g Switch user)
 fun ImageView.loadUserProfileIcon(
     url: String?,
     userId: String,
-    session: Session? = null,
+    session: Session? = MatrixSessionProvider.currentSession,
     applyBlur: Boolean = false
 ) {
-    post {
-        val svgString = Jdenticon.toSvg(userId, measuredWidth)
-        val svg = SVG.getFromString(svgString)
-        val placeholder = PictureDrawable(svg.renderToPicture())
-        loadMatrixImage(url, placeholder = placeholder, session = session, applyBlur = applyBlur)
+    MainScope().launch {
+        val placeholder =
+            session?.resolveUrl(url)?.let { null } ?: getJdenticonDrawable(userId, measuredWidth)
+        loadMatrixImage(url, placeholder, session, applyBlur)
     }
 }
+
+private suspend fun getJdenticonDrawable(userId: String, measuredWidth: Int): PictureDrawable =
+    withContext(Dispatchers.IO) {
+        val svgString = Jdenticon.toSvg(userId, measuredWidth)
+        val svg = SVG.getFromString(svgString)
+        PictureDrawable(svg.renderToPicture())
+    }
 
 
 @SuppressLint("CheckResult")
 fun ImageView.loadMatrixImage(
     url: String?,
-    loadOriginalSize: Boolean = false,
     placeholder: Drawable? = null,
-    preferredSize: Size? = null,
     session: Session? = null,
     applyBlur: Boolean = false
 ) {
-    post {
-        val currentSession = session ?: MatrixSessionProvider.currentSession
-        val size = if (loadOriginalSize) null
-        else preferredSize ?: Size(
-            measuredWidth,
-            measuredHeight
-        ).takeIf { measuredWidth > 0 && measuredHeight > 0 }
-        val resolvedUrl = currentSession?.resolveUrl(url, size)
-        Glide.with(this)
-            .load(resolvedUrl)
-            .fitCenter()
-            .placeholder(placeholder)
-            .error(placeholder)
-            .apply { if (applyBlur) transform(BlurTransformation(30)) }
-            .into(this)
-    }
+    val currentSession = session ?: MatrixSessionProvider.currentSession
+    val resolvedUrl = currentSession?.resolveUrl(url)
+    Glide.with(this)
+        .load(resolvedUrl)
+        .fitCenter()
+        .placeholder(placeholder)
+        .error(placeholder)
+        .apply { if (applyBlur) transform(BlurTransformation(30)) }
+        .into(this)
 }
 
 fun ImageView.setIsEncryptedIcon(isEncrypted: Boolean) {

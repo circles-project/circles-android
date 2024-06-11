@@ -22,14 +22,12 @@ import org.futo.circles.feature.room.select.SelectRoomsFragment
 
 @AndroidEntryPoint
 class AcceptCircleInviteDialogFragment :
-    BaseFullscreenDialogFragment(DialogFragmentAcceptCircleInviteBinding::inflate),
-    HasLoadingState, SelectRoomsListener, RoomsListener {
+    BaseFullscreenDialogFragment<DialogFragmentAcceptCircleInviteBinding>(
+        DialogFragmentAcceptCircleInviteBinding::inflate
+    ), HasLoadingState, SelectRoomsListener, RoomsListener {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<AcceptCircleInviteViewModel>()
-    private val binding by lazy {
-        getBinding() as DialogFragmentAcceptCircleInviteBinding
-    }
 
     private val selectRoomsFragment by lazy { SelectRoomsFragment.create(CircleRoomTypeArg.Circle) }
 

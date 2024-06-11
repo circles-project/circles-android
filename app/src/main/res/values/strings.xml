@@ -15,7 +15,6 @@
     <string name="no_results">No results</string>
     <string name="invites">Invites</string>
     <string name="create_new_circle">Create new circle</string>
-    <string name="private_circles">Private Circles</string>
     <string name="log_out">Log out</string>
     <string name="followed_by_format">Followed by %d</string>
     <string name="requests_format">Requests %d</string>
@@ -55,7 +54,6 @@
     <string name="accept_invite">Accept invite</string>
     <string name="do_you_want_to_open_this_url">Do you want to open this url?</string>
     <string name="save_to_device">Save to device</string>
-    <string name="save_to_gallery">Save to gallery</string>
     <string name="notifications">Notifications</string>
     <string name="share_with_group">Share with a group</string>
     <string name="share_with_circle">Share with a circle</string>
@@ -89,20 +87,19 @@
     <string name="search_people">Search people</string>
     <string name="thread_format">%s (thread)</string>
     <string name="unexpected_error">Something went wrong</string>
-    <string name="shared_circles">Shared Circles</string>
     <string name="save">Save</string>
     <string name="groups_empty_message">Create your first Group</string>
     <string name="circles_empty_message">Create your first Circle</string>
     <string name="people_category_empty_message">%s will be shown here</string>
-    <string name="creating_timeline">Creating timeline</string>
     <string name="help">Help</string>
     <string name="group_invites_notification_format">Show %d Group invitations</string>
     <string name="circle_invites_notification_format">Show %d Circle invitations</string>
     <string name="show_connection_invites_format">Show %d connection invites</string>
-    <string name="my_connections">My Connections</string>
     <string name="downloading">Downloading</string>
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
     <string name="in_timeline_format">(in %1$s / %2$s)</string>
+    <string name="failed_to_send">Failed to send, please try again</string>
+    <string name="sending">Sending</string>
 
     <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
 <br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
@@ -114,23 +111,21 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
 <br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
     <string name="changelog">
-- Fixed create group/circle/gallery navigation
-- Share poll as image
-- Improved offline app browsing experience
-- Shared Galleries section
+- Support of dehydrated devices
+- Profile updates via presence system
+- Post composer awaits for post to be sent
+- Removed Connections
+- Removed Gallery (still available in advanced settings)
+- Replaced Configure Workspace with new setup flow
 - Bug fixes and performance improvements
 </string>
 
+    <string name="debug_us_domain" translatable="false">us.circles-dev.net</string>
+    <string name="debug_matrix_domain" translatable="false">matrix.org</string>
 
-    <string-array name="debug_domains">
-        <item>us.circles-dev.net</item>
-        <item>matrix.org</item>
-    </string-array>
+    <string name="release_us_domain" translatable="false">circles.futo.org</string>
+    <string name="release_eu_domain" translatable="false">eu.circles.futo.org</string>
 
-    <string-array name="release_domains">
-        <item>circles.futo.org</item>
-        <item>eu.circles.futo.org</item>
-    </string-array>
 
     <string-array name="report_categories">
         <item>@string/crude_language</item>

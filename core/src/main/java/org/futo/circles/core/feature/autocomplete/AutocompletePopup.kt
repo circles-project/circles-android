@@ -3,14 +3,11 @@ package org.futo.circles.core.feature.autocomplete
 import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.PopupWindow
-import androidx.annotation.StyleRes
-import androidx.core.view.ViewCompat
 import androidx.core.widget.PopupWindowCompat
 import kotlin.math.min
 
@@ -110,7 +107,7 @@ internal class AutocompletePopup(private val mContext: Context) {
         }
 
     fun setElevation(elevationPx: Float) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) mPopup.elevation = elevationPx
+        mPopup.elevation = elevationPx
     }
 
     var isOutsideTouchable: Boolean
@@ -154,24 +151,6 @@ internal class AutocompletePopup(private val mContext: Context) {
     fun setBackgroundDrawable(d: Drawable?) {
         mPopup.setBackgroundDrawable(d)
     }
-
-    @get:StyleRes
-    @get:Suppress("unused")
-    @set:Suppress("unused")
-    var animationStyle: Int
-        /**
-         * Returns the animation style that will be used when the popup window is
-         * shown or dismissed.
-         * @return Animation style that will be used.
-         */
-        get() = mPopup.animationStyle
-        /**
-         * Set an animation style to use when the popup window is shown or dismissed.
-         * @param animationStyle Animation style to use.
-         */
-        set(animationStyle) {
-            mPopup.animationStyle = animationStyle
-        }
 
     /**
      * Sets the popup's anchor view. This popup will always be positioned relative to
@@ -262,7 +241,7 @@ internal class AutocompletePopup(private val mContext: Context) {
      * will recalculate the popup's size and position.
      */
     fun show() {
-        if (!ViewCompat.isAttachedToWindow(anchorView!!)) return
+        if (anchorView!!.isAttachedToWindow.not()) return
         val height = buildDropDown()
         val noInputMethod = isInputMethodNotNeeded
         val mDropDownWindowLayoutType = WindowManager.LayoutParams.TYPE_APPLICATION_SUB_PANEL
@@ -285,8 +264,7 @@ internal class AutocompletePopup(private val mContext: Context) {
             // for any value you do not want to update.
 
             // Width.
-            var widthSpec: Int
-            widthSpec = if (width == ViewGroup.LayoutParams.MATCH_PARENT) {
+            var widthSpec: Int = if (width == ViewGroup.LayoutParams.MATCH_PARENT) {
                 -1
             } else if (width == ViewGroup.LayoutParams.WRAP_CONTENT) {
                 anchorView!!.width
@@ -297,8 +275,7 @@ internal class AutocompletePopup(private val mContext: Context) {
             widthSpec = if (widthSpec < 0) -1 else widthSpec
 
             // Height.
-            var heightSpec: Int
-            heightSpec = if (this.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+            var heightSpec: Int = if (this.height == ViewGroup.LayoutParams.MATCH_PARENT) {
                 if (noInputMethod) height else ViewGroup.LayoutParams.MATCH_PARENT
             } else if (this.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
                 height
@@ -316,8 +293,7 @@ internal class AutocompletePopup(private val mContext: Context) {
                 mPopup.update(anchorView, mHorizontalOffset, mVerticalOffset, widthSpec, heightSpec)
             }
         } else {
-            var widthSpec: Int
-            widthSpec = if (width == ViewGroup.LayoutParams.MATCH_PARENT) {
+            var widthSpec: Int = if (width == ViewGroup.LayoutParams.MATCH_PARENT) {
                 ViewGroup.LayoutParams.MATCH_PARENT
             } else if (width == ViewGroup.LayoutParams.WRAP_CONTENT) {
                 anchorView!!.width
@@ -325,8 +301,7 @@ internal class AutocompletePopup(private val mContext: Context) {
                 width
             }
             widthSpec = Math.min(widthSpec, mMaxWidth)
-            var heightSpec: Int
-            heightSpec = if (this.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+            var heightSpec: Int = if (this.height == ViewGroup.LayoutParams.MATCH_PARENT) {
                 ViewGroup.LayoutParams.MATCH_PARENT
             } else if (this.height == ViewGroup.LayoutParams.WRAP_CONTENT) {
                 height
@@ -380,7 +355,7 @@ internal class AutocompletePopup(private val mContext: Context) {
          * @return `true` if the popup is currently showing, `false` otherwise.
          */
         get() = mPopup.isShowing
-    val isInputMethodNotNeeded: Boolean
+    private val isInputMethodNotNeeded: Boolean
         /**
          * @return `true` if this popup is configured to assume the user does not need
          * to interact with the IME while it is showing, `false` otherwise.
@@ -433,12 +408,9 @@ internal class AutocompletePopup(private val mContext: Context) {
 
         // Redefine dimensions taking into account maxWidth and maxHeight.
         val ignoreBottomDecorations = mPopup.inputMethodMode == PopupWindow.INPUT_METHOD_NOT_NEEDED
-        val maxContentHeight =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) mPopup.getMaxAvailableHeight(
-                anchorView!!, mVerticalOffset, ignoreBottomDecorations
-            ) else mPopup.getMaxAvailableHeight(
-                anchorView!!, mVerticalOffset
-            )
+        val maxContentHeight = mPopup.getMaxAvailableHeight(
+            anchorView!!, mVerticalOffset, ignoreBottomDecorations
+        )
         val maxContentWidth = mContext.resources.displayMetrics.widthPixels - paddingHoriz
         mMaxHeight = min(maxContentHeight + paddingVert, mUserMaxHeight)
         mMaxWidth = min(maxContentWidth + paddingHoriz, mUserMaxWidth)
@@ -471,6 +443,6 @@ internal class AutocompletePopup(private val mContext: Context) {
         if (viewHeight > 0) {
             otherHeights += paddingVert + mView!!.paddingTop + mView!!.paddingBottom
         }
-        return Math.min(viewHeight + otherHeights, mMaxHeight)
+        return min(viewHeight + otherHeights, mMaxHeight)
     }
 }

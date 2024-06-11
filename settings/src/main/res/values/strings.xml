@@ -2,6 +2,7 @@
 <resources>
     <string name="shared_circles_space_not_found">Shared Circles space not found</string>
     <string name="active_login_sessions">Active login sessions</string>
+    <string name="change_passphrase">Change passphrase</string>
     <string name="change_password">Change password</string>
     <string name="new_password">New password</string>
     <string name="old_password">Old Password</string>
@@ -21,6 +22,7 @@
     <string name="general">General</string>
     <string name="login_sessions">Login sessions</string>
     <string name="privacy_policy">Privacy policy</string>
+    <string name="advanced_settings">Advanced settings</string>
     <string name="add_email_address">Add email address</string>
     <string name="clear_cache_and_reload">Clear cache and reload</string>
     <string name="switch_user">Switch User</string>
@@ -37,8 +39,7 @@
     <string name="is_not_auto_renew_message">Subscription will not renew automatically</string>
     <string name="can_not_open_google_play">Can not open Google Play</string>
     <string name="profile_updated">Profile updated</string>
-    <string name="developer_mode_enabled">Developer mode is enabled</string>
-    <string name="developer_mode_disabled">Developer mode is disabled</string>
+    <string name="developer_mode">Developer mode</string>
     <string name="media_usage_format">%1$s of %2$s used</string>
     <string name="no_info_available">No info available</string>
     <string name="log_out_message">Are you sure you want to log out?</string>
@@ -47,5 +48,7 @@
     <string name="remove_session">Remove session</string>
     <string name="remove_session_message">In order to sign out from this session you should confirm your auth.</string>
     <string name="reset_keys_message">Confirm auth to reset keys and enable cross signing</string>
+    <string name="will_be_accessible_through_option_on_settings_screen">Will be accessible through option on Settings screen</string>
+    <string name="all_timeline_events_and_data_will_be_visible_in_timeline">All timeline events and data will be visible in timeline</string>
 
 </resources>
