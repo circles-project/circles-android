@@ -37,10 +37,6 @@ class UserDialogFragment :
 
     private val usersCirclesAdapter by lazy {
         UsersCirclesAdapter(
-            onRequestFollow = { timelineId ->
-                if (showNoInternetConnection()) return@UsersCirclesAdapter
-                viewModel.requestFollowTimeline(timelineId)
-            },
             onUnFollow = { timelineId ->
                 if (showNoInternetConnection()) return@UsersCirclesAdapter
                 withConfirmation(UnfollowTimeline()) {
@@ -98,8 +94,6 @@ class UserDialogFragment :
         viewModel.usersTimelinesLiveData.observeData(this) {
             usersCirclesAdapter.submitList(it)
         }
-        viewModel.requestFollowLiveData.observeResponse(this,
-            success = { showSuccess(getString(R.string.request_sent)) })
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {
                 context?.let { showSuccess(it.getString(R.string.user_ignored)) }

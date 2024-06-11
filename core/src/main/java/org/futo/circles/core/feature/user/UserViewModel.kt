@@ -14,12 +14,9 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.launchUi
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
-import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.model.TimelineListItem
 import org.futo.circles.core.model.TimelineRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +31,6 @@ class UserViewModel @Inject constructor(
 
     val userLiveData = userDataSource.userLiveData
 
-    val requestFollowLiveData = SingleEventLiveData<Response<Unit?>>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val isUserIgnoredLiveData = userOptionsDataSource.ignoredUsersLiveData?.map {
@@ -73,17 +69,6 @@ class UserViewModel @Inject constructor(
             userDataSource.getTimelinesFlow().collectLatest {
                 timelineLiveData.postValue(it)
             }
-        }
-    }
-
-    fun requestFollowTimeline(timelineId: String) {
-        launchBg {
-            toggleItemLoading(timelineId)
-            val result = createResult {
-                MatrixSessionProvider.currentSession?.roomService()?.knock(timelineId)
-            }
-            toggleItemLoading(timelineId)
-            requestFollowLiveData.postValue(result)
         }
     }
 
