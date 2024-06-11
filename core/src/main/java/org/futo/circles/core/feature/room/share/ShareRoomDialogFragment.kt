@@ -3,7 +3,6 @@ package org.futo.circles.core.feature.room.share
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
@@ -14,9 +13,7 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.mapping.nameOrId
-import org.futo.circles.core.model.ShareUrlTypeArg
 import org.futo.circles.core.model.TextShareable
-import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 @AndroidEntryPoint
@@ -24,7 +21,6 @@ class ShareRoomDialogFragment :
     BaseFullscreenDialogFragment<DialogFragmentShareRoomBinding>(DialogFragmentShareRoomBinding::inflate) {
 
     private val viewModel by viewModels<ShareRoomViewModel>()
-    private val args: ShareRoomDialogFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,8 +29,6 @@ class ShareRoomDialogFragment :
     }
 
     private fun setupViews() {
-        binding.toolbar.title =
-            getString(if (isProfile()) R.string.share_profile else R.string.share_room)
         binding.btnShare.setOnClickListener {
             ShareProvider.share(requireContext(), TextShareable(viewModel.buildInviteUrl()))
         }
@@ -56,13 +50,9 @@ class ShareRoomDialogFragment :
             vLoading.gone()
             ivQr.visible()
             ivQr.setData(viewModel.buildInviteUrl())
-            tvRoomName.text = if (isProfile())
-                MatrixSessionProvider.currentSession?.myUserId ?: roomSummary.nameOrId()
-            else roomSummary.nameOrId()
+            tvRoomName.text = roomSummary.nameOrId()
             tvRoomId.text = roomSummary.roomId
             btnShare.visible()
         }
     }
-
-    private fun isProfile() = args.urlType == ShareUrlTypeArg.PROFILE
 }

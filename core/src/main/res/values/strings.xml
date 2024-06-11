@@ -65,7 +65,6 @@
     <string name="set_access_level">Set access level</string>
     <string name="invite">Invite</string>
     <string name="share_room">Share room</string>
-    <string name="share_profile">Share profile</string>
     <string name="share_url">Share url</string>
     <string name="invite_to_format">Invite to %s</string>
     <string name="invitation_sent">Invitation sent</string>

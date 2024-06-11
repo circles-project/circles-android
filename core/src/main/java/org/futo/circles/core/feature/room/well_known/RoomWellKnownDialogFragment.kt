@@ -18,7 +18,6 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.model.RoomPublicInfo
 import org.futo.circles.core.model.ShareUrlTypeArg
-import org.futo.circles.core.model.isProfile
 import org.matrix.android.sdk.api.session.room.model.Membership
 
 @AndroidEntryPoint
@@ -85,12 +84,9 @@ class RoomWellKnownDialogFragment :
             binding.tvRoomId.text = roomInfo.id
             tvMembersCount.apply {
                 setIsVisible(roomInfo.memberCount > 0)
-                text = getString(
-                    if (roomInfo.isProfile()) R.string.following_format
-                    else R.string.joined_members_count, roomInfo.memberCount
-                )
+                text = getString(R.string.joined_members_count, roomInfo.memberCount)
             }
-            btnRequest.setText(getString(if (roomInfo.isProfile()) R.string.request_to_follow else R.string.request_to_join))
+            btnRequest.setText(getString(R.string.request_to_join))
             tvTopic.apply {
                 setIsVisible(roomInfo.topic?.isNotEmpty() == true)
                 text = getString(R.string.topic_format, roomInfo.topic ?: "")
@@ -103,14 +99,11 @@ class RoomWellKnownDialogFragment :
                 when (roomInfo.membership) {
                     Membership.NONE,
                     Membership.KNOCK,
-                    Membership.LEAVE -> if (roomInfo.isProfile()) R.string.send_request_to_follow_user
-                    else R.string.request_to_become_member_room
+                    Membership.LEAVE -> R.string.request_to_become_member_room
 
-                    Membership.INVITE -> if (roomInfo.isProfile()) R.string.you_have_pending_invitation_user
-                    else R.string.you_have_pending_invitation_room
+                    Membership.INVITE -> R.string.you_have_pending_invitation_room
 
-                    Membership.JOIN -> if (roomInfo.isProfile()) R.string.you_are_already_following_user
-                    else R.string.you_are_already_member_room
+                    Membership.JOIN -> R.string.you_are_already_member_room
 
                     Membership.BAN -> R.string.you_are_banned_room
                 }
