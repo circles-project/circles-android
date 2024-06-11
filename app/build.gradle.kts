@@ -19,8 +19,8 @@ android {
         applicationId = "org.futo.circles"
         minSdk = rootProject.extra["min_sdk_version"] as Int
         targetSdk = rootProject.extra["sdk_version"] as Int
-        versionCode = 40
-        versionName = "1.0.30"
+        versionCode = 41
+        versionName = "1.0.31"
         archivesName = "circles-v$versionName"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
