@@ -1,0 +1,7 @@
+- Support of dehydrated devices
+- Profile updates via presence system
+- Post composer awaits for post to be sent
+- Removed Connections
+- Removed Gallery (still available in advanced settings)
+- Replaced Configure Workspace with new setup flow
+- Bug fixes and performance improvements
