@@ -44,21 +44,6 @@ class SettingsNavigator(private val fragment: SettingsFragment) {
             .navigateSafe(SettingsFragmentDirections.toAdvancedSettingsDialogFragment())
     }
 
-    fun navigateToShareProfile(sharedSpaceId: String?) {
-        sharedSpaceId ?: kotlin.run {
-            fragment.showError(
-                fragment.requireContext().getString(R.string.shared_circles_space_not_found)
-            )
-            return
-        }
-        fragment.findNavController().navigateSafe(
-            SettingsFragmentDirections.toShareProfileDialogFragment(
-                sharedSpaceId,
-                ShareUrlTypeArg.PROFILE
-            )
-        )
-    }
-
     fun navigateToPhotos() {
         fragment.findNavController()
             .navigateSafe(SettingsFragmentDirections.toPhotosNavGraph())

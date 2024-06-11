@@ -34,21 +34,6 @@
             android:id="@+id/to_editProfileDialogFragment"
             app:destination="@id/editProfileDialogFragment" />
         <action
-            android:id="@+id/to_shareProfileDialogFragment"
-            app:destination="@id/share_room_nav_graph">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="urlType"
-                app:argType="org.futo.circles.core.model.ShareUrlTypeArg"
-                app:nullable="false" />
-
-        </action>
-        <action
             android:id="@+id/to_photos_nav_graph"
             app:destination="@id/photos_nav_graph" />
     </fragment>
@@ -72,8 +57,6 @@
         android:id="@+id/UIADialogFragment"
         android:name="org.futo.circles.auth.feature.uia.UIADialogFragment"
         tools:layout="@layout/dialog_fragment_uia" />
-
-    <include app:graph="@navigation/share_room_nav_graph" />
 
     <dialog
         android:id="@+id/editProfileDialogFragment"

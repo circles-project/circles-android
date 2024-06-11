@@ -56,7 +56,6 @@ class SettingsFragment :
 
     private fun setupViews() {
         with(binding) {
-            tvUserId.text = MatrixSessionProvider.currentSession?.myUserId
             tvManageSubscription.apply {
                 setIsVisible(CirclesAppConfig.isGplayFlavor())
                 setOnClickListener { navigator.navigateToSubscriptionInfo() }
@@ -88,7 +87,6 @@ class SettingsFragment :
             tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
             tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             tvEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
-            tvShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
             tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
             tvAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
             tvPhotos.setOnClickListener { navigator.navigateToPhotos() }
