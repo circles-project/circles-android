@@ -38,7 +38,12 @@ class SelectRoomsDataSource @Inject constructor(
 
     private fun getMergedRoomsListFlow() =
         combine(getRoomsFlowWithType(), selectedRoomsFlow) { rooms, selectedRooms ->
-            rooms.map { room -> room.toSelectableRoomListItem(selectedRooms.containsWithId(room.roomId)) }
+            rooms.map { room ->
+                room.toSelectableRoomListItem(
+                    roomType,
+                    selectedRooms.containsWithId(room.roomId)
+                )
+            }
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
     private fun getRoomsFlowWithType(): Flow<List<RoomSummary>> = when (roomType) {

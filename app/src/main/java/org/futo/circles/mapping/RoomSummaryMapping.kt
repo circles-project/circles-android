@@ -5,7 +5,6 @@ import org.futo.circles.core.extensions.getPowerLevelContent
 import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.mapping.nameOrId
-import org.futo.circles.core.mapping.toRoomInfo
 import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
@@ -21,7 +20,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     id = roomId,
-    info = toRoomInfo(),
+    info = RoomInfo(nameOrId(), avatarUrl),
     topic = topic,
     isEncrypted = isEncrypted,
     membersCount = joinedMembersCount ?: 0,
