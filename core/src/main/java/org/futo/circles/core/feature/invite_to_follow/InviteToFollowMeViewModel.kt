@@ -31,8 +31,8 @@ class InviteToFollowMeViewModel @Inject constructor(
                     )
                     return@launchBg
                 }
-                inviteResultLiveData.postValue(Response.Success(Unit))
             }
+            inviteResultLiveData.postValue(Response.Success(Unit))
         }
     }
 }
