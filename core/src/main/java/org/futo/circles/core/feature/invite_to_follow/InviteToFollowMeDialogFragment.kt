@@ -15,7 +15,9 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.feature.room.select.SelectRoomsListener
+import org.futo.circles.core.feature.room.select.SelectRoomsFragment
+import org.futo.circles.core.feature.room.select.interfaces.RoomsListener
+import org.futo.circles.core.feature.room.select.interfaces.SelectRoomsListener
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
 
@@ -46,7 +48,7 @@ class InviteToFollowMeDialogFragment :
     private fun setupViews() {
         with(binding) {
             btnInvite.setOnClickListener {
-                viewModel.acceptInvite(selectRoomsFragment.getSelectedRooms())
+                viewModel.invite(selectRoomsFragment.getSelectedRooms())
                 startLoading(btnInvite)
             }
             fbAddRoom.setOnClickListener { navigateToCreateCircle() }
@@ -55,14 +57,11 @@ class InviteToFollowMeDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.acceptResultLiveData.observeResponse(this,
-            success = { onBackPressed() }
-        )
+
     }
 
     private fun navigateToCreateCircle() {
-        findNavController()
-            .navigateSafe(AcceptCircleInviteDialogFragmentDirections.toCreateCircleDialogFragment())
+
     }
 
     override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {

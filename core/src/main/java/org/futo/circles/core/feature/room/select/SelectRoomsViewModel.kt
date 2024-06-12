@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.select
+package org.futo.circles.core.feature.room.select
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData

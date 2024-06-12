@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.select
+package org.futo.circles.core.feature.room.select
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asFlow
@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import org.futo.circles.core.extensions.getOrThrow
+import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.mapping.toSelectableRoomListItem
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.utils.getGalleriesLiveData
 import org.futo.circles.core.utils.getGroupsLiveData
 import org.futo.circles.core.utils.getSpacesLiveData
-import org.futo.circles.feature.circles.CirclesDataSource
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
@@ -25,7 +25,7 @@ import javax.inject.Inject
 @ViewModelScoped
 class SelectRoomsDataSource @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val circleDataSource: CirclesDataSource
+    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource
 ) {
 
     private val ordinal = savedStateHandle.getOrThrow<Int>(SelectRoomsFragment.TYPE_ORDINAL)
@@ -43,7 +43,7 @@ class SelectRoomsDataSource @Inject constructor(
 
     private fun getRoomsFlowWithType(): Flow<List<RoomSummary>> = when (roomType) {
         CircleRoomTypeArg.Circle -> getSpacesLiveData(listOf(Membership.JOIN)).map { summaries ->
-            val joinedCirclesIds = circleDataSource.getJoinedCirclesIds()
+            val joinedCirclesIds = spacesTreeAccountDataSource.getJoinedCirclesIds()
             summaries.mapNotNull { summary ->
                 if (joinedCirclesIds.contains(summary.roomId)) summary
                 else null

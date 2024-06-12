@@ -1,4 +1,4 @@
-package org.futo.circles.feature.room.select.list
+package org.futo.circles.core.feature.room.select.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter

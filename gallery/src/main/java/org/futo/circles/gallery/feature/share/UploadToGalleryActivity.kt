@@ -1,7 +1,7 @@
 package org.futo.circles.gallery.feature.share
 
 import dagger.hilt.android.AndroidEntryPoint
-import org.futo.circles.core.feature.room.select.RoomsPicker
+import org.futo.circles.core.feature.room.select.interfaces.RoomsPicker
 import org.futo.circles.core.feature.share.BaseShareActivity
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.feature.select.SelectGalleriesFragment
