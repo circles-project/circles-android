@@ -6,13 +6,17 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.databinding.DialogFragmentInviteToFollowMeBinding
 import org.futo.circles.core.extensions.navigateSafe
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.feature.room.select.SelectRoomsFragment
 import org.futo.circles.core.feature.room.select.interfaces.RoomsListener
 import org.futo.circles.core.feature.room.select.interfaces.SelectRoomsListener
@@ -26,6 +30,7 @@ class InviteToFollowMeDialogFragment :
     ), HasLoadingState, SelectRoomsListener, RoomsListener {
 
     override val fragment: Fragment = this
+    private val args: InviteToFollowMeDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<InviteToFollowMeViewModel>()
 
     private val selectRoomsFragment by lazy { SelectRoomsFragment.create(CircleRoomTypeArg.Circle) }
@@ -45,8 +50,10 @@ class InviteToFollowMeDialogFragment :
 
     private fun setupViews() {
         with(binding) {
+            tvTitle.text =
+                getString(R.string.select_circles_to_which_you_want_to_invite_format, args.userId)
             btnInvite.setOnClickListener {
-                viewModel.invite(selectRoomsFragment.getSelectedRooms())
+                viewModel.invite(args.userId, selectRoomsFragment.getSelectedRooms())
                 startLoading(btnInvite)
             }
             fbAddRoom.setOnClickListener { navigateToCreateCircle() }
@@ -55,7 +62,12 @@ class InviteToFollowMeDialogFragment :
     }
 
     private fun setupObservers() {
-
+        viewModel.inviteResultLiveData.observeResponse(this,
+            success = {
+                showSuccess(getString(R.string.invitation_sent))
+                onBackPressed()
+            }
+        )
     }
 
     private fun navigateToCreateCircle() {
