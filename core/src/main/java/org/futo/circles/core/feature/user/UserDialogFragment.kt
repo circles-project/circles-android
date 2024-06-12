@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
@@ -33,6 +34,7 @@ import org.matrix.android.sdk.api.session.user.model.User
 class UserDialogFragment :
     BaseFullscreenDialogFragment<DialogFragmentUserBinding>(DialogFragmentUserBinding::inflate) {
 
+    private val args: UserDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<UserViewModel>()
 
     private val usersCirclesAdapter by lazy {
@@ -62,6 +64,11 @@ class UserDialogFragment :
         binding.rvCircles.apply {
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = usersCirclesAdapter
+        }
+        binding.btnInviteToFollowMe.setOnClickListener {
+            findNavController().navigateSafe(
+                UserDialogFragmentDirections.toInviteToFollowMeDialogFragment(args.userId)
+            )
         }
     }
 

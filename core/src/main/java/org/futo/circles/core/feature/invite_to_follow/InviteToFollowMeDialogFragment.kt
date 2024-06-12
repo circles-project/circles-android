@@ -12,8 +12,6 @@ import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.databinding.DialogFragmentInviteToFollowMeBinding
 import org.futo.circles.core.extensions.navigateSafe
-import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.room.select.SelectRoomsFragment
 import org.futo.circles.core.feature.room.select.interfaces.RoomsListener
@@ -61,7 +59,7 @@ class InviteToFollowMeDialogFragment :
     }
 
     private fun navigateToCreateCircle() {
-
+        findNavController().navigateSafe(InviteToFollowMeDialogFragmentDirections.toCreateRoomNavGraph())
     }
 
     override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {
