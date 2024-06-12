@@ -2,7 +2,7 @@ package org.futo.circles.gallery.feature.select
 
 import androidx.lifecycle.MutableLiveData
 import org.futo.circles.core.mapping.toSelectableRoomListItem
-import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.SelectRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.utils.getGalleries
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -14,7 +14,7 @@ class SelectGalleriesDataSource @Inject constructor() {
 
     private fun getInitialGalleriesList(): List<SelectableRoomListItem> =
         getGalleries(membershipFilter = listOf(Membership.JOIN)).map {
-            it.toSelectableRoomListItem(CircleRoomTypeArg.Photo)
+            it.toSelectableRoomListItem(SelectRoomTypeArg.PhotosJoined)
         }
 
     fun toggleGallerySelect(gallery: SelectableRoomListItem) {

@@ -11,12 +11,12 @@ import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.databinding.FragmentSelectRoomsBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.feature.room.select.list.SelectRoomsAdapter
-import org.futo.circles.core.feature.room.select.list.SelectedChipsRoomsAdapter
 import org.futo.circles.core.feature.room.select.interfaces.RoomsListener
 import org.futo.circles.core.feature.room.select.interfaces.RoomsPicker
 import org.futo.circles.core.feature.room.select.interfaces.SelectRoomsListener
+import org.futo.circles.core.feature.room.select.list.SelectRoomsAdapter
+import org.futo.circles.core.feature.room.select.list.SelectedChipsRoomsAdapter
+import org.futo.circles.core.model.SelectRoomTypeArg
 
 @AndroidEntryPoint
 class SelectRoomsFragment :
@@ -70,8 +70,13 @@ class SelectRoomsFragment :
 
     companion object {
         const val TYPE_ORDINAL = "type_ordinal"
-        fun create(roomType: CircleRoomTypeArg) = SelectRoomsFragment().apply {
-            arguments = bundleOf(TYPE_ORDINAL to roomType.ordinal)
-        }
+        const val USER_ID = "userId"
+        fun create(roomType: SelectRoomTypeArg, userId: String? = null) =
+            SelectRoomsFragment().apply {
+                arguments = bundleOf(
+                    TYPE_ORDINAL to roomType.ordinal,
+                    USER_ID to userId
+                )
+            }
     }
 }

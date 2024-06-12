@@ -7,18 +7,18 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
-import org.futo.circles.core.feature.room.select.interfaces.RoomsListener
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.feature.room.select.SelectRoomsFragment
+import org.futo.circles.core.feature.room.select.interfaces.RoomsListener
 import org.futo.circles.core.feature.room.select.interfaces.SelectRoomsListener
-import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.SelectRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.databinding.DialogFragmentAcceptCircleInviteBinding
-import org.futo.circles.core.feature.room.select.SelectRoomsFragment
 
 @AndroidEntryPoint
 class AcceptCircleInviteDialogFragment :
@@ -29,7 +29,7 @@ class AcceptCircleInviteDialogFragment :
     override val fragment: Fragment = this
     private val viewModel by viewModels<AcceptCircleInviteViewModel>()
 
-    private val selectRoomsFragment by lazy { SelectRoomsFragment.create(CircleRoomTypeArg.Circle) }
+    private val selectRoomsFragment by lazy { SelectRoomsFragment.create(SelectRoomTypeArg.CirclesJoined) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

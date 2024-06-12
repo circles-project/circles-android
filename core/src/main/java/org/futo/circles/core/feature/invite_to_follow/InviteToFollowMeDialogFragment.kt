@@ -20,7 +20,7 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.feature.room.select.SelectRoomsFragment
 import org.futo.circles.core.feature.room.select.interfaces.RoomsListener
 import org.futo.circles.core.feature.room.select.interfaces.SelectRoomsListener
-import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.SelectRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
 
 @AndroidEntryPoint
@@ -33,7 +33,9 @@ class InviteToFollowMeDialogFragment :
     private val args: InviteToFollowMeDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<InviteToFollowMeViewModel>()
 
-    private val selectRoomsFragment by lazy { SelectRoomsFragment.create(CircleRoomTypeArg.Circle) }
+    private val selectRoomsFragment by lazy {
+        SelectRoomsFragment.create(SelectRoomTypeArg.MyCircleNotJoinedByUser, args.userId)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

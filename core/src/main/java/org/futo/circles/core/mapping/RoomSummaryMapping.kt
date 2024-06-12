@@ -6,7 +6,9 @@ import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.JoinedGalleryListItem
 import org.futo.circles.core.model.RoomInfo
+import org.futo.circles.core.model.SelectRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
+import org.futo.circles.core.model.isCircle
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.user.model.User
@@ -15,13 +17,13 @@ fun RoomSummary.nameOrId() =
     displayName.takeIf { it.isNotEmpty() } ?: name.takeIf { it.isNotEmpty() } ?: roomId
 
 fun RoomSummary.toSelectableRoomListItem(
-    roomTypeArg: CircleRoomTypeArg,
+    roomTypeArg: SelectRoomTypeArg,
     selected: Boolean = false
 ) = SelectableRoomListItem(
     id = roomId,
     info = RoomInfo(
         nameOrId(),
-        if (roomTypeArg == CircleRoomTypeArg.Circle) getCircleAvatarUrl() else avatarUrl
+        if (roomTypeArg.isCircle()) getCircleAvatarUrl() else avatarUrl
     ),
     isSelected = selected
 )
