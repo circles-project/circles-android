@@ -7,6 +7,14 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
+sealed class RoomRequestListItem : IdEntity<String>
+
+data class RoomRequestHeaderItem(
+    val titleRes: Int
+) : RoomRequestListItem() {
+    override val id: String = titleRes.toString()
+}
+
 data class RoomInviteListItem(
     val roomId: String,
     val roomType: CircleRoomTypeArg,
@@ -15,20 +23,20 @@ data class RoomInviteListItem(
     val inviterName: String,
     val shouldBlurIcon: Boolean,
     val isLoading: Boolean = false
-) : IdEntity<String> {
+) : RoomRequestListItem() {
     override val id: String = roomId
 }
 
-fun RoomSummary.toRoomInviteListItem(roomType: CircleRoomTypeArg, shouldBlurIcon: Boolean) =
-    RoomInviteListItem(
-        roomId = roomId,
-        info = RoomInfo(nameOrId(), avatarUrl),
-        inviterName = getInviterName(),
-        isEncrypted = isEncrypted,
-        shouldBlurIcon = shouldBlurIcon,
-        roomType = roomType
-    )
+data class KnockRequestListItem(
+    val requesterId: String,
+    val requesterName: String,
+    val requesterAvatarUrl: String?,
+    val message: String?,
+    val isLoading: Boolean = false
+) : RoomRequestListItem() {
+    override val id: String = requesterId
+}
 
-fun RoomSummary.getInviterName() =
-    MatrixSessionProvider.currentSession?.getUserOrDefault(inviterId ?: "")?.notEmptyDisplayName()
-        ?: ""
+fun KnockRequestListItem.toCircleUser() = CirclesUserSummary(
+    requesterId, requesterName, requesterAvatarUrl ?: ""
+)

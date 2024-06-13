@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InvitesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val dataSource: InvitesDataSource,
+    private val dataSource: RoomRequestsDataSource,
     private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource
 ) : ViewModel() {
 

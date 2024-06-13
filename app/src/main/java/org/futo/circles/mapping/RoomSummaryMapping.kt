@@ -2,11 +2,11 @@ package org.futo.circles.mapping
 
 import org.futo.circles.core.extensions.getCircleAvatarUrl
 import org.futo.circles.core.extensions.getRoomOwner
-import org.futo.circles.core.mapping.getKnocksCount
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
+import org.futo.circles.core.utils.getKnocksCount
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.JoinedGroupListItem

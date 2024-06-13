@@ -9,20 +9,20 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.getKnownUsersFlow
+import org.futo.circles.core.mapping.toRoomInviteListItem
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.InviteTypeArg
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.model.convertToCircleRoomType
-import org.futo.circles.core.model.toRoomInviteListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getAllRoomsLiveData
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
 
-class InvitesDataSource @Inject constructor() {
+class RoomRequestsDataSource @Inject constructor() {
 
     private val roomIdsToUnblurProfile = MutableStateFlow<Set<String>>(emptySet())
 
@@ -49,6 +49,11 @@ class InvitesDataSource @Inject constructor() {
             }
         }
     }.distinctUntilChanged()
+
+
+    fun getKnockRequestFlow() {
+
+    }
 
     private fun shouldBlurIconFor(
         roomSummary: RoomSummary,
