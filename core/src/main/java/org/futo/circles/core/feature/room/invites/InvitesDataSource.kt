@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
-import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
@@ -18,8 +17,7 @@ import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.model.convertToCircleRoomType
 import org.futo.circles.core.model.toRoomInviteListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getAllCirclesRoomsLiveData
-import org.matrix.android.sdk.api.session.getRoom
+import org.futo.circles.core.utils.getAllRoomsLiveData
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
@@ -31,7 +29,7 @@ class InvitesDataSource @Inject constructor() {
     fun getRoomInvitesFlow(
         inviteType: InviteTypeArg
     ): Flow<List<RoomInviteListItem>> = combine(
-        getAllCirclesRoomsLiveData(listOf(Membership.INVITE)).asFlow(),
+        getAllRoomsLiveData(listOf(Membership.INVITE)).asFlow(),
         MatrixSessionProvider.getSessionOrThrow().getKnownUsersFlow(),
         roomIdsToUnblurProfile
     ) { roomSummaries, knownUsers, roomIdsToUnblur ->

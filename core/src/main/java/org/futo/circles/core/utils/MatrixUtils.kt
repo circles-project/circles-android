@@ -78,11 +78,11 @@ private fun getAllRoomsFiler(membershipFilter: List<Membership>) = roomSummaryQu
     memberships = membershipFilter
 }
 
-fun getAllCirclesRoomsLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+fun getAllRoomsLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     MatrixSessionProvider.getSessionOrThrow().roomService()
         .getRoomSummariesLive(getAllRoomsFiler(membershipFilter))
 
-fun getAllCirclesRooms(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+fun getAllRooms(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     MatrixSessionProvider.getSessionOrThrow().roomService()
         .getRoomSummaries(getAllRoomsFiler(membershipFilter))
 
