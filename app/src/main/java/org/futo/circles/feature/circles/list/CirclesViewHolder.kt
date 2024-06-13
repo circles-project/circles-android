@@ -12,6 +12,7 @@ import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.utils.TextFormatUtils
 import org.futo.circles.databinding.ListItemJoinedCircleBinding
 import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
@@ -99,8 +100,11 @@ class CircleInviteNotificationViewHolder(
 
     override fun bind(data: CircleListItem) {
         if (data !is CircleInvitesNotificationListItem) return
-        binding.tvInvitesMessage.text =
-            context.getString(R.string.circle_invites_notification_format, data.invitesCount)
+        binding.tvInvitesMessage.text = TextFormatUtils.getFormattedInvitesKnocksMessage(
+            context,
+            data.invitesCount,
+            data.knocksCount
+        )
     }
 }
 

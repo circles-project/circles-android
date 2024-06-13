@@ -21,7 +21,8 @@ data class JoinedCircleListItem(
 ) : CircleListItem()
 
 data class CircleInvitesNotificationListItem(
-    val invitesCount: Int
+    val invitesCount: Int,
+    val knocksCount: Int
 ) : CircleListItem() {
     override val id: String = "CircleInvitesNotificationListItem"
 }

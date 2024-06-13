@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
-import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getTimelineRoomFor
@@ -34,8 +33,6 @@ class CirclesDataSource @Inject constructor(
     }.distinctUntilChanged()
 
     private suspend fun buildCirclesList(timelines: List<RoomSummary>): List<CircleListItem> {
-        val invitesCount = timelines.filter { it.membership == Membership.INVITE }.size
-
         val joinedCirclesWithTimelines = spacesTreeAccountDataSource.getJoinedCirclesIds()
             .mapNotNull { id ->
                 getJoinedRoomById(id)?.roomSummary()?.let { summary ->
@@ -45,8 +42,12 @@ class CirclesDataSource @Inject constructor(
                 }
             }
 
+        val invitesCount = timelines.filter { it.membership == Membership.INVITE }.size
+        var knocksCount = 0
+        joinedCirclesWithTimelines.forEach { knocksCount += it.knockRequestsCount }
+
         val displayList = mutableListOf<CircleListItem>().apply {
-            if (invitesCount > 0) add(CircleInvitesNotificationListItem(invitesCount))
+            if (invitesCount > 0) add(CircleInvitesNotificationListItem(invitesCount, knocksCount))
             addAll(joinedCirclesWithTimelines)
         }
         return displayList
