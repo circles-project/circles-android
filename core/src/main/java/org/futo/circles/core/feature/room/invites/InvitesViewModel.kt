@@ -11,12 +11,7 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.ConnectionInviteListItem
-import org.futo.circles.core.model.FollowRequestListItem
-import org.futo.circles.core.model.InviteHeader
-import org.futo.circles.core.model.InviteListItem
 import org.futo.circles.core.model.InviteTypeArg
 import org.futo.circles.core.model.RoomInviteListItem
 import javax.inject.Inject
@@ -25,36 +20,21 @@ import javax.inject.Inject
 class InvitesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val dataSource: InvitesDataSource,
-    private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource,
-    private val sharedCircleDataSource: SharedCircleDataSource
+    private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource
 ) : ViewModel() {
 
     private val inviteType: InviteTypeArg = savedStateHandle.getOrThrow("type")
 
     val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
     private val loadingItemsIdsList = MutableLiveData<Set<String>>(emptySet())
-    val invitesLiveData = MediatorLiveData<List<InviteListItem>>().also {
+    val invitesLiveData = MediatorLiveData<List<RoomInviteListItem>>().also {
         it.addSource(loadingItemsIdsList) { loadingItemsValue ->
             val currentList = it.value ?: emptyList()
             it.postValue(currentList.map { item ->
-                when (item) {
-                    is ConnectionInviteListItem -> item.copy(
-                        isLoading = loadingItemsValue.contains(item.id)
-                    )
-
-                    is FollowRequestListItem -> item.copy(
-                        isLoading = loadingItemsValue.contains(item.id)
-                    )
-
-                    is RoomInviteListItem -> item.copy(
-                        isLoading = loadingItemsValue.contains(item.id)
-                    )
-
-                    is InviteHeader -> item
-                }
+                item.copy(isLoading = loadingItemsValue.contains(item.id))
             })
         }
-        it.addSource(dataSource.getInvitesFlow(inviteType).asLiveData()) { value ->
+        it.addSource(dataSource.getRoomInvitesFlow(inviteType).asLiveData()) { value ->
             it.postValue(value)
         }
     }
@@ -77,27 +57,8 @@ class InvitesViewModel @Inject constructor(
         }
     }
 
-    fun onFollowRequestAnswered(userId: String, accepted: Boolean) {
-        launchBg {
-            toggleItemLoading(userId)
-            val result = if (accepted) dataSource.acceptFollowRequest(userId)
-            else dataSource.declineFollowRequest(userId)
-            postInviteResult(result, userId)
-        }
-    }
-
     fun unblurProfileIcon(roomId: String) {
         dataSource.unblurProfileImageFor(roomId)
-    }
-
-    fun onConnectionInviteAnswered(roomId: String, accepted: Boolean) {
-        if (accepted)
-            launchBg {
-                toggleItemLoading(roomId)
-                val result = sharedCircleDataSource.acceptSharedCircleInvite(roomId)
-                postInviteResult(result, roomId)
-            }
-        else rejectRoomInvite(roomId)
     }
 
     private fun postInviteResult(result: Response<Unit?>, id: String) {

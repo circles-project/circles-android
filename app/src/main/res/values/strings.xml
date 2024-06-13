@@ -14,7 +14,6 @@
     <string name="requests">Requests</string>
     <string name="no_results">No results</string>
     <string name="invites">Invites</string>
-    <string name="create_new_circle">Create new circle</string>
     <string name="log_out">Log out</string>
     <string name="followed_by_format">Followed by %d</string>
     <string name="requests_format">Requests %d</string>
@@ -94,7 +93,6 @@
     <string name="help">Help</string>
     <string name="group_invites_notification_format">Show %d Group invitations</string>
     <string name="circle_invites_notification_format">Show %d Circle invitations</string>
-    <string name="show_connection_invites_format">Show %d connection invites</string>
     <string name="downloading">Downloading</string>
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
     <string name="in_timeline_format">(in %1$s / %2$s)</string>

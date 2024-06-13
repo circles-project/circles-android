@@ -25,7 +25,42 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_inviteToFollowMeDialogFragment"
+            app:destination="@id/inviteToFollowMeDialogFragment">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
 
     </dialog>
+    <dialog
+        android:id="@+id/inviteToFollowMeDialogFragment"
+        android:name="org.futo.circles.core.feature.invite_to_follow.InviteToFollowMeDialogFragment"
+        tools:layout="@layout/dialog_fragment_invite_to_follow_me">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_create_room_nav_graph"
+            app:destination="@id/create_room_nav_graph">
+
+            <argument
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+
+    </dialog>
+
+    <include app:graph="@navigation/create_room_nav_graph" />
 
 </navigation>

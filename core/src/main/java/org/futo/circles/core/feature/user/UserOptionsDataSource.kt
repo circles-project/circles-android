@@ -1,14 +1,10 @@
 package org.futo.circles.core.feature.user
 
-import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.feature.workspace.SharedCircleDataSource
 import javax.inject.Inject
 
-class UserOptionsDataSource @Inject constructor(
-    private val sharedCircleDataSource: SharedCircleDataSource
-) {
+class UserOptionsDataSource @Inject constructor() {
 
     val ignoredUsersLiveData =
         MatrixSessionProvider.currentSession?.userService()?.getIgnoredUsersLive()
@@ -21,10 +17,4 @@ class UserOptionsDataSource @Inject constructor(
         MatrixSessionProvider.currentSession?.userService()?.unIgnoreUserIds(listOf(userId))
     }
 
-    fun amIFollowingUser(userId: String): Boolean =
-        sharedCircleDataSource.getSharedCircleFor(userId) != null
-
-    suspend fun unFollowUser(userId: String): Response<Unit?> = createResult {
-        sharedCircleDataSource.unfollowUsersSharedCircle(userId)
-    }
 }

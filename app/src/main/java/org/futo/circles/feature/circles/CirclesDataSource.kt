@@ -36,7 +36,7 @@ class CirclesDataSource @Inject constructor(
     private suspend fun buildCirclesList(timelines: List<RoomSummary>): List<CircleListItem> {
         val invitesCount = timelines.filter { it.membership == Membership.INVITE }.size
 
-        val joinedCirclesWithTimelines = getJoinedCirclesIds()
+        val joinedCirclesWithTimelines = spacesTreeAccountDataSource.getJoinedCirclesIds()
             .mapNotNull { id ->
                 getJoinedRoomById(id)?.roomSummary()?.let { summary ->
                     getOrCreateTimeLineIfNotExist(summary.roomId)?.let { timelineId ->
@@ -50,16 +50,6 @@ class CirclesDataSource @Inject constructor(
             addAll(joinedCirclesWithTimelines)
         }
         return displayList
-    }
-
-    fun getJoinedCirclesIds(): List<String> {
-        val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(
-            CIRCLES_SPACE_ACCOUNT_DATA_KEY
-        ) ?: return emptyList()
-        val ids = getJoinedRoomById(circlesSpaceId)?.roomSummary()?.spaceChildren
-            ?.map { it.childRoomId }
-            ?.filter { getJoinedRoomById(it) != null }
-        return ids ?: emptyList()
     }
 
     private suspend fun getOrCreateTimeLineIfNotExist(circleId: String): String? = tryOrNull {

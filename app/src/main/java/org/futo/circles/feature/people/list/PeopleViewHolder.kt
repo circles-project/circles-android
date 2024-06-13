@@ -3,10 +3,8 @@ package org.futo.circles.feature.people.list
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
-import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.databinding.ListItemPeopleCategoryBinding
 import org.futo.circles.core.databinding.ListItemPeopleDefaultBinding
 import org.futo.circles.core.extensions.gone
@@ -17,7 +15,6 @@ import org.futo.circles.databinding.ListItemPeopleIgnoredBinding
 import org.futo.circles.model.PeopleCategoryListItem
 import org.futo.circles.model.PeopleIgnoredUserListItem
 import org.futo.circles.model.PeopleListItem
-import org.futo.circles.model.PeopleRequestNotificationListItem
 import org.futo.circles.model.PeopleUserListItem
 import org.futo.circles.model.PeopleUserListItemPayload
 
@@ -109,26 +106,6 @@ class IgnoredUsersViewHolder(
         }
     }
 
-}
-
-class FollowRequestNotificationViewHolder(
-    parent: ViewGroup,
-    onClicked: () -> Unit
-) : PeopleViewHolder(inflate(parent, ListItemInviteNotificationBinding::inflate)) {
-
-    private companion object : ViewBindingHolder
-
-    private val binding = baseBinding as ListItemInviteNotificationBinding
-
-    init {
-        onClick(binding.lInviteNotification) { _ -> onClicked() }
-    }
-
-    override fun bind(data: PeopleListItem) {
-        if (data !is PeopleRequestNotificationListItem) return
-        binding.tvInvitesMessage.text =
-            context.getString(R.string.show_connection_invites_format, data.requestsCount)
-    }
 }
 
 class PeopleCategoryViewHolder(

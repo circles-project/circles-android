@@ -65,7 +65,6 @@
     <string name="set_access_level">Set access level</string>
     <string name="invite">Invite</string>
     <string name="share_room">Share room</string>
-    <string name="share_profile">Share profile</string>
     <string name="share_url">Share url</string>
     <string name="invite_to_format">Invite to %s</string>
     <string name="invitation_sent">Invitation sent</string>
@@ -134,7 +133,6 @@
     <string name="create">Create</string>
     <string name="show">Show</string>
     <string name="gallery_invites_notification_format">Show %d Gallery invitations</string>
-    <string name="connection_invites_requests">Connection invites/requests</string>
     <string name="group_invitations">Group invitations</string>
     <string name="gallery_invitations">Gallery invitations</string>
     <string name="circle_invitations">Circle invitations</string>
@@ -144,7 +142,6 @@
     <string name="other_known_users">Other known users</string>
     <string name="unfollow">Unfollow</string>
     <string name="unfollow_user_timeline">Are you sure you want to unfollow this timeline?</string>
-    <string name="unfollow_user_message">Are you sure you want to unfollow this user?</string>
     <string name="ignore">Ignore</string>
     <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
     <string name="request_sent">Request sent</string>
@@ -255,6 +252,10 @@
     <string name="shared_galleries">Shared Galleries</string>
     <string name="remove_image">Remove image</string>
     <string name="remove_image_message">Are you sure you want to remove this image?</string>
+    <string name="invite_to_follow_me">Invite to follow me</string>
+    <string name="select_circles_to_which_you_want_to_invite_format">Select circles to which you want to invite %s</string>
+    <string name="create_your_first_circle_to_be_able_to_invite">Create your first Circle to be able to invite</string>
+    <string name="create_new_circle">Create new circle</string>
 
     <plurals name="notification_compat_summary_line_for_room">
         <item quantity="one">%1$s: %2$d message</item>

@@ -21,34 +21,8 @@
 
         </action>
         <action
-            android:id="@+id/to_invites"
-            app:destination="@id/invites_nav_graph">
-
-            <argument
-                android:name="type"
-                android:defaultValue="People"
-                app:argType="org.futo.circles.core.model.InviteTypeArg"
-                app:nullable="false" />
-
-        </action>
-        <action
             android:id="@+id/to_editProfileDialogFragment"
             app:destination="@id/editProfileDialogFragment" />
-        <action
-            android:id="@+id/to_shareProfileDialogFragment"
-            app:destination="@id/share_room_nav_graph">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="urlType"
-                app:argType="org.futo.circles.core.model.ShareUrlTypeArg"
-                app:nullable="false" />
-
-        </action>
         <action
             android:id="@+id/to_peopleCategoryDialogFragment"
             app:destination="@id/peopleCategoryDialogFragment">
@@ -60,10 +34,6 @@
 
         </action>
     </fragment>
-
-    <include app:graph="@navigation/invites_nav_graph" />
-
-    <include app:graph="@navigation/share_room_nav_graph" />
 
     <include app:graph="@navigation/user_nav_graph" />
 

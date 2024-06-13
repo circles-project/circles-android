@@ -15,9 +15,6 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.feature.room.invites.list.InvitesAdapter
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.ConnectionInviteListItem
-import org.futo.circles.core.model.FollowRequestListItem
-import org.futo.circles.core.model.InviteListItem
 import org.futo.circles.core.model.InviteTypeArg
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.view.EmptyTabPlaceholderView
@@ -66,26 +63,16 @@ class InvitesDialogFragment :
             InviteTypeArg.Circle -> R.string.circle_invitations
             InviteTypeArg.Group -> R.string.group_invitations
             InviteTypeArg.Photo -> R.string.gallery_invitations
-            InviteTypeArg.People -> R.string.connection_invites_requests
         }
     )
 
     private fun getEmptyMessage() = getString(R.string.no_new_invitations_format, getTitle())
 
-    private fun onInviteClicked(item: InviteListItem, isAccepted: Boolean) {
+    private fun onInviteClicked(item: RoomInviteListItem, isAccepted: Boolean) {
         if (showNoInternetConnection()) return
-        when (item) {
-            is ConnectionInviteListItem -> viewModel.onConnectionInviteAnswered(
-                item.roomId, isAccepted
-            )
-
-            is FollowRequestListItem -> viewModel.onFollowRequestAnswered(item.id, isAccepted)
-            is RoomInviteListItem -> when (item.roomType) {
-                CircleRoomTypeArg.Circle -> handleCircleInvite(item.id, isAccepted)
-                else -> handleRoomInvite(item.id, isAccepted, item.roomType)
-            }
-
-            else -> {}
+        when (item.roomType) {
+            CircleRoomTypeArg.Circle -> handleCircleInvite(item.id, isAccepted)
+            else -> handleRoomInvite(item.id, isAccepted, item.roomType)
         }
     }
 
@@ -105,6 +92,5 @@ class InvitesDialogFragment :
             InvitesDialogFragmentDirections.toAcceptCircleInviteDialogFragment(roomId)
         )
     }
-
 
 }

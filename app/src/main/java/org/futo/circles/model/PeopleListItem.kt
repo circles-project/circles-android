@@ -52,9 +52,3 @@ class PeopleIgnoredUserListItem(
 ) : PeopleListItem() {
     override val id: String = user.id
 }
-
-class PeopleRequestNotificationListItem(
-    val requestsCount: Int
-) : PeopleListItem() {
-    override val id: String = "PeopleRequestNotificationListItem"
-}

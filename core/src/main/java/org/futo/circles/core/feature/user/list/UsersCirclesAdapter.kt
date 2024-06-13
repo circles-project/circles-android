@@ -12,7 +12,6 @@ import org.futo.circles.core.model.TimelineRoomListItem
 
 private enum class TimelineViewType { Header, Room, MutualFriend }
 class UsersCirclesAdapter(
-    private val onRequestFollow: (String) -> Unit,
     private val onUnFollow: (String) -> Unit,
     private val onUserClicked: (String) -> Unit
 ) : BaseRvAdapter<TimelineListItem, UserTimelineViewHolder>(DefaultIdEntityCallback()) {
@@ -30,7 +29,6 @@ class UsersCirclesAdapter(
         Header -> UserTimelineHeaderViewHolder(parent)
         Room -> UsersTimelineRoomViewHolder(
             parent,
-            onRequestFollow = { position -> onRequestFollow(getItem(position).id) },
             onUnFollow = { position -> onUnFollow(getItem(position).id) },
         )
 
