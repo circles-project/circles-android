@@ -25,13 +25,19 @@ class GroupsDataSource @Inject constructor() {
 
 
     private fun buildList(groups: List<RoomSummary>): List<GroupListItem> {
-        val joinedGroups = groups.filter { it.membership == Membership.JOIN }
-        val invitesCount = groups.filter { it.membership == Membership.INVITE }.size
-        return mutableListOf<GroupListItem>().apply {
-            if (invitesCount > 0)
-                add(GroupInvitesNotificationListItem(invitesCount))
+        val joinedGroups = groups
+            .filter { it.membership == Membership.JOIN }
+            .map { it.toJoinedGroupListItem() }
 
-            addAll(joinedGroups.map { it.toJoinedGroupListItem() })
+        val invitesCount = groups.filter { it.membership == Membership.INVITE }.size
+        var knocksCount = 0
+        joinedGroups.forEach { knocksCount += it.knockRequestsCount }
+
+        return mutableListOf<GroupListItem>().apply {
+            if (invitesCount > 0 || knocksCount > 0)
+                add(GroupInvitesNotificationListItem(invitesCount, knocksCount))
+
+            addAll(joinedGroups)
         }
     }
 }
