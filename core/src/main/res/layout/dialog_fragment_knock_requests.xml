@@ -9,10 +9,10 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
-        app:title="@string/knock_requests"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="@string/requests_for_invitation"
         app:titleCentered="true" />
 
     <View
