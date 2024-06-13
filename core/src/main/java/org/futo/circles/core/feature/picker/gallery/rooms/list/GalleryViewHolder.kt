@@ -3,7 +3,6 @@ package org.futo.circles.core.feature.picker.gallery.rooms.list
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import org.futo.circles.core.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
@@ -19,6 +18,7 @@ import org.futo.circles.core.model.GalleryHeaderItem
 import org.futo.circles.core.model.GalleryInvitesNotificationListItem
 import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.model.JoinedGalleryListItem
+import org.futo.circles.core.utils.TextFormatUtils
 
 
 abstract class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -73,8 +73,11 @@ class GalleryInviteNotificationViewHolder(
 
     override fun bind(data: GalleryListItem) {
         if (data !is GalleryInvitesNotificationListItem) return
-        binding.tvInvitesMessage.text =
-            context.getString(R.string.gallery_invites_notification_format, data.invitesCount)
+        binding.tvInvitesMessage.text = TextFormatUtils.getFormattedInvitesKnocksMessage(
+            context,
+            data.invitesCount,
+            data.knocksCount
+        )
     }
 }
 

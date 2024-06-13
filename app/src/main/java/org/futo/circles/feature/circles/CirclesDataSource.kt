@@ -47,7 +47,9 @@ class CirclesDataSource @Inject constructor(
         joinedCirclesWithTimelines.forEach { knocksCount += it.knockRequestsCount }
 
         val displayList = mutableListOf<CircleListItem>().apply {
-            if (invitesCount > 0) add(CircleInvitesNotificationListItem(invitesCount, knocksCount))
+            if (invitesCount > 0 || knocksCount > 0) {
+                add(CircleInvitesNotificationListItem(invitesCount, knocksCount))
+            }
             addAll(joinedCirclesWithTimelines)
         }
         return displayList

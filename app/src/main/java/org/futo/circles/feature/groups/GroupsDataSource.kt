@@ -34,8 +34,9 @@ class GroupsDataSource @Inject constructor() {
         joinedGroups.forEach { knocksCount += it.knockRequestsCount }
 
         return mutableListOf<GroupListItem>().apply {
-            if (invitesCount > 0 || knocksCount > 0)
+            if (invitesCount > 0 || knocksCount > 0) {
                 add(GroupInvitesNotificationListItem(invitesCount, knocksCount))
+            }
 
             addAll(joinedGroups)
         }
