@@ -24,7 +24,7 @@ class RoomRequestsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val inviteType: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
-    private val roomId: String? = savedStateHandle["type"]
+    private val roomId: String? = savedStateHandle["roomId"]
 
     val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
     private val loadingItemsIdsList = MutableLiveData<Set<String>>(emptySet())
