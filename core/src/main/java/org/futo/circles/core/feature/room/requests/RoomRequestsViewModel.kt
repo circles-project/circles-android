@@ -1,7 +1,5 @@
 package org.futo.circles.core.feature.room.requests
 
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -13,38 +11,24 @@ import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
-import org.futo.circles.core.model.RoomInviteListItem
 import javax.inject.Inject
 
 @HiltViewModel
 class RoomRequestsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val dataSource: RoomRequestsDataSource,
+    private val requestsDataSource: RoomRequestsDataSource,
     private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource
 ) : ViewModel() {
 
     private val inviteType: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
     private val roomId: String? = savedStateHandle["roomId"]
 
-    val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
-    private val loadingItemsIdsList = MutableLiveData<Set<String>>(emptySet())
-    val invitesLiveData = MediatorLiveData<List<RoomInviteListItem>>().also {
-        it.addSource(loadingItemsIdsList) { loadingItemsValue ->
-            val currentList = it.value ?: emptyList()
-            it.postValue(currentList.map { item ->
-                item.copy(isLoading = loadingItemsValue.contains(item.id))
-            })
-        }
-        it.addSource(dataSource.getRoomInvitesFlow(inviteType).asLiveData()) { value ->
-            it.postValue(value)
-        }
-    }
-
-    fun getInviteType() = inviteType
+    val requestResultLiveData = SingleEventLiveData<Response<Unit?>>()
+    val requestsLiveData = requestsDataSource.getRequestsFlow(inviteType, roomId).asLiveData()
 
     fun rejectRoomInvite(roomId: String) {
         launchBg {
-            toggleItemLoading(roomId)
+            requestsDataSource.toggleItemLoading(roomId)
             val result = manageInviteRequestsDataSource.rejectInvite(roomId)
             postInviteResult(result, roomId)
         }
@@ -52,7 +36,7 @@ class RoomRequestsViewModel @Inject constructor(
 
     fun acceptRoomInvite(roomId: String, roomType: CircleRoomTypeArg) {
         launchBg {
-            toggleItemLoading(roomId)
+            requestsDataSource.toggleItemLoading(roomId)
             val result = manageInviteRequestsDataSource.acceptInvite(roomId, roomType)
             postInviteResult(result, roomId)
         }
@@ -61,38 +45,28 @@ class RoomRequestsViewModel @Inject constructor(
     fun inviteUser(knockRequest: KnockRequestListItem) {
         roomId ?: return
         launchBg {
-            toggleItemLoading(knockRequest.id)
+            requestsDataSource.toggleItemLoading(knockRequest.id)
             val result = manageInviteRequestsDataSource.inviteUser(roomId, knockRequest.requesterId)
-            inviteResultLiveData.postValue(result)
-            toggleItemLoading(knockRequest.id)
+            postInviteResult(result, knockRequest.id)
         }
     }
 
     fun kickUser(knockRequest: KnockRequestListItem) {
         roomId ?: return
         launchBg {
-            toggleItemLoading(knockRequest.id)
-            manageInviteRequestsDataSource.kickUser(roomId, knockRequest.requesterId)
-            toggleItemLoading(knockRequest.id)
+            requestsDataSource.toggleItemLoading(knockRequest.id)
+            val result = manageInviteRequestsDataSource.kickUser(roomId, knockRequest.requesterId)
+            postInviteResult(result, knockRequest.id)
         }
     }
 
     fun unblurProfileIcon(roomId: String) {
-        dataSource.unblurProfileImageFor(roomId)
+        requestsDataSource.unblurProfileImageFor(roomId)
     }
 
     private fun postInviteResult(result: Response<Unit?>, id: String) {
-        inviteResultLiveData.postValue(result)
-        toggleItemLoading(id)
-    }
-
-    private fun toggleItemLoading(id: String) {
-        val currentSet = loadingItemsIdsList.value?.toMutableSet() ?: return
-        val newLoadingSet = currentSet.apply {
-            if (this.contains(id)) remove(id)
-            else add(id)
-        }
-        loadingItemsIdsList.postValue(newLoadingSet)
+        requestResultLiveData.postValue(result)
+        requestsDataSource.toggleItemLoading(id)
     }
 
 }

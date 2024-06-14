@@ -2,6 +2,7 @@ package org.futo.circles.gallery.feature.gallery
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.base.SingleEventLiveData
@@ -26,5 +27,6 @@ class GalleryDialogFragmentViewModel @Inject constructor(
 
     val deleteGalleryLiveData = SingleEventLiveData<Response<Unit?>>()
 
-    val knockRequestCountLiveData = knockRequestsDataSource.getKnockRequestCountLiveDataForCurrentUserInRoom(roomId)
+    val knockRequestCountLiveData =
+        knockRequestsDataSource.getKnockRequestCountFlow(roomId).asLiveData()
 }

@@ -9,8 +9,8 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.RoomNotificationsDataSource
-import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.room.leave.LeaveRoomDataSource
+import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -32,10 +32,9 @@ class TimelineOptionsViewModel @Inject constructor(
     val leaveDeleteEventLiveData = SingleEventLiveData<Response<Unit?>>()
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
-    val knockRequestCountLiveData =
-        knockRequestsDataSource.getKnockRequestCountLiveDataForCurrentUserInRoom(
-            timelineId ?: roomId
-        )
+    val knockRequestCountLiveData = knockRequestsDataSource.getKnockRequestCountFlow(
+        timelineId ?: roomId
+    ).asLiveData()
 
     val roomSummaryLiveData =
         MatrixSessionProvider.getSessionOrThrow().getRoom(roomId)?.getRoomSummaryLive()

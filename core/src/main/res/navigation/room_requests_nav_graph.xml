@@ -16,6 +16,7 @@
 
         <argument
             android:name="roomId"
+            android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
@@ -25,6 +26,7 @@ class RoomRequestsDialogFragment :
         DialogFragmentRoomRequestsBinding::inflate
     ) {
 
+    private val args: RoomRequestsDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<RoomRequestsViewModel>()
 
     private val roomRequestsAdapter by lazy {
@@ -57,12 +59,12 @@ class RoomRequestsDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.invitesLiveData.observeData(this) { roomRequestsAdapter.submitList(it) }
-        viewModel.inviteResultLiveData.observeResponse(this)
+        viewModel.requestsLiveData.observeData(this) { roomRequestsAdapter.submitList(it) }
+        viewModel.requestResultLiveData.observeResponse(this)
     }
 
     private fun getTitle(): String = getString(
-        when (viewModel.getInviteType()) {
+        when (args.type) {
             CircleRoomTypeArg.Circle -> R.string.circle_invitations
             CircleRoomTypeArg.Group -> R.string.group_invitations
             CircleRoomTypeArg.Photo -> R.string.gallery_invitations

@@ -32,13 +32,13 @@ val circlesRoomsTypes = listOf(
     GROUP_TYPE
 )
 
-private fun getRoomsLiveDataWithType(
+fun getRoomsLiveDataWithType(
     type: String,
     membershipFilter: List<Membership> = Membership.activeMemberships()
 ) = MatrixSessionProvider.getSessionOrThrow().roomService()
     .getRoomSummariesLive(getCirclesRoomTypeFilter(type, membershipFilter))
 
-private fun getRoomsWithType(
+fun getRoomsWithType(
     type: String,
     membershipFilter: List<Membership> = Membership.activeMemberships()
 ) = MatrixSessionProvider.getSessionOrThrow().roomService()
