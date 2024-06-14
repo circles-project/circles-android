@@ -14,3 +14,9 @@ fun convertToCircleRoomType(roomType: String?) = when (roomType) {
     GALLERY_TYPE -> CircleRoomTypeArg.Photo
     else -> CircleRoomTypeArg.Group
 }
+
+fun convertToStringRoomType(roomType: CircleRoomTypeArg) = when (roomType) {
+    CircleRoomTypeArg.Group -> GROUP_TYPE
+    CircleRoomTypeArg.Circle -> TIMELINE_TYPE
+    CircleRoomTypeArg.Photo -> GALLERY_TYPE
+}
