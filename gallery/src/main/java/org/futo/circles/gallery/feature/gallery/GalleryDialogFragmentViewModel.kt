@@ -7,7 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
+import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom

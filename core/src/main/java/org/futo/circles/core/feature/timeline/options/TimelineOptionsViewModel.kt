@@ -9,7 +9,7 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.RoomNotificationsDataSource
-import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
+import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.room.leave.LeaveRoomDataSource
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg

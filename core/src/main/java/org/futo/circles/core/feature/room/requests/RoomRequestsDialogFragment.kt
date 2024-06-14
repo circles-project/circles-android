@@ -1,4 +1,4 @@
-package org.futo.circles.core.feature.room.invites
+package org.futo.circles.core.feature.room.requests
 
 import android.os.Bundle
 import android.view.View
@@ -13,7 +13,7 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showNoInternetConnection
-import org.futo.circles.core.feature.room.invites.list.RoomRequestsAdapter
+import org.futo.circles.core.feature.room.requests.list.RoomRequestsAdapter
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem

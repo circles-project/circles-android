@@ -1,4 +1,4 @@
-package org.futo.circles.core.feature.room.invites.list
+package org.futo.circles.core.feature.room.requests.list
 
 import android.view.View
 import android.view.ViewGroup

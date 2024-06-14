@@ -1,4 +1,4 @@
-package org.futo.circles.core.feature.room.knoks
+package org.futo.circles.core.feature.room.requests
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

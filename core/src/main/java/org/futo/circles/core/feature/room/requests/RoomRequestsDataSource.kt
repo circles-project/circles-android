@@ -1,4 +1,4 @@
-package org.futo.circles.core.feature.room.invites
+package org.futo.circles.core.feature.room.requests
 
 import androidx.lifecycle.asFlow
 import kotlinx.coroutines.Dispatchers
@@ -11,11 +11,9 @@ import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.mapping.toRoomInviteListItem
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.GALLERY_TYPE
-import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.RoomInviteListItem
-import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.model.convertToCircleRoomType
+import org.futo.circles.core.model.convertToStringRoomType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getAllRoomsLiveData
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -36,11 +34,7 @@ class RoomRequestsDataSource @Inject constructor() {
         withContext(Dispatchers.IO) {
             val knownUsersIds = knownUsers.map { it.userId }.toSet()
             roomSummaries.filter {
-                when (inviteType) {
-                    CircleRoomTypeArg.Circle -> it.roomType == TIMELINE_TYPE
-                    CircleRoomTypeArg.Group -> it.roomType == GROUP_TYPE
-                    CircleRoomTypeArg.Photo -> it.roomType == GALLERY_TYPE
-                }
+                it.roomType == convertToStringRoomType(inviteType)
             }.map {
                 it.toRoomInviteListItem(
                     convertToCircleRoomType(it.roomType),
