@@ -50,7 +50,7 @@
 
     <include app:graph="@navigation/timeline_nav_graph" />
 
-    <include app:graph="@navigation/invites_nav_graph" />
+    <include app:graph="@navigation/room_requests_nav_graph" />
 
     <include app:graph="@navigation/create_room_nav_graph" />
 
