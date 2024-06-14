@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.mapping.toRoomInviteListItem
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
-import org.futo.circles.core.model.InviteTypeArg
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.model.convertToCircleRoomType
@@ -27,7 +27,7 @@ class RoomRequestsDataSource @Inject constructor() {
     private val roomIdsToUnblurProfile = MutableStateFlow<Set<String>>(emptySet())
 
     fun getRoomInvitesFlow(
-        inviteType: InviteTypeArg
+        inviteType: CircleRoomTypeArg
     ): Flow<List<RoomInviteListItem>> = combine(
         getAllRoomsLiveData(listOf(Membership.INVITE)).asFlow(),
         MatrixSessionProvider.getSessionOrThrow().getKnownUsersFlow(),
@@ -37,9 +37,9 @@ class RoomRequestsDataSource @Inject constructor() {
             val knownUsersIds = knownUsers.map { it.userId }.toSet()
             roomSummaries.filter {
                 when (inviteType) {
-                    InviteTypeArg.Circle -> it.roomType == TIMELINE_TYPE
-                    InviteTypeArg.Group -> it.roomType == GROUP_TYPE
-                    InviteTypeArg.Photo -> it.roomType == GALLERY_TYPE
+                    CircleRoomTypeArg.Circle -> it.roomType == TIMELINE_TYPE
+                    CircleRoomTypeArg.Group -> it.roomType == GROUP_TYPE
+                    CircleRoomTypeArg.Photo -> it.roomType == GALLERY_TYPE
                 }
             }.map {
                 it.toRoomInviteListItem(

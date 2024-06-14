@@ -33,35 +33,49 @@ class RoomRequestsAdapter(
         RoomRequestViewType.CircleInvite -> InvitedCircleViewHolder(
             parent = parent,
             onInviteClicked = { position, isAccepted ->
-                onInviteClicked(getItem(position), isAccepted)
+                (getItem(position) as? RoomInviteListItem)?.let {
+                    onInviteClicked(it, isAccepted)
+                }
             },
             onShowProfileIconClicked = { position ->
-                onUnblurProfileIconClicked(getItem(position))
+                (getItem(position) as? RoomInviteListItem)?.let {
+                    onUnblurProfileIconClicked(it)
+                }
             })
 
         RoomRequestViewType.GroupInvite -> InvitedGroupViewHolder(
             parent = parent,
             onInviteClicked = { position, isAccepted ->
-                onInviteClicked(getItem(position), isAccepted)
+                (getItem(position) as? RoomInviteListItem)?.let {
+                    onInviteClicked(it, isAccepted)
+                }
             },
             onShowProfileIconClicked = { position ->
-                onUnblurProfileIconClicked(getItem(position))
+                (getItem(position) as? RoomInviteListItem)?.let {
+                    onUnblurProfileIconClicked(it)
+                }
             })
 
         RoomRequestViewType.PhotoInvite ->
             InvitedGalleryViewHolder(
                 parent = parent,
                 onInviteClicked = { position, isAccepted ->
-                    onInviteClicked(getItem(position), isAccepted)
+                    (getItem(position) as? RoomInviteListItem)?.let {
+                        onInviteClicked(it, isAccepted)
+                    }
                 },
                 onShowProfileIconClicked = { position ->
-                    onUnblurProfileIconClicked(getItem(position))
+                    (getItem(position) as? RoomInviteListItem)?.let {
+                        onUnblurProfileIconClicked(it)
+                    }
                 })
 
         RoomRequestViewType.Knock -> KnockRequestViewHolder(
             parent = parent,
             onRequestClicked = { position, isAccepted ->
-                onKnockClicked(getItem(position), isAccepted)
+                (getItem(position) as? KnockRequestListItem)?.let {
+                    onKnockClicked(it, isAccepted)
+                }
             }
         )
 

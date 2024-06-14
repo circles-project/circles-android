@@ -11,8 +11,13 @@
 
         <argument
             android:name="type"
-            app:argType="org.futo.circles.core.model.InviteTypeArg"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
             app:nullable="false" />
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="true" />
 
     </dialog>
 

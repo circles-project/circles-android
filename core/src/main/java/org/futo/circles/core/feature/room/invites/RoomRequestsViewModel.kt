@@ -12,7 +12,6 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.InviteTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem
 import javax.inject.Inject
@@ -24,7 +23,8 @@ class RoomRequestsViewModel @Inject constructor(
     private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource
 ) : ViewModel() {
 
-    private val inviteType: InviteTypeArg = savedStateHandle.getOrThrow("type")
+    private val inviteType: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
+    private val roomId: String? = savedStateHandle["type"]
 
     val inviteResultLiveData = SingleEventLiveData<Response<Unit?>>()
     private val loadingItemsIdsList = MutableLiveData<Set<String>>(emptySet())
@@ -58,20 +58,22 @@ class RoomRequestsViewModel @Inject constructor(
         }
     }
 
-    fun inviteUser(user: KnockRequestListItem) {
+    fun inviteUser(knockRequest: KnockRequestListItem) {
+        roomId ?: return
         launchBg {
-            toggleItemLoading(user.id)
-            val result = manageInviteRequestsDataSource.inviteUser(roomId, user.requesterId)
+            toggleItemLoading(knockRequest.id)
+            val result = manageInviteRequestsDataSource.inviteUser(roomId, knockRequest.requesterId)
             inviteResultLiveData.postValue(result)
-            toggleItemLoading(user.id)
+            toggleItemLoading(knockRequest.id)
         }
     }
 
-    fun kickUser(user: KnockRequestListItem) {
+    fun kickUser(knockRequest: KnockRequestListItem) {
+        roomId ?: return
         launchBg {
-            toggleItemLoading(user.id)
-            manageInviteRequestsDataSource.kickUser(roomId, user.requesterId)
-            toggleItemLoading(user.id)
+            toggleItemLoading(knockRequest.id)
+            manageInviteRequestsDataSource.kickUser(roomId, knockRequest.requesterId)
+            toggleItemLoading(knockRequest.id)
         }
     }
 

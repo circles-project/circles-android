@@ -99,7 +99,7 @@ class TimelineOptionsDialogFragment :
                 setOnClickListener { navigator.navigateToInviteMembers(timelineId) }
             }
             tvKnockRequests.setOnClickListener {
-                navigator.navigateToKnockRequests(timelineId)
+                navigator.navigateToRequestForInvite(args.type, timelineId)
             }
             tvLeave.apply {
                 setIsVisible(args.type != CircleRoomTypeArg.Circle)

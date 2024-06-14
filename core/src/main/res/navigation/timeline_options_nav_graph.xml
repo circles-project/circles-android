@@ -105,8 +105,13 @@
 
         </action>
         <action
-            android:id="@+id/to_RoomRequests"
+            android:id="@+id/to_roomRequests"
             app:destination="@id/room_requests_nav_graph">
+
+            <argument
+                android:name="type"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
 
             <argument
                 android:name="roomId"

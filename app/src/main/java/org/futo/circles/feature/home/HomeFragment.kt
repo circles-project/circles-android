@@ -22,8 +22,8 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
+import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
-import org.futo.circles.core.model.InviteTypeArg
 import org.futo.circles.core.model.LoadingData
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
@@ -92,10 +92,10 @@ class HomeFragment :
     }
 
     private fun handleInviteNotificationOpen(type: String) {
-        val inviteType = if (type == GROUP_TYPE) InviteTypeArg.Group
-        else InviteTypeArg.Circle
+        val inviteType = if (type == GROUP_TYPE) CircleRoomTypeArg.Group
+        else CircleRoomTypeArg.Circle
         binding.bottomNavigationView.post {
-            findNavController().navigateSafe(HomeFragmentDirections.toInvites(inviteType))
+            findNavController().navigateSafe(HomeFragmentDirections.toRoomRequests(inviteType))
         }
     }
 

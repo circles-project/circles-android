@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.databinding.DialogFragmentInvitesBinding
 import org.futo.circles.core.databinding.DialogFragmentRoomRequestsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -16,14 +15,15 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.feature.room.invites.list.RoomRequestsAdapter
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.InviteTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
 class RoomRequestsDialogFragment :
-    BaseFullscreenDialogFragment<DialogFragmentRoomRequestsBinding>(DialogFragmentRoomRequestsBinding::inflate) {
+    BaseFullscreenDialogFragment<DialogFragmentRoomRequestsBinding>(
+        DialogFragmentRoomRequestsBinding::inflate
+    ) {
 
     private val viewModel by viewModels<RoomRequestsViewModel>()
 
@@ -63,9 +63,9 @@ class RoomRequestsDialogFragment :
 
     private fun getTitle(): String = getString(
         when (viewModel.getInviteType()) {
-            InviteTypeArg.Circle -> R.string.circle_invitations
-            InviteTypeArg.Group -> R.string.group_invitations
-            InviteTypeArg.Photo -> R.string.gallery_invitations
+            CircleRoomTypeArg.Circle -> R.string.circle_invitations
+            CircleRoomTypeArg.Group -> R.string.group_invitations
+            CircleRoomTypeArg.Photo -> R.string.gallery_invitations
         }
     )
 

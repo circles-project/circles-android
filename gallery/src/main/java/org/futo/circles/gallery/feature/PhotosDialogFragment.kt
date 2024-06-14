@@ -37,7 +37,7 @@ class PhotosDialogFragment :
         PhotosListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onOpenInvitesClicked = {
-                findNavController().navigateSafe(PhotosDialogFragmentDirections.toInvites())
+                findNavController().navigateSafe(PhotosDialogFragmentDirections.toRoomRequests())
             }
         )
     }
