@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.mapping.toRoomInviteListItem
 import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.model.RoomRequestHeaderItem
 import org.futo.circles.core.model.RoomRequestListItem
@@ -38,18 +38,24 @@ class RoomRequestsDataSource @Inject constructor(
             getRoomInvitesFlow(inviteType),
             getKnockRequestFlow(inviteType)
         ) { invites, knocks ->
-            mutableListOf<RoomRequestListItem>().apply {
-                addSection(
-                    RoomRequestHeaderItem.invitesHeader,
-                    invites
-                )
-                addSection(
-                    RoomRequestHeaderItem.requestForInviteHeader,
-                    knocks
-                )
+            withContext(Dispatchers.IO) {
+                buildRequestsList(invites, knocks)
             }
-
         }
+    }.distinctUntilChanged()
+
+    private fun buildRequestsList(
+        invites: List<RoomInviteListItem>,
+        knocks: List<KnockRequestListItem>
+    ): List<RoomRequestListItem> = mutableListOf<RoomRequestListItem>().apply {
+        addSection(
+            RoomRequestHeaderItem.invitesHeader,
+            invites
+        )
+        addSection(
+            RoomRequestHeaderItem.requestForInviteHeader,
+            knocks
+        )
     }
 
 
@@ -74,22 +80,22 @@ class RoomRequestsDataSource @Inject constructor(
         MatrixSessionProvider.getSessionOrThrow().getKnownUsersFlow(),
         roomIdsToUnblurProfile
     ) { roomSummaries, knownUsers, roomIdsToUnblur ->
-        withContext(Dispatchers.IO) {
-            val knownUsersIds = knownUsers.map { it.userId }.toSet()
-            roomSummaries.map {
-                it.toRoomInviteListItem(
-                    convertToCircleRoomType(it.roomType),
-                    shouldBlurIconFor(it, knownUsersIds, roomIdsToUnblur)
-                )
-            }
+        val knownUsersIds = knownUsers.map { it.userId }.toSet()
+        roomSummaries.map {
+            it.toRoomInviteListItem(
+                convertToCircleRoomType(it.roomType),
+                shouldBlurIconFor(it, knownUsersIds, roomIdsToUnblur)
+            )
         }
-    }.distinctUntilChanged()
+    }
 
 
-    private fun getKnockRequestFlow(inviteType: CircleRoomTypeArg) = getRoomsWithType(
-        convertToStringRoomType(inviteType), listOf(Membership.JOIN)
-    ).map { knockRequestsDataSource.getKnockRequestsListItemsFlow(it.roomId) }.merge()
-        .distinctUntilChanged()
+    private fun getKnockRequestFlow(inviteType: CircleRoomTypeArg): Flow<List<KnockRequestListItem>> {
+        val flows = getRoomsWithType(
+            convertToStringRoomType(inviteType), listOf(Membership.JOIN)
+        ).map { knockRequestsDataSource.getKnockRequestsListItemsFlow(it.roomId) }
+        return combine(flows) { values -> values.toList().flatten() }
+    }
 
     private fun shouldBlurIconFor(
         roomSummary: RoomSummary,
