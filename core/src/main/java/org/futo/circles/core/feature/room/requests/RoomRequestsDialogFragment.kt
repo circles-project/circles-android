@@ -1,38 +1,43 @@
-package org.futo.circles.core.feature.room.invites
+package org.futo.circles.core.feature.room.requests
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.databinding.DialogFragmentInvitesBinding
+import org.futo.circles.core.databinding.DialogFragmentRoomRequestsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showNoInternetConnection
-import org.futo.circles.core.feature.room.invites.list.InvitesAdapter
+import org.futo.circles.core.feature.room.requests.list.RoomRequestsAdapter
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.InviteTypeArg
+import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
-class InvitesDialogFragment :
-    BaseFullscreenDialogFragment<DialogFragmentInvitesBinding>(DialogFragmentInvitesBinding::inflate) {
+class RoomRequestsDialogFragment :
+    BaseFullscreenDialogFragment<DialogFragmentRoomRequestsBinding>(
+        DialogFragmentRoomRequestsBinding::inflate
+    ) {
 
-    private val viewModel by viewModels<InvitesViewModel>()
+    private val args: RoomRequestsDialogFragmentArgs by navArgs()
+    private val viewModel by viewModels<RoomRequestsViewModel>()
 
-    private val invitesAdapter by lazy {
-        InvitesAdapter(
+    private val roomRequestsAdapter by lazy {
+        RoomRequestsAdapter(
             onInviteClicked = { roomListItem, isAccepted ->
                 onInviteClicked(roomListItem, isAccepted)
             },
             onUnblurProfileIconClicked = { roomListItem ->
                 viewModel.unblurProfileIcon(roomListItem.id)
-            }
+            },
+            onKnockClicked = { item, isAccepted -> onKnockRequestClicked(item, isAccepted) }
         )
     }
 
@@ -49,22 +54,30 @@ class InvitesDialogFragment :
                 setText(getEmptyMessage())
             })
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            adapter = invitesAdapter
+            adapter = roomRequestsAdapter
         }
     }
 
     private fun setupObservers() {
-        viewModel.invitesLiveData.observeData(this) { invitesAdapter.submitList(it) }
-        viewModel.inviteResultLiveData.observeResponse(this)
+        viewModel.requestsLiveData.observeData(this) { roomRequestsAdapter.submitList(it) }
+        viewModel.requestResultLiveData.observeResponse(this)
     }
 
-    private fun getTitle(): String = getString(
-        when (viewModel.getInviteType()) {
-            InviteTypeArg.Circle -> R.string.circle_invitations
-            InviteTypeArg.Group -> R.string.group_invitations
-            InviteTypeArg.Photo -> R.string.gallery_invitations
-        }
-    )
+    private fun isOnlyKnockRequests() = args.roomId != null
+
+    private fun getTitle(): String {
+        val roomTypeName = getString(
+            when (args.type) {
+                CircleRoomTypeArg.Circle -> R.string.circle
+                CircleRoomTypeArg.Group -> R.string.group
+                CircleRoomTypeArg.Photo -> R.string.gallery
+            }
+        )
+        return getString(
+            if (isOnlyKnockRequests()) R.string.room_requests_for_invitation_format
+            else R.string.room_invitations_and_requests_format, roomTypeName
+        )
+    }
 
     private fun getEmptyMessage() = getString(R.string.no_new_invitations_format, getTitle())
 
@@ -89,8 +102,14 @@ class InvitesDialogFragment :
 
     private fun onAcceptCircleInviteClicked(roomId: String) {
         findNavController().navigateSafe(
-            InvitesDialogFragmentDirections.toAcceptCircleInviteDialogFragment(roomId)
+            RoomRequestsDialogFragmentDirections.toAcceptCircleInviteDialogFragment(roomId)
         )
+    }
+
+    private fun onKnockRequestClicked(user: KnockRequestListItem, isAccepted: Boolean) {
+        if (showNoInternetConnection()) return
+        if (isAccepted) viewModel.inviteUser(user)
+        else viewModel.kickUser(user)
     }
 
 }

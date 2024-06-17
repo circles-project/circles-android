@@ -46,6 +46,7 @@ android {
     flavorDimensions.add(flavorDimensionName)
     productFlavors {
         create("gplay") {
+            isDefault = true
             dimension = flavorDimensionName
         }
         create("fdroid") {
@@ -78,7 +79,7 @@ dependencies {
     "gplayImplementation"("com.android.billingclient:billing-ktx:7.0.0")
 
     // PasswordManager
-    val credentialsVersion = "1.3.0-beta01"
+    val credentialsVersion = "1.3.0-beta02"
     "gplayImplementation"("androidx.credentials:credentials:$credentialsVersion")
     "gplayImplementation"("androidx.credentials:credentials-play-services-auth:$credentialsVersion")
 

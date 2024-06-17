@@ -1,8 +1,6 @@
-package org.futo.circles.core.feature.room.invites.list
+package org.futo.circles.core.feature.room.requests.list
 
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
@@ -14,17 +12,13 @@ import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsEncryptedIcon
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.RoomInviteListItem
-
-abstract class InviteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    abstract fun bind(data: RoomInviteListItem)
-}
-
+import org.futo.circles.core.model.RoomRequestListItem
 
 class InvitedGroupViewHolder(
     parent: ViewGroup,
     onInviteClicked: (Int, Boolean) -> Unit,
     onShowProfileIconClicked: (Int) -> Unit
-) : InviteViewHolder(inflate(parent, ListItemInvitedGroupBinding::inflate)) {
+) : RoomRequestViewHolder(inflate(parent, ListItemInvitedGroupBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
@@ -36,7 +30,8 @@ class InvitedGroupViewHolder(
         onClick(binding.ivGroup) { position -> onShowProfileIconClicked(position) }
     }
 
-    override fun bind(data: RoomInviteListItem) {
+    override fun bind(data: RoomRequestListItem) {
+        if (data !is RoomInviteListItem) return
         with(binding) {
             setLoading(data.isLoading)
             ivGroup.loadRoomProfileIcon(
@@ -67,7 +62,7 @@ class InvitedCircleViewHolder(
     parent: ViewGroup,
     onInviteClicked: (Int, Boolean) -> Unit,
     onShowProfileIconClicked: (Int) -> Unit
-) : InviteViewHolder(inflate(parent, ListItemInvitedCircleBinding::inflate)) {
+) : RoomRequestViewHolder(inflate(parent, ListItemInvitedCircleBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
@@ -79,7 +74,8 @@ class InvitedCircleViewHolder(
         onClick(binding.ivCircle) { position -> onShowProfileIconClicked(position) }
     }
 
-    override fun bind(data: RoomInviteListItem) {
+    override fun bind(data: RoomRequestListItem) {
+        if (data !is RoomInviteListItem) return
         with(binding) {
             setLoading(data.isLoading)
             tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
@@ -110,7 +106,7 @@ class InvitedGalleryViewHolder(
     parent: ViewGroup,
     onInviteClicked: (Int, Boolean) -> Unit,
     onShowProfileIconClicked: (Int) -> Unit
-) : InviteViewHolder(inflate(parent, ListItemInvitedGalleryBinding::inflate)) {
+) : RoomRequestViewHolder(inflate(parent, ListItemInvitedGalleryBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
@@ -122,7 +118,8 @@ class InvitedGalleryViewHolder(
         onClick(binding.ivGallery) { position -> onShowProfileIconClicked(position) }
     }
 
-    override fun bind(data: RoomInviteListItem) {
+    override fun bind(data: RoomRequestListItem) {
+        if (data !is RoomInviteListItem) return
         with(binding) {
             setLoading(data.isLoading)
             tvGalleryTitle.text = data.info.title

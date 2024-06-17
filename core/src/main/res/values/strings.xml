@@ -128,14 +128,10 @@
     <string name="remove_from_this_circle_but_do_not_unfollow">Remove from this circle, but do not unfollow</string>
     <string name="unfollow_completely_remove_from_all_circles">Unfollow completely (remove from all circles)</string>
     <string name="no_internet_connection">No Internet connection</string>
-    <string name="knock_requests">Knock Requests</string>
-    <string name="knock_requests_empty_message">You don\'t have any knock request</string>
     <string name="create">Create</string>
     <string name="show">Show</string>
-    <string name="gallery_invites_notification_format">Show %d Gallery invitations</string>
-    <string name="group_invitations">Group invitations</string>
-    <string name="gallery_invitations">Gallery invitations</string>
-    <string name="circle_invitations">Circle invitations</string>
+    <string name="room_invitations_and_requests_format">%s invitations and requests</string>
+    <string name="room_requests_for_invitation_format">%s requests for invitation</string>
     <string name="no_new_invitations_format">You don\'t have any %s</string>
     <string name="following">Following</string>
     <string name="others">Others</string>
@@ -256,6 +252,17 @@
     <string name="select_circles_to_which_you_want_to_invite_format">Select circles to which you want to invite %s</string>
     <string name="create_your_first_circle_to_be_able_to_invite">Create your first Circle to be able to invite</string>
     <string name="create_new_circle">Create new circle</string>
+    <string name="requests_for_invitation">Request for invitation</string>
+
+    <plurals name="invitations_count_format">
+        <item quantity="one">%d invitation</item>
+        <item quantity="other">%d invitations</item>
+    </plurals>
+
+    <plurals name="requests_for_invitation_count_format">
+        <item quantity="one">%d request for invitation</item>
+        <item quantity="other">%d requests for invitation</item>
+    </plurals>
 
     <plurals name="notification_compat_summary_line_for_room">
         <item quantity="one">%1$s: %2$d message</item>

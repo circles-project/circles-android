@@ -37,6 +37,7 @@ android {
     flavorDimensions.add(flavorDimensionName)
     productFlavors {
         create("gplay") {
+            isDefault = true
             dimension = flavorDimensionName
         }
         create("fdroid") {
@@ -67,7 +68,7 @@ dependencies {
     api("androidx.core:core-ktx:1.13.1")
 
     // androidx lifecycle
-    val lifecycleVersion = "2.8.1"
+    val lifecycleVersion = "2.8.2"
     api("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     api("androidx.lifecycle:lifecycle-process:$lifecycleVersion")

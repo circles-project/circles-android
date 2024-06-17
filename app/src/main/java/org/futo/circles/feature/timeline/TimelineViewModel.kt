@@ -13,21 +13,16 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.room.RoomNotificationsDataSource
-import org.futo.circles.core.feature.room.knoks.KnockRequestsDataSource
+import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
-import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.feature.user.UserOptionsDataSource
-import org.futo.circles.core.model.CreatePollContent
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
-import org.futo.circles.model.CreatePostContent
-import org.futo.circles.model.MediaPostContent
-import org.futo.circles.model.TextPostContent
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
@@ -59,10 +54,9 @@ class TimelineViewModel @Inject constructor(
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
-    val knockRequestCountLiveData =
-        knockRequestsDataSource.getKnockRequestCountLiveDataForCurrentUserInRoom(
-            timelineId ?: roomId
-        )
+    val knockRequestCountLiveData = knockRequestsDataSource.getKnockRequestCountFlow(
+        timelineId ?: roomId
+    ).asLiveData()
 
 
     fun sharePostContent(content: PostContent, view: View) {

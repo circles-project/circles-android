@@ -19,5 +19,6 @@ data class JoinedGroupListItem(
 ) : GroupListItem(id)
 
 data class GroupInvitesNotificationListItem(
-    val invitesCount: Int
+    val invitesCount: Int,
+    val knockRequestsCount: Int
 ) : GroupListItem("GroupInvitesNotificationListItem")

@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
+
 import com.android.build.OutputFile
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.util.Properties
 
 plugins {
@@ -9,6 +9,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("base")
 }
 
 android {
@@ -21,7 +22,7 @@ android {
         targetSdk = rootProject.extra["sdk_version"] as Int
         versionCode = 41
         versionName = "1.0.31"
-        archivesName = "circles-v$versionName"
+        base.archivesName = "circles-v$versionName"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -71,6 +72,7 @@ android {
     flavorDimensions.add(flavorDimensionName)
     productFlavors {
         create("gplay") {
+            isDefault = true
             dimension = flavorDimensionName
         }
         create("fdroid") {

@@ -51,10 +51,10 @@ class TimelineOptionsNavigator(private val fragment: TimelineOptionsDialogFragme
             )
     }
 
-    fun navigateToKnockRequests(timelineId: String) {
+    fun navigateToRequestForInvite(roomTypeArg: CircleRoomTypeArg, timelineId: String) {
         fragment.findNavController()
             .navigateSafe(
-                TimelineOptionsDialogFragmentDirections.toKnockRequestsDialogFragment(timelineId)
+                TimelineOptionsDialogFragmentDirections.toRoomRequests(roomTypeArg, timelineId)
             )
     }
 

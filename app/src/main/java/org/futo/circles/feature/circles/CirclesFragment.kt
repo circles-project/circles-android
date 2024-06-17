@@ -75,7 +75,7 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
             adapter = CirclesListAdapter(
                 onRoomClicked = { circleListItem -> onRoomListItemClicked(circleListItem) },
                 onOpenInvitesClicked = {
-                    findNavController().navigateSafe(CirclesFragmentDirections.toInvites())
+                    findNavController().navigateSafe(CirclesFragmentDirections.toRoomRequests())
                 }
             ).also { listAdapter = it }
             bindToFab(binding.fbAddRoom)

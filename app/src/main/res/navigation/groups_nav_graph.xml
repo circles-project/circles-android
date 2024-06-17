@@ -35,13 +35,13 @@
         </action>
 
         <action
-            android:id="@+id/to_invites"
-            app:destination="@id/invites_nav_graph">
+            android:id="@+id/to_roomRequests"
+            app:destination="@id/room_requests_nav_graph">
 
             <argument
                 android:name="type"
                 android:defaultValue="Group"
-                app:argType="org.futo.circles.core.model.InviteTypeArg"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -50,7 +50,7 @@
 
     <include app:graph="@navigation/timeline_nav_graph" />
 
-    <include app:graph="@navigation/invites_nav_graph" />
+    <include app:graph="@navigation/room_requests_nav_graph" />
 
     <include app:graph="@navigation/create_room_nav_graph" />
 

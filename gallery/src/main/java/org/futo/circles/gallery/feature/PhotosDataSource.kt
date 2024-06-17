@@ -32,10 +32,13 @@ class PhotosDataSource @Inject constructor() {
         }
         val sharedGalleries = joined.filter { !it.isMyGallery() }
         val invitesCount = galleries.filter { it.membership == Membership.INVITE }.size
+        var knocksCount = 0
+        joined.forEach { knocksCount += it.knockRequestsCount }
 
         val displayList = mutableListOf<GalleryListItem>().apply {
-            if (invitesCount > 0)
-                add(GalleryInvitesNotificationListItem(invitesCount))
+            if (invitesCount > 0 || knocksCount > 0) {
+                add(GalleryInvitesNotificationListItem(invitesCount, knocksCount))
+            }
 
             addSection(
                 GalleryHeaderItem.myGalleriesHeader,
