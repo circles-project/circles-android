@@ -92,7 +92,10 @@ fun ImageView.loadUserProfileIcon(
 ) {
     MainScope().launch {
         val placeholder =
-            session?.resolveUrl(url)?.let { null } ?: getJdenticonDrawable(userId, measuredWidth)
+            session?.resolveUrl(url)?.let { null } ?: getJdenticonDrawable(
+                userId,
+                measuredWidth.takeIf { it != 0 } ?: 50
+            )
         loadMatrixImage(url, placeholder, session, applyBlur)
     }
 }
