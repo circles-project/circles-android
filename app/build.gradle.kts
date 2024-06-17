@@ -72,6 +72,7 @@ android {
     flavorDimensions.add(flavorDimensionName)
     productFlavors {
         create("gplay") {
+            isDefault = true
             dimension = flavorDimensionName
         }
         create("fdroid") {
