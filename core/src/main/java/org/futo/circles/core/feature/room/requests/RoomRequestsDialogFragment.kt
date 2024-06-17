@@ -63,13 +63,21 @@ class RoomRequestsDialogFragment :
         viewModel.requestResultLiveData.observeResponse(this)
     }
 
-    private fun getTitle(): String = getString(
-        when (args.type) {
-            CircleRoomTypeArg.Circle -> R.string.circle_invitations
-            CircleRoomTypeArg.Group -> R.string.group_invitations
-            CircleRoomTypeArg.Photo -> R.string.gallery_invitations
-        }
-    )
+    private fun isOnlyKnockRequests() = args.roomId != null
+
+    private fun getTitle(): String {
+        val roomTypeName = getString(
+            when (args.type) {
+                CircleRoomTypeArg.Circle -> R.string.circle
+                CircleRoomTypeArg.Group -> R.string.group
+                CircleRoomTypeArg.Photo -> R.string.gallery
+            }
+        )
+        return getString(
+            if (isOnlyKnockRequests()) R.string.room_requests_for_invitation_format
+            else R.string.room_invitations_and_requests_format, roomTypeName
+        )
+    }
 
     private fun getEmptyMessage() = getString(R.string.no_new_invitations_format, getTitle())
 

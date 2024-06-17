@@ -130,9 +130,8 @@
     <string name="no_internet_connection">No Internet connection</string>
     <string name="create">Create</string>
     <string name="show">Show</string>
-    <string name="group_invitations">Group invitations</string>
-    <string name="gallery_invitations">Gallery invitations</string>
-    <string name="circle_invitations">Circle invitations</string>
+    <string name="room_invitations_and_requests_format">%s invitations and requests</string>
+    <string name="room_requests_for_invitation_format">%s requests for invitation</string>
     <string name="no_new_invitations_format">You don\'t have any %s</string>
     <string name="following">Following</string>
     <string name="others">Others</string>
