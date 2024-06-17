@@ -50,6 +50,7 @@ fun RoomSummary.toJoinedGalleryListItem() = JoinedGalleryListItem(
 fun RoomMemberSummary.toUser() = User(userId, notEmptyDisplayName(), avatarUrl)
 
 fun RoomMemberSummary.toKnockRequestListItem(roomId: String) = KnockRequestListItem(
+    roomId = roomId,
     requesterId = userId,
     requesterName = displayName ?: UserUtils.removeDomainSuffix(userId),
     requesterAvatarUrl = avatarUrl,

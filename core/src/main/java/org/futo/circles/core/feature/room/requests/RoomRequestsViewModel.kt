@@ -21,10 +21,10 @@ class RoomRequestsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val inviteType: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
-    private val roomId: String? = savedStateHandle["roomId"]
+    private val filterRoomId: String? = savedStateHandle["roomId"]
 
     val requestResultLiveData = SingleEventLiveData<Response<Unit?>>()
-    val requestsLiveData = requestsDataSource.getRequestsFlow(inviteType, roomId).asLiveData()
+    val requestsLiveData = requestsDataSource.getRequestsFlow(inviteType, filterRoomId).asLiveData()
 
     fun rejectRoomInvite(roomId: String) {
         launchBg {
@@ -43,19 +43,23 @@ class RoomRequestsViewModel @Inject constructor(
     }
 
     fun inviteUser(knockRequest: KnockRequestListItem) {
-        roomId ?: return
         launchBg {
             requestsDataSource.toggleItemLoading(knockRequest.id)
-            val result = manageInviteRequestsDataSource.inviteUser(roomId, knockRequest.requesterId)
+            val result = manageInviteRequestsDataSource.inviteUser(
+                knockRequest.roomId,
+                knockRequest.requesterId
+            )
             postInviteResult(result, knockRequest.id)
         }
     }
 
     fun kickUser(knockRequest: KnockRequestListItem) {
-        roomId ?: return
         launchBg {
             requestsDataSource.toggleItemLoading(knockRequest.id)
-            val result = manageInviteRequestsDataSource.kickUser(roomId, knockRequest.requesterId)
+            val result = manageInviteRequestsDataSource.kickUser(
+                knockRequest.roomId,
+                knockRequest.requesterId
+            )
             postInviteResult(result, knockRequest.id)
         }
     }

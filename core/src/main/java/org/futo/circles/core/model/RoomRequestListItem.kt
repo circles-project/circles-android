@@ -29,13 +29,14 @@ data class RoomInviteListItem(
 }
 
 data class KnockRequestListItem(
+    val roomId: String,
     val requesterId: String,
     val requesterName: String,
     val requesterAvatarUrl: String?,
     val message: String?,
     val isLoading: Boolean = false
 ) : RoomRequestListItem() {
-    override val id: String = requesterId
+    override val id: String = roomId
 }
 
 fun KnockRequestListItem.toCircleUser() = CirclesUserSummary(
