@@ -22,6 +22,11 @@ import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomStateEvent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.space.CreateSpaceParams
+import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.CreateRoom
+import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.CreateTimeline
+import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.Finished
+import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.SetParentRelations
+import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.SetTimelineRelations
 import javax.inject.Inject
 
 class CreateRoomDataSource @Inject constructor(
@@ -38,12 +43,17 @@ class CreateRoomDataSource @Inject constructor(
         topic: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        defaultUserPowerLevel: Int = AccessLevel.User.levelValue
+        defaultUserPowerLevel: Int = AccessLevel.User.levelValue,
+        progressObserver: CreateRoomProgressListener? = null
     ): String {
+        progressObserver?.onProgressUpdated(
+            if (circlesRoom is Timeline) CreateTimeline else CreateRoom
+        )
         val id = session.roomService().createRoom(
             getParams(circlesRoom, name, topic, iconUri, inviteIds, defaultUserPowerLevel)
         )
         circlesRoom.parentAccountDataKey?.let { key ->
+            progressObserver?.onProgressUpdated(SetParentRelations)
             val parentId = spacesTreeAccountDataSource.getRoomIdByKey(key)
             parentId?.let { roomRelationsBuilder.setRelations(id, it) }
         }
@@ -53,7 +63,8 @@ class CreateRoomDataSource @Inject constructor(
                 name ?: circlesRoom.nameId?.let { context.getString(it) },
                 iconUri,
                 inviteIds,
-                defaultUserPowerLevel
+                defaultUserPowerLevel,
+                progressObserver
             )
         }
         return id
@@ -64,10 +75,19 @@ class CreateRoomDataSource @Inject constructor(
         name: String? = null,
         iconUri: Uri? = null,
         inviteIds: List<String>? = null,
-        defaultUserPowerLevel: Int = AccessLevel.User.levelValue
+        defaultUserPowerLevel: Int = AccessLevel.User.levelValue,
+        progressObserver: CreateRoomProgressListener? = null
     ): String {
-        val timelineId =
-            createRoom(Timeline(), name, null, iconUri, inviteIds, defaultUserPowerLevel)
+        val timelineId = createRoom(
+            Timeline(),
+            name,
+            null,
+            iconUri,
+            inviteIds,
+            defaultUserPowerLevel,
+            progressObserver
+        )
+        progressObserver?.onProgressUpdated(SetTimelineRelations)
         roomRelationsBuilder.setRelations(timelineId, circleId)
         return timelineId
     }
