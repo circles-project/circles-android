@@ -16,7 +16,7 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
@@ -38,8 +38,8 @@ class UIAViewModel @Inject constructor(
     val stagesNavigationLiveData = uiaDataSource.stagesNavigationLiveData
     val navigationLiveData = SingleEventLiveData<AuthUIAScreenNavigationEvent>()
     val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()
-    val passPhraseLoadingLiveData: MediatorLiveData<LoadingData> =
-        MediatorLiveData<LoadingData>().also {
+    val passPhraseLoadingLiveData: MediatorLiveData<ResLoadingData> =
+        MediatorLiveData<ResLoadingData>().also {
             it.addSource(restoreBackupDataSource.loadingLiveData) { value ->
                 it.postValue(value)
             }
@@ -80,10 +80,10 @@ class UIAViewModel @Inject constructor(
     fun finishLogin(session: Session) {
         launchBg {
             passPhraseLoadingLiveData.postValue(
-                LoadingData(messageId = R.string.initial_sync, isLoading = true)
+                ResLoadingData(messageId = R.string.initial_sync, isLoading = true)
             )
             MatrixSessionProvider.awaitForSessionSync(session)
-            passPhraseLoadingLiveData.postValue(LoadingData(isLoading = false))
+            passPhraseLoadingLiveData.postValue(ResLoadingData(isLoading = false))
             refreshTokenManager.scheduleTokenRefreshIfNeeded(session)
             handleKeysBackup()
         }
@@ -109,7 +109,7 @@ class UIAViewModel @Inject constructor(
         launchBg {
             val result = createResult {
                 passPhraseLoadingLiveData.postValue(
-                    LoadingData(messageId = R.string.initial_sync, isLoading = true)
+                    ResLoadingData(messageId = R.string.initial_sync, isLoading = true)
                 )
                 MatrixSessionProvider.awaitForSessionSync(session)
                 createPassPhraseDataSource.replaceToNewKeyBackup()

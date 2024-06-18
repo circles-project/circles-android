@@ -9,18 +9,16 @@ import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.invisible
 import org.futo.circles.core.extensions.visible
-import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.databinding.ViewVideoPostBinding
-import org.futo.circles.feature.timeline.list.MediaProgressHelper
 import org.futo.circles.feature.timeline.list.OnVideoPlayBackStateListener
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.view.PostFooterView
 import org.futo.circles.view.PostHeaderView
 import org.futo.circles.view.PostStatusView
 import org.futo.circles.view.ReadMoreTextView
-import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
 class VideoPostViewHolder(
     parent: ViewGroup,
@@ -101,7 +99,7 @@ class VideoPostViewHolder(
         } ?: run {
             binding.vLoadingView.apply {
                 visible()
-                setProgress(LoadingData(R.string.downloading))
+                setProgress(ResLoadingData(R.string.downloading))
             }
         }
     }
