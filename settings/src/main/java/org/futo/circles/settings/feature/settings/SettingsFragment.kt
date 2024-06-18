@@ -18,7 +18,6 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.LoadingData
-import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.core.view.LoadingDialog
@@ -89,7 +88,10 @@ class SettingsFragment :
             tvEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
             tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
             tvAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
-            tvPhotos.setOnClickListener { navigator.navigateToPhotos() }
+            tvPhotos.apply {
+                binding.tvPhotos.setIsVisible(preferencesProvider.isPhotoGalleryEnabled())
+                setOnClickListener { navigator.navigateToPhotos() }
+            }
         }
         setVersion()
     }
