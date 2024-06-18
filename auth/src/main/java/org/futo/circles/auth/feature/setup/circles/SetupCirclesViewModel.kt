@@ -14,7 +14,7 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.Circle
-import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.model.ResLoadingData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +25,7 @@ class SetupCirclesViewModel @Inject constructor(
 
     val circlesLiveData = MutableLiveData(workspaceTasksProvider.getInitialSetupCirclesList())
     val workspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
-    val workspaceLoadingLiveData = SingleEventLiveData<LoadingData>()
+    val workspaceLoadingLiveData = SingleEventLiveData<ResLoadingData>()
 
     fun setImageUriForCircle(id: String, uri: Uri) {
         val list = circlesLiveData.value?.toMutableList() ?: mutableListOf()
@@ -51,7 +51,7 @@ class SetupCirclesViewModel @Inject constructor(
         val tasks = getAllWorkspaceTask()
         tasks.forEachIndexed { i, item ->
             workspaceLoadingLiveData.postValue(
-                LoadingData(
+                ResLoadingData(
                     messageId = R.string.configuring_workspace,
                     isLoading = true,
                     progress = i,
@@ -60,12 +60,12 @@ class SetupCirclesViewModel @Inject constructor(
             )
             val result = createResult { workspaceDataSource.performCreateOrFix(item) }
             (result as? Response.Error)?.let {
-                workspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
+                workspaceLoadingLiveData.postValue(ResLoadingData(isLoading = false))
                 workspaceResultLiveData.postValue(result)
                 return@launchBg
             }
         }
-        workspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
+        workspaceLoadingLiveData.postValue(ResLoadingData(isLoading = false))
         workspaceResultLiveData.postValue(Response.Success(Unit))
     }
 

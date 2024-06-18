@@ -24,7 +24,7 @@ import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
-import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
@@ -126,7 +126,7 @@ class HomeFragment :
         }
         viewModel.syncStateLiveData.observeData(this) {
             if (it is SyncState.Running && it.afterPause && NetworkObserver.isConnected()) {
-                syncLoadingDialog.handleLoading(LoadingData(org.futo.circles.auth.R.string.session_sync))
+                syncLoadingDialog.handleLoading(ResLoadingData(org.futo.circles.auth.R.string.session_sync))
             } else syncLoadingDialog.dismiss()
         }
     }

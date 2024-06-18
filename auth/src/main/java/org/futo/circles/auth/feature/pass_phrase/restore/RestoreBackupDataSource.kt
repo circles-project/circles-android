@@ -8,7 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.cross_signing.CrossSigningDataSource
 import org.futo.circles.auth.model.SecretKeyData
-import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.listeners.StepProgressListener
@@ -23,14 +23,14 @@ class RestoreBackupDataSource @Inject constructor(
     private val crossSigningDataSource: CrossSigningDataSource
 ) {
 
-    val loadingLiveData = MutableLiveData(LoadingData(isLoading = false))
+    val loadingLiveData = MutableLiveData(ResLoadingData(isLoading = false))
 
     private val progressObserver = object : StepProgressListener {
         override fun onStepProgress(step: StepProgressListener.Step) {
             when (step) {
                 is StepProgressListener.Step.ComputingKey -> {
                     loadingLiveData.postValue(
-                        LoadingData(
+                        ResLoadingData(
                             R.string.computing_recovery_key,
                             step.progress,
                             step.total,
@@ -41,7 +41,7 @@ class RestoreBackupDataSource @Inject constructor(
 
                 is StepProgressListener.Step.DownloadingKey -> {
                     loadingLiveData.postValue(
-                        LoadingData(
+                        ResLoadingData(
                             messageId = R.string.downloading_keys,
                             isLoading = true
                         )
@@ -50,7 +50,7 @@ class RestoreBackupDataSource @Inject constructor(
 
                 is StepProgressListener.Step.ImportingKey -> {
                     loadingLiveData.postValue(
-                        LoadingData(
+                        ResLoadingData(
                             R.string.importing_keys,
                             step.progress,
                             step.total,
@@ -61,7 +61,7 @@ class RestoreBackupDataSource @Inject constructor(
 
                 is StepProgressListener.Step.DecryptingKey -> {
                     loadingLiveData.postValue(
-                        LoadingData(
+                        ResLoadingData(
                             R.string.decrypting_key,
                             step.progress,
                             step.total,
@@ -83,10 +83,10 @@ class RestoreBackupDataSource @Inject constructor(
                     keyData.keyId
                 )
         } catch (e: Throwable) {
-            loadingLiveData.postValue(LoadingData(isLoading = false))
+            loadingLiveData.postValue(ResLoadingData(isLoading = false))
             throw e
         }
-        loadingLiveData.postValue(LoadingData(isLoading = false))
+        loadingLiveData.postValue(ResLoadingData(isLoading = false))
     }
 
     suspend fun restoreKeysWithPassPhase(passphrase: String) {
@@ -95,10 +95,10 @@ class RestoreBackupDataSource @Inject constructor(
                 ssssDataSource.getSecretKeyDataFromPassphrase(passphrase, progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
-            loadingLiveData.postValue(LoadingData(isLoading = false))
+            loadingLiveData.postValue(ResLoadingData(isLoading = false))
             throw e
         }
-        loadingLiveData.postValue(LoadingData(isLoading = false))
+        loadingLiveData.postValue(ResLoadingData(isLoading = false))
     }
 
     private suspend fun restoreKeysWithRecoveryKey(secretKeyData: SecretKeyData) {
@@ -115,10 +115,10 @@ class RestoreBackupDataSource @Inject constructor(
             crossSigningDataSource.configureCrossSigning(secretKeyData.keySpec)
             keysBackupService.trustKeysBackupVersion(keyVersion, true)
         } catch (e: Throwable) {
-            loadingLiveData.postValue(LoadingData(isLoading = false))
+            loadingLiveData.postValue(ResLoadingData(isLoading = false))
             throw e
         }
-        loadingLiveData.postValue(LoadingData(isLoading = false))
+        loadingLiveData.postValue(ResLoadingData(isLoading = false))
     }
 
     suspend fun restoreKeysWithRawKey(rawKey: String) {
@@ -126,10 +126,10 @@ class RestoreBackupDataSource @Inject constructor(
             val keyData = ssssDataSource.getSecretKeyDataKeyFromFileKey(rawKey, progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
-            loadingLiveData.postValue(LoadingData(isLoading = false))
+            loadingLiveData.postValue(ResLoadingData(isLoading = false))
             throw e
         }
-        loadingLiveData.postValue(LoadingData(isLoading = false))
+        loadingLiveData.postValue(ResLoadingData(isLoading = false))
     }
 
     suspend fun restoreKeysWithRecoveryKey(uri: Uri) {
@@ -138,10 +138,10 @@ class RestoreBackupDataSource @Inject constructor(
             val keyData = ssssDataSource.getSecretKeyDataKeyFromFileKey(key, progressObserver)
             restoreKeysWithRecoveryKey(keyData)
         } catch (e: Throwable) {
-            loadingLiveData.postValue(LoadingData(isLoading = false))
+            loadingLiveData.postValue(ResLoadingData(isLoading = false))
             throw e
         }
-        loadingLiveData.postValue(LoadingData(isLoading = false))
+        loadingLiveData.postValue(ResLoadingData(isLoading = false))
     }
 
     @SuppressLint("Recycle")
