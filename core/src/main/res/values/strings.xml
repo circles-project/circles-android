@@ -257,6 +257,7 @@
     <string name="creating_timeline_relations">Creating timeline room relations</string>
     <string name="creating_room_format">Creating %s</string>
     <string name="creating_timeline_room">Creating timeline room</string>
+    <string name="inviting_user_to_format">Inviting %1$s to %2$s</string>
 
     <plurals name="invitations_count_format">
         <item quantity="one">%d invitation</item>
