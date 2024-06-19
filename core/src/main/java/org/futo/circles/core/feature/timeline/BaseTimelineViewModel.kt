@@ -20,9 +20,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.extensions.toRoomInfo
 import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
-import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
 import org.futo.circles.core.model.Post
@@ -41,7 +41,9 @@ abstract class BaseTimelineViewModel(
     protected val timelineId: String? = savedStateHandle["timelineId"]
 
     val titleLiveData =
-        baseTimelineDataSource.room.getRoomSummaryLive().map { it.getOrNull()?.nameOrId() ?: "" }
+        baseTimelineDataSource.room.getRoomSummaryLive().map {
+            it.getOrNull()?.toRoomInfo(timelineId != null)?.title ?: ""
+        }
 
     val isFilterActiveLiveData = MutableLiveData(false)
     private val prefetchedVideoUriFlow = MutableStateFlow<Map<String, Uri>>(emptyMap())

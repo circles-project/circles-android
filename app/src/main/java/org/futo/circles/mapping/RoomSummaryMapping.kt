@@ -1,9 +1,7 @@
 package org.futo.circles.mapping
 
-import org.futo.circles.core.extensions.getCircleAvatarUrl
 import org.futo.circles.core.extensions.getRoomOwner
-import org.futo.circles.core.mapping.nameOrId
-import org.futo.circles.core.model.RoomInfo
+import org.futo.circles.core.extensions.toRoomInfo
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getKnocksCount
@@ -16,7 +14,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     id = roomId,
-    info = RoomInfo(nameOrId(), avatarUrl),
+    info = toRoomInfo(false),
     topic = topic,
     isEncrypted = isEncrypted,
     membersCount = joinedMembersCount ?: 0,
@@ -29,7 +27,7 @@ fun RoomSummary.toJoinedCircleListItem(circleTimelineId: String) =
     JoinedCircleListItem(
         id = roomId,
         timelineId = circleTimelineId,
-        info = RoomInfo(nameOrId(), getCircleAvatarUrl()),
+        info = toRoomInfo(true),
         followingCount = getFollowingCount(),
         followedByCount = getFollowersCount(),
         unreadCount = getCircleUnreadMessagesCount(),

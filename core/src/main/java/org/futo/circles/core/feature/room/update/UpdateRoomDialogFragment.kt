@@ -14,7 +14,6 @@ import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.databinding.DialogFragmentUpdateRoomBinding
-import org.futo.circles.core.extensions.getCircleAvatarUrl
 import org.futo.circles.core.extensions.getRoleNameResId
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadRoomProfileIcon
@@ -23,6 +22,7 @@ import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.toRoomInfo
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.CircleRoomTypeArg
@@ -130,11 +130,12 @@ class UpdateRoomDialogFragment :
 
     private fun setInitialRoomData(room: RoomSummary) {
         with(binding) {
+            val roomInfo = room.toRoomInfo(roomType == CircleRoomTypeArg.Circle)
             ivCover.loadRoomProfileIcon(
-                if (roomType == CircleRoomTypeArg.Circle) room.getCircleAvatarUrl() else room.avatarUrl,
-                room.displayName
+                roomInfo.avatarUrl,
+                roomInfo.title
             )
-            tilName.editText?.setText(room.displayName)
+            tilName.editText?.setText(roomInfo.title)
             tilTopic.editText?.setText(room.topic)
         }
     }

@@ -2,7 +2,7 @@ package org.futo.circles.core.model
 
 import org.futo.circles.core.R
 import org.futo.circles.core.base.list.IdEntity
-import org.futo.circles.core.mapping.nameOrId
+import org.futo.circles.core.extensions.toRoomInfo
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 sealed class TimelineListItem : IdEntity<String>
@@ -33,7 +33,7 @@ data class MutualFriendListItem(
 
 fun RoomSummary.toTimelineRoomListItem() = TimelineRoomListItem(
     id = roomId,
-    info = RoomInfo(nameOrId(), avatarUrl),
+    info = toRoomInfo(false),
 )
 
 
