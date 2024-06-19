@@ -129,9 +129,6 @@ dependencies {
     // Image zoom
     implementation("com.jsibbold:zoomage:1.3.1")
 
-    // profile placeholder
-    implementation("com.github.WycliffeAssociates:jdenticon-kotlin:1.1")
-    implementation("com.caverock:androidsvg-aar:1.4")
 
     // UnifiedPush
     implementation("com.github.UnifiedPush:android-connector:2.1.1")

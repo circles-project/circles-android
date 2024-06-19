@@ -4,13 +4,10 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.PictureDrawable
 import android.util.Size
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
-import com.caverock.androidsvg.SVG
-import jdenticon.Jdenticon
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -92,21 +89,10 @@ fun ImageView.loadUserProfileIcon(
 ) {
     MainScope().launch {
         val placeholder =
-            session?.resolveUrl(url)?.let { null } ?: getJdenticonDrawable(
-                userId,
-                measuredWidth.takeIf { it != 0 } ?: 50
-            )
+            session?.resolveUrl(url)?.let { null } ?: getTextDrawablePlaceholder(userId)
         loadMatrixImage(url, placeholder, session, applyBlur)
     }
 }
-
-private suspend fun getJdenticonDrawable(userId: String, measuredWidth: Int): PictureDrawable =
-    withContext(Dispatchers.IO) {
-        val svgString = Jdenticon.toSvg(userId, measuredWidth)
-        val svg = SVG.getFromString(svgString)
-        PictureDrawable(svg.renderToPicture())
-    }
-
 
 @SuppressLint("CheckResult")
 fun ImageView.loadMatrixImage(
