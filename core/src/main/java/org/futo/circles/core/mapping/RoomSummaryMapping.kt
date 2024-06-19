@@ -49,8 +49,11 @@ fun RoomSummary.toJoinedGalleryListItem() = JoinedGalleryListItem(
 
 fun RoomMemberSummary.toUser() = User(userId, notEmptyDisplayName(), avatarUrl)
 
-fun RoomMemberSummary.toKnockRequestListItem(roomId: String) = KnockRequestListItem(
+fun RoomMemberSummary.toKnockRequestListItem(roomId: String, roomType: CircleRoomTypeArg) = KnockRequestListItem(
     roomId = roomId,
+    roomName = MatrixSessionProvider.currentSession?.getRoom(roomId)?.roomSummary()?.nameOrId()
+        ?: "",
+    roomType = roomType,
     requesterId = userId,
     requesterName = displayName ?: UserUtils.removeDomainSuffix(userId),
     requesterAvatarUrl = avatarUrl,

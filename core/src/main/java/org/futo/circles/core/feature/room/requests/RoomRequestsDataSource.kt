@@ -15,7 +15,6 @@ import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.model.RoomRequestHeaderItem
 import org.futo.circles.core.model.RoomRequestListItem
-import org.futo.circles.core.model.convertToCircleRoomType
 import org.futo.circles.core.model.convertToStringRoomType
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getRoomsLiveDataWithType
@@ -45,18 +44,19 @@ class RoomRequestsDataSource @Inject constructor(
             }
         }.distinctUntilChanged()
 
-    private fun getRequestsFlowNoLoading(inviteType: CircleRoomTypeArg, roomId: String?) = roomId?.let {
-        knockRequestsDataSource.getKnockRequestsListItemsFlow(it)
-    } ?: run {
-        combine(
-            getRoomInvitesFlow(inviteType),
-            getKnockRequestFlow(inviteType)
-        ) { invites, knocks ->
-            withContext(Dispatchers.IO) {
-                buildRequestsList(invites, knocks)
+    private fun getRequestsFlowNoLoading(inviteType: CircleRoomTypeArg, roomId: String?) =
+        roomId?.let {
+            knockRequestsDataSource.getKnockRequestsListItemsFlow(it, inviteType)
+        } ?: run {
+            combine(
+                getRoomInvitesFlow(inviteType),
+                getKnockRequestFlow(inviteType)
+            ) { invites, knocks ->
+                withContext(Dispatchers.IO) {
+                    buildRequestsList(invites, knocks)
+                }
             }
-        }
-    }.distinctUntilChanged()
+        }.distinctUntilChanged()
 
     private fun buildRequestsList(
         invites: List<RoomInviteListItem>,
@@ -97,7 +97,7 @@ class RoomRequestsDataSource @Inject constructor(
         val knownUsersIds = knownUsers.map { it.userId }.toSet()
         roomSummaries.map {
             it.toRoomInviteListItem(
-                convertToCircleRoomType(it.roomType),
+                inviteType,
                 shouldBlurIconFor(it, knownUsersIds, roomIdsToUnblur)
             )
         }
@@ -107,7 +107,7 @@ class RoomRequestsDataSource @Inject constructor(
     private fun getKnockRequestFlow(inviteType: CircleRoomTypeArg): Flow<List<KnockRequestListItem>> {
         val flows = getRoomsWithType(
             convertToStringRoomType(inviteType), listOf(Membership.JOIN)
-        ).map { knockRequestsDataSource.getKnockRequestsListItemsFlow(it.roomId) }
+        ).map { knockRequestsDataSource.getKnockRequestsListItemsFlow(it.roomId, inviteType) }
         return combine(flows) { values -> values.toList().flatten() }
     }
 

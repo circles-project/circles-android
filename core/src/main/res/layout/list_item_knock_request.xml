@@ -16,6 +16,19 @@
 
 
     <TextView
+        android:id="@+id/tvRoomName"
+        style="@style/body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vUserLayout"
+        tools:text="Requesting invitation to RoomName" />
+
+    <TextView
         android:id="@+id/tvReason"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -26,7 +39,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vUserLayout"
+        app:layout_constraintTop_toBottomOf="@id/tvRoomName"
         tools:text="MessageMessageMessageMessageMessageMessage MessageMessageMessageMessageMessageMessage
 MessageMessageMessageMessageMessageMessageMessageMessageMessageMessageMessage"
         tools:visibility="visible" />

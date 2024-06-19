@@ -30,6 +30,8 @@ data class RoomInviteListItem(
 
 data class KnockRequestListItem(
     val roomId: String,
+    val roomName: String,
+    val roomType: CircleRoomTypeArg,
     val requesterId: String,
     val requesterName: String,
     val requesterAvatarUrl: String?,
