@@ -51,10 +51,16 @@ class UpdateRoomDataSource @Inject constructor(
         userAccessLevel: AccessLevel?,
         roomTypeArg: CircleRoomTypeArg
     ) = createResult {
-        if (isNameChanged(name)) room?.stateService()?.updateName(name)
+        if (isNameChanged(name)) updateName(name, roomTypeArg)
         if (isTopicChanged(topic)) room?.stateService()?.updateTopic(topic)
         uri?.let { updateProfileImage(it, roomTypeArg) }
         userAccessLevel?.let { updateUserDefaultPowerLevel(it) }
+    }
+
+    private suspend fun updateName(name: String, roomTypeArg: CircleRoomTypeArg) {
+        if (roomTypeArg == CircleRoomTypeArg.Circle) {
+            getTimelineRoomFor(roomId)?.stateService()?.updateName(name)
+        } else room?.stateService()?.updateName(name)
     }
 
     private suspend fun updateProfileImage(uri: Uri, roomTypeArg: CircleRoomTypeArg) {
