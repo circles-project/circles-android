@@ -31,7 +31,21 @@ class RoomRequestsDataSource @Inject constructor(
     private val loadingItemsIdsList = MutableStateFlow<Set<String>>(emptySet())
     private val roomIdsToUnblurProfile = MutableStateFlow<Set<String>>(emptySet())
 
-    fun getRequestsFlow(inviteType: CircleRoomTypeArg, roomId: String?) = roomId?.let {
+    fun getRequestsFlow(inviteType: CircleRoomTypeArg, roomId: String?) =
+        combine(
+            loadingItemsIdsList,
+            getRequestsFlowNoLoading(inviteType, roomId)
+        ) { loadingIds, items ->
+            items.map { item ->
+                when (item) {
+                    is KnockRequestListItem -> item.copy(isLoading = loadingIds.contains(item.id))
+                    is RoomInviteListItem -> item.copy(isLoading = loadingIds.contains(item.id))
+                    is RoomRequestHeaderItem -> item
+                }
+            }
+        }.distinctUntilChanged()
+
+    private fun getRequestsFlowNoLoading(inviteType: CircleRoomTypeArg, roomId: String?) = roomId?.let {
         knockRequestsDataSource.getKnockRequestsListItemsFlow(it)
     } ?: run {
         combine(
