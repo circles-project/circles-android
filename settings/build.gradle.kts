@@ -9,10 +9,10 @@ plugins {
 
 android {
     namespace = "org.futo.circles.settings"
-    compileSdk = rootProject.ext["sdk_version"] as Int
+    compileSdk = AppConfig.compileSdk
 
     defaultConfig {
-        minSdk = rootProject.ext["min_sdk_version"] as Int
+        minSdk = AppConfig.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -63,16 +63,12 @@ dependencies {
     implementation(project(":gallery"))
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:${rootProject.ext["hilt_version"]}")
-    kapt("com.google.dagger:hilt-compiler:${rootProject.ext["hilt_version"]}")
-    implementation("androidx.hilt:hilt-work:1.2.0")
+    implementHilt()
 
     // QR
     implementation("com.github.yuriy-budiyev:code-scanner:2.3.2")
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementTestDep()
 }
 
 kapt {
@@ -85,9 +81,9 @@ afterEvaluate {
             return@forEach
         }
         publishing.publications.create(variant.name, MavenPublication::class) {
-            groupId = rootProject.ext["modules_groupId"] as String
+            groupId = Versions.modules_groupId
             artifactId = "settings_${variant.flavorName}"
-            version = rootProject.ext["modules_version"] as String
+            version = Versions.modules_version
 
             pom.withXml {
                 val dependenciesNode = asNode().appendNode("dependencies")
