@@ -98,41 +98,6 @@ afterEvaluate {
         if (variant.buildType.name != "release") {
             return@forEach
         }
-        publishing.publications.create(variant.name, MavenPublication::class) {
-            groupId = Versions.modules_groupId
-            artifactId = "auth_${variant.flavorName}"
-            version = Versions.modules_version
-
-            pom.withXml {
-                val dependenciesNode = asNode().appendNode("dependencies")
-                fun addDependency(dep: Dependency, scope: String) {
-                    if (dep.group == null || dep.name == "unspecified" || dep.version == "unspecified") return
-                    val dependencyNode = dependenciesNode.appendNode("dependency")
-                    dependencyNode.appendNode("groupId", dep.group)
-                    dependencyNode.appendNode("artifactId", dep.name)
-                    dependencyNode.appendNode("version", dep.version)
-                    dependencyNode.appendNode("scope", scope)
-                }
-                configurations.getByName("api").dependencies.forEach { dep -> addDependency(dep, "compile") }
-                configurations.getByName("implementation").dependencies.forEach { dep ->
-                    addDependency(dep, "runtime")
-                }
-                if (variant.flavorName == "gplay") {
-                    configurations.getByName("gplayApi").dependencies.forEach { dep ->
-                        addDependency(dep, "compile")
-                    }
-                    configurations.getByName("gplayImplementation").dependencies.forEach { dep ->
-                        addDependency(dep, "runtime")
-                    }
-                } else if (variant.flavorName == "fdroid") {
-                    configurations.getByName("fdroidApi").dependencies.forEach { dep ->
-                        addDependency(dep, "compile")
-                    }
-                    configurations.getByName("fdroidImplementation").dependencies.forEach { dep ->
-                        addDependency(dep, "runtime")
-                    }
-                }
-            }
-        }
+        configurePublishing("auth", variant.name, variant.flavorName)
     }
 }
