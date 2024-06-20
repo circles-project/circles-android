@@ -76,12 +76,12 @@ dependencies {
     implementation("com.nulab-inc:zxcvbn:1.9.0")
 
     // Subscriptions
-    "gplayImplementation"("com.android.billingclient:billing-ktx:7.0.0")
+    gplayImplementation("com.android.billingclient:billing-ktx:7.0.0")
 
     // PasswordManager
     val credentialsVersion = "1.3.0-beta02"
-    "gplayImplementation"("androidx.credentials:credentials:$credentialsVersion")
-    "gplayImplementation"("androidx.credentials:credentials-play-services-auth:$credentialsVersion")
+    gplayImplementation("androidx.credentials:credentials:$credentialsVersion")
+    gplayImplementation("androidx.credentials:credentials-play-services-auth:$credentialsVersion")
 
     // Hilt
     implementHilt()
