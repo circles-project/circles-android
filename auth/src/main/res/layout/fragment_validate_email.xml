@@ -106,7 +106,8 @@
             android:imeOptions="actionDone"
             android:inputType="number"
             android:maxLines="1"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:textStyle="normal" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
