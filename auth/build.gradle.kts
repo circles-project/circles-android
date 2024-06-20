@@ -42,15 +42,14 @@ android {
         }
     }
 
-    val flavorDimensionName = "store"
-    flavorDimensions.add(flavorDimensionName)
+    flavorDimensions.add(AppConfig.flavourDimension)
     productFlavors {
-        create("gplay") {
+        create(AppConfig.gplayFlavourName) {
             isDefault = true
-            dimension = flavorDimensionName
+            dimension = AppConfig.flavourDimension
         }
-        create("fdroid") {
-            dimension = flavorDimensionName
+        create(AppConfig.fdroidFlavourName) {
+            dimension = AppConfig.flavourDimension
         }
     }
 

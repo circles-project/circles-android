@@ -68,15 +68,14 @@ android {
         }
     }
 
-    val flavorDimensionName = "store"
-    flavorDimensions.add(flavorDimensionName)
+    flavorDimensions.add(AppConfig.flavourDimension)
     productFlavors {
-        create("gplay") {
+        create(AppConfig.gplayFlavourName) {
             isDefault = true
-            dimension = flavorDimensionName
+            dimension = AppConfig.flavourDimension
         }
-        create("fdroid") {
-            dimension = flavorDimensionName
+        create(AppConfig.fdroidFlavourName) {
+            dimension = AppConfig.flavourDimension
         }
     }
 
@@ -135,7 +134,7 @@ kapt {
     correctErrorTypes = true
 }
 
-if (gradle.startParameter.taskRequests.toString().lowercase().contains("gplay")) {
+if (gradle.startParameter.taskRequests.toString().lowercase().contains(AppConfig.gplayFlavourName)) {
     apply(plugin = "com.google.gms.google-services")
     apply(plugin = "com.google.firebase.crashlytics")
 }
