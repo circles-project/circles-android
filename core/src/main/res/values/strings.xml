@@ -141,6 +141,7 @@
     <string name="ignore">Ignore</string>
     <string name="ignore_user_message">Ignoring this user will remove their messages from rooms you share.</string>
     <string name="request_sent">Request sent</string>
+    <string name="failed_to_request_invitation">Failed to request invitation</string>
     <string name="unignore">Unignore</string>
     <string name="unignore_and_restart">Unignore and restart</string>
     <string name="unignore_message">Unignoring this user will show all messages from them again.\n\nNote that to take affect this action requires to restart the app and sync the session.</string>

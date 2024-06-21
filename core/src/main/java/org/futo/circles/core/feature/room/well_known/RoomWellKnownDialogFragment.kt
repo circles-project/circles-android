@@ -15,6 +15,7 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.model.RoomPublicInfo
 import org.futo.circles.core.model.ShareUrlTypeArg
@@ -50,8 +51,11 @@ class RoomWellKnownDialogFragment :
         )
         viewModel.knockRequestLiveData.observeResponse(this,
             success = {
-                showSuccess(getString(org.futo.circles.core.R.string.request_sent))
+                showSuccess(getString(R.string.request_sent))
                 onBackPressed()
+            },
+            error = {
+                showError(getString(R.string.failed_to_request_invitation))
             },
             onRequestInvoked = { binding.btnRequest.setIsLoading(false) })
 
