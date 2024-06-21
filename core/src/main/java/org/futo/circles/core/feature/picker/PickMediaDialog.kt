@@ -8,7 +8,7 @@ import org.futo.circles.core.databinding.DialogPickImageBinding
 import org.futo.circles.core.extensions.setIsVisible
 
 
-enum class PickImageMethod { Photo, Video, Device }
+enum class PickImageMethod { Camera, Video, Photo }
 
 interface PickMediaDialogListener {
     fun onPickMethodSelected(method: PickImageMethod)
@@ -32,9 +32,9 @@ class PickMediaDialog(
 
             tvVideo.setIsVisible(isVideoAvailable)
 
-            tvPhoto.setOnClickListener { onMethodSelected(PickImageMethod.Photo) }
+            tvCamera.setOnClickListener { onMethodSelected(PickImageMethod.Camera) }
             tvVideo.setOnClickListener { onMethodSelected(PickImageMethod.Video) }
-            tvDevice.setOnClickListener { onMethodSelected(PickImageMethod.Device) }
+            tvPhoto.setOnClickListener { onMethodSelected(PickImageMethod.Photo) }
         }
     }
 
