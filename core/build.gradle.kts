@@ -138,8 +138,8 @@ dependencies {
     implementation("androidx.browser:browser:1.8.0")
 
     // Firebase
-    gplayImplementation("com.google.firebase:firebase-crashlytics-ktx:19.0.1")
-    gplayImplementation("com.google.firebase:firebase-analytics-ktx:22.0.1")
+    gplayImplementation("com.google.firebase:firebase-crashlytics-ktx:19.0.2")
+    gplayImplementation("com.google.firebase:firebase-analytics-ktx:22.0.2")
     gplayImplementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
     gplayImplementation("com.google.android.gms:play-services-base:18.5.0")
 
