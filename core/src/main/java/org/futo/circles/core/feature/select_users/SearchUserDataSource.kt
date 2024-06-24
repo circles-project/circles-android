@@ -10,7 +10,7 @@ import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.extensions.getServerDomain
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getAllCirclesRooms
+import org.futo.circles.core.utils.getAllRooms
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class SearchUserDataSource @Inject constructor() {
     private val session = MatrixSessionProvider.currentSession
 
     suspend fun loadAllRoomMembersIfNeeded() {
-        getAllCirclesRooms().forEach {
+        getAllRooms().forEach {
             session?.getRoom(it.roomId)?.membershipService()?.loadRoomMembersIfNeeded()
         }
     }

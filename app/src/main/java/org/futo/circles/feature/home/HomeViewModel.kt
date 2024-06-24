@@ -15,7 +15,7 @@ import org.futo.circles.core.feature.notifications.PushersManager
 import org.futo.circles.core.feature.notifications.ShortcutsHandler
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.model.GROUP_TYPE
-import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.utils.getJoinedRoomById
@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(
     shortcutsHandler: ShortcutsHandler
 ) : ViewModel() {
 
-    val validateWorkspaceLoadingLiveData = SingleEventLiveData<LoadingData>()
+    val validateWorkspaceLoadingLiveData = SingleEventLiveData<ResLoadingData>()
     val validateWorkspaceResultLiveData = SingleEventLiveData<Response<Unit>>()
     val syncStateLiveData =
         MatrixSessionProvider.getSessionOrThrow().syncService().getSyncStateLive()
@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun validateWorkspace() = launchBg {
-        validateWorkspaceLoadingLiveData.postValue(LoadingData(R.string.validating_workspace))
+        validateWorkspaceLoadingLiveData.postValue(ResLoadingData(R.string.validating_workspace))
         val tasks = workspaceTasksProvider.getMandatoryTasks()
         tasks.forEach { item ->
             val validationResponse = createResult { workspaceDataSource.validate(item) }
@@ -52,14 +52,14 @@ class HomeViewModel @Inject constructor(
                 return@launchBg
             }
         }
-        validateWorkspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
+        validateWorkspaceLoadingLiveData.postValue(ResLoadingData(isLoading = false))
         validateWorkspaceResultLiveData.postValue(Response.Success(Unit))
     }
 
     private suspend fun fixWorkspaceSetup(tasks: List<CirclesRoom>) {
         tasks.forEachIndexed { i, item ->
             validateWorkspaceLoadingLiveData.postValue(
-                LoadingData(
+                ResLoadingData(
                     messageId = R.string.configuring_workspace,
                     isLoading = true,
                     progress = i,
@@ -69,12 +69,12 @@ class HomeViewModel @Inject constructor(
             val result =
                 createResult { workspaceDataSource.performCreateOrFix(WorkspaceTask(item)) }
             (result as? Response.Error)?.let {
-                validateWorkspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
+                validateWorkspaceLoadingLiveData.postValue(ResLoadingData(isLoading = false))
                 validateWorkspaceResultLiveData.postValue(result)
                 return@forEachIndexed
             }
         }
-        validateWorkspaceLoadingLiveData.postValue(LoadingData(isLoading = false))
+        validateWorkspaceLoadingLiveData.postValue(ResLoadingData(isLoading = false))
         validateWorkspaceResultLiveData.postValue(Response.Success(Unit))
     }
 

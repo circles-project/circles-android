@@ -25,7 +25,6 @@ abstract class UserTimelineViewHolder(view: View) : RecyclerView.ViewHolder(view
 
 class UsersTimelineRoomViewHolder(
     parent: ViewGroup,
-    private val onRequestFollow: (Int) -> Unit,
     private val onUnFollow: (Int) -> Unit
 ) : UserTimelineViewHolder(inflate(parent, ListItemUsersTimelineBinding::inflate)) {
 
@@ -34,7 +33,6 @@ class UsersTimelineRoomViewHolder(
     private val binding = baseBinding as ListItemUsersTimelineBinding
 
     init {
-        onClick(binding.btnFollow) { position -> onRequestFollow(position) }
         onClick(binding.btnUnFollow) { position -> onUnFollow(position) }
     }
 
@@ -44,8 +42,7 @@ class UsersTimelineRoomViewHolder(
             tvTimelineName.text = data.info.title
             ivTimelineImage.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
             vLoading.setIsVisible(data.isLoading)
-            btnFollow.setIsVisible(!data.isJoined && !data.isLoading)
-            btnUnFollow.setIsVisible(data.isJoined && !data.isLoading)
+            btnUnFollow.setIsVisible(!data.isLoading)
         }
     }
 }

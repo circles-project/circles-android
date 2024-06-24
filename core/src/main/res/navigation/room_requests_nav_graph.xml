@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/room_requests_nav_graph"
+    app:startDestination="@id/roomRequestsDialogFragment">
+    <dialog
+        android:id="@+id/roomRequestsDialogFragment"
+        android:name="org.futo.circles.core.feature.room.requests.RoomRequestsDialogFragment"
+        tools:layout="@layout/dialog_fragment_room_requests">
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+        <argument
+            android:name="roomId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+    </dialog>
+
+    <action
+        android:id="@+id/to_acceptCircleInviteDialogFragment"
+        app:destination="@id/acceptCircleInviteDialogFragment">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </action>
+
+</navigation>

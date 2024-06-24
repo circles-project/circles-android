@@ -93,14 +93,9 @@ data class UnIgnoreUser(
     override val positiveButtonRes: Int = R.string.unignore_and_restart
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
-data class UnfollowUser(
-    override val titleRes: Int = R.string.unfollow,
-    override val messageRes: Int = R.string.unfollow_user_message,
-    override val positiveButtonRes: Int = R.string.unfollow
-) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
 
 data class RemoveImage(
     override val titleRes: Int = R.string.remove_image,
     override val messageRes: Int = R.string.remove_image_message,
-    override val positiveButtonRes: Int =  org.futo.circles.core.R.string.remove
+    override val positiveButtonRes: Int = org.futo.circles.core.R.string.remove
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

@@ -4,7 +4,7 @@ import androidx.cardview.widget.CardView
 import org.futo.circles.R
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.visible
-import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.view.LoadingView
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
@@ -16,13 +16,13 @@ object MediaProgressHelper {
                 when (state) {
                     ContentUploadStateTracker.State.CompressingImage -> {
                         loadingCardView?.visible()
-                        loadingView?.setProgress(LoadingData(R.string.compressing))
+                        loadingView?.setProgress(ResLoadingData(R.string.compressing))
                     }
 
                     is ContentUploadStateTracker.State.CompressingVideo -> {
                         loadingCardView?.visible()
                         loadingView?.setProgress(
-                            LoadingData(
+                            ResLoadingData(
                                 messageId = R.string.compressing,
                                 progress = state.percent.toInt(),
                                 total = 100
@@ -33,7 +33,7 @@ object MediaProgressHelper {
                     is ContentUploadStateTracker.State.Encrypting -> {
                         loadingCardView?.visible()
                         loadingView?.setProgress(
-                            LoadingData(
+                            ResLoadingData(
                                 messageId = R.string.encrypting,
                                 progress = state.current.toInt(),
                                 total = state.total.toInt()
@@ -44,7 +44,7 @@ object MediaProgressHelper {
                     is ContentUploadStateTracker.State.Uploading -> {
                         loadingCardView?.visible()
                         loadingView?.setProgress(
-                            LoadingData(
+                            ResLoadingData(
                                 messageId = R.string.uploading,
                                 progress = state.current.toInt(),
                                 total = state.total.toInt()

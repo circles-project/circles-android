@@ -3,23 +3,18 @@ package org.futo.circles.core.feature.picker.helper
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.net.Uri
-import android.os.Bundle
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.google.gson.Gson
 import org.futo.circles.core.R
 import org.futo.circles.core.extensions.getUri
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.model.MediaType
-import org.futo.circles.core.model.PickGalleryMediaResultItem
 import org.futo.circles.core.feature.picker.PickImageMethod
 import org.futo.circles.core.feature.picker.PickMediaDialog
 import org.futo.circles.core.feature.picker.PickMediaDialogListener
-import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragment
 import org.futo.circles.core.utils.FileUtils.createImageFile
 import org.futo.circles.core.utils.FileUtils.createVideoFile
-import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage
 
 
@@ -86,7 +81,7 @@ open class MediaPickerHelper(
 
     override fun onPickMethodSelected(method: PickImageMethod) {
         when (method) {
-            PickImageMethod.Photo -> cameraPermissionHelper.runWithPermission {
+            PickImageMethod.Camera -> cameraPermissionHelper.runWithPermission {
                 dispatchCameraIntent(MediaType.Image)
             }
 
@@ -94,7 +89,7 @@ open class MediaPickerHelper(
                 dispatchCameraIntent(MediaType.Video)
             }
 
-            PickImageMethod.Device -> dispatchDevicePickerIntent()
+            PickImageMethod.Photo -> dispatchDevicePickerIntent()
         }
     }
 

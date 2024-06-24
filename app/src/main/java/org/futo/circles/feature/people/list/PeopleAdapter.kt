@@ -6,15 +6,13 @@ import org.futo.circles.model.PeopleCategoryListItem
 import org.futo.circles.model.PeopleCategoryTypeArg
 import org.futo.circles.model.PeopleIgnoredUserListItem
 import org.futo.circles.model.PeopleListItem
-import org.futo.circles.model.PeopleRequestNotificationListItem
 import org.futo.circles.model.PeopleUserListItem
 import org.futo.circles.model.PeopleUserListItemPayload
 
-enum class PeopleItemViewType { Category, Default, RequestNotification, Ignored }
+enum class PeopleItemViewType { Category, Default, Ignored }
 
 class PeopleAdapter(
     private val onUserClicked: (String) -> Unit,
-    private val onOpenRequestsClicked: () -> Unit = {},
     private val onCategoryClicked: (PeopleCategoryTypeArg) -> Unit = {},
     private val onUnIgnore: (String) -> Unit = {},
 ) : BaseRvAdapter<PeopleListItem, PeopleViewHolder>(PayloadIdEntityCallback { old, new ->
@@ -29,7 +27,6 @@ class PeopleAdapter(
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is PeopleCategoryListItem -> PeopleItemViewType.Category.ordinal
         is PeopleIgnoredUserListItem -> PeopleItemViewType.Ignored.ordinal
-        is PeopleRequestNotificationListItem -> PeopleItemViewType.RequestNotification.ordinal
         is PeopleUserListItem -> PeopleItemViewType.Default.ordinal
     }
 
@@ -41,10 +38,6 @@ class PeopleAdapter(
                         onCategoryClicked(it.typeArg)
                     }
                 }
-            )
-
-            PeopleItemViewType.RequestNotification -> FollowRequestNotificationViewHolder(
-                parent = parent, onClicked = { onOpenRequestsClicked() }
             )
 
             PeopleItemViewType.Ignored -> IgnoredUsersViewHolder(

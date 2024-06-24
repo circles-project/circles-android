@@ -19,7 +19,7 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
-import org.futo.circles.core.model.LoadingData
+import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContentType
@@ -85,7 +85,7 @@ class CreatePostDialogFragment :
             sendStateLiveData.observeData(this) { sendState ->
                 setEnabledViews(!sendState.isSending())
                 if (sendState.isSending()) {
-                    binding.vLoadingView.setProgress(LoadingData(R.string.sending))
+                    binding.vLoadingView.setProgress(ResLoadingData(R.string.sending))
                     binding.vLoadingCard.visible()
                 } else if (sendState.isSent()) {
                     if (!args.isEdit) sentPostListener?.onPostSent()

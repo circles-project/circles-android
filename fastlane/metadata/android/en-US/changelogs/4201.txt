@@ -1,0 +1,4 @@
+- Removed Jdenticon user's icon placeholder
+- Added "Invite to follow me"
+- Added "Requests for invitation" on Circles/Groups tabs
+- Bug fixes and performance improvements

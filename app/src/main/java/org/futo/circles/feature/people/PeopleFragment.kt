@@ -30,7 +30,6 @@ class PeopleFragment : BaseBindingFragment<FragmentPeopleBinding>(FragmentPeople
 
     private val peopleAdapter by lazy {
         PeopleAdapter(onUserClicked = { userId -> navigator.navigateToUserPage(userId) },
-            onOpenRequestsClicked = { navigator.navigateToInvites() },
             onCategoryClicked = { categoryType ->
                 navigator.navigateToPeopleCategoryPage(categoryType)
             })
@@ -63,8 +62,7 @@ class PeopleFragment : BaseBindingFragment<FragmentPeopleBinding>(FragmentPeople
                 })
                 adapter = peopleAdapter
             }
-            ivEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
-            ivShareProfile.setOnClickListener { navigator.navigateToShareProfile(viewModel.getSharedCircleSpaceId()) }
+            btnEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
         }
     }
 

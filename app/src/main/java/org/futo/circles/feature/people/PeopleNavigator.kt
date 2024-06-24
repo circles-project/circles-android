@@ -8,10 +8,6 @@ import org.futo.circles.model.PeopleCategoryTypeArg
 
 class PeopleNavigator(private val fragment: PeopleFragment) {
 
-    fun navigateToInvites() {
-        fragment.findNavController().navigateSafe(PeopleFragmentDirections.toInvites())
-    }
-
     fun navigateToUserPage(userId: String) {
         fragment.findNavController().navigateSafe(PeopleFragmentDirections.toUserFragment(userId))
     }
@@ -25,22 +21,5 @@ class PeopleNavigator(private val fragment: PeopleFragment) {
         fragment.findNavController()
             .navigateSafe(PeopleFragmentDirections.toEditProfileDialogFragment())
     }
-
-    fun navigateToShareProfile(sharedSpaceId: String?) {
-        sharedSpaceId ?: kotlin.run {
-            fragment.showError(
-                fragment.requireContext()
-                    .getString(org.futo.circles.settings.R.string.shared_circles_space_not_found)
-            )
-            return
-        }
-        fragment.findNavController().navigateSafe(
-            PeopleFragmentDirections.toShareProfileDialogFragment(
-                sharedSpaceId,
-                ShareUrlTypeArg.PROFILE
-            )
-        )
-    }
-
 
 }

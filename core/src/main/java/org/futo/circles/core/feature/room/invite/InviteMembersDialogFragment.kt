@@ -16,6 +16,9 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.feature.select_users.SelectUsersFragment
 import org.futo.circles.core.feature.select_users.SelectUsersListener
+import org.futo.circles.core.model.MessageLoadingData
+import org.futo.circles.core.model.ResLoadingData
+import org.futo.circles.core.view.LoadingDialog
 
 @AndroidEntryPoint
 class InviteMembersDialogFragment :
@@ -27,6 +30,7 @@ class InviteMembersDialogFragment :
     override val fragment: Fragment = this
     private val args: InviteMembersDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<InviteMembersViewModel>()
+    private val inviteLoadingDialog by lazy { LoadingDialog(requireContext()) }
 
     private val selectedUsersFragment by lazy { SelectUsersFragment.create(args.roomId) }
 
@@ -58,6 +62,16 @@ class InviteMembersDialogFragment :
                 onBackPressed()
             }
         )
+        viewModel.inviteLoadingEventLiveData.observeData(this) { event ->
+            val loadingData = if (event.isLoading) {
+                MessageLoadingData(
+                    getString(R.string.inviting_user_to_format, event.userId, event.roomName)
+                )
+            } else {
+                ResLoadingData(isLoading = false)
+            }
+            inviteLoadingDialog.handleLoading(loadingData)
+        }
     }
 
 

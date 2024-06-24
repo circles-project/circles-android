@@ -9,7 +9,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.DialogFragmentTimelineOptionsBinding
-import org.futo.circles.core.extensions.getCircleAvatarUrl
 import org.futo.circles.core.extensions.isCurrentUserAbleToChangeSettings
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.extensions.isCurrentUserOnlyAdmin
@@ -18,6 +17,7 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showDialog
+import org.futo.circles.core.extensions.toRoomInfo
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.DeleteCircle
@@ -99,7 +99,7 @@ class TimelineOptionsDialogFragment :
                 setOnClickListener { navigator.navigateToInviteMembers(timelineId) }
             }
             tvKnockRequests.setOnClickListener {
-                navigator.navigateToKnockRequests(timelineId)
+                navigator.navigateToRequestForInvite(args.type, timelineId)
             }
             tvLeave.apply {
                 setIsVisible(args.type != CircleRoomTypeArg.Circle)
@@ -151,11 +151,12 @@ class TimelineOptionsDialogFragment :
         }
         viewModel.roomSummaryLiveData?.observeData(this) {
             it.getOrNull()?.let { room ->
+                val roomInfo = room.toRoomInfo(args.type == CircleRoomTypeArg.Circle)
                 binding.ivCover.loadRoomProfileIcon(
-                    if (args.type == CircleRoomTypeArg.Circle) room.getCircleAvatarUrl() else room.avatarUrl,
-                    room.displayName
+                    roomInfo.avatarUrl,
+                    roomInfo.title
                 )
-                binding.toolbar.title = room.displayName
+                binding.toolbar.title = roomInfo.title
             }
         }
         viewModel.notificationsStateLiveData.observeData(this) {

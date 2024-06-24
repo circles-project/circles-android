@@ -12,16 +12,6 @@
         android:clipToPadding="false"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvUserId"
-            style="@style/title2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            tools:text="t22:nl.circles-dev.net" />
-
-
         <LinearLayout
             android:id="@+id/lMediaStorage"
             android:layout_width="match_parent"
@@ -102,14 +92,6 @@
             android:layout_height="wrap_content"
             app:optionIcon="@drawable/ic_edit"
             app:optionName="@string/edit_profile" />
-
-        <org.futo.circles.core.view.SettingsMenuItemView
-            android:id="@+id/tvShareProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:optionIcon="@drawable/ic_qr"
-            app:optionName="@string/share_profile" />
-
 
         <org.futo.circles.core.view.SettingsMenuItemView
             android:id="@+id/tvChangePassphrase"

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
@@ -25,7 +26,6 @@ import org.futo.circles.core.feature.user.list.UsersCirclesAdapter
 import org.futo.circles.core.model.IgnoreUser
 import org.futo.circles.core.model.UnIgnoreUser
 import org.futo.circles.core.model.UnfollowTimeline
-import org.futo.circles.core.model.UnfollowUser
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.matrix.android.sdk.api.session.user.model.User
@@ -34,14 +34,11 @@ import org.matrix.android.sdk.api.session.user.model.User
 class UserDialogFragment :
     BaseFullscreenDialogFragment<DialogFragmentUserBinding>(DialogFragmentUserBinding::inflate) {
 
+    private val args: UserDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<UserViewModel>()
 
     private val usersCirclesAdapter by lazy {
         UsersCirclesAdapter(
-            onRequestFollow = { timelineId ->
-                if (showNoInternetConnection()) return@UsersCirclesAdapter
-                viewModel.requestFollowTimeline(timelineId)
-            },
             onUnFollow = { timelineId ->
                 if (showNoInternetConnection()) return@UsersCirclesAdapter
                 withConfirmation(UnfollowTimeline()) {
@@ -68,22 +65,21 @@ class UserDialogFragment :
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = usersCirclesAdapter
         }
+        binding.btnInviteToFollowMe.setOnClickListener {
+            findNavController().navigateSafe(
+                UserDialogFragmentDirections.toInviteToFollowMeDialogFragment(args.userId)
+            )
+        }
     }
 
     @SuppressLint("RestrictedApi")
     private fun setupMenu() {
         with(binding.toolbar) {
             (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-            menu.findItem(R.id.unFollow).isVisible = viewModel.amIFollowingUser()
             menu.findItem(R.id.ignore).isVisible = !isUserIgnored
             menu.findItem(R.id.unIgnore).isVisible = isUserIgnored
             setOnMenuItemClickListener { item ->
                 return@setOnMenuItemClickListener when (item.itemId) {
-                    R.id.unFollow -> {
-                        withConfirmation(UnfollowUser()) { viewModel.unFollowUser() }
-                        true
-                    }
-
                     R.id.ignore -> {
                         withConfirmation(IgnoreUser()) { viewModel.ignoreUser() }
                         true
@@ -105,8 +101,6 @@ class UserDialogFragment :
         viewModel.usersTimelinesLiveData.observeData(this) {
             usersCirclesAdapter.submitList(it)
         }
-        viewModel.requestFollowLiveData.observeResponse(this,
-            success = { showSuccess(getString(R.string.request_sent)) })
         viewModel.ignoreUserLiveData.observeResponse(this,
             success = {
                 context?.let { showSuccess(it.getString(R.string.user_ignored)) }
@@ -122,8 +116,6 @@ class UserDialogFragment :
             isUserIgnored = it
             setupMenu()
         }
-        viewModel.unFollowUserLiveData.observeResponse(this,
-            success = { onBackPressed() })
     }
 
     private fun setupUserInfo(user: User) {

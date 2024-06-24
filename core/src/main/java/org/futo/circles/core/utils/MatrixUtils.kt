@@ -1,11 +1,15 @@
 package org.futo.circles.core.utils
 
+import org.futo.circles.core.extensions.getPowerLevelContent
+import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.query.RoomCategoryFilter
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
@@ -28,13 +32,13 @@ val circlesRoomsTypes = listOf(
     GROUP_TYPE
 )
 
-private fun getRoomsLiveDataWithType(
+fun getRoomsLiveDataWithType(
     type: String,
     membershipFilter: List<Membership> = Membership.activeMemberships()
 ) = MatrixSessionProvider.getSessionOrThrow().roomService()
     .getRoomSummariesLive(getCirclesRoomTypeFilter(type, membershipFilter))
 
-private fun getRoomsWithType(
+fun getRoomsWithType(
     type: String,
     membershipFilter: List<Membership> = Membership.activeMemberships()
 ) = MatrixSessionProvider.getSessionOrThrow().roomService()
@@ -78,12 +82,23 @@ private fun getAllRoomsFiler(membershipFilter: List<Membership>) = roomSummaryQu
     memberships = membershipFilter
 }
 
-fun getAllCirclesRoomsLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+fun getAllRoomsLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     MatrixSessionProvider.getSessionOrThrow().roomService()
         .getRoomSummariesLive(getAllRoomsFiler(membershipFilter))
 
-fun getAllCirclesRooms(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+fun getAllRooms(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     MatrixSessionProvider.getSessionOrThrow().roomService()
         .getRoomSummaries(getAllRoomsFiler(membershipFilter))
+
+fun getKnocksCount(roomId: String): Int {
+    if (getPowerLevelContent(roomId)?.isCurrentUserAbleToInvite() == false) return 0
+    return MatrixSessionProvider.currentSession?.getRoom(roomId)?.membershipService()
+        ?.getRoomMembers(
+            roomMemberQueryParams {
+                excludeSelf = true
+                memberships = listOf(Membership.KNOCK)
+            }
+        )?.size ?: 0
+}
 
 

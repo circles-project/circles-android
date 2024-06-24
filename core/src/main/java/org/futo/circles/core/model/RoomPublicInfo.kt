@@ -14,8 +14,6 @@ data class RoomPublicInfo(
     val type: ShareUrlTypeArg
 )
 
-fun RoomPublicInfo.isProfile() = type == ShareUrlTypeArg.PROFILE
-
 fun RoomSummary.toRoomPublicInfo(urlType: ShareUrlTypeArg) = RoomPublicInfo(
     id = roomId,
     name = name.takeIf { it.isNotEmpty() },

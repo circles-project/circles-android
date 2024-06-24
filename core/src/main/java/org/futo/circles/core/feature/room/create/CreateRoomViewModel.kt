@@ -22,6 +22,13 @@ class CreateRoomViewModel @Inject constructor(
 
     val selectedImageLiveData = MutableLiveData<Uri>()
     val createRoomResponseLiveData = SingleEventLiveData<Response<String>>()
+    val createRoomProgressEventLiveData = SingleEventLiveData<CreateRoomProgressStage>()
+
+    private val createRoomProgressListener = object : CreateRoomProgressListener {
+        override fun onProgressUpdated(event: CreateRoomProgressStage) {
+            createRoomProgressEventLiveData.postValue(event)
+        }
+    }
 
     fun setImageUri(uri: Uri) {
         selectedImageLiveData.value = uri
@@ -57,12 +64,14 @@ class CreateRoomViewModel @Inject constructor(
                     )
                 }
             }
+            createRoomProgressEventLiveData.postValue(CreateRoomProgressStage.Finished)
             createRoomResponseLiveData.postValue(result)
         }
     }
 
     private suspend fun createGroup(
-        name: String, topic: String,
+        name: String,
+        topic: String,
         inviteIds: List<String>?,
         defaultUserAccessLevel: AccessLevel
     ) = dataSource.createRoom(
@@ -71,7 +80,8 @@ class CreateRoomViewModel @Inject constructor(
         name = name,
         topic = topic,
         inviteIds = inviteIds,
-        defaultUserPowerLevel = defaultUserAccessLevel.levelValue
+        defaultUserPowerLevel = defaultUserAccessLevel.levelValue,
+        progressObserver = createRoomProgressListener
     )
 
     private suspend fun createCircle(
@@ -83,19 +93,22 @@ class CreateRoomViewModel @Inject constructor(
         name = name,
         iconUri = selectedImageLiveData.value,
         inviteIds = inviteIds,
-        defaultUserPowerLevel = defaultUserAccessLevel.levelValue
+        defaultUserPowerLevel = defaultUserAccessLevel.levelValue,
+        progressObserver = createRoomProgressListener
     )
 
     private suspend fun createGallery(
         name: String,
         inviteIds: List<String>?,
         defaultUserAccessLevel: AccessLevel
-    ) =
-        dataSource.createRoom(
-            circlesRoom = Gallery(),
-            name = name,
-            iconUri = selectedImageLiveData.value,
-            inviteIds = inviteIds,
-            defaultUserPowerLevel = defaultUserAccessLevel.levelValue
-        )
+    ) = dataSource.createRoom(
+        circlesRoom = Gallery(),
+        name = name,
+        iconUri = selectedImageLiveData.value,
+        inviteIds = inviteIds,
+        defaultUserPowerLevel = defaultUserAccessLevel.levelValue,
+        progressObserver = createRoomProgressListener
+    )
+
+
 }

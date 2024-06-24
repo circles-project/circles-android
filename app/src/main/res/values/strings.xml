@@ -14,7 +14,6 @@
     <string name="requests">Requests</string>
     <string name="no_results">No results</string>
     <string name="invites">Invites</string>
-    <string name="create_new_circle">Create new circle</string>
     <string name="log_out">Log out</string>
     <string name="followed_by_format">Followed by %d</string>
     <string name="requests_format">Requests %d</string>
@@ -92,9 +91,6 @@
     <string name="circles_empty_message">Create your first Circle</string>
     <string name="people_category_empty_message">%s will be shown here</string>
     <string name="help">Help</string>
-    <string name="group_invites_notification_format">Show %d Group invitations</string>
-    <string name="circle_invites_notification_format">Show %d Circle invitations</string>
-    <string name="show_connection_invites_format">Show %d connection invites</string>
     <string name="downloading">Downloading</string>
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
     <string name="in_timeline_format">(in %1$s / %2$s)</string>
@@ -111,12 +107,9 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
 <br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
     <string name="changelog">
-- Support of dehydrated devices
-- Profile updates via presence system
-- Post composer awaits for post to be sent
-- Removed Connections
-- Removed Gallery (still available in advanced settings)
-- Replaced Configure Workspace with new setup flow
+- Removed Jdenticon user\'s icon placeholder
+- Added \"Invite to follow me\"
+- Added \"Requests for invitation\" on Circles/Groups tabs
 - Bug fixes and performance improvements
 </string>
 

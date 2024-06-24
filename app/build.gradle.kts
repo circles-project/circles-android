@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
+
 import com.android.build.OutputFile
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.util.Properties
 
 plugins {
@@ -9,19 +9,20 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("base")
 }
 
 android {
-    compileSdk = rootProject.extra["sdk_version"] as Int
+    compileSdk = AppConfig.compileSdk
     namespace = "org.futo.circles"
 
     defaultConfig {
         applicationId = "org.futo.circles"
-        minSdk = rootProject.extra["min_sdk_version"] as Int
-        targetSdk = rootProject.extra["sdk_version"] as Int
-        versionCode = 41
-        versionName = "1.0.31"
-        archivesName = "circles-v$versionName"
+        minSdk = AppConfig.minSdk
+        targetSdk = AppConfig.compileSdk
+        versionCode = AppConfig.versionCode
+        versionName = AppConfig.versionName
+        base.archivesName = AppConfig.archivesName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -67,14 +68,14 @@ android {
         }
     }
 
-    val flavorDimensionName = "store"
-    flavorDimensions.add(flavorDimensionName)
+    flavorDimensions.add(AppConfig.flavourDimension)
     productFlavors {
-        create("gplay") {
-            dimension = flavorDimensionName
+        create(AppConfig.gplayFlavourName) {
+            isDefault = true
+            dimension = AppConfig.flavourDimension
         }
-        create("fdroid") {
-            dimension = flavorDimensionName
+        create(AppConfig.fdroidFlavourName) {
+            dimension = AppConfig.flavourDimension
         }
     }
 
@@ -123,20 +124,17 @@ dependencies {
     implementation("com.jakewharton.timber:timber:5.0.1")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:${rootProject.extra["hilt_version"]}")
-    kapt("com.google.dagger:hilt-compiler:${rootProject.extra["hilt_version"]}")
+    implementHilt()
 
     // Test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementTestDep()
 }
 
 kapt {
     correctErrorTypes = true
 }
 
-if (gradle.startParameter.taskRequests.toString().lowercase().contains("gplay")) {
+if (gradle.startParameter.taskRequests.toString().lowercase().contains(AppConfig.gplayFlavourName)) {
     apply(plugin = "com.google.gms.google-services")
     apply(plugin = "com.google.firebase.crashlytics")
 }

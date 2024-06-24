@@ -34,7 +34,7 @@ class GroupsFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBi
         GroupsListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onOpenInvitesClicked = {
-                findNavController().navigateSafe(GroupsFragmentDirections.toInvites())
+                findNavController().navigateSafe(GroupsFragmentDirections.toRoomRequests())
             }
         )
     }

@@ -20,8 +20,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:titleCentered="true"
-            tools:title="@string/share_room" />
+            app:title="@string/share_room"
+            app:titleCentered="true" />
 
 
         <View

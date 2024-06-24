@@ -14,6 +14,7 @@ import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsEncryptedIcon
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.utils.TextFormatUtils
 import org.futo.circles.databinding.ListItemJoinedGroupBinding
 import org.futo.circles.model.GroupInvitesNotificationListItem
 import org.futo.circles.model.GroupListItem
@@ -117,7 +118,10 @@ class GroupInviteNotificationViewHolder(
 
     override fun bind(data: GroupListItem) {
         if (data !is GroupInvitesNotificationListItem) return
-        binding.tvInvitesMessage.text =
-            context.getString(R.string.group_invites_notification_format, data.invitesCount)
+        binding.tvInvitesMessage.text = TextFormatUtils.getFormattedInvitesKnocksMessage(
+            context,
+            data.invitesCount,
+            data.knockRequestsCount
+        )
     }
 }

@@ -105,8 +105,13 @@
 
         </action>
         <action
-            android:id="@+id/to_knockRequestsDialogFragment"
-            app:destination="@id/knockRequestsDialogFragment">
+            android:id="@+id/to_roomRequests"
+            app:destination="@id/room_requests_nav_graph">
+
+            <argument
+                android:name="type"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
 
             <argument
                 android:name="roomId"
@@ -249,18 +254,11 @@
     </dialog>
 
     <include app:graph="@navigation/share_room_nav_graph" />
-    <dialog
-        android:id="@+id/knockRequestsDialogFragment"
-        android:name="org.futo.circles.core.feature.room.knoks.KnockRequestsDialogFragment"
-        tools:layout="@layout/dialog_fragment_knock_requests">
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-    </dialog>
 
     <include app:graph="@navigation/user_nav_graph" />
 
     <include app:graph="@navigation/filter_timelines_nav_graph" />
+
+    <include app:graph="@navigation/room_requests_nav_graph" />
 
 </navigation>

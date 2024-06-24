@@ -10,10 +10,10 @@ plugins {
 
 android {
     namespace = "org.futo.circles.core"
-    compileSdk = rootProject.ext["sdk_version"] as Int
+    compileSdk = AppConfig.compileSdk
 
     defaultConfig {
-        minSdk = rootProject.ext["min_sdk_version"] as Int
+        minSdk = AppConfig.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -33,14 +33,14 @@ android {
         }
     }
 
-    val flavorDimensionName = "store"
-    flavorDimensions.add(flavorDimensionName)
+    flavorDimensions.add(AppConfig.flavourDimension)
     productFlavors {
-        create("gplay") {
-            dimension = flavorDimensionName
+        create(AppConfig.gplayFlavourName) {
+            isDefault = true
+            dimension = AppConfig.flavourDimension
         }
-        create("fdroid") {
-            dimension = flavorDimensionName
+        create(AppConfig.fdroidFlavourName) {
+            dimension = AppConfig.flavourDimension
         }
     }
 
@@ -67,23 +67,22 @@ dependencies {
     api("androidx.core:core-ktx:1.13.1")
 
     // androidx lifecycle
-    val lifecycleVersion = "2.8.1"
+    val lifecycleVersion = "2.8.2"
     api("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     api("androidx.lifecycle:lifecycle-process:$lifecycleVersion")
 
     // androidx navigation
-    api("androidx.navigation:navigation-fragment-ktx:${rootProject.ext["androidx_nav_version"]}")
-    api("androidx.navigation:navigation-ui-ktx:${rootProject.ext["androidx_nav_version"]}")
+    api("androidx.navigation:navigation-fragment-ktx:${Versions.androidx_nav_version}")
+    api("androidx.navigation:navigation-ui-ktx:${Versions.androidx_nav_version}")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:${rootProject.ext["hilt_version"]}")
-    kapt("com.google.dagger:hilt-compiler:${rootProject.ext["hilt_version"]}")
+    implementHilt()
 
     // Matrix release
-     api("org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.41@aar") {
-         isTransitive = true
-     }
+    api("org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.43@aar") {
+        isTransitive = true
+    }
 
     // Matrix mavenLocal testing
     //api("org.futo.gitlab.circles:matrix-android-sdk:0.1.100")
@@ -128,28 +127,23 @@ dependencies {
     // Image zoom
     implementation("com.jsibbold:zoomage:1.3.1")
 
-    // profile placeholder
-    implementation("com.github.WycliffeAssociates:jdenticon-kotlin:1.1")
-    implementation("com.caverock:androidsvg-aar:1.4")
 
     // UnifiedPush
     implementation("com.github.UnifiedPush:android-connector:2.1.1")
 
     // Google app update
-    "gplayImplementation"("com.google.android.play:app-update:2.1.0")
+    gplayImplementation("com.google.android.play:app-update:2.1.0")
 
     // ChromeTabs
     implementation("androidx.browser:browser:1.8.0")
 
     // Firebase
-    "gplayImplementation"("com.google.firebase:firebase-crashlytics-ktx:19.0.1")
-    "gplayImplementation"("com.google.firebase:firebase-analytics-ktx:22.0.1")
-    "gplayImplementation"("com.google.firebase:firebase-messaging-ktx:24.0.0")
-    "gplayImplementation"("com.google.android.gms:play-services-base:18.5.0")
+    gplayImplementation("com.google.firebase:firebase-crashlytics-ktx:19.0.2")
+    gplayImplementation("com.google.firebase:firebase-analytics-ktx:22.0.2")
+    gplayImplementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
+    gplayImplementation("com.google.android.gms:play-services-base:18.5.0")
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementTestDep()
 }
 
 kapt {
@@ -161,47 +155,6 @@ afterEvaluate {
         if (variant.buildType.name != "release") {
             return@forEach
         }
-        publishing.publications.create(variant.name, MavenPublication::class) {
-            groupId = rootProject.ext["modules_groupId"] as String
-            artifactId = "core_${variant.flavorName}"
-            version = rootProject.ext["modules_version"] as String
-
-            pom.withXml {
-                val dependenciesNode = asNode().appendNode("dependencies")
-                fun addDependency(dep: Dependency, scope: String) {
-                    if (dep.group == null || dep.name == "unspecified" || dep.version == "unspecified") return
-                    val dependencyNode = dependenciesNode.appendNode("dependency")
-                    dependencyNode.appendNode("groupId", dep.group)
-                    dependencyNode.appendNode("artifactId", dep.name)
-                    dependencyNode.appendNode("version", dep.version)
-                    dependencyNode.appendNode("scope", scope)
-                    if (dep.group == "org.futo.gitlab.circles" && dep.name == "matrix-android-sdk") {
-                        dependencyNode.appendNode("type", "aar")
-                    }
-                }
-                configurations.getByName("api").dependencies.forEach { dep ->
-                    addDependency(dep, "compile")
-                }
-                configurations.getByName("implementation").dependencies.forEach { dep ->
-                    addDependency(dep, "runtime")
-                }
-                if (variant.flavorName == "gplay") {
-                    configurations.getByName("gplayApi").dependencies.forEach { dep ->
-                        addDependency(dep, "compile")
-                    }
-                    configurations.getByName("gplayImplementation").dependencies.forEach { dep ->
-                        addDependency(dep, "runtime")
-                    }
-                } else if (variant.flavorName == "fdroid") {
-                    configurations.getByName("fdroidApi").dependencies.forEach { dep ->
-                        addDependency(dep, "compile")
-                    }
-                    configurations.getByName("fdroidImplementation").dependencies.forEach { dep ->
-                        addDependency(dep, "runtime")
-                    }
-                }
-            }
-        }
+        configurePublishing("core", variant.name, variant.flavorName)
     }
 }
-

@@ -21,14 +21,16 @@ data class GalleryHeaderItem(
 data class JoinedGalleryListItem(
     override val id: String,
     val info: RoomInfo,
-    val roomOwner: User?
+    val roomOwner: User?,
+    val knockRequestsCount: Int
 ) : GalleryListItem() {
     fun isMyGallery(): Boolean =
         roomOwner?.let { it.userId == MatrixSessionProvider.currentSession?.myUserId } ?: true
 }
 
 data class GalleryInvitesNotificationListItem(
-    val invitesCount: Int
+    val invitesCount: Int,
+    val knocksCount: Int
 ) : GalleryListItem() {
     override val id: String = "GroupInvitesNotificationListItem"
 }
