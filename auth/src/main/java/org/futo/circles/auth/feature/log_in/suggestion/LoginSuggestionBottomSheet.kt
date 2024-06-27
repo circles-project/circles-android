@@ -42,7 +42,10 @@ class LoginSuggestionBottomSheet : TransparentBackgroundBottomSheetDialogFragmen
                 btnOk.apply {
                     text = getString(R.string.log_in_as_format, args.userId)
                     setOnClickListener {
-                        applySuggestionListener?.onLoginSuggestionApplied(args.userId)
+                        applySuggestionListener?.onLoginSuggestionApplied(
+                            args.userId,
+                            args.isForgotPassword
+                        )
                         dismiss()
                     }
                     btnCancel.setOnClickListener { dismiss() }

@@ -30,6 +30,11 @@
                 app:argType="string"
                 app:nullable="false" />
 
+            <argument
+                android:name="isForgotPassword"
+                app:argType="boolean"
+                app:nullable="false" />
+
         </action>
     </fragment>
 
@@ -126,6 +131,11 @@
         <argument
             android:name="userId"
             app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="isForgotPassword"
+            app:argType="boolean"
             app:nullable="false" />
 
     </dialog>
