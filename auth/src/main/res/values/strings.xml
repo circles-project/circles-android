@@ -46,8 +46,6 @@
     <string name="domain">Domain</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="username">username</string>
-    <string name="at_symbol">\@</string>
-    <string name="user_id_separator">:</string>
     <string name="do_not_have_an_account">Don\'t have an account?</string>
     <string name="resume_session">Resume session:</string>
     <string name="choose_a_passphrase">Choose a passphrase</string>
@@ -115,6 +113,7 @@
     <string name="setup_your_circles">Setup your circles</string>
     <string name="next">Next</string>
     <string name="add_a_new_circle">Add a new circle</string>
+    <string name="login_field_hint">\@user:example.com</string>
 
 
     <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.

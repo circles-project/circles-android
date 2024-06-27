@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
 import android.view.View
-import android.view.View.OnFocusChangeListener
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -35,13 +33,6 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<LogInViewModel>()
-    private val autocompleteAdapter by lazy {
-        ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_dropdown_item_1line,
-            CirclesAppConfig.serverDomains()
-        )
-    }
 
     private val switchUsersAdapter by lazy {
         SwitchUsersAdapter(
@@ -66,15 +57,6 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
 
     private fun setupViews() {
         with(binding) {
-            tvDomain.apply {
-                setAdapter(autocompleteAdapter)
-                onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
-                    tilDomain.hint =
-                        if (!hasFocus && tvDomain.text.isEmpty()) CirclesAppConfig.serverDomains().first()
-                        else getString(R.string.domain)
-                }
-            }
-            tilDomain.hint = CirclesAppConfig.serverDomains().first()
             rvSwitchUsers.apply {
                 adapter = switchUsersAdapter
                 addItemDecoration(BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(16))
@@ -132,6 +114,5 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
         viewModel.startLogInFlow(userName, getDomain(), isForgotPassword)
     }
 
-    private fun getDomain() = binding.tvDomain.text.toString().takeIf { it.isNotEmpty() }
-        ?: CirclesAppConfig.serverDomains().first()
+    private fun getDomain() = CirclesAppConfig.serverDomains().first()
 }
