@@ -21,6 +21,16 @@
         <action
             android:id="@+id/to_selectServerBottomSheet"
             app:destination="@id/selectServerBottomSheet" />
+        <action
+            android:id="@+id/to_loginSuggestionBottomSheet"
+            app:destination="@id/loginSuggestionBottomSheet">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
     <dialog
@@ -108,4 +118,15 @@
             app:popUpToInclusive="true" />
 
     </fragment>
+    <dialog
+        android:id="@+id/loginSuggestionBottomSheet"
+        android:name="org.futo.circles.auth.feature.log_in.suggestion.LoginSuggestionBottomSheet"
+        tools:layout="@layout/bottom_sheet_login_suggestion">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
 </navigation>
