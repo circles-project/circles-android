@@ -94,7 +94,6 @@ class UIAViewModel @Inject constructor(
             val result = createResult {
                 MatrixInstanceProvider.matrix.authenticationService().reset()
                 MatrixSessionProvider.awaitForSessionStart(session)
-                preferencesProvider.setShouldShowAllExplanations()
                 createPassPhraseDataSource.createPassPhraseBackup()
                 clearProviders()
             }

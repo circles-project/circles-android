@@ -35,8 +35,8 @@
             app:popUpToInclusive="true" />
 
         <action
-            android:id="@+id/to_setupCircles"
-            app:destination="@id/setupCirclesFragment"
+            android:id="@+id/to_circleExplanation"
+            app:destination="@id/circleExplanationFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
     </dialog>
@@ -91,4 +91,21 @@
 
         </action>
     </dialog>
+    <fragment
+        android:id="@+id/circleExplanationFragment"
+        android:name="org.futo.circles.auth.feature.explanation.CircleExplanationFragment"
+        tools:layout="@layout/fragment_circle_explanation">
+
+        <argument
+            android:name="roomType"
+            android:defaultValue="Circle"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+            app:nullable="false" />
+        <action
+            android:id="@+id/to_setupCirclesFragment"
+            app:destination="@id/setupCirclesFragment"
+            app:popUpTo="@id/circleExplanationFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
 </navigation>
