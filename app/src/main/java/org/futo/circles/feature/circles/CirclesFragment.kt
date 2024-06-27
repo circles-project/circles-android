@@ -18,7 +18,6 @@ import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.feature.circles.list.CirclesListAdapter
 import org.futo.circles.feature.explanation.CirclesExplanationDialog
@@ -30,7 +29,6 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
     MenuProvider {
 
     private val viewModel by viewModels<CirclesViewModel>()
-    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private var listAdapter: CirclesListAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,12 +36,6 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
         setupViews()
         setupObservers()
         activity?.addMenuProvider(this, viewLifecycleOwner)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (preferencesProvider.shouldShowExplanation(CircleRoomTypeArg.Circle))
-            CirclesExplanationDialog(requireContext(), CircleRoomTypeArg.Circle).show()
     }
 
     override fun onDestroyView() {

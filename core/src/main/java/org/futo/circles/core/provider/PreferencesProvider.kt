@@ -2,16 +2,16 @@ package org.futo.circles.core.provider
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.futo.circles.core.model.CircleRoomTypeArg
 import javax.inject.Inject
 
 class PreferencesProvider @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    fun getSharedPreferences() =
+    fun getSharedPreferences(): SharedPreferences =
         context.getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE)
 
     fun setDeveloperMode(isEnabled: Boolean) {
@@ -51,29 +51,6 @@ class PreferencesProvider @Inject constructor(
     fun isFdroidBackgroundSyncEnabled(): Boolean =
         getSharedPreferences().getBoolean(FDROID_BACKGROUND_SYNC, true)
 
-
-    fun setShouldShowAllExplanations(shouldShow: Boolean = true) {
-        setShouldShowExplanation(shouldShow, CircleRoomTypeArg.Circle)
-        setShouldShowExplanation(shouldShow, CircleRoomTypeArg.Group)
-    }
-
-    fun setShouldShowExplanation(shouldShow: Boolean, roomType: CircleRoomTypeArg) {
-        getSharedPreferences().edit {
-            putBoolean(
-                if (roomType == CircleRoomTypeArg.Circle) SHOULD_SHOW_CIRCLES_EXPLANATION
-                else SHOULD_SHOW_GROUPS_EXPLANATION,
-                shouldShow
-            )
-        }
-    }
-
-    fun shouldShowExplanation(roomType: CircleRoomTypeArg): Boolean =
-        getSharedPreferences().getBoolean(
-            if (roomType == CircleRoomTypeArg.Circle) SHOULD_SHOW_CIRCLES_EXPLANATION
-            else SHOULD_SHOW_GROUPS_EXPLANATION,
-            true
-        )
-
     fun getWhatsNewShowedForVersion(): Int {
         return getSharedPreferences().getInt(WHATS_NEW_SHOWED_FOR, 37)
     }
@@ -109,8 +86,6 @@ class PreferencesProvider @Inject constructor(
         private const val ENDPOINT_OR_TOKEN = "unified_push_endpoint_or_token"
         private const val PUSH_GATEWAY = "push_gateway"
         private const val FDROID_BACKGROUND_SYNC = "fdroid_background_sync"
-        private const val SHOULD_SHOW_CIRCLES_EXPLANATION = "should_show_circles_explanation"
-        private const val SHOULD_SHOW_GROUPS_EXPLANATION = "should_show_groups_explanation"
         private const val WHATS_NEW_SHOWED_FOR = "whats_new_showed_for"
         private const val NOT_RESTORED_SESSION = "not_restored_session"
         const val PHOTO_GALLERY_KEY = "photo_gallery_enabled"
