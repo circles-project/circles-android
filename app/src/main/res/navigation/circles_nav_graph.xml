@@ -48,6 +48,9 @@
                 app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
         </action>
+        <action
+            android:id="@+id/to_circlesExplanationDialogFragment"
+            app:destination="@id/circlesExplanationDialogFragment" />
 
     </fragment>
 
@@ -80,5 +83,18 @@
     <include app:graph="@navigation/room_requests_nav_graph" />
 
     <include app:graph="@navigation/create_room_nav_graph" />
+
+    <dialog
+        android:id="@+id/circlesExplanationDialogFragment"
+        android:name="org.futo.circles.feature.explanation.CirclesExplanationDialogFragment"
+        tools:layout="@layout/dialog_circles_explanation">
+
+        <argument
+            android:name="type"
+            android:defaultValue="Circle"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+            app:nullable="false" />
+
+    </dialog>
 
 </navigation>

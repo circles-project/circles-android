@@ -1,5 +1,6 @@
 package org.futo.circles.auth.feature.explanation
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Html
 import android.text.method.ScrollingMovementMethod
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Space
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +24,12 @@ class CircleExplanationFragment :
     BaseBindingFragment<FragmentCircleExplanationBinding>(FragmentCircleExplanationBinding::inflate) {
 
     private val args: CircleExplanationFragmentArgs by navArgs()
+    private var popUpListener: ExplanationDismissListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        popUpListener = (parentFragment as? ExplanationDismissListener)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,10 +38,20 @@ class CircleExplanationFragment :
 
     private fun setupViews() {
         with(binding) {
-            btnNext.setOnClickListener {
-                findNavController().navigateSafe(
-                    CircleExplanationFragmentDirections.toSetupCirclesFragment()
-                )
+            btnNext.apply {
+                popUpListener?.let { listener ->
+                    setText(org.futo.circles.core.R.string.got_it)
+                    setOnClickListener {
+                        listener.onDismissPopUp()
+                    }
+                } ?: run {
+                    setText(R.string.next)
+                    setOnClickListener {
+                        findNavController().navigateSafe(
+                            CircleExplanationFragmentDirections.toSetupCirclesFragment()
+                        )
+                    }
+                }
             }
             tvDescription.movementMethod = ScrollingMovementMethod()
             when (args.roomType) {
@@ -86,6 +104,13 @@ class CircleExplanationFragment :
                         }
                 })
             }
+        }
+    }
+
+    companion object {
+        private const val ROOM_TYPE = "roomType"
+        fun create(roomType: CircleRoomTypeArg) = CircleExplanationFragment().apply {
+            arguments = bundleOf(ROOM_TYPE to roomType)
         }
     }
 

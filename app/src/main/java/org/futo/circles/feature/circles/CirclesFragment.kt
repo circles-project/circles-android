@@ -17,10 +17,8 @@ import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.feature.circles.list.CirclesListAdapter
-import org.futo.circles.feature.explanation.CirclesExplanationDialog
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.JoinedCircleListItem
 
@@ -52,7 +50,7 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.help -> CirclesExplanationDialog(requireContext(), CircleRoomTypeArg.Circle).show()
+            R.id.help -> findNavController().navigateSafe(CirclesFragmentDirections.toCirclesExplanationDialogFragment())
         }
         return true
     }
