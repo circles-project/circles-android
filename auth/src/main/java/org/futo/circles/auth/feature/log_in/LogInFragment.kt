@@ -13,9 +13,12 @@ import org.futo.circles.auth.databinding.FragmentLogInBinding
 import org.futo.circles.auth.feature.log_in.suggestion.LoginSuggestionListener
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersAdapter
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHolder
+import org.futo.circles.auth.model.EmptyUserId
 import org.futo.circles.auth.model.ForgotPassword
+import org.futo.circles.auth.model.InvalidUserId
 import org.futo.circles.auth.model.RemoveUser
-import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.auth.model.SuggestedUserId
+import org.futo.circles.auth.model.ValidUserId
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.list.BaseRvDecoration
@@ -105,19 +108,29 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
         }
     }
 
-    override fun onLoginSuggestionApplied(userId: String) {
-        TODO("Not yet implemented")
+    override fun onLoginSuggestionApplied(userId: String, isForgotPassword: Boolean) {
+        binding.etUserName.setText(userId)
+        loginAs(userId, isForgotPassword)
     }
 
     private fun startLogin(isForgotPassword: Boolean) {
-        val userName = binding.tilUserName.getText()
-        if (userName.isEmpty()) {
-            showError(getString(R.string.username_can_not_be_empty))
-            return
+        val userId = binding.tilUserId.getText()
+        when (UserIdValidator.validateUserId(userId)) {
+            EmptyUserId -> showError(getString(R.string.user_id_can_not_be_empty))
+            InvalidUserId -> showError(getString(R.string.invalid_user_id))
+            is SuggestedUserId -> findNavController().navigateSafe(
+                LogInFragmentDirections.toLoginSuggestionBottomSheet(
+                    userId, isForgotPassword
+                )
+            )
+
+            is ValidUserId -> loginAs(userId, isForgotPassword)
         }
-        startLoading(binding.btnLogin)
-        viewModel.startLogInFlow(userName, getDomain(), isForgotPassword)
+
     }
 
-    private fun getDomain() = CirclesAppConfig.serverDomains().first()
+    private fun loginAs(userId: String, isForgotPassword: Boolean) {
+        startLoading(binding.btnLogin)
+        viewModel.startLogInFlow(userId, isForgotPassword)
+    }
 }
