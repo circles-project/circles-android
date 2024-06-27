@@ -191,7 +191,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="36dp"
-            android:text="@string/not_a_member"
+            android:text="@string/do_not_have_an_account"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@id/btnSignUp"
             app:layout_constraintEnd_toEndOf="parent"

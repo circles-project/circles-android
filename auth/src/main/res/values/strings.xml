@@ -48,7 +48,7 @@
     <string name="username">username</string>
     <string name="at_symbol">\@</string>
     <string name="user_id_separator">:</string>
-    <string name="not_a_member">Not a member?</string>
+    <string name="do_not_have_an_account">Don\'t have an account?</string>
     <string name="resume_session">Resume session:</string>
     <string name="choose_a_passphrase">Choose a passphrase</string>
     <string name="enter_your_passphrase">Enter your passphrase</string>
