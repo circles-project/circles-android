@@ -94,7 +94,7 @@
     <string name="community">Community</string>
     <string name="retry">Retry</string>
     <string name="validating_workspace">Validating workspace</string>
-    <string name="configuring_workspace">Configuring workspace</string>
+    <string name="initializing_your_account">Initializing your account</string>
     <string name="receive_email_updates">Receive email updates</string>
     <string name="i_understand">I understand</string>
     <string name="circles_is_different">Circles is different!</string>
