@@ -109,8 +109,8 @@
     <string name="display_name">Display name</string>
     <string name="the_password_you_entered_is_incorrect">The password you entered is incorrect</string>
     <string name="choose_a_server">Choose a server</string>
-    <string name="sign_up_for_us_server">Sign up for US server</string>
-    <string name="sign_up_for_eu_server">Sign up for EU server</string>
+    <string name="sign_up_on_us_server">Sign up on US server</string>
+    <string name="sign_up_on_eu_server">Sign up on EU server</string>
     <string name="sign_up_for_circles">Sign up for Circles</string>
     <string name="setup_your_circles">Setup your circles</string>
     <string name="next">Next</string>

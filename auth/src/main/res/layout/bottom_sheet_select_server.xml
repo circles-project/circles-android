@@ -64,7 +64,7 @@
                     android:layout_gravity="center"
                     android:clickable="false"
                     android:focusable="false"
-                    android:text="@string/sign_up_for_us_server"
+                    android:text="@string/sign_up_on_us_server"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:focusable="false"
-                    android:text="@string/sign_up_for_eu_server"
+                    android:text="@string/sign_up_on_eu_server"
                     android:textSize="20sp" />
 
             </LinearLayout>
