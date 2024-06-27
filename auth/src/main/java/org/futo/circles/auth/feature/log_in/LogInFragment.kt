@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentLogInBinding
+import org.futo.circles.auth.feature.log_in.suggestion.LoginSuggestionListener
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersAdapter
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHolder
 import org.futo.circles.auth.model.ForgotPassword
@@ -29,7 +30,7 @@ import org.futo.circles.core.extensions.withConfirmation
 
 @AndroidEntryPoint
 class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBinding::inflate),
-    HasLoadingState {
+    HasLoadingState, LoginSuggestionListener {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<LogInViewModel>()
@@ -102,6 +103,10 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
                 withConfirmation(ForgotPassword()) { startLogin(true) }
             }
         }
+    }
+
+    override fun onLoginSuggestionApplied(userId: String) {
+        TODO("Not yet implemented")
     }
 
     private fun startLogin(isForgotPassword: Boolean) {
