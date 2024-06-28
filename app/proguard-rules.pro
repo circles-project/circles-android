@@ -142,3 +142,6 @@ native <methods>;
  -keep class androidx.credentials.playservices.** {
    *;
  }
+
+ # For TagSoup (io.element.android:wysiwyg)
+ -keep class org.ccil.cowan.tagsoup.** { *; }
