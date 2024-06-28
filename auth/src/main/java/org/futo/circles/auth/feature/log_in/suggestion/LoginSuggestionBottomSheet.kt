@@ -20,7 +20,8 @@ class LoginSuggestionBottomSheet : TransparentBackgroundBottomSheetDialogFragmen
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        applySuggestionListener = (parentFragment as? LoginSuggestionListener)
+        applySuggestionListener =
+            parentFragmentManager.fragments.lastOrNull { it is LoginSuggestionListener } as? LoginSuggestionListener
     }
 
     override fun onCreateView(
