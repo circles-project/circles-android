@@ -19,6 +19,7 @@ import org.futo.circles.auth.model.InvalidUserId
 import org.futo.circles.auth.model.RemoveUser
 import org.futo.circles.auth.model.SuggestedUserId
 import org.futo.circles.auth.model.ValidUserId
+import org.futo.circles.auth.utils.UserIdUtils
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.list.BaseRvDecoration
@@ -115,12 +116,12 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
 
     private fun startLogin(isForgotPassword: Boolean) {
         val userId = binding.tilUserId.getText()
-        when (UserIdValidator.validateUserId(userId)) {
+        when (val status = UserIdUtils.validateUserId(userId)) {
             EmptyUserId -> showError(getString(R.string.user_id_can_not_be_empty))
             InvalidUserId -> showError(getString(R.string.invalid_user_id))
             is SuggestedUserId -> findNavController().navigateSafe(
                 LogInFragmentDirections.toLoginSuggestionBottomSheet(
-                    userId, isForgotPassword
+                    status.suggestedUserId, isForgotPassword
                 )
             )
 

@@ -15,7 +15,7 @@ import org.futo.circles.core.model.InviteMemberListItem
 import org.futo.circles.core.model.NoResultsItem
 import org.futo.circles.core.model.UserListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.UserUtils
+import org.futo.circles.core.utils.UserIdUtils
 import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
@@ -95,7 +95,7 @@ class SelectUsersDataSource @Inject constructor(
             list.add(HeaderItem.suggestionHeader)
             list.add(
                 UserListItem(
-                    CirclesUserSummary(query, UserUtils.removeDomainSuffix(query), ""),
+                    CirclesUserSummary(query, UserIdUtils.removeDomainSuffix(query), ""),
                     selectedUsers.containsWithId(query)
                 )
             )
