@@ -17,11 +17,8 @@ import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.feature.circles.list.CirclesListAdapter
-import org.futo.circles.feature.explanation.CirclesExplanationDialog
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.JoinedCircleListItem
 
@@ -30,7 +27,6 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
     MenuProvider {
 
     private val viewModel by viewModels<CirclesViewModel>()
-    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private var listAdapter: CirclesListAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,12 +34,6 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
         setupViews()
         setupObservers()
         activity?.addMenuProvider(this, viewLifecycleOwner)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (preferencesProvider.shouldShowExplanation(CircleRoomTypeArg.Circle))
-            CirclesExplanationDialog(requireContext(), CircleRoomTypeArg.Circle).show()
     }
 
     override fun onDestroyView() {
@@ -60,7 +50,7 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.help -> CirclesExplanationDialog(requireContext(), CircleRoomTypeArg.Circle).show()
+            R.id.help -> findNavController().navigateSafe(CirclesFragmentDirections.toCirclesExplanationDialogFragment())
         }
         return true
     }

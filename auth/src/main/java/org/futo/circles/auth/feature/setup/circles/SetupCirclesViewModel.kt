@@ -52,7 +52,7 @@ class SetupCirclesViewModel @Inject constructor(
         tasks.forEachIndexed { i, item ->
             workspaceLoadingLiveData.postValue(
                 ResLoadingData(
-                    messageId = R.string.configuring_workspace,
+                    messageId = R.string.initializing_your_account,
                     isLoading = true,
                     progress = i,
                     total = tasks.size

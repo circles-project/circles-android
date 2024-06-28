@@ -1,52 +1,64 @@
-package org.futo.circles.feature.explanation
+package org.futo.circles.auth.feature.explanation
 
-import android.app.ActionBar
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import android.text.Html
 import android.text.method.ScrollingMovementMethod
-import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Space
-import androidx.appcompat.app.AppCompatDialog
-import org.futo.circles.R
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.auth.R
+import org.futo.circles.auth.databinding.FragmentCircleExplanationBinding
+import org.futo.circles.core.base.fragment.BaseBindingFragment
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.model.CircleRoomTypeArg.Group
-import org.futo.circles.core.provider.PreferencesProvider
-import org.futo.circles.databinding.DialogCirclesExplanationBinding
 
 
-class CirclesExplanationDialog(context: Context, private val roomType: CircleRoomTypeArg) :
-    AppCompatDialog(context) {
+@AndroidEntryPoint
+class CircleExplanationFragment :
+    BaseBindingFragment<FragmentCircleExplanationBinding>(FragmentCircleExplanationBinding::inflate) {
 
-    private val binding = DialogCirclesExplanationBinding.inflate(LayoutInflater.from(context))
-    private val preferencesProvider by lazy { PreferencesProvider(context) }
+    private val args: CircleExplanationFragmentArgs by navArgs()
+    private var popUpListener: ExplanationDismissListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        setCancelable(false)
-        window?.apply {
-            setBackgroundDrawable(InsetDrawable(ColorDrawable(Color.TRANSPARENT), 20))
-            setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
-        }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        popUpListener = (parentFragment as? ExplanationDismissListener)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupViews()
-        preferencesProvider.setShouldShowExplanation(false, roomType)
     }
 
     private fun setupViews() {
         with(binding) {
-            btnDone.setOnClickListener { this@CirclesExplanationDialog.dismiss() }
+            btnNext.apply {
+                popUpListener?.let { listener ->
+                    setText(org.futo.circles.core.R.string.got_it)
+                    setOnClickListener {
+                        listener.onDismissPopUp()
+                    }
+                } ?: run {
+                    setText(R.string.next)
+                    setOnClickListener {
+                        findNavController().navigateSafe(
+                            CircleExplanationFragmentDirections.toSetupCirclesFragment()
+                        )
+                    }
+                }
+            }
             tvDescription.movementMethod = ScrollingMovementMethod()
-            when (roomType) {
-                Group -> {
+            when (args.roomType) {
+                CircleRoomTypeArg.Group -> {
                     tvTitle.setText(R.string.groups)
                     tvDescription.text = Html.fromHtml(
-                        context.getString(R.string.group_explanation),
+                        getString(R.string.group_explanation),
                         Html.FROM_HTML_MODE_COMPACT
                     )
                     setupImages(listOf(R.drawable.explanation_groups))
@@ -55,7 +67,7 @@ class CirclesExplanationDialog(context: Context, private val roomType: CircleRoo
                 else -> {
                     tvTitle.setText(R.string.circles)
                     tvDescription.text = Html.fromHtml(
-                        context.getString(R.string.circle_explanation),
+                        getString(R.string.circle_explanation),
                         Html.FROM_HTML_MODE_COMPACT
                     )
                     setupImages(
@@ -95,5 +107,11 @@ class CirclesExplanationDialog(context: Context, private val roomType: CircleRoo
         }
     }
 
+    companion object {
+        private const val ROOM_TYPE = "roomType"
+        fun create(roomType: CircleRoomTypeArg) = CircleExplanationFragment().apply {
+            arguments = bundleOf(ROOM_TYPE to roomType)
+        }
+    }
 
 }

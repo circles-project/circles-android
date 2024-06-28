@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
         tasks.forEachIndexed { i, item ->
             validateWorkspaceLoadingLiveData.postValue(
                 ResLoadingData(
-                    messageId = R.string.configuring_workspace,
+                    messageId = R.string.initializing_your_account,
                     isLoading = true,
                     progress = i,
                     total = tasks.size

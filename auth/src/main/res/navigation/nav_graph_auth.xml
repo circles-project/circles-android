@@ -21,6 +21,21 @@
         <action
             android:id="@+id/to_selectServerBottomSheet"
             app:destination="@id/selectServerBottomSheet" />
+        <action
+            android:id="@+id/to_loginSuggestionBottomSheet"
+            app:destination="@id/loginSuggestionBottomSheet">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="isForgotPassword"
+                app:argType="boolean"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
     <dialog
@@ -35,8 +50,8 @@
             app:popUpToInclusive="true" />
 
         <action
-            android:id="@+id/to_setupCircles"
-            app:destination="@id/setupCirclesFragment"
+            android:id="@+id/to_circleExplanation"
+            app:destination="@id/circleExplanationFragment"
             app:popUpTo="@id/logInFragment"
             app:popUpToInclusive="true" />
     </dialog>
@@ -90,5 +105,38 @@
                 app:nullable="false" />
 
         </action>
+    </dialog>
+    <fragment
+        android:id="@+id/circleExplanationFragment"
+        android:name="org.futo.circles.auth.feature.explanation.CircleExplanationFragment"
+        tools:layout="@layout/fragment_circle_explanation">
+
+        <argument
+            android:name="roomType"
+            android:defaultValue="Circle"
+            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+            app:nullable="false" />
+        <action
+            android:id="@+id/to_setupCirclesFragment"
+            app:destination="@id/setupCirclesFragment"
+            app:popUpTo="@id/circleExplanationFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+    <dialog
+        android:id="@+id/loginSuggestionBottomSheet"
+        android:name="org.futo.circles.auth.feature.log_in.suggestion.LoginSuggestionBottomSheet"
+        tools:layout="@layout/bottom_sheet_login_suggestion">
+
+        <argument
+            android:name="userId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="isForgotPassword"
+            app:argType="boolean"
+            app:nullable="false" />
+
     </dialog>
 </navigation>

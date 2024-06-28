@@ -3,7 +3,7 @@ package org.futo.circles.core.utils
 import org.futo.circles.core.provider.MatrixSessionProvider
 
 
-object UserUtils {
+object UserIdUtils {
 
     fun removeDomainSuffix(userId: String): String {
         val serverDomain = MatrixSessionProvider.currentSession?.sessionParams?.homeServerHost ?: ""
@@ -17,4 +17,5 @@ object UserUtils {
     }
 
     fun getServerDomain(userId: String) = userId.substringAfter(":")
+
 }

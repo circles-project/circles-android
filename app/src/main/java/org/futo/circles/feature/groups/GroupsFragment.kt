@@ -17,10 +17,7 @@ import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.model.CircleRoomTypeArg
-import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.view.EmptyTabPlaceholderView
-import org.futo.circles.feature.explanation.CirclesExplanationDialog
 import org.futo.circles.feature.groups.list.GroupsListAdapter
 import org.futo.circles.model.GroupListItem
 
@@ -29,7 +26,6 @@ class GroupsFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBi
     MenuProvider {
 
     private val viewModel by viewModels<GroupsViewModel>()
-    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val listAdapter by lazy {
         GroupsListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
@@ -46,11 +42,6 @@ class GroupsFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBi
         activity?.addMenuProvider(this, viewLifecycleOwner)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (preferencesProvider.shouldShowExplanation(CircleRoomTypeArg.Group))
-            CirclesExplanationDialog(requireContext(), CircleRoomTypeArg.Group).show()
-    }
 
     @SuppressLint("RestrictedApi")
     override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
@@ -61,7 +52,7 @@ class GroupsFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBi
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.help -> CirclesExplanationDialog(requireContext(), CircleRoomTypeArg.Group).show()
+            R.id.help -> findNavController().navigateSafe(GroupsFragmentDirections.toCirclesExplanationDialogFragment())
         }
         return true
     }

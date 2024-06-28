@@ -14,7 +14,8 @@
     <string name="wrong_signup_config">Wrong signup config!</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
-    <string name="username_can_not_be_empty">Username can not be empty.</string>
+    <string name="user_id_can_not_be_empty">User ID can not be empty</string>
+    <string name="invalid_user_id">User ID can not be empty.</string>
     <string name="confirm_auth">Confirm auth</string>
     <string name="email">Email</string>
     <string name="email_usage_explanation">Must be a currently valid and active address.\n\nDon\'t worry - we will only use this address for security and other alerts about your account. We don\'t send spam, and we don\'t sell your address.</string>
@@ -46,9 +47,7 @@
     <string name="domain">Domain</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="username">username</string>
-    <string name="at_symbol">\@</string>
-    <string name="user_id_separator">:</string>
-    <string name="not_a_member">Not a member?</string>
+    <string name="do_not_have_an_account">Don\'t have an account?</string>
     <string name="resume_session">Resume session:</string>
     <string name="choose_a_passphrase">Choose a passphrase</string>
     <string name="enter_your_passphrase">Enter your passphrase</string>
@@ -94,7 +93,7 @@
     <string name="community">Community</string>
     <string name="retry">Retry</string>
     <string name="validating_workspace">Validating workspace</string>
-    <string name="configuring_workspace">Configuring workspace</string>
+    <string name="initializing_your_account">Initializing your account</string>
     <string name="receive_email_updates">Receive email updates</string>
     <string name="i_understand">I understand</string>
     <string name="circles_is_different">Circles is different!</string>
@@ -109,12 +108,27 @@
     <string name="display_name">Display name</string>
     <string name="the_password_you_entered_is_incorrect">The password you entered is incorrect</string>
     <string name="choose_a_server">Choose a server</string>
-    <string name="sign_up_for_us_server">Sign up for US server</string>
-    <string name="sign_up_for_eu_server">Sign up for EU server</string>
+    <string name="sign_up_on_us_server">Sign up on US server</string>
+    <string name="sign_up_on_eu_server">Sign up on EU server</string>
     <string name="sign_up_for_circles">Sign up for Circles</string>
     <string name="setup_your_circles">Setup your circles</string>
     <string name="next">Next</string>
     <string name="add_a_new_circle">Add a new circle</string>
+    <string name="login_field_hint">\@user:example.com</string>
+    <string name="did_you_mean_format">Did you mean %s?</string>
+    <string name="log_in_as_format">Log in as %s</string>
+
+
+    <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
+<br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
+<br/><br/>For example, think about all the aunts and uncles and cousins from the different sides of your family.
+Or, think about all of your friends across all of the places you\'ve ever lived.
+<br/><br/>If you want to connect a bunch of people who <i>do</i> all know each other, then it\'s better to create a <b>Group</b> instead.]]></string>
+    <string name="group_explanation"><![CDATA[Tip: A <b>group</b> is the best way to connect a bunch of people where everyone is connected to everyone else.
+<br/><br/>Everyone in the group posts to the same timeline, and everyone in the group can see every post.
+<br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
+<br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
+    <string name="no_let_me_try_again">No, let me try again</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

@@ -13,7 +13,7 @@ import org.futo.circles.core.extensions.setIsEncryptedIcon
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.UserUtils
+import org.futo.circles.core.utils.UserIdUtils
 import org.futo.circles.databinding.ViewPostHeaderBinding
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import java.util.Date
@@ -69,7 +69,7 @@ class PostHeaderView(
                 }
             }
             tvUserName.text = name
-            tvUserId.text = UserUtils.removeDomainSuffix(userId)
+            tvUserId.text = UserIdUtils.removeDomainSuffix(userId)
             ivEncrypted.setIsEncryptedIcon(isEncrypted)
             tvMessageTime.text = DateFormat.format("MMM dd, h:mm a", Date(timestamp))
 

@@ -17,14 +17,14 @@ class LogInViewModel @Inject constructor(
     private val refreshTokenManager: RefreshTokenManager
 ) : ViewModel() {
 
-    val loginResultLiveData = SingleEventLiveData<Response<Unit>>()
+    val loginResultLiveData = SingleEventLiveData<Response<Unit?>>()
     val switchUsersLiveData = MutableLiveData(switchUserDataSource.getSwitchUsersList())
     val navigateToBottomMenuScreenLiveData = SingleEventLiveData<Unit>()
 
-    fun startLogInFlow(userName: String, domain: String, isForgotPassword: Boolean) {
-        switchUserDataSource.getSessionCredentialsIdByUserInfo(userName, domain)
+    fun startLogInFlow(userId: String, isForgotPassword: Boolean) {
+        switchUserDataSource.getSessionCredentialsIdByUserInfo(userId)
             ?.let { resumeSwitchUserSession(it) }
-            ?: login(userName, domain, isForgotPassword)
+            ?: login(userId, isForgotPassword)
     }
 
     fun removeSwitchUser(id: String) {
@@ -43,9 +43,9 @@ class LogInViewModel @Inject constructor(
         }
     }
 
-    private fun login(userName: String, domain: String, isForgotPassword: Boolean) {
+    private fun login(userId: String, isForgotPassword: Boolean) {
         launchBg {
-            val loginResult = loginDataSource.startLogin(userName, domain, isForgotPassword)
+            val loginResult = loginDataSource.startLogin(userId, isForgotPassword)
             loginResultLiveData.postValue(loginResult)
         }
     }
