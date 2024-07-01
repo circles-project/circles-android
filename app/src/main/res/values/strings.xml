@@ -98,9 +98,9 @@
     <string name="sending">Sending</string>
 
     <string name="changelog">
-- Removed Jdenticon user\'s icon placeholder
-- Added \"Invite to follow me\"
-- Added \"Requests for invitation\" on Circles/Groups tabs
+- Simplified Sign up flow
+- Fixed crash on Creating new post
+- Onboarding design updates
 - Bug fixes and performance improvements
 </string>
 
