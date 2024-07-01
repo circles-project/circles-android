@@ -1,8 +1,8 @@
 object AppConfig {
     const val compileSdk = 34
     const val minSdk = 24
-    const val versionCode = 42
-    const val versionName = "1.0.32"
+    const val versionCode = 43
+    const val versionName = "1.0.33"
 
     //output file name
     val archivesName = "circles-v$versionName"
