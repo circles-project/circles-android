@@ -13,6 +13,7 @@ import org.futo.circles.auth.databinding.FragmentLogInBinding
 import org.futo.circles.auth.feature.log_in.suggestion.LoginSuggestionListener
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersAdapter
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHolder
+import org.futo.circles.auth.feature.sign_up.SignupSelectDomainListener
 import org.futo.circles.auth.model.EmptyUserId
 import org.futo.circles.auth.model.ForgotPassword
 import org.futo.circles.auth.model.InvalidUserId
@@ -34,7 +35,7 @@ import org.futo.circles.core.extensions.withConfirmation
 
 @AndroidEntryPoint
 class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBinding::inflate),
-    HasLoadingState, LoginSuggestionListener {
+    HasLoadingState, LoginSuggestionListener, SignupSelectDomainListener {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<LogInViewModel>()
@@ -95,6 +96,12 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
         viewModel.navigateToBottomMenuScreenLiveData.observeData(this) {
             findNavController().navigateSafe(LogInFragmentDirections.toHomeFragment())
         }
+        viewModel.startSignUpEventLiveData.observeResponse(
+            this,
+            success = {
+                findNavController().navigateSafe(LogInFragmentDirections.toUiaFragment())
+            }
+        )
     }
 
     private fun setOnClickActions() {
@@ -112,6 +119,11 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
     override fun onLoginSuggestionApplied(userId: String, isForgotPassword: Boolean) {
         binding.etUserName.setText(userId)
         loginAs(userId, isForgotPassword)
+    }
+
+    override fun onSignupDomainSelected(domain: String) {
+        startLoading(binding.btnSignUp)
+        viewModel.startSignUp(domain)
     }
 
     private fun startLogin(isForgotPassword: Boolean) {
@@ -134,4 +146,5 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
         startLoading(binding.btnLogin)
         viewModel.startLogInFlow(userId, isForgotPassword)
     }
+
 }

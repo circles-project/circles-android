@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.log_in.switch_user.SwitchUserDataSource
+import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
@@ -14,12 +15,15 @@ import javax.inject.Inject
 class LogInViewModel @Inject constructor(
     private val loginDataSource: LoginDataSource,
     private val switchUserDataSource: SwitchUserDataSource,
-    private val refreshTokenManager: RefreshTokenManager
+    private val refreshTokenManager: RefreshTokenManager,
+    private val signUpDataSource: SignUpDataSource
 ) : ViewModel() {
 
     val loginResultLiveData = SingleEventLiveData<Response<Unit?>>()
     val switchUsersLiveData = MutableLiveData(switchUserDataSource.getSwitchUsersList())
     val navigateToBottomMenuScreenLiveData = SingleEventLiveData<Unit>()
+    val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
+
 
     fun startLogInFlow(userId: String, isForgotPassword: Boolean) {
         switchUserDataSource.getSessionCredentialsIdByUserInfo(userId)
@@ -40,6 +44,13 @@ class LogInViewModel @Inject constructor(
             switchUserDataSource.switchToSessionWithId(id)?.let {
                 navigateToBottomMenuScreenLiveData.postValue(Unit)
             }
+        }
+    }
+
+    fun startSignUp(domain: String) {
+        launchBg {
+            val result = signUpDataSource.startNewRegistration(domain)
+            startSignUpEventLiveData.postValue(result)
         }
     }
 
