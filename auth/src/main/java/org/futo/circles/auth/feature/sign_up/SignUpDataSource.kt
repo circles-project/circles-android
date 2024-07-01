@@ -13,6 +13,7 @@ import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
+import org.matrix.android.sdk.api.auth.AuthenticationService
 import org.matrix.android.sdk.api.auth.registration.Stage
 import javax.inject.Inject
 
@@ -27,26 +28,32 @@ class SignUpDataSource @Inject constructor(
         CirclesAppConfig.serverDomains().forEach { domain -> getAuthFlowsFor(domain) }
     }
 
-    private suspend fun getAuthFlowsFor(domain: String): DomainSignupFlows {
-        val authService = MatrixInstanceProvider.matrix.authenticationService().apply {
-            cancelPendingLoginOrRegistration()
-            initiateAuth(buildHomeServerConfigFromDomain(domain))
-        }
-        val flows = authService.getRegistrationWizard().getAllRegistrationFlows()
-        val subscriptionStages = getSubscriptionSignupStages(flows)
-        val freeStages = getFreeSignupStages(flows)
-        return DomainSignupFlows(domain, freeStages, subscriptionStages).also {
-            domainsFlowMap[domain] = it
-        }
-    }
-
     suspend fun startNewRegistration(domain: String) = createResult {
+        initAuthServiceForDomain(domain)
         val flows = domainsFlowMap[domain] ?: getAuthFlowsFor(domain)
         val stages = flows.subscriptionStages ?: flows.freeStages ?: throw IllegalArgumentException(
             context.getString(R.string.wrong_signup_config)
         )
         val uiaDataSource = UIADataSourceProvider.create(UIAFlowType.Signup, uiaFactory)
         uiaDataSource.startUIAStages(stages, domain)
+    }
+
+    private suspend fun initAuthServiceForDomain(domain: String): AuthenticationService {
+        val service = MatrixInstanceProvider.matrix.authenticationService().apply {
+            cancelPendingLoginOrRegistration()
+            initiateAuth(buildHomeServerConfigFromDomain(domain))
+        }
+        return service
+    }
+
+    private suspend fun getAuthFlowsFor(domain: String): DomainSignupFlows {
+        val authService = initAuthServiceForDomain(domain)
+        val flows = authService.getRegistrationWizard().getAllRegistrationFlows()
+        val subscriptionStages = getSubscriptionSignupStages(flows)
+        val freeStages = getFreeSignupStages(flows)
+        return DomainSignupFlows(domain, freeStages, subscriptionStages).also {
+            domainsFlowMap[domain] = it
+        }
     }
 
     // Must contain org.futo.subscriptions.free_forever
