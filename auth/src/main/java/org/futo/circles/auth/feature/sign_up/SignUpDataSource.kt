@@ -22,15 +22,9 @@ class SignUpDataSource @Inject constructor(
     private val uiaFactory: UIADataSource.Factory
 ) {
 
-    private var domainsFlowMap: MutableMap<String, DomainSignupFlows> = mutableMapOf()
-
-    suspend fun fetchSignupFlows() = createResult {
-        CirclesAppConfig.serverDomains().forEach { domain -> getAuthFlowsFor(domain) }
-    }
-
     suspend fun startNewRegistration(domain: String) = createResult {
         initAuthServiceForDomain(domain)
-        val flows = domainsFlowMap[domain] ?: getAuthFlowsFor(domain)
+        val flows = getAuthFlowsFor(domain)
         val stages = flows.subscriptionStages ?: flows.freeStages ?: throw IllegalArgumentException(
             context.getString(R.string.wrong_signup_config)
         )
@@ -51,9 +45,7 @@ class SignUpDataSource @Inject constructor(
         val flows = authService.getRegistrationWizard().getAllRegistrationFlows()
         val subscriptionStages = getSubscriptionSignupStages(flows)
         val freeStages = getFreeSignupStages(flows)
-        return DomainSignupFlows(domain, freeStages, subscriptionStages).also {
-            domainsFlowMap[domain] = it
-        }
+        return DomainSignupFlows(domain, freeStages, subscriptionStages)
     }
 
     // Must contain org.futo.subscriptions.free_forever

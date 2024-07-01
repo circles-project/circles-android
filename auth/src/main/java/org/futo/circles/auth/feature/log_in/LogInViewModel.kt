@@ -24,10 +24,6 @@ class LogInViewModel @Inject constructor(
     val navigateToBottomMenuScreenLiveData = SingleEventLiveData<Unit>()
     val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
 
-    init {
-        launchBg { signUpDataSource.fetchSignupFlows() }
-    }
-
 
     fun startLogInFlow(userId: String, isForgotPassword: Boolean) {
         switchUserDataSource.getSessionCredentialsIdByUserInfo(userId)
