@@ -1,0 +1,4 @@
+- Simplified Sign up flow
+- Fixed crash on Creating new post
+- Onboarding design updates
+- Bug fixes and performance improvements
