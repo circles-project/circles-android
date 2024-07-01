@@ -7,6 +7,7 @@ import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.SUBSCRIPTION_FREE_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.SUBSCRPTION_GOOGLE_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
+import org.futo.circles.auth.model.DomainSignupFlows
 import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.extensions.createResult
@@ -20,41 +21,44 @@ class SignUpDataSource @Inject constructor(
     private val uiaFactory: UIADataSource.Factory
 ) {
 
-    private var registrationFlowsForDomain: Pair<String, List<List<Stage>>>? = null
+    private var domainsFlowMap: MutableMap<String, DomainSignupFlows> = mutableMapOf()
 
-    suspend fun getAuthFlowsFor(domain: String) = createResult {
-        registrationFlowsForDomain = null
+    suspend fun fetchSignupFlows() = createResult {
+        CirclesAppConfig.serverDomains().forEach { domain -> getAuthFlowsFor(domain) }
+    }
+
+    private suspend fun getAuthFlowsFor(domain: String): DomainSignupFlows {
         val authService = MatrixInstanceProvider.matrix.authenticationService().apply {
             cancelPendingLoginOrRegistration()
             initiateAuth(buildHomeServerConfigFromDomain(domain))
         }
-        authService.getRegistrationWizard().getAllRegistrationFlows().also {
-            registrationFlowsForDomain = domain to it
+        val flows = authService.getRegistrationWizard().getAllRegistrationFlows()
+        val subscriptionStages = getSubscriptionSignupStages(flows)
+        val freeStages = getFreeSignupStages(flows)
+        return DomainSignupFlows(domain, freeStages, subscriptionStages).also {
+            domainsFlowMap[domain] = it
         }
     }
 
-    suspend fun startNewRegistration(isSubscription: Boolean) = createResult {
-        val (domain, flows) = registrationFlowsForDomain ?: throw IllegalArgumentException(
+    suspend fun startNewRegistration(domain: String) = createResult {
+        val flows = domainsFlowMap[domain] ?: getAuthFlowsFor(domain)
+        val stages = flows.subscriptionStages ?: flows.freeStages ?: throw IllegalArgumentException(
             context.getString(R.string.wrong_signup_config)
         )
-        val stages = if (isSubscription) getSubscriptionSignupStages(flows)
-        else getFreeSignupStages(flows)
-
-        stages ?: throw IllegalArgumentException(context.getString(R.string.wrong_signup_config))
-
         val uiaDataSource = UIADataSourceProvider.create(UIAFlowType.Signup, uiaFactory)
         uiaDataSource.startUIAStages(stages, domain)
     }
 
     // Must contain org.futo.subscriptions.free_forever
-    fun getFreeSignupStages(flows: List<List<Stage>>): List<Stage>? = flows.firstOrNull { stages ->
-        stages.firstOrNull { stage ->
-            (stage as? Stage.Other)?.type == SUBSCRIPTION_FREE_TYPE
-        } != null
-    }
+    private fun getFreeSignupStages(flows: List<List<Stage>>): List<Stage>? =
+        flows.firstOrNull { stages ->
+            stages.firstOrNull { stage ->
+                (stage as? Stage.Other)?.type == SUBSCRIPTION_FREE_TYPE
+            } != null
+        }
 
     // Must contain org.futo.subscription.google_play, available only for gPlay flavor
-    fun getSubscriptionSignupStages(flows: List<List<Stage>>): List<Stage>? =
+    private fun getSubscriptionSignupStages(flows: List<List<Stage>>): List<Stage>? =
         if (CirclesAppConfig.isGplayFlavor()) {
             flows.firstOrNull { stages ->
                 stages.firstOrNull { stage ->
