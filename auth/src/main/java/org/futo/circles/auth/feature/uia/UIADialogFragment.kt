@@ -123,7 +123,7 @@ class UIADialogFragment :
             )
 
             AuthUIAScreenNavigationEvent.ConfigureWorkspace -> findNavController().navigateSafe(
-                UIADialogFragmentDirections.toSetupCircles()
+                UIADialogFragmentDirections.toCircleExplanation()
             )
 
             AuthUIAScreenNavigationEvent.PassPhrase -> showPassPhraseDialog()

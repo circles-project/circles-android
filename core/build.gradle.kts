@@ -117,7 +117,7 @@ dependencies {
     api("io.noties.markwon:linkify:$markwonVersion")
     api("io.noties.markwon:ext-strikethrough:$markwonVersion")
     api("io.noties.markwon:ext-tasklist:$markwonVersion")
-    api("io.element.android:wysiwyg:2.37.3")
+    api("io.element.android:wysiwyg:2.37.4")
 
     // ExoPlayer
     val exoplayerVersion = "1.3.1"

@@ -71,7 +71,6 @@ native <methods>;
 -keep class org.futo.circles.core.model.CircleRoomTypeArg
 -keep class org.futo.circles.core.model.ShareUrlTypeArg
 -keep class org.futo.circles.model.PeopleCategoryTypeArg
--keep class org.futo.circles.auth.model.ServerDomainArg
 -keep class org.futo.circles.core.model.SelectRoomTypeArg
 
 -keepattributes SourceFile,LineNumberTable        # Keep file names and line numbers.
@@ -142,3 +141,6 @@ native <methods>;
  -keep class androidx.credentials.playservices.** {
    *;
  }
+
+ # For TagSoup (io.element.android:wysiwyg)
+ -keep class org.ccil.cowan.tagsoup.** { *; }

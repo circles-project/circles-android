@@ -11,7 +11,7 @@ import org.futo.circles.core.model.SelectRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.model.isCircle
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.UserUtils
+import org.futo.circles.core.utils.UserIdUtils
 import org.futo.circles.core.utils.getKnocksCount
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
@@ -52,7 +52,7 @@ fun RoomMemberSummary.toKnockRequestListItem(roomId: String, roomType: CircleRoo
             ?: "",
         roomType = roomType,
         requesterId = userId,
-        requesterName = displayName ?: UserUtils.removeDomainSuffix(userId),
+        requesterName = displayName ?: UserIdUtils.removeDomainSuffix(userId),
         requesterAvatarUrl = avatarUrl,
         message = getReasonMessage(roomId, userId)
     )

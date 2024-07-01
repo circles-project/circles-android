@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.log_in.switch_user.SwitchUserDataSource
+import org.futo.circles.auth.feature.sign_up.SignUpDataSource
 import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
@@ -14,17 +15,20 @@ import javax.inject.Inject
 class LogInViewModel @Inject constructor(
     private val loginDataSource: LoginDataSource,
     private val switchUserDataSource: SwitchUserDataSource,
-    private val refreshTokenManager: RefreshTokenManager
+    private val refreshTokenManager: RefreshTokenManager,
+    private val signUpDataSource: SignUpDataSource
 ) : ViewModel() {
 
-    val loginResultLiveData = SingleEventLiveData<Response<Unit>>()
+    val loginResultLiveData = SingleEventLiveData<Response<Unit?>>()
     val switchUsersLiveData = MutableLiveData(switchUserDataSource.getSwitchUsersList())
     val navigateToBottomMenuScreenLiveData = SingleEventLiveData<Unit>()
+    val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
 
-    fun startLogInFlow(userName: String, domain: String, isForgotPassword: Boolean) {
-        switchUserDataSource.getSessionCredentialsIdByUserInfo(userName, domain)
+
+    fun startLogInFlow(userId: String, isForgotPassword: Boolean) {
+        switchUserDataSource.getSessionCredentialsIdByUserInfo(userId)
             ?.let { resumeSwitchUserSession(it) }
-            ?: login(userName, domain, isForgotPassword)
+            ?: login(userId, isForgotPassword)
     }
 
     fun removeSwitchUser(id: String) {
@@ -43,9 +47,16 @@ class LogInViewModel @Inject constructor(
         }
     }
 
-    private fun login(userName: String, domain: String, isForgotPassword: Boolean) {
+    fun startSignUp(domain: String) {
         launchBg {
-            val loginResult = loginDataSource.startLogin(userName, domain, isForgotPassword)
+            val result = signUpDataSource.startNewRegistration(domain)
+            startSignUpEventLiveData.postValue(result)
+        }
+    }
+
+    private fun login(userId: String, isForgotPassword: Boolean) {
+        launchBg {
+            val loginResult = loginDataSource.startLogin(userId, isForgotPassword)
             loginResultLiveData.postValue(loginResult)
         }
     }

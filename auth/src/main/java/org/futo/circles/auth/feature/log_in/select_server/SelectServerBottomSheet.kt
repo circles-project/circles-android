@@ -1,21 +1,29 @@
 package org.futo.circles.auth.feature.log_in.select_server
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.databinding.BottomSheetSelectServerBinding
-import org.futo.circles.auth.model.ServerDomainArg
+import org.futo.circles.auth.feature.sign_up.SignupSelectDomainListener
+import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.fragment.TransparentBackgroundBottomSheetDialogFragment
-import org.futo.circles.core.extensions.navigateSafe
 
 
 @AndroidEntryPoint
 class SelectServerBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
 
     private var binding: BottomSheetSelectServerBinding? = null
+
+    private var signupSelectDomainListener: SignupSelectDomainListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        signupSelectDomainListener =
+            parentFragmentManager.fragments.lastOrNull { it is SignupSelectDomainListener } as? SignupSelectDomainListener
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,14 +39,12 @@ class SelectServerBottomSheet : TransparentBackgroundBottomSheetDialogFragment()
 
     private fun setupViews() {
         binding?.lUsServer?.setOnClickListener {
-            findNavController().navigateSafe(
-                SelectServerBottomSheetDirections.toSignUpFragment(ServerDomainArg.US)
-            )
+            signupSelectDomainListener?.onSignupDomainSelected(CirclesAppConfig.usDomain)
+            dismiss()
         }
         binding?.lEuServer?.setOnClickListener {
-            findNavController().navigateSafe(
-                SelectServerBottomSheetDirections.toSignUpFragment(ServerDomainArg.EU)
-            )
+            signupSelectDomainListener?.onSignupDomainSelected(CirclesAppConfig.euDomain)
+            dismiss()
         }
         binding?.btnCancel?.setOnClickListener { dismiss() }
     }

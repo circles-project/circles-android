@@ -36,8 +36,7 @@ class SwitchUserDataSource @Inject constructor() {
     private fun getSessionWithId(id: String): Session? =
         getSwitchUsersList().firstOrNull { it.id == id }?.session
 
-    fun getSessionCredentialsIdByUserInfo(userName: String, domain: String): String? {
-        val userId = "@$userName:$domain"
+    fun getSessionCredentialsIdByUserInfo(userId: String): String? {
         return getSwitchUsersList().firstOrNull { it.user.userId == userId }?.id
     }
 
