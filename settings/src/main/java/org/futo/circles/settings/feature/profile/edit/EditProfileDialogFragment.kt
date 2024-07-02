@@ -5,16 +5,23 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthCancellationListener
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.loadUserProfileIcon
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.showError
+import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
+import org.futo.circles.core.model.ResLoadingData
+import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.DialogFragmentEditProfileBinding
 import org.futo.circles.settings.view.EditEmailView
@@ -24,16 +31,21 @@ import org.matrix.android.sdk.api.session.user.model.User
 @AndroidEntryPoint
 class EditProfileDialogFragment :
     BaseFullscreenDialogFragment<DialogFragmentEditProfileBinding>(DialogFragmentEditProfileBinding::inflate),
-    HasLoadingState {
+    HasLoadingState, ReAuthCancellationListener {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<EditProfileViewModel>()
     private val mediaPickerHelper = MediaPickerHelper(this)
+    private val loadingDialog by lazy { LoadingDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
+    }
+
+    override fun onReAuthCanceled() {
+        loadingDialog.dismiss()
     }
 
     private fun setupViews() {
@@ -46,6 +58,11 @@ class EditProfileDialogFragment :
             btnSave.setOnClickListener {
                 viewModel.update(tilName.getText())
                 startLoading(btnSave)
+            }
+            btnAddEmail.setOnClickListener {
+                if (showNoInternetConnection()) return@setOnClickListener
+                loadingDialog.handleLoading(ResLoadingData())
+                viewModel.handleAddEmailFlow()
             }
         }
     }
@@ -70,6 +87,16 @@ class EditProfileDialogFragment :
         viewModel.emailsLiveData.observeData(this) { emails ->
             setupEmailList(emails)
         }
+        viewModel.addEmailLiveData.observeResponse(this,
+            success = { showSuccess(getString(R.string.email_added)) },
+            error = { showError(getString(org.futo.circles.auth.R.string.the_password_you_entered_is_incorrect)) },
+            onRequestInvoked = { loadingDialog.dismiss() }
+        )
+        viewModel.startReAuthEventLiveData.observeData(this) {
+            findNavController().navigateSafe(EditProfileDialogFragmentDirections.toUIADialogFragment())
+        }
+        viewModel.removeEmailResultLiveData.observeResponse(this,
+            success = { showSuccess(getString(R.string.email_removed)) })
     }
 
     private fun showImagePicker() {
@@ -98,5 +125,5 @@ class EditProfileDialogFragment :
             })
         }
     }
-    
+
 }

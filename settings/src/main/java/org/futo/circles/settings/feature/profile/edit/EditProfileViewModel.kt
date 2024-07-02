@@ -21,15 +21,15 @@ class EditProfileViewModel @Inject constructor(
 
     val selectedImageLiveData = MutableLiveData<Uri>()
     val editProfileResponseLiveData = SingleEventLiveData<Response<Unit?>>()
+    val isProfileDataChangedLiveData = MutableLiveData(false)
+    val removeEmailResultLiveData = SingleEventLiveData<Response<Unit>>()
+    val startReAuthEventLiveData = dataSource.startReAuthEventLiveData
+    val addEmailLiveData = SingleEventLiveData<Response<Unit?>>()
     val profileLiveData = SingleEventLiveData<User?>().apply {
         postValue(dataSource.getUserData())
     }
-    val isProfileDataChangedLiveData = MutableLiveData(false)
-
     val emailsLiveData =
         MatrixSessionProvider.getSessionOrThrow().profileService().getThreePidsLive(true)
-
-    val removeEmailResultLiveData = SingleEventLiveData<Response<Unit>>()
 
     fun setImageUri(uri: Uri) {
         selectedImageLiveData.value = uri
@@ -46,6 +46,13 @@ class EditProfileViewModel @Inject constructor(
         val isDataUpdated = dataSource.isNameChanged(name) ||
                 selectedImageLiveData.value != null
         isProfileDataChangedLiveData.postValue(isDataUpdated)
+    }
+
+    fun handleAddEmailFlow() {
+        launchBg {
+            val result = dataSource.addEmailUIA()
+            addEmailLiveData.postValue(result)
+        }
     }
 
     fun removeEmail(email: String) {

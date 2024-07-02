@@ -71,11 +71,6 @@ class SettingsFragment :
                 if (showNoInternetConnection()) return@setOnClickListener
                 viewModel.handleChangePasswordFlow()
             }
-            tvAddEmail.setOnClickListener {
-                if (showNoInternetConnection()) return@setOnClickListener
-                loadingDialog.handleLoading(ResLoadingData())
-                viewModel.handleChangeEmailFlow()
-            }
             tvDeactivate.setOnClickListener {
                 if (showNoInternetConnection()) return@setOnClickListener
                 withConfirmation(DeactivateAccount()) {
@@ -112,11 +107,6 @@ class SettingsFragment :
         viewModel.navigateToMatrixChangePasswordEvent.observeData(this) {
             navigator.navigateToMatrixChangePassword()
         }
-        viewModel.addEmailLiveData.observeResponse(this,
-            success = { showSuccess(getString(org.futo.circles.core.R.string.email_added)) },
-            error = { showError(getString(org.futo.circles.auth.R.string.the_password_you_entered_is_incorrect)) },
-            onRequestInvoked = { loadingDialog.dismiss() }
-        )
         viewModel.changePasswordResponseLiveData.observeResponse(this,
             success = { showSuccess(getString(org.futo.circles.core.R.string.passphrase_changed)) },
             error = { message -> showError(message) },
