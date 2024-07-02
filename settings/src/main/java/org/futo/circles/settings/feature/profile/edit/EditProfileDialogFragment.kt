@@ -17,6 +17,8 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.DialogFragmentEditProfileBinding
+import org.futo.circles.settings.view.EditEmailView
+import org.matrix.android.sdk.api.session.identity.ThreePid
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
@@ -45,7 +47,6 @@ class EditProfileDialogFragment :
                 viewModel.update(tilName.getText())
                 startLoading(btnSave)
             }
-            setAlwaysDisabledViews(listOf(tilUserId))
         }
     }
 
@@ -66,6 +67,9 @@ class EditProfileDialogFragment :
         viewModel.isProfileDataChangedLiveData.observeData(this) {
             binding.btnSave.isEnabled = it
         }
+        viewModel.emailsLiveData.observeData(this) { emails ->
+            setupEmailList(emails)
+        }
     }
 
     private fun showImagePicker() {
@@ -78,11 +82,21 @@ class EditProfileDialogFragment :
         with(binding) {
             ivProfile.loadUserProfileIcon(user.avatarUrl, user.userId)
             tilName.editText?.setText(user.displayName)
-            tilUserId.editText?.setText(user.userId)
+            tvUserId.text = user.userId
         }
     }
 
     private fun onProfileDataChanged() {
         viewModel.handleProfileDataUpdate(binding.tilName.getText())
     }
+
+    private fun setupEmailList(emails: List<ThreePid>) {
+        binding.lEmails.removeAllViews()
+        emails.forEach { email ->
+            binding.lEmails.addView(EditEmailView(requireContext()).apply {
+                setData(email.value) { viewModel.removeEmail(it) }
+            })
+        }
+    }
+    
 }
