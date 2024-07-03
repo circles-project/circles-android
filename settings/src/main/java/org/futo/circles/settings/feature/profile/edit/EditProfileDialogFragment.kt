@@ -101,7 +101,12 @@ class EditProfileDialogFragment :
             findNavController().navigateSafe(EditProfileDialogFragmentDirections.toUIADialogFragment())
         }
         viewModel.removeEmailResultLiveData.observeResponse(this,
-            success = { showSuccess(getString(R.string.email_removed)) })
+            success = {
+                showSuccess(getString(R.string.email_removed))
+            },
+            error = { showError(getString(org.futo.circles.auth.R.string.the_password_you_entered_is_incorrect)) },
+            onRequestInvoked = { loadingDialog.dismiss() }
+        )
     }
 
     private fun showImagePicker() {
@@ -126,10 +131,16 @@ class EditProfileDialogFragment :
         binding.lEmails.removeAllViews()
         emails.forEach { email ->
             binding.lEmails.addView(EditEmailView(requireContext()).apply {
-                setData(email.value) {
-                    withConfirmation(RemoveEmail()) { viewModel.removeEmail(it) }
-                }
+                setData(email.value) { handleRemoveEmailUIA(it) }
             })
+        }
+    }
+
+    private fun handleRemoveEmailUIA(email: String) {
+        withConfirmation(RemoveEmail()) {
+            if (showNoInternetConnection()) return@withConfirmation
+            loadingDialog.handleLoading(ResLoadingData())
+            viewModel.removeEmail(email)
         }
     }
 
