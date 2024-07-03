@@ -7,10 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.setup.profile.SetupProfileDataSource
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
-import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.identity.ThreePid
 import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
 
@@ -57,16 +55,13 @@ class EditProfileViewModel @Inject constructor(
 
     fun removeEmail(email: String) {
         launchBg {
-            val result = createResult {
-                MatrixSessionProvider.getSessionOrThrow().profileService()
-                    .deleteThreePid(ThreePid.Email(email))
-            }
+            val result = dataSource.deleteEmailUIA(email)
             removeEmailResultLiveData.postValue(result)
         }
     }
 
     fun refreshEmails() {
-        MatrixSessionProvider.getSessionOrThrow().profileService().getThreePidsLive(true)
+        MatrixSessionProvider.getSessionOrThrow().profileService().refreshThreePids()
     }
 
 }

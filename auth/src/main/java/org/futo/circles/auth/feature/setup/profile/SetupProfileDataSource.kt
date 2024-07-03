@@ -34,6 +34,10 @@ class SetupProfileDataSource @Inject constructor(
         session.accountService().changeEmailStages(authConfirmationProvider)
     }
 
+    suspend fun deleteEmailUIA(email: String) = createResult {
+        session.profileService().deleteEmailThreePidStages(email, authConfirmationProvider)
+    }
+
     fun isNameChanged(newName: String) =
         session.userService().getUser(session.myUserId)?.displayName != newName
 
