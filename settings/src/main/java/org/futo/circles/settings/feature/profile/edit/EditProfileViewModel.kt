@@ -65,4 +65,8 @@ class EditProfileViewModel @Inject constructor(
         }
     }
 
+    fun refreshEmails() {
+        MatrixSessionProvider.getSessionOrThrow().profileService().getThreePidsLive(true)
+    }
+
 }

@@ -19,11 +19,13 @@ import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.DialogFragmentEditProfileBinding
+import org.futo.circles.settings.model.RemoveEmail
 import org.futo.circles.settings.view.EditEmailView
 import org.matrix.android.sdk.api.session.identity.ThreePid
 import org.matrix.android.sdk.api.session.user.model.User
@@ -88,7 +90,10 @@ class EditProfileDialogFragment :
             setupEmailList(emails)
         }
         viewModel.addEmailLiveData.observeResponse(this,
-            success = { showSuccess(getString(R.string.email_added)) },
+            success = {
+                viewModel.refreshEmails()
+                showSuccess(getString(R.string.email_added))
+            },
             error = { showError(getString(org.futo.circles.auth.R.string.the_password_you_entered_is_incorrect)) },
             onRequestInvoked = { loadingDialog.dismiss() }
         )
@@ -121,7 +126,9 @@ class EditProfileDialogFragment :
         binding.lEmails.removeAllViews()
         emails.forEach { email ->
             binding.lEmails.addView(EditEmailView(requireContext()).apply {
-                setData(email.value) { viewModel.removeEmail(it) }
+                setData(email.value) {
+                    withConfirmation(RemoveEmail()) { viewModel.removeEmail(it) }
+                }
             })
         }
     }
