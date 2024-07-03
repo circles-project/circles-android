@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+
+    <TextView
+        android:id="@+id/tvEmail"
+        style="@style/body"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivRemove"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Some email" />
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivRemove"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/highlight_color"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:padding="14dp"
+        android:src="@drawable/ic_close"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/tvEmail"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvEmail"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+</merge>

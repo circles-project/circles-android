@@ -50,5 +50,10 @@
     <string name="reset_keys_message">Confirm auth to reset keys and enable cross signing</string>
     <string name="will_be_accessible_through_option_on_settings_screen">Will be accessible through option on Settings screen</string>
     <string name="all_timeline_events_and_data_will_be_visible_in_timeline">All timeline events and data will be visible in timeline</string>
+    <string name="email_added">Email added</string>
+    <string name="email_removed">Email removed</string>
+    <string name="remove_email">Remove email</string>
+    <string name="remove_email_confirmation">Are you sure you want to remove this email address? Email is required for account recovery.</string>
+
 
 </resources>

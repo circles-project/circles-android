@@ -61,7 +61,11 @@
     <dialog
         android:id="@+id/editProfileDialogFragment"
         android:name="org.futo.circles.settings.feature.profile.edit.EditProfileDialogFragment"
-        tools:layout="@layout/dialog_fragment_edit_profile" />
+        tools:layout="@layout/dialog_fragment_edit_profile" >
+        <action
+            android:id="@+id/to_UIADialogFragment"
+            app:destination="@id/UIADialogFragment" />
+    </dialog>
     <dialog
         android:id="@+id/advancedSettingsDialogFragment"
         android:name="org.futo.circles.settings.feature.advanced.AdvancedSettingsDialogFragment"
