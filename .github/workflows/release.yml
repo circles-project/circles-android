@@ -27,7 +27,7 @@ jobs:
           java-version: '17'
 
       - name: Build F-Droid apk
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleFdroidRelease
 
       - name: Extract version_code
         id: extract_version_code
