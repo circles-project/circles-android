@@ -5,7 +5,7 @@ security and privacy.
 
 Join [Circles Matrix room](https://matrix.to/#/!gcbIHWAYBBmvITkQIn:matrix.org?via=matrix.org&via=envs.net&via=tchncs.de) to follow all the latest updates.
 
-Mobile apps for Android ([Gitlab repo](https://gitlab.futo.org/circles/circles-android)) and iOS ([Gitlab repo](https://gitlab.futo.org/circles/circles-ios)) are under active development.
+Mobile apps for Android ([GitLab repo](https://gitlab.futo.org/circles/circles-android)) and iOS ([GitLab repo](https://gitlab.futo.org/circles/circles-ios)) are under active development.
 
 [<img src="resources/img/google-play-badge.png" alt="Get it on Google Play" height="60">](https://play.google.com/store/apps/details?id=org.futo.circles)
 [<img src="resources/img/f-droid-badge.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/app/org.futo.circles)
