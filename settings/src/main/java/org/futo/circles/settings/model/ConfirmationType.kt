@@ -27,3 +27,9 @@ data class ResetKeys(
     override val messageRes: Int = R.string.reset_keys_message,
     override val positiveButtonRes: Int = org.futo.circles.auth.R.string.confirm
 ) : ConfirmationType(titleRes, messageRes, positiveButtonRes)
+
+data class RemoveEmail(
+    override val titleRes: Int = R.string.remove_email,
+    override val messageRes: Int = R.string.remove_email_confirmation,
+    override val positiveButtonRes: Int = org.futo.circles.core.R.string.remove
+) : ConfirmationType(titleRes, messageRes, positiveButtonRes)

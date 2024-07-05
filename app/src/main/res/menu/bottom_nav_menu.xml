@@ -7,14 +7,14 @@
         android:title="@string/circles" />
 
     <item
-        android:id="@+id/people_nav_graph"
-        android:icon="@drawable/ic_round_contacts"
-        android:title="@string/people" />
-
-    <item
         android:id="@+id/groups_nav_graph"
         android:icon="@drawable/ic_round_people"
         android:title="@string/groups" />
+
+    <item
+        android:id="@+id/people_nav_graph"
+        android:icon="@drawable/ic_round_contacts"
+        android:title="@string/people" />
 
     <item
         android:id="@+id/settings_nav_graph"

@@ -1,0 +1,73 @@
+name: Create Release on Tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag to create release for'
+        required: true
+        default: 'v1.0'
+
+jobs:
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Build F-Droid apk
+        run: ./gradlew assembleRelease
+
+      - name: Extract version_code
+        id: extract_version_code
+        run: |
+          version_code=$(grep 'version_code' buildSrc/src/main/java/AppConfig.kt | sed 's/[^0-9]*//g')
+          echo "VERSION_CODE=$version_code" >> $GITHUB_ENV
+
+      - name: Read changelog
+        id: read_changelog
+        run: |
+          changelog_file="fastlane/metadata/android/changelog/version_code${{ env.VERSION_CODE }}01.txt"
+          if [[ -f "$changelog_file" ]]; then
+            export CHANGELOG=$(cat "$changelog_file")
+          else
+            export CHANGELOG="No changelog available."
+          fi
+          echo "::set-output name=changelog::$CHANGELOG"
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.tag_name || github.ref }}
+          release_name: Release ${{ github.event.inputs.tag_name || github.ref }}
+          body: ${{ steps.read_changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+
+      - name: Set APK path
+        id: set_apk_path
+        run: echo "APK_PATH=app/build/outputs/apk/release/circles-${{ github.event.inputs.tag_name || github.ref_name }}-fdroid-arm64-v8a-release.apk" >> $GITHUB_ENV
+
+      - name: Upload Release APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.APK_PATH }}
+          asset_name: circles-${{ github.event.inputs.tag_name || github.ref_name }}-fdroid-arm64-v8a-release.apk
+          asset_content_type: application/vnd.android.package-archive

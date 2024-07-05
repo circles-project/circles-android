@@ -18,6 +18,8 @@
     <string name="invalid_user_id">User ID can not be empty.</string>
     <string name="confirm_auth">Confirm auth</string>
     <string name="email">Email</string>
+    <string name="emails">Emails</string>
+    <string name="add_email">Add email</string>
     <string name="email_usage_explanation">Must be a currently valid and active address.\n\nDon\'t worry - we will only use this address for security and other alerts about your account. We don\'t send spam, and we don\'t sell your address.</string>
     <string name="validation_code">Validation code</string>
     <string name="validation_code_explanation">We sent a 6-digit code to your email address to validate your account.\n\nEnter the code here to verify that this address belongs to you.</string>

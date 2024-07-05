@@ -105,7 +105,7 @@
 </string>
 
     <string name="debug_us_domain" translatable="false">us.circles-dev.net</string>
-    <string name="debug_matrix_domain" translatable="false">matrix.org</string>
+    <string name="debug_eu_domain" translatable="false">fi.circles-dev.net</string>
 
     <string name="release_us_domain" translatable="false">circles.futo.org</string>
     <string name="release_eu_domain" translatable="false">eu.circles.futo.org</string>
