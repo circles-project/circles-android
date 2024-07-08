@@ -77,6 +77,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/fdroid/release/circles-${{ github.event.inputs.tag_name || github.ref_name }}-fdroid-arm64-v8a-release.apk
+          asset_path: app/build/outputs/apk/fdroid/release/circles-${{ github.event.inputs.tag_name || github.ref_name }}-fdroid-arm64-v8a-release.apk
           asset_name: circles-${{ github.event.inputs.tag_name || github.ref_name }}-fdroid-arm64-v8a-release.apk
           asset_content_type: application/vnd.android.package-archive
