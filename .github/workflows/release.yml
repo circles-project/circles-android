@@ -53,8 +53,8 @@ jobs:
           else
             changelog="No changelog available."
           fi
-          CHANGELOG_BASE64=$(echo "$changelog" | base64)
-          echo "CHANGELOG_BASE64=$CHANGELOG_BASE64" >> $GITHUB_ENV
+          echo "changelog: $changelog"
+          echo "CHANGELOG=$changelog" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         id: create_release
@@ -64,7 +64,7 @@ jobs:
         with:
           tag_name: ${{ github.event.inputs.tag_name || github.ref }}
           release_name: Release ${{ github.event.inputs.tag_name || github.ref }}
-          body: $(echo "${{ env.CHANGELOG_BASE64 }}" | base64 --decode)
+          body: ${{ steps.read_changelog.outputs.CHANGELOG }}
           draft: false
           prerelease: false
 
