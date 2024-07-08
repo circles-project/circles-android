@@ -26,8 +26,16 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
+      - name: Setup  signing
+        run: |
+          echo -n ${{ secrets.SIGNING_KEY_BASE64 }} | base64 -d > circuli_key.jks
+          echo "KEY_PATH=../circuli_key.jks" > signing.properties
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> signing.properties
+          echo "ALIAS_NAME=${{ secrets.ALIAS_NAME }}" >> signing.properties
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> signing.properties
+
       - name: Build F-Droid apk
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleFdroidRelease
 
       - name: Extract version_code
         id: extract_version_code
