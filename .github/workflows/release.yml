@@ -49,12 +49,15 @@ jobs:
         run: |
           changelog_file="fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}01.txt"
           if [[ -f "$changelog_file" ]]; then
-            changelog=$(cat "$changelog_file")
+            CHANGELOG=$(cat "$changelog_file")
           else
-            changelog="No changelog available."
+            CHANGELOG="No changelog available."
           fi
-          echo "changelog: $changelog"
-          echo "CHANGELOG=$changelog" >> $GITHUB_OUTPUT
+          echo "Changelog content:"
+          echo "$CHANGELOG"
+          echo "CHANGELOG<<EOF" >> $GITHUB_ENV
+          echo "$CHANGELOG" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         id: create_release
@@ -64,7 +67,7 @@ jobs:
         with:
           tag_name: ${{ github.event.inputs.tag_name || github.ref }}
           release_name: Release ${{ github.event.inputs.tag_name || github.ref }}
-          body: ${{ steps.read_changelog.outputs.CHANGELOG }}
+          body: ${{ env.CHANGELOG }}
           draft: false
           prerelease: false
 
