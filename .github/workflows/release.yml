@@ -47,7 +47,7 @@ jobs:
       - name: Read changelog
         id: read_changelog
         run: |
-          changelog_file="fastlane/metadata/android/changelog/${{ env.VERSION_CODE }}01.txt"
+          changelog_file="fastlane/metadata/android/en-US/changelogs/${{ env.VERSION_CODE }}01.txt"
           if [[ -f "$changelog_file" ]]; then
             changelog=$(cat "$changelog_file")
           else
