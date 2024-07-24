@@ -9,6 +9,7 @@ import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
+import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.isEdition
 import org.matrix.android.sdk.api.session.room.timeline.isReply
@@ -21,21 +22,23 @@ abstract class BaseTimelineBuilder(private val preferencesProvider: PreferencesP
     abstract suspend fun processSnapshot(
         snapshot: List<TimelineEvent>,
         roomId: String,
-        isThread: Boolean
+        isThread: Boolean,
+        listDirection: Timeline.Direction
     ): List<Post>
 
     suspend fun build(
         roomId: String,
         snapshot: List<TimelineEvent>,
-        isThread: Boolean
+        isThread: Boolean,
+        listDirection: Timeline.Direction
     ): List<Post> =
         withContext(Dispatchers.IO) {
             val filteredEvents = filterTimelineEvents(snapshot, isThread)
-            processSnapshot(filteredEvents, roomId, isThread)
+            processSnapshot(filteredEvents, roomId, isThread, listDirection)
         }
 
-    protected fun sortList(list: List<Post>, isThread: Boolean) =
-        if (isThread) list.sortedBy { it.postInfo.timestamp }
+    protected fun sortList(list: List<Post>, listDirection: Timeline.Direction) =
+        if (listDirection == Timeline.Direction.FORWARDS) list.sortedBy { it.postInfo.timestamp }
         else list.sortedByDescending { it.postInfo.timestamp }
 
     protected fun getReadReceipts(room: Room): List<Long> =

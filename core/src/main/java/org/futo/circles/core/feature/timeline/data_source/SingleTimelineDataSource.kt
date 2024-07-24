@@ -1,20 +1,19 @@
 package org.futo.circles.core.feature.timeline.data_source
 
 import androidx.lifecycle.SavedStateHandle
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.futo.circles.core.feature.timeline.builder.SingleTimelineBuilder
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
-import javax.inject.Inject
 
-@ViewModelScoped
-class SingleTimelineDataSource @Inject constructor(
+//use Factory from BaseDataSource to inject
+class SingleTimelineDataSource(
     savedStateHandle: SavedStateHandle,
-    timelineBuilder: SingleTimelineBuilder
-) : BaseTimelineDataSource(savedStateHandle, timelineBuilder) {
+    timelineBuilder: SingleTimelineBuilder,
+    listDirection: Timeline.Direction
+) : BaseTimelineDataSource(savedStateHandle, timelineBuilder, listDirection) {
 
     private var timeline: Timeline? = null
 
