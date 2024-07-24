@@ -49,13 +49,15 @@ abstract class BaseTimelineViewModel(
     private val prefetchedVideoUriFlow = MutableStateFlow<Map<String, Uri>>(emptyMap())
 
     val timelineEventsLiveData = combine(
-        baseTimelineDataSource.getTimelineEventFlow(viewModelScope),
+        getTimelineEventFlow(),
         getFilterFlow(),
         prefetchedVideoUriFlow
     ) { events, selectedRoomIds, videoUris ->
         val filteredEvents = applyTimelinesFilter(events, selectedRoomIds)
         mapEventsWithVideoUri(context, filteredEvents, videoUris)
     }.flowOn(Dispatchers.IO).distinctUntilChanged().asLiveData()
+
+    fun getTimelineEventFlow() = baseTimelineDataSource.getTimelineEventFlow(viewModelScope)
 
     private fun getFilterFlow(): Flow<Set<String>> {
         timelineId ?: return MutableStateFlow(emptySet())

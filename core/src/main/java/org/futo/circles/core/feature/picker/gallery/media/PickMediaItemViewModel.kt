@@ -3,7 +3,6 @@ package org.futo.circles.core.feature.picker.gallery.media
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +11,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
-import org.futo.circles.core.feature.timeline.data_source.SingleTimelineDataSource
+import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
+import org.futo.circles.core.feature.timeline.data_source.TimelineType
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.GalleryTimelineLoadingListItem
 import org.futo.circles.core.model.MediaContent
@@ -25,12 +25,12 @@ import javax.inject.Inject
 class PickMediaItemViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @ApplicationContext context: Context,
-    timelineDataSource: SingleTimelineDataSource,
+    timelineDataSourceFactory: BaseTimelineDataSource.Factory,
     circleFilterAccountDataManager: CircleFilterAccountDataManager
 ) : BaseTimelineViewModel(
     savedStateHandle,
     context,
-    timelineDataSource,
+    timelineDataSourceFactory.create(TimelineType.GALLERY),
     circleFilterAccountDataManager
 ) {
 
@@ -39,7 +39,7 @@ class PickMediaItemViewModel @Inject constructor(
     private val selectedItemsFlow = MutableStateFlow<List<GalleryContentListItem>>(emptyList())
 
     val galleryItemsLiveData = combine(
-        timelineDataSource.getTimelineEventFlow(viewModelScope),
+        getTimelineEventFlow(),
         selectedItemsFlow
     ) { items, selectedIds ->
         items.mapNotNull { post ->

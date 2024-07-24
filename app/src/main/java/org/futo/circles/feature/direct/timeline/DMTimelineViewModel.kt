@@ -13,6 +13,7 @@ import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
+import org.futo.circles.core.feature.timeline.data_source.TimelineType
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.model.MediaType
@@ -39,7 +40,7 @@ class DMTimelineViewModel @Inject constructor(
 ) : BaseTimelineViewModel(
     savedStateHandle,
     context,
-    timelineDataSourceFactory.create(false),
+    timelineDataSourceFactory.create(TimelineType.DM),
     circleFilterAccountDataManager
 ) {
 
