@@ -103,6 +103,7 @@ abstract class BaseTimelineViewModel(
         )
     }
 
+    @Suppress("DeferredResultUnused")
     private fun prefetchVideo(context: Context, postId: String, data: MediaFileData) {
         launchBg {
             async {

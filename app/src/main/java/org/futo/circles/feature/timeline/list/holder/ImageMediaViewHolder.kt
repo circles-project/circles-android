@@ -7,7 +7,7 @@ import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.MediaContent
 
-interface MediaViewHolder {
+interface ImageMediaViewHolder {
 
     fun bindMediaCaption(content: MediaContent, textView: TextView) {
         textView.apply {

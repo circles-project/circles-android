@@ -3,11 +3,9 @@ package org.futo.circles.feature.timeline
 import android.text.Spannable
 import android.text.method.LinkMovementMethod
 import android.text.style.URLSpan
-import android.util.Patterns
 import android.view.MotionEvent
 import android.widget.TextView
 import org.futo.circles.feature.timeline.list.OnLinkClickedListener
-import org.matrix.android.sdk.api.extensions.tryOrNull
 
 class InternalLinkMovementMethod(private val onLinkClickedListener: OnLinkClickedListener) :
     LinkMovementMethod() {
@@ -27,15 +25,12 @@ class InternalLinkMovementMethod(private val onLinkClickedListener: OnLinkClicke
             val link = buffer.getSpans(off, off, URLSpan::class.java)
 
             link.getOrNull(0)?.let { span ->
-                val spanStart = buffer.getSpanStart(span)
-                val spanEnd = buffer.getSpanEnd(span)
-                val message = tryOrNull { buffer.subSequence(spanStart, spanEnd).toString() }
                 val url = span.url
-                return if (message != url && !url.startsWith("tel")) {
+                return if (url.contains("circles.futo.org")) {
+                    super.onTouchEvent(widget, buffer, event)
+                } else {
                     onLinkClickedListener.onLinkClicked(url)
                     true
-                } else {
-                    super.onTouchEvent(widget, buffer, event)
                 }
 
             }

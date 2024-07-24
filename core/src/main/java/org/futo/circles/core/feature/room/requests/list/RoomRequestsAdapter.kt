@@ -2,13 +2,13 @@ package org.futo.circles.core.feature.room.requests.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.model.RoomRequestHeaderItem
 import org.futo.circles.core.model.RoomRequestListItem
+import org.futo.circles.core.model.RoomRequestTypeArg
 
-enum class RoomRequestViewType { Header, Knock, CircleInvite, GroupInvite, PhotoInvite }
+enum class RoomRequestViewType { Header, Knock, CircleInvite, GroupInvite, PhotoInvite, DMInvite }
 
 class RoomRequestsAdapter(
     private val onInviteClicked: (RoomInviteListItem, Boolean) -> Unit,
@@ -19,10 +19,11 @@ class RoomRequestsAdapter(
     override fun getItemViewType(position: Int): Int = when (val item = getItem(position)) {
         is KnockRequestListItem -> RoomRequestViewType.Knock.ordinal
         is RoomRequestHeaderItem -> RoomRequestViewType.Header.ordinal
-        is RoomInviteListItem -> when (item.roomType) {
-            CircleRoomTypeArg.Circle -> RoomRequestViewType.CircleInvite.ordinal
-            CircleRoomTypeArg.Group -> RoomRequestViewType.GroupInvite.ordinal
-            CircleRoomTypeArg.Photo -> RoomRequestViewType.PhotoInvite.ordinal
+        is RoomInviteListItem -> when (item.requestType) {
+            RoomRequestTypeArg.Circle -> RoomRequestViewType.CircleInvite.ordinal
+            RoomRequestTypeArg.Group -> RoomRequestViewType.GroupInvite.ordinal
+            RoomRequestTypeArg.Photo -> RoomRequestViewType.PhotoInvite.ordinal
+            RoomRequestTypeArg.DM -> RoomRequestViewType.DMInvite.ordinal
         }
     }
 
@@ -69,6 +70,19 @@ class RoomRequestsAdapter(
                         onUnblurProfileIconClicked(it)
                     }
                 })
+
+        RoomRequestViewType.DMInvite -> InvitedDMViewHolder(
+            parent = parent,
+            onInviteClicked = { position, isAccepted ->
+                (getItem(position) as? RoomInviteListItem)?.let {
+                    onInviteClicked(it, isAccepted)
+                }
+            },
+            onShowProfileIconClicked = { position ->
+                (getItem(position) as? RoomInviteListItem)?.let {
+                    onUnblurProfileIconClicked(it)
+                }
+            })
 
         RoomRequestViewType.Knock -> KnockRequestViewHolder(
             parent = parent,

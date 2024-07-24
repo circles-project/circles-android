@@ -36,6 +36,7 @@
     <string name="suggestions">Suggestions</string>
     <string name="no_results">No results</string>
     <string name="enter_name_or_id">Enter name or userId</string>
+    <string name="search_by_name_or_id">Search by name or userId</string>
     <string name="share">Share</string>
     <string name="rage_shake_report">Rageshake report</string>
     <string name="report_sent">Report sent</string>
@@ -259,6 +260,13 @@
     <string name="creating_timeline_room">Creating timeline room</string>
     <string name="inviting_user_to_format">Inviting %1$s to %2$s</string>
     <string name="requesting_invitation_to_format">Requesting an invitation to your %1$s - %2$s</string>
+    <string name="invite_for_direct_messages">Invite for direct messages</string>
+    <string name="invitation_for_direct_messages_is_sent">Invitation for direct messages is sent</string>
+    <string name="accept_direct_messages_invite">Accept direct messages invite</string>
+    <string name="open_direct_messages">Open direct messages</string>
+    <string name="direct_messages">Direct messages</string>
+    <string name="direct_messages_invitations">Direct messages invitations</string>
+    <string name="invited_you_for_direct_messages">Invited you for direct messages</string>
 
     <plurals name="invitations_count_format">
         <item quantity="one">%d invitation</item>

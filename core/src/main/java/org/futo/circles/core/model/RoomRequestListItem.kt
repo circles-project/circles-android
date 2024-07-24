@@ -18,7 +18,7 @@ data class RoomRequestHeaderItem(
 
 data class RoomInviteListItem(
     val roomId: String,
-    val roomType: CircleRoomTypeArg,
+    val requestType: RoomRequestTypeArg,
     val info: RoomInfo,
     val isEncrypted: Boolean,
     val inviterName: String,
@@ -31,7 +31,7 @@ data class RoomInviteListItem(
 data class KnockRequestListItem(
     val roomId: String,
     val roomName: String,
-    val roomType: CircleRoomTypeArg,
+    val requestType: RoomRequestTypeArg,
     val requesterId: String,
     val requesterName: String,
     val requesterAvatarUrl: String?,

@@ -3,10 +3,11 @@ package org.futo.circles.core.mapping
 import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.toRoomInfo
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.JoinedGalleryListItem
 import org.futo.circles.core.model.KnockRequestListItem
+import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.model.RoomInviteListItem
+import org.futo.circles.core.model.RoomRequestTypeArg
 import org.futo.circles.core.model.SelectRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.model.isCircle
@@ -45,12 +46,12 @@ fun RoomSummary.toJoinedGalleryListItem() = JoinedGalleryListItem(
 
 fun RoomMemberSummary.toUser() = User(userId, notEmptyDisplayName(), avatarUrl)
 
-fun RoomMemberSummary.toKnockRequestListItem(roomId: String, roomType: CircleRoomTypeArg) =
+fun RoomMemberSummary.toKnockRequestListItem(roomId: String, requestType: RoomRequestTypeArg) =
     KnockRequestListItem(
         roomId = roomId,
         roomName = MatrixSessionProvider.currentSession?.getRoom(roomId)?.roomSummary()?.nameOrId()
             ?: "",
-        roomType = roomType,
+        requestType = requestType,
         requesterId = userId,
         requesterName = displayName ?: UserIdUtils.removeDomainSuffix(userId),
         requesterAvatarUrl = avatarUrl,
@@ -64,15 +65,28 @@ private fun getReasonMessage(roomId: String, userId: String) =
         it.content.toModel<RoomMemberContent>()?.membership == Membership.KNOCK
     }?.content.toModel<RoomMemberContent>()?.safeReason
 
-fun RoomSummary.toRoomInviteListItem(roomType: CircleRoomTypeArg, shouldBlurIcon: Boolean) =
-    RoomInviteListItem(
-        roomId = roomId,
-        info = toRoomInfo(roomType == CircleRoomTypeArg.Circle),
-        inviterName = getInviterName(),
-        isEncrypted = isEncrypted,
-        shouldBlurIcon = shouldBlurIcon,
-        roomType = roomType
-    )
+fun RoomSummary.toRoomInviteListItem(requestType: RoomRequestTypeArg, shouldBlurIcon: Boolean) =
+    if (requestType == RoomRequestTypeArg.DM) {
+        val user = MatrixSessionProvider.currentSession?.getUserOrDefault(inviterId ?: "")
+        val userName = user?.notEmptyDisplayName() ?: ""
+        RoomInviteListItem(
+            roomId = roomId,
+            info = RoomInfo(userName, user?.avatarUrl ?: avatarUrl),
+            inviterName = userName,
+            isEncrypted = isEncrypted,
+            shouldBlurIcon = shouldBlurIcon,
+            requestType = requestType
+        )
+    } else {
+        RoomInviteListItem(
+            roomId = roomId,
+            info = toRoomInfo(requestType == RoomRequestTypeArg.Circle),
+            inviterName = getInviterName(),
+            isEncrypted = isEncrypted,
+            shouldBlurIcon = shouldBlurIcon,
+            requestType = requestType
+        )
+    }
 
 fun RoomSummary.getInviterName() =
     MatrixSessionProvider.currentSession?.getUserOrDefault(inviterId ?: "")?.notEmptyDisplayName()

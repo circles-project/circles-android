@@ -4,9 +4,11 @@
     android:id="@+id/nav_graph_bottom_menu"
     app:startDestination="@id/circles_nav_graph">
 
+    <include app:graph="@navigation/circles_nav_graph" />
+
     <include app:graph="@navigation/groups_nav_graph" />
 
-    <include app:graph="@navigation/circles_nav_graph" />
+    <include app:graph="@navigation/direct_messages_nav_graph" />
 
     <include app:graph="@navigation/people_nav_graph" />
 

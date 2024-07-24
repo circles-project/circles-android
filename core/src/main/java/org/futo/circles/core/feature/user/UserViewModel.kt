@@ -17,6 +17,8 @@ import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.model.TimelineListItem
 import org.futo.circles.core.model.TimelineRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getUserDirectMessagesRoomLiveData
+import org.futo.circles.core.utils.getUserDirectMessagesStateLiveData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,6 +35,10 @@ class UserViewModel @Inject constructor(
 
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unIgnoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
+    val inviteForDirectMessagesLiveData = SingleEventLiveData<Response<String>>()
+    val acceptDmInviteLiveData = SingleEventLiveData<Response<Unit>>()
+    val dmRoomStateLiveData = getUserDirectMessagesStateLiveData(userId)
+
     val isUserIgnoredLiveData = userOptionsDataSource.ignoredUsersLiveData?.map {
         it.firstOrNull { it.userId == userId } != null
     }
@@ -96,6 +102,15 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun inviteForDirectMessages() {
+        launchBg {
+            val result = createResult {
+                MatrixSessionProvider.getSessionOrThrow().roomService().createDirectRoom(userId)
+            }
+            inviteForDirectMessagesLiveData.postValue(result)
+        }
+    }
+
     private fun toggleItemLoading(id: String) {
         val currentSet = loadingItemsIdsList.value?.toMutableSet() ?: return
         val newLoadingSet = currentSet.apply {
@@ -103,6 +118,15 @@ class UserViewModel @Inject constructor(
             else add(id)
         }
         loadingItemsIdsList.postValue(newLoadingSet)
+    }
+
+    fun acceptDmInvite(roomId: String) {
+        launchBg {
+            val result = createResult {
+                MatrixSessionProvider.getSessionOrThrow().roomService().joinRoom(roomId)
+            }
+            acceptDmInviteLiveData.postValue(result)
+        }
     }
 
 }
