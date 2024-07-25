@@ -73,16 +73,46 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnInviteToFollowMe"
         style="@style/AccentButtonStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="8dp"
+        android:lines="2"
         android:text="@string/invite_to_follow_me"
         android:textSize="12sp"
-        app:icon="@drawable/ic_link"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/lDmButtonContainer"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvUserId" />
 
+    <FrameLayout
+        android:id="@+id/lDmButtonContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="24dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnInviteToFollowMe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnInviteToFollowMe"
+        app:layout_constraintTop_toTopOf="@id/btnInviteToFollowMe">
+
+        <org.futo.circles.core.view.LoadingButton
+            android:id="@+id/btnDirectMessages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/invite_for_direct_messages"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvDmInvitationSent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingHorizontal="8dp"
+            android:text="@string/invitation_for_direct_messages_is_sent"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
     <View
         android:id="@+id/divider"

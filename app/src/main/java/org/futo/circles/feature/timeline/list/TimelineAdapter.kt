@@ -2,20 +2,17 @@ package org.futo.circles.feature.timeline.list
 
 import android.view.ViewGroup
 import androidx.media3.exoplayer.ExoPlayer
-import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
-import org.futo.circles.core.model.PostListItem
 import org.futo.circles.core.model.TimelineLoadingItem
+import org.futo.circles.feature.timeline.base.BaseTimelineAdapter
+import org.futo.circles.feature.timeline.base.TimelineListItemViewHolder
 import org.futo.circles.feature.timeline.list.holder.ImagePostViewHolder
 import org.futo.circles.feature.timeline.list.holder.OtherEventPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.PollPostViewHolder
-import org.futo.circles.feature.timeline.list.holder.PostListItemViewHolder
-import org.futo.circles.feature.timeline.list.holder.PostViewHolder
 import org.futo.circles.feature.timeline.list.holder.TextPostViewHolder
 import org.futo.circles.feature.timeline.list.holder.TimelineLoadingViewHolder
 import org.futo.circles.feature.timeline.list.holder.VideoPostViewHolder
-import org.futo.circles.model.PostItemPayload
 
 private enum class TimelineViewType { TEXT, IMAGE, VIDEO, POLL, OTHER, LOADING }
 
@@ -23,20 +20,8 @@ class TimelineAdapter(
     private val postOptionsListener: PostOptionsListener,
     private val isThread: Boolean,
     private val videoPlayer: ExoPlayer
-) : BaseRvAdapter<PostListItem, PostListItemViewHolder>(PayloadIdEntityCallback { old, new ->
-    if (new is Post && old is Post)
-        PostItemPayload(
-            readByCount = new.readByCount,
-            repliesCount = new.repliesCount,
-            reactions = new.reactionsData,
-            needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
-        )
-    else null
-}), OnVideoPlayBackStateListener {
+) : BaseTimelineAdapter() {
 
-    private var currentPlayingVideoHolder: VideoPostViewHolder? = null
-
-    override fun getItemId(position: Int): Long = getItem(position).id.hashCode().toLong()
 
     override fun getItemViewType(position: Int): Int = when (val item = getItem(position)) {
         is Post -> when (item.content.type) {
@@ -50,7 +35,7 @@ class TimelineAdapter(
         is TimelineLoadingItem -> TimelineViewType.LOADING.ordinal
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostListItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineListItemViewHolder {
         return when (TimelineViewType.entries[viewType]) {
 
             TimelineViewType.TEXT -> TextPostViewHolder(
@@ -75,46 +60,4 @@ class TimelineAdapter(
             TimelineViewType.LOADING -> TimelineLoadingViewHolder(parent)
         }
     }
-
-    override fun onBindViewHolder(holder: PostListItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
-
-    override fun onBindViewHolder(
-        holder: PostListItemViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
-    ) {
-        (holder as? PostViewHolder) ?: run {
-            super.onBindViewHolder(holder, position, payloads)
-            return
-        }
-
-        if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads)
-        } else {
-            payloads.forEach {
-                val payload = (it as? PostItemPayload) ?: return@forEach
-                if (payload.needToUpdateFullItem) holder.bind(getItem(position))
-                else holder.bindPayload(payload)
-            }
-        }
-    }
-
-    override fun onViewDetachedFromWindow(holder: PostListItemViewHolder) {
-        super.onViewDetachedFromWindow(holder)
-        if (holder == currentPlayingVideoHolder) stopVideoPlayback()
-    }
-
-    override fun onVideoPlaybackStateChanged(holder: VideoPostViewHolder, isPlaying: Boolean) {
-        currentPlayingVideoHolder = if (isPlaying) {
-            stopVideoPlayback(false)
-            holder
-        } else null
-    }
-
-    fun stopVideoPlayback(shouldNotify: Boolean = true) {
-        currentPlayingVideoHolder?.stopVideo(shouldNotify)
-    }
-
 }

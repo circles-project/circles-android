@@ -8,15 +8,8 @@ fun CircleRoomTypeArg.toShareUrlType() = when (this) {
     CircleRoomTypeArg.Photo -> ShareUrlTypeArg.GALLERY
 }
 
-fun convertToCircleRoomType(roomType: String?) = when (roomType) {
-    GROUP_TYPE -> CircleRoomTypeArg.Group
-    TIMELINE_TYPE -> CircleRoomTypeArg.Circle
-    GALLERY_TYPE -> CircleRoomTypeArg.Photo
-    else -> CircleRoomTypeArg.Group
-}
-
-fun convertToStringRoomType(roomType: CircleRoomTypeArg) = when (roomType) {
-    CircleRoomTypeArg.Group -> GROUP_TYPE
-    CircleRoomTypeArg.Circle -> TIMELINE_TYPE
-    CircleRoomTypeArg.Photo -> GALLERY_TYPE
+fun CircleRoomTypeArg.toRoomRequestArgument() = when (this) {
+    CircleRoomTypeArg.Circle -> RoomRequestTypeArg.Circle
+    CircleRoomTypeArg.Group -> RoomRequestTypeArg.Group
+    CircleRoomTypeArg.Photo -> RoomRequestTypeArg.Photo
 }

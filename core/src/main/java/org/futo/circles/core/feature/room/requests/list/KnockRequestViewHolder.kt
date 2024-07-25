@@ -7,9 +7,9 @@ import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemKnockRequestBinding
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomRequestListItem
+import org.futo.circles.core.model.RoomRequestTypeArg
 import org.futo.circles.core.model.toCircleUser
 
 
@@ -31,7 +31,7 @@ class KnockRequestViewHolder(
         if (data !is KnockRequestListItem) return
         with(binding) {
             setLoading(data.isLoading)
-            tvRoomName.text = getRoomNameMessage(data.roomType, data.roomName)
+            tvRoomName.text = getRoomNameMessage(data.requestType, data.roomName)
             tvReason.apply {
                 setIsVisible(!data.message.isNullOrBlank())
                 text = data.message
@@ -40,12 +40,13 @@ class KnockRequestViewHolder(
         }
     }
 
-    private fun getRoomNameMessage(roomType: CircleRoomTypeArg, roomName: String): String {
+    private fun getRoomNameMessage(requestType: RoomRequestTypeArg, roomName: String): String {
         val roomTypeName = context.getString(
-            when (roomType) {
-                CircleRoomTypeArg.Circle -> R.string.circle
-                CircleRoomTypeArg.Group -> R.string.group
-                CircleRoomTypeArg.Photo -> R.string.gallery
+            when (requestType) {
+                RoomRequestTypeArg.Circle -> R.string.circle
+                RoomRequestTypeArg.Group -> R.string.group
+                RoomRequestTypeArg.Photo -> R.string.gallery
+                RoomRequestTypeArg.DM -> R.string.direct_messages
             }
         )
         return context.getString(R.string.requesting_invitation_to_format, roomTypeName, roomName)

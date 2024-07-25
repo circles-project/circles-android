@@ -22,9 +22,9 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.ResLoadingData
+import org.futo.circles.core.model.RoomRequestTypeArg
 import org.futo.circles.core.model.TIMELINE_TYPE
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelineRoomFor
@@ -92,8 +92,8 @@ class HomeFragment :
     }
 
     private fun handleInviteNotificationOpen(type: String) {
-        val inviteType = if (type == GROUP_TYPE) CircleRoomTypeArg.Group
-        else CircleRoomTypeArg.Circle
+        val inviteType = if (type == GROUP_TYPE) RoomRequestTypeArg.Group
+        else RoomRequestTypeArg.Circle
         binding.bottomNavigationView.post {
             findNavController().navigateSafe(HomeFragmentDirections.toRoomRequests(inviteType))
         }
@@ -147,10 +147,11 @@ class HomeFragment :
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                org.futo.circles.settings.R.id.settingsFragment,
                 R.id.circlesFragment,
-                R.id.peopleFragment,
                 R.id.groupsFragment,
+                R.id.directMessagesFragment,
+                R.id.peopleFragment,
+                org.futo.circles.settings.R.id.settingsFragment,
             )
         )
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)

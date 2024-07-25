@@ -9,8 +9,8 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
+import org.futo.circles.core.model.RoomRequestTypeArg
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +20,7 @@ class RoomRequestsViewModel @Inject constructor(
     private val manageInviteRequestsDataSource: ManageInviteRequestsDataSource
 ) : ViewModel() {
 
-    private val inviteType: CircleRoomTypeArg = savedStateHandle.getOrThrow("type")
+    private val inviteType: RoomRequestTypeArg = savedStateHandle.getOrThrow("type")
     private val filterRoomId: String? = savedStateHandle["roomId"]
 
     val requestResultLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -34,10 +34,10 @@ class RoomRequestsViewModel @Inject constructor(
         }
     }
 
-    fun acceptRoomInvite(roomId: String, roomType: CircleRoomTypeArg) {
+    fun acceptRoomInvite(roomId: String, roomRequestType: RoomRequestTypeArg) {
         launchBg {
             requestsDataSource.toggleItemLoading(roomId)
-            val result = manageInviteRequestsDataSource.acceptInvite(roomId, roomType)
+            val result = manageInviteRequestsDataSource.acceptInvite(roomId, roomRequestType)
             postInviteResult(result, roomId)
         }
     }

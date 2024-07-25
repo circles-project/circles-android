@@ -1,7 +1,14 @@
 package org.futo.circles.core.utils
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import org.futo.circles.core.extensions.getPowerLevelContent
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
+import org.futo.circles.core.model.DmConnected
+import org.futo.circles.core.model.DmHasInvite
+import org.futo.circles.core.model.DmInviteSent
+import org.futo.circles.core.model.DmNotFound
+import org.futo.circles.core.model.DmRoomState
 import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.TIMELINE_TYPE
@@ -11,6 +18,7 @@ import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
+import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.room.model.RoomType
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
 
@@ -66,6 +74,53 @@ fun getSpacesLiveData(membershipFilter: List<Membership> = Membership.activeMemb
 
 fun getTimelinesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsLiveDataWithType(TIMELINE_TYPE, membershipFilter)
+
+fun getAllDirectMessagesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+    MatrixSessionProvider.getSessionOrThrow().roomService()
+        .getRoomSummariesLive(roomSummaryQueryParams {
+            memberships = membershipFilter
+            roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+        })
+
+fun getUserDirectMessagesRoomLiveData(
+    userId: String,
+    membershipFilter: List<Membership> = Membership.activeMemberships()
+): LiveData<RoomSummary?> {
+    val roomService = MatrixSessionProvider.getSessionOrThrow().roomService()
+
+    return roomService.getRoomSummariesLive(roomSummaryQueryParams {
+        memberships = membershipFilter
+        roomCategoryFilter = RoomCategoryFilter.ONLY_DM
+    }).map { summaries -> filterActiveDmRoom(userId, summaries) }
+}
+
+private fun filterActiveDmRoom(userId: String, summaries: List<RoomSummary>): RoomSummary? {
+    val roomService = MatrixSessionProvider.getSessionOrThrow().roomService()
+    return summaries.firstOrNull { it.directUserId == userId && (it.joinedMembersCount ?: 0) > 1 }
+        ?.let {
+            summaries.firstOrNull {
+                it.directUserId == userId &&
+                        roomService.getRoom(it.roomId)?.membershipService()
+                            ?.getRoomMember(it.directUserId ?: "")?.membership?.isActive() == true
+            }
+        }
+}
+
+
+fun getUserDirectMessagesStateLiveData(
+    userId: String,
+    membershipFilter: List<Membership> = Membership.activeMemberships()
+): LiveData<DmRoomState> =
+    getUserDirectMessagesRoomLiveData(userId, membershipFilter).map { directRoomSummary ->
+        directRoomSummary?.let {
+            if (it.membership == Membership.JOIN) {
+                if ((it.joinedMembersCount ?: 0) > 1) DmConnected(it.roomId)
+                else DmInviteSent
+            } else {
+                DmHasInvite(it.roomId)
+            }
+        } ?: DmNotFound
+    }
 
 private fun getAllRoomsAndSpacesFilter(membershipFilter: List<Membership>) =
     roomSummaryQueryParams {

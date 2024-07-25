@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/direct_messages_nav_graph"
+    app:startDestination="@id/directMessagesFragment">
+
+    <fragment
+        android:id="@+id/directMessagesFragment"
+        android:name="org.futo.circles.feature.direct.tab.DMFragment"
+        android:label="@string/direct_messages"
+        tools:layout="@layout/fragment_direct_messages">
+        <action
+            android:id="@+id/to_room_requests"
+            app:destination="@id/room_requests_nav_graph">
+
+            <argument
+                android:name="type"
+                android:defaultValue="DM"
+                app:argType="org.futo.circles.core.model.RoomRequestTypeArg"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_dm_timeline_nav_graph"
+            app:destination="@id/dm_timeline_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_createDMDialogFragment"
+            app:destination="@id/createDMDialogFragment" />
+    </fragment>
+
+    <include app:graph="@navigation/room_requests_nav_graph" />
+
+    <include app:graph="@navigation/dm_timeline_nav_graph" />
+
+    <dialog
+        android:id="@+id/createDMDialogFragment"
+        android:name="org.futo.circles.feature.direct.create.CreateDMDialogFragment"
+        tools:layout="@layout/dialog_fragment_create_dm">
+
+        <action
+            android:id="@+id/to_user_nav_graph"
+            app:destination="@id/user_nav_graph">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+    </dialog>
+
+    <include app:graph="@navigation/user_nav_graph" />
+
+</navigation>

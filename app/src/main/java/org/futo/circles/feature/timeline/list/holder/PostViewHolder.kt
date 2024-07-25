@@ -1,14 +1,10 @@
 package org.futo.circles.feature.timeline.list.holder
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.futo.circles.R
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.feature.markdown.MarkdownParser
@@ -18,15 +14,13 @@ import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.PostListItem
 import org.futo.circles.core.model.TextContent
-import org.futo.circles.feature.timeline.InternalLinkMovementMethod
-import org.futo.circles.feature.timeline.list.OnLinkClickedListener
+import org.futo.circles.feature.timeline.base.TimelineListItemViewHolder
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostFooterView
 import org.futo.circles.view.PostHeaderView
 import org.futo.circles.view.PostStatusView
 import org.futo.circles.view.ReadMoreTextView
-import org.matrix.android.sdk.api.extensions.tryOrNull
 
 
 @SuppressLint("ClickableViewAccessibility")
@@ -34,7 +28,7 @@ abstract class PostViewHolder(
     view: View,
     protected val optionsListener: PostOptionsListener,
     private val isThread: Boolean
-) : PostListItemViewHolder(view) {
+) : TimelineListItemViewHolder(view) {
 
     abstract val postLayout: ViewGroup?
     abstract val postFooter: PostFooterView?
@@ -83,8 +77,8 @@ abstract class PostViewHolder(
         }
         postFooter?.setListener(optionsListener)
         postHeader.setListener(optionsListener)
-        handleLinkClick()
         readMoreTextView?.apply {
+            handleLinkClick(this)
             setNotCollapsableClickAction { openReplies() }
             setOnLongClickListener {
                 postHeader.showMenu()
@@ -122,38 +116,6 @@ abstract class PostViewHolder(
         }
         if (hasMention) postLayout?.setBackgroundResource(R.drawable.bg_mention_highlight)
         else postLayout?.background = null
-    }
-
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun handleLinkClick() {
-        readMoreTextView?.apply {
-            movementMethod = InternalLinkMovementMethod(object : OnLinkClickedListener {
-                override fun onLinkClicked(url: String) {
-                    showLinkConfirmation(context, url)
-                }
-            })
-            setOnTouchListener { v, event ->
-                if (event.action == MotionEvent.ACTION_DOWN) v.requestFocus()
-                false
-            }
-        }
-    }
-
-    private fun showLinkConfirmation(context: Context, url: String) {
-        MaterialAlertDialogBuilder(context)
-            .setTitle(R.string.do_you_want_to_open_this_url)
-            .setMessage(url)
-            .setPositiveButton(android.R.string.ok) { dialogInterface, _ ->
-                tryOrNull {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                }
-                dialogInterface.dismiss()
-            }
-            .setNegativeButton(android.R.string.cancel) { dialogInterface, _ ->
-                dialogInterface.dismiss()
-            }
-            .show()
     }
 
     private fun openReplies() {

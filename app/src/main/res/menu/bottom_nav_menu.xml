@@ -12,6 +12,11 @@
         android:title="@string/groups" />
 
     <item
+        android:id="@+id/direct_messages_nav_graph"
+        android:icon="@drawable/ic_direct_messages"
+        android:title="@string/direct" />
+
+    <item
         android:id="@+id/people_nav_graph"
         android:icon="@drawable/ic_round_contacts"
         android:title="@string/people" />

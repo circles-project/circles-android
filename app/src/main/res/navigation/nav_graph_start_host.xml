@@ -59,7 +59,7 @@
 
             <argument
                 android:name="type"
-                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.core.model.RoomRequestTypeArg"
                 app:nullable="false" />
 
         </action>

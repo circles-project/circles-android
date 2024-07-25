@@ -11,8 +11,4 @@ fun RoomSummary.toRoomInfo(isCircle: Boolean): RoomInfo =
         RoomInfo(timeline?.nameOrId() ?: nameOrId(),
             timeline?.avatarUrl?.takeIf { it.isNotEmpty() } ?: avatarUrl
         )
-    } else RoomInfo(nameOrId(), getCircleAvatarUrl())
-
-fun RoomSummary.getCircleAvatarUrl() =
-    getTimelineRoomFor(roomId)?.roomSummary()?.avatarUrl?.takeIf { it.isNotEmpty() }
-        ?: avatarUrl
+    } else RoomInfo(nameOrId(), avatarUrl)

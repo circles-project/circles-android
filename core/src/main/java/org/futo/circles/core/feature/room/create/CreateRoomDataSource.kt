@@ -4,6 +4,10 @@ import android.content.Context
 import android.net.Uri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
+import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.CreateRoom
+import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.CreateTimeline
+import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.SetParentRelations
+import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.SetTimelineRelations
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.Circle
@@ -22,11 +26,6 @@ import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomStateEvent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 import org.matrix.android.sdk.api.session.space.CreateSpaceParams
-import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.CreateRoom
-import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.CreateTimeline
-import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.Finished
-import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.SetParentRelations
-import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.SetTimelineRelations
 import javax.inject.Inject
 
 class CreateRoomDataSource @Inject constructor(
