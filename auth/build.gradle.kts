@@ -78,7 +78,7 @@ dependencies {
     gplayImplementation("com.android.billingclient:billing-ktx:7.0.0")
 
     // PasswordManager
-    val credentialsVersion = "1.3.0-beta02"
+    val credentialsVersion = "1.3.0-rc01"
     gplayImplementation("androidx.credentials:credentials:$credentialsVersion")
     gplayImplementation("androidx.credentials:credentials-play-services-auth:$credentialsVersion")
 
