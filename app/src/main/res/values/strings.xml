@@ -102,9 +102,7 @@
     <string name="in_reply_to_format">In reply to \"%s\":</string>
 
     <string name="changelog">
-- Simplified Sign up flow
-- Fixed crash on Creating new post
-- Onboarding design updates
+- Direct messages
 - Bug fixes and performance improvements
 </string>
 
