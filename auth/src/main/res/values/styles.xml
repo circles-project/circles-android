@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="LoginCompanyStyle">
-        <item name="android:text">Company name</item>
-    </style>
-
     <style name="LoginTitleStyle" parent="title0">
         <item name="android:text">Title</item>
     </style>

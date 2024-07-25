@@ -25,29 +25,17 @@
             app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvCompanyTitle"
-            style="@style/LoginCompanyStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
-            android:textAppearance="@style/headline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivLogo" />
-
-
+        
         <TextView
             android:id="@+id/tvCircles"
             style="@style/LoginTitleStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCompanyTitle" />
+            app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilUserId"

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Circles</string>
-    <string name="futo">FUTO</string>
     <string name="circles">Circles</string>
     <string name="groups">Groups</string>
     <string name="people">People</string>
