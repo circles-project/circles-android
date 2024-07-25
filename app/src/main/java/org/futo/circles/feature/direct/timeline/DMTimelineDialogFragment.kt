@@ -8,6 +8,7 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
@@ -99,7 +100,7 @@ class DMTimelineDialogFragment :
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
-            viewModel.markTimelineAsRead(args.roomId, true)
+            viewModel.markTimelineAsRead(args.roomId)
         }
         viewModel.shareLiveData.observeData(this) { content ->
             context?.let { ShareProvider.share(it, content) }
@@ -135,10 +136,12 @@ class DMTimelineDialogFragment :
     }
 
     override fun onRemove(eventId: String) {
+        if (showNoInternetConnection()) return
         withConfirmation(RemovePost()) { viewModel.removeMessage(args.roomId, eventId) }
     }
 
     override fun onEditActionClicked(eventId: String, message: String) {
+        if (showNoInternetConnection()) return
         binding.vSendMessage.setTextForEdit(message) { newMessage ->
             viewModel.editTextMessage(eventId, args.roomId, newMessage)
         }
@@ -161,9 +164,17 @@ class DMTimelineDialogFragment :
         }
     }
 
-    private fun scrollToTopOnMyNewPostAdded() {
-        binding.rvTimeline.adapter?.itemCount?.let { count ->
-            binding.rvTimeline.layoutManager?.scrollToPosition(count - 1)
+    private fun scrollToBottomOnMyNewPostAdded() {
+        with(binding.rvTimeline) {
+            adapter?.registerAdapterDataObserver(object : AdapterDataObserver() {
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    super.onItemRangeInserted(positionStart, itemCount)
+                    adapter?.itemCount?.let { count ->
+                        layoutManager?.scrollToPosition(count - 1)
+                    }
+                    adapter?.unregisterAdapterDataObserver(this)
+                }
+            })
         }
     }
 
@@ -182,13 +193,19 @@ class DMTimelineDialogFragment :
     }
 
     override fun onSendTextMessageClicked(message: String) {
-        viewModel.sendTextMessageDm(message)
+        if (showNoInternetConnection()) return
+        viewModel.sendTextMessageDm(message) { scrollToBottomOnMyNewPostAdded() }
     }
 
     override fun onSendMediaButtonClicked() {
+        if (showNoInternetConnection()) return
         mediaPickerHelper.showMediaPickerDialog(
-            onImageSelected = { _, uri -> viewModel.sendMediaDm(uri, MediaType.Image) },
-            onVideoSelected = { uri -> viewModel.sendMediaDm(uri, MediaType.Video) }
+            onImageSelected = { _, uri ->
+                viewModel.sendMediaDm(uri, MediaType.Image) { scrollToBottomOnMyNewPostAdded() }
+            },
+            onVideoSelected = { uri ->
+                viewModel.sendMediaDm(uri, MediaType.Video) { scrollToBottomOnMyNewPostAdded() }
+            }
         )
     }
 }
