@@ -5,8 +5,8 @@ import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
@@ -24,7 +24,6 @@ import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
-import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
 
@@ -78,21 +77,22 @@ class DMTimelineViewModel @Inject constructor(
         }
     }
 
-    fun markTimelineAsRead(roomId: String, isGroup: Boolean) {
+    fun markTimelineAsRead(roomId: String) {
+        launchBg { readMessageDataSource.markRoomAsRead(roomId) }
+    }
+
+    fun sendTextMessageDm(message: String, onSent: () -> Unit) {
         launchBg {
-            if (isGroup) readMessageDataSource.markRoomAsRead(roomId)
-            else session?.getRoom(roomId)?.roomSummary()?.spaceChildren?.map {
-                async { readMessageDataSource.markRoomAsRead(it.childRoomId) }
-            }?.awaitAll()
+            sendMessage(roomId, TextPostContent(message))
+            withContext(Dispatchers.Main) { onSent() }
         }
     }
 
-    fun sendTextMessageDm(message: String) {
-        launchBg { sendMessage(roomId, TextPostContent(message)) }
-    }
-
-    fun sendMediaDm(uri: Uri, mediaType: MediaType) {
-        launchBg { sendMessage(roomId, MediaPostContent(null, uri, mediaType)) }
+    fun sendMediaDm(uri: Uri, mediaType: MediaType, onSent: () -> Unit) {
+        launchBg {
+            sendMessage(roomId, MediaPostContent(null, uri, mediaType))
+            withContext(Dispatchers.Main) { onSent() }
+        }
     }
 
     private suspend fun sendMessage(
