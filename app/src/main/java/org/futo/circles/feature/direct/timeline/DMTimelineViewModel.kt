@@ -3,6 +3,7 @@ package org.futo.circles.feature.direct.timeline
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,7 @@ import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.feature.timeline.data_source.TimelineType
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
+import org.futo.circles.core.mapping.toCirclesUserSummary
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
@@ -24,6 +26,7 @@ import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
+import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
 
@@ -47,6 +50,12 @@ class DMTimelineViewModel @Inject constructor(
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
+
+    val userTitleLiveData = getRoomSummaryLive().map {
+        it.getOrNull()?.let { roomSummary ->
+            session.getUserOrDefault(roomSummary.directUserId ?: "").toCirclesUserSummary()
+        }
+    }
 
     fun sharePostContent(content: PostContent) {
         launchBg {

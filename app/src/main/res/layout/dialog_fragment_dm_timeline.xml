@@ -11,9 +11,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="?attr/homeAsUpIndicator"
-        app:subtitleCentered="true"
-        app:titleCentered="true" />
+        app:navigationIcon="?attr/homeAsUpIndicator">
+
+        <org.futo.circles.core.view.UserListItemView
+            android:id="@+id/vUserLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="24dp"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
 
     <View

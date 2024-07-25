@@ -92,10 +92,11 @@ class DMTimelineDialogFragment :
 
 
     private fun setupObservers() {
-        viewModel.titleLiveData.observeData(this) { roomName ->
-            binding.toolbar.apply {
-                title = roomName
-                setOnClickListener { }
+        viewModel.userTitleLiveData.observeData(this) { user ->
+            user ?: return@observeData
+            binding.vUserLayout.apply {
+                bind(user)
+                setOnClickListener { navigator.navigateToUserPage(user.id) }
             }
         }
         viewModel.timelineEventsLiveData.observeData(this) {

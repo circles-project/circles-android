@@ -57,6 +57,7 @@ abstract class BaseTimelineViewModel(
         mapEventsWithVideoUri(context, filteredEvents, videoUris)
     }.flowOn(Dispatchers.IO).distinctUntilChanged().asLiveData()
 
+    fun getRoomSummaryLive() = baseTimelineDataSource.room.getRoomSummaryLive()
     fun getTimelineEventFlow() = baseTimelineDataSource.getTimelineEventFlow(viewModelScope)
 
     private fun getFilterFlow(): Flow<Set<String>> {
