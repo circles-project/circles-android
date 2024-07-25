@@ -1,6 +1,6 @@
 # Circles
 Circles is an end-to-end encrypted social network app that enables
-friendsand families to securely share stories and photos while
+friends and families to securely share stories and photos while
 safeguarding security and privacy.
 
 Join [Circles Matrix room](https://matrix.to/#/!gcbIHWAYBBmvITkQIn:matrix.org?via=matrix.org&via=envs.net&via=tchncs.de) to follow all the latest updates.
