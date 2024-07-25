@@ -5,6 +5,7 @@ import org.futo.circles.core.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemInvitedCircleBinding
+import org.futo.circles.core.databinding.ListItemInvitedDmBinding
 import org.futo.circles.core.databinding.ListItemInvitedGalleryBinding
 import org.futo.circles.core.databinding.ListItemInvitedGroupBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
@@ -130,6 +131,47 @@ class InvitedGalleryViewHolder(
             )
             tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
             tvInviterName.text = context.getString(R.string.invited_by_format, data.inviterName)
+        }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        with(binding) {
+            vLoading.setIsVisible(isLoading)
+            btnAccept.setIsVisible(!isLoading)
+            btnDecline.setIsVisible(!isLoading)
+        }
+    }
+}
+
+
+class InvitedDMViewHolder(
+    parent: ViewGroup,
+    onInviteClicked: (Int, Boolean) -> Unit,
+    onShowProfileIconClicked: (Int) -> Unit
+) : RoomRequestViewHolder(inflate(parent, ListItemInvitedDmBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    private val binding = baseBinding as ListItemInvitedDmBinding
+
+    init {
+        onClick(binding.btnAccept) { position -> onInviteClicked(position, true) }
+        onClick(binding.btnDecline) { position -> onInviteClicked(position, false) }
+        onClick(binding.ivUser) { position -> onShowProfileIconClicked(position) }
+    }
+
+    override fun bind(data: RoomRequestListItem) {
+        if (data !is RoomInviteListItem) return
+        with(binding) {
+            setLoading(data.isLoading)
+            ivUser.loadRoomProfileIcon(
+                data.info.avatarUrl,
+                data.info.title,
+
+            )
+            tvShowProfileImage.setIsVisible(data.shouldBlurIcon)
+            ivLock.setIsEncryptedIcon(data.isEncrypted)
+            tvUserName.text = data.info.title
         }
     }
 

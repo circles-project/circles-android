@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingBottom="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/post_card_background_color"
+        app:cardCornerRadius="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <View
+                android:layout_width="48dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/divider_color" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_info"
+                app:optionName="@string/info" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvReply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_reply"
+                app:optionName="@string/reply" />
+
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvReact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_emoji"
+                app:optionName="@string/react" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_edit"
+                app:optionName="@string/edit" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvShare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_share"
+                app:optionName="@string/share" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvSaveToDevice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_download"
+                app:optionName="@string/save_to_device" />
+
+            <org.futo.circles.core.view.SettingsMenuItemView
+                android:id="@+id/tvDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:optionIcon="@drawable/ic_delete"
+                app:optionName="@string/delete" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

@@ -15,16 +15,15 @@ import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.feature.room.requests.list.RoomRequestsAdapter
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem
+import org.futo.circles.core.model.RoomRequestTypeArg
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 
 @AndroidEntryPoint
-class RoomRequestsDialogFragment :
-    BaseFullscreenDialogFragment<DialogFragmentRoomRequestsBinding>(
-        DialogFragmentRoomRequestsBinding::inflate
-    ) {
+class RoomRequestsDialogFragment : BaseFullscreenDialogFragment<DialogFragmentRoomRequestsBinding>(
+    DialogFragmentRoomRequestsBinding::inflate
+) {
 
     private val args: RoomRequestsDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<RoomRequestsViewModel>()
@@ -59,7 +58,9 @@ class RoomRequestsDialogFragment :
     }
 
     private fun setupObservers() {
-        viewModel.requestsLiveData.observeData(this) { roomRequestsAdapter.submitList(it) }
+        viewModel.requestsLiveData.observeData(this) {
+            roomRequestsAdapter.submitList(it)
+        }
         viewModel.requestResultLiveData.observeResponse(this)
     }
 
@@ -68,9 +69,10 @@ class RoomRequestsDialogFragment :
     private fun getTitle(): String {
         val roomTypeName = getString(
             when (args.type) {
-                CircleRoomTypeArg.Circle -> R.string.circle
-                CircleRoomTypeArg.Group -> R.string.group
-                CircleRoomTypeArg.Photo -> R.string.gallery
+                RoomRequestTypeArg.Circle -> R.string.circle
+                RoomRequestTypeArg.Group -> R.string.group
+                RoomRequestTypeArg.Photo -> R.string.gallery
+                RoomRequestTypeArg.DM -> return getString(R.string.direct_messages_invitations)
             }
         )
         return getString(
@@ -83,9 +85,9 @@ class RoomRequestsDialogFragment :
 
     private fun onInviteClicked(item: RoomInviteListItem, isAccepted: Boolean) {
         if (showNoInternetConnection()) return
-        when (item.roomType) {
-            CircleRoomTypeArg.Circle -> handleCircleInvite(item.id, isAccepted)
-            else -> handleRoomInvite(item.id, isAccepted, item.roomType)
+        when (item.requestType) {
+            RoomRequestTypeArg.Circle -> handleCircleInvite(item.id, isAccepted)
+            else -> handleRoomInvite(item.id, isAccepted, item.requestType)
         }
     }
 
@@ -94,7 +96,7 @@ class RoomRequestsDialogFragment :
         else viewModel.rejectRoomInvite(roomId)
     }
 
-    private fun handleRoomInvite(roomId: String, isAccepted: Boolean, type: CircleRoomTypeArg) {
+    private fun handleRoomInvite(roomId: String, isAccepted: Boolean, type: RoomRequestTypeArg) {
         if (isAccepted) viewModel.acceptRoomInvite(roomId, type)
         else viewModel.rejectRoomInvite(roomId)
     }

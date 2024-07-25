@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Circles</string>
-    <string name="futo">FUTO</string>
     <string name="circles">Circles</string>
     <string name="groups">Groups</string>
     <string name="people">People</string>
@@ -75,6 +74,8 @@
     <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
     <string name="show_more">Show more</string>
     <string name="edit">Edit</string>
+    <string name="reply">Reply</string>
+    <string name="react">React</string>
     <string name="edit_post">Edit post</string>
     <string name="edited_label">(Edited)</string>
     <string name="edit_poll">Edit poll</string>
@@ -96,11 +97,12 @@
     <string name="in_timeline_format">(in %1$s / %2$s)</string>
     <string name="failed_to_send">Failed to send, please try again</string>
     <string name="sending">Sending</string>
+    <string name="direct">Direct</string>
+    <string name="invite_users_for_direct_messages">Invite users for direct messages</string>
+    <string name="in_reply_to_format">In reply to \"%s\":</string>
 
     <string name="changelog">
-- Simplified Sign up flow
-- Fixed crash on Creating new post
-- Onboarding design updates
+- Direct messages
 - Bug fixes and performance improvements
 </string>
 

@@ -17,6 +17,7 @@ import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
+import org.futo.circles.core.feature.timeline.data_source.TimelineType
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.user.UserOptionsDataSource
 import org.futo.circles.core.model.PostContent
@@ -42,7 +43,7 @@ class TimelineViewModel @Inject constructor(
 ) : BaseTimelineViewModel(
     savedStateHandle,
     context,
-    timelineDataSourceFactory.create(savedStateHandle.get<String>("timelineId") != null),
+    timelineDataSourceFactory.create(if (savedStateHandle.get<String>("timelineId") != null) TimelineType.CIRCLE else TimelineType.GROUP),
     circleFilterAccountDataManager
 ) {
 

@@ -28,25 +28,43 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
 import javax.inject.Inject
 
+enum class TimelineType { CIRCLE, GROUP, DM, GALLERY }
 
 abstract class BaseTimelineDataSource(
     savedStateHandle: SavedStateHandle,
-    private val timelineBuilder: BaseTimelineBuilder
+    private val timelineBuilder: BaseTimelineBuilder,
+    private val listDirection: Timeline.Direction
 ) {
 
     class Factory @Inject constructor(
         private val savedStateHandle: SavedStateHandle,
         private val preferencesProvider: PreferencesProvider
     ) {
-        fun create(isMultiTimelines: Boolean): BaseTimelineDataSource =
-            if (isMultiTimelines) MultiTimelinesDataSource(
-                savedStateHandle,
-                MultiTimelineBuilder(preferencesProvider)
-            )
-            else SingleTimelineDataSource(
-                savedStateHandle,
-                SingleTimelineBuilder(preferencesProvider)
-            )
+        fun create(timelineType: TimelineType): BaseTimelineDataSource =
+            when (timelineType) {
+                TimelineType.CIRCLE -> MultiTimelinesDataSource(
+                    savedStateHandle,
+                    MultiTimelineBuilder(preferencesProvider),
+                    Timeline.Direction.BACKWARDS
+                )
+
+                TimelineType.DM -> SingleTimelineDataSource(
+                    savedStateHandle,
+                    SingleTimelineBuilder(preferencesProvider),
+                    Timeline.Direction.FORWARDS
+                )
+
+                TimelineType.GROUP, TimelineType.GALLERY -> {
+                    val threadEventId: String? = savedStateHandle["threadEventId"]
+                    val direction = if (threadEventId != null) Timeline.Direction.FORWARDS
+                    else Timeline.Direction.BACKWARDS
+                    SingleTimelineDataSource(
+                        savedStateHandle,
+                        SingleTimelineBuilder(preferencesProvider),
+                        direction
+                    )
+                }
+            }
     }
 
     protected val roomId: String = savedStateHandle.getOrThrow("roomId")
@@ -56,8 +74,6 @@ abstract class BaseTimelineDataSource(
     val room = session.getRoom(roomId) ?: throw IllegalArgumentException("room is not found")
 
     private val isThread: Boolean = threadEventId != null
-    private val listDirection =
-        if (isThread) Timeline.Direction.FORWARDS else Timeline.Direction.BACKWARDS
 
     private val pageLoadingFlow = MutableStateFlow(false)
 
@@ -95,7 +111,14 @@ abstract class BaseTimelineDataSource(
         startTimeline(viewModelScope, listener)
         awaitClose()
     }.flowOn(Dispatchers.IO)
-        .mapLatest { (roomId, snapshot) -> timelineBuilder.build(roomId, snapshot, isThread) }
+        .mapLatest { (roomId, snapshot) ->
+            timelineBuilder.build(
+                roomId,
+                snapshot,
+                isThread,
+                listDirection
+            )
+        }
         .distinctUntilChanged()
 
     protected abstract fun startTimeline(

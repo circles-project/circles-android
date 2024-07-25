@@ -8,6 +8,7 @@ import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import javax.inject.Inject
 
@@ -19,7 +20,8 @@ class SingleTimelineBuilder @Inject constructor(preferencesProvider: Preferences
     override suspend fun processSnapshot(
         snapshot: List<TimelineEvent>,
         roomId: String,
-        isThread: Boolean
+        isThread: Boolean,
+        listDirection: Timeline.Direction
     ): List<Post> {
         val room =
             MatrixSessionProvider.currentSession?.getRoom(roomId) ?: return currentSnapshotList
@@ -34,7 +36,7 @@ class SingleTimelineBuilder @Inject constructor(preferencesProvider: Preferences
             )
         }
         currentSnapshotList = posts
-        return sortList(posts, isThread)
+        return sortList(posts, listDirection)
     }
 
 }

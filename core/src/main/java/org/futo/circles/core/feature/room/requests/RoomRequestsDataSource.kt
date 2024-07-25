@@ -6,17 +6,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.mapping.toRoomInviteListItem
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.model.RoomRequestHeaderItem
 import org.futo.circles.core.model.RoomRequestListItem
-import org.futo.circles.core.model.convertToStringRoomType
+import org.futo.circles.core.model.RoomRequestTypeArg
+import org.futo.circles.core.model.toRoomTypeString
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getAllDirectMessagesLiveData
 import org.futo.circles.core.utils.getRoomsLiveDataWithType
 import org.futo.circles.core.utils.getRoomsWithType
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -30,32 +32,25 @@ class RoomRequestsDataSource @Inject constructor(
     private val loadingItemsIdsList = MutableStateFlow<Set<String>>(emptySet())
     private val roomIdsToUnblurProfile = MutableStateFlow<Set<String>>(emptySet())
 
-    fun getRequestsFlow(inviteType: CircleRoomTypeArg, roomId: String?) =
-        combine(
-            loadingItemsIdsList,
-            getRequestsFlowNoLoading(inviteType, roomId)
-        ) { loadingIds, items ->
-            items.map { item ->
-                when (item) {
-                    is KnockRequestListItem -> item.copy(isLoading = loadingIds.contains(item.id))
-                    is RoomInviteListItem -> item.copy(isLoading = loadingIds.contains(item.id))
-                    is RoomRequestHeaderItem -> item
-                }
+    fun getRequestsFlow(inviteType: RoomRequestTypeArg, roomId: String?) = combine(
+        loadingItemsIdsList,
+        getRequestsFlowNoLoading(inviteType, roomId)
+    ) { loadingIds, items ->
+        items.map { item ->
+            when (item) {
+                is KnockRequestListItem -> item.copy(isLoading = loadingIds.contains(item.id))
+                is RoomInviteListItem -> item.copy(isLoading = loadingIds.contains(item.id))
+                is RoomRequestHeaderItem -> item
             }
-        }.distinctUntilChanged()
+        }
+    }.distinctUntilChanged()
 
-    private fun getRequestsFlowNoLoading(inviteType: CircleRoomTypeArg, roomId: String?) =
+    private fun getRequestsFlowNoLoading(inviteType: RoomRequestTypeArg, roomId: String?) =
         roomId?.let {
             knockRequestsDataSource.getKnockRequestsListItemsFlow(it, inviteType)
         } ?: run {
-            combine(
-                getRoomInvitesFlow(inviteType),
-                getKnockRequestFlow(inviteType)
-            ) { invites, knocks ->
-                withContext(Dispatchers.IO) {
-                    buildRequestsList(invites, knocks)
-                }
-            }
+            if (inviteType == RoomRequestTypeArg.DM) getDmInvitesFlow()
+            else getRoomInvitesAndKnocksFlow(inviteType)
         }.distinctUntilChanged()
 
     private fun buildRequestsList(
@@ -87,10 +82,10 @@ class RoomRequestsDataSource @Inject constructor(
     }
 
     private fun getRoomInvitesFlow(
-        inviteType: CircleRoomTypeArg
+        inviteType: RoomRequestTypeArg,
+        invitesFlow: Flow<List<RoomSummary>>
     ): Flow<List<RoomInviteListItem>> = combine(
-        getRoomsLiveDataWithType(convertToStringRoomType(inviteType), listOf(Membership.INVITE))
-            .asFlow(),
+        invitesFlow,
         MatrixSessionProvider.getSessionOrThrow().getKnownUsersFlow(),
         roomIdsToUnblurProfile
     ) { roomSummaries, knownUsers, roomIdsToUnblur ->
@@ -103,10 +98,30 @@ class RoomRequestsDataSource @Inject constructor(
         }
     }
 
+    private fun getDmInvitesFlow() = getRoomInvitesFlow(
+        RoomRequestTypeArg.DM,
+        getAllDirectMessagesLiveData(listOf(Membership.INVITE)).asFlow()
+    ).map { buildRequestsList(it, emptyList()) }
 
-    private fun getKnockRequestFlow(inviteType: CircleRoomTypeArg): Flow<List<KnockRequestListItem>> {
+
+    private fun getRoomInvitesAndKnocksFlow(inviteType: RoomRequestTypeArg) = combine(
+        getRoomInvitesFlow(
+            inviteType, getRoomsLiveDataWithType(
+                inviteType.toRoomTypeString(),
+                listOf(Membership.INVITE)
+            ).asFlow()
+        ),
+        getKnockRequestFlow(inviteType)
+    ) { invites, knocks ->
+        withContext(Dispatchers.IO) {
+            buildRequestsList(invites, knocks)
+        }
+    }
+
+
+    private fun getKnockRequestFlow(inviteType: RoomRequestTypeArg): Flow<List<KnockRequestListItem>> {
         val flows = getRoomsWithType(
-            convertToStringRoomType(inviteType), listOf(Membership.JOIN)
+            inviteType.toRoomTypeString(), listOf(Membership.JOIN)
         ).map { knockRequestsDataSource.getKnockRequestsListItemsFlow(it.roomId, inviteType) }
         return combine(flows) { values -> values.toList().flatten() }
     }

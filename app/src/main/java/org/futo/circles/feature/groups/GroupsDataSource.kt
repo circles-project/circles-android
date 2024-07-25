@@ -15,6 +15,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
 
 class GroupsDataSource @Inject constructor() {
+
     fun getGroupsFlow() = combine(
         getGroupsLiveData().asFlow(),
         MatrixSessionProvider.getSessionOrThrow().roomService().getChangeMembershipsLive()

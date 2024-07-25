@@ -2,13 +2,16 @@ package org.futo.circles.mapping
 
 import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.extensions.toRoomInfo
+import org.futo.circles.core.mapping.toCirclesUserSummary
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getJoinedRoomById
 import org.futo.circles.core.utils.getKnocksCount
 import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.model.JoinedCircleListItem
+import org.futo.circles.model.JoinedDMsListItem
 import org.futo.circles.model.JoinedGroupListItem
 import org.matrix.android.sdk.api.session.getRoomSummary
+import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 
@@ -57,4 +60,12 @@ private fun RoomSummary.getCircleUnreadMessagesCount(): Int {
     }
     return unreadInCircle
 }
+
+fun RoomSummary.toJoinedDMListItem() = JoinedDMsListItem(
+    id = roomId,
+    user = MatrixSessionProvider.getSessionOrThrow().getUserOrDefault(directUserId ?: "")
+        .toCirclesUserSummary(),
+    timestamp = latestPreviewableEvent?.root?.originServerTs ?: System.currentTimeMillis(),
+    unreadCount = notificationCount
+)
 

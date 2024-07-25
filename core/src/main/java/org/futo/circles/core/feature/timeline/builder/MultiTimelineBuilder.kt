@@ -9,6 +9,7 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.RoomMemberSummary
+import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import javax.inject.Inject
 
@@ -22,7 +23,8 @@ class MultiTimelineBuilder @Inject constructor(
     override suspend fun processSnapshot(
         snapshot: List<TimelineEvent>,
         roomId: String,
-        isThread: Boolean
+        isThread: Boolean,
+        listDirection: Timeline.Direction
     ): List<Post> {
         val room = MatrixSessionProvider.currentSession?.getRoom(roomId)
             ?: return getCurrentTimelinesPostsList()
@@ -31,7 +33,7 @@ class MultiTimelineBuilder @Inject constructor(
         val receipts = getReadReceipts(room).also { readReceiptMap[roomId] = it }
         currentSnapshotMap[roomId] =
             snapshot.filterRootPostNotFromOwner(isThread, receipts, roomName, roomOwner)
-        return sortList(getCurrentTimelinesPostsList(), isThread)
+        return sortList(getCurrentTimelinesPostsList(), listDirection)
     }
 
     private fun List<TimelineEvent>.filterRootPostNotFromOwner(

@@ -3,9 +3,9 @@ package org.futo.circles.core.feature.room.invite
 import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.Group
+import org.futo.circles.core.model.RoomRequestTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
@@ -20,16 +20,21 @@ class ManageInviteRequestsDataSource @Inject constructor(
             ?.invite(userId, null)
     }
 
-    suspend fun acceptInvite(roomId: String, roomType: CircleRoomTypeArg) = createResult {
+    suspend fun acceptInvite(roomId: String, requestTypeArg: RoomRequestTypeArg) = createResult {
         MatrixSessionProvider.currentSession?.roomService()?.joinRoom(roomId)
-        when (roomType) {
-            CircleRoomTypeArg.Group -> roomRelationsBuilder.setInvitedRoomRelations(roomId, Group())
-            CircleRoomTypeArg.Photo -> roomRelationsBuilder.setInvitedRoomRelations(
+        when (requestTypeArg) {
+            RoomRequestTypeArg.Group -> roomRelationsBuilder.setInvitedRoomRelations(
+                roomId,
+                Group()
+            )
+
+            RoomRequestTypeArg.Photo -> roomRelationsBuilder.setInvitedRoomRelations(
                 roomId,
                 Gallery()
             )
 
-            CircleRoomTypeArg.Circle -> throw IllegalArgumentException("Circle has different relations")
+            RoomRequestTypeArg.DM -> {} // no additional relation required for DM
+            RoomRequestTypeArg.Circle -> throw IllegalArgumentException("Circle has different relations")
         }
     }
 

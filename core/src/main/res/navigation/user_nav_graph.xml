@@ -35,8 +35,8 @@
                 app:nullable="false" />
 
         </action>
-
     </dialog>
+
     <dialog
         android:id="@+id/inviteToFollowMeDialogFragment"
         android:name="org.futo.circles.core.feature.invite_to_follow.InviteToFollowMeDialogFragment"

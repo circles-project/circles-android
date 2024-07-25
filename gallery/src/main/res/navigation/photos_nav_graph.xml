@@ -43,7 +43,7 @@
             <argument
                 android:name="type"
                 android:defaultValue="Photo"
-                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:argType="org.futo.circles.core.model.RoomRequestTypeArg"
                 app:nullable="false" />
 
         </action>

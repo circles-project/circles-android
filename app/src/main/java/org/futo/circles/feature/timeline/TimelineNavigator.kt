@@ -1,9 +1,11 @@
 package org.futo.circles.feature.timeline
 
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.badge.ExperimentalBadgeUtils
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.model.CircleRoomTypeArg
 
+@ExperimentalBadgeUtils
 class TimelineNavigator(private val fragment: TimelineDialogFragment) {
 
     fun navigateToCreatePost(

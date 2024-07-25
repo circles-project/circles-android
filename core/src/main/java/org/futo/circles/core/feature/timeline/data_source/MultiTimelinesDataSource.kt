@@ -1,7 +1,6 @@
 package org.futo.circles.core.feature.timeline.data_source
 
 import androidx.lifecycle.SavedStateHandle
-import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,13 +9,13 @@ import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.Room
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
-import javax.inject.Inject
 
-@ViewModelScoped
-class MultiTimelinesDataSource @Inject constructor(
+//use Factory from BaseDataSource to inject
+class MultiTimelinesDataSource(
     savedStateHandle: SavedStateHandle,
-    timelineBuilder: MultiTimelineBuilder
-) : BaseTimelineDataSource(savedStateHandle, timelineBuilder) {
+    timelineBuilder: MultiTimelineBuilder,
+    listDirection: Timeline.Direction
+) : BaseTimelineDataSource(savedStateHandle, timelineBuilder, listDirection) {
 
     private var timelines: MutableList<Timeline> = mutableListOf()
 
@@ -32,7 +31,9 @@ class MultiTimelinesDataSource @Inject constructor(
     }
 
     override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
-        tryOrNull { timelines.firstOrNull { it.timelineID == timelineId }?.restartWithEventId(null) }
+        tryOrNull {
+            timelines.firstOrNull { it.timelineID == timelineId }?.restartWithEventId(null)
+        }
     }
 
     override fun clearTimeline() {

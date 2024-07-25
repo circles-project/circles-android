@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.mapping.toKnockRequestListItem
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.KnockRequestListItem
+import org.futo.circles.core.model.RoomRequestTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
@@ -25,14 +25,14 @@ class KnockRequestsDataSource @Inject constructor() {
 
     fun getKnockRequestsListItemsFlow(
         roomId: String,
-        roomTypeArg: CircleRoomTypeArg
+        roomRequestTypeArg: RoomRequestTypeArg
     ): Flow<List<KnockRequestListItem>> {
         val powerLevelsFlow = getRoomPowerLevelsFlow(roomId)
         val knockRequestsFlow = getKnockRequestFlow(roomId)
         return combine(powerLevelsFlow, knockRequestsFlow) { powerLevels, knockRequest ->
             if (powerLevels.isCurrentUserAbleToInvite()) {
                 knockRequest.map {
-                    it.toKnockRequestListItem(roomId, roomTypeArg)
+                    it.toKnockRequestListItem(roomId, roomRequestTypeArg)
                 }
             } else {
                 emptyList()
@@ -41,8 +41,9 @@ class KnockRequestsDataSource @Inject constructor() {
     }
 
 
+    // room type does not matter for count
     fun getKnockRequestCountFlow(roomId: String): Flow<Int> =
-        getKnockRequestsListItemsFlow(roomId, CircleRoomTypeArg.Group).map { it.size }
+        getKnockRequestsListItemsFlow(roomId, RoomRequestTypeArg.Group).map { it.size }
 
     private fun getRoomPowerLevelsFlow(roomId: String): Flow<PowerLevelsContent> {
         val session = MatrixSessionProvider.getSessionOrThrow()

@@ -1,0 +1,2 @@
+- Direct messages
+- Bug fixes and performance improvements

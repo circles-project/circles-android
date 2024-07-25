@@ -27,6 +27,9 @@
         android:theme="@style/Theme.Circles"
         tools:ignore="DataExtractionRules"
         tools:targetApi="tiramisu">
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${crashlyticsEnabled}" />
         <activity
             android:name=".settings.feature.active_sessions.verify.qr.QrScannerActivity"
             android:exported="false" />
@@ -54,6 +57,13 @@
                 <data android:pathPrefix="/group" />
                 <data android:pathPrefix="/timeline" />
 
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="circles" android:host="app" android:pathPattern="/dmTimeline/.*" />
             </intent-filter>
 
         </activity>

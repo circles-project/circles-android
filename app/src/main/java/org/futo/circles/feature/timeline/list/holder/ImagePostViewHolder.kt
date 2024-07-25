@@ -16,7 +16,7 @@ class ImagePostViewHolder(
     postOptionsListener: PostOptionsListener,
     isThread: Boolean
 ) : PostViewHolder(inflate(parent, ViewImagePostBinding::inflate), postOptionsListener, isThread),
-    MediaViewHolder {
+    ImageMediaViewHolder {
 
     private companion object : ViewBindingHolder
 
