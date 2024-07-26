@@ -69,9 +69,6 @@ fun getGalleriesLiveData(membershipFilter: List<Membership> = Membership.activeM
 fun getGalleries(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsWithType(GALLERY_TYPE, membershipFilter)
 
-fun getSpacesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
-    getRoomsLiveDataWithType(spaceType, membershipFilter)
-
 fun getTimelinesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsLiveDataWithType(TIMELINE_TYPE, membershipFilter)
 

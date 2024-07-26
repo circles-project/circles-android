@@ -12,12 +12,11 @@ data class CirclesHeaderItem(
 
 data class JoinedCircleListItem(
     override val id: String,
-    val timelineId: String,
     val info: RoomInfo,
-    val followingCount: Int,
-    val followedByCount: Int,
+    val followersCount: Int,
     val unreadCount: Int,
-    val knockRequestsCount: Int
+    val knockRequestsCount: Int,
+    val timestamp: Long
 ) : CircleListItem()
 
 data class CircleInvitesNotificationListItem(
@@ -26,4 +25,3 @@ data class CircleInvitesNotificationListItem(
 ) : CircleListItem() {
     override val id: String = "CircleInvitesNotificationListItem"
 }
-
