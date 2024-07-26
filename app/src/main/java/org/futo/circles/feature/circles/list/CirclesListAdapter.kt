@@ -16,10 +16,10 @@ class CirclesListAdapter(
 ) : BaseRvAdapter<CircleListItem, CirclesViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedCircleListItem && old is JoinedCircleListItem) {
         CircleListItemPayload(
-            followersCount = new.followingCount.takeIf { it != old.followingCount },
-            followedByCount = new.followedByCount.takeIf { it != old.followedByCount },
+            followersCount = new.followersCount.takeIf { it != old.followersCount || new.knockRequestsCount != old.knockRequestsCount },
+            knocksCount = new.knockRequestsCount.takeIf { it != old.knockRequestsCount || new.followersCount != old.followersCount },
+            timestamp = new.timestamp.takeIf { it != old.timestamp },
             unreadCount = new.unreadCount.takeIf { it != old.unreadCount },
-            knocksCount = new.knockRequestsCount.takeIf { it != old.knockRequestsCount },
             needUpdateFullItem = new.info.title != old.info.title || new.info.avatarUrl != old.info.avatarUrl
         )
     } else null

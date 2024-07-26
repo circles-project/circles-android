@@ -132,6 +132,11 @@
         <item quantity="other">%d members</item>
     </plurals>
 
+    <plurals name="followers_plurals">
+        <item quantity="one">%d follower</item>
+        <item quantity="other">%d followers</item>
+    </plurals>
+
     <plurals name="request_plurals">
         <item quantity="one">%d request</item>
         <item quantity="other">%d requests</item>
