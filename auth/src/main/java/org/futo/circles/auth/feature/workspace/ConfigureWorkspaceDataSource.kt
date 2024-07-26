@@ -5,10 +5,8 @@ import org.futo.circles.auth.model.WorkspaceTask
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
-import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.model.PROFILE_SPACE_ACCOUNT_DATA_KEY
-import org.futo.circles.core.model.SharedCirclesSpace
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getAllJoinedCirclesRoomsAndSpaces
 import org.futo.circles.core.utils.getJoinedRoomById
@@ -37,7 +35,6 @@ class ConfigureWorkspaceDataSource @Inject constructor(
             val parentRoomId =
                 room.parentAccountDataKey?.let { spacesTreeAccountDataSource.getRoomIdByKey(it) }
             parentRoomId?.let { roomRelationsBuilder.setRelations(roomId, parentRoomId) }
-            removeSharedCirclesToMyCirclesRelationIfNeeded(room, roomId)
         }
     }
 
@@ -109,17 +106,5 @@ class ConfigureWorkspaceDataSource @Inject constructor(
             spacesTreeAccountDataSource.updateSpacesConfigAccountData(key, roomId)
         }
         return roomId
-    }
-
-    //part of Shared Circles from My Circles to Root migration
-    private suspend fun removeSharedCirclesToMyCirclesRelationIfNeeded(
-        circlesRoom: CirclesRoom,
-        roomId: String
-    ) {
-        if (circlesRoom !is SharedCirclesSpace) return
-        val myCirclesSpaceId =
-            spacesTreeAccountDataSource.getRoomIdByKey(CIRCLES_SPACE_ACCOUNT_DATA_KEY) ?: return
-        roomRelationsBuilder.removeRelations(roomId, myCirclesSpaceId)
-
     }
 }
