@@ -13,8 +13,8 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.model.Circle
 import org.futo.circles.core.model.ResLoadingData
+import org.futo.circles.core.model.Timeline
 import javax.inject.Inject
 
 @HiltViewModel
@@ -72,7 +72,7 @@ class SetupCirclesViewModel @Inject constructor(
     private fun getAllWorkspaceTask(): List<WorkspaceTask> {
         val tasks = workspaceTasksProvider.getMandatoryTasks().map { WorkspaceTask(it) }
         val circlesTasks = (circlesLiveData.value ?: emptyList()).map {
-            WorkspaceTask(Circle(), it.name, it.uri)
+            WorkspaceTask(Timeline(), it.name, it.uri)
         }
         return tasks + circlesTasks
     }
