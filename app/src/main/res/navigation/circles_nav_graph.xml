@@ -20,11 +20,6 @@
                 app:argType="string"
                 app:nullable="false" />
 
-            <argument
-                android:name="timelineId"
-                app:argType="string"
-                app:nullable="false" />
-
         </action>
 
         <action
