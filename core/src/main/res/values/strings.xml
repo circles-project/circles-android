@@ -27,7 +27,7 @@
     <string name="photos">Photos</string>
     <string name="loading">Loading</string>
     <string name="root_space_name">Circles</string>
-    <string name="circles_space_name">My Circles</string>
+    <string name="timelines_space_name">My Timelines</string>
     <string name="shared_circles">Shared Circles</string>
     <string name="photos_space_name">My Photo Galleries</string>
     <string name="groups_space_name">My Groups</string>
