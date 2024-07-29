@@ -6,7 +6,6 @@ import org.futo.circles.core.feature.room.select.SelectRoomsFragment
 import org.futo.circles.core.feature.room.select.interfaces.RoomsPicker
 import org.futo.circles.core.feature.share.BaseShareActivity
 import org.futo.circles.core.model.SelectRoomTypeArg
-import org.futo.circles.core.utils.getTimelineRoomFor
 
 @AndroidEntryPoint
 class ShareWithCircleActivity : BaseShareActivity() {
@@ -16,7 +15,6 @@ class ShareWithCircleActivity : BaseShareActivity() {
     override val roomsPicker: RoomsPicker =
         SelectRoomsFragment.create(SelectRoomTypeArg.CirclesJoined)
 
-    override fun getShareRoomsIds(): List<String> =
-        roomsPicker.getSelectedRooms().mapNotNull { getTimelineRoomFor(it.id)?.roomId }
+    override fun getShareRoomsIds(): List<String> = roomsPicker.getSelectedRooms().map { it.id }
 
 }
