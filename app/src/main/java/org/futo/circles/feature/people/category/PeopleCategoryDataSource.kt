@@ -5,22 +5,17 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import org.futo.circles.core.extensions.getKnownUsersFlow
 import org.futo.circles.core.extensions.getRoomOwner
-import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
-import org.futo.circles.core.model.CIRCLES_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getJoinedRoomById
-import org.futo.circles.core.utils.getTimelineRoomFor
+import org.futo.circles.core.utils.getTimelines
 import org.futo.circles.mapping.toPeopleIgnoredListItem
 import org.futo.circles.mapping.toPeopleUserListItem
 import org.futo.circles.model.PeopleCategoryTypeArg
 import org.matrix.android.sdk.api.session.getUserOrDefault
-import org.matrix.android.sdk.api.session.room.model.RoomSummary
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.user.model.User
 import javax.inject.Inject
 
-class PeopleCategoryDataSource @Inject constructor(
-    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource
-) {
+class PeopleCategoryDataSource @Inject constructor() {
 
     private val session = MatrixSessionProvider.getSessionOrThrow()
 
@@ -48,23 +43,18 @@ class PeopleCategoryDataSource @Inject constructor(
 
     //All the joined members (except me) in all of my circle timeline rooms
     fun getFollowers(): List<User> {
-        val myCirclesSpace = getMyCirclesSpaceSummary() ?: return emptyList()
-        val myTimelinesFollowersIds = myCirclesSpace.spaceChildren?.mapNotNull {
-            getTimelineRoomFor(it.childRoomId)?.roomSummary()?.otherMemberIds
-        }?.flatMap { it.toList() }?.toSet() ?: emptyList()
-
+        val myTimelinesFollowersIds = getTimelines(listOf(Membership.JOIN))
+            .filter { getRoomOwner(it.roomId)?.userId == session.myUserId }
+            .map { it.otherMemberIds }
+            .flatMap { it.toList() }.toSet()
         return myTimelinesFollowersIds.map { session.getUserOrDefault(it) }
     }
 
     //All the creators of all the timeline rooms that I'm following in my circles
     fun getPeopleImFollowing(): List<User> {
-        val myCirclesSpace = getMyCirclesSpaceSummary() ?: return emptyList()
-        val peopleIamFollowingIds = myCirclesSpace.spaceChildren?.mapNotNull {
-            getJoinedRoomById(it.childRoomId)?.roomSummary()?.spaceChildren?.mapNotNull {
-                getRoomOwner(it.childRoomId)?.userId?.takeIf { it != session.myUserId }
-            }
-        }?.flatMap { it.toList() }?.toSet() ?: emptyList()
-
+        val peopleIamFollowingIds = getTimelines(listOf(Membership.JOIN))
+            .mapNotNull { getRoomOwner(it.roomId)?.userId?.takeIf { it != session.myUserId } }
+            .toSet()
         return peopleIamFollowingIds.map { session.getUserOrDefault(it) }
     }
 
@@ -81,12 +71,5 @@ class PeopleCategoryDataSource @Inject constructor(
             knownIds - followersUsersIds.toSet() - followingUsersIds.toSet()
 
         return otherMemberIds.map { session.getUserOrDefault(it) }
-    }
-
-    private fun getMyCirclesSpaceSummary(): RoomSummary? {
-        val circlesSpaceId = spacesTreeAccountDataSource.getRoomIdByKey(
-            CIRCLES_SPACE_ACCOUNT_DATA_KEY
-        ) ?: ""
-        return getJoinedRoomById(circlesSpaceId)?.roomSummary()
     }
 }

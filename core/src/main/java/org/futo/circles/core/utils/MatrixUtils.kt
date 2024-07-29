@@ -72,6 +72,9 @@ fun getGalleries(membershipFilter: List<Membership> = Membership.activeMembershi
 fun getTimelinesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsLiveDataWithType(TIMELINE_TYPE, membershipFilter)
 
+fun getTimelines(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+    getRoomsWithType(TIMELINE_TYPE, membershipFilter)
+
 fun getAllDirectMessagesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     MatrixSessionProvider.getSessionOrThrow().roomService()
         .getRoomSummariesLive(roomSummaryQueryParams {
