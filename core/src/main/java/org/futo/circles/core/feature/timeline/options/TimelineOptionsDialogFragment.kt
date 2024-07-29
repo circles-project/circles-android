@@ -79,7 +79,7 @@ class TimelineOptionsDialogFragment :
                             CircleRoomTypeArg.Photo -> DeleteGallery()
                         }
                     ) {
-                        viewModel.delete(args.type)
+                        viewModel.delete()
                     }
                 }
             }

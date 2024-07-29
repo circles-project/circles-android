@@ -12,7 +12,6 @@ import org.futo.circles.core.feature.room.RoomNotificationsDataSource
 import org.futo.circles.core.feature.room.leave.LeaveRoomDataSource
 import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
@@ -39,13 +38,9 @@ class TimelineOptionsViewModel @Inject constructor(
     val roomSummaryLiveData =
         MatrixSessionProvider.getSessionOrThrow().getRoom(roomId)?.getRoomSummaryLive()
 
-    fun delete(type: CircleRoomTypeArg) {
+    fun delete() {
         launchBg {
-            val result = when (type) {
-                CircleRoomTypeArg.Circle -> leaveRoomDataSource.deleteCircle()
-                CircleRoomTypeArg.Group -> leaveRoomDataSource.deleteGroup()
-                CircleRoomTypeArg.Photo -> leaveRoomDataSource.deleteGallery()
-            }
+            val result = leaveRoomDataSource.deleteRoom()
             leaveDeleteEventLiveData.postValue(result)
         }
     }
