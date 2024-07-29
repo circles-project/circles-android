@@ -31,7 +31,6 @@ import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.sync.SyncState
 
 
@@ -74,10 +73,12 @@ class HomeFragment :
         val roomId = activity?.intent?.getStringExtra(roomIdParam) ?: return
         val summary = MatrixSessionProvider.currentSession?.getRoomSummary(roomId) ?: return
 
-        val requestType = if (summary.roomType == GROUP_TYPE) RoomRequestTypeArg.Group
-        else if (summary.roomType == TIMELINE_TYPE) RoomRequestTypeArg.Circle
-        else if (summary.roomType == null) RoomRequestTypeArg.DM
-        else return
+        val requestType = when (summary.roomType) {
+            GROUP_TYPE -> RoomRequestTypeArg.Group
+            TIMELINE_TYPE -> RoomRequestTypeArg.Circle
+            null -> RoomRequestTypeArg.DM
+            else -> return
+        }
 
         with(binding.bottomNavigationView) {
             post {
@@ -91,7 +92,7 @@ class HomeFragment :
 
         when (summary.membership) {
             Membership.INVITE -> handleInviteNotificationOpen(requestType)
-            Membership.JOIN -> handlePostNotificationOpen(summary)
+            Membership.JOIN -> handlePostNotificationOpen(requestType, summary.roomId)
             else -> return
         }
         activity?.intent?.removeExtra(roomIdParam)
@@ -103,10 +104,14 @@ class HomeFragment :
         }
     }
 
-    private fun handlePostNotificationOpen(summary: RoomSummary) {
-        binding.bottomNavigationView.post {
-            findNavController().navigateSafe(HomeFragmentDirections.toTimeline(summary.roomId))
+    private fun handlePostNotificationOpen(requestType: RoomRequestTypeArg, roomId: String) {
+        val direction = when (requestType) {
+            RoomRequestTypeArg.Circle -> HomeFragmentDirections.toTimeline(roomId, true)
+            RoomRequestTypeArg.Group -> HomeFragmentDirections.toTimeline(roomId, false)
+            else -> HomeFragmentDirections.toDmTimeline(roomId)
         }
+
+        binding.bottomNavigationView.post { findNavController().navigateSafe(direction) }
     }
 
     private fun handleOpenFromShareRoomUrl() {
