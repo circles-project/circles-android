@@ -30,12 +30,6 @@ class TimelineOptionsNavigator(private val fragment: TimelineOptionsDialogFragme
         )
     }
 
-    fun navigateToFollowing(roomId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineOptionsDialogFragmentDirections.toFollowingDialogFragment(roomId)
-        )
-    }
-
 
     fun navigateToStateEvents(roomId: String) {
         fragment.findNavController()

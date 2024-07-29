@@ -194,15 +194,6 @@
                 app:optionIcon="@drawable/ic_outline_people"
                 app:optionName="@string/my_followers" />
 
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvPeopleImFollowing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_round_people"
-                app:optionName="@string/people_i_m_following" />
-
-
             <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvInviteMembers"
                 android:layout_width="match_parent"

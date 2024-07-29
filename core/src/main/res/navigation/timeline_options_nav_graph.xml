@@ -95,16 +95,6 @@
         </action>
 
         <action
-            android:id="@+id/to_followingDialogFragment"
-            app:destination="@id/followingDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
-        <action
             android:id="@+id/to_roomRequests"
             app:destination="@id/room_requests_nav_graph">
 
@@ -164,18 +154,6 @@
         android:id="@+id/inviteMembersDialogFragment"
         android:name="org.futo.circles.core.feature.room.invite.InviteMembersDialogFragment"
         tools:layout="@layout/dialog_fragment_invite_members">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-    </dialog>
-    <dialog
-        android:id="@+id/followingDialogFragment"
-        android:name="org.futo.circles.core.feature.circles.following.FollowingDialogFragment"
-        android:label="FollowingDialogFragment"
-        tools:layout="@layout/dialog_fragment_following">
 
         <argument
             android:name="roomId"
