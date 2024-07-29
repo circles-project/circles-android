@@ -17,15 +17,9 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         )
     }
 
-    fun navigateToTimelineOptions(roomId: String, type: CircleRoomTypeArg, timelineId: String?) {
+    fun navigateToTimelineOptions(roomId: String, type: CircleRoomTypeArg) {
         fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toTimelineOptions(roomId, type, timelineId)
-        )
-    }
-
-    fun navigateToTimelinesFilter(roomId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toFilterTimelinesDialogFragment(roomId)
+            TimelineDialogFragmentDirections.toTimelineOptions(roomId, type)
         )
     }
 

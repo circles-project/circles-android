@@ -13,7 +13,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     id = roomId,
-    info = toRoomInfo(false),
+    info = toRoomInfo(),
     topic = topic,
     isEncrypted = isEncrypted,
     membersCount = joinedMembersCount ?: 0,
@@ -25,7 +25,7 @@ fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
 fun RoomSummary.toJoinedCircleListItem() =
     JoinedCircleListItem(
         id = roomId,
-        info = toRoomInfo(true),
+        info = toRoomInfo(),
         followersCount = joinedMembersCount?.takeIf { it > 0 }?.let { it - 1 } ?: 0,
         unreadCount = notificationCount,
         knockRequestsCount = getKnocksCount(roomId),

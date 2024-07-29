@@ -37,7 +37,6 @@ import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
 import org.futo.circles.model.RemovePost
 import org.futo.circles.view.CreatePostViewListener
-import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
@@ -109,11 +108,11 @@ class TimelineDialogFragment :
         }
         binding.lCreatePost.setUp(object : CreatePostViewListener {
             override fun onCreatePoll() {
-                navigator.navigateToCreatePoll(args.timelineId ?: args.roomId)
+                navigator.navigateToCreatePoll(args.roomId)
             }
 
             override fun onCreatePost() {
-                navigator.navigateToCreatePost(args.timelineId ?: args.roomId, args.threadEventId)
+                navigator.navigateToCreatePost(args.roomId, args.threadEventId)
             }
         }, binding.rvTimeline.getRecyclerView(), isThread)
 
@@ -140,7 +139,6 @@ class TimelineDialogFragment :
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     org.futo.circles.core.R.id.settings -> navigateToTimelineOptions()
-                    org.futo.circles.core.R.id.filter -> navigator.navigateToTimelinesFilter(args.roomId)
                 }
                 return@setOnMenuItemClickListener true
             }
@@ -156,11 +154,6 @@ class TimelineDialogFragment :
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
             viewModel.markTimelineAsRead(args.roomId, isGroupMode)
-        }
-        viewModel.isFilterActiveLiveData.observeData(this) {
-            val menuItem =
-                tryOrNull { binding.toolbar.menu.findItem(org.futo.circles.core.R.id.filter) }
-            menuItem?.isVisible = it
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =
@@ -181,7 +174,7 @@ class TimelineDialogFragment :
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
 
-        viewModel.profileLiveData?.observeData(this) {user->
+        viewModel.profileLiveData?.observeData(this) { user ->
             user.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
         }
         viewModel.knockRequestCountLiveData.observeData(this) {
@@ -272,7 +265,7 @@ class TimelineDialogFragment :
 
     private fun navigateToTimelineOptions() {
         val type = if (isGroupMode) CircleRoomTypeArg.Group else CircleRoomTypeArg.Circle
-        navigator.navigateToTimelineOptions(args.roomId, type, args.timelineId)
+        navigator.navigateToTimelineOptions(args.roomId, type)
     }
 
     private fun scrollToTopOnMyNewPostAdded() {

@@ -51,30 +51,6 @@
 
     <include app:graph="@navigation/timeline_nav_graph" />
 
-    <dialog
-        android:id="@+id/acceptCircleInviteDialogFragment"
-        android:name="org.futo.circles.feature.circles.accept_invite.AcceptCircleInviteDialogFragment"
-        tools:layout="@layout/dialog_fragment_accept_circle_invite">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-
-        <action
-            android:id="@+id/to_createCircleDialogFragment"
-            app:destination="@id/create_room_nav_graph">
-
-            <argument
-                android:name="type"
-                android:defaultValue="Circle"
-                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
-                app:nullable="false" />
-
-        </action>
-
-    </dialog>
-
     <include app:graph="@navigation/room_requests_nav_graph" />
 
     <include app:graph="@navigation/create_room_nav_graph" />
