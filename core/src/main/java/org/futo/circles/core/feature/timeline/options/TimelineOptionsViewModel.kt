@@ -26,14 +26,12 @@ class TimelineOptionsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val timelineId: String? = savedStateHandle["timelineId"]
 
     val leaveDeleteEventLiveData = SingleEventLiveData<Response<Unit?>>()
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
-    val knockRequestCountLiveData = knockRequestsDataSource.getKnockRequestCountFlow(
-        timelineId ?: roomId
-    ).asLiveData()
+    val knockRequestCountLiveData =
+        knockRequestsDataSource.getKnockRequestCountFlow(roomId).asLiveData()
 
     val roomSummaryLiveData =
         MatrixSessionProvider.getSessionOrThrow().getRoom(roomId)?.getRoomSummaryLive()
