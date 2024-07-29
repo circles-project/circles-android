@@ -11,7 +11,6 @@ import kotlinx.coroutines.withContext
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.feature.timeline.data_source.TimelineType
@@ -37,13 +36,11 @@ class DMTimelineViewModel @Inject constructor(
     timelineDataSourceFactory: BaseTimelineDataSource.Factory,
     private val postOptionsDataSource: PostOptionsDataSource,
     private val readMessageDataSource: ReadMessageDataSource,
-    circleFilterAccountDataManager: CircleFilterAccountDataManager,
     private val sendMessageDataSource: SendMessageDataSource
 ) : BaseTimelineViewModel(
     savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineType.DM),
-    circleFilterAccountDataManager
+    timelineDataSourceFactory.create(TimelineType.DM)
 ) {
 
     val session = MatrixSessionProvider.currentSession

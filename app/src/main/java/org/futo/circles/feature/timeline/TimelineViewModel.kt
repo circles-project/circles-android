@@ -11,7 +11,6 @@ import kotlinx.coroutines.awaitAll
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.room.RoomNotificationsDataSource
 import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
@@ -39,12 +38,10 @@ class TimelineViewModel @Inject constructor(
     private val postOptionsDataSource: PostOptionsDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
     private val readMessageDataSource: ReadMessageDataSource,
-    circleFilterAccountDataManager: CircleFilterAccountDataManager
 ) : BaseTimelineViewModel(
     savedStateHandle,
     context,
     timelineDataSourceFactory.create(if (savedStateHandle.get<String>("timelineId") != null) TimelineType.CIRCLE else TimelineType.GROUP),
-    circleFilterAccountDataManager
 ) {
 
     val session = MatrixSessionProvider.currentSession
@@ -55,9 +52,8 @@ class TimelineViewModel @Inject constructor(
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
-    val knockRequestCountLiveData = knockRequestsDataSource.getKnockRequestCountFlow(
-        timelineId ?: roomId
-    ).asLiveData()
+    val knockRequestCountLiveData =
+        knockRequestsDataSource.getKnockRequestCountFlow(roomId).asLiveData()
 
 
     fun sharePostContent(content: PostContent, view: View) {

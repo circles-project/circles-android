@@ -124,14 +124,6 @@
 
 
             <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvFilterTimelines"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_filter"
-                app:optionName="@string/filter_timelines" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvManageMembers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

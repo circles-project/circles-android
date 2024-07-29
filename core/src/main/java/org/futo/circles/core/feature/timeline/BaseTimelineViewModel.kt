@@ -2,17 +2,14 @@ package org.futo.circles.core.feature.timeline
 
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -21,7 +18,6 @@ import kotlinx.coroutines.flow.update
 import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.toRoomInfo
-import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
@@ -33,59 +29,29 @@ import org.futo.circles.core.utils.FileUtils
 abstract class BaseTimelineViewModel(
     savedStateHandle: SavedStateHandle,
     @ApplicationContext context: Context,
-    private val baseTimelineDataSource: BaseTimelineDataSource,
-    private val filterAccountDataManager: CircleFilterAccountDataManager
+    private val baseTimelineDataSource: BaseTimelineDataSource
 ) : ViewModel() {
 
     protected val roomId: String = savedStateHandle.getOrThrow("roomId")
-    protected val timelineId: String? = savedStateHandle["timelineId"]
 
     val titleLiveData =
         baseTimelineDataSource.room.getRoomSummaryLive().map {
-            it.getOrNull()?.toRoomInfo(timelineId != null)?.title ?: ""
+            it.getOrNull()?.toRoomInfo()?.title ?: ""
         }
 
-    val isFilterActiveLiveData = MutableLiveData(false)
     private val prefetchedVideoUriFlow = MutableStateFlow<Map<String, Uri>>(emptyMap())
 
     val timelineEventsLiveData = combine(
         getTimelineEventFlow(),
-        getFilterFlow(),
         prefetchedVideoUriFlow
-    ) { events, selectedRoomIds, videoUris ->
-        val filteredEvents = applyTimelinesFilter(events, selectedRoomIds)
-        mapEventsWithVideoUri(context, filteredEvents, videoUris)
+    ) { events, videoUris ->
+        mapEventsWithVideoUri(context, events, videoUris)
     }.flowOn(Dispatchers.IO).distinctUntilChanged().asLiveData()
 
     fun getRoomSummaryLive() = baseTimelineDataSource.room.getRoomSummaryLive()
+
     fun getTimelineEventFlow() = baseTimelineDataSource.getTimelineEventFlow(viewModelScope)
 
-    private fun getFilterFlow(): Flow<Set<String>> {
-        timelineId ?: return MutableStateFlow(emptySet())
-
-        return filterAccountDataManager.getCircleFilterLive(roomId)?.map { optionalEvent ->
-            filterAccountDataManager.getEventContentAsSet(
-                optionalEvent.getOrNull()?.content,
-                roomId
-            )
-        }?.asFlow() ?: MutableStateFlow(emptySet())
-    }
-
-    private fun applyTimelinesFilter(
-        events: List<PostListItem>,
-        selectedRoomIds: Set<String>
-    ): List<PostListItem> {
-        val isActive = isFilterActive(selectedRoomIds)
-        isFilterActiveLiveData.postValue(isActive)
-        return if (isActive) events.filter { selectedRoomIds.contains((it as? Post)?.postInfo?.roomId) }
-        else events
-    }
-
-    private fun isFilterActive(selectedRoomIds: Set<String>): Boolean {
-        timelineId ?: return false
-        if (selectedRoomIds.isEmpty()) return false
-        return selectedRoomIds.size != filterAccountDataManager.getAllTimelinesIds(roomId).size
-    }
 
     private fun mapEventsWithVideoUri(
         context: Context,

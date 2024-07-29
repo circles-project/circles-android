@@ -17,27 +17,10 @@
             app:nullable="false" />
 
         <argument
-            android:name="timelineId"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-
-        <argument
             android:name="threadEventId"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
-
-        <action
-            android:id="@+id/to_filterTimelinesDialogFragment"
-            app:destination="@id/filter_timelines_nav_graph">
-
-            <argument
-                android:name="circleId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
 
         <action
             android:id="@+id/to_createPostBottomSheet"
@@ -157,12 +140,6 @@
                 android:name="type"
                 app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
-
-            <argument
-                android:name="timelineId"
-                app:argType="string"
-                app:nullable="true" />
-
         </action>
         <action
             android:id="@+id/to_postMenuBottomSheet"
@@ -388,7 +365,5 @@
 
         </action>
     </dialog>
-
-    <include app:graph="@navigation/filter_timelines_nav_graph" />
 
 </navigation>

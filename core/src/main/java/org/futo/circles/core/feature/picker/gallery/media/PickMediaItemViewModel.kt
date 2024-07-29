@@ -8,7 +8,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
@@ -25,13 +24,11 @@ import javax.inject.Inject
 class PickMediaItemViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @ApplicationContext context: Context,
-    timelineDataSourceFactory: BaseTimelineDataSource.Factory,
-    circleFilterAccountDataManager: CircleFilterAccountDataManager
+    timelineDataSourceFactory: BaseTimelineDataSource.Factory
 ) : BaseTimelineViewModel(
     savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineType.GALLERY),
-    circleFilterAccountDataManager
+    timelineDataSourceFactory.create(TimelineType.GALLERY)
 ) {
 
     private val isVideoAvailable: Boolean = savedStateHandle[IS_VIDEO_AVAILABLE] ?: true

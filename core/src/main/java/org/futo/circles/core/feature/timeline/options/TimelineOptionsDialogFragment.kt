@@ -36,8 +36,6 @@ class TimelineOptionsDialogFragment :
     private val args: TimelineOptionsDialogFragmentArgs by navArgs()
 
     private val viewModel by viewModels<TimelineOptionsViewModel>()
-
-    private val timelineId by lazy { args.timelineId ?: args.roomId }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { TimelineOptionsNavigator(this) }
 
@@ -87,7 +85,7 @@ class TimelineOptionsDialogFragment :
             }
             tvStateEvents.apply {
                 setIsVisible(preferencesProvider.isDeveloperModeEnabled())
-                setOnClickListener { navigator.navigateToStateEvents(timelineId) }
+                setOnClickListener { navigator.navigateToStateEvents(args.roomId) }
             }
             tvInviteMembers.apply {
                 setText(
@@ -96,10 +94,10 @@ class TimelineOptionsDialogFragment :
                         else R.string.invite_members
                     )
                 )
-                setOnClickListener { navigator.navigateToInviteMembers(timelineId) }
+                setOnClickListener { navigator.navigateToInviteMembers(args.roomId) }
             }
             tvKnockRequests.setOnClickListener {
-                navigator.navigateToRequestForInvite(args.type, timelineId)
+                navigator.navigateToRequestForInvite(args.type, args.roomId)
             }
             tvLeave.apply {
                 setIsVisible(args.type != CircleRoomTypeArg.Circle)
@@ -111,18 +109,14 @@ class TimelineOptionsDialogFragment :
                 )
                 setOnClickListener { showLeaveRoomDialog() }
             }
-            tvShare.setOnClickListener { navigator.navigateToShareRoom(timelineId, args.type) }
+            tvShare.setOnClickListener { navigator.navigateToShareRoom(args.roomId, args.type) }
             tvManageMembers.apply {
                 setIsVisible(args.type != CircleRoomTypeArg.Circle)
-                setOnClickListener { navigator.navigateToManageMembers(timelineId, args.type) }
+                setOnClickListener { navigator.navigateToManageMembers(args.roomId, args.type) }
             }
             tvMyFollowers.apply {
                 setIsVisible(args.type == CircleRoomTypeArg.Circle)
-                setOnClickListener { navigator.navigateToManageMembers(timelineId, args.type) }
-            }
-            tvFilterTimelines.apply {
-                setIsVisible(args.type == CircleRoomTypeArg.Circle)
-                setOnClickListener { navigator.navigateFilterTimelines(args.roomId) }
+                setOnClickListener { navigator.navigateToManageMembers(args.roomId, args.type) }
             }
         }
     }
@@ -147,7 +141,7 @@ class TimelineOptionsDialogFragment :
         }
         viewModel.roomSummaryLiveData?.observeData(this) {
             it.getOrNull()?.let { room ->
-                val roomInfo = room.toRoomInfo(args.type == CircleRoomTypeArg.Circle)
+                val roomInfo = room.toRoomInfo()
                 binding.ivCover.loadRoomProfileIcon(
                     roomInfo.avatarUrl,
                     roomInfo.title
