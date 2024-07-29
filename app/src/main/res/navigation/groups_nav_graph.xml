@@ -20,6 +20,12 @@
                 app:argType="string"
                 app:nullable="false" />
 
+            <argument
+                android:name="isCircle"
+                android:defaultValue="false"
+                app:argType="boolean"
+                app:nullable="false" />
+
         </action>
 
         <action

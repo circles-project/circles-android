@@ -17,6 +17,12 @@
             app:nullable="false" />
 
         <argument
+            android:name="isCircle"
+            android:defaultValue="false"
+            app:argType="boolean"
+            app:nullable="false" />
+
+        <argument
             android:name="threadEventId"
             android:defaultValue="@null"
             app:argType="string"
@@ -121,9 +127,8 @@
                 app:nullable="false" />
 
             <argument
-                android:name="type"
-                android:defaultValue="Group"
-                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                android:name="isCircle"
+                app:argType="boolean"
                 app:nullable="false" />
 
         </action>

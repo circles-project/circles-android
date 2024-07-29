@@ -49,7 +49,6 @@ class TimelineDialogFragment :
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
 
-    private val isGroupMode by lazy { args.timelineId == null }
     private val isThread by lazy { args.threadEventId != null }
 
     private val videoPlayer by lazy {
@@ -153,7 +152,7 @@ class TimelineDialogFragment :
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
-            viewModel.markTimelineAsRead(args.roomId, isGroupMode)
+            viewModel.markTimelineAsRead(args.roomId)
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =
@@ -211,7 +210,7 @@ class TimelineDialogFragment :
 
     override fun onReply(roomId: String, eventId: String) {
         if (isThread) return
-        navigator.navigateToThread(roomId, eventId)
+        navigator.navigateToThread(roomId, eventId, args.isCircle)
     }
 
     override fun onShare(content: PostContent, view: View) {
@@ -264,7 +263,7 @@ class TimelineDialogFragment :
     }
 
     private fun navigateToTimelineOptions() {
-        val type = if (isGroupMode) CircleRoomTypeArg.Group else CircleRoomTypeArg.Circle
+        val type = if (args.isCircle) CircleRoomTypeArg.Circle else CircleRoomTypeArg.Group
         navigator.navigateToTimelineOptions(args.roomId, type)
     }
 
@@ -279,8 +278,8 @@ class TimelineDialogFragment :
     }
 
     private fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
-        if (isGroupMode) onGroupUserAccessLevelChanged(powerLevelsContent)
-        else onCircleUserAccessLeveChanged(powerLevelsContent)
+        if (args.isCircle) onCircleUserAccessLeveChanged(powerLevelsContent)
+        else onGroupUserAccessLevelChanged(powerLevelsContent)
     }
 
     private fun showErrorIfNotAbleToPost(): Boolean {

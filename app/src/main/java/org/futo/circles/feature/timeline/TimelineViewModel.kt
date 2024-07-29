@@ -6,8 +6,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
@@ -23,7 +21,6 @@ import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
-import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
 
@@ -41,7 +38,7 @@ class TimelineViewModel @Inject constructor(
 ) : BaseTimelineViewModel(
     savedStateHandle,
     context,
-    timelineDataSourceFactory.create(if (savedStateHandle.get<String>("timelineId") != null) TimelineType.CIRCLE else TimelineType.GROUP),
+    timelineDataSourceFactory.create(TimelineType.GROUP),
 ) {
 
     val session = MatrixSessionProvider.currentSession
@@ -101,12 +98,7 @@ class TimelineViewModel @Inject constructor(
         postOptionsDataSource.endPoll(roomId, eventId)
     }
 
-    fun markTimelineAsRead(roomId: String, isGroup: Boolean) {
-        launchBg {
-            if (isGroup) readMessageDataSource.markRoomAsRead(roomId)
-            else session?.getRoom(roomId)?.roomSummary()?.spaceChildren?.map {
-                async { readMessageDataSource.markRoomAsRead(it.childRoomId) }
-            }?.awaitAll()
-        }
+    fun markTimelineAsRead(roomId: String) {
+        launchBg { readMessageDataSource.markRoomAsRead(roomId) }
     }
 }
