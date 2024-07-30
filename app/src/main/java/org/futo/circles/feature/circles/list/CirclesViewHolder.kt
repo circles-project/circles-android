@@ -44,7 +44,7 @@ class JoinedCircleViewHolder(
 
         with(binding) {
             ivCircle.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
-            setTitle(tvCircleTitle, data.info.title)
+            setTitle(tvCircleTitle, data.info.title, data.owner?.name)
             setFollowersCount(data.followersCount, data.knockRequestsCount)
             setUpdateTime(data.timestamp)
             setUnreadCount(data.unreadCount)
@@ -58,7 +58,10 @@ class JoinedCircleViewHolder(
         data.timestamp?.let { setUpdateTime(it) }
     }
 
-    private fun setTitle(titleView: TextView, title: String) {
+    private fun setTitle(titleView: TextView, roomName: String, ownerName: String?) {
+        val title = ownerName?.let {
+            "$ownerName - $roomName"
+        } ?: roomName
         titleView.text = title
     }
 
