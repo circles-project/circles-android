@@ -179,12 +179,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvMyFollowers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_outline_people"
-                app:optionName="@string/my_followers" />
 
             <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvInviteMembers"
