@@ -10,6 +10,7 @@ import org.futo.circles.core.utils.getTimelinesLiveData
 import org.futo.circles.mapping.toJoinedCircleListItem
 import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
+import org.futo.circles.model.CirclesHeaderItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
@@ -32,12 +33,27 @@ class CirclesDataSource @Inject constructor() {
         var knocksCount = 0
         joinedTimelines.forEach { knocksCount += it.knockRequestsCount }
 
+        val myCircles =
+            joinedTimelines.filter { it.owner?.id == MatrixSessionProvider.currentSession?.myUserId }
+        val followingCircles = joinedTimelines - myCircles.toSet()
+
         val displayList = mutableListOf<CircleListItem>().apply {
             if (invitesCount > 0 || knocksCount > 0) {
                 add(CircleInvitesNotificationListItem(invitesCount, knocksCount))
             }
-            addAll(joinedTimelines)
+            addSection(CirclesHeaderItem.myCirclesHeader, myCircles)
+            addSection(CirclesHeaderItem.circlesIamFollowingHeader, followingCircles)
         }
         return displayList
+    }
+
+    private fun MutableList<CircleListItem>.addSection(
+        title: CirclesHeaderItem,
+        items: List<CircleListItem>
+    ) {
+        if (items.isNotEmpty()) {
+            add(title)
+            addAll(items)
+        }
     }
 }

@@ -1,6 +1,8 @@
 package org.futo.circles.mapping
 
+import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.extensions.toRoomInfo
+import org.futo.circles.core.mapping.toCircleUserSummary
 import org.futo.circles.core.mapping.toCirclesUserSummary
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getKnocksCount
@@ -30,6 +32,7 @@ fun RoomSummary.toJoinedCircleListItem() =
         unreadCount = notificationCount,
         knockRequestsCount = getKnocksCount(roomId),
         timestamp = latestPreviewableEvent?.root?.originServerTs ?: System.currentTimeMillis(),
+        owner = getRoomOwner(roomId)?.toCircleUserSummary()
     )
 
 fun RoomSummary.toJoinedDMListItem() = JoinedDMsListItem(
