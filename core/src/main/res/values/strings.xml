@@ -267,6 +267,7 @@
     <string name="direct_messages">Direct messages</string>
     <string name="direct_messages_invitations">Direct messages invitations</string>
     <string name="invited_you_for_direct_messages">Invited you for direct messages</string>
+    <string name="all_posts">All posts</string>
 
     <plurals name="invitations_count_format">
         <item quantity="one">%d invitation</item>

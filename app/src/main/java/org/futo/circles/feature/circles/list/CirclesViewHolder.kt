@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
+import org.futo.circles.core.databinding.ListItemCircleAllPostsBinding
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
@@ -130,6 +131,21 @@ class CircleHeaderViewHolder(
     override fun bind(data: CircleListItem) {
         if (data !is CirclesHeaderItem) return
         binding.tvHeader.text = context.getString(data.titleRes)
+    }
+}
+
+class CircleAllPostsViewHolder(
+    parent: ViewGroup,
+    onAllPostsClicked: () -> Unit
+) : CirclesViewHolder(inflate(parent, ListItemCircleAllPostsBinding::inflate)) {
+
+    private companion object : ViewBindingHolder
+
+    init {
+        onClick(itemView) { onAllPostsClicked() }
+    }
+
+    override fun bind(data: CircleListItem) {
     }
 }
 

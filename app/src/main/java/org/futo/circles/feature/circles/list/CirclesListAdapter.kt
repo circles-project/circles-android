@@ -2,17 +2,19 @@ package org.futo.circles.feature.circles.list
 
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
+import org.futo.circles.model.AllCirclesListItem
 import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CircleListItemPayload
 import org.futo.circles.model.CirclesHeaderItem
 import org.futo.circles.model.JoinedCircleListItem
 
-enum class CirclesListItemViewType { JoinedCircle, InviteNotification, Header }
+enum class CirclesListItemViewType { JoinedCircle, InviteNotification, Header, AllCircles }
 
 class CirclesListAdapter(
     private val onRoomClicked: (CircleListItem) -> Unit,
-    private val onOpenInvitesClicked: () -> Unit
+    private val onOpenInvitesClicked: () -> Unit,
+    private val onAllPostsClicked: () -> Unit,
 ) : BaseRvAdapter<CircleListItem, CirclesViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedCircleListItem && old is JoinedCircleListItem) {
         CircleListItemPayload(
@@ -29,6 +31,7 @@ class CirclesListAdapter(
         is JoinedCircleListItem -> CirclesListItemViewType.JoinedCircle.ordinal
         is CircleInvitesNotificationListItem -> CirclesListItemViewType.InviteNotification.ordinal
         is CirclesHeaderItem -> CirclesListItemViewType.Header.ordinal
+        AllCirclesListItem -> CirclesListItemViewType.AllCircles.ordinal
     }
 
     override fun onCreateViewHolder(
@@ -46,6 +49,10 @@ class CirclesListAdapter(
         )
 
         CirclesListItemViewType.Header -> CircleHeaderViewHolder(parent = parent)
+        CirclesListItemViewType.AllCircles -> CircleAllPostsViewHolder(
+            parent = parent,
+            onAllPostsClicked = { onAllPostsClicked() }
+        )
     }
 
     override fun onBindViewHolder(holder: CirclesViewHolder, position: Int) {

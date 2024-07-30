@@ -18,6 +18,10 @@ data class CirclesHeaderItem(
     }
 }
 
+data object AllCirclesListItem : CircleListItem() {
+    override val id: String = "AllCirclesListItem"
+}
+
 data class JoinedCircleListItem(
     override val id: String,
     val info: RoomInfo,

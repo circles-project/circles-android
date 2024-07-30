@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelinesLiveData
 import org.futo.circles.mapping.toJoinedCircleListItem
+import org.futo.circles.model.AllCirclesListItem
 import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.CirclesHeaderItem
@@ -41,6 +42,7 @@ class CirclesDataSource @Inject constructor() {
             if (invitesCount > 0 || knocksCount > 0) {
                 add(CircleInvitesNotificationListItem(invitesCount, knocksCount))
             }
+            if (joinedTimelines.isNotEmpty()) add(AllCirclesListItem)
             addSection(CirclesHeaderItem.myCirclesHeader, myCircles)
             addSection(CirclesHeaderItem.circlesIamFollowingHeader, followingCircles)
         }
