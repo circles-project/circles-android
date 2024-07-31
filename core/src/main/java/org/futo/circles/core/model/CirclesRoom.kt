@@ -72,7 +72,7 @@ data class PhotosSpace(
 }
 
 data class PeopleSpace(
-    override val nameId: Int? = R.string.peopel_space_name,
+    override val nameId: Int? = R.string.people_space_name,
     override val parentAccountDataKey: String? = ROOT_SPACE_ACCOUNT_DATA_KEY,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null,
