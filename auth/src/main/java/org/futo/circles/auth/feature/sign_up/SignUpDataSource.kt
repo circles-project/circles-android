@@ -26,7 +26,7 @@ class SignUpDataSource @Inject constructor(
         initAuthServiceForDomain(domain)
         val flows = getAuthFlowsFor(domain)
         val stages = flows.subscriptionStages ?: flows.freeStages ?: throw IllegalArgumentException(
-            context.getString(R.string.wrong_signup_config)
+            context.getString(R.string.new_accounts_not_available)
         )
         val uiaDataSource = UIADataSourceProvider.create(UIAFlowType.Signup, uiaFactory)
         uiaDataSource.startUIAStages(stages, domain)
