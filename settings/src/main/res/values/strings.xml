@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="shared_circles_space_not_found">Shared Circles space not found</string>
     <string name="active_login_sessions">Active login sessions</string>
     <string name="change_passphrase">Change passphrase</string>
     <string name="change_password">Change password</string>
@@ -23,7 +22,6 @@
     <string name="login_sessions">Login sessions</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="advanced_settings">Advanced settings</string>
-    <string name="add_email_address">Add email address</string>
     <string name="clear_cache_and_reload">Clear cache and reload</string>
     <string name="switch_user">Switch User</string>
     <string name="failed_to_read_qr_code">Failed to read QR code</string>
