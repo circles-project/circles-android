@@ -46,7 +46,6 @@
     <string name="importing_keys">Importing keys.</string>
     <string name="decrypting_key">Decrypting key.</string>
     <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
-    <string name="domain">Domain</string>
     <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="username">username</string>
     <string name="do_not_have_an_account">Don\'t have an account?</string>
@@ -54,8 +53,6 @@
     <string name="choose_a_passphrase">Choose a passphrase</string>
     <string name="enter_your_passphrase">Enter your passphrase</string>
     <string name="repeat_passphrase">Repeat passphrase</string>
-    <string name="sign_up_with_subscription">Sign up with subscription</string>
-    <string name="sign_up_for_free">Sign up for free</string>
     <string name="or">Or</string>
     <string name="setup_profile">Setup profile</string>
     <string name="upload_a_profile_photo">Upload a profile photo</string>
@@ -92,7 +89,6 @@
     <string name="circles">Circles</string>
     <string name="friends">Friends</string>
     <string name="family">Family</string>
-    <string name="community">Community</string>
     <string name="retry">Retry</string>
     <string name="validating_workspace">Validating workspace</string>
     <string name="initializing_your_account">Initializing your account</string>
@@ -112,7 +108,6 @@
     <string name="choose_a_server">Choose a server</string>
     <string name="sign_up_on_us_server">Sign up on US server</string>
     <string name="sign_up_on_eu_server">Sign up on EU server</string>
-    <string name="sign_up_for_circles">Sign up for Circles</string>
     <string name="setup_your_circles">Setup your circles</string>
     <string name="next">Next</string>
     <string name="add_a_new_circle">Add a new circle</string>
