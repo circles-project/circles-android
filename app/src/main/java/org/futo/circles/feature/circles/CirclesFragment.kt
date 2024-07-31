@@ -85,9 +85,7 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun onRoomListItemClicked(circleListItem: CircleListItem) {
         val circle = (circleListItem as? JoinedCircleListItem) ?: return
-        findNavController().navigateSafe(
-            CirclesFragmentDirections.toTimeline(circle.id)
-        )
+        findNavController().navigateSafe(CirclesFragmentDirections.toTimeline(circle.id))
     }
 
     private fun navigateToCreateRoom() {

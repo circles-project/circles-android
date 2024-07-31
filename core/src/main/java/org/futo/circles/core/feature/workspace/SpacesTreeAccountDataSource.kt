@@ -23,6 +23,6 @@ class SpacesTreeAccountDataSource @Inject constructor() {
     }
 
     companion object {
-        private const val SPACES_CONFIG_KEY = "org.futo.circles.config"
+        private const val SPACES_CONFIG_KEY = "org.futo.circles.config.v2"
     }
 }
