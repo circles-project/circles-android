@@ -13,13 +13,13 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
-import org.futo.circles.core.feature.timeline.data_source.TimelineType
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.mapping.toCirclesUserSummary
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
+import org.futo.circles.core.model.TimelineTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
@@ -40,7 +40,7 @@ class DMTimelineViewModel @Inject constructor(
 ) : BaseTimelineViewModel(
     savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineType.DM)
+    timelineDataSourceFactory.create(TimelineTypeArg.DM)
 ) {
 
     val session = MatrixSessionProvider.currentSession

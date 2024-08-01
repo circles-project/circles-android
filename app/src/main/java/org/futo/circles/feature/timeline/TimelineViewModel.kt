@@ -14,11 +14,11 @@ import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
-import org.futo.circles.core.feature.timeline.data_source.TimelineType
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.user.UserOptionsDataSource
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
+import org.futo.circles.core.model.TimelineTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.matrix.android.sdk.api.util.Cancelable
@@ -38,7 +38,8 @@ class TimelineViewModel @Inject constructor(
 ) : BaseTimelineViewModel(
     savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineType.GROUP),
+    //TODO type here
+    timelineDataSourceFactory.create(TimelineTypeArg.GROUP),
 ) {
 
     val session = MatrixSessionProvider.currentSession
