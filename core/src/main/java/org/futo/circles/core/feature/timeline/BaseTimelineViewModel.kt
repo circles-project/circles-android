@@ -76,11 +76,8 @@ abstract class BaseTimelineViewModel(
     private fun prefetchVideo(context: Context, postId: String, data: MediaFileData) {
         launchBg {
             async {
-                val uri =
-                    FileUtils.downloadEncryptedFileToContentUri(context, data) ?: return@async
-                prefetchedVideoUriFlow.update {
-                    it.toMutableMap().apply { put(postId, uri) }
-                }
+                val uri = FileUtils.downloadEncryptedFileToContentUri(context, data) ?: return@async
+                prefetchedVideoUriFlow.update { it.toMutableMap().apply { put(postId, uri) } }
             }
         }
     }
