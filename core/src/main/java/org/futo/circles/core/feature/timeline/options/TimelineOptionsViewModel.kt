@@ -29,7 +29,8 @@ class TimelineOptionsViewModel @Inject constructor(
 
     val leaveDeleteEventLiveData = SingleEventLiveData<Response<Unit?>>()
     val accessLevelLiveData = accessLevelDataSource.getAccessLevelFlow(roomId).asLiveData()
-    val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
+    val notificationsStateLiveData =
+        roomNotificationsDataSource.getNotificationsStateLiveData(roomId)
     val knockRequestCountLiveData =
         knockRequestsDataSource.getKnockRequestCountFlow(roomId).asLiveData()
 
@@ -44,7 +45,7 @@ class TimelineOptionsViewModel @Inject constructor(
     }
 
     fun setNotificationsEnabled(enabled: Boolean) {
-        launchBg { roomNotificationsDataSource.setNotificationsEnabled(enabled) }
+        launchBg { roomNotificationsDataSource.setNotificationsEnabled(roomId, enabled) }
     }
 
     fun leaveRoom() {

@@ -66,7 +66,8 @@ class TimelineViewModel @Inject constructor(
 
 
     val profileLiveData = session.userService().getUserLive(session.myUserId)
-    val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
+    val notificationsStateLiveData =
+        roomId?.let { roomNotificationsDataSource.getNotificationsStateLiveData(it) }
     val accessLevelLiveData =
         roomId?.let { accessLevelDataSource.getAccessLevelFlow(it).asLiveData() }
     val shareLiveData = SingleEventLiveData<ShareableContent>()

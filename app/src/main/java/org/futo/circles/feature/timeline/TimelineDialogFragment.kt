@@ -50,7 +50,7 @@ class TimelineDialogFragment :
 
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
-    
+
     private val videoPlayer by lazy {
         ExoPlayer.Builder(requireContext()).build().apply {
             repeatMode = Player.REPEAT_MODE_ONE
@@ -158,7 +158,7 @@ class TimelineDialogFragment :
             listAdapter.submitList(it)
             viewModel.markTimelineAsRead(args.roomId, args.timelineType)
         }
-        viewModel.notificationsStateLiveData.observeData(this) {
+        viewModel.notificationsStateLiveData?.observeData(this) {
             binding.toolbar.subtitle =
                 if (it) "" else getString(org.futo.circles.core.R.string.notifications_disabled)
         }
