@@ -21,9 +21,9 @@
                 app:nullable="false" />
 
             <argument
-                android:name="isCircle"
-                android:defaultValue="false"
-                app:argType="boolean"
+                android:name="timelineType"
+                android:defaultValue="GROUP"
+                app:argType="org.futo.circles.core.model.TimelineTypeArg"
                 app:nullable="false" />
 
         </action>

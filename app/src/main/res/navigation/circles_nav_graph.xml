@@ -18,12 +18,11 @@
             <argument
                 android:name="roomId"
                 app:argType="string"
-                app:nullable="false" />
+                app:nullable="true" />
 
             <argument
-                android:name="isCircle"
-                android:defaultValue="true"
-                app:argType="boolean"
+                android:name="timelineType"
+                app:argType="org.futo.circles.core.model.TimelineTypeArg"
                 app:nullable="false" />
 
         </action>

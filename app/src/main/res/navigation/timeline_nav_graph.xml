@@ -12,16 +12,16 @@
         tools:layout="@layout/dialog_fragment_timeline">
 
         <argument
-            android:name="roomId"
-            app:argType="string"
+            android:name="timelineType"
+            app:argType="org.futo.circles.core.model.TimelineTypeArg"
             app:nullable="false" />
 
         <argument
-            android:name="isCircle"
-            android:defaultValue="false"
-            app:argType="boolean"
-            app:nullable="false" />
-
+            android:name="roomId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        
         <argument
             android:name="threadEventId"
             android:defaultValue="@null"
@@ -127,8 +127,9 @@
                 app:nullable="false" />
 
             <argument
-                android:name="isCircle"
-                app:argType="boolean"
+                android:name="timelineType"
+                android:defaultValue="THREAD"
+                app:argType="org.futo.circles.core.model.TimelineTypeArg"
                 app:nullable="false" />
 
         </action>

@@ -47,8 +47,8 @@
                 app:nullable="false" />
 
             <argument
-                android:name="isCircle"
-                app:argType="boolean"
+                android:name="timelineType"
+                app:argType="org.futo.circles.core.model.TimelineTypeArg"
                 app:nullable="false" />
 
         </action>

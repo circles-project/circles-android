@@ -64,6 +64,7 @@ class TimelineDialogFragment :
     }
 
     private val navigator by lazy { TimelineNavigator(this) }
+
     private val knocksCountBadgeDrawable by lazy {
         BadgeDrawable.create(requireContext()).apply {
             isVisible = false
