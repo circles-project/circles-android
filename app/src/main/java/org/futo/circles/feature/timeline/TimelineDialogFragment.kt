@@ -157,7 +157,7 @@ class TimelineDialogFragment :
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
-            viewModel.markTimelineAsRead(args.roomId)
+            viewModel.markTimelineAsRead(args.roomId, timelineType)
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =

@@ -8,6 +8,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.getOrThrow
@@ -22,9 +24,13 @@ import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.user.UserOptionsDataSource
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
+import org.futo.circles.core.model.TimelineTypeArg
+import org.futo.circles.core.model.isAllPosts
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.getTimelines
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
 
@@ -114,9 +120,16 @@ class TimelineViewModel @Inject constructor(
     fun endPoll(roomId: String, eventId: String) {
         postOptionsDataSource.endPoll(roomId, eventId)
     }
-
-    //TODO
-    fun markTimelineAsRead(roomId: String) {
-        launchBg { readMessageDataSource.markRoomAsRead(roomId) }
+    
+    fun markTimelineAsRead(roomId: String?, timelineTypeArg: TimelineTypeArg) {
+        launchBg {
+            if (timelineTypeArg.isAllPosts()) {
+                getTimelines(listOf(Membership.JOIN)).map {
+                    async { readMessageDataSource.markRoomAsRead(it.roomId) }
+                }.awaitAll()
+            } else {
+                roomId?.let { readMessageDataSource.markRoomAsRead(roomId) }
+            }
+        }
     }
 }
