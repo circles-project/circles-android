@@ -44,7 +44,7 @@ class GalleryViewModel @Inject constructor(
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
 
-    val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
+    val accessLevelLiveData = accessLevelDataSource.getAccessLevelFlow(roomId).asLiveData()
 
     val galleryItemsLiveData = getTimelineEventFlow().asLiveData().map { list ->
         list.mapNotNull { item ->

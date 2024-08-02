@@ -67,14 +67,15 @@ class TimelineViewModel @Inject constructor(
 
     val profileLiveData = session.userService().getUserLive(session.myUserId)
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
-    val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
+    val accessLevelLiveData =
+        roomId?.let { accessLevelDataSource.getAccessLevelFlow(it).asLiveData() }
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
     val knockRequestCountLiveData = roomId?.let {
         knockRequestsDataSource.getKnockRequestCountFlow(roomId).asLiveData()
-    } ?: MutableLiveData(0)
+    }
 
 
     fun sharePostContent(content: PostContent, view: View) {
@@ -120,7 +121,7 @@ class TimelineViewModel @Inject constructor(
     fun endPoll(roomId: String, eventId: String) {
         postOptionsDataSource.endPoll(roomId, eventId)
     }
-    
+
     fun markTimelineAsRead(roomId: String?, timelineTypeArg: TimelineTypeArg) {
         launchBg {
             if (timelineTypeArg.isAllPosts()) {

@@ -27,6 +27,7 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.model.isCircle
 import org.futo.circles.core.model.isThread
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.PostOptionsListener
@@ -49,9 +50,7 @@ class TimelineDialogFragment :
 
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
-
-    private val timelineType by lazy { args.timelineType }
-
+    
     private val videoPlayer by lazy {
         ExoPlayer.Builder(requireContext()).build().apply {
             repeatMode = Player.REPEAT_MODE_ONE
@@ -59,7 +58,7 @@ class TimelineDialogFragment :
     }
 
     private val listAdapter by lazy {
-        TimelineAdapter(this, timelineType.isThread(), videoPlayer).apply {
+        TimelineAdapter(this, args.timelineType.isThread(), videoPlayer).apply {
             setHasStableIds(true)
         }
     }
@@ -115,9 +114,9 @@ class TimelineDialogFragment :
             override fun onCreatePost() {
                 navigator.navigateToCreatePost(args.roomId, args.threadEventId)
             }
-        }, binding.rvTimeline.getRecyclerView(), timelineType.isThread())
+        }, binding.rvTimeline.getRecyclerView(), args.timelineType.isThread())
 
-        if (!timelineType.isThread()) {
+        if (!args.timelineType.isThread()) {
             BadgeUtils.attachBadgeDrawable(
                 knocksCountBadgeDrawable, binding.toolbar,
                 org.futo.circles.core.R.id.settings
@@ -128,7 +127,7 @@ class TimelineDialogFragment :
 
     private fun setupMenu() {
         with(binding.toolbar) {
-            if (timelineType.isThread()) return
+            if (args.timelineType.isThread()) return
             inflateMenu(org.futo.circles.core.R.menu.timeline_menu)
             setupMenuClickListener()
         }
@@ -149,7 +148,7 @@ class TimelineDialogFragment :
 
     private fun setupObservers() {
         viewModel.titleLiveData.observeData(this) { roomName ->
-            val title = if (timelineType.isThread()) getString(
+            val title = if (args.timelineType.isThread()) getString(
                 R.string.thread_format,
                 roomName
             ) else roomName
@@ -157,13 +156,13 @@ class TimelineDialogFragment :
         }
         viewModel.timelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
-            viewModel.markTimelineAsRead(args.roomId, timelineType)
+            viewModel.markTimelineAsRead(args.roomId, args.timelineType)
         }
         viewModel.notificationsStateLiveData.observeData(this) {
             binding.toolbar.subtitle =
                 if (it) "" else getString(org.futo.circles.core.R.string.notifications_disabled)
         }
-        viewModel.accessLevelLiveData.observeData(this) { powerLevelsContent ->
+        viewModel.accessLevelLiveData?.observeData(this) { powerLevelsContent ->
             onUserAccessLevelChanged(powerLevelsContent)
         }
         viewModel.shareLiveData.observeData(this) { content ->
@@ -181,7 +180,7 @@ class TimelineDialogFragment :
         viewModel.profileLiveData.observeData(this) { user ->
             user.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
         }
-        viewModel.knockRequestCountLiveData.observeData(this) {
+        viewModel.knockRequestCountLiveData?.observeData(this) {
             knocksCountBadgeDrawable.apply {
                 number = it
                 isVisible = it > 0
@@ -214,7 +213,7 @@ class TimelineDialogFragment :
     }
 
     override fun onReply(roomId: String, eventId: String) {
-        if (timelineType.isThread()) return
+        if (args.timelineType.isThread()) return
         navigator.navigateToThread(roomId, eventId)
     }
 
@@ -268,12 +267,13 @@ class TimelineDialogFragment :
     }
 
     private fun navigateToTimelineOptions() {
-        val type = if (args.isCircle) CircleRoomTypeArg.Circle else CircleRoomTypeArg.Group
+        val type =
+            if (args.timelineType.isCircle()) CircleRoomTypeArg.Circle else CircleRoomTypeArg.Group
         navigator.navigateToTimelineOptions(args.roomId, type)
     }
 
     private fun scrollToTopOnMyNewPostAdded() {
-        if (timelineType.isThread()) {
+        if (args.timelineType.isThread()) {
             binding.rvTimeline.adapter?.itemCount?.let { count ->
                 binding.rvTimeline.layoutManager?.scrollToPosition(count - 1)
             }
@@ -283,12 +283,12 @@ class TimelineDialogFragment :
     }
 
     private fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
-        if (args.isCircle) onCircleUserAccessLeveChanged(powerLevelsContent)
+        if (args.timelineType.isCircle()) onCircleUserAccessLeveChanged(powerLevelsContent)
         else onGroupUserAccessLevelChanged(powerLevelsContent)
     }
 
     private fun showErrorIfNotAbleToPost(): Boolean {
-        val isAbleToPost = viewModel.accessLevelLiveData.value?.isCurrentUserAbleToPost() == true
+        val isAbleToPost = viewModel.accessLevelLiveData?.value?.isCurrentUserAbleToPost() == true
         if (!isAbleToPost) showError(getString(R.string.you_can_not_post_to_this_room))
         return !isAbleToPost
     }
