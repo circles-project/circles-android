@@ -92,7 +92,7 @@ class DMTimelineDialogFragment :
 
 
     private fun setupObservers() {
-        viewModel.userTitleLiveData.observeData(this) { user ->
+        viewModel.userTitleLiveData?.observeData(this) { user ->
             user ?: return@observeData
             binding.vUserLayout.apply {
                 bind(user)

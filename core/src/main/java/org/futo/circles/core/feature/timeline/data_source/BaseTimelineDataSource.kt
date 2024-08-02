@@ -1,6 +1,5 @@
 package org.futo.circles.core.feature.timeline.data_source
 
-import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
-import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostListItem
 import org.futo.circles.core.model.TimelineLoadingItem
@@ -36,15 +34,19 @@ abstract class BaseTimelineDataSource(
 ) {
 
     class Factory @Inject constructor(
-        private val savedStateHandle: SavedStateHandle,
         private val preferencesProvider: PreferencesProvider
     ) {
-        fun create(timelineType: TimelineTypeArg): BaseTimelineDataSource = when (timelineType) {
+        fun create(
+            timelineType: TimelineTypeArg,
+            roomId: String?,
+            threadEventId: String?
+        ): BaseTimelineDataSource = when (timelineType) {
             TimelineTypeArg.ALL_CIRCLES -> MultiTimelinesDataSource(preferencesProvider)
 
             else -> {
-                val roomId: String = savedStateHandle.getOrThrow("roomId")
-                val threadEventId: String? = savedStateHandle["threadEventId"]
+                if (roomId == null) throw IllegalArgumentException(
+                    "Single room timeline must have roomId"
+                )
                 if (timelineType == TimelineTypeArg.THREAD && threadEventId == null) throw IllegalArgumentException(
                     "Thread timeline type must have threadEventId"
                 )

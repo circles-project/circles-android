@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
@@ -25,6 +26,7 @@ import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
@@ -38,17 +40,19 @@ class DMTimelineViewModel @Inject constructor(
     private val readMessageDataSource: ReadMessageDataSource,
     private val sendMessageDataSource: SendMessageDataSource
 ) : BaseTimelineViewModel(
-    savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineTypeArg.DM)
+    timelineDataSourceFactory.create(
+        TimelineTypeArg.DM, savedStateHandle["roomId"], null
+    )
 ) {
 
-    val session = MatrixSessionProvider.currentSession
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    val session = MatrixSessionProvider.getSessionOrThrow()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
 
-    val userTitleLiveData = getRoomSummaryLive().map {
+    val userTitleLiveData = session.getRoom(roomId)?.getRoomSummaryLive()?.map {
         it.getOrNull()?.let { roomSummary ->
             session.getUserOrDefault(roomSummary.directUserId ?: "").toCirclesUserSummary()
         }

@@ -2,10 +2,8 @@ package org.futo.circles.core.feature.timeline
 
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -15,9 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
-import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.extensions.toRoomInfo
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaFileData
@@ -27,17 +23,9 @@ import org.futo.circles.core.model.PostListItem
 import org.futo.circles.core.utils.FileUtils
 
 abstract class BaseTimelineViewModel(
-    savedStateHandle: SavedStateHandle,
     @ApplicationContext context: Context,
     private val baseTimelineDataSource: BaseTimelineDataSource
 ) : ViewModel() {
-
-    protected val roomId: String = savedStateHandle.getOrThrow("roomId")
-
-    val titleLiveData =
-        baseTimelineDataSource.room.getRoomSummaryLive().map {
-            it.getOrNull()?.toRoomInfo()?.title ?: ""
-        }
 
     private val prefetchedVideoUriFlow = MutableStateFlow<Map<String, Uri>>(emptyMap())
 
@@ -48,7 +36,6 @@ abstract class BaseTimelineViewModel(
         mapEventsWithVideoUri(context, events, videoUris)
     }.flowOn(Dispatchers.IO).distinctUntilChanged().asLiveData()
 
-    fun getRoomSummaryLive() = baseTimelineDataSource.room.getRoomSummaryLive()
 
     fun getTimelineEventFlow() = baseTimelineDataSource.getTimelineEventFlow(viewModelScope)
 

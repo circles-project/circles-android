@@ -26,9 +26,10 @@ class PickMediaItemViewModel @Inject constructor(
     @ApplicationContext context: Context,
     timelineDataSourceFactory: BaseTimelineDataSource.Factory
 ) : BaseTimelineViewModel(
-    savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineTypeArg.GALLERY)
+    timelineDataSourceFactory.create(
+        TimelineTypeArg.GALLERY, savedStateHandle["roomId"], null
+    )
 ) {
 
     private val isVideoAvailable: Boolean = savedStateHandle[IS_VIDEO_AVAILABLE] ?: true

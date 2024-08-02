@@ -2,13 +2,16 @@ package org.futo.circles.feature.timeline
 
 import android.content.Context
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
+import org.futo.circles.core.extensions.toRoomInfo
 import org.futo.circles.core.feature.room.RoomNotificationsDataSource
 import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
@@ -21,6 +24,7 @@ import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.model.TimelineTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
 
@@ -36,22 +40,34 @@ class TimelineViewModel @Inject constructor(
     private val userOptionsDataSource: UserOptionsDataSource,
     private val readMessageDataSource: ReadMessageDataSource,
 ) : BaseTimelineViewModel(
-    savedStateHandle,
     context,
     //TODO type here
-    timelineDataSourceFactory.create(TimelineTypeArg.GROUP),
+    timelineDataSourceFactory.create(
+        TimelineTypeArg.GROUP, savedStateHandle["roomId"], savedStateHandle["threadEventId"]
+    ),
 ) {
 
-    val session = MatrixSessionProvider.currentSession
-    val profileLiveData = session?.userService()?.getUserLive(session.myUserId)
+    private val roomId: String? = savedStateHandle["roomId"]
+
+    val session = MatrixSessionProvider.getSessionOrThrow()
+
+    val titleLiveData = roomId?.let {
+        session.getRoom(roomId)?.getRoomSummaryLive()?.map {
+            it.getOrNull()?.toRoomInfo()?.title ?: ""
+        }
+    } ?: MutableLiveData(context.getString(org.futo.circles.core.R.string.all_posts))
+
+
+    val profileLiveData = session.userService().getUserLive(session.myUserId)
     val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val ignoreUserLiveData = SingleEventLiveData<Response<Unit?>>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
-    val knockRequestCountLiveData =
+    val knockRequestCountLiveData = roomId?.let {
         knockRequestsDataSource.getKnockRequestCountFlow(roomId).asLiveData()
+    } ?: MutableLiveData(0)
 
 
     fun sharePostContent(content: PostContent, view: View) {
@@ -90,7 +106,6 @@ class TimelineViewModel @Inject constructor(
         }
     }
 
-
     fun pollVote(roomId: String, eventId: String, optionId: String) {
         postOptionsDataSource.pollVote(roomId, eventId, optionId)
     }
@@ -99,6 +114,7 @@ class TimelineViewModel @Inject constructor(
         postOptionsDataSource.endPoll(roomId, eventId)
     }
 
+    //TODO
     fun markTimelineAsRead(roomId: String) {
         launchBg { readMessageDataSource.markRoomAsRead(roomId) }
     }

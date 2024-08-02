@@ -75,7 +75,7 @@ class MultiTimelinesDataSource(preferencesProvider: PreferencesProvider) :
         snapshot.filter {
             it.isSupportedEvent() && it.isNotRemovedEvent() && !it.isReply()
         }
-    
+
     private fun List<TimelineEvent>.filterRootPostNotFromOwner(
         receipts: List<Long>,
         roomName: String?,

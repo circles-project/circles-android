@@ -8,6 +8,7 @@ import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.base.SingleEventLiveData
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
@@ -35,10 +36,13 @@ class GalleryViewModel @Inject constructor(
     private val postOptionsDataSource: PostOptionsDataSource,
     accessLevelDataSource: AccessLevelDataSource
 ) : BaseTimelineViewModel(
-    savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineTypeArg.GALLERY)
+    timelineDataSourceFactory.create(
+        TimelineTypeArg.GALLERY, savedStateHandle["roomId"], null
+    )
 ) {
+
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
 
     val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
 
