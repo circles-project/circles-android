@@ -26,6 +26,7 @@ import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.model.RoomRequestTypeArg
 import org.futo.circles.core.model.TIMELINE_TYPE
+import org.futo.circles.core.model.TimelineTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
@@ -106,8 +107,8 @@ class HomeFragment :
 
     private fun handlePostNotificationOpen(requestType: RoomRequestTypeArg, roomId: String) {
         val direction = when (requestType) {
-            RoomRequestTypeArg.Circle -> HomeFragmentDirections.toTimeline(roomId, true)
-            RoomRequestTypeArg.Group -> HomeFragmentDirections.toTimeline(roomId, false)
+            RoomRequestTypeArg.Circle -> HomeFragmentDirections.toTimeline(roomId, TimelineTypeArg.CIRCLE)
+            RoomRequestTypeArg.Group -> HomeFragmentDirections.toTimeline(roomId, TimelineTypeArg.GROUP)
             else -> HomeFragmentDirections.toDmTimeline(roomId)
         }
 
