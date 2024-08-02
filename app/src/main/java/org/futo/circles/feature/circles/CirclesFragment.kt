@@ -11,23 +11,28 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.google.android.material.badge.ExperimentalBadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.model.TimelineTypeArg
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.feature.circles.list.CirclesListAdapter
+import org.futo.circles.feature.timeline.TimelineNavigator
 import org.futo.circles.model.CircleListItem
 import org.futo.circles.model.JoinedCircleListItem
 
+@ExperimentalBadgeUtils
 @AndroidEntryPoint
 class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate),
     MenuProvider {
 
     private val viewModel by viewModels<CirclesViewModel>()
     private var listAdapter: CirclesListAdapter? = null
+    private val navigator by lazy { CirclesNavigator(this) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,7 +55,7 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     override fun onMenuItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.help -> findNavController().navigateSafe(CirclesFragmentDirections.toCirclesExplanationDialogFragment())
+            R.id.help -> navigator.navigateToExplanationDialog()
         }
         return true
     }
@@ -64,16 +69,12 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = CirclesListAdapter(
                 onRoomClicked = { circleListItem -> onRoomListItemClicked(circleListItem) },
-                onOpenInvitesClicked = {
-                    findNavController().navigateSafe(CirclesFragmentDirections.toRoomRequests())
-                },
-                onAllPostsClicked = {
-                    //TODO
-                }
+                onOpenInvitesClicked = { navigator.navigateToRoomRequests() },
+                onAllPostsClicked = { navigator.navigateToAllPosts() }
             ).also { listAdapter = it }
             bindToFab(binding.fbAddRoom)
         }
-        binding.fbAddRoom.setOnClickListener { navigateToCreateRoom() }
+        binding.fbAddRoom.setOnClickListener { navigator.navigateToCreateCircle() }
     }
 
     private fun setupObservers() {
@@ -85,10 +86,6 @@ class CirclesFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsB
 
     private fun onRoomListItemClicked(circleListItem: CircleListItem) {
         val circle = (circleListItem as? JoinedCircleListItem) ?: return
-        findNavController().navigateSafe(CirclesFragmentDirections.toTimeline(circle.id))
-    }
-
-    private fun navigateToCreateRoom() {
-        findNavController().navigateSafe(CirclesFragmentDirections.toCreateCircleDialogFragment())
+        navigator.navigateToCircleTimeline(circle.id)
     }
 }
