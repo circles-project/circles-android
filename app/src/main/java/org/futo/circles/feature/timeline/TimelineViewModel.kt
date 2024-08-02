@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.toRoomInfo
 import org.futo.circles.core.feature.room.RoomNotificationsDataSource
@@ -21,7 +22,6 @@ import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.user.UserOptionsDataSource
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
-import org.futo.circles.core.model.TimelineTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.matrix.android.sdk.api.session.getRoom
@@ -41,9 +41,10 @@ class TimelineViewModel @Inject constructor(
     private val readMessageDataSource: ReadMessageDataSource,
 ) : BaseTimelineViewModel(
     context,
-    //TODO type here
     timelineDataSourceFactory.create(
-        TimelineTypeArg.GROUP, savedStateHandle["roomId"], savedStateHandle["threadEventId"]
+        savedStateHandle.getOrThrow("timelineType"),
+        savedStateHandle["roomId"],
+        savedStateHandle["threadEventId"]
     ),
 ) {
 
