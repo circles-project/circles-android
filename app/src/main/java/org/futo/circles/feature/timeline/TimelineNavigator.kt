@@ -47,9 +47,9 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         )
     }
 
-    fun navigateToThread(roomId: String, threadEventId: String, isCircle: Boolean) {
+    fun navigateToThread(roomId: String, threadEventId: String) {
         fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toThreadTimeline(roomId, threadEventId, isCircle)
+            TimelineDialogFragmentDirections.toThreadTimeline(roomId, threadEventId)
         )
     }
 
