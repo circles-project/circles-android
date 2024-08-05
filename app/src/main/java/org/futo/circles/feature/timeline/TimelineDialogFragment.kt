@@ -31,7 +31,6 @@ import org.futo.circles.core.model.isAllPosts
 import org.futo.circles.core.model.isCircle
 import org.futo.circles.core.model.isThread
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
-import org.futo.circles.feature.circles.pick.PickCircleListener
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.post.create.PostSentListener
@@ -39,7 +38,6 @@ import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.menu.PostMenuListener
 import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
-import org.futo.circles.model.PickCircleTypeArg
 import org.futo.circles.model.RemovePost
 import org.futo.circles.view.CreatePostViewListener
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -50,7 +48,7 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 class TimelineDialogFragment :
     BaseFullscreenDialogFragment<DialogFragmentTimelineBinding>(DialogFragmentTimelineBinding::inflate),
     PostOptionsListener, PostMenuListener, EmojiPickerListener, PostSentListener,
-    CreatePostViewListener, PickCircleListener {
+    CreatePostViewListener {
 
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
@@ -271,13 +269,6 @@ class TimelineDialogFragment :
         onLocalAddEmojiCallback?.invoke(emoji)
         onLocalAddEmojiCallback = null
         viewModel.sendReaction(roomId, eventId, emoji)
-    }
-
-    override fun onCircleChosen(roomId: String, pickCircleType: PickCircleTypeArg) {
-        when (pickCircleType) {
-            PickCircleTypeArg.CreatePost -> navigator.navigateToCreatePost(roomId)
-            else -> navigator.navigateToCreatePoll(roomId)
-        }
     }
 
     private fun stopVideoOnNewScreenOpen() {

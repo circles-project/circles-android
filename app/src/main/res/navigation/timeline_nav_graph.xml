@@ -392,6 +392,65 @@
             app:argType="org.futo.circles.model.PickCircleTypeArg"
             app:nullable="false" />
 
+        <action
+            android:id="@+id/to_timeline_options"
+            app:destination="@id/timeline_options_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+        </action>
+
+
+        <action
+            android:id="@+id/to_createPost"
+            app:destination="@id/createPostBottomSheet"
+            app:popUpTo="@id/timelineFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+
+            <argument
+                android:name="isEdit"
+                android:defaultValue="false"
+                app:argType="boolean"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_createPoll"
+            app:destination="@id/createPollDialogFragment"
+            app:popUpTo="@id/timelineFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+
+
     </dialog>
 
 </navigation>

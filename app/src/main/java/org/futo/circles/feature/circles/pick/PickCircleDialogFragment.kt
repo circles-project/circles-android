@@ -1,12 +1,13 @@
 package org.futo.circles.feature.circles.pick
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.feature.room.select.SelectRoomsFragment
 import org.futo.circles.core.feature.room.select.interfaces.SelectRoomsListener
 import org.futo.circles.core.model.SelectRoomTypeArg
@@ -20,13 +21,6 @@ class PickCircleDialogFragment :
     SelectRoomsListener {
 
     private val args: PickCircleDialogFragmentArgs by navArgs()
-
-    private var pickCircleListener: PickCircleListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        pickCircleListener = (parentFragment as? PickCircleListener)
-    }
 
     private val selectRoomsFragment by lazy {
         val selectRoomType = when (args.type) {
@@ -60,9 +54,19 @@ class PickCircleDialogFragment :
     }
 
     override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {
-        rooms.firstOrNull()?.let {
-            pickCircleListener?.onCircleChosen(it.id, args.type)
-            dismiss()
+        val roomId = rooms.firstOrNull()?.id ?: return
+        when (args.type) {
+            PickCircleTypeArg.AllPostsSettings -> findNavController().navigateSafe(
+                PickCircleDialogFragmentDirections.toTimelineOptions(roomId)
+            )
+
+            PickCircleTypeArg.CreatePost -> findNavController().navigateSafe(
+                PickCircleDialogFragmentDirections.toCreatePost(roomId)
+            )
+
+            PickCircleTypeArg.CreatePoll -> findNavController().navigateSafe(
+                PickCircleDialogFragmentDirections.toCreatePoll(roomId)
+            )
         }
     }
 }
