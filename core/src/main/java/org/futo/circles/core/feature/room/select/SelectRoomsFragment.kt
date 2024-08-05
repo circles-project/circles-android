@@ -75,10 +75,13 @@ class SelectRoomsFragment :
         viewModel.roomsLiveData.observeData(this) { items ->
             selectRoomsAdapter.submitList(items)
             roomsChangedListener?.onRoomsListChanged(items)
-            val selectedRooms = viewModel.getSelectedRooms()
-            selectedRoomsAdapter.submitList(selectedRooms)
-            binding.tvSelectedRoomsPlaceholder.setIsVisible(selectedRooms.isEmpty())
-            selectRoomsListener?.onRoomsSelected(selectedRooms)
+
+            if (isMultiSelect) {
+                val selectedRooms = viewModel.getSelectedRooms()
+                selectedRoomsAdapter.submitList(selectedRooms)
+                binding.tvSelectedRoomsPlaceholder.setIsVisible(selectedRooms.isEmpty())
+                selectRoomsListener?.onRoomsSelected(selectedRooms)
+            }
         }
     }
 
