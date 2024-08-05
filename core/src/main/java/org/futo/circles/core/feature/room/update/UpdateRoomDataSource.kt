@@ -15,7 +15,6 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.model.AccessLevel
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getTimelineRoomFor
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toContent
@@ -51,23 +50,17 @@ class UpdateRoomDataSource @Inject constructor(
         userAccessLevel: AccessLevel?,
         roomTypeArg: CircleRoomTypeArg
     ) = createResult {
-        if (isNameChanged(name)) updateName(name, roomTypeArg)
+        if (isNameChanged(name)) room?.stateService()?.updateName(name)
         if (isTopicChanged(topic)) room?.stateService()?.updateTopic(topic)
         uri?.let { updateProfileImage(it, roomTypeArg) }
         userAccessLevel?.let { updateUserDefaultPowerLevel(it) }
     }
 
-    private suspend fun updateName(name: String, roomTypeArg: CircleRoomTypeArg) {
-        if (roomTypeArg == CircleRoomTypeArg.Circle) {
-            getTimelineRoomFor(roomId)?.stateService()?.updateName(name)
-        } else room?.stateService()?.updateName(name)
-    }
 
+    //Bigger icon for Gallery room
     private suspend fun updateProfileImage(uri: Uri, roomTypeArg: CircleRoomTypeArg) {
-        val isCircle = roomTypeArg == CircleRoomTypeArg.Circle
         val isGallery = roomTypeArg == CircleRoomTypeArg.Photo
-        val roomToUpdate = if (isCircle) getTimelineRoomFor(roomId) else room
-        roomToUpdate?.stateService()?.updateAvatar(
+        room?.stateService()?.updateAvatar(
             uri,
             uri.getFilename(context) ?: UUID.randomUUID().toString(),
             if (isGallery) ThumbnailExtractor.POST_THUMB_SIZE else ThumbnailExtractor.PROFILE_ICON_THUMB_SIZE

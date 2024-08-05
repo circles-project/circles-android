@@ -82,16 +82,4 @@ class HomeViewModel @Inject constructor(
     fun registerPushNotifications() {
         pushersManager.registerPushNotifications()
     }
-
-    fun getNotificationGroupOrCircleId(summary: RoomSummary): String? {
-        if (summary.membership != Membership.JOIN) return null
-        return if (summary.roomType == GROUP_TYPE) summary.roomId
-        else getParentSpaceIdForRoom(summary)
-    }
-
-    private fun getParentSpaceIdForRoom(summary: RoomSummary): String? =
-        summary.flattenParentIds.mapNotNull { getJoinedRoomById(it)?.roomSummary() }
-            .firstOrNull {
-                it.spaceChildren?.map { it.childRoomId }?.contains(summary.roomId) == true
-            }?.roomId
 }

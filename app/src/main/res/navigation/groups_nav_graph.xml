@@ -20,6 +20,12 @@
                 app:argType="string"
                 app:nullable="false" />
 
+            <argument
+                android:name="timelineType"
+                android:defaultValue="GROUP"
+                app:argType="org.futo.circles.core.model.TimelineTypeArg"
+                app:nullable="false" />
+
         </action>
 
         <action

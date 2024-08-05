@@ -4,12 +4,12 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.model.SetupCirclesListItem
-import org.futo.circles.core.model.CirclesSpace
 import org.futo.circles.core.model.GroupsSpace
 import org.futo.circles.core.model.PeopleSpace
 import org.futo.circles.core.model.PhotosSpace
 import org.futo.circles.core.model.RootSpace
 import org.futo.circles.core.model.SharedCirclesSpace
+import org.futo.circles.core.model.TimelinesSpace
 import javax.inject.Inject
 
 class WorkspaceTasksProvider @Inject constructor(
@@ -18,7 +18,7 @@ class WorkspaceTasksProvider @Inject constructor(
 
     fun getMandatoryTasks() = listOf(
         RootSpace(),
-        CirclesSpace(),
+        TimelinesSpace(),
         GroupsSpace(),
         PhotosSpace(),
         PeopleSpace(),

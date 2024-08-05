@@ -47,9 +47,9 @@
                 app:nullable="false" />
 
             <argument
-                android:name="timelineId"
-                app:argType="string"
-                app:nullable="true" />
+                android:name="timelineType"
+                app:argType="org.futo.circles.core.model.TimelineTypeArg"
+                app:nullable="false" />
 
         </action>
 
@@ -60,6 +60,16 @@
             <argument
                 android:name="type"
                 app:argType="org.futo.circles.core.model.RoomRequestTypeArg"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_dm_timeline"
+            app:destination="@id/dm_timeline_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
                 app:nullable="false" />
 
         </action>
@@ -82,5 +92,7 @@
     <include app:graph="@navigation/timeline_nav_graph" />
 
     <include app:graph="@navigation/room_requests_nav_graph" />
+
+    <include app:graph="@navigation/dm_timeline_nav_graph" />
 
 </navigation>

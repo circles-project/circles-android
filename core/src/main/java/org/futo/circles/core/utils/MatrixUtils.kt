@@ -3,6 +3,7 @@ package org.futo.circles.core.utils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import org.futo.circles.core.extensions.getPowerLevelContent
+import org.futo.circles.core.extensions.getRoomOwner
 import org.futo.circles.core.extensions.isCurrentUserAbleToInvite
 import org.futo.circles.core.model.DmConnected
 import org.futo.circles.core.model.DmHasInvite
@@ -69,11 +70,16 @@ fun getGalleriesLiveData(membershipFilter: List<Membership> = Membership.activeM
 fun getGalleries(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsWithType(GALLERY_TYPE, membershipFilter)
 
-fun getSpacesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
-    getRoomsLiveDataWithType(spaceType, membershipFilter)
-
 fun getTimelinesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     getRoomsLiveDataWithType(TIMELINE_TYPE, membershipFilter)
+
+fun getTimelines(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+    getRoomsWithType(TIMELINE_TYPE, membershipFilter)
+
+fun getTimelinesOwnedByMeLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
+    getTimelinesLiveData(membershipFilter).map { summaries ->
+        summaries.filter { getRoomOwner(it.roomId)?.userId == MatrixSessionProvider.currentSession?.myUserId }
+    }
 
 fun getAllDirectMessagesLiveData(membershipFilter: List<Membership> = Membership.activeMemberships()) =
     MatrixSessionProvider.getSessionOrThrow().roomService()

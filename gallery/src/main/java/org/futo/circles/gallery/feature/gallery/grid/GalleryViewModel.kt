@@ -8,12 +8,11 @@ import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.base.SingleEventLiveData
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
-import org.futo.circles.core.feature.timeline.data_source.TimelineType
 import org.futo.circles.core.feature.timeline.post.PostContentDataSource
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
@@ -24,6 +23,7 @@ import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.ShareableContent
 import org.futo.circles.core.model.TimelineLoadingItem
+import org.futo.circles.core.model.TimelineTypeArg
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,16 +34,17 @@ class GalleryViewModel @Inject constructor(
     private val sendMessageDataSource: SendMessageDataSource,
     private val mediaDataSource: PostContentDataSource,
     private val postOptionsDataSource: PostOptionsDataSource,
-    accessLevelDataSource: AccessLevelDataSource,
-    circleFilterAccountDataManager: CircleFilterAccountDataManager
+    accessLevelDataSource: AccessLevelDataSource
 ) : BaseTimelineViewModel(
-    savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineType.GALLERY),
-    circleFilterAccountDataManager
+    timelineDataSourceFactory.create(
+        TimelineTypeArg.GALLERY, savedStateHandle["roomId"], null
+    )
 ) {
 
-    val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+
+    val accessLevelLiveData = accessLevelDataSource.getAccessLevelFlow(roomId).asLiveData()
 
     val galleryItemsLiveData = getTimelineEventFlow().asLiveData().map { list ->
         list.mapNotNull { item ->

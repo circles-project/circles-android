@@ -132,7 +132,7 @@ class CreateRoomDialogFragment :
     private fun createRoom() {
         viewModel.createRoom(
             binding.tilName.getText(),
-            binding.tilTopic.getText(),
+            binding.tilTopic.getText().takeIf { it.isNotEmpty() },
             selectedUsersFragment?.getSelectedUsersIds(),
             args.type,
             AccessLevel.entries.getOrNull(binding.spUserRole.selectedItemPosition)

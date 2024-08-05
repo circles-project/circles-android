@@ -8,7 +8,6 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.getRoomAdmins
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getTimelineRoomFor
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -28,34 +27,15 @@ class LeaveRoomDataSource @Inject constructor(
     suspend fun leaveGroup() =
         createResult { session?.roomService()?.leaveRoom(roomId) }
 
-    suspend fun deleteCircle() = createResult {
-        roomRelationsBuilder.removeFromAllParents(roomId)
-        room?.roomSummary()?.spaceChildren?.forEach {
-            roomRelationsBuilder.removeRelations(it.childRoomId, roomId)
+    suspend fun deleteRoom() = createResult {
+        session?.getRoom(roomId)?.roomSummary()?.tags?.forEach {
+            session.getRoom(roomId)?.tagsService()?.deleteTag(it.name)
         }
-        getTimelineRoomFor(roomId)?.let { timelineRoom ->
-            timelineRoom.roomSummary()?.otherMemberIds?.forEach { memberId ->
-                timelineRoom.membershipService().ban(memberId)
-            }
-            session?.roomService()?.leaveRoom(timelineRoom.roomId)
-        }
-        session?.roomService()?.leaveRoom(roomId)
-    }
-
-    suspend fun deleteGroup() = createResult {
         roomRelationsBuilder.removeFromAllParents(roomId)
         val group = session?.getRoom(roomId)
         group?.roomSummary()?.otherMemberIds?.forEach { memberId ->
             group.membershipService().ban(memberId)
         }
-        session?.roomService()?.leaveRoom(roomId)
-    }
-
-    suspend fun deleteGallery() = createResult {
-        session?.getRoom(roomId)?.roomSummary()?.tags?.forEach {
-            session.getRoom(roomId)?.tagsService()?.deleteTag(it.name)
-        }
-        roomRelationsBuilder.removeFromAllParents(roomId)
         session?.roomService()?.leaveRoom(roomId)
     }
 

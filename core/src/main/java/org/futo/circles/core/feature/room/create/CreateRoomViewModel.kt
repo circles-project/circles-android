@@ -9,10 +9,10 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.model.AccessLevel
-import org.futo.circles.core.model.Circle
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.Group
+import org.futo.circles.core.model.Timeline
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,79 +36,30 @@ class CreateRoomViewModel @Inject constructor(
 
     fun createRoom(
         name: String,
-        topic: String,
+        topic: String?,
         inviteIds: List<String>?,
         roomType: CircleRoomTypeArg,
         defaultUserAccessLevel: AccessLevel
     ) {
         launchBg {
             val result = createResult {
-                when (roomType) {
-                    CircleRoomTypeArg.Circle -> createCircle(
-                        name,
-                        inviteIds,
-                        defaultUserAccessLevel
-                    )
-
-                    CircleRoomTypeArg.Group -> createGroup(
-                        name,
-                        topic,
-                        inviteIds,
-                        defaultUserAccessLevel
-                    )
-
-                    CircleRoomTypeArg.Photo -> createGallery(
-                        name,
-                        inviteIds,
-                        defaultUserAccessLevel
-                    )
+                val circlesRoom = when (roomType) {
+                    CircleRoomTypeArg.Circle -> Timeline()
+                    CircleRoomTypeArg.Group -> Group()
+                    CircleRoomTypeArg.Photo -> Gallery()
                 }
+                dataSource.createRoom(
+                    circlesRoom = circlesRoom,
+                    iconUri = selectedImageLiveData.value,
+                    name = name,
+                    topic = topic,
+                    inviteIds = inviteIds,
+                    defaultUserPowerLevel = defaultUserAccessLevel.levelValue,
+                    progressObserver = createRoomProgressListener
+                )
             }
             createRoomProgressEventLiveData.postValue(CreateRoomProgressStage.Finished)
             createRoomResponseLiveData.postValue(result)
         }
     }
-
-    private suspend fun createGroup(
-        name: String,
-        topic: String,
-        inviteIds: List<String>?,
-        defaultUserAccessLevel: AccessLevel
-    ) = dataSource.createRoom(
-        circlesRoom = Group(),
-        iconUri = selectedImageLiveData.value,
-        name = name,
-        topic = topic,
-        inviteIds = inviteIds,
-        defaultUserPowerLevel = defaultUserAccessLevel.levelValue,
-        progressObserver = createRoomProgressListener
-    )
-
-    private suspend fun createCircle(
-        name: String,
-        inviteIds: List<String>?,
-        defaultUserAccessLevel: AccessLevel
-    ) = dataSource.createRoom(
-        circlesRoom = Circle(),
-        name = name,
-        iconUri = selectedImageLiveData.value,
-        inviteIds = inviteIds,
-        defaultUserPowerLevel = defaultUserAccessLevel.levelValue,
-        progressObserver = createRoomProgressListener
-    )
-
-    private suspend fun createGallery(
-        name: String,
-        inviteIds: List<String>?,
-        defaultUserAccessLevel: AccessLevel
-    ) = dataSource.createRoom(
-        circlesRoom = Gallery(),
-        name = name,
-        iconUri = selectedImageLiveData.value,
-        inviteIds = inviteIds,
-        defaultUserPowerLevel = defaultUserAccessLevel.levelValue,
-        progressObserver = createRoomProgressListener
-    )
-
-
 }

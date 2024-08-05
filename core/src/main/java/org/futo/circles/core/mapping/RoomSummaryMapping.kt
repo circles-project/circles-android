@@ -8,9 +8,7 @@ import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInfo
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.model.RoomRequestTypeArg
-import org.futo.circles.core.model.SelectRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.core.model.isCircle
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.UserIdUtils
 import org.futo.circles.core.utils.getKnocksCount
@@ -29,17 +27,16 @@ fun RoomSummary.nameOrId() =
     displayName.takeIf { it.isNotEmpty() } ?: name.takeIf { it.isNotEmpty() } ?: roomId
 
 fun RoomSummary.toSelectableRoomListItem(
-    roomTypeArg: SelectRoomTypeArg,
     selected: Boolean = false
 ) = SelectableRoomListItem(
     id = roomId,
-    info = toRoomInfo(roomTypeArg.isCircle()),
+    info = toRoomInfo(),
     isSelected = selected
 )
 
 fun RoomSummary.toJoinedGalleryListItem() = JoinedGalleryListItem(
     id = roomId,
-    info = toRoomInfo(false),
+    info = toRoomInfo(),
     roomOwner = getRoomOwner(roomId)?.toUser(),
     knockRequestsCount = getKnocksCount(roomId)
 )
@@ -80,7 +77,7 @@ fun RoomSummary.toRoomInviteListItem(requestType: RoomRequestTypeArg, shouldBlur
     } else {
         RoomInviteListItem(
             roomId = roomId,
-            info = toRoomInfo(requestType == RoomRequestTypeArg.Circle),
+            info = toRoomInfo(),
             inviterName = getInviterName(),
             isEncrypted = isEncrypted,
             shouldBlurIcon = shouldBlurIcon,

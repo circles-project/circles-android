@@ -130,7 +130,7 @@ class UpdateRoomDialogFragment :
 
     private fun setInitialRoomData(room: RoomSummary) {
         with(binding) {
-            val roomInfo = room.toRoomInfo(roomType == CircleRoomTypeArg.Circle)
+            val roomInfo = room.toRoomInfo()
             ivCover.loadRoomProfileIcon(
                 roomInfo.avatarUrl,
                 roomInfo.title

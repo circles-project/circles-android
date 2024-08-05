@@ -6,6 +6,7 @@
     <string name="my_groups">My Groups</string>
     <string name="my_people">My People</string>
     <string name="my_circles">My Circles</string>
+    <string name="circles_i_am_following">Circles I\'m following</string>
     <string name="share">Share</string>
     <string name="known_users">Known users</string>
     <string name="ignored_users">Ignored users</string>
@@ -14,8 +15,6 @@
     <string name="no_results">No results</string>
     <string name="invites">Invites</string>
     <string name="log_out">Log out</string>
-    <string name="followed_by_format">Followed by %d</string>
-    <string name="requests_format">Requests %d</string>
     <string name="create_post">Create post</string>
     <string name="create_poll">Create poll</string>
     <string name="enter_your_message_here">Enter your message here</string>
@@ -48,8 +47,6 @@
     <string name="hundred">100</string>
     <string name="severity_formatter">Severity: %d</string>
     <string name="add_reaction">Add reaction</string>
-    <string name="select_circles_in_which_you_want_to_follow_this_timeline">Select circles in which you want to follow this timeline</string>
-    <string name="accept_invite">Accept invite</string>
     <string name="do_you_want_to_open_this_url">Do you want to open this url?</string>
     <string name="save_to_device">Save to device</string>
     <string name="notifications">Notifications</string>
@@ -71,7 +68,7 @@
     <string name="poll_closed_not_voted">Result will be visible when the poll is ended</string>
     <string name="end_poll">End poll</string>
     <string name="end_poll_message">This will stop people from being able to vote and will display the final results of the poll.</string>
-    <string name="create_your_first_circle_to_be_able_to_accept_invite">Create your first Circle to be able to accept invite</string>
+
     <string name="show_more">Show more</string>
     <string name="edit">Edit</string>
     <string name="reply">Reply</string>
@@ -130,6 +127,11 @@
     <plurals name="member_plurals">
         <item quantity="one">%d member</item>
         <item quantity="other">%d members</item>
+    </plurals>
+
+    <plurals name="followers_plurals">
+        <item quantity="one">%d follower</item>
+        <item quantity="other">%d followers</item>
     </plurals>
 
     <plurals name="request_plurals">

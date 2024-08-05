@@ -33,7 +33,7 @@ data class MutualFriendListItem(
 
 fun RoomSummary.toTimelineRoomListItem() = TimelineRoomListItem(
     id = roomId,
-    info = toRoomInfo(false),
+    info = toRoomInfo(),
 )
 
 

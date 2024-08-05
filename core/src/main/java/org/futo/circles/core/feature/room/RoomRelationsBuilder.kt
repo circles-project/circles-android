@@ -23,11 +23,6 @@ class RoomRelationsBuilder @Inject constructor(
         getJoinedRoomById(parentRoomId)?.asSpace()?.addChildren(childId, via, null)
     }
 
-    suspend fun removeRelations(childId: String, parentId: String) {
-        session?.spaceService()?.removeSpaceParent(childId, parentId)
-        session?.getRoom(parentId)?.asSpace()?.removeChildren(childId)
-    }
-
     suspend fun removeFromAllParents(childId: String) {
         session?.getRoom(childId)?.roomSummary()?.spaceParents?.forEach {
             val parentId = it.roomSummary?.roomId ?: ""
@@ -42,8 +37,9 @@ class RoomRelationsBuilder @Inject constructor(
         setRelations(roomId, parentId)
     }
 
-    suspend fun setInvitedRoomRelations(roomId: String, parentCircleId: String) {
-        setRelations(roomId, parentCircleId)
+    private suspend fun removeRelations(childId: String, parentId: String) {
+        session?.spaceService()?.removeSpaceParent(childId, parentId)
+        session?.getRoom(parentId)?.asSpace()?.removeChildren(childId)
     }
 
     private fun getHomeServerDomain() = session?.sessionParams?.homeServerHost ?: ""

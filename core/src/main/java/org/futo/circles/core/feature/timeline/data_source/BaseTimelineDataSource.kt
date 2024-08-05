@@ -1,6 +1,5 @@
 package org.futo.circles.core.feature.timeline.data_source
 
-import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -12,68 +11,56 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.update
-import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.feature.timeline.builder.BaseTimelineBuilder
-import org.futo.circles.core.feature.timeline.builder.MultiTimelineBuilder
-import org.futo.circles.core.feature.timeline.builder.SingleTimelineBuilder
+import kotlinx.coroutines.withContext
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostListItem
 import org.futo.circles.core.model.TimelineLoadingItem
+import org.futo.circles.core.model.TimelineTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
-import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.room.Room
+import org.matrix.android.sdk.api.session.room.getTimelineEvent
+import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
+import org.matrix.android.sdk.api.session.room.timeline.isEdition
 import javax.inject.Inject
 
-enum class TimelineType { CIRCLE, GROUP, DM, GALLERY }
-
 abstract class BaseTimelineDataSource(
-    savedStateHandle: SavedStateHandle,
-    private val timelineBuilder: BaseTimelineBuilder,
-    private val listDirection: Timeline.Direction
+    private val preferencesProvider: PreferencesProvider
 ) {
 
     class Factory @Inject constructor(
-        private val savedStateHandle: SavedStateHandle,
         private val preferencesProvider: PreferencesProvider
     ) {
-        fun create(timelineType: TimelineType): BaseTimelineDataSource =
-            when (timelineType) {
-                TimelineType.CIRCLE -> MultiTimelinesDataSource(
-                    savedStateHandle,
-                    MultiTimelineBuilder(preferencesProvider),
-                    Timeline.Direction.BACKWARDS
-                )
+        fun create(
+            timelineType: TimelineTypeArg,
+            roomId: String?,
+            threadEventId: String?
+        ): BaseTimelineDataSource = when (timelineType) {
+            TimelineTypeArg.ALL_CIRCLES -> MultiTimelinesDataSource(preferencesProvider)
 
-                TimelineType.DM -> SingleTimelineDataSource(
-                    savedStateHandle,
-                    SingleTimelineBuilder(preferencesProvider),
-                    Timeline.Direction.FORWARDS
+            else -> {
+                if (roomId == null) throw IllegalArgumentException(
+                    "Single room timeline must have roomId"
                 )
-
-                TimelineType.GROUP, TimelineType.GALLERY -> {
-                    val threadEventId: String? = savedStateHandle["threadEventId"]
-                    val direction = if (threadEventId != null) Timeline.Direction.FORWARDS
-                    else Timeline.Direction.BACKWARDS
-                    SingleTimelineDataSource(
-                        savedStateHandle,
-                        SingleTimelineBuilder(preferencesProvider),
-                        direction
-                    )
-                }
+                if (timelineType == TimelineTypeArg.THREAD && threadEventId == null) throw IllegalArgumentException(
+                    "Thread timeline type must have threadEventId"
+                )
+                SingleTimelineDataSource(preferencesProvider, timelineType, roomId, threadEventId)
             }
+        }
     }
 
-    protected val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val threadEventId: String? = savedStateHandle["threadEventId"]
     protected val session = MatrixSessionProvider.getSessionOrThrow()
 
-    val room = session.getRoom(roomId) ?: throw IllegalArgumentException("room is not found")
+    protected abstract val listDirection: Timeline.Direction
 
-    private val isThread: Boolean = threadEventId != null
+    private val supportedTimelineEvens: List<String> =
+        listOf(EventType.MESSAGE, EventType.POLL_START.stable, EventType.POLL_START.unstable)
 
     private val pageLoadingFlow = MutableStateFlow(false)
 
@@ -81,13 +68,84 @@ abstract class BaseTimelineDataSource(
         pageLoadingFlow,
         getPostEventsFlow(viewModelScope)
     ) { isLoading, events ->
-        if (isLoading) {
-            mutableListOf<PostListItem>().apply {
-                addAll(events)
-                add(TimelineLoadingItem())
-            }
-        } else events
+        if (isLoading) events + TimelineLoadingItem()
+        else events
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
+
+    abstract fun clearTimeline()
+
+    abstract suspend fun loadMore(showLoader: Boolean)
+
+    protected abstract fun startTimeline(
+        viewModelScope: CoroutineScope,
+        listener: Timeline.Listener
+    )
+
+    protected abstract fun onRestartTimeline(timelineId: String, throwable: Throwable)
+
+    protected abstract suspend fun processSnapshot(
+        snapshot: List<TimelineEvent>,
+        roomId: String,
+    ): List<Post>
+
+    protected abstract fun filterTimelineEvents(snapshot: List<TimelineEvent>): List<TimelineEvent>
+
+    protected fun createAndStartNewTimeline(
+        room: Room,
+        listener: Timeline.Listener,
+        threadEventId: String? = null
+    ) =
+        room.timelineService()
+            .createTimeline(
+                null,
+                TimelineSettings(initialSize = MESSAGES_PER_PAGE, rootThreadEventId = threadEventId)
+            )
+            .apply {
+                addListener(listener)
+                start(threadEventId)
+            }
+
+    protected fun closeTimeline(timeline: Timeline) {
+        timeline.removeAllListeners()
+        timeline.dispose()
+    }
+
+    protected suspend fun loadNextPage(showLoader: Boolean, timeline: Timeline) {
+        if (timeline.hasMoreToLoad(listDirection)) {
+            pageLoadingFlow.update { showLoader }
+            var snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
+            var postsLoadedCount = filterTimelineEvents(snapshot).size
+            while (postsLoadedCount < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(listDirection)) {
+                snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
+                postsLoadedCount = filterTimelineEvents(snapshot).size
+            }
+            timeline.postCurrentSnapshot()
+        }
+        pageLoadingFlow.update { false }
+    }
+
+
+    protected fun sortList(list: List<Post>) =
+        if (listDirection == Timeline.Direction.FORWARDS) list.sortedBy { it.postInfo.timestamp }
+        else list.sortedByDescending { it.postInfo.timestamp }
+
+
+    protected fun getReadReceipts(room: Room): List<Long> =
+        room.membershipService().getRoomMembers(roomMemberQueryParams {
+            memberships = listOf(Membership.JOIN)
+        }).map {
+            val eventId = room.readService().getUserReadReceipt(it.userId)
+                ?: return@map System.currentTimeMillis()
+            room.getTimelineEvent(eventId)?.root?.originServerTs ?: 0
+        }
+
+    protected fun TimelineEvent.isSupportedEvent() =
+        if (preferencesProvider.isDeveloperModeEnabled()) true
+        else root.getClearType() in supportedTimelineEvens
+
+
+    protected fun TimelineEvent.isNotRemovedEvent() = !isEdition() && !root.isRedacted()
+
 
     private fun getPostEventsFlow(viewModelScope: CoroutineScope): Flow<List<Post>> = callbackFlow {
         val listener = object : Timeline.Listener {
@@ -110,56 +168,20 @@ abstract class BaseTimelineDataSource(
         }
         startTimeline(viewModelScope, listener)
         awaitClose()
-    }.flowOn(Dispatchers.IO)
-        .mapLatest { (roomId, snapshot) ->
-            timelineBuilder.build(
-                roomId,
-                snapshot,
-                isThread,
-                listDirection
-            )
-        }
+    }
+        .flowOn(Dispatchers.IO)
+        .mapLatest { (roomId, snapshot) -> this.buildList(roomId, snapshot) }
         .distinctUntilChanged()
 
-    protected abstract fun startTimeline(
-        viewModelScope: CoroutineScope,
-        listener: Timeline.Listener
-    )
 
-    protected abstract fun onRestartTimeline(timelineId: String, throwable: Throwable)
-    abstract fun clearTimeline()
-    abstract suspend fun loadMore(showLoader: Boolean)
-
-    protected fun createAndStartNewTimeline(room: Room, listener: Timeline.Listener) =
-        room.timelineService()
-            .createTimeline(
-                null,
-                TimelineSettings(initialSize = MESSAGES_PER_PAGE, rootThreadEventId = threadEventId)
-            )
-            .apply {
-                addListener(listener)
-                start(threadEventId)
-            }
-
-    protected fun closeTimeline(timeline: Timeline) {
-        timeline.removeAllListeners()
-        timeline.dispose()
-    }
-
-    protected suspend fun loadNextPage(showLoader: Boolean, timeline: Timeline) {
-        if (timeline.hasMoreToLoad(listDirection)) {
-            pageLoadingFlow.update { showLoader }
-            var snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
-            var postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
-            while (postsLoadedCount < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(listDirection)) {
-                snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
-                postsLoadedCount = timelineBuilder.filterTimelineEvents(snapshot, isThread).size
-            }
-            timeline.postCurrentSnapshot()
-        } else {
-            pageLoadingFlow.update { false }
+    private suspend fun buildList(
+        roomId: String,
+        snapshot: List<TimelineEvent>
+    ): List<Post> =
+        withContext(Dispatchers.IO) {
+            val filteredEvents = filterTimelineEvents(snapshot)
+            processSnapshot(filteredEvents, roomId)
         }
-    }
 
     companion object {
         private const val MESSAGES_PER_PAGE = 20

@@ -12,12 +12,12 @@
         tools:layout="@layout/dialog_fragment_timeline">
 
         <argument
-            android:name="roomId"
-            app:argType="string"
+            android:name="timelineType"
+            app:argType="org.futo.circles.core.model.TimelineTypeArg"
             app:nullable="false" />
 
         <argument
-            android:name="timelineId"
+            android:name="roomId"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
@@ -27,17 +27,6 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
-
-        <action
-            android:id="@+id/to_filterTimelinesDialogFragment"
-            app:destination="@id/filter_timelines_nav_graph">
-
-            <argument
-                android:name="circleId"
-                app:argType="string"
-                app:nullable="false" />
-
-        </action>
 
         <action
             android:id="@+id/to_createPostBottomSheet"
@@ -138,9 +127,9 @@
                 app:nullable="false" />
 
             <argument
-                android:name="type"
-                android:defaultValue="Group"
-                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                android:name="timelineType"
+                android:defaultValue="THREAD"
+                app:argType="org.futo.circles.core.model.TimelineTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -157,12 +146,6 @@
                 android:name="type"
                 app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
                 app:nullable="false" />
-
-            <argument
-                android:name="timelineId"
-                app:argType="string"
-                app:nullable="true" />
-
         </action>
         <action
             android:id="@+id/to_postMenuBottomSheet"
@@ -176,6 +159,16 @@
             <argument
                 android:name="eventId"
                 app:argType="string"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_pickCircleDialogFragment"
+            app:destination="@id/pickCircleDialogFragment">
+
+            <argument
+                android:name="type"
+                app:argType="org.futo.circles.model.PickCircleTypeArg"
                 app:nullable="false" />
 
         </action>
@@ -389,6 +382,75 @@
         </action>
     </dialog>
 
-    <include app:graph="@navigation/filter_timelines_nav_graph" />
+    <dialog
+        android:id="@+id/pickCircleDialogFragment"
+        android:name="org.futo.circles.feature.circles.pick.PickCircleDialogFragment"
+        tools:layout="@layout/dialog_fragment_pick_circle">
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.model.PickCircleTypeArg"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/to_timeline_options"
+            app:destination="@id/timeline_options_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Circle"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+        </action>
+
+
+        <action
+            android:id="@+id/to_createPost"
+            app:destination="@id/createPostBottomSheet"
+            app:popUpTo="@id/timelineFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+
+            <argument
+                android:name="isEdit"
+                android:defaultValue="false"
+                app:argType="boolean"
+                app:nullable="false" />
+
+        </action>
+        <action
+            android:id="@+id/to_createPoll"
+            app:destination="@id/createPollDialogFragment"
+            app:popUpTo="@id/timelineFragment">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+
+
+    </dialog>
 
 </navigation>

@@ -10,22 +10,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
+import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
-import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
-import org.futo.circles.core.feature.timeline.data_source.TimelineType
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.mapping.toCirclesUserSummary
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
+import org.futo.circles.core.model.TimelineTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
 import org.futo.circles.model.TextPostContent
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.util.Cancelable
 import javax.inject.Inject
@@ -37,21 +38,21 @@ class DMTimelineViewModel @Inject constructor(
     timelineDataSourceFactory: BaseTimelineDataSource.Factory,
     private val postOptionsDataSource: PostOptionsDataSource,
     private val readMessageDataSource: ReadMessageDataSource,
-    circleFilterAccountDataManager: CircleFilterAccountDataManager,
     private val sendMessageDataSource: SendMessageDataSource
 ) : BaseTimelineViewModel(
-    savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineType.DM),
-    circleFilterAccountDataManager
+    timelineDataSourceFactory.create(
+        TimelineTypeArg.DM, savedStateHandle["roomId"], null
+    )
 ) {
 
-    val session = MatrixSessionProvider.currentSession
+    private val roomId: String = savedStateHandle.getOrThrow("roomId")
+    val session = MatrixSessionProvider.getSessionOrThrow()
     val shareLiveData = SingleEventLiveData<ShareableContent>()
     val saveToDeviceLiveData = SingleEventLiveData<Unit>()
     val unSendReactionLiveData = SingleEventLiveData<Response<Cancelable?>>()
 
-    val userTitleLiveData = getRoomSummaryLive().map {
+    val userTitleLiveData = session.getRoom(roomId)?.getRoomSummaryLive()?.map {
         it.getOrNull()?.let { roomSummary ->
             session.getUserOrDefault(roomSummary.directUserId ?: "").toCirclesUserSummary()
         }

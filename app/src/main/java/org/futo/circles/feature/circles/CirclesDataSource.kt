@@ -5,25 +5,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
-import org.futo.circles.core.feature.room.create.CreateRoomDataSource
-import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getJoinedRoomById
-import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.utils.getTimelinesLiveData
 import org.futo.circles.mapping.toJoinedCircleListItem
+import org.futo.circles.model.AllCirclesListItem
 import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
-import org.matrix.android.sdk.api.extensions.tryOrNull
-import org.matrix.android.sdk.api.session.getRoomSummary
+import org.futo.circles.model.CirclesHeaderItem
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
 
-class CirclesDataSource @Inject constructor(
-    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource,
-    private val createRoomDataSource: CreateRoomDataSource
-) {
+class CirclesDataSource @Inject constructor() {
 
     fun getCirclesFlow() = combine(
         getTimelinesLiveData().asFlow(),
@@ -32,36 +25,37 @@ class CirclesDataSource @Inject constructor(
         withContext(Dispatchers.IO) { buildCirclesList(timelines) }
     }.distinctUntilChanged()
 
-    private suspend fun buildCirclesList(timelines: List<RoomSummary>): List<CircleListItem> {
-        val joinedCirclesWithTimelines = spacesTreeAccountDataSource.getJoinedCirclesIds()
-            .mapNotNull { id ->
-                getJoinedRoomById(id)?.roomSummary()?.let { summary ->
-                    getOrCreateTimeLineIfNotExist(summary.roomId)?.let { timelineId ->
-                        summary.toJoinedCircleListItem(timelineId)
-                    }
-                }
-            }
+    private fun buildCirclesList(timelines: List<RoomSummary>): List<CircleListItem> {
+        val joinedTimelines = timelines
+            .filter { it.membership == Membership.JOIN }
+            .map { it.toJoinedCircleListItem() }
 
         val invitesCount = timelines.filter { it.membership == Membership.INVITE }.size
         var knocksCount = 0
-        joinedCirclesWithTimelines.forEach { knocksCount += it.knockRequestsCount }
+        joinedTimelines.forEach { knocksCount += it.knockRequestsCount }
+
+        val myCircles =
+            joinedTimelines.filter { it.owner?.id == MatrixSessionProvider.currentSession?.myUserId }
+        val followingCircles = joinedTimelines - myCircles.toSet()
 
         val displayList = mutableListOf<CircleListItem>().apply {
             if (invitesCount > 0 || knocksCount > 0) {
                 add(CircleInvitesNotificationListItem(invitesCount, knocksCount))
             }
-            addAll(joinedCirclesWithTimelines)
+            if (joinedTimelines.isNotEmpty()) add(AllCirclesListItem)
+            addSection(CirclesHeaderItem.myCirclesHeader, myCircles)
+            addSection(CirclesHeaderItem.circlesIamFollowingHeader, followingCircles)
         }
         return displayList
     }
 
-    private suspend fun getOrCreateTimeLineIfNotExist(circleId: String): String? = tryOrNull {
-        var timelineId = getTimelineRoomFor(circleId)?.roomId
-        if (timelineId == null) {
-            val name =
-                MatrixSessionProvider.getSessionOrThrow().getRoomSummary(circleId)?.name
-            timelineId = createRoomDataSource.createCircleTimeline(circleId, name)
+    private fun MutableList<CircleListItem>.addSection(
+        title: CirclesHeaderItem,
+        items: List<CircleListItem>
+    ) {
+        if (items.isNotEmpty()) {
+            add(title)
+            addAll(items)
         }
-        timelineId
     }
 }

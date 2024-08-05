@@ -26,13 +26,12 @@ import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.model.RoomRequestTypeArg
 import org.futo.circles.core.model.TIMELINE_TYPE
+import org.futo.circles.core.model.TimelineTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getTimelineRoomFor
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.databinding.FragmentBottomNavigationBinding
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.model.Membership
-import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import org.matrix.android.sdk.api.session.sync.SyncState
 
 
@@ -74,41 +73,47 @@ class HomeFragment :
     private fun handleOpenFromNotification() {
         val roomId = activity?.intent?.getStringExtra(roomIdParam) ?: return
         val summary = MatrixSessionProvider.currentSession?.getRoomSummary(roomId) ?: return
-        val type = summary.roomType?.takeIf { it == GROUP_TYPE || it == TIMELINE_TYPE } ?: return
+
+        val requestType = when (summary.roomType) {
+            GROUP_TYPE -> RoomRequestTypeArg.Group
+            TIMELINE_TYPE -> RoomRequestTypeArg.Circle
+            null -> RoomRequestTypeArg.DM
+            else -> return
+        }
 
         with(binding.bottomNavigationView) {
             post {
-                selectedItemId = if (type == GROUP_TYPE) R.id.groups_nav_graph
-                else R.id.circles_nav_graph
+                selectedItemId = when (requestType) {
+                    RoomRequestTypeArg.DM -> R.id.direct_messages_nav_graph
+                    RoomRequestTypeArg.Group -> R.id.groups_nav_graph
+                    else -> R.id.circles_nav_graph
+                }
             }
         }
 
         when (summary.membership) {
-            Membership.INVITE -> handleInviteNotificationOpen(type)
-            Membership.JOIN -> handlePostNotificationOpen(type, summary)
+            Membership.INVITE -> handleInviteNotificationOpen(requestType)
+            Membership.JOIN -> handlePostNotificationOpen(requestType, summary.roomId)
             else -> return
         }
         activity?.intent?.removeExtra(roomIdParam)
     }
 
-    private fun handleInviteNotificationOpen(type: String) {
-        val inviteType = if (type == GROUP_TYPE) RoomRequestTypeArg.Group
-        else RoomRequestTypeArg.Circle
+    private fun handleInviteNotificationOpen(type: RoomRequestTypeArg) {
         binding.bottomNavigationView.post {
-            findNavController().navigateSafe(HomeFragmentDirections.toRoomRequests(inviteType))
+            findNavController().navigateSafe(HomeFragmentDirections.toRoomRequests(type))
         }
     }
 
-    private fun handlePostNotificationOpen(type: String, summary: RoomSummary) {
-        val roomId = viewModel.getNotificationGroupOrCircleId(summary) ?: return
-        val timelineId = if (type == GROUP_TYPE) null else getTimelineRoomFor(roomId)?.roomId
-        binding.bottomNavigationView.post {
-            findNavController().navigateSafe(
-                HomeFragmentDirections.toTimeline(roomId, timelineId)
-            )
+    private fun handlePostNotificationOpen(requestType: RoomRequestTypeArg, roomId: String) {
+        val direction = when (requestType) {
+            RoomRequestTypeArg.Circle -> HomeFragmentDirections.toTimeline(roomId, TimelineTypeArg.CIRCLE)
+            RoomRequestTypeArg.Group -> HomeFragmentDirections.toTimeline(roomId, TimelineTypeArg.GROUP)
+            else -> HomeFragmentDirections.toDmTimeline(roomId)
         }
-    }
 
+        binding.bottomNavigationView.post { findNavController().navigateSafe(direction) }
+    }
 
     private fun handleOpenFromShareRoomUrl() {
         val uri = activity?.intent?.data ?: return

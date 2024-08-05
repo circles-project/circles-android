@@ -12,7 +12,6 @@ import org.futo.circles.core.feature.room.RoomNotificationsDataSource
 import org.futo.circles.core.feature.room.leave.LeaveRoomDataSource
 import org.futo.circles.core.feature.room.requests.KnockRequestsDataSource
 import org.futo.circles.core.feature.timeline.data_source.AccessLevelDataSource
-import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.getRoom
 import javax.inject.Inject
@@ -27,31 +26,26 @@ class TimelineOptionsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
-    private val timelineId: String? = savedStateHandle["timelineId"]
 
     val leaveDeleteEventLiveData = SingleEventLiveData<Response<Unit?>>()
-    val accessLevelLiveData = accessLevelDataSource.accessLevelFlow.asLiveData()
-    val notificationsStateLiveData = roomNotificationsDataSource.notificationsStateLiveData
-    val knockRequestCountLiveData = knockRequestsDataSource.getKnockRequestCountFlow(
-        timelineId ?: roomId
-    ).asLiveData()
+    val accessLevelLiveData = accessLevelDataSource.getAccessLevelFlow(roomId).asLiveData()
+    val notificationsStateLiveData =
+        roomNotificationsDataSource.getNotificationsStateLiveData(roomId)
+    val knockRequestCountLiveData =
+        knockRequestsDataSource.getKnockRequestCountFlow(roomId).asLiveData()
 
     val roomSummaryLiveData =
         MatrixSessionProvider.getSessionOrThrow().getRoom(roomId)?.getRoomSummaryLive()
 
-    fun delete(type: CircleRoomTypeArg) {
+    fun delete() {
         launchBg {
-            val result = when (type) {
-                CircleRoomTypeArg.Circle -> leaveRoomDataSource.deleteCircle()
-                CircleRoomTypeArg.Group -> leaveRoomDataSource.deleteGroup()
-                CircleRoomTypeArg.Photo -> leaveRoomDataSource.deleteGallery()
-            }
+            val result = leaveRoomDataSource.deleteRoom()
             leaveDeleteEventLiveData.postValue(result)
         }
     }
 
     fun setNotificationsEnabled(enabled: Boolean) {
-        launchBg { roomNotificationsDataSource.setNotificationsEnabled(enabled) }
+        launchBg { roomNotificationsDataSource.setNotificationsEnabled(roomId, enabled) }
     }
 
     fun leaveRoom() {

@@ -124,14 +124,6 @@
 
 
             <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvFilterTimelines"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_filter"
-                app:optionName="@string/filter_timelines" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvManageMembers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -186,21 +178,6 @@
                     app:layout_constraintTop_toBottomOf="@id/tvKnocksTitle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvMyFollowers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_outline_people"
-                app:optionName="@string/my_followers" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvPeopleImFollowing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_round_people"
-                app:optionName="@string/people_i_m_following" />
 
 
             <org.futo.circles.core.view.SettingsMenuItemView

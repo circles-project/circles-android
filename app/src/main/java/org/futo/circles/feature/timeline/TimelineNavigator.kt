@@ -4,6 +4,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.model.CircleRoomTypeArg
+import org.futo.circles.model.PickCircleTypeArg
 
 @ExperimentalBadgeUtils
 class TimelineNavigator(private val fragment: TimelineDialogFragment) {
@@ -17,15 +18,9 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         )
     }
 
-    fun navigateToTimelineOptions(roomId: String, type: CircleRoomTypeArg, timelineId: String?) {
+    fun navigateToTimelineOptions(roomId: String, type: CircleRoomTypeArg) {
         fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toTimelineOptions(roomId, type, timelineId)
-        )
-    }
-
-    fun navigateToTimelinesFilter(roomId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toFilterTimelinesDialogFragment(roomId)
+            TimelineDialogFragmentDirections.toTimelineOptions(roomId, type)
         )
     }
 
@@ -63,5 +58,32 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         fragment.findNavController().navigateSafe(
             TimelineDialogFragmentDirections.toPostMenuBottomSheet(roomId, eventId)
         )
+    }
+
+    fun navigateToAllPostSettings() {
+        fragment.findNavController()
+            .navigateSafe(
+                TimelineDialogFragmentDirections.toPickCircleDialogFragment(
+                    PickCircleTypeArg.AllPostsSettings
+                )
+            )
+    }
+
+    fun navigateToChooseCircleToPost() {
+        fragment.findNavController()
+            .navigateSafe(
+                TimelineDialogFragmentDirections.toPickCircleDialogFragment(
+                    PickCircleTypeArg.CreatePost
+                )
+            )
+    }
+
+    fun navigateToChooseCircleToCreatePoll() {
+        fragment.findNavController()
+            .navigateSafe(
+                TimelineDialogFragmentDirections.toPickCircleDialogFragment(
+                    PickCircleTypeArg.CreatePoll
+                )
+            )
     }
 }

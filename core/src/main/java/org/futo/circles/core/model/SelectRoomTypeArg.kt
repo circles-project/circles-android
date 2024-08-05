@@ -4,8 +4,7 @@ enum class SelectRoomTypeArg {
     CirclesJoined,
     GroupsJoined,
     PhotosJoined,
-    MyCircleNotJoinedByUser
+    MyCirclesNotJoinedByUser,
+    MyCircles
 }
 
-fun SelectRoomTypeArg.isCircle() =
-    this == SelectRoomTypeArg.CirclesJoined || this == SelectRoomTypeArg.MyCircleNotJoinedByUser

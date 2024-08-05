@@ -39,7 +39,7 @@ class InviteToFollowMeDialogFragment :
     private val inviteLoadingDialog by lazy { LoadingDialog(requireContext()) }
 
     private val selectRoomsFragment by lazy {
-        SelectRoomsFragment.create(SelectRoomTypeArg.MyCircleNotJoinedByUser, args.userId)
+        SelectRoomsFragment.create(SelectRoomTypeArg.MyCirclesNotJoinedByUser, args.userId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

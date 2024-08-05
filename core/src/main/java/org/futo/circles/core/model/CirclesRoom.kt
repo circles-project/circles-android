@@ -12,7 +12,7 @@ const val GALLERY_TYPE = "$orgPrefix.social.gallery"
 const val TIMELINE_TYPE = "$orgPrefix.social.timeline"
 
 const val ROOT_SPACE_ACCOUNT_DATA_KEY = "root"
-const val CIRCLES_SPACE_ACCOUNT_DATA_KEY = "circles"
+const val TIMELINES_SPACE_ACCOUNT_DATA_KEY = "timelines"
 const val PROFILE_SPACE_ACCOUNT_DATA_KEY = "profile"
 const val PHOTOS_SPACE_ACCOUNT_DATA_KEY = "galleries"
 const val PEOPLE_SPACE_ACCOUNT_DATA_KEY = "people"
@@ -41,14 +41,14 @@ data class RootSpace(
     override fun getTag(): String = "$orgPrefix.space.root"
 }
 
-data class CirclesSpace(
-    override val nameId: Int? = R.string.circles_space_name,
+data class TimelinesSpace(
+    override val nameId: Int? = R.string.timelines_space_name,
     override val parentAccountDataKey: String? = ROOT_SPACE_ACCOUNT_DATA_KEY,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null,
-    override val accountDataKey: String? = CIRCLES_SPACE_ACCOUNT_DATA_KEY
+    override val accountDataKey: String? = TIMELINES_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, accountDataKey) {
-    override fun getTag(): String = "$orgPrefix.space.circles"
+    override fun getTag(): String = "$orgPrefix.space.timelines"
 }
 
 data class SharedCirclesSpace(
@@ -72,7 +72,7 @@ data class PhotosSpace(
 }
 
 data class PeopleSpace(
-    override val nameId: Int? = R.string.peopel_space_name,
+    override val nameId: Int? = R.string.people_space_name,
     override val parentAccountDataKey: String? = ROOT_SPACE_ACCOUNT_DATA_KEY,
     override val type: String? = RoomType.SPACE,
     override val joinRules: RoomJoinRules? = null,
@@ -93,14 +93,6 @@ data class GroupsSpace(
     override fun getTag(): String = "$orgPrefix.space.groups"
 }
 
-data class Circle(
-    override val nameId: Int? = null,
-    override val parentAccountDataKey: String? = CIRCLES_SPACE_ACCOUNT_DATA_KEY,
-    override val type: String? = RoomType.SPACE,
-    override val joinRules: RoomJoinRules? = null
-) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, null) {
-    override fun getTag(): String = "$orgPrefix.social.circle"
-}
 
 data class Group(
     override val nameId: Int? = null,
@@ -118,7 +110,7 @@ data class Gallery(
 
 data class Timeline(
     override val nameId: Int? = null,
-    override val parentAccountDataKey: String? = null,
+    override val parentAccountDataKey: String? = TIMELINES_SPACE_ACCOUNT_DATA_KEY,
     override val type: String? = TIMELINE_TYPE,
     override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK
 ) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, null)

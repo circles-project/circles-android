@@ -33,7 +33,7 @@
         android:layout_marginStart="16dp"
         android:ellipsize="end"
         android:lines="1"
-        app:layout_constraintBottom_toTopOf="@id/tvFollowing"
+        app:layout_constraintBottom_toTopOf="@id/tvFollowers"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ivCircle"
         app:layout_constraintTop_toTopOf="parent"
@@ -41,7 +41,7 @@
         tools:text="texsdt" />
 
     <TextView
-        android:id="@+id/tvFollowing"
+        android:id="@+id/tvFollowers"
         style="@style/subheadline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -49,30 +49,14 @@
         android:layout_marginEnd="4dp"
         android:ellipsize="end"
         android:lines="1"
-        app:layout_constraintBottom_toTopOf="@id/tvFollowedBy"
+        app:layout_constraintBottom_toTopOf="@id/tvUpdateTime"
         app:layout_constraintEnd_toStartOf="@+id/vNotificationsCount"
         app:layout_constraintStart_toStartOf="@id/tvCircleTitle"
         app:layout_constraintTop_toBottomOf="@id/tvCircleTitle"
         tools:text="texsdtd" />
 
     <TextView
-        android:id="@+id/tvFollowedBy"
-        style="@style/subheadline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:ellipsize="end"
-        android:lines="1"
-        app:layout_constraintBottom_toTopOf="@id/tvKnockRequests"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/vNotificationsCount"
-        app:layout_constraintStart_toStartOf="@id/tvCircleTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvFollowing"
-        tools:text="texsdt" />
-
-    <TextView
-        android:id="@+id/tvKnockRequests"
+        android:id="@+id/tvUpdateTime"
         style="@style/subheadline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -84,15 +68,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/vNotificationsCount"
         app:layout_constraintStart_toStartOf="@id/tvCircleTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvFollowedBy"
+        app:layout_constraintTop_toBottomOf="@id/tvFollowers"
         tools:text="texsdt" />
 
     <org.futo.circles.core.view.NotificationCounterView
         android:id="@+id/vNotificationsCount"
         android:layout_width="24dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

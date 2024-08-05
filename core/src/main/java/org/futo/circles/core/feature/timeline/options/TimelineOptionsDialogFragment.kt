@@ -25,6 +25,7 @@ import org.futo.circles.core.model.DeleteGallery
 import org.futo.circles.core.model.DeleteGroup
 import org.futo.circles.core.model.LeaveGallery
 import org.futo.circles.core.model.LeaveGroup
+import org.futo.circles.core.model.UnfollowTimeline
 import org.futo.circles.core.provider.PreferencesProvider
 
 @AndroidEntryPoint
@@ -36,8 +37,6 @@ class TimelineOptionsDialogFragment :
     private val args: TimelineOptionsDialogFragmentArgs by navArgs()
 
     private val viewModel by viewModels<TimelineOptionsViewModel>()
-
-    private val timelineId by lazy { args.timelineId ?: args.roomId }
     private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
     private val navigator by lazy { TimelineOptionsNavigator(this) }
 
@@ -50,7 +49,6 @@ class TimelineOptionsDialogFragment :
     private fun setupViews() {
         with(binding) {
             lPushNotifications.apply {
-                setIsVisible(args.type != CircleRoomTypeArg.Photo)
                 setOnClickListener { viewModel.setNotificationsEnabled(!svPushNotifications.isChecked) }
             }
             tvConfigure.apply {
@@ -81,13 +79,13 @@ class TimelineOptionsDialogFragment :
                             CircleRoomTypeArg.Photo -> DeleteGallery()
                         }
                     ) {
-                        viewModel.delete(args.type)
+                        viewModel.delete()
                     }
                 }
             }
             tvStateEvents.apply {
                 setIsVisible(preferencesProvider.isDeveloperModeEnabled())
-                setOnClickListener { navigator.navigateToStateEvents(timelineId) }
+                setOnClickListener { navigator.navigateToStateEvents(args.roomId) }
             }
             tvInviteMembers.apply {
                 setText(
@@ -96,37 +94,27 @@ class TimelineOptionsDialogFragment :
                         else R.string.invite_members
                     )
                 )
-                setOnClickListener { navigator.navigateToInviteMembers(timelineId) }
+                setOnClickListener { navigator.navigateToInviteMembers(args.roomId) }
             }
             tvKnockRequests.setOnClickListener {
-                navigator.navigateToRequestForInvite(args.type, timelineId)
+                navigator.navigateToRequestForInvite(args.type, args.roomId)
             }
             tvLeave.apply {
-                setIsVisible(args.type != CircleRoomTypeArg.Circle)
                 setText(
                     getString(
-                        if (args.type == CircleRoomTypeArg.Group) R.string.leave_group
-                        else R.string.leave_gallery
+                        when (args.type) {
+                            CircleRoomTypeArg.Circle -> R.string.unfollow_circle
+                            CircleRoomTypeArg.Group -> R.string.leave_group
+                            CircleRoomTypeArg.Photo -> R.string.leave_gallery
+                        }
                     )
                 )
                 setOnClickListener { showLeaveRoomDialog() }
             }
-            tvShare.setOnClickListener { navigator.navigateToShareRoom(timelineId, args.type) }
+            tvShare.setOnClickListener { navigator.navigateToShareRoom(args.roomId, args.type) }
             tvManageMembers.apply {
-                setIsVisible(args.type != CircleRoomTypeArg.Circle)
-                setOnClickListener { navigator.navigateToManageMembers(timelineId, args.type) }
-            }
-            tvMyFollowers.apply {
-                setIsVisible(args.type == CircleRoomTypeArg.Circle)
-                setOnClickListener { navigator.navigateToManageMembers(timelineId, args.type) }
-            }
-            tvPeopleImFollowing.apply {
-                setIsVisible(args.type == CircleRoomTypeArg.Circle)
-                setOnClickListener { navigator.navigateToFollowing(args.roomId) }
-            }
-            tvFilterTimelines.apply {
-                setIsVisible(args.type == CircleRoomTypeArg.Circle)
-                setOnClickListener { navigator.navigateFilterTimelines(args.roomId) }
+                setText(getString(if (args.type == CircleRoomTypeArg.Circle) R.string.followers else R.string.manage_members))
+                setOnClickListener { navigator.navigateToManageMembers(args.roomId, args.type) }
             }
         }
     }
@@ -141,7 +129,6 @@ class TimelineOptionsDialogFragment :
             }
         )
         viewModel.accessLevelLiveData.observeData(this) { groupPowerLevelsContent ->
-            if (args.type == CircleRoomTypeArg.Circle) return@observeData
             with(binding) {
                 tvConfigure.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToChangeSettings())
                 tvInviteMembers.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
@@ -151,7 +138,7 @@ class TimelineOptionsDialogFragment :
         }
         viewModel.roomSummaryLiveData?.observeData(this) {
             it.getOrNull()?.let { room ->
-                val roomInfo = room.toRoomInfo(args.type == CircleRoomTypeArg.Circle)
+                val roomInfo = room.toRoomInfo()
                 binding.ivCover.loadRoomProfileIcon(
                     roomInfo.avatarUrl,
                     roomInfo.title
@@ -174,7 +161,11 @@ class TimelineOptionsDialogFragment :
     private fun showLeaveRoomDialog() {
         if (viewModel.canLeaveRoom()) {
             withConfirmation(
-                if (args.type == CircleRoomTypeArg.Group) LeaveGroup() else LeaveGallery()
+                when (args.type) {
+                    CircleRoomTypeArg.Circle -> UnfollowTimeline()
+                    CircleRoomTypeArg.Group -> LeaveGroup()
+                    CircleRoomTypeArg.Photo -> LeaveGallery()
+                }
             ) { viewModel.leaveRoom() }
         } else {
             showDialog(

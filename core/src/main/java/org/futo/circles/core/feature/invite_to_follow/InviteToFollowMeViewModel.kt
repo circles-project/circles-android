@@ -6,10 +6,8 @@ import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.feature.room.invite.ManageInviteRequestsDataSource
-import org.futo.circles.core.mapping.nameOrId
 import org.futo.circles.core.model.InviteLoadingEvent
 import org.futo.circles.core.model.SelectableRoomListItem
-import org.futo.circles.core.utils.getTimelineRoomFor
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,16 +19,12 @@ class InviteToFollowMeViewModel @Inject constructor(
     val inviteLoadingEventLiveData = SingleEventLiveData<InviteLoadingEvent>()
 
     fun invite(userId: String, selectedRooms: List<SelectableRoomListItem>) {
-        val timelines = selectedRooms.mapNotNull { getTimelineRoomFor(it.id) }
         launchBg {
-            timelines.forEach { timeline ->
+            selectedRooms.forEach { timeline ->
                 inviteLoadingEventLiveData.postValue(
-                    InviteLoadingEvent(
-                        userId,
-                        timeline.roomSummary()?.nameOrId() ?: ""
-                    )
+                    InviteLoadingEvent(userId, timeline.info.title)
                 )
-                val result = manageInviteRequestsDataSource.inviteUser(timeline.roomId, userId)
+                val result = manageInviteRequestsDataSource.inviteUser(timeline.id, userId)
                 (result as? Response.Error)?.let {
                     inviteLoadingEventLiveData.postValue(InviteLoadingEvent(isLoading = false))
                     inviteResultLiveData.postValue(result)

@@ -11,23 +11,21 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import org.futo.circles.core.extensions.getOrThrow
-import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.mapping.toSelectableRoomListItem
 import org.futo.circles.core.model.SelectRoomTypeArg
 import org.futo.circles.core.model.SelectableRoomListItem
+import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getGalleriesLiveData
 import org.futo.circles.core.utils.getGroupsLiveData
-import org.futo.circles.core.utils.getSpacesLiveData
-import org.futo.circles.core.utils.getTimelineRoomFor
+import org.futo.circles.core.utils.getTimelinesLiveData
+import org.futo.circles.core.utils.getTimelinesOwnedByMeLiveData
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
 
 @ViewModelScoped
-class SelectRoomsDataSource @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-    private val spacesTreeAccountDataSource: SpacesTreeAccountDataSource
-) {
+class SelectRoomsDataSource @Inject constructor(savedStateHandle: SavedStateHandle) {
 
     private val ordinal = savedStateHandle.getOrThrow<Int>(SelectRoomsFragment.TYPE_ORDINAL)
     private val roomType: SelectRoomTypeArg =
@@ -42,26 +40,27 @@ class SelectRoomsDataSource @Inject constructor(
     private fun getMergedRoomsListFlow() =
         combine(getRoomsFlowWithType(), selectedRoomsFlow) { rooms, selectedRooms ->
             rooms.map { room ->
-                room.toSelectableRoomListItem(
-                    roomType,
-                    selectedRooms.containsWithId(room.roomId)
-                )
+                room.toSelectableRoomListItem(selectedRooms.containsWithId(room.roomId))
             }
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
     private fun getRoomsFlowWithType(): Flow<List<RoomSummary>> = when (roomType) {
-        SelectRoomTypeArg.CirclesJoined -> getSpacesLiveData(listOf(Membership.JOIN)).map { summaries ->
-            filterAllMyCirclesRoomSummaries(summaries)
-        }.asFlow()
+        SelectRoomTypeArg.MyCircles -> getTimelinesOwnedByMeLiveData(listOf(Membership.JOIN))
 
-        SelectRoomTypeArg.MyCircleNotJoinedByUser -> getSpacesLiveData(listOf(Membership.JOIN)).map { summaries ->
-            filterAllMyCirclesRoomSummaries(summaries).filter { !isUserJoinedToCircle(it) }
-        }.asFlow()
+        SelectRoomTypeArg.CirclesJoined -> getTimelinesLiveData(listOf(Membership.JOIN))
 
-        SelectRoomTypeArg.GroupsJoined -> getGroupsLiveData(listOf(Membership.JOIN)).asFlow()
+        SelectRoomTypeArg.MyCirclesNotJoinedByUser -> getTimelinesOwnedByMeLiveData(
+            listOf(
+                Membership.JOIN
+            )
+        ).map { summaries ->
+            summaries.filter { !isUserJoinedToCircle(it) }
+        }
 
-        SelectRoomTypeArg.PhotosJoined -> getGalleriesLiveData(listOf(Membership.JOIN)).asFlow()
-    }
+        SelectRoomTypeArg.GroupsJoined -> getGroupsLiveData(listOf(Membership.JOIN))
+
+        SelectRoomTypeArg.PhotosJoined -> getGalleriesLiveData(listOf(Membership.JOIN))
+    }.asFlow()
 
     fun getSelectedRooms() = selectedRoomsFlow.value.filter { it.isSelected }
 
@@ -72,17 +71,10 @@ class SelectRoomsDataSource @Inject constructor(
         selectedRoomsFlow.value = list
     }
 
-    private fun filterAllMyCirclesRoomSummaries(allJoinedSpacesSummaries: List<RoomSummary>): List<RoomSummary> {
-        val joinedCirclesIds = spacesTreeAccountDataSource.getJoinedCirclesIds()
-        return allJoinedSpacesSummaries.mapNotNull { summary ->
-            if (joinedCirclesIds.contains(summary.roomId)) summary
-            else null
-        }
-    }
-
-    private fun isUserJoinedToCircle(circleSpaceSummary: RoomSummary): Boolean {
-        val timeline = getTimelineRoomFor(circleSpaceSummary.roomId)
-        val member = timeline?.membershipService()?.getRoomMember(filterUserId ?: "")
+    private fun isUserJoinedToCircle(timeline: RoomSummary): Boolean {
+        val member =
+            MatrixSessionProvider.currentSession?.getRoom(timeline.roomId)?.membershipService()
+                ?.getRoomMember(filterUserId ?: "")
         return member?.membership == Membership.JOIN
     }
 

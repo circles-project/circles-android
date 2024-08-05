@@ -8,30 +8,28 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import org.futo.circles.core.feature.circles.filter.CircleFilterAccountDataManager
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.feature.timeline.BaseTimelineViewModel
 import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
-import org.futo.circles.core.feature.timeline.data_source.TimelineType
 import org.futo.circles.core.model.GalleryContentListItem
 import org.futo.circles.core.model.GalleryTimelineLoadingListItem
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.model.TimelineLoadingItem
+import org.futo.circles.core.model.TimelineTypeArg
 import javax.inject.Inject
 
 @HiltViewModel
 class PickMediaItemViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @ApplicationContext context: Context,
-    timelineDataSourceFactory: BaseTimelineDataSource.Factory,
-    circleFilterAccountDataManager: CircleFilterAccountDataManager
+    timelineDataSourceFactory: BaseTimelineDataSource.Factory
 ) : BaseTimelineViewModel(
-    savedStateHandle,
     context,
-    timelineDataSourceFactory.create(TimelineType.GALLERY),
-    circleFilterAccountDataManager
+    timelineDataSourceFactory.create(
+        TimelineTypeArg.GALLERY, savedStateHandle["roomId"], null
+    )
 ) {
 
     private val isVideoAvailable: Boolean = savedStateHandle[IS_VIDEO_AVAILABLE] ?: true

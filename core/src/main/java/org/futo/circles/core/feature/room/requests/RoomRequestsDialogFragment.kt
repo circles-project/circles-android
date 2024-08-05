@@ -3,14 +3,12 @@ package org.futo.circles.core.feature.room.requests
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.DialogFragmentRoomRequestsBinding
-import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showNoInternetConnection
@@ -85,15 +83,7 @@ class RoomRequestsDialogFragment : BaseFullscreenDialogFragment<DialogFragmentRo
 
     private fun onInviteClicked(item: RoomInviteListItem, isAccepted: Boolean) {
         if (showNoInternetConnection()) return
-        when (item.requestType) {
-            RoomRequestTypeArg.Circle -> handleCircleInvite(item.id, isAccepted)
-            else -> handleRoomInvite(item.id, isAccepted, item.requestType)
-        }
-    }
-
-    private fun handleCircleInvite(roomId: String, isAccepted: Boolean) {
-        if (isAccepted) onAcceptCircleInviteClicked(roomId)
-        else viewModel.rejectRoomInvite(roomId)
+        handleRoomInvite(item.id, isAccepted, item.requestType)
     }
 
     private fun handleRoomInvite(roomId: String, isAccepted: Boolean, type: RoomRequestTypeArg) {
@@ -101,12 +91,6 @@ class RoomRequestsDialogFragment : BaseFullscreenDialogFragment<DialogFragmentRo
         else viewModel.rejectRoomInvite(roomId)
     }
 
-
-    private fun onAcceptCircleInviteClicked(roomId: String) {
-        findNavController().navigateSafe(
-            RoomRequestsDialogFragmentDirections.toAcceptCircleInviteDialogFragment(roomId)
-        )
-    }
 
     private fun onKnockRequestClicked(user: KnockRequestListItem, isAccepted: Boolean) {
         if (showNoInternetConnection()) return
