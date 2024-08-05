@@ -13,7 +13,7 @@ class ShareWithCircleActivity : BaseShareActivity() {
     override val titleResId: Int = R.string.share_with_circle
 
     override val roomsPicker: RoomsPicker =
-        SelectRoomsFragment.create(SelectRoomTypeArg.CirclesJoined)
+        SelectRoomsFragment.create(SelectRoomTypeArg.MyCircles)
 
     override fun getShareRoomsIds(): List<String> = roomsPicker.getSelectedRooms().map { it.id }
 

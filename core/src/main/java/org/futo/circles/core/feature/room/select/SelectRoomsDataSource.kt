@@ -17,6 +17,7 @@ import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getGalleriesLiveData
 import org.futo.circles.core.utils.getGroupsLiveData
+import org.futo.circles.core.utils.getTimelinesLiveData
 import org.futo.circles.core.utils.getTimelinesOwnedByMeLiveData
 import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -44,16 +45,22 @@ class SelectRoomsDataSource @Inject constructor(savedStateHandle: SavedStateHand
         }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
     private fun getRoomsFlowWithType(): Flow<List<RoomSummary>> = when (roomType) {
-        SelectRoomTypeArg.CirclesJoined -> getTimelinesOwnedByMeLiveData(listOf(Membership.JOIN)).asFlow()
+        SelectRoomTypeArg.MyCircles -> getTimelinesOwnedByMeLiveData(listOf(Membership.JOIN))
 
-        SelectRoomTypeArg.MyCircleNotJoinedByUser -> getTimelinesOwnedByMeLiveData(listOf(Membership.JOIN)).map { summaries ->
+        SelectRoomTypeArg.CirclesJoined -> getTimelinesLiveData(listOf(Membership.JOIN))
+
+        SelectRoomTypeArg.MyCirclesNotJoinedByUser -> getTimelinesOwnedByMeLiveData(
+            listOf(
+                Membership.JOIN
+            )
+        ).map { summaries ->
             summaries.filter { !isUserJoinedToCircle(it) }
-        }.asFlow()
+        }
 
-        SelectRoomTypeArg.GroupsJoined -> getGroupsLiveData(listOf(Membership.JOIN)).asFlow()
+        SelectRoomTypeArg.GroupsJoined -> getGroupsLiveData(listOf(Membership.JOIN))
 
-        SelectRoomTypeArg.PhotosJoined -> getGalleriesLiveData(listOf(Membership.JOIN)).asFlow()
-    }
+        SelectRoomTypeArg.PhotosJoined -> getGalleriesLiveData(listOf(Membership.JOIN))
+    }.asFlow()
 
     fun getSelectedRooms() = selectedRoomsFlow.value.filter { it.isSelected }
 
@@ -65,7 +72,8 @@ class SelectRoomsDataSource @Inject constructor(savedStateHandle: SavedStateHand
     }
 
     private fun isUserJoinedToCircle(timeline: RoomSummary): Boolean {
-        val member = MatrixSessionProvider.currentSession?.getRoom(timeline.roomId)?.membershipService()
+        val member =
+            MatrixSessionProvider.currentSession?.getRoom(timeline.roomId)?.membershipService()
                 ?.getRoomMember(filterUserId ?: "")
         return member?.membership == Membership.JOIN
     }

@@ -4,6 +4,7 @@ enum class SelectRoomTypeArg {
     CirclesJoined,
     GroupsJoined,
     PhotosJoined,
-    MyCircleNotJoinedByUser
+    MyCirclesNotJoinedByUser,
+    MyCircles
 }
 
