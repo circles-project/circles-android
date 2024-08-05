@@ -187,19 +187,13 @@ class TimelineDialogFragment :
     }
 
     override fun onCreatePoll() {
-        if (args.timelineType.isAllPosts()) {
-//TODO
-        } else {
-            args.roomId?.let { navigator.navigateToCreatePoll(it) }
-        }
+        if (args.timelineType.isAllPosts()) navigator.navigateToChooseCircleToCreatePoll()
+        else args.roomId?.let { navigator.navigateToCreatePoll(it) }
     }
 
     override fun onCreatePost() {
-        if (args.timelineType.isAllPosts()) {
-//TODO
-        } else {
-            args.roomId?.let { navigator.navigateToCreatePost(it, args.threadEventId) }
-        }
+        if (args.timelineType.isAllPosts()) navigator.navigateToChooseCircleToPost()
+        else args.roomId?.let { navigator.navigateToCreatePost(it, args.threadEventId) }
     }
 
     override fun onPostSent() {
@@ -282,7 +276,7 @@ class TimelineDialogFragment :
 
     private fun navigateToTimelineOptions() {
         if (args.timelineType.isAllPosts()) {
-//TODO
+            navigator.navigateToAllPostSettings()
         } else {
             val type = if (args.timelineType.isCircle()) {
                 CircleRoomTypeArg.Circle

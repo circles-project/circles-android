@@ -162,6 +162,16 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_pickCircleDialogFragment"
+            app:destination="@id/pickCircleDialogFragment">
+
+            <argument
+                android:name="type"
+                app:argType="org.futo.circles.model.PickCircleTypeArg"
+                app:nullable="false" />
+
+        </action>
 
     </dialog>
 
@@ -370,6 +380,18 @@
                 app:nullable="true" />
 
         </action>
+    </dialog>
+
+    <dialog
+        android:id="@+id/pickCircleDialogFragment"
+        android:name="org.futo.circles.feature.circles.pick.PickCircleDialogFragment"
+        tools:layout="@layout/dialog_fragment_pick_circle">
+
+        <argument
+            android:name="type"
+            app:argType="org.futo.circles.model.PickCircleTypeArg"
+            app:nullable="false" />
+
     </dialog>
 
 </navigation>
