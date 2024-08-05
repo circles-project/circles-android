@@ -1,5 +1,6 @@
 package org.futo.circles.feature.circles.pick
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
@@ -9,6 +10,7 @@ import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.feature.room.select.SelectRoomsFragment
 import org.futo.circles.core.feature.room.select.interfaces.SelectRoomsListener
 import org.futo.circles.core.model.SelectRoomTypeArg
+import org.futo.circles.core.model.SelectableRoomListItem
 import org.futo.circles.databinding.DialogFragmentPickCircleBinding
 import org.futo.circles.model.PickCircleTypeArg
 
@@ -19,13 +21,20 @@ class PickCircleDialogFragment :
 
     private val args: PickCircleDialogFragmentArgs by navArgs()
 
+    private var pickCircleListener: PickCircleListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        pickCircleListener = (parentFragment as? PickCircleListener)
+    }
+
     private val selectRoomsFragment by lazy {
         val selectRoomType = when (args.type) {
             PickCircleTypeArg.AllPostsSettings -> SelectRoomTypeArg.CirclesJoined
             PickCircleTypeArg.CreatePost,
             PickCircleTypeArg.CreatePoll -> SelectRoomTypeArg.MyCircles
         }
-        SelectRoomsFragment.create(selectRoomType)
+        SelectRoomsFragment.create(selectRoomType, isMultiSelect = false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,5 +57,12 @@ class PickCircleDialogFragment :
                 PickCircleTypeArg.CreatePoll -> R.string.choose_circle_for_poll
             }
         )
+    }
+
+    override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {
+        rooms.firstOrNull()?.let {
+            pickCircleListener?.onCircleChosen(it.id, args.type)
+            dismiss()
+        }
     }
 }
