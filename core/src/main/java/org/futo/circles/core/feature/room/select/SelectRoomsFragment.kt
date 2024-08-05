@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.databinding.FragmentSelectRoomsBinding
+import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.feature.room.select.interfaces.RoomsListener
 import org.futo.circles.core.feature.room.select.interfaces.RoomsPicker
 import org.futo.circles.core.feature.room.select.interfaces.SelectRoomsListener
@@ -25,7 +27,14 @@ class SelectRoomsFragment :
 
     private val viewModel by viewModels<SelectRoomsViewModel>()
 
-    private val selectRoomsAdapter by lazy { SelectRoomsAdapter(viewModel::onRoomSelected) }
+    private val isMultiSelect by lazy { arguments?.getBoolean(IS_MULTISELECT) ?: true }
+
+    private val selectRoomsAdapter by lazy {
+        SelectRoomsAdapter(onRoomSelected = {
+            if (isMultiSelect) viewModel.onRoomSelected(it)
+            else selectRoomsListener?.onRoomsSelected(listOf(it))
+        })
+    }
     private val selectedRoomsAdapter by lazy { SelectedChipsRoomsAdapter(viewModel::onRoomSelected) }
 
     override var selectRoomsListener: SelectRoomsListener? = null
@@ -53,7 +62,12 @@ class SelectRoomsFragment :
                 addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
                 adapter = selectRoomsAdapter
             }
-            rvSelectedCircles.adapter = selectedRoomsAdapter
+            if (isMultiSelect) {
+                selectedListGroup.visible()
+                rvSelectedCircles.adapter = selectedRoomsAdapter
+            } else {
+                selectedListGroup.gone()
+            }
         }
     }
 
@@ -71,11 +85,17 @@ class SelectRoomsFragment :
     companion object {
         const val TYPE_ORDINAL = "type_ordinal"
         const val USER_ID = "userId"
-        fun create(roomType: SelectRoomTypeArg, userId: String? = null) =
+        private const val IS_MULTISELECT = "is_multiselect"
+        fun create(
+            roomType: SelectRoomTypeArg,
+            userId: String? = null,
+            isMultiSelect: Boolean = true
+        ) =
             SelectRoomsFragment().apply {
                 arguments = bundleOf(
                     TYPE_ORDINAL to roomType.ordinal,
-                    USER_ID to userId
+                    USER_ID to userId,
+                    IS_MULTISELECT to isMultiSelect
                 )
             }
     }
