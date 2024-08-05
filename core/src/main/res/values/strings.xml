@@ -250,6 +250,9 @@
     <string name="direct_messages_invitations">Direct messages invitations</string>
     <string name="invited_you_for_direct_messages">Invited you for direct messages</string>
     <string name="all_posts">All posts</string>
+    <string name="circles_settings">Circles settings</string>
+    <string name="choose_circle_to_post">Choose Circle to post</string>
+    <string name="choose_circle_for_poll">Choose Circle for poll</string>
 
     <plurals name="invitations_count_format">
         <item quantity="one">%d invitation</item>
