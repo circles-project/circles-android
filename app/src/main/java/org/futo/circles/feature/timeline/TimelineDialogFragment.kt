@@ -27,6 +27,7 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
 import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.model.isAllPosts
 import org.futo.circles.core.model.isCircle
 import org.futo.circles.core.model.isThread
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
@@ -46,7 +47,8 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 @AndroidEntryPoint
 class TimelineDialogFragment :
     BaseFullscreenDialogFragment<DialogFragmentTimelineBinding>(DialogFragmentTimelineBinding::inflate),
-    PostOptionsListener, PostMenuListener, EmojiPickerListener, PostSentListener {
+    PostOptionsListener, PostMenuListener, EmojiPickerListener, PostSentListener,
+    CreatePostViewListener {
 
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
@@ -106,15 +108,11 @@ class TimelineDialogFragment :
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             addPageEndListener { viewModel.loadMore() }
         }
-        binding.lCreatePost.setUp(object : CreatePostViewListener {
-            override fun onCreatePoll() {
-                navigator.navigateToCreatePoll(args.roomId)
-            }
-
-            override fun onCreatePost() {
-                navigator.navigateToCreatePost(args.roomId, args.threadEventId)
-            }
-        }, binding.rvTimeline.getRecyclerView(), args.timelineType.isThread())
+        binding.lCreatePost.setUp(
+            this,
+            binding.rvTimeline.getRecyclerView(),
+            args.timelineType.isThread()
+        )
 
         if (!args.timelineType.isThread()) {
             BadgeUtils.attachBadgeDrawable(
@@ -185,6 +183,22 @@ class TimelineDialogFragment :
                 number = it
                 isVisible = it > 0
             }
+        }
+    }
+
+    override fun onCreatePoll() {
+        if (args.timelineType.isAllPosts()) {
+//TODO
+        } else {
+            args.roomId?.let { navigator.navigateToCreatePoll(it) }
+        }
+    }
+
+    override fun onCreatePost() {
+        if (args.timelineType.isAllPosts()) {
+//TODO
+        } else {
+            args.roomId?.let { navigator.navigateToCreatePost(it, args.threadEventId) }
         }
     }
 
@@ -267,9 +281,16 @@ class TimelineDialogFragment :
     }
 
     private fun navigateToTimelineOptions() {
-        val type =
-            if (args.timelineType.isCircle()) CircleRoomTypeArg.Circle else CircleRoomTypeArg.Group
-        navigator.navigateToTimelineOptions(args.roomId, type)
+        if (args.timelineType.isAllPosts()) {
+//TODO
+        } else {
+            val type = if (args.timelineType.isCircle()) {
+                CircleRoomTypeArg.Circle
+            } else {
+                CircleRoomTypeArg.Group
+            }
+            args.roomId?.let { navigator.navigateToTimelineOptions(it, type) }
+        }
     }
 
     private fun scrollToTopOnMyNewPostAdded() {
