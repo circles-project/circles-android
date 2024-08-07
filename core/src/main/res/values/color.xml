@@ -21,5 +21,8 @@
     <color name="chip_selected_color">#800E7AFE</color>
     <color name="qr_color">@color/black</color>
     <color name="qr_background">@color/white</color>
+    <color name="grey_1100">#2A303A</color>
+    <color name="grey_1000">#3E4856</color>
+    <color name="grey_800">#69788F</color>
 
 </resources>
