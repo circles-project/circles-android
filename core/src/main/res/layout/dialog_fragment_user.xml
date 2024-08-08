@@ -72,7 +72,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnInviteToFollowMe"
-        style="@style/AccentButtonStyle"
+        style="@style/AccentButtonStyleOld"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"

@@ -160,7 +160,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnManageGp"
-            style="@style/AccentButtonStyle"
+            style="@style/AccentButtonStyleOld"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

@@ -51,7 +51,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
-            style="@style/AccentButtonStyle"
+            style="@style/AccentButtonStyleOld"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/next"

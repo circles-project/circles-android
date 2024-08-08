@@ -58,7 +58,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnFix"
-        style="@style/AccentButtonStyle"
+        style="@style/AccentButtonStyleOld"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="0dp"
