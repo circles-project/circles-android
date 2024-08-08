@@ -9,4 +9,15 @@
         <item name="android:text">@string/app_name</item>
     </style>
 
+
+    <style name="BottomNavigationViewTextActive">
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="BottomNavigationViewTextInactive">
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
 </resources>

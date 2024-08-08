@@ -3,18 +3,13 @@
 
     <item
         android:id="@+id/circles_nav_graph"
-        android:icon="@drawable/ic_circles"
-        android:title="@string/circles" />
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
 
     <item
         android:id="@+id/groups_nav_graph"
-        android:icon="@drawable/ic_round_people"
-        android:title="@string/groups" />
-
-    <item
-        android:id="@+id/direct_messages_nav_graph"
-        android:icon="@drawable/ic_direct_messages"
-        android:title="@string/direct" />
+        android:icon="@drawable/ic_my_groups"
+        android:title="@string/my_groups" />
 
     <item
         android:id="@+id/people_nav_graph"
@@ -22,8 +17,13 @@
         android:title="@string/people" />
 
     <item
+        android:id="@+id/direct_messages_nav_graph"
+        android:icon="@drawable/ic_direct_messages"
+        android:title="@string/messages" />
+
+    <item
         android:id="@+id/settings_nav_graph"
         android:icon="@drawable/ic_settings"
-        android:title="@string/settings" />
+        android:title="@string/my_profile" />
 
 </menu>
