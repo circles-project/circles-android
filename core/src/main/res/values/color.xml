@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="accent">#8553FF</color>
     <color name="blue">#1E88E5</color>
     <color name="status_bar_color">#20111111</color>
     <color name="highlight_color">#330E7AFE</color>
