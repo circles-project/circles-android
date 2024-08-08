@@ -9,18 +9,19 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/background_welcome"
+        android:tintMode="src_atop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="#4F000000" />
+        app:tint="@color/welcome_background_tint" />
 
 
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="171dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="72dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="124dp"
         android:src="@drawable/ic_circles_purple"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +58,7 @@
         style="@style/TransparentButtonStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="48dp"
         android:text="@string/sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/btnSignUp"
