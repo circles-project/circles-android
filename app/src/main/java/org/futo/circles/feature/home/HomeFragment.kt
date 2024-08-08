@@ -7,10 +7,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
@@ -20,7 +18,6 @@ import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
-import org.futo.circles.core.extensions.setSupportActionBar
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.ResLoadingData
@@ -54,7 +51,6 @@ class HomeFragment :
         super.onViewCreated(view, savedInstanceState)
         findChildNavController()?.let { controller ->
             binding.bottomNavigationView.setupWithNavController(controller)
-            setupToolBar(controller)
         }
         setupObservers()
         registerPushNotifications()
@@ -107,8 +103,16 @@ class HomeFragment :
 
     private fun handlePostNotificationOpen(requestType: RoomRequestTypeArg, roomId: String) {
         val direction = when (requestType) {
-            RoomRequestTypeArg.Circle -> HomeFragmentDirections.toTimeline(roomId, TimelineTypeArg.CIRCLE)
-            RoomRequestTypeArg.Group -> HomeFragmentDirections.toTimeline(roomId, TimelineTypeArg.GROUP)
+            RoomRequestTypeArg.Circle -> HomeFragmentDirections.toTimeline(
+                roomId,
+                TimelineTypeArg.CIRCLE
+            )
+
+            RoomRequestTypeArg.Group -> HomeFragmentDirections.toTimeline(
+                roomId,
+                TimelineTypeArg.GROUP
+            )
+
             else -> HomeFragmentDirections.toDmTimeline(roomId)
         }
 
@@ -146,21 +150,5 @@ class HomeFragment :
 
     private fun findChildNavController() =
         (childFragmentManager.findFragmentById(R.id.bottom_nav_host_fragment) as? NavHostFragment)?.navController
-
-    private fun setupToolBar(navController: NavController) {
-        setSupportActionBar(binding.toolbar)
-
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.circlesFragment,
-                R.id.groupsFragment,
-                R.id.directMessagesFragment,
-                R.id.peopleFragment,
-                org.futo.circles.settings.R.id.settingsFragment,
-            )
-        )
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-    }
-
 
 }
