@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_auth"
-    app:startDestination="@id/logInFragment">
+    app:startDestination="@id/welcomeFragment">
 
     <fragment
         android:id="@+id/logInFragment"
@@ -79,7 +79,7 @@
     <dialog
         android:id="@+id/selectServerBottomSheet"
         android:name="org.futo.circles.auth.feature.log_in.select_server.SelectServerBottomSheet"
-        tools:layout="@layout/bottom_sheet_select_server"/>
+        tools:layout="@layout/bottom_sheet_select_server" />
     <fragment
         android:id="@+id/circleExplanationFragment"
         android:name="org.futo.circles.auth.feature.explanation.CircleExplanationFragment"
@@ -113,4 +113,12 @@
             app:nullable="false" />
 
     </dialog>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="org.futo.circles.auth.feature.welcome.WelcomeFragment"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/to_logInFragment"
+            app:destination="@id/logInFragment" />
+    </fragment>
 </navigation>
