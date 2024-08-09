@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:foreground="?selectableItemBackground"
     android:padding="6dp">
 

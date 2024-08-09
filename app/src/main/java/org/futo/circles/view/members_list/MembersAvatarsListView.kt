@@ -23,6 +23,8 @@ class MembersAvatarsListView(
     private val maxAvatarsCount = 6
 
     init {
+        clipToPadding = false
+        clipChildren = false
         binding.rvMembers.apply {
             adapter = avatarsAdapter
             addItemDecoration(OverlapRecyclerViewDecoration(26))
