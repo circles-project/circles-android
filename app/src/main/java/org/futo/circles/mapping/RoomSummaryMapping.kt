@@ -16,12 +16,8 @@ import org.matrix.android.sdk.api.session.room.model.RoomSummary
 fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     id = roomId,
     info = toRoomInfo(),
-    topic = topic,
-    isEncrypted = isEncrypted,
     membersCount = joinedMembersCount ?: 0,
-    timestamp = latestPreviewableEvent?.root?.originServerTs ?: System.currentTimeMillis(),
-    unreadCount = notificationCount,
-    knockRequestsCount = getKnocksCount(roomId)
+    unreadCount = notificationCount
 )
 
 fun RoomSummary.toJoinedCircleListItem() =

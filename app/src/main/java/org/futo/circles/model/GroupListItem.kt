@@ -10,11 +10,7 @@ sealed class GroupListItem(
 data class JoinedGroupListItem(
     override val id: String,
     val info: RoomInfo,
-    val topic: String,
     val membersCount: Int,
-    val knockRequestsCount: Int,
-    val isEncrypted: Boolean,
-    val timestamp: Long,
     val unreadCount: Int
 ) : GroupListItem(id)
 
