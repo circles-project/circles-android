@@ -9,14 +9,20 @@ import org.futo.circles.core.utils.getKnocksCount
 import org.futo.circles.model.JoinedCircleListItem
 import org.futo.circles.model.JoinedDMsListItem
 import org.futo.circles.model.JoinedGroupListItem
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getUserOrDefault
+import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
+import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 
 
 fun RoomSummary.toJoinedGroupListItem() = JoinedGroupListItem(
     id = roomId,
     info = toRoomInfo(),
-    membersCount = joinedMembersCount ?: 0,
+    members = MatrixSessionProvider.currentSession?.getRoom(roomId)?.membershipService()
+        ?.getRoomMembers(roomMemberQueryParams {
+            memberships = listOf(Membership.JOIN)
+        })?.map { it.toCircleUserSummary() } ?: emptyList(),
     unreadCount = notificationCount
 )
 

@@ -1,6 +1,7 @@
 package org.futo.circles.model
 
 import org.futo.circles.core.base.list.IdEntity
+import org.futo.circles.core.model.CirclesUserSummary
 import org.futo.circles.core.model.RoomInfo
 
 sealed class GroupListItem(
@@ -10,7 +11,7 @@ sealed class GroupListItem(
 data class JoinedGroupListItem(
     override val id: String,
     val info: RoomInfo,
-    val membersCount: Int,
+    val members: List<CirclesUserSummary>,
     val unreadCount: Int
 ) : GroupListItem(id)
 

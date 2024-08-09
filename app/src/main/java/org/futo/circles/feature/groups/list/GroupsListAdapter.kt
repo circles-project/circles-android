@@ -15,9 +15,8 @@ class GroupsListAdapter(
 ) : BaseRvAdapter<GroupListItem, GroupViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedGroupListItem && old is JoinedGroupListItem) {
         GroupListItemPayload(
-            title = new.info.title.takeIf { it != old.info.title },
-            avatarUrl = new.info.avatarUrl.takeIf { it != old.info.avatarUrl },
-            membersCount = new.membersCount.takeIf { it != old.membersCount },
+            roomInfo = new.info.takeIf { it != old.info },
+            members = new.members.takeIf { it != old.members },
             unreadCount = new.unreadCount.takeIf { it != old.unreadCount }
         )
     } else null
