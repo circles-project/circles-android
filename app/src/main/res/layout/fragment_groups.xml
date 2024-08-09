@@ -27,9 +27,9 @@
             android:layout_height="36dp"
             android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="18dp"
+            android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
-            android:background="?selectableItemBackgroundBorderless"
             android:padding="6dp"
             android:src="@drawable/ic_create_group" />
 
