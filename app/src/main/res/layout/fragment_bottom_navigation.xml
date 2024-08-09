@@ -18,7 +18,7 @@
         android:id="@+id/bottomMenuDivider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:background="@color/grey_300" />
+        android:background="@color/grey_cool_300" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

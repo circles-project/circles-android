@@ -72,7 +72,11 @@
     </style>
 
     <style name="ShapeAppearanceOverlay.App.GroupIconRadius" parent="">
-        <item name="cornerSize">10%</item>
+        <item name="cornerSize">25dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.RoundIcon" parent="">
+        <item name="cornerSize">50%</item>
     </style>
 
     <style name="settingMenuItem" parent="body">
@@ -128,19 +132,19 @@
     <style name="Headline" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/nunito_extrabold</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/grey_1100</item>
+        <item name="android:textColor">@color/grey_cool_1100</item>
     </style>
 
     <style name="Body" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/nunito_semibold</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/grey_1000</item>
+        <item name="android:textColor">@color/grey_cool_1000</item>
     </style>
 
     <style name="Footnote" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/nunito_medium</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/grey_800</item>
+        <item name="android:textColor">@color/grey_cool_800</item>
     </style>
 
     <style name="ButtonTitle" parent="@android:style/TextAppearance">
