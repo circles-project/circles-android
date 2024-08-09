@@ -15,13 +15,10 @@ class GroupsListAdapter(
 ) : BaseRvAdapter<GroupListItem, GroupViewHolder>(PayloadIdEntityCallback { old, new ->
     if (new is JoinedGroupListItem && old is JoinedGroupListItem) {
         GroupListItemPayload(
-            topic = new.topic.takeIf { it != old.topic },
-            isEncrypted = new.isEncrypted.takeIf { it != old.isEncrypted },
-            membersCount = new.membersCount.takeIf { it != old.membersCount || new.knockRequestsCount != old.knockRequestsCount },
-            knocksCount = new.knockRequestsCount.takeIf { it != old.knockRequestsCount || new.membersCount != old.membersCount },
-            timestamp = new.timestamp.takeIf { it != old.timestamp },
-            unreadCount = new.unreadCount.takeIf { it != old.unreadCount },
-            needUpdateFullItem = new.info.title != old.info.title || new.info.avatarUrl != old.info.avatarUrl
+            title = new.info.title.takeIf { it != old.info.title },
+            avatarUrl = new.info.avatarUrl.takeIf { it != old.info.avatarUrl },
+            membersCount = new.membersCount.takeIf { it != old.membersCount },
+            unreadCount = new.unreadCount.takeIf { it != old.unreadCount }
         )
     } else null
 }) {
@@ -54,8 +51,7 @@ class GroupsListAdapter(
         } else {
             payloads.forEach { payload ->
                 if (payload is GroupListItemPayload && holder is JoinedGroupViewHolder) {
-                    if (payload.needUpdateFullItem) holder.bind(getItem(position))
-                    else holder.bindPayload(payload)
+                    holder.bindPayload(payload)
                 }
             }
         }

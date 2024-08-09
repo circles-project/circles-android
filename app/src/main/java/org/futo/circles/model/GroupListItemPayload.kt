@@ -1,11 +1,8 @@
 package org.futo.circles.model
 
 data class GroupListItemPayload(
-    val topic: String?,
-    val isEncrypted: Boolean?,
+    val title: String?,
+    val avatarUrl: String?,
     val membersCount: Int?,
-    val timestamp: Long?,
-    val unreadCount: Int?,
-    val knocksCount: Int?,
-    val needUpdateFullItem: Boolean
+    val unreadCount: Int?
 )
