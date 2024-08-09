@@ -37,7 +37,7 @@ class MembersAvatarsListView(
                 text = plusCountText
                 visible()
             }
-            avatarsAdapter.submitList(users.sortedBy { it.id }.subList(0, maxAvatarsCount - 1))
+            avatarsAdapter.submitList(users.sortedBy { it.id }.subList(0, maxAvatarsCount))
 
         } else {
             binding.tvPlusCount.gone()
