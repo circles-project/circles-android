@@ -43,6 +43,15 @@
         tools:text="Katie Anderson" />
 
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/textBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="tvUserName,tvTime"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tvTime"
         style="@style/PostTime"
@@ -80,11 +89,12 @@
         app:chipStartPadding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnMore"
-        app:layout_constraintStart_toEndOf="@id/tvUserName"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/textBarrier"
         app:layout_constraintTop_toTopOf="parent"
         tools:chipStrokeColor="#C0E6FF"
         tools:chipStrokeWidth="1dp"
-        tools:text="Close friends"
+        tools:text="Close friends asdasdasdasdasd"
         tools:textColor="#0095F9"
         tools:visibility="visible" />
 
