@@ -91,7 +91,7 @@
     <string name="help">Help</string>
     <string name="downloading">Downloading</string>
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
-    <string name="in_timeline_format">(in %1$s / %2$s)</string>
+    <string name="in_timeline_format">%1$s / %2$s</string>
     <string name="failed_to_send">Failed to send, please try again</string>
     <string name="sending">Sending</string>
     <string name="direct">Direct</string>

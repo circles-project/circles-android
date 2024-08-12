@@ -19,6 +19,7 @@ import androidx.core.widget.doAfterTextChanged
 import io.element.android.wysiwyg.EditorEditText
 import io.element.android.wysiwyg.view.models.InlineFormat
 import org.futo.circles.R
+import org.futo.circles.core.extensions.convertDpToPixel
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.loadImage
 import org.futo.circles.core.extensions.notEmptyDisplayName
@@ -39,7 +40,6 @@ import org.futo.circles.core.utils.VideoUtils.getVideoDuration
 import org.futo.circles.core.utils.VideoUtils.getVideoDurationString
 import org.futo.circles.databinding.ViewPreviewPostBinding
 import org.futo.circles.databinding.ViewRichTextMenuButtonBinding
-import org.futo.circles.core.extensions.convertDpToPixel
 import org.futo.circles.feature.timeline.post.create.PreviewPostListener
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
@@ -68,8 +68,7 @@ class PreviewPostView(
                 it.userId,
                 it.notEmptyDisplayName(),
                 it.avatarUrl,
-                System.currentTimeMillis(),
-                true
+                System.currentTimeMillis()
             )
         }
         setOnClickListener { requestFocusOnText() }
