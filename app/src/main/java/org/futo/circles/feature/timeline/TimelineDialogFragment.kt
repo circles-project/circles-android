@@ -21,6 +21,7 @@ import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
@@ -302,11 +303,13 @@ class TimelineDialogFragment :
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         isUserAbleToPost = powerLevelsContent.isCurrentUserAbleToPost()
+        binding.btnCreatePost.setIsVisible(isUserAbleToPost)
     }
 
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
         val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
         isUserAbleToPost = isUserAdmin
+        binding.btnCreatePost.setIsVisible(isUserAbleToPost)
     }
 
     private fun setupCreatePostButton(recycler: RecyclerView, onCreatePostClicked: () -> Unit) {
