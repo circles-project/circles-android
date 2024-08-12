@@ -111,6 +111,7 @@
     <string name="home">Home</string>
     <string name="messages">Messages</string>
     <string name="my_profile">My Profile</string>
+    <string name="new_post">New post</string>
 
 
     <string-array name="report_categories">

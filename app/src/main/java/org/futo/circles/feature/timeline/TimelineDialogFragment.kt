@@ -9,20 +9,22 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.extensions.dpToPx
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
+import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.CircleRoomTypeArg
@@ -39,7 +41,6 @@ import org.futo.circles.feature.timeline.post.menu.PostMenuListener
 import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
 import org.futo.circles.model.RemovePost
-import org.futo.circles.view.CreatePostViewListener
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.powerlevels.Role
 
@@ -47,8 +48,7 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 @AndroidEntryPoint
 class TimelineDialogFragment :
     BaseFullscreenDialogFragment<DialogFragmentTimelineBinding>(DialogFragmentTimelineBinding::inflate),
-    PostOptionsListener, PostMenuListener, EmojiPickerListener, PostSentListener,
-    CreatePostViewListener {
+    PostOptionsListener, PostMenuListener, EmojiPickerListener, PostSentListener {
 
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
@@ -77,6 +77,8 @@ class TimelineDialogFragment :
 
     private var onLocalAddEmojiCallback: ((String) -> Unit)? = null
 
+    private var isUserAbleToPost = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
@@ -103,16 +105,11 @@ class TimelineDialogFragment :
             getRecyclerView().apply {
                 isNestedScrollingEnabled = false
                 clipToPadding = false
-                setPadding(paddingLeft, paddingTop, paddingRight, context.dpToPx(70))
             }
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             addPageEndListener { viewModel.loadMore() }
         }
-        binding.lCreatePost.setUp(
-            this,
-            binding.rvTimeline.getRecyclerView(),
-            args.timelineType.isThread()
-        )
+        setupCreatePostButton(binding.rvTimeline.getRecyclerView()) { onCreatePost() }
 
         if (!args.timelineType.isThread()) {
             BadgeUtils.attachBadgeDrawable(
@@ -175,28 +172,12 @@ class TimelineDialogFragment :
             })
         viewModel.unSendReactionLiveData.observeResponse(this)
 
-        viewModel.profileLiveData.observeData(this) { user ->
-            user.getOrNull()?.let { binding.lCreatePost.setUserInfo(it) }
-        }
         viewModel.knockRequestCountLiveData?.observeData(this) {
             knocksCountBadgeDrawable.apply {
                 number = it
                 isVisible = it > 0
             }
         }
-    }
-
-    override fun onCreatePoll() {
-        if (args.timelineType.isAllPosts()) navigator.navigateToChooseCircleToCreatePoll()
-        else args.roomId?.let { navigator.navigateToCreatePoll(it) }
-    }
-
-    override fun onCreatePost() {
-        if (args.timelineType.isThread()) args.roomId?.let {
-            navigator.navigateToCreatePost(it, args.threadEventId)
-        }
-        else if (args.timelineType.isAllPosts()) navigator.navigateToChooseCircleToPost()
-        else args.roomId?.let { navigator.navigateToCreatePost(it, args.threadEventId) }
     }
 
     override fun onPostSent() {
@@ -271,6 +252,14 @@ class TimelineDialogFragment :
         viewModel.sendReaction(roomId, eventId, emoji)
     }
 
+    private fun onCreatePost() {
+        if (args.timelineType.isThread()) args.roomId?.let {
+            navigator.navigateToCreatePost(it, args.threadEventId)
+        }
+        else if (args.timelineType.isAllPosts()) navigator.navigateToChooseCircleToPost()
+        else args.roomId?.let { navigator.navigateToCreatePost(it, args.threadEventId) }
+    }
+
     private fun stopVideoOnNewScreenOpen() {
         findNavController().addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id != R.id.timelineFragment) listAdapter.stopVideoPlayback()
@@ -312,12 +301,27 @@ class TimelineDialogFragment :
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
-        binding.lCreatePost.setUserAbleToPost(powerLevelsContent.isCurrentUserAbleToPost())
+        isUserAbleToPost = powerLevelsContent.isCurrentUserAbleToPost()
     }
 
     private fun onCircleUserAccessLeveChanged(powerLevelsContent: PowerLevelsContent) {
         val isUserAdmin = powerLevelsContent.getCurrentUserPowerLevel() == Role.Admin.value
-        binding.lCreatePost.setUserAbleToPost(isUserAdmin)
+        isUserAbleToPost = isUserAdmin
     }
 
+    private fun setupCreatePostButton(recycler: RecyclerView, onCreatePostClicked: () -> Unit) {
+        with(binding.btnCreatePost) {
+            setOnClickListener { onCreatePostClicked() }
+            recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (!isUserAbleToPost) {
+                        gone(); return
+                    }
+                    if (dy > 0 && isVisible) gone()
+                    else if (dy < 0 && isVisible) visible()
+                }
+            })
+        }
+    }
 }

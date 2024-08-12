@@ -71,7 +71,7 @@
                 android:maxHeight="40dp"
                 android:text="@string/change_profile_picture"
                 android:textSize="12sp"
-                app:icon="@drawable/ic_create"
+                app:icon="@drawable/ic_pencil"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivProfile" />

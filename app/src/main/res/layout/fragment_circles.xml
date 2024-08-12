@@ -29,7 +29,7 @@
             android:clickable="true"
             android:focusable="true"
             android:padding="6dp"
-            android:src="@drawable/ic_create_group" />
+            android:src="@drawable/ic_create" />
 
     </FrameLayout>
 
