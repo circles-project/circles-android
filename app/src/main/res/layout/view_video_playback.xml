@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="@id/videoView"
         app:layout_constraintTop_toTopOf="@id/videoView"
         app:layout_constraintWidth_percent="0.15"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
         app:tint="@color/blue" />
 
     <TextView
@@ -82,7 +82,7 @@
         app:contentPadding="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/videoView"
         app:layout_constraintEnd_toEndOf="@id/videoView"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
         app:tint="@color/white" />
 
 

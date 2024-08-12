@@ -27,7 +27,7 @@
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivUserImage"
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
             app:strokeColor="@color/black"
             app:strokeWidth="1dp"
             tools:src="@color/blue" />
