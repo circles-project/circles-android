@@ -253,6 +253,8 @@
     <string name="circles_settings">Circles settings</string>
     <string name="choose_circle_to_post">Choose Circle to post</string>
     <string name="choose_circle_for_poll">Choose Circle for poll</string>
+    <string name="week">week</string>
+    <string name="now">now</string>
 
     <plurals name="invitations_count_format">
         <item quantity="one">%d invitation</item>
@@ -277,6 +279,11 @@
     <plurals name="room_new_messages_notification">
         <item quantity="one">%d new message</item>
         <item quantity="other">%d new messages</item>
+    </plurals>
+
+    <plurals name="day_count_format">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
     </plurals>
 
 </resources>

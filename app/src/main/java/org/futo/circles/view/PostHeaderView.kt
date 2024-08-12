@@ -1,7 +1,6 @@
 package org.futo.circles.view
 
 import android.content.Context
-import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -12,9 +11,9 @@ import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.TimeAgoFormatUtils
 import org.futo.circles.databinding.ViewPostHeaderBinding
 import org.futo.circles.feature.timeline.list.PostOptionsListener
-import java.util.Date
 
 class PostHeaderView(
     context: Context,
@@ -63,7 +62,7 @@ class PostHeaderView(
     ) {
         setUserIcon(userId, avatarUrl)
         binding.tvUserName.text = name
-        setTimeAgo(timestamp)
+        binding.tvTime.text = TimeAgoFormatUtils.getTimeAgoString(context, timestamp)
         setCircleRoomIndicator(roomName, timelineOwnerName)
     }
 
@@ -86,16 +85,6 @@ class PostHeaderView(
                     optionsListener?.onUserClicked(userId)
             }
         }
-    }
-
-    private fun setTimeAgo(timestamp: Long) {
-        val date = Date(timestamp)
-        binding.tvTime.text = DateUtils.getRelativeTimeSpanString(
-            date.time,
-            System.currentTimeMillis(),
-            DateUtils.MINUTE_IN_MILLIS,
-            DateUtils.FORMAT_ABBREV_ALL
-        )
     }
 
     private fun setCircleRoomIndicator(roomName: String?, timelineOwnerName: String?) {
