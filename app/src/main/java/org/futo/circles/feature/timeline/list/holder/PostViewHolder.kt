@@ -42,11 +42,7 @@ abstract class PostViewHolder(
     private val gestureDetector =
         GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
-                post?.let {
-                    optionsListener.onShowEmoji(it.postInfo.roomId, it.id) { emoji ->
-                        postFooter?.addEmojiFromPickerLocalUpdate(emoji)
-                    }
-                }
+                postFooter?.onLikeIconClicked()
                 return true
             }
 

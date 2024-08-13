@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import org.futo.circles.R
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.ReactionsData
 import org.futo.circles.databinding.ViewPostFooterBinding
@@ -36,6 +37,7 @@ class PostFooterView(
                     optionsListener?.onReply(it.postInfo.roomId, it.id)
                 }
             }
+            btnLike.setOnClickListener { onLikeIconClicked() }
         }
     }
 
@@ -48,6 +50,7 @@ class PostFooterView(
         isThreadPost = isThread
         bindReplyButton(data.repliesCount)
         bindLikeButton(data.reactionsData)
+        bindIsEditedLabel(data.postInfo.isEdited)
     }
 
     fun bindPayload(repliesCount: Int, reactions: List<ReactionsData>) {
@@ -56,31 +59,10 @@ class PostFooterView(
         bindLikeButton(reactions)
     }
 
-    private fun bindReplyButton(repliesCount: Int) {
-        binding.btnReply.apply {
-            isVisible = !isThreadPost
-            binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
-        }
-    }
-
-    private fun bindLikeButton(reactions: List<ReactionsData>) {
-        val reactionsCount = totalReactionsCount(reactions)
+    fun onLikeIconClicked() {
+        val postData = post ?: return
+        val reactions = postData.reactionsData
         val hasMyReaction = hasMyReaction(reactions)
-        with(binding.btnLike) {
-            text = if (reactionsCount > 0) reactionsCount.toString() else ""
-            setIconResource(
-                if (hasMyReaction) R.drawable.ic_like_selected
-                else R.drawable.ic_like_not_selected
-            )
-
-            setOnClickListener { onLikeIconClicked(reactions, hasMyReaction) }
-        }
-    }
-
-    private fun onLikeIconClicked(
-        reactions: List<ReactionsData>,
-        hasMyReaction: Boolean
-    ) {
         val newReactionsData = if (hasMyReaction) {
             reactions.map {
                 if (it.key == defaultLikeEmoji && it.addedByMe) it.copy(
@@ -95,13 +77,34 @@ class PostFooterView(
             }
         }
         bindLikeButton(newReactionsData)
-        post = post?.copy(reactionsData = newReactionsData)
-        post?.let {
-            optionsListener?.onLikeClicked(
-                it.postInfo.roomId,
-                it.id,
-                defaultLikeEmoji,
-                hasMyReaction
+        post = postData.copy(reactionsData = newReactionsData)
+        optionsListener?.onLikeClicked(
+            postData.postInfo.roomId,
+            postData.id,
+            defaultLikeEmoji,
+            hasMyReaction
+        )
+    }
+
+    private fun bindReplyButton(repliesCount: Int) {
+        binding.btnReply.apply {
+            isVisible = !isThreadPost
+            binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
+        }
+    }
+
+    private fun bindIsEditedLabel(isEdited: Boolean) {
+        binding.tvEditedLabel.setIsVisible(isEdited)
+    }
+
+    private fun bindLikeButton(reactions: List<ReactionsData>) {
+        val reactionsCount = totalReactionsCount(reactions)
+        val hasMyReaction = hasMyReaction(reactions)
+        with(binding.btnLike) {
+            text = if (reactionsCount > 0) reactionsCount.toString() else ""
+            setIconResource(
+                if (hasMyReaction) R.drawable.ic_like_selected
+                else R.drawable.ic_like_not_selected
             )
         }
     }
