@@ -9,11 +9,11 @@
 
     <org.futo.circles.view.ReadMoreTextView
         android:id="@+id/tvPollQuestion"
-        style="@style/postMessage"
+        style="@style/MediaPostCaption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:readMoreMaxLines="2"
-        app:readMoreText="@string/show_more"
+        app:readMoreMaxLines="5"
+        app:readMoreText="@string/see_more"
         app:readMoreTextColor="@color/blue"
         tools:text="Question" />
 
@@ -29,7 +29,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ellipsize="end"
+        android:fontFamily="@font/inter_regular"
         android:lines="1"
+        android:textColor="@color/grey_cool_1000"
+        android:textSize="12sp"
         tools:text="Some Message" />
 
 </merge>

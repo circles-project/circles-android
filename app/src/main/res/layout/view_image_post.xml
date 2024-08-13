@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,25 +14,23 @@
         android:id="@+id/postHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <org.futo.circles.view.ReadMoreTextView
         android:id="@+id/tvTextContent"
-        style="@style/postMessage"
-        android:layout_width="0dp"
+        style="@style/MediaPostCaption"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/post_text_side_margin"
-        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/postHeader"
-        app:readMoreMaxLines="7"
-        app:readMoreText="@string/show_more"
-        app:readMoreTextColor="@color/blue" />
+        app:readMoreMaxLines="5"
+        app:readMoreText="@string/see_more"
+        app:readMoreTextColor="@color/primary"
+        tools:text="Movie marathon night with @TommyT! 🍿🎬 We’re starting with all the classic sci-fi flicks. Can’t wait to rewatch our favorites. #MovieNight #BestFriends #SciFiClassics Movie marathon night with @TommyT! 🍿🎬 We’re starting with all the classic sci-fi flicks. Can’t wait to rewatch our favorites. #MovieNight #BestFriends #SciFiClassics" />
 
 
     <ImageView
@@ -44,19 +43,18 @@
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTextContent" />
+        app:layout_constraintTop_toBottomOf="@id/tvTextContent"
+        tools:src="@drawable/explanation_groups" />
 
 
     <org.futo.circles.view.PostFooterView
         android:id="@+id/postFooter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivMediaContent"
-        app:layout_goneMarginTop="8dp" />
+        app:layout_constraintTop_toBottomOf="@id/ivMediaContent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

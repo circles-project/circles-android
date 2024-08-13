@@ -27,7 +27,7 @@ class ReadMoreTextView @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.readMoreTextViewStyle
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
-    private var readMoreMaxLines: Int = 2
+    private var readMoreMaxLines: Int = 5
     private var readMoreText: String? = null
     private var readMoreTextColor: ColorStateList? = null
     private var bufferType: BufferType? = null

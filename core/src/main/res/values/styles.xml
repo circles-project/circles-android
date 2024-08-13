@@ -165,6 +165,13 @@
         <item name="android:fontFamily">@font/nunito_bold</item>
     </style>
 
+
+    <style name="MediaPostCaption" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/grey_cool_1100</item>
+    </style>
+
     <style name="AccentButtonStyle" parent="@style/Widget.MaterialComponents.Button">
         <item name="textAllCaps">false</item>
         <item name="cornerRadius">8dp</item>
