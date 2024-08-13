@@ -96,7 +96,7 @@
         app:layout_constraintStart_toEndOf="@id/textBarrier"
         app:layout_constraintTop_toTopOf="parent"
         tools:chipStrokeColor="#C0E6FF"
-        tools:text="Close friends asdasdasdasdasd"
+        tools:text="Close friends"
         tools:textColor="#0095F9"
         tools:visibility="visible" />
 
