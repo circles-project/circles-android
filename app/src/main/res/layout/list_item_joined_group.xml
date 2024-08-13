@@ -1,93 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="6dp"
     android:clickable="true"
-    android:focusable="true"
-    android:clipToPadding="false"
     android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="true"
     android:foreground="?selectableItemBackground"
-    android:padding="6dp">
+    app:cardBackgroundColor="@color/grey_neutral_100"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="0dp">
 
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@color/grey_neutral_100"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivGroup"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
-        tools:src="@color/primary" />
-
-    <TextView
-        android:id="@+id/tvGroupTitle"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="14dp"
-        android:ellipsize="end"
-        android:fontFamily="@font/nunito_bold"
-        android:lines="1"
-        android:textColor="@color/grey_cool_1100"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/ivGroup"
-        app:layout_constraintTop_toBottomOf="@id/ivGroup"
-        tools:text="My Group" />
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
-    <TextView
-        android:id="@+id/tvMembers"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:fontFamily="@font/nunito_medium"
-        android:lines="1"
-        android:textColor="@color/grey_neutral_800"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@id/tvGroupTitle"
-        app:layout_constraintStart_toStartOf="@id/tvGroupTitle"
-        app:layout_constraintTop_toBottomOf="@id/tvGroupTitle"
-        tools:text="texsdt" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivGroup"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+            tools:src="@color/primary" />
+
+        <TextView
+            android:id="@+id/tvGroupTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="14dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/nunito_bold"
+            android:lines="1"
+            android:textColor="@color/grey_cool_1100"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/ivGroup"
+            app:layout_constraintTop_toBottomOf="@id/ivGroup"
+            tools:text="My Group" />
+
+        <TextView
+            android:id="@+id/tvMembers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/nunito_medium"
+            android:lines="1"
+            android:textColor="@color/grey_neutral_800"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tvGroupTitle"
+            app:layout_constraintStart_toStartOf="@id/tvGroupTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvGroupTitle"
+            tools:text="texsdt" />
 
 
-    <org.futo.circles.core.view.NotificationCounterView
-        android:id="@+id/vNotificationsCount"
-        android:layout_width="24dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/ivGroup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ivGroup"
-        app:notificationCircleBackground="@color/primary"
-        tools:visibility="visible" />
+        <org.futo.circles.core.view.NotificationCounterView
+            android:id="@+id/vNotificationsCount"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ivGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivGroup"
+            app:notificationCircleBackground="@color/primary"
+            tools:visibility="visible" />
 
 
-    <org.futo.circles.view.members_list.MembersAvatarsListView
-        android:id="@+id/vMembers"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/tvGroupTitle"
-        app:layout_constraintStart_toStartOf="@id/ivGroup"
-        app:layout_constraintTop_toBottomOf="@id/tvMembers" />
+        <org.futo.circles.view.members_list.MembersAvatarsListView
+            android:id="@+id/vMembers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tvGroupTitle"
+            app:layout_constraintStart_toStartOf="@id/ivGroup"
+            app:layout_constraintTop_toBottomOf="@id/tvMembers" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

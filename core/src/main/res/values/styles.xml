@@ -68,7 +68,7 @@
     </style>
 
     <style name="ShapeAppearanceOverlay.App.GroupIconRadius" parent="">
-        <item name="cornerSize">25dp</item>
+        <item name="cornerSize">10%</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.App.RoundIcon" parent="">

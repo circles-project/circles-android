@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="28dp"
     android:layout_height="28dp"
-    android:elevation="2dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="50dp">
+    app:cardCornerRadius="50dp"
+    app:cardElevation="4dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivUser"
