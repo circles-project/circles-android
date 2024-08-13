@@ -5,6 +5,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import org.futo.circles.R
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.feature.markdown.MarkdownParser
@@ -29,7 +30,7 @@ abstract class PostViewHolder(
     private val isThread: Boolean
 ) : TimelineListItemViewHolder(view) {
 
-    abstract val postLayout: ViewGroup?
+    abstract val postLayout: CardView?
     abstract val postFooter: PostFooterView?
     abstract val readMoreTextView: ReadMoreTextView?
     abstract val postHeader: PostHeaderView
@@ -103,8 +104,8 @@ abstract class PostViewHolder(
             is PollContent -> MarkdownParser.hasCurrentUserMention(content.question)
             else -> false
         }
-        if (hasMention) postLayout?.setBackgroundResource(R.drawable.bg_mention_highlight)
-        else postLayout?.background = null
+        //if (hasMention) postLayout?.setBackgroundResource(R.drawable.bg_mention_highlight)
+        //else postLayout?.background = null
     }
 
     private fun openReplies() {

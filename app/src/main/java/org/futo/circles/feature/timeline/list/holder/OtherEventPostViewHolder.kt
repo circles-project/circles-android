@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline.list.holder
 
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.OtherEventContent
 import org.futo.circles.core.model.Post
@@ -23,7 +24,7 @@ class OtherEventPostViewHolder(
 
     private val binding = baseBinding as ViewOtherEventPostBinding
 
-    override val postLayout: ViewGroup? = null
+    override val postLayout: CardView? = null
     override val postFooter: PostFooterView? = null
     override val readMoreTextView: ReadMoreTextView? = null
 

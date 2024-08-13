@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline.list.holder
 
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.Post
@@ -20,7 +21,7 @@ class ImagePostViewHolder(
     private companion object : ViewBindingHolder
 
     private val binding = baseBinding as ViewImagePostBinding
-    override val postLayout: ViewGroup
+    override val postLayout: CardView
         get() = binding.lCard
     override val postHeader: PostHeaderView
         get() = binding.postHeader

@@ -8,7 +8,6 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
@@ -16,6 +15,8 @@ import com.google.android.material.badge.ExperimentalBadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.list.BaseRvDecoration
+import org.futo.circles.core.extensions.dpToPx
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
@@ -34,10 +35,10 @@ import org.futo.circles.core.model.isAllPosts
 import org.futo.circles.core.model.isCircle
 import org.futo.circles.core.model.isThread
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
+import org.futo.circles.feature.timeline.base.TimelineListItemViewHolder
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.post.create.PostSentListener
-import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
 import org.futo.circles.feature.timeline.post.menu.PostMenuListener
 import org.futo.circles.model.EndPoll
 import org.futo.circles.model.IgnoreSender
@@ -104,8 +105,12 @@ class TimelineDialogFragment :
             getRecyclerView().apply {
                 isNestedScrollingEnabled = false
                 clipToPadding = false
+                setPadding(paddingLeft, context.dpToPx(5), paddingRight, context.dpToPx(5))
             }
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            addItemDecoration(BaseRvDecoration.OffsetDecoration<TimelineListItemViewHolder>(
+                verticalOffset = context.dpToPx(5),
+                horizontalOffset = context.dpToPx(12)
+            ))
             addPageEndListener { viewModel.loadMore() }
         }
         setupCreatePostButton(binding.rvTimeline.getRecyclerView()) { onCreatePost() }

@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline.list.holder
 
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.PollContent
@@ -20,7 +21,7 @@ class PollPostViewHolder(
     private companion object : ViewBindingHolder
 
     private val binding = baseBinding as ViewPollPostBinding
-    override val postLayout: ViewGroup
+    override val postLayout: CardView
         get() = binding.lCard
     override val postHeader: PostHeaderView
         get() = binding.postHeader
