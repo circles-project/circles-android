@@ -1,9 +1,11 @@
 package org.futo.circles.view
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import org.futo.circles.R
 import org.futo.circles.core.extensions.setIsVisible
@@ -105,6 +107,18 @@ class PostFooterView(
             setIconResource(
                 if (hasMyReaction) R.drawable.ic_like_selected
                 else R.drawable.ic_like_not_selected
+            )
+            iconTint = if (hasMyReaction) ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    org.futo.circles.core.R.color.primary
+                )
+            )
+            else ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    org.futo.circles.core.R.color.grey_cool_1000
+                )
             )
         }
     }
