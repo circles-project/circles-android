@@ -49,7 +49,7 @@ import org.matrix.android.sdk.api.session.room.powerlevels.Role
 @AndroidEntryPoint
 class TimelineDialogFragment :
     BaseFullscreenDialogFragment<DialogFragmentTimelineBinding>(DialogFragmentTimelineBinding::inflate),
-    PostOptionsListener, PostMenuListener, EmojiPickerListener, PostSentListener {
+    PostOptionsListener, PostMenuListener, PostSentListener {
 
     private val args: TimelineDialogFragmentArgs by navArgs()
     private val viewModel by viewModels<TimelineViewModel>()
@@ -75,8 +75,6 @@ class TimelineDialogFragment :
                 ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
         }
     }
-
-    private var onLocalAddEmojiCallback: ((String) -> Unit)? = null
 
     private var isUserAbleToPost = true
 
@@ -198,13 +196,6 @@ class TimelineDialogFragment :
         navigator.navigateToShowMediaPreview(roomId, eventId)
     }
 
-    override fun onShowEmoji(roomId: String, eventId: String, onAddEmoji: (String) -> Unit) {
-        if (showNoInternetConnection()) return
-        if (showErrorIfNotAbleToPost()) return
-        onLocalAddEmojiCallback = onAddEmoji
-        navigator.navigateToShowEmoji(roomId, eventId)
-    }
-
     override fun onReply(roomId: String, eventId: String) {
         if (args.timelineType.isThread()) return
         navigator.navigateToThread(roomId, eventId)
@@ -226,7 +217,7 @@ class TimelineDialogFragment :
         viewModel.saveToDevice(content)
     }
 
-    override fun onEmojiChipClicked(
+    override fun onLikeClicked(
         roomId: String, eventId: String, emoji: String, isUnSend: Boolean
     ) {
         if (showNoInternetConnection()) return
@@ -243,14 +234,6 @@ class TimelineDialogFragment :
 
     override fun endPoll(roomId: String, eventId: String) {
         withConfirmation(EndPoll()) { viewModel.endPoll(roomId, eventId) }
-    }
-
-    override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
-        roomId ?: return
-        eventId ?: return
-        onLocalAddEmojiCallback?.invoke(emoji)
-        onLocalAddEmojiCallback = null
-        viewModel.sendReaction(roomId, eventId, emoji)
     }
 
     private fun onCreatePost() {
