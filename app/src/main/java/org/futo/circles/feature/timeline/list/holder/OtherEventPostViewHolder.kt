@@ -8,7 +8,6 @@ import org.futo.circles.databinding.ViewOtherEventPostBinding
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.view.PostFooterView
 import org.futo.circles.view.PostHeaderView
-import org.futo.circles.view.PostStatusView
 import org.futo.circles.view.ReadMoreTextView
 
 class OtherEventPostViewHolder(
@@ -27,7 +26,6 @@ class OtherEventPostViewHolder(
     override val postLayout: ViewGroup? = null
     override val postFooter: PostFooterView? = null
     override val readMoreTextView: ReadMoreTextView? = null
-    override val postStatus: PostStatusView? = null
 
     override val postHeader: PostHeaderView
         get() = binding.postHeader

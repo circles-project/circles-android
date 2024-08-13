@@ -29,13 +29,6 @@
         app:readMoreTextColor="@color/blue" />
 
 
-    <org.futo.circles.view.PostStatusView
-        android:id="@+id/vPostStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp" />
-
-
     <org.futo.circles.view.PostFooterView
         android:id="@+id/postFooter"
         android:layout_width="match_parent"

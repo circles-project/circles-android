@@ -9,7 +9,6 @@ import org.futo.circles.databinding.ViewPollPostBinding
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.view.PostFooterView
 import org.futo.circles.view.PostHeaderView
-import org.futo.circles.view.PostStatusView
 import org.futo.circles.view.ReadMoreTextView
 
 class PollPostViewHolder(
@@ -27,8 +26,6 @@ class PollPostViewHolder(
         get() = binding.postHeader
     override val postFooter: PostFooterView
         get() = binding.postFooter
-    override val postStatus: PostStatusView
-        get() = binding.vPostStatus
 
     override val readMoreTextView: ReadMoreTextView
         get() = binding.pollContentView.findViewById(R.id.tvPollQuestion)

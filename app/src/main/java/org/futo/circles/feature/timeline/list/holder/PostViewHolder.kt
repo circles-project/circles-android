@@ -19,7 +19,6 @@ import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostFooterView
 import org.futo.circles.view.PostHeaderView
-import org.futo.circles.view.PostStatusView
 import org.futo.circles.view.ReadMoreTextView
 
 
@@ -32,7 +31,6 @@ abstract class PostViewHolder(
 
     abstract val postLayout: ViewGroup?
     abstract val postFooter: PostFooterView?
-    abstract val postStatus: PostStatusView?
     abstract val readMoreTextView: ReadMoreTextView?
     abstract val postHeader: PostHeaderView
     abstract fun bindHolderSpecific(post: Post)
@@ -88,15 +86,10 @@ abstract class PostViewHolder(
         postHeader.setData(post)
         postFooter?.setData(post, isThread)
         bindMentionBorder(post.content)
-        postStatus?.apply {
-            setIsEdited(post.postInfo.isEdited)
-            setReadByCount(post.readByCount)
-        }
         bindHolderSpecific(post)
     }
 
     fun bindPayload(payload: PostItemPayload) {
-        postStatus?.setReadByCount(payload.readByCount)
         postFooter?.bindPayload(payload.repliesCount, payload.reactions)
     }
 

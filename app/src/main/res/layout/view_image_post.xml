@@ -47,16 +47,6 @@
         app:layout_constraintTop_toBottomOf="@id/tvTextContent" />
 
 
-    <org.futo.circles.view.PostStatusView
-        android:id="@+id/vPostStatus"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivMediaContent" />
-
-
     <org.futo.circles.view.PostFooterView
         android:id="@+id/postFooter"
         android:layout_width="0dp"
@@ -65,7 +55,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vPostStatus"
+        app:layout_constraintTop_toBottomOf="@id/ivMediaContent"
         app:layout_goneMarginTop="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

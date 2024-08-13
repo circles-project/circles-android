@@ -12,7 +12,6 @@ abstract class BaseTimelineAdapter : BaseRvAdapter<PostListItem, TimelineListIte
     PayloadIdEntityCallback { old, new ->
         if (new is Post && old is Post)
             PostItemPayload(
-                readByCount = new.readByCount,
                 repliesCount = new.repliesCount,
                 reactions = new.reactionsData,
                 needToUpdateFullItem = new.content != old.content || new.postInfo != old.postInfo
