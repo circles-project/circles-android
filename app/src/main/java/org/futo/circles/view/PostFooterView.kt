@@ -91,7 +91,7 @@ class PostFooterView(
     private fun bindReplyButton(repliesCount: Int) {
         binding.btnReply.apply {
             isVisible = !isThreadPost
-            binding.btnReply.text = if (repliesCount > 0) repliesCount.toString() else ""
+            binding.btnReply.text = repliesCount.toString()
         }
     }
 
@@ -103,7 +103,7 @@ class PostFooterView(
         val reactionsCount = totalReactionsCount(reactions)
         val hasMyReaction = hasMyReaction(reactions)
         with(binding.btnLike) {
-            text = if (reactionsCount > 0) reactionsCount.toString() else ""
+            text = reactionsCount.toString()
             setIconResource(
                 if (hasMyReaction) R.drawable.ic_like_selected
                 else R.drawable.ic_like_not_selected
