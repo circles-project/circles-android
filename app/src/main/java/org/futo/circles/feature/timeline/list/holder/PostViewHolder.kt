@@ -86,26 +86,11 @@ abstract class PostViewHolder(
         this.post = post
         postHeader.setData(post)
         postFooter?.setData(post, isThread)
-        bindMentionBorder(post.content)
         bindHolderSpecific(post)
     }
 
     fun bindPayload(payload: PostItemPayload) {
         postFooter?.bindPayload(payload.repliesCount, payload.reactions)
-    }
-
-    private fun bindMentionBorder(content: PostContent) {
-        val hasMention = when (content) {
-            is MediaContent -> content.caption?.let {
-                MarkdownParser.hasCurrentUserMention(it)
-            } ?: false
-
-            is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
-            is PollContent -> MarkdownParser.hasCurrentUserMention(content.question)
-            else -> false
-        }
-        //if (hasMention) postLayout?.setBackgroundResource(R.drawable.bg_mention_highlight)
-        //else postLayout?.background = null
     }
 
     private fun openReplies() {
