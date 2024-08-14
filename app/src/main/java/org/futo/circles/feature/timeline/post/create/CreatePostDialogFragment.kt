@@ -46,7 +46,7 @@ class CreatePostDialogFragment :
         MatrixSessionProvider.currentSession?.contentUploadProgressTracker()
 
     private val uploadListener: ContentUploadStateTracker.UpdateListener by lazy {
-        MediaProgressHelper.getUploadListener(binding.vLoadingCard, binding.vLoadingView)
+        MediaProgressHelper.getUploadListener(binding.vLoadingView)
     }
 
     private var sentPostListener: PostSentListener? = null
@@ -86,13 +86,13 @@ class CreatePostDialogFragment :
                 setEnabledViews(!sendState.isSending())
                 if (sendState.isSending()) {
                     binding.vLoadingView.setProgress(ResLoadingData(R.string.sending))
-                    binding.vLoadingCard.visible()
+                    binding.vLoadingView.visible()
                 } else if (sendState.isSent()) {
                     if (!args.isEdit) sentPostListener?.onPostSent()
-                    binding.vLoadingCard.gone()
+                    binding.vLoadingView.gone()
                     dismiss()
                 } else {
-                    binding.vLoadingCard.gone()
+                    binding.vLoadingView.gone()
                     uploadMediaTracker?.clear()
                     showError(getString(R.string.failed_to_send))
                 }

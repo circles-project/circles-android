@@ -3,7 +3,7 @@ package org.futo.circles.core.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.FrameLayout
 import org.futo.circles.core.databinding.ViewLoadingBinding
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.LoadingData
@@ -13,7 +13,7 @@ import org.futo.circles.core.model.ResLoadingData
 class LoadingView(
     context: Context,
     attrs: AttributeSet? = null,
-) : ConstraintLayout(context, attrs) {
+) : FrameLayout(context, attrs) {
 
     private val binding =
         ViewLoadingBinding.inflate(LayoutInflater.from(context), this)

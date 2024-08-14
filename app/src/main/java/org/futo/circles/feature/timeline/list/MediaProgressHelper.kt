@@ -10,17 +10,17 @@ import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
 object MediaProgressHelper {
 
-    fun getUploadListener(loadingCardView: CardView?, loadingView: LoadingView?): ContentUploadStateTracker.UpdateListener =
+    fun getUploadListener(loadingView: LoadingView?): ContentUploadStateTracker.UpdateListener =
         object : ContentUploadStateTracker.UpdateListener {
             override fun onUpdate(state: ContentUploadStateTracker.State) {
                 when (state) {
                     ContentUploadStateTracker.State.CompressingImage -> {
-                        loadingCardView?.visible()
+                        loadingView?.visible()
                         loadingView?.setProgress(ResLoadingData(R.string.compressing))
                     }
 
                     is ContentUploadStateTracker.State.CompressingVideo -> {
-                        loadingCardView?.visible()
+                        loadingView?.visible()
                         loadingView?.setProgress(
                             ResLoadingData(
                                 messageId = R.string.compressing,
@@ -31,7 +31,7 @@ object MediaProgressHelper {
                     }
 
                     is ContentUploadStateTracker.State.Encrypting -> {
-                        loadingCardView?.visible()
+                        loadingView?.visible()
                         loadingView?.setProgress(
                             ResLoadingData(
                                 messageId = R.string.encrypting,
@@ -42,7 +42,7 @@ object MediaProgressHelper {
                     }
 
                     is ContentUploadStateTracker.State.Uploading -> {
-                        loadingCardView?.visible()
+                        loadingView?.visible()
                         loadingView?.setProgress(
                             ResLoadingData(
                                 messageId = R.string.uploading,
@@ -52,7 +52,7 @@ object MediaProgressHelper {
                         )
                     }
 
-                    else -> loadingCardView?.gone()
+                    else -> loadingView?.gone()
                 }
             }
         }
