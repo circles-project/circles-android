@@ -2,7 +2,7 @@
 <resources>
 
     <color name="close_background">#80000000</color>
-    <color name="highlight_color">#4D0E7AFE</color>
+    <color name="highlight_color">#4D8553FF</color>
     <color name="background_dim">#52000000</color>
     <color name="other_dm_background">#C0E6FF</color>
     <color name="my_dm_background">#D5C4FF</color>
