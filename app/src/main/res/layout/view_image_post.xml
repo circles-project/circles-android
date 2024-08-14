@@ -44,17 +44,19 @@
             tools:text="Movie marathon night with @TommyT! 🍿🎬 We’re starting with all the classic sci-fi flicks. Can’t wait to rewatch our favorites. #MovieNight #BestFriends #SciFiClassics Movie marathon night with @TommyT! 🍿🎬 We’re starting with all the classic sci-fi flicks. Can’t wait to rewatch our favorites. #MovieNight #BestFriends #SciFiClassics" />
 
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivMediaContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
             android:layout_marginTop="8dp"
-            android:background="@color/media_post_background"
+            android:background="@color/background_default"
             android:foreground="?attr/selectableItemBackground"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTextContent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.PostMedia"
             tools:src="@drawable/explanation_groups" />
 
 
