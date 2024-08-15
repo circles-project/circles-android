@@ -22,7 +22,7 @@ import org.futo.circles.R
 import org.futo.circles.core.extensions.convertDpToPixel
 import org.futo.circles.core.extensions.loadEncryptedThumbOrFullIntoWithAspect
 import org.futo.circles.core.extensions.loadImage
-import org.futo.circles.core.extensions.notEmptyDisplayName
+import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.autocomplete.Autocomplete
 import org.futo.circles.core.feature.autocomplete.AutocompleteCallback
@@ -64,12 +64,7 @@ class PreviewPostView(
 
     init {
         getMyUser()?.let {
-            binding.postHeader.bindViewData(
-                it.userId,
-                it.notEmptyDisplayName(),
-                it.avatarUrl,
-                System.currentTimeMillis()
-            )
+            binding.ivSenderImage.loadUserProfileIcon(it.avatarUrl, it.userId)
         }
         setOnClickListener { requestFocusOnText() }
         binding.ivRemoveImage.setOnClickListener { setTextContent() }
@@ -155,9 +150,8 @@ class PreviewPostView(
         updateContentView()
         loadMediaCover(mediaContent)
         val isVideo = mediaType == MediaType.Video
-        binding.lMediaContent.videoGroup.setIsVisible(isVideo)
-        if (isVideo)
-            binding.lMediaContent.tvDuration.text = mediaContent.mediaFileData.duration
+        binding.videoGroup.setIsVisible(isVideo)
+        if (isVideo) binding.tvDuration.text = mediaContent.mediaFileData.duration
 
         binding.btnSend.isEnabled = true
     }
@@ -169,10 +163,9 @@ class PreviewPostView(
         updateContentView()
         loadMediaCover(contentUri, mediaType)
         val isVideo = mediaType == MediaType.Video
-        binding.lMediaContent.videoGroup.setIsVisible(isVideo)
+        binding.videoGroup.setIsVisible(isVideo)
         if (isVideo)
-            binding.lMediaContent.tvDuration.text =
-                getVideoDurationString(getVideoDuration(context, contentUri))
+            binding.tvDuration.text = getVideoDurationString(getVideoDuration(context, contentUri))
 
         binding.btnSend.isEnabled = true
     }
@@ -183,7 +176,7 @@ class PreviewPostView(
 
     private fun updateContentView() {
         val isTextContent = postContent is TextPostContent || postContent == null
-        binding.lMediaContent.lMedia.setIsVisible(!isTextContent)
+        binding.lMedia.setIsVisible(!isTextContent)
         binding.ivRemoveImage.setIsVisible(!isTextContent && canEditMedia)
         if (isTextContent) requestFocusOnText()
         binding.etTextPost.setPadding(
@@ -206,17 +199,17 @@ class PreviewPostView(
         }
         val calculatedSize =
             MediaUtils.getThumbSizeWithLimits(binding.lvContent.width, originalSize)
-        binding.lMediaContent.ivCover.post {
-            binding.lMediaContent.ivCover.updateLayoutParams {
+        binding.ivCover.post {
+            binding.ivCover.updateLayoutParams {
                 width = calculatedSize.width
                 height = calculatedSize.height
             }
         }
-        binding.lMediaContent.ivCover.loadImage(uri.toString())
+        binding.ivCover.loadImage(uri.toString())
     }
 
     private fun loadMediaCover(mediaContent: MediaContent) {
-        val image = binding.lMediaContent.ivCover
+        val image = binding.ivCover
         image.post {
             val size = mediaContent.calculateThumbnailSize(image.width)
             image.updateLayoutParams {

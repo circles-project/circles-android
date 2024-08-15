@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary">#8553FF</color>
     <color name="blue">#1E88E5</color>
     <color name="status_bar_color">#20111111</color>
     <color name="highlight_color">#330E7AFE</color>
@@ -23,7 +22,11 @@
     <color name="qr_color">@color/black</color>
     <color name="qr_background">@color/white</color>
 
+    <color name="primary">#8553FF</color>
+    <color name="background_default">#F5F5F5</color>
+
     <color name="grey_cool_300">#E8EAEE</color>
+    <color name="grey_cool_600">#A2ACBA</color>
     <color name="grey_cool_800">#69788F</color>
     <color name="grey_cool_900">#525F72</color>
     <color name="grey_cool_1000">#3E4856</color>

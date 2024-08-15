@@ -6,7 +6,6 @@
     <color name="background_dim">#52000000</color>
     <color name="other_dm_background">#C0E6FF</color>
     <color name="my_dm_background">#D5C4FF</color>
-    <color name="background_default">#F5F5F5</color>
 
 
 </resources>
