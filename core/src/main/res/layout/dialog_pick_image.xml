@@ -15,14 +15,14 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                style="@style/title2"
+                style="@style/Headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:lines="1"
-                android:paddingVertical="8dp"
+                android:paddingVertical="12dp"
                 android:text="@string/upload_media_from"
                 app:layout_constraintEnd_toStartOf="@id/btnClose"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
                 app:layout_constraintDimensionRatio="h,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvTitle"
-                app:tint="@color/menu_icon_color" />
+                app:tint="@color/grey_cool_1100" />
 
             <View
                 android:id="@+id/titleDivider"
@@ -52,7 +52,7 @@
 
             <TextView
                 android:id="@+id/tvCamera"
-                style="@style/headline"
+                style="@style/Headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -62,15 +62,16 @@
                 android:focusable="true"
                 android:padding="16dp"
                 android:text="@string/camera"
+                android:textSize="16sp"
                 app:drawableLeftCompat="@drawable/ic_photo"
-                app:drawableTint="@color/menu_icon_color"
+                app:drawableTint="@color/grey_cool_1100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleDivider" />
 
             <TextView
                 android:id="@+id/tvVideo"
-                style="@style/headline"
+                style="@style/Headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
@@ -79,8 +80,9 @@
                 android:focusable="true"
                 android:padding="16dp"
                 android:text="@string/video"
+                android:textSize="16sp"
                 app:drawableLeftCompat="@drawable/ic_video"
-                app:drawableTint="@color/menu_icon_color"
+                app:drawableTint="@color/grey_cool_1100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCamera" />
@@ -88,7 +90,7 @@
 
             <TextView
                 android:id="@+id/tvPhoto"
-                style="@style/headline"
+                style="@style/Headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
@@ -97,15 +99,16 @@
                 android:focusable="true"
                 android:padding="16dp"
                 android:text="@string/photo"
+                android:textSize="16sp"
                 app:drawableLeftCompat="@drawable/ic_gallery"
-                app:drawableTint="@color/menu_icon_color"
+                app:drawableTint="@color/grey_cool_1100"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvVideo" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancel"
-                style="@style/NegativeButtonStyle"
+                style="@style/TransparentButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -113,10 +116,12 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/cancel"
+                android:textColor="@color/grey_cool_1100"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvPhoto" />
+                app:layout_constraintTop_toBottomOf="@id/tvPhoto"
+                app:strokeWidth="0dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
