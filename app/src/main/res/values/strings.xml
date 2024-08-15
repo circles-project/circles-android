@@ -113,6 +113,7 @@
     <string name="new_post">New post</string>
     <string name="create_new_post">Create new post</string>
     <string name="type_here">type here</string>
+    <string name="send">Send</string>
 
 
     <string-array name="report_categories">

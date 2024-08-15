@@ -52,7 +52,7 @@
                 android:id="@+id/ivVideoIndicator"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="#70000000"
+                android:background="@color/close_background"
                 android:src="@drawable/ic_play_video"
                 app:contentPaddingBottom="12dp"
                 app:contentPaddingEnd="12dp"

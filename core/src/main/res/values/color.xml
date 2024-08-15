@@ -23,6 +23,7 @@
     <color name="qr_background">@color/white</color>
 
     <color name="primary">#8553FF</color>
+    <color name="disabled_button_color">#F3EEFF</color>
     <color name="background_default">#F5F5F5</color>
 
     <color name="grey_cool_300">#E8EAEE</color>
@@ -33,6 +34,9 @@
     <color name="grey_cool_1100">#2A303A</color>
 
     <color name="grey_neutral_100">#F8F8F9</color>
+    <color name="grey_neutral_700">#8C919C</color>
     <color name="grey_neutral_800">#717785</color>
+
+    <color name="close_background">#70000000</color>
 
 </resources>
