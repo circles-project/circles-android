@@ -11,13 +11,11 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setEnabledViews
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
-import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
@@ -25,6 +23,7 @@ import org.futo.circles.core.model.PostContentType
 import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.view.CreatePostLoadingDialog
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
 import org.futo.circles.feature.timeline.list.MediaProgressHelper
 import org.futo.circles.feature.timeline.post.emoji.EmojiPickerListener
@@ -42,11 +41,13 @@ class CreatePostDialogFragment :
 
     private val mediaPickerHelper = MediaPickerHelper(this, isVideoAvailable = true)
 
+    private val createPostLoadingDialog by lazy { CreatePostLoadingDialog(requireContext()) }
+
     private val uploadMediaTracker =
         MatrixSessionProvider.currentSession?.contentUploadProgressTracker()
 
     private val uploadListener: ContentUploadStateTracker.UpdateListener by lazy {
-        MediaProgressHelper.getUploadListener(binding.vLoadingView)
+        MediaProgressHelper.getUploadListener(createPostLoadingDialog)
     }
 
     private var sentPostListener: PostSentListener? = null
@@ -85,14 +86,13 @@ class CreatePostDialogFragment :
             sendStateLiveData.observeData(this) { sendState ->
                 setEnabledViews(!sendState.isSending())
                 if (sendState.isSending()) {
-                    binding.vLoadingView.setProgress(ResLoadingData(R.string.sending))
-                    binding.vLoadingView.visible()
+                    createPostLoadingDialog.handleLoading(ResLoadingData(R.string.sending))
                 } else if (sendState.isSent()) {
                     if (!args.isEdit) sentPostListener?.onPostSent()
-                    binding.vLoadingView.gone()
+                    createPostLoadingDialog.dismiss()
                     dismiss()
                 } else {
-                    binding.vLoadingView.gone()
+                    createPostLoadingDialog.dismiss()
                     uploadMediaTracker?.clear()
                     showError(getString(R.string.failed_to_send))
                 }

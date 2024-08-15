@@ -92,6 +92,7 @@
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
     <string name="in_timeline_format">%1$s / %2$s</string>
     <string name="failed_to_send">Failed to send, please try again</string>
+    <string name="sent">Sent</string>
     <string name="sending">Sending</string>
     <string name="direct">Direct</string>
     <string name="invite_users_for_direct_messages">Invite users for direct messages</string>

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
 import org.futo.circles.core.databinding.DialogLoadingBinding
 import org.futo.circles.core.model.LoadingData
-import org.futo.circles.core.model.ResLoadingData
 
 
 class LoadingDialog(context: Context) : AppCompatDialog(context) {
