@@ -19,10 +19,10 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
-import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.databinding.DialogFragmentCreatePostBinding
@@ -101,10 +101,8 @@ class CreatePostDialogFragment :
     }
 
     private fun setToolbarTitle() {
-        binding.toolbar.title = when {
-            args.isEdit -> getString(R.string.edit_post)
-            else -> getString(R.string.create_post)
-        }
+        binding.toolbar.title =
+            getString(if (args.isEdit) R.string.edit_post else R.string.create_new_post)
     }
 
     private fun onMediaSelected(uri: Uri, type: MediaType) {

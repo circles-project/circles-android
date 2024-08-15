@@ -109,6 +109,7 @@ class PreviewPostView(
         listener = previewPostListener
         setupMainMenu(!isEdit)
         initMentionsAutocomplete(roomId)
+        binding.btnSend.setText(if (isEdit) R.string.edit else R.string.send)
     }
 
     fun setText(message: String) {
