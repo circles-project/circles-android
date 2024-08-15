@@ -18,7 +18,7 @@
         app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/create_new_post"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/CreatePostToolbarTitle" />
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
 
     <org.futo.circles.view.PreviewPostView

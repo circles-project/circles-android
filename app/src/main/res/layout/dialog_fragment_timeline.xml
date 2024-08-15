@@ -14,8 +14,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
         app:subtitleCentered="true"
-        app:titleCentered="true" />
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
     <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvTimeline"
