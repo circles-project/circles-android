@@ -6,7 +6,7 @@
     <string name="new_password">New password</string>
     <string name="old_password">Old Password</string>
     <string name="repeat_new_password">Repeat new password</string>
-    <string name="edit_profile">Edit Profile</string>
+    <string name="edit_profile">Edit profile</string>
     <string name="user_id">User ID</string>
     <string name="manage_subscription">Manage subscription</string>
     <string name="you_don_t_have_any_active_subscriptions">You don\'t have any active subscriptions</string>
@@ -52,6 +52,7 @@
     <string name="email_removed">Email removed</string>
     <string name="remove_email">Remove email</string>
     <string name="remove_email_confirmation">Are you sure you want to remove this email address? Email is required for account recovery.</string>
+    <string name="my_profile">My Profile</string>
 
 
 </resources>

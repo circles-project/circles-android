@@ -12,6 +12,6 @@
 
     <include app:graph="@navigation/people_nav_graph" />
 
-    <include app:graph="@navigation/settings_nav_graph" />
+    <include app:graph="@navigation/my_profile_nav_graph" />
 
 </navigation>
