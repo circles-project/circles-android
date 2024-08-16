@@ -2,51 +2,48 @@ package org.futo.circles.settings.feature.settings
 
 import androidx.navigation.fragment.findNavController
 import org.futo.circles.core.extensions.navigateSafe
-import org.futo.circles.core.extensions.showError
-import org.futo.circles.core.model.ShareUrlTypeArg
-import org.futo.circles.settings.R
 
-class SettingsNavigator(private val fragment: SettingsFragment) {
+class SettingsNavigator(private val fragment: SettingsDialogFragment) {
 
     fun navigateToPushSettings() {
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toPushNotificationsSettingsDialogFragment())
+            .navigateSafe(SettingsDialogFragmentDirections.toPushNotificationsSettingsDialogFragment())
     }
 
     fun navigateToActiveSessions() {
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toActiveSessionsDialogFragment())
+            .navigateSafe(SettingsDialogFragmentDirections.toActiveSessionsDialogFragment())
     }
 
     fun navigateToMatrixChangePassword() {
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toChangePasswordDialogFragment())
+            .navigateSafe(SettingsDialogFragmentDirections.toChangePasswordDialogFragment())
     }
 
     fun navigateToReAuthStages() {
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toUiaDialogFragment())
+            .navigateSafe(SettingsDialogFragmentDirections.toUiaDialogFragment())
     }
 
 
     fun navigateToSubscriptionInfo() {
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toManageSubscriptionDialogFragment())
+            .navigateSafe(SettingsDialogFragmentDirections.toManageSubscriptionDialogFragment())
     }
 
     fun navigateToEditProfile() {
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toEditProfileDialogFragment())
+            .navigateSafe(SettingsDialogFragmentDirections.toEditProfileDialogFragment())
     }
 
     fun navigateToAdvancedSettings() {
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toAdvancedSettingsDialogFragment())
+            .navigateSafe(SettingsDialogFragmentDirections.toAdvancedSettingsDialogFragment())
     }
 
     fun navigateToPhotos() {
         fragment.findNavController()
-            .navigateSafe(SettingsFragmentDirections.toPhotosNavGraph())
+            .navigateSafe(SettingsDialogFragmentDirections.toPhotosNavGraph())
     }
 
 }
