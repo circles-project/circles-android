@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -15,7 +15,7 @@
             style="@style/Headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="16dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="24dp"
             android:text="@string/my_groups"
             android:textSize="26sp" />

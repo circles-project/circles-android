@@ -6,16 +6,14 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/white">
 
         <ImageView
             android:id="@+id/tvTitle"
             android:layout_width="87dp"
             android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="9dp"
+            android:layout_gravity="center"
             android:src="@drawable/ic_circles_purple_no_border" />
 
 
@@ -23,7 +21,7 @@
             android:id="@+id/ivCreateCircle"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:layout_gravity="end"
+            android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="18dp"
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
