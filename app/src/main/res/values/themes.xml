@@ -13,8 +13,10 @@
         <item name="colorControlHighlight">@color/highlight_color</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
 
         <item name="dialogTheme">@style/DialogTheme</item>
+
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Dialog">
