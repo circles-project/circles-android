@@ -40,10 +40,4 @@ class SettingsNavigator(private val fragment: SettingsDialogFragment) {
         fragment.findNavController()
             .navigateSafe(SettingsDialogFragmentDirections.toAdvancedSettingsDialogFragment())
     }
-
-    fun navigateToPhotos() {
-        fragment.findNavController()
-            .navigateSafe(SettingsDialogFragmentDirections.toPhotosNavGraph())
-    }
-
 }

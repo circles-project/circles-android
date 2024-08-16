@@ -159,15 +159,6 @@
                 android:text="@string/other" />
 
             <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvPhotos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:optionIcon="@drawable/ic_round_photo_library"
-                app:optionName="@string/photos"
-                tools:visibility="visible" />
-
-            <org.futo.circles.core.view.SettingsMenuItemView
                 android:id="@+id/tvAdvancedSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

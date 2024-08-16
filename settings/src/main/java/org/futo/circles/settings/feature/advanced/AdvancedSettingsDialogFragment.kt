@@ -25,11 +25,9 @@ class AdvancedSettingsDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            lPhotos.setOnClickListener { togglePhotos() }
             lDevMode.setOnClickListener { toggleDeveloperMode() }
             tvClearCache.setOnClickListener { clearCacheAndReload() }
             svDevMode.isChecked = preferencesProvider.isDeveloperModeEnabled()
-            svPhotos.isChecked = preferencesProvider.isPhotoGalleryEnabled()
         }
     }
 
@@ -45,12 +43,6 @@ class AdvancedSettingsDialogFragment :
         val isEnabled = preferencesProvider.isDeveloperModeEnabled()
         preferencesProvider.setDeveloperMode(!isEnabled)
         binding.svDevMode.isChecked = !isEnabled
-    }
-
-    private fun togglePhotos() {
-        val isEnabled = preferencesProvider.isPhotoGalleryEnabled()
-        preferencesProvider.setPhotoGalleryEnabled(!isEnabled)
-        binding.svPhotos.isChecked = !isEnabled
     }
 
 }

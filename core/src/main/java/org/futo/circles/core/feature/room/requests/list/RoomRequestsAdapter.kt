@@ -12,7 +12,6 @@ enum class RoomRequestViewType { Header, Knock, CircleInvite, GroupInvite, Photo
 
 class RoomRequestsAdapter(
     private val onInviteClicked: (RoomInviteListItem, Boolean) -> Unit,
-    private val onUnblurProfileIconClicked: (RoomInviteListItem) -> Unit,
     private val onKnockClicked: (KnockRequestListItem, Boolean) -> Unit
 ) : BaseRvAdapter<RoomRequestListItem, RoomRequestViewHolder>(DefaultIdEntityCallback()) {
 
@@ -37,11 +36,6 @@ class RoomRequestsAdapter(
                 (getItem(position) as? RoomInviteListItem)?.let {
                     onInviteClicked(it, isAccepted)
                 }
-            },
-            onShowProfileIconClicked = { position ->
-                (getItem(position) as? RoomInviteListItem)?.let {
-                    onUnblurProfileIconClicked(it)
-                }
             })
 
         RoomRequestViewType.GroupInvite -> InvitedGroupViewHolder(
@@ -49,11 +43,6 @@ class RoomRequestsAdapter(
             onInviteClicked = { position, isAccepted ->
                 (getItem(position) as? RoomInviteListItem)?.let {
                     onInviteClicked(it, isAccepted)
-                }
-            },
-            onShowProfileIconClicked = { position ->
-                (getItem(position) as? RoomInviteListItem)?.let {
-                    onUnblurProfileIconClicked(it)
                 }
             })
 
@@ -64,11 +53,6 @@ class RoomRequestsAdapter(
                     (getItem(position) as? RoomInviteListItem)?.let {
                         onInviteClicked(it, isAccepted)
                     }
-                },
-                onShowProfileIconClicked = { position ->
-                    (getItem(position) as? RoomInviteListItem)?.let {
-                        onUnblurProfileIconClicked(it)
-                    }
                 })
 
         RoomRequestViewType.DMInvite -> InvitedDMViewHolder(
@@ -76,11 +60,6 @@ class RoomRequestsAdapter(
             onInviteClicked = { position, isAccepted ->
                 (getItem(position) as? RoomInviteListItem)?.let {
                     onInviteClicked(it, isAccepted)
-                }
-            },
-            onShowProfileIconClicked = { position ->
-                (getItem(position) as? RoomInviteListItem)?.let {
-                    onUnblurProfileIconClicked(it)
                 }
             })
 

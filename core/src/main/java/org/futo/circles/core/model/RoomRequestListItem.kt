@@ -22,7 +22,6 @@ data class RoomInviteListItem(
     val info: RoomInfo,
     val isEncrypted: Boolean,
     val inviterName: String,
-    val shouldBlurIcon: Boolean,
     val isLoading: Boolean = false
 ) : RoomRequestListItem() {
     override val id: String = roomId

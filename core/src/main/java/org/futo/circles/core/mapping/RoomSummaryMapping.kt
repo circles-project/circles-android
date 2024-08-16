@@ -62,7 +62,7 @@ private fun getReasonMessage(roomId: String, userId: String) =
         it.content.toModel<RoomMemberContent>()?.membership == Membership.KNOCK
     }?.content.toModel<RoomMemberContent>()?.safeReason
 
-fun RoomSummary.toRoomInviteListItem(requestType: RoomRequestTypeArg, shouldBlurIcon: Boolean) =
+fun RoomSummary.toRoomInviteListItem(requestType: RoomRequestTypeArg) =
     if (requestType == RoomRequestTypeArg.DM) {
         val user = MatrixSessionProvider.currentSession?.getUserOrDefault(inviterId ?: "")
         val userName = user?.notEmptyDisplayName() ?: ""
@@ -71,7 +71,6 @@ fun RoomSummary.toRoomInviteListItem(requestType: RoomRequestTypeArg, shouldBlur
             info = RoomInfo(userName, user?.avatarUrl ?: avatarUrl),
             inviterName = userName,
             isEncrypted = isEncrypted,
-            shouldBlurIcon = shouldBlurIcon,
             requestType = requestType
         )
     } else {
@@ -80,7 +79,6 @@ fun RoomSummary.toRoomInviteListItem(requestType: RoomRequestTypeArg, shouldBlur
             info = toRoomInfo(),
             inviterName = getInviterName(),
             isEncrypted = isEncrypted,
-            shouldBlurIcon = shouldBlurIcon,
             requestType = requestType
         )
     }

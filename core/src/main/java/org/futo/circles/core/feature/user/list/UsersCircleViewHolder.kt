@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
+import org.futo.circles.core.databinding.ListItemDefaultUserBinding
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
-import org.futo.circles.core.databinding.ListItemPeopleDefaultBinding
 import org.futo.circles.core.databinding.ListItemUsersTimelineBinding
-import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.onClick
@@ -50,11 +49,11 @@ class UsersTimelineRoomViewHolder(
 class MutualFriendsViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit
-) : UserTimelineViewHolder(inflate(parent, ListItemPeopleDefaultBinding::inflate)) {
+) : UserTimelineViewHolder(inflate(parent, ListItemDefaultUserBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemPeopleDefaultBinding
+    private val binding = baseBinding as ListItemDefaultUserBinding
 
     init {
         onClick(itemView) { position -> onUserClicked(position) }
@@ -62,30 +61,10 @@ class MutualFriendsViewHolder(
 
     override fun bind(data: TimelineListItem) {
         val userItem = (data as? MutualFriendListItem) ?: return
-        if (userItem.isIgnored) setUnBlurClick(userItem)
-        with(binding) {
+        with(binding.lUser) {
             tvUserName.text = userItem.user.name
             tvUserId.text = userItem.user.id
-            ivUserImage.loadUserProfileIcon(
-                userItem.user.avatarUrl,
-                userItem.user.id,
-                applyBlur = userItem.isIgnored
-            )
-            tvIgnoredLabel.setIsVisible(userItem.isIgnored)
-            tvShowProfileImage.setIsVisible(userItem.isIgnored)
-        }
-    }
-
-    private fun setUnBlurClick(userItem: MutualFriendListItem) {
-        with(binding) {
-            ivUserImage.setOnClickListener {
-                ivUserImage.loadUserProfileIcon(
-                    userItem.user.avatarUrl,
-                    userItem.user.id,
-                    applyBlur = false
-                )
-                tvShowProfileImage.gone()
-            }
+            ivUserImage.loadUserProfileIcon(userItem.user.avatarUrl, userItem.user.id)
         }
     }
 }

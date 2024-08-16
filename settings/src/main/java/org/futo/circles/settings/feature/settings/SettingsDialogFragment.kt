@@ -1,6 +1,5 @@
 package org.futo.circles.settings.feature.settings
 
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -18,7 +17,6 @@ import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.ResLoadingData
-import org.futo.circles.core.provider.PreferencesProvider
 import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.core.view.LoadingDialog
 import org.futo.circles.settings.R
@@ -36,11 +34,6 @@ class SettingsDialogFragment :
     private val viewModel by viewModels<SettingsViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }
-    private val preferencesProvider by lazy { PreferencesProvider(requireContext()) }
-    private val photosEnabledSharedPrefListener = OnSharedPreferenceChangeListener { _, key ->
-        if (key == PreferencesProvider.PHOTO_GALLERY_KEY)
-            binding.tvPhotos.setIsVisible(preferencesProvider.isPhotoGalleryEnabled())
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -83,10 +76,6 @@ class SettingsDialogFragment :
             tvEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
             tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
             tvAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
-            tvPhotos.apply {
-                binding.tvPhotos.setIsVisible(preferencesProvider.isPhotoGalleryEnabled())
-                setOnClickListener { navigator.navigateToPhotos() }
-            }
         }
         setVersion()
     }
@@ -118,8 +107,6 @@ class SettingsDialogFragment :
         viewModel.mediaUsageInfoLiveData.observeResponse(this,
             error = { bindMediaUsageProgress(null) },
             success = { bindMediaUsageProgress(it) })
-        preferencesProvider.getSharedPreferences()
-            .registerOnSharedPreferenceChangeListener(photosEnabledSharedPrefListener)
     }
 
     private fun bindMediaUsageProgress(mediaUsage: MediaUsageInfo?) {
@@ -155,9 +142,4 @@ class SettingsDialogFragment :
         loadingDialog.dismiss()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        preferencesProvider.getSharedPreferences()
-            .unregisterOnSharedPreferenceChangeListener(photosEnabledSharedPrefListener)
-    }
 }

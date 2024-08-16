@@ -17,6 +17,17 @@
         <action
             android:id="@+id/to_editProfileDialogFragment"
             app:destination="@id/editProfileDialogFragment" />
+
+        <action
+            android:id="@+id/to_userFragment"
+            app:destination="@id/user_nav_graph">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
     </fragment>
 
 
@@ -49,8 +60,8 @@
             android:id="@+id/to_editProfileDialogFragment"
             app:destination="@id/editProfileDialogFragment" />
         <action
-            android:id="@+id/to_photos_nav_graph"
-            app:destination="@id/photos_nav_graph" />
+            android:id="@+id/to_ignoredUsersDialogFragment"
+            app:destination="@id/ignoredUsersDialogFragment" />
     </dialog>
 
 
@@ -86,6 +97,10 @@
         android:name="org.futo.circles.settings.feature.advanced.AdvancedSettingsDialogFragment"
         tools:layout="@layout/dialog_fragment_advanced_settings" />
 
-    <include app:graph="@navigation/photos_nav_graph" />
+    <include app:graph="@navigation/user_nav_graph" />
+    <dialog
+        android:id="@+id/ignoredUsersDialogFragment"
+        android:name="org.futo.circles.settings.feature.ignored_users.IgnoredUsersDialogFragment"
+        tools:layout="@layout/list_item_ignored_user" />
 
 </navigation>

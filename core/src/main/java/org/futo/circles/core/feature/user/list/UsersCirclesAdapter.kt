@@ -11,6 +11,7 @@ import org.futo.circles.core.model.TimelineListItem
 import org.futo.circles.core.model.TimelineRoomListItem
 
 private enum class TimelineViewType { Header, Room, MutualFriend }
+
 class UsersCirclesAdapter(
     private val onUnFollow: (String) -> Unit,
     private val onUserClicked: (String) -> Unit

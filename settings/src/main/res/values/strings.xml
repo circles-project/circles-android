@@ -53,6 +53,6 @@
     <string name="remove_email">Remove email</string>
     <string name="remove_email_confirmation">Are you sure you want to remove this email address? Email is required for account recovery.</string>
     <string name="my_profile">My Profile</string>
-
+    <string name="ignored_users_empty_message">Ignored users will be shown here</string>
 
 </resources>

@@ -86,7 +86,6 @@
     <string name="save">Save</string>
     <string name="groups_empty_message">Create your first Group</string>
     <string name="circles_empty_message">Create your first Circle</string>
-    <string name="people_category_empty_message">%s will be shown here</string>
     <string name="help">Help</string>
     <string name="downloading">Downloading</string>
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>

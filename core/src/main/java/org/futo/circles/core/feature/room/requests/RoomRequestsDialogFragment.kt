@@ -31,9 +31,6 @@ class RoomRequestsDialogFragment : BaseFullscreenDialogFragment<DialogFragmentRo
             onInviteClicked = { roomListItem, isAccepted ->
                 onInviteClicked(roomListItem, isAccepted)
             },
-            onUnblurProfileIconClicked = { roomListItem ->
-                viewModel.unblurProfileIcon(roomListItem.id)
-            },
             onKnockClicked = { item, isAccepted -> onKnockRequestClicked(item, isAccepted) }
         )
     }
