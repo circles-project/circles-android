@@ -13,6 +13,10 @@
         <action
             android:id="@+id/to_settingsDialogFragment"
             app:destination="@id/settingsFragmentDialogFragment" />
+
+        <action
+            android:id="@+id/to_editProfileDialogFragment"
+            app:destination="@id/editProfileDialogFragment" />
     </fragment>
 
 

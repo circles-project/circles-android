@@ -9,7 +9,6 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,6 +24,7 @@
             android:layout_height="36dp"
             android:layout_gravity="end"
             android:layout_marginEnd="18dp"
+            android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
             android:padding="6dp"
@@ -96,11 +96,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEditProfile"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        style="@style/TransparentButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginTop="16dp"
-        android:background="@color/white"
         android:fontFamily="@font/inter_medium"
         android:paddingHorizontal="12dp"
         android:paddingVertical="8dp"

@@ -26,6 +26,9 @@ class MyProfileFragment :
             btnSettings.setOnClickListener {
                 findNavController().navigateSafe(MyProfileFragmentDirections.toSettingsDialogFragment())
             }
+            btnEditProfile.setOnClickListener {
+                findNavController().navigateSafe(MyProfileFragmentDirections.toEditProfileDialogFragment())
+            }
         }
     }
 
