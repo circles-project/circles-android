@@ -63,7 +63,6 @@ class MyProfileFragment :
                 )
             }
             ivProfile.setOnClickListener { showImagePicker() }
-            ivEditIcon.setOnClickListener { showImagePicker() }
         }
     }
 
