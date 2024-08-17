@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
-import org.futo.circles.core.databinding.ListItemDefaultUserBinding
 import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.core.databinding.ListItemMutualFriendBinding
 import org.futo.circles.core.databinding.ListItemUsersTimelineBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.loadUserProfileIcon
@@ -49,11 +49,11 @@ class UsersTimelineRoomViewHolder(
 class MutualFriendsViewHolder(
     parent: ViewGroup,
     private val onUserClicked: (Int) -> Unit
-) : UserTimelineViewHolder(inflate(parent, ListItemDefaultUserBinding::inflate)) {
+) : UserTimelineViewHolder(inflate(parent, ListItemMutualFriendBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemDefaultUserBinding
+    private val binding = baseBinding as ListItemMutualFriendBinding
 
     init {
         onClick(itemView) { position -> onUserClicked(position) }
