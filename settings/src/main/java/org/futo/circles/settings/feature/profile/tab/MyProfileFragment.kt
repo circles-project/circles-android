@@ -10,6 +10,9 @@ import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.showSuccess
+import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.FragmentMyProfileBinding
 import org.futo.circles.settings.feature.profile.tab.list.ProfileTabUsersAdapter
@@ -23,6 +26,8 @@ class MyProfileFragment :
     BaseBindingFragment<FragmentMyProfileBinding>(FragmentMyProfileBinding::inflate) {
 
     private val viewModel by viewModels<MyProfileViewModel>()
+
+    private val mediaPickerHelper = MediaPickerHelper(this)
 
     private val peopleAdapter by lazy {
         ProfileTabUsersAdapter(
@@ -47,9 +52,9 @@ class MyProfileFragment :
             btnEditProfile.setOnClickListener {
                 findNavController().navigateSafe(MyProfileFragmentDirections.toEditProfileDialogFragment())
             }
-            binding.vPeopleCategories.setOnCategorySelectListener {
+            vPeopleCategories.setOnCategorySelectListener {
                 viewModel.selectPeopleCategory(it)
-                binding.tvCategoryHeader.text = getString(
+                tvCategoryHeader.text = getString(
                     when (it) {
                         Followers -> R.string.my_followers
                         Following -> R.string.people_i_m_following
@@ -57,6 +62,8 @@ class MyProfileFragment :
                     }
                 )
             }
+            ivProfile.setOnClickListener { showImagePicker() }
+            ivEditIcon.setOnClickListener { showImagePicker() }
         }
     }
 
@@ -70,6 +77,9 @@ class MyProfileFragment :
         viewModel.peopleInfoLiveData.observeData(this) {
             binding.vPeopleCategories.setCountsPerCategory(it)
         }
+        viewModel.editProfileIconResponseLiveData.observeResponse(this,
+            success = { showSuccess(getString(R.string.profile_updated)) }
+        )
     }
 
     private fun bindProfile(user: User) {
@@ -78,5 +88,12 @@ class MyProfileFragment :
             tvUserName.text = user.notEmptyDisplayName()
             tvUserId.text = user.userId
         }
+    }
+
+    private fun showImagePicker() {
+        mediaPickerHelper.showMediaPickerDialog(onImageSelected = { _, uri ->
+            binding.ivProfile.setImageURI(uri)
+            viewModel.updateProfileIcon(uri)
+        })
     }
 }
