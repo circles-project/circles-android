@@ -45,9 +45,8 @@ class DMFragment :
             })
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = listAdapter
-            bindToFab(binding.fbAddUser)
         }
-        binding.fbAddUser.setOnClickListener {
+        binding.ivCreateDm.setOnClickListener {
             findNavController().navigateSafe(DMFragmentDirections.toCreateDMDialogFragment())
         }
     }

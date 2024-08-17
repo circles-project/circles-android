@@ -1,12 +1,10 @@
 package org.futo.circles.gallery.feature
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +12,7 @@ import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.view.EmptyTabPlaceholderView
@@ -52,26 +51,14 @@ class PhotosFragment :
                 setText(getString(R.string.photos_empty_message))
             })
             adapter = listAdapter
-            bindToFab(binding.fbAddRoom)
         }
-        binding.fbAddRoom.setOnClickListener { navigateToCreateRoom() }
+        binding.ivCreateGallery.setOnClickListener { navigateToCreateRoom() }
     }
 
-    @SuppressLint("RestrictedApi")
     private fun setupToolbar() {
-        with(binding.toolbar) {
-            (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-            menu.findItem(R.id.backup).isVisible = CirclesAppConfig.isMediaBackupEnabled
-            setOnMenuItemClickListener { item ->
-                return@setOnMenuItemClickListener when (item.itemId) {
-                    R.id.backup -> {
-                        openBackupSettingsWithNecessaryPermissions()
-                        true
-                    }
-
-                    else -> false
-                }
-            }
+        binding.ivMediaBackup.apply {
+            setIsVisible(CirclesAppConfig.isMediaBackupEnabled)
+            setOnClickListener { openBackupSettingsWithNecessaryPermissions() }
         }
     }
 
