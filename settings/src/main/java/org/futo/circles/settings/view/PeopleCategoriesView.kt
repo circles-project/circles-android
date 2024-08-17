@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import org.futo.circles.core.extensions.dpToPx
 import org.futo.circles.settings.databinding.ViewPeopleCategoriesBinding
 import org.futo.circles.settings.model.PeopleCategoryData
 import org.futo.circles.settings.model.PeopleCategoryType
@@ -45,6 +46,17 @@ class PeopleCategoriesView(
 
     private fun setSelected(type: PeopleCategoryType) {
         selectCategoryListener?.invoke(type)
+        with(binding) {
+            cvFollowers.strokeWidth = 0
+            cvFollowing.strokeWidth = 0
+            cvSuggestions.strokeWidth = 0
+            val borderWidth = context.dpToPx(1)
+            when (type) {
+                Followers -> cvFollowers.strokeWidth = borderWidth
+                Following -> cvFollowing.strokeWidth = borderWidth
+                Other -> cvSuggestions.strokeWidth = borderWidth
+            }
+        }
     }
 
     private fun setFollowersCount(count: Int) {
