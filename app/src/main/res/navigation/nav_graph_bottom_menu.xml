@@ -10,6 +10,8 @@
 
     <include app:graph="@navigation/direct_messages_nav_graph" />
 
+    <include app:graph="@navigation/photos_nav_graph" />
+
     <include app:graph="@navigation/my_profile_nav_graph" />
 
 </navigation>

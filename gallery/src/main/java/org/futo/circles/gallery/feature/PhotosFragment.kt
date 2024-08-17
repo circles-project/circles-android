@@ -11,25 +11,25 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.CirclesAppConfig
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.gallery.R
-import org.futo.circles.gallery.databinding.DialogFragmentPhotosBinding
+import org.futo.circles.gallery.databinding.FragmentPhotosBinding
 
 @AndroidEntryPoint
-class PhotosDialogFragment :
-    BaseFullscreenDialogFragment<DialogFragmentPhotosBinding>(DialogFragmentPhotosBinding::inflate) {
+class PhotosFragment :
+    BaseBindingFragment<FragmentPhotosBinding>(FragmentPhotosBinding::inflate) {
 
     private val viewModel by viewModels<PhotosViewModel>()
     private val listAdapter by lazy {
         PhotosListAdapter(
             onRoomClicked = { roomListItem -> onRoomListItemClicked(roomListItem) },
             onOpenInvitesClicked = {
-                findNavController().navigateSafe(PhotosDialogFragmentDirections.toRoomRequests())
+                findNavController().navigateSafe(PhotosFragmentDirections.toRoomRequests())
             }
         )
     }
@@ -80,7 +80,7 @@ class PhotosDialogFragment :
     }
 
     private fun onRoomListItemClicked(room: GalleryListItem) {
-        findNavController().navigateSafe(PhotosDialogFragmentDirections.toGalleryFragment(room.id))
+        findNavController().navigateSafe(PhotosFragmentDirections.toGalleryFragment(room.id))
     }
 
     private fun openBackupSettingsWithNecessaryPermissions() {
@@ -90,10 +90,10 @@ class PhotosDialogFragment :
     }
 
     private fun navigateToCreateRoom() {
-        findNavController().navigateSafe(PhotosDialogFragmentDirections.toCreateGalleryDialogFragment())
+        findNavController().navigateSafe(PhotosFragmentDirections.toCreateGalleryDialogFragment())
     }
 
     private fun navigateToBackupSettings() {
-        findNavController().navigateSafe(PhotosDialogFragmentDirections.toMediaBackupDialogFragment())
+        findNavController().navigateSafe(PhotosFragmentDirections.toMediaBackupDialogFragment())
     }
 }

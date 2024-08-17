@@ -17,6 +17,11 @@
         android:title="@string/messages" />
 
     <item
+        android:id="@+id/photos_nav_graph"
+        android:icon="@drawable/ic_my_galleries"
+        android:title="@string/my_galleries" />
+
+    <item
         android:id="@+id/my_profile_nav_graph"
         android:icon="@drawable/ic_my_profile"
         android:title="@string/my_profile" />
