@@ -4,33 +4,25 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.databinding.FragmentRoomsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
-import org.futo.circles.core.extensions.onBackPressed
-import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
 import org.futo.circles.core.model.GalleryListItem
-import org.futo.circles.core.model.RemoveImage
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.gallery.R
 import org.futo.circles.gallery.databinding.DialogFragmentPhotosBinding
 
 @AndroidEntryPoint
 class PhotosDialogFragment :
-    BaseFullscreenDialogFragment<DialogFragmentPhotosBinding>(DialogFragmentPhotosBinding::inflate){
+    BaseFullscreenDialogFragment<DialogFragmentPhotosBinding>(DialogFragmentPhotosBinding::inflate) {
 
     private val viewModel by viewModels<PhotosViewModel>()
     private val listAdapter by lazy {
@@ -58,7 +50,6 @@ class PhotosDialogFragment :
         binding.rvRooms.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.photos_empty_message))
-                setArrowVisible(true)
             })
             adapter = listAdapter
             bindToFab(binding.fbAddRoom)

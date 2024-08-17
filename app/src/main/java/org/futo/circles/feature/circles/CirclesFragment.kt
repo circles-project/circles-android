@@ -61,7 +61,6 @@ class CirclesFragment :
         binding.rvRooms.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.circles_empty_message))
-                setArrowVisible(true)
             })
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = CirclesListAdapter(
