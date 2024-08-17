@@ -10,9 +10,6 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getTimelines
 import org.futo.circles.settings.model.PeopleCategoryData
 import org.futo.circles.settings.model.PeopleCategoryType
-import org.futo.circles.settings.model.PeopleHeaderItem
-import org.futo.circles.settings.model.PeopleListItem
-import org.futo.circles.settings.model.PeopleUserListItem
 import org.matrix.android.sdk.api.session.getUserOrDefault
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.user.model.User
@@ -34,14 +31,14 @@ class MyProfileDataSource @Inject constructor() {
         peopleMap[PeopleCategoryType.Followers] = PeopleCategoryData(
             count = followers.size,
             type = PeopleCategoryType.Followers,
-            listData = buildListWithHeader(PeopleHeaderItem.followersHeader, followers)
+            listData = followers.map { it.toCirclesUserSummary() }
         )
 
         val following = getPeopleImFollowing().filter { !ignoreUserIds.contains(it.userId) }
         peopleMap[PeopleCategoryType.Following] = PeopleCategoryData(
             count = following.size,
             type = PeopleCategoryType.Following,
-            listData = buildListWithHeader(PeopleHeaderItem.followingHeader, following)
+            listData = following.map { it.toCirclesUserSummary() }
         )
 
         val others = getOtherUsers(
@@ -53,7 +50,7 @@ class MyProfileDataSource @Inject constructor() {
         peopleMap[PeopleCategoryType.Other] = PeopleCategoryData(
             count = others.size,
             type = PeopleCategoryType.Other,
-            listData = buildListWithHeader(PeopleHeaderItem.suggestionsHeader, others)
+            listData = others.map { it.toCirclesUserSummary() }
         )
 
         peopleMap
@@ -91,17 +88,5 @@ class MyProfileDataSource @Inject constructor() {
             knownIds - followersUsersIds.toSet() - followingUsersIds.toSet()
 
         return otherMemberIds.map { session.getUserOrDefault(it) }
-    }
-
-    private fun buildListWithHeader(
-        headerItem: PeopleHeaderItem,
-        users: List<User>
-    ): List<PeopleListItem> {
-        val list = mutableListOf<PeopleListItem>()
-        if (users.isNotEmpty()) {
-            list.add(headerItem)
-            list.addAll(users.map { PeopleUserListItem(it.toCirclesUserSummary()) })
-        }
-        return list
     }
 }

@@ -10,8 +10,12 @@ import org.futo.circles.core.extensions.loadUserProfileIcon
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.extensions.observeData
+import org.futo.circles.settings.R
 import org.futo.circles.settings.databinding.FragmentMyProfileBinding
-import org.futo.circles.settings.feature.profile.tab.list.PeopleAdapter
+import org.futo.circles.settings.feature.profile.tab.list.ProfileTabUsersAdapter
+import org.futo.circles.settings.model.PeopleCategoryType.Followers
+import org.futo.circles.settings.model.PeopleCategoryType.Following
+import org.futo.circles.settings.model.PeopleCategoryType.Other
 import org.matrix.android.sdk.api.session.user.model.User
 
 @AndroidEntryPoint
@@ -21,7 +25,7 @@ class MyProfileFragment :
     private val viewModel by viewModels<MyProfileViewModel>()
 
     private val peopleAdapter by lazy {
-        PeopleAdapter(
+        ProfileTabUsersAdapter(
             onUserClicked = { userId ->
                 findNavController().navigateSafe(MyProfileFragmentDirections.toUserFragment(userId))
             }
@@ -45,6 +49,13 @@ class MyProfileFragment :
             }
             binding.vPeopleCategories.setOnCategorySelectListener {
                 viewModel.selectPeopleCategory(it)
+                binding.tvCategoryHeader.text = getString(
+                    when (it) {
+                        Followers -> R.string.my_followers
+                        Following -> R.string.people_i_m_following
+                        Other -> R.string.other_known_users
+                    }
+                )
             }
         }
     }

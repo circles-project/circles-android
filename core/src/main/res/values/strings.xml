@@ -73,9 +73,7 @@
     <string name="configure_group">Configure group</string>
     <string name="configure_gallery">Configure gallery</string>
     <string name="manage_members">Manage members</string>
-    <string name="my_followers">My followers</string>
     <string name="followers">Followers</string>
-    <string name="people_i_m_following">People I\'m following</string>
     <string name="invite_members">Invite members</string>
     <string name="leave_group">Leave group</string>
     <string name="leave_gallery">Leave gallery</string>
@@ -126,7 +124,6 @@
     <string name="room_requests_for_invitation_format">%s requests for invitation</string>
     <string name="no_new_invitations_format">You don\'t have any %s</string>
     <string name="following">Following</string>
-    <string name="other_known_users">Other known users</string>
     <string name="unfollow">Unfollow</string>
     <string name="unfollow_circle">Unfollow Circle</string>
     <string name="unfollow_user_timeline">Are you sure you want to unfollow this timeline?</string>

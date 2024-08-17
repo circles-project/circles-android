@@ -54,5 +54,8 @@
     <string name="remove_email_confirmation">Are you sure you want to remove this email address? Email is required for account recovery.</string>
     <string name="my_profile">My Profile</string>
     <string name="ignored_users_empty_message">Ignored users will be shown here</string>
+    <string name="people_i_m_following">People I\'m following</string>
+    <string name="my_followers">My followers</string>
+    <string name="other_known_users">Other known users</string>
 
 </resources>

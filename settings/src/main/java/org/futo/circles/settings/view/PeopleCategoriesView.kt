@@ -23,8 +23,8 @@ class PeopleCategoriesView(
     init {
         with(binding) {
             cvFollowers.setOnClickListener { setSelected(Followers) }
-            tvFollowingCount.setOnClickListener { setSelected(Following) }
-            tvSuggestionsCount.setOnClickListener { setSelected(Other) }
+            cvFollowing.setOnClickListener { setSelected(Following) }
+            cvSuggestions.setOnClickListener { setSelected(Other) }
         }
     }
 
