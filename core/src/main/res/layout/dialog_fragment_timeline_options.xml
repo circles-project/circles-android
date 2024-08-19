@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_default"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
+        app:subtitleCentered="true"
         app:titleCentered="true"
-        tools:title="Room name" />
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,175 +31,176 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivCover"
-                android:layout_width="@dimen/group_icon_size"
-                android:layout_height="@dimen/group_icon_size"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:clickable="true"
-                android:focusable="true"
+                android:layout_marginTop="14dp"
+                android:padding="2dp"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius"
-                tools:background="@color/highlight_color" />
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+                tools:src="@color/blue" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/lPushNotifications"
+            <org.futo.circles.core.view.SettingsGroupLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="horizontal">
+                app:groupName="@string/notifications">
 
-                <TextView
-                    android:id="@+id/tvPushNotifications"
-                    style="@style/settingMenuItem"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/lPushNotifications"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="@string/push_notifications"
-                    app:drawableStartCompat="@drawable/ic_notifications"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvPushNotifications"
+                        style="@style/settingMenuItem"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:clickable="false"
+                        android:drawablePadding="8dp"
+                        android:focusable="false"
+                        android:text="@string/push_notifications"
+                        app:drawableStartCompat="@drawable/ic_manage_notifications"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/svPushNotifications"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/svPushNotifications"
-                    android:layout_width="wrap_content"
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/svPushNotifications"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:checked="true"
+                        android:clickable="false"
+                        android:focusable="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <org.futo.circles.core.view.SettingsGroupLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:groupName="@string/room_settings">
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vShare"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:checked="true"
-                    android:clickable="false"
-                    android:focusable="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:optionIcon="@drawable/ic_share"
+                    app:optionName="@string/share" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/divider_height"
-                    android:layout_marginHorizontal="8dp"
-                    android:background="@color/divider_color"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvShare"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_share"
-                app:optionName="@string/share" />
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvStateEvents"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_info"
-                app:optionName="@string/state_events" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvConfigure"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_settings"
-                app:optionName="@string/configure_group" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvManageMembers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_round_people"
-                app:optionName="@string/manage_members" />
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/tvKnockRequests"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true">
-
-                <TextView
-                    android:id="@+id/tvKnocksTitle"
-                    style="@style/settingMenuItem"
-                    android:layout_width="wrap_content"
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vStateEvents"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:clickable="false"
-                    android:paddingEnd="8dp"
-                    android:text="@string/requests_for_invitation"
-                    app:drawableStartCompat="@drawable/ic_knock_requests"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="RtlSymmetry" />
-
-                <org.futo.circles.core.view.NotificationCounterView
-                    android:id="@+id/ivKnocksCount"
-                    android:layout_width="18dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="2dp"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@id/tvKnocksTitle"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:notificationCircleBackground="@android:color/holo_red_dark"
-                    tools:visibility="visible" />
-
-                <View
-                    android:id="@+id/vBottomDivider"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/divider_height"
-                    android:layout_marginHorizontal="8dp"
-                    android:background="@color/divider_color"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvKnocksTitle" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    app:optionIcon="@drawable/ic_info"
+                    app:optionName="@string/state_events" />
 
 
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvInviteMembers"
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vConfigure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hasDivider="false"
+                    app:optionIcon="@drawable/ic_settings"
+                    app:optionName="@string/configure_group" />
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <org.futo.circles.core.view.SettingsGroupLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_invite"
-                app:optionName="@string/invite_members" />
+                app:groupName="@string/members">
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vManageMembers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_round_people"
+                    app:optionName="@string/manage_members" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <org.futo.circles.core.view.SettingsMenuItemView
+                        android:id="@+id/vKnockRequests"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:optionIcon="@drawable/ic_knock_requests"
+                        app:optionName="@string/requests_for_invitation"
+                        tools:ignore="RtlSymmetry" />
+
+                    <org.futo.circles.core.view.NotificationCounterView
+                        android:id="@+id/ivKnocksCount"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="36dp"
+                        android:visibility="gone"
+                        app:notificationCircleBackground="@android:color/holo_red_dark"
+                        tools:visibility="visible" />
+
+                </FrameLayout>
 
 
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvLeave"
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vInviteMembers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hasDivider="false"
+                    app:optionIcon="@drawable/ic_invite"
+                    app:optionName="@string/invite_members" />
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <org.futo.circles.core.view.SettingsGroupLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_logout"
-                app:optionName="@string/leave_group" />
+                app:groupName="@string/leave">
 
-            <TextView
-                android:id="@+id/tvDelete"
-                style="@style/settingMenuItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/delete"
-                android:textColor="@color/red"
-                app:drawableStartCompat="@drawable/ic_delete"
-                app:drawableTint="@color/red" />
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vLeave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_logout"
+                    app:optionName="@string/leave_group" />
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vDelete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hasDivider="false"
+                    app:optionIcon="@drawable/ic_delete"
+                    app:optionName="@string/delete" />
+
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
 
 
         </LinearLayout>
 
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

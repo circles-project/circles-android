@@ -51,7 +51,7 @@ class TimelineOptionsDialogFragment :
             lPushNotifications.apply {
                 setOnClickListener { viewModel.setNotificationsEnabled(!svPushNotifications.isChecked) }
             }
-            tvConfigure.apply {
+            vConfigure.apply {
                 setText(
                     getString(
                         when (args.type) {
@@ -63,13 +63,15 @@ class TimelineOptionsDialogFragment :
                 )
                 setOnClickListener { navigator.navigateToUpdateRoom(args.roomId, args.type) }
             }
-            tvDelete.apply {
-                text = getString(
-                    when (args.type) {
-                        CircleRoomTypeArg.Circle -> R.string.delete_circle
-                        CircleRoomTypeArg.Group -> R.string.delete_group
-                        CircleRoomTypeArg.Photo -> R.string.delete_gallery
-                    }
+            vDelete.apply {
+                setText(
+                    getString(
+                        when (args.type) {
+                            CircleRoomTypeArg.Circle -> R.string.delete_circle
+                            CircleRoomTypeArg.Group -> R.string.delete_group
+                            CircleRoomTypeArg.Photo -> R.string.delete_gallery
+                        }
+                    )
                 )
                 setOnClickListener {
                     withConfirmation(
@@ -83,11 +85,11 @@ class TimelineOptionsDialogFragment :
                     }
                 }
             }
-            tvStateEvents.apply {
+            vStateEvents.apply {
                 setIsVisible(preferencesProvider.isDeveloperModeEnabled())
                 setOnClickListener { navigator.navigateToStateEvents(args.roomId) }
             }
-            tvInviteMembers.apply {
+            vInviteMembers.apply {
                 setText(
                     getString(
                         if (args.type == CircleRoomTypeArg.Circle) R.string.invite_followers
@@ -96,10 +98,10 @@ class TimelineOptionsDialogFragment :
                 )
                 setOnClickListener { navigator.navigateToInviteMembers(args.roomId) }
             }
-            tvKnockRequests.setOnClickListener {
+            vKnockRequests.setOnClickListener {
                 navigator.navigateToRequestForInvite(args.type, args.roomId)
             }
-            tvLeave.apply {
+            vLeave.apply {
                 setText(
                     getString(
                         when (args.type) {
@@ -111,8 +113,8 @@ class TimelineOptionsDialogFragment :
                 )
                 setOnClickListener { showLeaveRoomDialog() }
             }
-            tvShare.setOnClickListener { navigator.navigateToShareRoom(args.roomId, args.type) }
-            tvManageMembers.apply {
+            vShare.setOnClickListener { navigator.navigateToShareRoom(args.roomId, args.type) }
+            vManageMembers.apply {
                 setText(getString(if (args.type == CircleRoomTypeArg.Circle) R.string.followers else R.string.manage_members))
                 setOnClickListener { navigator.navigateToManageMembers(args.roomId, args.type) }
             }
@@ -130,10 +132,10 @@ class TimelineOptionsDialogFragment :
         )
         viewModel.accessLevelLiveData.observeData(this) { groupPowerLevelsContent ->
             with(binding) {
-                tvConfigure.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToChangeSettings())
-                tvInviteMembers.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
-                tvKnockRequests.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
-                tvDelete.setIsVisible(groupPowerLevelsContent.isCurrentUserOnlyAdmin(args.roomId))
+                vConfigure.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToChangeSettings())
+                vInviteMembers.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
+                vKnockRequests.setIsVisible(groupPowerLevelsContent.isCurrentUserAbleToInvite())
+                vDelete.setIsVisible(groupPowerLevelsContent.isCurrentUserOnlyAdmin(args.roomId))
             }
         }
         viewModel.roomSummaryLiveData?.observeData(this) {
