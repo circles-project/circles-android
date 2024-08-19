@@ -80,7 +80,7 @@ class SettingsDialogFragment :
             vAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
             vAbout.setOnClickListener { navigator.navigateToCircleExplanation() }
             vChangeLog.setOnClickListener { if (!whatsNewDialog.isShowing) whatsNewDialog.show() }
-            vIgnoredUsers.setOnClickListener { }
+            vIgnoredUsers.setOnClickListener { navigator.navigateToIgnoredUsers() }
         }
         setVersion()
     }

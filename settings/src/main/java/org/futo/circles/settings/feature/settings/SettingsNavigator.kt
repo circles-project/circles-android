@@ -45,4 +45,9 @@ class SettingsNavigator(private val fragment: SettingsDialogFragment) {
         fragment.findNavController()
             .navigateSafe(SettingsDialogFragmentDirections.toCirclesExplanationDialogFragment())
     }
+
+    fun navigateToIgnoredUsers() {
+        fragment.findNavController()
+            .navigateSafe(SettingsDialogFragmentDirections.toIgnoredUsersDialogFragment())
+    }
 }
