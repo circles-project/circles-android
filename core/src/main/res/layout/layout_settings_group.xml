@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+
+    <TextView
+        android:id="@+id/tvGroupTitle"
+        style="@style/settingMenuHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Personal Info" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvGroupBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:id="@+id/lItemsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:minHeight="60dp" />
+
+
+    </androidx.cardview.widget.CardView>
+
+</merge>
