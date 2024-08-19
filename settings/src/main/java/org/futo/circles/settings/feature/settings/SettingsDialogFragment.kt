@@ -48,34 +48,34 @@ class SettingsDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            tvManageSubscription.apply {
+            vManageSubscription.apply {
                 setIsVisible(CirclesAppConfig.isGplayFlavor())
                 setOnClickListener { navigator.navigateToSubscriptionInfo() }
             }
-            tvLogout.setOnClickListener {
+            vLogout.setOnClickListener {
                 if (showNoInternetConnection()) return@setOnClickListener
                 withConfirmation(LogOut()) {
                     loadingDialog.handleLoading(ResLoadingData(org.futo.circles.auth.R.string.log_out))
                     viewModel.logOut()
                 }
             }
-            tvSwitchUser.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? SessionHolderActivity)?.stopSyncAndRestart() } }
-            tvChangePassphrase.setOnClickListener {
+            vSwitchAccount.setOnClickListener { withConfirmation(SwitchUser()) { (activity as? SessionHolderActivity)?.stopSyncAndRestart() } }
+            vChangePassphrase.setOnClickListener {
                 if (showNoInternetConnection()) return@setOnClickListener
                 viewModel.handleChangePasswordFlow()
             }
-            tvDeactivate.setOnClickListener {
+            vDeactivate.setOnClickListener {
                 if (showNoInternetConnection()) return@setOnClickListener
                 withConfirmation(DeactivateAccount()) {
                     loadingDialog.handleLoading(ResLoadingData())
                     viewModel.deactivateAccount()
                 }
             }
-            tvLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
-            tvPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
-            tvEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
+            vLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
+            vPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
+            vEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
             tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
-            tvAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
+            vAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
         }
         setVersion()
     }
@@ -130,11 +130,9 @@ class SettingsDialogFragment :
     }
 
     private fun setVersion() {
-        binding.tvVersion.setText(
-            getString(
-                org.futo.circles.core.R.string.version_format,
-                CirclesAppConfig.appVersionName
-            )
+        binding.tvVersion.text = getString(
+            org.futo.circles.core.R.string.version_format,
+            CirclesAppConfig.appVersionName
         )
     }
 

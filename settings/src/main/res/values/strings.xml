@@ -57,5 +57,11 @@
     <string name="people_i_m_following">People I\'m following</string>
     <string name="my_followers">My followers</string>
     <string name="other_known_users">Other known users</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="notifications">Notifications</string>
+    <string name="manage_notifications">Manage notifications</string>
+    <string name="app_settings">App settings</string>
+    <string name="ignored_users">Ignored users</string>
+    <string name="switch_account">Switch account</string>
 
 </resources>
