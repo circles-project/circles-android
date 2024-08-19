@@ -43,7 +43,6 @@ class DMFragment :
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.invite_users_for_direct_messages))
             })
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = listAdapter
         }
         binding.ivCreateDm.setOnClickListener {
