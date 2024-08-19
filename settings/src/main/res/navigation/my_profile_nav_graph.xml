@@ -62,6 +62,9 @@
         <action
             android:id="@+id/to_ignoredUsersDialogFragment"
             app:destination="@id/ignoredUsersDialogFragment" />
+        <action
+            android:id="@+id/to_circlesExplanationDialogFragment"
+            app:destination="@id/circlesExplanationDialogFragment" />
     </dialog>
 
 
@@ -102,5 +105,9 @@
         android:id="@+id/ignoredUsersDialogFragment"
         android:name="org.futo.circles.settings.feature.ignored_users.IgnoredUsersDialogFragment"
         tools:layout="@layout/list_item_ignored_user" />
+    <dialog
+        android:id="@+id/circlesExplanationDialogFragment"
+        android:name="org.futo.circles.core.feature.explanation.CirclesExplanationDialogFragment"
+        tools:layout="@layout/dialog_circles_explanation" />
 
 </navigation>

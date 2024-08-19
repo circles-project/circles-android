@@ -24,8 +24,7 @@ import org.futo.circles.model.JoinedCircleListItem
 @ExperimentalBadgeUtils
 @AndroidEntryPoint
 class CirclesFragment :
-    BaseBindingFragment<FragmentCirclesBinding>(FragmentCirclesBinding::inflate),
-    MenuProvider {
+    BaseBindingFragment<FragmentCirclesBinding>(FragmentCirclesBinding::inflate){
 
     private val viewModel by viewModels<CirclesViewModel>()
     private var listAdapter: CirclesListAdapter? = null
@@ -35,26 +34,11 @@ class CirclesFragment :
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
-        activity?.addMenuProvider(this, viewLifecycleOwner)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         listAdapter = null
-    }
-
-    @SuppressLint("RestrictedApi")
-    override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
-        (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-        menu.clear()
-        inflater.inflate(R.menu.circles_tab_menu, menu)
-    }
-
-    override fun onMenuItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.help -> navigator.navigateToExplanationDialog()
-        }
-        return true
     }
 
     private fun setupViews() {

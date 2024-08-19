@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="circles">Circles</string>
     <string name="back">Back</string>
+    <string name="next">Next</string>
     <string name="unexpected_error">Something went wrong</string>
     <string name="no_application_found_for_action">Sorry, no external application has been found to complete this action</string>
     <string name="permission_denied_title_format">%s permission denied</string>
@@ -282,5 +284,11 @@
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
     </plurals>
+
+    <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
+<br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
+<br/><br/>For example, think about all the aunts and uncles and cousins from the different sides of your family.
+Or, think about all of your friends across all of the places you\'ve ever lived.
+<br/><br/>If you want to connect a bunch of people who <i>do</i> all know each other, then it\'s better to create a <b>Group</b> instead.]]></string>
 
 </resources>

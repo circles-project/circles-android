@@ -1,4 +1,4 @@
-package org.futo.circles.auth.feature.explanation
+package org.futo.circles.core.feature.explanation
 
 interface ExplanationDismissListener {
 

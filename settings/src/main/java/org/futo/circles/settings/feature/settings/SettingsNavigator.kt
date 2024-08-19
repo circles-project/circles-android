@@ -40,4 +40,9 @@ class SettingsNavigator(private val fragment: SettingsDialogFragment) {
         fragment.findNavController()
             .navigateSafe(SettingsDialogFragmentDirections.toAdvancedSettingsDialogFragment())
     }
+
+    fun navigateToCircleExplanation() {
+        fragment.findNavController()
+            .navigateSafe(SettingsDialogFragmentDirections.toCirclesExplanationDialogFragment())
+    }
 }

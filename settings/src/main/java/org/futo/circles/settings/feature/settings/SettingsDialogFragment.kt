@@ -15,6 +15,7 @@ import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.withConfirmation
+import org.futo.circles.core.feature.whats_new.WhatsNewDialog
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.utils.FileUtils
@@ -34,6 +35,7 @@ class SettingsDialogFragment :
     private val viewModel by viewModels<SettingsViewModel>()
     private val loadingDialog by lazy { LoadingDialog(requireContext()) }
     private val navigator by lazy { SettingsNavigator(this) }
+    private val whatsNewDialog by lazy { WhatsNewDialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,6 +78,9 @@ class SettingsDialogFragment :
             vEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
             vPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
             vAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
+            vAbout.setOnClickListener { navigator.navigateToCircleExplanation() }
+            vChangeLog.setOnClickListener { if (!whatsNewDialog.isShowing) whatsNewDialog.show() }
+            vIgnoredUsers.setOnClickListener { }
         }
         setVersion()
     }

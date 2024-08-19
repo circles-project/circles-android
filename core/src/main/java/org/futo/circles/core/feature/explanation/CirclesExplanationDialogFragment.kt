@@ -1,4 +1,4 @@
-package org.futo.circles.feature.explanation
+package org.futo.circles.core.feature.explanation
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,19 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.navigation.fragment.navArgs
-import org.futo.circles.R
-import org.futo.circles.auth.feature.explanation.CircleExplanationFragment
-import org.futo.circles.auth.feature.explanation.ExplanationDismissListener
-import org.futo.circles.databinding.DialogCirclesExplanationBinding
+import org.futo.circles.core.R
+import org.futo.circles.core.databinding.DialogCirclesExplanationBinding
 
 
 class CirclesExplanationDialogFragment : AppCompatDialogFragment(), ExplanationDismissListener {
 
-    private val args: CirclesExplanationDialogFragmentArgs by navArgs()
-
-    private val explanationFragment by lazy { CircleExplanationFragment.create(args.type) }
-
+    private val explanationFragment by lazy { CircleExplanationFragment() }
 
     override fun onStart() {
         super.onStart()

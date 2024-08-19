@@ -70,6 +70,11 @@
         android:id="@+id/setupCirclesFragment"
         android:name="org.futo.circles.auth.feature.setup.circles.SetupCirclesFragment"
         tools:layout="@layout/fragment_setup_circles">
+
+        <deepLink
+            android:id="@+id/setupCirclesDeepLink"
+            app:uri="circles://auth/setupCircles" />
+
         <action
             android:id="@+id/to_setupProfileFragment"
             app:destination="@id/setupProfileFragment"
@@ -82,14 +87,9 @@
         tools:layout="@layout/bottom_sheet_select_server" />
     <fragment
         android:id="@+id/circleExplanationFragment"
-        android:name="org.futo.circles.auth.feature.explanation.CircleExplanationFragment"
+        android:name="org.futo.circles.core.feature.explanation.CircleExplanationFragment"
         tools:layout="@layout/fragment_circle_explanation">
 
-        <argument
-            android:name="roomType"
-            android:defaultValue="Circle"
-            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
-            app:nullable="false" />
         <action
             android:id="@+id/to_setupCirclesFragment"
             app:destination="@id/setupCirclesFragment"
