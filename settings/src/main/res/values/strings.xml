@@ -63,5 +63,8 @@
     <string name="app_settings">App settings</string>
     <string name="ignored_users">Ignored users</string>
     <string name="switch_account">Switch account</string>
+    <string name="support">Support</string>
+    <string name="change_log">Change log</string>
+    <string name="about">About</string>
 
 </resources>

@@ -142,6 +142,36 @@
             <org.futo.circles.core.view.SettingsGroupLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:groupName="@string/support">
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_help"
+                    app:optionName="@string/about" />
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vPrivacyPolicy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_privacy_policy"
+                    app:optionName="@string/privacy_policy" />
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vChangeLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hasDivider="false"
+                    app:optionIcon="@drawable/ic_change_log"
+                    app:optionName="@string/change_log" />
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <org.futo.circles.core.view.SettingsGroupLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:groupName="@string/account">
 
                 <org.futo.circles.core.view.SettingsMenuItemView
@@ -167,21 +197,6 @@
                     app:optionName="@string/log_out" />
 
             </org.futo.circles.core.view.SettingsGroupLayout>
-
-
-            <TextView
-                style="@style/settingMenuHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/other" />
-
-
-            <org.futo.circles.core.view.SettingsMenuItemView
-                android:id="@+id/tvPrivacyPolicy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:optionIcon="@drawable/ic_privacy_policy"
-                app:optionName="@string/privacy_policy" />
 
 
             <TextView

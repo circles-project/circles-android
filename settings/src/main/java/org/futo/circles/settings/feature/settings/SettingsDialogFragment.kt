@@ -74,7 +74,7 @@ class SettingsDialogFragment :
             vLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
             vPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             vEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
-            tvPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
+            vPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
             vAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
         }
         setVersion()
