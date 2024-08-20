@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
-import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
+import org.futo.circles.core.databinding.ListItemGalleriesHeaderBinding
 import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.databinding.ListItemJoinedGalleryBinding
 import org.futo.circles.core.extensions.loadMatrixImage
@@ -83,11 +83,11 @@ class GalleryInviteNotificationViewHolder(
 
 class GalleryHeaderViewHolder(
     parent: ViewGroup,
-) : GalleryViewHolder(inflate(parent, ListItemInviteHeaderBinding::inflate)) {
+) : GalleryViewHolder(inflate(parent, ListItemGalleriesHeaderBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemInviteHeaderBinding
+    private val binding = baseBinding as ListItemGalleriesHeaderBinding
 
     override fun bind(data: GalleryListItem) {
         if (data !is GalleryHeaderItem) return

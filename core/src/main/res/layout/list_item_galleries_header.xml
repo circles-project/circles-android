@@ -7,6 +7,6 @@
     android:layout_marginTop="8dp"
     android:fontFamily="@font/nunito_medium"
     android:paddingVertical="8dp"
+    tools:text="My Galleries"
     android:textColor="@color/grey_cool_800"
-    android:textSize="14sp"
-    tools:text="@string/people_i_m_following" />
+    android:textSize="14sp" />
