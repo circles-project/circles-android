@@ -15,7 +15,7 @@ import com.google.android.material.badge.ExperimentalBadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.base.list.BaseRvDecoration
+import org.futo.circles.core.base.list.OffsetDecoration
 import org.futo.circles.core.extensions.dpToPx
 import org.futo.circles.core.extensions.getCurrentUserPowerLevel
 import org.futo.circles.core.extensions.gone
@@ -107,10 +107,12 @@ class TimelineDialogFragment :
                 clipToPadding = false
                 setPadding(paddingLeft, context.dpToPx(5), paddingRight, context.dpToPx(5))
             }
-            addItemDecoration(BaseRvDecoration.OffsetDecoration<TimelineListItemViewHolder>(
-                verticalOffset = context.dpToPx(5),
-                horizontalOffset = context.dpToPx(12)
-            ))
+            addItemDecoration(
+                OffsetDecoration(
+                    verticalOffset = context.dpToPx(5),
+                    horizontalOffset = context.dpToPx(12)
+                )
+            )
             addPageEndListener { viewModel.loadMore() }
         }
         setupCreatePostButton(binding.rvTimeline.getRecyclerView()) { onCreatePost() }

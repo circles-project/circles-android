@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE
 import androidx.transition.TransitionInflater
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.BaseBindingFragment
-import org.futo.circles.core.base.list.BaseRvDecoration
+import org.futo.circles.core.base.list.OffsetDecoration
 import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.setIsVisible
@@ -90,7 +90,7 @@ class GalleryGridFragment :
                     gapStrategy = GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                 }
             adapter = listAdapter
-            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
+            addItemDecoration(OffsetDecoration(2))
             bindToFab(binding.fbUploadImage)
             addPageEndListener { viewModel.loadMore() }
         }

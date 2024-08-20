@@ -23,7 +23,7 @@ import org.futo.circles.auth.model.ValidUserId
 import org.futo.circles.auth.utils.UserIdUtils
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
-import org.futo.circles.core.base.list.BaseRvDecoration
+import org.futo.circles.core.base.list.OffsetDecoration
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
@@ -65,7 +65,7 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
         with(binding) {
             rvSwitchUsers.apply {
                 adapter = switchUsersAdapter
-                addItemDecoration(BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(16))
+                addItemDecoration(OffsetDecoration(16))
             }
             etUserName.filters = arrayOf<InputFilter>(object : InputFilter.AllCaps() {
                 override fun filter(

@@ -7,14 +7,13 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.BaseBindingFragment
-import org.futo.circles.core.base.list.BaseRvDecoration
+import org.futo.circles.core.base.list.OffsetDecoration
 import org.futo.circles.core.databinding.FragmentPickGalleryBinding
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_MULTI_SELECT
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaDialogFragment.Companion.IS_VIDEO_AVAILABLE
 import org.futo.circles.core.feature.picker.gallery.PickGalleryMediaViewModel
 import org.futo.circles.core.feature.picker.gallery.media.list.GalleryMediaGridAdapter
-import org.futo.circles.core.feature.picker.gallery.media.list.holder.GalleryMediaItemViewHolder
 import org.futo.circles.core.model.GalleryContentListItem
 
 
@@ -49,7 +48,7 @@ class PickMediaItemFragment :
                     gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
                 }
             adapter = listAdapter
-            addItemDecoration(BaseRvDecoration.OffsetDecoration<GalleryMediaItemViewHolder>(2))
+            addItemDecoration(OffsetDecoration(2))
             addPageEndListener { viewModel.loadMore() }
         }
     }
