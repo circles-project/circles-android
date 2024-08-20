@@ -9,11 +9,11 @@ import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.databinding.ListItemCircleAllPostsBinding
-import org.futo.circles.core.databinding.ListItemInviteHeaderBinding
 import org.futo.circles.core.databinding.ListItemInviteNotificationBinding
 import org.futo.circles.core.extensions.loadRoomProfileIcon
 import org.futo.circles.core.extensions.onClick
 import org.futo.circles.core.utils.TextFormatUtils
+import org.futo.circles.databinding.ListItemCirclesHeaderBinding
 import org.futo.circles.databinding.ListItemJoinedCircleBinding
 import org.futo.circles.model.CircleInvitesNotificationListItem
 import org.futo.circles.model.CircleListItem
@@ -122,11 +122,11 @@ class CircleInviteNotificationViewHolder(
 
 class CircleHeaderViewHolder(
     parent: ViewGroup,
-) : CirclesViewHolder(inflate(parent, ListItemInviteHeaderBinding::inflate)) {
+) : CirclesViewHolder(inflate(parent, ListItemCirclesHeaderBinding::inflate)) {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemInviteHeaderBinding
+    private val binding = baseBinding as ListItemCirclesHeaderBinding
 
     override fun bind(data: CircleListItem) {
         if (data !is CirclesHeaderItem) return

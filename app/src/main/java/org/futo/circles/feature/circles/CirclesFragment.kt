@@ -1,15 +1,8 @@
 package org.futo.circles.feature.circles
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
@@ -24,7 +17,7 @@ import org.futo.circles.model.JoinedCircleListItem
 @ExperimentalBadgeUtils
 @AndroidEntryPoint
 class CirclesFragment :
-    BaseBindingFragment<FragmentCirclesBinding>(FragmentCirclesBinding::inflate){
+    BaseBindingFragment<FragmentCirclesBinding>(FragmentCirclesBinding::inflate) {
 
     private val viewModel by viewModels<CirclesViewModel>()
     private var listAdapter: CirclesListAdapter? = null
@@ -46,7 +39,6 @@ class CirclesFragment :
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.circles_empty_message))
             })
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = CirclesListAdapter(
                 onRoomClicked = { circleListItem -> onRoomListItemClicked(circleListItem) },
                 onOpenInvitesClicked = { navigator.navigateToRoomRequests() },
