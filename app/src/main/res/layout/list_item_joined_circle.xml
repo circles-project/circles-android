@@ -6,82 +6,104 @@
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
     android:clickable="true"
-    android:focusable="true"
-    android:padding="4dp">
+    android:focusable="true">
 
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivCircle"
-        android:layout_width="@dimen/circle_icon_size"
-        android:layout_height="@dimen/circle_icon_size"
-        android:padding="8dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:padding="2dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
-        app:strokeColor="@color/black"
-        app:strokeWidth="1dp"
         tools:src="@color/blue" />
 
 
     <TextView
         android:id="@+id/tvCircleTitle"
-        style="@style/title2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
+        android:fontFamily="@font/nunito_bold"
         android:lines="1"
-        app:layout_constraintBottom_toTopOf="@id/tvFollowers"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/grey_cool_1100"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/vNotificationsCount"
         app:layout_constraintStart_toEndOf="@id/ivCircle"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivCircle"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="texsdt" />
+        tools:text="Some Circle Name" />
 
     <TextView
         android:id="@+id/tvFollowers"
-        style="@style/subheadline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
+        android:fontFamily="@font/nunito_semibold"
         android:lines="1"
-        app:layout_constraintBottom_toTopOf="@id/tvUpdateTime"
-        app:layout_constraintEnd_toStartOf="@+id/vNotificationsCount"
+        android:textColor="@color/grey_cool_700"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/vNotificationsCount"
         app:layout_constraintStart_toStartOf="@id/tvCircleTitle"
         app:layout_constraintTop_toBottomOf="@id/tvCircleTitle"
         tools:text="texsdtd" />
 
     <TextView
         android:id="@+id/tvUpdateTime"
-        style="@style/subheadline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
+        android:fontFamily="@font/nunito_semibold"
         android:lines="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/vNotificationsCount"
+        android:textColor="@color/grey_cool_700"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivCircle"
+        app:layout_constraintEnd_toStartOf="@id/vNotificationsCount"
         app:layout_constraintStart_toStartOf="@id/tvCircleTitle"
         app:layout_constraintTop_toBottomOf="@id/tvFollowers"
-        tools:text="texsdt" />
+        tools:text="Last updated 12" />
+
+
+    <ImageView
+        android:id="@+id/ivArrow"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintBottom_toBottomOf="@id/ivCircle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivCircle" />
 
     <org.futo.circles.core.view.NotificationCounterView
         android:id="@+id/vNotificationsCount"
         android:layout_width="24dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_height="24dp"
         android:layout_marginEnd="8dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/ivCircle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivArrow"
+        app:layout_constraintTop_toTopOf="@id/ivCircle"
+        app:notificationCircleBackground="@color/primary"
+        tools:visibility="visible" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey_cool_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:notificationCircleBackground="@color/blue"
-        tools:visibility="visible" />
+        app:layout_constraintStart_toStartOf="@id/tvCircleTitle"
+        app:layout_constraintTop_toBottomOf="@id/ivCircle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
