@@ -1,5 +1,6 @@
 package org.futo.circles.feature.groups
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -8,12 +9,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseBindingFragment
+import org.futo.circles.core.base.list.GridOffsetDecoration
+import org.futo.circles.core.extensions.dpToPx
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.databinding.FragmentGroupsBinding
 import org.futo.circles.feature.groups.list.GroupListItemViewType
 import org.futo.circles.feature.groups.list.GroupsListAdapter
+import org.futo.circles.feature.groups.list.JoinedGroupViewHolder
 import org.futo.circles.model.GroupListItem
 
 @AndroidEntryPoint
@@ -47,6 +51,8 @@ class GroupsFragment : BaseBindingFragment<FragmentGroupsBinding>(FragmentGroups
                         }
                 }
             }
+            addItemDecoration(getGroupGridOffsetDecoration())
+
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.groups_empty_message))
             })
@@ -66,5 +72,32 @@ class GroupsFragment : BaseBindingFragment<FragmentGroupsBinding>(FragmentGroups
 
     private fun navigateToCreateRoom() {
         findNavController().navigateSafe(GroupsFragmentDirections.toCreateGroupDialogFragment())
+    }
+
+    private fun getGroupGridOffsetDecoration() = GridOffsetDecoration { holder, position ->
+        if (holder !is JoinedGroupViewHolder) return@GridOffsetDecoration Rect()
+        val itemNumber = position + 1
+        var left = 0
+        var right = 0
+        val defaultOffset = requireContext().dpToPx(10)
+        if ((listAdapter as? GroupsListAdapter)?.getItemViewType(0) == GroupListItemViewType.InviteNotification.ordinal) {
+            if (itemNumber % 2 == 0) {
+                left = defaultOffset
+                right = 0
+            } else {
+                left = 0
+                right = defaultOffset
+            }
+        } else {
+            if (itemNumber % 2 == 0) {
+                left = 0
+                right = defaultOffset
+            } else {
+                left = defaultOffset
+                right = 0
+            }
+        }
+
+        Rect(left, 0, right, 0)
     }
 }
