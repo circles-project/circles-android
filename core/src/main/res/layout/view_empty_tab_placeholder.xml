@@ -9,11 +9,13 @@
 
     <TextView
         android:id="@+id/tvEmptyMessage"
-        style="@style/subheadline"
+        style="@style/Headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:gravity="center_horizontal"
         android:padding="8dp"
+        android:textColor="@color/grey_cool_600"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
