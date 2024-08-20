@@ -10,7 +10,7 @@ object TextFormatUtils {
         invitesCount: Int,
         knockRequestsCount: Int
     ): String {
-        var message = context.getString(R.string.show)
+        var message = context.getString(R.string.you_have)
 
         if (invitesCount > 0) {
             message += " " + context.resources.getQuantityString(
