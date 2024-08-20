@@ -26,11 +26,14 @@
 
             <TextView
                 android:id="@+id/tvLoadingMessage"
-                style="@style/subheadline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:fontFamily="@font/inter_regular"
                 android:text="@string/loading"
+                android:textColor="@color/grey_cool_800"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/roundProgress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/roundProgress"
