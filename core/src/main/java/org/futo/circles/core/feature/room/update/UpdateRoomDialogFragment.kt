@@ -68,7 +68,6 @@ class UpdateRoomDialogFragment :
             tvTopicHeader.setIsVisible(isGroup)
             tilTopic.setIsVisible(isGroup)
             ivCover.setOnClickListener { changeCoverImage() }
-            btnChangeIcon.setOnClickListener { changeCoverImage() }
             tilName.editText?.doAfterTextChanged {
                 it?.let { onInputDataChanged() }
             }

@@ -8,7 +8,7 @@
 
     <org.futo.circles.core.view.NetworkRequiredButton
         android:id="@+id/button"
-        style="@style/AccentButtonStyleOld"
+        style="@style/AccentButtonStyle"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
