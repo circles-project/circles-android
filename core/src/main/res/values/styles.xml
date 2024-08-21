@@ -115,7 +115,7 @@
 
     <style name="InputHeader" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/nunito_extrabold</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/grey_cool_1100</item>
     </style>
 
@@ -139,6 +139,13 @@
         <item name="android:textColorHint">@color/grey_cool_600</item>
         <item name="android:maxLines">1</item>
         <item name="android:padding">12dp</item>
+    </style>
+
+
+    <style name="UsersSearchView" parent="@style/Widget.AppCompat.SearchView">
+        <item name="android:background">@drawable/bg_users_search</item>
+        <item name="iconifiedByDefault">false</item>
+        <item name="queryBackground">@null</item>
     </style>
 
     <style name="ButtonTitle" parent="@android:style/TextAppearance">

@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:paddingVertical="48dp"
+    android:textColor="@color/grey_cool_600"
     tools:text="@string/no_results">
 
 </TextView>

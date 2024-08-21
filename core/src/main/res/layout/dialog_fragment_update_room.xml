@@ -83,7 +83,7 @@
             style="@style/CirclesTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter name here"
+            android:hint="@string/enter_name_here"
             android:imeOptions="actionNext"
             android:inputType="textCapSentences" />
 
@@ -117,7 +117,7 @@
             style="@style/CirclesTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter topic here"
+            android:hint="@string/enter_topic_here"
             android:imeOptions="actionDone"
             android:inputType="text" />
 

@@ -6,7 +6,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
+    android:textColor="@color/grey_cool_1100"
     app:chipBackgroundColor="@color/highlight_color"
     app:closeIconEnabled="true"
+    app:closeIconTint="@color/grey_cool_1100"
     tools:text="Some text" />
 

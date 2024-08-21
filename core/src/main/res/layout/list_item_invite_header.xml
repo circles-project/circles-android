@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fontFamily="@font/nunito_medium"
+    android:paddingHorizontal="16dp"
     android:paddingVertical="8dp"
     android:textColor="@color/grey_cool_800"
     android:textSize="14sp"
