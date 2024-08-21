@@ -57,7 +57,7 @@
 
     <TextView
         android:id="@+id/tvNameHeader"
-        style="@style/headline"
+        style="@style/InputHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -69,30 +69,29 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/TextInputWithBorder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNameHeader">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etName"
+            style="@style/CirclesTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Enter name here"
             android:imeOptions="actionNext"
-            android:inputType="textCapSentences"
-            android:maxLines="1"
-            android:padding="12dp" />
+            android:inputType="textCapSentences" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tvTopicHeader"
-        style="@style/headline"
+        style="@style/InputHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -104,31 +103,30 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilTopic"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/TextInputWithBorder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTopicHeader">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etTopic"
+            style="@style/CirclesTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Enter topic here"
             android:imeOptions="actionDone"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="12dp" />
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <TextView
         android:id="@+id/tvRoleHeader"
-        style="@style/headline"
+        style="@style/InputHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -151,17 +149,16 @@
 
     <TextView
         android:id="@+id/tvEncryptionWarning"
-        style="@style/footNote"
+        style="@style/Footnote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:text="@string/encryption_warning"
-        android:textColor="@color/yellow"
         app:drawableStartCompat="@drawable/ic_info"
-        app:drawableTint="@color/yellow"
+        app:drawableTint="@color/grey_cool_800"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spUserRole" />
