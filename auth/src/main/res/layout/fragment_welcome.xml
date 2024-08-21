@@ -57,7 +57,7 @@
         android:id="@+id/btnSignIn"
         style="@style/TransparentButtonStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginBottom="48dp"
         android:text="@string/sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
