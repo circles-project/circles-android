@@ -62,7 +62,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSetLevel"
-                    style="@style/AccentButtonStyleOld"
+                    style="@style/AccentButtonStyle"
                     android:layout_width="0dp"
                     android:textSize="16sp"
                     android:layout_height="wrap_content"

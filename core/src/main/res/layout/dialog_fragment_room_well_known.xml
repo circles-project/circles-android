@@ -176,7 +176,7 @@
 
     <org.futo.circles.core.view.LoadingButton
         android:id="@+id/btnRequest"
-        style="@style/AccentButtonStyleOld"
+        style="@style/AccentButtonStyle"
         android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

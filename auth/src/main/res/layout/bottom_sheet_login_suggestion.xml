@@ -41,7 +41,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnOk"
-                style="@style/AccentButtonStyleOld"
+                style="@style/AccentButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginHorizontal="8dp"

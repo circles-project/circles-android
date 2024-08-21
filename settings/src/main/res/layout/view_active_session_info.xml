@@ -49,7 +49,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVerify"
-        style="@style/AccentButtonStyleOld"
+        style="@style/AccentButtonStyle"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
