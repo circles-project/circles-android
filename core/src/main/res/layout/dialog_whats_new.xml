@@ -21,7 +21,7 @@
 
                 <ImageView
                     android:id="@+id/ivLogo"
-                    style="@style/ImageLogoStyle"
+                    android:src="@drawable/ic_logo"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -72,11 +72,10 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivCover"
-            style="@style/ImageLogoStyle"
             android:layout_width="@dimen/group_icon_size"
             android:layout_height="@dimen/group_icon_size"
-
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_logo"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
 
 

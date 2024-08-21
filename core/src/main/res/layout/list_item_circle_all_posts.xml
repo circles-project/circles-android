@@ -10,7 +10,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivCircle"
-        style="@style/ImageLogoStyle"
+        android:src="@drawable/ic_logo"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"
