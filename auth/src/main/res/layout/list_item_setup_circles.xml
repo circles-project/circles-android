@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/tvCircleTitle"
-        style="@style/title2"
+        style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/tvUserId"
-        style="@style/subheadline"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"

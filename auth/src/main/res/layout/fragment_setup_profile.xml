@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/tvProfilePhotoHeader"
-        style="@style/title2"
+        style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -67,7 +67,7 @@
 
     <TextView
         android:id="@+id/tvNameHeader"
-        style="@style/title2"
+        style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"

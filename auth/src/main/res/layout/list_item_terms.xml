@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/tvName"
-        style="@style/headline"
+        style="@style/Headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/tvUrl"
-        style="@style/footNote"
+        style="@style/Footnote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"

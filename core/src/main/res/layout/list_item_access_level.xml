@@ -14,7 +14,7 @@
         android:clickable="false"
         android:focusable="false"
         android:padding="8dp"
-        android:textAppearance="@style/body"
+        android:textAppearance="@style/Body"
         tools:text="@string/access_level" />
 </FrameLayout>
 

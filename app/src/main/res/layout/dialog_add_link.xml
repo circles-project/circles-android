@@ -15,7 +15,7 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                style="@style/title2"
+                style="@style/Title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"

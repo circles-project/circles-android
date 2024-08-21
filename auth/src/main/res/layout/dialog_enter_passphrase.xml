@@ -15,7 +15,7 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                style="@style/title2"
+                style="@style/Title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -39,7 +39,7 @@
 
             <TextView
                 android:id="@+id/tvSubtitle"
-                style="@style/body"
+                style="@style/Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -65,7 +65,7 @@
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/btnPassphrase"
-                    style="@style/body"
+                    style="@style/Body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -75,7 +75,7 @@
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/btnRecoveryKey"
-                    style="@style/body"
+                    style="@style/Body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"

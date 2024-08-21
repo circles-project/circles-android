@@ -30,7 +30,7 @@
 
     <TextView
         android:id="@+id/tvEmptyMessage"
-        style="@style/subheadline"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -81,7 +81,7 @@
 
         <TextView
             android:id="@+id/tvName"
-            style="@style/title2"
+            style="@style/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
@@ -90,7 +90,7 @@
 
         <TextView
             android:id="@+id/tvDescription"
-            style="@style/body"
+            style="@style/Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -99,7 +99,7 @@
 
         <TextView
             android:id="@+id/tvStatus"
-            style="@style/body"
+            style="@style/Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -108,7 +108,7 @@
 
         <TextView
             android:id="@+id/tvPrice"
-            style="@style/body"
+            style="@style/Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -117,7 +117,7 @@
 
         <TextView
             android:id="@+id/tvDuration"
-            style="@style/body"
+            style="@style/Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -126,7 +126,7 @@
 
         <TextView
             android:id="@+id/tvPurchasedAt"
-            style="@style/body"
+            style="@style/Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -135,7 +135,7 @@
 
         <TextView
             android:id="@+id/tvProductId"
-            style="@style/body"
+            style="@style/Body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

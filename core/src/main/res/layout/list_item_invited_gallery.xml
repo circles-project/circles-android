@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/tvGalleryTitle"
-        style="@style/title2"
+        style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -35,7 +35,7 @@
 
     <TextView
         android:id="@+id/tvInviterName"
-        style="@style/subheadline"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"

@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/tvValidateTitle"
-        style="@style/title2"
+        style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -130,7 +130,7 @@
         android:layout_marginTop="16dp"
         android:checked="true"
         android:text="@string/receive_email_updates"
-        android:textAppearance="@style/body"
+        android:textAppearance="@style/Body"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

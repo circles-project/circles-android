@@ -25,7 +25,7 @@
                 android:background="@color/divider_color" />
 
             <TextView
-                style="@style/title2"
+                style="@style/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -58,7 +58,7 @@
 
                 <TextView
                     android:id="@+id/tvUsServer"
-                    style="@style/body"
+                    style="@style/Body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -96,7 +96,7 @@
 
                 <TextView
                     android:id="@+id/tvEuServer"
-                    style="@style/body"
+                    style="@style/Body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="false"
