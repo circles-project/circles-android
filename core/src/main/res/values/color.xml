@@ -24,11 +24,13 @@
 
     <color name="primary">#8553FF</color>
     <color name="theme_500">#CFBCFF</color>
+    <color name="theme_600">#B79AFF</color>
     <color name="disabled_button_color">#F3EEFF</color>
     <color name="background_default">#F5F5F5</color>
 
     <color name="grey_cool_200">#EFF1F3</color>
     <color name="grey_cool_300">#E8EAEE</color>
+    <color name="grey_cool_400">#DEE1E6</color>
     <color name="grey_cool_600">#A2ACBA</color>
     <color name="grey_cool_700">#8692A4</color>
     <color name="grey_cool_800">#69788F</color>

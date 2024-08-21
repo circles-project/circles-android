@@ -80,7 +80,7 @@
     </style>
 
     <style name="PostMenuItem" parent="@style/Widget.AppCompat.TextView">
-        <item name="fontFamily">@font/nunito_semibold</item>
+        <item name="android:fontFamily">@font/nunito_semibold</item>
         <item name="android:paddingStart">24dp</item>
         <item name="android:paddingEnd">24dp</item>
         <item name="android:paddingTop">16dp</item>
@@ -157,6 +157,34 @@
         <item name="android:fontFamily">@font/nunito_medium</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/grey_cool_800</item>
+    </style>
+
+    <style name="InputHeader" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/nunito_extrabold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/grey_cool_1100</item>
+    </style>
+
+    <style name="TextInputWithBorder" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxStrokeColor">@color/text_input_border_color</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="cursorColor">@color/primary</item>
+        <item name="hintEnabled">false</item>
+
+    </style>
+
+    <style name="CirclesTextInputEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/grey_cool_1100</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:textColorHint">@color/grey_cool_600</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:padding">12dp</item>
     </style>
 
     <style name="ButtonTitle" parent="@android:style/TextAppearance">
