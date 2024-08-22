@@ -34,7 +34,7 @@
             android:layout_marginHorizontal="14dp"
             android:fontFamily="@font/inter_regular"
             android:textColor="@color/grey_cool_1100"
-            android:textSize="14sp"
+            android:textSize="15sp"
             app:readMoreMaxLines="5"
             app:readMoreText="@string/see_more"
             app:readMoreTextColor="@color/primary"
