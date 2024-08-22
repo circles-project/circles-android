@@ -175,7 +175,7 @@
         <item name="android:textColor">@color/grey_cool_1100</item>
     </style>
 
-    <style name="AccentButtonStyle" parent="@style/Widget.MaterialComponents.Button">
+    <style name="AccentButtonStyle" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="textAllCaps">false</item>
         <item name="cornerRadius">8dp</item>
         <item name="elevation">0dp</item>
