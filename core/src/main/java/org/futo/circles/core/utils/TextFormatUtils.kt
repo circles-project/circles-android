@@ -25,7 +25,7 @@ object TextFormatUtils {
 
         if (knockRequestsCount > 0) {
             message += " " + context.resources.getQuantityString(
-                R.plurals.requests_for_invitation_count_format,
+                R.plurals.requests_count_format,
                 knockRequestsCount, knockRequestsCount
             )
         }

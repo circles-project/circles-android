@@ -6,9 +6,8 @@ import org.futo.circles.core.model.KnockRequestListItem
 import org.futo.circles.core.model.RoomInviteListItem
 import org.futo.circles.core.model.RoomRequestHeaderItem
 import org.futo.circles.core.model.RoomRequestListItem
-import org.futo.circles.core.model.RoomRequestTypeArg
 
-enum class RoomRequestViewType { Header, Knock, CircleInvite, GroupInvite, PhotoInvite, DMInvite }
+enum class RoomRequestViewType { Header, Knock, Invite }
 
 class RoomRequestsAdapter(
     private val onInviteClicked: (RoomInviteListItem, Boolean) -> Unit,
@@ -18,44 +17,14 @@ class RoomRequestsAdapter(
     override fun getItemViewType(position: Int): Int = when (val item = getItem(position)) {
         is KnockRequestListItem -> RoomRequestViewType.Knock.ordinal
         is RoomRequestHeaderItem -> RoomRequestViewType.Header.ordinal
-        is RoomInviteListItem -> when (item.requestType) {
-            RoomRequestTypeArg.Circle -> RoomRequestViewType.CircleInvite.ordinal
-            RoomRequestTypeArg.Group -> RoomRequestViewType.GroupInvite.ordinal
-            RoomRequestTypeArg.Photo -> RoomRequestViewType.PhotoInvite.ordinal
-            RoomRequestTypeArg.DM -> RoomRequestViewType.DMInvite.ordinal
-        }
+        is RoomInviteListItem -> RoomRequestViewType.Invite.ordinal
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ) = when (RoomRequestViewType.entries[viewType]) {
-        RoomRequestViewType.CircleInvite -> InvitedCircleViewHolder(
-            parent = parent,
-            onInviteClicked = { position, isAccepted ->
-                (getItem(position) as? RoomInviteListItem)?.let {
-                    onInviteClicked(it, isAccepted)
-                }
-            })
-
-        RoomRequestViewType.GroupInvite -> InvitedGroupViewHolder(
-            parent = parent,
-            onInviteClicked = { position, isAccepted ->
-                (getItem(position) as? RoomInviteListItem)?.let {
-                    onInviteClicked(it, isAccepted)
-                }
-            })
-
-        RoomRequestViewType.PhotoInvite ->
-            InvitedGalleryViewHolder(
-                parent = parent,
-                onInviteClicked = { position, isAccepted ->
-                    (getItem(position) as? RoomInviteListItem)?.let {
-                        onInviteClicked(it, isAccepted)
-                    }
-                })
-
-        RoomRequestViewType.DMInvite -> InvitedDMViewHolder(
+        RoomRequestViewType.Invite -> InviteRequestViewHolder(
             parent = parent,
             onInviteClicked = { position, isAccepted ->
                 (getItem(position) as? RoomInviteListItem)?.let {

@@ -261,9 +261,9 @@
         <item quantity="other">%d invitations</item>
     </plurals>
 
-    <plurals name="requests_for_invitation_count_format">
-        <item quantity="one">%d request for invitation</item>
-        <item quantity="other">%d requests for invitation</item>
+    <plurals name="requests_count_format">
+        <item quantity="one">%d request</item>
+        <item quantity="other">%d requests</item>
     </plurals>
 
     <plurals name="notification_compat_summary_line_for_room">
