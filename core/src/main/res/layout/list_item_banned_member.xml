@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="4dp">
+    android:padding="8dp">
 
     <org.futo.circles.core.view.UserListItemView
         android:id="@+id/lUser"
@@ -15,6 +15,7 @@
 
     <TextView
         android:id="@+id/tvStatus"
+        style="@style/Footnote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -39,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="@id/lUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/blue" />
+        app:tint="@color/grey_cool_1100" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

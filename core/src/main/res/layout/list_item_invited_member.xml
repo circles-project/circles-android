@@ -12,7 +12,7 @@
         android:background="?selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:paddingVertical="4dp"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,6 +28,7 @@
 
         <TextView
             android:id="@+id/tvStatus"
+            style="@style/Footnote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -48,7 +49,7 @@
             app:layout_constraintBottom_toBottomOf="@id/vUser"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/blue" />
+            app:tint="@color/grey_cool_800" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -68,16 +69,18 @@
             android:id="@+id/divider"
             android:layout_width="0dp"
             android:layout_height="@dimen/divider_height"
-            android:background="@color/divider_color"
+            android:background="@color/grey_cool_300"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnResend"
-            style="@style/PostButtonStyle"
+            style="@style/NegativeButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/resend"
             app:icon="@drawable/ic_resend"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,9 +90,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRemove"
-            style="@style/PostButtonStyle"
+            style="@style/NegativeButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:text="@string/remove"
             app:icon="@drawable/ic_person_remove"
             app:iconPadding="10dp"

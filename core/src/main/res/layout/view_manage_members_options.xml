@@ -10,16 +10,17 @@
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
+        android:background="@color/grey_cool_300"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChangeAccessLevel"
-        style="@style/PostButtonStyle"
+        style="@style/NegativeButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginVertical="8dp"
         android:text="@string/access_level"
         app:icon="@drawable/ic_access_level"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,9 +30,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRemove"
-        style="@style/PostButtonStyle"
+        style="@style/NegativeButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:text="@string/remove"
         app:icon="@drawable/ic_person_remove"
         app:iconPadding="10dp"
@@ -42,12 +43,12 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnBan"
-        style="@style/PostButtonStyle"
+        style="@style/NegativeButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="36dp"
         android:text="@string/ban"
-        app:iconPadding="0dp"
         app:icon="@drawable/ic_ban"
+        app:iconPadding="0dp"
         app:layout_constraintBottom_toBottomOf="@id/btnChangeAccessLevel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnRemove"

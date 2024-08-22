@@ -84,7 +84,7 @@
     <style name="Title" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/grey_cool_1100</item>
     </style>
 
     <style name="Headline" parent="@android:style/TextAppearance">
