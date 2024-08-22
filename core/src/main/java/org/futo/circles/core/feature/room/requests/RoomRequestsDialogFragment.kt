@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
@@ -47,7 +46,6 @@ class RoomRequestsDialogFragment : BaseFullscreenDialogFragment<DialogFragmentRo
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getEmptyMessage())
             })
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = roomRequestsAdapter
         }
     }
