@@ -5,49 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/user_menu"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
         app:titleCentered="true"
-        app:titleMarginEnd="72dp"
-        tools:title="User name" />
-
-    <View
-        android:id="@+id/toolbarDivider"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivUser"
-        android:layout_width="@dimen/circle_icon_size"
-        android:layout_height="@dimen/circle_icon_size"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:padding="8dp"
-        android:scaleType="centerCrop"
+        android:padding="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarDivider"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
         tools:src="@color/blue" />
 
     <TextView
         android:id="@+id/tvUserName"
-        style="@style/Title"
+        style="@style/DialogFragmentToolbarTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="14dp"
         android:ellipsize="end"
         android:gravity="center"
         android:lines="1"
@@ -58,13 +53,16 @@
 
     <TextView
         android:id="@+id/tvUserId"
-        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
+        android:fontFamily="@font/nunito_semibold"
         android:gravity="center"
         android:lines="1"
+        android:textColor="@color/grey_cool_900"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvUserName"
@@ -76,7 +74,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="14dp"
         android:lines="2"
         android:text="@string/invite_to_follow_me"
         android:textSize="12sp"
@@ -106,9 +104,11 @@
             android:id="@+id/tvDmInvitationSent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fontFamily="@font/nunito_medium"
             android:gravity="center"
             android:paddingHorizontal="8dp"
             android:text="@string/invitation_for_direct_messages_is_sent"
+            android:textColor="@color/grey_cool_900"
             android:textSize="12sp"
             android:visibility="gone" />
 
@@ -118,7 +118,7 @@
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="@dimen/divider_height"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="14dp"
         android:background="@color/divider_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
