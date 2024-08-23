@@ -8,7 +8,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ViewSettingsMenuItemBinding
 import org.futo.circles.core.extensions.getAttributes
+import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.setIsVisible
+import org.futo.circles.core.extensions.visible
 
 
 class SettingsMenuItemView(
@@ -27,7 +29,14 @@ class SettingsMenuItemView(
             binding.vBottomDivider.setIsVisible(isDividerVisible)
             binding.tvOptionName.text = getString(R.styleable.SettingsMenuItemView_optionName)
                 ?.replace(' ', Typography.nbsp)
-            binding.ivOptionIcon.setImageDrawable(getDrawable(R.styleable.SettingsMenuItemView_optionIcon))
+
+            getDrawable(R.styleable.SettingsMenuItemView_optionIcon)?.let {
+                binding.ivOptionIcon.apply {
+                    visible()
+                    setImageDrawable(it)
+                }
+            } ?: binding.ivOptionIcon.gone()
+
         }
     }
 

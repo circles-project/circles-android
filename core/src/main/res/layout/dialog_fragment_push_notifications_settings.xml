@@ -109,16 +109,16 @@
         android:layout_height="@dimen/divider_height"
         android:background="@color/grey_cool_300" />
 
-    <TextView
+    <org.futo.circles.core.view.SettingsMenuItemView
         android:id="@+id/tvNotificationsTest"
-        style="@style/settingMenuItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:paddingHorizontal="16dp"
+        android:paddingHorizontal="8dp"
         android:paddingVertical="24dp"
-        android:text="@string/push_notifications_test" />
+        app:hasDivider="false"
+        app:optionName="@string/push_notifications_test" />
 
 </LinearLayout>
