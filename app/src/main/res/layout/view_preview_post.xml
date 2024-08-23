@@ -48,6 +48,7 @@
                 android:minLines="2"
                 android:textColor="@color/grey_cool_1100"
                 android:textColorHint="@color/grey_cool_600"
+                android:textColorLink="@color/blue"
                 android:textSize="14sp"
                 app:bulletGap="8sp"
                 app:bulletRadius="4sp"
