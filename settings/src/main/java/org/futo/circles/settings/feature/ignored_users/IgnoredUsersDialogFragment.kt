@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.observeData
@@ -14,13 +13,13 @@ import org.futo.circles.core.model.UnIgnoreUser
 import org.futo.circles.core.utils.LauncherActivityUtils
 import org.futo.circles.core.view.EmptyTabPlaceholderView
 import org.futo.circles.settings.R
-import org.futo.circles.settings.databinding.DialogFragmentPeopleCategoryBinding
+import org.futo.circles.settings.databinding.DialogFragmentIgnoredUsersBinding
 import org.futo.circles.settings.feature.ignored_users.list.IgnoredUsersAdapter
 
 @AndroidEntryPoint
 class IgnoredUsersDialogFragment :
-    BaseFullscreenDialogFragment<DialogFragmentPeopleCategoryBinding>(
-        DialogFragmentPeopleCategoryBinding::inflate
+    BaseFullscreenDialogFragment<DialogFragmentIgnoredUsersBinding>(
+        DialogFragmentIgnoredUsersBinding::inflate
     ) {
 
     private val viewModel by viewModels<IgnoredUsersViewModel>()
@@ -46,7 +45,6 @@ class IgnoredUsersDialogFragment :
                     setText(getString(R.string.ignored_users_empty_message))
                 })
                 adapter = usersAdapter
-                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             }
         }
     }
