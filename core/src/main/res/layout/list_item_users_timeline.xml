@@ -4,35 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lRoot"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingHorizontal="8dp"
-    android:paddingVertical="8dp">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivTimelineImage"
-        android:layout_width="40dp"
-        android:layout_height="0dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:padding="2dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
         tools:background="@color/blue" />
 
     <TextView
         android:id="@+id/tvTimelineName"
-        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
+        android:fontFamily="@font/nunito_bold"
         android:lines="1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/grey_cool_1100"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivTimelineImage"
         app:layout_constraintEnd_toStartOf="@id/btnUnFollow"
         app:layout_constraintStart_toEndOf="@id/ivTimelineImage"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivTimelineImage"
         tools:text="Android01" />
 
     <com.google.android.material.button.MaterialButton
@@ -40,22 +42,34 @@
         style="@style/NegativeButtonStyle"
         android:layout_width="0dp"
         android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/unfollow"
         android:textSize="12sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/ivTimelineImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivTimelineImage"
         tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/vLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="40dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey_cool_200"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ivTimelineImage"
+        app:layout_constraintTop_toBottomOf="@id/ivTimelineImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
