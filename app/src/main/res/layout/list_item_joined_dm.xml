@@ -9,12 +9,12 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivUserImage"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:padding="2dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@id/divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
@@ -93,6 +93,7 @@
 
 
     <View
+        android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
