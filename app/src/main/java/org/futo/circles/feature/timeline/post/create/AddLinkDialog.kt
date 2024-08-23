@@ -1,6 +1,10 @@
 package org.futo.circles.feature.timeline.post.create
 
+import android.app.ActionBar
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatDialog
@@ -18,6 +22,10 @@ class AddLinkDialog(context: Context, private val listener: (String?, String) ->
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setCancelable(false)
+        window?.apply {
+            setBackgroundDrawable(InsetDrawable(ColorDrawable(Color.TRANSPARENT), 60))
+            setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
+        }
 
         with(binding) {
             btnCancel.setOnClickListener { dismiss() }
