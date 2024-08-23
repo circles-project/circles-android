@@ -54,9 +54,6 @@
             android:id="@+id/to_pushNotificationsSettingsDialogFragment"
             app:destination="@id/notification_settings_nav_graph" />
         <action
-            android:id="@+id/to_manageSubscriptionDialogFragment"
-            app:destination="@id/manageSubscriptionDialogFragment" />
-        <action
             android:id="@+id/to_editProfileDialogFragment"
             app:destination="@id/editProfileDialogFragment" />
         <action
@@ -78,10 +75,6 @@
 
     <include app:graph="@navigation/log_in_sessions_nav_graph" />
 
-    <dialog
-        android:id="@+id/manageSubscriptionDialogFragment"
-        android:name="org.futo.circles.settings.feature.manage_subscription.ManageSubscriptionDialogFragment"
-        tools:layout="@layout/dialog_fragment_manage_subscription" />
     <dialog
         android:id="@+id/UIADialogFragment"
         android:name="org.futo.circles.auth.feature.uia.UIADialogFragment"

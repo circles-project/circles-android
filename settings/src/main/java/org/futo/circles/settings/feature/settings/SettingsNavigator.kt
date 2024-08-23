@@ -25,12 +25,6 @@ class SettingsNavigator(private val fragment: SettingsDialogFragment) {
             .navigateSafe(SettingsDialogFragmentDirections.toUiaDialogFragment())
     }
 
-
-    fun navigateToSubscriptionInfo() {
-        fragment.findNavController()
-            .navigateSafe(SettingsDialogFragmentDirections.toManageSubscriptionDialogFragment())
-    }
-
     fun navigateToEditProfile() {
         fragment.findNavController()
             .navigateSafe(SettingsDialogFragmentDirections.toEditProfileDialogFragment())

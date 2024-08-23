@@ -10,7 +10,6 @@ import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.openCustomTabUrl
-import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
@@ -50,10 +49,6 @@ class SettingsDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            vManageSubscription.apply {
-                setIsVisible(CirclesAppConfig.isGplayFlavor())
-                setOnClickListener { navigator.navigateToSubscriptionInfo() }
-            }
             vLogout.setOnClickListener {
                 if (showNoInternetConnection()) return@setOnClickListener
                 withConfirmation(LogOut()) {
