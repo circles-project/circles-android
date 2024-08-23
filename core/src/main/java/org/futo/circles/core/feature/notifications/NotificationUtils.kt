@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.R
 import org.futo.circles.core.base.CirclesAppConfig
-import org.futo.circles.core.extensions.getBitmap
 import org.futo.circles.core.feature.notifications.test.task.TestNotificationReceiver
 import org.futo.circles.core.model.InviteNotifiableEvent
 import org.futo.circles.core.model.RoomEventGroupInfo
@@ -48,7 +47,7 @@ class NotificationUtils @Inject constructor(
     fun createNotificationChannels() {
         if (!supportNotificationChannels()) return
 
-        val accentColor = ContextCompat.getColor(context, R.color.blue)
+        val accentColor = ContextCompat.getColor(context, R.color.primary)
 
         notificationManager.createNotificationChannel(NotificationChannel(
             ROOM_NOTIFICATION_CHANNEL_ID,
@@ -92,11 +91,11 @@ class NotificationUtils @Inject constructor(
     ): Notification {
         val mainIntent = getMainIntent(context)
         val pi = PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_IMMUTABLE)
-        val accentColor = ContextCompat.getColor(context, R.color.blue)
+        val accentColor = ContextCompat.getColor(context, R.color.primary)
         val builder =
             NotificationCompat.Builder(context, LISTENING_FOR_EVENTS_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(context.getString(subTitleResId))
-                .setSmallIcon(R.drawable.ic_push_notification)
+                .setSmallIcon(R.drawable.ic_circles_white)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setColor(accentColor)
                 .setContentIntent(pi)
@@ -121,7 +120,7 @@ class NotificationUtils @Inject constructor(
         lastMessageTimestamp: Long,
         tickerText: String
     ): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.blue)
+        val accentColor = ContextCompat.getColor(context, R.color.primary)
         return NotificationCompat.Builder(context, ROOM_NOTIFICATION_CHANNEL_ID)
             .setOnlyAlertOnce(roomInfo.isUpdated)
             .setWhen(lastMessageTimestamp)
@@ -139,7 +138,7 @@ class NotificationUtils @Inject constructor(
             )
             .setGroup(CirclesAppConfig.appName)
             .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
-            .setSmallIcon(R.drawable.ic_push_notification)
+            .setSmallIcon(R.drawable.ic_circles_white)
             .setColor(accentColor)
             .setAutoCancel(true)
             .apply {
@@ -193,14 +192,14 @@ class NotificationUtils @Inject constructor(
     fun buildRoomInvitationNotification(
         inviteNotifiableEvent: InviteNotifiableEvent
     ): Notification {
-        val accentColor = ContextCompat.getColor(context, R.color.blue)
+        val accentColor = ContextCompat.getColor(context, R.color.primary)
         return NotificationCompat.Builder(context, INVITE_NOTIFICATION_CHANNEL_ID)
             .setOnlyAlertOnce(true)
             .setContentTitle(inviteNotifiableEvent.roomName ?: CirclesAppConfig.appName)
             .setContentText(inviteNotifiableEvent.description)
             .setGroup(CirclesAppConfig.appName)
             .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
-            .setSmallIcon(R.drawable.ic_push_notification)
+            .setSmallIcon(R.drawable.ic_circles_white)
             .setColor(accentColor)
             .apply {
                 val contentIntent = getMainIntent(context)
@@ -235,9 +234,8 @@ class NotificationUtils @Inject constructor(
             NotificationCompat.Builder(context, ROOM_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle(CirclesAppConfig.appName)
                 .setContentText(context.getString(R.string.settings_troubleshoot_test_push_notification_content))
-                .setSmallIcon(R.drawable.ic_push_notification)
-                .setLargeIcon(context.getBitmap(R.drawable.ic_notifications))
-                .setColor(ContextCompat.getColor(context, R.color.blue))
+                .setSmallIcon(R.drawable.ic_circles_white)
+                .setColor(ContextCompat.getColor(context, R.color.primary))
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
                 .setAutoCancel(true)
