@@ -11,16 +11,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/push_notifications"
-        app:titleCentered="true" />
-
-
-    <View
-        android:id="@+id/toolbarDivider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color" />
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +25,9 @@
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp">
 
         <TextView
             android:id="@+id/tvPushNotifications"
@@ -39,7 +37,6 @@
             android:background="@null"
             android:clickable="false"
             android:focusable="false"
-            android:paddingVertical="16dp"
             android:text="@string/push_notifications"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -62,8 +59,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:layout_marginHorizontal="8dp"
-        android:background="@color/divider_color" />
+        android:background="@color/grey_cool_300" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,7 +68,9 @@
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="24dp">
 
         <TextView
             android:id="@+id/tvNotificationsMethod"
@@ -82,7 +80,6 @@
             android:background="@null"
             android:clickable="false"
             android:focusable="false"
-            android:paddingVertical="16dp"
             android:text="@string/notification_method"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -96,6 +93,9 @@
             android:layout_marginEnd="16dp"
             android:clickable="false"
             android:focusable="false"
+            android:fontFamily="@font/nunito_medium"
+            android:textColor="@color/grey_cool_800"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -107,15 +107,18 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:layout_marginHorizontal="8dp"
-        android:background="@color/divider_color" />
+        android:background="@color/grey_cool_300" />
 
     <TextView
         android:id="@+id/tvNotificationsTest"
         style="@style/settingMenuItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="16dp"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="24dp"
         android:text="@string/push_notifications_test" />
 
 </LinearLayout>
