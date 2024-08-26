@@ -232,7 +232,7 @@
     <string name="remove_image">Remove image</string>
     <string name="remove_image_message">Are you sure you want to remove this image?</string>
     <string name="invite_to_follow_me">Invite to follow me</string>
-    <string name="select_circles_to_which_you_want_to_invite_format">Select circles to which you want to invite %s</string>
+    <string name="select_circles_to_which_you_want_to_invite_format">Select circles to which you want\nto invite %s</string>
     <string name="create_your_first_circle_to_be_able_to_invite">Create your first Circle to be able to invite</string>
     <string name="create_new_circle">Create new circle</string>
     <string name="requests_for_invitation">Request for invitation</string>
