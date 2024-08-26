@@ -70,7 +70,7 @@
                     android:id="@+id/ivCover"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/background_default"
+                    android:background="@color/dark_background"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
