@@ -36,6 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/ivBackground"
-        app:layout_constraintTop_toBottomOf="@id/videoPlaybackLayout" />
+        app:layout_constraintTop_toBottomOf="@id/videoPlaybackLayout"
+        app:timeTextColor="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

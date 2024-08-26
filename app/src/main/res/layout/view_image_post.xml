@@ -57,7 +57,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTextContent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.PostMedia"
-            tools:src="@drawable/explanation_groups" />
+            tools:src="@drawable/explanation_circles_1" />
 
 
         <org.futo.circles.view.PostFooterView

@@ -25,13 +25,14 @@
 
     <TextView
         android:id="@+id/tvTime"
+        style="@style/PostTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
         android:lines="1"
         android:paddingStart="12dp"
         android:paddingEnd="0dp"
-        android:textSize="12sp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvEditedLabel"
         app:layout_goneMarginEnd="12dp"
@@ -39,6 +40,7 @@
 
     <TextView
         android:id="@+id/tvEditedLabel"
+        style="@style/PostTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
@@ -46,7 +48,7 @@
         android:paddingStart="4dp"
         android:paddingEnd="0dp"
         android:text="@string/edited_label"
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
