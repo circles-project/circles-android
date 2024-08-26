@@ -3,7 +3,6 @@
 
     <color name="blue">#1E88E5</color>
     <color name="status_bar_color">#20111111</color>
-    <color name="highlight_color">#330E7AFE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_700">#FF018786</color>
     <color name="orange">#FF9500</color>
@@ -26,6 +25,7 @@
     <color name="theme_500">#CFBCFF</color>
     <color name="theme_600">#B79AFF</color>
     <color name="disabled_button_color">#F3EEFF</color>
+    <color name="highlight_color">#4D8553FF</color>
     <color name="background_default">#F5F5F5</color>
 
     <color name="grey_cool_200">#EFF1F3</color>

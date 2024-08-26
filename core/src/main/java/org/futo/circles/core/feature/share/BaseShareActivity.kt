@@ -44,7 +44,7 @@ abstract class BaseShareActivity : BaseActivity(), SelectRoomsListener {
     }
 
     override fun onRoomsSelected(rooms: List<SelectableRoomListItem>) {
-        binding.btnSave.isEnabled = rooms.isNotEmpty()
+        binding.btnShare.isEnabled = rooms.isNotEmpty()
     }
 
     private fun addSelectRoomsFragment() {
@@ -56,7 +56,7 @@ abstract class BaseShareActivity : BaseActivity(), SelectRoomsListener {
 
     private fun setupViews() {
         binding.toolbar.title = getString(titleResId)
-        binding.btnSave.setOnClickListener {
+        binding.btnShare.setOnClickListener {
             uriToShare?.let {
                 viewModel.uploadToRooms(it, getShareRoomsIds(), mediaType)
             }
