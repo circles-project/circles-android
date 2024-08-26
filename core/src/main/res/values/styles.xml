@@ -57,14 +57,9 @@
         <item name="android:paddingTop">24dp</item>
     </style>
 
-    <style name="DialogSlideAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_in</item>
-        <item name="android:windowExitAnimation">@anim/slide_out</item>
-    </style>
-
-    <style name="DialogAlphaSlideAnimation">
+    <style name="DialogAlphaAnimation">
         <item name="android:windowEnterAnimation">@anim/alpha_show</item>
-        <item name="android:windowExitAnimation">@anim/slide_out</item>
+        <item name="android:windowExitAnimation">@anim/alpha_hide</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.App.Message.Other" parent="">

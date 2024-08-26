@@ -36,17 +36,7 @@ class TimelineMediaPreviewDialogFragment :
 
     private val mediaFragment by lazy { FullScreenMediaFragment.create(args.roomId, args.eventId) }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-        dialog?.window?.attributes?.windowAnimations =
-            org.futo.circles.core.R.style.DialogAlphaSlideAnimation
-        return view
-    }
-
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.let {

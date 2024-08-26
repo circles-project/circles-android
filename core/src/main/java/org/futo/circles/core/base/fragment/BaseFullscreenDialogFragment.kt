@@ -35,7 +35,7 @@ abstract class BaseFullscreenDialogFragment<VB : ViewBinding>(
     ): View? {
         _binding = inflate.invoke(inflater, container, false)
         dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        dialog?.window?.attributes?.windowAnimations = R.style.DialogSlideAnimation
+        dialog?.window?.attributes?.windowAnimations = R.style.DialogAlphaAnimation
         return _binding?.root
     }
 
