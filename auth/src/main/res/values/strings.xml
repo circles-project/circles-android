@@ -10,7 +10,7 @@
     <string name="unsupported_login_method">Unsupported login method</string>
     <string name="discard_current_auth_progress">Discard current auth progress?</string>
     <string name="set_passphrase">Set passphrase</string>
-    <string name="log_in">Log In</string>
+    <string name="log_in">Log in</string>
     <string name="new_accounts_not_available">Sorry, but new accounts are not available at this time</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
@@ -117,6 +117,8 @@
     <string name="secure_social_network_for_families_and_friends">Secure social network for families and friends</string>
     <string name="sign_up_for_free">Sign up for free</string>
     <string name="sign_in">Sign In</string>
+    <string name="your_user_id">Your User ID</string>
+    <string name="sign_up_here">Sign up here</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

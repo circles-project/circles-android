@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,7 @@ import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.withConfirmation
@@ -51,6 +53,12 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
                 }
             }
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.window?.statusBarColor =
+            ContextCompat.getColor(requireContext(), org.futo.circles.core.R.color.dark_background)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,6 +113,7 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
 
     private fun setOnClickActions() {
         with(binding) {
+            ivBack.setOnClickListener { onBackPressed() }
             btnSignUp.setOnClickListener {
                 findNavController().navigateSafe(LogInFragmentDirections.toSelectServerBottomSheet())
             }
@@ -121,7 +130,8 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
     }
 
     override fun onSignupDomainSelected(domain: String) {
-        startLoading(binding.btnSignUp)
+        //startLoading(binding.btnSignUp)
+        //TODO
         viewModel.startSignUp(domain)
     }
 

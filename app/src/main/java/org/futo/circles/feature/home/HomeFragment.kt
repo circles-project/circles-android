@@ -6,6 +6,7 @@ import android.os.Build.VERSION
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -46,6 +47,12 @@ class HomeFragment :
     private val syncLoadingDialog by lazy { LoadingDialog(requireContext()) }
 
     private val roomIdParam = "roomId"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.window?.statusBarColor =
+            ContextCompat.getColor(requireContext(), org.futo.circles.core.R.color.white)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

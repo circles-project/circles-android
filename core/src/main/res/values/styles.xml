@@ -81,6 +81,16 @@
         <item name="strokeColor">@color/white</item>
     </style>
 
+    <style name="TextButton" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="textAllCaps">false</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="elevation">0dp</item>
+        <item name="android:textAppearance">@style/ButtonTitle</item>
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
     <style name="NegativeButtonStyle" parent="TransparentButtonStyle">
         <item name="android:textColor">@color/primary</item>
         <item name="strokeWidth">1dp</item>
@@ -196,7 +206,7 @@
     <style name="CirclesTextInputEditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/grey_cool_1100</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:fontFamily">@font/nunito_medium</item>
         <item name="android:textColorHint">@color/grey_cool_600</item>
         <item name="android:maxLines">1</item>
         <item name="android:padding">12dp</item>
