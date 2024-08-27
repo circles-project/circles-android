@@ -47,13 +47,13 @@
         <action
             android:id="@+id/to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/logInFragment"
+            app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/to_circleExplanation"
             app:destination="@id/circleExplanationFragment"
-            app:popUpTo="@id/logInFragment"
+            app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
     </dialog>
     <fragment
