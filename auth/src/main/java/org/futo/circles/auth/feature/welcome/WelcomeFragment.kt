@@ -31,7 +31,7 @@ class WelcomeFragment :
                 findNavController().navigateSafe(WelcomeFragmentDirections.toLogInFragment())
             }
             btnSignUp.setOnClickListener {
-                findNavController().navigateSafe(WelcomeFragmentDirections.toLogInFragment())
+                findNavController().navigateSafe(WelcomeFragmentDirections.toSignUpFragment())
             }
         }
     }
