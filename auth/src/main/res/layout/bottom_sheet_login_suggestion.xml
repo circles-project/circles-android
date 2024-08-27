@@ -1,64 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="8dp"
-    android:paddingBottom="8dp">
+    android:background="@drawable/bg_post_menu_screen"
+    android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+    <View
+        android:layout_width="77dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg_top_menu_indicator" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/Headline"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/post_card_background_color"
-        app:cardCornerRadius="16dp">
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="12dp"
+        tools:text="Did you mean userId?" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="4dp">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/grey_cool_300" />
 
-            <View
-                android:layout_width="48dp"
-                android:layout_height="2dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/divider_color" />
-
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/Body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginVertical="8dp"
-                tools:text="Did you mean userId?" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/divider_height"
-                android:background="@color/divider_color" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnOk"
-                style="@style/AccentButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="16dp"
-                tools:text="Login as useirId" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOk"
+        style="@style/AccentButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        tools:text="Login as useirId" />
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCancel"
-                style="@style/NegativeButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="16dp"
-                android:text="@string/no_let_me_try_again" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancel"
+        style="@style/NegativeButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="16dp"
+        android:text="@string/no_let_me_try_again" />
 
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-</FrameLayout>
+</LinearLayout>
