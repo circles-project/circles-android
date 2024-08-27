@@ -9,6 +9,8 @@ import android.widget.LinearLayout
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.LayoutSettingsGroupBinding
 import org.futo.circles.core.extensions.getAttributes
+import org.futo.circles.core.extensions.gone
+import org.futo.circles.core.extensions.visible
 
 
 class SettingsGroupLayout(
@@ -22,9 +24,12 @@ class SettingsGroupLayout(
     init {
         orientation = VERTICAL
         getAttributes(attrs, R.styleable.SettingsGroupLayout) {
-            binding.tvGroupTitle.apply {
-                text = getString(R.styleable.SettingsGroupLayout_groupName)
-            }
+            getString(R.styleable.SettingsGroupLayout_groupName)?.let {
+                binding.tvGroupTitle.apply {
+                    text = it
+                    binding.tvGroupTitle.visible()
+                }
+            } ?: binding.tvGroupTitle.gone()
         }
     }
 
