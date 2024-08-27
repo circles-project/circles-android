@@ -8,11 +8,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
+import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.databinding.DialogFragmentPushNotificationsSettingsBinding
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.openNotificationSettings
-import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
-import org.futo.circles.core.databinding.DialogFragmentPushNotificationsSettingsBinding
 
 @AndroidEntryPoint
 class PushNotificationsSettingsDialogFragment :

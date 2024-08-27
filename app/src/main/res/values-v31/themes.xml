@@ -17,6 +17,8 @@
         <item name="android:colorBackground">@color/white</item>
 
         <item name="dialogTheme">@style/DialogTheme</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+
         <item name="android:windowSplashScreenBackground">@color/primary</item>
     </style>
 </resources>

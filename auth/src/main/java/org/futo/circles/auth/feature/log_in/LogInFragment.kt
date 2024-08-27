@@ -12,7 +12,6 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentLogInBinding
 import org.futo.circles.auth.feature.log_in.suggestion.LoginSuggestionListener
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersAdapter
-import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHolder
 import org.futo.circles.auth.feature.sign_up.SignupSelectDomainListener
 import org.futo.circles.auth.model.EmptyUserId
 import org.futo.circles.auth.model.ForgotPassword
