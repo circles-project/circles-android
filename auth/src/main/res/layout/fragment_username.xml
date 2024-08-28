@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="24dp"
         android:paddingHorizontal="24dp"
-        android:text="@string/continue_str"
+        android:text="@string/set_username"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

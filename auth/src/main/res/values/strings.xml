@@ -49,9 +49,9 @@
     <string name="username">username</string>
     <string name="do_not_have_an_account">Don\'t have an account?</string>
     <string name="resume_session">Resume session:</string>
-    <string name="choose_a_passphrase">Choose a passphrase</string>
+    <string name="choose_your_passphrase">Choose your passphrase</string>
     <string name="enter_your_passphrase">Enter your passphrase</string>
-    <string name="repeat_passphrase">Repeat passphrase</string>
+    <string name="repeat_your_passphrase">Repeat your passphrase</string>
     <string name="or">Or</string>
     <string name="setup_profile">Setup profile</string>
     <string name="upload_a_profile_photo">Upload a profile photo</string>
@@ -128,7 +128,6 @@
     <string name="terms_note">Please take a moment to read our Privacy Policy and Terms &amp; Conditions. These documents explain how we handle your data and the rules for using our app, ensuring a safe and transparent experience for all users.</string>
     <string name="accept_all">Accept all</string>
     <string name="reject_all">Reject all</string>
-    <string name="continue_str">Continue</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

@@ -17,6 +17,7 @@ import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 
@@ -44,6 +45,7 @@ class PasswordFragment :
 
     private fun setupViews() {
         with(binding) {
+            ivBack.setOnClickListener { onBackPressed() }
             btnLogin.apply {
                 setText(getString(if (isSignupMode()) R.string.set_passphrase else R.string.log_in))
                 setOnClickListener {
@@ -56,7 +58,7 @@ class PasswordFragment :
                 }
             }
             tvPasswordTitle.text =
-                getString(if (isSignupMode()) R.string.choose_a_passphrase else R.string.enter_your_passphrase)
+                getString(if (isSignupMode()) R.string.choose_your_passphrase else R.string.enter_your_passphrase)
             tilPassword.editText?.apply {
                 doAfterTextChanged {
                     if (isSignupMode()) vPasswordStrength.calculateStrength(tilPassword.getText())
@@ -67,6 +69,7 @@ class PasswordFragment :
             }
             tilRepeatPassword.editText?.doAfterTextChanged { onPasswordDataChanged() }
             tilRepeatPassword.setIsVisible(isSignupMode())
+            tvRepeatPasswordTitle.setIsVisible(isSignupMode())
         }
     }
 
