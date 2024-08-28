@@ -37,9 +37,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
+                android:text="@string/zero"
                 android:textColor="@color/grey_cool_1000"
-                android:textSize="12sp"
-                tools:text="314" />
+                android:textSize="12sp" />
 
 
             <TextView
@@ -85,9 +85,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
+                android:text="@string/zero"
                 android:textColor="@color/grey_cool_1000"
-                android:textSize="12sp"
-                tools:text="204" />
+                android:textSize="12sp" />
 
 
             <TextView
@@ -132,9 +132,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
+                android:text="@string/zero"
                 android:textColor="@color/grey_cool_1000"
-                android:textSize="12sp"
-                tools:text="1000" />
+                android:textSize="12sp" />
 
 
             <TextView

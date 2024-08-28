@@ -13,7 +13,6 @@
     <string name="log_in">Log in</string>
     <string name="new_accounts_not_available">Sorry, but new accounts are not available at this time</string>
     <string name="sign_up">Sign Up</string>
-    <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
     <string name="user_id_can_not_be_empty">User ID can not be empty</string>
     <string name="invalid_user_id">User ID can not be empty.</string>
     <string name="confirm_auth">Confirm auth</string>
@@ -124,6 +123,11 @@
     <string name="sign_up_using_us_server">Sign up using US server</string>
     <string name="sign_up_using_eu_server">Sign up using EU server</string>
     <string name="choosing_a_server_note">Choosing a server that is close to you assures you have the best experience using Circles</string>
+    <string name="read_and_agree_to_the_terms">Read and agree to the terms</string>
+    <string name="terms_description">Please read our Privacy Policy and Terms &amp; Conditions carefully. By agreeing to these terms, you ensure a secure and enjoyable experience on our platform.</string>
+    <string name="terms_note">Please take a moment to read our Privacy Policy and Terms &amp; Conditions. These documents explain how we handle your data and the rules for using our app, ensuring a safe and transparent experience for all users.</string>
+    <string name="accept_all">Accept all</string>
+    <string name="reject_all">Reject all</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

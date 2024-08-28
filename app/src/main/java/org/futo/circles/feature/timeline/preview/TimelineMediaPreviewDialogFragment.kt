@@ -3,9 +3,7 @@ package org.futo.circles.feature.timeline.preview
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.isVisible
@@ -36,7 +34,7 @@ class TimelineMediaPreviewDialogFragment :
 
     private val mediaFragment by lazy { FullScreenMediaFragment.create(args.roomId, args.eventId) }
 
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.let {
@@ -46,6 +44,11 @@ class TimelineMediaPreviewDialogFragment :
         setupViews()
         setupToolbar()
         setupObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     }
 
     @SuppressLint("ClickableViewAccessibility")

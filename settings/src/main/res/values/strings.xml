@@ -66,5 +66,6 @@
     <string name="support">Support</string>
     <string name="change_log">Change log</string>
     <string name="about">About</string>
+    <string name="zero">0</string>
 
 </resources>

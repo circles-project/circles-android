@@ -33,8 +33,6 @@ abstract class UIADataSource {
         }
     }
 
-
-    val subtitleLiveData = MutableLiveData<Pair<Int, Int>>()
     val stagesNavigationLiveData = SingleEventLiveData<UIANavigationEvent>()
     val finishUIAEventLiveData = SingleEventLiveData<Session>()
 
@@ -117,7 +115,6 @@ abstract class UIADataSource {
             else -> throw IllegalArgumentException("Not supported stage $stage")
         }
         event?.let { stagesNavigationLiveData.postValue(it) }
-        updatePageSubtitle()
     }
 
 
@@ -150,11 +147,6 @@ abstract class UIADataSource {
     private fun getCurrentStageIndex() =
         stagesToComplete.indexOf(currentStage).takeIf { it != -1 } ?: 0
 
-    private fun updatePageSubtitle() {
-        val size = stagesToComplete.size
-        val number = getCurrentStageIndex() + 1
-        subtitleLiveData.postValue(number to size)
-    }
 
     companion object {
         //params

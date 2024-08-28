@@ -34,7 +34,6 @@ class UIAViewModel @Inject constructor(
 
     val uiaDataSource = UIADataSourceProvider.getDataSourceOrThrow()
 
-    val subtitleLiveData: LiveData<Pair<Int, Int>> = uiaDataSource.subtitleLiveData
     val stagesNavigationLiveData = uiaDataSource.stagesNavigationLiveData
     val navigationLiveData = SingleEventLiveData<AuthUIAScreenNavigationEvent>()
     val restoreKeysLiveData = SingleEventLiveData<Response<Unit>>()

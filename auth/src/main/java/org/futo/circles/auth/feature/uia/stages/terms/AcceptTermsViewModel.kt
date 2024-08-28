@@ -23,8 +23,4 @@ class AcceptTermsViewModel @Inject constructor(
         }
     }
 
-    fun changeTermCheck(item: TermsListItem) {
-        dataSource.changeTermCheck(item)
-    }
-
 }

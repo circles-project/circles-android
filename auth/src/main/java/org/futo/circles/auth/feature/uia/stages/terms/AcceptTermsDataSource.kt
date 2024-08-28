@@ -25,11 +25,6 @@ class AcceptTermsDataSource @Inject constructor() {
         }
     }
 
-    fun changeTermCheck(item: TermsListItem) {
-        termsListLiveData.value =
-            termsListLiveData.value?.map { if (it.id == item.id) it.copy(isChecked = !it.isChecked) else it }
-    }
-
     private fun getTermsList() =
         (uiaDataSource.currentStage as? Stage.Terms)?.policies?.toTermsListItems()
             ?: emptyList()
