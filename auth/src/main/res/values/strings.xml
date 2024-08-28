@@ -58,7 +58,7 @@
     <string name="save">Save</string>
     <string name="skip">Skip</string>
     <string name="subscriptions">Subscriptions</string>
-    <string name="choose_a_username">Choose a username</string>
+    <string name="choose_your_username">Choose your username</string>
     <string name="set_username">Set username</string>
     <string name="send_validation_code">Send validation code</string>
     <string name="validate_email">Validate email</string>
@@ -128,6 +128,7 @@
     <string name="terms_note">Please take a moment to read our Privacy Policy and Terms &amp; Conditions. These documents explain how we handle your data and the rules for using our app, ensuring a safe and transparent experience for all users.</string>
     <string name="accept_all">Accept all</string>
     <string name="reject_all">Reject all</string>
+    <string name="continue_str">Continue</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>
