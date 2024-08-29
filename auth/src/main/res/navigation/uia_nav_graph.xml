@@ -14,10 +14,6 @@
         app:destination="@id/validateEmailFragment" />
 
     <action
-        android:id="@+id/to_subscriptions"
-        app:destination="@id/subscriptionStageFragment" />
-
-    <action
         android:id="@+id/to_username"
         app:destination="@id/usernameFragment" />
 
@@ -46,10 +42,6 @@
         android:name="org.futo.circles.auth.feature.uia.stages.terms.AcceptTermsFragment"
         tools:layout="@layout/fragment_accept_terms" />
 
-    <fragment
-        android:id="@+id/subscriptionStageFragment"
-        android:name="org.futo.circles.auth.feature.uia.stages.subscription_stage.SubscriptionStageFragment"
-        tools:layout="@layout/fragment_subscription_stage" />
     <fragment
         android:id="@+id/passwordFragment"
         android:name="org.futo.circles.auth.feature.uia.stages.password.PasswordFragment"

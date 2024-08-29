@@ -77,9 +77,6 @@ dependencies {
     // Verification code input
     implementation ("com.github.appsfeature:otp-view:1.1")
 
-    // Subscriptions
-    gplayImplementation("com.android.billingclient:billing-ktx:7.0.0")
-
     // PasswordManager
     val credentialsVersion = "1.3.0-rc01"
     gplayImplementation("androidx.credentials:credentials:$credentialsVersion")
