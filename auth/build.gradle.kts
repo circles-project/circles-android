@@ -74,6 +74,9 @@ dependencies {
     // Password strength
     implementation("com.nulab-inc:zxcvbn:1.9.0")
 
+    // Verification code input
+    implementation ("com.github.appsfeature:otp-view:1.1")
+
     // Subscriptions
     gplayImplementation("com.android.billingclient:billing-ktx:7.0.0")
 

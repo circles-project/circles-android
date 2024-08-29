@@ -23,6 +23,8 @@
     <string name="validation_code">Validation code</string>
     <string name="validation_code_explanation">We sent a 6-digit code to your email address to validate your account.\n\nEnter the code here to verify that this address belongs to you.</string>
     <string name="validation_code_sent_to_format">Validation code sent to %s</string>
+    <string name="we_have_sent_format">We have sent the 6-digit-code to email address <b>%s</b></string>
+    <string name="enter_the_code">Enter the code</string>
     <string name="sign_up_token">SignUp token</string>
     <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
     <string name="name_for_room_invite">Room invite</string>
@@ -128,6 +130,14 @@
     <string name="terms_note">Please take a moment to read our Privacy Policy and Terms &amp; Conditions. These documents explain how we handle your data and the rules for using our app, ensuring a safe and transparent experience for all users.</string>
     <string name="accept_all">Accept all</string>
     <string name="reject_all">Reject all</string>
+    <string name="resend_code">Resend code</string>
+    <string name="verify_email_note">We will never sell your information or use it for advertising. See our <font fgcolor='#8553FF'>Privacy Policy</font> for more information.</string>
+    <string name="verify_your_email_address">Verify your email address</string>
+    <string name="verify_email_description">We will send a short 6-digit code to your email address to verify your identity.</string>
+    <string name="enter_your_email_here">Enter your email here</string>
+    <string name="send_verification_code">Send verification code</string>
+    <string name="please_enter_the_code_here">Please enter the code here</string>
+    <string name="verify_email_address">Verify email address</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

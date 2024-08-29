@@ -17,14 +17,10 @@ class ValidateEmailViewModel @Inject constructor(
     val sendCodeLiveData = MutableLiveData<Response<RegistrationResult>>()
     val validateEmailLiveData = SingleEventLiveData<Response<RegistrationResult>>()
 
-    val showSubscribeCheckLiveData = MutableLiveData(dataSource.shouldShowSubscribeToEmail())
-    val usersEmailLiveData = MutableLiveData(dataSource.getUsersEmails())
-
-    fun sendCode(email: String, subscribeToUpdates: Boolean) {
+    fun sendCode(email: String) {
         launchBg {
-            val result = dataSource.sendValidationCode(email, subscribeToUpdates)
+            val result = dataSource.sendValidationCode(email, false)
             sendCodeLiveData.postValue(result)
-            if (result is Response.Success) showSubscribeCheckLiveData.postValue(false)
         }
     }
 
