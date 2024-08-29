@@ -138,6 +138,7 @@
     <string name="send_verification_code">Send verification code</string>
     <string name="please_enter_the_code_here">Please enter the code here</string>
     <string name="verify_email_address">Verify email address</string>
+    <string name="enter_display_name_here">Enter display name here</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

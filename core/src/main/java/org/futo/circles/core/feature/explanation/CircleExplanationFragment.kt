@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Html
 import android.text.method.ScrollingMovementMethod
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.R
@@ -27,6 +28,7 @@ class CircleExplanationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.window?.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
         setupViews()
     }
 
@@ -34,7 +36,7 @@ class CircleExplanationFragment :
         with(binding) {
             btnNext.apply {
                 popUpListener?.let { listener ->
-                    setText(org.futo.circles.core.R.string.got_it)
+                    setText(R.string.got_it)
                     setOnClickListener {
                         listener.onDismissPopUp()
                     }

@@ -2,6 +2,7 @@ package org.futo.circles.auth.feature.setup.circles
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -43,6 +44,8 @@ class SetupCirclesFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.window?.statusBarColor =
+            ContextCompat.getColor(requireContext(), org.futo.circles.core.R.color.white)
         setupViews()
         setupObservers()
     }
