@@ -289,5 +289,6 @@ Or, think about all of your friends across all of the places you\'ve ever lived.
     <string name="members">Members</string>
     <string name="enter_name_here">Enter name here</string>
     <string name="enter_topic_here">Enter topic here</string>
+    <string name="url_info">URL info</string>
 
 </resources>
