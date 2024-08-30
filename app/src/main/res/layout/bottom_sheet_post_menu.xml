@@ -22,6 +22,14 @@
         app:drawableEndCompat="@drawable/ic_info" />
 
     <TextView
+        android:id="@+id/tvShare"
+        style="@style/PostMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/share"
+        app:drawableEndCompat="@drawable/ic_share" />
+
+    <TextView
         android:id="@+id/tvEdit"
         style="@style/PostMenuItem"
         android:layout_width="match_parent"

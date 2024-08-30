@@ -45,9 +45,9 @@ class PostMenuViewModel @Inject constructor(
 
     fun isMyPost(): Boolean = postContentDataSource.getPost(roomId, eventId)?.isMyPost() == true
 
-    private fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
+    fun isPoll(): Boolean = getPostContent()?.isPoll() == true
 
-    private fun isPoll(): Boolean = getPostContent()?.isPoll() == true
+    private fun areUserAbleToPost() = userPowerLevel >= Role.Default.value
 
     private fun getPollState() = (getPostContent() as? PollContent)?.state
 

@@ -53,6 +53,13 @@ class PostMenuBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                         dismiss()
                     }
                 }
+                tvShare.apply {
+                    setIsVisible(!viewModel.isPoll())
+                    setOnClickListener {
+                        viewModel.getPostContent()?.let { menuListener?.onShare(it) }
+                        dismiss()
+                    }
+                }
                 tvEdit.apply {
                     setIsVisible(viewModel.canEditPost())
                     setOnClickListener {

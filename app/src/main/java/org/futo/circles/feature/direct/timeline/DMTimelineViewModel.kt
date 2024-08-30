@@ -60,7 +60,7 @@ class DMTimelineViewModel @Inject constructor(
 
     fun sharePostContent(content: PostContent) {
         launchBg {
-            postOptionsDataSource.getShareableContent(content, null)
+            postOptionsDataSource.getShareableContent(content)
                 ?.let { shareLiveData.postValue(it) }
         }
     }

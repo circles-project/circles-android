@@ -35,7 +35,6 @@ import org.futo.circles.core.model.isAllPosts
 import org.futo.circles.core.model.isCircle
 import org.futo.circles.core.model.isThread
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
-import org.futo.circles.feature.timeline.base.TimelineListItemViewHolder
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.TimelineAdapter
 import org.futo.circles.feature.timeline.post.create.PostSentListener
@@ -208,8 +207,8 @@ class TimelineDialogFragment :
         navigator.navigateToThread(roomId, eventId)
     }
 
-    override fun onShare(content: PostContent, view: View) {
-        viewModel.sharePostContent(content, view)
+    override fun onShare(content: PostContent) {
+        viewModel.sharePostContent(content)
     }
 
     override fun onRemove(roomId: String, eventId: String) {
