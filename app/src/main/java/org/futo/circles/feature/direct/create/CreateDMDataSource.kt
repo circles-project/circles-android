@@ -47,7 +47,8 @@ class CreateDMDataSource @Inject constructor(
         val invitedOrActiveDirect = directRoomsSummary.map { it.directUserId }.toSet()
         val ignoredUsersIds = ignoredUsers.map { it.userId }.toSet()
 
-        val usersToExclude = invitedOrActiveDirect + ignoredUsersIds
+        val usersToExclude =
+            invitedOrActiveDirect + ignoredUsersIds + setOf(MatrixSessionProvider.getSessionOrThrow().myUserId)
         val searchResult = (knowUsers + suggestions).distinctBy { it.userId }
 
         return searchResult.mapNotNull { if (!usersToExclude.contains(it.userId)) it.toCirclesUserSummary() else null }

@@ -5,29 +5,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/invite_for_direct_messages"
-        app:titleCentered="true" />
-
-    <View
-        android:id="@+id/toolbarDivider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color" />
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
+        style="@style/UsersSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@drawable/bg_border"
-        app:iconifiedByDefault="false"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
         app:queryHint="@string/search_by_name_or_id" />
 
 

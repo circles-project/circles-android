@@ -27,7 +27,7 @@ class CreateDMUserViewHolder(
     }
 
     fun bind(userItem: CirclesUserSummary) {
-        with(binding) {
+        with(binding.lUser) {
             tvUserName.text = userItem.name
             tvUserId.text = userItem.id
             ivUserImage.loadUserProfileIcon(userItem.avatarUrl, userItem.id)

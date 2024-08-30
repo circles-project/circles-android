@@ -8,62 +8,41 @@
     android:clickable="true"
     android:focusable="true">
 
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivUserImage"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
-        tools:background="@color/blue" />
-
-
-    <TextView
-        android:id="@+id/tvUserName"
-        style="@style/Title"
+    <include
+        android:id="@+id/lUser"
+        layout="@layout/layout_user_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ellipsize="end"
-        android:lines="1"
-        app:layout_constraintBottom_toTopOf="@id/tvUserId"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/divider"
         app:layout_constraintEnd_toStartOf="@id/btnDirectMessages"
-        app:layout_constraintStart_toEndOf="@id/ivUserImage"
-        app:layout_constraintTop_toTopOf="@id/ivUserImage"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Android01" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvUserId"
-        style="@style/Body"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/tvUserName"
-        app:layout_constraintStart_toStartOf="@id/tvUserName"
-        app:layout_constraintTop_toBottomOf="@id/tvUserName"
-        tools:text="Android01@domain" />
 
     <org.futo.circles.core.view.LoadingButton
         android:id="@+id/btnDirectMessages"
-        android:layout_width="64dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
+        android:layout_width="65dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/invite"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivUserImage"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ivUserImage"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey_cool_200"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lUser" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
