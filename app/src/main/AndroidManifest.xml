@@ -92,6 +92,19 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="org.futo.circles.gallery.feature.share.UploadToGalleryActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter android:label="@string/gallery">
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="androidx.startup.InitializationProvider"
