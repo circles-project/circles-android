@@ -5,40 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/reporting_inappropriate_content"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/Body">
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
-        <org.futo.circles.core.view.LoadingButton
-            android:id="@+id/btnReport"
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginVertical="8dp"
-            android:layout_marginEnd="8dp"
-            android:enabled="false"
-            android:text="@string/report"
-            android:textSize="13sp"
-            app:textPadding="1dp" />
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
-    <View
-        android:id="@+id/toolbarDivider"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <TextView
         android:id="@+id/tvSubtitle"
@@ -51,7 +32,7 @@
         android:text="@string/reporting_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarDivider" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <View
         android:id="@+id/topSectorDivider"
@@ -72,6 +53,7 @@
         android:gravity="center"
         android:paddingHorizontal="16dp"
         android:text="@string/how_inappropriate_is_the_reported_content"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topSectorDivider" />
@@ -96,6 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/zero"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/scoreSlider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/scoreSlider" />
@@ -120,6 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="@string/hundred"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/scoreSlider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/scoreSlider" />
@@ -131,6 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:gravity="center"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scoreSlider"
@@ -155,6 +140,7 @@
         android:gravity="center"
         android:paddingHorizontal="16dp"
         android:text="@string/which_of_the_following_categories_does_inappropriate_message_contain"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scoreBottomDivider" />
@@ -165,8 +151,19 @@
         android:layout_height="0dp"
         android:padding="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnReport"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCategoriesTitle" />
+
+    <org.futo.circles.core.view.LoadingButton
+        android:id="@+id/btnReport"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:enabled="false"
+        android:text="@string/report"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
