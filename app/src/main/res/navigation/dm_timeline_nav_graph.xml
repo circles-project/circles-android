@@ -117,12 +117,47 @@
             app:popUpTo="@+id/dmMenuBottomSheet"
             app:popUpToInclusive="true" />
 
+        <action
+            android:id="@+id/to_saveToGalleyDialogFragment"
+            app:destination="@id/saveToGalleyDialogFragment"
+            app:popUpTo="@+id/dmMenuBottomSheet"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
     </dialog>
 
     <dialog
         android:id="@+id/postInfoDialogFragment"
         android:name="org.futo.circles.feature.timeline.post.info.PostInfoDialogFragment"
         tools:layout="@layout/dialog_fragment_debug_info">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/saveToGalleyDialogFragment"
+        android:name="org.futo.circles.feature.timeline.save.SavePostToGalleryDialogFragment"
+        tools:layout="@layout/dialog_fragment_save_post_to_gallery">
 
         <argument
             android:name="roomId"

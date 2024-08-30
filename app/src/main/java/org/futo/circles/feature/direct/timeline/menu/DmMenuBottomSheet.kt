@@ -76,6 +76,17 @@ class DmMenuBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                         }
                     }
                 }
+                tvSaveToGallery.apply {
+                    setIsVisible(viewModel.isMediaPost())
+                    setOnClickListener {
+                        findNavController().navigateSafe(
+                            DmMenuBottomSheetDirections.toSaveToGalleyDialogFragment(
+                                args.roomId,
+                                args.eventId
+                            )
+                        )
+                    }
+                }
                 tvSaveToDevice.apply {
                     setIsVisible(viewModel.isMediaPost())
                     setOnClickListener {

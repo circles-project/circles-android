@@ -22,6 +22,13 @@
         android:text="@string/info"
         app:drawableEndCompat="@drawable/ic_info" />
 
+    <TextView
+        android:id="@+id/tvShare"
+        style="@style/PostMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/share"
+        app:drawableEndCompat="@drawable/ic_share" />
 
     <TextView
         android:id="@+id/tvReply"
@@ -30,15 +37,6 @@
         android:layout_height="wrap_content"
         android:text="@string/reply"
         app:drawableEndCompat="@drawable/ic_reply" />
-
-
-    <TextView
-        android:id="@+id/tvReact"
-        style="@style/PostMenuItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/react"
-        app:drawableEndCompat="@drawable/ic_emoji" />
 
     <TextView
         android:id="@+id/tvEdit"
@@ -49,12 +47,21 @@
         app:drawableEndCompat="@drawable/ic_edit" />
 
     <TextView
-        android:id="@+id/tvShare"
+        android:id="@+id/tvReact"
         style="@style/PostMenuItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/share"
-        app:drawableEndCompat="@drawable/ic_share" />
+        android:text="@string/react"
+        app:drawableEndCompat="@drawable/ic_emoji" />
+
+
+    <TextView
+        android:id="@+id/tvSaveToGallery"
+        style="@style/PostMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_to_gallery"
+        app:drawableEndCompat="@drawable/ic_cloud_upload" />
 
     <TextView
         android:id="@+id/tvSaveToDevice"
