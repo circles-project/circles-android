@@ -29,4 +29,10 @@ class PostMenuBottomSheetNavigator(private val fragment: PostMenuBottomSheet) {
             PostMenuBottomSheetDirections.toReportDialogFragment(roomId, eventId)
         )
     }
+
+    fun navigateToSaveToGallery(roomId: String, eventId: String) {
+        fragment.findNavController().navigateSafe(
+            PostMenuBottomSheetDirections.toSaveToGalleyDialogFragment(roomId, eventId)
+        )
+    }
 }

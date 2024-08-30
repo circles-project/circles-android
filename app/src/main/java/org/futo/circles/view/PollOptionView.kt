@@ -53,7 +53,7 @@ class PollOptionView(
     private fun setCheckIcon(pollState: PollState, isMyVote: Boolean) {
         binding.ivCheck.setIsVisible(pollState != PollState.Ended)
         binding.ivCheck.setImageResource(
-            if (isMyVote) org.futo.circles.core.R.drawable.ic_check_circle else R.drawable.ic_unselected
+            if (isMyVote) org.futo.circles.core.R.drawable.ic_check_circle else org.futo.circles.core.R.drawable.ic_unselected
         )
     }
 

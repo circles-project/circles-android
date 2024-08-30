@@ -66,11 +66,10 @@ class PostMenuBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                         navigator.navigateToEditPost(args.roomId, args.eventId)
                     }
                 }
-                tvSaveToDevice.apply {
+                tvSaveToGallery.apply {
                     setIsVisible(viewModel.isMediaPost())
                     setOnClickListener {
-                        viewModel.getPostContent()?.let { menuListener?.onSaveToGallery(it) }
-                        dismiss()
+                        navigator.navigateToSaveToGallery(args.roomId, args.eventId)
                     }
                 }
                 tvSaveToDevice.apply {

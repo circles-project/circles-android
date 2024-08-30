@@ -118,6 +118,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":auth"))
     implementation(project(":settings"))
+    implementation(project(":gallery"))
 
     // Emoji
     implementation("com.vanniktech:emoji-google:0.20.0")

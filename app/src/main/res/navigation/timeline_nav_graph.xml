@@ -323,6 +323,24 @@
         </action>
 
         <action
+            android:id="@+id/to_saveToGalleyDialogFragment"
+            app:destination="@id/saveToGalleyDialogFragment"
+            app:popUpTo="@+id/postMenuBottomSheet"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
+        <action
             android:id="@+id/to_createPostBottomSheet"
             app:destination="@id/createPostBottomSheet"
             app:popUpTo="@+id/postMenuBottomSheet"
@@ -432,7 +450,22 @@
                 app:nullable="true" />
 
         </action>
+    </dialog>
 
+    <dialog
+        android:id="@+id/saveToGalleyDialogFragment"
+        android:name="org.futo.circles.feature.timeline.save.SavePostToGalleryDialogFragment"
+        tools:layout="@layout/dialog_fragment_save_post_to_gallery">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="eventId"
+            app:argType="string"
+            app:nullable="false" />
 
     </dialog>
 

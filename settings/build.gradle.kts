@@ -60,7 +60,6 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":auth"))
-    implementation(project(":gallery"))
 
     // Hilt
     implementHilt()
