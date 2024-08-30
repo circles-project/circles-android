@@ -38,6 +38,15 @@
         app:drawableEndCompat="@drawable/ic_edit" />
 
     <TextView
+        android:id="@+id/tvSaveToGallery"
+        style="@style/PostMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save_to_gallery"
+        app:drawableEndCompat="@drawable/ic_cloud_upload" />
+
+
+    <TextView
         android:id="@+id/tvSaveToDevice"
         style="@style/PostMenuItem"
         android:layout_width="match_parent"

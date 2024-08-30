@@ -63,7 +63,7 @@ class TimelineViewModel @Inject constructor(
         }
     } ?: MutableLiveData(context.getString(org.futo.circles.core.R.string.all_posts))
 
-    
+
     val notificationsStateLiveData =
         roomId?.let { roomNotificationsDataSource.getNotificationsStateLiveData(it) }
     val accessLevelLiveData =

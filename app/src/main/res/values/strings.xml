@@ -44,6 +44,7 @@
     <string name="severity_formatter">Severity: %d</string>
     <string name="add_reaction">Add reaction</string>
     <string name="do_you_want_to_open_this_url">Do you want to open this url?</string>
+    <string name="save_to_gallery">Save to gallery</string>
     <string name="save_to_device">Save to device</string>
     <string name="notifications">Notifications</string>
     <string name="share_with_group">Share with a group</string>
