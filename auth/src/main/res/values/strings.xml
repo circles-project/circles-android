@@ -15,15 +15,9 @@
     <string name="sign_up">Sign Up</string>
     <string name="user_id_can_not_be_empty">User ID can not be empty</string>
     <string name="invalid_user_id">User ID can not be empty.</string>
-    <string name="confirm_auth">Confirm auth</string>
-    <string name="email">Email</string>
     <string name="emails">Emails</string>
     <string name="add_email">Add email</string>
-    <string name="email_usage_explanation">Must be a currently valid and active address.\n\nDon\'t worry - we will only use this address for security and other alerts about your account. We don\'t send spam, and we don\'t sell your address.</string>
-    <string name="validation_code">Validation code</string>
-    <string name="validation_code_explanation">We sent a 6-digit code to your email address to validate your account.\n\nEnter the code here to verify that this address belongs to you.</string>
     <string name="validation_code_sent_to_format">Validation code sent to %s</string>
-    <string name="we_have_sent_format">We have sent the 6-digit-code to email address <b>%s</b></string>
     <string name="enter_the_code">Enter the code</string>
     <string name="sign_up_token">SignUp token</string>
     <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
@@ -31,7 +25,6 @@
     <string name="name_for_empty_room">Empty room</string>
     <string name="and">and</string>
     <string name="other">Other</string>
-    <string name="display_name_explanation">Your display name is how other users on the service will identify you.</string>
     <string name="weak_password">Weak password</string>
     <string name="fair_password">Fair password</string>
     <string name="good_password">Good password</string>
@@ -47,7 +40,6 @@
     <string name="importing_keys">Importing keys.</string>
     <string name="decrypting_key">Decrypting key.</string>
     <string name="failed_to_get_restore_keys_version">Failed to get latest restore keys version.</string>
-    <string name="accept_terms_to_continue">Accept terms to continue</string>
     <string name="username">username</string>
     <string name="do_not_have_an_account">Don\'t have an account?</string>
     <string name="resume_session">Resume session:</string>
@@ -59,11 +51,8 @@
     <string name="upload_a_profile_photo">Upload a profile photo</string>
     <string name="save">Save</string>
     <string name="skip">Skip</string>
-    <string name="subscriptions">Subscriptions</string>
     <string name="choose_your_username">Choose your username</string>
     <string name="set_username">Set username</string>
-    <string name="send_validation_code">Send validation code</string>
-    <string name="validate_email">Validate email</string>
     <string name="validate_your_token">Validate your token</string>
     <string name="sign_up_token_format">abcd–efgh–1234–5678</string>
     <string name="validate_token">Validate token</string>
@@ -73,14 +62,6 @@
     <string name="passphrase">Passphrase</string>
     <string name="upload_recovery_key_file">Upload Recovery Key file</string>
     <string name="restore">Restore</string>
-    <string name="validate_your_email">Validate your email</string>
-    <string name="feature_not_supported">Feature is not supported</string>
-    <string name="service_unavailable">Service unavailable</string>
-    <string name="item_unavailable">Item is unavailable</string>
-    <string name="user_canceled">User canceled</string>
-    <string name="item_not_owned">Item is not owned</string>
-    <string name="developer_error">Developer error</string>
-    <string name="purchase_failed_format">Purchase failed with code %d</string>
     <string name="log_out">Log out</string>
     <string name="forgot_password_message">After verifying your email the new password and key backup will be set.\n\nWarning: With a new key backup you will not be able to see all your previous encrypted messages, this action can not be undone.</string>
     <string name="confirm">Confirm</string>
@@ -93,7 +74,6 @@
     <string name="retry">Retry</string>
     <string name="validating_workspace">Validating workspace</string>
     <string name="initializing_your_account">Initializing your account</string>
-    <string name="receive_email_updates">Receive email updates</string>
     <string name="i_understand">I understand</string>
     <string name="circles_is_different">Circles is different!</string>
     <string name="passphrase_usage_explanation">On the next screen we will ask you to set up a passphrase to your account.\n\nCircles uses your passphrase to log in AND to protect your encryption keys.</string>
@@ -103,12 +83,9 @@
     <string name="invalid_validation_code">Invalid validation code</string>
     <string name="forgot_password_question">Forgot password?</string>
     <string name="forgot_password">Forgot password</string>
-    <string name="please_use_one_of_your_verified_emails_format">Please use one of your verified emails:\n%s</string>
     <string name="display_name">Display name</string>
     <string name="the_password_you_entered_is_incorrect">The password you entered is incorrect</string>
     <string name="choose_a_server">Choose a server</string>
-    <string name="sign_up_on_us_server">Sign up on US server</string>
-    <string name="sign_up_on_eu_server">Sign up on EU server</string>
     <string name="setup_your_circles">Setup your circles</string>
     <string name="add_a_new_circle">Add a new circle</string>
     <string name="login_field_hint">\@user:example.com</string>
@@ -139,29 +116,5 @@
     <string name="please_enter_the_code_here">Please enter the code here</string>
     <string name="verify_email_address">Verify email address</string>
     <string name="enter_display_name_here">Enter display name here</string>
-
-    <plurals name="days">
-        <item quantity="one">%1$d day</item>
-        <item quantity="many">%1$d days</item>
-        <item quantity="other">%1$d days</item>
-    </plurals>
-
-    <plurals name="weeks">
-        <item quantity="one">%1$d week</item>
-        <item quantity="many">%1$d weeks</item>
-        <item quantity="other">%1$d weeks</item>
-    </plurals>
-
-    <plurals name="months">
-        <item quantity="one">%1$d month</item>
-        <item quantity="many">%1$d months</item>
-        <item quantity="other">%1$d months</item>
-    </plurals>
-
-    <plurals name="years">
-        <item quantity="one">%1$d year</item>
-        <item quantity="many">%1$d years</item>
-        <item quantity="other">%1$d years</item>
-    </plurals>
 
 </resources>

@@ -25,7 +25,6 @@
     <string name="moderator">Moderator</string>
     <string name="user">User</string>
     <string name="read_only">Read-only</string>
-    <string name="photos">Photos</string>
     <string name="loading">Loading</string>
     <string name="root_space_name">Circles</string>
     <string name="timelines_space_name">My Timelines</string>
@@ -47,8 +46,6 @@
     <string name="remove">Remove</string>
     <string name="choose_gallery">Choose gallery</string>
     <string name="pick_media">Pick media</string>
-    <string name="change_icon">Change icon</string>
-    <string name="change_profile_picture">Change profile picture</string>
     <string name="account">Account</string>
     <string name="deactivate_my_account">Deactivate my account</string>
     <string name="settings">Settings</string>
@@ -121,7 +118,6 @@
     <string name="group_topic_optional">Group topic (optional)</string>
     <string name="no_internet_connection">No Internet connection</string>
     <string name="create">Create</string>
-    <string name="show">Show</string>
     <string name="you_have">You have</string>
     <string name="room_invitations_and_requests_format">%s invitations and requests</string>
     <string name="room_requests_for_invitation_format">%s requests for invitation</string>
@@ -143,7 +139,6 @@
     <string name="requests">Requests</string>
     <string name="default_user_role">Default user role:</string>
     <string name="mutual_friends">Mutual friends</string>
-    <string name="ignored">Ignored</string>
     <string name="whats_new_in_format">What\'s new in %s</string>
     <string name="got_it">Got it</string>
     <string name="notification_ticker_text_group">%1$s: %2$s %3$s</string>
@@ -234,7 +229,6 @@
     <string name="invite_to_follow_me">Invite to follow me</string>
     <string name="select_circles_to_which_you_want_to_invite_format">Select circles to which you want\nto invite %s</string>
     <string name="create_your_first_circle_to_be_able_to_invite">Create your first Circle to be able to invite</string>
-    <string name="create_new_circle">Create new circle</string>
     <string name="requests_for_invitation">Request for invitation</string>
     <string name="creating_relations_to_parent">Creating relations to parent space</string>
     <string name="creating_timeline_relations">Creating timeline room relations</string>
