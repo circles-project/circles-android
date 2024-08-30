@@ -13,7 +13,7 @@ class SelectRoomsAdapter(
         viewType: Int
     ): SelectRoomsViewHolder = SelectRoomsViewHolder(
         parent,
-        onCircleClicked = { position -> onRoomSelected(getItem(position)) })
+        onRoomClicked = { position -> onRoomSelected(getItem(position)) })
 
 
     override fun onBindViewHolder(holder: SelectRoomsViewHolder, position: Int) {

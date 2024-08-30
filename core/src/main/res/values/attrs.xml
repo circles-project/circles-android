@@ -18,4 +18,8 @@
         <attr name="hasDivider" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="SettingsGroupLayout">
+        <attr name="groupName" format="string" />
+    </declare-styleable>
+
 </resources>

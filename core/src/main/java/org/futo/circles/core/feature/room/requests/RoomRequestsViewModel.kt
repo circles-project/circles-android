@@ -64,10 +64,6 @@ class RoomRequestsViewModel @Inject constructor(
         }
     }
 
-    fun unblurProfileIcon(roomId: String) {
-        requestsDataSource.unblurProfileImageFor(roomId)
-    }
-
     private fun postInviteResult(result: Response<Unit?>, id: String) {
         requestResultLiveData.postValue(result)
         requestsDataSource.toggleItemLoading(id)

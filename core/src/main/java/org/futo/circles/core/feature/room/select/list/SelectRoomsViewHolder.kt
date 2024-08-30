@@ -13,7 +13,7 @@ import org.futo.circles.core.model.SelectableRoomListItem
 
 class SelectRoomsViewHolder(
     parent: ViewGroup,
-    private val onCircleClicked: (Int) -> Unit
+    private val onRoomClicked: (Int) -> Unit
 ) : RecyclerView.ViewHolder(inflate(parent, ListItemSelectRoomBinding::inflate)) {
 
     private companion object : ViewBindingHolder
@@ -21,22 +21,22 @@ class SelectRoomsViewHolder(
     private val binding = baseBinding as ListItemSelectRoomBinding
 
     init {
-        onClick(itemView) { position -> onCircleClicked(position) }
+        onClick(itemView) { position -> onRoomClicked(position) }
     }
 
     fun bind(data: SelectableRoomListItem) {
         with(binding) {
             setIcon(data)
-            tvCircleName.text = data.info.title
+            tvTitle.text = data.info.title
         }
     }
 
     private fun setIcon(data: SelectableRoomListItem) {
         if (data.isSelected) {
-            binding.ivCircleImage.setImageResource(R.drawable.ic_check_circle)
+            binding.ivIcon.setImageResource(R.drawable.ic_check_circle)
             binding.lRoot.setBackgroundColor(context.getColor(R.color.highlight_color))
         } else {
-            binding.ivCircleImage.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
+            binding.ivIcon.loadRoomProfileIcon(data.info.avatarUrl, data.info.title)
             binding.lRoot.setSelectableItemBackground()
         }
     }

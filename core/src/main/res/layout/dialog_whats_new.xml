@@ -21,7 +21,7 @@
 
                 <ImageView
                     android:id="@+id/ivLogo"
-                    style="@style/ImageLogoStyle"
+                    android:src="@drawable/ic_logo"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
 
                 <TextView
                     android:id="@+id/tvTitle"
-                    style="@style/title2"
+                    style="@style/Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -41,7 +41,7 @@
 
                 <TextView
                     android:id="@+id/tvDescription"
-                    style="@style/body"
+                    style="@style/Body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="24dp"

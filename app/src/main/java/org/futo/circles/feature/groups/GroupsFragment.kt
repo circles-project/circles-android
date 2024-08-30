@@ -1,29 +1,27 @@
 package org.futo.circles.feature.groups
 
-import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseBindingFragment
-import org.futo.circles.core.databinding.FragmentRoomsBinding
+import org.futo.circles.core.base.list.GridOffsetDecoration
+import org.futo.circles.core.extensions.dpToPx
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.view.EmptyTabPlaceholderView
+import org.futo.circles.databinding.FragmentGroupsBinding
+import org.futo.circles.feature.groups.list.GroupListItemViewType
 import org.futo.circles.feature.groups.list.GroupsListAdapter
+import org.futo.circles.feature.groups.list.JoinedGroupViewHolder
 import org.futo.circles.model.GroupListItem
 
 @AndroidEntryPoint
-class GroupsFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBinding::inflate),
-    MenuProvider {
+class GroupsFragment : BaseBindingFragment<FragmentGroupsBinding>(FragmentGroupsBinding::inflate) {
 
     private val viewModel by viewModels<GroupsViewModel>()
     private val listAdapter by lazy {
@@ -39,35 +37,28 @@ class GroupsFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBi
         super.onViewCreated(view, savedInstanceState)
         setupViews()
         setupObservers()
-        activity?.addMenuProvider(this, viewLifecycleOwner)
     }
 
-
-    @SuppressLint("RestrictedApi")
-    override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
-        (menu as? MenuBuilder)?.setOptionalIconsVisible(true)
-        menu.clear()
-        inflater.inflate(R.menu.circles_tab_menu, menu)
-    }
-
-    override fun onMenuItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.help -> findNavController().navigateSafe(GroupsFragmentDirections.toCirclesExplanationDialogFragment())
-        }
-        return true
-    }
 
     private fun setupViews() {
         binding.rvRooms.apply {
+            layoutManager = GridLayoutManager(requireContext(), 2).apply {
+                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                    override fun getSpanSize(position: Int): Int =
+                        when ((adapter as? GroupsListAdapter)?.getItemViewType(position)) {
+                            GroupListItemViewType.InviteNotification.ordinal -> 2
+                            else -> 1
+                        }
+                }
+            }
+            addItemDecoration(getGroupGridOffsetDecoration())
+
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.groups_empty_message))
-                setArrowVisible(true)
             })
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = listAdapter
-            bindToFab(binding.fbAddRoom)
         }
-        binding.fbAddRoom.setOnClickListener { navigateToCreateRoom() }
+        binding.ivCreateGroup.setOnClickListener { navigateToCreateRoom() }
     }
 
     private fun setupObservers() {
@@ -81,5 +72,32 @@ class GroupsFragment : BaseBindingFragment<FragmentRoomsBinding>(FragmentRoomsBi
 
     private fun navigateToCreateRoom() {
         findNavController().navigateSafe(GroupsFragmentDirections.toCreateGroupDialogFragment())
+    }
+
+    private fun getGroupGridOffsetDecoration() = GridOffsetDecoration { holder, position ->
+        if (holder !is JoinedGroupViewHolder) return@GridOffsetDecoration Rect()
+        val itemNumber = position + 1
+        var left = 0
+        var right = 0
+        val defaultOffset = requireContext().dpToPx(10)
+        if ((listAdapter as? GroupsListAdapter)?.getItemViewType(0) == GroupListItemViewType.InviteNotification.ordinal) {
+            if (itemNumber % 2 == 0) {
+                left = defaultOffset
+                right = 0
+            } else {
+                left = 0
+                right = defaultOffset
+            }
+        } else {
+            if (itemNumber % 2 == 0) {
+                left = 0
+                right = defaultOffset
+            } else {
+                left = defaultOffset
+                right = 0
+            }
+        }
+
+        Rect(left, 0, right, 0)
     }
 }

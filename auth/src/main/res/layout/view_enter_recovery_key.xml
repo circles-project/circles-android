@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/tvOr"
-        style="@style/body"
+        style="@style/Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/tvFileName"
-        style="@style/body"
+        style="@style/Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"

@@ -1,6 +1,5 @@
 package org.futo.circles.auth.feature.uia
 
-import androidx.lifecycle.MutableLiveData
 import org.futo.circles.auth.feature.uia.flow.LoginStagesDataSource
 import org.futo.circles.auth.feature.uia.flow.SignUpStagesDataSource
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthStagesDataSource
@@ -33,8 +32,6 @@ abstract class UIADataSource {
         }
     }
 
-
-    val subtitleLiveData = MutableLiveData<Pair<Int, Int>>()
     val stagesNavigationLiveData = SingleEventLiveData<UIANavigationEvent>()
     val finishUIAEventLiveData = SingleEventLiveData<Session>()
 
@@ -117,7 +114,6 @@ abstract class UIADataSource {
             else -> throw IllegalArgumentException("Not supported stage $stage")
         }
         event?.let { stagesNavigationLiveData.postValue(it) }
-        updatePageSubtitle()
     }
 
 
@@ -128,7 +124,6 @@ abstract class UIADataSource {
         }
 
         LOGIN_REGISTRATION_TOKEN_TYPE -> UIANavigationEvent.TokenValidation
-        SUBSCRPTION_GOOGLE_TYPE -> UIANavigationEvent.Subscription
         LOGIN_EMAIL_REQUEST_TOKEN_TYPE,
         ENROLL_EMAIL_REQUEST_TOKEN_TYPE -> UIANavigationEvent.ValidateEmail
 
@@ -150,11 +145,6 @@ abstract class UIADataSource {
     private fun getCurrentStageIndex() =
         stagesToComplete.indexOf(currentStage).takeIf { it != -1 } ?: 0
 
-    private fun updatePageSubtitle() {
-        val size = stagesToComplete.size
-        val number = getCurrentStageIndex() + 1
-        subtitleLiveData.postValue(number to size)
-    }
 
     companion object {
         //params
@@ -172,7 +162,6 @@ abstract class UIADataSource {
 
         //stages subscription
         const val SUBSCRIPTION_FREE_TYPE = "org.futo.subscriptions.free_forever"
-        const val SUBSCRPTION_GOOGLE_TYPE = "org.futo.subscriptions.google_play"
 
         //stages email
         const val LOGIN_EMAIL_REQUEST_TOKEN_TYPE = "m.login.email.request_token"

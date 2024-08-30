@@ -3,73 +3,101 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingVertical="16dp">
+    android:background="@color/dark_background"
+    android:clipChildren="false">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <ImageView
-        android:id="@+id/ivLogo"
-        style="@style/ImageLogoStyle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineLogo"
-        app:layout_constraintEnd_toEndOf="parent"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?selectableItemBackgroundBorderless"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_arrow_back"
+        app:contentPadding="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+        app:tint="@color/grey_cool_1200" />
 
     <TextView
-        android:id="@+id/tvAcceptTitle"
-        style="@style/title2"
+        android:id="@+id/tvTermsTitle"
+        style="@style/Headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="@string/accept_terms_to_continue"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="93dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="@string/read_and_agree_to_the_terms"
+        android:textColor="@color/grey_cool_1100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidelineLogo" />
+        app:layout_constraintTop_toBottomOf="@id/ivBack" />
 
-    <View
-        android:id="@+id/topDivider"
+    <TextView
+        android:id="@+id/tvTermsDescription"
         android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:layout_marginTop="8dp"
-        android:background="@color/divider_color"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/nunito_semibold"
+        android:text="@string/terms_description"
+        android:textColor="@color/grey_cool_900"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAcceptTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvTermsTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTerms"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/bottomDivider"
+        app:layout_constraintBottom_toTopOf="@id/tvTermNote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topDivider" />
+        app:layout_constraintTop_toBottomOf="@id/tvTermsDescription" />
 
-    <View
-        android:id="@+id/bottomDivider"
+
+    <TextView
+        android:id="@+id/tvTermNote"
+        style="@style/Footnote"
         android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
-        app:layout_constraintBottom_toTopOf="@id/btnAccept"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/terms_note"
+        app:layout_constraintBottom_toTopOf="@id/btnAcceptAll"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <org.futo.circles.core.view.LoadingButton
-        android:id="@+id/btnAccept"
+        android:id="@+id/btnAcceptAll"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="36dp"
-        android:enabled="false"
-        android:text="@string/accept"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/accept_all"
+        app:layout_constraintBottom_toTopOf="@id/btnRejectAll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRejectAll"
+        style="@style/TextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginVertical="24dp"
+        android:text="@string/reject_all"
+        android:textAppearance="@style/ButtonTitle"
+        android:textColor="@color/grey_cool_1100"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

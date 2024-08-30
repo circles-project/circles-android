@@ -3,7 +3,6 @@
 
     <color name="blue">#1E88E5</color>
     <color name="status_bar_color">#20111111</color>
-    <color name="highlight_color">#330E7AFE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_700">#FF018786</color>
     <color name="orange">#FF9500</color>
@@ -12,7 +11,7 @@
     <color name="yellow">#FFCC00</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF3B30</color>
-    <color name="divider_color">#ddd</color>
+    <color name="divider_color">@color/grey_cool_300</color>
     <color name="media_post_background">#08000000</color>
     <color name="menu_icon_color">#99000000</color>
     <color name="post_card_background_color">@color/white</color>
@@ -21,5 +20,29 @@
     <color name="chip_selected_color">#800E7AFE</color>
     <color name="qr_color">@color/black</color>
     <color name="qr_background">@color/white</color>
+
+    <color name="primary">#8553FF</color>
+    <color name="theme_500">#CFBCFF</color>
+    <color name="theme_600">#B79AFF</color>
+    <color name="disabled_button_color">#F3EEFF</color>
+    <color name="highlight_color">#4D8553FF</color>
+    <color name="dark_background">#F5F5F5</color>
+
+    <color name="grey_cool_200">#EFF1F3</color>
+    <color name="grey_cool_300">#E8EAEE</color>
+    <color name="grey_cool_400">#DEE1E6</color>
+    <color name="grey_cool_600">#A2ACBA</color>
+    <color name="grey_cool_700">#8692A4</color>
+    <color name="grey_cool_800">#69788F</color>
+    <color name="grey_cool_900">#525F72</color>
+    <color name="grey_cool_1000">#3E4856</color>
+    <color name="grey_cool_1100">#2A303A</color>
+    <color name="grey_cool_1200">#181B21</color>
+
+    <color name="grey_neutral_100">#F8F8F9</color>
+    <color name="grey_neutral_700">#8C919C</color>
+    <color name="grey_neutral_800">#717785</color>
+
+    <color name="close_background">#70000000</color>
 
 </resources>

@@ -38,20 +38,9 @@ class ValidateEmailDataSource @Inject constructor() {
         return currentStageKey == LOGIN_EMAIL_REQUEST_TOKEN_TYPE || currentStageKey == LOGIN_EMAIL_SUBMIT_TOKEN_TYPE
     }
 
-    fun getUsersEmails(): List<String> =
-        if (isLogin()) ((uiaDataSource.currentStage as? Stage.Other)?.params?.get(EMAILS_LIST_KEY) as? List<*>)?.map { it.toString() }
-            ?: emptyList()
-        else emptyList()
-
-    fun shouldShowSubscribeToEmail(): Boolean =
-        (uiaDataSource.currentStage as? Stage.Other)?.params?.get(OFFER_LIST_SUBSCRIPTION_KEY) as? Boolean
-            ?: false
-
     companion object {
         private const val EMAIL_PARAM_KEY = "email"
         private const val TOKEN_PARAM_KEY = "token"
         private const val SUBSCRIBE_TO_LIST = "subscribe_to_list"
-        private const val OFFER_LIST_SUBSCRIPTION_KEY = "offer_list_subscription"
-        private const val EMAILS_LIST_KEY = "addresses"
     }
 }

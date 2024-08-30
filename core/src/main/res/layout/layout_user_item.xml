@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivUserImage"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+        tools:background="@color/blue" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/nunito_bold"
+        android:lines="1"
+        android:textColor="@color/grey_cool_1100"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivUserImage"
+        app:layout_constraintTop_toTopOf="@id/ivUserImage"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Android01" />
+
+    <TextView
+        android:id="@+id/tvUserId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/nunito_semibold"
+        android:lines="1"
+        android:textColor="@color/grey_cool_700"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivUserImage"
+        app:layout_constraintEnd_toEndOf="@id/tvUserName"
+        app:layout_constraintStart_toStartOf="@id/tvUserName"
+        app:layout_constraintTop_toBottomOf="@id/tvUserName"
+        tools:text="Android01@domain" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

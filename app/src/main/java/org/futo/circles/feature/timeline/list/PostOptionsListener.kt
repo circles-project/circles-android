@@ -10,7 +10,6 @@ interface PostOptionsListener {
     fun onShare(content: PostContent, view: View)
     fun onReply(roomId: String, eventId: String)
     fun onShowPreview(roomId: String, eventId: String)
-    fun onShowEmoji(roomId: String, eventId: String, onAddEmoji: (String) -> Unit)
-    fun onEmojiChipClicked(roomId: String, eventId: String, emoji: String, isUnSend: Boolean)
+    fun onLikeClicked(roomId: String, eventId: String, emoji: String, isUnSend: Boolean)
     fun onPollOptionSelected(roomId: String, eventId: String, optionId: String)
 }

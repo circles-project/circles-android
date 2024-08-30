@@ -19,11 +19,11 @@
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/list_item_icon_color" />
+        app:tint="@color/grey_cool_900" />
 
     <TextView
         android:id="@+id/tvDeviceName"
-        style="@style/body"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -39,6 +39,7 @@
 
     <TextView
         android:id="@+id/tvDeviceId"
+        style="@style/Footnote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
@@ -71,12 +72,13 @@
         app:layout_constraintBottom_toBottomOf="@id/ivIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/ivIcon"
-        app:tint="@color/blue" />
+        app:tint="@color/primary" />
 
     <org.futo.circles.settings.view.ActiveSessionInfoView
         android:id="@+id/vInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
         android:layout_marginTop="4dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

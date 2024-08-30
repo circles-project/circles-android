@@ -1,27 +1,22 @@
 package org.futo.circles.feature.timeline.list
 
-import androidx.cardview.widget.CardView
 import org.futo.circles.R
-import org.futo.circles.core.extensions.gone
-import org.futo.circles.core.extensions.visible
 import org.futo.circles.core.model.ResLoadingData
-import org.futo.circles.core.view.LoadingView
+import org.futo.circles.core.view.CreatePostLoadingDialog
 import org.matrix.android.sdk.api.session.content.ContentUploadStateTracker
 
 object MediaProgressHelper {
 
-    fun getUploadListener(loadingCardView: CardView?, loadingView: LoadingView?): ContentUploadStateTracker.UpdateListener =
+    fun getUploadListener(loadingDialog: CreatePostLoadingDialog): ContentUploadStateTracker.UpdateListener =
         object : ContentUploadStateTracker.UpdateListener {
             override fun onUpdate(state: ContentUploadStateTracker.State) {
                 when (state) {
                     ContentUploadStateTracker.State.CompressingImage -> {
-                        loadingCardView?.visible()
-                        loadingView?.setProgress(ResLoadingData(R.string.compressing))
+                        loadingDialog.setProgress(ResLoadingData(R.string.compressing))
                     }
 
                     is ContentUploadStateTracker.State.CompressingVideo -> {
-                        loadingCardView?.visible()
-                        loadingView?.setProgress(
+                        loadingDialog.setProgress(
                             ResLoadingData(
                                 messageId = R.string.compressing,
                                 progress = state.percent.toInt(),
@@ -31,8 +26,7 @@ object MediaProgressHelper {
                     }
 
                     is ContentUploadStateTracker.State.Encrypting -> {
-                        loadingCardView?.visible()
-                        loadingView?.setProgress(
+                        loadingDialog.setProgress(
                             ResLoadingData(
                                 messageId = R.string.encrypting,
                                 progress = state.current.toInt(),
@@ -42,8 +36,7 @@ object MediaProgressHelper {
                     }
 
                     is ContentUploadStateTracker.State.Uploading -> {
-                        loadingCardView?.visible()
-                        loadingView?.setProgress(
+                        loadingDialog.setProgress(
                             ResLoadingData(
                                 messageId = R.string.uploading,
                                 progress = state.current.toInt(),
@@ -52,7 +45,17 @@ object MediaProgressHelper {
                         )
                     }
 
-                    else -> loadingCardView?.gone()
+                    is ContentUploadStateTracker.State.Failure -> {
+                        loadingDialog.setProgress(ResLoadingData(R.string.failed_to_send))
+                    }
+
+                    ContentUploadStateTracker.State.Success -> {
+                        loadingDialog.setProgress(ResLoadingData(R.string.sent))
+                    }
+
+                    else -> {
+                        loadingDialog.setProgress(ResLoadingData(R.string.sending))
+                    }
                 }
             }
         }

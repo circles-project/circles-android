@@ -7,92 +7,135 @@
     android:orientation="horizontal"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="8dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="8dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="8dp" />
-
-    <org.futo.circles.view.PostHeaderView
-        android:id="@+id/postHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toTopOf="@id/guidelineTop"
-        app:optionsVisible="false" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/lBottomContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/postHeader">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lvContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:paddingVertical="16dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivSenderImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+                tools:background="@color/blue" />
+
 
             <io.element.android.wysiwyg.EditorEditText
                 android:id="@+id/etTextPost"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="9dp"
                 android:background="@null"
+                android:fontFamily="@font/nunito_medium"
                 android:gravity="top"
-                android:hint="@string/enter_your_message_here"
+                android:hint="@string/type_here"
                 android:inputType="textCapSentences|textMultiLine"
+                android:minLines="2"
+                android:textColor="@color/grey_cool_1100"
+                android:textColorHint="@color/grey_cool_600"
+                android:textColorLink="@color/blue"
+                android:textSize="14sp"
                 app:bulletGap="8sp"
                 app:bulletRadius="4sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:pillBackgroundColor="@color/white"
-                tools:text="some text" />
+                app:layout_constraintStart_toEndOf="@id/ivSenderImage"
+                app:layout_constraintTop_toTopOf="@id/ivSenderImage"
+                app:pillBackgroundColor="@color/white" />
 
-
-            <include
-                android:id="@+id/lMediaContent"
-                layout="@layout/list_item_gallery_media"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lMedia"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/etTextPost" />
+                app:layout_constraintTop_toBottomOf="@id/etTextPost">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivRemoveImage"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_margin="16dp"
-                android:background="@color/close_background"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_close"
-                android:tint="@color/white"
-                app:layout_constraintEnd_toEndOf="@id/lMediaContent"
-                app:layout_constraintTop_toTopOf="@id/lMediaContent"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivCover"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/dark_background"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.PostMedia"
+                    tools:minHeight="400dp" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivVideoIndicator"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@color/close_background"
+                    android:src="@drawable/ic_play_video"
+                    app:contentPaddingBottom="12dp"
+                    app:contentPaddingEnd="12dp"
+                    app:contentPaddingStart="16dp"
+                    app:contentPaddingTop="13dp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivCover"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ivCover"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon" />
+
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="4dp"
+                    android:shadowColor="@color/black"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivCover"
+                    app:layout_constraintEnd_toEndOf="@+id/ivCover"
+                    tools:text="00:00" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/videoGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="ivVideoIndicator, tvDuration" />
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivRemoveImage"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="4dp"
+                    android:background="@color/close_background"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_close"
+                    android:tint="@color/white"
+                    app:contentPadding="10dp"
+                    app:layout_constraintEnd_toEndOf="@id/ivCover"
+                    app:layout_constraintTop_toTopOf="@id/ivCover"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -102,32 +145,36 @@
         android:id="@+id/lBottomContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:paddingTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@color/close_background"
             android:clickable="true"
             android:focusable="true"
-            android:padding="8dp"
+            android:padding="4dp"
             android:src="@drawable/ic_close"
             android:tint="@color/white"
+            app:contentPadding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon" />
 
         <HorizontalScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fadingEdgeLength="28dp"
             android:fillViewport="true"
-            android:minHeight="52dp"
+            android:minHeight="40dp"
             android:requiresFadingEdge="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnSend"
@@ -156,21 +203,23 @@
 
         </HorizontalScrollView>
 
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSend"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="8dp"
-            android:background="?selectableItemBackgroundBorderless"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:enabled="false"
-            android:focusable="true"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            app:icon="@drawable/ic_send"
-            app:iconGravity="end"
-            app:iconSize="40dp"
-            app:iconTint="@color/send_ic_state_color"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:padding="10dp"
+            android:text="@string/send"
+            android:textAllCaps="false"
+            android:textAppearance="@font/nunito_bold"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="999dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

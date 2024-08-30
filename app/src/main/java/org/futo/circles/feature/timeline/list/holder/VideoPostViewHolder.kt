@@ -1,6 +1,7 @@
 package org.futo.circles.feature.timeline.list.holder
 
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.media3.exoplayer.ExoPlayer
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.MediaContent
@@ -10,7 +11,6 @@ import org.futo.circles.feature.timeline.list.OnVideoPlayBackStateListener
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.view.PostFooterView
 import org.futo.circles.view.PostHeaderView
-import org.futo.circles.view.PostStatusView
 import org.futo.circles.view.ReadMoreTextView
 
 class VideoPostViewHolder(
@@ -25,14 +25,12 @@ class VideoPostViewHolder(
     private companion object : ViewBindingHolder
 
     private val binding = baseBinding as ViewVideoPostBinding
-    override val postLayout: ViewGroup
+    override val postLayout: CardView
         get() = binding.lCard
     override val postHeader: PostHeaderView
         get() = binding.postHeader
     override val postFooter: PostFooterView
         get() = binding.postFooter
-    override val postStatus: PostStatusView
-        get() = binding.vPostStatus
     override val readMoreTextView: ReadMoreTextView
         get() = binding.tvTextContent
 

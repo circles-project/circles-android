@@ -73,10 +73,7 @@ class UserDialogFragment :
     private fun setupViews() {
         setupMenu()
         with(binding) {
-            rvCircles.apply {
-                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                adapter = usersCirclesAdapter
-            }
+            rvCircles.adapter = usersCirclesAdapter
             btnInviteToFollowMe.setOnClickListener {
                 findNavController().navigateSafe(
                     UserDialogFragmentDirections.toInviteToFollowMeDialogFragment(args.userId)

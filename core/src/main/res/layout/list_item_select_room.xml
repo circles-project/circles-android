@@ -4,33 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lRoot"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingHorizontal="8dp"
-    android:paddingVertical="4dp">
+    android:layout_height="wrap_content">
+
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivCircleImage"
-        android:layout_width="40dp"
-        android:layout_height="0dp"
+        android:id="@+id/ivIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
-        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintBottom_toTopOf="@id/divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
         tools:background="@color/blue" />
 
     <TextView
-        android:id="@+id/tvCircleName"
-        style="@style/body"
+        android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="16dp"
         android:ellipsize="end"
+        android:fontFamily="@font/nunito_bold"
         android:lines="1"
+        android:textColor="@color/grey_cool_1100"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivIcon"
+        app:layout_constraintTop_toTopOf="@id/ivIcon"
+        tools:text="Android01" />
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey_cool_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivCircleImage"
-        app:layout_constraintTop_toTopOf="@id/ivCircleImage"
-        tools:text="Android01" />
+        app:layout_constraintStart_toStartOf="@id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/ivIcon" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

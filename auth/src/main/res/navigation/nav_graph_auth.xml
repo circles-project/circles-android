@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_auth"
-    app:startDestination="@id/logInFragment">
+    app:startDestination="@id/welcomeFragment">
 
     <fragment
         android:id="@+id/logInFragment"
@@ -15,11 +15,8 @@
         <action
             android:id="@+id/to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/logInFragment"
+            app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/to_selectServerBottomSheet"
-            app:destination="@id/selectServerBottomSheet" />
         <action
             android:id="@+id/to_loginSuggestionBottomSheet"
             app:destination="@id/loginSuggestionBottomSheet">
@@ -35,6 +32,11 @@
                 app:nullable="false" />
 
         </action>
+        <action
+            android:id="@+id/to_signUpFragment"
+            app:destination="@id/signUpFragment"
+            app:popUpTo="@id/logInFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <dialog
@@ -45,13 +47,13 @@
         <action
             android:id="@+id/to_homeFragment"
             app:destination="@id/homeFragment"
-            app:popUpTo="@id/logInFragment"
+            app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/to_circleExplanation"
             app:destination="@id/circleExplanationFragment"
-            app:popUpTo="@id/logInFragment"
+            app:popUpTo="@id/welcomeFragment"
             app:popUpToInclusive="true" />
     </dialog>
     <fragment
@@ -70,26 +72,22 @@
         android:id="@+id/setupCirclesFragment"
         android:name="org.futo.circles.auth.feature.setup.circles.SetupCirclesFragment"
         tools:layout="@layout/fragment_setup_circles">
+
+        <deepLink
+            android:id="@+id/setupCirclesDeepLink"
+            app:uri="circles://auth/setupCircles" />
+
         <action
             android:id="@+id/to_setupProfileFragment"
             app:destination="@id/setupProfileFragment"
             app:popUpTo="@id/setupCirclesFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <dialog
-        android:id="@+id/selectServerBottomSheet"
-        android:name="org.futo.circles.auth.feature.log_in.select_server.SelectServerBottomSheet"
-        tools:layout="@layout/bottom_sheet_select_server"/>
     <fragment
         android:id="@+id/circleExplanationFragment"
-        android:name="org.futo.circles.auth.feature.explanation.CircleExplanationFragment"
+        android:name="org.futo.circles.core.feature.explanation.CircleExplanationFragment"
         tools:layout="@layout/fragment_circle_explanation">
 
-        <argument
-            android:name="roomType"
-            android:defaultValue="Circle"
-            app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
-            app:nullable="false" />
         <action
             android:id="@+id/to_setupCirclesFragment"
             app:destination="@id/setupCirclesFragment"
@@ -113,4 +111,28 @@
             app:nullable="false" />
 
     </dialog>
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="org.futo.circles.auth.feature.welcome.WelcomeFragment"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/to_logInFragment"
+            app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="org.futo.circles.auth.feature.sign_up.SignUpFragment"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/to_logInFragment"
+            app:destination="@id/logInFragment"
+            app:popUpTo="@id/signUpFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/to_uiaFragment"
+            app:destination="@id/uiaFragment" />
+    </fragment>
 </navigation>

@@ -96,7 +96,7 @@ dependencies {
     api("com.google.code.gson:gson:2.11.0")
 
     // Worker
-    val workVersion = "2.9.0"
+    val workVersion = "2.9.1"
     api("androidx.work:work-runtime-ktx:$workVersion")
 
     // Glide
@@ -120,7 +120,7 @@ dependencies {
     api("io.element.android:wysiwyg:2.37.4")
 
     // ExoPlayer
-    val exoplayerVersion = "1.3.1"
+    val exoplayerVersion = "1.4.1"
     api("androidx.media3:media3-exoplayer:$exoplayerVersion")
     api("androidx.media3:media3-ui:$exoplayerVersion")
 
@@ -139,8 +139,8 @@ dependencies {
 
     // Firebase
     gplayImplementation("com.google.firebase:firebase-crashlytics-ktx:19.0.3")
-    gplayImplementation("com.google.firebase:firebase-analytics-ktx:22.0.2")
-    gplayImplementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
+    gplayImplementation("com.google.firebase:firebase-analytics-ktx:22.1.0")
+    gplayImplementation("com.google.firebase:firebase-messaging-ktx:24.0.1")
     gplayImplementation("com.google.android.gms:play-services-base:18.5.0")
 
     implementTestDep()

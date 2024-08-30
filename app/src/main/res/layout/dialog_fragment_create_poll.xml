@@ -70,7 +70,7 @@
 
             <TextView
                 android:id="@+id/tvTypeHeader"
-                style="@style/headline"
+                style="@style/Headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -95,7 +95,7 @@
                     android:layout_height="36dp"
                     android:checked="true"
                     android:text="@string/open_poll"
-                    android:textAppearance="@style/body" />
+                    android:textAppearance="@style/Body" />
 
                 <TextView
                     android:id="@+id/tvOpenHint"
@@ -110,7 +110,7 @@
                     android:layout_height="36dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/closed_poll"
-                    android:textAppearance="@style/body" />
+                    android:textAppearance="@style/Body" />
 
                 <TextView
                     android:id="@+id/tvClosedHint"
@@ -123,7 +123,7 @@
 
             <TextView
                 android:id="@+id/tvQuestionHeader"
-                style="@style/headline"
+                style="@style/Headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -156,7 +156,7 @@
 
             <TextView
                 android:id="@+id/tvOptionsHeader"
-                style="@style/headline"
+                style="@style/Headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

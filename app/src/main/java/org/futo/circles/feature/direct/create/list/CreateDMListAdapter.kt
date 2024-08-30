@@ -4,7 +4,6 @@ package org.futo.circles.feature.direct.create.list
 import android.view.ViewGroup
 import org.futo.circles.core.base.list.BaseRvAdapter
 import org.futo.circles.core.model.CirclesUserSummary
-import org.futo.circles.model.PeopleUserListItem
 
 class CreateDMListAdapter(
     private val onUserClicked: (String) -> Unit,

@@ -13,6 +13,7 @@ import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
 
 @AndroidEntryPoint
 class UsernameFragment :
@@ -35,8 +36,9 @@ class UsernameFragment :
 
     private fun setupViews() {
         with(binding) {
-            btnSetUsername.setOnClickListener {
-                startLoading(btnSetUsername)
+            ivBack.setOnClickListener { onBackPressed() }
+            btnContinue.setOnClickListener {
+                startLoading(btnContinue)
                 viewModel.setUsername(tilUserName.getText())
             }
             tilUserName.editText?.doAfterTextChanged {
@@ -60,7 +62,7 @@ class UsernameFragment :
     }
 
     private fun setContinueButtonEnabled() {
-        binding.btnSetUsername.isEnabled = binding.tilUserName.getText().isNotEmpty()
+        binding.btnContinue.isEnabled = binding.tilUserName.getText().isNotEmpty()
     }
 
 }

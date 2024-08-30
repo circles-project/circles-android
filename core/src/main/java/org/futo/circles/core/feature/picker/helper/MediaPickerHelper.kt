@@ -2,6 +2,7 @@ package org.futo.circles.core.feature.picker.helper
 
 import android.Manifest
 import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -9,10 +10,10 @@ import androidx.fragment.app.Fragment
 import org.futo.circles.core.R
 import org.futo.circles.core.extensions.getUri
 import org.futo.circles.core.extensions.showError
-import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.feature.picker.PickImageMethod
 import org.futo.circles.core.feature.picker.PickMediaDialog
 import org.futo.circles.core.feature.picker.PickMediaDialogListener
+import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.utils.FileUtils.createImageFile
 import org.futo.circles.core.utils.FileUtils.createVideoFile
 import org.matrix.android.sdk.api.util.MimeTypes.isMimeTypeImage
@@ -94,7 +95,9 @@ open class MediaPickerHelper(
     }
 
     private fun onMediaFromDeviceSelected(uri: Uri) {
-        val mimeType = fragment.context?.contentResolver?.getType(uri)
+        val contentResolver = fragment.context?.contentResolver
+        contentResolver?.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        val mimeType = contentResolver?.getType(uri)
         if (mimeType.isMimeTypeImage()) onImageSelected?.invoke(itemId, uri)
         else onVideoSelected?.invoke(uri)
     }

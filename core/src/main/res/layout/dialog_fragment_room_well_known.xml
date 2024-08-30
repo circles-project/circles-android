@@ -30,7 +30,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivCover"
-        style="@style/ImageLogoStyle"
+        android:src="@drawable/ic_logo"
         android:layout_width="@dimen/group_icon_size"
         android:layout_height="@dimen/group_icon_size"
         android:layout_marginTop="36dp"
@@ -55,7 +55,7 @@
 
     <TextView
         android:id="@+id/tvRoomName"
-        style="@style/title2"
+        style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="36dp"
@@ -69,7 +69,7 @@
 
     <TextView
         android:id="@+id/tvRoomId"
-        style="@style/body"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="36dp"
@@ -84,7 +84,7 @@
 
     <TextView
         android:id="@+id/tvType"
-        style="@style/body"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="36dp"
@@ -99,7 +99,7 @@
 
     <TextView
         android:id="@+id/tvTopic"
-        style="@style/body"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="36dp"
@@ -115,7 +115,7 @@
 
     <TextView
         android:id="@+id/tvMembersCount"
-        style="@style/body"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="36dp"
@@ -129,7 +129,7 @@
 
     <TextView
         android:id="@+id/tvMembersip"
-        style="@style/body"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="36dp"

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.databinding.FragmentSelectRoomsBinding
@@ -58,10 +57,7 @@ class SelectRoomsFragment :
 
     private fun setupViews() {
         with(binding) {
-            rvCircles.apply {
-                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                adapter = selectRoomsAdapter
-            }
+            rvCircles.adapter = selectRoomsAdapter
             if (isMultiSelect) {
                 selectedListGroup.visible()
                 rvSelectedCircles.adapter = selectedRoomsAdapter

@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.FrameLayout
 import androidx.core.view.updateLayoutParams
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -21,7 +21,7 @@ import org.futo.circles.feature.timeline.list.holder.VideoPlaybackViewHolder
 class VideoPlaybackView(
     context: Context,
     attrs: AttributeSet? = null,
-) : ConstraintLayout(context, attrs) {
+) : FrameLayout(context, attrs) {
 
     private val binding = ViewVideoPlaybackBinding.inflate(LayoutInflater.from(context), this)
 

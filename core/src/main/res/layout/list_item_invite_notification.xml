@@ -1,21 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lInviteNotification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
+    android:background="@color/primary"
     android:clickable="true"
     android:focusable="true"
-    android:padding="8dp">
+    android:foreground="?selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/ivStar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/tvInvitesMessage"
-        style="@style/body"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textColor="@color/blue"
-        tools:text="@string/gallery_invites_notification_format" />
+        android:layout_marginHorizontal="8dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/nunito_bold"
+        android:lines="1"
+        android:text="@string/all_posts"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivArrow"
+        app:layout_constraintStart_toEndOf="@id/ivStar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="You have 4 requests for invitation" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/ivArrow"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/ic_arrow_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

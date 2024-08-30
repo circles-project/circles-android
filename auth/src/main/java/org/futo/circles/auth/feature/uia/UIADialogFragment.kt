@@ -4,8 +4,10 @@ import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -60,23 +62,19 @@ class UIADialogFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViews()
+        dialog?.window?.let {
+            it.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            it.statusBarColor = ContextCompat.getColor(
+                requireContext(),
+                org.futo.circles.core.R.color.dark_background
+            )
+        }
         setupObservers()
     }
 
-    private fun setupViews() {
-        binding.toolbar.apply {
-            title = getString(
-                when (UIADataSourceProvider.activeFlowType) {
-                    UIAFlowType.Login -> R.string.log_in
-                    UIAFlowType.Signup -> R.string.sign_up
-                    UIAFlowType.ReAuth -> R.string.confirm_auth
-                    UIAFlowType.ForgotPassword -> R.string.forgot_password
-                    else -> R.string.log_in
-                }
-            )
-            setNavigationOnClickListener { handleBackAction() }
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     }
 
     private fun setupObservers() {
@@ -85,10 +83,6 @@ class UIADialogFragment :
         }
         viewModel.navigationLiveData.observeData(this) { event ->
             handleScreenNavigation(event)
-        }
-        viewModel.subtitleLiveData.observeData(this) { (number, size) ->
-            binding.toolbar.subtitle =
-                getString(R.string.sign_up_stage_subtitle_format, number, size)
         }
         viewModel.restoreKeysLiveData.observeResponse(
             this,
@@ -133,7 +127,6 @@ class UIADialogFragment :
     private fun handleStagesNavigation(event: UIANavigationEvent) {
         val id = when (event) {
             UIANavigationEvent.TokenValidation -> R.id.to_validateToken
-            UIANavigationEvent.Subscription -> R.id.to_subscriptions
             UIANavigationEvent.AcceptTerm -> R.id.to_acceptTerms
             UIANavigationEvent.ValidateEmail -> R.id.to_validateEmail
             UIANavigationEvent.Password -> R.id.to_password

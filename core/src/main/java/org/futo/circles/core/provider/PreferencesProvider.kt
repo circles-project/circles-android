@@ -72,13 +72,6 @@ class PreferencesProvider @Inject constructor(
         getSharedPreferences().edit(true) { putStringSet(NOT_RESTORED_SESSION, set) }
     }
 
-    fun setPhotoGalleryEnabled(isEnabled: Boolean) {
-        getSharedPreferences().edit { putBoolean(PHOTO_GALLERY_KEY, isEnabled) }
-    }
-
-    fun isPhotoGalleryEnabled(): Boolean =
-        getSharedPreferences().getBoolean(PHOTO_GALLERY_KEY, false)
-
     companion object {
         private const val PREFERENCES_NAME = "circles_preferences"
         private const val DEV_MODE_KEY = "developer_mode"
@@ -88,6 +81,5 @@ class PreferencesProvider @Inject constructor(
         private const val FDROID_BACKGROUND_SYNC = "fdroid_background_sync"
         private const val WHATS_NEW_SHOWED_FOR = "whats_new_showed_for"
         private const val NOT_RESTORED_SESSION = "not_restored_session"
-        const val PHOTO_GALLERY_KEY = "photo_gallery_enabled"
     }
 }

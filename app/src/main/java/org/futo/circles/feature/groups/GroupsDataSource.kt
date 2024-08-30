@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.withContext
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getGroupsLiveData
+import org.futo.circles.core.utils.getKnocksCount
 import org.futo.circles.mapping.toJoinedGroupListItem
 import org.futo.circles.model.GroupInvitesNotificationListItem
 import org.futo.circles.model.GroupListItem
@@ -31,8 +32,9 @@ class GroupsDataSource @Inject constructor() {
             .map { it.toJoinedGroupListItem() }
 
         val invitesCount = groups.filter { it.membership == Membership.INVITE }.size
+
         var knocksCount = 0
-        joinedGroups.forEach { knocksCount += it.knockRequestsCount }
+        joinedGroups.forEach { knocksCount += getKnocksCount(it.id) }
 
         return mutableListOf<GroupListItem>().apply {
             if (invitesCount > 0 || knocksCount > 0) {

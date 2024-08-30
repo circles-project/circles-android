@@ -13,4 +13,8 @@
 
     <attr name="readMoreTextViewStyle" format="reference" />
 
+    <declare-styleable name="DmFooterView">
+        <attr name="timeTextColor" format="reference|color" />
+    </declare-styleable>
+
 </resources>

@@ -5,20 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:subtitleCentered="true"
-        app:title="@string/my_circles"
-        app:titleCentered="true" />
-
-    <View
-        android:id="@+id/toolbarDivider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color" />
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/bottom_nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -32,14 +18,19 @@
         android:id="@+id/bottomMenuDivider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color" />
+        android:background="@color/grey_cool_300" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="@color/white"
         app:itemBackground="?selectableItemBackgroundBorderless"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextAppearanceActive="@style/BottomNavigationViewTextActive"
+        app:itemTextAppearanceInactive="@style/BottomNavigationViewTextInactive"
+        app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
 

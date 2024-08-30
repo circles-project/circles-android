@@ -8,7 +8,6 @@ import android.util.Size
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
-import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -57,14 +56,13 @@ fun ImageView.loadEncryptedImage(
 
 fun ImageView.loadRoomProfileIcon(
     url: String?,
-    userId: String,
-    applyBlur: Boolean = false
+    userId: String
 ) {
     MainScope().launch {
         val session = MatrixSessionProvider.currentSession
         val placeholder =
             session?.resolveUrl(url)?.let { null } ?: getTextDrawablePlaceholder(userId)
-        loadMatrixImage(url, placeholder, session, applyBlur)
+        loadMatrixImage(url, placeholder, session)
     }
 }
 
@@ -84,13 +82,12 @@ private suspend fun getTextDrawablePlaceholder(userId: String) = withContext(Dis
 fun ImageView.loadUserProfileIcon(
     url: String?,
     userId: String,
-    session: Session? = MatrixSessionProvider.currentSession,
-    applyBlur: Boolean = false
+    session: Session? = MatrixSessionProvider.currentSession
 ) {
     MainScope().launch {
         val placeholder =
             session?.resolveUrl(url)?.let { null } ?: getTextDrawablePlaceholder(userId)
-        loadMatrixImage(url, placeholder, session, applyBlur)
+        loadMatrixImage(url, placeholder, session)
     }
 }
 
@@ -98,8 +95,7 @@ fun ImageView.loadUserProfileIcon(
 fun ImageView.loadMatrixImage(
     url: String?,
     placeholder: Drawable? = null,
-    session: Session? = null,
-    applyBlur: Boolean = false
+    session: Session? = null
 ) {
     val currentSession = session ?: MatrixSessionProvider.currentSession
     val resolvedUrl = currentSession?.resolveUrl(url)
@@ -108,7 +104,6 @@ fun ImageView.loadMatrixImage(
         .fitCenter()
         .placeholder(placeholder)
         .error(placeholder)
-        .apply { if (applyBlur) transform(BlurTransformation(30)) }
         .into(this)
 }
 

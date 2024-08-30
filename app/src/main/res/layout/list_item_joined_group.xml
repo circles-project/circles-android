@@ -1,106 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
+    android:layout_margin="6dp"
     android:clickable="true"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:focusable="true"
-    android:padding="4dp">
+    android:foreground="?selectableItemBackground"
+    app:cardBackgroundColor="@color/grey_neutral_100"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="0dp">
 
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivGroup"
-        android:layout_width="@dimen/group_icon_size"
-        android:layout_height="@dimen/group_icon_size"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius"
-        tools:src="@color/blue" />
-
-
-    <ImageView
-        android:id="@+id/ivLock"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:src="@drawable/ic_lock"
-        app:layout_constraintBottom_toBottomOf="@id/tvGroupTitle"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintStart_toEndOf="@id/ivGroup"
-        app:layout_constraintTop_toTopOf="@id/tvGroupTitle" />
-
-    <TextView
-        android:id="@+id/tvGroupTitle"
-        style="@style/title2"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivLock"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="texsdt" />
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
-    <TextView
-        android:id="@+id/tvMembers"
-        style="@style/subheadline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:ellipsize="end"
-        android:lines="1"
-        app:layout_constraintEnd_toStartOf="@+id/vNotificationsCount"
-        app:layout_constraintStart_toStartOf="@id/ivLock"
-        app:layout_constraintTop_toBottomOf="@id/tvGroupTitle"
-        tools:text="texsdt" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivGroup"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+            tools:src="@color/primary" />
 
-    <TextView
-        android:id="@+id/tvTopic"
-        style="@style/subheadline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:ellipsize="end"
-        android:lines="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/vNotificationsCount"
-        app:layout_constraintStart_toStartOf="@id/ivLock"
-        app:layout_constraintTop_toBottomOf="@id/tvMembers"
-        tools:text="texsdt" />
+        <TextView
+            android:id="@+id/tvGroupTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="14dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/nunito_bold"
+            android:lines="1"
+            android:textColor="@color/grey_cool_1100"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/ivGroup"
+            app:layout_constraintTop_toBottomOf="@id/ivGroup"
+            tools:text="My Group" />
 
-    <TextView
-        android:id="@+id/tvUpdateTime"
-        style="@style/subheadline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:ellipsize="end"
-        android:lines="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/ivLock"
-        app:layout_constraintTop_toBottomOf="@id/tvTopic"
-        tools:text="texsdt" />
-
-    <org.futo.circles.core.view.NotificationCounterView
-        android:id="@+id/vNotificationsCount"
-        android:layout_width="24dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:notificationCircleBackground="@color/blue"
-        tools:visibility="visible" />
+        <TextView
+            android:id="@+id/tvMembers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/nunito_medium"
+            android:lines="1"
+            android:textColor="@color/grey_neutral_800"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tvGroupTitle"
+            app:layout_constraintStart_toStartOf="@id/tvGroupTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvGroupTitle"
+            tools:text="texsdt" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <org.futo.circles.core.view.NotificationCounterView
+            android:id="@+id/vNotificationsCount"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="14dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ivGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivGroup"
+            app:notificationCircleBackground="@color/primary"
+            tools:visibility="visible" />
+
+
+        <org.futo.circles.view.members_list.MembersAvatarsListView
+            android:id="@+id/vMembers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tvGroupTitle"
+            app:layout_constraintStart_toStartOf="@id/ivGroup"
+            app:layout_constraintTop_toBottomOf="@id/tvMembers" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

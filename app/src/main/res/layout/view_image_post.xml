@@ -1,72 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="0dp">
 
-    <org.futo.circles.view.PostHeaderView
-        android:id="@+id/postHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <org.futo.circles.view.ReadMoreTextView
-        android:id="@+id/tvTextContent"
-        style="@style/postMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/post_text_side_margin"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/postHeader"
-        app:readMoreMaxLines="7"
-        app:readMoreText="@string/show_more"
-        app:readMoreTextColor="@color/blue" />
+        <org.futo.circles.view.PostHeaderView
+            android:id="@+id/postHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-    <ImageView
-        android:id="@+id/ivMediaContent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/media_post_background"
-        android:foreground="?attr/selectableItemBackground"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTextContent" />
+        <org.futo.circles.view.ReadMoreTextView
+            android:id="@+id/tvTextContent"
+            style="@style/MediaPostCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/postHeader"
+            app:readMoreMaxLines="5"
+            app:readMoreText="@string/see_more"
+            app:readMoreTextColor="@color/primary"
+            tools:text="Movie marathon night with @TommyT! 🍿🎬 We’re starting with all the classic sci-fi flicks. Can’t wait to rewatch our favorites. #MovieNight #BestFriends #SciFiClassics Movie marathon night with @TommyT! 🍿🎬 We’re starting with all the classic sci-fi flicks. Can’t wait to rewatch our favorites. #MovieNight #BestFriends #SciFiClassics" />
 
 
-    <org.futo.circles.view.PostStatusView
-        android:id="@+id/vPostStatus"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivMediaContent" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivMediaContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/dark_background"
+            android:foreground="?attr/selectableItemBackground"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTextContent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.PostMedia"
+            tools:src="@drawable/explanation_circles_1" />
 
 
-    <org.futo.circles.view.PostFooterView
-        android:id="@+id/postFooter"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vPostStatus"
-        app:layout_goneMarginTop="8dp" />
+        <org.futo.circles.view.PostFooterView
+            android:id="@+id/postFooter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivMediaContent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+</androidx.cardview.widget.CardView>

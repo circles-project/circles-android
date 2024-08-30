@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.extensions.navigateSafe
@@ -58,10 +57,7 @@ class ActiveSessionsDialogFragment :
 
     private fun setupViews() {
         with(binding) {
-            rvSessions.apply {
-                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                adapter = sessionsListAdapter
-            }
+            rvSessions.adapter = sessionsListAdapter
         }
     }
 

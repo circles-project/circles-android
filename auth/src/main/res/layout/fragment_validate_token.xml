@@ -15,7 +15,7 @@
 
     <ImageView
         android:id="@+id/ivLogo"
-        style="@style/ImageLogoStyle"
+        android:src="@drawable/ic_logo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/guidelineLogo"
@@ -25,7 +25,7 @@
 
     <TextView
         android:id="@+id/tvValidateTitle"
-        style="@style/title2"
+        style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"

@@ -9,20 +9,13 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/setup_your_circles"
-        app:titleCentered="true" />
-
-    <View
-        android:id="@+id/toolbarDivider"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCircles"
@@ -33,7 +26,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnAdd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarDivider"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintVertical_chainStyle="packed" />
 
@@ -54,15 +47,15 @@
 
     <TextView
         android:id="@+id/tvEncryptionWarning"
-        style="@style/footNote"
+        style="@style/Footnote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:drawablePadding="8dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:text="@string/encryption_warning"
-        android:textColor="@color/yellow"
         app:drawableStartCompat="@drawable/ic_info"
-        app:drawableTint="@color/yellow"
+        app:drawableTint="@color/grey_cool_800"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@id/btnNext"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,9 +66,7 @@
         android:id="@+id/btnNext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_margin="24dp"
         android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

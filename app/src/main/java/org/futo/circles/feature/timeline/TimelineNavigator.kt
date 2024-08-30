@@ -36,12 +36,6 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         )
     }
 
-    fun navigateToShowEmoji(roomId: String, eventId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toEmojiBottomSheet(roomId, eventId)
-        )
-    }
-
     fun navigateToUserDialogFragment(userId: String) {
         fragment.findNavController().navigateSafe(
             TimelineDialogFragmentDirections.toUserDialogFragment(userId)

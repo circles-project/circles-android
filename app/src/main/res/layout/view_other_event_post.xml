@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="0dp">
 
-    <org.futo.circles.view.PostHeaderView
-        android:id="@+id/postHeader"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="8dp" />
+        android:orientation="vertical">
+
+        <org.futo.circles.view.PostHeaderView
+            android:id="@+id/postHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="6dp" />
 
 
-    <TextView
-        android:id="@+id/tvTextContent"
-        style="@style/postMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/post_text_side_margin"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvTextContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginBottom="14dp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/grey_cool_1100"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Just finished my morning run! Feeling energized and ready to tackle the day. Wish me Just finished my morning run! Feeling energized and ready to tackle the day. Wish meJust finished my morning run! Feeling energized and ready to tackle the day. Just finished my morning run!" />
 
-</LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

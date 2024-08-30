@@ -5,11 +5,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.feature.uia.UIADataSource
 import org.futo.circles.auth.feature.uia.UIADataSource.Companion.SUBSCRIPTION_FREE_TYPE
-import org.futo.circles.auth.feature.uia.UIADataSource.Companion.SUBSCRPTION_GOOGLE_TYPE
 import org.futo.circles.auth.feature.uia.UIADataSourceProvider
-import org.futo.circles.auth.model.DomainSignupFlows
 import org.futo.circles.auth.model.UIAFlowType
-import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.provider.MatrixInstanceProvider
 import org.futo.circles.core.utils.HomeServerUtils.buildHomeServerConfigFromDomain
@@ -24,8 +21,7 @@ class SignUpDataSource @Inject constructor(
 
     suspend fun startNewRegistration(domain: String) = createResult {
         initAuthServiceForDomain(domain)
-        val flows = getAuthFlowsFor(domain)
-        val stages = flows.subscriptionStages ?: flows.freeStages ?: throw IllegalArgumentException(
+        val stages = getAuthStagesFor(domain) ?: throw IllegalArgumentException(
             context.getString(R.string.new_accounts_not_available)
         )
         val uiaDataSource = UIADataSourceProvider.create(UIAFlowType.Signup, uiaFactory)
@@ -40,12 +36,10 @@ class SignUpDataSource @Inject constructor(
         return service
     }
 
-    private suspend fun getAuthFlowsFor(domain: String): DomainSignupFlows {
+    private suspend fun getAuthStagesFor(domain: String): List<Stage>? {
         val authService = initAuthServiceForDomain(domain)
         val flows = authService.getRegistrationWizard().getAllRegistrationFlows()
-        val subscriptionStages = getSubscriptionSignupStages(flows)
-        val freeStages = getFreeSignupStages(flows)
-        return DomainSignupFlows(domain, freeStages, subscriptionStages)
+        return getFreeSignupStages(flows)
     }
 
     // Must contain org.futo.subscriptions.free_forever
@@ -55,15 +49,5 @@ class SignUpDataSource @Inject constructor(
                 (stage as? Stage.Other)?.type == SUBSCRIPTION_FREE_TYPE
             } != null
         }
-
-    // Must contain org.futo.subscription.google_play, available only for gPlay flavor
-    private fun getSubscriptionSignupStages(flows: List<List<Stage>>): List<Stage>? =
-        if (CirclesAppConfig.isGplayFlavor()) {
-            flows.firstOrNull { stages ->
-                stages.firstOrNull { stage ->
-                    (stage as? Stage.Other)?.type == SUBSCRPTION_GOOGLE_TYPE
-                } != null
-            }
-        } else null
 
 }

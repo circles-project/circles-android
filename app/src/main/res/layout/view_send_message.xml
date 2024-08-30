@@ -12,7 +12,7 @@
         android:id="@+id/topDivider"
         android:layout_width="0dp"
         android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
+        android:background="@color/grey_cool_300"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,49 +22,62 @@
         android:id="@+id/ivEmoji"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginHorizontal="8dp"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
         android:padding="12dp"
         android:src="@drawable/ic_emoji"
         app:layout_constraintBottom_toBottomOf="@id/tilMessage"
+        app:layout_constraintEnd_toStartOf="@id/tilMessage"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/menu_icon_color" />
+        app:tint="@color/grey_neutral_700" />
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilMessage"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/TextInputWithBorder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="96dp"
+        android:layout_marginVertical="12dp"
+        android:layout_marginEnd="8dp"
         android:minHeight="48dp"
-        app:boxBackgroundMode="none"
-        app:hintEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/actionsBarrier"
         app:layout_constraintStart_toEndOf="@id/ivEmoji"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/topDivider">
 
         <io.element.android.wysiwyg.EditorEditText
             android:id="@+id/etMessage"
+            style="@style/CirclesTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:fontFamily="@font/inter_regular"
             android:hint="@string/message"
             android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="5"
             android:minHeight="48dp"
-            android:padding="12dp"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/actionsBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="lSendActions, lEditActions"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
         android:id="@+id/lSendActions"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@id/tilMessage"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -77,7 +90,7 @@
             android:focusable="true"
             android:padding="12dp"
             android:src="@drawable/ic_image"
-            app:tint="@color/menu_icon_color" />
+            app:tint="@color/grey_neutral_700" />
 
 
         <ImageView
@@ -90,16 +103,17 @@
             android:padding="12dp"
             android:src="@drawable/ic_send"
             android:visibility="gone"
-            app:tint="@color/blue"
+            app:tint="@color/primary"
             tools:visibility="visible" />
 
-    </LinearLayout>
+    </FrameLayout>
 
 
     <LinearLayout
         android:id="@+id/lEditActions"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/tilMessage"
         app:layout_constraintEnd_toEndOf="parent"
@@ -114,7 +128,7 @@
             android:focusable="true"
             android:padding="12dp"
             android:src="@drawable/ic_close"
-            app:tint="@color/menu_icon_color" />
+            app:tint="@color/grey_neutral_700" />
 
 
         <ImageView
@@ -128,7 +142,7 @@
             android:src="@drawable/ic_check"
             app:layout_constraintBottom_toBottomOf="@id/tilMessage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/blue" />
+            app:tint="@color/primary" />
 
 
     </LinearLayout>

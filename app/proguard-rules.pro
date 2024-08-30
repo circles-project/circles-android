@@ -70,7 +70,6 @@ native <methods>;
 
 -keep class org.futo.circles.core.model.CircleRoomTypeArg
 -keep class org.futo.circles.core.model.ShareUrlTypeArg
--keep class org.futo.circles.model.PeopleCategoryTypeArg
 -keep class org.futo.circles.model.PickCircleTypeArg
 -keep class org.futo.circles.core.model.SelectRoomTypeArg
 -keep class org.futo.circles.core.model.RoomRequestTypeArg

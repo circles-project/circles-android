@@ -74,8 +74,8 @@ dependencies {
     // Password strength
     implementation("com.nulab-inc:zxcvbn:1.9.0")
 
-    // Subscriptions
-    gplayImplementation("com.android.billingclient:billing-ktx:7.0.0")
+    // Verification code input
+    implementation ("com.github.appsfeature:otp-view:1.1")
 
     // PasswordManager
     val credentialsVersion = "1.3.0-rc01"

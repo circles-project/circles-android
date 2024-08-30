@@ -10,10 +10,9 @@
     <string name="unsupported_login_method">Unsupported login method</string>
     <string name="discard_current_auth_progress">Discard current auth progress?</string>
     <string name="set_passphrase">Set passphrase</string>
-    <string name="log_in">Log In</string>
+    <string name="log_in">Log in</string>
     <string name="new_accounts_not_available">Sorry, but new accounts are not available at this time</string>
     <string name="sign_up">Sign Up</string>
-    <string name="sign_up_stage_subtitle_format">Stage %1$d of %2$d</string>
     <string name="user_id_can_not_be_empty">User ID can not be empty</string>
     <string name="invalid_user_id">User ID can not be empty.</string>
     <string name="confirm_auth">Confirm auth</string>
@@ -24,6 +23,8 @@
     <string name="validation_code">Validation code</string>
     <string name="validation_code_explanation">We sent a 6-digit code to your email address to validate your account.\n\nEnter the code here to verify that this address belongs to you.</string>
     <string name="validation_code_sent_to_format">Validation code sent to %s</string>
+    <string name="we_have_sent_format">We have sent the 6-digit-code to email address <b>%s</b></string>
+    <string name="enter_the_code">Enter the code</string>
     <string name="sign_up_token">SignUp token</string>
     <string name="sign_up_token_explanation">In order to sign up for a service, every new user must present a valid registration token.\n\nIf you found out about the app from a friend or from the posting online, you should be able to get a signup token from the same source.</string>
     <string name="name_for_room_invite">Room invite</string>
@@ -50,16 +51,16 @@
     <string name="username">username</string>
     <string name="do_not_have_an_account">Don\'t have an account?</string>
     <string name="resume_session">Resume session:</string>
-    <string name="choose_a_passphrase">Choose a passphrase</string>
+    <string name="choose_your_passphrase">Choose your passphrase</string>
     <string name="enter_your_passphrase">Enter your passphrase</string>
-    <string name="repeat_passphrase">Repeat passphrase</string>
+    <string name="repeat_your_passphrase">Repeat your passphrase</string>
     <string name="or">Or</string>
     <string name="setup_profile">Setup profile</string>
     <string name="upload_a_profile_photo">Upload a profile photo</string>
     <string name="save">Save</string>
     <string name="skip">Skip</string>
     <string name="subscriptions">Subscriptions</string>
-    <string name="choose_a_username">Choose a username</string>
+    <string name="choose_your_username">Choose your username</string>
     <string name="set_username">Set username</string>
     <string name="send_validation_code">Send validation code</string>
     <string name="validate_email">Validate email</string>
@@ -109,23 +110,35 @@
     <string name="sign_up_on_us_server">Sign up on US server</string>
     <string name="sign_up_on_eu_server">Sign up on EU server</string>
     <string name="setup_your_circles">Setup your circles</string>
-    <string name="next">Next</string>
     <string name="add_a_new_circle">Add a new circle</string>
     <string name="login_field_hint">\@user:example.com</string>
     <string name="did_you_mean_format">Did you mean %s?</string>
     <string name="log_in_as_format">Log in as %s</string>
-
-
-    <string name="circle_explanation"><![CDATA[Tip: A <b>circle</b> works like a secure, private version of Facebook or Twitter.  Everyone posts to their own timeline, and you see posts from all the timelines that you\'re following.
-<br/><br/>A circle is a good way to share things with lots of people who don\'t all know each other, but they all know you.
-<br/><br/>For example, think about all the aunts and uncles and cousins from the different sides of your family.
-Or, think about all of your friends across all of the places you\'ve ever lived.
-<br/><br/>If you want to connect a bunch of people who <i>do</i> all know each other, then it\'s better to create a <b>Group</b> instead.]]></string>
-    <string name="group_explanation"><![CDATA[Tip: A <b>group</b> is the best way to connect a bunch of people where everyone is connected to everyone else.
-<br/><br/>Everyone in the group posts to the same timeline, and everyone in the group can see every post.
-<br/><br/>For example, you might want to create a group for your book club, or your sports team, or your scout troop.
-<br/><br/>If you want to share with lots of different people who <i>don\'t</i> all know each other, then you should invite those people to follow you in a <b>Circle</b> instead.]]></string>
     <string name="no_let_me_try_again">No, let me try again</string>
+    <string name="secure_social_network_for_families_and_friends">Secure social network for families and friends</string>
+    <string name="sign_up_for_free">Sign up for free</string>
+    <string name="sign_in">Sign In</string>
+    <string name="your_user_id">Your User ID</string>
+    <string name="sign_up_here">Sign up here</string>
+    <string name="log_in_here">Log in here</string>
+    <string name="have_an_account">Have an account?</string>
+    <string name="sign_up_using_us_server">Sign up using US server</string>
+    <string name="sign_up_using_eu_server">Sign up using EU server</string>
+    <string name="choosing_a_server_note">Choosing a server that is close to you assures you have the best experience using Circles</string>
+    <string name="read_and_agree_to_the_terms">Read and agree to the terms</string>
+    <string name="terms_description">Please read our Privacy Policy and Terms &amp; Conditions carefully. By agreeing to these terms, you ensure a secure and enjoyable experience on our platform.</string>
+    <string name="terms_note">Please take a moment to read our Privacy Policy and Terms &amp; Conditions. These documents explain how we handle your data and the rules for using our app, ensuring a safe and transparent experience for all users.</string>
+    <string name="accept_all">Accept all</string>
+    <string name="reject_all">Reject all</string>
+    <string name="resend_code">Resend code</string>
+    <string name="verify_email_note">We will never sell your information or use it for advertising. See our <font fgcolor='#8553FF'>Privacy Policy</font> for more information.</string>
+    <string name="verify_your_email_address">Verify your email address</string>
+    <string name="verify_email_description">We will send a short 6-digit code to your email address to verify your identity.</string>
+    <string name="enter_your_email_here">Enter your email here</string>
+    <string name="send_verification_code">Send verification code</string>
+    <string name="please_enter_the_code_here">Please enter the code here</string>
+    <string name="verify_email_address">Verify email address</string>
+    <string name="enter_display_name_here">Enter display name here</string>
 
     <plurals name="days">
         <item quantity="one">%1$d day</item>

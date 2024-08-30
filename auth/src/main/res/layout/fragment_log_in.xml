@@ -7,102 +7,111 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:fillViewport="true"
-    android:orientation="vertical"
-    android:paddingTop="16dp"
-    android:paddingBottom="24dp">
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/dark_background"
         android:clipChildren="false">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackgroundBorderless"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_arrow_back"
+            app:contentPadding="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+            app:tint="@color/grey_cool_1200" />
 
         <ImageView
             android:id="@+id/ivLogo"
-            style="@style/ImageLogoStyle"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="125dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="64dp"
+            android:src="@drawable/ic_circles_purple_no_border"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        
+            app:layout_constraintTop_toBottomOf="@id/ivBack" />
+
         <TextView
-            android:id="@+id/tvCircles"
-            style="@style/LoginTitleStyle"
+            android:id="@+id/tvUserIdHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAlignment="center"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/your_user_id"
+            android:textColor="@color/grey_cool_1100"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilUserId"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputWithBorder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="16dp"
-            android:hint="@string/login_field_hint"
+            android:layout_marginTop="4dp"
+            app:boxBackgroundColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCircles">
+            app:layout_constraintTop_toBottomOf="@id/tvUserIdHeader">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etUserName"
+                style="@style/CirclesTextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints="username"
+                android:hint="@string/login_field_hint"
                 android:imeOptions="actionDone"
-                android:inputType="textNoSuggestions|textVisiblePassword"
-                android:maxLines="1"
-                android:paddingStart="8dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="12dp"
-                android:textSize="15sp" />
+                android:inputType="textNoSuggestions|textVisiblePassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <org.futo.circles.core.view.LoadingButton
-            android:id="@+id/btnLogin"
-            android:layout_width="0dp"
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnForgotPassword"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingHorizontal="24dp"
-            android:text="@string/log_in"
+            android:fontFamily="@font/nunito_bold"
+            android:padding="8dp"
+            android:text="@string/forgot_password_question"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tilUserId" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnForgotPassword"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="@string/forgot_password_question"
-            android:textColor="@color/blue"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnLogin" />
-
         <TextView
             android:id="@+id/tvResumeSession"
-            style="@style/body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/nunito_bold"
             android:text="@string/resume_session"
+            android:textColor="@color/grey_cool_1100"
+            android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/rvSwitchUsers"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnForgotPassword"
+            app:layout_constraintVertical_bias="0.0"
             app:layout_constraintVertical_chainStyle="packed"
             tools:visibility="visible" />
 
@@ -114,32 +123,51 @@
             android:orientation="horizontal"
             android:paddingHorizontal="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/tvNotMember"
+            app:layout_constraintBottom_toTopOf="@id/btnLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvResumeSession" />
 
-        <TextView
-            android:id="@+id/tvNotMember"
-            style="@style/body"
+        <org.futo.circles.core.view.LoadingButton
+            android:id="@+id/btnLogin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="36dp"
-            android:text="@string/do_not_have_an_account"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@id/btnSignUp"
+            android:layout_marginVertical="24dp"
+            android:paddingHorizontal="24dp"
+            android:text="@string/log_in"
+            app:layout_constraintBottom_toTopOf="@id/tvDontHaveAccount"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <org.futo.circles.core.view.LoadingButton
-            android:id="@+id/btnSignUp"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tvDontHaveAccount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="24dp"
-            android:text="@string/sign_up"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/do_not_have_an_account"
+            android:textAlignment="center"
+            android:textColor="@color/grey_cool_700"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/btnSignUp"
+            app:layout_constraintEnd_toStartOf="@id/btnSignUp"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnSignUp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSignUp"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/nunito_bold"
+            android:padding="4dp"
+            android:text="@string/sign_up_here"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/tvDontHaveAccount" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

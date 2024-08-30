@@ -9,95 +9,93 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/setup_profile"
-        app:titleCentered="true" />
-
-    <View
-        android:id="@+id/toolbarDivider"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="36dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="36dp" />
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
     <TextView
         android:id="@+id/tvProfilePhotoHeader"
-        style="@style/title2"
+        style="@style/InputHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:gravity="center"
         android:text="@string/upload_a_profile_photo"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@id/toolbarDivider" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivProfile"
-        android:layout_width="@dimen/group_icon_size"
-        android:layout_height="@dimen/group_icon_size"
-        android:layout_marginTop="16dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="14dp"
+        android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
+        android:padding="2dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/add_image_placeholder"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        android:src="@drawable/add_image_placeholder_round"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvProfilePhotoHeader"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivEditIcon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@color/white"
+        android:clickable="false"
+        android:focusable="false"
+        android:padding="2dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_edit"
+        app:contentPadding="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+        app:layout_constraintEnd_toEndOf="@id/ivProfile"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+        app:strokeColor="@color/grey_cool_300"
+        app:strokeWidth="0.8dp"
+        app:tint="@color/grey_cool_900" />
 
 
     <TextView
         android:id="@+id/tvNameHeader"
-        style="@style/title2"
+        style="@style/InputHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="36dp"
         android:text="@string/display_name"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivProfile" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilDisplayName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/TextInputWithBorder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="8dp"
-        app:endIconDrawable="@drawable/ic_info"
-        app:endIconMode="custom"
-        app:endIconTint="@color/blue"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNameHeader">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etDisplayName"
+            style="@style/CirclesTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/enter_display_name_here"
             android:imeOptions="actionDone"
             android:inputType="textCapSentences"
-            android:maxLines="1"
-            android:padding="12dp" />
+            android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,23 +103,24 @@
         android:id="@+id/btnSave"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="16dp"
         android:enabled="false"
         android:text="@string/save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toEndOf="@id/btnSkip" />
+        app:layout_constraintBottom_toTopOf="@id/btnSkip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSkip"
-        style="@style/NegativeButtonStyle"
+        style="@style/TextButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/skip"
-        app:layout_constraintBottom_toBottomOf="@id/btnSave"
-        app:layout_constraintEnd_toStartOf="@id/btnSave"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

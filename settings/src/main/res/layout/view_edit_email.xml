@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tvEmail"
-        style="@style/body"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingVertical="12dp"
@@ -20,21 +20,19 @@
         tools:text="Some email" />
 
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/ivRemove"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/highlight_color"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:padding="14dp"
         android:src="@drawable/ic_close"
-        android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/tvEmail"
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvEmail"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+        app:tint="@color/grey_cool_800" />
 
 </merge>

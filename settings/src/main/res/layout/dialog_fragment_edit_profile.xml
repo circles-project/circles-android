@@ -1,119 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/edit_profile"
         app:titleCentered="true"
-        app:titleMarginEnd="72dp">
-
-        <org.futo.circles.core.view.LoadingButton
-            android:id="@+id/btnSave"
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginVertical="8dp"
-            android:layout_marginEnd="8dp"
-            android:enabled="false"
-            android:text="@string/save"
-            android:textSize="13sp"
-            app:textPadding="1dp" />
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
-
-    <View
-        android:id="@+id/toolbarDivider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color" />
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/btnSave"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:layout_height="wrap_content">
 
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivProfile"
-                android:layout_width="@dimen/group_icon_size"
-                android:layout_height="@dimen/group_icon_size"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
+                android:padding="2dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/add_image_placeholder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+                tools:src="@color/blue" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnChangeIcon"
-                style="@style/NegativeButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:maxHeight="40dp"
-                android:text="@string/change_profile_picture"
-                android:textSize="12sp"
-                app:icon="@drawable/ic_create"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivProfile" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivEditIcon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@color/white"
+                android:clickable="false"
+                android:focusable="false"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_edit"
+                app:contentPadding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+                app:layout_constraintEnd_toEndOf="@id/ivProfile"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+                app:strokeColor="@color/grey_cool_300"
+                app:strokeWidth="0.8dp"
+                app:tint="@color/grey_cool_900" />
+
 
             <TextView
                 android:id="@+id/tvNameHeader"
-                style="@style/headline"
+                style="@style/InputHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/display_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnChangeIcon" />
+                app:layout_constraintTop_toBottomOf="@id/ivProfile" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilName"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/TextInputWithBorder"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNameHeader">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etName"
+                    style="@style/CirclesTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/enter_name_here"
                     android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:padding="12dp" />
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tvUserIdHeader"
-                style="@style/headline"
+                style="@style/InputHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/user_id"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -122,11 +116,12 @@
 
             <TextView
                 android:id="@+id/tvUserId"
-                style="@style/body"
+                style="@style/Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:paddingVertical="12dp"
+                android:paddingVertical="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvUserIdHeader"
@@ -135,9 +130,10 @@
 
             <TextView
                 android:id="@+id/tvOptionsHeader"
-                style="@style/headline"
+                style="@style/InputHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/emails"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -148,6 +144,7 @@
                 android:id="@+id/lEmails"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -157,11 +154,11 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddEmail"
                 style="@style/NegativeButtonStyle"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:padding="0dp"
                 android:text="@string/add_email"
                 android:textSize="12sp"
                 app:icon="@drawable/ic_add"
@@ -176,4 +173,16 @@
 
     </ScrollView>
 
-</LinearLayout>
+    <org.futo.circles.core.view.LoadingButton
+        android:id="@+id/btnSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        android:enabled="false"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

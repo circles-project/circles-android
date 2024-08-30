@@ -53,7 +53,6 @@ class EditProfileDialogFragment :
     private fun setupViews() {
         with(binding) {
             ivProfile.setOnClickListener { showImagePicker() }
-            btnChangeIcon.setOnClickListener { showImagePicker() }
             tilName.editText?.doAfterTextChanged {
                 it?.let { onProfileDataChanged() }
             }

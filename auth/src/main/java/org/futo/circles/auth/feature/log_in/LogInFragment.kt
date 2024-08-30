@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,8 +13,6 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentLogInBinding
 import org.futo.circles.auth.feature.log_in.suggestion.LoginSuggestionListener
 import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersAdapter
-import org.futo.circles.auth.feature.log_in.switch_user.list.SwitchUsersViewHolder
-import org.futo.circles.auth.feature.sign_up.SignupSelectDomainListener
 import org.futo.circles.auth.model.EmptyUserId
 import org.futo.circles.auth.model.ForgotPassword
 import org.futo.circles.auth.model.InvalidUserId
@@ -23,11 +22,12 @@ import org.futo.circles.auth.model.ValidUserId
 import org.futo.circles.auth.utils.UserIdUtils
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
-import org.futo.circles.core.base.list.BaseRvDecoration
+import org.futo.circles.core.base.list.OffsetDecoration
 import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
+import org.futo.circles.core.extensions.onBackPressed
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.withConfirmation
@@ -35,7 +35,7 @@ import org.futo.circles.core.extensions.withConfirmation
 
 @AndroidEntryPoint
 class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBinding::inflate),
-    HasLoadingState, LoginSuggestionListener, SignupSelectDomainListener {
+    HasLoadingState, LoginSuggestionListener {
 
     override val fragment: Fragment = this
     private val viewModel by viewModels<LogInViewModel>()
@@ -54,6 +54,12 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.window?.statusBarColor =
+            ContextCompat.getColor(requireContext(), org.futo.circles.core.R.color.dark_background)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
@@ -65,7 +71,7 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
         with(binding) {
             rvSwitchUsers.apply {
                 adapter = switchUsersAdapter
-                addItemDecoration(BaseRvDecoration.OffsetDecoration<SwitchUsersViewHolder>(16))
+                addItemDecoration(OffsetDecoration(16))
             }
             etUserName.filters = arrayOf<InputFilter>(object : InputFilter.AllCaps() {
                 override fun filter(
@@ -96,18 +102,13 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
         viewModel.navigateToBottomMenuScreenLiveData.observeData(this) {
             findNavController().navigateSafe(LogInFragmentDirections.toHomeFragment())
         }
-        viewModel.startSignUpEventLiveData.observeResponse(
-            this,
-            success = {
-                findNavController().navigateSafe(LogInFragmentDirections.toUiaFragment())
-            }
-        )
     }
 
     private fun setOnClickActions() {
         with(binding) {
+            ivBack.setOnClickListener { onBackPressed() }
             btnSignUp.setOnClickListener {
-                findNavController().navigateSafe(LogInFragmentDirections.toSelectServerBottomSheet())
+                findNavController().navigateSafe(LogInFragmentDirections.toSignUpFragment())
             }
             btnLogin.setOnClickListener { startLogin(false) }
             btnForgotPassword.setOnClickListener {
@@ -119,11 +120,6 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
     override fun onLoginSuggestionApplied(userId: String, isForgotPassword: Boolean) {
         binding.etUserName.setText(userId)
         loginAs(userId, isForgotPassword)
-    }
-
-    override fun onSignupDomainSelected(domain: String) {
-        startLoading(binding.btnSignUp)
-        viewModel.startSignUp(domain)
     }
 
     private fun startLogin(isForgotPassword: Boolean) {

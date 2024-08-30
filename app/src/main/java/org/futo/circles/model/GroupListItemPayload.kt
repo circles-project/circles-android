@@ -1,11 +1,10 @@
 package org.futo.circles.model
 
+import org.futo.circles.core.model.CirclesUserSummary
+import org.futo.circles.core.model.RoomInfo
+
 data class GroupListItemPayload(
-    val topic: String?,
-    val isEncrypted: Boolean?,
-    val membersCount: Int?,
-    val timestamp: Long?,
-    val unreadCount: Int?,
-    val knocksCount: Int?,
-    val needUpdateFullItem: Boolean
+    val roomInfo: RoomInfo?,
+    val members: List<CirclesUserSummary>?,
+    val unreadCount: Int?
 )

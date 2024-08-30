@@ -10,78 +10,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/advanced_settings"
-        app:titleCentered="true" />
-
-
-    <View
-        android:id="@+id/toolbarDivider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lPhotos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true">
-
-        <TextView
-            android:id="@+id/tvPhotos"
-            style="@style/settingMenuItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:clickable="false"
-            android:focusable="false"
-            android:paddingVertical="16dp"
-            android:text="@string/photos"
-            app:drawableStartCompat="@drawable/ic_round_photo_library"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvPhotosDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="4dp"
-            android:background="@null"
-            android:clickable="false"
-            android:focusable="false"
-            android:text="@string/will_be_accessible_through_option_on_settings_screen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvPhotos" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/svPhotos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:clickable="false"
-            android:focusable="false"
-            app:layout_constraintBottom_toBottomOf="@id/tvPhotos"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvPhotos" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
-        android:layout_marginHorizontal="8dp"
-        android:background="@color/divider_color" />
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -90,7 +24,8 @@
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        android:paddingHorizontal="16dp">
 
         <TextView
             android:id="@+id/tvDevMode"
@@ -99,19 +34,22 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:clickable="false"
+            android:drawablePadding="8dp"
             android:focusable="false"
+            android:gravity="center_vertical"
             android:paddingVertical="16dp"
             android:text="@string/developer_mode"
             app:drawableStartCompat="@drawable/ic_phone"
+            app:drawableTint="@color/grey_cool_900"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvDevModeDescription"
+            style="@style/Footnote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:background="@null"
             android:clickable="false"
             android:focusable="false"
@@ -124,7 +62,6 @@
             android:id="@+id/svDevMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:clickable="false"
             android:focusable="false"
             app:layout_constraintBottom_toBottomOf="@id/tvDevMode"
@@ -136,7 +73,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:layout_marginHorizontal="8dp"
         android:background="@color/divider_color" />
 
 
@@ -144,6 +80,8 @@
         android:id="@+id/tvClearCache"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        android:paddingEnd="8dp"
         app:hasDivider="false"
         app:optionIcon="@drawable/ic_reload"
         app:optionName="@string/clear_cache_and_reload" />

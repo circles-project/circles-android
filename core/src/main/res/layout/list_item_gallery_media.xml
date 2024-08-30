@@ -2,16 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lMedia"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/lMedia"
     android:foreground="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/ivCover"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/media_post_background"
+        android:background="@color/dark_background"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="w,1:1"
@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.15"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
         app:tint="@color/blue" />
 
     <TextView

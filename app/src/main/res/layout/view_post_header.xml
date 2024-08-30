@@ -13,98 +13,100 @@
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
+        android:padding="4dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
         tools:background="@color/blue" />
 
     <TextView
         android:id="@+id/tvUserName"
-        style="@style/body"
+        style="@style/PostUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:lines="1"
         app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toTopOf="@id/tvUserId"
-        app:layout_constraintEnd_toStartOf="@id/ivEncrypted"
+        app:layout_constraintBottom_toTopOf="@id/tvTime"
+        app:layout_constraintEnd_toStartOf="@id/chCircleIndicator"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/ivSenderImage"
         app:layout_constraintTop_toTopOf="@id/ivSenderImage"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Android01 ddddddsdsdsdsdsdssd" />
+        tools:text="Katie Anderson" />
 
-    <ImageView
-        android:id="@+id/ivEncrypted"
-        android:layout_width="16dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="4dp"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toBottomOf="@id/tvMessageTime"
-        app:layout_constraintDimensionRatio="w,1:1"
-        app:layout_constraintStart_toEndOf="@id/tvUserName"
-        app:layout_constraintTop_toTopOf="@id/tvMessageTime"
-        tools:src="@drawable/ic_lock" />
 
-    <TextView
-        android:id="@+id/tvMessageTime"
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/textBarrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:ellipsize="end"
-        android:lines="1"
-        android:textSize="12sp"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toBottomOf="@id/tvUserName"
-        app:layout_constraintEnd_toStartOf="@id/btnMore"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/ivEncrypted"
-        app:layout_constraintTop_toTopOf="@id/tvUserName"
-        tools:text="some date" />
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="tvUserName,tvTime"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvUserId"
+        android:id="@+id/tvTime"
+        style="@style/PostTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:drawablePadding="2dp"
         android:ellipsize="end"
         android:lines="1"
         android:textSize="13sp"
+        app:drawableStartCompat="@drawable/ic_clock"
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toBottomOf="@id/ivSenderImage"
-        app:layout_constraintEnd_toStartOf="@id/tvRoomName"
+        app:layout_constraintEnd_toStartOf="@id/chCircleIndicator"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@id/tvUserName"
         app:layout_constraintTop_toBottomOf="@id/tvUserName"
-        tools:text="Android01:nl.circles-dev.net" />
+        tools:text="3h" />
 
-    <TextView
-        android:id="@+id/tvRoomName"
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chCircleIndicator"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_height="26dp"
+        android:layout_marginHorizontal="8dp"
+        android:clickable="false"
         android:ellipsize="end"
-        android:lines="1"
-        app:layout_constrainedWidth="true"
-        android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivSenderImage"
+        android:focusable="false"
+        android:maxWidth="124dp"
+        android:textAppearance="@style/PostCirclesIndicatorChipText"
+        android:visibility="gone"
+        app:chipBackgroundColor="#F3FAFF"
+        app:chipEndPadding="3dp"
+        app:chipMinTouchTargetSize="0dp"
+        app:chipStartPadding="2dp"
+        app:chipStrokeWidth="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnMore"
-        app:layout_constraintStart_toEndOf="@id/tvUserId"
-        app:layout_constraintTop_toBottomOf="@id/tvUserName"
-        tools:text="(Timeline name)" />
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/textBarrier"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:chipStrokeColor="#C0E6FF"
+        tools:text="Close friends"
+        tools:textColor="#0095F9"
+        tools:visibility="visible" />
+
 
     <ImageButton
         android:id="@+id/btnMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:background="?selectableItemBackgroundBorderless"
-        android:paddingHorizontal="4dp"
-        android:paddingBottom="2dp"
         android:src="@drawable/ic_more"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/menu_icon_color" />
+        app:tint="@color/grey_cool_1000" />
 
 </merge>

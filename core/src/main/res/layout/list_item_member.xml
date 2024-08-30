@@ -12,7 +12,7 @@
         android:background="?selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:paddingVertical="4dp"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,12 +28,12 @@
 
         <TextView
             android:id="@+id/tvRole"
+            style="@style/Footnote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:lines="1"
-            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@id/vUser"
             app:layout_constraintEnd_toStartOf="@id/ivOptionsArrow"
             app:layout_constraintTop_toTopOf="@id/vUser"
@@ -48,7 +48,7 @@
             app:layout_constraintBottom_toBottomOf="@id/vUser"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/blue" />
+            app:tint="@color/grey_cool_800" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

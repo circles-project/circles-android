@@ -2,10 +2,10 @@ package org.futo.circles.auth.feature.setup.circles
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentSetupCirclesBinding
@@ -44,16 +44,15 @@ class SetupCirclesFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.window?.statusBarColor =
+            ContextCompat.getColor(requireContext(), org.futo.circles.core.R.color.white)
         setupViews()
         setupObservers()
     }
 
     private fun setupViews() {
         with(binding) {
-            rvCircles.apply {
-                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-                adapter = listAdapter
-            }
+            rvCircles.adapter = listAdapter
             btnAdd.setOnClickListener {
                 AddSetupCirclesItemDialog(requireContext()) { name ->
                     viewModel.addCircleItem(name)

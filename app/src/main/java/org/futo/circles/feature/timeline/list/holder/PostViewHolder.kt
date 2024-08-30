@@ -5,6 +5,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import org.futo.circles.R
 import org.futo.circles.core.base.list.context
 import org.futo.circles.core.feature.markdown.MarkdownParser
@@ -19,7 +20,6 @@ import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.PostFooterView
 import org.futo.circles.view.PostHeaderView
-import org.futo.circles.view.PostStatusView
 import org.futo.circles.view.ReadMoreTextView
 
 
@@ -30,9 +30,8 @@ abstract class PostViewHolder(
     private val isThread: Boolean
 ) : TimelineListItemViewHolder(view) {
 
-    abstract val postLayout: ViewGroup?
+    abstract val postLayout: CardView?
     abstract val postFooter: PostFooterView?
-    abstract val postStatus: PostStatusView?
     abstract val readMoreTextView: ReadMoreTextView?
     abstract val postHeader: PostHeaderView
     abstract fun bindHolderSpecific(post: Post)
@@ -42,11 +41,7 @@ abstract class PostViewHolder(
     private val gestureDetector =
         GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
-                post?.let {
-                    optionsListener.onShowEmoji(it.postInfo.roomId, it.id) { emoji ->
-                        postFooter?.addEmojiFromPickerLocalUpdate(emoji)
-                    }
-                }
+                postFooter?.onLikeIconClicked()
                 return true
             }
 
@@ -91,31 +86,11 @@ abstract class PostViewHolder(
         this.post = post
         postHeader.setData(post)
         postFooter?.setData(post, isThread)
-        bindMentionBorder(post.content)
-        postStatus?.apply {
-            setIsEdited(post.postInfo.isEdited)
-            setReadByCount(post.readByCount)
-        }
         bindHolderSpecific(post)
     }
 
     fun bindPayload(payload: PostItemPayload) {
-        postStatus?.setReadByCount(payload.readByCount)
         postFooter?.bindPayload(payload.repliesCount, payload.reactions)
-    }
-
-    private fun bindMentionBorder(content: PostContent) {
-        val hasMention = when (content) {
-            is MediaContent -> content.caption?.let {
-                MarkdownParser.hasCurrentUserMention(it)
-            } ?: false
-
-            is TextContent -> MarkdownParser.hasCurrentUserMention(content.message)
-            is PollContent -> MarkdownParser.hasCurrentUserMention(content.question)
-            else -> false
-        }
-        if (hasMention) postLayout?.setBackgroundResource(R.drawable.bg_mention_highlight)
-        else postLayout?.background = null
     }
 
     private fun openReplies() {

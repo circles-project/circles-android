@@ -15,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:textAppearance="@style/body"
+        android:textAppearance="@style/Body"
         app:layout_constraintEnd_toStartOf="@id/svFolder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

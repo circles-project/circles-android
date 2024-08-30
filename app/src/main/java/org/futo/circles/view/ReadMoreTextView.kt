@@ -11,6 +11,7 @@ import android.text.style.TextAppearanceSpan
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
 import androidx.core.text.buildSpannedString
 import androidx.core.text.getSpans
@@ -27,7 +28,7 @@ class ReadMoreTextView @JvmOverloads constructor(
     defStyleAttr: Int = R.attr.readMoreTextViewStyle
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
-    private var readMoreMaxLines: Int = 2
+    private var readMoreMaxLines: Int = 5
     private var readMoreText: String? = null
     private var readMoreTextColor: ColorStateList? = null
     private var bufferType: BufferType? = null
@@ -50,6 +51,8 @@ class ReadMoreTextView @JvmOverloads constructor(
                 R.styleable.ReadMoreTextView_readMoreTextColor
             ) ?: readMoreTextColor
         }
+
+        setLinkTextColor(ContextCompat.getColor(context, org.futo.circles.core.R.color.blue))
 
         if (hasOnClickListeners()) throw IllegalStateException("Custom onClickListener not supported")
         super.setOnClickListener {

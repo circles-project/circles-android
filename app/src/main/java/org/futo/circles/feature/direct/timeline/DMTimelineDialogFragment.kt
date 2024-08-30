@@ -82,7 +82,7 @@ class DMTimelineDialogFragment :
             getRecyclerView().apply {
                 isNestedScrollingEnabled = false
                 clipToPadding = false
-                setPadding(paddingLeft, paddingTop, paddingRight, context.dpToPx(70))
+                setPadding(paddingLeft, paddingTop, paddingRight, context.dpToPx(80))
             }
             addPageEndListener { viewModel.loadMore() }
         }

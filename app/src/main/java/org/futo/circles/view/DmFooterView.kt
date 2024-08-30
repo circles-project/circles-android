@@ -5,6 +5,8 @@ import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.use
+import org.futo.circles.R
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.ReactionsData
@@ -23,6 +25,20 @@ class DmFooterView(
 
     private var optionsListener: DmOptionsListener? = null
     private var post: Post? = null
+
+
+    init {
+        context.obtainStyledAttributes(
+            attrs, R.styleable.DmFooterView, 0, 0
+        ).use { ta ->
+            ta.getColorStateList(
+                R.styleable.DmFooterView_timeTextColor
+            )?.let {
+                binding.tvTime.setTextColor(it)
+                binding.tvEditedLabel.setTextColor(it)
+            }
+        }
+    }
 
 
     fun setListener(optionsListener: DmOptionsListener) {

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_background"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
+        app:subtitleCentered="true"
+        app:title="@string/settings"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <org.futo.circles.core.view.SettingsGroupLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:groupName="@string/personal_info">
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_my_profile"
+                    app:optionName="@string/edit_profile" />
+
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vChangePassphrase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hasDivider="false"
+                    app:optionIcon="@drawable/ic_lock"
+                    app:optionName="@string/change_passphrase" />
+
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <org.futo.circles.core.view.SettingsGroupLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:groupName="@string/media_storage">
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/mediaStorageProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="14dp"
+                    app:trackCornerRadius="6dp"
+                    tools:progress="15" />
+
+                <TextView
+                    android:id="@+id/tvMediaStorageInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="14dp"
+                    android:gravity="center"
+                    android:text="@string/empty_media_storage_info"
+                    android:textSize="13sp" />
+
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <org.futo.circles.core.view.SettingsGroupLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:groupName="@string/notifications">
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vPushNotifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hasDivider="false"
+                    app:optionIcon="@drawable/ic_manage_notifications"
+                    app:optionName="@string/manage_notifications" />
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <org.futo.circles.core.view.SettingsGroupLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:groupName="@string/app_settings">
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vIgnoredUsers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_ignore"
+                    app:optionName="@string/ignored_users" />
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vLoginSessions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_phone"
+                    app:optionName="@string/login_sessions" />
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vAdvancedSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hasDivider="false"
+                    app:optionIcon="@drawable/ic_settings"
+                    app:optionName="@string/advanced_settings" />
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <org.futo.circles.core.view.SettingsGroupLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:groupName="@string/support">
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_help"
+                    app:optionName="@string/about" />
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vPrivacyPolicy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_privacy_policy"
+                    app:optionName="@string/privacy_policy" />
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vChangeLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hasDivider="false"
+                    app:optionIcon="@drawable/ic_change_log"
+                    app:optionName="@string/change_log" />
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <org.futo.circles.core.view.SettingsGroupLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:groupName="@string/account">
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vSwitchAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_switch_user"
+                    app:optionName="@string/switch_account" />
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vDeactivate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:optionIcon="@drawable/ic_deactivate_account"
+                    app:optionName="@string/deactivate_my_account" />
+
+                <org.futo.circles.core.view.SettingsMenuItemView
+                    android:id="@+id/vLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hasDivider="false"
+                    app:optionIcon="@drawable/ic_logout"
+                    app:optionName="@string/log_out" />
+
+            </org.futo.circles.core.view.SettingsGroupLayout>
+
+
+            <TextView
+                android:id="@+id/tvVersion"
+                style="@style/settingMenuHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp"
+                tools:text="Version" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -42,13 +42,10 @@ class DMFragment :
         binding.rvDirectMessages.apply {
             setEmptyView(EmptyTabPlaceholderView(requireContext()).apply {
                 setText(getString(R.string.invite_users_for_direct_messages))
-                setArrowVisible(true)
             })
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = listAdapter
-            bindToFab(binding.fbAddUser)
         }
-        binding.fbAddUser.setOnClickListener {
+        binding.ivCreateDm.setOnClickListener {
             findNavController().navigateSafe(DMFragmentDirections.toCreateDMDialogFragment())
         }
     }

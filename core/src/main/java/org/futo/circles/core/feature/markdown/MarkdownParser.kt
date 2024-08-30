@@ -13,10 +13,7 @@ import io.noties.markwon.ext.strikethrough.StrikethroughPlugin
 import io.noties.markwon.linkify.LinkifyPlugin
 import org.commonmark.node.Emphasis
 import org.commonmark.node.StrongEmphasis
-import org.futo.circles.core.extensions.notEmptyDisplayName
 import org.futo.circles.core.feature.markdown.mentions.plugin.MentionPlugin
-import org.futo.circles.core.provider.MatrixSessionProvider
-import org.matrix.android.sdk.api.session.getUserOrDefault
 
 
 object MarkdownParser {
@@ -54,12 +51,4 @@ object MarkdownParser {
         .usePlugin(StrikethroughPlugin.create())
         .usePlugin(LinkifyPlugin.create())
         .build()
-
-    fun hasCurrentUserMention(text: String): Boolean {
-        val session = MatrixSessionProvider.currentSession ?: return false
-        val userName = session.getUserOrDefault(session.myUserId).notEmptyDisplayName()
-        val mentionString = "@$userName@"
-        return text.contains(mentionString)
-    }
-
 }

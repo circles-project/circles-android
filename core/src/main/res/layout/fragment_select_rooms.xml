@@ -17,10 +17,11 @@
 
     <TextView
         android:id="@+id/tvSelectedRoomsPlaceholder"
-        style="@style/subheadline"
+        style="@style/Body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:paddingHorizontal="16dp"
         android:text="@string/select_items_from_list_below"
         app:layout_constraintBottom_toBottomOf="@id/rvSelectedCircles"
         app:layout_constraintEnd_toEndOf="parent"

@@ -6,7 +6,6 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
 import org.futo.circles.core.databinding.DialogFragmentManageMembersBinding
@@ -58,10 +57,7 @@ class ManageMembersDialogFragment :
     }
 
     private fun setupViews() {
-        binding.rvMembers.apply {
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            adapter = membersListAdapter
-        }
+        binding.rvMembers.adapter = membersListAdapter
     }
 
     private fun setupObservers() {

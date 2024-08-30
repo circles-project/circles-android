@@ -11,27 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="?attr/homeAsUpIndicator"
+            app:navigationIconTint="@color/grey_cool_1100"
             app:title="@string/share_room"
-            app:titleCentered="true" />
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
-
-        <View
-            android:id="@+id/toolbarDivider"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/divider_height"
-            android:background="@color/divider_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <org.futo.circles.core.view.QrCodeImageView
             android:id="@+id/ivQr"
@@ -44,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.38"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbarDivider" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <ProgressBar
             android:id="@+id/vLoading"
@@ -53,12 +46,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbarDivider"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintVertical_bias="0.25" />
 
         <TextView
             android:id="@+id/tvRoomName"
-            style="@style/body"
+            style="@style/Headline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="36dp"
@@ -71,6 +64,7 @@
 
         <TextView
             android:id="@+id/tvRoomId"
+            style="@style/Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="36dp"
@@ -86,7 +80,7 @@
             android:id="@+id/btnShare"
             style="@style/NegativeButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_marginTop="16dp"
             android:text="@string/share_url"
             android:visibility="gone"

@@ -29,9 +29,4 @@ class CirclesNavigator(private val fragment: CirclesFragment) {
             .navigateSafe(CirclesFragmentDirections.toCreateCircleDialogFragment())
     }
 
-    fun navigateToExplanationDialog() {
-        fragment.findNavController()
-            .navigateSafe(CirclesFragmentDirections.toCirclesExplanationDialogFragment())
-    }
-
 }
