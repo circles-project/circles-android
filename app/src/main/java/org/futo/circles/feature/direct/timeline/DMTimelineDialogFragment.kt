@@ -8,6 +8,7 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
@@ -80,6 +81,7 @@ class DMTimelineDialogFragment :
         binding.rvTimeline.apply {
             adapter = listAdapter
             getRecyclerView().apply {
+                (layoutManager as? LinearLayoutManager)?.stackFromEnd = true
                 isNestedScrollingEnabled = false
                 clipToPadding = false
                 setPadding(paddingLeft, paddingTop, paddingRight, context.dpToPx(80))
