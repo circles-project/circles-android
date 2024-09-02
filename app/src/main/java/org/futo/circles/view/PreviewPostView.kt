@@ -103,11 +103,12 @@ class PreviewPostView(
     fun setup(
         previewPostListener: PreviewPostListener,
         roomId: String,
-        isEdit: Boolean
+        isEdit: Boolean,
+        isThread: Boolean
     ) {
         setTextEditorMode(false)
         listener = previewPostListener
-        setupMainMenu(isEdit)
+        setupMainMenu(isEdit, isThread)
         initMentionsAutocomplete(roomId)
         binding.btnSend.setText(if (isEdit) R.string.edit else R.string.send)
     }
@@ -268,11 +269,13 @@ class PreviewPostView(
         return session?.myUserId?.let { session.getUser(it) }
     }
 
-    private fun setupMainMenu(isEdit: Boolean) {
-        if (!isEdit) {
+    private fun setupMainMenu(isEdit: Boolean, isThread: Boolean) {
+        if (!isEdit && !isThread) {
             addMenuItem(binding.lMainMenu, R.drawable.ic_poll) {
                 listener?.onCreatePollClicked()
             }
+        }
+        if (!isEdit) {
             addMenuItem(binding.lMainMenu, R.drawable.ic_image) {
                 listener?.onUploadMediaClicked()
             }

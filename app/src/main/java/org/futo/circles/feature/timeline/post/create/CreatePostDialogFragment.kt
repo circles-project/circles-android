@@ -69,7 +69,12 @@ class CreatePostDialogFragment :
 
     private fun setupViews() {
         setToolbarTitle()
-        binding.vPostPreview.setup(this@CreatePostDialogFragment, args.roomId, args.isEdit)
+        binding.vPostPreview.setup(
+            this@CreatePostDialogFragment,
+            args.roomId,
+            args.isEdit,
+            isThread()
+        )
     }
 
     private fun setupObservers() {
@@ -148,4 +153,6 @@ class CreatePostDialogFragment :
         super.onDestroyView()
         uploadMediaTracker?.clear()
     }
+
+    private fun isThread() = !args.isEdit && args.eventId != null
 }
