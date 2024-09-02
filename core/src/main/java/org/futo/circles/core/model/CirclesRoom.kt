@@ -123,3 +123,8 @@ data class Timeline(
     override val type: String? = TIMELINE_TYPE,
     override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK
 ) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, null)
+
+data class DMRoom(
+    override val nameId: Int? = null,
+    override val parentAccountDataKey: String? = CHATS_SPACE_ACCOUNT_DATA_KEY
+) : CirclesRoom(nameId, parentAccountDataKey, null, null, null)

@@ -3,6 +3,7 @@ package org.futo.circles.core.feature.room.invite
 import dagger.hilt.android.scopes.ViewModelScoped
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
+import org.futo.circles.core.model.DMRoom
 import org.futo.circles.core.model.Gallery
 import org.futo.circles.core.model.Group
 import org.futo.circles.core.model.RoomRequestTypeArg
@@ -27,12 +28,9 @@ class ManageInviteRequestsDataSource @Inject constructor(
             RoomRequestTypeArg.Circle -> Timeline()
             RoomRequestTypeArg.Group -> Group()
             RoomRequestTypeArg.Photo -> Gallery()
-            RoomRequestTypeArg.DM -> null // no additional relations for dms
+            RoomRequestTypeArg.DM -> DMRoom()
         }
-
-        circleRoomForRelations?.let {
-            roomRelationsBuilder.setInvitedRoomRelations(roomId, it)
-        }
+        roomRelationsBuilder.setInvitedRoomRelations(roomId, circleRoomForRelations)
     }
 
     suspend fun rejectInvite(roomId: String) = createResult {
