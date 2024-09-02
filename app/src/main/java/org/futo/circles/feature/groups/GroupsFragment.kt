@@ -74,30 +74,22 @@ class GroupsFragment : BaseBindingFragment<FragmentGroupsBinding>(FragmentGroups
         findNavController().navigateSafe(GroupsFragmentDirections.toCreateGroupDialogFragment())
     }
 
-    private fun getGroupGridOffsetDecoration() = GridOffsetDecoration { holder, position ->
+    private fun getGroupGridOffsetDecoration() = GridOffsetDecoration { holder, column ->
         if (holder !is JoinedGroupViewHolder) return@GridOffsetDecoration Rect()
-        val itemNumber = position + 1
-        var left = 0
-        var right = 0
-        val defaultOffset = requireContext().dpToPx(10)
-        if ((listAdapter as? GroupsListAdapter)?.getItemViewType(0) == GroupListItemViewType.InviteNotification.ordinal) {
-            if (itemNumber % 2 == 0) {
-                left = defaultOffset
-                right = 0
-            } else {
-                left = 0
-                right = defaultOffset
-            }
-        } else {
-            if (itemNumber % 2 == 0) {
-                left = 0
-                right = defaultOffset
-            } else {
-                left = defaultOffset
-                right = 0
-            }
-        }
 
-        Rect(left, 0, right, 0)
+        val offsetOfParent = requireContext().dpToPx(16)
+        val itemsOffset = requireContext().dpToPx(6)
+        val left: Int
+        val right: Int
+
+        if (column == 0) {
+            left = offsetOfParent
+            right = itemsOffset
+        } else {
+            left = itemsOffset
+            right = offsetOfParent
+        }
+        Rect(left, itemsOffset, right, itemsOffset)
     }
+
 }
