@@ -51,22 +51,6 @@
 
         </action>
         <action
-            android:id="@+id/to_createPoll"
-            app:destination="@id/createPollDialogFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="eventId"
-                app:argType="string"
-                app:nullable="true" />
-
-        </action>
-
-        <action
             android:id="@+id/to_mediaPreviewDialogFragment"
             app:destination="@id/mediaPreviewDialogFragment">
 
@@ -161,7 +145,6 @@
     <dialog
         android:id="@+id/createPostBottomSheet"
         android:name="org.futo.circles.feature.timeline.post.create.CreatePostDialogFragment"
-        android:label="CreatePostBottomSheet"
         tools:layout="@layout/dialog_fragment_create_post">
 
         <argument
@@ -182,6 +165,24 @@
         <action
             android:id="@+id/to_emojiBottomSheet"
             app:destination="@id/emojiBottomSheet" />
+
+        <action
+            android:id="@+id/to_createPoll"
+            app:destination="@id/createPollDialogFragment"
+            app:popUpTo="@+id/createPostBottomSheet"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="eventId"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
     </dialog>
     <dialog
         android:id="@+id/reportDialogFragment"
@@ -431,23 +432,6 @@
                 android:defaultValue="false"
                 app:argType="boolean"
                 app:nullable="false" />
-
-        </action>
-        <action
-            android:id="@+id/to_createPoll"
-            app:destination="@id/createPollDialogFragment"
-            app:popUpTo="@id/timelineFragment">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="eventId"
-                android:defaultValue="@null"
-                app:argType="string"
-                app:nullable="true" />
 
         </action>
     </dialog>

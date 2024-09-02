@@ -7,4 +7,5 @@ interface PreviewPostListener {
     fun onEmojiClicked()
     fun onAddLinkClicked()
     fun onSendClicked(content: CreatePostContent)
+    fun onCreatePollClicked()
 }

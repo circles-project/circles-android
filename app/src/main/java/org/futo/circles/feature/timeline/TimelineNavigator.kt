@@ -24,12 +24,6 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
         )
     }
 
-    fun navigateToCreatePoll(roomId: String) {
-        fragment.findNavController().navigateSafe(
-            TimelineDialogFragmentDirections.toCreatePoll(roomId, null)
-        )
-    }
-
     fun navigateToShowMediaPreview(roomId: String, eventId: String) {
         fragment.findNavController().navigateSafe(
             TimelineDialogFragmentDirections.toMediaPreviewDialogFragment(roomId, eventId)
@@ -72,12 +66,4 @@ class TimelineNavigator(private val fragment: TimelineDialogFragment) {
             )
     }
 
-    fun navigateToChooseCircleToCreatePoll() {
-        fragment.findNavController()
-            .navigateSafe(
-                TimelineDialogFragmentDirections.toPickCircleDialogFragment(
-                    PickCircleTypeArg.CreatePoll
-                )
-            )
-    }
 }

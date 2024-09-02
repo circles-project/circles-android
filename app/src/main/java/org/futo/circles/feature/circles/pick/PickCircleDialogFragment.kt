@@ -25,8 +25,7 @@ class PickCircleDialogFragment :
     private val selectRoomsFragment by lazy {
         val selectRoomType = when (args.type) {
             PickCircleTypeArg.AllPostsSettings -> SelectRoomTypeArg.CirclesJoined
-            PickCircleTypeArg.CreatePost,
-            PickCircleTypeArg.CreatePoll -> SelectRoomTypeArg.MyCircles
+            PickCircleTypeArg.CreatePost -> SelectRoomTypeArg.MyCircles
         }
         SelectRoomsFragment.create(selectRoomType, isMultiSelect = false)
     }
@@ -48,7 +47,6 @@ class PickCircleDialogFragment :
             when (args.type) {
                 PickCircleTypeArg.AllPostsSettings -> R.string.circles_settings
                 PickCircleTypeArg.CreatePost -> R.string.choose_circle_to_post
-                PickCircleTypeArg.CreatePoll -> R.string.choose_circle_for_poll
             }
         )
     }
@@ -62,10 +60,6 @@ class PickCircleDialogFragment :
 
             PickCircleTypeArg.CreatePost -> findNavController().navigateSafe(
                 PickCircleDialogFragmentDirections.toCreatePost(roomId)
-            )
-
-            PickCircleTypeArg.CreatePoll -> findNavController().navigateSafe(
-                PickCircleDialogFragmentDirections.toCreatePoll(roomId)
             )
         }
     }

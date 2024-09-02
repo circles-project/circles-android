@@ -25,14 +25,12 @@
 
     <TextView
         android:id="@+id/tvPollStatus"
+        style="@style/Footnote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ellipsize="end"
-        android:fontFamily="@font/inter_regular"
         android:lines="1"
-        android:textColor="@color/grey_cool_1000"
-        android:textSize="12sp"
         tools:text="Some Message" />
 
 </merge>

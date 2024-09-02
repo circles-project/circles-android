@@ -64,6 +64,7 @@
         <TextView
             android:id="@+id/tvVotesCount"
             android:layout_width="0dp"
+            style="@style/Footnote"
             android:layout_height="wrap_content"
             android:lines="1"
             android:visibility="gone"

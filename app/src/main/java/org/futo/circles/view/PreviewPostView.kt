@@ -107,7 +107,7 @@ class PreviewPostView(
     ) {
         setTextEditorMode(false)
         listener = previewPostListener
-        setupMainMenu(!isEdit)
+        setupMainMenu(isEdit)
         initMentionsAutocomplete(roomId)
         binding.btnSend.setText(if (isEdit) R.string.edit else R.string.send)
     }
@@ -268,8 +268,11 @@ class PreviewPostView(
         return session?.myUserId?.let { session.getUser(it) }
     }
 
-    private fun setupMainMenu(isMediaAvailable: Boolean) {
-        if (isMediaAvailable) {
+    private fun setupMainMenu(isEdit: Boolean) {
+        if (!isEdit) {
+            addMenuItem(binding.lMainMenu, R.drawable.ic_poll) {
+                listener?.onCreatePollClicked()
+            }
             addMenuItem(binding.lMainMenu, R.drawable.ic_image) {
                 listener?.onUploadMediaClicked()
             }

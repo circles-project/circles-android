@@ -4,8 +4,6 @@
     android:id="@+id/lCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="5dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"

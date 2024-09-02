@@ -134,6 +134,12 @@ class CreatePostDialogFragment :
         viewModel.onSendAction(content)
     }
 
+    override fun onCreatePollClicked() {
+        findNavController().navigateSafe(
+            CreatePostDialogFragmentDirections.toCreatePoll(args.roomId, args.eventId)
+        )
+    }
+
     override fun onEmojiSelected(roomId: String?, eventId: String?, emoji: String) {
         binding.vPostPreview.insertEmoji(emoji)
     }
