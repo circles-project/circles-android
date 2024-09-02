@@ -14,10 +14,10 @@ import org.futo.circles.core.extensions.getOrThrow
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.launchUi
 import org.futo.circles.core.feature.room.RoomRelationsBuilder
+import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.model.TimelineListItem
 import org.futo.circles.core.model.TimelineRoomListItem
 import org.futo.circles.core.provider.MatrixSessionProvider
-import org.futo.circles.core.utils.getUserDirectMessagesRoomLiveData
 import org.futo.circles.core.utils.getUserDirectMessagesStateLiveData
 import javax.inject.Inject
 
@@ -26,7 +26,8 @@ class UserViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val userDataSource: UserDataSource,
     private val userOptionsDataSource: UserOptionsDataSource,
-    private val roomRelationsBuilder: RoomRelationsBuilder
+    private val roomRelationsBuilder: RoomRelationsBuilder,
+    private val createRoomDataSource: CreateRoomDataSource
 ) : ViewModel() {
 
     private val userId: String = savedStateHandle.getOrThrow("userId")
@@ -104,9 +105,7 @@ class UserViewModel @Inject constructor(
 
     fun inviteForDirectMessages() {
         launchBg {
-            val result = createResult {
-                MatrixSessionProvider.getSessionOrThrow().roomService().createDirectRoom(userId)
-            }
+            val result = createResult { createRoomDataSource.createDmRoom(userId) }
             inviteForDirectMessagesLiveData.postValue(result)
         }
     }

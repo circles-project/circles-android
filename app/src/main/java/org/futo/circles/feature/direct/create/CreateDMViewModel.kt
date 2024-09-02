@@ -11,13 +11,14 @@ import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
 import org.futo.circles.core.extensions.launchBg
 import org.futo.circles.core.extensions.launchUi
+import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.model.CirclesUserSummary
-import org.futo.circles.core.provider.MatrixSessionProvider
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateDMViewModel @Inject constructor(
-    private val createDMDataSource: CreateDMDataSource
+    private val createDMDataSource: CreateDMDataSource,
+    private val createRoomDataSource: CreateRoomDataSource
 ) : ViewModel() {
 
     val searchUsersLiveData = MutableLiveData<List<CirclesUserSummary>>()
@@ -37,9 +38,7 @@ class CreateDMViewModel @Inject constructor(
 
     fun inviteForDirectMessages(userId: String) {
         launchBg {
-            val result = createResult {
-                MatrixSessionProvider.getSessionOrThrow().roomService().createDirectRoom(userId)
-            }
+            val result = createResult { createRoomDataSource.createDmRoom(userId) }
             inviteForDirectMessagesLiveData.postValue(result)
         }
     }

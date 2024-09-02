@@ -8,6 +8,7 @@ import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.CreateR
 import org.futo.circles.core.feature.room.create.CreateRoomProgressStage.SetParentRelations
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.AccessLevel
+import org.futo.circles.core.model.CHATS_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.model.CirclesRoom
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.matrix.android.sdk.api.session.events.model.EventType
@@ -31,6 +32,14 @@ class CreateRoomDataSource @Inject constructor(
 ) {
 
     private val session by lazy { MatrixSessionProvider.getSessionOrThrow() }
+
+    suspend fun createDmRoom(otherUserId: String): String {
+        val roomId =
+            MatrixSessionProvider.getSessionOrThrow().roomService().createDirectRoom(otherUserId)
+        val parentId = spacesTreeAccountDataSource.getRoomIdByKey(CHATS_SPACE_ACCOUNT_DATA_KEY)
+        parentId?.let { roomRelationsBuilder.setRelations(roomId, it) }
+        return roomId
+    }
 
     suspend fun createRoom(
         circlesRoom: CirclesRoom,
