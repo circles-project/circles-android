@@ -9,9 +9,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilOption"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/TextInputWithBorder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/grey_cool_600"
+        app:hintEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ivRemove"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,31 +21,28 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etOption"
+            style="@style/CirclesTextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
-            android:inputType="textCapSentences"
-            android:maxLines="1"
-            android:padding="12dp" />
+            android:inputType="textCapSentences" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/ivRemove"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/highlight_color"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:padding="14dp"
-        android:src="@drawable/ic_close"
-        android:tint="@color/white"
+        android:padding="16dp"
+        android:src="@drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="@id/tilOption"
-        app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tilOption"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+        app:tint="@color/grey_cool_1100" />
 
 </merge>

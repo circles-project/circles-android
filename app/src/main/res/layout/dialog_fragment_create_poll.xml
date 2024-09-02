@@ -4,89 +4,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/create_poll"
         app:titleCentered="true"
-        app:titleMarginEnd="72dp">
+        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
 
-        <org.futo.circles.core.view.LoadingButton
-            android:id="@+id/btnCreate"
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginVertical="8dp"
-            android:layout_marginEnd="8dp"
-            android:enabled="false"
-            android:text="@string/create"
-            android:textSize="13sp"
-            app:textPadding="1dp" />
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:fillViewport="true"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnCreate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="8dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineEnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="8dp" />
-
             <TextView
                 android:id="@+id/tvTypeHeader"
-                style="@style/Headline"
+                style="@style/InputHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/poll_type"
-                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <RadioGroup
                 android:id="@+id/pollTypeGroup"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTypeHeader">
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
@@ -99,6 +69,7 @@
 
                 <TextView
                     android:id="@+id/tvOpenHint"
+                    style="@style/Footnote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -114,6 +85,7 @@
 
                 <TextView
                     android:id="@+id/tvClosedHint"
+                    style="@style/Footnote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -123,70 +95,73 @@
 
             <TextView
                 android:id="@+id/tvQuestionHeader"
-                style="@style/Headline"
+                style="@style/InputHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/poll_question"
-                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/pollTypeGroup" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilQuestion"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/TextInputWithBorder"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                app:hintEnabled="false"
-                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvQuestionHeader">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etQuestion"
+                    style="@style/CirclesTextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/enter_question_here"
                     android:imeOptions="actionNext"
-                    android:inputType="textCapSentences"
-                    android:maxLines="1"
-                    android:padding="12dp" />
+                    android:inputType="textCapSentences" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tvOptionsHeader"
-                style="@style/Headline"
+                style="@style/InputHeader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/poll_options"
-                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tilQuestion" />
 
             <org.futo.circles.view.CreatePollOptionsLayout
                 android:id="@+id/lvPostOptions"
                 android:layout_width="0dp"
+                android:layout_marginStart="16dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvOptionsHeader" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddOption"
                 style="@style/NegativeButtonStyle"
                 android:layout_width="120dp"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:padding="0dp"
                 android:text="@string/add_option"
                 android:textSize="12sp"
                 app:icon="@drawable/ic_add"
                 app:iconGravity="textStart"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lvPostOptions"
                 app:layout_constraintVertical_bias="0" />
 
@@ -194,5 +169,16 @@
 
     </ScrollView>
 
+
+    <org.futo.circles.core.view.LoadingButton
+        android:id="@+id/btnCreate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:enabled="false"
+        android:text="@string/create"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

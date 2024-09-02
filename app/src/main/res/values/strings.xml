@@ -107,6 +107,7 @@
     <string name="create_new_post">Create new post</string>
     <string name="type_here">type here</string>
     <string name="send">Send</string>
+    <string name="enter_question_here">Enter question here</string>
 
 
     <string-array name="report_categories">
