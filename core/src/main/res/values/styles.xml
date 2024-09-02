@@ -15,10 +15,6 @@
 
 
     <!-- Shapes  -->
-    <style name="ShapeAppearanceOverlay.App.GroupIconRadius" parent="">
-        <item name="cornerSize">10%</item>
-    </style>
-
     <style name="ShapeAppearanceOverlay.App.RoundIcon" parent="">
         <item name="cornerSize">50%</item>
     </style>

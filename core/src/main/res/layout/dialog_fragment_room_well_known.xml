@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintVertical_chainStyle="packed"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.GroupIconRadius" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon" />
 
 
     <ProgressBar
