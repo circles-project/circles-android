@@ -17,6 +17,7 @@ const val PROFILE_SPACE_ACCOUNT_DATA_KEY = "profile"
 const val PHOTOS_SPACE_ACCOUNT_DATA_KEY = "galleries"
 const val PEOPLE_SPACE_ACCOUNT_DATA_KEY = "people"
 const val GROUPS_SPACE_ACCOUNT_DATA_KEY = "groups"
+const val CHATS_SPACE_ACCOUNT_DATA_KEY = "chats"
 
 
 sealed class CirclesRoom(
@@ -78,7 +79,6 @@ data class PeopleSpace(
     override val joinRules: RoomJoinRules? = null,
     override val accountDataKey: String? = PEOPLE_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, accountDataKey) {
-
     override fun getTag(): String = "$orgPrefix.space.people"
 }
 
@@ -89,8 +89,17 @@ data class GroupsSpace(
     override val joinRules: RoomJoinRules? = null,
     override val accountDataKey: String? = GROUPS_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, accountDataKey) {
-
     override fun getTag(): String = "$orgPrefix.space.groups"
+}
+
+data class ChatsSpace(
+    override val nameId: Int? = R.string.direct_messages,
+    override val parentAccountDataKey: String? = ROOT_SPACE_ACCOUNT_DATA_KEY,
+    override val type: String? = RoomType.SPACE,
+    override val joinRules: RoomJoinRules? = null,
+    override val accountDataKey: String? = CHATS_SPACE_ACCOUNT_DATA_KEY
+) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, accountDataKey) {
+    override fun getTag(): String = "$orgPrefix.space.chats"
 }
 
 

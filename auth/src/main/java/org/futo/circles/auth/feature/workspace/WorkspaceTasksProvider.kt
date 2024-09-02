@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.auth.R
 import org.futo.circles.auth.model.SetupCirclesListItem
+import org.futo.circles.core.model.ChatsSpace
 import org.futo.circles.core.model.GroupsSpace
 import org.futo.circles.core.model.PeopleSpace
 import org.futo.circles.core.model.PhotosSpace
@@ -21,6 +22,7 @@ class WorkspaceTasksProvider @Inject constructor(
         TimelinesSpace(),
         GroupsSpace(),
         PhotosSpace(),
+        ChatsSpace(),
         PeopleSpace(),
         SharedCirclesSpace()
     )
