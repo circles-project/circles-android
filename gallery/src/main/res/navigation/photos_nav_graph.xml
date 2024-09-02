@@ -25,7 +25,7 @@
 
         <action
             android:id="@+id/to_galleryFragment"
-            app:destination="@id/galleryFragment">
+            app:destination="@id/gallery_timeline_nav_graph">
 
             <argument
                 android:name="roomId"
@@ -49,44 +49,16 @@
         </action>
     </fragment>
 
-    <dialog
-        android:id="@+id/galleryFragment"
-        android:name="org.futo.circles.gallery.feature.gallery.GalleryDialogFragment"
-        tools:layout="@layout/fragment_gallery_grid">
-
-        <argument
-            android:name="roomId"
-            app:argType="string"
-            app:nullable="false" />
-        <action
-            android:id="@+id/to_timeline_options"
-            app:destination="@id/timeline_options_nav_graph">
-
-            <argument
-                android:name="roomId"
-                app:argType="string"
-                app:nullable="false" />
-
-            <argument
-                android:name="type"
-                android:defaultValue="Photo"
-                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
-                app:nullable="false" />
-
-        </action>
-
-    </dialog>
-
 
     <dialog
         android:id="@+id/mediaBackupDialogFragment"
         android:name="org.futo.circles.gallery.feature.backup.MediaBackupDialogFragment"
         tools:layout="@layout/dialog_fragment_media_backup" />
 
-    <include app:graph="@navigation/timeline_options_nav_graph" />
-
     <include app:graph="@navigation/room_requests_nav_graph" />
 
     <include app:graph="@navigation/create_room_nav_graph" />
+
+    <include app:graph="@navigation/gallery_timeline_nav_graph" />
 
 </navigation>

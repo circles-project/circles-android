@@ -18,7 +18,6 @@ import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.model.RoomPublicInfo
-import org.futo.circles.core.model.ShareUrlTypeArg
 import org.matrix.android.sdk.api.session.room.model.Membership
 
 @AndroidEntryPoint
@@ -99,7 +98,6 @@ class RoomWellKnownDialogFragment :
                 text = getString(R.string.topic_format, roomInfo.topic ?: "")
             }
             tvType.apply {
-                setIsVisible(roomInfo.type != ShareUrlTypeArg.ROOM)
                 text = getString(R.string.room_type_format, roomInfo.type.typeKey)
             }
             tvMembersip.text = getString(

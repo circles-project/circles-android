@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gallery_timeline_nav_graph"
+    app:startDestination="@id/galleryFragment">
+    <dialog
+        android:id="@+id/galleryFragment"
+        android:name="org.futo.circles.gallery.feature.gallery.GalleryDialogFragment"
+        tools:layout="@layout/fragment_gallery_grid">
+
+        <argument
+            android:name="roomId"
+            app:argType="string"
+            app:nullable="false" />
+        <action
+            android:id="@+id/to_timeline_options"
+            app:destination="@id/timeline_options_nav_graph">
+
+            <argument
+                android:name="roomId"
+                app:argType="string"
+                app:nullable="false" />
+
+            <argument
+                android:name="type"
+                android:defaultValue="Photo"
+                app:argType="org.futo.circles.core.model.CircleRoomTypeArg"
+                app:nullable="false" />
+
+        </action>
+
+    </dialog>
+    <include app:graph="@navigation/timeline_options_nav_graph" />
+</navigation>

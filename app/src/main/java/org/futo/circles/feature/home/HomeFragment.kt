@@ -20,6 +20,7 @@ import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.feature.picker.helper.RuntimePermissionHelper
+import org.futo.circles.core.model.GALLERY_TYPE
 import org.futo.circles.core.model.GROUP_TYPE
 import org.futo.circles.core.model.ResLoadingData
 import org.futo.circles.core.model.RoomRequestTypeArg
@@ -80,6 +81,7 @@ class HomeFragment :
         val requestType = when (summary.roomType) {
             GROUP_TYPE -> RoomRequestTypeArg.Group
             TIMELINE_TYPE -> RoomRequestTypeArg.Circle
+            GALLERY_TYPE -> RoomRequestTypeArg.Photo
             null -> RoomRequestTypeArg.DM
             else -> return
         }
@@ -89,6 +91,7 @@ class HomeFragment :
                 selectedItemId = when (requestType) {
                     RoomRequestTypeArg.DM -> R.id.direct_messages_nav_graph
                     RoomRequestTypeArg.Group -> R.id.groups_nav_graph
+                    RoomRequestTypeArg.Photo -> R.id.photos_nav_graph
                     else -> R.id.circles_nav_graph
                 }
             }
@@ -119,6 +122,8 @@ class HomeFragment :
                 roomId,
                 TimelineTypeArg.GROUP
             )
+
+            RoomRequestTypeArg.Photo -> HomeFragmentDirections.toGalleryTimeline(roomId)
 
             else -> HomeFragmentDirections.toDmTimeline(roomId)
         }
