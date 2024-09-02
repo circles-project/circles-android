@@ -19,22 +19,10 @@
         android:id="@+id/ivSelect"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_unselected" />
-
-    <View
-        android:id="@+id/vSelectBackground"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:alpha="0.2"
-        android:background="@color/primary"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/baseGalleryItem"
-        app:layout_constraintEnd_toEndOf="@id/baseGalleryItem"
-        app:layout_constraintStart_toStartOf="@id/baseGalleryItem"
-        app:layout_constraintTop_toTopOf="@id/baseGalleryItem" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
