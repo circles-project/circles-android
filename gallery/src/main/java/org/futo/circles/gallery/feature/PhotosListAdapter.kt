@@ -11,7 +11,7 @@ import org.futo.circles.core.model.GalleryInvitesNotificationListItem
 import org.futo.circles.core.model.GalleryListItem
 import org.futo.circles.core.model.JoinedGalleryListItem
 
-private enum class GalleryListItemViewType { JoinedGallery, InviteNotification, Header }
+enum class GalleryListItemViewType { JoinedGallery, InviteNotification, Header }
 
 class PhotosListAdapter(
     private val onRoomClicked: (GalleryListItem) -> Unit,
