@@ -26,7 +26,7 @@ class InternalLinkMovementMethod(private val onLinkClickedListener: OnLinkClicke
 
             link.getOrNull(0)?.let { span ->
                 val url = span.url
-                return if (url.contains("circles.futo.org")) {
+                return if (url.contains("circlesproject.net")) {
                     super.onTouchEvent(widget, buffer, event)
                 } else {
                     onLinkClickedListener.onLinkClicked(url)

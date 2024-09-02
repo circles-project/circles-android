@@ -52,8 +52,8 @@
 
                 <data android:scheme="https" />
                 <data android:scheme="http" />
-                <data android:host="circles.futo.org" />
-                <data android:pathPrefix="/room" />
+                <data android:host="circlesproject.net" />
+                <data android:pathPrefix="/gallery" />
                 <data android:pathPrefix="/group" />
                 <data android:pathPrefix="/timeline" />
 
