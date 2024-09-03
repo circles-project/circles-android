@@ -6,10 +6,8 @@ import org.futo.circles.auth.R
 import org.futo.circles.auth.model.SetupCirclesListItem
 import org.futo.circles.core.model.ChatsSpace
 import org.futo.circles.core.model.GroupsSpace
-import org.futo.circles.core.model.PeopleSpace
 import org.futo.circles.core.model.PhotosSpace
 import org.futo.circles.core.model.RootSpace
-import org.futo.circles.core.model.SharedCirclesSpace
 import org.futo.circles.core.model.TimelinesSpace
 import javax.inject.Inject
 
@@ -22,9 +20,7 @@ class WorkspaceTasksProvider @Inject constructor(
         TimelinesSpace(),
         GroupsSpace(),
         PhotosSpace(),
-        ChatsSpace(),
-        PeopleSpace(),
-        SharedCirclesSpace()
+        ChatsSpace()
     )
 
     fun getInitialSetupCirclesList(): List<SetupCirclesListItem> = listOf(

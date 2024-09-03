@@ -13,9 +13,7 @@ const val TIMELINE_TYPE = "$orgPrefix.social.timeline"
 
 const val ROOT_SPACE_ACCOUNT_DATA_KEY = "root"
 const val TIMELINES_SPACE_ACCOUNT_DATA_KEY = "timelines"
-const val PROFILE_SPACE_ACCOUNT_DATA_KEY = "profile"
 const val PHOTOS_SPACE_ACCOUNT_DATA_KEY = "galleries"
-const val PEOPLE_SPACE_ACCOUNT_DATA_KEY = "people"
 const val GROUPS_SPACE_ACCOUNT_DATA_KEY = "groups"
 const val CHATS_SPACE_ACCOUNT_DATA_KEY = "chats"
 
@@ -52,16 +50,6 @@ data class TimelinesSpace(
     override fun getTag(): String = "$orgPrefix.space.timelines"
 }
 
-data class SharedCirclesSpace(
-    override val nameId: Int? = R.string.shared_circles,
-    override val parentAccountDataKey: String? = ROOT_SPACE_ACCOUNT_DATA_KEY,
-    override val type: String? = RoomType.SPACE,
-    override val joinRules: RoomJoinRules? = RoomJoinRules.KNOCK,
-    override val accountDataKey: String? = PROFILE_SPACE_ACCOUNT_DATA_KEY
-) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, accountDataKey) {
-    override fun getTag(): String = "$orgPrefix.space.circles.shared"
-}
-
 data class PhotosSpace(
     override val nameId: Int? = R.string.photos_space_name,
     override val parentAccountDataKey: String? = ROOT_SPACE_ACCOUNT_DATA_KEY,
@@ -70,16 +58,6 @@ data class PhotosSpace(
     override val accountDataKey: String? = PHOTOS_SPACE_ACCOUNT_DATA_KEY
 ) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, accountDataKey) {
     override fun getTag(): String = "$orgPrefix.space.photos"
-}
-
-data class PeopleSpace(
-    override val nameId: Int? = R.string.people_space_name,
-    override val parentAccountDataKey: String? = ROOT_SPACE_ACCOUNT_DATA_KEY,
-    override val type: String? = RoomType.SPACE,
-    override val joinRules: RoomJoinRules? = null,
-    override val accountDataKey: String? = PEOPLE_SPACE_ACCOUNT_DATA_KEY
-) : CirclesRoom(nameId, parentAccountDataKey, type, joinRules, accountDataKey) {
-    override fun getTag(): String = "$orgPrefix.space.people"
 }
 
 data class GroupsSpace(

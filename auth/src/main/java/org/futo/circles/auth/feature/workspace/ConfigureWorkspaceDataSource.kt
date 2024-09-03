@@ -6,7 +6,6 @@ import org.futo.circles.core.feature.room.RoomRelationsBuilder
 import org.futo.circles.core.feature.room.create.CreateRoomDataSource
 import org.futo.circles.core.feature.workspace.SpacesTreeAccountDataSource
 import org.futo.circles.core.model.CirclesRoom
-import org.futo.circles.core.model.PROFILE_SPACE_ACCOUNT_DATA_KEY
 import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.utils.getAllJoinedCirclesRoomsAndSpaces
 import org.futo.circles.core.utils.getJoinedRoomById
@@ -63,9 +62,8 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         val childHasRelationToParent = joinedRoom.asSpace()
             ?.spaceSummary()?.spaceParents?.mapNotNull { it.parentId }
             ?.contains(parentRoomId) == true
-
-        //iOS app do not set this relation
-        if (!childHasRelationToParent && accountDataKey != PROFILE_SPACE_ACCOUNT_DATA_KEY)
+        
+        if (!childHasRelationToParent)
             throw IllegalArgumentException("Missing child to parent relations")
 
         val parentHasRelationToChild = joinedParentRoom.asSpace()
