@@ -9,6 +9,7 @@ import org.futo.circles.core.model.DmTimelineLoadingItem
 import org.futo.circles.core.model.DmTimelineMessage
 import org.futo.circles.core.model.DmTimelineTimeHeaderItem
 import org.futo.circles.core.model.PostContentType
+import org.futo.circles.feature.direct.timeline.list.holder.DmDateHeaderViewHolder
 import org.futo.circles.feature.direct.timeline.list.holder.DmImageMessageViewHolder
 import org.futo.circles.feature.direct.timeline.list.holder.DmNotMessageEventViewHolder
 import org.futo.circles.feature.direct.timeline.list.holder.DmTextMessageViewHolder
@@ -70,7 +71,7 @@ class DMTimelineAdapter(
                 this
             )
 
-            DmTimelineViewType.HEADER -> DmNotMessageEventViewHolder(parent)
+            DmTimelineViewType.HEADER -> DmDateHeaderViewHolder(parent)
             DmTimelineViewType.OTHER -> DmNotMessageEventViewHolder(parent)
             DmTimelineViewType.LOADING -> DmTimelineLoadingViewHolder(parent)
         }

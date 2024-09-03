@@ -23,3 +23,7 @@ data class DmTimelineMessage(
     override val id: String get() = info.id
 }
 
+fun Post.toDmTimelineMessage() = DmTimelineMessage(
+    postInfo, content, reactionsData
+)
+

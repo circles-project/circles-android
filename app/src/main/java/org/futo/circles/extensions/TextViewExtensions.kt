@@ -13,8 +13,8 @@ import org.futo.circles.feature.timeline.list.OnLinkClickedListener
 import org.matrix.android.sdk.api.extensions.tryOrNull
 
 @SuppressLint("ClickableViewAccessibility")
-fun TextView.handleLinkClick(textView: TextView) {
-    textView.apply {
+fun TextView.handleLinkClick() {
+    apply {
         movementMethod = InternalLinkMovementMethod(object : OnLinkClickedListener {
             override fun onLinkClicked(url: String) {
                 showLinkConfirmation(context, url)

@@ -31,7 +31,7 @@ class DmTextMessageViewHolder(
     init {
         setListeners()
         tvMessage.apply {
-            handleLinkClick(this)
+            handleLinkClick()
             setOnLongClickListener {
                 dmMessage?.let { dmOptionsListener.onShowMenuClicked(it.id) }
                 true

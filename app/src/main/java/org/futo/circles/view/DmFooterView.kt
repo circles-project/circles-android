@@ -49,7 +49,7 @@ class DmFooterView(
     fun setData(data: DmTimelineMessage) {
         dmMessage = data
         binding.tvTime.text =
-            DateFormat.format("MMM dd, h:mm a", Date(data.info.getLastModifiedTimestamp()))
+            DateFormat.format("h:mm a", Date(data.info.getLastModifiedTimestamp()))
         binding.tvEditedLabel.setIsVisible(data.info.isEdited)
         bindReactionsList(data.reactionsData)
     }

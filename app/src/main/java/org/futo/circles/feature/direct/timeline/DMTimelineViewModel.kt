@@ -19,11 +19,18 @@ import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.mapping.toCirclesUserSummary
 import org.futo.circles.core.model.DmTimelineListItem
+import org.futo.circles.core.model.DmTimelineLoadingItem
+import org.futo.circles.core.model.DmTimelineTimeHeaderItem
 import org.futo.circles.core.model.MediaType
+import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.model.PostListItem
 import org.futo.circles.core.model.ShareableContent
+import org.futo.circles.core.model.TimelineLoadingItem
 import org.futo.circles.core.model.TimelineTypeArg
+import org.futo.circles.core.model.toDmTimelineMessage
 import org.futo.circles.core.provider.MatrixSessionProvider
+import org.futo.circles.core.utils.DateUtils
 import org.futo.circles.feature.timeline.data_source.ReadMessageDataSource
 import org.futo.circles.model.CreatePostContent
 import org.futo.circles.model.MediaPostContent
@@ -48,9 +55,8 @@ class DMTimelineViewModel @Inject constructor(
     )
 ) {
 
-    val dmTimelineEventsLiveData: LiveData<List<DmTimelineListItem>> = timelineEventsLiveData.map {
-
-    }
+    val dmTimelineEventsLiveData: LiveData<List<DmTimelineListItem>> =
+        timelineEventsLiveData.map { setupWithDatesListItems(it) }
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
     val session = MatrixSessionProvider.getSessionOrThrow()
@@ -130,5 +136,27 @@ class DMTimelineViewModel @Inject constructor(
 
     fun editTextMessage(eventId: String, roomId: String, message: String) {
         sendMessageDataSource.editTextMessage(eventId, roomId, message)
+    }
+
+    private fun setupWithDatesListItems(items: List<PostListItem>): List<DmTimelineListItem> {
+        val listWithDates = mutableListOf<DmTimelineListItem>()
+        var currentGroupTime = 0L
+        items.map {
+            when (it) {
+                is Post -> {
+                    val postTime = it.postInfo.timestamp
+                    val isSameDay = DateUtils.isSameDay(currentGroupTime, postTime)
+                    if (!isSameDay) {
+                        currentGroupTime = postTime
+                        listWithDates.add(DmTimelineTimeHeaderItem(postTime))
+                    }
+                    listWithDates.add(it.toDmTimelineMessage())
+                }
+
+                is TimelineLoadingItem -> listWithDates.add(DmTimelineLoadingItem())
+            }
+        }
+
+        return listWithDates
     }
 }

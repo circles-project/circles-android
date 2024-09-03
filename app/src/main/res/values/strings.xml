@@ -90,6 +90,7 @@
     <string name="sending">Sending</string>
     <string name="invite_users_for_direct_messages">Invite users for direct messages</string>
     <string name="in_reply_to_format">In reply to \"%s\":</string>
+    <string name="today">Today</string>
 
     <string name="changelog">
 - Direct messages

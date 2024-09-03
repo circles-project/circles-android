@@ -66,7 +66,7 @@ abstract class PostViewHolder(
         postFooter?.setListener(optionsListener)
         postHeader.setListener(optionsListener)
         readMoreTextView?.apply {
-            handleLinkClick(this)
+            handleLinkClick()
             setNotCollapsableClickAction { openReplies() }
             setOnLongClickListener {
                 postHeader.showMenu()
