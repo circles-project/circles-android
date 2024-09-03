@@ -23,7 +23,6 @@ import org.futo.circles.core.extensions.isCurrentUserAbleToPost
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.extensions.showError
 import org.futo.circles.core.extensions.showNoInternetConnection
 import org.futo.circles.core.extensions.showSuccess
 import org.futo.circles.core.extensions.visible
@@ -227,14 +226,12 @@ class TimelineDialogFragment :
         roomId: String, eventId: String, emoji: String, isUnSend: Boolean
     ) {
         if (showNoInternetConnection()) return
-        if (showErrorIfNotAbleToPost()) return
         if (isUnSend) viewModel.unSendReaction(roomId, eventId, emoji)
         else viewModel.sendReaction(roomId, eventId, emoji)
     }
 
     override fun onPollOptionSelected(roomId: String, eventId: String, optionId: String) {
         if (showNoInternetConnection()) return
-        if (showErrorIfNotAbleToPost()) return
         viewModel.pollVote(roomId, eventId, optionId)
     }
 
@@ -282,12 +279,6 @@ class TimelineDialogFragment :
     private fun onUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {
         if (args.timelineType.isCircle()) onCircleUserAccessLeveChanged(powerLevelsContent)
         else onGroupUserAccessLevelChanged(powerLevelsContent)
-    }
-
-    private fun showErrorIfNotAbleToPost(): Boolean {
-        val isAbleToPost = viewModel.accessLevelLiveData?.value?.isCurrentUserAbleToPost() == true
-        if (!isAbleToPost) showError(getString(R.string.you_can_not_post_to_this_room))
-        return !isAbleToPost
     }
 
     private fun onGroupUserAccessLevelChanged(powerLevelsContent: PowerLevelsContent) {

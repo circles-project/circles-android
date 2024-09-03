@@ -70,7 +70,7 @@
     <string name="reply">Reply</string>
     <string name="react">React</string>
     <string name="edit_post">Edit post</string>
-    <string name="edited_label">(Edited)</string>
+    <string name="edited_label">(edited)</string>
     <string name="edit_poll">Edit poll</string>
     <string name="info">Info</string>
     <string name="message">Message</string>
