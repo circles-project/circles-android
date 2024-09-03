@@ -13,13 +13,11 @@ import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.hasBeenEdited
 
 fun TimelineEvent.toPost(
-    readReceipts: List<Long> = emptyList(),
     timelineName: String? = null,
     timelineOwnerName: String? = null
 ): Post = Post(
     postInfo = toPostInfo(),
     content = toPostContent(),
-    readByCount = getReadByCount(readReceipts),
     repliesCount = root.threadDetails?.numberOfThreads ?: 0,
     reactionsData = annotations?.reactionsSummary?.map {
         ReactionsData(it.key, it.count, it.addedByMe)
@@ -46,10 +44,3 @@ private fun TimelineEvent.toPostContent(): PostContent =
         PostContentType.POLL_CONTENT -> toPollContent()
         else -> toOtherEventContent()
     }
-
-private fun TimelineEvent.getReadByCount(receipts: List<Long>): Int {
-    val eventTime = root.originServerTs ?: 0
-    var count = 0
-    receipts.forEach { receiptTime -> if (receiptTime >= eventTime) count++ }
-    return count
-}

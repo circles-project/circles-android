@@ -64,12 +64,10 @@ class SingleTimelineDataSource(
     ): List<Post> {
         val room =
             MatrixSessionProvider.currentSession?.getRoom(roomId) ?: return currentSnapshotList
-        val receipts = getReadReceipts(room)
         val roomName = room.roomSummary()?.nameOrId()
         val roomOwnerName = getRoomOwner(roomId)?.notEmptyDisplayName()
         val posts = snapshot.map {
             it.toPost(
-                receipts,
                 if (isThread) roomName else null,
                 if (isThread) roomOwnerName else null
             )

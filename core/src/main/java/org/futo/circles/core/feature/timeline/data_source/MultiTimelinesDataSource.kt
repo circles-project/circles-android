@@ -25,7 +25,6 @@ class MultiTimelinesDataSource(preferencesProvider: PreferencesProvider) :
 
     private var timelines: MutableList<Timeline> = mutableListOf()
     private var currentSnapshotMap: MutableMap<String, List<Post>> = mutableMapOf()
-    private var readReceiptMap: MutableMap<String, List<Long>> = mutableMapOf()
 
     override fun startTimeline(
         viewModelScope: CoroutineScope,
@@ -65,9 +64,7 @@ class MultiTimelinesDataSource(preferencesProvider: PreferencesProvider) :
             ?: return getCurrentTimelinesPostsList()
         val roomName = room.roomSummary()?.nameOrId()
         val roomOwner = getRoomOwner(roomId)
-        val receipts = getReadReceipts(room).also { readReceiptMap[roomId] = it }
-        currentSnapshotMap[roomId] =
-            snapshot.filterRootPostNotFromOwner(receipts, roomName, roomOwner)
+        currentSnapshotMap[roomId] = snapshot.filterRootPostNotFromOwner(roomName, roomOwner)
         return sortList(getCurrentTimelinesPostsList())
     }
 
@@ -77,7 +74,6 @@ class MultiTimelinesDataSource(preferencesProvider: PreferencesProvider) :
         }
 
     private fun List<TimelineEvent>.filterRootPostNotFromOwner(
-        receipts: List<Long>,
         roomName: String?,
         roomOwner: RoomMemberSummary?
     ): List<Post> {
@@ -85,7 +81,7 @@ class MultiTimelinesDataSource(preferencesProvider: PreferencesProvider) :
         val roomOwnerName = roomOwner?.notEmptyDisplayName()
 
         return mapNotNull {
-            if (roomOwnerId == it.senderInfo.userId) it.toPost(receipts, roomName, roomOwnerName)
+            if (roomOwnerId == it.senderInfo.userId) it.toPost(roomName, roomOwnerName)
             else null
         }
     }

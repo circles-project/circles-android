@@ -130,15 +130,6 @@ abstract class BaseTimelineDataSource(
         else list.sortedByDescending { it.postInfo.timestamp }
 
 
-    protected fun getReadReceipts(room: Room): List<Long> =
-        room.membershipService().getRoomMembers(roomMemberQueryParams {
-            memberships = listOf(Membership.JOIN)
-        }).map {
-            val eventId = room.readService().getUserReadReceipt(it.userId)
-                ?: return@map System.currentTimeMillis()
-            room.getTimelineEvent(eventId)?.root?.originServerTs ?: 0
-        }
-
     protected fun TimelineEvent.isSupportedEvent() =
         if (preferencesProvider.isDeveloperModeEnabled()) true
         else root.getClearType() in supportedTimelineEvens
