@@ -2,7 +2,5 @@
 <resources>
 
     <color name="background_dim">#52000000</color>
-    <color name="other_dm_background">@color/white</color>
-    <color name="my_dm_background">@color/primary</color>
 
 </resources>

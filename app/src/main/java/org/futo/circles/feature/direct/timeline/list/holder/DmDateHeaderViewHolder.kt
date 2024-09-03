@@ -21,7 +21,10 @@ class DmDateHeaderViewHolder(
 
     private val binding = baseBinding as ListItemDmDateHeaderBinding
 
-    override fun bind(item: DmTimelineListItem) {
+    override fun bind(
+        item: DmTimelineListItem, previousItem: DmTimelineListItem?,
+        nextItem: DmTimelineListItem?
+    ) {
         val time = (item as? DmTimelineTimeHeaderItem)?.date ?: return
         val timeString = if (DateUtils.isToday(time)) {
             context.getString(R.string.today)

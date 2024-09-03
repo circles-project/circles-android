@@ -6,5 +6,9 @@ import org.futo.circles.core.model.DmTimelineListItem
 
 abstract class DmTimelineListItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    abstract fun bind(item: DmTimelineListItem)
+    abstract fun bind(
+        item: DmTimelineListItem,
+        previousItem: DmTimelineListItem?,
+        nextItem: DmTimelineListItem?
+    )
 }

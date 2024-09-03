@@ -23,21 +23,6 @@
         <item name="cornerSize">8dp</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.Message.Other" parent="">
-        <item name="cornerSizeTopRight">10dp</item>
-        <item name="cornerSizeBottomRight">10dp</item>
-        <item name="cornerSizeTopLeft">10dp</item>
-        <item name="cornerFamilyTopRight">rounded</item>
-    </style>
-
-    <style name="ShapeAppearanceOverlay.App.Message.My" parent="">
-        <item name="cornerSizeBottomLeft">10dp</item>
-        <item name="cornerSizeTopRight">10dp</item>
-        <item name="cornerSizeTopLeft">10dp</item>
-        <item name="cornerFamilyTopRight">rounded</item>
-    </style>
-
-
     <!--  Buttons  -->
     <style name="ButtonTitle" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/nunito_bold</item>

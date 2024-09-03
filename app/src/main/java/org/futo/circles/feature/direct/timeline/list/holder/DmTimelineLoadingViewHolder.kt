@@ -13,7 +13,10 @@ class DmTimelineLoadingViewHolder(
 
     private companion object : ViewBindingHolder
 
-    override fun bind(item: DmTimelineListItem) {
+    override fun bind(
+        item: DmTimelineListItem, previousItem: DmTimelineListItem?,
+        nextItem: DmTimelineListItem?
+    ) {
         if (item !is DmTimelineLoadingItem) return
     }
 }

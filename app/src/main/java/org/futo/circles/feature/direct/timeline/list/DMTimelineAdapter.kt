@@ -20,6 +20,7 @@ import org.futo.circles.feature.direct.timeline.list.holder.DmViewHolder
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener
 import org.futo.circles.feature.timeline.list.OnVideoPlayBackStateListener
 import org.futo.circles.feature.timeline.list.holder.VideoPlaybackViewHolder
+import org.matrix.android.sdk.api.extensions.tryOrNull
 
 private enum class DmTimelineViewType {
     TEXT, IMAGE, VIDEO, OTHER, LOADING, HEADER
@@ -78,7 +79,9 @@ class DMTimelineAdapter(
 
 
     override fun onBindViewHolder(holder: DmTimelineListItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val previousItem = tryOrNull { getItem(position - 1) }
+        val nextItem = tryOrNull { getItem(position + 1) }
+        holder.bind(getItem(position), previousItem, nextItem)
     }
 
     override fun onBindViewHolder(
@@ -96,7 +99,7 @@ class DMTimelineAdapter(
         } else {
             payloads.forEach {
                 val payload = (it as? DmTimelineItemPayload) ?: return@forEach
-                if (payload.needToUpdateFullItem) holder.bind(getItem(position))
+                if (payload.needToUpdateFullItem) super.onBindViewHolder(holder, position, payloads)
                 else holder.bindPayload(payload)
             }
         }

@@ -5,11 +5,9 @@ import android.text.format.DateFormat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.use
-import org.futo.circles.R
+import androidx.core.content.ContextCompat
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.model.DmTimelineMessage
-import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.ReactionsData
 import org.futo.circles.databinding.ViewDmFooterBinding
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener
@@ -28,20 +26,6 @@ class DmFooterView(
     private var dmMessage: DmTimelineMessage? = null
 
 
-    init {
-        context.obtainStyledAttributes(
-            attrs, R.styleable.DmFooterView, 0, 0
-        ).use { ta ->
-            ta.getColorStateList(
-                R.styleable.DmFooterView_timeTextColor
-            )?.let {
-                binding.tvTime.setTextColor(it)
-                binding.tvEditedLabel.setTextColor(it)
-            }
-        }
-    }
-
-
     fun setListener(optionsListener: DmOptionsListener) {
         this.optionsListener = optionsListener
     }
@@ -52,6 +36,12 @@ class DmFooterView(
             DateFormat.format("h:mm a", Date(data.info.getLastModifiedTimestamp()))
         binding.tvEditedLabel.setIsVisible(data.info.isEdited)
         bindReactionsList(data.reactionsData)
+        val textColor = ContextCompat.getColor(
+            context,
+            if (data.isMyMessage()) org.futo.circles.core.R.color.white else org.futo.circles.core.R.color.grey_cool_800
+        )
+        binding.tvTime.setTextColor(textColor)
+        binding.tvEditedLabel.setTextColor(textColor)
     }
 
     fun bindPayload(reactions: List<ReactionsData>) {

@@ -20,12 +20,15 @@ class DmNotMessageEventViewHolder(
 
     private val binding = baseBinding as ListItemDmNotMessageEventBinding
 
-    override fun bind(item: DmTimelineListItem) {
+    override fun bind(
+        item: DmTimelineListItem, previousItem: DmTimelineListItem?,
+        nextItem: DmTimelineListItem?
+    ) {
         val dmMessage = (item as? DmTimelineMessage) ?: return
         val content = (dmMessage.content as? OtherEventContent) ?: return
         binding.tvMessage.text = content.eventType
         binding.tvTime.text =
-            DateFormat.format("MMM dd, h:mm a", Date(dmMessage.info.getLastModifiedTimestamp()))
+            DateFormat.format("h:mm a", Date(dmMessage.info.getLastModifiedTimestamp()))
     }
 
 }

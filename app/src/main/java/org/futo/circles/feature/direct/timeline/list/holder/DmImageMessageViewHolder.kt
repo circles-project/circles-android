@@ -1,12 +1,13 @@
 package org.futo.circles.feature.direct.timeline.list.holder
 
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import com.google.android.material.imageview.ShapeableImageView
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.DmTimelineMessage
 import org.futo.circles.core.model.MediaContent
-import org.futo.circles.databinding.ListItemMyImageDmBinding
+import org.futo.circles.databinding.ListItemImageDmBinding
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener
 import org.futo.circles.feature.timeline.list.holder.ImageMediaViewHolder
 import org.futo.circles.view.DmFooterView
@@ -14,14 +15,16 @@ import org.futo.circles.view.DmFooterView
 class DmImageMessageViewHolder(
     parent: ViewGroup,
     dmOptionsListener: DmOptionsListener
-) : DmViewHolder(inflate(parent, ListItemMyImageDmBinding::inflate), dmOptionsListener),
+) : DmViewHolder(inflate(parent, ListItemImageDmBinding::inflate), dmOptionsListener),
     ImageMediaViewHolder {
 
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemMyImageDmBinding
+    private val binding = baseBinding as ListItemImageDmBinding
 
+    override val rootMessageLayout: FrameLayout
+        get() = binding.rootMessageLayout
     private val ivMediaContent: ImageView
         get() = binding.ivMediaContent
     override val dmBackground: ShapeableImageView

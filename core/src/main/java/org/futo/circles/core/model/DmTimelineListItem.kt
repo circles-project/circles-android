@@ -21,6 +21,7 @@ data class DmTimelineMessage(
     val reactionsData: List<ReactionsData>
 ) : DmTimelineListItem() {
     override val id: String get() = info.id
+    fun isMyMessage(): Boolean = info.isMyPost()
 }
 
 fun Post.toDmTimelineMessage() = DmTimelineMessage(

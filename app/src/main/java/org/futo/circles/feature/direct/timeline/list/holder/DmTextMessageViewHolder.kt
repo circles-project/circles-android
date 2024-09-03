@@ -1,12 +1,15 @@
 package org.futo.circles.feature.direct.timeline.list.holder
 
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.google.android.material.imageview.ShapeableImageView
 import org.futo.circles.core.base.list.ViewBindingHolder
+import org.futo.circles.core.base.list.context
 import org.futo.circles.core.model.DmTimelineMessage
 import org.futo.circles.core.model.TextContent
-import org.futo.circles.databinding.ListItemMyTextDmBinding
+import org.futo.circles.databinding.ListItemTextDmBinding
 import org.futo.circles.extensions.handleLinkClick
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener
 import org.futo.circles.view.DmFooterView
@@ -14,13 +17,15 @@ import org.futo.circles.view.DmFooterView
 class DmTextMessageViewHolder(
     parent: ViewGroup,
     dmOptionsListener: DmOptionsListener
-) : DmViewHolder(inflate(parent, ListItemMyTextDmBinding::inflate), dmOptionsListener) {
+) : DmViewHolder(inflate(parent, ListItemTextDmBinding::inflate), dmOptionsListener) {
 
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemMyTextDmBinding
+    private val binding = baseBinding as ListItemTextDmBinding
 
+    override val rootMessageLayout: FrameLayout
+        get() = binding.rootMessageLayout
     override val dmBackground: ShapeableImageView
         get() = binding.ivBackground
     override val dmFooter: DmFooterView
@@ -40,11 +45,14 @@ class DmTextMessageViewHolder(
     }
 
     override fun bindHolderSpecific(dmMessage: DmTimelineMessage) {
-        bindTextMessage(dmMessage)
-    }
-
-    private fun bindTextMessage(dmMessage: DmTimelineMessage) {
         val content = dmMessage.content as? TextContent ?: return
-        tvMessage.setText(content.messageSpanned, TextView.BufferType.SPANNABLE)
+        val textColor = ContextCompat.getColor(
+            context,
+            if (dmMessage.isMyMessage()) org.futo.circles.core.R.color.white else org.futo.circles.core.R.color.grey_cool_1100
+        )
+        tvMessage.apply {
+            setTextColor(textColor)
+            setText(content.messageSpanned, TextView.BufferType.SPANNABLE)
+        }
     }
 }

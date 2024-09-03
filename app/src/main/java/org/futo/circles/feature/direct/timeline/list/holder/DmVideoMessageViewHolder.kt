@@ -1,12 +1,13 @@
 package org.futo.circles.feature.direct.timeline.list.holder
 
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.media3.exoplayer.ExoPlayer
 import com.google.android.material.imageview.ShapeableImageView
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.model.DmTimelineMessage
 import org.futo.circles.core.model.MediaContent
-import org.futo.circles.databinding.ListItemMyVideoDmBinding
+import org.futo.circles.databinding.ListItemVideoDmBinding
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener
 import org.futo.circles.feature.timeline.list.OnVideoPlayBackStateListener
 import org.futo.circles.feature.timeline.list.holder.VideoPlaybackViewHolder
@@ -19,13 +20,15 @@ class DmVideoMessageViewHolder(
     dmOptionsListener: DmOptionsListener,
     private val videoPlayer: ExoPlayer,
     private val videoPlaybackListener: OnVideoPlayBackStateListener
-) : DmViewHolder(inflate(parent, ListItemMyVideoDmBinding::inflate), dmOptionsListener),
+) : DmViewHolder(inflate(parent, ListItemVideoDmBinding::inflate), dmOptionsListener),
     VideoPlaybackViewHolder {
 
     private companion object : ViewBindingHolder
 
-    private val binding = baseBinding as ListItemMyVideoDmBinding
+    private val binding = baseBinding as ListItemVideoDmBinding
 
+    override val rootMessageLayout: FrameLayout
+        get() = binding.rootMessageLayout
     override val dmBackground: ShapeableImageView
         get() = binding.ivBackground
     override val dmFooter: DmFooterView
