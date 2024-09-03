@@ -2,7 +2,6 @@ package org.futo.circles.settings.feature.settings
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.createResult
@@ -13,8 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsDataSource: SettingsDataSource,
-    private val refreshTokenManager: RefreshTokenManager
+    private val settingsDataSource: SettingsDataSource
 ) : ViewModel() {
 
     val passPhraseLoadingLiveData = settingsDataSource.passPhraseLoadingLiveData
@@ -27,7 +25,6 @@ class SettingsViewModel @Inject constructor(
 
     fun logOut() {
         launchBg {
-            MatrixSessionProvider.currentSession?.let { refreshTokenManager.cancelTokenRefreshing(it) }
             val result = createResult {
                 MatrixSessionProvider.getSessionOrThrow().signOutService().signOut(true)
             }
@@ -37,7 +34,6 @@ class SettingsViewModel @Inject constructor(
 
     fun deactivateAccount() {
         launchBg {
-            MatrixSessionProvider.currentSession?.let { refreshTokenManager.cancelTokenRefreshing(it) }
             val deactivateResult = settingsDataSource.deactivateAccount()
             deactivateLiveData.postValue(deactivateResult)
         }

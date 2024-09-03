@@ -10,7 +10,6 @@ import org.futo.circles.auth.bsspeke.BSSpekeClientProvider
 import org.futo.circles.auth.feature.pass_phrase.EncryptionAlgorithmHelper
 import org.futo.circles.auth.feature.pass_phrase.create.CreatePassPhraseDataSource
 import org.futo.circles.auth.feature.pass_phrase.restore.RestoreBackupDataSource
-import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.auth.model.AuthUIAScreenNavigationEvent
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
@@ -28,7 +27,6 @@ class UIAViewModel @Inject constructor(
     private val encryptionAlgorithmHelper: EncryptionAlgorithmHelper,
     private val createPassPhraseDataSource: CreatePassPhraseDataSource,
     private val restoreBackupDataSource: RestoreBackupDataSource,
-    private val refreshTokenManager: RefreshTokenManager,
     private val preferencesProvider: PreferencesProvider
 ) : ViewModel() {
 
@@ -83,7 +81,6 @@ class UIAViewModel @Inject constructor(
             )
             MatrixSessionProvider.awaitForSessionSync(session)
             passPhraseLoadingLiveData.postValue(ResLoadingData(isLoading = false))
-            refreshTokenManager.scheduleTokenRefreshIfNeeded(session)
             handleKeysBackup()
         }
     }
@@ -141,7 +138,6 @@ class UIAViewModel @Inject constructor(
     fun cancelRestore() {
         launchBg {
             val session = MatrixSessionProvider.currentSession ?: return@launchBg
-            refreshTokenManager.cancelTokenRefreshing(session)
             MatrixSessionProvider.removeListenersAndStopSync()
             MatrixInstanceProvider.matrix.authenticationService().removeSession(session.sessionId)
             preferencesProvider.removeSessionFromNotRestored(session.sessionId)

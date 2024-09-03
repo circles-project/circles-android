@@ -41,8 +41,7 @@ class LoginStagesDataSource @Inject constructor(
             wizard.loginStageCustom(
                 authParams,
                 getIdentifier(),
-                context.getString(R.string.initial_device_name),
-                true
+                context.getString(R.string.initial_device_name)
             )
         }
         (result as? Response.Success)?.let {

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.futo.circles.auth.feature.log_in.switch_user.SwitchUserDataSource
-import org.futo.circles.auth.feature.token.RefreshTokenManager
 import org.futo.circles.core.base.SingleEventLiveData
 import org.futo.circles.core.extensions.Response
 import org.futo.circles.core.extensions.launchBg
@@ -13,8 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LogInViewModel @Inject constructor(
     private val loginDataSource: LoginDataSource,
-    private val switchUserDataSource: SwitchUserDataSource,
-    private val refreshTokenManager: RefreshTokenManager
+    private val switchUserDataSource: SwitchUserDataSource
 ) : ViewModel() {
 
     val loginResultLiveData = SingleEventLiveData<Response<Unit?>>()
@@ -31,7 +29,6 @@ class LogInViewModel @Inject constructor(
     fun removeSwitchUser(id: String) {
         launchBg {
             switchUserDataSource.removeSwitchUser(id)
-            refreshTokenManager.cancelTokenRefreshingById(id)
             switchUsersLiveData.postValue(switchUserDataSource.getSwitchUsersList())
         }
     }
