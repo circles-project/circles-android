@@ -22,7 +22,6 @@
         android:id="@+id/ivEmoji"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginHorizontal="8dp"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
@@ -39,8 +38,7 @@
         style="@style/TextInputWithBorder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="12dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginVertical="4dp"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/actionsBarrier"
@@ -77,7 +75,6 @@
         android:id="@+id/lSendActions"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@id/tilMessage"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -113,7 +110,6 @@
         android:id="@+id/lEditActions"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/tilMessage"
         app:layout_constraintEnd_toEndOf="parent"

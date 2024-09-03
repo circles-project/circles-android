@@ -62,7 +62,7 @@ class ConfigureWorkspaceDataSource @Inject constructor(
         val childHasRelationToParent = joinedRoom.asSpace()
             ?.spaceSummary()?.spaceParents?.mapNotNull { it.parentId }
             ?.contains(parentRoomId) == true
-        
+
         if (!childHasRelationToParent)
             throw IllegalArgumentException("Missing child to parent relations")
 
