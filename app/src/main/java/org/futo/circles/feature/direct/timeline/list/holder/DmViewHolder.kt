@@ -6,10 +6,13 @@ import android.view.MotionEvent
 import android.view.View
 import com.google.android.material.imageview.ShapeableImageView
 import org.futo.circles.core.base.list.context
+import org.futo.circles.core.model.DmTimelineItemPayload
+import org.futo.circles.core.model.DmTimelineListItem
+import org.futo.circles.core.model.DmTimelineMessage
 import org.futo.circles.core.model.Post
 import org.futo.circles.core.model.PostListItem
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener
-import org.futo.circles.feature.timeline.base.TimelineListItemViewHolder
+import org.futo.circles.feature.timeline.list.holder.TimelineListItemViewHolder
 import org.futo.circles.model.PostItemPayload
 import org.futo.circles.view.DmFooterView
 
@@ -18,18 +21,18 @@ import org.futo.circles.view.DmFooterView
 abstract class DmViewHolder(
     view: View,
     protected val dmOptionsListener: DmOptionsListener
-) : TimelineListItemViewHolder(view) {
+) : DmTimelineListItemViewHolder(view) {
 
     abstract val dmBackground: ShapeableImageView?
     abstract val dmFooter: DmFooterView?
-    abstract fun bindHolderSpecific(post: Post)
+    abstract fun bindHolderSpecific(dmMessage: DmTimelineMessage)
 
-    protected var post: Post? = null
+    protected var dmMessage: DmTimelineMessage? = null
 
     private val gestureDetector =
         GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
-                post?.let {
+                dmMessage?.let {
                     dmOptionsListener.onShowEmoji(it.id) { emoji ->
                         dmFooter?.addEmojiFromPickerLocalUpdate(emoji)
                     }
@@ -38,7 +41,7 @@ abstract class DmViewHolder(
             }
 
             override fun onLongPress(e: MotionEvent) {
-                post?.let {
+                dmMessage?.let {
                     dmOptionsListener.onShowMenuClicked(it.id)
                 }
             }
@@ -53,8 +56,8 @@ abstract class DmViewHolder(
             setIsLongpressEnabled(true)
         }
 
-    override fun bind(item: PostListItem) {
-        (item as? Post)?.let { bindPost(item) }
+    override fun bind(item: DmTimelineListItem) {
+        (item as? DmTimelineMessage)?.let { bindDmMessage(item) }
     }
 
     protected fun setListeners() {
@@ -65,13 +68,13 @@ abstract class DmViewHolder(
         dmFooter?.setListener(dmOptionsListener)
     }
 
-    private fun bindPost(post: Post) {
-        this.post = post
-        dmFooter?.setData(post)
-        bindHolderSpecific(post)
+    private fun bindDmMessage(dmMessage: DmTimelineMessage) {
+        this.dmMessage = dmMessage
+        dmFooter?.setData(dmMessage)
+        bindHolderSpecific(dmMessage)
     }
 
-    fun bindPayload(payload: PostItemPayload) {
+    fun bindPayload(payload: DmTimelineItemPayload) {
         dmFooter?.bindPayload(payload.reactions)
     }
 

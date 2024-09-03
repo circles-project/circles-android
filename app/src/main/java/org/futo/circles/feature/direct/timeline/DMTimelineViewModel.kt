@@ -2,6 +2,7 @@ package org.futo.circles.feature.direct.timeline
 
 import android.content.Context
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import org.futo.circles.core.feature.timeline.data_source.BaseTimelineDataSource
 import org.futo.circles.core.feature.timeline.post.PostOptionsDataSource
 import org.futo.circles.core.feature.timeline.post.SendMessageDataSource
 import org.futo.circles.core.mapping.toCirclesUserSummary
+import org.futo.circles.core.model.DmTimelineListItem
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.ShareableContent
@@ -45,6 +47,10 @@ class DMTimelineViewModel @Inject constructor(
         TimelineTypeArg.DM, savedStateHandle["roomId"], null
     )
 ) {
+
+    val dmTimelineEventsLiveData: LiveData<List<DmTimelineListItem>> = timelineEventsLiveData.map {
+
+    }
 
     private val roomId: String = savedStateHandle.getOrThrow("roomId")
     val session = MatrixSessionProvider.getSessionOrThrow()

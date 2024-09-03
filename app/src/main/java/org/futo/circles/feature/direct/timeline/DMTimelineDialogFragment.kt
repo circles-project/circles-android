@@ -101,7 +101,7 @@ class DMTimelineDialogFragment :
                 setOnClickListener { navigator.navigateToUserPage(user.id) }
             }
         }
-        viewModel.timelineEventsLiveData.observeData(this) {
+        viewModel.dmTimelineEventsLiveData.observeData(this) {
             listAdapter.submitList(it)
             viewModel.markTimelineAsRead(args.roomId)
         }
