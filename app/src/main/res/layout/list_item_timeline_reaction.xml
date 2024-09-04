@@ -9,12 +9,15 @@
     <com.google.android.material.chip.Chip
         android:id="@+id/emojiChip"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
         android:layout_marginHorizontal="1dp"
-        android:layout_marginVertical="2dp"
         android:checkable="true"
+        android:textColor="@color/grey_cool_1100"
+        android:textSize="11sp"
         app:checkedIconVisible="false"
         app:chipBackgroundColor="@color/emoji_chip_background"
+        app:chipEndPadding="0dp"
+        app:chipStartPadding="0dp"
         app:ensureMinTouchTargetSize="false" />
 
 

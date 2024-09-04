@@ -25,7 +25,7 @@
 
             <TextView
                 android:id="@+id/tvMessage"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:fontFamily="@font/inter_regular"
@@ -39,7 +39,7 @@
 
             <org.futo.circles.view.DmFooterView
                 android:id="@+id/dmFooter"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:paddingBottom="2dp" />
