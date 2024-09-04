@@ -50,7 +50,12 @@ class DmTextMessageViewHolder(
             context,
             if (dmMessage.isMyMessage()) org.futo.circles.core.R.color.white else org.futo.circles.core.R.color.grey_cool_1100
         )
+        val textColorLink = ContextCompat.getColor(
+            context,
+            if (dmMessage.isMyMessage()) org.futo.circles.core.R.color.white else org.futo.circles.core.R.color.blue
+        )
         tvMessage.apply {
+            setLinkTextColor(textColorLink)
             setTextColor(textColor)
             setText(content.messageSpanned, TextView.BufferType.SPANNABLE)
         }

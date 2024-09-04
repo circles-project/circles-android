@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import androidx.core.view.updateLayoutParams
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.CornerFamily
 import org.futo.circles.core.base.list.context
@@ -75,18 +74,22 @@ abstract class DmViewHolder(
 
     private fun bindDmMessage(dmMessage: DmTimelineMessage) {
         this.dmMessage = dmMessage
+        val lWidth =
+            if (dmMessage.content.isMedia()) FrameLayout.LayoutParams.MATCH_PARENT
+            else FrameLayout.LayoutParams.WRAP_CONTENT
+        val radius = context.dpToPx(16).toFloat()
 
         if (dmMessage.isMyMessage()) {
-            rootMessageLayout.updateLayoutParams {
-                (rootMessageLayout.layoutParams as? FrameLayout.LayoutParams)?.apply {
-                    gravity = Gravity.END
-                    marginStart = context.dpToPx(36)
-                    marginEnd = context.dpToPx(8)
-                }
+            val layoutParams = FrameLayout.LayoutParams(
+                lWidth,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                gravity = Gravity.END
+                setMargins(context.dpToPx(36), context.dpToPx(8), context.dpToPx(8), 0)
             }
+            rootMessageLayout.layoutParams = layoutParams
             dmBackground.apply {
                 setBackgroundResource(org.futo.circles.core.R.color.primary)
-                val radius = context.dpToPx(10).toFloat()
                 setShapeAppearanceModel(
                     shapeAppearanceModel
                         .toBuilder()
@@ -99,16 +102,16 @@ abstract class DmViewHolder(
             }
 
         } else {
-            rootMessageLayout.updateLayoutParams {
-                (rootMessageLayout.layoutParams as? FrameLayout.LayoutParams)?.apply {
-                    gravity = Gravity.START
-                    marginStart = context.dpToPx(8)
-                    marginEnd = context.dpToPx(36)
-                }
+            val layoutParams = FrameLayout.LayoutParams(
+                lWidth,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                gravity = Gravity.START
+                setMargins(context.dpToPx(8), context.dpToPx(8), context.dpToPx(36), 0)
             }
+            rootMessageLayout.layoutParams = layoutParams
             dmBackground.apply {
                 setBackgroundResource(org.futo.circles.core.R.color.white)
-                val radius = context.dpToPx(10).toFloat()
                 setShapeAppearanceModel(
                     shapeAppearanceModel
                         .toBuilder()

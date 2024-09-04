@@ -1,44 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootMessageLayout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/rootMessageLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?selectableItemBackground" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:fontFamily="@font/inter_regular"
-            android:padding="12dp"
-            android:textSize="15sp"
-            tools:text="Some long message"
-            tools:textColor="@color/grey_cool_1100" />
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="@font/inter_regular"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"
+                android:textSize="15sp"
+                tools:text="Some long message"
+                tools:textColor="@color/grey_cool_1100" />
 
 
-        <org.futo.circles.view.DmFooterView
-            android:id="@+id/dmFooter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:paddingBottom="4dp" />
+            <org.futo.circles.view.DmFooterView
+                android:id="@+id/dmFooter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:paddingBottom="2dp" />
 
-    </LinearLayout>
+        </LinearLayout>
 
+    </FrameLayout>
 </FrameLayout>
