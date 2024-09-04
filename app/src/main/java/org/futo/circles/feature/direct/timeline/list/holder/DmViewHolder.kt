@@ -98,8 +98,11 @@ abstract class DmViewHolder(
     }
 
     private fun bindMessageLayout(dmMessage: DmTimelineMessage, dmShapeType: DmShapeType) {
-        val smallMessageMargin = context.dpToPx(8)
-        val bigMessageMargin = context.dpToPx(36)
+        val smallHorizontalMargin = context.dpToPx(8)
+        val bigHorizontalMargin = context.dpToPx(36)
+        val topMargin = if (dmShapeType == First || dmShapeType == Single) context.dpToPx(12)
+        else context.dpToPx(2)
+
         val layoutParams = FrameLayout.LayoutParams(
             if (dmMessage.content.isMedia()) FrameLayout.LayoutParams.MATCH_PARENT
             else FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -109,7 +112,7 @@ abstract class DmViewHolder(
         if (dmMessage.isMyMessage()) {
             rootMessageLayout.layoutParams = layoutParams.apply {
                 gravity = Gravity.END
-                setMargins(bigMessageMargin, smallMessageMargin, smallMessageMargin, 0)
+                setMargins(bigHorizontalMargin, topMargin, smallHorizontalMargin, 0)
             }
             dmBackground.apply {
                 setBackgroundResource(org.futo.circles.core.R.color.primary)
@@ -118,7 +121,7 @@ abstract class DmViewHolder(
         } else {
             rootMessageLayout.layoutParams = layoutParams.apply {
                 gravity = Gravity.START
-                setMargins(smallMessageMargin, smallMessageMargin, bigMessageMargin, 0)
+                setMargins(smallHorizontalMargin, topMargin, bigHorizontalMargin, 0)
             }
             dmBackground.apply {
                 setBackgroundResource(org.futo.circles.core.R.color.white)
@@ -131,27 +134,28 @@ abstract class DmViewHolder(
         isMyMessage: Boolean,
         dmShapeType: DmShapeType
     ): ShapeAppearanceModel {
-        val radius = context.dpToPx(16).toFloat()
+        val bigRadius = context.dpToPx(16).toFloat()
+        val smallRadius = context.dpToPx(2).toFloat()
         val cornerFamily = CornerFamily.ROUNDED
         val builder = shapeAppearanceModel.toBuilder()
-            .setTopLeftCorner(cornerFamily, radius)
-            .setTopRightCorner(cornerFamily, radius)
-            .setBottomLeftCorner(cornerFamily, radius)
-            .setBottomRightCorner(cornerFamily, radius)
+            .setTopLeftCorner(cornerFamily, bigRadius)
+            .setTopRightCorner(cornerFamily, bigRadius)
+            .setBottomLeftCorner(cornerFamily, bigRadius)
+            .setBottomRightCorner(cornerFamily, bigRadius)
 
         when (dmShapeType) {
-            First -> if (isMyMessage) builder.setBottomRightCorner(cornerFamily, 0f)
-            else builder.setBottomLeftCorner(cornerFamily, 0f)
+            First -> if (isMyMessage) builder.setBottomRightCorner(cornerFamily, smallRadius)
+            else builder.setBottomLeftCorner(cornerFamily, smallRadius)
 
-            Last -> if (isMyMessage) builder.setTopRightCorner(cornerFamily, 0f)
-            else builder.setTopLeftCorner(cornerFamily, 0f)
+            Last -> if (isMyMessage) builder.setTopRightCorner(cornerFamily, smallRadius)
+            else builder.setTopLeftCorner(cornerFamily, smallRadius)
 
             Middle -> if (isMyMessage) {
-                builder.setTopRightCorner(cornerFamily, 0f)
-                builder.setBottomRightCorner(cornerFamily, 0f)
+                builder.setTopRightCorner(cornerFamily, smallRadius)
+                builder.setBottomRightCorner(cornerFamily, smallRadius)
             } else {
-                builder.setTopLeftCorner(cornerFamily, 0f)
-                builder.setBottomLeftCorner(cornerFamily, 0f)
+                builder.setTopLeftCorner(cornerFamily, smallRadius)
+                builder.setBottomLeftCorner(cornerFamily, smallRadius)
             }
 
             Single -> {}
