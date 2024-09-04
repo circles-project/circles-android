@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.core.content.res.use
 import androidx.core.view.updateLayoutParams
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
@@ -27,6 +28,17 @@ class VideoPlaybackView(
 
     private var videoPlayer: ExoPlayer? = null
     private var videoPlaybackListener: OnVideoPlayBackStateListener? = null
+
+    init {
+        context.obtainStyledAttributes(
+            attrs, R.styleable.VideoPlaybackView, 0, 0
+        ).use { ta ->
+            binding.videoCard.radius = ta.getDimension(
+                R.styleable.VideoPlaybackView_cornerRadius,
+                0f
+            )
+        }
+    }
 
 
     fun setup(

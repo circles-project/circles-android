@@ -13,4 +13,8 @@
 
     <attr name="readMoreTextViewStyle" format="reference" />
 
+    <declare-styleable name="VideoPlaybackView">
+        <attr name="cornerRadius" format="dimension" />
+    </declare-styleable>
+
 </resources>
