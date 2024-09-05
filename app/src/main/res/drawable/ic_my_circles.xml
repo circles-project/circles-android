@@ -7,9 +7,9 @@
         android:pathData="M8.441,1.87L8.441,1.87A7.13,7.13 0,0 1,15.571 9L15.571,9A7.13,7.13 0,0 1,8.441 16.13L8.441,16.13A7.13,7.13 0,0 1,1.311 9L1.311,9A7.13,7.13 0,0 1,8.441 1.87z"
         android:strokeWidth="1.74"
         android:strokeAlpha="0.3"
-        android:strokeColor="#2A303A" />
+        android:strokeColor="@color/grey_cool_1100" />
     <path
         android:pathData="M15.441,7.961L15.441,7.961A7.039,7.039 0,0 1,22.481 15L22.481,15A7.039,7.039 0,0 1,15.441 22.039L15.441,22.039A7.039,7.039 0,0 1,8.402 15L8.402,15A7.039,7.039 0,0 1,15.441 7.961z"
         android:strokeWidth="1.92157"
-        android:strokeColor="#2A303A" />
+        android:strokeColor="@color/grey_cool_1100" />
 </vector>

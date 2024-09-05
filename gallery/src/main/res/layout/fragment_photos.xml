@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/white">
+        android:background="@color/default_background">
 
         <TextView
             android:id="@+id/tvTitle"

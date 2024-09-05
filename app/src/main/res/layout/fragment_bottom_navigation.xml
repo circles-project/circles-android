@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
+        android:background="@color/default_background"
         app:itemBackground="?selectableItemBackgroundBorderless"
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextAppearanceActive="@style/BottomNavigationViewTextActive"
