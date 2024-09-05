@@ -3,7 +3,6 @@
     android:id="@+id/pageLoading"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:colorBackground"
     android:paddingVertical="8dp">
 
     <ProgressBar
