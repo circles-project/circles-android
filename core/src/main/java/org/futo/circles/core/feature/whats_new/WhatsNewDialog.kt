@@ -25,7 +25,6 @@ class WhatsNewDialog(context: Context) : AppCompatDialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setCancelable(false)
         window?.apply {
             setBackgroundDrawable(InsetDrawable(ColorDrawable(Color.TRANSPARENT), 20))
             setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)

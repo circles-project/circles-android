@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="menu_icon_color">#ABABAB</color>
+    <color name="qr_color">@color/white</color>
+    <color name="default_background">@color/black</color>
+
     <color name="post_card_background_color">#2D2D2D</color>
 
-    <color name="qr_color">@color/white</color>
-
-    <color name="default_background">@color/black</color>
+    <color name="blue_700">#005F9F</color>
 
     <color name="theme_500">#3A1791</color>
     <color name="theme_600">#4E1FC2</color>

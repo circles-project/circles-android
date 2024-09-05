@@ -19,7 +19,6 @@ class CirclesExplanationDialogFragment : AppCompatDialogFragment(), ExplanationD
 
     override fun onStart() {
         super.onStart()
-        dialog?.setCancelable(false)
         dialog?.window?.apply {
             setBackgroundDrawable(InsetDrawable(ColorDrawable(Color.TRANSPARENT), 20))
             setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
