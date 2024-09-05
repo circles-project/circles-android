@@ -84,7 +84,7 @@
                 android:id="@+id/ivFullScreen"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:background="@color/background_dim"
+                android:background="@color/close_background"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?selectableItemBackgroundBorderless"
