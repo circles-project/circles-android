@@ -7,6 +7,7 @@
     <color name="qr_color">@color/white</color>
     <color name="qr_background">#121212</color>
 
+    <color name="default_background">@color/black</color>
 
     <color name="theme_500">#3A1791</color>
     <color name="theme_600">#4E1FC2</color>

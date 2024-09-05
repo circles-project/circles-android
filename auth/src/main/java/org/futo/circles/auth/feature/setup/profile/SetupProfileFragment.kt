@@ -29,7 +29,7 @@ class SetupProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.window?.statusBarColor =
-            ContextCompat.getColor(requireContext(), org.futo.circles.core.R.color.white)
+            ContextCompat.getColor(requireContext(), org.futo.circles.core.R.color.default_background)
         setupViews()
         setupObservers()
     }

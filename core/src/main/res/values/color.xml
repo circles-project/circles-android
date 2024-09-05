@@ -23,6 +23,8 @@
     <color name="highlight_color">#4D8553FF</color>
 
 
+    <color name="default_background">@color/white</color>
+
     <color name="theme_500">#CFBCFF</color>
     <color name="theme_600">#B79AFF</color>
     <color name="theme_800">#8553FF</color>

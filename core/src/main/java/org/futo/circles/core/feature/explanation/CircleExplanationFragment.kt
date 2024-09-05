@@ -28,7 +28,7 @@ class CircleExplanationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.window?.statusBarColor = ContextCompat.getColor(requireContext(), R.color.white)
+        activity?.window?.statusBarColor = ContextCompat.getColor(requireContext(), R.color.default_background)
         setupViews()
     }
 

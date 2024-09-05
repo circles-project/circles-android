@@ -137,7 +137,7 @@ class GalleryDialogFragment :
         dialog?.window?.let {
             it.statusBarColor = if (isFullScreen) Color.BLACK else ContextCompat.getColor(
                 requireContext(),
-                org.futo.circles.core.R.color.status_bar_color
+                org.futo.circles.core.R.color.default_background
             )
         }
     }

@@ -13,8 +13,9 @@
 
         <item name="colorControlHighlight">@color/highlight_color</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:colorBackground">@color/white</item>
+
+        <item name="android:statusBarColor">@color/default_background</item>
+        <item name="android:colorBackground">@color/default_background</item>
 
         <item name="dialogTheme">@style/DialogTheme</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
