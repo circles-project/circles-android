@@ -34,7 +34,7 @@ class QrCodeImageView @JvmOverloads constructor(
             ?.takeIf { height > 0 }
             ?.let {
                 val bitmap = it.toBitMatrix(height).toBitmap(
-                    ContextCompat.getColor(context, R.color.qr_background),
+                    ContextCompat.getColor(context, R.color.default_background),
                     ContextCompat.getColor(context, R.color.qr_color),
                 )
                 post { setImageBitmap(bitmap) }

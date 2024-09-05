@@ -3,8 +3,8 @@
 
     <color name="menu_icon_color">#ABABAB</color>
     <color name="post_card_background_color">#2D2D2D</color>
+
     <color name="qr_color">@color/white</color>
-    <color name="qr_background">#121212</color>
 
     <color name="default_background">@color/black</color>
 
