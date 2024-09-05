@@ -5,7 +5,8 @@
     android:id="@+id/lParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/gallery_grid_toolbar_offset">
+    android:layout_marginTop="@dimen/gallery_grid_toolbar_offset"
+    android:background="@color/grey_cool_200">
 
     <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvGallery"
