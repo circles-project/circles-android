@@ -4,57 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
     android:orientation="vertical"
-    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    tools:parentTag="android.widget.FrameLayout">
 
-    <ImageView
-        android:id="@+id/ivOptionIcon"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginVertical="14dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/grey_cool_900"
-        tools:src="@drawable/ic_lock" />
-
-
-    <TextView
-        android:id="@+id/tvOptionName"
-        style="@style/settingMenuItem"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:clickable="false"
-        android:ellipsize="end"
-        android:focusable="false"
-        android:lines="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ivArrow"
-        app:layout_constraintStart_toEndOf="@id/ivOptionIcon"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Change password" />
+        android:background="@color/default_background"
+        android:foreground="?selectableItemBackground"
+        android:orientation="vertical"
+        tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <ImageView
-        android:id="@+id/ivArrow"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_arrow_right"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/vBottomDivider"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height"
-        android:background="@color/grey_cool_200"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/ivOptionIcon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginVertical="14dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/grey_cool_900"
+            tools:src="@drawable/ic_lock" />
 
 
+        <TextView
+            android:id="@+id/tvOptionName"
+            style="@style/settingMenuItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:clickable="false"
+            android:ellipsize="end"
+            android:focusable="false"
+            android:lines="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ivArrow"
+            app:layout_constraintStart_toEndOf="@id/ivOptionIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Change password" />
+
+        <ImageView
+            android:id="@+id/ivArrow"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/vBottomDivider"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
+            android:background="@color/grey_cool_200"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>

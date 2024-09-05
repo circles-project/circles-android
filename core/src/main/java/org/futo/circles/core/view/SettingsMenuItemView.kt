@@ -2,9 +2,9 @@ package org.futo.circles.core.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.LayoutInflater
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ViewSettingsMenuItemBinding
 import org.futo.circles.core.extensions.getAttributes
@@ -16,14 +16,14 @@ import org.futo.circles.core.extensions.visible
 class SettingsMenuItemView(
     context: Context,
     attrs: AttributeSet? = null,
-) : ConstraintLayout(context, attrs) {
+) : FrameLayout(context, attrs) {
 
     private val binding =
         ViewSettingsMenuItemBinding.inflate(LayoutInflater.from(context), this)
 
 
     init {
-        addBackgroundRipple()
+        setBackgroundColor(ContextCompat.getColor(context, R.color.default_background))
         getAttributes(attrs, R.styleable.SettingsMenuItemView) {
             val isDividerVisible = getBoolean(R.styleable.SettingsMenuItemView_hasDivider, true)
             binding.vBottomDivider.setIsVisible(isDividerVisible)
@@ -42,11 +42,5 @@ class SettingsMenuItemView(
 
     fun setText(text: String) {
         binding.tvOptionName.text = text
-    }
-
-    private fun addBackgroundRipple() {
-        val outValue = TypedValue()
-        context.theme.resolveAttribute(android.R.attr.selectableItemBackground, outValue, true)
-        setBackgroundResource(outValue.resourceId)
     }
 }
