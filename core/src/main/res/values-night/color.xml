@@ -4,7 +4,27 @@
     <color name="divider_color">#333333</color>
     <color name="menu_icon_color">#ABABAB</color>
     <color name="post_card_background_color">#2D2D2D</color>
-    <color name="list_item_icon_color">@color/menu_icon_color</color>
     <color name="qr_color">@color/white</color>
     <color name="qr_background">#121212</color>
+
+
+    <color name="theme_500">#3A1791</color>
+    <color name="theme_600">#4E1FC2</color>
+    <color name="theme_800">#824EFF</color>
+
+
+    <color name="grey_cool_200">#111317</color>
+    <color name="grey_cool_300">#16191E</color>
+    <color name="grey_cool_400">#1D2228</color>
+    <color name="grey_cool_600">#3F4958</color>
+    <color name="grey_cool_700">#515D70</color>
+    <color name="grey_cool_800">#66758C</color>
+    <color name="grey_cool_900">#8390A2</color>
+    <color name="grey_cool_1000">#A4ADBB</color>
+    <color name="grey_cool_1100">#C8CDD6</color>
+    <color name="grey_cool_1200">#E6E9EC</color>
+
+    <color name="grey_neutral_100">#09090B</color>
+    <color name="grey_neutral_700">#585C68</color>
+    <color name="grey_neutral_800">#6E7482</color>
 </resources>

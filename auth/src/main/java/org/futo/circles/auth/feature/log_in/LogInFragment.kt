@@ -57,7 +57,7 @@ class LogInFragment : BaseBindingFragment<FragmentLogInBinding>(FragmentLogInBin
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.window?.statusBarColor =
-            ContextCompat.getColor(requireContext(), org.futo.circles.core.R.color.dark_background)
+            ContextCompat.getColor(requireContext(), org.futo.circles.core.R.color.grey_cool_200)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

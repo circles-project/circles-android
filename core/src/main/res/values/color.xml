@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary">@color/theme_800</color>
 
     <color name="blue">#1E88E5</color>
     <color name="status_bar_color">#20111111</color>
@@ -18,12 +19,13 @@
     <color name="chip_selected_color">#800E7AFE</color>
     <color name="qr_color">@color/black</color>
     <color name="qr_background">@color/white</color>
+    <color name="close_background">#70000000</color>
+    <color name="highlight_color">#4D8553FF</color>
 
-    <color name="primary">#8553FF</color>
+
     <color name="theme_500">#CFBCFF</color>
     <color name="theme_600">#B79AFF</color>
-    <color name="highlight_color">#4D8553FF</color>
-    <color name="dark_background">#F5F5F5</color>
+    <color name="theme_800">#8553FF</color>
 
     <color name="grey_cool_200">#EFF1F3</color>
     <color name="grey_cool_300">#E8EAEE</color>
@@ -39,7 +41,5 @@
     <color name="grey_neutral_100">#F8F8F9</color>
     <color name="grey_neutral_700">#8C919C</color>
     <color name="grey_neutral_800">#717785</color>
-
-    <color name="close_background">#70000000</color>
 
 </resources>

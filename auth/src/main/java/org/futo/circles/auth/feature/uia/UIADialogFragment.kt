@@ -66,7 +66,7 @@ class UIADialogFragment :
             it.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             it.statusBarColor = ContextCompat.getColor(
                 requireContext(),
-                org.futo.circles.core.R.color.dark_background
+                org.futo.circles.core.R.color.grey_cool_200
             )
         }
         setupObservers()
