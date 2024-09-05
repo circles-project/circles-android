@@ -26,6 +26,7 @@
 
     <color name="theme_500">#CFBCFF</color>
     <color name="theme_600">#B79AFF</color>
+    <color name="theme_700">#A079FF</color>
     <color name="primary">#8553FF</color>
 
     <color name="grey_cool_200">#EFF1F3</color>

@@ -14,7 +14,7 @@ class MentionSpan(
 
     override fun getDrawable(): Drawable =
         ChipDrawable.createFromResource(context, R.xml.bg_chip).apply {
-            setTextColor(ContextCompat.getColor(context, R.color.blue))
+            setTextColor(ContextCompat.getColor(context, R.color.white))
             text = name
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
         }
