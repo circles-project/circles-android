@@ -72,7 +72,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
-        android:background="@color/divider_color" />
+        android:background="@color/grey_cool_300" />
 
 
     <org.futo.circles.core.view.SettingsMenuItemView

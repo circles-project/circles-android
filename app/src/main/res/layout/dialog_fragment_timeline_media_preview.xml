@@ -15,7 +15,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/status_bar_color"
         android:theme="@style/WhiteMenuToolbar"
         app:menu="@menu/gallery_image_menu"
         app:navigationIcon="?attr/homeAsUpIndicator" />

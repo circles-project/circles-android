@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue">#64B5F6</color>
-    <color name="divider_color">#333333</color>
+
     <color name="menu_icon_color">#ABABAB</color>
     <color name="post_card_background_color">#2D2D2D</color>
     <color name="qr_color">@color/white</color>
@@ -12,7 +11,6 @@
     <color name="theme_500">#3A1791</color>
     <color name="theme_600">#4E1FC2</color>
     <color name="theme_800">#824EFF</color>
-
 
     <color name="grey_cool_200">#111317</color>
     <color name="grey_cool_300">#16191E</color>

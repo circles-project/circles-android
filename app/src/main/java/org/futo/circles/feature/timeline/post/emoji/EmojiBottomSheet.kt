@@ -65,7 +65,7 @@ class EmojiBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                         ),
                         dividerColor = ContextCompat.getColor(
                             requireContext(),
-                            org.futo.circles.core.R.color.divider_color
+                            org.futo.circles.core.R.color.grey_cool_300
                         ),
                         textColor = ContextCompat.getColor(
                             requireContext(),
