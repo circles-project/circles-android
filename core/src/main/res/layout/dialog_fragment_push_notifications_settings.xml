@@ -11,7 +11,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/push_notifications"
