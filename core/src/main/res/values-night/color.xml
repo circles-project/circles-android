@@ -10,7 +10,7 @@
 
     <color name="theme_500">#3A1791</color>
     <color name="theme_600">#4E1FC2</color>
-    <color name="theme_800">#824EFF</color>
+    <color name="primary">#824EFF</color>
 
     <color name="grey_cool_200">#111317</color>
     <color name="grey_cool_300">#16191E</color>

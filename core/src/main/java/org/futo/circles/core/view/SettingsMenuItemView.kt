@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
 import org.futo.circles.core.R
 import org.futo.circles.core.databinding.ViewSettingsMenuItemBinding
 import org.futo.circles.core.extensions.getAttributes
@@ -23,7 +22,6 @@ class SettingsMenuItemView(
 
 
     init {
-        setBackgroundColor(ContextCompat.getColor(context, R.color.default_background))
         getAttributes(attrs, R.styleable.SettingsMenuItemView) {
             val isDividerVisible = getBoolean(R.styleable.SettingsMenuItemView_hasDivider, true)
             binding.vBottomDivider.setIsVisible(isDividerVisible)
