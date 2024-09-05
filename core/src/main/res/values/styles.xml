@@ -7,7 +7,12 @@
         <item name="android:windowExitAnimation">@anim/alpha_hide</item>
     </style>
 
-    <style name="DialogFragmentToolbarTitle" parent="@android:style/TextAppearance">
+    <style name="DialogFragmentToolbarTitle" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="titleTextAppearance">@style/DialogFragmentToolbarTitleText</item>
+        <item name="titleTextColor">@color/grey_cool_1100</item>
+    </style>
+
+    <style name="DialogFragmentToolbarTitleText" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/nunito_extrabold</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/grey_cool_1100</item>

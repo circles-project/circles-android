@@ -8,6 +8,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/DialogFragmentToolbarTitle"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,8 +17,7 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/url_info"
-        app:titleCentered="true"
-        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
+        app:titleCentered="true" />
 
 
     <com.google.android.material.imageview.ShapeableImageView

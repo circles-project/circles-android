@@ -57,7 +57,7 @@ class EmojiBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                         ),
                         primaryColor = ContextCompat.getColor(
                             requireContext(),
-                            org.futo.circles.core.R.color.gray
+                            org.futo.circles.core.R.color.grey_cool_1100
                         ),
                         secondaryColor = ContextCompat.getColor(
                             requireContext(),
@@ -74,7 +74,7 @@ class EmojiBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                         ),
                         textSecondaryColor = ContextCompat.getColor(
                             requireContext(),
-                            org.futo.circles.core.R.color.gray
+                            org.futo.circles.core.R.color.grey_cool_1100
                         )
                     ), RecentEmojisProvider.get(requireContext())
                 )

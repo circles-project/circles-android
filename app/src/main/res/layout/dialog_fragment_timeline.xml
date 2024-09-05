@@ -7,6 +7,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/DialogFragmentToolbarTitle"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/default_background"
@@ -16,8 +17,7 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:navigationIconTint="@color/grey_cool_1100"
         app:subtitleCentered="true"
-        app:titleCentered="true"
-        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
+        app:titleCentered="true" />
 
     <org.futo.circles.core.view.LoadingRecyclerView
         android:id="@+id/rvTimeline"

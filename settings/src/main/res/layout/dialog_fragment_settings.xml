@@ -9,6 +9,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/DialogFragmentToolbarTitle"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/default_background"
@@ -16,8 +17,7 @@
         app:navigationIconTint="@color/grey_cool_1100"
         app:subtitleCentered="true"
         app:title="@string/settings"
-        app:titleCentered="true"
-        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
+        app:titleCentered="true" />
 
     <ScrollView
         android:layout_width="match_parent"

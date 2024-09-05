@@ -7,6 +7,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
+        style="@style/DialogFragmentToolbarTitle"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,8 +16,7 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:navigationIconTint="@color/grey_cool_1100"
         app:title="@string/create_poll"
-        app:titleCentered="true"
-        app:titleTextAppearance="@style/DialogFragmentToolbarTitle" />
+        app:titleCentered="true" />
 
 
     <ScrollView
@@ -141,8 +141,8 @@
             <org.futo.circles.view.CreatePollOptionsLayout
                 android:id="@+id/lvPostOptions"
                 android:layout_width="0dp"
-                android:layout_marginStart="16dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvOptionsHeader" />
