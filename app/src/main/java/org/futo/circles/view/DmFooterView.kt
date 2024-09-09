@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import org.futo.circles.core.extensions.setIsVisible
-import org.futo.circles.core.model.DmTimelineMessage
+import org.futo.circles.model.DmTimelineMessage
 import org.futo.circles.core.model.ReactionsData
 import org.futo.circles.databinding.ViewDmFooterBinding
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener

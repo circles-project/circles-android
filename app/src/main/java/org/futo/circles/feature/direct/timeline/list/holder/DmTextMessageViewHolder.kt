@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.imageview.ShapeableImageView
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
-import org.futo.circles.core.model.DmTimelineMessage
+import org.futo.circles.model.DmTimelineMessage
 import org.futo.circles.core.model.TextContent
 import org.futo.circles.databinding.ListItemTextDmBinding
 import org.futo.circles.extensions.handleLinkClick

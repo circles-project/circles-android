@@ -3,11 +3,6 @@ package org.futo.circles.feature.direct.timeline.list
 import android.view.ViewGroup
 import androidx.media3.exoplayer.ExoPlayer
 import org.futo.circles.core.base.list.BaseRvAdapter
-import org.futo.circles.core.model.DmTimelineItemPayload
-import org.futo.circles.core.model.DmTimelineListItem
-import org.futo.circles.core.model.DmTimelineLoadingItem
-import org.futo.circles.core.model.DmTimelineMessage
-import org.futo.circles.core.model.DmTimelineTimeHeaderItem
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.feature.direct.timeline.list.holder.DmDateHeaderViewHolder
 import org.futo.circles.feature.direct.timeline.list.holder.DmImageMessageViewHolder
@@ -20,7 +15,11 @@ import org.futo.circles.feature.direct.timeline.list.holder.DmViewHolder
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener
 import org.futo.circles.feature.timeline.list.OnVideoPlayBackStateListener
 import org.futo.circles.feature.timeline.list.holder.VideoPlaybackViewHolder
-import org.matrix.android.sdk.api.extensions.tryOrNull
+import org.futo.circles.model.DmTimelineItemPayload
+import org.futo.circles.model.DmTimelineListItem
+import org.futo.circles.model.DmTimelineLoadingItem
+import org.futo.circles.model.DmTimelineMessage
+import org.futo.circles.model.DmTimelineTimeHeaderItem
 
 private enum class DmTimelineViewType {
     TEXT, IMAGE, VIDEO, OTHER, LOADING, HEADER
@@ -34,7 +33,7 @@ class DMTimelineAdapter(
         if (new is DmTimelineMessage && old is DmTimelineMessage)
             DmTimelineItemPayload(
                 reactions = new.reactionsData,
-                needToUpdateFullItem = new.content != old.content || new.info != old.info
+                needToUpdateFullItem = new.content != old.content || new.info != old.info || new.shapeType != old.shapeType
             )
         else null
     }), OnVideoPlayBackStateListener {
@@ -79,9 +78,7 @@ class DMTimelineAdapter(
 
 
     override fun onBindViewHolder(holder: DmTimelineListItemViewHolder, position: Int) {
-        val previousItem = tryOrNull { getItem(position - 1) }
-        val nextItem = tryOrNull { getItem(position + 1) }
-        holder.bind(getItem(position), previousItem, nextItem)
+        holder.bind(getItem(position))
     }
 
     override fun onBindViewHolder(

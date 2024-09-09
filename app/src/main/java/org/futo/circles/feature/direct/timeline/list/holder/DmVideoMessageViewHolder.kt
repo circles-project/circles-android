@@ -5,7 +5,7 @@ import android.widget.FrameLayout
 import androidx.media3.exoplayer.ExoPlayer
 import com.google.android.material.imageview.ShapeableImageView
 import org.futo.circles.core.base.list.ViewBindingHolder
-import org.futo.circles.core.model.DmTimelineMessage
+import org.futo.circles.model.DmTimelineMessage
 import org.futo.circles.core.model.MediaContent
 import org.futo.circles.databinding.ListItemVideoDmBinding
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener

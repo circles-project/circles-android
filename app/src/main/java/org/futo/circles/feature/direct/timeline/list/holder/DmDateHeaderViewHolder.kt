@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import org.futo.circles.R
 import org.futo.circles.core.base.list.ViewBindingHolder
 import org.futo.circles.core.base.list.context
-import org.futo.circles.core.model.DmTimelineListItem
-import org.futo.circles.core.model.DmTimelineTimeHeaderItem
 import org.futo.circles.core.utils.DateUtils
 import org.futo.circles.databinding.ListItemDmDateHeaderBinding
+import org.futo.circles.model.DmTimelineListItem
+import org.futo.circles.model.DmTimelineTimeHeaderItem
 import java.util.Date
 
 class DmDateHeaderViewHolder(
@@ -21,10 +21,7 @@ class DmDateHeaderViewHolder(
 
     private val binding = baseBinding as ListItemDmDateHeaderBinding
 
-    override fun bind(
-        item: DmTimelineListItem, previousItem: DmTimelineListItem?,
-        nextItem: DmTimelineListItem?
-    ) {
+    override fun bind(item: DmTimelineListItem) {
         val time = (item as? DmTimelineTimeHeaderItem)?.date ?: return
         val timeString = if (DateUtils.isToday(time)) {
             context.getString(R.string.today)
