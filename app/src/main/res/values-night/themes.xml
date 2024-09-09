@@ -3,7 +3,7 @@
 
     <style name="Theme.Circles" parent="BaseAppTheme">
 
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
 
     </style>
 

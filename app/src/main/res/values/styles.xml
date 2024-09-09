@@ -1,7 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--  Base app theme  -->
+
+    <style name="BaseAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSurface">@color/primary</item>
+
+        <item name="colorControlHighlight">@color/highlight_color</item>
+
+        <item name="android:statusBarColor">@color/default_background</item>
+        <item name="android:colorBackground">@color/default_background</item>
+
+        <item name="dialogTheme">@style/DialogTheme</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">@color/primary</item>
+    </style>
 
 
+    <!--  Appcompat dialog   -->
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+
+    <!--  Alert dialog  -->
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/AlertTitleStyle</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/AlertMessageStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AlertButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/AlertButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertButtonStyle</item>
+    </style>
+
+    <style name="AlertTitleStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/grey_cool_1100</item>
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AlertMessageStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textColor">@color/grey_cool_900</item>
+        <item name="android:fontFamily">@font/nunito_medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AlertButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="materialThemeOverlay">@style/AlertButtonThemeOverlay</item>
+    </style>
+
+    <style name="AlertButtonThemeOverlay" parent="">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+
+    <!--  Bottom navigation  -->
     <style name="BottomNavigationViewTextActive">
         <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="android:textSize">10sp</item>
