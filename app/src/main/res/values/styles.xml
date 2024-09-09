@@ -39,7 +39,8 @@
 
     <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorSurface">@color/white</item>
+        <item name="colorSurface">@color/grey_cool_200</item>
+        <item name="android:background">@color/grey_cool_200</item>
         <item name="materialAlertDialogTitleTextStyle">@style/AlertTitleStyle</item>
         <item name="materialAlertDialogBodyTextStyle">@style/AlertMessageStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/AlertButtonStyle</item>
