@@ -113,7 +113,7 @@ abstract class DmViewHolder(
             }
         } else {
             dmBackground.apply {
-                setBackgroundResource(org.futo.circles.core.R.color.white)
+                setBackgroundResource(org.futo.circles.core.R.color.default_background)
                 setShapeAppearanceModel(getMessageBackgroundShapeModel(false, dmMessage.shapeType))
             }
             rootMessageLayout.layoutParams = layoutParams.apply {
