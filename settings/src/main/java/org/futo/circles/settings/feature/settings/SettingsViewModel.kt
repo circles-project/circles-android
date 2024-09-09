@@ -21,7 +21,6 @@ class SettingsViewModel @Inject constructor(
     val deactivateLiveData = SingleEventLiveData<Response<Unit?>>()
     val navigateToMatrixChangePasswordEvent = SingleEventLiveData<Unit>()
     val changePasswordResponseLiveData = SingleEventLiveData<Response<Unit?>>()
-    val mediaUsageInfoLiveData = SingleEventLiveData<Response<MediaUsageInfo?>>()
 
     fun logOut() {
         launchBg {
@@ -51,14 +50,5 @@ class SettingsViewModel @Inject constructor(
     private suspend fun createNewBackupInNeeded() {
         val createBackupResult = settingsDataSource.createNewBackupIfNeeded()
         changePasswordResponseLiveData.postValue(createBackupResult)
-    }
-
-    fun updateMediaUsageInfo() {
-        launchBg {
-            val mediaUsageInfoResult = createResult {
-                MatrixSessionProvider.getSessionOrThrow().mediaService().getMediaUsage()
-            }
-            mediaUsageInfoLiveData.postValue(mediaUsageInfoResult)
-        }
     }
 }

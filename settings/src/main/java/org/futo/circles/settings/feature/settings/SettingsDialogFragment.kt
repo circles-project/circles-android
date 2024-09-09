@@ -42,11 +42,6 @@ class SettingsDialogFragment :
         setupObservers()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.updateMediaUsageInfo()
-    }
-
     private fun setupViews() {
         with(binding) {
             vLogout.setOnClickListener {
@@ -103,25 +98,6 @@ class SettingsDialogFragment :
         )
         viewModel.passPhraseLoadingLiveData.observeData(this) {
             loadingDialog.handleLoading(it)
-        }
-        viewModel.mediaUsageInfoLiveData.observeResponse(this,
-            error = { bindMediaUsageProgress(null) },
-            success = { bindMediaUsageProgress(it) })
-    }
-
-    private fun bindMediaUsageProgress(mediaUsage: MediaUsageInfo?) {
-        mediaUsage?.let {
-            binding.mediaStorageProgress.apply {
-                max = mediaUsage.storageSize.toInt()
-                progress = mediaUsage.usedSize.toInt()
-            }
-            binding.tvMediaStorageInfo.text = getString(
-                R.string.media_usage_format,
-                FileUtils.readableFileSize(mediaUsage.usedSize),
-                FileUtils.readableFileSize(mediaUsage.storageSize)
-            )
-        } ?: run {
-            binding.tvMediaStorageInfo.text = getString(R.string.no_info_available)
         }
     }
 

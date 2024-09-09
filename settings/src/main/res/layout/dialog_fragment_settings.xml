@@ -56,35 +56,6 @@
             <org.futo.circles.core.view.SettingsGroupLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:groupName="@string/media_storage">
-
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:id="@+id/mediaStorageProgress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:layout_marginTop="14dp"
-                    app:trackCornerRadius="6dp"
-                    tools:progress="15" />
-
-                <TextView
-                    android:id="@+id/tvMediaStorageInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="14dp"
-                    android:gravity="center"
-                    android:text="@string/empty_media_storage_info"
-                    android:textSize="13sp" />
-
-
-            </org.futo.circles.core.view.SettingsGroupLayout>
-
-
-            <org.futo.circles.core.view.SettingsGroupLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:groupName="@string/notifications">
 
                 <org.futo.circles.core.view.SettingsMenuItemView
