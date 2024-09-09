@@ -52,7 +52,7 @@
                 android:id="@+id/ivEditIcon"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:background="@color/white"
+                android:background="@color/default_background"
                 android:clickable="false"
                 android:focusable="false"
                 android:padding="2dp"
