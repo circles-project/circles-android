@@ -53,7 +53,7 @@ class EmojiBottomSheet : TransparentBackgroundBottomSheetDialogFragment() {
                     EmojiTheming(
                         backgroundColor = ContextCompat.getColor(
                             requireContext(),
-                            org.futo.circles.core.R.color.post_card_background_color
+                            org.futo.circles.core.R.color.grey_cool_200
                         ),
                         primaryColor = ContextCompat.getColor(
                             requireContext(),
