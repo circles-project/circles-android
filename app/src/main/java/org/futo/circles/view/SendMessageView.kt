@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.doAfterTextChanged
 import io.element.android.wysiwyg.view.models.InlineFormat
 import org.futo.circles.R
-import org.futo.circles.core.extensions.getText
 import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.setIsVisible
 import org.futo.circles.core.extensions.visible
@@ -35,7 +34,7 @@ class SendMessageView(
         setBackgroundColor(
             ContextCompat.getColor(
                 context,
-                org.futo.circles.core.R.color.grey_cool_200
+                org.futo.circles.core.R.color.default_background
             )
         )
         with(binding) {
