@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.R
 import org.futo.circles.core.base.fragment.BaseFullscreenDialogFragment
+import org.futo.circles.core.base.list.StickyHeaderDecoration
 import org.futo.circles.core.extensions.dpToPx
 import org.futo.circles.core.extensions.observeData
 import org.futo.circles.core.extensions.observeResponse
@@ -87,6 +88,7 @@ class DMTimelineDialogFragment :
                 setPadding(paddingLeft, paddingTop, paddingRight, context.dpToPx(80))
             }
             addPageEndListener { viewModel.loadMore() }
+            addItemDecoration(StickyHeaderDecoration(listAdapter))
         }
 
         binding.vSendMessage.setup(this)

@@ -1,8 +1,11 @@
 package org.futo.circles.feature.direct.timeline.list
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.recyclerview.widget.RecyclerView
 import org.futo.circles.core.base.list.BaseRvAdapter
+import org.futo.circles.core.base.list.StickyHeaderAdapter
 import org.futo.circles.core.model.PostContentType
 import org.futo.circles.feature.direct.timeline.list.holder.DmDateHeaderViewHolder
 import org.futo.circles.feature.direct.timeline.list.holder.DmImageMessageViewHolder
@@ -36,7 +39,7 @@ class DMTimelineAdapter(
                 needToUpdateFullItem = new.content != old.content || new.info != old.info || new.shapeType != old.shapeType
             )
         else null
-    }), OnVideoPlayBackStateListener {
+    }), OnVideoPlayBackStateListener, StickyHeaderAdapter {
 
     private var currentPlayingVideoHolder: VideoPlaybackViewHolder? = null
 
@@ -117,5 +120,21 @@ class DMTimelineAdapter(
     fun stopVideoPlayback(shouldNotify: Boolean = true) {
         currentPlayingVideoHolder?.stopVideo(shouldNotify)
     }
+
+
+    override fun getHeaderViewForItem(parent: RecyclerView, itemPosition: Int): View? {
+        if (isHeader(itemPosition)) return null
+        var headerPosition = 0
+        for (i in itemPosition downTo 0) {
+            if (isHeader(i)) {
+                headerPosition = i
+                break
+            }
+        }
+        return DmDateHeaderViewHolder(parent).apply { bind(getItem(headerPosition)) }.itemView
+    }
+
+    override fun isHeader(itemPosition: Int): Boolean =
+        getItemViewType(itemPosition) == DmTimelineViewType.HEADER.ordinal
 
 }
