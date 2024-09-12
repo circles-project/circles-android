@@ -62,11 +62,11 @@ class LoadingRecyclerView(
 
     fun bindToFab(fab: FloatingActionButton) = binding.rvList.bindToFab(fab)
 
-    fun addPageEndListener(loadMore: () -> Unit) {
+    fun addPageEndListener(direction: Int = DIRECTION_BOTTOM, loadMore: () -> Unit) {
         binding.rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                if (!recyclerView.canScrollVertically(direction) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                     loadMore.invoke()
                 }
             }
@@ -90,5 +90,10 @@ class LoadingRecyclerView(
         binding.vLoading.gone()
         val itemsCount = binding.rvList.adapter?.itemCount ?: 0
         binding.lEmptyViewContainer.setIsVisible(itemsCount == 0)
+    }
+
+    companion object {
+        const val DIRECTION_BOTTOM = 1
+        const val DIRECTION_TOP = -1
     }
 }

@@ -24,6 +24,7 @@ import org.futo.circles.core.feature.picker.helper.MediaPickerHelper
 import org.futo.circles.core.feature.share.ShareProvider
 import org.futo.circles.core.model.MediaType
 import org.futo.circles.core.model.PostContent
+import org.futo.circles.core.view.LoadingRecyclerView
 import org.futo.circles.databinding.DialogFragmentDmTimelineBinding
 import org.futo.circles.feature.direct.timeline.list.DMTimelineAdapter
 import org.futo.circles.feature.direct.timeline.listeners.DmOptionsListener
@@ -87,7 +88,7 @@ class DMTimelineDialogFragment :
                 clipToPadding = false
                 setPadding(paddingLeft, paddingTop, paddingRight, context.dpToPx(80))
             }
-            addPageEndListener { viewModel.loadMore() }
+            addPageEndListener(LoadingRecyclerView.DIRECTION_TOP) { viewModel.loadMore() }
             addItemDecoration(StickyHeaderDecoration(listAdapter))
         }
 
