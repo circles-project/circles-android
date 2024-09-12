@@ -34,6 +34,9 @@ class SingleTimelineDataSource(
 
     private var currentSnapshotList: List<Post> = listOf()
 
+    override fun isBackwardsScrollDirection(): Boolean =
+        timelineType == TimelineTypeArg.THREAD || timelineType == TimelineTypeArg.DM
+
     override fun startTimeline(viewModelScope: CoroutineScope, listener: Timeline.Listener) {
         timeline = createAndStartNewTimeline(room, listener, threadEventId)
         viewModelScope.launch(Dispatchers.IO) { loadMore(false) }
@@ -42,12 +45,6 @@ class SingleTimelineDataSource(
     override fun onRestartTimeline(timelineId: String, throwable: Throwable) {
         tryOrNull { timeline?.restartWithEventId(null) }
     }
-
-    override val listDirection: Timeline.Direction
-        get() = when (timelineType) {
-            TimelineTypeArg.DM, TimelineTypeArg.THREAD -> Timeline.Direction.FORWARDS
-            else -> Timeline.Direction.BACKWARDS
-        }
 
     override fun clearTimeline() {
         timeline?.let { closeTimeline(it) }
@@ -75,6 +72,11 @@ class SingleTimelineDataSource(
         currentSnapshotList = posts
         return sortList(posts)
     }
+
+    private fun sortList(list: List<Post>) =
+        if (isBackwardsScrollDirection()) list.sortedBy { it.postInfo.timestamp }
+        else list.sortedByDescending { it.postInfo.timestamp }
+
 
     override fun filterTimelineEvents(snapshot: List<TimelineEvent>): List<TimelineEvent> =
         snapshot.filter {

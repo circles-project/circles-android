@@ -8,6 +8,7 @@ import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
@@ -33,6 +34,7 @@ import org.futo.circles.core.model.PostContent
 import org.futo.circles.core.model.isAllPosts
 import org.futo.circles.core.model.isCircle
 import org.futo.circles.core.model.isThread
+import org.futo.circles.core.view.LoadingRecyclerView
 import org.futo.circles.databinding.DialogFragmentTimelineBinding
 import org.futo.circles.feature.timeline.list.PostOptionsListener
 import org.futo.circles.feature.timeline.list.TimelineAdapter
@@ -103,6 +105,7 @@ class TimelineDialogFragment :
             getRecyclerView().apply {
                 isNestedScrollingEnabled = false
                 clipToPadding = false
+                (layoutManager as? LinearLayoutManager)?.stackFromEnd = args.timelineType.isThread()
                 setPadding(paddingLeft, context.dpToPx(5), paddingRight, context.dpToPx(5))
             }
             addItemDecoration(
@@ -111,7 +114,11 @@ class TimelineDialogFragment :
                     horizontalOffset = context.dpToPx(12)
                 )
             )
-            addPageEndListener { viewModel.loadMore() }
+            addPageEndListener(
+                if (args.timelineType.isThread()) LoadingRecyclerView.DIRECTION_TOP
+                else LoadingRecyclerView.DIRECTION_BOTTOM
+            )
+            { viewModel.loadMore() }
         }
         setupCreatePostButton(binding.rvTimeline.getRecyclerView()) { onCreatePost() }
 

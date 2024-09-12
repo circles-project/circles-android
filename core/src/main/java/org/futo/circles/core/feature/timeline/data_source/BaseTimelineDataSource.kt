@@ -20,9 +20,6 @@ import org.futo.circles.core.provider.MatrixSessionProvider
 import org.futo.circles.core.provider.PreferencesProvider
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.room.Room
-import org.matrix.android.sdk.api.session.room.getTimelineEvent
-import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
-import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
@@ -57,8 +54,6 @@ abstract class BaseTimelineDataSource(
 
     protected val session = MatrixSessionProvider.getSessionOrThrow()
 
-    protected abstract val listDirection: Timeline.Direction
-
     private val supportedTimelineEvens: List<String> =
         listOf(EventType.MESSAGE, EventType.POLL_START.stable, EventType.POLL_START.unstable)
 
@@ -68,13 +63,22 @@ abstract class BaseTimelineDataSource(
         pageLoadingFlow,
         getPostEventsFlow(viewModelScope)
     ) { isLoading, events ->
-        if (isLoading) events + TimelineLoadingItem()
-        else events
+        if (isLoading) {
+            if (isBackwardsScrollDirection()) mutableListOf<PostListItem>().apply {
+                add(TimelineLoadingItem())
+                addAll(events)
+            }
+            else events + TimelineLoadingItem()
+        } else {
+            events
+        }
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
 
     abstract fun clearTimeline()
 
     abstract suspend fun loadMore(showLoader: Boolean)
+
+    abstract fun isBackwardsScrollDirection(): Boolean
 
     protected abstract fun startTimeline(
         viewModelScope: CoroutineScope,
@@ -111,23 +115,18 @@ abstract class BaseTimelineDataSource(
     }
 
     protected suspend fun loadNextPage(showLoader: Boolean, timeline: Timeline) {
-        if (timeline.hasMoreToLoad(listDirection)) {
+        if (timeline.hasMoreToLoad(Timeline.Direction.BACKWARDS)) {
             pageLoadingFlow.update { showLoader }
-            var snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
+            var snapshot = timeline.awaitPaginate(Timeline.Direction.BACKWARDS, MESSAGES_PER_PAGE)
             var postsLoadedCount = filterTimelineEvents(snapshot).size
-            while (postsLoadedCount < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(listDirection)) {
-                snapshot = timeline.awaitPaginate(listDirection, MESSAGES_PER_PAGE)
+            while (postsLoadedCount < MIN_MESSAGES_ON_PAGE && timeline.hasMoreToLoad(Timeline.Direction.BACKWARDS)) {
+                snapshot = timeline.awaitPaginate(Timeline.Direction.BACKWARDS, MESSAGES_PER_PAGE)
                 postsLoadedCount = filterTimelineEvents(snapshot).size
             }
             timeline.postCurrentSnapshot()
         }
         pageLoadingFlow.update { false }
     }
-
-
-    protected fun sortList(list: List<Post>) =
-        if (listDirection == Timeline.Direction.FORWARDS) list.sortedBy { it.postInfo.timestamp }
-        else list.sortedByDescending { it.postInfo.timestamp }
 
 
     protected fun TimelineEvent.isSupportedEvent() =

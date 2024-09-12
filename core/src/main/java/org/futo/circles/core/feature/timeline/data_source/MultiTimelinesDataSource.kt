@@ -26,6 +26,8 @@ class MultiTimelinesDataSource(preferencesProvider: PreferencesProvider) :
     private var timelines: MutableList<Timeline> = mutableListOf()
     private var currentSnapshotMap: MutableMap<String, List<Post>> = mutableMapOf()
 
+    override fun isBackwardsScrollDirection(): Boolean  = false
+
     override fun startTimeline(
         viewModelScope: CoroutineScope,
         listener: Timeline.Listener
@@ -45,8 +47,6 @@ class MultiTimelinesDataSource(preferencesProvider: PreferencesProvider) :
         }
     }
 
-    override val listDirection: Timeline.Direction get() = Timeline.Direction.BACKWARDS
-
     override fun clearTimeline() {
         timelines.forEach { timeline -> closeTimeline(timeline) }
         timelines.clear()
@@ -65,7 +65,7 @@ class MultiTimelinesDataSource(preferencesProvider: PreferencesProvider) :
         val roomName = room.roomSummary()?.nameOrId()
         val roomOwner = getRoomOwner(roomId)
         currentSnapshotMap[roomId] = snapshot.filterRootPostNotFromOwner(roomName, roomOwner)
-        return sortList(getCurrentTimelinesPostsList())
+        return getCurrentTimelinesPostsList().sortedByDescending { it.postInfo.timestamp }
     }
 
     override fun filterTimelineEvents(snapshot: List<TimelineEvent>): List<TimelineEvent> =
