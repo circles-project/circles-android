@@ -115,10 +115,6 @@ class SSSSDataSource @Inject constructor() {
         session.cryptoService().keysBackupService()
             .onSecretKeyGossip(keyBackupPrivateKey.toBase64NoPadding())
 
-        session.sharedSecretStorageService().storeBsSpekePrivateKey(
-            (keyInfo.keySpec as RawBytesKeySpec).privateKey,
-            keyInfo.keyId
-        )
         session.sharedSecretStorageService().setDefaultKey(keyInfo.keyId)
     }
 

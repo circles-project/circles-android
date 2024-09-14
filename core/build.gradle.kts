@@ -80,7 +80,7 @@ dependencies {
     implementHilt()
 
     // Matrix release
-    api("org.futo.gitlab.circles:matrix-android-sdk:v1.6.10.44@aar") {
+    api("com.github.circles-project:matrix-android-sdk:v1.6.10.45@aar") {
         isTransitive = true
     }
 

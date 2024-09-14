@@ -73,15 +73,13 @@ class ActiveSessionsDataSource @Inject constructor(
         )
         if (otherSessions.isNotEmpty()) {
             sessionsList.add(SessionHeader(context.getString(R.string.other_sessions)))
-            sessionsList.addAll(otherSessions.mapNotNull {
-                if (!it.isDehydrated) {
-                    ActiveSession(
-                        cryptoDeviceInfo = it,
-                        canVerify = isCurrentSessionVerified && it.trustLevel?.isCrossSigningVerified() != true,
-                        isResetKeysVisible = false,
-                        isOptionsVisible = sessionsWithVisibleOptions.contains(it.deviceId)
-                    )
-                } else null
+            sessionsList.addAll(otherSessions.map {
+                ActiveSession(
+                    cryptoDeviceInfo = it,
+                    canVerify = isCurrentSessionVerified && it.trustLevel?.isCrossSigningVerified() != true,
+                    isResetKeysVisible = false,
+                    isOptionsVisible = sessionsWithVisibleOptions.contains(it.deviceId)
+                )
             }
             )
         }

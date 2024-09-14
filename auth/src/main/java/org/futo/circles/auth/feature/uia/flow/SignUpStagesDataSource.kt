@@ -24,11 +24,7 @@ class SignUpStagesDataSource @Inject constructor(
     ): Response<RegistrationResult> {
         val wizard = MatrixInstanceProvider.matrix.authenticationService().getRegistrationWizard()
         val result = createResult {
-            wizard.registrationCustom(
-                authParams,
-                context.getString(R.string.initial_device_name),
-                true
-            )
+            wizard.registrationCustom(authParams, context.getString(R.string.initial_device_name))
         }
 
         (result as? Response.Success)?.let {

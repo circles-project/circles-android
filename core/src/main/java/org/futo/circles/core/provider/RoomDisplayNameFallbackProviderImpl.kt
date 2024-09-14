@@ -13,6 +13,8 @@ class RoomDisplayNameFallbackProviderImpl(private val context: Context) :
     override fun getNameForEmptyRoom(isDirect: Boolean, leftMemberNames: List<String>) =
         context.getString(R.string.name_for_empty_room)
 
+    override fun excludedUserIds(roomId: String): List<String> = emptyList()
+
     override fun getNameFor1member(name: String) = name
 
     override fun getNameFor2members(name1: String, name2: String) =

@@ -14,7 +14,6 @@ import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.listeners.StepProgressListener
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupService
 import org.matrix.android.sdk.api.session.crypto.keysbackup.toKeysVersionResult
-import org.matrix.android.sdk.api.session.securestorage.RawBytesKeySpec
 import javax.inject.Inject
 
 class RestoreBackupDataSource @Inject constructor(
@@ -77,11 +76,6 @@ class RestoreBackupDataSource @Inject constructor(
         try {
             val keyData = ssssDataSource.getBsSpekeSecretKeyData(progressObserver)
             restoreKeysWithRecoveryKey(keyData)
-            MatrixSessionProvider.getSessionOrThrow().sharedSecretStorageService()
-                .storeBsSpekePrivateKey(
-                    (keyData.keySpec as RawBytesKeySpec).privateKey,
-                    keyData.keyId
-                )
         } catch (e: Throwable) {
             loadingLiveData.postValue(ResLoadingData(isLoading = false))
             throw e
