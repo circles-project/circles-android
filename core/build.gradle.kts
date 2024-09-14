@@ -67,7 +67,7 @@ dependencies {
     api("androidx.core:core-ktx:1.13.1")
 
     // androidx lifecycle
-    val lifecycleVersion = "2.8.4"
+    val lifecycleVersion = "2.8.5"
     api("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     api("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     api("androidx.lifecycle:lifecycle-process:$lifecycleVersion")
@@ -138,7 +138,7 @@ dependencies {
     implementation("androidx.browser:browser:1.8.0")
 
     // Firebase
-    gplayImplementation("com.google.firebase:firebase-crashlytics-ktx:19.0.3")
+    gplayImplementation("com.google.firebase:firebase-crashlytics-ktx:19.1.0")
     gplayImplementation("com.google.firebase:firebase-analytics-ktx:22.1.0")
     gplayImplementation("com.google.firebase:firebase-messaging-ktx:24.0.1")
     gplayImplementation("com.google.android.gms:play-services-base:18.5.0")
