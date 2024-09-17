@@ -78,7 +78,7 @@
                 android:focusable="false"
                 android:lines="1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cbMatrix"
+                app:layout_constraintEnd_toStartOf="@+id/cbDefaultDomain"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
