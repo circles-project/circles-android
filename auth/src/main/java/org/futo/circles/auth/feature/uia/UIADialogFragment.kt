@@ -126,7 +126,6 @@ class UIADialogFragment :
 
     private fun handleStagesNavigation(event: UIANavigationEvent) {
         val id = when (event) {
-            UIANavigationEvent.TokenValidation -> R.id.to_validateToken
             UIANavigationEvent.AcceptTerm -> R.id.to_acceptTerms
             UIANavigationEvent.ValidateEmail -> R.id.to_validateEmail
             UIANavigationEvent.Password -> R.id.to_password

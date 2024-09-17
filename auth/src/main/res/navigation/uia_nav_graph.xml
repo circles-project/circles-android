@@ -6,10 +6,6 @@
     app:startDestination="@id/emptyFragment">
 
     <action
-        android:id="@+id/to_validateToken"
-        app:destination="@id/validateTokenFragment" />
-
-    <action
         android:id="@+id/to_validateEmail"
         app:destination="@id/validateEmailFragment" />
 
@@ -26,11 +22,6 @@
         android:id="@+id/to_password"
         app:destination="@id/passwordFragment" />
 
-
-    <fragment
-        android:id="@+id/validateTokenFragment"
-        android:name="org.futo.circles.auth.feature.uia.stages.validate_token.ValidateTokenFragment"
-        tools:layout="@layout/fragment_validate_token" />
 
     <fragment
         android:id="@+id/validateEmailFragment"

@@ -123,7 +123,6 @@ abstract class UIADataSource {
             null
         }
 
-        LOGIN_REGISTRATION_TOKEN_TYPE -> UIANavigationEvent.TokenValidation
         LOGIN_EMAIL_REQUEST_TOKEN_TYPE,
         ENROLL_EMAIL_REQUEST_TOKEN_TYPE -> UIANavigationEvent.ValidateEmail
 
@@ -169,7 +168,6 @@ abstract class UIADataSource {
         const val ENROLL_EMAIL_REQUEST_TOKEN_TYPE = "m.enroll.email.request_token"
         const val ENROLL_EMAIL_SUBMIT_TOKEN_TYPE = "m.enroll.email.submit_token"
 
-        const val LOGIN_REGISTRATION_TOKEN_TYPE = "m.login.registration_token"
         const val ENROLL_USERNAME_TYPE = "m.enroll.username"
         const val ENROLL_PASSWORD_TYPE = "m.enroll.password"
 
