@@ -26,9 +26,6 @@ object CirclesAppConfig {
     var changelog = ""
         private set
 
-    var privacyPolicyUrl = ""
-        private set
-
     fun serverDomains() = listOf(usDomain, euDomain)
 
     data class Initializer(
@@ -39,8 +36,7 @@ object CirclesAppConfig {
         private var usDomain: String? = null,
         private var euDomain: String? = null,
         private var mediaBackupEnabled: Boolean = false,
-        private var changelog: String? = null,
-        private var privacyPolicyUrl: String? = null
+        private var changelog: String? = null
     ) {
 
         fun buildConfigInfo(
@@ -63,9 +59,7 @@ object CirclesAppConfig {
         fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
 
         fun changeLog(changelog: String) = apply { this.changelog = changelog }
-
-        fun privacyPolicyUrl(url: String) = apply { this.privacyPolicyUrl = url }
-
+        
 
         fun init() {
             CirclesAppConfig.appId = appId?.takeIf { it.isNotEmpty() }
@@ -88,9 +82,6 @@ object CirclesAppConfig {
 
             CirclesAppConfig.changelog = changelog?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("changelog is empty $changelog")
-
-            CirclesAppConfig.privacyPolicyUrl = privacyPolicyUrl?.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("privacyPolicyUrl is empty $privacyPolicyUrl")
 
             isMediaBackupEnabled = mediaBackupEnabled
         }

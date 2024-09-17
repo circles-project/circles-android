@@ -17,14 +17,11 @@ import org.futo.circles.core.extensions.withConfirmation
 import org.futo.circles.core.feature.whats_new.WhatsNewDialog
 import org.futo.circles.core.model.DeactivateAccount
 import org.futo.circles.core.model.ResLoadingData
-import org.futo.circles.core.utils.FileUtils
 import org.futo.circles.core.view.LoadingDialog
-import org.futo.circles.settings.R
 import org.futo.circles.settings.SessionHolderActivity
 import org.futo.circles.settings.databinding.DialogFragmentSettingsBinding
 import org.futo.circles.settings.model.LogOut
 import org.futo.circles.settings.model.SwitchUser
-import org.matrix.android.sdk.internal.session.media.MediaUsageInfo
 
 @AndroidEntryPoint
 class SettingsDialogFragment :
@@ -66,7 +63,7 @@ class SettingsDialogFragment :
             vLoginSessions.setOnClickListener { navigator.navigateToActiveSessions() }
             vPushNotifications.setOnClickListener { navigator.navigateToPushSettings() }
             vEditProfile.setOnClickListener { navigator.navigateToEditProfile() }
-            vPrivacyPolicy.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
+            vPrivacyPolicy.setOnClickListener { openCustomTabUrl(getString(org.futo.circles.core.R.string.privacy_policy_url)) }
             vAdvancedSettings.setOnClickListener { navigator.navigateToAdvancedSettings() }
             vAbout.setOnClickListener { navigator.navigateToCircleExplanation() }
             vChangeLog.setOnClickListener { if (!whatsNewDialog.isShowing) whatsNewDialog.show() }

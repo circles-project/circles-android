@@ -9,7 +9,6 @@ import com.otpview.OTPListener
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentValidateEmailBinding
-import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
 import org.futo.circles.core.extensions.getText
@@ -63,7 +62,7 @@ class ValidateEmailFragment :
             btnResend.setOnClickListener {
                 viewModel.sendCode(binding.tilEmail.getText())
             }
-            tvVerifyNote.setOnClickListener { openCustomTabUrl(CirclesAppConfig.privacyPolicyUrl) }
+            tvVerifyNote.setOnClickListener { openCustomTabUrl(getString(org.futo.circles.core.R.string.privacy_policy_url)) }
         }
     }
 

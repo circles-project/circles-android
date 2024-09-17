@@ -82,7 +82,6 @@
     <string name="groups_empty_message">Create your first Group</string>
     <string name="circles_empty_message">Create your first Circle</string>
     <string name="downloading">Downloading</string>
-    <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
     <string name="in_timeline_format">%1$s / %2$s</string>
     <string name="failed_to_send">Failed to send, please try again</string>
     <string name="sent">Sent</string>

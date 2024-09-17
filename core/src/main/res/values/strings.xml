@@ -250,6 +250,11 @@
     <string name="choose_circle_for_poll">Choose Circle for poll</string>
     <string name="week">week</string>
     <string name="now">now</string>
+    <string name="room_settings">Room settings</string>
+    <string name="members">Members</string>
+    <string name="enter_name_here">Enter name here</string>
+    <string name="enter_topic_here">Enter topic here</string>
+    <string name="url_info">URL info</string>
 
     <plurals name="invitations_count_format">
         <item quantity="one">%d invitation</item>
@@ -286,10 +291,7 @@
 <br/><br/>For example, think about all the aunts and uncles and cousins from the different sides of your family.
 Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>If you want to connect a bunch of people who <i>do</i> all know each other, then it\'s better to create a <b>Group</b> instead.]]></string>
-    <string name="room_settings">Room settings</string>
-    <string name="members">Members</string>
-    <string name="enter_name_here">Enter name here</string>
-    <string name="enter_topic_here">Enter topic here</string>
-    <string name="url_info">URL info</string>
+
+    <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
 
 </resources>
