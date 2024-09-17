@@ -60,41 +60,30 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lUsServer"
+            android:id="@+id/lDefaultServer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground">
 
-            <ImageView
-                android:id="@+id/ivUsIcon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginVertical="14dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_us"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
 
             <TextView
-                android:id="@+id/tvUsServerTitle"
+                android:id="@+id/tvDefaultDomainName"
                 style="@style/settingMenuItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="14dp"
+                android:layout_marginStart="16dp"
                 android:clickable="false"
                 android:ellipsize="end"
                 android:focusable="false"
                 android:lines="1"
-                android:text="@string/sign_up_using_us_server"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cbUs"
-                app:layout_constraintStart_toEndOf="@id/ivUsIcon"
+                app:layout_constraintEnd_toStartOf="@+id/cbMatrix"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <CheckBox
-                android:id="@+id/cbUs"
+                android:id="@+id/cbDefaultDomain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="14dp"
@@ -114,41 +103,30 @@
             android:background="@color/grey_cool_200" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lEuServer"
+            android:id="@+id/lOtherServer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?selectableItemBackground">
 
-            <ImageView
-                android:id="@+id/ivEuIcon"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginVertical="14dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_eu"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
             <TextView
-                android:id="@+id/tvOptionName"
+                android:id="@+id/tvOtherTitle"
                 style="@style/settingMenuItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="14dp"
+                android:layout_marginStart="16dp"
                 android:clickable="false"
                 android:ellipsize="end"
                 android:focusable="false"
                 android:lines="1"
-                android:text="@string/sign_up_using_eu_server"
+                android:text="@string/other_server"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cbEu"
-                app:layout_constraintStart_toEndOf="@id/ivEuIcon"
+                app:layout_constraintEnd_toStartOf="@+id/cbOtherServer"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <CheckBox
-                android:id="@+id/cbEu"
+                android:id="@+id/cbOtherServer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="14dp"
@@ -163,12 +141,36 @@
 
     </org.futo.circles.core.view.SettingsGroupLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilOtherServer"
+        style="@style/TextInputWithBorder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:boxBackgroundColor="@color/default_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lChooseServer">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etOtherDomain"
+            style="@style/CirclesTextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_your_domain_here"
+            android:imeOptions="actionDone"
+            android:inputType="textNoSuggestions" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
         android:id="@+id/tvChooseServerNote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="70dp"
         android:fontFamily="@font/nunito_medium"
         android:text="@string/choosing_a_server_note"
@@ -176,7 +178,7 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lChooseServer" />
+        app:layout_constraintTop_toBottomOf="@id/tilOtherServer" />
 
     <org.futo.circles.core.view.LoadingButton
         android:id="@+id/btnSignUp"

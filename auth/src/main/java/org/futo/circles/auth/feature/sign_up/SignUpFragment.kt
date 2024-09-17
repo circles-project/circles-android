@@ -3,6 +3,7 @@ package org.futo.circles.auth.feature.sign_up
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,9 +12,12 @@ import org.futo.circles.auth.databinding.FragmentSignupBinding
 import org.futo.circles.core.base.DEFAULT_DOMAIN
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
+import org.futo.circles.core.extensions.getText
+import org.futo.circles.core.extensions.gone
 import org.futo.circles.core.extensions.navigateSafe
 import org.futo.circles.core.extensions.observeResponse
 import org.futo.circles.core.extensions.onBackPressed
+import org.futo.circles.core.extensions.visible
 
 
 @AndroidEntryPoint
@@ -39,20 +43,29 @@ class SignUpFragment : BaseBindingFragment<FragmentSignupBinding>(FragmentSignup
     private fun setupViews() {
         with(binding) {
             ivBack.setOnClickListener { onBackPressed() }
+            tvDefaultDomainName.text = DEFAULT_DOMAIN
             btnLogin.setOnClickListener {
                 findNavController().navigateSafe(SignUpFragmentDirections.toLogInFragment())
             }
             btnSignUp.setOnClickListener {
                 startLoading(binding.btnSignUp)
-                viewModel.startSignUp(DEFAULT_DOMAIN)
+                viewModel.startSignUp(if (cbDefaultDomain.isChecked) DEFAULT_DOMAIN else tilOtherServer.getText())
             }
-            lUsServer.setOnClickListener {
-                cbUs.isChecked = true
-                cbEu.isChecked = false
+            lDefaultServer.setOnClickListener {
+                cbDefaultDomain.isChecked = true
+                cbOtherServer.isChecked = false
+                tilOtherServer.gone()
+                btnSignUp.isEnabled = true
             }
-            lEuServer.setOnClickListener {
-                cbEu.isChecked = true
-                cbUs.isChecked = false
+            lOtherServer.setOnClickListener {
+                cbOtherServer.isChecked = true
+                cbDefaultDomain.isChecked = false
+                tilOtherServer.visible()
+                btnSignUp.isEnabled = tilOtherServer.getText().isNotEmpty()
+            }
+            etOtherDomain.doAfterTextChanged {
+                btnSignUp.isEnabled =
+                    if (cbOtherServer.isChecked) tilOtherServer.getText().isNotEmpty() else true
             }
         }
     }

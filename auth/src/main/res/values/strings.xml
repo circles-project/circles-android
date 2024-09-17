@@ -98,8 +98,6 @@
     <string name="sign_up_here">Sign up here</string>
     <string name="log_in_here">Log in here</string>
     <string name="have_an_account">Have an account?</string>
-    <string name="sign_up_using_us_server">Sign up using US server</string>
-    <string name="sign_up_using_eu_server">Sign up using EU server</string>
     <string name="choosing_a_server_note">Choosing a server that is close to you assures you have the best experience using Circles</string>
     <string name="read_and_agree_to_the_terms">Read and agree to the terms</string>
     <string name="terms_description">Please read our Privacy Policy and Terms &amp; Conditions carefully. By agreeing to these terms, you ensure a secure and enjoyable experience on our platform.</string>
@@ -115,5 +113,7 @@
     <string name="please_enter_the_code_here">Please enter the code here</string>
     <string name="verify_email_address">Verify email address</string>
     <string name="enter_display_name_here">Enter display name here</string>
+    <string name="other_server">Other server</string>
+    <string name="enter_your_domain_here">Enter your domain here</string>
 
 </resources>
