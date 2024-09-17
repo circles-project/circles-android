@@ -23,9 +23,6 @@ object CirclesAppConfig {
     var isMediaBackupEnabled = false
         private set
 
-    var changelog = ""
-        private set
-
     fun serverDomains() = listOf(usDomain, euDomain)
 
     data class Initializer(
@@ -35,8 +32,7 @@ object CirclesAppConfig {
         private var flavour: String? = null,
         private var usDomain: String? = null,
         private var euDomain: String? = null,
-        private var mediaBackupEnabled: Boolean = false,
-        private var changelog: String? = null
+        private var mediaBackupEnabled: Boolean = false
     ) {
 
         fun buildConfigInfo(
@@ -58,8 +54,6 @@ object CirclesAppConfig {
 
         fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
 
-        fun changeLog(changelog: String) = apply { this.changelog = changelog }
-        
 
         fun init() {
             CirclesAppConfig.appId = appId?.takeIf { it.isNotEmpty() }
@@ -79,9 +73,6 @@ object CirclesAppConfig {
 
             CirclesAppConfig.euDomain = euDomain?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal empty EU server domains")
-
-            CirclesAppConfig.changelog = changelog?.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("changelog is empty $changelog")
 
             isMediaBackupEnabled = mediaBackupEnabled
         }

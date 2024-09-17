@@ -57,7 +57,6 @@ class App : Application() {
                 if (BuildConfig.DEBUG) getString(R.string.debug_us_domain) else getString(R.string.release_us_domain),
                 if (BuildConfig.DEBUG) getString(R.string.debug_eu_domain) else getString(R.string.release_eu_domain)
             )
-            .changeLog(getString(R.string.changelog))
             .init()
 
         MatrixSessionProvider.initSession(

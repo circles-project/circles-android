@@ -90,10 +90,6 @@
     <string name="in_reply_to_format">In reply to \"%s\":</string>
     <string name="today">Today</string>
 
-    <string name="changelog">
-- Direct messages
-- Bug fixes and performance improvements
-</string>
 
     <string name="debug_us_domain" translatable="false">us.circles-dev.net</string>
     <string name="debug_eu_domain" translatable="false">fi.circles-dev.net</string>

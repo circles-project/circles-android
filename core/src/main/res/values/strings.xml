@@ -292,6 +292,11 @@
 Or, think about all of your friends across all of the places you\'ve ever lived.
 <br/><br/>If you want to connect a bunch of people who <i>do</i> all know each other, then it\'s better to create a <b>Group</b> instead.]]></string>
 
+    <string name="changelog">
+- Direct messages
+- Bug fixes and performance improvements
+</string>
+
     <string name="privacy_policy_url" translatable="false">https://circles.futo.org/privacy/android/</string>
 
 </resources>

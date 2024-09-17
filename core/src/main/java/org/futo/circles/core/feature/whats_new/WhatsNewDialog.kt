@@ -42,7 +42,7 @@ class WhatsNewDialog(context: Context) : AppCompatDialog(context) {
             }
             tvDescription.apply {
                 movementMethod = ScrollingMovementMethod()
-                val text = CirclesAppConfig.changelog.replace("-", "\n*")
+                val text = context.getString(R.string.changelog).replace("-", "\n*")
 
                 tvDescription.setText(MarkdownParser.parse(text), TextView.BufferType.SPANNABLE)
             }
