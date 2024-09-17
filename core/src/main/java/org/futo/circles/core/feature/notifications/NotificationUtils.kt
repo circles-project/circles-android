@@ -18,7 +18,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.R
-import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.feature.notifications.test.task.TestNotificationReceiver
 import org.futo.circles.core.model.InviteNotifiableEvent
 import org.futo.circles.core.model.RoomEventGroupInfo
@@ -42,6 +41,8 @@ class NotificationUtils @Inject constructor(
     }
 
     private val notificationManager = NotificationManagerCompat.from(context)
+
+    private val appName by lazy { context.getString(R.string.app_name) }
 
 
     fun createNotificationChannels() {
@@ -136,7 +137,7 @@ class NotificationUtils @Inject constructor(
                     messageStyle.messages.size
                 )
             )
-            .setGroup(CirclesAppConfig.appName)
+            .setGroup(appName)
             .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
             .setSmallIcon(R.drawable.ic_circles_white)
             .setColor(accentColor)
@@ -195,9 +196,9 @@ class NotificationUtils @Inject constructor(
         val accentColor = ContextCompat.getColor(context, R.color.primary)
         return NotificationCompat.Builder(context, INVITE_NOTIFICATION_CHANNEL_ID)
             .setOnlyAlertOnce(true)
-            .setContentTitle(inviteNotifiableEvent.roomName ?: CirclesAppConfig.appName)
+            .setContentTitle(inviteNotifiableEvent.roomName ?: appName)
             .setContentText(inviteNotifiableEvent.description)
-            .setGroup(CirclesAppConfig.appName)
+            .setGroup(appName)
             .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_ALL)
             .setSmallIcon(R.drawable.ic_circles_white)
             .setColor(accentColor)
@@ -232,7 +233,7 @@ class NotificationUtils @Inject constructor(
             "DIAGNOSTIC",
             888,
             NotificationCompat.Builder(context, ROOM_NOTIFICATION_CHANNEL_ID)
-                .setContentTitle(CirclesAppConfig.appName)
+                .setContentTitle(appName)
                 .setContentText(context.getString(R.string.settings_troubleshoot_test_push_notification_content))
                 .setSmallIcon(R.drawable.ic_circles_white)
                 .setColor(ContextCompat.getColor(context, R.color.primary))

@@ -4,7 +4,6 @@ import android.content.Context
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.futo.circles.core.R
-import org.futo.circles.core.base.CirclesAppConfig
 import org.futo.circles.core.base.DEFAULT_PUSH_GATEWAY
 import org.futo.circles.core.base.PUSHER_APP_ID
 import org.futo.circles.core.base.getPusherUrl
@@ -101,7 +100,7 @@ class PushersManager @Inject constructor(
         PUSHER_APP_ID,
         profileTag = DEFAULT_PUSHER_FILE_TAG + "_" + abs(MatrixSessionProvider.currentSession?.myUserId.hashCode()),
         Locale.getDefault().language,
-        CirclesAppConfig.appName,
+        context.getString(R.string.app_name),
         MatrixSessionProvider.currentSession?.sessionParams?.deviceId ?: DEFAULT_PUSHER_FILE_TAG,
         gateway,
         enabled = true,

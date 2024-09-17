@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Circles</string>
     <string name="groups">Groups</string>
     <string name="my_groups">My Groups</string>
     <string name="my_circles">My Circles</string>

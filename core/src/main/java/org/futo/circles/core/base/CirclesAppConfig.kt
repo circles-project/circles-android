@@ -14,9 +14,6 @@ object CirclesAppConfig {
     var buildFlavourName = ""
         private set
 
-    var appName = ""
-        private set
-
     var usDomain = ""
         private set
 
@@ -34,14 +31,11 @@ object CirclesAppConfig {
 
     fun serverDomains() = listOf(usDomain, euDomain)
 
-    fun isGplayFlavor(): Boolean = buildFlavourName.contains("gplay", true)
-
     data class Initializer(
         private var appId: String? = null,
         private var versionName: String? = null,
         private var versionCode: Int? = null,
         private var flavour: String? = null,
-        private var appName: String? = null,
         private var usDomain: String? = null,
         private var euDomain: String? = null,
         private var mediaBackupEnabled: Boolean = false,
@@ -60,8 +54,6 @@ object CirclesAppConfig {
             this.versionCode = versionCode
             this.flavour = flavour
         }
-
-        fun appName(appName: String) = apply { this.appName = appName }
 
         fun serverDomains(usDomain: String, euDomain: String) = apply {
             this.usDomain = usDomain
@@ -87,9 +79,6 @@ object CirclesAppConfig {
 
             buildFlavourName = flavour?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal flavour $flavour")
-
-            CirclesAppConfig.appName = appName?.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("appName is empty $appName")
 
             CirclesAppConfig.usDomain = usDomain?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal empty US server domains")
