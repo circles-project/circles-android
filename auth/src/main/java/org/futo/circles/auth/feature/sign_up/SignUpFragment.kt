@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.databinding.FragmentSignupBinding
-import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.core.base.DEFAULT_DOMAIN
 import org.futo.circles.core.base.fragment.BaseBindingFragment
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.extensions.navigateSafe
@@ -44,7 +44,7 @@ class SignUpFragment : BaseBindingFragment<FragmentSignupBinding>(FragmentSignup
             }
             btnSignUp.setOnClickListener {
                 startLoading(binding.btnSignUp)
-                viewModel.startSignUp(if (cbUs.isChecked) CirclesAppConfig.usDomain else CirclesAppConfig.euDomain)
+                viewModel.startSignUp(DEFAULT_DOMAIN)
             }
             lUsServer.setOnClickListener {
                 cbUs.isChecked = true

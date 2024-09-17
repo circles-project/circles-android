@@ -52,12 +52,7 @@ class App : Application() {
                 BuildConfig.VERSION_NAME,
                 BuildConfig.VERSION_CODE,
                 BuildConfig.FLAVOR
-            )
-            .serverDomains(
-                if (BuildConfig.DEBUG) getString(R.string.debug_us_domain) else getString(R.string.release_us_domain),
-                if (BuildConfig.DEBUG) getString(R.string.debug_eu_domain) else getString(R.string.release_eu_domain)
-            )
-            .init()
+            ).init()
 
         MatrixSessionProvider.initSession(
             applicationContext,

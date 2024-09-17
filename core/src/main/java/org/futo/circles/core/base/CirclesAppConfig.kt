@@ -14,24 +14,16 @@ object CirclesAppConfig {
     var buildFlavourName = ""
         private set
 
-    var usDomain = ""
-        private set
-
-    var euDomain = ""
-        private set
 
     var isMediaBackupEnabled = false
         private set
 
-    fun serverDomains() = listOf(usDomain, euDomain)
 
     data class Initializer(
         private var appId: String? = null,
         private var versionName: String? = null,
         private var versionCode: Int? = null,
         private var flavour: String? = null,
-        private var usDomain: String? = null,
-        private var euDomain: String? = null,
         private var mediaBackupEnabled: Boolean = false
     ) {
 
@@ -47,10 +39,6 @@ object CirclesAppConfig {
             this.flavour = flavour
         }
 
-        fun serverDomains(usDomain: String, euDomain: String) = apply {
-            this.usDomain = usDomain
-            this.euDomain = euDomain
-        }
 
         fun isMediaBackupEnabled(isEnabled: Boolean) = apply { this.mediaBackupEnabled = isEnabled }
 
@@ -67,12 +55,6 @@ object CirclesAppConfig {
 
             buildFlavourName = flavour?.takeIf { it.isNotEmpty() }
                 ?: throw IllegalArgumentException("Illegal flavour $flavour")
-
-            CirclesAppConfig.usDomain = usDomain?.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("Illegal empty US server domains")
-
-            CirclesAppConfig.euDomain = euDomain?.takeIf { it.isNotEmpty() }
-                ?: throw IllegalArgumentException("Illegal empty EU server domains")
 
             isMediaBackupEnabled = mediaBackupEnabled
         }

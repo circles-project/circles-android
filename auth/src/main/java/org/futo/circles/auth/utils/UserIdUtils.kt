@@ -5,14 +5,11 @@ import org.futo.circles.auth.model.InvalidUserId
 import org.futo.circles.auth.model.SuggestedUserId
 import org.futo.circles.auth.model.ValidUserId
 import org.futo.circles.auth.model.ValidateUserIdStatus
-import org.futo.circles.core.base.CirclesAppConfig
+import org.futo.circles.core.base.DEFAULT_DOMAIN
 import org.matrix.android.sdk.api.MatrixPatterns
 
 
 object UserIdUtils {
-
-    private val defaultDomain = CirclesAppConfig.usDomain
-
 
     fun getNameAndDomainFromId(userId: String): Pair<String, String> {
         if (!MatrixPatterns.isUserId(userId)) throw IllegalArgumentException("Invalid userId $userId")
@@ -37,7 +34,7 @@ object UserIdUtils {
 
     private fun handleMissingLeadingAtSymbol(input: String): ValidateUserIdStatus {
         val suggestion = if (input.contains(":")) "@$input"
-        else "@$input:$defaultDomain"
+        else "@$input:$DEFAULT_DOMAIN"
         return SuggestedUserId(suggestion)
     }
 
@@ -49,7 +46,7 @@ object UserIdUtils {
     }
 
     private fun handleNoDomainInput(input: String): ValidateUserIdStatus {
-        return SuggestedUserId("$input$defaultDomain")
+        return SuggestedUserId("$input$DEFAULT_DOMAIN")
     }
 
 }
