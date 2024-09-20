@@ -1,224 +1,305 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_cool_200"
-    android:clipChildren="false">
+    android:fillViewport="true"
+    android:orientation="vertical">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivBack"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/default_background"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?selectableItemBackgroundBorderless"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_arrow_back"
-        app:contentPadding="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
-        app:tint="@color/grey_cool_1200" />
-
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="125dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="64dp"
-        android:src="@drawable/ic_circles_purple_no_border"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivBack" />
-
-    <TextView
-        android:id="@+id/tvChooseServerTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/nunito_bold"
-        android:text="@string/choose_a_server"
-        android:textColor="@color/grey_cool_1100"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivLogo" />
-
-    <org.futo.circles.core.view.SettingsGroupLayout
-        android:id="@+id/lChooseServer"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvChooseServerTitle">
+        android:background="@color/grey_cool_200"
+        android:clipChildren="false">
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/default_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackgroundBorderless"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_arrow_back"
+            app:contentPadding="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
+            app:tint="@color/grey_cool_1200" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lDefaultServer"
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="125dp"
+            android:layout_height="43dp"
+            android:src="@drawable/ic_circles_purple_no_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivBack" />
+
+        <TextView
+            android:id="@+id/tvChooseServerTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/choose_a_server"
+            android:textColor="@color/grey_cool_1100"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivLogo" />
+
+        <org.futo.circles.core.view.SettingsGroupLayout
+            android:id="@+id/lChooseServer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?selectableItemBackground">
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvChooseServerTitle">
 
 
-            <TextView
-                android:id="@+id/tvDefaultDomainName"
-                style="@style/settingMenuItem"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lDefaultServer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="14dp"
-                android:layout_marginStart="16dp"
-                android:clickable="false"
-                android:ellipsize="end"
-                android:focusable="false"
-                android:lines="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cbDefaultDomain"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="?selectableItemBackground">
 
-            <CheckBox
-                android:id="@+id/cbDefaultDomain"
-                android:layout_width="wrap_content"
+
+                <TextView
+                    android:id="@+id/tvDefaultDomainName"
+                    style="@style/settingMenuItem"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="14dp"
+                    android:layout_marginStart="16dp"
+                    android:clickable="false"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:lines="1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/cbDefaultDomain"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="matrix.org" />
+
+                <CheckBox
+                    android:id="@+id/cbDefaultDomain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="14dp"
+                    android:checked="true"
+                    android:clickable="false"
+                    android:focusable="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/vBottomDivider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:background="@color/grey_cool_200" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lOtherServer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
-                android:checked="true"
-                android:clickable="false"
-                android:focusable="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="?selectableItemBackground">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tvOtherTitle"
+                    style="@style/settingMenuItem"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="14dp"
+                    android:layout_marginStart="16dp"
+                    android:clickable="false"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:lines="1"
+                    android:text="@string/other_server"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/cbOtherServer"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/vBottomDivider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/divider_height"
-            android:background="@color/grey_cool_200" />
+                <CheckBox
+                    android:id="@+id/cbOtherServer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="14dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lOtherServer"
-            android:layout_width="match_parent"
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </org.futo.circles.core.view.SettingsGroupLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilOtherServer"
+            style="@style/TextInputWithBorder"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="?selectableItemBackground">
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:boxBackgroundColor="@color/default_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lChooseServer"
+            tools:visibility="visible">
 
-            <TextView
-                android:id="@+id/tvOtherTitle"
-                style="@style/settingMenuItem"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etOtherDomain"
+                style="@style/CirclesTextInputEditText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="14dp"
-                android:layout_marginStart="16dp"
-                android:clickable="false"
-                android:ellipsize="end"
-                android:focusable="false"
-                android:lines="1"
-                android:text="@string/other_server"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cbOtherServer"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:hint="@string/enter_your_domain_here"
+                android:imeOptions="actionDone"
+                android:inputType="textNoSuggestions" />
 
-            <CheckBox
-                android:id="@+id/cbOtherServer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
-                android:clickable="false"
-                android:focusable="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-    </org.futo.circles.core.view.SettingsGroupLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilOtherServer"
-        style="@style/TextInputWithBorder"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:boxBackgroundColor="@color/default_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lChooseServer">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etOtherDomain"
-            style="@style/CirclesTextInputEditText"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvUserNameHeader"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/enter_your_domain_here"
-            android:imeOptions="actionDone"
-            android:inputType="textNoSuggestions" />
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/choose_your_username"
+            android:textColor="@color/grey_cool_1100"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilOtherServer" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilUserName"
+            style="@style/TextInputWithBorder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            app:boxBackgroundColor="@color/default_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUserNameHeader">
 
-    <TextView
-        android:id="@+id/tvChooseServerNote"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="70dp"
-        android:fontFamily="@font/nunito_medium"
-        android:text="@string/choosing_a_server_note"
-        android:textColor="@color/grey_cool_800"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilOtherServer" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUserName"
+                style="@style/CirclesTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_your_username_here"
+                android:imeOptions="actionNext"
+                android:inputType="textNoSuggestions" />
 
-    <org.futo.circles.core.view.LoadingButton
-        android:id="@+id/btnSignUp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="24dp"
-        android:paddingHorizontal="24dp"
-        android:text="@string/sign_up"
-        app:layout_constraintBottom_toTopOf="@id/tvHaveAccount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tvHaveAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_bold"
-        android:text="@string/have_an_account"
-        android:textAlignment="center"
-        android:textColor="@color/grey_cool_700"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/btnLogin"
-        app:layout_constraintEnd_toStartOf="@id/btnLogin"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnLogin" />
+        <TextView
+            android:id="@+id/tvPasswordHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/choose_your_password"
+            android:textColor="@color/grey_cool_1100"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilUserName" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
-        style="@style/TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_marginBottom="24dp"
-        android:fontFamily="@font/nunito_bold"
-        android:padding="4dp"
-        android:text="@string/log_in_here"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tvHaveAccount" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            style="@style/TextInputWithBorder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            app:boxBackgroundColor="@color/default_background"
+            app:layout_constraintBottom_toTopOf="@id/btnSignUp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPasswordHeader"
+            app:layout_constraintVertical_bias="0.0"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                style="@style/CirclesTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_your_password_here"
+                android:imeOptions="actionDone"
+                android:inputType="textNoSuggestions" />
+
+            <org.futo.circles.auth.view.PasswordStrengthView
+                android:id="@+id/vPasswordStrength"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <org.futo.circles.core.view.LoadingButton
+            android:id="@+id/btnSignUp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="24dp"
+            android:enabled="false"
+            android:paddingHorizontal="24dp"
+            android:text="@string/sign_up"
+            app:layout_constraintBottom_toTopOf="@id/tvHaveAccount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvHaveAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_bold"
+            android:text="@string/have_an_account"
+            android:textAlignment="center"
+            android:textColor="@color/grey_cool_700"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/btnLogin"
+            app:layout_constraintEnd_toStartOf="@id/btnLogin"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnLogin" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
+            style="@style/TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/nunito_bold"
+            android:padding="4dp"
+            android:text="@string/log_in_here"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvHaveAccount" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

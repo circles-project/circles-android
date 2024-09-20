@@ -55,18 +55,35 @@ class SignUpFragment : BaseBindingFragment<FragmentSignupBinding>(FragmentSignup
                 cbDefaultDomain.isChecked = true
                 cbOtherServer.isChecked = false
                 tilOtherServer.gone()
-                btnSignUp.isEnabled = true
+                updateSignupButtonEnabledState()
             }
             lOtherServer.setOnClickListener {
                 cbOtherServer.isChecked = true
                 cbDefaultDomain.isChecked = false
                 tilOtherServer.visible()
-                btnSignUp.isEnabled = tilOtherServer.getText().isNotEmpty()
+                updateSignupButtonEnabledState()
             }
             etOtherDomain.doAfterTextChanged {
-                btnSignUp.isEnabled =
-                    if (cbOtherServer.isChecked) tilOtherServer.getText().isNotEmpty() else true
+                updateSignupButtonEnabledState()
             }
+            etPassword.doAfterTextChanged {
+                vPasswordStrength.calculateStrength(tilPassword.getText())
+                updateSignupButtonEnabledState()
+            }
+
+        }
+    }
+
+    private fun updateSignupButtonEnabledState() {
+        with(binding) {
+            val usernameSet = tilUserName.getText().isNotEmpty()
+            val passwordSet = tilPassword.getText()
+                .isNotEmpty() && vPasswordStrength.isPasswordStrong()
+            val domainSet =
+                if (cbOtherServer.isChecked) tilOtherServer.getText().isNotEmpty() else true
+            val notInLoadingState = !btnSignUp.isLoading
+
+            btnSignUp.isEnabled = usernameSet && passwordSet && domainSet && notInLoadingState
         }
     }
 

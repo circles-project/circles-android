@@ -115,5 +115,8 @@
     <string name="enter_display_name_here">Enter display name here</string>
     <string name="other_server">Other server</string>
     <string name="enter_your_domain_here">Enter your domain here</string>
+    <string name="choose_your_password">Choose your password</string>
+    <string name="enter_your_username_here">Enter your username here</string>
+    <string name="enter_your_password_here">Enter your password here</string>
 
 </resources>
