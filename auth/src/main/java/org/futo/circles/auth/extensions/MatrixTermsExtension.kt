@@ -14,18 +14,24 @@ fun TermPolicies.toTermsListItems() =
         )
     }
 
+
 fun TermPolicies.toLoginTerms(
     userLanguage: String = "en"
-): List<LocalizedFlowDataLoginTerms> =
-    (get("policies") as? ArrayList<*>)?.mapNotNull { it ->
-        val policy = (it as? Map<*, *>) ?: return@mapNotNull null
-        val policyData = (policy[userLanguage] as? Map<*, *>) ?: return@mapNotNull null
-        LocalizedFlowDataLoginTerms(
-            policyName = policy["name"]?.toString(),
-            version = policy["version"]?.toString(),
-            localizedUrl = policyData["url"]?.toString(),
-            localizedName = policyData["name"]?.toString()
-        )
-    } ?: emptyList()
+): List<LocalizedFlowDataLoginTerms> {
+    val policies = (get("policies") as? Map<*, *>) ?: return emptyList()
+    return policies.map {
+        val tos = policies[it.key] as? Map<*, *> ?: return@map null
+        ((tos[userLanguage]) as? Map<*, *>)?.let { termsMap ->
+            val name = termsMap["name"] as? String
+            val url = termsMap["url"] as? String
+            LocalizedFlowDataLoginTerms(
+                policyName = it.key.toString(),
+                localizedUrl = url,
+                localizedName = name,
+                version = tos["version"] as? String
+            )
+        }
+    }.filterNotNull()
+}
 
 
