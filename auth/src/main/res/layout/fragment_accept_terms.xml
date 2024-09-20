@@ -25,19 +25,28 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundIcon"
         app:tint="@color/grey_cool_1200" />
 
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="125dp"
+        android:layout_height="43dp"
+        android:src="@drawable/ic_circles_purple_no_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivBack" />
+
     <TextView
         android:id="@+id/tvTermsTitle"
         style="@style/Headline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="93dp"
+        android:layout_marginTop="64dp"
         android:fontFamily="@font/nunito_bold"
         android:text="@string/read_and_agree_to_the_terms"
         android:textColor="@color/grey_cool_1100"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivBack" />
+        app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
     <TextView
         android:id="@+id/tvTermsDescription"

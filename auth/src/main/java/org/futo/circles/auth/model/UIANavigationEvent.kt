@@ -5,5 +5,6 @@ enum class UIANavigationEvent {
     AcceptTerm,
     ValidateEmail,
     Password,
-    Username
+    Username,
+    Recaptcha
 }

@@ -10,6 +10,10 @@
         app:destination="@id/validateEmailFragment" />
 
     <action
+        android:id="@+id/to_recaptcha"
+        app:destination="@id/recaptchaFragment" />
+
+    <action
         android:id="@+id/to_username"
         app:destination="@id/usernameFragment" />
 
@@ -42,6 +46,11 @@
         android:id="@+id/usernameFragment"
         android:name="org.futo.circles.auth.feature.uia.stages.username.UsernameFragment"
         tools:layout="@layout/fragment_username" />
+
+    <fragment
+        android:id="@+id/recaptchaFragment"
+        android:name="org.futo.circles.auth.feature.uia.stages.recaptcha.RecaptchaFragment"
+        tools:layout="@layout/fragment_recaptcha" />
 
     <fragment
         android:id="@+id/emptyFragment"

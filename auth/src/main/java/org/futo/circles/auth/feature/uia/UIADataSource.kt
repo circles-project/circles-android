@@ -42,7 +42,12 @@ abstract class UIADataSource {
         protected set
     var domain: String = ""
         private set
+    var homeServerUrl: String = ""
+        private set
 
+    fun setHomeServerUrl(url: String) {
+        homeServerUrl = url
+    }
 
     open suspend fun startUIAStages(
         stages: List<Stage>,
@@ -110,6 +115,7 @@ abstract class UIADataSource {
         setNextStage()
         val event = when (val stage = currentStage) {
             is Stage.Terms -> UIANavigationEvent.AcceptTerm
+            is Stage.ReCaptcha -> UIANavigationEvent.Recaptcha
             is Stage.Other -> handleStageOther(stage.type)
             else -> throw IllegalArgumentException("Not supported stage $stage")
         }

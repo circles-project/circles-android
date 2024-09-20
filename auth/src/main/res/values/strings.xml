@@ -118,5 +118,9 @@
     <string name="choose_your_password">Choose your password</string>
     <string name="enter_your_username_here">Enter your username here</string>
     <string name="enter_your_password_here">Enter your password here</string>
+    <string name="recaptcha_note">This homeserver would like to make sure you are not a robot</string>
+    <string name="ssl_could_not_verify">Could not verify identity of remote server</string>
+    <string name="trust">Trust</string>
+    <string name="do_not_trust">Do not trust</string>
 
 </resources>
