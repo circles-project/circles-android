@@ -49,7 +49,11 @@ class SignUpFragment : BaseBindingFragment<FragmentSignupBinding>(FragmentSignup
             }
             btnSignUp.setOnClickListener {
                 startLoading(binding.btnSignUp)
-                viewModel.startSignUp(if (cbDefaultDomain.isChecked) DEFAULT_DOMAIN else tilOtherServer.getText())
+                viewModel.startSignUp(
+                    if (cbDefaultDomain.isChecked) DEFAULT_DOMAIN else tilOtherServer.getText(),
+                    tilUserName.getText(),
+                    tilPassword.getText()
+                )
             }
             lDefaultServer.setOnClickListener {
                 cbDefaultDomain.isChecked = true

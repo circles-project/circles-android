@@ -1,7 +1,6 @@
 package org.futo.circles.auth.feature.uia
 
 import org.futo.circles.auth.feature.uia.flow.LoginStagesDataSource
-import org.futo.circles.auth.feature.uia.flow.SignUpStagesDataSource
 import org.futo.circles.auth.feature.uia.flow.reauth.ReAuthStagesDataSource
 import org.futo.circles.auth.model.UIAFlowType
 import org.futo.circles.auth.model.UIANavigationEvent
@@ -21,14 +20,11 @@ abstract class UIADataSource {
 
     class Factory @Inject constructor(
         private val loginStagesDataSource: LoginStagesDataSource,
-        private val reAuthStagesDataSource: ReAuthStagesDataSource,
-        private val signUpStagesDataSource: SignUpStagesDataSource
+        private val reAuthStagesDataSource: ReAuthStagesDataSource
     ) {
         fun create(flowType: UIAFlowType): UIADataSource = when (flowType) {
-            UIAFlowType.Login -> loginStagesDataSource
-            UIAFlowType.Signup -> signUpStagesDataSource
+            UIAFlowType.Login, UIAFlowType.ForgotPassword -> loginStagesDataSource
             UIAFlowType.ReAuth -> reAuthStagesDataSource
-            UIAFlowType.ForgotPassword -> loginStagesDataSource
         }
     }
 
@@ -42,12 +38,7 @@ abstract class UIADataSource {
         protected set
     var domain: String = ""
         private set
-    var homeServerUrl: String = ""
-        private set
 
-    fun setHomeServerUrl(url: String) {
-        homeServerUrl = url
-    }
 
     open suspend fun startUIAStages(
         stages: List<Stage>,
@@ -85,7 +76,7 @@ abstract class UIADataSource {
     }
 
 
-    suspend fun stageCompleted(result: RegistrationResult) {
+    fun stageCompleted(result: RegistrationResult) {
         if (isStageRetry(result)) return
         (result as? RegistrationResult.Success)?.let {
             finishUIAEventLiveData.postValue(it.session)
@@ -111,7 +102,7 @@ abstract class UIADataSource {
         } ?: stagesToComplete.firstOrNull()
     }
 
-    private suspend fun navigateToNextStage() {
+    private fun navigateToNextStage() {
         setNextStage()
         val event = when (val stage = currentStage) {
             is Stage.Terms -> UIANavigationEvent.AcceptTerm
@@ -123,11 +114,7 @@ abstract class UIADataSource {
     }
 
 
-    private suspend fun handleStageOther(type: String): UIANavigationEvent? = when (type) {
-        SUBSCRIPTION_FREE_TYPE -> {
-            performUIAStage(mapOf(TYPE_PARAM_KEY to type))
-            null
-        }
+    private fun handleStageOther(type: String): UIANavigationEvent? = when (type) {
 
         LOGIN_EMAIL_REQUEST_TOKEN_TYPE,
         ENROLL_EMAIL_REQUEST_TOKEN_TYPE -> UIANavigationEvent.ValidateEmail
@@ -164,9 +151,6 @@ abstract class UIADataSource {
         const val LOGIN_BSSPEKE_VERIFY_TYPE = "m.login.bsspeke-ecc.verify"
         const val ENROLL_BSSPEKE_OPRF_TYPE = "m.enroll.bsspeke-ecc.oprf"
         const val ENROLL_BSSPEKE_SAVE_TYPE = "m.enroll.bsspeke-ecc.save"
-
-        //stages subscription
-        const val SUBSCRIPTION_FREE_TYPE = "org.futo.subscriptions.free_forever"
 
         //stages email
         const val LOGIN_EMAIL_REQUEST_TOKEN_TYPE = "m.login.email.request_token"

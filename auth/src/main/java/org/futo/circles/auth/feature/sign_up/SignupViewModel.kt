@@ -14,9 +14,9 @@ class SignupViewModel @Inject constructor(
 
     val startSignUpEventLiveData = SingleEventLiveData<Response<Unit?>>()
 
-    fun startSignUp(domain: String) {
+    fun startSignUp(domain: String, username: String, password: String) {
         launchBg {
-            val result = signUpDataSource.startNewRegistration(domain)
+            val result = signUpDataSource.startNewRegistration(domain, username, password)
             startSignUpEventLiveData.postValue(result)
         }
     }

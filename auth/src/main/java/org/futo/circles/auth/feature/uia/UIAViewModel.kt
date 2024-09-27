@@ -85,20 +85,6 @@ class UIAViewModel @Inject constructor(
         }
     }
 
-    fun finishSignup(session: Session) {
-        launchBg {
-            val result = createResult {
-                MatrixInstanceProvider.matrix.authenticationService().reset()
-                MatrixSessionProvider.awaitForSessionStart(session)
-                createPassPhraseDataSource.createPassPhraseBackup()
-                clearProviders()
-            }
-            (result as? Response.Success)?.let {
-                navigationLiveData.postValue(AuthUIAScreenNavigationEvent.ConfigureWorkspace)
-            }
-            createBackupResultLiveData.postValue(result)
-        }
-    }
 
     fun finishForgotPassword(session: Session) {
         launchBg {

@@ -15,7 +15,7 @@ import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import org.futo.circles.auth.R
 import org.futo.circles.auth.databinding.FragmentRecaptchaBinding
-import org.futo.circles.auth.feature.uia.UIADataSourceProvider
+import org.futo.circles.auth.feature.sign_up.uia.SignupUIADataSourceProvider
 import org.futo.circles.auth.model.RecaptchaJavascriptResponse
 import org.futo.circles.core.base.fragment.HasLoadingState
 import org.futo.circles.core.base.fragment.ParentBackPressOwnerFragment
@@ -65,7 +65,7 @@ class RecaptchaFragment :
         val html = Formatter().format(reCaptchaPage, siteKey).toString()
 
         binding.wvCaptcha.loadDataWithBaseURL(
-            UIADataSourceProvider.getDataSourceOrThrow().homeServerUrl,
+            SignupUIADataSourceProvider.getDataSourceOrThrow().homeServerUrl,
             html,
             "text/html",
             "utf-8",

@@ -11,7 +11,7 @@
     <string name="discard_current_auth_progress">Discard current auth progress?</string>
     <string name="set_passphrase">Set passphrase</string>
     <string name="log_in">Log in</string>
-    <string name="new_accounts_not_available">Sorry, but new accounts are not available at this time</string>
+    <string name="new_accounts_not_available">Sorry, but new accounts are not available, please try again later</string>
     <string name="sign_up">Sign Up</string>
     <string name="user_id_can_not_be_empty">User ID can not be empty</string>
     <string name="invalid_user_id">User ID can not be empty</string>
