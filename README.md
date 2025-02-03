@@ -3,7 +3,7 @@ Circles was an end-to-end encrypted social network app with the goal of enabling
 friends and families to securely share stories and photos while
 safeguarding security and privacy.
 
-Prototype mobile apps for [Android](https://gitlab.futo.org/circles/circles-android) and [iOS](https://github.com/cvwright/circles-ios) were developed at FUTO between 2022 and 2024.
+Prototype mobile apps for [Android](https://github.com/circles-project/circles-android) and [iOS](https://github.com/circles-project/circles-ios) were developed at FUTO between 2022 and 2024.
 Unfortunately it became apparent that making this project into a successful commercial product would require a level of effort far beyond what was feasible for our small team.
 Active development wrapped up in late 2024, and the code is now available under a very liberal Open Source license to allow for new forks or derivative works.
 
